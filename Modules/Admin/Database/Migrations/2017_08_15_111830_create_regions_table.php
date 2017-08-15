@@ -22,7 +22,7 @@ class CreateRegionsTable extends Migration
                 $table->timestamps();
 
                 $table->foreign('reUId')
-                    ->references('id')->on('tbl_users')
+                    ->references('id')->on('users')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
 

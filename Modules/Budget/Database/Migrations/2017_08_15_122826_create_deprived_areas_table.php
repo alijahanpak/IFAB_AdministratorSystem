@@ -18,14 +18,14 @@ class CreateDeprivedAreasTable extends Migration
                 $table->increments('id');
                 $table->integer('daUId')->length(10)->unsigned();
                 $table->integer('daCoId')->length(10)->unsigned();
-                $table->integer('daReId')->length(10)->unsigned();
-                $table->integer('daRdId')->length(10)->unsigned();
-                $table->integer('daViId')->length(10)->unsigned();
-                $table->string('daDescription');
+                $table->integer('daReId')->length(10)->unsigned()->nullable();
+                $table->integer('daRdId')->length(10)->unsigned()->nullable();
+                $table->integer('daViId')->length(10)->unsigned()->nullable();
+                $table->longText('daDescription')->nullable();
                 $table->timestamps();
 
                 $table->foreign('daUId')
-                    ->references('id')->on('tbl_users')
+                    ->references('id')->on('users')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
 

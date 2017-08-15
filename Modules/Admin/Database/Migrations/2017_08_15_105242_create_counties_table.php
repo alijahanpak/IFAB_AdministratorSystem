@@ -21,7 +21,7 @@ class CreateCountiesTable extends Migration
                 $table->timestamps();
 
                 $table->foreign('coUId')
-                    ->references('id')->on('tbl_users')
+                    ->references('id')->on('users')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
             });

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRuralDistrictsTable extends Migration
+class CreateVillagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,21 @@ class CreateRuralDistrictsTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('tbl_rural_districts')) {
-            Schema::create('tbl_rural_districts', function (Blueprint $table) {
+        if (!Schema::hasTable('tbl_villages')) {
+            Schema::create('tbl_villages', function (Blueprint $table) {
                 $table->increments('id');
-                $table->integer('rdUId')->length(10)->unsigned();
-                $table->integer('rdReId')->length(10)->unsigned();
-                $table->string('rdName');
+                $table->integer('viUId')->length(10)->unsigned();
+                $table->integer('viRdId')->length(10)->unsigned();
+                $table->string('viName');
                 $table->timestamps();
 
-                $table->foreign('rdUId')
-                    ->references('id')->on('tbl_users')
+                $table->foreign('viUId')
+                    ->references('id')->on('users')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
 
-                $table->foreign('rdReId')
-                    ->references('id')->on('tbl_regions')
+                $table->foreign('viRdId')
+                    ->references('id')->on('tbl_rural_districts')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
             });
@@ -41,6 +41,6 @@ class CreateRuralDistrictsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_rural_districts');
+        Schema::dropIfExists('tbl_villages');
     }
 }

@@ -2,48 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="87bcd4e8-2ca1-4f01-9d15-43ca6151f662" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Assets/.gitkeep" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Config/.gitkeep" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Console/.gitkeep" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Database/Migrations/.gitkeep" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Database/Seeders/.gitkeep" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Emails/.gitkeep" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Entities/.gitkeep" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Events/.gitkeep" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Http/Controllers/.gitkeep" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Http/Middleware/.gitkeep" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Http/Requests/.gitkeep" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Jobs/.gitkeep" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Listeners/.gitkeep" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Notifications/.gitkeep" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Providers/.gitkeep" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Repositories/.gitkeep" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Resources/lang/.gitkeep" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Resources/views/.gitkeep" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Tests/.gitkeep" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Config/config.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Database/Seeders/AdminDatabaseSeeder.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Http/Controllers/AdminController.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Http/routes.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Providers/AdminServiceProvider.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Resources/views/index.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/Resources/views/layouts/master.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/composer.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/module.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Modules/Admin/start.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/database/migrations/2017_08_15_105242_create_counties_table.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/database/migrations/2017_08_15_111830_create_regions_table.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/database/migrations/2017_08_15_111921_create_rural_districts_table.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/database/migrations/2017_08_15_112348_create_villages_table.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/database/migrations/2017_08_15_122826_create_deprived_areas_table.php" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.env.example" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.env" afterPath="$PROJECT_DIR$/.env" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" afterPath="$PROJECT_DIR$/Modules/Admin/Database/Migrations/2014_10_12_000000_create_users_table.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/database/migrations/2014_10_12_100000_create_password_resets_table.php" afterPath="$PROJECT_DIR$/Modules/Admin/Database/Migrations/2014_10_12_100000_create_password_resets_table.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/database/migrations/2017_08_15_105242_create_counties_table.php" afterPath="$PROJECT_DIR$/Modules/Admin/Database/Migrations/2017_08_15_105242_create_counties_table.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/database/migrations/2017_08_15_111830_create_regions_table.php" afterPath="$PROJECT_DIR$/Modules/Admin/Database/Migrations/2017_08_15_111830_create_regions_table.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/database/migrations/2017_08_15_111921_create_rural_districts_table.php" afterPath="$PROJECT_DIR$/Modules/Admin/Database/Migrations/2017_08_15_111921_create_rural_districts_table.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/database/migrations/2017_08_15_112348_create_villages_table.php" afterPath="$PROJECT_DIR$/Modules/Admin/Database/Migrations/2017_08_15_112348_create_villages_table.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/database/migrations/2017_08_15_122826_create_deprived_areas_table.php" afterPath="$PROJECT_DIR$/Modules/Budget/Database/Migrations/2017_08_15_122826_create_deprived_areas_table.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/database.php" afterPath="$PROJECT_DIR$/config/database.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" afterPath="$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2014_10_12_100000_create_password_resets_table.php" afterPath="$PROJECT_DIR$/database/migrations/2014_10_12_100000_create_password_resets_table.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" afterPath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -54,34 +20,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="BudgetController.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="BudgetController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Modules/Budget/Http/Controllers/BudgetController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="864">
-              <caret line="50" column="26" lean-forward="false" selection-start-line="50" selection-start-column="26" selection-end-line="50" selection-end-column="26" />
+            <state relative-caret-position="450">
+              <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="2017_08_15_122826_create_deprived_areas_table.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/database/migrations/2017_08_15_122826_create_deprived_areas_table.php">
+      <file leaf-file-name="AdminDatabaseSeeder.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Modules/Admin/Database/Seeders/AdminDatabaseSeeder.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="594">
-              <caret line="47" column="42" lean-forward="false" selection-start-line="47" selection-start-column="42" selection-end-line="47" selection-end-column="42" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="web.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/web.php">
+      <file leaf-file-name="User.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Modules/Admin/Entities/User.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-              <folding>
-                <element signature="e#7#389#0#PHP" expanded="true" />
-              </folding>
+            <state relative-caret-position="144">
+              <caret line="8" column="24" lean-forward="true" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -89,8 +53,8 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Modules/Budget/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="72">
+              <caret line="4" column="46" lean-forward="true" selection-start-line="4" selection-start-column="46" selection-end-line="4" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -118,6 +82,13 @@
         <option value="$PROJECT_DIR$/database/migrations/2017_08_15_111921_create_rural_districts_table.php" />
         <option value="$PROJECT_DIR$/database/migrations/2017_08_15_112348_create_villages_table.php" />
         <option value="$PROJECT_DIR$/database/migrations/2017_08_15_122826_create_deprived_areas_table.php" />
+        <option value="$PROJECT_DIR$/Modules/Admin/Database/Migrations/2014_10_12_000000_create_users_table.php" />
+        <option value="$PROJECT_DIR$/Modules/Admin/Database/Migrations/2017_08_15_122826_create_deprived_areas_table.php" />
+        <option value="$PROJECT_DIR$/Modules/Admin/Database/Migrations/2017_08_15_105242_create_counties_table.php" />
+        <option value="$PROJECT_DIR$/Modules/Admin/Database/Migrations/2017_08_15_111830_create_regions_table.php" />
+        <option value="$PROJECT_DIR$/Modules/Admin/Database/Migrations/2017_08_15_111921_create_rural_districts_table.php" />
+        <option value="$PROJECT_DIR$/Modules/Admin/Database/Migrations/2017_08_15_112348_create_villages_table.php" />
+        <option value="$PROJECT_DIR$/Modules/Admin/Entities/User.php" />
       </list>
     </option>
   </component>
@@ -162,29 +133,27 @@
             <path>
               <item name="IFAB_AdministratorSystem" type="b2602c69:ProjectViewProjectNode" />
               <item name="IFAB_AdministratorSystem" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Modules" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="IFAB_AdministratorSystem" type="b2602c69:ProjectViewProjectNode" />
               <item name="IFAB_AdministratorSystem" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Providers" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Admin" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="IFAB_AdministratorSystem" type="b2602c69:ProjectViewProjectNode" />
               <item name="IFAB_AdministratorSystem" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="config" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Admin" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Entities" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="IFAB_AdministratorSystem" type="b2602c69:ProjectViewProjectNode" />
               <item name="IFAB_AdministratorSystem" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="database" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="IFAB_AdministratorSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="IFAB_AdministratorSystem" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="database" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="migrations" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Admin" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Http" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
           <select />
@@ -196,6 +165,12 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Modules/Budget/Database/Migrations" />
+      <recent name="$PROJECT_DIR$/Modules/Admin/Database/Migrations" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -223,16 +198,15 @@
       <workItem from="1501989619103" duration="2175000" />
       <workItem from="1502516580642" duration="626000" />
       <workItem from="1502605402449" duration="1900000" />
-      <workItem from="1502771878788" duration="12103000" />
+      <workItem from="1502771878788" duration="17163000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19242000" />
+    <option name="totallyTimeSpent" value="24302000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="41" y="-4" width="1399" height="904" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2494639" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -455,24 +429,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Modules/Budget/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/web.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding>
-            <element signature="e#7#389#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/config/database.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="936">
@@ -523,15 +479,55 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php">
+    <entry file="file://$PROJECT_DIR$/database/seeds/DatabaseSeeder.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="16" selection-end-column="9" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2014_10_12_100000_create_password_resets_table.php">
+    <entry file="file://$PROJECT_DIR$/Modules/Admin/Database/Migrations/2017_08_15_111830_create_regions_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="267">
+          <caret line="24" column="44" lean-forward="false" selection-start-line="24" selection-start-column="44" selection-end-line="24" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Modules/Admin/Database/Migrations/2017_08_15_111921_create_rural_districts_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="24" column="44" lean-forward="false" selection-start-line="24" selection-start-column="44" selection-end-line="24" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Modules/Admin/Database/Migrations/2017_08_15_112348_create_villages_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="24" column="44" lean-forward="true" selection-start-line="24" selection-start-column="44" selection-end-line="24" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Modules/Budget/Database/Migrations/2017_08_15_122826_create_deprived_areas_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="27" column="44" lean-forward="true" selection-start-line="27" selection-start-column="44" selection-end-line="27" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Modules/Admin/Database/Migrations/2014_10_12_000000_create_users_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="594">
+          <caret line="35" column="30" lean-forward="true" selection-start-line="35" selection-start-column="30" selection-end-line="35" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Modules/Admin/Database/Migrations/2014_10_12_100000_create_password_resets_table.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="486">
           <caret line="29" column="10" lean-forward="false" selection-start-line="29" selection-start-column="10" selection-end-line="29" selection-end-column="10" />
@@ -539,50 +535,52 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2017_08_15_105242_create_counties_table.php">
+    <entry file="file://$PROJECT_DIR$/Modules/Admin/Database/Migrations/2017_08_15_105242_create_counties_table.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="19" column="16" lean-forward="false" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="41" />
+        <state relative-caret-position="378">
+          <caret line="23" column="44" lean-forward="true" selection-start-line="23" selection-start-column="44" selection-end-line="23" selection-end-column="44" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2017_08_15_111921_create_rural_districts_table.php">
+    <entry file="file://$PROJECT_DIR$/routes/web.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="15" column="50" lean-forward="false" selection-start-line="15" selection-start-column="31" selection-end-line="15" selection-end-column="50" />
+        <state relative-caret-position="288">
+          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding>
+            <element signature="e#7#389#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Modules/Budget/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="46" lean-forward="true" selection-start-line="4" selection-start-column="46" selection-end-line="4" selection-end-column="46" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2017_08_15_111830_create_regions_table.php">
+    <entry file="file://$PROJECT_DIR$/Modules/Admin/Database/Seeders/AdminDatabaseSeeder.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="31" selection-end-column="42" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Modules/Admin/Entities/User.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="24" lean-forward="true" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Modules/Budget/Http/Controllers/BudgetController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="864">
-          <caret line="50" column="26" lean-forward="false" selection-start-line="50" selection-start-column="26" selection-end-line="50" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2017_08_15_112348_create_villages_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="31" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2017_08_15_122826_create_deprived_areas_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="47" column="42" lean-forward="false" selection-start-line="47" selection-start-column="42" selection-end-line="47" selection-end-column="42" />
+        <state relative-caret-position="450">
+          <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
           <folding />
         </state>
       </provider>
