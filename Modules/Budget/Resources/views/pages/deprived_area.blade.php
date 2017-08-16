@@ -2,42 +2,48 @@
 @section('content')
     <div style="z-index: 9999;" class="tiny reveal" id="modalInsert" data-reveal>
         <div class="modal-margin">
-            <form>
+            <form data-abide novalidate>
                 <div class="grid-x">
-                    <div class="medium-6 cell dashboard-padding">
+                    <div class="medium-6 cell padding-lr">
                         <label>شهرستان
-                            <select>
-                                <option value="husker">همدان</option>
-                                <option value="starbuck">ملایر</option>
+                            <select id="selectInput1" required>
+                                <option value=""></option>
+                                <option value="volvo">همدان</option>
+                                <option value="saab">ملایر</option>
                             </select>
                         </label>
+                        <span class="form-error error-font" data-form-error-for="selectInput1">لطفا شهرستان مورد نظر را انتخاب نمایید</span>
                     </div>
-                    <div class="medium-6 cell dashboard-padding">
+                    <div class="medium-6 cell padding-lr">
                         <label>بخش
                             <select disabled>Disabled>
-                                <option value="husker">همدان</option>
-                                <option value="starbuck">ملایر</option>
+                                <option value=""></option>
+                                <option value="volvo">همدان</option>
+                                <option value="saab">ملایر</option>
                             </select>
                         </label>
                     </div>
                 </div>
 
                 <div class="grid-x">
-                    <div class="medium-6 cell dashboard-padding">
-                        <label>شهرستان
-                            <select>
-                                <option value="husker">همدان</option>
-                                <option value="starbuck">ملایر</option>
+                    <div class="medium-6 cell padding-lr">
+                        <label>دهستان
+                            <select disabled>Disabled>
+                                <option value=""></option>
+                                <option value="volvo">همدان</option>
+                                <option value="saab">ملایر</option>
                             </select>
                         </label>
                     </div>
-                    <div class="medium-6 cell dashboard-padding">
-                        <label>بخش
+                    <div class="medium-6 cell padding-lr">
+                        <label>روستا
                             <select disabled>Disabled>
-                                <option value="husker">همدان</option>
-                                <option value="starbuck">ملایر</option>
+                                <option value=""></option>
+                                <option value="volvo">همدان</option>
+                                <option value="saab">ملایر</option>
                             </select>
                         </label>
+
                     </div>
                 </div>
                 <div class="medium-6 columns">
@@ -45,12 +51,13 @@
                         <textarea style="min-height: 150px;"></textarea>
                     </label>
                 </div>
+                <button type="submit" value="submit" class="my-secondary button float-left"> ثبت </button>
             </form>
         </div>
         <button class="close-button" data-close aria-label="Close modal" type="button">
             <span aria-hidden="true">&times;</span>
         </button>
-        <button type="button" class="my-secondary button float-left" data-open="exampleModal1"> ثبت </button>
+
     </div>
     <div style="padding: 30px;" class="medium-10 border-right-line">
         <div style="padding-right: 15px;padding-left: 15px;" class="grid-x">
@@ -70,7 +77,7 @@
         </div>
 
         <div class="grid-x my-grid-margin">
-            <div class="medium-12 dashboard-padding">
+            <div class="medium-12 padding-lr">
 
                 <div class="clearfix">
                     <button type="button" class="my-secondary button small" data-open="modalInsert">جدید</button>
@@ -86,8 +93,7 @@
                 </div>
             </div>
         </div>
-        {{ "morteza" }}
-        <div class="grid-x dashboard-padding">
+        <div class="grid-x padding-lr">
             <div class="medium-12 column">
                 <ul class="tabs tab-color" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="example-tabs">
                     <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">استان</a></li>
@@ -98,11 +104,11 @@
                 </ul>
 
                 <div class="tabs-content" data-tabs-content="example-tabs">
-                    <div style="padding-right: 20px;padding-left: 20px;" class="medium-12">
+                    <div class="medium-12 padding-lrt">
                         <div class="clearfix border-btm-line">
-                            <div class="button-group float-left">
-                                <a style="cursor: pointer;" class="clear button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="ایجاد گزارش" data-position="top" data-alignment="center">
-                                    <i style="color: #01aef0;" class="fi-page-edit size-30"></i>
+                            <div class="button-group float-left report-mrg">
+                                <a  class="clear button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
+                                    <i class="fi-page-edit size-30 secondry-color"></i>
                                 </a>
                             </div>
                         </div>

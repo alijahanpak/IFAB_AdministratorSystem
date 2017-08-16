@@ -2,12 +2,18 @@
     border-radius: 3px;
     line-height: 1px;
     }
-[type="text"]:focus,[type="password"]:focus{
+[type="text"]:focus,[type="password"],textarea,select:focus{
     background-color: #fefefe;
     border: 1px solid #8a8a8a;
     box-shadow: 0 0 5px #1E90FF;
     outline: medium none;
     transition: box-shadow 0.5s ease 0s, border-color 0.25s ease-in-out 0s;
+}
+select{
+    font-size: small;
+}
+select,text,textarea{
+    color: #777777;
 }
 .button.my-secondary {
     background-color: #01aef0;
@@ -15,7 +21,12 @@
 .button.my-secondary:hover, .button.my-secondary:focus {
     background-color:   #3398ea;
     color: #F8F8F8; }
-
+.close-button, .close-button.medium {
+    font-size: 1em;
+    line-height: 1;
+    right: 1rem;
+    top: 0.5rem;
+}
 .accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
     -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
@@ -352,5 +363,18 @@ td {
     background-color: #F8F8F8;
     color: #0a0a0a;
 }
-
-
+.padding-lr{
+    padding: 0 14px 0 14px;
+}
+.padding-lrt{
+    padding: 0 20px 0 20px;
+}
+.secondry-color{
+    color:#01aef0;
+}
+.report-mrg{
+    margin-bottom: -10px;
+}
+.error-font{
+    font-weight: normal;
+}
