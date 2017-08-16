@@ -86,7 +86,6 @@
                 </div>
             </div>
         </div>
-        {{ "morteza" }}
         <div class="grid-x dashboard-padding">
             <div class="medium-12 column">
                 <ul class="tabs tab-color" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="example-tabs">

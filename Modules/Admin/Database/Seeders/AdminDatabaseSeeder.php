@@ -16,6 +16,10 @@ class AdminDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+        //$this->call(SeedAdminUsersTableSeeder::class);
+        //$this->call(SeedAdminCountiesTableSeeder::class);
+        //$this->call(SeedAdminRegionsTableSeeder::class);
+        //$this->call(SeedAdminRuralDistrictsTableSeeder::class);
+        //$this->call(SeedAdminVillagesTableSeeder::class);
     }
 }
