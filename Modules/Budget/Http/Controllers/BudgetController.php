@@ -17,11 +17,6 @@ class BudgetController extends Controller
         return view('budget::index');
     }
 
-    public function deprivedArea()
-    {
-        return view('budget::pages.deprived_area');
-    }
-
     /**
      * Show the form for creating a new resource.
      * @return Response

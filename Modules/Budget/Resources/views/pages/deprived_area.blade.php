@@ -8,8 +8,9 @@
                         <label>شهرستان
                             <select id="selectInput1" required>
                                 <option value=""></option>
-                                <option value="volvo">همدان</option>
-                                <option value="saab">ملایر</option>
+                                @foreach(\Modules\Admin\Entities\County::all() as $counties)
+                                    <option value="{{ $counties->id }}">{{ $counties->coName }}</option>
+                                @endforeach
                             </select>
                         </label>
                         <span class="form-error error-font" data-form-error-for="selectInput1">لطفا شهرستان مورد نظر را انتخاب نمایید</span>
@@ -24,7 +25,6 @@
                         </label>
                     </div>
                 </div>
-
                 <div class="grid-x">
                     <div class="medium-6 cell padding-lr">
                         <label>دهستان
@@ -57,7 +57,6 @@
         <button class="close-button" data-close aria-label="Close modal" type="button">
             <span aria-hidden="true">&times;</span>
         </button>
-
     </div>
     <div style="padding: 30px;" class="medium-10 border-right-line">
         <div style="padding-right: 15px;padding-left: 15px;" class="grid-x">
@@ -68,7 +67,7 @@
                             <li><a href="#">بودجه و اعتباات</a></li>
                             <li><a href="#">توزیع اعتبار</a></li>
                             <li>
-                                <span class="show-for-sr">Current: </span>مدیریت مناطق محروم
+                                <span class="show-for-sr">Current: </span>مناطق محروم
                             </li>
                         </ul>
                     </nav>
