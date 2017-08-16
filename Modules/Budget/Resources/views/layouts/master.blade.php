@@ -85,7 +85,7 @@
     </div>
     <!--Body system-->
     <div class="grid-x">
-        <div class="medium-2 cell small-font" data-sticky-container>
+        <div class="medium-2 cell small-font border-left-line" data-sticky-container>
             <nav class="columns sticky" data-sticky data-anchor="exampleId" data-sticky-on="large" data-margin-top="4.3">
                 <ul class="vertical menu sub-menu accordion-menu" data-accordion-menu >
                     <li>

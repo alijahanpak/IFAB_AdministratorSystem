@@ -188,9 +188,9 @@ td {
     border-left:solid 1.7px #D8DEE2;
     height: 100%;
 }
-.border-right-line{
-    border-right:solid 1.7px #D8DEE2;
-    height: 100%;
+.border-left-line{
+    border-left:solid 1.7px #D8DEE2;
+    min-height: calc(100vh);
 }
 .border-btm-line{
     border-bottom:solid 1.7px #D8DEE2;
