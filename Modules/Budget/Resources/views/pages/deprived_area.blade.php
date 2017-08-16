@@ -58,8 +58,9 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
+
     <div style="padding: 30px;" class="medium-10 border-right-line">
-        <div style="padding-right: 15px;padding-left: 15px;" class="grid-x">
+        <div class="grid-x padding-lr">
             <div class="medium-12">
                 <div style="border-bottom:solid 1.7px #D8DEE2;" class="grid-x">
                     <nav aria-label="You are here:" role="navigation">
@@ -112,57 +113,59 @@
                             </div>
                         </div>
                     </div>
+
+                    <!--Tab 1 Start-->
                     <div class="tabs-panel is-active" id="panel1">
+                        <div class="columns">
+                            <table class="stacked small-font">
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!--Tab 1 End-->
+
+                    <!--Tab 2 Start-->
+                    <div class="tabs-panel" id="panel2">
                         <div class="columns">
                             <table class="stacked small-font">
                                 <thead class="my-thead">
                                 <tr>
-                                    <th>شهرستان</th>
-                                    <th>بخش</th>
-                                    <th>دهستان</th>
-                                    <th>روستا</th>
+                                    <th>نام</th>
+                                    <th width="650">شرح</th>
                                     <th width="50">ویرایش</th>
                                     <th width="65">حذف</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td style="border-left: solid 1px #D8DEE2;">همدان</td>
-                                    <td>مرکزی</td>
-                                    <td>قاسم آباد</td>
-                                    <td>قسم آباد</td>
+                                    <td>همدان</td>
+                                    <td>روستای مناطق محروم</td>
                                     <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
                                     <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                 </tr>
                                 <tr>
                                     <td>همدان</td>
-                                    <td>مرکزی</td>
-                                    <td>قاسم آباد</td>
-                                    <td>قسم آباد</td>
+                                    <td>روستای مناطق محروم</td>
                                     <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
                                     <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                 </tr>
                                 <tr>
                                     <td>همدان</td>
-                                    <td>مرکزی</td>
-                                    <td>قاسم آباد</td>
-                                    <td>قسم آباد</td>
+                                    <td>روستای مناطق محروم</td>
                                     <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
                                     <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                 </tr>
                                 <tr>
                                     <td>همدان</td>
-                                    <td>مرکزی</td>
-                                    <td>قاسم آباد</td>
-                                    <td>قسم آباد</td>
+                                    <td>روستای مناطق محروم</td>
                                     <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
                                     <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                 </tr>
                                 <tr>
                                     <td>همدان</td>
-                                    <td>مرکزی</td>
-                                    <td>قاسم آباد</td>
-                                    <td>قسم آباد</td>
+                                    <td>روستای مناطق محروم</td>
                                     <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
                                     <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                 </tr>
@@ -170,6 +173,191 @@
                             </table>
                         </div>
                     </div>
+                    <!--Tab 2 End-->
+
+                    <!--Tab 3 Start-->
+                    <div class="tabs-panel" id="panel3">
+                        <div class="columns">
+                            <table class="stacked small-font">
+                                <thead class="my-thead">
+                                <tr>
+                                    <th>نام</th>
+                                    <th>شهرستان</th>
+                                    <th width="450">شرح</th>
+                                    <th width="50">ویرایش</th>
+                                    <th width="65">حذف</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>قلقلرود</td>
+                                    <td>تویسرکان</td>
+                                    <td>روستای مناطق محروم</td>
+                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                </tr>
+                                <tr>
+                                    <td>قلقلرود</td>
+                                    <td>تویسرکان</td>
+                                    <td>روستای مناطق محروم</td>
+                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                </tr>
+                                <tr>
+                                    <td>قلقلرود</td>
+                                    <td>قلقلرود</td>
+                                    <td>روستای مناطق محروم</td>
+                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                </tr>
+                                <tr>
+                                    <td>قلقلرود</td>
+                                    <td>قلقلرود</td>
+                                    <td>روستای مناطق محروم</td>
+                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                </tr>
+                                <tr>
+                                    <td>قلقلرود</td>
+                                    <td>تویسرکان</td>
+                                    <td>روستای مناطق محروم</td>
+                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!--Tab 3 End-->
+
+                    <!--Tab 4 Start-->
+                    <div class="tabs-panel" id="panel4">
+                        <div class="columns">
+                            <table class="stacked small-font">
+                                <thead class="my-thead">
+                                <tr>
+                                    <th>نام</th>
+                                    <th>شهرستان</th>
+                                    <th>بخش</th>
+                                    <th width="450">شرح</th>
+                                    <th width="50">ویرایش</th>
+                                    <th width="65">حذف</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>قلقلرود</td>
+                                    <td>تویسرکان</td>
+                                    <td>قلقلرود</td>
+                                    <td>روستای مناطق محروم</td>
+                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                </tr>
+                                <tr>
+                                    <td>قلقلرود</td>
+                                    <td>تویسرکان</td>
+                                    <td>قلقلرود</td>
+                                    <td>روستای مناطق محروم</td>
+                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                </tr>
+                                <tr>
+                                    <td>قلقلرود</td>
+                                    <td>تویسرکان</td>
+                                    <td>قلقلرود</td>
+                                    <td>روستای مناطق محروم</td>
+                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                </tr>
+                                <tr>
+                                    <td>قلقلرود</td>
+                                    <td>تویسرکان</td>
+                                    <td>قلقلرود</td>
+                                    <td>روستای مناطق محروم</td>
+                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                </tr>
+                                <tr>
+                                    <td>قلقلرود</td>
+                                    <td>تویسرکان</td>
+                                    <td>قلقلرود</td>
+                                    <td>روستای مناطق محروم</td>
+                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!--Tab 4 End-->
+
+                    <!--Tab 5 Start-->
+                    <div class="tabs-panel" id="panel5">
+                        <div class="columns">
+                            <table class="stacked small-font">
+                                <thead class="my-thead">
+                                <tr>
+                                    <th>نام</th>
+                                    <th>شهرستان</th>
+                                    <th>بخش</th>
+                                    <th>دهستان</th>
+                                    <th width="350">شرح</th>
+                                    <th width="50">ویرایش</th>
+                                    <th width="65">حذف</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>پیر سلمان</td>
+                                    <td>تویسرکان</td>
+                                    <td>قلقلرود</td>
+                                    <td>قلقلرود</td>
+                                    <td>روستای مناطق محروم</td>
+                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                </tr>
+                                <tr>
+                                    <td>قلقلرود</td>
+                                    <td>تویسرکان</td>
+                                    <td>قلقلرود</td>
+                                    <td>قلقلرود</td>
+                                    <td>روستای مناطق محروم</td>
+                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                </tr>
+                                <tr>
+                                    <td>قلقلرود</td>
+                                    <td>تویسرکان</td>
+                                    <td>قلقلرود</td>
+                                    <td>قلقلرود</td>
+                                    <td>روستای مناطق محروم</td>
+                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                </tr>
+                                <tr>
+                                    <td>قلقلرود</td>
+                                    <td>تویسرکان</td>
+                                    <td>قلقلرود</td>
+                                    <td>قلقلرود</td>
+                                    <td>روستای مناطق محروم</td>
+                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                </tr>
+                                <tr>
+                                    <td>قلقلرود</td>
+                                    <td>تویسرکان</td>
+                                    <td>قلقلرود</td>
+                                    <td>قلقلرود</td>
+                                    <td>روستای مناطق محروم</td>
+                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!--Tab 5 End-->
+
                     <div class="tabs-panel" id="panel2">
                         <p>two</p>
                         <img class="thumbnail" src="assets/img/generic/rectangle-7.jpg">
