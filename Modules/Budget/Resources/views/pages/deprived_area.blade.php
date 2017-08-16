@@ -52,7 +52,6 @@
         </button>
         <button type="button" class="my-secondary button float-left" data-open="exampleModal1"> ثبت </button>
     </div>
-
     <div style="padding: 30px;" class="medium-10 border-right-line">
         <div style="padding-right: 15px;padding-left: 15px;" class="grid-x">
             <div class="medium-12">
@@ -87,7 +86,7 @@
                 </div>
             </div>
         </div>
-
+        {{ "morteza" }}
         <div class="grid-x dashboard-padding">
             <div class="medium-12 column">
                 <ul class="tabs tab-color" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="example-tabs">
