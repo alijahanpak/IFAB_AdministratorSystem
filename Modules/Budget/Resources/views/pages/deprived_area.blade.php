@@ -94,7 +94,7 @@
                 </div>
             </div>
         </div>
-        <div class="grid-x padding-lr">
+        <div class="grid-x dashboard-padding">
             <div class="medium-12 column">
                 <ul class="tabs tab-color" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="example-tabs">
                     <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">استان</a></li>
