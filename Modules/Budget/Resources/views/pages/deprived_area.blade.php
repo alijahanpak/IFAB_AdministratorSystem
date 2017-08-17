@@ -2,6 +2,8 @@
 @section('content')
     <div style="z-index: 9999;" class="tiny reveal" id="modalInsert" data-reveal>
         <div class="modal-margin">
+            {!! Form::open(array('id' => 'registerForm' , 'url' => '/contact-us/pm/register' , 'class' => 'form' , 'data-abide novalidate')) !!}
+            {!! csrf_field() !!}
             <form data-abide novalidate>
                 <div class="grid-x">
                     <div class="medium-6 cell padding-lr">
@@ -17,10 +19,7 @@
                     </div>
                     <div class="medium-6 cell padding-lr">
                         <label>بخش
-                            <select id="selectRegion" disabled>Disabled>
-                                <option value=""></option>
-                                <option value="volvo">همدان</option>
-                                <option value="saab">ملایر</option>
+                            <select id="selectRegion" onchange="getRegionRuralDistricts('{{ url('/admin/getRuralDistrictByRegionId') }}')" disabled>Disabled>
                             </select>
                         </label>
                     </div>
@@ -28,19 +27,13 @@
                 <div class="grid-x">
                     <div class="medium-6 cell padding-lr">
                         <label>دهستان
-                            <select id="selectRuralDistrict" disabled>Disabled>
-                                <option value=""></option>
-                                <option value="volvo">همدان</option>
-                                <option value="saab">ملایر</option>
+                            <select id="selectRuralDistrict" onchange="getRuralDistrictVillages('{{ url('/admin/getVillagesByRuralDistrictId') }}')" disabled>Disabled>
                             </select>
                         </label>
                     </div>
                     <div class="medium-6 cell padding-lr">
                         <label>روستا
                             <select id="selectVillage" disabled>Disabled>
-                                <option value=""></option>
-                                <option value="volvo">همدان</option>
-                                <option value="saab">ملایر</option>
                             </select>
                         </label>
 
