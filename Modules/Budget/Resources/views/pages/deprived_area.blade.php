@@ -24,25 +24,23 @@
 
     <div style="z-index: 9999;" class="tiny reveal" id="modalInsert" data-reveal>
         <div class="modal-margin">
-            <form data-abide novalidate>
+            {!! Form::open(array('id' => 'registerDAForm' , 'url' => '/budget/admin/deprived_area/register' , 'class' => 'form' , 'data-abide novalidate')) !!}
+            {!! csrf_field() !!}
                 <div class="grid-x">
                     <div class="medium-6 cell padding-lr">
                         <label>شهرستان
-                            <select id="selectCounty" onchange="getCountyRegions('{{ url('/admin/getCountyRegions') }}')" required>
+                            <select name="daCounty" id="selectCounty" onchange="getCountyRegions('{{ url('/admin/getCountyRegions') }}')" required>
                                 <option value=""></option>
                                 @foreach(\Modules\Admin\Entities\County::all() as $counties)
                                     <option value="{{ $counties->id }}">{{ $counties->coName }}</option>
                                 @endforeach
                             </select>
                         </label>
-                        <span class="form-error error-font" data-form-error-for="selectInput1">لطفا شهرستان مورد نظر را انتخاب نمایید</span>
+                        <span class="form-error error-font" data-form-error-for="selectCounty">لطفا شهرستان مورد نظر را انتخاب نمایید</span>
                     </div>
                     <div class="medium-6 cell padding-lr">
                         <label>بخش
-                            <select id="selectRegion" disabled>Disabled>
-                                <option value=""></option>
-                                <option value="volvo">همدان</option>
-                                <option value="saab">ملایر</option>
+                            <select name="daRegion" id="selectRegion" onchange="getRegionRuralDistricts('{{ url('/admin/getRuralDistrictByRegionId') }}')" disabled>Disabled>
                             </select>
                         </label>
                     </div>
@@ -50,19 +48,13 @@
                 <div class="grid-x">
                     <div class="medium-6 cell padding-lr">
                         <label>دهستان
-                            <select id="selectRuralDistrict" disabled>Disabled>
-                                <option value=""></option>
-                                <option value="volvo">همدان</option>
-                                <option value="saab">ملایر</option>
+                            <select name="daRuralDistrict" id="selectRuralDistrict" onchange="getRuralDistrictVillages('{{ url('/admin/getVillagesByRuralDistrictId') }}')" disabled>Disabled>
                             </select>
                         </label>
                     </div>
                     <div class="medium-6 cell padding-lr">
                         <label>روستا
-                            <select id="selectVillage" disabled>Disabled>
-                                <option value=""></option>
-                                <option value="volvo">همدان</option>
-                                <option value="saab">ملایر</option>
+                            <select name="daVillage" id="selectVillage" disabled>Disabled>
                             </select>
                         </label>
 
@@ -70,17 +62,20 @@
                 </div>
                 <div class="medium-6 columns padding-lr">
                     <label>شرح
-                        <textarea style="min-height: 150px;"></textarea>
+                        <textarea name="daDescription" style="min-height: 150px;"></textarea>
                     </label>
                 </div>
-                <button type="submit" value="submit" class="my-secondary button float-left btn-large-w button-load"> ثبت </button>
-            </form>
+
+                <button name="daFormSubmit" type="submit" value="submit" class="my-secondary button float-left"> ثبت </button>
+            {!! Form::close() !!}
+
         </div>
         <button class="close-button" data-close aria-label="Close modal" type="button">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 
+    {{--//////////////////////////////////////////////////////////////////--}}
     <div class="medium-10 border-right-line inner-body-pad">
         <div class="grid-x padding-lr">
             <div class="medium-12">
@@ -152,51 +147,17 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>پیر سلمان</td>
-                                    <td>تویسرکان</td>
-                                    <td>قلقلرود</td>
-                                    <td>قلقلرود</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#" data-open="modalDelete"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
-                                <tr>
-                                    <td>قلقلرود</td>
-                                    <td>تویسرکان</td>
-                                    <td>قلقلرود</td>
-                                    <td>قلقلرود</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
-                                <tr>
-                                    <td>قلقلرود</td>
-                                    <td>تویسرکان</td>
-                                    <td>قلقلرود</td>
-                                    <td>قلقلرود</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
-                                <tr>
-                                    <td>قلقلرود</td>
-                                    <td>تویسرکان</td>
-                                    <td>قلقلرود</td>
-                                    <td>قلقلرود</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
-                                <tr>
-                                    <td>قلقلرود</td>
-                                    <td>تویسرکان</td>
-                                    <td>قلقلرود</td>
-                                    <td>قلقلرود</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
+                                    @foreach($dAreas as $dArea)
+                                        <tr>
+                                            <td>{{ \Modules\Admin\Entities\County::find($dArea->daCoId)->coName }}</td>
+                                            <td>{{ $dArea->daReId == '' ? '--' : \Modules\Admin\Entities\Region::find($dArea->daReId)->reName }}</td>
+                                            <td>{{ $dArea->daRdId == '' ? '--' : \Modules\Admin\Entities\RuralDistrict::find($dArea->daRdId)->rdName }}</td>
+                                            <td>{{ $dArea->daViId == '' ? '--' : \Modules\Admin\Entities\Village::find($dArea->daViId)->viName }}</td>
+                                            <td>{{ $dArea->daDescription }}</td>
+                                            <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                            <td class="text-center"><a href="#" data-open="modalDelete"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -216,36 +177,16 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>همدان</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
-                                <tr>
-                                    <td>همدان</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
-                                <tr>
-                                    <td>همدان</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
-                                <tr>
-                                    <td>همدان</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
-                                <tr>
-                                    <td>همدان</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
+                                @foreach($dAreas as $dArea)
+                                    @if($dArea->daCoId != '' && $dArea->daReId == '' && $dArea->daRdId == '' && $dArea->daViId == '')
+                                        <tr>
+                                            <td>{{ \Modules\Admin\Entities\County::find($dArea->daCoId)->coName }}</td>
+                                            <td>{{ $dArea->daDescription }}</td>
+                                            <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                            <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                        </tr>
+                                    @endif
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -266,41 +207,17 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>قلقلرود</td>
-                                    <td>تویسرکان</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
-                                <tr>
-                                    <td>قلقلرود</td>
-                                    <td>تویسرکان</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
-                                <tr>
-                                    <td>قلقلرود</td>
-                                    <td>قلقلرود</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
-                                <tr>
-                                    <td>قلقلرود</td>
-                                    <td>قلقلرود</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
-                                <tr>
-                                    <td>قلقلرود</td>
-                                    <td>تویسرکان</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
+                                @foreach($dAreas as $dArea)
+                                    @if($dArea->daCoId != '' && $dArea->daReId != '' && $dArea->daRdId == '' && $dArea->daViId == '')
+                                        <tr>
+                                            <td>{{ \Modules\Admin\Entities\Region::find($dArea->daReId)->reName }}</td>
+                                            <td>{{ \Modules\Admin\Entities\County::find($dArea->daCoId)->coName }}</td>
+                                            <td>{{ $dArea->daDescription }}</td>
+                                            <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                            <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                        </tr>
+                                    @endif
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -322,46 +239,18 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>قلقلرود</td>
-                                    <td>تویسرکان</td>
-                                    <td>قلقلرود</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
-                                <tr>
-                                    <td>قلقلرود</td>
-                                    <td>تویسرکان</td>
-                                    <td>قلقلرود</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
-                                <tr>
-                                    <td>قلقلرود</td>
-                                    <td>تویسرکان</td>
-                                    <td>قلقلرود</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
-                                <tr>
-                                    <td>قلقلرود</td>
-                                    <td>تویسرکان</td>
-                                    <td>قلقلرود</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
-                                <tr>
-                                    <td>قلقلرود</td>
-                                    <td>تویسرکان</td>
-                                    <td>قلقلرود</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
+                                @foreach($dAreas as $dArea)
+                                    @if($dArea->daCoId != '' && $dArea->daReId != '' && $dArea->daRdId != '' && $dArea->daViId == '')
+                                        <tr>
+                                            <td>{{ \Modules\Admin\Entities\RuralDistrict::find($dArea->daRdId)->rdName }}</td>
+                                            <td>{{ \Modules\Admin\Entities\County::find($dArea->daCoId)->coName }}</td>
+                                            <td>{{ \Modules\Admin\Entities\Region::find($dArea->daReId)->reName }}</td>
+                                            <td>{{ $dArea->daDescription }}</td>
+                                            <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                            <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                        </tr>
+                                    @endif
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -384,51 +273,19 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>پیر سلمان</td>
-                                    <td>تویسرکان</td>
-                                    <td>قلقلرود</td>
-                                    <td>قلقلرود</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
-                                <tr>
-                                    <td>قلقلرود</td>
-                                    <td>تویسرکان</td>
-                                    <td>قلقلرود</td>
-                                    <td>قلقلرود</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
-                                <tr>
-                                    <td>قلقلرود</td>
-                                    <td>تویسرکان</td>
-                                    <td>قلقلرود</td>
-                                    <td>قلقلرود</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
-                                <tr>
-                                    <td>قلقلرود</td>
-                                    <td>تویسرکان</td>
-                                    <td>قلقلرود</td>
-                                    <td>قلقلرود</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
-                                <tr>
-                                    <td>قلقلرود</td>
-                                    <td>تویسرکان</td>
-                                    <td>قلقلرود</td>
-                                    <td>قلقلرود</td>
-                                    <td>روستای مناطق محروم</td>
-                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                </tr>
+                                @foreach($dAreas as $dArea)
+                                    @if($dArea->daCoId != '' && $dArea->daReId != '' && $dArea->daRdId != '' && $dArea->daViId != '')
+                                        <tr>
+                                            <td>{{ \Modules\Admin\Entities\Village::find($dArea->daViId)->viName }}</td>
+                                            <td>{{ \Modules\Admin\Entities\County::find($dArea->daCoId)->coName }}</td>
+                                            <td>{{ \Modules\Admin\Entities\Region::find($dArea->daReId)->reName }}</td>
+                                            <td>{{ \Modules\Admin\Entities\RuralDistrict::find($dArea->daRdId)->rdName }}</td>
+                                            <td>{{ $dArea->daDescription }}</td>
+                                            <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                            <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                        </tr>
+                                    @endif
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>

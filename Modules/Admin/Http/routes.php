@@ -6,5 +6,6 @@ Route::group(['middleware' => 'web', 'prefix' => 'admin', 'namespace' => 'Module
     ///////////////////////////// admin ajax methods //////////////////////////////
     Route::get('/getCountyRegions/{cId}' , 'AdminController@getRegionsByCountyId');
     Route::get('/getRuralDistrictByRegionId/{rId}' , 'AdminController@getRuralDistrictByRegionId');
+    Route::get('/getVillagesByRuralDistrictId/{rId}' , 'AdminController@getVillagesByRuralDistrictId');
     ///////////////////////////////////////////////////////////////////////////////
 });

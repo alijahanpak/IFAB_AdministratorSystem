@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Admin\Entities\Region;
 use Modules\Admin\Entities\RuralDistrict;
+use Modules\Admin\Entities\Village;
 
 class AdminController extends Controller
 {
@@ -87,6 +88,16 @@ class AdminController extends Controller
         if (\Illuminate\Support\Facades\Request::ajax())
         {
             $ruralDistricts = RuralDistrict::where('rdReId' , '=' , $rId)->get();
+            return \Illuminate\Support\Facades\Response::json($ruralDistricts);
+        }
+
+    }
+
+    public function getVillagesByRuralDistrictId($rId)
+    {
+        if (\Illuminate\Support\Facades\Request::ajax())
+        {
+            $ruralDistricts = Village::where('viRdId' , '=' , $rId)->get();
             return \Illuminate\Support\Facades\Response::json($ruralDistricts);
         }
 
