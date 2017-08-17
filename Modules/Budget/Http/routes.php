@@ -5,8 +5,11 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
     Route::get('/', 'BudgetController@index');
 
     /////////////////////// budget admin routes //////////////////////////////
-    Route::get('/admin/deprived_area', 'BudgetAdminController@deprivedArea');
-    Route::post('/admin/deprived_area/register', 'BudgetAdminController@registerDeprivedArea');
-    Route::get('/admin/fiscal_year', 'BudgetAdminController@fiscalYear');
+    Route::prefix('admin')->group(function () {
+        Route::get('deprived_area', 'BudgetAdminController@deprivedArea');
+        Route::post('deprived_area/register', 'BudgetAdminController@registerDeprivedArea');
+        Route::get('deprived_area/delete/{dId}', 'BudgetAdminController@deleteDeprivedArea');
+        Route::get('fiscal_year', 'BudgetAdminController@fiscalYear');
+    });
     //////////////////////////////////////////////////////////////////////////
 });

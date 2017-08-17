@@ -1,27 +1,5 @@
 @extends('budget::layouts.master')
 @section('content')
-
-    <!--Modal Delete Start-->
-    <div style="z-index: 9999;" class="tiny reveal" id="modalDelete" data-reveal>
-        <div class="modal-margin small-font">
-            <p>علی جهان پاک</p>
-            <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
-            <div class="grid-x dashboard-padding">
-                <div class="medium-6 ">
-                    <a class="button primary btn-large-w large-offset-3">بله</a>
-                </div>
-                <div class="medium-6">
-                    <a class="button primary hollow btn-large-w large-offset-4">خیر</a>
-                </div>
-            </div>
-        </div>
-        <button class="close-button" data-close aria-label="Close modal" type="button">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-
-    <!--Modal Delete End-->
-
     <div style="z-index: 9999;" class="tiny reveal" id="modalInsert" data-reveal>
         <div class="modal-margin">
             {!! Form::open(array('id' => 'registerDAForm' , 'url' => '/budget/admin/deprived_area/register' , 'class' => 'form' , 'data-abide novalidate')) !!}
@@ -153,7 +131,26 @@
                                             <td>{{ $dArea->daViId == '' ? '--' : \Modules\Admin\Entities\Village::find($dArea->daViId)->viName }}</td>
                                             <td>{{ $dArea->daDescription }}</td>
                                             <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                            <td class="text-center"><a href="#" data-open="modalDelete"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                            <td class="text-center"><a href="#" data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                            <!--Modal Delete Start-->
+                                            <div style="z-index: 9999;" class="tiny reveal" id="modalDelete{{ $dArea->id }}" data-reveal>
+                                                <div class="modal-margin small-font">
+                                                    <p>علی جهان پاک</p>
+                                                    <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
+                                                    <div class="grid-x dashboard-padding">
+                                                        <div class="medium-6 ">
+                                                            <a href="{{ url('/budget/admin/deprived_area/delete/' . $dArea->id) }}" class="button primary btn-large-w large-offset-3">بله</a>
+                                                        </div>
+                                                        <div class="medium-6">
+                                                            <a data-close aria-label="Close modal" class="button primary hollow btn-large-w large-offset-4">خیر</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button class="close-button" data-close aria-label="Close modal" type="button">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <!--Modal Delete End-->
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -181,7 +178,7 @@
                                             <td>{{ \Modules\Admin\Entities\County::find($dArea->daCoId)->coName }}</td>
                                             <td>{{ $dArea->daDescription }}</td>
                                             <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                            <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                            <td class="text-center"><a href="#" data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                         </tr>
                                     @endif
                                 @endforeach
@@ -212,7 +209,7 @@
                                             <td>{{ \Modules\Admin\Entities\County::find($dArea->daCoId)->coName }}</td>
                                             <td>{{ $dArea->daDescription }}</td>
                                             <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                            <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                            <td class="text-center"><a href="#" data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                         </tr>
                                     @endif
                                 @endforeach
@@ -245,7 +242,7 @@
                                             <td>{{ \Modules\Admin\Entities\Region::find($dArea->daReId)->reName }}</td>
                                             <td>{{ $dArea->daDescription }}</td>
                                             <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                            <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                            <td class="text-center"><a href="#" data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                         </tr>
                                     @endif
                                 @endforeach
@@ -280,7 +277,7 @@
                                             <td>{{ \Modules\Admin\Entities\RuralDistrict::find($dArea->daRdId)->rdName }}</td>
                                             <td>{{ $dArea->daDescription }}</td>
                                             <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                                            <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                            <td class="text-center"><a href="#" data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                         </tr>
                                     @endif
                                 @endforeach
