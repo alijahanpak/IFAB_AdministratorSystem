@@ -17,6 +17,10 @@ class BudgetAdminController extends Controller
         return view('budget::pages.deprived_area');
     }
 
+    public function fiscalYear()
+    {
+        return view('budget::pages.fiscal_year');
+    }
 
     /**
      * Show the form for creating a new resource.

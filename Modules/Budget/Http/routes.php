@@ -6,5 +6,6 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
 
     /////////////////////// budget admin routes //////////////////////////////
     Route::get('/admin/deprived_area', 'BudgetAdminController@deprivedArea');
+    Route::get('/admin/fiscal_year', 'BudgetAdminController@fiscalYear');
     //////////////////////////////////////////////////////////////////////////
 });

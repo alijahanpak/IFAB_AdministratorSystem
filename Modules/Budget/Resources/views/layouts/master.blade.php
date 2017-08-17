@@ -132,6 +132,13 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <a class="right-mp right-menu-btm-border" href="#">مدیریت</a>
+                        <ul class="menu vertical nested">
+                            <li><a href="#">سال مالی</a>
+                            <li><a href="#">مناطق محروم</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </nav>
         </div>
