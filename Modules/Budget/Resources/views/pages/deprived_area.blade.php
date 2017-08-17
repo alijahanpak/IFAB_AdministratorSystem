@@ -43,8 +43,10 @@
                         <textarea name="daDescription" style="min-height: 150px;"></textarea>
                     </label>
                 </div>
+
                 <button name="daFormSubmit" type="submit" value="submit" class="my-secondary button float-left"> ثبت </button>
             {!! Form::close() !!}
+
         </div>
         <button class="close-button" data-close aria-label="Close modal" type="button">
             <span aria-hidden="true">&times;</span>
@@ -290,4 +292,13 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).foundation();
+
+        $('[data-loading-start]').click(function() {
+            $(this).addClass('hide')
+            $('[data-loading-end]').removeClass('hide')
+        });
+    </script>
+
 @stop
