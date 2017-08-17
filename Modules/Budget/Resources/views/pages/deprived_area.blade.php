@@ -8,10 +8,10 @@
             <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
             <div class="grid-x dashboard-padding">
                 <div class="medium-6 ">
-                    <a class="button primary btn-large-w large-offset-5">بله</a>
+                    <a class="button primary btn-large-w large-offset-3">بله</a>
                 </div>
                 <div class="medium-6">
-                    <a class="button primary hollow btn-large-w large-offset-3">خیر</a>
+                    <a class="button primary hollow btn-large-w large-offset-4">خیر</a>
                 </div>
             </div>
         </div>
@@ -60,7 +60,7 @@
 
                     </div>
                 </div>
-                <div class="medium-6 columns">
+                <div class="medium-6 columns padding-lr">
                     <label>شرح
                         <textarea name="daDescription" style="min-height: 150px;"></textarea>
                     </label>
@@ -72,11 +72,12 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
+
     {{--//////////////////////////////////////////////////////////////////--}}
-    <div style="padding: 30px;" class="medium-10 border-right-line">
+    <div class="medium-10 border-right-line inner-body-pad">
         <div class="grid-x padding-lr">
             <div class="medium-12">
-                <div style="border-bottom:solid 1.7px #D8DEE2;" class="grid-x">
+                <div class="grid-x border-btm-line">
                     <nav aria-label="You are here:" role="navigation">
                         <ul class="breadcrumbs">
                             <li><a href="#">بودجه و اعتباات</a></li>
@@ -288,27 +289,6 @@
                         </div>
                     </div>
                     <!--Tab 5 End-->
-
-                    <div class="tabs-panel" id="panel2">
-                        <p>two</p>
-                        <img class="thumbnail" src="assets/img/generic/rectangle-7.jpg">
-                    </div>
-                    <div class="tabs-panel" id="panel3">
-                        <p>three</p>
-                        <p>Check me out! I'm a super cool Tab panel with text content!</p>
-                    </div>
-                    <div class="tabs-panel" id="panel4">
-                        <p>four</p>
-                        <img class="thumbnail" src="assets/img/generic/rectangle-2.jpg">
-                    </div>
-                    <div class="tabs-panel" id="panel5">
-                        <p>five</p>
-                        <p>Check me out! I'm a super cool Tab panel with text content!</p>
-                    </div>
-                    <div class="tabs-panel" id="panel6">
-                        <p>six</p>
-                        <img class="thumbnail" src="assets/img/generic/rectangle-8.jpg">
-                    </div>
                 </div>
             </div>
         </div>
