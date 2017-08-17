@@ -48,6 +48,8 @@ select,text,textarea{
 td {
     border-left: solid 1px #D8DEE2;
     border-bottom: solid 1px #D8DEE2;
+    color: #555555;
+    font-size: 12px;
 }
 .tooltip {
     position: absolute;
@@ -377,4 +379,17 @@ td {
 }
 .error-font{
     font-weight: normal;
+}
+.font-wei{
+    font-weight: normal;
+}
+.modal-margin{
+    margin-top: 30px;
+}
+.btn-large-w{
+    width: 80px;
+}
+.modal-text{
+    color: #808080;
+    margin-top: -10px;
 }
