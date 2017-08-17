@@ -6,7 +6,7 @@
                 <div class="grid-x">
                     <div class="medium-6 cell padding-lr">
                         <label>شهرستان
-                            <select id="selectInput1" required>
+                            <select id="selectCounty" onchange="getCountyRegions('{{ url('/admin/getCountyRegions') }}')" required>
                                 <option value=""></option>
                                 @foreach(\Modules\Admin\Entities\County::all() as $counties)
                                     <option value="{{ $counties->id }}">{{ $counties->coName }}</option>
@@ -17,7 +17,7 @@
                     </div>
                     <div class="medium-6 cell padding-lr">
                         <label>بخش
-                            <select disabled>Disabled>
+                            <select id="selectRegion" disabled>Disabled>
                                 <option value=""></option>
                                 <option value="volvo">همدان</option>
                                 <option value="saab">ملایر</option>
@@ -28,7 +28,7 @@
                 <div class="grid-x">
                     <div class="medium-6 cell padding-lr">
                         <label>دهستان
-                            <select disabled>Disabled>
+                            <select id="selectRuralDistrict" disabled>Disabled>
                                 <option value=""></option>
                                 <option value="volvo">همدان</option>
                                 <option value="saab">ملایر</option>
@@ -37,7 +37,7 @@
                     </div>
                     <div class="medium-6 cell padding-lr">
                         <label>روستا
-                            <select disabled>Disabled>
+                            <select id="selectVillage" disabled>Disabled>
                                 <option value=""></option>
                                 <option value="volvo">همدان</option>
                                 <option value="saab">ملایر</option>

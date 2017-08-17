@@ -1,23 +1,22 @@
 <?php
 
-namespace Modules\Admin\Http\Controllers;
+namespace Modules\Budget\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Modules\Admin\Entities\Region;
-use Modules\Admin\Entities\RuralDistrict;
 
-class AdminController extends Controller
+class BudgetAdminController extends Controller
 {
     /**
      * Display a listing of the resource.
      * @return Response
      */
-    public function index()
+    public function deprivedArea()
     {
-        return view('admin::index');
+        return view('budget::pages.deprived_area');
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -25,7 +24,7 @@ class AdminController extends Controller
      */
     public function create()
     {
-        return view('admin::create');
+        return view('budget::create');
     }
 
     /**
@@ -43,7 +42,7 @@ class AdminController extends Controller
      */
     public function show()
     {
-        return view('admin::show');
+        return view('budget::show');
     }
 
     /**
@@ -52,7 +51,7 @@ class AdminController extends Controller
      */
     public function edit()
     {
-        return view('admin::edit');
+        return view('budget::edit');
     }
 
     /**
@@ -70,25 +69,5 @@ class AdminController extends Controller
      */
     public function destroy()
     {
-    }
-
-    public function getRegionsByCountyId($cId)
-    {
-        if (\Illuminate\Support\Facades\Request::ajax())
-        {
-            $region = Region::where('reCoId' , '=' , $cId)->get();
-            return \Illuminate\Support\Facades\Response::json($region);
-        }
-
-    }
-
-    public function getRuralDistrictByRegionId($rId)
-    {
-        if (\Illuminate\Support\Facades\Request::ajax())
-        {
-            $ruralDistricts = RuralDistrict::where('rdReId' , '=' , $rId)->get();
-            return \Illuminate\Support\Facades\Response::json($ruralDistricts);
-        }
-
     }
 }
