@@ -1383,7 +1383,6 @@ return array(
     'Modules\\Admin\\Providers\\AdminServiceProvider' => $baseDir . '/Modules/Admin/Providers/AdminServiceProvider.php',
     'Modules\\Budget\\Database\\Seeders\\BudgetDatabaseSeeder' => $baseDir . '/Modules/Budget/Database/Seeders/BudgetDatabaseSeeder.php',
     'Modules\\Budget\\Entities\\DeprivedArea' => $baseDir . '/Modules/Budget/Entities/DeprivedArea.php',
-    'Modules\\Budget\\Http\\Controllers\\BudgetAdminController' => $baseDir . '/Modules/Budget/Http/Controllers/BudgetAdminController.php',
     'Modules\\Budget\\Http\\Controllers\\BudgetController' => $baseDir . '/Modules/Budget/Http/Controllers/BudgetController.php',
     'Modules\\Budget\\Providers\\BudgetServiceProvider' => $baseDir . '/Modules/Budget/Providers/BudgetServiceProvider.php',
     'Monolog\\ErrorHandler' => $vendorDir . '/monolog/monolog/src/Monolog/ErrorHandler.php',

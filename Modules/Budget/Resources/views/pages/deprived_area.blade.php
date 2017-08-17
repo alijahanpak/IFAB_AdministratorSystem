@@ -1,5 +1,27 @@
 @extends('budget::layouts.master')
 @section('content')
+
+    <!--Modal Delete Start-->
+    <div style="z-index: 9999;" class="tiny reveal" id="modalDelete" data-reveal>
+        <div class="modal-margin small-font">
+            <p>علی جهان پاک</p>
+            <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
+            <div class="grid-x dashboard-padding">
+                <div class="medium-6 ">
+                    <a class="button primary btn-large-w large-offset-5">بله</a>
+                </div>
+                <div class="medium-6">
+                    <a class="button primary hollow btn-large-w large-offset-3">خیر</a>
+                </div>
+            </div>
+        </div>
+        <button class="close-button" data-close aria-label="Close modal" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <!--Modal Delete End-->
+
     <div style="z-index: 9999;" class="tiny reveal" id="modalInsert" data-reveal>
         <div class="modal-margin">
             <form data-abide novalidate>
@@ -118,8 +140,63 @@
                     <div class="tabs-panel is-active" id="panel1">
                         <div class="columns">
                             <table class="stacked small-font">
-
-
+                                <thead class="my-thead">
+                                <tr>
+                                    <th>شهرستان</th>
+                                    <th>بخش</th>
+                                    <th>دهستان</th>
+                                    <th>روستا</th>
+                                    <th width="350">شرح</th>
+                                    <th width="50">ویرایش</th>
+                                    <th width="65">حذف</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>پیر سلمان</td>
+                                    <td>تویسرکان</td>
+                                    <td>قلقلرود</td>
+                                    <td>قلقلرود</td>
+                                    <td>روستای مناطق محروم</td>
+                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                    <td class="text-center"><a href="#" data-open="modalDelete"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                </tr>
+                                <tr>
+                                    <td>قلقلرود</td>
+                                    <td>تویسرکان</td>
+                                    <td>قلقلرود</td>
+                                    <td>قلقلرود</td>
+                                    <td>روستای مناطق محروم</td>
+                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                </tr>
+                                <tr>
+                                    <td>قلقلرود</td>
+                                    <td>تویسرکان</td>
+                                    <td>قلقلرود</td>
+                                    <td>قلقلرود</td>
+                                    <td>روستای مناطق محروم</td>
+                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                </tr>
+                                <tr>
+                                    <td>قلقلرود</td>
+                                    <td>تویسرکان</td>
+                                    <td>قلقلرود</td>
+                                    <td>قلقلرود</td>
+                                    <td>روستای مناطق محروم</td>
+                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                </tr>
+                                <tr>
+                                    <td>قلقلرود</td>
+                                    <td>تویسرکان</td>
+                                    <td>قلقلرود</td>
+                                    <td>قلقلرود</td>
+                                    <td>روستای مناطق محروم</td>
+                                    <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                    <td class="text-center"><a href="#"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
