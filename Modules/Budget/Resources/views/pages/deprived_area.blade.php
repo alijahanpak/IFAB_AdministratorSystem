@@ -137,7 +137,7 @@
                                             <!--Modal Delete Start-->
                                             <div style="z-index: 9999;" class="tiny reveal" id="modalDelete{{ $dArea->id }}" data-reveal>
                                                 <div class="modal-margin small-font">
-                                                    <p>علی جهان پاک</p>
+                                                    <p>کاربر گرامی</p>
                                                     <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
                                                     <div class="grid-x dashboard-padding">
                                                         <div class="medium-6 ">
@@ -300,5 +300,4 @@
             $('[data-loading-end]').removeClass('hide')
         });
     </script>
-
 @stop

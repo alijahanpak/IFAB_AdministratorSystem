@@ -44,7 +44,8 @@ class BudgetAdminController extends Controller
 
     public function deleteDeprivedArea($dId)
     {
-        $deprivedArea = DeprivedArea::find($dId);
+        //$deprivedArea = DeprivedArea::find($dId);
+        $deprivedArea = County::find(4);
         try {
             $deprivedArea->delete();
             return Redirect::to(URL::previous());
@@ -52,7 +53,7 @@ class BudgetAdminController extends Controller
         catch (\Illuminate\Database\QueryException $e) {
 
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                echo "cannot delete record";
+                return Redirect::to(URL::previous())->with('messageDialogPm', 'حذف رکورد مورد نظر در حال حاضر ممکن نیست!');
             }
         }
     }
