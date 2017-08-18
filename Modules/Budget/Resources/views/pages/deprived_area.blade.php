@@ -1,6 +1,6 @@
 @extends('budget::layouts.master')
 @section('content')
-    <div style="z-index: 9999;" class="tiny reveal" id="modalInsert" data-reveal>
+    <div style="z-index: 9999;" class="tiny reveal" id="modalInsertDeprivedArea" data-reveal>
         <div class="modal-margin">
             {!! Form::open(array('id' => 'registerDAForm' , 'url' => '/budget/admin/deprived_area/register' , 'class' => 'form' , 'data-abide novalidate')) !!}
             {!! csrf_field() !!}
@@ -40,11 +40,12 @@
                 </div>
                 <div class="medium-6 columns padding-lr">
                     <label>شرح
-                        <textarea name="daDescription" style="min-height: 150px;"></textarea>
+                        <textarea name="daDescription" id="daDescription" style="min-height: 150px;"></textarea>
                     </label>
                 </div>
-
-                <button name="daFormSubmit" type="submit" value="submit" class="my-secondary button float-left"> ثبت </button>
+                <div class="medium-6 columns padding-lr">
+                    <button name="daFormSubmit" type="submit" value="submit" class="my-secondary button float-left small"> ثبت </button>
+                </div>
             {!! Form::close() !!}
 
         </div>
@@ -75,12 +76,12 @@
             <div class="medium-12 padding-lr">
 
                 <div class="clearfix">
-                    <button type="button" class="my-secondary button small" data-open="modalInsert">جدید</button>
+                    <button type="button" class="my-secondary button small" data-open="modalInsertDeprivedArea">جدید</button>
                     <div class="float-left">
                         <div class="input-group float-left">
                             <input class="input-group-field small-font" type="text">
                             <div class="input-group-button">
-                                <button type="button" class="primary button"><i class="fi-magnifying-glass"></i></button>
+                                <button type="button" class="my-secondary button"><i class="fi-magnifying-glass"></i></button>
                             </div>
                         </div>
 
@@ -132,7 +133,7 @@
                                             <td>{{ $dArea->daRdId == '' ? '--' : \Modules\Admin\Entities\RuralDistrict::find($dArea->daRdId)->rdName }}</td>
                                             <td>{{ $dArea->daViId == '' ? '--' : \Modules\Admin\Entities\Village::find($dArea->daViId)->viName }}</td>
                                             <td>{{ $dArea->daDescription }}</td>
-                                            <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                            <td class="text-center"><a onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}')"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
                                             <td class="text-center"><a href="#" data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                             <!--Modal Delete Start-->
                                             <div style="z-index: 9999;" class="tiny reveal" id="modalDelete{{ $dArea->id }}" data-reveal>
@@ -179,7 +180,7 @@
                                         <tr>
                                             <td>{{ \Modules\Admin\Entities\County::find($dArea->daCoId)->coName }}</td>
                                             <td>{{ $dArea->daDescription }}</td>
-                                            <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                            <td class="text-center"><a onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}')"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
                                             <td class="text-center"><a href="#" data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                         </tr>
                                     @endif
@@ -210,7 +211,7 @@
                                             <td>{{ \Modules\Admin\Entities\Region::find($dArea->daReId)->reName }}</td>
                                             <td>{{ \Modules\Admin\Entities\County::find($dArea->daCoId)->coName }}</td>
                                             <td>{{ $dArea->daDescription }}</td>
-                                            <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                            <td class="text-center"><a onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}')"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
                                             <td class="text-center"><a href="#" data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                         </tr>
                                     @endif
@@ -243,7 +244,7 @@
                                             <td>{{ \Modules\Admin\Entities\County::find($dArea->daCoId)->coName }}</td>
                                             <td>{{ \Modules\Admin\Entities\Region::find($dArea->daReId)->reName }}</td>
                                             <td>{{ $dArea->daDescription }}</td>
-                                            <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                            <td class="text-center"><a onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}')"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
                                             <td class="text-center"><a href="#" data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                         </tr>
                                     @endif
@@ -278,7 +279,7 @@
                                             <td>{{ \Modules\Admin\Entities\Region::find($dArea->daReId)->reName }}</td>
                                             <td>{{ \Modules\Admin\Entities\RuralDistrict::find($dArea->daRdId)->rdName }}</td>
                                             <td>{{ $dArea->daDescription }}</td>
-                                            <td class="text-center"><a href="#"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                            <td class="text-center"><a onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}')"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
                                             <td class="text-center"><a href="#" data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                         </tr>
                                     @endif

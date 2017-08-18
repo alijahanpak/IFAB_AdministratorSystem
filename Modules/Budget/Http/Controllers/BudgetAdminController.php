@@ -44,8 +44,7 @@ class BudgetAdminController extends Controller
 
     public function deleteDeprivedArea($dId)
     {
-        //$deprivedArea = DeprivedArea::find($dId);
-        $deprivedArea = County::find(4);
+        $deprivedArea = DeprivedArea::find($dId);
         try {
             $deprivedArea->delete();
             return Redirect::to(URL::previous());
