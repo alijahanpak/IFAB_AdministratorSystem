@@ -62,4 +62,19 @@ class BudgetAdminController extends Controller
             }
         }
     }
+
+    public function updateDeprivedArea(Request $request)
+    {
+        $old = DeprivedArea::getDeprivedAreaLabel(Input::get('daId'));
+        $deprivedArea = DeprivedArea::find(Input::get('daId'));
+        $deprivedArea->daCoId = Input::get('daCounty');
+        $deprivedArea->daReId = Input::get('daRegion');
+        $deprivedArea->daRdId = Input::get('daRuralDistrict');
+        $deprivedArea->daViId = Input::get('daVillage');
+        $deprivedArea->daDescription = Input::get('daDescription');
+        $deprivedArea->save();
+
+        SystemLog::setBudgetSubSystemAdminLog('تغییر در منطقه محروم (' . $old . ') به (' . DeprivedArea::getDeprivedAreaLabel($deprivedArea->id) . ')');
+        return Redirect::to(URL::previous());
+    }
 }

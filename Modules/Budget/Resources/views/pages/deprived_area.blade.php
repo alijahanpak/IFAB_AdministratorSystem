@@ -7,7 +7,7 @@
                 <div class="grid-x">
                     <div class="medium-6 cell padding-lr">
                         <label>شهرستان
-                            <select name="daCounty" id="selectCounty" onchange="getCountyRegions('{{ url('/admin/getCountyRegions') }}')" required>
+                            <select name="daCounty" id="selectCounty" onchange="getCountyRegions('{{ url('/admin/getCountyRegions') }}' , 'selectCounty' , 'selectRegion' , 'selectRuralDistrict' , 'selectVillage')" required>
                                 <option value=""></option>
                                 @foreach(\Modules\Admin\Entities\County::all() as $counties)
                                     <option value="{{ $counties->id }}">{{ $counties->coName }}</option>
@@ -18,7 +18,7 @@
                     </div>
                     <div class="medium-6 cell padding-lr">
                         <label>بخش
-                            <select name="daRegion" id="selectRegion" onchange="getRegionRuralDistricts('{{ url('/admin/getRuralDistrictByRegionId') }}')" disabled>Disabled>
+                            <select name="daRegion" id="selectRegion" onchange="getRegionRuralDistricts('{{ url('/admin/getRuralDistrictByRegionId') }}' , 'selectRegion' , 'selectRuralDistrict' , 'selectVillage' )" disabled>Disabled>
                             </select>
                         </label>
                     </div>
@@ -26,7 +26,7 @@
                 <div class="grid-x">
                     <div class="medium-6 cell padding-lr">
                         <label>دهستان
-                            <select name="daRuralDistrict" id="selectRuralDistrict" onchange="getRuralDistrictVillages('{{ url('/admin/getVillagesByRuralDistrictId') }}')" disabled>Disabled>
+                            <select name="daRuralDistrict" id="selectRuralDistrict" onchange="getRuralDistrictVillages('{{ url('/admin/getVillagesByRuralDistrictId') }}' , 'selectRuralDistrict' , 'selectVillage')" disabled>Disabled>
                             </select>
                         </label>
                     </div>
@@ -53,7 +53,61 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
+    {{--/////////////////////////////update form/////////////////////////////--}}
+    <div style="z-index: 9999;" class="tiny reveal" id="modalUpdateDeprivedArea" data-reveal>
+        <div class="modal-margin">
+            {!! Form::open(array('id' => 'updateDAForm' , 'url' => '/budget/admin/deprived_area/update' , 'class' => 'form' , 'data-abide novalidate')) !!}
+            {!! csrf_field() !!}
+            <input type="hidden" name="daId" id="daId_u">
+            <div class="grid-x">
+                <div class="medium-6 cell padding-lr">
+                    <label>شهرستان
+                        <select name="daCounty" id="selectCounty_u" onchange="getCountyRegions('{{ url('/admin/getCountyRegions') }}' , 'selectCounty_u' , 'selectRegion_u' , 'selectRuralDistrict_u' , 'selectVillage_u')" required>
+                            <option value=""></option>
+                            @foreach(\Modules\Admin\Entities\County::all() as $counties)
+                                <option value="{{ $counties->id }}">{{ $counties->coName }}</option>
+                            @endforeach
+                        </select>
+                    </label>
+                    <span class="form-error error-font" data-form-error-for="selectCounty">لطفا شهرستان مورد نظر را انتخاب نمایید</span>
+                </div>
+                <div class="medium-6 cell padding-lr">
+                    <label>بخش
+                        <select name="daRegion" id="selectRegion_u" onchange="getRegionRuralDistricts('{{ url('/admin/getRuralDistrictByRegionId') }}' , 'selectRegion_u' , 'selectRuralDistrict_u' , 'selectVillage_u')" disabled>Disabled>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="grid-x">
+                <div class="medium-6 cell padding-lr">
+                    <label>دهستان
+                        <select name="daRuralDistrict" id="selectRuralDistrict_u" onchange="getRuralDistrictVillages('{{ url('/admin/getVillagesByRuralDistrictId') }}' , 'selectRuralDistrict_u' , 'selectVillage_u')" disabled>Disabled>
+                        </select>
+                    </label>
+                </div>
+                <div class="medium-6 cell padding-lr">
+                    <label>روستا
+                        <select name="daVillage" id="selectVillage_u" disabled>Disabled>
+                        </select>
+                    </label>
 
+                </div>
+            </div>
+            <div class="medium-6 columns padding-lr">
+                <label>شرح
+                    <textarea name="daDescription" id="daDescription_u" style="min-height: 150px;"></textarea>
+                </label>
+            </div>
+            <div class="medium-6 columns padding-lr">
+                <button name="daFormSubmit" type="submit" value="submit" class="my-secondary button float-left small"> ثبت تغییر </button>
+            </div>
+            {!! Form::close() !!}
+
+        </div>
+        <button class="close-button" data-close aria-label="Close modal" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
     {{--//////////////////////////////////////////////////////////////////--}}
     <div class="medium-10 border-right-line inner-body-pad">
         <div class="grid-x padding-lr">
@@ -135,7 +189,7 @@
                                             <td>{{ $dArea->daRdId == '' ? '--' : \Modules\Admin\Entities\RuralDistrict::find($dArea->daRdId)->rdName }}</td>
                                             <td>{{ $dArea->daViId == '' ? '--' : \Modules\Admin\Entities\Village::find($dArea->daViId)->viName }}</td>
                                             <td>{{ $dArea->daDescription }}</td>
-                                            <td class="text-center"><a onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}')"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
+                                            <td class="text-center"><a onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}' , '{{ $dArea->id }}')"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
                                             <td class="text-center"><a href="#" data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                             <!--Modal Delete Start-->
                                             <div style="z-index: 9999;" class="tiny reveal" id="modalDelete{{ $dArea->id }}" data-reveal>
@@ -182,7 +236,7 @@
                                         <tr>
                                             <td>{{ \Modules\Admin\Entities\County::find($dArea->daCoId)->coName }}</td>
                                             <td>{{ $dArea->daDescription }}</td>
-                                            <td class="text-center"><a onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}')"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
+                                            <td class="text-center"><a onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}' , '{{ $dArea->id }}')"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
                                             <td class="text-center"><a href="#" data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                         </tr>
                                     @endif
@@ -213,7 +267,7 @@
                                             <td>{{ \Modules\Admin\Entities\Region::find($dArea->daReId)->reName }}</td>
                                             <td>{{ \Modules\Admin\Entities\County::find($dArea->daCoId)->coName }}</td>
                                             <td>{{ $dArea->daDescription }}</td>
-                                            <td class="text-center"><a onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}')"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
+                                            <td class="text-center"><a onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}' , '{{ $dArea->id }}')"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
                                             <td class="text-center"><a href="#" data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                         </tr>
                                     @endif
@@ -246,7 +300,7 @@
                                             <td>{{ \Modules\Admin\Entities\County::find($dArea->daCoId)->coName }}</td>
                                             <td>{{ \Modules\Admin\Entities\Region::find($dArea->daReId)->reName }}</td>
                                             <td>{{ $dArea->daDescription }}</td>
-                                            <td class="text-center"><a onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}')"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                            <td class="text-center"><a onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}' , '{{ $dArea->id }}')"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
                                             <td class="text-center"><a href="#" data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                         </tr>
                                     @endif
@@ -281,7 +335,7 @@
                                             <td>{{ \Modules\Admin\Entities\Region::find($dArea->daReId)->reName }}</td>
                                             <td>{{ \Modules\Admin\Entities\RuralDistrict::find($dArea->daRdId)->rdName }}</td>
                                             <td>{{ $dArea->daDescription }}</td>
-                                            <td class="text-center"><a onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}')"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                            <td class="text-center"><a onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}' , '{{ $dArea->id }}')"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
                                             <td class="text-center"><a href="#" data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                         </tr>
                                     @endif
@@ -303,4 +357,5 @@
             $('[data-loading-end]').removeClass('hide')
         });
     </script>
+    <script src="{{ asset('js/modules/budget/admin/deprived_area.js')  }}"></script>
 @stop
