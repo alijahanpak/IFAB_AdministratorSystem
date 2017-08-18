@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use Modules\Admin\Entities\County;
+use Modules\Admin\Entities\SystemLog;
 use Modules\Admin\Entities\Village;
 use Modules\Budget\Entities\DeprivedArea;
 
@@ -26,6 +27,7 @@ class BudgetAdminController extends Controller
 
     public function registerDeprivedArea(Request $request)
     {
+
         $deprivedArea = new DeprivedArea;
         $deprivedArea->daUId = 1;
         $deprivedArea->daCoId = Input::get('daCounty');
@@ -34,6 +36,8 @@ class BudgetAdminController extends Controller
         $deprivedArea->daViId = Input::get('daVillage');
         $deprivedArea->daDescription = Input::get('daDescription');
         $deprivedArea->save();
+
+        SystemLog::setBudgetSubSystemAdminLog('تعریف منطقه محروم ' . DeprivedArea::getDeprivedAreaLabel($deprivedArea->id));
         return Redirect::to(URL::previous());
     }
 
@@ -46,7 +50,9 @@ class BudgetAdminController extends Controller
     {
         $deprivedArea = DeprivedArea::find($dId);
         try {
+            $logTemp = DeprivedArea::getDeprivedAreaLabel($dId);
             $deprivedArea->delete();
+            SystemLog::setBudgetSubSystemAdminLog('حذف منطقه محروم ' . $logTemp);
             return Redirect::to(URL::previous());
         }
         catch (\Illuminate\Database\QueryException $e) {

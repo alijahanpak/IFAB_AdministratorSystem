@@ -61,8 +61,10 @@
                 <div class="grid-x border-btm-line">
                     <nav aria-label="You are here:" role="navigation">
                         <ul class="breadcrumbs">
-                            <li><a href="#">بودجه و اعتباات</a></li>
-                            <li><a href="#">توزیع اعتبار</a></li>
+                            <li><a href="#">داشبورد</a></li>
+                            <li>
+                                <span class="show-for-sr">Current: </span>مدیریت
+                            </li>
                             <li>
                                 <span class="show-for-sr">Current: </span>مناطق محروم
                             </li>
