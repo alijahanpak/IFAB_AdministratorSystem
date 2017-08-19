@@ -15,6 +15,9 @@ use Modules\Budget\Entities\DeprivedArea;
 
 class BudgetAdminController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth', ['only' => ['deprivedArea' , 'registerDeprivedArea' , 'updateDeprivedArea' , 'deleteDeprivedArea' , 'fiscalYear']]);
+    }
     /**
      * Display a listing of the resource.
      * @return Response
