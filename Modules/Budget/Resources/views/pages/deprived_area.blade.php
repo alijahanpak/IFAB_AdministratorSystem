@@ -4,6 +4,13 @@
         <div class="modal-margin">
             {!! Form::open(array('id' => 'registerDAForm' , 'url' => '/budget/admin/deprived_area/register' , 'class' => 'form' , 'data-abide novalidate')) !!}
             {!! csrf_field() !!}
+                <div class="grid-x" id="existErrorInRegForm" style="display: none">
+                    <div class="medium-12 columns padding-lr">
+                        <div class="alert callout">
+                            <p class="BYekan login-alert"><i class="fi-alert"></i> این منطقه محروم قبلا ثبت شده است!</p>
+                        </div>
+                    </div>
+                </div>
                 <div class="grid-x">
                     <div class="medium-6 cell padding-lr">
                         <label>شهرستان
@@ -14,7 +21,7 @@
                                 @endforeach
                             </select>
                         </label>
-                        <span class="form-error error-font" data-form-error-for="selectCounty">لطفا شهرستان مورد نظر را انتخاب نمایید</span>
+                        <span class="form-error error-font" data-form-error-for="selectCounty">شهرستان را انتخاب کنید!</span>
                     </div>
                     <div class="medium-6 cell padding-lr">
                         <label>بخش
@@ -60,6 +67,13 @@
         <div class="modal-margin">
             {!! Form::open(array('id' => 'updateDAForm' , 'url' => '/budget/admin/deprived_area/update' , 'class' => 'form' , 'data-abide novalidate')) !!}
             {!! csrf_field() !!}
+            <div class="grid-x" id="existErrorInUpForm" style="display: none">
+                <div class="medium-12 columns padding-lr">
+                    <div class="alert callout">
+                        <p class="BYekan login-alert"><i class="fi-alert"></i> این منطقه محروم قبلا ثبت شده است!</p>
+                    </div>
+                </div>
+            </div>
             <input type="hidden" name="daId" id="daId_u">
             <div class="grid-x">
                 <div class="medium-6 cell padding-lr">
@@ -71,7 +85,7 @@
                             @endforeach
                         </select>
                     </label>
-                    <span class="form-error error-font" data-form-error-for="selectCounty">لطفا شهرستان مورد نظر را انتخاب نمایید</span>
+                    <span class="form-error error-font" data-form-error-for="selectCounty">شهرستان را انتخاب کنید</span>
                 </div>
                 <div class="medium-6 cell padding-lr">
                     <label>بخش

@@ -5,6 +5,7 @@ namespace Modules\Budget\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
@@ -32,7 +33,7 @@ class BudgetAdminController extends Controller
     {
 
         $deprivedArea = new DeprivedArea;
-        $deprivedArea->daUId = 1;
+        $deprivedArea->daUId = Auth::user()->id;
         $deprivedArea->daCoId = Input::get('daCounty');
         $deprivedArea->daReId = Input::get('daRegion');
         $deprivedArea->daRdId = Input::get('daRuralDistrict');
