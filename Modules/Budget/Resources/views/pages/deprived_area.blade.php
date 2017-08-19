@@ -66,7 +66,7 @@
                     </label>
                 </div>
 
-                <button name="daFormSubmit" type="submit" value="submit" class="my-secondary button float-left"> ثبت </button>
+                <button name="daFormSubmit" type="submit" value="submit" class="my-secondary button float-left"> <span>ثبت</span>    <i class="fa fi-loop size-16 fa-spin icon-mar"></i> </button>
             {!! Form::close() !!}
 
         </div>
