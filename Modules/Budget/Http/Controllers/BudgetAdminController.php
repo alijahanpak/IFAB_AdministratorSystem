@@ -77,4 +77,20 @@ class BudgetAdminController extends Controller
         SystemLog::setBudgetSubSystemAdminLog('تغییر در منطقه محروم (' . $old . ') به (' . DeprivedArea::getDeprivedAreaLabel($deprivedArea->id) . ')');
         return Redirect::to(URL::previous());
     }
+
+
+    public function DAIsExist($coId , $reId = null , $rdId = null , $viId = null)
+    {
+        if (\Illuminate\Support\Facades\Request::ajax())
+        {
+            if (DeprivedArea::where('daCoId' , '=' , $coId)->where('daReId' , '=' , $reId)->where('daRdId' , '=' , $rdId)->where('daViId' , '=' , $viId)->exists())
+            {
+                return \Illuminate\Support\Facades\Response::json(['exist' => true]);
+            }
+            else
+            {
+                return \Illuminate\Support\Facades\Response::json(['exist' => false]);
+            }
+        }
+    }
 }

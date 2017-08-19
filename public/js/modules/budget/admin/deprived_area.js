@@ -315,3 +315,147 @@ $('#modalInsertDeprivedArea').on('closed.zf.reveal' , function () {
     $('#selectVillage').attr('disabled', true);
     $('#daDescription').val('');
 });
+
+var checkExistUrl = '';
+function setCheckExistUrl(url) {
+    checkExistUrl = url;
+}
+
+var registerDAFormDataIsExist = true;
+var updateDAFormDataIsExist = true;
+$(document).ready(function () {
+    $('#registerSubmitActivityCircle').hide();
+    $('#registerDAForm').submit(function(event) {
+        var url = checkExistUrl + '/' + $('#selectCounty').val();
+        if ($('#selectRegion').val() != '')
+        {
+            url += '/' + $('#selectRegion').val();
+        }
+        if ($('#selectRuralDistrict').val() != '')
+        {
+            url += '/' + $('#selectRuralDistrict').val();
+        }
+        if ($('#selectVillage').val() != '')
+        {
+            url += '/' + $('#selectVillage').val();
+        }
+        if ($('#selectCounty').val() != '') {
+            $('#registerSubmitActivityCircle').show();
+            $.ajax({
+                type: "GET",
+                dataType: "JSON",
+                url: url,
+                success: function (data) {
+                    if (data.exist == true)
+                    {
+
+                    }
+                    else
+                    {
+                        registerDAFormDataIsExist = false;
+                        $('#registerDAForm').submit();
+                    }
+                    setTimeout(function(){ $('#registerSubmitActivityCircle').hide(); } , 2000);
+
+                },
+                error: function (jqXHR) {
+                    var msg = '';
+                    if (jqXHR.status === 0) {
+                        msg = 'Not connect.\n Verify Network.';
+                    } else if (jqXHR.status == 404) {
+                        msg = 'Requested page not found. [404]';
+                    } else if (jqXHR.status == 500) {
+                        msg = 'Internal Server Error [500].';
+                    } else if (exception === 'parsererror') {
+                        msg = 'Requested JSON parse failed.';
+                    } else if (exception === 'timeout') {
+                        msg = 'Time out error.';
+                    } else if (exception === 'abort') {
+                        msg = 'Ajax request aborted.';
+                    } else {
+                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                    }
+                    console.log(msg);
+                }
+            });
+        }
+        if (registerDAFormDataIsExist == true)
+            event.preventDefault();
+    });
+
+    $('#updateSubmitActivityCircle').hide();
+    $('#updateDAForm').submit(function(event) {
+        var url = checkExistUrl + '/' + $('#selectCounty_u').val();
+        if ($('#selectRegion_u').val() != '')
+        {
+            url += '/' + $('#selectRegion_u').val();
+        }
+        if ($('#selectRuralDistrict_u').val() != '')
+        {
+            url += '/' + $('#selectRuralDistrict_u').val();
+        }
+        if ($('#selectVillage_u').val() != '')
+        {
+            url += '/' + $('#selectVillage_u').val();
+        }
+        if ($('#selectCounty_u').val() != '') {
+            $('#updateSubmitActivityCircle').show();
+            $.ajax({
+                type: "GET",
+                dataType: "JSON",
+                url: url,
+                success: function (data) {
+                    if (data.exist == true)
+                    {
+
+                    }
+                    else
+                    {
+                        updateDAFormDataIsExist = false;
+                        $('#updateDAForm').submit();
+                    }
+                    setTimeout(function(){ $('#updateSubmitActivityCircle').hide(); } , 2000);
+                },
+                error: function (jqXHR) {
+                    var msg = '';
+                    if (jqXHR.status === 0) {
+                        msg = 'Not connect.\n Verify Network.';
+                    } else if (jqXHR.status == 404) {
+                        msg = 'Requested page not found. [404]';
+                    } else if (jqXHR.status == 500) {
+                        msg = 'Internal Server Error [500].';
+                    } else if (exception === 'parsererror') {
+                        msg = 'Requested JSON parse failed.';
+                    } else if (exception === 'timeout') {
+                        msg = 'Time out error.';
+                    } else if (exception === 'abort') {
+                        msg = 'Ajax request aborted.';
+                    } else {
+                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                    }
+                    console.log(msg);
+                }
+            });
+        }
+        if (updateDAFormDataIsExist == true)
+            event.preventDefault();
+    });
+
+    $('#selectCounty').val('');
+    $('#selectRegion').html('<option value=""></option>');
+    $('#selectRegion').attr('disabled', true);
+    $('#selectRuralDistrict').html('<option value=""></option>');
+    $('#selectRuralDistrict').attr('disabled', true);
+    $('#selectVillage').html('<option value=""></option>');
+    $('#selectVillage').attr('disabled', true);
+    $('#daDescription').val('');
+
+    $('#selectCounty_u').val('');
+    $('#selectRegion_u').html('<option value=""></option>');
+    $('#selectRegion_u').attr('disabled', true);
+    $('#selectRuralDistrict_u').html('<option value=""></option>');
+    $('#selectRuralDistrict_u').attr('disabled', true);
+    $('#selectVillage_u').html('<option value=""></option>');
+    $('#selectVillage_u').attr('disabled', true);
+    $('#daDescription_u').val('');
+});

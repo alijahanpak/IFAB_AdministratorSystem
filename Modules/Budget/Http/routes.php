@@ -10,6 +10,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::post('deprived_area/register', 'BudgetAdminController@registerDeprivedArea');
         Route::post('deprived_area/update', 'BudgetAdminController@updateDeprivedArea');
         Route::get('deprived_area/delete/{dId}', 'BudgetAdminController@deleteDeprivedArea');
+        Route::get('deprived_area/DAIsExist/{coId}/{reId?}/{rdId?}/{viId?}', 'BudgetAdminController@DAIsExist');
         Route::get('fiscal_year', 'BudgetAdminController@fiscalYear');
     });
     //////////////////////////////////////////////////////////////////////////
