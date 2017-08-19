@@ -2,7 +2,7 @@
     border-radius: 3px;
     line-height: 1px;
     }
-[type="text"]:focus,[type="password"],textarea,select:focus{
+[type="text"]:focus,[type="password"]:focus,textarea:focus,select:focus{
     background-color: #fefefe;
     border: 1px solid #8a8a8a;
     box-shadow: 0 0 5px #1E90FF;
@@ -112,6 +112,9 @@ td {
     border-right: solid 1.1px #D8DEE2;
     padding: 20px;
 }
+.login-logo-mrg{
+    margin-right: 77%;
+}
 .panel-heading{
     background-color: #f5f5f5;
     border-color: #ddd;
@@ -126,6 +129,9 @@ td {
 }
 .login-alert{
    font-size:small;
+}
+.login-txt{
+    color: #808080;
 }
 .small-font{
     font-size: smaller;
@@ -211,6 +217,7 @@ td {
 }
 .active-menu{
     background-color: #EEEEEE;
+    border-left:solid 1.7px #D8DEE2 ;
 }
 .right-menu-btm-border {
     border-bottom: solid 1px #D8DEE2;

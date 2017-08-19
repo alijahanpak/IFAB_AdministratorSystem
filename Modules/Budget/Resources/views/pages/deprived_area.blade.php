@@ -43,7 +43,7 @@
                         <textarea name="daDescription" id="daDescription" style="min-height: 150px;"></textarea>
                     </label>
                 </div>
-            
+
                 <div class="medium-6 columns padding-lr">
                     <button name="daFormSubmit" type="submit" value="submit" class="my-secondary button float-left"> <span>ثبت</span>    <i class="fa fi-loop size-16 fa-spin icon-mar"></i> </button>
                 </div>
@@ -351,13 +351,6 @@
             </div>
         </div>
     </div>
-    <script>
-        $(document).foundation();
 
-        $('[data-loading-start]').click(function() {
-            $(this).addClass('hide')
-            $('[data-loading-end]').removeClass('hide')
-        });
-    </script>
     <script src="{{ asset('js/modules/budget/admin/deprived_area.js')  }}"></script>
 @stop
