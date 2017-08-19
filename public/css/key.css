@@ -88,9 +88,9 @@ td {
     left: 100%; }
 
 .my-thead{
-    background-color: #D9534F;
-    color: #FFFFFF;
-    border:solid 1px #D9534F;
+    background-color: #E6E6E6;
+    color: #5e5e5e;
+    border:solid 1px #D8DEE2;
 }
 .tooltip.top::before {
     display: block;

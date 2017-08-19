@@ -144,12 +144,39 @@
             </nav>
         </div>
         @yield('content')
+
+        {{-- messageDialogPm reveal--}}
+        @if (session('messageDialogPm'))
+            <div style="z-index: 9999;" class="tiny reveal" id="messageDialogPm" data-reveal>
+                <div class="modal-margin small-font">
+                    <p>کاربر گرامی</p>
+                    <p class="large-offset-1 modal-text">{{ session('messageDialogPm') }}</p>
+                    <div class="grid-x">
+                        <div class="medium-12 text-center">
+                            <a data-close aria-label="Close modal" class="button primary btn-large-w" style="margin-bottom: 0">بله</a>
+                        </div>
+                    </div>
+                </div>
+                <button class="close-button" data-close aria-label="Close modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+        {{-- end messageDialogPm reveal--}}
     </div>
 
     <script src="{{ asset('js/vendor/jquery.js') }}"></script>
     <script src="{{ asset('js/vendor/what-input.js') }}"></script>
     <script src="{{ asset('js/vendor/foundation.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/modules/budget/admin.js')  }}"></script>
+
+    @if (session('messageDialogPm'))
+        <script type="text/javascript">
+                $(document).ready(function(){
+                    $('#messageDialogPm').foundation('toggle');
+                    //setTimeout(function(){ $('#messageDialogPm').foundation('close'); } , 6000);
+                });
+        </script>
+    @endif
 </body>
 </html>
