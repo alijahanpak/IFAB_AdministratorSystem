@@ -45,7 +45,7 @@
                 </div>
             
                 <div class="medium-6 columns padding-lr">
-                    <button name="daFormSubmit" type="submit" value="submit" class="my-secondary button float-left"> <span>ثبت</span>    <i class="fa fi-loop size-16 fa-spin icon-mar"></i> </button>
+                    <button name="daFormSubmit" onmouseover="setCheckExistUrl('{{ url('/budget/admin/deprived_area/DAIsExist') }}')" type="submit" class="my-secondary button float-left"> <span>ثبت</span>    <i id="registerSubmitActivityCircle" class="fa fi-loop size-16 fa-spin icon-mar"></i> </button>
                 </div>
 
             {!! Form::close() !!}
@@ -101,7 +101,7 @@
                 </label>
             </div>
             <div class="medium-6 columns padding-lr">
-                <button name="daFormSubmit" type="submit" value="submit" class="my-secondary button float-left small"> ثبت تغییر </button>
+                <button name="daFormSubmit" onmouseover="setCheckExistUrl('{{ url('/budget/admin/deprived_area/DAIsExist') }}')" type="submit" value="submit" class="my-secondary button float-left small"> <span>ثبت</span>    <i id="updateSubmitActivityCircle" class="fa fi-loop size-16 fa-spin icon-mar"></i> </button>
             </div>
             {!! Form::close() !!}
 
@@ -359,5 +359,4 @@
             $('[data-loading-end]').removeClass('hide')
         });
     </script>
-    <script src="{{ asset('js/modules/budget/admin/deprived_area.js')  }}"></script>
 @stop
