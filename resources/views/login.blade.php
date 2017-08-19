@@ -25,29 +25,35 @@
     </div>
     <div class="grid-x">
         <div style="margin-top: 20px;" class="large-4 large-offset-4 cell callout ">
-            <form data-abide novalidate>
-                <div data-abide-error class="alert callout">
-                    <p class="BYekan login-alert"><i class="fi-alert"></i> نام کاربری یا گذرواژه اشتباه است</p>
-                </div>
+            {!! Form::open(array('id' => 'signInForm' , 'url' => '/signin' , 'class' => 'form' , 'data-abide novalidate')) !!}
+                {!! csrf_field() !!}
+                @if(count($errors->loginErrors))
+                    <div class="alert callout">
+                        <p class="BYekan login-alert"><i class="fi-alert"></i> {{ $errors->loginErrors->first() }}</p>
+                    </div>
+                @endif
                 <div class="row">
                     <div class="small-12 columns">
                         <label>نام کاربری
-                            <input type="text" placeholder="" aria-describedby="exampleHelpText" required pattern="text">
-                            <span class="form-error">
-                            </span>
+                            <input name="email" type="text" required pattern="text">
+                            <span class="form-error"></span>
+                        </label>
                     </div>
                 </div>
+                <div class="row">
                 <div class="small-12 columns">
                     <label>رمز عبور
-                        <input type="password" id="password"  aria-describedby="exampleHelpText" required >
+                        <input name="password" type="password" id="password" required >
                         <span class="form-error">لطفا رمز عبور را روباره وارد کنید</span>
-
-                        <div class="row">
-                            <fieldset class="large-6 columns">
-                                <button class="button expanded" type="submit" value="Submit">ورود</button>
-                            </fieldset>
-                        </div>
-            </form>
+                    </label>
+                </div>
+                </div>
+                <div class="row">
+                    <fieldset class="large-6 columns">
+                        <button class="button expanded" type="submit" value="Submit">ورود</button>
+                    </fieldset>
+                </div>
+             {!! Form::close() !!}
         </div>
     </div>
 
