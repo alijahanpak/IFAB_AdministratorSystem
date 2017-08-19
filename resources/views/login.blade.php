@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{ asset('css/key.css') }}">
 </head>
 <body class="BYekan">
-<div class="grid-container">
+<div class="grid-container login-el-center">
     <div class="grid-x">
         <div style="margin-top: 40px;margin-bottom: 20px;" class="medium-6 large-offset-1">
             <img class="login-logo-mrg" src="{{ asset('pic\logom.jpg') }}" width="74px" height="74px">
@@ -26,7 +26,7 @@
     <div class="grid-x">
         <div style="margin-top: 20px;" class="large-4 large-offset-4 cell callout ">
             <form data-abide novalidate>
-                <div data-abide-error class="alert callout" style="display: none;">
+                <div data-abide-error class="alert callout">
                     <p class="BYekan login-alert"><i class="fi-alert"></i> نام کاربری یا گذرواژه اشتباه است</p>
                 </div>
                 <div class="row">
@@ -34,7 +34,7 @@
                         <label>نام کاربری
                             <input type="text" placeholder="" aria-describedby="exampleHelpText" required pattern="text">
                             <span class="form-error">
-        </span>
+                            </span>
                     </div>
                 </div>
                 <div class="small-12 columns">

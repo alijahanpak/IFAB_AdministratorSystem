@@ -74,7 +74,7 @@
             <div class="top-bar-right">
                 <button class="button dropdown small sm-btn-align"  type="button" data-toggle="example-dropdown-bottom-left">1396</button>
                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="example-dropdown-bottom-left" data-dropdown data-auto-focus="true">
-                    <ul class="my-menu">
+                    <ul class="my-menu small-font">
                         <li><a  href="#">1395</a></li>
                         <li><a  href="#">1394</a></li>
                         <li><a  href="#">1393</a></li>
@@ -86,7 +86,7 @@
     </div>
     <!--Body system-->
     <div class="grid-x">
-        <div class="medium-2 cell small-font border-left-line" data-sticky-container>
+        <div class="medium-2 cell small-font master-right-menu border-left-line" data-sticky-container>
             <nav class="columns sticky" data-sticky data-anchor="exampleId" data-sticky-on="large" data-margin-top="4.3">
                 <ul class="vertical menu sub-menu accordion-menu" data-accordion-menu >
                     <li>
