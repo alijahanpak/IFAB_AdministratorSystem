@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="medium-6 columns padding-lr">
-                    <button name="daFormSubmit" onmouseover="setCheckExistUrl('{{ url('/budget/admin/deprived_area/DAIsExist') }}')" type="submit" class="my-secondary button float-left"> <span>ثبت</span>    <i id="registerSubmitActivityCircle" class="fa fi-loop size-16 fa-spin icon-mar"></i> </button>
+                    <button name="daFormSubmit" onmouseover="setCheckExistUrl('{{ url('/budget/admin/deprived_area/DAIsExist') }}')" type="submit" class="my-secondary button float-left btn-for-load"> <span>ثبت</span>    <i id="registerSubmitActivityCircle" class="fa fi-loop  fa-spin icon-mar"></i> </button>
                 </div>
 
             {!! Form::close() !!}
@@ -158,8 +158,8 @@
                 </ul>
 
                 <div class="tabs-content" data-tabs-content="example-tabs">
-                    <div class="medium-12 padding-lrt">
-                        <div class="clearfix border-btm-line">
+                    <div class="medium-12 padding-lr-rep">
+                        <div class="clearfix border-btm-line ">
                             <div class="button-group float-left report-mrg">
                                 <a  class="clear button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
                                     <i class="fi-page-edit size-30 secondry-color"></i>

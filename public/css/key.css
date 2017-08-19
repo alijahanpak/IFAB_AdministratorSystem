@@ -115,6 +115,9 @@ td {
 .login-logo-mrg{
     margin-right: 77%;
 }
+.login-el-center{
+    margin:auto;
+}
 .panel-heading{
     background-color: #f5f5f5;
     border-color: #ddd;
@@ -201,6 +204,10 @@ td {
 .message-time{
     font-size: x-small;
 }
+.btn-for-load{
+    width: 70px;
+    height: 40px;
+}
 .border-left-line{
     border-left:solid 1.7px #D8DEE2;
     height: 100%;
@@ -217,7 +224,9 @@ td {
 }
 .active-menu{
     background-color: #EEEEEE;
-    border-left:solid 1.7px #D8DEE2 ;
+}
+.master-right-menu{
+    padding: 1.7px;
 }
 .right-menu-btm-border {
     border-bottom: solid 1px #D8DEE2;
@@ -390,6 +399,9 @@ td {
 .padding-lr{
     padding: 0 14px 0 14px;
 }
+.padding-lr-rep{
+    padding: 0 16px 0 16px;
+}
 .padding-lrt{
     padding: 0 20px 0 20px;
 }
@@ -407,6 +419,7 @@ td {
 }
 .modal-margin{
     margin-top: 30px;
+    margin-bottom: -15px;
 }
 .btn-large-w{
     width: 80px;

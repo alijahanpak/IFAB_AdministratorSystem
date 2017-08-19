@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{ asset('css/key.css') }}">
 </head>
 <body class="BYekan">
-<div class="grid-container">
+<div class="grid-container login-el-center">
     <div class="grid-x">
         <div style="margin-top: 40px;margin-bottom: 20px;" class="medium-6 large-offset-1">
             <img class="login-logo-mrg" src="{{ asset('pic\logom.jpg') }}" width="74px" height="74px">
