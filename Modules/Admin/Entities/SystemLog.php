@@ -3,6 +3,7 @@
 namespace Modules\Admin\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class SystemLog extends Model
 {
@@ -12,7 +13,7 @@ class SystemLog extends Model
     public static function setBudgetSubSystemAdminLog($log)
     {
         $systemLog = new SystemLog;
-        $systemLog->slUId = 1;
+        $systemLog->slUId = Auth::user()->id;
         $systemLog->slSubSystem = 'مدیریت زیر سیستم بودجه';
         $systemLog->slLogText = $log;
         $systemLog->save();
@@ -21,7 +22,7 @@ class SystemLog extends Model
     public static function setBudgetSubSystemLog($log)
     {
         $systemLog = new SystemLog;
-        $systemLog->slUId = 1;
+        $systemLog->slUId = Auth::user()->id;
         $systemLog->slSubSystem = 'زیر سیستم بودجه';
         $systemLog->slLogText = $log;
         $systemLog->save();

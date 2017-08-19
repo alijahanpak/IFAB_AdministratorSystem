@@ -348,7 +348,7 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data.exist == true)
                     {
-
+                        $('#existErrorInRegForm').show();
                     }
                     else
                     {
@@ -407,7 +407,7 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data.exist == true)
                     {
-
+                        $('#existErrorInUpForm').show();
                     }
                     else
                     {
@@ -458,4 +458,7 @@ $(document).ready(function () {
     $('#selectVillage_u').html('<option value=""></option>');
     $('#selectVillage_u').attr('disabled', true);
     $('#daDescription_u').val('');
+
+    $('#existErrorInRegForm').hide();
+    $('#existErrorInUpForm').hide();
 });
