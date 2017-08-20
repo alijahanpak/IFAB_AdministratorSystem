@@ -85,7 +85,7 @@
                             @endforeach
                         </select>
                     </label>
-                    <span class="form-error error-font" data-form-error-for="selectCounty">شهرستان را انتخاب کنید</span>
+                    <span class="form-error error-font" data-form-error-for="selectCounty">شهرستان را انتخاب کنید!</span>
                 </div>
                 <div class="medium-6 cell padding-lr">
                     <label>بخش
