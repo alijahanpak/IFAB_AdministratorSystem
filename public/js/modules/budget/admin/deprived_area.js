@@ -314,6 +314,19 @@ $('#modalInsertDeprivedArea').on('closed.zf.reveal' , function () {
     $('#selectVillage').html('<option value=""></option>');
     $('#selectVillage').attr('disabled', true);
     $('#daDescription').val('');
+    $('#existErrorInRegForm').hide();
+});
+
+$('#modalUpdateDeprivedArea').on('closed.zf.reveal' , function () {
+    $('#selectCounty_u').val('');
+    $('#selectRegion_u').html('<option value=""></option>');
+    $('#selectRegion_u').attr('disabled', true);
+    $('#selectRuralDistrict_u').html('<option value=""></option>');
+    $('#selectRuralDistrict_u').attr('disabled', true);
+    $('#selectVillage_u').html('<option value=""></option>');
+    $('#selectVillage_u').attr('disabled', true);
+    $('#daDescription_u').val('');
+    $('#existErrorInUpForm').hide();
 });
 
 var checkExistUrl = '';

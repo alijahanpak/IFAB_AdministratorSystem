@@ -21,5 +21,6 @@ class AdminDatabaseSeeder extends Seeder
         $this->call(SeedAdminRegionsTableSeeder::class);
         $this->call(SeedAdminRuralDistrictsTableSeeder::class);
         $this->call(SeedAdminVillagesTableSeeder::class);
+        $this->call(SeedAdminFiscalYearsTableSeederTableSeeder::class);
     }
 }

@@ -106,7 +106,6 @@
                         <select name="daVillage" id="selectVillage_u" disabled>Disabled>
                         </select>
                     </label>
-
                 </div>
             </div>
             <div class="medium-6 columns padding-lr">
@@ -118,7 +117,6 @@
                 <button name="daFormSubmit" onmouseover="setCheckExistUrl('{{ url('/budget/admin/deprived_area/DAIsExist') }}')" type="submit" value="submit" class="my-secondary button float-left small"> <span>ثبت</span>    <i id="updateSubmitActivityCircle" class="fa fi-loop size-16 fa-spin icon-mar"></i> </button>
             </div>
             {!! Form::close() !!}
-
         </div>
         <button class="close-button" data-close aria-label="Close modal" type="button">
             <span aria-hidden="true">&times;</span>

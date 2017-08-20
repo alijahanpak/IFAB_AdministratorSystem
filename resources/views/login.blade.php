@@ -26,6 +26,7 @@
     <div class="grid-x">
         <div style="margin-top: 20px;" class="large-4 large-offset-4 cell callout ">
             {!! Form::open(array('id' => 'signInForm' , 'url' => '/signin' , 'class' => 'form' , 'data-abide novalidate')) !!}
+            {!! csrf_field() !!}
                 @if(count($errors->loginErrors))
                     <div class="alert callout">
                         <p class="BYekan login-alert"><i class="fi-alert"></i> {{ $errors->loginErrors->first() }}</p>
