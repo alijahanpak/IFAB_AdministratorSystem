@@ -54,6 +54,7 @@ class BudgetAdminController extends Controller
     public function fiscalYearActivation(Request $request)
     {
         FiscalYear::activation(Input::get('fyId'));
+        SystemLog::setBudgetSubSystemAdminLog('فعالسازی سال مالی ' . FiscalYear::find(Input::get('fyId'))->fyLabel);
         return Redirect::to(URL::previous());
     }
 
