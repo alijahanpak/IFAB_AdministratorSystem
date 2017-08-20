@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+    'App\\Http\\Controllers\\AuthController' => $baseDir . '/app/Http/Controllers/AuthController.php',
     'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
     'App\\Http\\Controllers\\Auth\\LoginController' => $baseDir . '/app/Http/Controllers/Auth/LoginController.php',
     'App\\Http\\Controllers\\Auth\\RegisterController' => $baseDir . '/app/Http/Controllers/Auth/RegisterController.php',
@@ -1423,6 +1424,7 @@ return array(
     'Modules\\Admin\\Entities\\County' => $baseDir . '/Modules/Admin/Entities/County.php',
     'Modules\\Admin\\Entities\\Region' => $baseDir . '/Modules/Admin/Entities/Region.php',
     'Modules\\Admin\\Entities\\RuralDistrict' => $baseDir . '/Modules/Admin/Entities/RuralDistrict.php',
+    'Modules\\Admin\\Entities\\SystemLog' => $baseDir . '/Modules/Admin/Entities/SystemLog.php',
     'Modules\\Admin\\Entities\\User' => $baseDir . '/Modules/Admin/Entities/User.php',
     'Modules\\Admin\\Entities\\Village' => $baseDir . '/Modules/Admin/Entities/Village.php',
     'Modules\\Admin\\Http\\Controllers\\AdminController' => $baseDir . '/Modules/Admin/Http/Controllers/AdminController.php',
