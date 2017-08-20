@@ -214,7 +214,6 @@ td {
 }
 .border-left-line{
     border-left:solid 1.7px #D8DEE2;
-    min-height: calc(100vh);
 }
 .border-btm-line{
     border-bottom:solid 1.7px #D8DEE2;
@@ -433,4 +432,16 @@ td {
 }
 .icon-mar{
     margin-right: 5px;
+}
+.docs-nav {
+    border-left:solid 1.7px #D8DEE2;
+    height: calc(100vh);
+    overflow-x: auto;
+    overflow-y: auto;
+    padding-bottom: 100px;
+    padding-top: 1rem;
+    width: 100%;
+}
+.docs-nav .docs-nav-category {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
 }

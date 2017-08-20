@@ -15,4 +15,5 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::post('fiscal_year/activation', 'BudgetAdminController@fiscalYearActivation');
     });
     //////////////////////////////////////////////////////////////////////////
+    Route::get('/dashboard', 'BudgetController@dashboard');
 });

@@ -80,68 +80,71 @@
                         <li><a  href="#">1393</a></li>
                     </ul>
                 </div>
-
             </div>
         </div>
     </div>
     <!--Body system-->
     <div class="grid-x">
-        <div class="medium-2 cell small-font master-right-menu border-left-line" data-sticky-container>
-            <nav class="sticky" data-sticky  data-margin-top="4.3">
-                <ul class="vertical menu sub-menu accordion-menu" data-accordion-menu >
-                    <li>
-                        <a class="active-menu right-menu-btm-border" href="#">توزیع اعتبار</a>
-                        <ul class="menu vertical nested">
-                            <li><a href="#">هزینه ای</a>
-                                <ul class="menu vertical nested">
-                                    <li><a href="#">استانی</a></li>
-                                    <li><a href="#">ملی</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">تملک دارایی سرمایه ای</a>
-                                <ul class="menu vertical nested">
-                                    <li><a href="#">استانی</a></li>
-                                    <li><a href="#">ملی</a></li>
-                                    <li><a class="right-menu-btm-border" href="#">پیشنهاد دستگاه ها</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
+        <div class="medium-2 cell small-font">
+            <div class="docs-nav">
+                <nav class="accordion docs-nav-category" data-sticky  data-margin-top="4.3">
+                    <ul class="vertical menu sub-menu accordion-menu" data-accordion-menu >
+                        <li>
+                            <a class="active-menu right-menu-btm-border" href="#">توزیع اعتبار</a>
+                            <ul class="menu vertical nested">
+                                <li><a href="#">هزینه ای</a>
+                                    <ul class="menu vertical nested">
+                                        <li><a href="#">استانی</a></li>
+                                        <li><a href="#">ملی</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">تملک دارایی سرمایه ای</a>
+                                    <ul class="menu vertical nested">
+                                        <li><a href="#">استانی</a></li>
+                                        <li><a href="#">ملی</a></li>
+                                        <li><a class="right-menu-btm-border" href="#">پیشنهاد دستگاه ها</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
 
-                    <li>
-                        <a class="right-mp right-menu-btm-border" href="#">  موافقتنامه</a>
-                        <ul class="menu vertical nested">
-                            <li><a href="#">هزینه ای</a>
-                            <li><a href="#">تملک دارایی سرمایه ای</a></li>
-                            <li><a href="#">طرح ها</a></li>
-                            <li><a href="#">پروژه ها</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="right-mp right-menu-btm-border" href="#">تخصیص اعتبار</a>
-                        <ul class="menu vertical nested">
-                            <li><a href="#">هزینه ای</a>
-                                <ul class="menu vertical nested">
-                                    <li><a href="#">بند و</a></li>
-                                    <li><a href="#">سایر</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">تملک دارایی سرمایه ای</a>
-                                <ul class="menu vertical nested">
-                                    <li><a href="#">پروژه ها</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="right-mp right-menu-btm-border" href="#">مدیریت</a>
-                        <ul class="menu vertical nested">
-                            <li><a href="#">سال مالی</a>
-                            <li><a href="#">مناطق محروم</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
+                        <li>
+                            <a class="right-mp right-menu-btm-border" href="#">  موافقتنامه</a>
+                            <ul class="menu vertical nested">
+                                <li><a href="#">هزینه ای</a>
+                                <li><a href="#">تملک دارایی سرمایه ای</a></li>
+                                <li><a href="#">طرح ها</a></li>
+                                <li><a href="#">پروژه ها</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="right-mp right-menu-btm-border" href="#">تخصیص اعتبار</a>
+                            <ul class="menu vertical nested">
+                                <li><a href="#">هزینه ای</a>
+                                    <ul class="menu vertical nested">
+                                        <li><a href="#">بند و</a></li>
+                                        <li><a href="#">سایر</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">تملک دارایی سرمایه ای</a>
+                                    <ul class="menu vertical nested">
+                                        <li><a href="#">پروژه ها</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="right-mp right-menu-btm-border" href="#">مدیریت</a>
+                            <ul class="menu vertical nested">
+                                <li><a href="#">سال مالی</a>
+                                <li><a href="#">مناطق محروم</a></li>
+                            </ul>
+                        </li>
+
+
+                    </ul>
+                </nav>
+            </div>
         </div>
         @yield('content')
 
