@@ -87,7 +87,7 @@
     <!--Body system-->
     <div class="grid-x">
         <div class="medium-2 cell small-font master-right-menu border-left-line" data-sticky-container>
-            <nav class="columns sticky" data-sticky data-anchor="exampleId" data-sticky-on="large" data-margin-top="4.3">
+            <nav class="sticky" data-sticky  data-margin-top="4.3">
                 <ul class="vertical menu sub-menu accordion-menu" data-accordion-menu >
                     <li>
                         <a class="active-menu right-menu-btm-border" href="#">توزیع اعتبار</a>
