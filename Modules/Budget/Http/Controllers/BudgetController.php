@@ -12,9 +12,9 @@ class BudgetController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function index()
+    public function dashboard()
     {
-        return view('budget::index');
+        return view('budget::pages.dashboard');
     }
 
     /**

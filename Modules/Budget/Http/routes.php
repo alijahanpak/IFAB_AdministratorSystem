@@ -14,4 +14,5 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::get('fiscal_year', 'BudgetAdminController@fiscalYear');
     });
     //////////////////////////////////////////////////////////////////////////
+    Route::get('/dashboard', 'BudgetController@dashboard');
 });
