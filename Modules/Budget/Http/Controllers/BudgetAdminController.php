@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use Modules\Admin\Entities\County;
+use Modules\Admin\Entities\FiscalYear;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Admin\Entities\Village;
 use Modules\Budget\Entities\DeprivedArea;
@@ -48,6 +49,12 @@ class BudgetAdminController extends Controller
     public function fiscalYear()
     {
         return view('budget::pages.fiscal_year');
+    }
+
+    public function fiscalYearActivation(Request $request)
+    {
+        FiscalYear::activation(Input::get('fyId'));
+        return Redirect::to(URL::previous());
     }
 
     public function deleteDeprivedArea($dId)
