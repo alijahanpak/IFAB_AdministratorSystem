@@ -138,6 +138,7 @@
                             <ul class="menu vertical nested">
                                 <li><a href="{{ url('/budget/admin/fiscal_year') }}">سال مالی</a>
                                 <li><a href="{{ url('/budget/admin/deprived_area') }}">مناطق محروم</a></li>
+                                <li><a href="{{ url('/budget/admin/credit_distribution_def') }}">ردیف توزیع اعتبار</a></li>
                             </ul>
                         </li>
 

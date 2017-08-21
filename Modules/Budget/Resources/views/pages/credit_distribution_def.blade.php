@@ -123,7 +123,7 @@
                             <div class="column">
                                 <div style="height: 200px;" class="card">
                                     <div class="card-section">
-                                        <p style="margin-top:70px;" class="text-center login-txt small-font">ردیف توزیع اعتباری ثبت نشده است<span><button name="submit" type="submit" value="submit" class="custom-btn-pos my-secondary button small">ثبت</button></span></p>
+                                        <p style="margin-top:70px;" class="text-center login-txt small-font">ردیف توزیع اعتباری ثبت نشده است<span><button name="submit" type="submit" value="submit" class="custom-btn-pos my-secondary button tiny">ثبت</button></span></p>
                                     </div>
                                 </div>
                             </div>
