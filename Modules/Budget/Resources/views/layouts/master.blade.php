@@ -35,7 +35,7 @@
                         <ul style="background-color: #ffffff;" class="menu vertical small-font white-color">
                             <li><a href="#"><i class="fi-torso-business"></i> <span>کارشناس اداری مالی</span></a></li>
                             <li><a href="#"><i class="fi-widget"></i> <span>تنظیمات</span></a></li>
-                            <li><a href="#"><i class="fi-power"></i> <span>خروج</span></a></li>
+                            <li><a href="{{ url('/logout') }}"><i class="fi-power"></i> <span>خروج</span></a></li>
                         </ul>
                     </li>
                     <li>

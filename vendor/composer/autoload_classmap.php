@@ -1433,6 +1433,7 @@ return array(
     'Modules\\Admin\\Providers\\AdminServiceProvider' => $baseDir . '/Modules/Admin/Providers/AdminServiceProvider.php',
     'Modules\\Budget\\Database\\Seeders\\BudgetDatabaseSeeder' => $baseDir . '/Modules/Budget/Database/Seeders/BudgetDatabaseSeeder.php',
     'Modules\\Budget\\Database\\Seeders\\SeedFyPermissionTableSeederTableSeeder' => $baseDir . '/Modules/Budget/Database/Seeders/SeedFyPermissionTableSeederTableSeeder.php',
+    'Modules\\Budget\\Entities\\CreditDistributionRow' => $baseDir . '/Modules/Budget/Entities/CreditDistributionRow.php',
     'Modules\\Budget\\Entities\\DeprivedArea' => $baseDir . '/Modules/Budget/Entities/DeprivedArea.php',
     'Modules\\Budget\\Entities\\FyPermissionInBudget' => $baseDir . '/Modules/Budget/Entities/FyPermissionInBudget.php',
     'Modules\\Budget\\Http\\Controllers\\BudgetAdminController' => $baseDir . '/Modules/Budget/Http/Controllers/BudgetAdminController.php',

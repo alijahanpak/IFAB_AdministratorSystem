@@ -20,7 +20,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make(Input::all(), array() , array());
         if (Auth::attempt(['email' => Input::get('email') , 'password' => Input::get('password')] , false)) {
-            return Redirect::to('/budget/admin/deprived_area');
+            return Redirect::to('/budget');
         } else {
             $validator->errors()->add('fail', 'نام کاربری یا کلمه عبور اشتباه است!');
             return Redirect::to('/login')
