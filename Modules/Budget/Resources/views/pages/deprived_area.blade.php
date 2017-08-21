@@ -63,8 +63,9 @@
         </button>
     </div>
     {{--/////////////////////////////update form/////////////////////////////--}}
-    <div style="z-index: 9999;" class="tiny reveal" id="modalUpdateDeprivedArea" data-reveal>
-        <div class="modal-margin">
+    <div style="display:none;"  style="z-index: 999;"   class="tiny reveal" id="modalUpdateDeprivedArea" data-reveal>
+
+        <div  class="modal-margin animate-bottom">
             {!! Form::open(array('id' => 'updateDAForm' , 'url' => '/budget/admin/deprived_area/update' , 'class' => 'form' , 'data-abide novalidate')) !!}
             {!! csrf_field() !!}
             <div class="grid-x" id="existErrorInUpForm" style="display: none">
@@ -119,6 +120,14 @@
             {!! Form::close() !!}
         </div>
         <button class="close-button" data-close aria-label="Close modal" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div style="height: 300px;" onload="myFunction()" class="reveal" id="em3" data-reveal>
+        <div id="loader">
+        </div>
+
+        <button class="close-button" data-close aria-label="Close reveal" type="button">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -369,5 +378,17 @@
             $(this).addClass('hide')
             $('[data-loading-end]').removeClass('hide')
         });
+    </script>
+    <script>
+        var myVar;
+
+        function myFunction() {
+            myVar = setTimeout(showPage, 1000);
+        }
+
+        function showPage() {
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("modalUpdateDeprivedArea").style.display = "block";
+        }
     </script>
 @stop

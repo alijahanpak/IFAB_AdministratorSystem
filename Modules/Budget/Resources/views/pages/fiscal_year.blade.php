@@ -41,7 +41,65 @@
                                     <td>{{ \Modules\Admin\Entities\FiscalYear::getFYStatus($fiscalYear->fyStatus) }}</td>
                                     <td class="text-center">
                                         @if($fiscalYear->fyStatus != 0)
-                                            <a href="#" data-open="--------------"><i class="fi-clipboard-pencil size-21 blue-color"></i> </a>
+                                            <a href="#" data-open="modalPermission"><i class="fi-clipboard-pencil size-21 blue-color"></i> </a>
+                                            <!--Modal Permission Start-->
+                                            <div style="z-index: 9999;" class="large reveal" id="modalPermission" data-reveal>
+                                                <div class="modal-margin small-font">
+                                                    <div class="grid-x">
+                                                        <div class="medium-12 column">
+                                                            <ul class="accordion" data-accordion>
+                                                                <li class="accordion-item is-active" data-accordion-item>
+                                                                    <a href="#" class="accordion-title">بودجه</a>
+                                                                    <div class="accordion-content" data-tab-content >
+                                                                        <div class="grid-x column">
+                                                                            <div class="medium-6">
+                                                                                <div class="grid-x padding-lr">
+                                                                                    <div class="medium-2">
+                                                                                        <div class="switch tiny">
+                                                                                            <input class="switch-input" id="1" type="checkbox" name="1">
+                                                                                            <label class="switch-paddle" for="1">
+                                                                                                <span class="switch-active" aria-hidden="true">بلی</span>
+                                                                                                <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="medium-10">
+                                                                                        <p>مجوز ثبت فعالیت های تملک دارایی استان</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="medium-6">
+                                                                                <div class="grid-x padding-lr">
+                                                                                    <div class="medium-2">
+                                                                                        <div class="switch tiny">
+                                                                                            <input class="switch-input" id="2" type="checkbox" name="1">
+                                                                                            <label class="switch-paddle" for="2">
+                                                                                                <span class="switch-active" aria-hidden="true">بلی</span>
+                                                                                                <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="medium-10">
+                                                                                        <p>مجوز ثبت فعالیت های تملک دارایی استان</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="medium-6 columns">
+                                                        <button name="Submit"  type="submit" class="my-secondary button float-left btn-for-load"> <span>ثبت</span>    <i id="registerSubmitActivityCircle" class="fa fi-loop  fa-spin icon-mar"></i> </button>
+                                                    </div>
+                                                </div>
+                                                <button class="close-button" data-close aria-label="Close modal" type="button">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <!--Modal Permission End-->
                                         @endif
                                     </td>
                                     <td class="text-center">
