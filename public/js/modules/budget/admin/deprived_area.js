@@ -1,5 +1,4 @@
 function getCountyRegions(url , coId , reId , rdId , viId) {
-    $('#em3').foundation('toggle');
     if ($('#' + coId).val() == '')
     {
         $('#' + reId).html('<option value=""></option>');
@@ -302,8 +301,7 @@ function DAUpdateDialogOpen(budgetAdminAjaxUri , cId , reId , rdId , viId , desc
 
     $('#daDescription_u').val(description);
     $('#daId_u').val(daId);
-    $('#em3').foundation('toggle');
-
+    $('#modalUpdateDeprivedArea').foundation('toggle');
 }
 
 $('#modalInsertDeprivedArea').on('closed.zf.reveal' , function () {
