@@ -51,6 +51,11 @@ class BudgetAdminController extends Controller
         return view('budget::pages.fiscal_year');
     }
 
+    public function creditDistributionDef()
+    {
+        return view('budget::pages.credit_distribution_def' , ['pageTitle' => 'تعاریف توزیع اعتبار']);
+    }
+
     public function fiscalYearActivation(Request $request)
     {
         FiscalYear::activation(Input::get('fyId'));

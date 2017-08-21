@@ -181,7 +181,7 @@
                     </div>
 
                     <!--Tab 1 Start-->
-                    <div class="tabs-panel is-active" id="panel1">
+                    <div class="tabs-panel is-active table-mrg-btm" id="panel1">
                         <div class="columns">
                             <table class="stacked small-font">
                                 <thead class="my-thead">
@@ -233,7 +233,7 @@
                     <!--Tab 1 End-->
 
                     <!--Tab 2 Start-->
-                    <div class="tabs-panel" id="panel2">
+                    <div class="tabs-panel table-mrg-btm" id="panel2">
                         <div class="columns">
                             <table class="stacked small-font">
                                 <thead class="my-thead">
@@ -262,7 +262,7 @@
                     <!--Tab 2 End-->
 
                     <!--Tab 3 Start-->
-                    <div class="tabs-panel" id="panel3">
+                    <div class="tabs-panel table-mrg-btm" id="panel3">
                         <div class="columns">
                             <table class="stacked small-font">
                                 <thead class="my-thead">
@@ -293,7 +293,7 @@
                     <!--Tab 3 End-->
 
                     <!--Tab 4 Start-->
-                    <div class="tabs-panel" id="panel4">
+                    <div class="tabs-panel table-mrg-btm" id="panel4">
                         <div class="columns">
                             <table class="stacked small-font">
                                 <thead class="my-thead">
@@ -326,7 +326,7 @@
                     <!--Tab 4 End-->
 
                     <!--Tab 5 Start-->
-                    <div class="tabs-panel" id="panel5">
+                    <div class="tabs-panel table-mrg-btm" id="panel5">
                         <div class="columns">
                             <table class="stacked small-font">
                                 <thead class="my-thead">

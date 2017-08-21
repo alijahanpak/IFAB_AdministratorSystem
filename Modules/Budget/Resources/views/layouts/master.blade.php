@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Foundation for Sites</title>
+    <title>{{$pageTitle}}</title>
     <link rel="stylesheet" href="{{ asset('css/foundation.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font.css') }}">
@@ -29,7 +29,7 @@
     <div style="z-index: 999;" data-sticky-container>
         <div class="top-bar top-menu-color" data-sticky data-margin-top="0">
             <div class="top-bar-left">
-                <ul data-dropdown-menu class="dropdown menu" >
+                <ul data-dropdown-menu class="dropdown menu user-menu" >
                     <li>
                         <a href="#"><span style="font-size: 14px;"> علی جهان پاک </span></a>
                         <ul style="background-color: #ffffff;" class="menu vertical small-font white-color">
@@ -87,7 +87,7 @@
     <div class="grid-x">
         <div class="medium-2 cell small-font">
             <div class="docs-nav">
-                <nav class="accordion docs-nav-category" data-sticky  data-margin-top="4.3">
+                <nav class="accordion docs-nav-category" data-sticky  data-margin-top="4.2">
                     <ul class="vertical menu sub-menu accordion-menu" data-accordion-menu >
                         <li>
                             <a class="active-menu right-menu-btm-border" href="#">توزیع اعتبار</a>
