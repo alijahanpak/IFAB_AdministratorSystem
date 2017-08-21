@@ -445,3 +445,22 @@ td {
 .docs-nav .docs-nav-category {
     background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
 }
+.table-mrg-btm{
+    margin-bottom: -16px;
+}
+.user-menu{
+    color: #333;
+}
+.user-menu ul li a{
+    color: #333;
+}
+.user-menu ul li a:hover{
+    color: #333;
+}
+.custom-btn-pos{
+    height: 12px;
+    padding-top: 3px;
+    padding-bottom: 13px;
+    margin-top: 15px;
+    margin-right: 10px;
+}

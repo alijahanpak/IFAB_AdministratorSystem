@@ -21,7 +21,7 @@
         <div class="grid-x">
             <div class="medium-12 column">
                 <!--Tab 1 Start-->
-                <div class="tabs-panel is-active" id="panel1">
+                <div class="tabs-panel is-active table-mrg-btm" id="panel1">
                     <div class="columns">
                         <table class="stacked small-font">
                             <thead class="my-thead">
