@@ -1,4 +1,5 @@
 function getCountyRegions(url , coId , reId , rdId , viId) {
+    $('#em3').foundation('toggle');
     if ($('#' + coId).val() == '')
     {
         $('#' + reId).html('<option value=""></option>');
@@ -301,7 +302,7 @@ function DAUpdateDialogOpen(budgetAdminAjaxUri , cId , reId , rdId , viId , desc
 
     $('#daDescription_u').val(description);
     $('#daId_u').val(daId);
-    $('#modalUpdateDeprivedArea').foundation('toggle');
+    $('#em3').foundation('toggle');
 
 }
 
