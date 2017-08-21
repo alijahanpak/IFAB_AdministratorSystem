@@ -174,6 +174,7 @@
     <script src="{{ asset('js/vendor/foundation.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/modules/budget/admin/deprived_area.js')  }}"></script>
+    <script src="{{ asset('js/modules/budget/admin/credit_distributed_def.js')  }}"></script>
     @if (session('messageDialogPm'))
         <script type="text/javascript">
                 $(document).ready(function(){

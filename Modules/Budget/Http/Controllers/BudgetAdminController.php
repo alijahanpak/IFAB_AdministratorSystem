@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Validation\Rules\In;
 use Modules\Admin\Entities\County;
 use Modules\Admin\Entities\FiscalYear;
 use Modules\Admin\Entities\SystemLog;
@@ -54,8 +55,48 @@ class BudgetAdminController extends Controller
 
     public function creditDistributionDef()
     {
-        $creditDDs = CreditDistributionRow::all();
-        return view('budget::pages.credit_distribution_def' , ['pageTitle' => 'تعاریف توزیع اعتبار' , 'creditDDs' => $creditDDs]);
+        $creditDRs = CreditDistributionRow::all();
+        return view('budget::pages.credit_distribution_def' , ['pageTitle' => 'تعاریف توزیع اعتبار' , 'creditDRs' => $creditDRs]);
+    }
+
+    public function registerCreditDistributionDef(Request $request)
+    {
+        $cdr = new CreditDistributionRow;
+        $cdr->cdUId = Auth::user()->id;
+        $cdr->cdSubject = Input::get('cdrSubject');
+        $cdr->cdDescription = Input::get('cdrDescription');
+        $cdr->save();
+
+        SystemLog::setBudgetSubSystemAdminLog('تعریف ردیف توزیع اعتبار ' . Input::get('cdrSubject'));
+        return Redirect::to(URL::previous());
+    }
+
+    public function updateCreditDistributionDef(Request $request)
+    {
+        $old = CreditDistributionRow::find(Input::get('cdrId'));
+        $cdr = CreditDistributionRow::find(Input::get('cdrId'));
+        $cdr->cdSubject = Input::get('cdrSubject');
+        $cdr->cdDescription = Input::get('cdrDescription');
+        $cdr->save();
+
+        SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان ردیف توزیع اعتبار (' . $old->cdSubject . ') به (' . Input::get('cdrSubject') . ')');
+        return Redirect::to(URL::previous());
+    }
+
+    public function deleteCreditDistributionDef($cdId)
+    {
+        $cdr = CreditDistributionRow::find($cdId);
+        try {
+            $logTemp = $cdr->cdSubject;
+            $cdr->delete();
+            SystemLog::setBudgetSubSystemAdminLog('حذف ردیف توزیع اعتبار ' . $logTemp);
+            return Redirect::to(URL::previous());
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                return Redirect::to(URL::previous())->with('messageDialogPm', 'حذف رکورد مورد نظر در حال حاضر ممکن نیست!');
+            }
+        }
     }
 
     public function fiscalYearActivation(Request $request)
@@ -109,6 +150,34 @@ class BudgetAdminController extends Controller
             else
             {
                 return \Illuminate\Support\Facades\Response::json(['exist' => false]);
+            }
+        }
+    }
+
+    public function CDRIsExist($cdSubject , $cdId = null)
+    {
+        if (\Illuminate\Support\Facades\Request::ajax())
+        {
+            if ($cdId == null)
+            {
+                if (CreditDistributionRow::where('cdSubject' , '=' , $cdSubject)->exists())
+                {
+                    return \Illuminate\Support\Facades\Response::json(['exist' => true]);
+                }
+                else
+                {
+                    return \Illuminate\Support\Facades\Response::json(['exist' => false]);
+                }
+            }
+            else{
+                if (CreditDistributionRow::where('id' , '<>' , $cdId)->where('cdSubject' , '=' , $cdSubject)->exists())
+                {
+                    return \Illuminate\Support\Facades\Response::json(['exist' => true]);
+                }
+                else
+                {
+                    return \Illuminate\Support\Facades\Response::json(['exist' => false]);
+                }
             }
         }
     }

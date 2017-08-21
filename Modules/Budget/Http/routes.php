@@ -14,6 +14,10 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::get('fiscal_year', 'BudgetAdminController@fiscalYear');
         Route::post('fiscal_year/activation', 'BudgetAdminController@fiscalYearActivation');
         Route::get('credit_distribution_def', 'BudgetAdminController@creditDistributionDef');
+        Route::post('credit_distribution_def/register', 'BudgetAdminController@registerCreditDistributionDef');
+        Route::get('credit_distribution_def/delete/{cdId}', 'BudgetAdminController@deleteCreditDistributionDef');
+        Route::get('credit_distribution_def/CDRIsExist/{cdSubject}/{cdId?}', 'BudgetAdminController@CDRIsExist');
+        Route::post('credit_distribution_def/update', 'BudgetAdminController@updateCreditDistributionDef');
     });
     //////////////////////////////////////////////////////////////////////////
 });
