@@ -13,6 +13,7 @@ use Modules\Admin\Entities\County;
 use Modules\Admin\Entities\FiscalYear;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Admin\Entities\Village;
+use Modules\Budget\Entities\CreditDistributionRow;
 use Modules\Budget\Entities\DeprivedArea;
 
 class BudgetAdminController extends Controller
@@ -27,7 +28,7 @@ class BudgetAdminController extends Controller
     public function deprivedArea()
     {
         $dAreas = DeprivedArea::all();
-        return view('budget::pages.deprived_area' , ['dAreas' => $dAreas]);
+        return view('budget::pages.deprived_area' , ['pageTitle' => 'مناطق محروم' , 'dAreas' => $dAreas]);
     }
 
     public function registerDeprivedArea(Request $request)
@@ -48,12 +49,13 @@ class BudgetAdminController extends Controller
 
     public function fiscalYear()
     {
-        return view('budget::pages.fiscal_year');
+        return view('budget::pages.fiscal_year', ['pageTitle' => 'سال مالی']);
     }
 
     public function creditDistributionDef()
     {
-        return view('budget::pages.credit_distribution_def' , ['pageTitle' => 'تعاریف توزیع اعتبار']);
+        $creditDDs = CreditDistributionRow::all();
+        return view('budget::pages.credit_distribution_def' , ['pageTitle' => 'تعاریف توزیع اعتبار' , 'creditDDs' => $creditDDs]);
     }
 
     public function fiscalYearActivation(Request $request)

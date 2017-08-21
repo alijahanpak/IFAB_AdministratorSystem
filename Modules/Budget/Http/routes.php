@@ -13,7 +13,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::get('deprived_area/DAIsExist/{coId}/{reId?}/{rdId?}/{viId?}', 'BudgetAdminController@DAIsExist');
         Route::get('fiscal_year', 'BudgetAdminController@fiscalYear');
         Route::post('fiscal_year/activation', 'BudgetAdminController@fiscalYearActivation');
-        Route::get('creditDistributionDef', 'BudgetAdminController@creditDistributionDef');
+        Route::get('credit_distribution_def', 'BudgetAdminController@creditDistributionDef');
     });
     //////////////////////////////////////////////////////////////////////////
 });

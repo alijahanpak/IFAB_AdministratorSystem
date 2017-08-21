@@ -80,6 +80,7 @@
 
                         <!--Tab 1 Start-->
                         <div class="tabs-panel is-active table-mrg-btm" id="panel1">
+                            @if(count($creditDDs) > 0)
                             <div class="columns">
                                 <table class="stacked small-font">
                                     <thead class="my-thead">
@@ -119,15 +120,17 @@
                                     </tbody>
                                 </table>
                             </div>
+                            @else
                             <!--Panel nothing Insert Start-->
                             <div class="column">
                                 <div style="height: 200px;" class="card">
-                                    <div class="card-section">
-                                        <p style="margin-top:70px;" class="text-center login-txt small-font">ردیف توزیع اعتباری ثبت نشده است<span><button name="submit" type="submit" value="submit" class="custom-btn-pos my-secondary button tiny">ثبت</button></span></p>
+                                    <div class="card-section text-center" style="margin-top:70px;">
+                                        <span>کاربر گرامی، </span><span class="login-txt small-font">ردیف توزیع اعتباری ثبت نشده است<span><button name="submit" type="submit" value="submit" class="custom-btn-pos my-secondary button tiny">ثبت</button></span></span>
                                     </div>
                                 </div>
                             </div>
                             <!--Panel nothing Insert End-->
+                            @endif
                         </div>
                         <!--Tab 1 End-->
 

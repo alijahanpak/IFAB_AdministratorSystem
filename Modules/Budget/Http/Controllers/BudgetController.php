@@ -14,7 +14,7 @@ class BudgetController extends Controller
      */
     public function dashboard()
     {
-        return view('budget::pages.dashboard');
+        return view('budget::pages.dashboard', ['pageTitle' => 'داشبورد']);
     }
 
     /**
