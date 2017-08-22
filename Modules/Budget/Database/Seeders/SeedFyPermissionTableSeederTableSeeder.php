@@ -18,7 +18,48 @@ class SeedFyPermissionTableSeederTableSeeder extends Seeder
         Model::unguard();
 
         $fyPermissionInBudgetSubSystem = new FyPermissionInBudget;
-        $fyPermissionInBudgetSubSystem->pbFyId = 1;
+        $fyPermissionInBudgetSubSystem->pbFieldName = 'TOBudgetOffer';
+        $fyPermissionInBudgetSubSystem->pbLabel = 'پیشنهاد بودجه تملک داریی های سرمایه ای استانی';
+        $fyPermissionInBudgetSubSystem->save();
+
+        $fyPermissionInBudgetSubSystem = new FyPermissionInBudget;
+        $fyPermissionInBudgetSubSystem->pbFieldName = 'TMBudgetOffer';
+        $fyPermissionInBudgetSubSystem->pbLabel = 'پیشنهاد بودجه تملک داریی های سرمایه ای ملی';
+        $fyPermissionInBudgetSubSystem->save();
+
+        $fyPermissionInBudgetSubSystem = new FyPermissionInBudget;
+        $fyPermissionInBudgetSubSystem->pbFieldName = 'TOCreditDistributionScheme';
+        $fyPermissionInBudgetSubSystem->pbLabel = 'طرح های توزیع اعتبار تملک داریی های سرمایه ای استانی';
+        $fyPermissionInBudgetSubSystem->save();
+
+        $fyPermissionInBudgetSubSystem = new FyPermissionInBudget;
+        $fyPermissionInBudgetSubSystem->pbFieldName = 'TOApprovedPlan';
+        $fyPermissionInBudgetSubSystem->pbLabel = 'طرح های مصوب تملک داریی های سرمایه ای استانی';
+        $fyPermissionInBudgetSubSystem->save();
+
+        $fyPermissionInBudgetSubSystem = new FyPermissionInBudget;
+        $fyPermissionInBudgetSubSystem->pbFieldName = 'TMApprovedPlan';
+        $fyPermissionInBudgetSubSystem->pbLabel = 'طرح های مصوب تملک داریی های سرمایه ای ملی';
+        $fyPermissionInBudgetSubSystem->save();
+
+        $fyPermissionInBudgetSubSystem = new FyPermissionInBudget;
+        $fyPermissionInBudgetSubSystem->pbFieldName = 'TOApprovedProject';
+        $fyPermissionInBudgetSubSystem->pbLabel = 'پروژه های مصوب تملک داریی های سرمایه ای استانی';
+        $fyPermissionInBudgetSubSystem->save();
+
+        $fyPermissionInBudgetSubSystem = new FyPermissionInBudget;
+        $fyPermissionInBudgetSubSystem->pbFieldName = 'TMApprovedProject';
+        $fyPermissionInBudgetSubSystem->pbLabel = 'پروژه های مصوب تملک داریی های سرمایه ای ملی';
+        $fyPermissionInBudgetSubSystem->save();
+
+        $fyPermissionInBudgetSubSystem = new FyPermissionInBudget;
+        $fyPermissionInBudgetSubSystem->pbFieldName = 'TOAllocation';
+        $fyPermissionInBudgetSubSystem->pbLabel = 'تخصیص اعتبار تملک داریی های سرمایه ای استانی';
+        $fyPermissionInBudgetSubSystem->save();
+
+        $fyPermissionInBudgetSubSystem = new FyPermissionInBudget;
+        $fyPermissionInBudgetSubSystem->pbFieldName = 'TMAllocation';
+        $fyPermissionInBudgetSubSystem->pbLabel = 'تخصیص اعتبار تملک داریی های سرمایه ای ملی';
         $fyPermissionInBudgetSubSystem->save();
 
     }

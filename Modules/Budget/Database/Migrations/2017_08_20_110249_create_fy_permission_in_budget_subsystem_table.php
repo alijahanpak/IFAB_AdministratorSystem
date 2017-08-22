@@ -34,6 +34,21 @@ class CreateFyPermissionInBudgetSubsystemTable extends Migration
                     ->onUpdate('cascade');
             });
         }
+        if (!Schema::hasTable('tbl_fy_permission_in_budget_subsystem')) {
+            Schema::create('tbl_fy_permission_in_budget_subsystem', function (Blueprint $table) {
+                $table->increments('id');
+                $table->integer('pbFyId')->length(10)->unsigned();
+                $table->string('pbFieldName')->unique();
+                $table->string('pbLabel');
+                $table->boolean('pbStatus')->default(true);
+                $table->timestamps();
+
+                $table->foreign('pbfyId')
+                    ->references('id')->on('tbl_fiscal_years')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+            });
+        }
     }
 
     /**
