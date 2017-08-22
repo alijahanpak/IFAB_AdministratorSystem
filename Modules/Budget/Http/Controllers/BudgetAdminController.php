@@ -16,6 +16,7 @@ use Modules\Admin\Entities\SystemLog;
 use Modules\Admin\Entities\Village;
 use Modules\Budget\Entities\CreditDistributionRow;
 use Modules\Budget\Entities\DeprivedArea;
+use Modules\Budget\Entities\FyPermissionInBudget;
 
 class BudgetAdminController extends Controller
 {
@@ -154,6 +155,21 @@ class BudgetAdminController extends Controller
         }
     }
 
+    public function DAIsExistForUpdate($daId , $coId , $reId = null , $rdId = null , $viId = null)
+    {
+        if (\Illuminate\Support\Facades\Request::ajax())
+        {
+            if (DeprivedArea::where('id' , '<>' , $daId)->where('daCoId' , '=' , $coId)->where('daReId' , '=' , $reId)->where('daRdId' , '=' , $rdId)->where('daViId' , '=' , $viId)->exists())
+            {
+                return \Illuminate\Support\Facades\Response::json(['exist' => true]);
+            }
+            else
+            {
+                return \Illuminate\Support\Facades\Response::json(['exist' => false]);
+            }
+        }
+    }
+
     public function CDRIsExist($cdSubject , $cdId = null)
     {
         if (\Illuminate\Support\Facades\Request::ajax())
@@ -181,4 +197,37 @@ class BudgetAdminController extends Controller
             }
         }
     }
+
+    function changeBudgetItemPermissionState($pbId , $state)
+    {
+        if (\Illuminate\Support\Facades\Request::ajax())
+        {
+            $fyBudgetPermission = FyPermissionInBudget::find($pbId);
+            $fyBudgetPermission->pbStatus = $state;
+            $fyBudgetPermission->save();
+            return \Illuminate\Support\Facades\Response::json(['state' => true]);
+        }
+    }
+
+    function checkSectionPermissionState($section , $fyId)
+    {
+        if (\Illuminate\Support\Facades\Request::ajax())
+        {
+            switch ($section)
+            {
+                case 'budget':
+                    $activeCount = FyPermissionInBudget::where('pbFyId' , '=' , $fyId)->where('pbStatus' , '=' , 1)->count();
+                    if (FyPermissionInBudget::where('pbFyId' , '=' , $fyId)->count() == $activeCount)
+                    {
+                        return \Illuminate\Support\Facades\Response::json(['state' => true]);
+                    }
+                    else
+                    {
+                        return \Illuminate\Support\Facades\Response::json(['state' => false]);
+                    }
+            }
+        }
+    }
+
+
 }
