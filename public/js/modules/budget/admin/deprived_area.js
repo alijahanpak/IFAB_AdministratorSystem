@@ -397,7 +397,7 @@ $(document).ready(function () {
 
     $('#updateSubmitActivityCircle').hide();
     $('#updateDAForm').submit(function(event) {
-        var url = checkExistUrl + '/' + $('#selectCounty_u').val();
+        var url = checkExistUrl + '/' + $('#daId_u').val() + '/' + $('#selectCounty_u').val();
         if ($('#selectRegion_u').val() != '')
         {
             url += '/' + $('#selectRegion_u').val();

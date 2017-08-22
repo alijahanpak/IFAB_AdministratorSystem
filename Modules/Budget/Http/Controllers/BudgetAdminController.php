@@ -154,6 +154,21 @@ class BudgetAdminController extends Controller
         }
     }
 
+    public function DAIsExistForUpdate($daId , $coId , $reId = null , $rdId = null , $viId = null)
+    {
+        if (\Illuminate\Support\Facades\Request::ajax())
+        {
+            if (DeprivedArea::where('id' , '<>' , $daId)->where('daCoId' , '=' , $coId)->where('daReId' , '=' , $reId)->where('daRdId' , '=' , $rdId)->where('daViId' , '=' , $viId)->exists())
+            {
+                return \Illuminate\Support\Facades\Response::json(['exist' => true]);
+            }
+            else
+            {
+                return \Illuminate\Support\Facades\Response::json(['exist' => false]);
+            }
+        }
+    }
+
     public function CDRIsExist($cdSubject , $cdId = null)
     {
         if (\Illuminate\Support\Facades\Request::ajax())

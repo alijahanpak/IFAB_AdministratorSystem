@@ -11,6 +11,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::post('deprived_area/update', 'BudgetAdminController@updateDeprivedArea');
         Route::get('deprived_area/delete/{dId}', 'BudgetAdminController@deleteDeprivedArea');
         Route::get('deprived_area/DAIsExist/{coId}/{reId?}/{rdId?}/{viId?}', 'BudgetAdminController@DAIsExist');
+        Route::get('deprived_area/DAIsExistForUpdate/{daId}/{coId}/{reId?}/{rdId?}/{viId?}', 'BudgetAdminController@DAIsExistForUpdate');
         Route::get('fiscal_year', 'BudgetAdminController@fiscalYear');
         Route::post('fiscal_year/activation', 'BudgetAdminController@fiscalYearActivation');
         Route::get('credit_distribution_def', 'BudgetAdminController@creditDistributionDef');
