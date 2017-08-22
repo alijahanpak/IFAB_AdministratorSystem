@@ -384,6 +384,7 @@
 
         function myFunction() {
             myVar = setTimeout(showPage, 3000);
+            alert("shondol");
         }
 
         function showPage() {
