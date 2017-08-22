@@ -51,6 +51,24 @@
                                                                 <li class="accordion-item is-active" data-accordion-item>
                                                                     <a href="#" class="accordion-title">بودجه</a>
                                                                     <div class="accordion-content" data-tab-content >
+                                                                        <div style="margin-bottom: 20px;" class="grid-x column">
+                                                                            <div class="medium-12">
+                                                                                <div class="grid-x padding-lr">
+                                                                                    <div class="medium-1">
+                                                                                        <div class="switch tiny">
+                                                                                            <input class="switch-input" id="all" type="checkbox" name="1">
+                                                                                            <label class="switch-paddle" for="all">
+                                                                                                <span class="switch-active" aria-hidden="true">بلی</span>
+                                                                                                <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="medium-11">
+                                                                                        <p>همه موارد</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
                                                                         <div class="grid-x column">
                                                                             <div class="medium-6">
                                                                                 <div class="grid-x padding-lr">

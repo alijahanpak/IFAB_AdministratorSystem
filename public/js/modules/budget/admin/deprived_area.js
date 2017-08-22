@@ -301,7 +301,7 @@ function DAUpdateDialogOpen(budgetAdminAjaxUri , cId , reId , rdId , viId , desc
 
     $('#daDescription_u').val(description);
     $('#daId_u').val(daId);
-    $('#modalUpdateDeprivedArea').foundation('toggle');
+    $('#em3').foundation('toggle');
 }
 
 $('#modalInsertDeprivedArea').on('closed.zf.reveal' , function () {
