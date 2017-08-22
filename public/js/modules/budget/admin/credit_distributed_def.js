@@ -121,4 +121,87 @@ $(document).ready(function () {
         $('#cdrDescription_u').val('');
         $('#existErrorInUpForm').hide();
     });
+
+
+    ////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////
 });
+
+function checkFySectionPermissionState(url) {
+    $.ajax({
+        type: "GET",
+        dataType: "JSON",
+        url: url,
+        success: function (data) {
+            alert(data.selectedAll);
+            if (data.selectedAll == true)
+            {
+
+            }
+            else
+            {
+
+            }
+        },
+        error: function (jqXHR) {
+            var msg = '';
+            if (jqXHR.status === 0) {
+                msg = 'Not connect.\n Verify Network.';
+            } else if (jqXHR.status == 404) {
+                msg = 'Requested page not found. [404]';
+            } else if (jqXHR.status == 500) {
+                msg = 'Internal Server Error [500].';
+            } else if (exception === 'parsererror') {
+                msg = 'Requested JSON parse failed.';
+            } else if (exception === 'timeout') {
+                msg = 'Time out error.';
+            } else if (exception === 'abort') {
+                msg = 'Ajax request aborted.';
+            } else {
+                msg = 'Uncaught Error.\n' + jqXHR.responseText;
+            }
+
+            console.log(msg);
+        }
+    });
+}
+
+function changeBudgetItemPermissionState(url , switchId) {
+    url+= '/' + ($('#' + switchId).is(':checked') == false ? 0 : 1);
+    $.ajax({
+        type: "GET",
+        dataType: "JSON",
+        url: url,
+        success: function (data) {
+            if (data.state == true)
+            {
+
+            }
+            else
+            {
+
+            }
+        },
+        error: function (jqXHR) {
+            var msg = '';
+            if (jqXHR.status === 0) {
+                msg = 'Not connect.\n Verify Network.';
+            } else if (jqXHR.status == 404) {
+                msg = 'Requested page not found. [404]';
+            } else if (jqXHR.status == 500) {
+                msg = 'Internal Server Error [500].';
+            } else if (exception === 'parsererror') {
+                msg = 'Requested JSON parse failed.';
+            } else if (exception === 'timeout') {
+                msg = 'Time out error.';
+            } else if (exception === 'abort') {
+                msg = 'Ajax request aborted.';
+            } else {
+                msg = 'Uncaught Error.\n' + jqXHR.responseText;
+            }
+            console.log(msg);
+        }
+
+    });
+}

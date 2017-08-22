@@ -41,9 +41,9 @@
                                     <td>{{ \Modules\Admin\Entities\FiscalYear::getFYStatus($fiscalYear->fyStatus) }}</td>
                                     <td class="text-center">
                                         @if($fiscalYear->fyStatus != 0)
-                                            <a href="#" data-open="modalPermission"><i class="fi-clipboard-pencil size-21 blue-color"></i> </a>
+                                            <a href="#" data-open="modalPermission{{ $fiscalYear->fyLabel }}"><i class="fi-clipboard-pencil size-21 blue-color"></i> </a>
                                             <!--Modal Permission Start-->
-                                            <div style="z-index: 9999;" class="large reveal" id="modalPermission" data-reveal>
+                                            <div style="z-index: 9999;" class="large reveal" id="modalPermission{{ $fiscalYear->fyLabel }}" data-reveal>
                                                 <div class="modal-margin small-font">
                                                     <div class="grid-x">
                                                         <div class="medium-12 column">
@@ -51,12 +51,16 @@
                                                                 <li class="accordion-item is-active" data-accordion-item>
                                                                     <a href="#" class="accordion-title">بودجه</a>
                                                                     <div class="accordion-content" data-tab-content >
+                                                                        <?php
+                                                                            $fyBPermissions = \Modules\Budget\Entities\FyPermissionInBudget::where('pbFyId' , '=' , $fiscalYear->id)->get();
+                                                                            $fyPbActiveCount = \Modules\Budget\Entities\FyPermissionInBudget::where('pbFyId' , '=' , $fiscalYear->id)->where('pbStatus' , '=' , true)->count();
+                                                                        ?>
                                                                         <div style="margin-bottom: 20px;" class="grid-x column">
                                                                             <div class="medium-12">
                                                                                 <div class="grid-x padding-lr">
                                                                                     <div class="medium-1">
                                                                                         <div class="switch tiny">
-                                                                                            <input class="switch-input" id="all" type="checkbox" name="1">
+                                                                                            <input class="switch-input" id="budgetPermissionAll" type="checkbox" {{ count($fyBPermissions) == $fyPbActiveCount ? 'checked' : ''}}>
                                                                                             <label class="switch-paddle" for="all">
                                                                                                 <span class="switch-active" aria-hidden="true">بلی</span>
                                                                                                 <span class="switch-inactive" aria-hidden="true">خیر</span>
@@ -69,43 +73,46 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
+                                                                        @for($i = 0 ; $i < count($fyBPermissions) ; $i++)
                                                                         <div class="grid-x column">
                                                                             <div class="medium-6">
                                                                                 <div class="grid-x padding-lr">
                                                                                     <div class="medium-2">
                                                                                         <div class="switch tiny">
-                                                                                            <input class="switch-input" id="1" type="checkbox" name="1">
-                                                                                            <label class="switch-paddle" for="1">
+                                                                                            <input class="switch-input" onchange="changeBudgetItemPermissionState('{{ url('/budget/admin/credit_distribution_def/changeBudgetItemPermissionState/' . $fyBPermissions[$i]->id) }}' , this.id)" {{ $fyBPermissions[$i]->pbStatus == true ? 'checked' : '' }} id="permission{{ $i }}" type="checkbox" autocomplete="off">
+                                                                                            <label class="switch-paddle" for="permission{{ $i }}">
                                                                                                 <span class="switch-active" aria-hidden="true">بلی</span>
                                                                                                 <span class="switch-inactive" aria-hidden="true">خیر</span>
                                                                                             </label>
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="medium-10">
-                                                                                        <p>مجوز ثبت فعالیت های تملک دارایی استان</p>
+                                                                                        <p>{{ $fyBPermissions[$i++]->pbLabel }}</p>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="medium-6">
+                                                                                @if($i < count($fyBPermissions) - 1)
                                                                                 <div class="grid-x padding-lr">
                                                                                     <div class="medium-2">
                                                                                         <div class="switch tiny">
-                                                                                            <input class="switch-input" id="2" type="checkbox" name="1">
-                                                                                            <label class="switch-paddle" for="2">
+                                                                                            <input class="switch-input" onchange="changeBudgetItemPermissionState('{{ url('/budget/admin/credit_distribution_def/changeBudgetItemPermissionState/' . $fyBPermissions[$i]->id) }}' , this.id)" {{ $fyBPermissions[$i]->pbStatus == true ? 'checked' : '' }} id="permission{{ $i }}" type="checkbox" autocomplete="off">
+                                                                                            <label class="switch-paddle" for="permission{{ $i }}">
                                                                                                 <span class="switch-active" aria-hidden="true">بلی</span>
                                                                                                 <span class="switch-inactive" aria-hidden="true">خیر</span>
                                                                                             </label>
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="medium-10">
-                                                                                        <p>مجوز ثبت فعالیت های تملک دارایی استان</p>
+                                                                                        <p>{{ $fyBPermissions[$i]->pbLabel }}</p>
                                                                                     </div>
                                                                                 </div>
+                                                                                @endif
                                                                             </div>
                                                                         </div>
+                                                                        @endfor
                                                                     </div>
                                                                 </li>
-
                                                             </ul>
                                                         </div>
                                                     </div>

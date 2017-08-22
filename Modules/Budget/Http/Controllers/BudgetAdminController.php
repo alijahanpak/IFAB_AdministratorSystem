@@ -16,6 +16,7 @@ use Modules\Admin\Entities\SystemLog;
 use Modules\Admin\Entities\Village;
 use Modules\Budget\Entities\CreditDistributionRow;
 use Modules\Budget\Entities\DeprivedArea;
+use Modules\Budget\Entities\FyPermissionInBudget;
 
 class BudgetAdminController extends Controller
 {
@@ -196,4 +197,17 @@ class BudgetAdminController extends Controller
             }
         }
     }
+
+    function changeBudgetItemPermissionState($pbId , $state)
+    {
+        if (\Illuminate\Support\Facades\Request::ajax())
+        {
+            $fyBudgetPermission = FyPermissionInBudget::find($pbId);
+            $fyBudgetPermission->pbStatus = $state;
+            $fyBudgetPermission->save();
+            return \Illuminate\Support\Facades\Response::json(['state' => true]);
+        }
+    }
+
+
 }
