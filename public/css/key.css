@@ -516,3 +516,6 @@ input:checked ~ .switch-paddle {
     text-align: center;
 }
 /*Loading End*/
+.bottom-mrg{
+    margin-bottom: 15px;
+}
