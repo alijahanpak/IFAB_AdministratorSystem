@@ -60,7 +60,7 @@
                                                                                 <div class="grid-x padding-lr">
                                                                                     <div class="medium-1">
                                                                                         <div class="switch tiny">
-                                                                                            <input class="switch-input" id="budgetPermissionAll" type="checkbox" {{ count($fyBPermissions) == $fyPbActiveCount ? 'checked' : ''}}>
+                                                                                            <input class="switch-input" id="budgetPermissionAll" onchange="changeFySectionPermissionState('{{ url('/budget/admin/fiscal_year') }}' , 'budget' , this.id , '{{ $fiscalYear->id }}' , '{{ count($fyBPermissions) }}')" type="checkbox" {{ count($fyBPermissions) == $fyPbActiveCount ? 'checked' : ''}} autocomplete="off">
                                                                                             <label class="switch-paddle" for="budgetPermissionAll">
                                                                                                 <span class="switch-active" aria-hidden="true">بلی</span>
                                                                                                 <span class="switch-inactive" aria-hidden="true">خیر</span>
@@ -79,8 +79,8 @@
                                                                                 <div class="grid-x padding-lr">
                                                                                     <div class="medium-2">
                                                                                         <div class="switch tiny">
-                                                                                            <input class="switch-input" onchange="changeBudgetItemPermissionState('{{ url('/budget/admin/credit_distribution_def') }}' , '{{ $fyBPermissions[$i]->id }}' , this.id , '{{ $fyBPermissions[$i]->pbFyId }}')" {{ $fyBPermissions[$i]->pbStatus == true ? 'checked' : '' }} id="permission{{ $i }}" type="checkbox" autocomplete="off">
-                                                                                            <label class="switch-paddle" for="permission{{ $i }}">
+                                                                                            <input class="switch-input" onchange="changeBudgetItemPermissionState('{{ url('/budget/admin/fiscal_year') }}' , '{{ $fyBPermissions[$i]->id }}' , this.id , '{{ $fyBPermissions[$i]->pbFyId }}')" {{ $fyBPermissions[$i]->pbStatus == true ? 'checked' : '' }} id="budgetPermission{{ $i }}" type="checkbox" autocomplete="off">
+                                                                                            <label class="switch-paddle" for="budgetPermission{{ $i }}">
                                                                                                 <span class="switch-active" aria-hidden="true">بلی</span>
                                                                                                 <span class="switch-inactive" aria-hidden="true">خیر</span>
                                                                                             </label>
@@ -96,8 +96,8 @@
                                                                                 <div class="grid-x padding-lr">
                                                                                     <div class="medium-2">
                                                                                         <div class="switch tiny">
-                                                                                            <input class="switch-input" onchange="changeBudgetItemPermissionState('{{ url('/budget/admin/credit_distribution_def') }}' , '{{ $fyBPermissions[$i]->id }}' , this.id , '{{ $fyBPermissions[$i]->pbFyId }}')" {{ $fyBPermissions[$i]->pbStatus == true ? 'checked' : '' }} id="permission{{ $i }}" type="checkbox" autocomplete="off">
-                                                                                            <label class="switch-paddle" for="permission{{ $i }}">
+                                                                                            <input class="switch-input" onchange="changeBudgetItemPermissionState('{{ url('/budget/admin/fiscal_year') }}' , '{{ $fyBPermissions[$i]->id }}' , this.id , '{{ $fyBPermissions[$i]->pbFyId }}')" {{ $fyBPermissions[$i]->pbStatus == true ? 'checked' : '' }} id="budgetPermission{{ $i }}" type="checkbox" autocomplete="off">
+                                                                                            <label class="switch-paddle" for="budgetPermission{{ $i }}">
                                                                                                 <span class="switch-active" aria-hidden="true">بلی</span>
                                                                                                 <span class="switch-inactive" aria-hidden="true">خیر</span>
                                                                                             </label>
@@ -115,9 +115,6 @@
                                                                 </li>
                                                             </ul>
                                                         </div>
-                                                    </div>
-                                                    <div class="medium-6 columns">
-                                                        <button name="Submit"  type="submit" class="my-secondary button float-left btn-for-load"> <span>ثبت</span>    <i id="registerSubmitActivityCircle" class="fa fi-loop  fa-spin icon-mar"></i> </button>
                                                     </div>
                                                 </div>
                                                 <button class="close-button" data-close aria-label="Close modal" type="button">

@@ -229,5 +229,18 @@ class BudgetAdminController extends Controller
         }
     }
 
+    function changeSectionPermissionState($section , $fyId , $state)
+    {
+        if (\Illuminate\Support\Facades\Request::ajax())
+        {
+            switch ($section)
+            {
+                case 'budget':
+                    FyPermissionInBudget::where('pbFyId' , '=' , $fyId)->update(['pbStatus' => $state]);
+                    return \Illuminate\Support\Facades\Response::json(['state' => true]);
+            }
+        }
+    }
+
 
 }
