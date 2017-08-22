@@ -63,9 +63,9 @@
         </button>
     </div>
     {{--/////////////////////////////update form/////////////////////////////--}}
-    <div style="display:none;"  style="z-index: 999;"   class="tiny reveal" id="modalUpdateDeprivedArea" data-reveal>
+    <div style="z-index: 9999;" class="tiny reveal" id="modalUpdateDeprivedArea" data-reveal>
 
-        <div  class="modal-margin animate-bottom">
+        <div  class="modal-margin">
             {!! Form::open(array('id' => 'updateDAForm' , 'url' => '/budget/admin/deprived_area/update' , 'class' => 'form' , 'data-abide novalidate')) !!}
             {!! csrf_field() !!}
             <div class="grid-x" id="existErrorInUpForm" style="display: none">
@@ -119,17 +119,14 @@
             </div>
             {!! Form::close() !!}
         </div>
-        <button class="close-button" data-close aria-label="Close modal" type="button">
+        <button class="close-button" data-close aria-label="Close modal" data-close-on-click="false" type="button">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div style="height: 300px;" onload="myFunction()" class="reveal" id="em3" data-reveal>
+    <div class="full reveal reveal-overlay" id="em3" data-reveal>
         <div id="loader">
         </div>
 
-        <button class="close-button" data-close aria-label="Close reveal" type="button">
-            <span aria-hidden="true">&times;</span>
-        </button>
     </div>
     {{--//////////////////////////////////////////////////////////////////--}}
     <div class="medium-10 border-right-line inner-body-pad">
@@ -212,7 +209,7 @@
                                             <td>{{ $dArea->daRdId == '' ? '--' : \Modules\Admin\Entities\RuralDistrict::find($dArea->daRdId)->rdName }}</td>
                                             <td>{{ $dArea->daViId == '' ? '--' : \Modules\Admin\Entities\Village::find($dArea->daViId)->viName }}</td>
                                             <td>{{ $dArea->daDescription }}</td>
-                                            <td class="text-center"><a onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}' , '{{ $dArea->id }}')"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
+                                            <td class="text-center"><a data-open="em3" onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}' , '{{ $dArea->id }}')"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
                                             <td class="text-center"><a href="#" data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                             <!--Modal Delete Start-->
                                             <div style="z-index: 9999;" class="tiny reveal" id="modalDelete{{ $dArea->id }}" data-reveal>
@@ -383,7 +380,7 @@
         var myVar;
 
         function myFunction() {
-            myVar = setTimeout(showPage, 3000);
+            //myVar = setTimeout(showPage, 3000);
             alert("shondol");
         }
 

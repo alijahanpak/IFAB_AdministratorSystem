@@ -467,15 +467,15 @@ input:checked ~ .switch-paddle {
 /*loading*/
 #loader {
     position: absolute;
-    left: 60%;
-    top: 60%;
+    left: 50%;
+    top: 50%;
     z-index: 1;
     width: 60px;
     height: 60px;
     margin: -75px 0 0 -75px;
     border: 6px solid #f3f3f3;
     border-radius: 50%;
-    border-top: 6px solid #f0ad4e;
+    border-top: 6px solid #3398EA;
     width: 60px;
     height: 60px;
     -webkit-animation: spin 2s linear infinite;
@@ -518,4 +518,15 @@ input:checked ~ .switch-paddle {
 /*Loading End*/
 .bottom-mrg{
     margin-bottom: 15px;
+}
+.reveal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border: none;
+    z-index: 1005;
+    background-color: rgba(10, 10, 10, 0.4);
 }
