@@ -19,7 +19,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::get('credit_distribution_def/delete/{cdId}', 'BudgetAdminController@deleteCreditDistributionDef');
         Route::get('credit_distribution_def/CDRIsExist/{cdSubject}/{cdId?}', 'BudgetAdminController@CDRIsExist');
         Route::post('credit_distribution_def/update', 'BudgetAdminController@updateCreditDistributionDef');
-        Route::get('credit_distribution_def/checkSectionPermissionState/{section}', 'BudgetAdminController@checkSectionPermissionState');
+        Route::get('credit_distribution_def/checkSectionPermissionState/{section}/{fyId}', 'BudgetAdminController@checkSectionPermissionState');
         Route::get('credit_distribution_def/changeBudgetItemPermissionState/{pbId}/{state}', 'BudgetAdminController@changeBudgetItemPermissionState');
     });
     //////////////////////////////////////////////////////////////////////////

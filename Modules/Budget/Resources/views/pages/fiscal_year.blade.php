@@ -61,7 +61,7 @@
                                                                                     <div class="medium-1">
                                                                                         <div class="switch tiny">
                                                                                             <input class="switch-input" id="budgetPermissionAll" type="checkbox" {{ count($fyBPermissions) == $fyPbActiveCount ? 'checked' : ''}}>
-                                                                                            <label class="switch-paddle" for="all">
+                                                                                            <label class="switch-paddle" for="budgetPermissionAll">
                                                                                                 <span class="switch-active" aria-hidden="true">بلی</span>
                                                                                                 <span class="switch-inactive" aria-hidden="true">خیر</span>
                                                                                             </label>
@@ -79,7 +79,7 @@
                                                                                 <div class="grid-x padding-lr">
                                                                                     <div class="medium-2">
                                                                                         <div class="switch tiny">
-                                                                                            <input class="switch-input" onchange="changeBudgetItemPermissionState('{{ url('/budget/admin/credit_distribution_def/changeBudgetItemPermissionState/' . $fyBPermissions[$i]->id) }}' , this.id)" {{ $fyBPermissions[$i]->pbStatus == true ? 'checked' : '' }} id="permission{{ $i }}" type="checkbox" autocomplete="off">
+                                                                                            <input class="switch-input" onchange="changeBudgetItemPermissionState('{{ url('/budget/admin/credit_distribution_def') }}' , '{{ $fyBPermissions[$i]->id }}' , this.id , '{{ $fyBPermissions[$i]->pbFyId }}')" {{ $fyBPermissions[$i]->pbStatus == true ? 'checked' : '' }} id="permission{{ $i }}" type="checkbox" autocomplete="off">
                                                                                             <label class="switch-paddle" for="permission{{ $i }}">
                                                                                                 <span class="switch-active" aria-hidden="true">بلی</span>
                                                                                                 <span class="switch-inactive" aria-hidden="true">خیر</span>
@@ -96,7 +96,7 @@
                                                                                 <div class="grid-x padding-lr">
                                                                                     <div class="medium-2">
                                                                                         <div class="switch tiny">
-                                                                                            <input class="switch-input" onchange="changeBudgetItemPermissionState('{{ url('/budget/admin/credit_distribution_def/changeBudgetItemPermissionState/' . $fyBPermissions[$i]->id) }}' , this.id)" {{ $fyBPermissions[$i]->pbStatus == true ? 'checked' : '' }} id="permission{{ $i }}" type="checkbox" autocomplete="off">
+                                                                                            <input class="switch-input" onchange="changeBudgetItemPermissionState('{{ url('/budget/admin/credit_distribution_def') }}' , '{{ $fyBPermissions[$i]->id }}' , this.id , '{{ $fyBPermissions[$i]->pbFyId }}')" {{ $fyBPermissions[$i]->pbStatus == true ? 'checked' : '' }} id="permission{{ $i }}" type="checkbox" autocomplete="off">
                                                                                             <label class="switch-paddle" for="permission{{ $i }}">
                                                                                                 <span class="switch-active" aria-hidden="true">بلی</span>
                                                                                                 <span class="switch-inactive" aria-hidden="true">خیر</span>

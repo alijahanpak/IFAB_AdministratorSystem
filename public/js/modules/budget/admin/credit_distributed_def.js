@@ -128,20 +128,15 @@ $(document).ready(function () {
     ////////////////////////////////////////////////////////
 });
 
-function checkFySectionPermissionState(url) {
+function checkFySectionPermissionState(url , section , fyId) {
     $.ajax({
         type: "GET",
         dataType: "JSON",
-        url: url,
+        url: url + '/' + section + '/' + fyId,
         success: function (data) {
-            alert(data.selectedAll);
-            if (data.selectedAll == true)
+            if (section == 'budget')
             {
-
-            }
-            else
-            {
-
+                $('#budgetPermissionAll').attr('checked', data.state);
             }
         },
         error: function (jqXHR) {
@@ -167,20 +162,15 @@ function checkFySectionPermissionState(url) {
     });
 }
 
-function changeBudgetItemPermissionState(url , switchId) {
-    url+= '/' + ($('#' + switchId).is(':checked') == false ? 0 : 1);
+function changeBudgetItemPermissionState(url , pbId , switchId , fyId) {
     $.ajax({
         type: "GET",
         dataType: "JSON",
-        url: url,
+        url: url + '/changeBudgetItemPermissionState/' + pbId + '/' + ($('#' + switchId).is(':checked') == false ? 0 : 1),
         success: function (data) {
             if (data.state == true)
             {
-
-            }
-            else
-            {
-
+                checkFySectionPermissionState(url + '/checkSectionPermissionState' , 'budget' , fyId);
             }
         },
         error: function (jqXHR) {
@@ -204,4 +194,5 @@ function changeBudgetItemPermissionState(url , switchId) {
         }
 
     });
+
 }

@@ -209,5 +209,25 @@ class BudgetAdminController extends Controller
         }
     }
 
+    function checkSectionPermissionState($section , $fyId)
+    {
+        if (\Illuminate\Support\Facades\Request::ajax())
+        {
+            switch ($section)
+            {
+                case 'budget':
+                    $activeCount = FyPermissionInBudget::where('pbFyId' , '=' , $fyId)->where('pbStatus' , '=' , 1)->count();
+                    if (FyPermissionInBudget::where('pbFyId' , '=' , $fyId)->count() == $activeCount)
+                    {
+                        return \Illuminate\Support\Facades\Response::json(['state' => true]);
+                    }
+                    else
+                    {
+                        return \Illuminate\Support\Facades\Response::json(['state' => false]);
+                    }
+            }
+        }
+    }
+
 
 }
