@@ -52,7 +52,18 @@
                 </div>
 
                 <div class="medium-6 columns padding-lr">
-                    <button name="daFormSubmit" onmouseover="setCheckExistUrl('{{ url('/budget/admin/deprived_area/DAIsExist') }}')" type="submit" class="my-secondary button float-left btn-for-load"> <span>ثبت</span>    <i id="registerSubmitActivityCircle" class="fa fi-loop  fa-spin icon-mar"></i> </button>
+                    <button name="daFormSubmit" onmouseover="setCheckExistUrl('{{ url('/budget/admin/deprived_area/DAIsExist') }}')" type="submit" class="my-secondary button float-left btn-for-load"><span style="margin-left: 3px;">  ثبت</span><i id="registerSubmitActivityCircle">
+                            <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </i> </button>
                 </div>
 
             {!! Form::close() !!}
@@ -123,11 +134,21 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
+    <!--Modal Preloader Start-->
     <div class="full reveal reveal-overlay" id="em3" data-reveal>
-        <div id="loader">
+        <div class="la-line-spin-clockwise-fade-rotating la-2x loader-pos">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
 
     </div>
+    <!--Modal Preloader Start-->
     {{--//////////////////////////////////////////////////////////////////--}}
     <div class="medium-10 border-right-line inner-body-pad">
         <div class="grid-x padding-lr">
@@ -375,18 +396,5 @@
             $(this).addClass('hide')
             $('[data-loading-end]').removeClass('hide')
         });
-    </script>
-    <script>
-        var myVar;
-
-        function myFunction() {
-            //myVar = setTimeout(showPage, 3000);
-            alert("shondol");
-        }
-
-        function showPage() {
-            document.getElementById("loader").style.display = "none";
-            document.getElementById("modalUpdateDeprivedArea").style.display = "block";
-        }
     </script>
 @stop

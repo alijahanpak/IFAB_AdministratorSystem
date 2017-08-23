@@ -24,6 +24,9 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::get('credit_distribution_def/delete/{cdId}', 'BudgetAdminController@deleteCreditDistributionDef');
         Route::get('credit_distribution_def/CDRIsExist/{cdSubject}/{cdId?}', 'BudgetAdminController@CDRIsExist');
         Route::post('credit_distribution_def/update', 'BudgetAdminController@updateCreditDistributionDef');
+        //////////////////////////////////////////////////////////////////////
+        Route::get('sub_seasons', 'BudgetAdminController@subSeasons');
+
     });
     //////////////////////////////////////////////////////////////////////////
 });
