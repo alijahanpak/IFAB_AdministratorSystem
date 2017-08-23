@@ -52,7 +52,7 @@
                 </div>
 
                 <div class="medium-6 columns padding-lr">
-                    <button name="daFormSubmit" onmouseover="setCheckExistUrl('{{ url('/budget/admin/deprived_area/DAIsExist') }}')" type="submit" class="my-secondary button float-left btn-for-load"><span style="margin-left: 3px;">  ثبت</span><i id="registerSubmitActivityCircle">
+                    <button name="daFormSubmit" onmouseover="setCheckExistUrl('{{ url('/budget/admin/deprived_area/DAIsExist') }}')" type="submit" class="my-secondary button float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span><i id="registerSubmitActivityCircle">
                             <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
                                 <div></div>
                                 <div></div>
@@ -126,7 +126,19 @@
                 </label>
             </div>
             <div class="medium-6 columns padding-lr">
-                <button name="daFormSubmit" onmouseover="setCheckExistUrl('{{ url('/budget/admin/deprived_area/DAIsExistForUpdate') }}')" type="submit" value="submit" class="my-secondary button float-left small"> <span>ثبت</span>    <i id="updateSubmitActivityCircle" class="fa fi-loop size-16 fa-spin icon-mar"></i> </button>
+                <button name="daFormSubmit" onmouseover="setCheckExistUrl('{{ url('/budget/admin/deprived_area/DAIsExistForUpdate') }}')" type="submit" value="submit" class="my-secondary button float-left small btn-for-load"> <span class="btn-txt-mrg">ثبت</span>    <i id="updateSubmitActivityCircle">
+                        <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+
+                    </i> </button>
             </div>
             {!! Form::close() !!}
         </div>
