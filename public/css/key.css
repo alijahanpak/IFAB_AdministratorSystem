@@ -464,58 +464,6 @@ input:checked ~ .switch-paddle {
     margin-top: 15px;
     margin-right: 10px;
 }
-/*loading*/
-.loader {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    z-index: 1;
-    width: 60px;
-    height: 60px;
-    margin: -75px 0 0 -75px;
-    border: 6px solid #f3f3f3;
-    border-radius: 50%;
-    border-top: 6px solid #3398EA;
-    width: 60px;
-    height: 60px;
-    -webkit-animation: spin 2s linear infinite;
-    animation: spin 2s linear infinite;
-}
-
-@-webkit-keyframes spin {
-    0% { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Add animation to "page content" */
-.animate-bottom {
-    position: relative;
-    -webkit-animation-name: animatebottom;
-    -webkit-animation-duration: 1s;
-    animation-name: animatebottom;
-    animation-duration: 1s
-}
-
-@-webkit-keyframes animatebottom {
-    from { bottom:-100px; opacity:0 }
-    to { bottom:0px; opacity:1 }
-}
-
-@keyframes animatebottom {
-    from{ bottom:-100px; opacity:0 }
-    to{ bottom:0; opacity:1 }
-}
-
-#myDiv {
-    display: none;
-    text-align: center;
-}
-/*Loading End*/
 .bottom-mrg{
     margin-bottom: 15px;
 }
@@ -544,4 +492,7 @@ input:checked ~ .switch-paddle {
     background-color: #FFFFFF;
     border-bottom: 3px solid #d9534f;
     color: #333;
+}
+.btn-txt-mrg{
+    margin-left: 3px;
 }
