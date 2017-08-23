@@ -6,5 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class BudgetSeason extends Model
 {
+    protected $table = 'tbl_budget_seasons';
     protected $fillable = [];
 }

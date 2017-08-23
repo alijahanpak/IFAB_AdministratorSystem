@@ -14,6 +14,7 @@ use Modules\Admin\Entities\County;
 use Modules\Admin\Entities\FiscalYear;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Admin\Entities\Village;
+use Modules\Budget\Entities\BudgetSeason;
 use Modules\Budget\Entities\CreditDistributionRow;
 use Modules\Budget\Entities\DeprivedArea;
 use Modules\Budget\Entities\FyPermissionInBudget;
@@ -57,10 +58,14 @@ class BudgetAdminController extends Controller
     public function creditDistributionDef()
     {
         $creditDRs = CreditDistributionRow::all();
-        return view('budget::pages.credit_distribution_def' , ['pageTitle' => 'تعاریف توزیع اعتبار' , 'creditDRs' => $creditDRs]);
+        $bSeasons = BudgetSeason::all();
+        return view('budget::pages.credit_distribution_def' ,
+            ['pageTitle' => 'تعاریف توزیع اعتبار' ,
+                'creditDRs' => $creditDRs ,
+                'bSeasons' => $bSeasons]);
     }
 
-    public function registerCreditDistributionDef(Request $request)
+    public function registerCreditDistributionRow(Request $request)
     {
         $cdr = new CreditDistributionRow;
         $cdr->cdUId = Auth::user()->id;
@@ -72,7 +77,7 @@ class BudgetAdminController extends Controller
         return Redirect::to(URL::previous());
     }
 
-    public function updateCreditDistributionDef(Request $request)
+    public function updateCreditDistributionRow(Request $request)
     {
         $old = CreditDistributionRow::find(Input::get('cdrId'));
         $cdr = CreditDistributionRow::find(Input::get('cdrId'));
@@ -84,7 +89,7 @@ class BudgetAdminController extends Controller
         return Redirect::to(URL::previous());
     }
 
-    public function deleteCreditDistributionDef($cdId)
+    public function deleteCreditDistributionRow($cdId)
     {
         $cdr = CreditDistributionRow::find($cdId);
         try {
@@ -95,7 +100,7 @@ class BudgetAdminController extends Controller
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return Redirect::to(URL::previous())->with('messageDialogPm', 'حذف رکورد مورد نظر در حال حاضر ممکن نیست!');
+                return Redirect::to(URL::previous())->with('messageDialogPm', 'با توجه به وابستگی اطلاعات، حذف رکورد مورد نظر ممکن نیست!');
             }
         }
     }
@@ -119,7 +124,7 @@ class BudgetAdminController extends Controller
         catch (\Illuminate\Database\QueryException $e) {
 
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return Redirect::to(URL::previous())->with('messageDialogPm', 'حذف رکورد مورد نظر در حال حاضر ممکن نیست!');
+                return Redirect::to(URL::previous())->with('messageDialogPm', 'با توجه به وابستگی اطلاعات، حذف رکورد مورد نظر ممکن نیست!');
             }
         }
     }
@@ -205,6 +210,7 @@ class BudgetAdminController extends Controller
             $fyBudgetPermission = FyPermissionInBudget::find($pbId);
             $fyBudgetPermission->pbStatus = $state;
             $fyBudgetPermission->save();
+            SystemLog::setBudgetSubSystemAdminLog('تغییر مجوز ' . $fyBudgetPermission->pbLabel . ' در سال مالی ' . FiscalYear::where('id' , '=' , $fyBudgetPermission->pbFyId)->value('fyLabel') . ' برای زیر سیستم بودجه.');
             return \Illuminate\Support\Facades\Response::json(['state' => true]);
         }
     }
@@ -237,10 +243,77 @@ class BudgetAdminController extends Controller
             {
                 case 'budget':
                     FyPermissionInBudget::where('pbFyId' , '=' , $fyId)->update(['pbStatus' => $state]);
+                    SystemLog::setBudgetSubSystemAdminLog('تغییر مجوز های سال مالی ' . FiscalYear::where('id' , '=' , $fyId)->value('fyLabel') . ' در زیر سیستم بودجه.');
                     return \Illuminate\Support\Facades\Response::json(['state' => true]);
             }
         }
     }
 
+    public function registerBudgetSeason(Request $request)
+    {
+        $bs = new BudgetSeason;
+        $bs->bsUId = Auth::user()->id;
+        $bs->bsSubject = Input::get('bsSubject');
+        $bs->bsDescription = Input::get('bsDescription');
+        $bs->save();
 
+        SystemLog::setBudgetSubSystemAdminLog('تعریف فصل بودجه ' . Input::get('bsSubject'));
+        return Redirect::to(URL::previous() . '#budget_season_tab');
+    }
+
+    public function deleteBudgetSeason($bsId)
+    {
+        $bs = BudgetSeason::find($bsId);
+        try {
+            $logTemp = BudgetSeason::find($bsId);
+            $bs->delete();
+            SystemLog::setBudgetSubSystemAdminLog('حذف فصل بودجه ' . $logTemp->bsSubject);
+            return Redirect::to(URL::previous() . '#budget_season_tab');
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                return Redirect::to(URL::previous() . '#budget_season_tab')->with('messageDialogPm', 'با توجه به وابستگی اطلاعات، حذف رکورد مورد نظر ممکن نیست!');
+            }
+        }
+    }
+
+    public function BSIsExist($bsSubject , $bsId = null)
+    {
+        if (\Illuminate\Support\Facades\Request::ajax())
+        {
+            if ($bsId == null)
+            {
+                if (BudgetSeason::where('bsSubject' , '=' , $bsSubject)->exists())
+                {
+                    return \Illuminate\Support\Facades\Response::json(['exist' => true]);
+                }
+                else
+                {
+                    return \Illuminate\Support\Facades\Response::json(['exist' => false]);
+                }
+            }
+            else{
+                if (BudgetSeason::where('id' , '<>' , $bsId)->where('bsSubject' , '=' , $bsSubject)->exists())
+                {
+                    return \Illuminate\Support\Facades\Response::json(['exist' => true]);
+                }
+                else
+                {
+                    return \Illuminate\Support\Facades\Response::json(['exist' => false]);
+                }
+            }
+        }
+    }
+
+    public function updateBudgetSeason(Request $request)
+    {
+        $old = BudgetSeason::find(Input::get('bsId'));
+        $bs = BudgetSeason::find(Input::get('bsId'));
+        $bs->bsSubject = Input::get('bsSubject');
+        $bs->bsDescription = Input::get('bsDescription');
+        $bs->save();
+
+        SystemLog::setBudgetSubSystemAdminLog('تغییر در فصل بودجه (' . $old->bsSubject . ') به (' . $bs->bsSubject . ')');
+        return Redirect::to(URL::previous() . '#budget_season_tab');
+    }
 }

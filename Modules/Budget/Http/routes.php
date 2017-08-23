@@ -20,10 +20,14 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::get('fiscal_year/changeSectionPermissionState/{section}/{fyId}/{state}', 'BudgetAdminController@changeSectionPermissionState');
         //////////////////////////////////////////////////////////////////////
         Route::get('credit_distribution_def', 'BudgetAdminController@creditDistributionDef');
-        Route::post('credit_distribution_def/register', 'BudgetAdminController@registerCreditDistributionDef');
-        Route::get('credit_distribution_def/delete/{cdId}', 'BudgetAdminController@deleteCreditDistributionDef');
-        Route::get('credit_distribution_def/CDRIsExist/{cdSubject}/{cdId?}', 'BudgetAdminController@CDRIsExist');
-        Route::post('credit_distribution_def/update', 'BudgetAdminController@updateCreditDistributionDef');
+        Route::post('credit_distribution_def/rows/register', 'BudgetAdminController@registerCreditDistributionRow');
+        Route::get('credit_distribution_def/rows/delete/{cdId}', 'BudgetAdminController@deleteCreditDistributionRow');
+        Route::get('credit_distribution_def/rows/CDRIsExist/{cdSubject}/{cdId?}', 'BudgetAdminController@CDRIsExist');
+        Route::post('credit_distribution_def/rows/update', 'BudgetAdminController@updateCreditDistributionRow');
+        Route::post('credit_distribution_def/budget_season/register', 'BudgetAdminController@registerBudgetSeason');
+        Route::get('credit_distribution_def/budget_season/delete/{bsId}', 'BudgetAdminController@deleteBudgetSeason');
+        Route::get('credit_distribution_def/budget_season/BSIsExist/{bsSubject}/{bsId?}', 'BudgetAdminController@BSIsExist');
+        Route::post('credit_distribution_def/budget_season/update', 'BudgetAdminController@updateBudgetSeason');
     });
     //////////////////////////////////////////////////////////////////////////
 });
