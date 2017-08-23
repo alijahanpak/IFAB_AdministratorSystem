@@ -63,7 +63,8 @@
                                 <div></div>
                                 <div></div>
                             </div>
-                        </i> </button>
+                        </i>
+                    </button>
                 </div>
 
             {!! Form::close() !!}
@@ -75,7 +76,6 @@
     </div>
     {{--/////////////////////////////update form/////////////////////////////--}}
     <div style="z-index: 9999;" class="tiny reveal" id="modalUpdateDeprivedArea" data-reveal>
-
         <div  class="modal-margin">
             {!! Form::open(array('id' => 'updateDAForm' , 'url' => '/budget/admin/deprived_area/update' , 'class' => 'form' , 'data-abide novalidate')) !!}
             {!! csrf_field() !!}
@@ -135,7 +135,7 @@
         </button>
     </div>
     <!--Modal Preloader Start-->
-    <div class="full reveal reveal-overlay" id="em3" data-reveal>
+    <div class="full reveal reveal-overlay" id="preloaderModal" data-reveal>
         <div class="la-line-spin-clockwise-fade-rotating la-2x loader-pos">
             <div></div>
             <div></div>
@@ -146,7 +146,6 @@
             <div></div>
             <div></div>
         </div>
-
     </div>
     <!--Modal Preloader Start-->
     {{--//////////////////////////////////////////////////////////////////--}}
@@ -230,7 +229,7 @@
                                             <td>{{ $dArea->daRdId == '' ? '--' : \Modules\Admin\Entities\RuralDistrict::find($dArea->daRdId)->rdName }}</td>
                                             <td>{{ $dArea->daViId == '' ? '--' : \Modules\Admin\Entities\Village::find($dArea->daViId)->viName }}</td>
                                             <td>{{ $dArea->daDescription }}</td>
-                                            <td class="text-center"><a data-open="em3" onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}' , '{{ $dArea->id }}')"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
+                                            <td class="text-center"><a data-open="preloaderModal" onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}' , '{{ $dArea->id }}')"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
                                             <td class="text-center"><a href="#" data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                             <!--Modal Delete Start-->
                                             <div style="z-index: 9999;" class="tiny reveal" id="modalDelete{{ $dArea->id }}" data-reveal>
@@ -256,6 +255,15 @@
                                 </tbody>
                             </table>
                         </div>
+                        <!--Panel nothing Insert Start-->
+                        <div class="column">
+                            <div style="height: 200px;" class="card">
+                                <div class="card-section text-center" style="margin-top:60px;">
+                                    <span>کاربر گرامی، </span><span class="login-txt small-font">منطقه محروم ثبت نشده است!<span><a data-open="CDR_ModalInsert" class="custom-btn-pos my-secondary button tiny">ثبت</a></span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Panel nothing Insert End-->
                     </div>
                     <!--Tab 1 End-->
 
@@ -277,7 +285,7 @@
                                         <tr>
                                             <td>{{ \Modules\Admin\Entities\County::find($dArea->daCoId)->coName }}</td>
                                             <td>{{ $dArea->daDescription }}</td>
-                                            <td class="text-center"><a onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}' , '{{ $dArea->id }}')"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
+                                            <td class="text-center"><a data-open="preloaderModal" onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}' , '{{ $dArea->id }}')"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
                                             <td class="text-center"><a href="#" data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                         </tr>
                                     @endif
@@ -285,6 +293,15 @@
                                 </tbody>
                             </table>
                         </div>
+                        <!--Panel nothing Insert Start-->
+                        <div class="column">
+                            <div style="height: 200px;" class="card">
+                                <div class="card-section text-center" style="margin-top:60px;">
+                                    <span>کاربر گرامی، </span><span class="login-txt small-font">شهرستان محروم ثبت نشده است!<span><a data-open="CDR_ModalInsert" class="custom-btn-pos my-secondary button tiny">ثبت</a></span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Panel nothing Insert End-->
                     </div>
                     <!--Tab 2 End-->
 
@@ -308,7 +325,7 @@
                                             <td>{{ \Modules\Admin\Entities\Region::find($dArea->daReId)->reName }}</td>
                                             <td>{{ \Modules\Admin\Entities\County::find($dArea->daCoId)->coName }}</td>
                                             <td>{{ $dArea->daDescription }}</td>
-                                            <td class="text-center"><a onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}' , '{{ $dArea->id }}')"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
+                                            <td class="text-center"><a data-open="preloaderModal" onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}' , '{{ $dArea->id }}')"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
                                             <td class="text-center"><a href="#" data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                         </tr>
                                     @endif
@@ -316,6 +333,15 @@
                                 </tbody>
                             </table>
                         </div>
+                        <!--Panel nothing Insert Start-->
+                        <div class="column">
+                            <div style="height: 200px;" class="card">
+                                <div class="card-section text-center" style="margin-top:60px;">
+                                    <span>کاربر گرامی، </span><span class="login-txt small-font">بخش محروم ثبت نشده است!<span><a data-open="CDR_ModalInsert" class="custom-btn-pos my-secondary button tiny">ثبت</a></span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Panel nothing Insert End-->
                     </div>
                     <!--Tab 3 End-->
 
@@ -341,7 +367,7 @@
                                             <td>{{ \Modules\Admin\Entities\County::find($dArea->daCoId)->coName }}</td>
                                             <td>{{ \Modules\Admin\Entities\Region::find($dArea->daReId)->reName }}</td>
                                             <td>{{ $dArea->daDescription }}</td>
-                                            <td class="text-center"><a onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}' , '{{ $dArea->id }}')"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                            <td class="text-center"><a data-open="preloaderModal" onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}' , '{{ $dArea->id }}')"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
                                             <td class="text-center"><a href="#" data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                         </tr>
                                     @endif
@@ -349,6 +375,15 @@
                                 </tbody>
                             </table>
                         </div>
+                        <!--Panel nothing Insert Start-->
+                        <div class="column">
+                            <div style="height: 200px;" class="card">
+                                <div class="card-section text-center" style="margin-top:60px;">
+                                    <span>کاربر گرامی، </span><span class="login-txt small-font">دهستان محروم ثبت نشده است!<span><a data-open="CDR_ModalInsert" class="custom-btn-pos my-secondary button tiny">ثبت</a></span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Panel nothing Insert End-->
                     </div>
                     <!--Tab 4 End-->
 
@@ -376,7 +411,7 @@
                                             <td>{{ \Modules\Admin\Entities\Region::find($dArea->daReId)->reName }}</td>
                                             <td>{{ \Modules\Admin\Entities\RuralDistrict::find($dArea->daRdId)->rdName }}</td>
                                             <td>{{ $dArea->daDescription }}</td>
-                                            <td class="text-center"><a onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}' , '{{ $dArea->id }}')"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
+                                            <td class="text-center"><a data-open="preloaderModal" onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}' , '{{ $dArea->id }}')"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
                                             <td class="text-center"><a href="#" data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                                         </tr>
                                     @endif
@@ -384,6 +419,15 @@
                                 </tbody>
                             </table>
                         </div>
+                        <!--Panel nothing Insert Start-->
+                        <div class="column">
+                            <div style="height: 200px;" class="card">
+                                <div class="card-section text-center" style="margin-top:60px;">
+                                    <span>کاربر گرامی، </span><span class="login-txt small-font">روستای محروم ثبت نشده است!<span><a data-open="CDR_ModalInsert" class="custom-btn-pos my-secondary button tiny">ثبت</a></span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Panel nothing Insert End-->
                     </div>
                     <!--Tab 5 End-->
                 </div>

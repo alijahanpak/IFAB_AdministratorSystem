@@ -215,6 +215,7 @@ function DAUpdateDialogOpen(budgetAdminAjaxUri , cId , reId , rdId , viId , desc
                                     if (viId != '') {
                                         $("#selectVillage_u").val(viId);
                                     }
+                                    $('#modalUpdateDeprivedArea').foundation('toggle');
                                 },
                                 error: function (jqXHR3) {
                                     var msg3 = '';
@@ -238,10 +239,12 @@ function DAUpdateDialogOpen(budgetAdminAjaxUri , cId , reId , rdId , viId , desc
 
                                     $('#selectVillage_u').html('<option value=""></option>');
                                     $('#selectVillage_u').attr('disabled', true);
+                                    $('#modalUpdateDeprivedArea').foundation('toggle');
                                 }
                             });
                         }
-
+                        else
+                            $('#modalUpdateDeprivedArea').foundation('toggle');
                     },
                     error: function (jqXHR2) {
                         var msg2 = '';
@@ -267,9 +270,12 @@ function DAUpdateDialogOpen(budgetAdminAjaxUri , cId , reId , rdId , viId , desc
                         $('#selectRuralDistrict_u').attr('disabled', true);
                         $('#selectVillage_u').html('<option value=""></option>');
                         $('#selectVillage_u').attr('disabled', true);
+                        $('#modalUpdateDeprivedArea').foundation('toggle');
                     }
                 });
             }
+            else
+                $('#modalUpdateDeprivedArea').foundation('toggle');
         },
         error: function (jqXHR1) {
             var msg1 = '';
@@ -296,12 +302,12 @@ function DAUpdateDialogOpen(budgetAdminAjaxUri , cId , reId , rdId , viId , desc
             $('#selectRuralDistrict_u').attr('disabled', true);
             $('#selectVillage_u').html('<option value=""></option>');
             $('#selectVillage_u').attr('disabled', true);
+            $('#modalUpdateDeprivedArea').foundation('toggle');
         }
     });
 
     $('#daDescription_u').val(description);
     $('#daId_u').val(daId);
-    setTimeout(function(){ $('#modalUpdateDeprivedArea').foundation('toggle'); } , 2000);
 
 }
 
