@@ -28,6 +28,9 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::get('credit_distribution_def/budget_season/delete/{bsId}', 'BudgetAdminController@deleteBudgetSeason');
         Route::get('credit_distribution_def/budget_season/BSIsExist/{bsSubject}/{bsId?}', 'BudgetAdminController@BSIsExist');
         Route::post('credit_distribution_def/budget_season/update', 'BudgetAdminController@updateBudgetSeason');
+        //////////////////////////////////////////////////////////////////////
+        Route::get('sub_seasons', 'BudgetAdminController@subSeasons');
+
     });
     //////////////////////////////////////////////////////////////////////////
 });

@@ -208,7 +208,7 @@ input:checked ~ .switch-paddle {
     font-size: x-small;
 }
 .btn-for-load{
-    width: 70px;
+    width: 75px;
     height: 40px;
 }
 .border-left-line{
@@ -465,7 +465,7 @@ input:checked ~ .switch-paddle {
     margin-right: 10px;
 }
 /*loading*/
-#loader {
+.loader {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -529,4 +529,19 @@ input:checked ~ .switch-paddle {
     border: none;
     z-index: 1005;
     background-color: rgba(10, 10, 10, 0.4);
+}
+.loader-pos{
+    position: absolute;
+    left: 48%;
+    top: 48%;
+    z-index: 1;
+}
+.is-active-tab{
+    background-color: #FFFFFF;
+    border-bottom: 3px solid #d9534f;
+}
+.tabs-title > a:focus, .tabs-title > a[aria-selected="true"] {
+    background-color: #FFFFFF;
+    border-bottom: 3px solid #d9534f;
+    color: #333;
 }

@@ -77,6 +77,11 @@ class BudgetAdminController extends Controller
         return Redirect::to(URL::previous());
     }
 
+    public function subSeasons()
+    {
+        return view('budget::pages.sub_seasons', ['pageTitle' => 'ریز فصول']);
+    }
+    
     public function updateCreditDistributionRow(Request $request)
     {
         $old = CreditDistributionRow::find(Input::get('cdrId'));
