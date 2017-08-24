@@ -30,6 +30,8 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::post('credit_distribution_def/budget_season/update', 'BudgetAdminController@updateBudgetSeason');
         //////////////////////////////////////////////////////////////////////
         Route::get('sub_seasons', 'BudgetAdminController@subSeasons');
+        //////////////////////////////////////////////////////////////////////
+        Route::get('credit_distribution_plan', 'BudgetAdminController@creditDistributionPlan');
 
     });
     //////////////////////////////////////////////////////////////////////////

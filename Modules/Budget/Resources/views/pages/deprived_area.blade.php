@@ -212,7 +212,7 @@
                     <div class="medium-12 padding-lr-rep">
                         <div class="clearfix border-btm-line ">
                             <div class="button-group float-left report-mrg">
-                                <a  class="clear button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
+                                <a  class="clear button"  data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
                                     <i class="fi-clipboard-notes size-30 secondry-color"></i>
                                 </a>
                             </div>

@@ -108,10 +108,10 @@
                             <div class="medium-12  bottom-mrg">
                                 <div class="clearfix border-btm-line ">
                                     <div class="button-group float-left report-mrg">
-                                        <a  class="clear button"  data-open="CDR_ModalInsert"  type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
+                                        <a  class="clear button"  data-open="CDR_ModalInsert" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
                                             <i class="fi-plus size-30 secondry-color"></i>
                                         </a>
-                                        <a  class="clear button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
+                                        <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
                                             <i class="fi-clipboard-notes size-30 secondry-color"></i>
                                         </a>
                                     </div>
@@ -254,10 +254,10 @@
                             <div class="medium-12 bottom-mrg">
                                 <div class="clearfix border-btm-line ">
                                     <div class="button-group float-left report-mrg">
-                                        <a  class="clear button"  data-open="BS_ModalInsert"  type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
+                                        <a  class="clear button"  data-open="BS_ModalInsert" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
                                             <i class="fi-plus size-30 secondry-color"></i>
                                         </a>
-                                        <a  class="clear button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
+                                        <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
                                             <i class="fi-clipboard-notes size-30 secondry-color"></i>
                                         </a>
                                     </div>
@@ -456,10 +456,10 @@
                             <div class="medium-12 bottom-mrg">
                                 <div class="clearfix border-btm-line ">
                                     <div class="button-group float-left report-mrg">
-                                        <a  class="clear button"  data-open="PT_ModalInsert"  type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
+                                        <a  class="clear button"  data-open="PT_ModalInsert" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
                                             <i class="fi-plus size-30 secondry-color"></i>
                                         </a>
-                                        <a  class="clear button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
+                                        <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
                                             <i class="fi-clipboard-notes size-30 secondry-color"></i>
                                         </a>
                                     </div>

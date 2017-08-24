@@ -321,4 +321,11 @@ class BudgetAdminController extends Controller
         SystemLog::setBudgetSubSystemAdminLog('تغییر در فصل بودجه (' . $old->bsSubject . ') به (' . $bs->bsSubject . ')');
         return Redirect::to(URL::previous() . '#budget_season_tab');
     }
+
+
+    public function creditDistributionPlan()
+    {
+        return view('budget::pages.credit_distribution_plan', ['pageTitle' => 'ثبت طرحهای توزیع اعتبار']);
+    }
 }
+
