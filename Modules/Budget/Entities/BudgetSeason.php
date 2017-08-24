@@ -8,4 +8,9 @@ class BudgetSeason extends Model
 {
     protected $table = 'tbl_budget_seasons';
     protected $fillable = [];
+
+    public function creditDistributionPlanTitle()
+    {
+        return $this->hasMany(CreditDistributionTitle::class , 'cdtBsId' , 'id');
+    }
 }

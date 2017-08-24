@@ -16,6 +16,7 @@ use Modules\Admin\Entities\SystemLog;
 use Modules\Admin\Entities\Village;
 use Modules\Budget\Entities\BudgetSeason;
 use Modules\Budget\Entities\CreditDistributionRow;
+use Modules\Budget\Entities\CreditDistributionTitle;
 use Modules\Budget\Entities\DeprivedArea;
 use Modules\Budget\Entities\FyPermissionInBudget;
 
@@ -31,7 +32,7 @@ class BudgetAdminController extends Controller
     public function deprivedArea()
     {
         $dAreas = DeprivedArea::all();
-        return view('budget::pages.deprived_area' , ['pageTitle' => 'مناطق محروم' , 'dAreas' => $dAreas]);
+        return view('budget::pages.deprived_area.main' , ['pageTitle' => 'مناطق محروم' , 'dAreas' => $dAreas]);
     }
 
     public function registerDeprivedArea(Request $request)
@@ -59,10 +60,12 @@ class BudgetAdminController extends Controller
     {
         $creditDRs = CreditDistributionRow::all();
         $bSeasons = BudgetSeason::all();
-        return view('budget::pages.credit_distribution_def' ,
+        $creditDPs = CreditDistributionTitle::all();
+        return view('budget::pages.credit_distribution_def.main' ,
             ['pageTitle' => 'تعاریف توزیع اعتبار' ,
                 'creditDRs' => $creditDRs ,
-                'bSeasons' => $bSeasons]);
+                'bSeasons' => $bSeasons ,
+                'creditDPs' => $creditDPs]);
     }
 
     public function registerCreditDistributionRow(Request $request)
@@ -320,5 +323,19 @@ class BudgetAdminController extends Controller
 
         SystemLog::setBudgetSubSystemAdminLog('تغییر در فصل بودجه (' . $old->bsSubject . ') به (' . $bs->bsSubject . ')');
         return Redirect::to(URL::previous() . '#budget_season_tab');
+    }
+
+    public function registerPlanTitle(Request $request)
+    {
+        $cdpt = new CreditDistributionTitle;
+        $cdpt->cdtUId = Auth::user()->id;
+        $cdpt->cdtBsId = Input::get('cdptSelectSeason');
+        $cdpt->cdtIdNumber = Input::get('cdptIdNumber');
+        $cdpt->cdtSubject = Input::get('cdptSubject');
+        $cdpt->cdtDescription = Input::get('cdptDescription');
+        $cdpt->save();
+
+        SystemLog::setBudgetSubSystemAdminLog('تعریف طرح توزیع اعتبار با عنوان ' . Input::get('cdptSubject'));
+        return Redirect::to(URL::previous() . '#plan_title_tab');
     }
 }
