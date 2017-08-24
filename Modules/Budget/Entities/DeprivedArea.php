@@ -21,4 +21,36 @@ class DeprivedArea extends Model
         ($dArea->daRdId == '' ? '' : ' - ' . RuralDistrict::find($dArea->daRdId)->rdName) .
         ($dArea->daViId == '' ? '' : ' - ' . Village::find($dArea->daViId)->viName);
     }
+
+    public static function isExistCounty()
+    {
+        return DeprivedArea::where('daCoId' , '<>' , null)
+            ->where('daReId' , '=' , null)
+            ->where('daRdId' , '=' , null)
+            ->where('daViId' , '=' , null)->exists();
+    }
+
+    public static function isExistRegion()
+    {
+        return DeprivedArea::where('daCoId' , '<>' , null)
+            ->where('daReId' , '<>' , null)
+            ->where('daRdId' , '=' , null)
+            ->where('daViId' , '=' , null)->exists();
+    }
+
+    public static function isExistRuralDistrict()
+    {
+        return DeprivedArea::where('daCoId' , '<>' , null)
+            ->where('daReId' , '<>' , null)
+            ->where('daRdId' , '<>' , null)
+            ->where('daViId' , '=' , null)->exists();
+    }
+
+    public static function isExistVillage()
+    {
+        return DeprivedArea::where('daCoId' , '<>' , null)
+            ->where('daReId' , '<>' , null)
+            ->where('daRdId' , '<>' , null)
+            ->where('daViId' , '<>' , null)->exists();
+    }
 }

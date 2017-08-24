@@ -169,6 +169,20 @@
             </div>
         @endif
         {{-- end messageDialogPm reveal--}}
+        <!--Modal Preloader Start-->
+            <div class="full reveal reveal-overlay" id="preloaderModal" data-reveal>
+                <div class="la-line-spin-clockwise-fade-rotating la-2x loader-pos">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+            <!--Modal Preloader Start-->
     </div>
 
     <script src="{{ asset('js/vendor/jquery.js') }}"></script>
