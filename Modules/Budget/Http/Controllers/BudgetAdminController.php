@@ -325,6 +325,12 @@ class BudgetAdminController extends Controller
         return Redirect::to(URL::previous() . '#budget_season_tab');
     }
 
+
+    public function creditDistributionPlan()
+    {
+        return view('budget::pages.credit_distribution_plan', ['pageTitle' => 'ثبت طرحهای توزیع اعتبار']);
+    }
+
     public function registerPlanTitle(Request $request)
     {
         $cdpt = new CreditDistributionTitle;
@@ -397,3 +403,4 @@ class BudgetAdminController extends Controller
         }
     }
 }
+

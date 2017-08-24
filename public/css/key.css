@@ -47,7 +47,6 @@ select,[type="text"],[type="password"],textarea{
     width: 0;
 }
 td {
-    border: solid 1px #D8DEE2;
     color: #555555;
     font-size: 12px;
 }
@@ -496,3 +495,53 @@ input:checked ~ .switch-paddle {
 .btn-txt-mrg{
     margin-left: 3px;
 }
+.my-table-scroll{
+    height: 320px;
+
+}
+
+/*Table Fix Header Start*/
+.fixed-headers {
+    overflow-x: scroll;
+    border-collapse: collapse;
+}
+
+.fixed-headers thead {
+    display: table-row;
+}
+.fixed-headers tbody {
+    overflow-y: scroll;
+    display: block;
+    height: 200px;
+}
+
+.fixed-headers td {
+    border: 1px solid #D8DEE2;
+    min-width: 150px;
+    padding: 8px 16px;
+    text-align: center;
+}
+.fixed-headers th{
+
+    min-width: 150px;
+    padding: 10px 16px;
+    text-align: center;
+}
+.fixed-headers th {
+    background-color: #EEEEEE;
+}
+.fixed-headers td:last-child(2){
+    min-width: 65px !important;
+    background-color: #0c3d5d;
+}
+.fixed-headers th:last-child(2){
+    min-width: 65px !important;
+    background-color: #0c3d5d;
+}
+.fixed-headers tr:first-child td {
+    border-top-width: 0;
+}
+.fixed-headers tr:nth-child(even) {
+    background-color: #eee;
+}
+/*Table Fix Header End*/

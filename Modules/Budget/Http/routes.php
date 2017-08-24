@@ -34,6 +34,8 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::get('credit_distribution_def/plan_title/delete/{cdptId}', 'BudgetAdminController@deletePlanTitle');
         //////////////////////////////////////////////////////////////////////
         Route::get('sub_seasons', 'BudgetAdminController@subSeasons');
+        //////////////////////////////////////////////////////////////////////
+        Route::get('credit_distribution_plan', 'BudgetAdminController@creditDistributionPlan');
 
     });
     //////////////////////////////////////////////////////////////////////////
