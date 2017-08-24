@@ -156,7 +156,7 @@
 <!--Modal Insert Start-->
 <div style="z-index: 9999;" class="tiny reveal" id="CDPT_ModalInsert" data-reveal>
     <div class="modal-margin small-font  padding-lr">
-        {!! Form::open(array('id' => 'registerBSForm' , 'url' => '/budget/admin/credit_distribution_def/plan_title/register' , 'class' => 'form' , 'data-abide novalidate')) !!}
+        {!! Form::open(array('id' => 'registerCDPTForm' , 'url' => '/budget/admin/credit_distribution_def/plan_title/register' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}
         <div class="grid-x" id="CDPT_existErrorInRegForm" style="display: none">
             <div class="medium-12 columns">
@@ -201,7 +201,7 @@
                 </label>
             </div>
         </div>
-        <button name="cdptFormSubmit" type="submit" class="my-secondary button float-left btn-for-load"><span style="margin-left: 3px;">  ثبت</span><i id="registerSubmitActivityCircle">
+        <button name="cdptFormSubmit" onmouseover="setCDPTCheckExistUrl('{{ url('/budget/admin/credit_distribution_def/plan_title/CDPTIsExist') }}')" type="submit" class="my-secondary button float-left btn-for-load"><span style="margin-left: 3px;">  ثبت</span><i id="cdptRegisterSubmitActivityCircle">
                 <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
                     <div></div>
                     <div></div>
@@ -223,21 +223,24 @@
 <!--Modal update Start-->
 <div style="z-index: 9999;" class="tiny reveal" id="CDPT_ModalUpdate" data-reveal>
     <div class="modal-margin small-font  padding-lr">
-        <form data-abide novalidate>
-            <div class="grid-x" id="CDPT_existErrorInRegForm" style="display: none">
+        {!! Form::open(array('id' => 'updateCDPTForm' , 'url' => '/budget/admin/credit_distribution_def/plan_title/update' , 'class' => 'form' , 'data-abide novalidate')) !!}
+        {!! csrf_field() !!}
+            <div class="grid-x" id="CDPT_existErrorInUpForm" style="display: none">
                 <div class="medium-12 columns">
                     <div class="alert callout">
-                        <p class="BYekan login-alert"><i class="fi-alert"></i>این عنوان طرح قبلا ثبت شده است!</p>
+                        <p class="BYekan login-alert"><i class="fi-alert"></i>عنوان طرح با این مشخصات قبلا ثبت شده است!</p>
                     </div>
                 </div>
             </div>
+            <input type="hidden" name="cdptId" id="cdptId_u">
             <div class="grid-x">
                 <div class="medium-12 cell">
                     <label>فصل بودجه
-                        <select id="selectSeason" required>
+                        <select name="cdptSelectSeason" id="cdptSelectSeason_u" required>
                             <option value=""></option>
-                            <option value="">1</option>
-                            <option value="">1</option>
+                            @foreach($bSeasons as $bSeason)
+                                <option value="{{ $bSeason->id }}" >{{ $bSeason->bsSubject }}</option>
+                            @endforeach
                         </select>
                     </label>
                     <span class="form-error error-font" data-form-error-for="selectSeason">فصل بودجه را انتخاب کنید!</span>
@@ -246,7 +249,7 @@
             <div class="grid-x">
                 <div class="small-12 columns">
                     <label>شماره طرح
-                        <input type="text" name="sbSubject" id="sbSubject" required pattern="text">
+                        <input type="text" name="cdptIdNumber" id="cdptIdNumber_u" required pattern="text">
                         <span class="form-error font-wei">لطفا شماره طرح مورد نظر را وارد نمایید!</span>
                     </label>
                 </div>
@@ -254,7 +257,7 @@
             <div class="grid-x">
                 <div class="small-12 columns">
                     <label>عنوان طرح
-                        <input type="text" name="sbSubject" id="sbSubject" required pattern="text">
+                        <input type="text" name="cdptSubject" id="cdptSubject_u" required pattern="text">
                         <span class="form-error font-wei">لطفا عنوان طرح مورد نظر را وارد نمایید!</span>
                     </label>
                 </div>
@@ -262,11 +265,11 @@
             <div class="grid-x">
                 <div class="small-12 columns">
                     <label>شرح
-                        <textarea name="sbDescription" id="sbDescription" style="min-height: 150px;"></textarea>
+                        <textarea name="cdptDescription" id="cdptDescription_u" style="min-height: 150px;"></textarea>
                     </label>
                 </div>
             </div>
-            <button name="daFormSubmit" type="submit" class="my-secondary button float-left btn-for-load"><span style="margin-left: 3px;">  ثبت</span><i id="registerSubmitActivityCircle">
+            <button name="cdptUpFormSubmit" onmouseover="setCDPTCheckExistUrl('{{ url('/budget/admin/credit_distribution_def/plan_title/CDPTIsExist') }}')" type="submit" class="my-secondary button float-left btn-for-load"><span style="margin-left: 3px;">  ثبت</span><i id="cdptUpdateSubmitActivityCircle">
                     <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
                         <div></div>
                         <div></div>
@@ -278,7 +281,7 @@
                         <div></div>
                     </div>
                 </i> </button>
-        </form>
+        {!! Form::close() !!}
     </div>
     <button class="close-button" data-close aria-label="Close modal" type="button">
         <span aria-hidden="true">&times;</span>

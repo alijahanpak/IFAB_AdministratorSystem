@@ -338,4 +338,62 @@ class BudgetAdminController extends Controller
         SystemLog::setBudgetSubSystemAdminLog('تعریف طرح توزیع اعتبار با عنوان ' . Input::get('cdptSubject'));
         return Redirect::to(URL::previous() . '#plan_title_tab');
     }
+
+    public function CDPTIsExist($cdptIdNumber , $cdptSubject , $cdptId = null)
+    {
+        if (\Illuminate\Support\Facades\Request::ajax())
+        {
+            if ($cdptId == null)
+            {
+                if (CreditDistributionTitle::where('cdtIdNumber' , '=' , $cdptIdNumber)->orWhere('cdtSubject' , '=' , $cdptSubject)->exists())
+                {
+                    return \Illuminate\Support\Facades\Response::json(['exist' => true]);
+                }
+                else
+                {
+                    return \Illuminate\Support\Facades\Response::json(['exist' => false]);
+                }
+            }
+            else{
+                if (CreditDistributionTitle::where('id' , '<>' , $cdptId)->where('cdtIdNumber' , '=' , $cdptIdNumber)->exists())
+                {
+                    return \Illuminate\Support\Facades\Response::json(['exist' => true]);
+                }
+                else
+                {
+                    return \Illuminate\Support\Facades\Response::json(['exist' => false]);
+                }
+            }
+        }
+    }
+
+    public function updatePlanTitle(Request $request)
+    {
+        $old = CreditDistributionTitle::find(Input::get('cdptId'));
+        $cdpt = CreditDistributionTitle::find(Input::get('cdptId'));
+        $cdpt->cdtSubject = Input::get('cdptSubject');
+        $cdpt->cdtIdNumber = Input::get('cdptIdNumber');
+        $cdpt->cdtBsId = Input::get('cdptSelectSeason');
+        $cdpt->cdtDescription = Input::get('cdptDescription');
+        $cdpt->save();
+
+        SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان طرح توزیع اعتبار (' . $old->cdtSubject . ') به (' . $cdpt->cdtSubject . ')');
+        return Redirect::to(URL::previous() . '#plan_title_tab');
+    }
+
+    public function deletePlanTitle($cdptId)
+    {
+        $cdpt = CreditDistributionTitle::find($cdptId);
+        try {
+            $logTemp = BudgetSeason::find($cdptId);
+            $cdpt->delete();
+            SystemLog::setBudgetSubSystemAdminLog('حذف عنوان طرح توزیع اعتبار ' . $logTemp->cdptSubject);
+            return Redirect::to(URL::previous() . '#plan_title_tab');
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                return Redirect::to(URL::previous() . '#budget_season_tab')->with('messageDialogPm', 'با توجه به وابستگی اطلاعات، حذف رکورد مورد نظر ممکن نیست!');
+            }
+        }
+    }
 }

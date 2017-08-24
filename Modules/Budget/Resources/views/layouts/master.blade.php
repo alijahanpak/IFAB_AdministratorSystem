@@ -158,7 +158,7 @@
                     <p class="large-offset-1 modal-text">{{ session('messageDialogPm') }}</p>
                     <div class="grid-x">
                         <div class="medium-12 text-center">
-                            <a data-close aria-label="Close modal" class="button primary btn-large-w" style="margin-bottom: 0">بله</a>
+                            <a data-close aria-label="Close modal" class="button primary btn-large-w">بله</a>
                         </div>
                     </div>
                 </div>

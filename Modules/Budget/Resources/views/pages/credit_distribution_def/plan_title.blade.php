@@ -31,16 +31,16 @@
                         <td>{{ $creditDP->cdtSubject }}</td>
                         <td>{{ $creditDP->budgetSeason->bsSubject }}</td>
                         <td>{{ $creditDP->cdtDescription }}</td>
-                        <td class="text-center"><a data-open="CDPT_ModalUpdate"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
-                        <td class="text-center"><a data-open="CDPT_modalDelete"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                        <td class="text-center"><a onclick="CDPTUpdateDialogOpen('{{ url('/admin') }}' , '{{ $creditDP->cdtBsId }}' , '{{ $creditDP->cdtIdNumber }}' , '{{ $creditDP->cdtSubject }}' , '{{ $creditDP->cdtDescription }}' , '{{ $creditDP->id }}')"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
+                        <td class="text-center"><a data-open="CDPT_modalDelete{{ $creditDP->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                         <!--Modal Delete Start-->
-                        <div style="z-index: 9999;" class="tiny reveal" id="CDPT_modalDelete" data-reveal>
+                        <div style="z-index: 9999;" class="tiny reveal" id="CDPT_modalDelete{{ $creditDP->id }}" data-reveal>
                             <div class="modal-margin small-font">
                                 <p>کاربر گرامی</p>
                                 <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
                                 <div class="grid-x dashboard-padding">
                                     <div class="medium-6 ">
-                                        <a href="#" class="button primary btn-large-w large-offset-3">بله</a>
+                                        <a href="{{ url('/budget/admin/credit_distribution_def/plan_title/delete/' . $creditDP->id) }}" class="button primary btn-large-w large-offset-3">بله</a>
                                     </div>
                                     <div class="medium-6">
                                         <a data-close aria-label="Close modal" class="button primary hollow btn-large-w large-offset-4">خیر</a>
