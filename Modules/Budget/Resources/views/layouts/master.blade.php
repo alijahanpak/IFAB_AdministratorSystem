@@ -9,8 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font.css') }}">
     <link rel="stylesheet" href="{{ asset('foundation-icons/foundation-icons.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/loading.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/loaders.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/line-spin-clockwise-fade-rotating.css') }}">
     <link rel="stylesheet" href="{{ asset('css/key.css') }}">
     <script src="{{ asset('js/Chart.js') }}"></script>
 </head>
@@ -141,6 +140,7 @@
                                 <li><a href="{{ url('/budget/admin/deprived_area') }}">مناطق محروم</a></li>
                                 <li><a href="{{ url('/budget/admin/credit_distribution_def') }}">توزیع اعتبار</a></li>
                                 <li><a href="{{ url('/budget/admin/sub_season') }}">ریز فصول</a></li>
+                                <li><a href="{{ url('/budget/admin/credit_distribution_plan') }}">ثبت طرح های توزیع اعتبار</a></li>
                             </ul>
                         </li>
 
@@ -159,7 +159,7 @@
                     <p class="large-offset-1 modal-text">{{ session('messageDialogPm') }}</p>
                     <div class="grid-x">
                         <div class="medium-12 text-center">
-                            <a data-close aria-label="Close modal" class="button primary btn-large-w" style="margin-bottom: 0">بله</a>
+                            <a data-close aria-label="Close modal" class="button primary btn-large-w">بله</a>
                         </div>
                     </div>
                 </div>
@@ -169,6 +169,20 @@
             </div>
         @endif
         {{-- end messageDialogPm reveal--}}
+        <!--Modal Preloader Start-->
+            <div class="full reveal reveal-overlay" id="preloaderModal" data-reveal>
+                <div class="la-line-spin-clockwise-fade-rotating la-2x loader-pos">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+            <!--Modal Preloader Start-->
     </div>
 
     <script src="{{ asset('js/vendor/jquery.js') }}"></script>
