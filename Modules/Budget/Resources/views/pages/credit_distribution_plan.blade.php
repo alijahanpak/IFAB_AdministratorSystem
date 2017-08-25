@@ -139,43 +139,66 @@
                                 </div>
                             </div>
                                 <div class="columns">
-                                    <div  class="fixed-headers my-table-scroll">
-                                    <table id="myTable" class="small-font">
+                                    <div  class="my-table-scroll">
+                                    <table class="stack small-font">
                                         <thead class="my-thead">
                                         <tr>
                                             <th>شماره طرح</th>
                                             <th>عنوان طرح</th>
-                                            <th>سرجمع استان ها</th>
-                                            <th>همدان</th>
-                                            <th>ملایر</th>
-                                            <th>نهاوند</th>
-                                            <th>تویسرکان</th>
-                                            <th>اسدآباد</th>
-                                            <th>کبودرآهنگ</th>
-                                            <th>رزن</th>
-                                            <th>فامنین</th>
-                                            <th>بهار</th>
-                                            <th>ویرایش</th>
-                                            <th>حذف</th>
-                                        </tr>
+                                            <th>سرجمع شهرستان ها (میلیون ریال)</th>
+                                            <th width="65px">ویرایش</th>
+                                            <th width="65px">حذف</th>
+
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1703000000</td>
-                                                <td>فصل حمایت از فعالیتهای فرهنگی، هنری، دینی استانها</td>
-                                                <td>565655</td>
-                                                <td>565465464</td>
-                                                <td>564565</td>
-                                                <td>5645654</td>
-                                                <td>564565</td>
-                                                <td>564565</td>
-                                                <td>564565</td>
-                                                <td>564565</td>
-                                                <td>564565</td>
-                                                <td>564565</td>
-                                                <td class="text-center"><a ><i class="fi-pencil size-21 edit-pencil"></i></a></td>
-                                                <td class="text-center"><a data-open="modalDelete"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                            </tr>
+                                        <tr>
+                                            <td>17323000000</td>
+                                            <td>فصل حمایت از فعالیتهای فرهنگی، هنری، دینی استانها</td>
+                                            <td>
+                                                <ul class="accordion" data-accordion data-allow-all-closed="true">
+                                                    <li class="accordion-item is-active" data-accordion-item>
+                                                        <a href="#" class="accordion-title">234234234</a>
+                                                        <div class="accordion-content" data-tab-content >
+                                                            <div class="table-scroll">
+                                                            <table class="small-font">
+                                                                <thead class="my-thead">
+                                                                <tr>
+                                                                    <th>همدان</th>
+                                                                    <th>ملایر</th>
+                                                                    <th>نهاوند</th>
+                                                                    <th>تویسرکان</th>
+                                                                    <th>اسدآباد</th>
+                                                                    <th>کبودرآهنگ</th>
+                                                                    <th>رزن</th>
+                                                                    <th>فامنین</th>
+                                                                    <th>بهار</th>
+
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td>2313</td>
+                                                                    <td>2313</td>
+                                                                    <td>2313</td>
+                                                                    <td>2313</td>
+                                                                    <td>2313</td>
+                                                                    <td>2313</td>
+                                                                    <td>2313</td>
+                                                                    <td>2313</td>
+                                                                    <td>2313</td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td class="text-center"><a ><i class="fi-pencil size-21 edit-pencil"></i></a></td>
+                                            <td class="text-center"><a data-open="modalDelete"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                                        </tr>
+
                                                 <!--Modal Delete Start-->
                                                 <div style="z-index: 9999;" class="tiny reveal" id="modalDelete" data-reveal>
                                                     <div class="modal-margin small-font">
@@ -195,127 +218,6 @@
                                                     </button>
                                                 </div>
                                                 <!--Modal Delete End-->
-
-
-                                            <tr>
-                                                <td>1</td>
-                                                <td>2</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td class="text-center"><a ><i class="fi-pencil size-21 edit-pencil"></i></a></td>
-                                                <td class="text-center"><a data-open="modalDelete"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>1</td>
-                                                <td>2</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td class="text-center"><a ><i class="fi-pencil size-21 edit-pencil"></i></a></td>
-                                                <td class="text-center"><a data-open="modalDelete"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>1</td>
-                                                <td>2</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td class="text-center"><a ><i class="fi-pencil size-21 edit-pencil"></i></a></td>
-                                                <td class="text-center"><a data-open="modalDelete"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>1</td>
-                                                <td>2</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td class="text-center"><a ><i class="fi-pencil size-21 edit-pencil"></i></a></td>
-                                                <td class="text-center"><a data-open="modalDelete"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>1</td>
-                                                <td>2</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td class="text-center"><a ><i class="fi-pencil size-21 edit-pencil"></i></a></td>
-                                                <td class="text-center"><a data-open="modalDelete"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>1</td>
-                                                <td>2</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td class="text-center"><a ><i class="fi-pencil size-21 edit-pencil"></i></a></td>
-                                                <td class="text-center"><a data-open="modalDelete"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>1</td>
-                                                <td>2</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td>3</td>
-                                                <td class="text-center"><a ><i class="fi-pencil size-21 edit-pencil"></i></a></td>
-                                                <td class="text-center"><a data-open="modalDelete"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                            </tr>
-
                                         </tbody>
                                     </table>
                                     </div>
@@ -347,8 +249,8 @@
     <script>
 
 
-        var theTbl = document.getElementById('myTable').rows[0].cells.length;
-        alert(theTbl);
+       // var theTbl = document.getElementById('myTable').rows[0].cells.length;
+        //alert(theTbl);
 
 
     </script>
