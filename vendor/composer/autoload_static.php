@@ -1718,6 +1718,7 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         'Modules\\Budget\\Database\\Seeders\\SeedFyPermissionTableSeederTableSeeder' => __DIR__ . '/../..' . '/Modules/Budget/Database/Seeders/SeedFyPermissionTableSeederTableSeeder.php',
         'Modules\\Budget\\Entities\\BudgetSeason' => __DIR__ . '/../..' . '/Modules/Budget/Entities/BudgetSeason.php',
         'Modules\\Budget\\Entities\\CreditDistributionRow' => __DIR__ . '/../..' . '/Modules/Budget/Entities/CreditDistributionRow.php',
+        'Modules\\Budget\\Entities\\CreditDistributionTitle' => __DIR__ . '/../..' . '/Modules/Budget/Entities/CreditDistributionTitle.php',
         'Modules\\Budget\\Entities\\DeprivedArea' => __DIR__ . '/../..' . '/Modules/Budget/Entities/DeprivedArea.php',
         'Modules\\Budget\\Entities\\FyPermissionInBudget' => __DIR__ . '/../..' . '/Modules/Budget/Entities/FyPermissionInBudget.php',
         'Modules\\Budget\\Http\\Controllers\\BudgetAdminController' => __DIR__ . '/../..' . '/Modules/Budget/Http/Controllers/BudgetAdminController.php',
