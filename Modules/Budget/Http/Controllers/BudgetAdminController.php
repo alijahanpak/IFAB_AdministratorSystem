@@ -50,7 +50,9 @@ class BudgetAdminController extends Controller
         $deprivedArea->save();
 
         SystemLog::setBudgetSubSystemAdminLog('تعریف منطقه محروم ' . DeprivedArea::getDeprivedAreaLabel($deprivedArea->id));
-        return Redirect::to(URL::previous());
+        $selectedTab = '';
+        //if (Input::get('daCounty') != '')
+        return Redirect::to(URL::previous() + $selectedTab);
     }
 
     public function fiscalYear()
@@ -365,7 +367,8 @@ class BudgetAdminController extends Controller
                 }
             }
             else{
-                if (CreditDistributionTitle::where('id' , '<>' , $cdptId)->where('cdtIdNumber' , '=' , $cdptIdNumber)->exists())
+                if ((CreditDistributionTitle::where('id' , '<>' , $cdptId)->where('cdtIdNumber' , '=' , $cdptIdNumber)->exists()) ||
+                    (CreditDistributionTitle::where('id' , '<>' , $cdptId)->Where('cdtSubject' , '=' , $cdptSubject)->exists()))
                 {
                     return \Illuminate\Support\Facades\Response::json(['exist' => true]);
                 }

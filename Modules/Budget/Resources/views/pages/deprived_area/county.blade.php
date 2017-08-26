@@ -1,8 +1,11 @@
-<div class="tabs-panel table-mrg-btm" id="panel2">
+<div class="tabs-panel table-mrg-btm" id="county">
     @if(\Modules\Budget\Entities\DeprivedArea::isExistCounty() == true)
-        <div class="medium-12 padding-lr-rep">
+        <div class="medium-12 bottom-mrg">
             <div class="clearfix border-btm-line ">
                 <div class="button-group float-left report-mrg">
+                    <a  class="clear button"  data-open="modalInsertDeprivedArea"  type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
+                        <i class="fi-plus size-30 secondry-color"></i>
+                    </a>
                     <a  class="clear button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
                         <i class="fi-clipboard-notes size-30 secondry-color"></i>
                     </a>
@@ -26,7 +29,7 @@
                             <td>{{ \Modules\Admin\Entities\County::find($dArea->daCoId)->coName }}</td>
                             <td>{{ $dArea->daDescription }}</td>
                             <td class="text-center"><a data-open="preloaderModal" onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}' , '{{ $dArea->id }}')"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
-                            <td class="text-center"><a href="#" data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                            <td class="text-center"><a data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                         </tr>
                     @endif
                 @endforeach

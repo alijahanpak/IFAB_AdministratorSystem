@@ -193,7 +193,7 @@
         @if($requireJsFile == 'deprived_area')
             <script src="{{ asset('js/modules/budget/admin/deprived_area.js') }}"></script>
         @elseif($requireJsFile =='credit_distributed_def')
-            <script src="{{ asset('js/modules/budget/admin/credit_distributed_def.js') }}"></script>
+            <script src="{{ asset('js/modules/budget/admin/credit_distribution_def.js') }}"></script>
         @elseif($requireJsFile =='fiscal_year')
             <script src="{{ asset('js/modules/budget/admin/fiscal_year.js') }}"></script>
         @endif

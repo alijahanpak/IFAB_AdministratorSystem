@@ -22,9 +22,7 @@
         </div>
         <div class="grid-x my-grid-margin">
             <div class="medium-12 padding-lr">
-
                 <div class="clearfix">
-                    <button type="button" class="my-secondary button small" data-open="modalInsertDeprivedArea">جدید</button>
                     <div class="float-left">
                         <div class="input-group float-left">
                             <input class="input-group-field small-font" type="text">
@@ -39,15 +37,15 @@
         </div>
         <div class="grid-x dashboard-padding">
             <div class="medium-12 column">
-                <ul class="tabs tab-color" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="example-tabs">
-                    <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">استان</a></li>
-                    <li class="tabs-title"><a href="#panel2">شهرستان</a></li>
-                    <li class="tabs-title"><a href="#panel3">بخش</a></li>
-                    <li class="tabs-title"><a href="#panel4">دهستان</a></li>
-                    <li class="tabs-title"><a href="#panel5">روستا</a></li>
+                <ul class="tabs tab-color" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="deprived_area" data-deep-link="true" data-update-history="true" data-deep-link-smudge="true" data-deep-link-smudge="500">
+                    <li class="tabs-title is-active"><a href="#province" aria-selected="true">استان</a></li>
+                    <li class="tabs-title"><a href="#county">شهرستان</a></li>
+                    <li class="tabs-title"><a href="#region">بخش</a></li>
+                    <li class="tabs-title"><a href="#rural_district">دهستان</a></li>
+                    <li class="tabs-title"><a href="#village">روستا</a></li>
                 </ul>
 
-                <div class="tabs-content" data-tabs-content="example-tabs">
+                <div class="tabs-content" data-tabs-content="deprived_area">
                     <!--Tab 1 Start-->
                         @include('budget::pages.deprived_area.province')
                     <!--Tab 1 End-->

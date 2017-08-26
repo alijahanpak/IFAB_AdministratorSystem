@@ -19,15 +19,30 @@
                     </div>
                 </div>
             </div>
+            <div class="grid-x my-grid-margin">
+                <div class="medium-12 padding-lr">
+                    <div class="clearfix">
+                        <div class="float-left">
+                            <div class="input-group float-left">
+                                <input class="input-group-field small-font" type="text">
+                                <div class="input-group-button">
+                                    <button type="button" class="my-secondary button"><i class="fi-magnifying-glass"></i></button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
             @include('budget::pages.credit_distribution_def.forms')
             <div class="grid-x dashboard-padding">
                 <div class="medium-12 column">
-                    <ul class="tabs tab-color" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="example-tabs" data-deep-link="true" data-update-history="true" data-deep-link-smudge="true" data-deep-link-smudge="500">
+                    <ul class="tabs tab-color" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="credit_distribution_def" data-deep-link="true" data-update-history="true" data-deep-link-smudge="true" data-deep-link-smudge="500">
                         <li class="tabs-title is-active"><a href="#row_tab" aria-selected="true">ردیف توزیع اعتبار</a></li>
                         <li class="tabs-title"><a href="#budget_season_tab">فصول بودجه</a></li>
                         <li class="tabs-title"><a href="#plan_title_tab">عنوان طرح</a></li>
                     </ul>
-                    <div class="tabs-content" data-tabs-content="example-tabs">
+                    <div class="tabs-content" data-tabs-content="credit_distribution_def">
                         <!--Tab 1 Start-->
                         @include('budget::pages.credit_distribution_def.rows')
                         <!--Tab 1 End-->
