@@ -85,7 +85,7 @@
     </div>
     <!--Body system-->
     <div class="grid-x">
-        <div class="medium-2 cell small-font">
+        <div style="background-color: #F8F8F8;" class="medium-2 cell small-font">
             <div class="docs-nav">
                 <nav class="accordion docs-nav-category" data-sticky  data-margin-top="4.2">
                     <ul class="vertical menu sub-menu accordion-menu" data-accordion-menu >
@@ -190,7 +190,8 @@
     <script src="{{ asset('js/vendor/foundation.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/modules/budget/admin/deprived_area.js')  }}"></script>
-    <script src="{{ asset('js/modules/budget/admin/credit_distributed_def.js')  }}"></script>
+    <script src="{{ asset('credit_distribution_def.credit_distribution_def.js') }}"></script>
+    <script src="{{ asset('js/modules/budget/admin/credit_distribution_plan.js')  }}"></script>
     @if (session('messageDialogPm'))
         <script type="text/javascript">
                 $(document).ready(function(){

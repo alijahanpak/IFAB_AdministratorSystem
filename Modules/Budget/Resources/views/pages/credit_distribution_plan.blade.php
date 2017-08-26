@@ -30,32 +30,104 @@
                     <div class="tabs-content" data-tabs-content="credit_distribution_plan_tab_view">
                         <!--Tab 1 Start-->
                         <!--Modal Insert Start-->
-                        <div style="z-index: 9999;" class="tiny reveal" id="CDP_ModalInsert" data-reveal>
+                        <div style="z-index: 9999;" class="small reveal" id="CDP_ModalInsert" data-reveal data-animation-in="someAnimationIn">
                             <div class="modal-margin small-font  padding-lr">
-                                <form>
-                                <div class="grid-x" id="existErrorInRegForm" style="display: none">
-                                    <div class="medium-12 columns">
-                                        <div class="alert callout">
-                                            <p class="BYekan login-alert"><i class="fi-alert"></i>این ردیف توزیع اعتبار قبلا ثبت شده است!</p>
+                                <form class="data-abide novalidate">
+                                    <div class="grid-x" id="existErrorInRegForm" style="display: none">
+                                        <div class="medium-12 columns">
+                                            <div class="alert callout">
+                                                <p class="BYekan login-alert"><i class="fi-alert"></i>این ردیف توزیع اعتبار قبلا ثبت شده است!</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="grid-x">
+                                        <div class="medium-8 cell padding-lr">
+                                            <label>عنوان طرح
+                                                <select name="" id="selectProjectTitle" required>
+                                                    <option value="1"></option>
+                                                    <option value="2"></option>
+                                                </select>
+                                            </label>
+                                            <span class="form-error error-font" data-form-error-for="selectProjectTitle">لطفا عنوان فصل را انتخاب کنید!</span>
+                                        </div>
+                                        <div class="medium-4 cell padding-lr">
+                                            <label>عنوان فصل
+                                                <select name="" id="selectSeasonTitle" required>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                </select>
+                                            </label>
+                                            <span class="form-error error-font" data-form-error-for="selectSeasonTitle">لطفا عنوان فصل را انتخاب کنید!</span>
+                                        </div>
+                                    </div>
                                 <div class="grid-x">
-                                    <div class="small-12 columns">
-                                        <label>عنوان ردیف توزیع اعتبار
-                                            <input type="text" name="cdrSubject" id="cdrSubject" required pattern="text">
-                                            <span class="form-error font-wei">لطفا عنوان ردیف توزیع اعتبار را وارد نمایید!</span>
-                                        </label>
+                                    <div class="medium-12 columns">
+                                        <div class="grid-x">
+                                        <div class="medium-3 padding-lr">
+                                            <label>همدان
+                                                <input type="text" name="cdrSubject" id="cdrSubject" required pattern="text">
+                                                <span class="form-error font-wei">لطفا عنوان ردیف توزیع اعتبار را وارد نمایید!</span>
+                                            </label>
+                                        </div>
+                                        <div class="medium-3 padding-lr">
+                                            <label>ملایر
+                                                <input type="text" name="cdrSubject" id="cdrSubject" required pattern="text">
+                                                <span class="form-error font-wei">لطفا عنوان ردیف توزیع اعتبار را وارد نمایید!</span>
+                                            </label>
+                                        </div>
+                                        <div class="medium-3 padding-lr">
+                                            <label>نهاوند
+                                                <input type="text" name="cdrSubject" id="cdrSubject" required pattern="text">
+                                                <span class="form-error font-wei">لطفا عنوان ردیف توزیع اعتبار را وارد نمایید!</span>
+                                            </label>
+                                        </div>
+                                        <div class="medium-3 padding-lr">
+                                            <label>تویسرکان
+                                                <input type="text" name="cdrSubject" id="cdrSubject" required pattern="text">
+                                                <span class="form-error font-wei">لطفا عنوان ردیف توزیع اعتبار را وارد نمایید!</span>
+                                            </label>
+                                        </div>
+                                        <div class="medium-3 padding-lr">
+                                            <label>کبودرآهنگ
+                                                <input type="text" name="cdrSubject" id="cdrSubject" required pattern="text">
+                                                <span class="form-error font-wei">لطفا عنوان ردیف توزیع اعتبار را وارد نمایید!</span>
+                                            </label>
+                                        </div>
+                                        <div class="medium-3 padding-lr">
+                                            <label>اسدآباد
+                                                <input type="text" name="cdrSubject" id="cdrSubject" required pattern="text">
+                                                <span class="form-error font-wei">لطفا عنوان ردیف توزیع اعتبار را وارد نمایید!</span>
+                                            </label>
+                                        </div>
+                                        <div class="medium-3 padding-lr">
+                                            <label>رزن
+                                                <input type="text" name="cdrSubject" id="cdrSubject" required pattern="text">
+                                                <span class="form-error font-wei">لطفا عنوان ردیف توزیع اعتبار را وارد نمایید!</span>
+                                            </label>
+                                        </div>
+                                        <div class="medium-3 padding-lr">
+                                            <label>بهار
+                                                <input type="text" name="cdrSubject" id="cdrSubject" required pattern="text">
+                                                <span class="form-error font-wei">لطفا عنوان ردیف توزیع اعتبار را وارد نمایید!</span>
+                                            </label>
+                                        </div>
+                                        <div class="medium-3 padding-lr">
+                                            <label>فامنین
+                                                <input type="text" name="cdrSubject" id="cdrSubject" required pattern="text">
+                                                <span class="form-error font-wei">لطفا عنوان ردیف توزیع اعتبار را وارد نمایید!</span>
+                                            </label>
+                                        </div>
+                                    </div>
                                     </div>
                                 </div>
                                 <div class="grid-x">
-                                    <div class="small-12 columns">
+                                    <div class="small-12 columns padding-lr">
                                         <label>شرح
                                             <textarea name="cdrDescription" id="cdrDescription" style="min-height: 150px;"></textarea>
                                         </label>
                                     </div>
                                 </div>
-                                <div class="medium-6 columns">
+                                <div class="medium-6 columns padding-lr">
                                     <button name="Submit" type="submit" class="my-secondary button float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span>    <i id="registerSubmitActivityCircle">
                                             <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
                                                 <div></div>
@@ -129,7 +201,7 @@
                             <div class="medium-12  bottom-mrg">
                                 <div class="clearfix border-btm-line ">
                                     <div class="button-group float-left report-mrg">
-                                        <a  class="clear button"  data-open="CDR_ModalInsert" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
+                                        <a  class="clear button"  data-open="CDP_ModalInsert" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
                                             <i class="fi-plus size-30 secondry-color"></i>
                                         </a>
                                         <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
@@ -156,68 +228,66 @@
                                             <td>17323000000</td>
                                             <td>فصل حمایت از فعالیتهای فرهنگی، هنری، دینی استانها</td>
                                             <td>
-                                                <ul class="accordion" data-accordion data-allow-all-closed="true">
-                                                    <li class="accordion-item is-active" data-accordion-item>
-                                                        <a href="#" class="accordion-title">234234234</a>
-                                                        <div class="accordion-content" data-tab-content >
-                                                            <div class="table-scroll">
-                                                            <table class="small-font">
-                                                                <thead class="my-thead">
-                                                                <tr>
-                                                                    <th>همدان</th>
-                                                                    <th>ملایر</th>
-                                                                    <th>نهاوند</th>
-                                                                    <th>تویسرکان</th>
-                                                                    <th>اسدآباد</th>
-                                                                    <th>کبودرآهنگ</th>
-                                                                    <th>رزن</th>
-                                                                    <th>فامنین</th>
-                                                                    <th>بهار</th>
-
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                <tr>
-                                                                    <td>2313</td>
-                                                                    <td>2313</td>
-                                                                    <td>2313</td>
-                                                                    <td>2313</td>
-                                                                    <td>2313</td>
-                                                                    <td>2313</td>
-                                                                    <td>2313</td>
-                                                                    <td>2313</td>
-                                                                    <td>2313</td>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
+                                                <a onclick="openRow()">123546</a>
                                             </td>
                                             <td class="text-center"><a ><i class="fi-pencil size-21 edit-pencil"></i></a></td>
                                             <td class="text-center"><a data-open="modalDelete"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                                        </tr>
 
-                                                <!--Modal Delete Start-->
-                                                <div style="z-index: 9999;" class="tiny reveal" id="modalDelete" data-reveal>
-                                                    <div class="modal-margin small-font">
-                                                        <p>کاربر گرامی</p>
-                                                        <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
-                                                        <div class="grid-x dashboard-padding">
-                                                            <div class="medium-6 ">
-                                                                <a class="button primary btn-large-w large-offset-3">بله</a>
-                                                            </div>
-                                                            <div class="medium-6">
-                                                                <a data-close aria-label="Close modal" class="button primary hollow btn-large-w large-offset-4">خیر</a>
-                                                            </div>
+                                            <!--Modal Delete Start-->
+                                            <div style="z-index: 9999;" class="tiny reveal" id="modalDelete" data-reveal>
+                                                <div class="modal-margin small-font">
+                                                    <p>کاربر گرامی</p>
+                                                    <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
+                                                    <div class="grid-x dashboard-padding">
+                                                        <div class="medium-6 ">
+                                                            <a class="button primary btn-large-w large-offset-3">بله</a>
+                                                        </div>
+                                                        <div class="medium-6">
+                                                            <a data-close aria-label="Close modal" class="button primary hollow btn-large-w large-offset-4">خیر</a>
                                                         </div>
                                                     </div>
-                                                    <button class="close-button" data-close aria-label="Close modal" type="button">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
                                                 </div>
-                                                <!--Modal Delete End-->
+                                                <button class="close-button" data-close aria-label="Close modal" type="button">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <!--Modal Delete End-->
+                                        </tr>
+                                        <tr id="myRow">
+                                            <td colspan="5">
+                                                <div>
+                                                    <table class="tbl-secondary-mrg small-font">
+                                                        <thead class="my-thead">
+                                                        <tr>
+                                                            <th>همدان</th>
+                                                            <th>ملایر</th>
+                                                            <th>نهاوند</th>
+                                                            <th>تویسرکان</th>
+                                                            <th>اسدآباد</th>
+                                                            <th>کبودرآهنگ</th>
+                                                            <th>رزن</th>
+                                                            <th>فامنین</th>
+                                                            <th>بهار</th>
+
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>23/120.12</td>
+                                                            <td>2313</td>
+                                                            <td>2313</td>
+                                                            <td>2313</td>
+                                                            <td>2313</td>
+                                                            <td>2313</td>
+                                                            <td>2313</td>
+                                                            <td>2313</td>
+                                                            <td>2313</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                     </div>
@@ -236,6 +306,7 @@
                         </div>
                         <!--Tab 1 End-->
 
+
                     </div>
                 </div>
             </div>
@@ -246,13 +317,5 @@
                 $('[data-loading-end]').removeClass('hide')
             });
         </script>
-    <script>
-
-
-       // var theTbl = document.getElementById('myTable').rows[0].cells.length;
-        //alert(theTbl);
-
-
-    </script>
 @stop
 
