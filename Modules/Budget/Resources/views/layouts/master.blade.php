@@ -189,8 +189,15 @@
     <script src="{{ asset('js/vendor/what-input.js') }}"></script>
     <script src="{{ asset('js/vendor/foundation.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/modules/budget/admin/deprived_area.js')  }}"></script>
-    <script src="{{ asset('js/modules/budget/admin/credit_distributed_def.js')  }}"></script>
+    @if(isset($requireJsFile))
+        @if($requireJsFile == 'deprived_area')
+            <script src="{{ asset('js/modules/budget/admin/deprived_area.js') }}"></script>
+        @elseif($requireJsFile =='credit_distributed_def')
+            <script src="{{ asset('js/modules/budget/admin/credit_distributed_def.js') }}"></script>
+        @elseif($requireJsFile =='fiscal_year')
+            <script src="{{ asset('js/modules/budget/admin/fiscal_year.js') }}"></script>
+        @endif
+    @endif
     @if (session('messageDialogPm'))
         <script type="text/javascript">
                 $(document).ready(function(){

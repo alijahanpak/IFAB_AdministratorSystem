@@ -175,7 +175,7 @@
                         @endforeach
                     </select>
                 </label>
-                <span class="form-error error-font" data-form-error-for="selectSeason">فصل بودجه را انتخاب کنید!</span>
+                <span class="form-error error-font" data-form-error-for="cdptSelectSeason">فصل بودجه را انتخاب کنید!</span>
             </div>
         </div>
         <div class="grid-x">
@@ -243,7 +243,7 @@
                             @endforeach
                         </select>
                     </label>
-                    <span class="form-error error-font" data-form-error-for="selectSeason">فصل بودجه را انتخاب کنید!</span>
+                    <span class="form-error error-font" data-form-error-for="cdptSelectSeason_u">فصل بودجه را انتخاب کنید!</span>
                 </div>
             </div>
             <div class="grid-x">

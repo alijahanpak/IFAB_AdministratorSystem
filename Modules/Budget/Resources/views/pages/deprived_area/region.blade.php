@@ -40,7 +40,7 @@
         <div class="column">
             <div style="height: 200px;" class="card">
                 <div class="card-section text-center" style="margin-top:60px;">
-                    <span>کاربر گرامی، </span><span class="login-txt small-font">بخش محروم ثبت نشده است!<span><a data-open="CDR_ModalInsert" class="custom-btn-pos my-secondary button tiny">ثبت</a></span></span>
+                    <span>کاربر گرامی، </span><span class="login-txt small-font">بخش محروم ثبت نشده است!<span><a data-open="modalInsertDeprivedArea" class="custom-btn-pos my-secondary button tiny">ثبت</a></span></span>
                 </div>
             </div>
         </div>
