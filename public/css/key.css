@@ -49,6 +49,10 @@ select,[type="text"],[type="password"],textarea{
 td {
     color: #555555;
     font-size: 12px;
+    border: solid 1px #C7CDD1;
+}
+th {
+    border: solid 1.5px #C7CDD1;
 }
 input:checked ~ .switch-paddle {
     background: #d9534f none repeat scroll 0 0;
@@ -545,3 +549,9 @@ input:checked ~ .switch-paddle {
     background-color: #eee;
 }
 /*Table Fix Header End*/
+.display-off{
+    display: none;
+}
+.tbl-secondary-mrg{
+    margin: 0px;
+}
