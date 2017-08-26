@@ -32,7 +32,9 @@ class BudgetAdminController extends Controller
     public function deprivedArea()
     {
         $dAreas = DeprivedArea::all();
-        return view('budget::pages.deprived_area.main' , ['pageTitle' => 'مناطق محروم' , 'dAreas' => $dAreas]);
+        return view('budget::pages.deprived_area.main' , ['pageTitle' => 'مناطق محروم' ,
+            'dAreas' => $dAreas,
+            'requireJsFile' => 'deprived_area']);
     }
 
     public function registerDeprivedArea(Request $request)
@@ -53,7 +55,8 @@ class BudgetAdminController extends Controller
 
     public function fiscalYear()
     {
-        return view('budget::pages.fiscal_year', ['pageTitle' => 'سال مالی']);
+        return view('budget::pages.fiscal_year', ['pageTitle' => 'سال مالی',
+            'requireJsFile' => 'fiscal_year']);
     }
 
     public function creditDistributionDef()
@@ -65,7 +68,8 @@ class BudgetAdminController extends Controller
             ['pageTitle' => 'تعاریف توزیع اعتبار' ,
                 'creditDRs' => $creditDRs ,
                 'bSeasons' => $bSeasons ,
-                'creditDPs' => $creditDPs]);
+                'creditDPs' => $creditDPs,
+                'requireJsFile' => 'credit_distributed_def']);
     }
 
     public function registerCreditDistributionRow(Request $request)

@@ -23,6 +23,8 @@ class SeedAdminUsersTableSeeder extends Seeder
         $user->name = 'علی جهان پاک';
         $user->email = 'a.jahanpak';
         $user->password = Hash::make('redrose');
+        $user->seInPutAmount = 1;
+        $user->seDispAmount = 1;
         $user->save();
     }
 }
