@@ -203,7 +203,7 @@
         @elseif($requireJsFile =='fiscal_year')
             <script src="{{ asset('js/modules/budget/admin/fiscal_year.js') }}"></script>
         @elseif($requireJsFile =='credit_distribution_plan')
-            <script src="{{ asset('js/modules/budget/admin/credit_distribution_plan.js')  }}"></script>
+            <script src="{{ asset('js/modules/budget/credit_distribution_plan.js')  }}"></script>
         @endif
     @endif
     @if (session('messageDialogPm'))
