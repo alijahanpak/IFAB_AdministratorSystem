@@ -100,9 +100,13 @@
                                 </li>
                                 <li><a href="#">تملک دارایی سرمایه ای</a>
                                     <ul class="menu vertical nested">
-                                        <li><a href="#">استانی</a></li>
+                                        <li><a href="#">استانی</a>
+                                            <ul class="menu vertical nested">
+                                                <li><a href="{{ url('/budget/credit_distribution/capital_assets/provincial/plans') }}">طرح های توزیع اعتبار</a></li>
+                                                <li><a href="#">پیشنهاد دستگاه ها</a></li>
+                                            </ul>
+                                        </li>
                                         <li><a href="#">ملی</a></li>
-                                        <li><a class="right-menu-btm-border" href="#">پیشنهاد دستگاه ها</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -140,7 +144,6 @@
                                 <li><a href="{{ url('/budget/admin/deprived_area') }}">مناطق محروم</a></li>
                                 <li><a href="{{ url('/budget/admin/credit_distribution_def') }}">توزیع اعتبار</a></li>
                                 <li><a href="{{ url('/budget/admin/sub_season') }}">ریز فصول</a></li>
-                                <li><a href="{{ url('/budget/admin/credit_distribution_plan') }}">ثبت طرح های توزیع اعتبار</a></li>
                             </ul>
                         </li>
 
