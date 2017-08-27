@@ -58,14 +58,15 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data.exist == true) {
                         $('#existErrorInRegForm').show();
+                        setTimeout(function () {
+                            $('#registerSubmitActivityCircle').hide();
+                        }, 2000);
                     }
                     else {
                         registerCDRFormDataIsExist = false;
                         $('#registerCDRForm').submit();
                     }
-                    setTimeout(function () {
-                        $('#registerSubmitActivityCircle').hide();
-                    }, 2000);
+
 
                 },
                 error: function (jqXHR) {
@@ -109,13 +110,13 @@ $(document).ready(function () {
                     if (data.exist == true)
                     {
                         $('#existErrorInUpForm').show();
+                        setTimeout(function(){ $('#updateSubmitActivityCircle').hide(); } , 2000);
                     }
                     else
                     {
                         updateCDRFormDataIsExist = false;
                         $('#updateCDRForm').submit();
                     }
-                    setTimeout(function(){ $('#updateSubmitActivityCircle').hide(); } , 2000);
                 },
                 error: function (jqXHR) {
                     var msg = '';
@@ -157,14 +158,14 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data.exist == true) {
                         $('#BS_existErrorInRegForm').show();
+                        setTimeout(function () {
+                            $('#bsRegisterSubmitActivityCircle').hide();
+                        }, 2000);
                     }
                     else {
                         bs_registerCDRFormDataIsExist = false;
                         $('#registerBSForm').submit();
                     }
-                    setTimeout(function () {
-                        $('#bsRegisterSubmitActivityCircle').hide();
-                    }, 2000);
 
                 },
                 error: function (jqXHR) {
@@ -208,13 +209,13 @@ $(document).ready(function () {
                     if (data.exist == true)
                     {
                         $('#BS_existErrorInUpForm').show();
+                        setTimeout(function(){ $('#bsUpdateSubmitActivityCircle').hide(); } , 2000);
                     }
                     else
                     {
                         bs_updateCDRFormDataIsExist = false;
                         $('#updateBSForm').submit();
                     }
-                    setTimeout(function(){ $('#bsUpdateSubmitActivityCircle').hide(); } , 2000);
                 },
                 error: function (jqXHR) {
                     var msg = '';
@@ -256,15 +257,14 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data.exist == true) {
                         $('#CDPT_existErrorInRegForm').show();
+                        setTimeout(function () {
+                            $('#cdptRegisterSubmitActivityCircle').hide();
+                        }, 2000);
                     }
                     else {
                         cdpt_registerCDRFormDataIsExist = false;
                         $('#registerCDPTForm').submit();
                     }
-                    setTimeout(function () {
-                        $('#cdptRegisterSubmitActivityCircle').hide();
-                    }, 2000);
-
                 },
                 error: function (jqXHR) {
                     var msg = '';
@@ -307,13 +307,13 @@ $(document).ready(function () {
                     if (data.exist == true)
                     {
                         $('#CDPT_existErrorInUpForm').show();
+                        setTimeout(function(){ $('#cdptUpdateSubmitActivityCircle').hide(); } , 2000);
                     }
                     else
                     {
                         cdpt_updateCDRFormDataIsExist = false;
                         $('#updateCDPTForm').submit();
                     }
-                    setTimeout(function(){ $('#cdptUpdateSubmitActivityCircle').hide(); } , 2000);
                 },
                 error: function (jqXHR) {
                     var msg = '';

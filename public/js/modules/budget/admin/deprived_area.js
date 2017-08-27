@@ -368,13 +368,13 @@ $(document).ready(function () {
                     if (data.exist == true)
                     {
                         $('#existErrorInRegForm').show();
+                        setTimeout(function(){ $('#registerSubmitActivityCircle').hide(); } , 2000);
                     }
                     else
                     {
                         registerDAFormDataIsExist = false;
                         $('#registerDAForm').submit();
                     }
-                    setTimeout(function(){ $('#registerSubmitActivityCircle').hide(); } , 2000);
 
                 },
                 error: function (jqXHR) {
@@ -394,6 +394,7 @@ $(document).ready(function () {
                     } else {
                         msg = 'Uncaught Error.\n' + jqXHR.responseText;
                     }
+                    setTimeout(function(){ $('#registerSubmitActivityCircle').hide(); } , 2000);
                     console.log(msg);
                 }
             });
@@ -427,13 +428,13 @@ $(document).ready(function () {
                     if (data.exist == true)
                     {
                         $('#existErrorInUpForm').show();
+                        setTimeout(function(){ $('#updateSubmitActivityCircle').hide(); } , 2000);
                     }
                     else
                     {
                         updateDAFormDataIsExist = false;
                         $('#updateDAForm').submit();
                     }
-                    setTimeout(function(){ $('#updateSubmitActivityCircle').hide(); } , 2000);
                 },
                 error: function (jqXHR) {
                     var msg = '';
@@ -452,6 +453,7 @@ $(document).ready(function () {
                     } else {
                         msg = 'Uncaught Error.\n' + jqXHR.responseText;
                     }
+                    setTimeout(function(){ $('#updateSubmitActivityCircle').hide(); } , 2000);
                     console.log(msg);
                 }
             });

@@ -60,4 +60,12 @@ class CreditDistributionController extends Controller
         $cdp->delete();
         return Redirect::to(URL::previous());
     }
+
+    public function CDPIsExist($cdtId , $cdpId)
+    {
+        if (\Illuminate\Support\Facades\Request::ajax())
+        {
+
+        }
+    }
 }

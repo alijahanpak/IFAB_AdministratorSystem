@@ -62,7 +62,7 @@
                 </div>
             </div>
             <div class="medium-6 columns padding-lr">
-                <button name="Submit" type="submit" class="my-secondary button float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span>    <i id="registerSubmitActivityCircle">
+                <button name="Submit" onmouseover="setCDPCheckExistUrl('{{ url('/budget/admin/credit_distribution_def/plan_title/CDPTIsExist') }}')" type="submit" class="my-secondary button float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span>    <i id="registerSubmitActivityCircle">
                         <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
                             <div></div>
                             <div></div>

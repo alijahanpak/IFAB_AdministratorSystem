@@ -27,7 +27,18 @@
             </div>
         </div>
         <div class="medium-6 columns">
-            <button name="Submit" onmouseover="setCDRCheckExistUrl('{{ url('/budget/admin/credit_distribution_def/rows/CDRIsExist') }}')"  type="submit" class="my-secondary button float-left btn-for-load"> <span>ثبت</span>    <i id="registerSubmitActivityCircle" class="fa fi-loop  fa-spin icon-mar"></i> </button>
+            <button name="Submit" onmouseover="setCDRCheckExistUrl('{{ url('/budget/admin/credit_distribution_def/rows/CDRIsExist') }}')"  type="submit" class="my-secondary button float-left btn-for-load"> <span>  ثبت</span><i id="registerSubmitActivityCircle">
+                    <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </i> </button>
         </div>
         {!! Form::close() !!}
     </div>
@@ -65,7 +76,18 @@
             </div>
         </div>
         <div class="medium-6 columns">
-            <button name="Submit" onmouseover="setCDRCheckExistUrl('{{ url('/budget/admin/credit_distribution_def/rows/CDRIsExist') }}')"  type="submit" class="my-secondary button float-left btn-for-load"> <span>ثبت</span>    <i id="updateSubmitActivityCircle" class="fa fi-loop  fa-spin icon-mar"></i> </button>
+            <button name="Submit" onmouseover="setCDRCheckExistUrl('{{ url('/budget/admin/credit_distribution_def/rows/CDRIsExist') }}')"  type="submit" class="my-secondary button float-left btn-for-load"> <span>  ثبت</span><i id="updateSubmitActivityCircle">
+                    <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </i> </button>
         </div>
         {!! Form::close() !!}
     </div>
@@ -104,7 +126,18 @@
             </div>
         </div>
         <div class="medium-6 columns">
-            <button name="Submit" onmouseover="setBSCheckExistUrl('{{ url('/budget/admin/credit_distribution_def/budget_season/BSIsExist') }}')" type="submit" class="my-secondary button float-left btn-for-load"> <span>ثبت</span>    <i id="bsRegisterSubmitActivityCircle" class="fa fi-loop  fa-spin icon-mar"></i> </button>
+            <button name="Submit" onmouseover="setBSCheckExistUrl('{{ url('/budget/admin/credit_distribution_def/budget_season/BSIsExist') }}')" type="submit" class="my-secondary button float-left btn-for-load"> <span>  ثبت</span><i id="bsRegisterSubmitActivityCircle">
+                    <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </i> </button>
         </div>
         {!! Form::close() !!}
     </div>
@@ -142,7 +175,18 @@
             </div>
         </div>
         <div class="medium-6 columns">
-            <button name="Submit" onmouseover="setBSCheckExistUrl('{{ url('/budget/admin/credit_distribution_def/budget_season/BSIsExist') }}')" type="submit" class="my-secondary button float-left btn-for-load"> <span>ثبت</span>    <i id="bsUpdateSubmitActivityCircle" class="fa fi-loop  fa-spin icon-mar"></i> </button>
+            <button name="Submit" onmouseover="setBSCheckExistUrl('{{ url('/budget/admin/credit_distribution_def/budget_season/BSIsExist') }}')" type="submit" class="my-secondary button float-left btn-for-load"> <span>  ثبت</span><i id="bsUpdateSubmitActivityCircle">
+                    <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </i> </button>
         </div>
         {!! Form::close() !!}
     </div>
@@ -161,7 +205,7 @@
         <div class="grid-x" id="CDPT_existErrorInRegForm" style="display: none">
             <div class="medium-12 columns">
                 <div class="alert callout">
-                    <p class="BYekan login-alert"><i class="fi-alert"></i>این شماره طرح قبلا ثبت شده است!</p>
+                    <p class="BYekan login-alert"><i class="fi-alert"></i>این شماره یا عنوان طرح قبلا ثبت شده است!</p>
                 </div>
             </div>
         </div>
