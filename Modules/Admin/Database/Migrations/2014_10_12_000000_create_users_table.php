@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
                 $table->increments('id');
                 $table->integer('seInPutAmount')->length(10)->unsigned();
                 $table->integer('seDispAmount')->length(10)->unsigned();
+                $table->integer('seFiscalYear')->nullable()->length(10)->unsigned();
                 $table->string('name');
                 $table->string('email')->unique();
                 $table->string('password');

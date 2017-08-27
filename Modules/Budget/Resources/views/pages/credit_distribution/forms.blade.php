@@ -1,7 +1,8 @@
 <!--Modal Insert Start-->
 <div style="z-index: 9999;" class="small reveal" id="CDP_ModalInsert" data-reveal data-animation-in="someAnimationIn">
     <div class="modal-margin small-font  padding-lr">
-        <form class="data-abide novalidate">
+        {!! Form::open(array('id' => 'registerCDPForm' , 'url' => '/budget/credit_distribution/capital_assets/provincial/plans/register' , 'class' => 'form' , 'data-abide novalidate')) !!}
+        {!! csrf_field() !!}
             <div class="grid-x" id="existErrorInRegForm" style="display: none">
                 <div class="medium-12 columns">
                     <div class="alert callout">
@@ -12,87 +13,51 @@
             <div class="grid-x">
                 <div class="medium-8 cell padding-lr">
                     <label>عنوان طرح
-                        <select name="" id="selectProjectTitle" required>
-                            <option value="1"></option>
-                            <option value="2"></option>
+                        <select name="cdpPlanTitle" id="selectPlanTitle" required>
+                            <option value=""></option>
+                            @foreach($creditDTs as $creditDT)
+                                <option value="{{ $creditDT->id }}">{{ $creditDT->cdtIdNumber . ' - ' . $creditDT->cdtSubject }}</option>
+                            @endforeach
                         </select>
                     </label>
-                    <span class="form-error error-font" data-form-error-for="selectProjectTitle">لطفا عنوان فصل را انتخاب کنید!</span>
+                    <span class="form-error error-font" data-form-error-for="selectPlanTitle">طرح توزیع اعتبار را انتخاب کنید!</span>
                 </div>
                 <div class="medium-4 cell padding-lr">
-                    <label>عنوان فصل
-                        <select name="" id="selectSeasonTitle" required>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
+                    <label>ردیف توزیع اعتبار
+                        <select name="cdpRowTitle" id="cdpRowTitle" required>
+                            <option value=""></option>
+                            @foreach($creditDRs as $creditDR)
+                                <option value="{{ $creditDR->id }}">{{ $creditDR->cdSubject }}</option>
+                            @endforeach
                         </select>
                     </label>
-                    <span class="form-error error-font" data-form-error-for="selectSeasonTitle">لطفا عنوان فصل را انتخاب کنید!</span>
+                    <span class="form-error error-font" data-form-error-for="selectBudgetSeason">ردیف توزیع اعتبار را انتخاب کنید!</span>
+                </div>
+            </div>
+            <div class="grid-x" style="margin-top: 1rem">
+                <div class="medium-12 columns">
+                    <div class="grid-x">
+                        <span class="padding-lr">مبالغ</span><span style="color: #D9534F;">({{ \Modules\Admin\Entities\User::find(Auth::user()->id)->first()->inPutAmountUnit->auSubject }})</span>
+                    </div>
                 </div>
             </div>
             <div class="grid-x">
                 <div class="medium-12 columns">
                     <div class="grid-x">
-                        <div class="medium-3 padding-lr">
-                            <label>همدان
-                                <input type="text" name="cdrSubject" id="cdrSubject" required pattern="text">
-                                <span class="form-error font-wei">لطفا عنوان ردیف توزیع اعتبار را وارد نمایید!</span>
-                            </label>
-                        </div>
-                        <div class="medium-3 padding-lr">
-                            <label>ملایر
-                                <input type="text" name="cdrSubject" id="cdrSubject" required pattern="text">
-                                <span class="form-error font-wei">لطفا عنوان ردیف توزیع اعتبار را وارد نمایید!</span>
-                            </label>
-                        </div>
-                        <div class="medium-3 padding-lr">
-                            <label>نهاوند
-                                <input type="text" name="cdrSubject" id="cdrSubject" required pattern="text">
-                                <span class="form-error font-wei">لطفا عنوان ردیف توزیع اعتبار را وارد نمایید!</span>
-                            </label>
-                        </div>
-                        <div class="medium-3 padding-lr">
-                            <label>تویسرکان
-                                <input type="text" name="cdrSubject" id="cdrSubject" required pattern="text">
-                                <span class="form-error font-wei">لطفا عنوان ردیف توزیع اعتبار را وارد نمایید!</span>
-                            </label>
-                        </div>
-                        <div class="medium-3 padding-lr">
-                            <label>کبودرآهنگ
-                                <input type="text" name="cdrSubject" id="cdrSubject" required pattern="text">
-                                <span class="form-error font-wei">لطفا عنوان ردیف توزیع اعتبار را وارد نمایید!</span>
-                            </label>
-                        </div>
-                        <div class="medium-3 padding-lr">
-                            <label>اسدآباد
-                                <input type="text" name="cdrSubject" id="cdrSubject" required pattern="text">
-                                <span class="form-error font-wei">لطفا عنوان ردیف توزیع اعتبار را وارد نمایید!</span>
-                            </label>
-                        </div>
-                        <div class="medium-3 padding-lr">
-                            <label>رزن
-                                <input type="text" name="cdrSubject" id="cdrSubject" required pattern="text">
-                                <span class="form-error font-wei">لطفا عنوان ردیف توزیع اعتبار را وارد نمایید!</span>
-                            </label>
-                        </div>
-                        <div class="medium-3 padding-lr">
-                            <label>بهار
-                                <input type="text" name="cdrSubject" id="cdrSubject" required pattern="text">
-                                <span class="form-error font-wei">لطفا عنوان ردیف توزیع اعتبار را وارد نمایید!</span>
-                            </label>
-                        </div>
-                        <div class="medium-3 padding-lr">
-                            <label>فامنین
-                                <input type="text" name="cdrSubject" id="cdrSubject" required pattern="text">
-                                <span class="form-error font-wei">لطفا عنوان ردیف توزیع اعتبار را وارد نمایید!</span>
-                            </label>
-                        </div>
+                        @foreach($counties as $county)
+                            <div class="medium-3 padding-lr">
+                                <label>{{ $county->coName }}
+                                    <input type="text" name="cdpCounty{{ $county->id }}" id="cdpCounty{{ $county->id }}" required pattern="text">
+                                </label>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
             <div class="grid-x">
                 <div class="small-12 columns padding-lr">
                     <label>شرح
-                        <textarea name="cdrDescription" id="cdrDescription" style="min-height: 150px;"></textarea>
+                        <textarea name="cdpDescription" id="cdpDescription" style="min-height: 150px;"></textarea>
                     </label>
                 </div>
             </div>
@@ -108,9 +73,10 @@
                             <div></div>
                             <div></div>
                         </div>
-                    </i> </button>
+                    </i>
+                </button>
             </div>
-        </form>
+        {!! Form::close() !!}
     </div>
     <button class="close-button" data-close aria-label="Close modal" type="button">
         <span aria-hidden="true">&times;</span>

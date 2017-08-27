@@ -51,13 +51,13 @@ class BudgetAdminController extends Controller
 
         SystemLog::setBudgetSubSystemAdminLog('تعریف منطقه محروم ' . DeprivedArea::getDeprivedAreaLabel($deprivedArea->id));
         $selectedTab = '';
-        if (Input::get('daCounty') != '' &&
+/*        if (Input::get('daCounty') != '' &&
             Input::get('daRegion') != '' &&
             Input::get('daRuralDistrict') != '' &&
             Input::get('daVillage') != '')
         {
             $selectedTab = '#village';
-        }
+        }*/
         return Redirect::to(URL::previous() . $selectedTab);
     }
 

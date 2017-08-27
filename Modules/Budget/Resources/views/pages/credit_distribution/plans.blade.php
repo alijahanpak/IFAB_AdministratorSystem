@@ -11,89 +11,84 @@
             </div>
         </div>
     </div>
+    @if(count($cdPlans) > 0)
     <div class="columns">
         <div  class="my-table-scroll">
-            <table class="stack small-font">
+            <table class="unstriped small-font">
                 <thead class="my-thead">
-                <tr>
-                    <th>شماره طرح</th>
-                    <th>عنوان طرح</th>
-                    <th>سرجمع شهرستان ها (میلیون ریال)</th>
-                    <th width="65px">ویرایش</th>
-                    <th width="65px">حذف</th>
+                    <tr>
+                        <th>شماره طرح</th>
+                        <th>عنوان طرح</th>
+                        <th>فصل بودجه</th>
+                        <th>ردیف توزیع اعتبار</th>
+                        <th>سرجمع</th>
+                        <th width="65px">ویرایش</th>
+                        <th width="65px">حذف</th>
 
-                </tr>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>17323000000</td>
-                    <td>فصل حمایت از فعالیتهای فرهنگی، هنری، دینی استانها</td>
-                    <td>
-                        <a onclick="openRow()">123546</a>
-                    </td>
-                    <td class="text-center"><a ><i class="fi-pencil size-21 edit-pencil"></i></a></td>
-                    <td class="text-center"><a data-open="modalDelete"><i class="fi-trash size-21 trash-t"></i> </a></td>
+                @foreach($cdPlans as $cdPlan)
+                    <tr>
+                        <td>{{ $cdPlan->creditDistributionTitle->cdtIdNumber }}</td>
+                        <td>{{ $cdPlan->creditDistributionTitle->cdtSubject }}</td>
+                        <td>{{ $cdPlan->creditDistributionTitle->budgetSeason->bsSubject }}</td>
+                        <td>{{ $cdPlan->creditDistributionRow->cdSubject }}</td>
+                        <td class="text-center">
+                            <a onclick="openCountyPlanAmount('countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}')">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CreditDistributionPlan::getSumPlanAmount($cdPlan->cdpCdtId , $cdPlan->cdpCdrId)) }}</a>
+                        </td>
+                        <td class="text-center"><a ><i class="fi-pencil size-21 edit-pencil"></i></a></td>
+                        <td class="text-center"><a data-open="modalDeletePlan{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
 
-                    <!--Modal Delete Start-->
-                    <div style="z-index: 9999;" class="tiny reveal" id="modalDelete" data-reveal>
-                        <div class="modal-margin small-font">
-                            <p>کاربر گرامی</p>
-                            <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
-                            <div class="grid-x dashboard-padding">
-                                <div class="medium-6 ">
-                                    <a class="button primary btn-large-w large-offset-3">بله</a>
-                                </div>
-                                <div class="medium-6">
-                                    <a data-close aria-label="Close modal" class="button primary hollow btn-large-w large-offset-4">خیر</a>
+                        <!--Modal Delete Start-->
+                        <div style="z-index: 9999;" class="tiny reveal" id="modalDeletePlan{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}" data-reveal>
+                            <div class="modal-margin small-font">
+                                <p>کاربر گرامی</p>
+                                <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
+                                <div class="grid-x dashboard-padding">
+                                    <div class="medium-6 ">
+                                        <a class="button primary btn-large-w large-offset-3" href="{{ url('/budget/credit_distribution/capital_assets/provincial/plans/delete/' . $cdPlan->cdpCdtId . '/' . $cdPlan->cdpCdrId) }}">بله</a>
+                                    </div>
+                                    <div class="medium-6">
+                                        <a data-close aria-label="Close modal" class="button primary hollow btn-large-w large-offset-4">خیر</a>
+                                    </div>
                                 </div>
                             </div>
+                            <button class="close-button" data-close aria-label="Close modal" type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                        <button class="close-button" data-close aria-label="Close modal" type="button">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <!--Modal Delete End-->
-                </tr>
-                <tr id="myRow">
-                    <td colspan="5">
-                        <div>
-                            <table class="tbl-secondary-mrg small-font">
-                                <thead class="my-thead">
-                                <tr>
-                                    <th>همدان</th>
-                                    <th>ملایر</th>
-                                    <th>نهاوند</th>
-                                    <th>تویسرکان</th>
-                                    <th>اسدآباد</th>
-                                    <th>کبودرآهنگ</th>
-                                    <th>رزن</th>
-                                    <th>فامنین</th>
-                                    <th>بهار</th>
-
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>23/120.12</td>
-                                    <td>2313</td>
-                                    <td>2313</td>
-                                    <td>2313</td>
-                                    <td>2313</td>
-                                    <td>2313</td>
-                                    <td>2313</td>
-                                    <td>2313</td>
-                                    <td>2313</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </td>
-                </tr>
+                        <!--Modal Delete End-->
+                    </tr>
+                    <tr style="background-color: #F1F1F1" id="countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}" class="display-off">
+                        <td colspan="7">
+                            <div>
+                                <?php $cAmounts = \Modules\Budget\Entities\CreditDistributionPlan::getAllPlan($cdPlan->cdpCdtId , $cdPlan->cdpCdrId); ?>
+                                <table class="tbl-secondary-mrg small-font">
+                                    <thead class="my-thead">
+                                    <tr>
+                                        @foreach($cAmounts as $cAmount)
+                                            <th>{{ $cAmount->county->coName }}</th>
+                                        @endforeach
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        @foreach($cAmounts as $cAmount)
+                                            <td>{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount($cAmount->cdpCredit) }}</td>
+                                        @endforeach
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>
     </div>
-
+    @else
     <!--Panel nothing Insert Start-->
     <div class="column">
         <div style="height: 200px;" class="card">
@@ -103,5 +98,5 @@
         </div>
     </div>
     <!--Panel nothing Insert End-->
-
+    @endif
 </div>
