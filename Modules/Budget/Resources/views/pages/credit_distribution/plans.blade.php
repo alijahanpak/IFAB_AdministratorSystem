@@ -22,6 +22,7 @@
                             <th>فصل بودجه</th>
                             <th>ردیف توزیع اعتبار</th>
                             <th>سرجمع</th>
+                            <th>شرح</th>
                             <th width="65px">ویرایش</th>
                             <th width="65px">حذف</th>
 
@@ -52,6 +53,7 @@
                             <td class="text-center">
                                 <a onclick="openCountyPlanAmount('countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}')">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CreditDistributionPlan::getSumPlanAmount($cdPlan->cdpCdtId , $cdPlan->cdpCdrId)) }}</a>
                             </td>
+                            <td>{{ $cdPlan->cdpDescription }}</td>
                             <td class="text-center"><a data-open="preloaderModal" onclick="CDPUpdateDialogOpen({{ json_encode($countyId) }} , {{ json_encode($countyAmount) }} , '{{ $cdPlan->cdpCdrId }}' , '{{ $cdPlan->cdpCdrId }}' , '{{ $cdPlan->cdpDescription }}')" ><i class="fi-pencil size-21 edit-pencil"></i></a></td>
                             <td class="text-center"><a data-open="modalDeletePlan{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
 
@@ -76,7 +78,7 @@
                             <!--Modal Delete End-->
                         </tr>
                         <tr style="background-color: #F1F1F1" id="countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}" class="display-off">
-                            <td colspan="7">
+                            <td colspan="8">
                                 <div>
                                     <table class="tbl-secondary-mrg small-font">
                                         <thead class="my-thead">

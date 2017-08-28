@@ -27,7 +27,6 @@ function setCDPCheckExistUrl(url) {
 }
 
 var registerCDPFormDataIsExist = true;
-var updateCDPFormDataIsExist = true;
 $(document).ready(function () {
     $('#registerSubmitActivityCircle').hide();
     $('#registerCDPForm').submit(function(event) {
@@ -79,55 +78,10 @@ $(document).ready(function () {
     });
 
     $('#updateSubmitActivityCircle').hide();
-    $('#updateCDRForm').submit(function(event) {
-        if ($('#cdrSubject_u').val() != '') {
-            var url = checkCDPExistUrl + '/' + $('#cdrSubject_u').val() + '/' + $('#cdrId_u').val();
-            $('#updateSubmitActivityCircle').show();
-            $.ajax({
-                type: "GET",
-                dataType: "JSON",
-                url: url,
-                success: function (data) {
-                    if (data.exist == true)
-                    {
-                        $('#existErrorInUpForm').show();
-                        setTimeout(function(){ $('#updateSubmitActivityCircle').hide(); } , 2000);
-                    }
-                    else
-                    {
-                        updateCDPFormDataIsExist = false;
-                        $('#updateCDRForm').submit();
-                    }
-                },
-                error: function (jqXHR) {
-                    var msg = '';
-                    if (jqXHR.status === 0) {
-                        msg = 'Not connect.\n Verify Network.';
-                    } else if (jqXHR.status == 404) {
-                        msg = 'Requested page not found. [404]';
-                    } else if (jqXHR.status == 500) {
-                        msg = 'Internal Server Error [500].';
-                    } else if (exception === 'parsererror') {
-                        msg = 'Requested JSON parse failed.';
-                    } else if (exception === 'timeout') {
-                        msg = 'Time out error.';
-                    } else if (exception === 'abort') {
-                        msg = 'Ajax request aborted.';
-                    } else {
-                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
-                    }
-                    setTimeout(function () {
-                        $('#updateSubmitActivityCircle').hide();
-                    }, 2000);
-                    console.log(msg);
-                }
-            });
-        }
-        if (updateCDPFormDataIsExist == true)
-            event.preventDefault();
+    $('#updateCDPForm').submit(function(event) {
+        $('#updateSubmitActivityCircle').show();
     });
     //////////////////////////////////////////////////////////////////////////////////////////////
-
 /*    $('#cdrSubject').val('');
     $('#cdrDescription').val('');
     $('#existErrorInRegForm').hide();
@@ -180,9 +134,5 @@ $(document).ready(function () {
     $('#cdptDescription').val('');
     $('#CDPT_existErrorInRegForm').hide();
     $('#CDPT_existErrorInUpForm').hide();*/
-
-
-    ////////////////////////////////////////////////////////
-
     ////////////////////////////////////////////////////////
 });
