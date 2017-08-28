@@ -51,7 +51,7 @@
                             <td>{{ $cdPlan->creditDistributionTitle->budgetSeason->bsSubject }}</td>
                             <td>{{ $cdPlan->creditDistributionRow->cdSubject }}</td>
                             <td class="text-center">
-                                <a onclick="openCountyPlanAmount('countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}')">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CreditDistributionPlan::getSumPlanAmount($cdPlan->cdpCdtId , $cdPlan->cdpCdrId)) }}</a>
+                                <a onclick="openTableRowAcc('countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}')">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CreditDistributionPlan::getSumPlanAmount($cdPlan->cdpCdtId , $cdPlan->cdpCdrId)) }}</a>
                             </td>
                             <td>{{ $cdPlan->cdpDescription }}</td>
                             <td class="text-center"><a data-open="preloaderModal" onclick="CDPUpdateDialogOpen({{ json_encode($countyId) }} , {{ json_encode($countyAmount) }} , '{{ $cdPlan->cdpCdrId }}' , '{{ $cdPlan->cdpCdrId }}' , '{{ $cdPlan->cdpDescription }}')" ><i class="fi-pencil size-21 edit-pencil"></i></a></td>

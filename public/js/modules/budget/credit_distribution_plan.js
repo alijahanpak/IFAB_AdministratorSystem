@@ -1,11 +1,3 @@
-function openCountyPlanAmount(trId) {
-    if ($('#' + trId).css('display') == 'none') {
-        $('#' + trId).removeClass('display-off').hide().fadeIn();
-    } else {
-        $('#' + trId).addClass('display-off');
-    }
-}
-
 function CDPUpdateDialogOpen(countyId , countyAmount , cdrId , cdtId , description) {
     $('#cdpTitle_u').val(cdtId);
     $('#cdpRow_u').val(cdrId);
@@ -20,7 +12,6 @@ function CDPUpdateDialogOpen(countyId , countyAmount , cdrId , cdtId , descripti
         $('#CDP_ModalUpdate').foundation('toggle');
     }, 100);
 }
-
 var checkCDPExistUrl = '';
 function setCDPCheckExistUrl(url) {
     checkCDPExistUrl = url;

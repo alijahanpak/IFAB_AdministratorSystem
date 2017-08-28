@@ -34,11 +34,15 @@
                     <li class="tabs-title"><a href="#budget_season_tab">فصل بودجه</a></li>
                     <li class="tabs-title"><a href="#city_tab">شهرستان</a></li>
                 </ul>
+
                 <div class="tabs-content" data-tabs-content="credit_distribution_plan_tab_view">
-                    <!--Tab 1 Start-->
+                    <!--Tab 1-->
                         @include('budget::pages.credit_distribution.plans')
-                    <!--Tab 1 End-->
-                </div>
+                    <!--Tab 1-->
+                    <!--Tab 1-->
+                        @include('budget::pages.credit_distribution.rows')
+                    <!--Tab 1-->
+
             </div>
         </div>
     </div>
