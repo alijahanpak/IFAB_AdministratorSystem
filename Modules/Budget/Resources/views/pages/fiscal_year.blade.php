@@ -43,7 +43,7 @@
                                         @if($fiscalYear->fyStatus != 0)
                                             <a href="#" data-open="modalPermission{{ $fiscalYear->fyLabel }}"><i class="fi-clipboard-pencil size-21 blue-color"></i> </a>
                                             <!--Modal Permission Start-->
-                                            <div style="z-index: 9999;" class="large reveal" id="modalPermission{{ $fiscalYear->fyLabel }}" data-reveal>
+                                            <div style="z-index: 9999;" class="large reveal" id="modalPermission{{ $fiscalYear->fyLabel }}" data-reveal data-animation-in="someAnimationIn">
                                                 <div class="modal-margin small-font">
                                                     <div class="grid-x">
                                                         <div class="medium-12 column">
@@ -128,7 +128,7 @@
                                         @if($fiscalYear->fyStatus == 0)
                                             <a href="#" data-open="modalFYActivate{{ $fiscalYear->id }}"><i class="fi-checkbox size-21 edit-pencil"></i> </a>
                                             <!--modalFYActivate Start-->
-                                            <div style="z-index: 9999;" class="tiny reveal" id="modalFYActivate{{ $fiscalYear->id }}" data-reveal>
+                                            <div style="z-index: 9999;" class="tiny reveal" id="modalFYActivate{{ $fiscalYear->id }}" data-reveal data-animation-in="someAnimationIn">
                                                 <div class="modal-margin small-font">
                                                     <p>کاربر گرامی</p>
                                                     <p class="large-offset-1 modal-text">آیا مایل به فعال سازی سال مالی <span>{{ $fiscalYear->fyLabel }}</span>هستید؟</p>

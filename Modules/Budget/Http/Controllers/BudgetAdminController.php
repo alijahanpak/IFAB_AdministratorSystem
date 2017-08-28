@@ -23,7 +23,7 @@ use Modules\Budget\Entities\FyPermissionInBudget;
 class BudgetAdminController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth', ['only' => ['deprivedArea' , 'registerDeprivedArea' , 'updateDeprivedArea' , 'deleteDeprivedArea' , 'fiscalYear']]);
+        $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.

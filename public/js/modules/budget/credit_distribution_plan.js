@@ -1,3 +1,17 @@
+function CDPUpdateDialogOpen(countyId , countyAmount , cdrId , cdtId , description) {
+    $('#cdpTitle_u').val(cdtId);
+    $('#cdpRow_u').val(cdrId);
+    for (var i=0 ; i < countyId.length ; i++)
+    {
+        $('#' + countyId[i]).val(countyAmount[i]);
+    }
+    $('#cdpDescription_u').val(description);
+    $('#cdrId_u').val(cdrId);
+    $('#cdtId_u').val(cdtId);
+    setTimeout(function () {
+        $('#CDP_ModalUpdate').foundation('toggle');
+    }, 100);
+}
 var checkCDPExistUrl = '';
 function setCDPCheckExistUrl(url) {
     checkCDPExistUrl = url;
@@ -8,53 +22,51 @@ var updateCDPFormDataIsExist = true;
 $(document).ready(function () {
     $('#registerSubmitActivityCircle').hide();
     $('#registerCDPForm').submit(function(event) {
-        if ($('#cdrSubject').val() != '') {
-            var url = checkCDPExistUrl + '/' + $('#cdrSubject').val();
-            $('#registerSubmitActivityCircle').show();
-            $.ajax({
-                type: "GET",
-                dataType: "JSON",
-                url: url,
-                success: function (data) {
-                    if (data.exist == true) {
-                        $('#existErrorInRegForm').show();
-                        setTimeout(function () {
-                            $('#registerSubmitActivityCircle').hide();
-                        }, 2000);
-                    }
-                    else {
-                        registerCDPFormDataIsExist = false;
-                        $('#registerCDPForm').submit();
-                    }
+    var url = checkCDPExistUrl + '/' + $('#cdpTitle').val() + '/' + $('#cdpRow').val();
+    $('#registerSubmitActivityCircle').show();
+    $.ajax({
+        type: "GET",
+        dataType: "JSON",
+        url: url,
+        success: function (data) {
+            if (data.exist == true) {
+                $('#existErrorInRegForm').show();
+                setTimeout(function () {
+                    $('#registerSubmitActivityCircle').hide();
+                }, 2000);
+            }
+            else {
+                registerCDPFormDataIsExist = false;
+                $('#registerCDPForm').submit();
+            }
 
 
-                },
-                error: function (jqXHR) {
-                    var msg = '';
-                    if (jqXHR.status === 0) {
-                        msg = 'Not connect.\n Verify Network.';
-                    } else if (jqXHR.status == 404) {
-                        msg = 'Requested page not found. [404]';
-                    } else if (jqXHR.status == 500) {
-                        msg = 'Internal Server Error [500].';
-                    } else if (exception === 'parsererror') {
-                        msg = 'Requested JSON parse failed.';
-                    } else if (exception === 'timeout') {
-                        msg = 'Time out error.';
-                    } else if (exception === 'abort') {
-                        msg = 'Ajax request aborted.';
-                    } else {
-                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
-                    }
-                    setTimeout(function () {
-                        $('#registerSubmitActivityCircle').hide();
-                    }, 2000);
-                    console.log(msg);
-                }
-            });
+        },
+        error: function (jqXHR) {
+            var msg = '';
+            if (jqXHR.status === 0) {
+                msg = 'Not connect.\n Verify Network.';
+            } else if (jqXHR.status == 404) {
+                msg = 'Requested page not found. [404]';
+            } else if (jqXHR.status == 500) {
+                msg = 'Internal Server Error [500].';
+            } else if (exception === 'parsererror') {
+                msg = 'Requested JSON parse failed.';
+            } else if (exception === 'timeout') {
+                msg = 'Time out error.';
+            } else if (exception === 'abort') {
+                msg = 'Ajax request aborted.';
+            } else {
+                msg = 'Uncaught Error.\n' + jqXHR.responseText;
+            }
+            setTimeout(function () {
+                $('#registerSubmitActivityCircle').hide();
+            }, 2000);
+            console.log(msg);
         }
-        if (registerCDPFormDataIsExist == true)
-            event.preventDefault();
+    });
+    if (registerCDPFormDataIsExist == true)
+        event.preventDefault();
     });
 
     $('#updateSubmitActivityCircle').hide();

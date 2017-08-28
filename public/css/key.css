@@ -484,7 +484,7 @@ input:checked ~ .switch-paddle {
 .loader-pos{
     position: absolute;
     left: 48%;
-    top: 48%;
+    top: 45%;
     z-index: 1;
 }
 .is-active-tab{

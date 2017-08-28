@@ -31,6 +31,12 @@ class AmountUnit extends Model
         return number_format ( $tempAmount , $count , "." , "," );
     }
 
+    public static function convertDispAmountWithoutSplliter($amount)
+    {
+        $tempAmount = ($amount / (User::where('id' , '=' , Auth::user()->id)->first()->dispAmountUnit->auAmount));
+        return $tempAmount;
+    }
+
     public function userInPutAmountUnit()
     {
         return $this->hasMany(User::class , 'seInPutAmount' , 'id');

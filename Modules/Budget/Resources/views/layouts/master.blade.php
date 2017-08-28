@@ -189,9 +189,8 @@
                     <div></div>
                 </div>
             </div>
-            <!--Modal Preloader Start-->
+        <!--Modal Preloader Start-->
     </div>
-
     <script src="{{ asset('js/vendor/jquery.js') }}"></script>
     <script src="{{ asset('js/vendor/what-input.js') }}"></script>
     <script src="{{ asset('js/vendor/foundation.js') }}"></script>
@@ -200,9 +199,6 @@
     <script src="{{ asset('js/fixedColumns.min.js') }}"></script>
     <script src="{{ asset('js/select.min.js') }}"></script>
     <script src="{{ asset('js/keyTable.min.js') }}"></script>
-
-
-
     @if(isset($requireJsFile))
         @if($requireJsFile == 'deprived_area')
             <script src="{{ asset('js/modules/budget/admin/deprived_area.js') }}"></script>
