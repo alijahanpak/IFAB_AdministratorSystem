@@ -9,10 +9,16 @@
                         <ul class="breadcrumbs">
                             <li><a href="{{ url('/budget') }}">داشبورد</a></li>
                             <li>
-                                <span class="show-for-sr">Current: </span>مدیریت
+                                <span class="show-for-sr">Current: </span>توزیع اعتبار
                             </li>
                             <li>
-                                <span class="show-for-sr">Current: </span>ثبت طرح های توزیع اعتبار
+                                <span class="show-for-sr">Current: </span>تملک داریی های سرمایه ای
+                            </li>
+                            <li>
+                                <span class="show-for-sr">Current: </span>استانی
+                            </li>
+                            <li>
+                                <span class="show-for-sr">Current: </span>طرح های توزیع اعتبار
                             </li>
                         </ul>
                     </nav>
@@ -36,10 +42,4 @@
             </div>
         </div>
     </div>
-    <script>
-        $('[data-loading-start]').click(function() {
-            $(this).addClass('hide')
-            $('[data-loading-end]').removeClass('hide')
-        });
-    </script>
 @stop

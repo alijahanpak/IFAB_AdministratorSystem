@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="columns">
-            <div  class="my-table-scroll">
+            <div>
                 <table class="unstriped small-font">
                     <thead class="my-thead">
                         <tr>
@@ -29,6 +29,21 @@
                     </thead>
                     <tbody>
                     @foreach($cdPlans as $cdPlan)
+                        <?php
+                            $cAmounts = \Modules\Budget\Entities\CreditDistributionPlan::getAllPlan($cdPlan->cdpCdtId , $cdPlan->cdpCdrId);
+                            $countyId = array();
+                            $i = 0;
+                            foreach ($cAmounts as $cAmount)
+                            {
+                                $countyId[$i++] = 'cdpCounty' . $cAmount->county->id . '_u';
+                            }
+
+                            $i = 0;
+                            foreach ($cAmounts as $cAmount)
+                            {
+                                $countyAmount[$i++] = \Modules\Admin\Entities\AmountUnit::convertDispAmountWithoutSplliter($cAmount->cdpCredit);
+                            }
+                        ?>
                         <tr>
                             <td>{{ $cdPlan->creditDistributionTitle->cdtIdNumber }}</td>
                             <td>{{ $cdPlan->creditDistributionTitle->cdtSubject }}</td>
@@ -37,11 +52,11 @@
                             <td class="text-center">
                                 <a onclick="openCountyPlanAmount('countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}')">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CreditDistributionPlan::getSumPlanAmount($cdPlan->cdpCdtId , $cdPlan->cdpCdrId)) }}</a>
                             </td>
-                            <td class="text-center"><a ><i class="fi-pencil size-21 edit-pencil"></i></a></td>
+                            <td class="text-center"><a data-open="preloaderModal" onclick="CDPUpdateDialogOpen({{ json_encode($countyId) }} , {{ json_encode($countyAmount) }} , '{{ $cdPlan->cdpCdrId }}' , '{{ $cdPlan->cdpCdrId }}' , '{{ $cdPlan->cdpDescription }}')" ><i class="fi-pencil size-21 edit-pencil"></i></a></td>
                             <td class="text-center"><a data-open="modalDeletePlan{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
 
                             <!--Modal Delete Start-->
-                            <div style="z-index: 9999;" class="tiny reveal" id="modalDeletePlan{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}" data-reveal>
+                            <div style="z-index: 9999;" class="tiny reveal" id="modalDeletePlan{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}" data-reveal data-animation-in="someAnimationIn">
                                 <div class="modal-margin small-font">
                                     <p>کاربر گرامی</p>
                                     <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
@@ -63,7 +78,6 @@
                         <tr style="background-color: #F1F1F1" id="countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}" class="display-off">
                             <td colspan="7">
                                 <div>
-                                    <?php $cAmounts = \Modules\Budget\Entities\CreditDistributionPlan::getAllPlan($cdPlan->cdpCdtId , $cdPlan->cdpCdrId); ?>
                                     <table class="tbl-secondary-mrg small-font">
                                         <thead class="my-thead">
                                         <tr>

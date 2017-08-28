@@ -36,7 +36,7 @@
                         <td class="text-center"><a data-open="preloaderModal" onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}' , '{{ $dArea->id }}')"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
                         <td class="text-center"><a data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                         <!--Modal Delete Start-->
-                        <div style="z-index: 9999;" class="tiny reveal" id="modalDelete{{ $dArea->id }}" data-reveal>
+                        <div style="z-index: 9999;" class="tiny reveal" id="modalDelete{{ $dArea->id }}" data-reveal data-animation-in="someAnimationIn">
                             <div class="modal-margin small-font">
                                 <p>کاربر گرامی</p>
                                 <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
