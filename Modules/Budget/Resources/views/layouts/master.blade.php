@@ -11,9 +11,6 @@
     <link rel="stylesheet" href="{{ asset('foundation-icons/foundation-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('css/line-spin-clockwise-fade-rotating.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/fixedColumns.dataTables.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/select.dataTables.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/keyTable.dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/key.css') }}">
     <script src="{{ asset('js/Chart.js') }}"></script>
 </head>
@@ -89,9 +86,9 @@
     </div>
     <!--Body system-->
     <div class="grid-x">
-        <div style="background-color: #F8F8F8;" class="medium-2 cell small-font">
-            <div class="docs-nav">
-                <nav class="accordion docs-nav-category" data-sticky  data-margin-top="4.2">
+        <div id="leftmenuinner" style="background-color: #F8F8F8;" class="medium-2 cell small-font">
+            <div  id="leftmenuinnerinner ">
+                <nav class="accordion"  data-margin-top="4.2">
                     <ul class="vertical menu sub-menu accordion-menu" data-accordion-menu >
                         <li>
                             <a class="active-menu right-menu-btm-border" href="#">توزیع اعتبار</a>
@@ -195,10 +192,6 @@
     <script src="{{ asset('js/vendor/what-input.js') }}"></script>
     <script src="{{ asset('js/vendor/foundation.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/dataTables.min.js') }}"></script>
-    <script src="{{ asset('js/fixedColumns.min.js') }}"></script>
-    <script src="{{ asset('js/select.min.js') }}"></script>
-    <script src="{{ asset('js/keyTable.min.js') }}"></script>
     @if(isset($requireJsFile))
         @if($requireJsFile == 'deprived_area')
             <script src="{{ asset('js/modules/budget/admin/deprived_area.js') }}"></script>
@@ -218,17 +211,5 @@
                 });
         </script>
     @endif
-    <script>
-        $(document).ready(function() {
-            $('#fixedTable').DataTable( {
-                scrollY:        300,
-                scrollX:        true,
-                scrollCollapse: true,
-                paging:         false,
-                fixedColumns:   true,
-                select:         true
-            } );
-        } );
-    </script>
 </body>
 </html>

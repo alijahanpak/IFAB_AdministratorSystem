@@ -12,55 +12,72 @@
         </div>
     </div>
     <div class="columns">
-        <table id="fixedTable" class="stripe row-border order-column nowrap" width="100%" cellspacing="0">
-            <thead>
-            <tr>
-                <th>ردیف توزیع اعتبار</th>
-                <th>شماره طرح</th>
-                <th>عنوان طرح</th>
-                <th>فصل بودجه</th>
-                <th>سرجمع</th>
-            </tr>
-            </thead>
+        <div style="padding-left: 13px;">
+        <table class="table-header" cellpadding="0" cellspacing="0">
             <tbody>
-            <tr>
-                <td>Tiger</td>
-                <td>Nixon</td>
-                <td>System Architect</td>
-                <td>Edinburgh</td>
-                <td>Edinburgh</td>
-            </tr>
-            <tr>
-                <td>Tiger</td>
-                <td>Nixon</td>
-                <td>System Architect</td>
-                <td>Edinburgh</td>
-                <td>Edinburgh</td>
-            </tr>
-            <tr>
-                <td>Tiger</td>
-                <td>Nixon</td>
-                <td>System Architect</td>
-                <td>Edinburgh</td>
-                <td>Edinburgh</td>
-            </tr>
-            <tr>
-                <td>Tiger</td>
-                <td>Nixon</td>
-                <td>System Architect</td>
-                <td>Edinburgh</td>
-                <td>Edinburgh</td>
-            </tr>
-            <tr>
-                <td>Tiger</td>
-                <td>Nixon</td>
-                <td>System Architect</td>
-                <td>Edinburgh</td>
-                <td>Edinburgh</td>
-            </tr>
-
-
-            </tbody>
+                <tr class="head-color">
+                    <td width="9%">ردیف توزیع اعتبار</td>
+                    <td>شماره طرح</td>
+                    <td>عنوان طرح</td>
+                    <td>فصل بودجه</td>
+                    <td>سرجمع</td>
+                    <td>شرح</td>
+                    <td>ویرایش</td>
+                    <td>حذف</td>
+                </tr>
+            </tbody >
         </table>
+        </div>
+
+            <table  cellpadding="0" cellspacing="0">
+                <tbody  class="table-contain">
+                <tr class="">
+                    <td width="9%" rowspan="2">ردیف توزیع اعتبار</td>
+                    <td>شمارهjhjhjhjh طرح</td>
+                    <td>عنوانhjghjghjh طرح</td>
+                    <td>فصل بhjghjghjودجه</td>
+                    <td>سرجhjgمع</td>
+                    <td>شرghjghjح</td>
+                    <td>ویرایhjgش</td>
+                    <td>حذف</td>
+                </tr>
+                <tr>
+                    <td colspan="7">
+                        <table class="tbl-secondary-mrg small-font">
+                            <thead class="my-thead">
+                            <tr class="medium-12">
+                                <th class="tbl-rotate-txt">همدان</th>
+                                <th class="tbl-rotate-txt">همدان</th>
+                                <th class="tbl-rotate-txt">همدان</th>
+                                <th class="tbl-rotate-txt">همدان</th>
+                                <th class="tbl-rotate-txt">همدان</th>
+                                <th class="tbl-rotate-txt">همدان</th>
+                                <th class="tbl-rotate-txt">همدان</th>
+                                <th class="tbl-rotate-txt">همدان</th>
+                                <th class="tbl-rotate-txt">همدان</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>6546</td>
+                                <td>6546</td>
+                                <td>6546</td>
+                                <td>6546</td>
+                                <td>6546</td>
+                                <td>6546</td>
+                                <td>6546</td>
+                                <td>6546</td>
+                                <td>6546</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+
+
+                </tbody>
+            </table>
+
     </div>
 </div>
