@@ -17,5 +17,6 @@ class BudgetDatabaseSeeder extends Seeder
         Model::unguard();
 
         $this->call(SeedFyPermissionTableSeederTableSeeder::class);
+        $this->call(SeedTinySeasonsTableSeederTableSeeder::class);
     }
 }
