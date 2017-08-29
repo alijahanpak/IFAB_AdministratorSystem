@@ -572,3 +572,7 @@ input:checked ~ .switch-paddle {
     display:inline-block;
     vertical-align:middle;
 }
+
+.tableRowColor{
+    background-color: #F5F5F5 !important;
+}

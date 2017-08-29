@@ -62,9 +62,9 @@ class CreditDistributionController extends Controller
         $cdp = CreditDistributionPlan::where('cdpCdtId' , '=' , $cdtId)
             ->where('cdpCdrId' , '=' , $cdrId)
             ->where('cdpFyId' , '=' , Auth::user()->seFiscalYear);
-        $old = $cdp;
         $cdp->delete();
-        SystemLog::setBudgetSubSystemLog('حذف طرح توزیع اعتبار  ' . $old->creditDistributionTitle->cdtSubject . ' از ردیف ' . $old->creditDistributionRow->cdrSubject);
+
+        SystemLog::setBudgetSubSystemLog('حذف طرح توزیع اعتبار تملک دارییی های سرمایه ای استانی');
         return Redirect::to(URL::previous());
     }
 
@@ -84,11 +84,25 @@ class CreditDistributionController extends Controller
         $counties = County::all();
         foreach ($counties as $county)
         {
-                CreditDistributionPlan::where('cdpCdtId' , '=' , Input::get('cdtId'))
+            $cdp = CreditDistributionPlan::where('cdpCdtId' , '=' , Input::get('cdtId'))
                 ->where('cdpCdrId' , '=' , Input::get('cdrId'))
                 ->where('cdpFyId' , '=' , Auth::user()->seFiscalYear)
-                ->where('cdpCoId' , '=' , $county->id)
-                ->update(['cdpCredit' => AmountUnit::convertInputAmount(Input::get('cdpCounty' . $county->id)) , 'cdpDescription' => Input::get('cdpDescription')]);
+                ->where('cdpCoId' , '=' , $county->id);
+            if ($cdp->exists())
+            {
+                $cdp->update(['cdpCredit' => AmountUnit::convertInputAmount(Input::get('cdpCounty' . $county->id)) , 'cdpDescription' => Input::get('cdpDescription')]);
+            }
+            else{
+                $cdp = new CreditDistributionPlan;
+                $cdp->cdpUId = Auth::user()->id;
+                $cdp->cdpCdtId = Input::get('cdtId');
+                $cdp->cdpCdrId = Input::get('cdrId');
+                $cdp->cdpFyId = Auth::user()->seFiscalYear;
+                $cdp->cdpCoId = $county->id;
+                $cdp->cdpCredit = AmountUnit::convertInputAmount(Input::get('cdpCounty' . $county->id));
+                $cdp->cdpDescription = Input::get('cdpDescription');
+                $cdp->save();
+            }
         }
 
         SystemLog::setBudgetSubSystemLog('بروز رسانی طرح توزیع اعتبار تملک داریی های سرمایه ای استانی');

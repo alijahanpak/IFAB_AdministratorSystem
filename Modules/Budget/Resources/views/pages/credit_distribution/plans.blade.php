@@ -29,6 +29,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                    <?php $rowColor=0; ?>
                     @foreach($cdPlans as $cdPlan)
                         <?php
                             $cAmounts = \Modules\Budget\Entities\CreditDistributionPlan::getAllPlan($cdPlan->cdpCdtId , $cdPlan->cdpCdrId);
@@ -45,16 +46,14 @@
                                 $countyAmount[$i++] = \Modules\Admin\Entities\AmountUnit::convertDispAmountWithoutSplliter($cAmount->cdpCredit);
                             }
                         ?>
-                        <tr>
+                        <tr class="{{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }}">
                             <td>{{ $cdPlan->creditDistributionTitle->cdtIdNumber }}</td>
                             <td>{{ $cdPlan->creditDistributionTitle->cdtSubject }}</td>
                             <td>{{ $cdPlan->creditDistributionTitle->budgetSeason->bsSubject }}</td>
                             <td>{{ $cdPlan->creditDistributionRow->cdSubject }}</td>
-                            <td class="text-center">
-                                <a onclick="openTableRowAcc('countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}')">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CreditDistributionPlan::getSumPlanAmount($cdPlan->cdpCdtId , $cdPlan->cdpCdrId)) }}</a>
-                            </td>
+                            <td class="text-center">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CreditDistributionPlan::getSumPlanAmount($cdPlan->cdpCdtId , $cdPlan->cdpCdrId)) }}</td>
                             <td>{{ $cdPlan->cdpDescription }}</td>
-                            <td class="text-center"><a data-open="preloaderModal" onclick="CDPUpdateDialogOpen({{ json_encode($countyId) }} , {{ json_encode($countyAmount) }} , '{{ $cdPlan->cdpCdrId }}' , '{{ $cdPlan->cdpCdrId }}' , '{{ $cdPlan->cdpDescription }}')" ><i class="fi-pencil size-21 edit-pencil"></i></a></td>
+                            <td class="text-center"><a data-open="preloaderModal" onclick="CDPUpdateDialogOpen({{ json_encode($countyId) }} , {{ json_encode($countyAmount) }} , '{{ $cdPlan->cdpCdrId }}' , '{{ $cdPlan->cdpCdtId }}' , '{{ $cdPlan->cdpDescription }}')" ><i class="fi-pencil size-21 edit-pencil"></i></a></td>
                             <td class="text-center"><a data-open="modalDeletePlan{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
 
                             <!--Modal Delete Start-->
@@ -77,12 +76,12 @@
                             </div>
                             <!--Modal Delete End-->
                         </tr>
-                        <tr style="background-color: #F1F1F1" id="countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}" class="display-off">
+                        <tr id="countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}" class="{{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }}">
                             <td colspan="8">
                                 <div>
                                     <table class="tbl-secondary-mrg small-font">
                                         <thead class="my-thead">
-                                        <tr>
+                                        <tr class="{{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }}" style="background-color: #F1F1F1 !important;">
                                             @foreach($cAmounts as $cAmount)
                                                 <th>{{ $cAmount->county->coName }}</th>
                                             @endforeach
@@ -99,6 +98,7 @@
                                 </div>
                             </td>
                         </tr>
+                        <?php $rowColor++; ?>
                     @endforeach
                     </tbody>
                 </table>
