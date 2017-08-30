@@ -55,73 +55,62 @@
                 </div>
             </div>
             <!--Header End-->
-            <div class="table-contain">
+            <div class="table-contain" id="planRowsTable">
                 <?php $rowColor = 0; ?>
                 @foreach($cdPlan_rows as $cdPlan)
                     <?php
-                    $rows = \Modules\Budget\Entities\CreditDistributionPlan::getAllPlan_rows($cdPlan->cdpCdrId);
-                    $cAmounts = \Modules\Budget\Entities\CreditDistributionPlan::getAllPlan($cdPlan->cdpCdtId , $cdPlan->cdpCdrId);
-                    $countyId = array();
-                    $i = 0;
-                    foreach ($cAmounts as $cAmount)
-                    {
-                        $countyId[$i++] = 'cdpCounty' . $cAmount->county->id . '_u';
-                    }
-
-                    $i = 0;
-                    foreach ($cAmounts as $cAmount)
-                    {
-                        $countyAmount[$i++] = \Modules\Admin\Entities\AmountUnit::convertDispAmountWithoutSplliter($cAmount->cdpCredit);
-                    }
+                        $rows = \Modules\Budget\Entities\CreditDistributionPlan::getAllPlan_rows($cdPlan->cdpCdrId);
                     ?>
                     <div class="grid-x">
                         <div class="medium-2 table-contain-border cell-vertical-center">{{ $cdPlan->creditDistributionRow->cdSubject }}</div>
                         <div class="medium-10">
-                            <div class="grid-x">
-                                <div class="medium-2 table-contain-border">
-                                    مطالعه برای احداث ساختمان و مستحدثات
+                            @foreach($rows as $row)
+                                <?php
+                                    $cAmounts = \Modules\Budget\Entities\CreditDistributionPlan::getAllPlan($row->cdpCdtId , $row->cdpCdrId);
+                                    $countyId = array();
+                                    $i = 0;
+                                    foreach ($cAmounts as $cAmount)
+                                    {
+                                        $countyId[$i++] = 'cdpCounty' . $cAmount->county->id . '_u';
+                                    }
+
+                                    $i = 0;
+                                    foreach ($cAmounts as $cAmount)
+                                    {
+                                        $countyAmount[$i++] = \Modules\Admin\Entities\AmountUnit::convertDispAmountWithoutSplliter($cAmount->cdpCredit);
+                                    }
+                                ?>
+                                <div class="grid-x {{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }}">
+                                    <div class="medium-2 table-contain-border">{{ $row->creditDistributionTitle->cdtIdNumber }}</div>
+                                    <div class="medium-2  table-contain-border">{{ $row->creditDistributionTitle->cdtSubject }}</div>
+                                    <div class="medium-2 table-contain-border">{{ $row->creditDistributionTitle->budgetSeason->bsSubject }}</div>
+                                    <div class="medium-2 table-contain-border cell-vertical-center">
+                                        <a onclick="openTableRowAcc('countyPlanAmount_row{{ $row->cdpCdtId . $row->cdpCdrId }}' , 'planRowsTable')">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CreditDistributionPlan::getSumPlanAmount($row->cdpCdtId , $row->cdpCdrId)) }}</a>
+                                    </div>
+                                    <div class="medium-4 table-contain-border">{{ $row->cdpDescription }}</div>
                                 </div>
-                                <div class="medium-2  table-contain-border">
-                                    مطالعه برای احداث ساختمان و مستحدثات
+                                <div id="countyPlanAmount_row{{ $row->cdpCdtId . $row->cdpCdrId }}" class="grid-x display-off {{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }} accordionRow">
+                                    <div class="medium-12 table-contain-border horizontal-scroll">
+                                        <table class="tbl-secondary-mrg small-font">
+                                            <thead class="my-thead">
+                                            <tr style="background-color: #F1F1F1 !important;">
+                                                @foreach($cAmounts as $cAmount)
+                                                    <th>{{ $cAmount->county->coName }}</th>
+                                                @endforeach
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                @foreach($cAmounts as $cAmount)
+                                                    <td>{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount($cAmount->cdpCredit) }}</td>
+                                                @endforeach
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                                <div class="medium-2 table-contain-border">
-                                    مطالعه برای احداث ساختمان و مستحدثات
-                                </div>
-                                <div class="medium-2 table-contain-border">
-                                    <a onclick="openTableRowAcc('rowTest')">sadfasdfgsdf</a>
-                                </div>
-                                <div class="medium-4 table-contain-border">
-                                    مطالعه برای احداث ساختمان و مستحدثات
-                                </div>
-                            </div>
-                            <div class="grid-x display-off table-contain-border horizontal-scroll" id="rowTest">
-                                <table>
-                                    <thead class="my-thead">
-                                    <th class="tbl-rotate-txt">همدان</th>
-                                    <th class="tbl-rotate-txt">1231234</th>
-                                    <th class="tbl-rotate-txt">1231234</th>
-                                    <th class="tbl-rotate-txt">1231234</th>
-                                    <th class="tbl-rotate-txt">1231234</th>
-                                    <th class="tbl-rotate-txt">1231234</th>
-                                    <th class="tbl-rotate-txt">1231234</th>
-                                    <th class="tbl-rotate-txt">1231234</th>
-                                    <th class="tbl-rotate-txt">1231234</th>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>23452345</td>
-                                        <td>23452345</td>
-                                        <td>23452345</td>
-                                        <td>23452345</td>
-                                        <td>23452345</td>
-                                        <td>23452345</td>
-                                        <td>23452345</td>
-                                        <td>23452345</td>
-                                        <td>23452345</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                <?php $rowColor++; ?>
+                            @endforeach
                         </div>
                     </div>
                 @endforeach

@@ -32,7 +32,7 @@
                     <li class="tabs-title is-active"><a href="#credit_distribution_plan_all_tab" aria-selected="true">طرح های توزیع اعتبار</a></li>
                     <li class="tabs-title"><a href="#row_tab">ردیف</a></li>
                     <li class="tabs-title"><a href="#budget_season_tab">فصل بودجه</a></li>
-                    <li class="tabs-title"><a href="#city_tab">شهرستان</a></li>
+                    <li class="tabs-title"><a href="#county_tab">شهرستان</a></li>
                 </ul>
 
                 <div class="tabs-content" data-tabs-content="credit_distribution_plan_tab_view">

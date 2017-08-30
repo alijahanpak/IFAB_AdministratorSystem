@@ -27,15 +27,24 @@ class CreditDistributionController extends Controller
         $cdr = CreditDistributionRow::all();
         $cdt = CreditDistributionTitle::all();
         $counties = County::all();
-        //$cdPlans = CreditDistributionPlan::where('cdpFyId' , '=' , Auth::user()->seFiscalYear)->get();
         $cdPlans = CreditDistributionPlan::select(['cdpCdtId' , 'cdpCdrId' , 'cdpDescription'])->where('cdpFyId' , '=' , Auth::user()->seFiscalYear)->groupBy(['cdpCdtId' , 'cdpCdrId' , 'cdpDescription'])->get();
-        $cdPlan_rows = CreditDistributionPlan::select(['cdpCdrId' , 'cdpDescription'])->where('cdpFyId' , '=' , Auth::user()->seFiscalYear)->groupBy(['cdpCdrId' , 'cdpDescription'])->get();
+        $cdPlan_rows = CreditDistributionPlan::select(['cdpCdrId'])->where('cdpFyId' , '=' , Auth::user()->seFiscalYear)->groupBy(['cdpCdrId'])->get();
+        $cdPlan_budgetSeasons = CreditDistributionPlan::join('tbl_credit_distribution_titles' , 'tbl_credit_distribution_titles.id' , '=' , 'cdpCdtId')
+            ->join('tbl_budget_seasons' , 'tbl_budget_seasons.id' , '=' , 'tbl_credit_distribution_titles.cdtBsId')
+            ->select('tbl_credit_distribution_titles.cdtBsId' , 'tbl_budget_seasons.bsSubject')
+            ->where('cdpFyId' , '=' , Auth::user()->seFiscalYear)
+            ->groupBy(['tbl_credit_distribution_titles.cdtBsId' , 'tbl_budget_seasons.bsSubject'])
+            ->get();
+        $cdPlan_counties = CreditDistributionPlan::select(['cdpCoId'])->where('cdpFyId' , '=' , Auth::user()->seFiscalYear)->groupBy(['cdpCoId'])->get();
+        
         return view('budget::pages.credit_distribution.main', ['pageTitle' => 'طرحهای توزیع اعتبار' ,
             'creditDRs' => $cdr,
             'creditDTs' => $cdt,
             'counties' => $counties,
             'cdPlans' => $cdPlans,
             'cdPlan_rows' => $cdPlan_rows,
+            'cdPlan_budgetSeasons' => $cdPlan_budgetSeasons,
+            'cdPlan_counties' => $cdPlan_counties,
             'requireJsFile' => 'credit_distribution_plan']);
     }
 

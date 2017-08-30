@@ -1,118 +1,131 @@
 <div class="tabs-panel table-mrg-btm" id="budget_season_tab">
-    <div class="medium-12  bottom-mrg">
-        <div class="clearfix border-btm-line ">
-            <div class="button-group float-left report-mrg">
-                <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="حذف" data-position="top" data-alignment="center">
-                    <i class="fi-trash size-30 trash-t"></i>
-                </a>
-                <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="ویرایش" data-position="top" data-alignment="center">
-                    <i class="fi-pencil size-30 edit-pencil"></i>
-                </a>
-                <a  class="clear button"  data-open="CDP_ModalInsert" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
-                    <i class="fi-plus size-30 secondry-color"></i>
-                </a>
-                <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
-                    <i class="fi-clipboard-notes size-30 secondry-color"></i>
-                </a>
-
-            </div>
-            <div class="float-right">
-                <div class="input-group float-left">
-                    <input class="input-group-field small-font" type="text">
-                    <div class="input-group-button">
-                        <button type="button" class="my-secondary button"><i class="fi-magnifying-glass"></i></button>
-                    </div>
+    @if(count($cdPlan_rows) > 0)
+        <div class="medium-12  bottom-mrg">
+            <div class="clearfix border-btm-line ">
+                <div class="button-group float-left report-mrg">
+                    <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="حذف" data-position="top" data-alignment="center">
+                        <i class="fi-trash size-30 trash-t"></i>
+                    </a>
+                    <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="ویرایش" data-position="top" data-alignment="center">
+                        <i class="fi-pencil size-30 edit-pencil"></i>
+                    </a>
+                    <a  class="clear button"  data-open="CDP_ModalInsert" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
+                        <i class="fi-plus size-30 secondry-color"></i>
+                    </a>
+                    <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
+                        <i class="fi-clipboard-notes size-30 secondry-color"></i>
+                    </a>
                 </div>
+                <div class="float-right">
+                    <div class="input-group float-left">
+                        <input class="input-group-field small-font" type="text">
+                        <div class="input-group-button">
+                            <button type="button" class="my-secondary button"><i class="fi-magnifying-glass"></i></button>
+                        </div>
+                    </div>
 
-            </div>
-        </div>
-    </div>
-    <!--Table Start-->
-    <div class="columns">
-        <!--Header Start-->
-        <div class="grid-x table-header">
-            <div class="medium-2 table-border">
-                <strong>فصل بودجه</strong>
-            </div>
-            <div class="medium-10">
-                <div class="grid-x">
-                    <div class="medium-2 table-border">
-                        <strong>شماره طرح</strong>
-                    </div>
-                    <div class="medium-2  table-border">
-                        <strong>عنوان طرح</strong>
-                    </div>
-                    <div class="medium-2  table-border">
-                        <strong>ردیف توزیع اعتبار</strong>
-                    </div>
-                    <div class="medium-2  table-border">
-                        <strong>سرجمع</strong>
-                    </div>
-                    <div class="medium-4  table-border">
-                        <strong>شرح</strong>
-                    </div>
                 </div>
             </div>
         </div>
-        <!--Header End-->
-        <div class="table-contain">
-            <div class="grid-x">
-                <div class="medium-2 table-contain-border cell-vertical-center">
-                    فصل اول
+        <!--Table Start-->
+        <div class="columns">
+            <!--Header Start-->
+            <div class="grid-x table-header">
+                <div class="medium-2 table-border">
+                    <strong>فصل بودجه</strong>
                 </div>
                 <div class="medium-10">
                     <div class="grid-x">
-                        <div class="medium-2 table-contain-border">
-                            مطالعه برای احداث ساختمان و مستحدثات
+                        <div class="medium-2 table-border">
+                            <strong>شماره طرح</strong>
                         </div>
-                        <div class="medium-2  table-contain-border">
-                            مطالعه برای احداث ساختمان و مستحدثات
+                        <div class="medium-2  table-border">
+                            <strong>عنوان طرح</strong>
                         </div>
-                        <div class="medium-2 table-contain-border">
-                            مطالعه برای احداث ساختمان و مستحدثات
+                        <div class="medium-2  table-border">
+                            <strong>ردیف توزیع اعتبار</strong>
                         </div>
-                        <div class="medium-2 table-contain-border">
-                            <a onclick="openTableRowAcc('rowTest')">sadfasdfgsdf</a>
+                        <div class="medium-2  table-border">
+                            <strong>سرجمع</strong>
                         </div>
-                        <div class="medium-4 table-contain-border">
-                            مطالعه برای احداث ساختمان و مستحدثات
+                        <div class="medium-4  table-border">
+                            <strong>شرح</strong>
                         </div>
-
-                    </div>
-                    <div class="grid-x display-off table-contain-border horizontal-scroll" id="rowTest">
-                        <table>
-                            <thead class="my-thead">
-                            <th class="tbl-rotate-txt">همدان</th>
-                            <th class="tbl-rotate-txt">1231234</th>
-                            <th class="tbl-rotate-txt">1231234</th>
-                            <th class="tbl-rotate-txt">1231234</th>
-                            <th class="tbl-rotate-txt">1231234</th>
-                            <th class="tbl-rotate-txt">1231234</th>
-                            <th class="tbl-rotate-txt">1231234</th>
-                            <th class="tbl-rotate-txt">1231234</th>
-                            <th class="tbl-rotate-txt">1231234</th>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>23452345</td>
-                                <td>23452345</td>
-                                <td>23452345</td>
-                                <td>23452345</td>
-                                <td>23452345</td>
-                                <td>23452345</td>
-                                <td>23452345</td>
-                                <td>23452345</td>
-                                <td>23452345</td>
-                            </tr>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
+            <!--Header End-->
+            <div class="table-contain" id="planBudgetSeasonsTable">
+                <?php $rowColor = 0; ?>
+                @foreach($cdPlan_budgetSeasons as $cdPlan)
+                    <?php
+                    $rows = \Modules\Budget\Entities\CreditDistributionPlan::getAllPlan_budget_seasons($cdPlan->cdtBsId);
+                    ?>
+                    <div class="grid-x">
+                        <div class="medium-2 table-contain-border cell-vertical-center">{{ $cdPlan->bsSubject }}</div>
+                        <div class="medium-10">
+                            @foreach($rows as $row)
+                                <?php
+                                $cAmounts = \Modules\Budget\Entities\CreditDistributionPlan::getAllPlan($row->cdpCdtId , $row->cdpCdrId);
+                                $countyId = array();
+                                $i = 0;
+                                foreach ($cAmounts as $cAmount)
+                                {
+                                    $countyId[$i++] = 'cdpCounty' . $cAmount->county->id . '_u';
+                                }
 
-
-
+                                $i = 0;
+                                foreach ($cAmounts as $cAmount)
+                                {
+                                    $countyAmount[$i++] = \Modules\Admin\Entities\AmountUnit::convertDispAmountWithoutSplliter($cAmount->cdpCredit);
+                                }
+                                ?>
+                                <div class="grid-x {{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }}">
+                                    <div class="medium-2 table-contain-border">{{ $row->creditDistributionTitle->cdtIdNumber }}</div>
+                                    <div class="medium-2  table-contain-border">{{ $row->creditDistributionTitle->cdtSubject }}</div>
+                                    <div class="medium-2 table-contain-border">{{ $row->creditDistributionRow->cdSubject }}</div>
+                                    <div class="medium-2 table-contain-border cell-vertical-center">
+                                        <a onclick="openTableRowAcc('countyPlanAmount_bs{{ $row->cdpCdtId . $row->cdpCdrId }}' , 'planBudgetSeasonsTable')">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CreditDistributionPlan::getSumPlanAmount($row->cdpCdtId , $row->cdpCdrId)) }}</a>
+                                    </div>
+                                    <div class="medium-4 table-contain-border">{{ $row->cdpDescription }}</div>
+                                </div>
+                                <div id="countyPlanAmount_bs{{ $row->cdpCdtId . $row->cdpCdrId }}" class="grid-x display-off {{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }} accordionRow">
+                                    <div class="medium-12 table-contain-border horizontal-scroll">
+                                        <table class="tbl-secondary-mrg small-font">
+                                            <thead class="my-thead">
+                                            <tr style="background-color: #F1F1F1 !important;">
+                                                @foreach($cAmounts as $cAmount)
+                                                    <th>{{ $cAmount->county->coName }}</th>
+                                                @endforeach
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                @foreach($cAmounts as $cAmount)
+                                                    <td>{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount($cAmount->cdpCredit) }}</td>
+                                                @endforeach
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <?php $rowColor++; ?>
+                            @endforeach
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         </div>
-    </div>
-<!--Table End-->
+        @else
+                <!--Panel nothing Insert Start-->
+        <div class="column">
+            <div style="height: 200px;" class="card">
+                <div class="card-section text-center" style="margin-top:60px;">
+                    <span>کاربر گرامی، </span><span class="login-txt small-font">ردیف توزیع اعتباری ثبت نشده است!<span><a data-open="CDP_ModalInsert" class="custom-btn-pos my-secondary button tiny">ثبت</a></span></span>
+                </div>
+            </div>
+        </div>
+        <!--Panel nothing Insert End-->
+    @endif
 </div>
+<!--Table End-->

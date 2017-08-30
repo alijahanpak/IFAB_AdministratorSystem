@@ -34,11 +34,25 @@ class CreditDistributionPlan extends Model
     public static function getAllPlan_rows($cdrId)
     {
 
-        return CreditDistributionPlan::select(['cdpCdtId' , 'cdpCdrId' , 'cdpDescription'])->where('cdpFyId' , '=' , Auth::user()->seFiscalYear)->groupBy(['cdpCdtId' , 'cdpCdrId' , 'cdpDescription'])->having([''])->get();
+        return CreditDistributionPlan::select(['cdpCdtId' , 'cdpCdrId' , 'cdpDescription'])->where('cdpFyId' , '=' , Auth::user()->seFiscalYear)->where('cdpCdrId' , '=' , $cdrId)->groupBy(['cdpCdtId' , 'cdpCdrId' , 'cdpDescription'])->get();
     }
 
     public static function getSumPlanAmount($cdtId , $cdrId)
     {
         return CreditDistributionPlan::where('cdpFyId' , '=' , Auth::user()->seFiscalYear)->where('cdpCdtId' , '=' , $cdtId)->where('cdpCdrId' , '=' , $cdrId)->sum('cdpCredit');
+    }
+    
+    public static function getAllPlan_budget_seasons($bsId)
+    {
+        return CreditDistributionPlan::select('cdpCdtId' , 'cdpCdrId')->with('creditDistributionTitle')->whereHas('creditDistributionTitle', function($q) use($bsId) {
+            $q->where('cdtBsId', $bsId);
+        })->where('cdpFyId' , '=' , Auth::user()->seFiscalYear)
+            ->groupBy(['cdpCdtId' , 'cdpCdrId'])
+            ->get();
+    }
+
+    public static function getAllPlan_counties($coId)
+    {
+        return CreditDistributionPlan::where('cdpFyId' , '=' , Auth::user()->seFiscalYear)->where('cdpCoId' , '=' , $coId)->get();
     }
 }
