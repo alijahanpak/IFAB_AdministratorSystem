@@ -1,4 +1,4 @@
-<div class="tabs-panel table-mrg-btm" id="row_tab">
+<div class="tabs-panel table-mrg-btm" id="city_tab">
     <div class="medium-12  bottom-mrg">
         <div class="clearfix border-btm-line ">
             <div class="button-group float-left report-mrg">
@@ -31,7 +31,7 @@
         <!--Header Start-->
         <div class="grid-x table-header">
             <div class="medium-2 table-border">
-                <strong>ردیف توزیع اعتبار</strong>
+                <strong>شهرستان</strong>
             </div>
             <div class="medium-10">
                 <div class="grid-x">
@@ -45,7 +45,7 @@
                         <strong>فصل بودجه</strong>
                     </div>
                     <div class="medium-2  table-border">
-                        <strong>سرجمع</strong>
+                        <strong>ردیف توزیع اعتبار</strong>
                     </div>
                     <div class="medium-4  table-border">
                         <strong>شرح</strong>
@@ -71,7 +71,7 @@
                             مطالعه برای احداث ساختمان و مستحدثات
                         </div>
                         <div class="medium-2 table-contain-border">
-                            <a onclick="openTableRowAcc('rowTest')">sadfasdfgsdf</a>
+                            مطالعه برای احداث ساختمان و مستحدثات
                         </div>
                         <div class="medium-4 table-contain-border">
                             مطالعه برای احداث ساختمان و مستحدثات
@@ -115,3 +115,4 @@
     </div>
 </div>
 <!--Table End-->
+</div>
