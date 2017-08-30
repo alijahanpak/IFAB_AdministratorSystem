@@ -441,7 +441,7 @@ input:checked ~ .switch-paddle {
 }
 .docs-nav {
     border-left:solid 1.7px #D8DEE2;
-    height: calc(100vh);
+    height: calc(92vh);
     overflow-x: auto;
     overflow-y: auto;
     padding-bottom: 100px;
@@ -450,6 +450,24 @@ input:checked ~ .switch-paddle {
 }
 .docs-nav .docs-nav-category {
     background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+}
+#leftmenuinner {
+    background-color: #F8F8F8;
+    height: 100%;
+    padding-bottom: 0;
+    padding-top: 55px;
+    position: fixed;
+    top: 0;
+    width: 240px;
+    overflow-y: auto;
+    border-left:solid 1.7px #D8DEE2;
+}
+#leftmenuinnerinner {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding-top: 20px;
+    width: 100%;
 }
 .table-mrg-btm{
     margin-bottom: -16px;
@@ -581,5 +599,3 @@ input:checked ~ .switch-paddle {
     padding: 1rem;
     border: 1px solid #C7CDD1;
 }
-
-

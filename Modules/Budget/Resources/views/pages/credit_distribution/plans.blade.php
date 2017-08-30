@@ -13,23 +13,21 @@
             </div>
         </div>
         <div class="columns">
-            <div>
+            <div class="">
                 <table class="unstriped small-font">
-                    <thead class="my-thead">
-                        <tr>
-                            <th>شماره طرح</th>
-                            <th>عنوان طرح</th>
-                            <th>فصل بودجه</th>
-                            <th>ردیف توزیع اعتبار</th>
-                            <th>سرجمع</th>
-                            <th>شرح</th>
-                            <th width="65px">ویرایش</th>
-                            <th width="65px">حذف</th>
-
-                        </tr>
+                    <tr class="head-color">
+                        <td>شماره طرح</td>
+                        <td>عنوان طرح</td>
+                        <td>فصل بودجه</td>
+                        <td>ردیف توزیع اعتبار</td>
+                        <td>سرجمع</td>
+                        <td>شرح</td>
+                        <td>ویرایش</td>
+                        <td>حذف</td>
+                    </tr>
                     </thead>
                     <tbody>
-                    <?php $rowColor=0; ?>
+                    <?php $rowColor = 0; ?>
                     @foreach($cdPlans as $cdPlan)
                         <?php
                             $cAmounts = \Modules\Budget\Entities\CreditDistributionPlan::getAllPlan($cdPlan->cdpCdtId , $cdPlan->cdpCdrId);
@@ -55,7 +53,6 @@
                             <td>{{ $cdPlan->cdpDescription }}</td>
                             <td class="text-center"><a data-open="preloaderModal" onclick="CDPUpdateDialogOpen({{ json_encode($countyId) }} , {{ json_encode($countyAmount) }} , '{{ $cdPlan->cdpCdrId }}' , '{{ $cdPlan->cdpCdtId }}' , '{{ $cdPlan->cdpDescription }}')" ><i class="fi-pencil size-21 edit-pencil"></i></a></td>
                             <td class="text-center"><a data-open="modalDeletePlan{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
-
                             <!--Modal Delete Start-->
                             <div style="z-index: 9999;" class="tiny reveal" id="modalDeletePlan{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}" data-reveal data-animation-in="someAnimationIn">
                                 <div class="modal-margin small-font">
