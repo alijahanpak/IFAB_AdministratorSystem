@@ -595,15 +595,52 @@ input:checked ~ .switch-paddle {
     background-color: #F5F5F5 !important;
 }
 
-.table-border{
-    padding: 1rem;
-    border: 1px solid #C7CDD1;
-}
-
-.table-head-pad{
-    padding-left: 12px;
-}
 .main-margin{
     margin-right: 240px;
 }
-
+.table-header{
+    margin-left: 12px;
+    background-color: #E6E6E6;
+    color: #5e5e5e;
+    font-size: small;
+    font-weight: bold;
+    border: 1px solid #c7cdd1;
+    border-bottom: none;
+}
+.table-header .table-border{
+    padding: 0.5rem;
+    border-left: 1px solid #c7cdd1;
+}
+.table-header .table-border:last-child{
+    padding: 0.5rem;
+    border-left: none;
+}
+.table-contain{
+    overflow-y:scroll;
+    height:300px;
+    margin-bottom: 1rem;
+    border: 1px solid #C7CDD1;
+}
+.table-contain .table-contain-border{
+    padding: 1rem;
+    border-left: 1px solid #C7CDD1;
+    border-bottom: 1px solid #C7CDD1;
+    color: #555555;
+    font-size: 0.8em;
+}
+.table-contain .table-contain-border:last-child{
+    padding: 1rem;
+    border-left: none;
+}
+.cell-vertical-center{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+.horizontal-scroll{
+    overflow-x:auto;
+}
