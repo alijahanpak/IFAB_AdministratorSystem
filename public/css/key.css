@@ -608,32 +608,6 @@ input:checked ~ .switch-paddle {
 .table-head-pad{
     padding-left: 12px;
 }
-grid-xx {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-flow: row wrap;
-    flex-flow: row wrap; }
-.grid-xx > .medium-1 {
-    width: 8.33333%; }
-.grid-xx > .medium-2 {
-    width: 16.66667%; }
-.grid-xx > .medium-3 {
-    width: 25%; }
-.grid-xx > .medium-4 {
-    width: 33.33333%; }
-.grid-xx > .medium-5 {
-    width: 41.66667%; }
-.grid-xx > .medium-6 {
-    width: 50%; }
-.grid-xx > .medium-7 {
-    width: 58.33333%; }
-.grid-xx > .medium-8 {
-    width: 66.66667%; }
-.grid-xx > .medium-9 {
-    width: 75%; }
-.grid-xx > .medium-10 {
-    width: 83.33333%; }
-.grid-xx > .medium-11 {
-    width: 91.66667%; }
-.grid-xx > .medium-12 {
-    width: 100%; }
+.main-margin{
+    margin-right: 240px;
+}

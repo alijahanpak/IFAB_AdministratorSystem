@@ -94,7 +94,7 @@ class BudgetAdminController extends Controller
 
     public function subSeasons()
     {
-        return view('budget::pages.sub_seasons', ['pageTitle' => 'ریز فصول']);
+        return view('budget::pages.sub_seasons.main', ['pageTitle' => 'ریز فصول']);
     }
     
     public function updateCreditDistributionRow(Request $request)
