@@ -1,4 +1,4 @@
-<div class="tabs-panel table-mrg-btm" id="row_tab">
+<div class="tabs-panel table-mrg-btm" id="budget_season_tab">
     <div class="medium-12  bottom-mrg">
         <div class="clearfix border-btm-line ">
             <div class="button-group float-left report-mrg">
@@ -14,6 +14,7 @@
                 <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
                     <i class="fi-clipboard-notes size-30 secondry-color"></i>
                 </a>
+
             </div>
             <div class="float-right">
                 <div class="input-group float-left">
@@ -31,7 +32,7 @@
         <!--Header Start-->
         <div class="grid-x table-header">
             <div class="medium-2 table-border">
-                <strong>ردیف توزیع اعتبار</strong>
+                <strong>فصل بودجه</strong>
             </div>
             <div class="medium-10">
                 <div class="grid-x">
@@ -42,7 +43,7 @@
                         <strong>عنوان طرح</strong>
                     </div>
                     <div class="medium-2  table-border">
-                        <strong>فصل بودجه</strong>
+                        <strong>ردیف توزیع اعتبار</strong>
                     </div>
                     <div class="medium-2  table-border">
                         <strong>سرجمع</strong>
@@ -113,5 +114,5 @@
 
         </div>
     </div>
-</div>
 <!--Table End-->
+</div>

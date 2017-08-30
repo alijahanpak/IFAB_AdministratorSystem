@@ -39,10 +39,16 @@
                     <!--Tab 1-->
                         @include('budget::pages.credit_distribution.plans')
                     <!--Tab 1-->
-                    <!--Tab 1-->
+                    <!--Tab 2-->
                         @include('budget::pages.credit_distribution.rows')
-                    <!--Tab 1-->
-
+                    <!--Tab 2-->
+                    <!--Tab 3-->
+                        @include('budget::pages.credit_distribution.budget_season')
+                    <!--Tab 3-->
+                    <!--Tab 3-->
+                        @include('budget::pages.credit_distribution.city')
+                    <!--Tab 3-->
+                </div>
             </div>
         </div>
     </div>
