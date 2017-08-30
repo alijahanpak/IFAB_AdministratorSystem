@@ -590,24 +590,20 @@ input:checked ~ .switch-paddle {
     display:inline-block;
     vertical-align:middle;
 }
-.table-header{
-    margin-bottom: -3px;
+
+.tableRowColor{
+    background-color: #F5F5F5 !important;
 }
-.head-color{
-    background-color: #E6E6E6;
-    font-weight: bold;
+
+.table-border{
+    padding: 1rem;
+    border: 1px solid #C7CDD1;
 }
-.head-color td{
-    border-bottom:solid 1px #E6E6E6;
-}
-.table-contain{
-    overflow-y: scroll;
-    height: 300px;
-    display: block;
-}
+
 .table-head-pad{
     padding-left: 12px;
 }
 .main-margin{
     margin-right: 240px;
 }
+

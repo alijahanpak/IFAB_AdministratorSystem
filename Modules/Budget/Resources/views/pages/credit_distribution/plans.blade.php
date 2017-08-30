@@ -13,24 +13,21 @@
             </div>
         </div>
         <div class="columns">
-                <div class="table-head-pad">
-                <table  class="table-header">
-                    <tr class="head-color grid-x">
-                        <td  class="medium-1">شماره طرح</td>
-                        <td  class="medium-2">عنوان طرح</td>
-                        <td  class="medium-2">فصل بودجه</td>
-                        <td class="medium-2">ردیف توزیع اعتبار</td>
-                        <td class="medium-1">سرجمع</td>
-                        <td class="medium-2">شرح</td>
-                        <td class="medium-1">ویرایش</td>
-                        <td class="medium-1">حذف</td>
-
-                    </tr>
-                </table>
-                </div>
             <div class="">
                 <table class="unstriped small-font">
-                    <tbody class="table-contain ">
+                    <tr class="head-color">
+                        <td>شماره طرح</td>
+                        <td>عنوان طرح</td>
+                        <td>فصل بودجه</td>
+                        <td>ردیف توزیع اعتبار</td>
+                        <td>سرجمع</td>
+                        <td>شرح</td>
+                        <td>ویرایش</td>
+                        <td>حذف</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php $rowColor = 0; ?>
                     @foreach($cdPlans as $cdPlan)
                         <?php
                             $cAmounts = \Modules\Budget\Entities\CreditDistributionPlan::getAllPlan($cdPlan->cdpCdtId , $cdPlan->cdpCdrId);
@@ -47,18 +44,15 @@
                                 $countyAmount[$i++] = \Modules\Admin\Entities\AmountUnit::convertDispAmountWithoutSplliter($cAmount->cdpCredit);
                             }
                         ?>
-                        <tr class="grid-x">
-                            <td class="medium-1">{{ $cdPlan->creditDistributionTitle->cdtIdNumber }}</td>
-                            <td class="medium-2">{{ $cdPlan->creditDistributionTitle->cdtSubject }}</td>
-                            <td class="medium-2">{{ $cdPlan->creditDistributionTitle->budgetSeason->bsSubject }}</td>
-                            <td class="medium-2">{{ $cdPlan->creditDistributionRow->cdSubject }}</td>
-                            <td class="medium-1 text-center">
-                                <a onclick="openTableRowAcc('countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}')">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CreditDistributionPlan::getSumPlanAmount($cdPlan->cdpCdtId , $cdPlan->cdpCdrId)) }}</a>
-                            </td>
-                            <td class="medium-2">{{ $cdPlan->cdpDescription }}</td>
-                            <td class="medium-1 text-center"><a data-open="preloaderModal" onclick="CDPUpdateDialogOpen({{ json_encode($countyId) }} , {{ json_encode($countyAmount) }} , '{{ $cdPlan->cdpCdrId }}' , '{{ $cdPlan->cdpCdrId }}' , '{{ $cdPlan->cdpDescription }}')" ><i class="fi-pencil size-21 edit-pencil"></i></a></td>
-                            <td class="medium-1 text-center"><a data-open="modalDeletePlan{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
-
+                        <tr class="{{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }}">
+                            <td>{{ $cdPlan->creditDistributionTitle->cdtIdNumber }}</td>
+                            <td>{{ $cdPlan->creditDistributionTitle->cdtSubject }}</td>
+                            <td>{{ $cdPlan->creditDistributionTitle->budgetSeason->bsSubject }}</td>
+                            <td>{{ $cdPlan->creditDistributionRow->cdSubject }}</td>
+                            <td class="text-center">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CreditDistributionPlan::getSumPlanAmount($cdPlan->cdpCdtId , $cdPlan->cdpCdrId)) }}</td>
+                            <td>{{ $cdPlan->cdpDescription }}</td>
+                            <td class="text-center"><a data-open="preloaderModal" onclick="CDPUpdateDialogOpen({{ json_encode($countyId) }} , {{ json_encode($countyAmount) }} , '{{ $cdPlan->cdpCdrId }}' , '{{ $cdPlan->cdpCdtId }}' , '{{ $cdPlan->cdpDescription }}')" ><i class="fi-pencil size-21 edit-pencil"></i></a></td>
+                            <td class="text-center"><a data-open="modalDeletePlan{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
                             <!--Modal Delete Start-->
                             <div style="z-index: 9999;" class="tiny reveal" id="modalDeletePlan{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}" data-reveal data-animation-in="someAnimationIn">
                                 <div class="modal-margin small-font">
@@ -79,12 +73,12 @@
                             </div>
                             <!--Modal Delete End-->
                         </tr>
-                        <tr style="background-color: #F1F1F1" id="countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}" class="display-off">
+                        <tr id="countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}" class="{{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }}">
                             <td colspan="8">
                                 <div>
                                     <table class="tbl-secondary-mrg small-font">
                                         <thead class="my-thead">
-                                        <tr>
+                                        <tr class="{{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }}" style="background-color: #F1F1F1 !important;">
                                             @foreach($cAmounts as $cAmount)
                                                 <th>{{ $cAmount->county->coName }}</th>
                                             @endforeach
@@ -101,6 +95,7 @@
                                 </div>
                             </td>
                         </tr>
+                        <?php $rowColor++; ?>
                     @endforeach
                     </tbody>
                 </table>

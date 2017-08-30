@@ -12,72 +12,155 @@
         </div>
     </div>
     <div class="columns">
-        <div style="padding-left: 13px;">
-        <table class="table-header" cellpadding="0" cellspacing="0">
-            <tbody>
-                <tr class="head-color">
-                    <td width="9%">ردیف توزیع اعتبار</td>
-                    <td>شماره طرح</td>
-                    <td>عنوان طرح</td>
-                    <td>فصل بودجه</td>
-                    <td>سرجمع</td>
-                    <td>شرح</td>
-                    <td>ویرایش</td>
-                    <td>حذف</td>
-                </tr>
-            </tbody >
-        </table>
+        <div class="grid-x" style="margin-left: 10px; background-color: #E6E6E6">
+            <div class="medium-2 table-border">
+                fasdf
+            </div>
+            <div class="medium-10">
+                <div class="grid-x">
+                    <div class="medium-4 table-border">
+                        df
+                    </div>
+                    <div class="medium-4  table-border">
+                        ssdf
+                    </div>
+                    <div class="medium-4  table-border">
+                        sdf
+                    </div>
+                </div>
+            </div>
         </div>
-
-            <table  cellpadding="0" cellspacing="0">
-                <tbody  class="table-contain">
-                <tr class="">
-                    <td width="9%" rowspan="2">ردیف توزیع اعتبار</td>
-                    <td>شمارهjhjhjhjh طرح</td>
-                    <td>عنوانhjghjghjh طرح</td>
-                    <td>فصل بhjghjghjودجه</td>
-                    <td>سرجhjgمع</td>
-                    <td>شرghjghjح</td>
-                    <td>ویرایhjgش</td>
-                    <td>حذف</td>
-                </tr>
-                <tr>
-                    <td colspan="7">
-                        <table class="tbl-secondary-mrg small-font">
-                            <thead class="my-thead">
-                            <tr class="medium-12">
-                                <th class="tbl-rotate-txt">همدان</th>
-                                <th class="tbl-rotate-txt">همدان</th>
-                                <th class="tbl-rotate-txt">همدان</th>
-                                <th class="tbl-rotate-txt">همدان</th>
-                                <th class="tbl-rotate-txt">همدان</th>
-                                <th class="tbl-rotate-txt">همدان</th>
-                                <th class="tbl-rotate-txt">همدان</th>
-                                <th class="tbl-rotate-txt">همدان</th>
-                                <th class="tbl-rotate-txt">همدان</th>
-                            </tr>
+        <div style="overflow-y:scroll; height:300px; margin-bottom: 1rem; border-bottom: 1px solid #C7CDD1">
+            <div class="grid-x tableRowColor">
+                <div class="medium-2 table-border">
+                    fasdf
+                </div>
+                <div class="medium-10">
+                    <div class="grid-x">
+                        <div class="medium-4 table-border">
+                            dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
+                        </div>
+                        <div class="medium-4  table-border">
+                            <a onclick="openTableRowAcc('rowTest')">sadfasdfgsdf</a>
+                        </div>
+                        <div class="medium-4  table-border">
+                            dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
+                        </div>
+                    </div>
+                    <div class="grid-x table-border display-off" id="rowTest">
+                        <table>
+                            <thead>
+                                <th>1231234</th>
+                                <th>1231234</th>
+                                <th>1231234</th>
+                                <th>1231234</th>
+                                <th>1231234</th>
+                                <th>1231234</th>
+                                <th>1231234</th>
+                                <th>1231234</th>
+                                <th>1231234</th>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>6546</td>
-                                <td>6546</td>
-                                <td>6546</td>
-                                <td>6546</td>
-                                <td>6546</td>
-                                <td>6546</td>
-                                <td>6546</td>
-                                <td>6546</td>
-                                <td>6546</td>
-                            </tr>
+                                <tr>
+                                    <td>23452345</td>
+                                    <td>23452345</td>
+                                    <td>23452345</td>
+                                    <td>23452345</td>
+                                    <td>23452345</td>
+                                    <td>23452345</td>
+                                    <td>23452345</td>
+                                    <td>23452345</td>
+                                    <td>23452345</td>
+                                </tr>
                             </tbody>
                         </table>
-                    </td>
-                </tr>
-
-
-
-                </tbody>
-            </table>
-
+                    </div>
+                </div>
+            </div>
+            <div class="grid-x">
+                <div class="medium-2 table-border">
+                    dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
+                </div>
+                <div class="medium-10">
+                    <div class="grid-x">
+                        <div class="medium-4 table-border">
+                            dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
+                        </div>
+                        <div class="medium-4  table-border">
+                            dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
+                        </div>
+                        <div class="medium-4  table-border">
+                            dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
+                        </div>
+                    </div>
+                    <div class="grid-x table-border">
+                        dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
+                    </div>
+                </div>
+            </div>
+            <div class="grid-x">
+                <div class="medium-2 table-border">
+                    fasdf
+                </div>
+                <div class="medium-10">
+                    <div class="grid-x">
+                        <div class="medium-4 table-border">
+                            dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
+                        </div>
+                        <div class="medium-4  table-border">
+                            dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
+                        </div>
+                        <div class="medium-4  table-border">
+                            dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
+                        </div>
+                    </div>
+                    <div class="grid-x table-border">
+                        dfgsdfg
+                    </div>
+                </div>
+            </div>
+            <div class="grid-x">
+                <div class="medium-2 table-border">
+                    dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
+                </div>
+                <div class="medium-10">
+                    <div class="grid-x">
+                        <div class="medium-4 table-border">
+                            dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
+                        </div>
+                        <div class="medium-4  table-border">
+                            ssdf
+                        </div>
+                        <div class="medium-4  table-border">
+                            dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
+                        </div>
+                    </div>
+                    <div class="grid-x table-border">
+                        dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
+                    </div>
+                </div>
+            </div>
+            <div class="grid-x">
+                <div class="medium-2 table-border">
+                    fasdf
+                </div>
+                <div class="medium-10">
+                    <div class="grid-x">
+                        <div class="medium-4 table-border">
+                            df
+                        </div>
+                        <div class="medium-4  table-border">
+                            ssdf
+                        </div>
+                        <div class="medium-4  table-border">
+                            sdf
+                        </div>
+                    </div>
+                    <div class="grid-x table-border">
+                        dfgsdfg
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
