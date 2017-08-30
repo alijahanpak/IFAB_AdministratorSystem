@@ -46,7 +46,7 @@
                         @include('budget::pages.credit_distribution.budget_season')
                     <!--Tab 3-->
                     <!--Tab 3-->
-                        @include('budget::pages.credit_distribution.city')
+                        @include('budget::pages.credit_distribution.county')
                     <!--Tab 3-->
                 </div>
             </div>

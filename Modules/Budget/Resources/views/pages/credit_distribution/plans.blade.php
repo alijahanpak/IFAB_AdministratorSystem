@@ -27,93 +27,98 @@
                 </div>
             </div>
         </div>
+        <!--Modal Delete Start-->
+        <div style="z-index: 9999;" class="tiny reveal" id="modalDeletePlan" data-reveal data-animation-in="someAnimationIn">
+            <div class="modal-margin small-font">
+                <p>کاربر گرامی</p>
+                <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
+                <div class="grid-x dashboard-padding">
+                    <div class="medium-6 ">
+                        <a class="button primary btn-large-w large-offset-3" href="">بله</a>
+                    </div>
+                    <div class="medium-6">
+                        <a data-close aria-label="Close modal" class="button primary hollow btn-large-w large-offset-4">خیر</a>
+                    </div>
+                </div>
+            </div>
+            <button class="close-button" data-close aria-label="Close modal" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <!--Modal Delete End-->
         <div class="columns">
-            <div class="">
-                <table class="unstriped small-font">
-                    <tr class="head-color">
-                        <td>شماره طرح</td>
-                        <td>عنوان طرح</td>
-                        <td>فصل بودجه</td>
-                        <td>ردیف توزیع اعتبار</td>
-                        <td>سرجمع</td>
-                        <td>شرح</td>
-                        <td>ویرایش</td>
-                        <td>حذف</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php $rowColor = 0; ?>
-                    @foreach($cdPlans as $cdPlan)
-                        <?php
-                            $cAmounts = \Modules\Budget\Entities\CreditDistributionPlan::getAllPlan($cdPlan->cdpCdtId , $cdPlan->cdpCdrId);
-                            $countyId = array();
-                            $i = 0;
-                            foreach ($cAmounts as $cAmount)
-                            {
-                                $countyId[$i++] = 'cdpCounty' . $cAmount->county->id . '_u';
-                            }
+            <!--Header Start-->
+            <div class="grid-x table-header">
+                <div class="medium-2  table-border">
+                    <strong>شماره طرح</strong>
+                </div>
+                <div class="medium-2  table-border">
+                    <strong>عنوان طرح</strong>
+                </div>
+                <div class="medium-2  table-border">
+                    <strong>فصل بودجه</strong>
+                </div>
+                <div class="medium-2  table-border">
+                    <strong>ردیف</strong>
+                </div>
+                <div class="medium-2  table-border">
+                    <strong>سرجمع</strong>
+                </div>
+                <div class="medium-2  table-border">
+                    <strong>شرح</strong>
+                </div>
+            </div>
+            <!--Header End-->
+            <div class="table-contain" id="plansTable">
+                <?php $rowColor = 0; ?>
+                @foreach($cdPlans as $cdPlan)
+                    <?php
+                    $cAmounts = \Modules\Budget\Entities\CreditDistributionPlan::getAllPlan($cdPlan->cdpCdtId , $cdPlan->cdpCdrId);
+                    $countyId = array();
+                    $i = 0;
+                    foreach ($cAmounts as $cAmount)
+                    {
+                        $countyId[$i++] = 'cdpCounty' . $cAmount->county->id . '_u';
+                    }
 
-                            $i = 0;
-                            foreach ($cAmounts as $cAmount)
-                            {
-                                $countyAmount[$i++] = \Modules\Admin\Entities\AmountUnit::convertDispAmountWithoutSplliter($cAmount->cdpCredit);
-                            }
-                        ?>
-                        <tr class="{{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }}">
-                            <td>{{ $cdPlan->creditDistributionTitle->cdtIdNumber }}</td>
-                            <td>{{ $cdPlan->creditDistributionTitle->cdtSubject }}</td>
-                            <td>{{ $cdPlan->creditDistributionTitle->budgetSeason->bsSubject }}</td>
-                            <td>{{ $cdPlan->creditDistributionRow->cdSubject }}</td>
-                            <td class="text-center">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CreditDistributionPlan::getSumPlanAmount($cdPlan->cdpCdtId , $cdPlan->cdpCdrId)) }}</td>
-                            <td>{{ $cdPlan->cdpDescription }}</td>
-                            <td class="text-center"><a data-open="preloaderModal" onclick="CDPUpdateDialogOpen({{ json_encode($countyId) }} , {{ json_encode($countyAmount) }} , '{{ $cdPlan->cdpCdrId }}' , '{{ $cdPlan->cdpCdtId }}' , '{{ $cdPlan->cdpDescription }}')" ><i class="fi-pencil size-21 edit-pencil"></i></a></td>
-                            <td class="text-center"><a data-open="modalDeletePlan{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                            <!--Modal Delete Start-->
-                            <div style="z-index: 9999;" class="tiny reveal" id="modalDeletePlan{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}" data-reveal data-animation-in="someAnimationIn">
-                                <div class="modal-margin small-font">
-                                    <p>کاربر گرامی</p>
-                                    <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
-                                    <div class="grid-x dashboard-padding">
-                                        <div class="medium-6 ">
-                                            <a class="button primary btn-large-w large-offset-3" href="{{ url('/budget/credit_distribution/capital_assets/provincial/plans/delete/' . $cdPlan->cdpCdtId . '/' . $cdPlan->cdpCdrId) }}">بله</a>
-                                        </div>
-                                        <div class="medium-6">
-                                            <a data-close aria-label="Close modal" class="button primary hollow btn-large-w large-offset-4">خیر</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button class="close-button" data-close aria-label="Close modal" type="button">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <!--Modal Delete End-->
-                        </tr>
-                        <tr id="countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}" class="{{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }}">
-                            <td colspan="8">
-                                <div>
-                                    <table class="tbl-secondary-mrg small-font">
-                                        <thead class="my-thead">
-                                        <tr class="{{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }}" style="background-color: #F1F1F1 !important;">
-                                            @foreach($cAmounts as $cAmount)
-                                                <th>{{ $cAmount->county->coName }}</th>
-                                            @endforeach
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            @foreach($cAmounts as $cAmount)
-                                                <td>{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount($cAmount->cdpCredit) }}</td>
-                                            @endforeach
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </td>
-                        </tr>
-                        <?php $rowColor++; ?>
-                    @endforeach
-                    </tbody>
-                </table>
+                    $i = 0;
+                    foreach ($cAmounts as $cAmount)
+                    {
+                        $countyAmount[$i++] = \Modules\Admin\Entities\AmountUnit::convertDispAmountWithoutSplliter($cAmount->cdpCredit);
+                    }
+                    ?>
+                    <div class="grid-x {{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }}">
+                        <div class="medium-2 table-contain-border cell-vertical-center">{{ $cdPlan->creditDistributionTitle->cdtIdNumber }}</div>
+                        <div class="medium-2 table-contain-border cell-vertical-center">{{ $cdPlan->creditDistributionTitle->cdtSubject }}</div>
+                        <div class="medium-2 table-contain-border cell-vertical-center">{{ $cdPlan->creditDistributionTitle->budgetSeason->bsSubject }}</div>
+                        <div class="medium-2 table-contain-border cell-vertical-center">{{ $cdPlan->creditDistributionRow->cdSubject }}</div>
+                        <div class="medium-2 table-contain-border cell-vertical-center">
+                            <a onclick="openTableRowAcc('countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}' , 'plansTable')">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CreditDistributionPlan::getSumPlanAmount($cdPlan->cdpCdtId , $cdPlan->cdpCdrId)) }}</a>
+                        </div>
+                        <div class="medium-2 table-contain-border cell-vertical-center">{{ $cdPlan->cdpDescription }}</div>
+                    </div>
+                    <div id="countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}" class="grid-x display-off {{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }} accordionRow">
+                        <div class="medium-12 table-contain-border horizontal-scroll">
+                            <table class="tbl-secondary-mrg small-font">
+                                <thead class="my-thead">
+                                <tr class="{{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }}" style="background-color: #F1F1F1 !important;">
+                                    @foreach($cAmounts as $cAmount)
+                                        <th>{{ $cAmount->county->coName }}</th>
+                                    @endforeach
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    @foreach($cAmounts as $cAmount)
+                                        <td>{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount($cAmount->cdpCredit) }}</td>
+                                    @endforeach
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <?php $rowColor++; ?>
+                @endforeach
             </div>
         </div>
     @else

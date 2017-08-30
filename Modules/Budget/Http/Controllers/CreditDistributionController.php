@@ -29,11 +29,13 @@ class CreditDistributionController extends Controller
         $counties = County::all();
         //$cdPlans = CreditDistributionPlan::where('cdpFyId' , '=' , Auth::user()->seFiscalYear)->get();
         $cdPlans = CreditDistributionPlan::select(['cdpCdtId' , 'cdpCdrId' , 'cdpDescription'])->where('cdpFyId' , '=' , Auth::user()->seFiscalYear)->groupBy(['cdpCdtId' , 'cdpCdrId' , 'cdpDescription'])->get();
+        $cdPlan_rows = CreditDistributionPlan::select(['cdpCdrId' , 'cdpDescription'])->where('cdpFyId' , '=' , Auth::user()->seFiscalYear)->groupBy(['cdpCdrId' , 'cdpDescription'])->get();
         return view('budget::pages.credit_distribution.main', ['pageTitle' => 'طرحهای توزیع اعتبار' ,
             'creditDRs' => $cdr,
             'creditDTs' => $cdt,
             'counties' => $counties,
             'cdPlans' => $cdPlans,
+            'cdPlan_rows' => $cdPlan_rows,
             'requireJsFile' => 'credit_distribution_plan']);
     }
 

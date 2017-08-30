@@ -31,6 +31,12 @@ class CreditDistributionPlan extends Model
         return CreditDistributionPlan::where('cdpFyId' , '=' , Auth::user()->seFiscalYear)->where('cdpCdtId' , '=' , $cdtId)->where('cdpCdrId' , '=' , $cdrId)->get();
     }
 
+    public static function getAllPlan_rows($cdrId)
+    {
+
+        return CreditDistributionPlan::select(['cdpCdtId' , 'cdpCdrId' , 'cdpDescription'])->where('cdpFyId' , '=' , Auth::user()->seFiscalYear)->groupBy(['cdpCdtId' , 'cdpCdrId' , 'cdpDescription'])->having([''])->get();
+    }
+
     public static function getSumPlanAmount($cdtId , $cdrId)
     {
         return CreditDistributionPlan::where('cdpFyId' , '=' , Auth::user()->seFiscalYear)->where('cdpCdtId' , '=' , $cdtId)->where('cdpCdrId' , '=' , $cdrId)->sum('cdpCredit');

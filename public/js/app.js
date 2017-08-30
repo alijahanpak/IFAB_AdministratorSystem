@@ -1,8 +1,9 @@
 $(document).foundation()
 
-function openTableRowAcc(trId) {
+function openTableRowAcc(trId , tableContainerId) {
     if ($('#' + trId).css('display') == 'none') {
-        $('#' + trId).removeClass('display-off').hide().fadeIn();
+        $("#" + tableContainerId ).parent().find('div.accordionRow').addClass("display-off");
+        $("#" + trId).removeClass('display-off');
     } else {
         $('#' + trId).addClass('display-off');
     }
