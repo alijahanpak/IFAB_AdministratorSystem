@@ -576,3 +576,10 @@ input:checked ~ .switch-paddle {
 .tableRowColor{
     background-color: #F5F5F5 !important;
 }
+
+.table-border{
+    padding: 1rem;
+    border: 1px solid #C7CDD1;
+}
+
+
