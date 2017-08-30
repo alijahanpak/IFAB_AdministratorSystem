@@ -3,12 +3,18 @@
         <div class="medium-12  bottom-mrg">
             <div class="clearfix border-btm-line ">
                 <div class="button-group float-left report-mrg">
-                    <a  class="clear button"  data-open="CDP_ModalInsert" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
+{{--                    <a  class="clear button"  data-open="CDP_ModalInsert" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
                         <i class="fi-plus size-30 secondry-color"></i>
                     </a>
                     <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
                         <i class="fi-clipboard-notes size-30 secondry-color"></i>
-                    </a>
+                    </a>--}}
+                    <div class="small button-group">
+                        <a class="button secondary"><span class="fi-page-delete" ></span></a>
+                        <a class="button secondary"><span class="fi-align-center" ></span></a>
+                        <a class="button"><span class="fi-page-edit"></span></a>
+                        <a class="button"><span class="fi-clipboard-notes"></span></a>
+                    </div>
                 </div>
             </div>
         </div>

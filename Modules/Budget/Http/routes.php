@@ -34,7 +34,12 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::get('credit_distribution_def/plan_title/delete/{cdptId}', 'BudgetAdminController@deletePlanTitle');
         //////////////////////////////////////////////////////////////////////
         Route::get('sub_seasons', 'BudgetAdminController@subSeasons');
+        Route::post('sub_seasons/register', 'BudgetAdminController@registerSubSeason');
+        Route::get('sub_seasons/delete/{ssId}', 'BudgetAdminController@deleteSubSeason');
+        Route::get('sub_seasons/SSIsExist/{sId}/{tsSubject}/{tsId?}', 'BudgetAdminController@SSIsExist');
+        Route::post('sub_seasons/update/{tsId}', 'BudgetAdminController@updateSubSeason');
     });
+
     //////////////////////////////////////////////////////////////////////////
     Route::prefix('credit_distribution')->group(function () {
         Route::get('capital_assets/provincial/plans', 'CreditDistributionController@creditDistributionPlan');

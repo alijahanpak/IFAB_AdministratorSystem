@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\Rules\In;
 use Modules\Admin\Entities\County;
 use Modules\Admin\Entities\FiscalYear;
+use Modules\Admin\Entities\Season;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Admin\Entities\Village;
 use Modules\Budget\Entities\BudgetSeason;
@@ -19,6 +20,7 @@ use Modules\Budget\Entities\CreditDistributionRow;
 use Modules\Budget\Entities\CreditDistributionTitle;
 use Modules\Budget\Entities\DeprivedArea;
 use Modules\Budget\Entities\FyPermissionInBudget;
+use Modules\Budget\Entities\TinySeason;
 
 class BudgetAdminController extends Controller
 {
@@ -408,6 +410,76 @@ class BudgetAdminController extends Controller
                 return Redirect::to(URL::previous() . '#budget_season_tab')->with('messageDialogPm', 'با توجه به وابستگی اطلاعات، حذف رکورد مورد نظر ممکن نیست!');
             }
         }
+    }
+
+    public function registerSubSeason(Request $request)
+    {
+        $ts = new TinySeason;
+        $ts->tsUId = Auth::user()->id;
+        $ts->tsSId = Input::get('sId');
+        $ts->tsSubject = Input::get('tsSubject');
+        $ts->tsDescription = Input::get('tsDescription');
+        $ts->save();
+
+        SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل ' . Input::get('tsSubject') . ' در فصل ' . Season::find(Input::get('tsSubject'))->first()->sSubject);
+        return Redirect::to(URL::previous());
+    }
+
+    public function deleteSubSeason($tsId)
+    {
+        $ts = TinySeason::find($tsId);
+        try {
+            $logTemp = TinySeason::find($tsId);
+            $ts->delete();
+            SystemLog::setBudgetSubSystemAdminLog('حذف ریز فصل ' . $logTemp->tsSubject);
+            return Redirect::to(URL::previous());
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                return Redirect::to(URL::previous())->with('messageDialogPm', 'با توجه به وابستگی اطلاعات، حذف رکورد مورد نظر ممکن نیست!');
+            }
+        }
+    }
+
+    public function SSIsExist($sId , $tsSubject , $tsId = null)
+    {
+        if (\Illuminate\Support\Facades\Request::ajax())
+        {
+            if ($tsId == null)
+            {
+                if (TinySeason::where('tsSId' , '=' , $sId)->Where('tsSubject' , '=' , $tsSubject)->exists())
+                {
+                    return \Illuminate\Support\Facades\Response::json(['exist' => true]);
+                }
+                else
+                {
+                    return \Illuminate\Support\Facades\Response::json(['exist' => false]);
+                }
+            }
+            else{
+                if (TinySeason::where('id' , '<>' , $tsId)->where('tsSId' , '=' , $sId)->where('tsSubject' , '=' , $tsSubject)->exists())
+                {
+                    return \Illuminate\Support\Facades\Response::json(['exist' => true]);
+                }
+                else
+                {
+                    return \Illuminate\Support\Facades\Response::json(['exist' => false]);
+                }
+            }
+        }
+    }
+
+    public function updateSubSeason(Request $request)
+    {
+        $old = TinySeason::find(Input::get('tsId'));
+        $ts = TinySeason::find(Input::get('tsId'));
+        $ts->tsSId = Input::get('sId');
+        $ts->tsSubject = Input::get('tsSubject');
+        $ts->tsDescription = Input::get('tsDescription');
+        $ts->save();
+
+        SystemLog::setBudgetSubSystemAdminLog('تغییر  ریز فصل (' . $old->tsSubject . ') به (' . $ts->tsSubject . ')');
+        return Redirect::to(URL::previous() . '#plan_title_tab');
     }
 }
 
