@@ -67,131 +67,19 @@
                         </div>
                         <!--Header End-->
                         <div class="table-contain">
+                            @foreach($subSeasons as $subSeason)
                             <div class="grid-x">
-                                <div class="medium-2 table-contain-border cell-vertical-center">
-                                        فصل اول
-                                </div>
+                                <div class="medium-2 table-contain-border cell-vertical-center">{{ $subSeason->season->sSubject }}</div>
                                 <div class="medium-10">
-                                    <div class="grid-x">
-                                        <div class="medium-6 table-contain-border">
-                                            مطالعه برای احداث ساختمان و مستحدثات
+                                    @foreach(\Modules\Budget\Entities\TinySeason::getTinySeasonWithSId($subSeason->tsSId) as $sb)
+                                        <div class="grid-x selectAbleRow">
+                                            <div class="medium-6 table-contain-border">{{ $sb->tsSubject }}</div>
+                                            <div class="medium-6  table-contain-border">{{ $sb->tsDescription }}</div>
                                         </div>
-                                        <div class="medium-6  table-contain-border">
-                                            <a onclick="openTableRowAcc('rowTest')">sadfasdfgsdf</a>
-                                        </div>
-
-                                    </div>
-                                    <div class="grid-x display-off table-contain-border horizontal-scroll" id="rowTest">
-                                        <table>
-                                            <thead class="my-thead">
-                                            <th class="tbl-rotate-txt">همدان</th>
-                                            <th class="tbl-rotate-txt">1231234</th>
-                                            <th class="tbl-rotate-txt">1231234</th>
-                                            <th class="tbl-rotate-txt">1231234</th>
-                                            <th class="tbl-rotate-txt">1231234</th>
-                                            <th class="tbl-rotate-txt">1231234</th>
-                                            <th class="tbl-rotate-txt">1231234</th>
-                                            <th class="tbl-rotate-txt">1231234</th>
-                                            <th class="tbl-rotate-txt">1231234</th>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td>23452345</td>
-                                                <td>23452345</td>
-                                                <td>23452345</td>
-                                                <td>23452345</td>
-                                                <td>23452345</td>
-                                                <td>23452345</td>
-                                                <td>23452345</td>
-                                                <td>23452345</td>
-                                                <td>23452345</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
-                            <div class="grid-x">
-                                <div class="medium-2 table-contain-border">
-                                    dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
-                                </div>
-                                <div class="medium-10">
-                                    <div class="grid-x">
-                                        <div class="medium-6 table-contain-border">
-                                            dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
-                                        </div>
-                                        <div class="medium-6  table-contain-border">
-                                            dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
-                                        </div>
-                                    </div>
-                                    <div class="grid-x table-contain-border">
-                                        dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="grid-x">
-                                <div class="medium-2 table-border">
-                                    fasdf
-                                </div>
-                                <div class="medium-10">
-                                    <div class="grid-x">
-                                        <div class="medium-4 table-border">
-                                            dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
-                                        </div>
-                                        <div class="medium-4  table-border">
-                                            dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
-                                        </div>
-                                        <div class="medium-4  table-border">
-                                            dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
-                                        </div>
-                                    </div>
-                                    <div class="grid-x table-border">
-                                        dfgsdfg
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="grid-x">
-                                <div class="medium-2 table-border">
-                                    dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
-                                </div>
-                                <div class="medium-10">
-                                    <div class="grid-x">
-                                        <div class="medium-4 table-border">
-                                            dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
-                                        </div>
-                                        <div class="medium-4  table-border">
-                                            ssdf
-                                        </div>
-                                        <div class="medium-4  table-border">
-                                            dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
-                                        </div>
-                                    </div>
-                                    <div class="grid-x table-border">
-                                        dfsdfghdfgh dfgh dfghd fgh dfghd fghd fghd fghdfghd fghd fghd fghd fghd
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="grid-x">
-                                <div class="medium-2 table-border">
-                                    fasdf
-                                </div>
-                                <div class="medium-10">
-                                    <div class="grid-x">
-                                        <div class="medium-4 table-border">
-                                            df
-                                        </div>
-                                        <div class="medium-4  table-border">
-                                            ssdf
-                                        </div>
-                                        <div class="medium-4  table-border">
-                                            sdf
-                                        </div>
-                                    </div>
-                                    <div class="grid-x table-border">
-                                        dfgsdfg
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                     </div>

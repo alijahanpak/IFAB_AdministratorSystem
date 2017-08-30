@@ -201,6 +201,8 @@
             <script src="{{ asset('js/modules/budget/admin/fiscal_year.js') }}"></script>
         @elseif($requireJsFile =='credit_distribution_plan')
             <script src="{{ asset('js/modules/budget/credit_distribution_plan.js')  }}"></script>
+        @elseif($requireJsFile =='tiny_season')
+            <script src="{{ asset('js/modules/budget/admin/tiny_season.js')  }}"></script>
         @endif
     @endif
     @if (session('messageDialogPm'))

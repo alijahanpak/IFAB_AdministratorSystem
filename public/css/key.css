@@ -644,3 +644,7 @@ input:checked ~ .switch-paddle {
 .horizontal-scroll{
     overflow-x:auto;
 }
+
+.selected {
+    background-color: #E9ffff;
+}

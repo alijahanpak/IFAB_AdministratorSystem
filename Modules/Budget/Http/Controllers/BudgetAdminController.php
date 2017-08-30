@@ -96,7 +96,12 @@ class BudgetAdminController extends Controller
 
     public function subSeasons()
     {
-        return view('budget::pages.sub_seasons.main', ['pageTitle' => 'ریز فصول']);
+        $subSeasons = TinySeason::select(['tsSId'])->groupBy(['tsSId'])->get();
+        $seasons = Season::all();
+        return view('budget::pages.sub_seasons.main', ['subSeasons' => $subSeasons,
+            'seasons' => $seasons ,
+            'requireJsFile' => 'tiny_season',
+            'pageTitle' => 'ریز فصول']);
     }
     
     public function updateCreditDistributionRow(Request $request)
@@ -421,7 +426,7 @@ class BudgetAdminController extends Controller
         $ts->tsDescription = Input::get('tsDescription');
         $ts->save();
 
-        SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل ' . Input::get('tsSubject') . ' در فصل ' . Season::find(Input::get('tsSubject'))->first()->sSubject);
+        SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل ' . Input::get('tsSubject') . ' در فصل ' . Season::find(Input::get('sId'))->sSubject);
         return Redirect::to(URL::previous());
     }
 
