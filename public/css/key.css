@@ -646,5 +646,5 @@ input:checked ~ .switch-paddle {
 }
 
 .selected {
-    background-color: #E9ffff;
+    background-color: #E9ffff !important;
 }
