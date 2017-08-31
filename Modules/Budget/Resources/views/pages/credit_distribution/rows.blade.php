@@ -3,12 +3,6 @@
         <div class="medium-12  bottom-mrg">
             <div class="clearfix border-btm-line ">
                 <div class="button-group float-left report-mrg">
-                    <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="حذف" data-position="top" data-alignment="center">
-                        <i class="fi-trash size-30 trash-t"></i>
-                    </a>
-                    <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="ویرایش" data-position="top" data-alignment="center">
-                        <i class="fi-pencil size-30 edit-pencil"></i>
-                    </a>
                     <a  class="clear button"  data-open="CDP_ModalInsert" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
                         <i class="fi-plus size-30 secondry-color"></i>
                     </a>
@@ -81,13 +75,28 @@
                                     }
                                 ?>
                                 <div class="grid-x {{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }} selectAbleRow">
-                                    <div class="medium-2 table-contain-border">{{ $row->creditDistributionTitle->cdtIdNumber }}</div>
-                                    <div class="medium-2  table-contain-border">{{ $row->creditDistributionTitle->cdtSubject }}</div>
-                                    <div class="medium-2 table-contain-border">{{ $row->creditDistributionTitle->budgetSeason->bsSubject }}</div>
+                                    <div class="medium-2 table-contain-border cell-vertical-center">{{ $row->creditDistributionTitle->cdtIdNumber }}</div>
+                                    <div class="medium-2  table-contain-border cell-vertical-center">{{ $row->creditDistributionTitle->cdtSubject }}</div>
+                                    <div class="medium-2 table-contain-border cell-vertical-center">{{ $row->creditDistributionTitle->budgetSeason->bsSubject }}</div>
                                     <div class="medium-2 table-contain-border cell-vertical-center">
                                         <a onclick="openTableRowAcc('countyPlanAmount_row{{ $row->cdpCdtId . $row->cdpCdrId }}' , 'planRowsTable')">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CreditDistributionPlan::getSumPlanAmount($row->cdpCdtId , $row->cdpCdrId)) }}</a>
                                     </div>
-                                    <div class="medium-4 table-contain-border">{{ $row->cdpDescription }}</div>
+                                    <div class="medium-4 table-contain-border cell-vertical-center">
+                                        <div class="grid-x">
+                                            <div class="medium-11">
+                                                {{ $row->cdpDescription }}
+                                            </div>
+                                            <div class="medium-1 cell-vertical-center">
+                                                <a class="dropdown small sm-btn-align display-off"  type="button" data-toggle="planActionDropdown_row{{ $row->cdpCdtId . $row->cdpCdrId }}"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
+                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="planActionDropdown_row{{ $row->cdpCdtId . $row->cdpCdrId }}" data-dropdown data-auto-focus="true">
+                                                    <ul class="my-menu small-font">
+                                                        <li><a data-open="preloaderModal"  onclick="CDPUpdateDialogOpen({{ json_encode($countyId) }} , {{ json_encode($countyAmount) }} , '{{ $row->cdpCdrId }}' , '{{ $row->cdpCdtId }}' , '{{ $row->cdpDescription }}')"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                        <li><a data-open="CDP_modalDelete{{ $row->cdpCdtId . $row->cdpCdrId }}"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div id="countyPlanAmount_row{{ $row->cdpCdtId . $row->cdpCdrId }}" class="grid-x display-off {{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }} accordionRow">
                                     <div class="medium-12 table-contain-border horizontal-scroll">

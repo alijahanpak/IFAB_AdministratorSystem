@@ -128,10 +128,12 @@ $(document).ready(function () {
     ////////////////////////////////////////////////////////
 });
 
-$(".table-contain div.selectAbleRow").click(function(){
+$("div.selectAbleRow").mouseover(function(){
     $(".table-contain").parent().find('div').removeClass("selected");
     //$(".table-contain div").siblings('.selected').removeClass('selected')
     $(this).addClass('selected');
-    var value=$(this).find('span.deleteUrl').html();
-    $('#modalDeleteUrl').prop("href" , value);
+    //$(this).removeClass('display-off');
+    //$(".table-contain").siblings('.dropdown').addClass('display-off')
+    $(".table-contain").parent().find('a.dropdown').addClass("display-off");
+    $(this).find('a.dropdown').removeClass("display-off");
 });

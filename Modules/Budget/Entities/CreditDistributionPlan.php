@@ -44,10 +44,10 @@ class CreditDistributionPlan extends Model
     
     public static function getAllPlan_budget_seasons($bsId)
     {
-        return CreditDistributionPlan::select('cdpCdtId' , 'cdpCdrId')->with('creditDistributionTitle')->whereHas('creditDistributionTitle', function($q) use($bsId) {
+        return CreditDistributionPlan::select('cdpCdtId' , 'cdpCdrId' , 'cdpDescription')->with('creditDistributionTitle')->whereHas('creditDistributionTitle', function($q) use($bsId) {
             $q->where('cdtBsId', $bsId);
         })->where('cdpFyId' , '=' , Auth::user()->seFiscalYear)
-            ->groupBy(['cdpCdtId' , 'cdpCdrId'])
+            ->groupBy(['cdpCdtId' , 'cdpCdrId' ,'cdpDescription'])
             ->get();
     }
 

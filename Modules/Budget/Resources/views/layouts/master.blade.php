@@ -104,7 +104,7 @@
                                         <li><a href="#">استانی</a>
                                             <ul class="menu vertical nested">
                                                 <li><a href="{{ url('/budget/credit_distribution/capital_assets/provincial/plans') }}">طرح های توزیع اعتبار</a></li>
-                                                <li><a href="#">پیشنهاد دستگاه ها</a></li>
+                                                <li><a href="{{ url('/budget/credit_distribution/capital_assets/provincial/proposal') }}">پیشنهاد دستگاه ها</a></li>
                                             </ul>
                                         </li>
                                         <li><a href="#">ملی</a></li>

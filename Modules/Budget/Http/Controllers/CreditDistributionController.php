@@ -70,14 +70,13 @@ class CreditDistributionController extends Controller
 
     public function deleteCreditDistributionPlan($cdtId , $cdrId)
     {
-        echo "morteza";
-/*        $cdp = CreditDistributionPlan::where('cdpCdtId' , '=' , $cdtId)
+        $cdp = CreditDistributionPlan::where('cdpCdtId' , '=' , $cdtId)
             ->where('cdpCdrId' , '=' , $cdrId)
             ->where('cdpFyId' , '=' , Auth::user()->seFiscalYear);
         $cdp->delete();
 
         SystemLog::setBudgetSubSystemLog('حذف طرح توزیع اعتبار تملک دارییی های سرمایه ای استانی');
-        return Redirect::to(URL::previous());*/
+        return Redirect::to(URL::previous());
     }
 
     public function CDPIsExist($cdtId , $cdrId)
@@ -119,5 +118,9 @@ class CreditDistributionController extends Controller
 
         SystemLog::setBudgetSubSystemLog('بروز رسانی طرح توزیع اعتبار تملک داریی های سرمایه ای استانی');
         return Redirect::to(URL::previous());
+    }
+
+    public function provincialBudgetProposal(){
+        return  view('budget::pages.provincial_budget_proposal.main', ['pageTitle' => 'پیشنهاد بودجه']);
     }
 }
