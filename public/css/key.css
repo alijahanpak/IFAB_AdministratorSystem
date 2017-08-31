@@ -639,6 +639,7 @@ input:checked ~ .switch-paddle {
     margin-bottom: 1rem;
     border: 1px solid #C7CDD1;
 }
+
 .table-contain .table-contain-border{
     padding: 1rem;
     border-left: 1px solid #C7CDD1;
