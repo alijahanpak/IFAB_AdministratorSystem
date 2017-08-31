@@ -33,10 +33,10 @@
                 <div class="medium-2  table-border">
                     <strong>فصل بودجه</strong>
                 </div>
-                <div class="medium-2  table-border">
+                <div class="medium-1  table-border">
                     <strong>ردیف</strong>
                 </div>
-                <div class="medium-1  table-border">
+                <div class="medium-2  table-border">
                     <strong>سرجمع</strong>
                 </div>
                 <div class="medium-3  table-border">
@@ -66,8 +66,8 @@
                         <div class="medium-2 table-contain-border cell-vertical-center">{{ $cdPlan->creditDistributionTitle->cdtIdNumber }}</div>
                         <div class="medium-2 table-contain-border cell-vertical-center">{{ $cdPlan->creditDistributionTitle->cdtSubject }}</div>
                         <div class="medium-2 table-contain-border cell-vertical-center">{{ $cdPlan->creditDistributionTitle->budgetSeason->bsSubject }}</div>
-                        <div class="medium-2 table-contain-border cell-vertical-center">{{ $cdPlan->creditDistributionRow->cdSubject }}</div>
-                        <div class="medium-1 table-contain-border cell-vertical-center">
+                        <div class="medium-1 table-contain-border cell-vertical-center">{{ $cdPlan->creditDistributionRow->cdSubject }}</div>
+                        <div class="medium-2 table-contain-border cell-vertical-center">
                             <a onclick="openTableRowAcc('countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}' , 'plansTable')">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CreditDistributionPlan::getSumPlanAmount($cdPlan->cdpCdtId , $cdPlan->cdpCdrId)) }}</a>
                         </div>
                         <div class="medium-3 table-contain-border cell-vertical-center">

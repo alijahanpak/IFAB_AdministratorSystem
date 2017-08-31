@@ -21,10 +21,10 @@
                 </div>
             </div>
             <div class="grid-x dashboard-padding">
+                @if(count($subSeasons) > 0)
                 <div class="medium-12 column my-callout">
                     <div class="grid-x bottom-mrg">
                         <div class="medium-12">
-
                             <div class="clearfix border-btm-line">
                                 <div class="button-group float-left report-mrg">
                                     <a  class="clear button"  data-open="SS_ModalInsert" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
@@ -84,7 +84,7 @@
                                                         <a class="dropdown small sm-btn-align display-off"  type="button" data-toggle="tsActionDropdown{{ $sb->id }}"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="tsActionDropdown{{ $sb->id }}" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
-                                                                <li><a data-open="preloaderModal"  onclick="CDPUpdateDialogOpen()"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                <li><a data-open="preloaderModal"  onclick="TSUpdateDialogOpen('{{ $sb->tsSId }}' , '{{ $sb->tsSubject }}' , '{{ $sb->tsDescription }}' , '{{ $sb->id }}')"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
                                                                 <li><a data-open="TS_modalDelete{{ $sb->id }}"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                             </ul>
                                                         </div>
@@ -118,9 +118,20 @@
                             @endforeach
                         </div>
                     </div>
-                    </div>
-                    <!--Table End-->
                 </div>
+                    <!--Table End-->
+                @else
+                    <!--Panel nothing Insert Start-->
+                    <div class="medium-12 column">
+                        <div style="height: 200px;" class="card">
+                            <div class="card-section text-center" style="margin-top:60px;">
+                                <span>کاربر گرامی، </span><span class="login-txt small-font">ریز فصل ثبت نشده است!<span><a data-open="SS_ModalInsert" class="custom-btn-pos my-secondary button tiny">ثبت</a></span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Panel nothing Insert End-->
+                @endif
+            </div>
             </div>
         </div>
 

@@ -8,3 +8,13 @@ function openTableRowAcc(trId , tableContainerId) {
         $('#' + trId).addClass('display-off');
     }
 }
+
+$("div.selectAbleRow").mouseover(function(){
+    $(this).addClass('selected');
+    $(this).find('a.dropdown').removeClass("display-off");
+});
+
+$("div.selectAbleRow").mouseleave(function(){
+    $(this).removeClass('selected');
+    $(this).find('a.dropdown').addClass("display-off");
+});

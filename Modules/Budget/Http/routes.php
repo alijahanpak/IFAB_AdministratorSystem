@@ -37,7 +37,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::post('sub_seasons/register', 'BudgetAdminController@registerSubSeason');
         Route::get('sub_seasons/delete/{ssId}', 'BudgetAdminController@deleteSubSeason');
         Route::get('sub_seasons/SSIsExist/{sId}/{tsSubject}/{tsId?}', 'BudgetAdminController@SSIsExist');
-        Route::post('sub_seasons/update/{tsId}', 'BudgetAdminController@updateSubSeason');
+        Route::post('sub_seasons/update', 'BudgetAdminController@updateSubSeason');
     });
 
     //////////////////////////////////////////////////////////////////////////

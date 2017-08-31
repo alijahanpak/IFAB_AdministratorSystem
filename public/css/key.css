@@ -617,7 +617,7 @@ input:checked ~ .switch-paddle {
     margin-right: 240px;
 }
 .table-header{
-    margin-left: 12px;
+    margin-left: 1.05rem;
     background-color: #E6E6E6;
     color: #5e5e5e;
     font-size: small;
@@ -665,7 +665,7 @@ input:checked ~ .switch-paddle {
 }
 
 .selected {
-    background-color: #E9ffff !important;
+    background-color: #EBF4FD !important;
 }
 .my-menu-icon:before {
     content: "";

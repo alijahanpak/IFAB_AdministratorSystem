@@ -1,16 +1,11 @@
-function TSUpdateDialogOpen(countyId , countyAmount , cdrId , cdtId , description) {
-/*    $('#cdpTitle_u').val(cdtId);
-    $('#cdpRow_u').val(cdrId);
-    for (var i=0 ; i < countyId.length ; i++)
-    {
-        $('#' + countyId[i]).val(countyAmount[i]);
-    }
-    $('#cdpDescription_u').val(description);
-    $('#cdrId_u').val(cdrId);
-    $('#cdtId_u').val(cdtId);
+function TSUpdateDialogOpen(sId , subject , description , tsId) {
+    $('#sId_u').val(sId);
+    $('#tsSubject_u').val(subject);
+    $('#tsDescription_u').val(description);
+    $('#tsId_u').val(tsId);
     setTimeout(function () {
-        $('#CDP_ModalUpdate').foundation('toggle');
-    }, 100);*/
+        $('#SS_ModalUpdate').foundation('toggle');
+    }, 100);
 }
 var checkTSExistUrl = '';
 function setTSCheckExistUrl(url) {
@@ -71,7 +66,51 @@ $(document).ready(function () {
 
     $('#updateSubmitActivityCircle').hide();
     $('#updateTSForm').submit(function(event) {
+        var url = checkTSExistUrl + '/' + $('#sId_u').val() + '/' + $('#tsSubject_u').val() + '/' + $('#tsId_u').val();
         $('#updateSubmitActivityCircle').show();
+        $.ajax({
+            type: "GET",
+            dataType: "JSON",
+            url: url,
+            success: function (data) {
+                if (data.exist == true) {
+                    $('#existErrorInUpForm').show();
+                    setTimeout(function () {
+                        $('#updateSubmitActivityCircle').hide();
+                    }, 2000);
+                }
+                else {
+                    updateTSFormDataIsExist = false;
+                    $('#updateTSForm').submit();
+                }
+
+
+            },
+            error: function (jqXHR) {
+                var msg = '';
+                if (jqXHR.status === 0) {
+                    msg = 'Not connect.\n Verify Network.';
+                } else if (jqXHR.status == 404) {
+                    msg = 'Requested page not found. [404]';
+                } else if (jqXHR.status == 500) {
+                    msg = 'Internal Server Error [500].';
+                } else if (exception === 'parsererror') {
+                    msg = 'Requested JSON parse failed.';
+                } else if (exception === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
+                setTimeout(function () {
+                    $('#updateSubmitActivityCircle').hide();
+                }, 2000);
+                console.log(msg);
+            }
+        });
+        if (updateTSFormDataIsExist == true)
+            event.preventDefault();
     });
     //////////////////////////////////////////////////////////////////////////////////////////////
     /*    $('#cdrSubject').val('');
@@ -127,14 +166,4 @@ $(document).ready(function () {
         $('#CDPT_existErrorInRegForm').hide();
         $('#CDPT_existErrorInUpForm').hide();*/
     ////////////////////////////////////////////////////////
-});
-
-$("div.selectAbleRow").mouseover(function(){
-    $(".table-contain").parent().find('div').removeClass("selected");
-    //$(".table-contain div").siblings('.selected').removeClass('selected')
-    $(this).addClass('selected');
-    //$(this).removeClass('display-off');
-    //$(".table-contain").siblings('.dropdown').addClass('display-off')
-    $(".table-contain").parent().find('a.dropdown').addClass("display-off");
-    $(this).find('a.dropdown').removeClass("display-off");
 });
