@@ -119,4 +119,8 @@ class CreditDistributionController extends Controller
         SystemLog::setBudgetSubSystemLog('بروز رسانی طرح توزیع اعتبار تملک داریی های سرمایه ای استانی');
         return Redirect::to(URL::previous());
     }
+
+    public function provincialBudgetProposal(){
+        return  view('budget::pages.provincial_budget_proposal.main', ['pageTitle' => 'پیشنهاد بودجه']);
+    }
 }

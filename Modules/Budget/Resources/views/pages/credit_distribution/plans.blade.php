@@ -3,12 +3,6 @@
         <div class="medium-12  bottom-mrg">
             <div class="clearfix border-btm-line ">
                 <div class="button-group float-left report-mrg">
-                    <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="حذف" data-position="top" data-alignment="center">
-                        <i class="fi-trash size-30 trash-t"></i>
-                    </a>
-                    <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="ویرایش" data-position="top" data-alignment="center">
-                        <i class="fi-pencil size-30 edit-pencil"></i>
-                    </a>
                     <a  class="clear button"  data-open="CDP_ModalInsert" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
                         <i class="fi-plus size-30 secondry-color"></i>
                     </a>
@@ -95,7 +89,22 @@
                         <div class="medium-2 table-contain-border cell-vertical-center">
                             <a onclick="openTableRowAcc('countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}' , 'plansTable')">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CreditDistributionPlan::getSumPlanAmount($cdPlan->cdpCdtId , $cdPlan->cdpCdrId)) }}</a>
                         </div>
-                        <div class="medium-2 table-contain-border cell-vertical-center">{{ $cdPlan->cdpDescription }}</div>
+                        <div class="medium-2 table-contain-border cell-vertical-center">
+                            <div class="grid-x">
+                                <div class="medium-11">
+                                    {{ $cdPlan->cdpDescription }}
+                                </div>
+                                <div class="medium-1">
+                                    <a class="dropdown small sm-btn-align"  type="button" data-toggle="menu-dropdown-bottom-left"><img  src="{{ asset('pic/menu.svg') }}"></a>
+                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="menu-dropdown-bottom-left" data-dropdown data-auto-focus="true">
+                                        <ul class="my-menu small-font">
+                                            <li><a  href="#"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                            <li><a  href="#"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div id="countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}" class="grid-x display-off {{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }} accordionRow">
                         <div class="medium-12 table-contain-border horizontal-scroll">

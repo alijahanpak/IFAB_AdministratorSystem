@@ -586,7 +586,7 @@ input:checked ~ .switch-paddle {
 }
 .tbl-rotate-txt:before {
     content:'';
-    padding-top:110%;/* takes width as reference, + 10% for faking some extra padding */
+    padding-top:50%;/* takes width as reference, + 10% for faking some extra padding */
     display:inline-block;
     vertical-align:middle;
 }
@@ -647,4 +647,17 @@ input:checked ~ .switch-paddle {
 
 .selected {
     background-color: #E9ffff !important;
+}
+.my-menu-icon:before {
+    content: "";
+}
+.my-menu-icon:before{
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    text-decoration: inherit;
+    text-transform: none;
+    background-image: url("../pic/menu.svg");
 }
