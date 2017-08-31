@@ -127,3 +127,11 @@ $(document).ready(function () {
     $('#CDPT_existErrorInUpForm').hide();*/
     ////////////////////////////////////////////////////////
 });
+
+$(".table-contain div.selectAbleRow").click(function(){
+    $(".table-contain").parent().find('div').removeClass("selected");
+    //$(".table-contain div").siblings('.selected').removeClass('selected')
+    $(this).addClass('selected');
+    var value=$(this).find('span.deleteUrl').html();
+    $('#modalDeleteUrl').prop("href" , value);
+});

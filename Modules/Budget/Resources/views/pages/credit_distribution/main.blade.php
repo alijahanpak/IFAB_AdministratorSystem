@@ -34,7 +34,6 @@
                     <li class="tabs-title"><a href="#budget_season_tab">فصل بودجه</a></li>
                     <li class="tabs-title"><a href="#county_tab">شهرستان</a></li>
                 </ul>
-
                 <div class="tabs-content" data-tabs-content="credit_distribution_plan_tab_view">
                     <!--Tab 1-->
                         @include('budget::pages.credit_distribution.plans')

@@ -3,7 +3,7 @@
         <div class="medium-12  bottom-mrg">
             <div class="clearfix border-btm-line ">
                 <div class="button-group float-left report-mrg">
-                    <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="حذف" data-position="top" data-alignment="center">
+                    <a  class="clear button" data-open="modalDelete" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="حذف" data-position="top" data-alignment="center">
                         <i class="fi-trash size-30 trash-t"></i>
                     </a>
                     <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="ویرایش" data-position="top" data-alignment="center">
@@ -27,25 +27,6 @@
                 </div>
             </div>
         </div>
-        <!--Modal Delete Start-->
-        <div style="z-index: 9999;" class="tiny reveal" id="modalDeletePlan" data-reveal data-animation-in="someAnimationIn">
-            <div class="modal-margin small-font">
-                <p>کاربر گرامی</p>
-                <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
-                <div class="grid-x dashboard-padding">
-                    <div class="medium-6 ">
-                        <a class="button primary btn-large-w large-offset-3" href="">بله</a>
-                    </div>
-                    <div class="medium-6">
-                        <a data-close aria-label="Close modal" class="button primary hollow btn-large-w large-offset-4">خیر</a>
-                    </div>
-                </div>
-            </div>
-            <button class="close-button" data-close aria-label="Close modal" type="button">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <!--Modal Delete End-->
         <div class="columns">
             <!--Header Start-->
             <div class="grid-x table-header">
@@ -87,7 +68,7 @@
                         $countyAmount[$i++] = \Modules\Admin\Entities\AmountUnit::convertDispAmountWithoutSplliter($cAmount->cdpCredit);
                     }
                     ?>
-                    <div class="grid-x {{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }}">
+                    <div class="grid-x {{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }} selectAbleRow">
                         <div class="medium-2 table-contain-border cell-vertical-center">{{ $cdPlan->creditDistributionTitle->cdtIdNumber }}</div>
                         <div class="medium-2 table-contain-border cell-vertical-center">{{ $cdPlan->creditDistributionTitle->cdtSubject }}</div>
                         <div class="medium-2 table-contain-border cell-vertical-center">{{ $cdPlan->creditDistributionTitle->budgetSeason->bsSubject }}</div>
@@ -96,6 +77,7 @@
                             <a onclick="openTableRowAcc('countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}' , 'plansTable')">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CreditDistributionPlan::getSumPlanAmount($cdPlan->cdpCdtId , $cdPlan->cdpCdrId)) }}</a>
                         </div>
                         <div class="medium-2 table-contain-border cell-vertical-center">{{ $cdPlan->cdpDescription }}</div>
+                        <span class="display-off deleteUrl">{{ url('/budget/credit_distribution/capital_assets/provincial/plans/delete/' . $cdPlan->cdpCdtId . '/' . $cdPlan->cdpCdrId) }}</span>
                     </div>
                     <div id="countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}" class="grid-x display-off {{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }} accordionRow">
                         <div class="medium-12 table-contain-border horizontal-scroll">

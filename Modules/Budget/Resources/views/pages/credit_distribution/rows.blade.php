@@ -80,7 +80,7 @@
                                         $countyAmount[$i++] = \Modules\Admin\Entities\AmountUnit::convertDispAmountWithoutSplliter($cAmount->cdpCredit);
                                     }
                                 ?>
-                                <div class="grid-x {{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }}">
+                                <div class="grid-x {{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }} selectAbleRow">
                                     <div class="medium-2 table-contain-border">{{ $row->creditDistributionTitle->cdtIdNumber }}</div>
                                     <div class="medium-2  table-contain-border">{{ $row->creditDistributionTitle->cdtSubject }}</div>
                                     <div class="medium-2 table-contain-border">{{ $row->creditDistributionTitle->budgetSeason->bsSubject }}</div>

@@ -70,13 +70,14 @@ class CreditDistributionController extends Controller
 
     public function deleteCreditDistributionPlan($cdtId , $cdrId)
     {
-        $cdp = CreditDistributionPlan::where('cdpCdtId' , '=' , $cdtId)
+        echo "morteza";
+/*        $cdp = CreditDistributionPlan::where('cdpCdtId' , '=' , $cdtId)
             ->where('cdpCdrId' , '=' , $cdrId)
             ->where('cdpFyId' , '=' , Auth::user()->seFiscalYear);
         $cdp->delete();
 
         SystemLog::setBudgetSubSystemLog('حذف طرح توزیع اعتبار تملک دارییی های سرمایه ای استانی');
-        return Redirect::to(URL::previous());
+        return Redirect::to(URL::previous());*/
     }
 
     public function CDPIsExist($cdtId , $cdrId)
