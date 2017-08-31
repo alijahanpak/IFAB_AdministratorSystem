@@ -74,8 +74,42 @@
                                 <div class="medium-10">
                                     @foreach(\Modules\Budget\Entities\TinySeason::getTinySeasonWithSId($subSeason->tsSId) as $sb)
                                         <div class="grid-x {{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }} selectAbleRow">
-                                            <div class="medium-6 table-contain-border">{{ $sb->tsSubject }}</div>
-                                            <div class="medium-6  table-contain-border">{{ $sb->tsDescription }}</div>
+                                            <div class="medium-6 table-contain-border cell-vertical-center">{{ $sb->tsSubject }}</div>
+                                            <div class="medium-6  table-contain-border cell-vertical-center">
+                                                <div class="grid-x">
+                                                    <div class="medium-11">
+                                                        {{ $sb->tsDescription }}
+                                                    </div>
+                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                        <a class="dropdown small sm-btn-align display-off"  type="button" data-toggle="tsActionDropdown{{ $sb->id }}"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
+                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="tsActionDropdown{{ $sb->id }}" data-dropdown data-auto-focus="true">
+                                                            <ul class="my-menu small-font text-right">
+                                                                <li><a data-open="preloaderModal"  onclick="CDPUpdateDialogOpen()"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                <li><a data-open="TS_modalDelete{{ $sb->id }}"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                            </ul>
+                                                        </div>
+                                                        <!--Modal Delete Start-->
+                                                        <div style="z-index: 9999;" class="tiny reveal" id="TS_modalDelete{{ $sb->id }}" data-reveal>
+                                                            <div class="modal-margin small-font">
+                                                                <p>کاربر گرامی</p>
+                                                                <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
+                                                                <div class="grid-x dashboard-padding">
+                                                                    <div class="medium-6 ">
+                                                                        <a href="{{ url('/budget/admin/sub_seasons/delete/' . $sb->id) }}" class="button primary btn-large-w large-offset-3">بله</a>
+                                                                    </div>
+                                                                    <div class="medium-6">
+                                                                        <a data-close aria-label="Close modal" class="button primary hollow btn-large-w large-offset-4">خیر</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <button class="close-button" data-close aria-label="Close modal" type="button">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <!--Modal Delete End-->
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <?php $rowColor++; ?>
                                     @endforeach

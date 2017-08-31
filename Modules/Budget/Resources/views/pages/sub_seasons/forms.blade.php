@@ -119,22 +119,3 @@
     </button>
 </div>
 <!--Modal update End-->
-<!--Modal Delete Start-->
-<div style="z-index: 9999;" class="tiny reveal" id="modalDelete" data-reveal data-animation-in="someAnimationIn">
-    <div class="modal-margin small-font">
-        <p>کاربر گرامی</p>
-        <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
-        <div class="grid-x dashboard-padding">
-            <div class="medium-6 ">
-                <a class="button primary btn-large-w large-offset-3" href="">بله</a>
-            </div>
-            <div class="medium-6">
-                <a data-close aria-label="Close modal" class="button primary hollow btn-large-w large-offset-4">خیر</a>
-            </div>
-        </div>
-    </div>
-    <button class="close-button" data-close aria-label="Close modal" type="button">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-<!--Modal Delete End-->
