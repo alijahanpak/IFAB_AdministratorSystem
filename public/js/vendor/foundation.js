@@ -8340,6 +8340,8 @@ var ResponsiveAccordionTabs = function (_Plugin) {
       var tabsTitle = _this.allOptions.linkClass ? _this.allOptions.linkClass : 'tabs-title';
       var tabsPanel = _this.allOptions.panelClass ? _this.allOptions.panelClass : 'tabs-panel';
 
+
+
       this.$element.removeAttr('role');
       var $liHeads = this.$element.children('.' + tabsTitle + ',[data-accordion-item]').removeClass(tabsTitle).removeClass('accordion-item').removeAttr('data-accordion-item');
       var $liHeadsA = $liHeads.children('a').removeClass('accordion-title');

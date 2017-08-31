@@ -514,6 +514,24 @@ input:checked ~ .switch-paddle {
     border-bottom: 3px solid #d9534f;
     color: #333;
 }
+
+.tabs-title-hor {
+    float: right; }
+.tabs-title-hor > a {
+    display: block;
+    padding: 1.25rem 1.5rem;
+    font-size: 0.75rem;
+    line-height: 1;
+    color: #1779ba; }
+.tabs-title-hor > a:hover {
+    background:  #F8F8F8;
+    color: #1468a0; }
+.tabs-title-hor > a:focus, .tabs-title-hor > a[aria-selected="true"] {
+    background-color: #FFFFFF;
+    border-left: 3px solid #d9534f;
+    color: #333;
+}
+
 .btn-txt-mrg{
     margin-left: 3px;
 }
@@ -661,3 +679,4 @@ input:checked ~ .switch-paddle {
     text-transform: none;
     background-image: url("../pic/menu.svg");
 }
+.
