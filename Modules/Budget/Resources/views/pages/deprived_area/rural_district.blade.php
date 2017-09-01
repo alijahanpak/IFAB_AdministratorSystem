@@ -13,32 +13,70 @@
             </div>
         </div>
         <div class="columns">
-            <table class="stacked small-font">
-                <thead class="my-thead">
-                <tr>
-                    <th>نام</th>
-                    <th>شهرستان</th>
-                    <th>بخش</th>
-                    <th width="450">شرح</th>
-                    <th width="50">ویرایش</th>
-                    <th width="65">حذف</th>
-                </tr>
-                </thead>
-                <tbody>
+            <!--Header Start-->
+            <div class="grid-x table-header">
+                <div class="medium-2 table-border">
+                    <strong>نام</strong>
+                </div>
+                <div class="medium-2 table-border">
+                    <strong>شهرستان</strong>
+                </div>
+                <div class="medium-2 table-border">
+                    <strong>بخش</strong>
+                </div>
+                <div class="medium-6 table-border">
+                    <strong>شرح</strong>
+                </div>
+            </div>
+            <!--Header End-->
+            <div class="table-contain">
+                <?php $rowColor = 0; ?>
                 @foreach($dAreas as $dArea)
                     @if($dArea->daCoId != '' && $dArea->daReId != '' && $dArea->daRdId != '' && $dArea->daViId == '')
-                        <tr>
-                            <td>{{ \Modules\Admin\Entities\RuralDistrict::find($dArea->daRdId)->rdName }}</td>
-                            <td>{{ \Modules\Admin\Entities\County::find($dArea->daCoId)->coName }}</td>
-                            <td>{{ \Modules\Admin\Entities\Region::find($dArea->daReId)->reName }}</td>
-                            <td>{{ $dArea->daDescription }}</td>
-                            <td class="text-center"><a data-open="preloaderModal" onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}' , '{{ $dArea->id }}')"><i class="fi-pencil size-21 edit-pencil"></i> </a></td>
-                            <td class="text-center"><a data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                        </tr>
+                        <div class="grid-x {{ $rowColor % 2 == 1 ? 'tableRowColor' : '' }} selectAbleRow">
+                            <div class="medium-2 table-contain-border cell-vertical-center">{{ \Modules\Admin\Entities\RuralDistrict::find($dArea->daRdId)->rdName }}</div>
+                            <div class="medium-2 table-contain-border cell-vertical-center">{{ \Modules\Admin\Entities\County::find($dArea->daCoId)->coName }}</div>
+                            <div class="medium-2 table-contain-border cell-vertical-center">{{ \Modules\Admin\Entities\Region::find($dArea->daReId)->reName }}</div>
+                            <div class="medium-6 table-contain-border cell-vertical-center">
+                                <div class="grid-x">
+                                    <div class="medium-11">
+                                        {{ $dArea->daDescription }}
+                                    </div>
+                                    <div class="medium-1 cell-vertical-center text-left">
+                                        <a class="dropdown small sm-btn-align display-off"  type="button" data-toggle="daActionDropdown_ruralDistrict{{ $dArea->id }}"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
+                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="daActionDropdown_ruralDistrict{{ $dArea->id }}" data-dropdown data-auto-focus="true">
+                                            <ul class="my-menu small-font text-right">
+                                                <li><a data-open="preloaderModal"  onclick="DAUpdateDialogOpen('{{ url('/admin') }}' , '{{ $dArea->daCoId }}' , '{{ $dArea->daReId }}' , '{{ $dArea->daRdId }}' , '{{ $dArea->daViId }}' , '{{ $dArea->daDescription }}' , '{{ $dArea->id }}')"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                <li><a data-open="modalDelete{{ $dArea->id }}"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                            </ul>
+                                        </div>
+                                        <!--Modal Delete Start-->
+                                        <div style="z-index: 9999;" class="tiny reveal" id="modalDelete{{ $dArea->id }}" data-reveal>
+                                            <div class="modal-margin small-font">
+                                                <p>کاربر گرامی</p>
+                                                <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
+                                                <div class="grid-x dashboard-padding">
+                                                    <div class="medium-6 ">
+                                                        <a href="{{ url('/budget/admin/deprived_area/delete/' . $dArea->id) }}" class="button primary btn-large-w large-offset-3">بله</a>
+                                                    </div>
+                                                    <div class="medium-6">
+                                                        <a data-close aria-label="Close modal" class="button primary hollow btn-large-w large-offset-4">خیر</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button class="close-button" data-close aria-label="Close modal" type="button">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <!--Modal Delete End-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php $rowColor++; ?>
                     @endif
                 @endforeach
-                </tbody>
-            </table>
+            </div>
         </div>
     @else
     <!--Panel nothing Insert Start-->

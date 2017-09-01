@@ -62,7 +62,7 @@
                         $countyAmount[$i++] = \Modules\Admin\Entities\AmountUnit::convertDispAmountWithoutSplliter($cAmount->cdpCredit);
                     }
                     ?>
-                    <div class="grid-x {{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }} selectAbleRow">
+                    <div class="grid-x {{ $rowColor % 2 == 1 ? 'tableRowColor' : '' }} selectAbleRow">
                         <div class="medium-2 table-contain-border cell-vertical-center">{{ $cdPlan->creditDistributionTitle->cdtIdNumber }}</div>
                         <div class="medium-2 table-contain-border cell-vertical-center">{{ $cdPlan->creditDistributionTitle->cdtSubject }}</div>
                         <div class="medium-2 table-contain-border cell-vertical-center">{{ $cdPlan->creditDistributionTitle->budgetSeason->bsSubject }}</div>
@@ -106,11 +106,11 @@
                             </div>
                         </div>
                     </div>
-                    <div id="countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}" class="grid-x display-off {{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }} accordionRow">
+                    <div id="countyPlanAmount{{ $cdPlan->cdpCdtId . $cdPlan->cdpCdrId }}" class="grid-x display-off {{ $rowColor % 2 == 1 ? 'tableRowColor' : '' }} accordionRow">
                         <div class="medium-12 table-contain-border horizontal-scroll">
                             <table class="tbl-secondary-mrg small-font">
                                 <thead class="my-thead">
-                                <tr class="{{ $rowColor % 2 == 0 ? 'tableRowColor' : '' }}" style="background-color: #F1F1F1 !important;">
+                                <tr class="{{ $rowColor % 2 == 1 ? 'tableRowColor' : '' }}" style="background-color: #F1F1F1 !important;">
                                     @foreach($cAmounts as $cAmount)
                                         <th>{{ $cAmount->county->coName }}</th>
                                     @endforeach
