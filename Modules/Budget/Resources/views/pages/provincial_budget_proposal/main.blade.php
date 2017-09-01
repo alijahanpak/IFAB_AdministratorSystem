@@ -97,27 +97,26 @@
                                         <div class="grid-x">
                                             <div class="medium-2 table-contain-border cell-vertical-center"></div>
                                             <div class="medium-10">
-
-                                                    <div class="grid-x">
-                                                        <div class="medium-4 table-contain-border">dfd</div>
-                                                        <div class="medium-4  table-contain-border">dfsdf</div>
-                                                        <div class="medium-4  table-contain-border">
-                                                            <div class="grid-x">
-                                                                <div class="medium-11">
+                                                <div class="grid-x">
+                                                    <div class="medium-4 table-contain-border">dfd</div>
+                                                    <div class="medium-4  table-contain-border">dfsdf</div>
+                                                    <div class="medium-4  table-contain-border">
+                                                        <div class="grid-x">
+                                                            <div class="medium-11">
 dfddf
-                                                                </div>
-                                                                <div class="medium-1">
-                                                                    <a class="dropdown small sm-btn-align"  type="button" data-toggle="tsActionDropdown"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
-                                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="tsActionDropdown" data-dropdown data-auto-focus="true">
-                                                                        <ul class="my-menu small-font text-right">
-                                                                            <li><a data-open="preloaderModal"  onclick="TSUpdateDialogOpen"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                            <li><a data-open="TS_modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                                        </ul>
-                                                                    </div>
+                                                            </div>
+                                                            <div class="medium-1">
+                                                                <a class="dropdown small sm-btn-align"  type="button" data-toggle="tsActionDropdown"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
+                                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="tsActionDropdown" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font text-right">
+                                                                        <li><a data-open="preloaderModal"  onclick="TSUpdateDialogOpen"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                        <li><a data-open="TS_modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                    </ul>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </div>
                                             </div>
                                         </div>
                                 </div>

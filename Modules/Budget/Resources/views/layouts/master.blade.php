@@ -200,9 +200,11 @@
         @elseif($requireJsFile =='fiscal_year')
             <script src="{{ asset('js/modules/budget/admin/fiscal_year.js') }}"></script>
         @elseif($requireJsFile =='credit_distribution_plan')
-            <script src="{{ asset('js/modules/budget/credit_distribution_plan.js')  }}"></script>
+            <script src="{{ asset('js/modules/budget/credit_distribution/credit_distribution_plan.js')  }}"></script>
         @elseif($requireJsFile =='tiny_season')
             <script src="{{ asset('js/modules/budget/admin/tiny_season.js')  }}"></script>
+        @elseif($requireJsFile =='provincial_budget_proposal')
+            <script src="{{ asset('js/modules/budget/credit_distribution/provincial_budget_proposal.js')  }}"></script>
         @endif
     @endif
     @if (session('messageDialogPm'))

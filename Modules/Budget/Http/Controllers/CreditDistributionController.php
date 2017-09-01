@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Validation\Rules\In;
 use Modules\Admin\Entities\AmountUnit;
 use Modules\Admin\Entities\County;
 use Modules\Admin\Entities\SystemLog;
@@ -16,6 +17,7 @@ use Modules\Admin\Entities\User;
 use Modules\Budget\Entities\CreditDistributionPlan;
 use Modules\Budget\Entities\CreditDistributionRow;
 use Modules\Budget\Entities\CreditDistributionTitle;
+use Modules\Budget\Entities\ProvincialBudgetProposal;
 
 class CreditDistributionController extends Controller
 {
@@ -121,6 +123,32 @@ class CreditDistributionController extends Controller
     }
 
     public function provincialBudgetProposal(){
-        return  view('budget::pages.provincial_budget_proposal.main', ['pageTitle' => 'پیشنهاد بودجه']);
+        return  view('budget::pages.provincial_budget_proposal.main', ['pageTitle' => 'پیشنهاد بودجه',
+            'requireJsFile' => 'provincial_budget_proposal']);
+    }
+    
+    public function getPlans($coId)
+    {
+        if (\Illuminate\Support\Facades\Request::ajax())
+        {
+            $temp =CreditDistributionPlan::with(['creditDistributionTitle' , 'creditDistributionRow' , 'creditDistributionTitle.budgetSeason'])->where('cdpFyId' , '=' , Auth::user()->seFiscalYear)->where('cdpCoId' , '=' , $coId)->get();
+            return \Illuminate\Support\Facades\Response::json($temp);
+        }
+    }
+
+    public function registerProvincialBudgetProposal(Request $request)
+    {
+        $pbp = new ProvincialBudgetProposal;
+        $pbp->pbpUId = Auth::user()->id;
+        $pbp->pbpCdpId = Input::get('pbpPlanCode');
+        $pbp->pbpFyId = Auth::user()->seFiscalYear;
+        $pbp->pbpAmount = Input::get('pbpAmount');
+        $pbp->pbpSubject = Input::get('pbpProjectTitle');
+        $pbp->pbpCode = Input::get('pbpProjectCode');
+        $pbp->pbpDescription = Input::get('pbpDescription');
+        $pbp->save();
+
+        SystemLog::setBudgetSubSystemLog('ثبت پیشنهاد بودجه تملک داریی های سرمایه ای استانی برای پروژه ' . $pbp->pbpSubject);
+        return Redirect::to(URL::previous());
     }
 }
