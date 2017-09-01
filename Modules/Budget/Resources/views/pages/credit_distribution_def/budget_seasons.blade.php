@@ -13,45 +13,60 @@
             </div>
         </div>
         <div class="columns">
-            <table class="stacked small-font">
-                <thead class="my-thead">
-                <tr>
-                    <th>عنوان</th>
-                    <th>توضیحات</th>
-                    <th width="50">ویرایش</th>
-                    <th width="65">حذف</th>
-                </tr>
-                </thead>
-                <tbody>
+            <!--Header Start-->
+            <div class="grid-x table-header">
+                <div class="medium-4 table-border">
+                    <strong>عنوان</strong>
+                </div>
+                <div class="medium-8 table-border">
+                    <strong>شرح</strong>
+                </div>
+            </div>
+            <!--Header End-->
+            <div class="table-contain">
+                <?php $rowColor = 0; ?>
                 @foreach($bSeasons as $bSeason)
-                    <tr>
-                        <td>{{ $bSeason->bsSubject }}</td>
-                        <td>{{ $bSeason->bsDescription }}</td>
-                        <td class="text-center"><a onclick="BSUpdateDialogOpen('{{ url('/admin') }}' , '{{ $bSeason->bsSubject }}' , '{{ $bSeason->bsDescription }}' , '{{ $bSeason->id }}')"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
-                        <td class="text-center"><a data-open="BS_modalDelete{{ $bSeason->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                        <!--Modal Delete Start-->
-                        <div style="z-index: 9999;" class="tiny reveal" id="BS_modalDelete{{ $bSeason->id }}" data-reveal>
-                            <div class="modal-margin small-font">
-                                <p>کاربر گرامی</p>
-                                <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
-                                <div class="grid-x dashboard-padding">
-                                    <div class="medium-6 ">
-                                        <a href="{{ url('/budget/admin/credit_distribution_def/budget_season/delete/' . $bSeason->id) }}" class="button primary btn-large-w large-offset-3">بله</a>
+                    <div class="grid-x {{ $rowColor % 2 == 1 ? 'tableRowColor' : '' }} selectAbleRow">
+                        <div class="medium-4 table-contain-border cell-vertical-center">{{ $bSeason->bsSubject }}</div>
+                        <div class="medium-8 table-contain-border cell-vertical-center">
+                            <div class="grid-x">
+                                <div class="medium-11">
+                                    {{ $bSeason->bsDescription }}
+                                </div>
+                                <div class="medium-1 cell-vertical-center text-left">
+                                    <a class="dropdown small sm-btn-align display-off"  type="button" data-toggle="bsActionDropdown{{ $bSeason->id }}"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
+                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="bsActionDropdown{{ $bSeason->id }}" data-dropdown data-auto-focus="true">
+                                        <ul class="my-menu small-font text-right">
+                                            <li><a data-open="preloaderModal"  onclick="BSUpdateDialogOpen('{{ url('/admin') }}' , '{{ $bSeason->bsSubject }}' , '{{ $bSeason->bsDescription }}' , '{{ $bSeason->id }}')"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                            <li><a data-open="BS_modalDelete{{ $bSeason->id }}"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                        </ul>
                                     </div>
-                                    <div class="medium-6">
-                                        <a data-close aria-label="Close modal" class="button primary hollow btn-large-w large-offset-4">خیر</a>
+                                    <!--Modal Delete Start-->
+                                    <div style="z-index: 9999;" class="tiny reveal" id="BS_modalDelete{{ $bSeason->id }}" data-reveal>
+                                        <div class="modal-margin small-font">
+                                            <p>کاربر گرامی</p>
+                                            <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
+                                            <div class="grid-x dashboard-padding">
+                                                <div class="medium-6 ">
+                                                    <a href="{{ url('/budget/admin/credit_distribution_def/budget_season/delete/' . $bSeason->id) }}" class="button primary btn-large-w large-offset-3">بله</a>
+                                                </div>
+                                                <div class="medium-6">
+                                                    <a data-close aria-label="Close modal" class="button primary hollow btn-large-w large-offset-4">خیر</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button class="close-button" data-close aria-label="Close modal" type="button">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
+                                    <!--Modal Delete End-->
                                 </div>
                             </div>
-                            <button class="close-button" data-close aria-label="Close modal" type="button">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
                         </div>
-                        <!--Modal Delete End-->
-                    </tr>
+                    </div>
+                    <?php $rowColor++; ?>
                 @endforeach
-                </tbody>
-            </table>
+            </div>
         </div>
     @else
     <!--Panel nothing Insert Start-->

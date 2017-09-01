@@ -2,14 +2,18 @@ function CDRUpdateDialogOpen(budgetAdminAjaxUri , subject , description , cdrId)
     $('#cdrSubject_u').val(subject);
     $('#cdrDescription_u').val(description);
     $('#cdrId_u').val(cdrId);
-    $('#CDR_ModalUpdate').foundation('toggle');
+    setTimeout(function () {
+        $('#CDR_ModalUpdate').foundation('toggle');
+    }, 10);
 }
 
 function BSUpdateDialogOpen(budgetAdminAjaxUri , subject , description , bsId) {
     $('#bsSubject_u').val(subject);
     $('#bsDescription_u').val(description);
     $('#bsId_u').val(bsId);
-    $('#BS_ModalUpdate').foundation('toggle');
+    setTimeout(function () {
+        $('#BS_ModalUpdate').foundation('toggle');
+    }, 10);
 }
 
 function CDPTUpdateDialogOpen(budgetAdminAjaxUri , bsId , idNumber , subject , description , cdptId) {
@@ -18,7 +22,9 @@ function CDPTUpdateDialogOpen(budgetAdminAjaxUri , bsId , idNumber , subject , d
     $('#cdptSubject_u').val(subject);
     $('#cdptDescription_u').val(description);
     $('#cdptId_u').val(cdptId);
-    $('#CDPT_ModalUpdate').foundation('toggle');
+    setTimeout(function () {
+        $('#CDPT_ModalUpdate').foundation('toggle');
+    }, 10);
 }
 
 

@@ -13,49 +13,68 @@
             </div>
         </div>
         <div class="columns">
-            <table class="stacked small-font">
-                <thead class="my-thead">
-                <tr>
-                    <th width="150">شماره</th>
-                    <th>عنوان</th>
-                    <th>فصل بودجه</th>
-                    <th>شرح</th>
-                    <th width="50">ویرایش</th>
-                    <th width="65">حذف</th>
-                </tr>
-                </thead>
-                <tbody>
+            <!--Header Start-->
+            <div class="grid-x table-header">
+                <div class="medium-2 table-border">
+                    <strong>شماره</strong>
+                </div>
+                <div class="medium-3 table-border">
+                    <strong>عنوان</strong>
+                </div>
+                <div class="medium-2 table-border">
+                    <strong>فصل بودجه</strong>
+                </div>
+                <div class="medium-5 table-border">
+                    <strong>شرح</strong>
+                </div>
+            </div>
+            <!--Header End-->
+            <div class="table-contain">
+                <?php $rowColor = 0; ?>
                 @foreach($creditDPs as $creditDP)
-                    <tr>
-                        <td>{{ $creditDP->cdtIdNumber }}</td>
-                        <td>{{ $creditDP->cdtSubject }}</td>
-                        <td>{{ $creditDP->budgetSeason->bsSubject }}</td>
-                        <td>{{ $creditDP->cdtDescription }}</td>
-                        <td class="text-center"><a onclick="CDPTUpdateDialogOpen('{{ url('/admin') }}' , '{{ $creditDP->cdtBsId }}' , '{{ $creditDP->cdtIdNumber }}' , '{{ $creditDP->cdtSubject }}' , '{{ $creditDP->cdtDescription }}' , '{{ $creditDP->id }}')"><i class="fi-pencil size-21 edit-pencil"></i></a></td>
-                        <td class="text-center"><a data-open="CDPT_modalDelete{{ $creditDP->id }}"><i class="fi-trash size-21 trash-t"></i> </a></td>
-                        <!--Modal Delete Start-->
-                        <div style="z-index: 9999;" class="tiny reveal" id="CDPT_modalDelete{{ $creditDP->id }}" data-reveal>
-                            <div class="modal-margin small-font">
-                                <p>کاربر گرامی</p>
-                                <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
-                                <div class="grid-x dashboard-padding">
-                                    <div class="medium-6 ">
-                                        <a href="{{ url('/budget/admin/credit_distribution_def/plan_title/delete/' . $creditDP->id) }}" class="button primary btn-large-w large-offset-3">بله</a>
+                    <div class="grid-x {{ $rowColor % 2 == 1 ? 'tableRowColor' : '' }} selectAbleRow">
+                        <div class="medium-2 table-contain-border cell-vertical-center">{{ $creditDP->cdtIdNumber }}</div>
+                        <div class="medium-3 table-contain-border cell-vertical-center">{{ $creditDP->cdtSubject }}</div>
+                        <div class="medium-2 table-contain-border cell-vertical-center">{{ $creditDP->budgetSeason->bsSubject }}</div>
+                        <div class="medium-5 table-contain-border cell-vertical-center">
+                            <div class="grid-x">
+                                <div class="medium-11">
+                                    {{ $creditDP->cdtDescription }}
+                                </div>
+                                <div class="medium-1 cell-vertical-center text-left">
+                                    <a class="dropdown small sm-btn-align display-off"  type="button" data-toggle="cdptActionDropdown{{ $creditDP->id }}"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
+                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="cdptActionDropdown{{ $creditDP->id }}" data-dropdown data-auto-focus="true">
+                                        <ul class="my-menu small-font text-right">
+                                            <li><a data-open="preloaderModal"  onclick="CDPTUpdateDialogOpen('{{ url('/admin') }}' , '{{ $creditDP->cdtBsId }}' , '{{ $creditDP->cdtIdNumber }}' , '{{ $creditDP->cdtSubject }}' , '{{ $creditDP->cdtDescription }}' , '{{ $creditDP->id }}')"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                            <li><a data-open="CDPT_modalDelete{{ $creditDP->id }}"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                        </ul>
                                     </div>
-                                    <div class="medium-6">
-                                        <a data-close aria-label="Close modal" class="button primary hollow btn-large-w large-offset-4">خیر</a>
+                                    <!--Modal Delete Start-->
+                                    <div style="z-index: 9999;" class="tiny reveal" id="CDPT_modalDelete{{ $creditDP->id }}" data-reveal>
+                                        <div class="modal-margin small-font">
+                                            <p>کاربر گرامی</p>
+                                            <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
+                                            <div class="grid-x dashboard-padding">
+                                                <div class="medium-6 ">
+                                                    <a href="{{ url('/budget/admin/credit_distribution_def/plan_title/delete/' . $creditDP->id) }}" class="button primary btn-large-w large-offset-3">بله</a>
+                                                </div>
+                                                <div class="medium-6">
+                                                    <a data-close aria-label="Close modal" class="button primary hollow btn-large-w large-offset-4">خیر</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button class="close-button" data-close aria-label="Close modal" type="button">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
+                                    <!--Modal Delete End-->
                                 </div>
                             </div>
-                            <button class="close-button" data-close aria-label="Close modal" type="button">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
                         </div>
-                        <!--Modal Delete End-->
-                    </tr>
+                    </div>
+                    <?php $rowColor++; ?>
                 @endforeach
-                </tbody>
-            </table>
+            </div>
         </div>
     @else
         <!--Panel nothing Insert Start-->
