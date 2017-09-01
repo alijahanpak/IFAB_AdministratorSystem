@@ -118,6 +118,10 @@ input:checked ~ .switch-paddle {
     border-right: solid 1.1px #D8DEE2;
     padding: 20px;
 }
+.my-callout-bg-color{
+    background-color: #F8F8F8;
+    padding: 20px 20px 0 20px;
+}
 .login-logo-mrg{
     margin-right: 77%;
 }
@@ -680,4 +684,13 @@ input:checked ~ .switch-paddle {
     text-transform: none;
     background-image: url("../pic/menu.svg");
 }
-.
+.my-tab-attribute{
+    height: 300px;
+    overflow-y: auto;
+    direction: ltr;
+}
+.my-tab-contain{
+    overflow-y: auto;
+    height: 300px;
+    border-top: solid 1.7px #D8DEE2;
+}
