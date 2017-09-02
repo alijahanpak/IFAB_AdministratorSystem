@@ -153,6 +153,8 @@
                 </nav>
             </div>
         </div>
+
+
         @yield('content')
 
         {{-- messageDialogPm reveal--}}
@@ -187,7 +189,22 @@
                 </div>
             </div>
         <!--Modal Preloader Start-->
+        <div class="medium-10 my-footer main-margin">
+            <div class="grid-x"><div class="medium-12">
+                    <div class="medium-8">
+                        <p>تمامی حقوق مادی و معنوی این وب سایت متعلق به سازمان میراث فرهنگی، صنایع دستی و گردشگری استان همدان می باشد.</p>
+                    </div>
+                    <div class="medium-4">
+                        <ul class="menu small-fon ul-margin">
+                            <li><a class="footer-menu" href="#">راهنمای سامانه</a></li>
+                            <li><a class="footer-menu" href="#">درباره ما</a></li>
+                            <li><a class="footer-menu" href="#">دیدگاه</a></li>
+                        </ul>
+                    </div>
+            </div>
+        </div>
     </div>
+
     <script src="{{ asset('js/vendor/jquery.js') }}"></script>
     <script src="{{ asset('js/vendor/what-input.js') }}"></script>
     <script src="{{ asset('js/vendor/foundation.js') }}"></script>
@@ -215,5 +232,6 @@
                 });
         </script>
     @endif
+
 </body>
 </html>

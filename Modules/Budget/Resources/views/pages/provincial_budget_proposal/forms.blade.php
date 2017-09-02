@@ -25,7 +25,7 @@
             </div>
             <div class="medium-8 cell padding-lr">
                 <label>طرح
-                    <select name="pbpPlanCode" id="pbpPlanCode" required>
+                    <select name="pbpPlanCode" id="pbpPlanCode" onchange="getRemianingAmount('{{ url('/budget/credit_distribution/capital_assets/provincial/proposal/getPlanRemainingAmount') }}' , 'pbpPlanCode' , 'pbpPlanAmount')" required>
                         <option value=""></option>
                     </select>
                 </label>
