@@ -123,7 +123,14 @@ class CreditDistributionController extends Controller
     }
 
     public function provincialBudgetProposal(){
+        //$pbpGroupByCounty = ProvincialBudgetProposal::with('creditDistributionPlan')->select('cdpCoId')->where('pbpFyId' , '=' , Auth::user()->seFiscalYear)->groupBy('cdpCoId')->get();
+//        $pbpGroupByCounty = ProvincialBudgetProposal::select('cdpCoId')->where('pbpFyId' , '=' , Auth::user()->seFiscalYear)->with(['creditDistributionPlan'=> function($query){
+//            $query->select('cdpCoId');
+//        }])->groupBy('cdpCoId')->get();
+        //dump($pbpGroupByCounty);
+        $pbp = ProvincialBudgetProposal::where('pbpFyId' , '=' , Auth::user()->seFiscalYear)->get();
         return  view('budget::pages.provincial_budget_proposal.main', ['pageTitle' => 'پیشنهاد بودجه',
+            'pbps' => $pbp,
             'requireJsFile' => 'provincial_budget_proposal']);
     }
     
@@ -142,7 +149,7 @@ class CreditDistributionController extends Controller
         $pbp->pbpUId = Auth::user()->id;
         $pbp->pbpCdpId = Input::get('pbpPlanCode');
         $pbp->pbpFyId = Auth::user()->seFiscalYear;
-        $pbp->pbpAmount = Input::get('pbpAmount');
+        $pbp->pbpAmount = AmountUnit::convertInputAmount(Input::get('pbpAmount'));
         $pbp->pbpSubject = Input::get('pbpProjectTitle');
         $pbp->pbpCode = Input::get('pbpProjectCode');
         $pbp->pbpDescription = Input::get('pbpDescription');
@@ -150,5 +157,15 @@ class CreditDistributionController extends Controller
 
         SystemLog::setBudgetSubSystemLog('ثبت پیشنهاد بودجه تملک داریی های سرمایه ای استانی برای پروژه ' . $pbp->pbpSubject);
         return Redirect::to(URL::previous());
+    }
+
+    public function getPlanRemainingAmount($cdpId)
+    {
+        if (\Illuminate\Support\Facades\Request::ajax())
+        {
+            $proposedAmount = ProvincialBudgetProposal::where('pbpFyId' , '=' , Auth::user()->seFiscalYear)->where('pbpCdpId' , '=' , $cdpId)->sum('pbpAmount');
+            $cdpAmount = CreditDistributionPlan::where('id' , '=' , $cdpId)->first()->cdpCredit;
+            return \Illuminate\Support\Facades\Response::json(['remainingAmount' => AmountUnit::convertDispAmount($cdpAmount - $proposedAmount)]);
+        }
     }
 }

@@ -69,56 +69,95 @@
                                     <!--Header Start-->
                                     <div class="grid-x table-header">
                                         <div class="medium-2 table-border">
+                                            <strong>طرح</strong>
+                                        </div>
+                                        <div class="medium-2 table-border">
                                             <strong>کد</strong>
                                         </div>
-                                        <div class="medium-10">
+                                        <div class="medium-2 table-border">
+                                            <strong>عنوان</strong>
+                                        </div>
+                                        <div class="medium-2  table-border">
+                                            <strong>اعتبار</strong>
+                                        </div>
+                                        <div class="medium-4  table-border">
                                             <div class="grid-x">
-                                                <div class="medium-4 table-border">
-                                                    <strong>عنوان</strong>
+                                                <div class="medium-11">
+                                                    <strong>شرح</strong>
                                                 </div>
-                                                <div class="medium-4  table-border">
-                                                    <strong>اعتبار پیشنهادی</strong>
-                                                </div>
-                                                <div class="medium-4  table-border">
-                                                    <div class="grid-x">
-                                                        <div class="medium-11">
-                                                            <strong>شرح</strong>
-                                                        </div>
-                                                        <div class="medium-1">
+                                                <div class="medium-1">
 
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="table-contain">
-                                        <div class="grid-x">
-                                            <div class="medium-2 table-contain-border cell-vertical-center"></div>
-                                            <div class="medium-10">
+                                <div class="table-contain" id="pbpTable">
+                                    <?php $rowColor = 0; ?>
+                                    @foreach($pbps as $pbp)
+                                        <div class="grid-x {{ $rowColor % 2 == 1 ? 'tableRowColor' : '' }} selectAbleRow">
+                                            <div class="medium-2 table-contain-border cell-vertical-center">
+                                                <a onclick="openTableRowAcc('pbpPlanInfo{{ $pbp->id }}' , 'pbpTable')">{{ $pbp->creditDistributionPlan->creditDistributionTitle->cdtIdNumber }}</a>
+                                            </div>
+                                            <div class="medium-2 table-contain-border">{{ $pbp->pbpCode }}</div>
+                                            <div class="medium-2  table-contain-border">{{ $pbp->pbpSubject }}</div>
+                                            <div class="medium-2 table-contain-border">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount($pbp->pbpAmount) }}</div>
+                                            <div class="medium-4  table-contain-border">
                                                 <div class="grid-x">
-                                                    <div class="medium-4 table-contain-border">dfd</div>
-                                                    <div class="medium-4  table-contain-border">dfsdf</div>
-                                                    <div class="medium-4  table-contain-border">
-                                                        <div class="grid-x">
-                                                            <div class="medium-11">
-dfddf
-                                                            </div>
-                                                            <div class="medium-1">
-                                                                <a class="dropdown small sm-btn-align"  type="button" data-toggle="tsActionDropdown"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
-                                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="tsActionDropdown" data-dropdown data-auto-focus="true">
-                                                                    <ul class="my-menu small-font text-right">
-                                                                        <li><a data-open="preloaderModal"  onclick="TSUpdateDialogOpen"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                        <li><a data-open="TS_modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                                    </ul>
+                                                    <div class="medium-11">
+                                                        {{ $pbp->pbpDescription }}
+                                                    </div>
+                                                    <div class="medium-1">
+                                                        <a class="dropdown small sm-btn-align display-off"  type="button" data-toggle="pbpActionDropdown{{ $pbp->id }}"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
+                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="pbpActionDropdown{{ $pbp->id }}" data-dropdown data-auto-focus="true">
+                                                            <ul class="my-menu small-font text-right">
+                                                                <li><a data-open="preloaderModal"  onclick="TSUpdateDialogOpen"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                <li><a data-open="TS_modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                            </ul>
+                                                        </div>
+                                                        <!--Modal Delete Start-->
+                                                        <div style="z-index: 9999;" class="tiny reveal" id="CDP_modalDelete" data-reveal>
+                                                            <div class="modal-margin small-font">
+                                                                <p>کاربر گرامی</p>
+                                                                <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
+                                                                <div class="grid-x dashboard-padding">
+                                                                    <div class="medium-6 ">
+                                                                        <a href="{{ url('/budget/credit_distribution/capital_assets/provincial/plans/delete/') }}" class="button primary btn-large-w large-offset-3">بله</a>
+                                                                    </div>
+                                                                    <div class="medium-6">
+                                                                        <a data-close aria-label="Close modal" class="button primary hollow btn-large-w large-offset-4">خیر</a>
+                                                                    </div>
                                                                 </div>
                                                             </div>
+                                                            <button class="close-button" data-close aria-label="Close modal" type="button">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
                                                         </div>
+                                                        <!--Modal Delete End-->
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div id="pbpPlanInfo{{ $pbp->id }}" class="grid-x display-off {{ $rowColor % 2 == 1 ? 'tableRowColor' : '' }} accordionRow">
+                                            <div class="medium-12 table-contain-border horizontal-scroll">
+                                                <table class="tbl-secondary-mrg small-font">
+                                                    <thead class="my-thead">
+                                                        <th>عنوان طرح</th>
+                                                        <th>ردیف توزیع اعتبار</th>
+                                                        <th>فصل بودجه</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>{{ $pbp->creditDistributionPlan->creditDistributionTitle->cdtSubject }}</td>
+                                                            <td>{{ $pbp->creditDistributionPlan->creditDistributionRow->cdSubject }}</td>
+                                                            <td>{{ $pbp->creditDistributionPlan->creditDistributionTitle->budgetSeason->bsSubject }}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <?php $rowColor++; ?>
+                                    @endforeach
                                 </div>
                             </div>
                                     <!--Header End-->
@@ -126,7 +165,6 @@ dfddf
                         </div>
                     </div>
                 </div>
-
             </div>
     </div>
 @stop

@@ -38,7 +38,36 @@ function getCDPWithCoId(url , coId , planId) {
 };
 
 function getRemianingAmount(url , planId , disp) {
-
+    if ($('#' + planId).val() != '') {
+        $('#' + disp).val('0');
+        $.ajax({
+            type: "GET",
+            dataType: "JSON",
+            url: url + '/' + $('#' + planId).val(),
+            success: function (data) {
+                $('#' + disp).text(data.remainingAmount);
+            },
+            error: function (jqXHR) {
+                var msg = '';
+                if (jqXHR.status === 0) {
+                    msg = 'Not connect.\n Verify Network.';
+                } else if (jqXHR.status == 404) {
+                    msg = 'Requested page not found. [404]';
+                } else if (jqXHR.status == 500) {
+                    msg = 'Internal Server Error [500].';
+                } else if (exception === 'parsererror') {
+                    msg = 'Requested JSON parse failed.';
+                } else if (exception === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
+                console.log(msg);
+            }
+        });
+    }
 }
 
 $('#PBP_ModalInsert').on('closed.zf.reveal' , function () {
