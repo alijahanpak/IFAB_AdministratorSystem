@@ -72,13 +72,22 @@ class CreditDistributionController extends Controller
 
     public function deleteCreditDistributionPlan($cdtId , $cdrId)
     {
-        $cdp = CreditDistributionPlan::where('cdpCdtId' , '=' , $cdtId)
-            ->where('cdpCdrId' , '=' , $cdrId)
-            ->where('cdpFyId' , '=' , Auth::user()->seFiscalYear);
-        $cdp->delete();
+        try {
+            $cdp = CreditDistributionPlan::where('cdpCdtId' , '=' , $cdtId)
+                ->where('cdpCdrId' , '=' , $cdrId)
+                ->where('cdpFyId' , '=' , Auth::user()->seFiscalYear);
+            $cdp->delete();
 
-        SystemLog::setBudgetSubSystemLog('حذف طرح توزیع اعتبار تملک دارییی های سرمایه ای استانی');
-        return Redirect::to(URL::previous());
+            SystemLog::setBudgetSubSystemLog('حذف طرح توزیع اعتبار تملک دارییی های سرمایه ای استانی');
+            return Redirect::to(URL::previous());
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                return Redirect::to(URL::previous())->with('messageDialogPm', 'با توجه به وابستگی اطلاعات، حذف رکورد مورد نظر ممکن نیست!');
+            }
+        }
+
     }
 
     public function CDPIsExist($cdtId , $cdrId)
@@ -123,19 +132,10 @@ class CreditDistributionController extends Controller
     }
 
     public function provincialBudgetProposal(){
-        $pbpGroupByCounty = ProvincialBudgetProposal::where('pbpFyId' , '=' , Auth::user()->seFiscalYear)->with('creditDistributionPlan')->get()->groupBy('creditDistributionPlan.cdpCoId');
-        dump($pbpGroupByCounty);
-        foreach ($pbpGroupByCounty as $temp)
-        {
-            foreach ($temp as $t)
-            {
-                echo $t->creditDistributionPlan->id;
-            }
-        }
-/*        $pbp = ProvincialBudgetProposal::where('pbpFyId' , '=' , Auth::user()->seFiscalYear)->get();
+        $pbpGroupByCounty = ProvincialBudgetProposal::where('pbpFyId' , '=' , Auth::user()->seFiscalYear)->with('creditDistributionPlan.county')->get()->groupBy('creditDistributionPlan.county.coName');
         return  view('budget::pages.provincial_budget_proposal.main', ['pageTitle' => 'پیشنهاد بودجه',
-            'pbps' => $pbp,
-            'requireJsFile' => 'provincial_budget_proposal']);*/
+            'pbps' => $pbpGroupByCounty,
+            'requireJsFile' => 'provincial_budget_proposal']);
     }
     
     public function getPlans($coId)
@@ -170,6 +170,23 @@ class CreditDistributionController extends Controller
             $proposedAmount = ProvincialBudgetProposal::where('pbpFyId' , '=' , Auth::user()->seFiscalYear)->where('pbpCdpId' , '=' , $cdpId)->sum('pbpAmount');
             $cdpAmount = CreditDistributionPlan::where('id' , '=' , $cdpId)->first()->cdpCredit;
             return \Illuminate\Support\Facades\Response::json(['remainingAmount' => AmountUnit::convertDispAmount($cdpAmount - $proposedAmount)]);
+        }
+    }
+
+    public function deleteProvincialBudgetProposal($pbpId)
+    {
+        try {
+            $cdp = ProvincialBudgetProposal::find($pbpId);
+            $cdp->delete();
+
+            SystemLog::setBudgetSubSystemLog('حذف پیشنهاد بودجه تملک داریی های سرمایه ای استانی');
+            return Redirect::to(URL::previous());
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                return Redirect::to(URL::previous())->with('messageDialogPm', 'با توجه به وابستگی اطلاعات، حذف رکورد مورد نظر ممکن نیست!');
+            }
         }
     }
 }
