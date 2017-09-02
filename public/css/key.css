@@ -693,3 +693,7 @@ input:checked ~ .switch-paddle {
     height: 370px;
     border: solid 1.7px #D8DEE2;
 }
+.content-height{
+    min-height: 200px;
+
+}

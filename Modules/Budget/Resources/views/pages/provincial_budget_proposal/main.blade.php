@@ -1,7 +1,7 @@
 @extends('budget::layouts.master')
 @section('content')
     <!--Inner body start-->
-    <div class="medium-10 border-right-line inner-body-pad main-margin">
+    <div class="medium-10 border-right-line inner-body-pad main-margin content-height">
         <div class="grid-x padding-lr">
             <div class="medium-12">
                 <div class="grid-x border-btm-line">
@@ -129,4 +129,5 @@ dfddf
 
             </div>
     </div>
+
 @stop
