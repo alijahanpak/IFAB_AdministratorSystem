@@ -123,15 +123,19 @@ class CreditDistributionController extends Controller
     }
 
     public function provincialBudgetProposal(){
-        //$pbpGroupByCounty = ProvincialBudgetProposal::with('creditDistributionPlan')->select('cdpCoId')->where('pbpFyId' , '=' , Auth::user()->seFiscalYear)->groupBy('cdpCoId')->get();
-//        $pbpGroupByCounty = ProvincialBudgetProposal::select('cdpCoId')->where('pbpFyId' , '=' , Auth::user()->seFiscalYear)->with(['creditDistributionPlan'=> function($query){
-//            $query->select('cdpCoId');
-//        }])->groupBy('cdpCoId')->get();
-        //dump($pbpGroupByCounty);
-        $pbp = ProvincialBudgetProposal::where('pbpFyId' , '=' , Auth::user()->seFiscalYear)->get();
+        $pbpGroupByCounty = ProvincialBudgetProposal::where('pbpFyId' , '=' , Auth::user()->seFiscalYear)->with('creditDistributionPlan')->get()->groupBy('creditDistributionPlan.cdpCoId');
+        dump($pbpGroupByCounty);
+        foreach ($pbpGroupByCounty as $temp)
+        {
+            foreach ($temp as $t)
+            {
+                echo $t->creditDistributionPlan->id;
+            }
+        }
+/*        $pbp = ProvincialBudgetProposal::where('pbpFyId' , '=' , Auth::user()->seFiscalYear)->get();
         return  view('budget::pages.provincial_budget_proposal.main', ['pageTitle' => 'پیشنهاد بودجه',
             'pbps' => $pbp,
-            'requireJsFile' => 'provincial_budget_proposal']);
+            'requireJsFile' => 'provincial_budget_proposal']);*/
     }
     
     public function getPlans($coId)

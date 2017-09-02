@@ -1,6 +1,6 @@
 @extends('budget::layouts.master')
 @section('content')
-   {{-- <!--Inner body start-->
+    <!--Inner body start-->
     <div  class="medium-10 border-right-line inner-body-pad main-margin">
         <div class="grid-x padding-lr">
             <div class="medium-12">
@@ -27,7 +27,7 @@
         </div>
         @include('budget::pages.provincial_budget_proposal.forms')
         <div class="grid-x dashboard-padding">
-            <div class="medium-12 my-callout  dynamic-height-level1">
+            <div id="dynamicParentId1" class="medium-12 my-callout  dynamic-height-level1">
                 <div class="medium-12  bottom-mrg">
                     <div class="clearfix border-btm-line ">
                         <div class="button-group float-left report-mrg">
@@ -49,7 +49,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="dynamicParentId1"  class="grid-x">
+                <div  class="grid-x">
                     <div class="medium-1 columns my-tab-attribute dynamic-height-level2">
                         <ul class="vertical tabs" data-tabs id="provincial_budget_proposal_tab_view" data-deep-link="true" data-update-history="true" data-deep-link-smudge="true" data-deep-link-smudge="500">
                             <li class="tabs-title is-active"><a href="#city1_tab" aria-selected="true">همدان</a></li>
@@ -67,8 +67,6 @@
                             <li class="tabs-title"><a href="#city7_tab">همدان</a></li>
                             <li class="tabs-title"><a href="#city7_tab">همدان</a></li>
                             <li class="tabs-title"><a href="#city7_tab">همدان</a></li>
-                            
-
                         </ul>
                     </div>
                     <div id="dynamicParentId2" class="medium-11 columns my-tab-contain dynamic-height-level2-2">
@@ -101,8 +99,7 @@
                                         </div>
                                     </div>
                                 </div>
-<<<<<<< HEAD
-                                <div class="table-contain" id="pbpTable">
+                                <div class="table-contain dynamic-height-level3" id="pbpTable">
                                     <?php $rowColor = 0; ?>
                                     @foreach($pbps as $pbp)
                                         <div class="grid-x {{ $rowColor % 2 == 1 ? 'tableRowColor' : '' }} selectAbleRow">
@@ -138,105 +135,6 @@
                                                                         <a data-close aria-label="Close modal" class="button primary hollow btn-large-w large-offset-4">خیر</a>
                                                                     </div>
                                                                 </div>
-=======
-                                <div class="table-contain dynamic-height-level3">
-                                    <div class="grid-x">
-                                        <div class="medium-2 table-contain-border cell-vertical-center"></div>
-                                        <div class="medium-10">
-                                            <div class="grid-x">
-                                                <div class="medium-4 table-contain-border">dfd</div>
-                                                <div class="medium-4  table-contain-border">dfsdf</div>
-                                                <div class="medium-4  table-contain-border">
-                                                    <div class="grid-x">
-                                                        <div class="medium-11">
-                                                            dfddf
-                                                        </div>
-                                                        <div class="medium-1">
-                                                            <a class="dropdown small sm-btn-align"  type="button" data-toggle="tsActionDropdown"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="tsActionDropdown" data-dropdown data-auto-focus="true">
-                                                                <ul class="my-menu small-font text-right">
-                                                                    <li><a data-open="preloaderModal"  onclick="TSUpdateDialogOpen"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                    <li><a data-open="TS_modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="grid-x">
-                                        <div class="medium-2 table-contain-border cell-vertical-center"></div>
-                                        <div class="medium-10">
-                                            <div class="grid-x">
-                                                <div class="medium-4 table-contain-border">dfd</div>
-                                                <div class="medium-4  table-contain-border">dfsdf</div>
-                                                <div class="medium-4  table-contain-border">
-                                                    <div class="grid-x">
-                                                        <div class="medium-11">
-                                                            dfddf
-                                                        </div>
-                                                        <div class="medium-1">
-                                                            <a class="dropdown small sm-btn-align"  type="button" data-toggle="tsActionDropdown"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="tsActionDropdown" data-dropdown data-auto-focus="true">
-                                                                <ul class="my-menu small-font text-right">
-                                                                    <li><a data-open="preloaderModal"  onclick="TSUpdateDialogOpen"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                    <li><a data-open="TS_modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="grid-x">
-                                        <div class="medium-2 table-contain-border cell-vertical-center"></div>
-                                        <div class="medium-10">
-                                            <div class="grid-x">
-                                                <div class="medium-4 table-contain-border">dfd</div>
-                                                <div class="medium-4  table-contain-border">dfsdf</div>
-                                                <div class="medium-4  table-contain-border">
-                                                    <div class="grid-x">
-                                                        <div class="medium-11">
-                                                            dfddf
-                                                        </div>
-                                                        <div class="medium-1">
-                                                            <a class="dropdown small sm-btn-align"  type="button" data-toggle="tsActionDropdown"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="tsActionDropdown" data-dropdown data-auto-focus="true">
-                                                                <ul class="my-menu small-font text-right">
-                                                                    <li><a data-open="preloaderModal"  onclick="TSUpdateDialogOpen"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                    <li><a data-open="TS_modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="grid-x">
-                                        <div class="medium-2 table-contain-border cell-vertical-center"></div>
-                                        <div class="medium-10">
-                                            <div class="grid-x">
-                                                <div class="medium-4 table-contain-border">dfd</div>
-                                                <div class="medium-4  table-contain-border">dfsdf</div>
-                                                <div class="medium-4  table-contain-border">
-                                                    <div class="grid-x">
-                                                        <div class="medium-11">
-                                                            dfddf
-                                                        </div>
-                                                        <div class="medium-1">
-                                                            <a class="dropdown small sm-btn-align"  type="button" data-toggle="tsActionDropdown"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="tsActionDropdown" data-dropdown data-auto-focus="true">
-                                                                <ul class="my-menu small-font text-right">
-                                                                    <li><a data-open="preloaderModal"  onclick="TSUpdateDialogOpen"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                    <li><a data-open="TS_modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                                </ul>
->>>>>>> 4a39be57418abcbcf9ccee0c556cd01027cdbce9
                                                             </div>
                                                             <button class="close-button" data-close aria-label="Close modal" type="button">
                                                                 <span aria-hidden="true">&times;</span>
@@ -247,7 +145,6 @@
                                                 </div>
                                             </div>
                                         </div>
-<<<<<<< HEAD
                                         <div id="pbpPlanInfo{{ $pbp->id }}" class="grid-x display-off {{ $rowColor % 2 == 1 ? 'tableRowColor' : '' }} accordionRow">
                                             <div class="medium-12 table-contain-border horizontal-scroll">
                                                 <table class="tbl-secondary-mrg small-font">
@@ -268,140 +165,6 @@
                                         </div>
                                         <?php $rowColor++; ?>
                                     @endforeach
-=======
-                                    </div>
-
-                                    <div class="grid-x">
-                                        <div class="medium-2 table-contain-border cell-vertical-center"></div>
-                                        <div class="medium-10">
-                                            <div class="grid-x">
-                                                <div class="medium-4 table-contain-border">dfd</div>
-                                                <div class="medium-4  table-contain-border">dfsdf</div>
-                                                <div class="medium-4  table-contain-border">
-                                                    <div class="grid-x">
-                                                        <div class="medium-11">
-                                                            dfddf
-                                                        </div>
-                                                        <div class="medium-1">
-                                                            <a class="dropdown small sm-btn-align"  type="button" data-toggle="tsActionDropdown"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="tsActionDropdown" data-dropdown data-auto-focus="true">
-                                                                <ul class="my-menu small-font text-right">
-                                                                    <li><a data-open="preloaderModal"  onclick="TSUpdateDialogOpen"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                    <li><a data-open="TS_modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="grid-x">
-                                        <div class="medium-2 table-contain-border cell-vertical-center"></div>
-                                        <div class="medium-10">
-                                            <div class="grid-x">
-                                                <div class="medium-4 table-contain-border">dfd</div>
-                                                <div class="medium-4  table-contain-border">dfsdf</div>
-                                                <div class="medium-4  table-contain-border">
-                                                    <div class="grid-x">
-                                                        <div class="medium-11">
-                                                            dfddf
-                                                        </div>
-                                                        <div class="medium-1">
-                                                            <a class="dropdown small sm-btn-align"  type="button" data-toggle="tsActionDropdown"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="tsActionDropdown" data-dropdown data-auto-focus="true">
-                                                                <ul class="my-menu small-font text-right">
-                                                                    <li><a data-open="preloaderModal"  onclick="TSUpdateDialogOpen"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                    <li><a data-open="TS_modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="grid-x">
-                                        <div class="medium-2 table-contain-border cell-vertical-center"></div>
-                                        <div class="medium-10">
-                                            <div class="grid-x">
-                                                <div class="medium-4 table-contain-border">dfd</div>
-                                                <div class="medium-4  table-contain-border">dfsdf</div>
-                                                <div class="medium-4  table-contain-border">
-                                                    <div class="grid-x">
-                                                        <div class="medium-11">
-                                                            dfddf
-                                                        </div>
-                                                        <div class="medium-1">
-                                                            <a class="dropdown small sm-btn-align"  type="button" data-toggle="tsActionDropdown"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="tsActionDropdown" data-dropdown data-auto-focus="true">
-                                                                <ul class="my-menu small-font text-right">
-                                                                    <li><a data-open="preloaderModal"  onclick="TSUpdateDialogOpen"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                    <li><a data-open="TS_modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="grid-x">
-                                        <div class="medium-2 table-contain-border cell-vertical-center"></div>
-                                        <div class="medium-10">
-                                            <div class="grid-x">
-                                                <div class="medium-4 table-contain-border">dfd</div>
-                                                <div class="medium-4  table-contain-border">dfsdf</div>
-                                                <div class="medium-4  table-contain-border">
-                                                    <div class="grid-x">
-                                                        <div class="medium-11">
-                                                            dfddf
-                                                        </div>
-                                                        <div class="medium-1">
-                                                            <a class="dropdown small sm-btn-align"  type="button" data-toggle="tsActionDropdown"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="tsActionDropdown" data-dropdown data-auto-focus="true">
-                                                                <ul class="my-menu small-font text-right">
-                                                                    <li><a data-open="preloaderModal"  onclick="TSUpdateDialogOpen"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                    <li><a data-open="TS_modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="grid-x">
-                                        <div class="medium-2 table-contain-border cell-vertical-center"></div>
-                                        <div class="medium-10">
-                                            <div class="grid-x">
-                                                <div class="medium-4 table-contain-border">dfd</div>
-                                                <div class="medium-4  table-contain-border">dfsdf</div>
-                                                <div class="medium-4  table-contain-border">
-                                                    <div class="grid-x">
-                                                        <div class="medium-11">
-                                                            dfddf
-                                                        </div>
-                                                        <div class="medium-1">
-                                                            <a class="dropdown small sm-btn-align"  type="button" data-toggle="tsActionDropdown"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="tsActionDropdown" data-dropdown data-auto-focus="true">
-                                                                <ul class="my-menu small-font text-right">
-                                                                    <li><a data-open="preloaderModal"  onclick="TSUpdateDialogOpen"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                    <li><a data-open="TS_modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
->>>>>>> 4a39be57418abcbcf9ccee0c556cd01027cdbce9
                                 </div>
                             </div>
                             <!--Header End-->
@@ -409,7 +172,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
-    </div>--}}
+    </div>
 @stop
