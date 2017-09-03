@@ -96,21 +96,22 @@
 <!--Modal Insert End-->
 
 <!--Modal update Start-->
-<div style="z-index: 9999;" class="tiny reveal" id="PBP_ModalUpdate" data-reveal>
+<div style="z-index: 9999;" class="small reveal" id="PBP_ModalUpdate" data-reveal>
     <div class="modal-margin small-font  padding-lr">
         {!! Form::open(array('id' => 'updatePBPForm' , 'url' => '/budget/credit_distribution/capital_assets/provincial/proposal/update' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}
             <div class="grid-x" id="existErrorInUpForm" style="display: none">
-                <div class="medium-12 columns">
+                <div class="medium-12 columns padding-lr">
                     <div class="alert callout">
                         <p class="BYekan login-alert"><i class="fi-alert"></i>این پیشنهاد بودجه قبلا ثبت شده است!</p>
                     </div>
                 </div>
             </div>
+            <input type="hidden" name="pbpId" id="pbpId_u">
             <div class="grid-x">
                 <div class="medium-4 cell padding-lr">
                     <label>شهرستان
-                        <select name="pbpCounty" id="pbpCounty_u" required>
+                        <select name="pbpCounty" id="pbpCounty_u" onchange="getCDPWithCoId('{{ url('/budget/credit_distribution/capital_assets/provincial/proposal/getPlans') }}' , 'pbpCounty_u' , 'pbpPlanCode_u')" required>
                             <option value=""></option>
                             @foreach(\Modules\Admin\Entities\County::all() as $counties)
                                 <option value="{{ $counties->id }}">{{ $counties->coName }}</option>
@@ -121,7 +122,7 @@
                 </div>
                 <div class="medium-8 cell padding-lr">
                     <label>کد طرح
-                        <select name="pbpPlanCode" id="pbpPlanCode_u" required>
+                        <select name="pbpPlanCode" id="pbpPlanCode_u" onchange="getRemianingAmount('{{ url('/budget/credit_distribution/capital_assets/provincial/proposal/getPlanRemainingAmount') }}' , 'pbpPlanCode_u' , 'pbpPlanAmount_u')" required>
                             <option value=""></option>
                         </select>
                     </label>
@@ -170,7 +171,7 @@
                 </div>
             </div>
             <div class="medium-6 columns padding-lr">
-                <button name="Submit" onmouseover="setPBPCheckExistUrl('{{ url('') }}')"  type="submit" class="my-secondary button float-left btn-for-load"> <span>  ثبت</span><i id="updateSubmitActivityCircle">
+                <button name="Submit" onmouseover="setPBPCheckExistUrl('{{ url('/budget/credit_distribution/capital_assets/provincial/proposal/PBPIsExist') }}')"  type="submit" class="my-secondary button float-left btn-for-load"> <span>  ثبت</span><i id="updateSubmitActivityCircle">
                         <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
                             <div></div>
                             <div></div>
