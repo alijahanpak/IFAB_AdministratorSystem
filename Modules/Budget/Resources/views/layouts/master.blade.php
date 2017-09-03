@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ asset('css/font.css') }}">
     <link rel="stylesheet" href="{{ asset('foundation-icons/foundation-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('css/line-spin-clockwise-fade-rotating.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/persian-datepicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/key.css') }}">
     <script src="{{ asset('js/Chart.js') }}"></script>
 </head>
@@ -86,7 +86,7 @@
     </div>
     <!--Body system-->
     <div class="grid-x">
-        <div id="leftmenuinner" style="background-color: #F8F8F8;" class="medium-2 cell small-font">
+        <div id="leftmenuinner" style="background-color: #F8F8F8;z-index: 995;" class="medium-2 cell small-font">
             <div  id="leftmenuinnerinner ">
                 <nav class="accordion"  data-margin-top="4.2">
                     <ul class="vertical menu sub-menu accordion-menu" data-accordion-menu >
@@ -104,7 +104,7 @@
                                         <li><a href="#">استانی</a>
                                             <ul class="menu vertical nested">
                                                 <li><a href="{{ url('/budget/credit_distribution/capital_assets/provincial/plans') }}">طرح های توزیع اعتبار</a></li>
-                                                <li><a href="{{ url('/budget/credit_distribution/capital_assets/provincial/proposal') }}">پیشنهاد دستگاه ها</a></li>
+                                                <li><a href="{{ url('/budget/credit_distribution/capital_assets/provincial/proposal') }}">پیشنهاد دستگاه</a></li>
                                             </ul>
                                         </li>
                                         <li><a href="#">ملی</a></li>
@@ -117,9 +117,13 @@
                             <a class="right-mp right-menu-btm-border" href="#">  موافقتنامه</a>
                             <ul class="menu vertical nested">
                                 <li><a href="#">هزینه ای</a>
-                                <li><a href="#">تملک دارایی سرمایه ای</a></li>
-                                <li><a href="#">طرح ها</a></li>
-                                <li><a href="#">پروژه ها</a></li>
+                                <li><a href="#">تملک دارایی سرمایه ای</a>
+                                    <ul class="menu vertical nested">
+                                        <li><a href="{{ url('/budget/plan/capital_assets/plans') }}">طرح ها</a></li>
+                                        <li><a href="#">پروژه ها</a></li>
+                                    </ul>
+                                </li>
+
                             </ul>
                         </li>
                         <li>
@@ -189,18 +193,16 @@
                 </div>
             </div>
         <!--Modal Preloader Start-->
-        <div class="medium-10 my-footer main-margin">
-            <div class="grid-x"><div class="medium-12">
-                    <div class="medium-8">
-                        <p>تمامی حقوق مادی و معنوی این وب سایت متعلق به سازمان میراث فرهنگی، صنایع دستی و گردشگری استان همدان می باشد.</p>
+        <div class="medium-12 my-footer">
+            <div class="grid-x">
+                <div class="medium-12">
+                    <div class="small button-group float-left">
+                        <a class="clear button primary">راهنمای سامانه</a>
+                        <a class="clear button primary">درباره ما</a>
+                        <a class="clear button primary">ارتباط با ما</a>
+                        <a class="clear button primary">دیدگاه</a>
                     </div>
-                    <div class="medium-4">
-                        <ul class="menu small-fon ul-margin">
-                            <li><a class="footer-menu" href="#">راهنمای سامانه</a></li>
-                            <li><a class="footer-menu" href="#">درباره ما</a></li>
-                            <li><a class="footer-menu" href="#">دیدگاه</a></li>
-                        </ul>
-                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -208,6 +210,8 @@
     <script src="{{ asset('js/vendor/jquery.js') }}"></script>
     <script src="{{ asset('js/vendor/what-input.js') }}"></script>
     <script src="{{ asset('js/vendor/foundation.js') }}"></script>
+    <script src="{{ asset('js/persian-date.min.js') }}"></script>
+    <script src="{{ asset('js/persian-datepicker.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     @if(isset($requireJsFile))
         @if($requireJsFile == 'deprived_area')

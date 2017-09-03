@@ -35,4 +35,17 @@ function res() {
     $('.dynamic-height-notif').css('height',(x-45  )+'px');
 }
 
+function datePicker(dateId){
+    window.persianDatepickerDebug = false;
+
+    // Normal Sample
+    // --------------------------------------------
+    $('#' + dateId).persianDatepicker({
+        altField: '#normalAlt',
+        altFormat: 'LLLL',
+        initialValue: false,
+        observer: true,
+        format: 'YYYY/MM/DD'
+    });
+}
 

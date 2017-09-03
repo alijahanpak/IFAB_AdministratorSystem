@@ -52,4 +52,8 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::get('capital_assets/provincial/proposal/getPlanRemainingAmount/{cdpId}', 'CreditDistributionController@getPlanRemainingAmount');
         Route::get('capital_assets/provincial/proposal/delete/{pbpId}', 'CreditDistributionController@deleteProvincialBudgetProposal');
     });
+    ///////////////////////////////////////////////////////////////////////////
+    Route::prefix('plan')->group(function () {
+        Route::get('capital_assets/plans', 'PlanController@capitalAssetsApprovedPlan');
+    });
 });
