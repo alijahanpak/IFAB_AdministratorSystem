@@ -81,72 +81,59 @@ $('#PBP_ModalInsert').on('closed.zf.reveal' , function () {
     $('#existErrorInRegForm').hide();
 });
 
-var checkExistUrl = '';
-function setCheckExistUrl(url) {
-    checkExistUrl = url;
+var checkPBPExistUrl = '';
+function setPBPCheckExistUrl(url) {
+    checkPBPExistUrl = url;
 }
 
-var registerDAFormDataIsExist = true;
-var updateDAFormDataIsExist = true;
+var registerPBPFormDataIsExist = true;
+var updatePBPFormDataIsExist = true;
 $(document).ready(function () {
     $('#registerSubmitActivityCircle').hide();
-    $('#registerDAForm').submit(function(event) {
-        var url = checkExistUrl + '/' + $('#selectCounty').val();
-        if ($('#selectRegion').val() != '')
-        {
-            url += '/' + $('#selectRegion').val();
-        }
-        if ($('#selectRuralDistrict').val() != '')
-        {
-            url += '/' + $('#selectRuralDistrict').val();
-        }
-        if ($('#selectVillage').val() != '')
-        {
-            url += '/' + $('#selectVillage').val();
-        }
-        if ($('#selectCounty').val() != '') {
-            $('#registerSubmitActivityCircle').show();
-            $.ajax({
-                type: "GET",
-                dataType: "JSON",
-                url: url,
-                success: function (data) {
-                    if (data.exist == true)
-                    {
-                        $('#existErrorInRegForm').show();
-                        setTimeout(function(){ $('#registerSubmitActivityCircle').hide(); } , 2000);
-                    }
-                    else
-                    {
-                        registerDAFormDataIsExist = false;
-                        $('#registerDAForm').submit();
-                    }
-
-                },
-                error: function (jqXHR) {
-                    var msg = '';
-                    if (jqXHR.status === 0) {
-                        msg = 'Not connect.\n Verify Network.';
-                    } else if (jqXHR.status == 404) {
-                        msg = 'Requested page not found. [404]';
-                    } else if (jqXHR.status == 500) {
-                        msg = 'Internal Server Error [500].';
-                    } else if (exception === 'parsererror') {
-                        msg = 'Requested JSON parse failed.';
-                    } else if (exception === 'timeout') {
-                        msg = 'Time out error.';
-                    } else if (exception === 'abort') {
-                        msg = 'Ajax request aborted.';
-                    } else {
-                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
-                    }
+    $('#registerPBPForm').submit(function(event) {
+    var url = checkPBPExistUrl + '/' + $('#pbpProjectTitle').val() + '/' + $('#pbpProjectCode').val();
+    if ($('#pbpCounty').val() != '') {
+        $('#registerSubmitActivityCircle').show();
+        $.ajax({
+            type: "GET",
+            dataType: "JSON",
+            url: url,
+            success: function (data) {
+                if (data.exist == true)
+                {
+                    $('#existErrorInRegForm').show();
                     setTimeout(function(){ $('#registerSubmitActivityCircle').hide(); } , 2000);
-                    console.log(msg);
                 }
-            });
-        }
-        if (registerDAFormDataIsExist == true)
-            event.preventDefault();
+                else
+                {
+                    registerPBPFormDataIsExist = false;
+                    $('#registerPBPForm').submit();
+                }
+            },
+            error: function (jqXHR) {
+                var msg = '';
+                if (jqXHR.status === 0) {
+                    msg = 'Not connect.\n Verify Network.';
+                } else if (jqXHR.status == 404) {
+                    msg = 'Requested page not found. [404]';
+                } else if (jqXHR.status == 500) {
+                    msg = 'Internal Server Error [500].';
+                } else if (exception === 'parsererror') {
+                    msg = 'Requested JSON parse failed.';
+                } else if (exception === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
+                setTimeout(function(){ $('#registerSubmitActivityCircle').hide(); } , 2000);
+                console.log(msg);
+            }
+        });
+    }
+    if (registerPBPFormDataIsExist == true)
+        event.preventDefault();
     });
 
     $('#updateSubmitActivityCircle').hide();
