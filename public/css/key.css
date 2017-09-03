@@ -621,7 +621,7 @@ input:checked ~ .switch-paddle {
     margin-right: 240px;
 }
 .table-header{
-    margin-left: 1.05rem;
+    margin-left: 12px;
     background-color: #E6E6E6;
     color: #5e5e5e;
     font-size: small;

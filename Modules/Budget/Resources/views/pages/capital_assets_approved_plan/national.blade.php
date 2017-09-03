@@ -1,9 +1,8 @@
-
-<div class="tabs-panel is-active table-mrg-btm dynamic-height-level1" id="provincial">
+<div class="tabs-panel table-mrg-btm dynamic-height-level1" id="national">
         <div class="medium-12  bottom-mrg">
             <div class="clearfix border-btm-line ">
                 <div class="button-group float-left report-mrg">
-                    <a  class="clear button"  data-open="CAAP_ModalInsert" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
+                    <a  class="clear button"  data-open="CAAP_national_ModalInsert" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
                         <i class="fi-plus size-30 secondry-color"></i>
                     </a>
                     <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
@@ -47,7 +46,7 @@
                 </div>
             </div>
             <!--Header End-->
-            <div class="table-contain" id="plansTable">
+            <div class="table-contain dynamic-height-level2" id="plansTable">
                 <div class="grid-x">
                         <div class="medium-2 table-contain-border cell-vertical-center">
                             ghhfg

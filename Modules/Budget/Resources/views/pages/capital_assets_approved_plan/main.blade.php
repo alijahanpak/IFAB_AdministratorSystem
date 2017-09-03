@@ -27,8 +27,11 @@
                 </ul>
                 <div class="tabs-content" data-tabs-content="capital_assets_approved_plan_tab_view">
                     <!--Tab 1-->
-                @include('budget::pages.capital_assets_approved_plan.provincial')
-                <!--Tab 1-->
+                         @include('budget::pages.capital_assets_approved_plan.provincial')
+                    <!--Tab 1-->
+                    <!--Tab 2-->
+                        @include('budget::pages.capital_assets_approved_plan.national')
+                    <!--Tab 2-->
 
                 </div>
             </div>

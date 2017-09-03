@@ -25,7 +25,7 @@ $(function(){
     res();
 });
 function res() {
-    $('.dynamic-height-level1').css('height',($.w.outerHeight()-260)+'px');
+    $('.dynamic-height-level1').css('height',($.w.outerHeight()-230)+'px');
     var x = $("#dynamicParentId1").parent().height();
     $('.dynamic-height-level2').css('height',(x-110  )+'px');
     $('.dynamic-height-level2-2').css('height',(x-110  )+'px');
