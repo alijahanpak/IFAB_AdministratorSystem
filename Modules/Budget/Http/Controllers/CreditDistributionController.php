@@ -132,7 +132,10 @@ class CreditDistributionController extends Controller
     }
 
     public function provincialBudgetProposal(){
-        $pbpGroupByCounty = ProvincialBudgetProposal::where('pbpFyId' , '=' , Auth::user()->seFiscalYear)->with('creditDistributionPlan.county')->get()->groupBy('creditDistributionPlan.county.coName');
+        $pbpGroupByCounty = ProvincialBudgetProposal::where('pbpFyId' , '=' , Auth::user()->seFiscalYear)
+            ->with('creditDistributionPlan.county')
+            ->get()
+            ->groupBy('creditDistributionPlan.county.coName');
         return  view('budget::pages.provincial_budget_proposal.main', ['pageTitle' => 'پیشنهاد بودجه',
             'pbps' => $pbpGroupByCounty,
             'requireJsFile' => 'provincial_budget_proposal']);
@@ -187,6 +190,37 @@ class CreditDistributionController extends Controller
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
                 return Redirect::to(URL::previous())->with('messageDialogPm', 'با توجه به وابستگی اطلاعات، حذف رکورد مورد نظر ممکن نیست!');
             }
+        }
+    }
+
+    public function updateProvincialBudgetProposal(Request $request)
+    {
+        $pbp = ProvincialBudgetProposal::find(Input::get('pbpId'));
+        $pbp->pbpCdpId = Input::get('pbpPlanCode');
+        $pbp->pbpAmount = AmountUnit::convertInputAmount(Input::get('pbpAmount'));
+        $pbp->pbpSubject = Input::get('pbpProjectTitle');
+        $pbp->pbpCode = Input::get('pbpProjectCode');
+        $pbp->pbpDescription = Input::get('pbpDescription');
+        $pbp->save();
+
+        SystemLog::setBudgetSubSystemLog('تغییر در طرح عمرانی مصوب');
+        return Redirect::to(URL::previous());
+    }
+
+    public function PBPIsExist($pbpSubject , $pbpCode , $pbpId = null)
+    {
+        if (\Illuminate\Support\Facades\Request::ajax())
+        {
+            if ($pbpId == null){
+                $pbp = ProvincialBudgetProposal::where('pbpFyId' , '=' , Auth::user()->seFiscalYear);
+            }
+            else{
+                $pbp = ProvincialBudgetProposal::where('pbpFyId' , '=' , Auth::user()->seFiscalYear)->where('id' , '<>' , $pbpId);
+            }
+            if (($pbp->where('pbpCode' , '=' , $pbpCode)->exists()))
+                return \Illuminate\Support\Facades\Response::json(['exist' => true]);
+            else
+                return \Illuminate\Support\Facades\Response::json(['exist' => false]);
         }
     }
 }
