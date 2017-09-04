@@ -79,15 +79,18 @@ class PlanController extends Controller
         if (\Illuminate\Support\Facades\Request::ajax())
         {
             if (!isset($request->capId)){
-                $cap = CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear);
+                if ((CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)->where('capCdtId' , '=' , $request->cdtId)->exists()) || (CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)->Where('capLetterNumber' , '=' , $request->letterNumber)->exists()))
+                    return \Illuminate\Support\Facades\Response::json(['exist' => true]);
+                else
+                    return \Illuminate\Support\Facades\Response::json(['exist' => false]);
             }
             else{
-                $cap = CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)->where('id' , '<>' , $request->capId);
+                if ((CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)->where('id' , '<>' , $request->capId)->where('capCdtId' , '=' , $request->cdtId)->exists()) || (CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)->where('id' , '<>' , $request->capId)->Where('capLetterNumber' , '=' , $request->letterNumber)->exists()))
+                    return \Illuminate\Support\Facades\Response::json(['exist' => true]);
+                else
+                    return \Illuminate\Support\Facades\Response::json(['exist' => false]);
             }
-            if (($cap->where('capCdtId' , '=' , $request->cdtId)->exists()) || ($cap->Where('capLetterNumber' , '=' , $request->letterNumber)->exists()))
-                return \Illuminate\Support\Facades\Response::json(['exist' => true]);
-            else
-                return \Illuminate\Support\Facades\Response::json(['exist' => false]);
+
         }
     }
 
