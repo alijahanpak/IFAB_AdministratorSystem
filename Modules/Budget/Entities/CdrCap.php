@@ -8,4 +8,9 @@ class CdrCap extends Model
 {
     protected $table = 'tbl_cdr_cap';
     protected $fillable = [];
+
+    public static function getCapCdrAmount($capId , $cdrId)
+    {
+        return CdrCap::where('ccCapId' , '=' , $capId)->where('ccCdrId' , '=' , $cdrId)->first()->ccAmount;
+    }
 }

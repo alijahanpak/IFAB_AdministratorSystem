@@ -149,6 +149,11 @@ input:checked ~ .switch-paddle {
 .small-font{
     font-size: smaller;
 }
+
+.small-font-xx{
+    font-size: 0.6em !important;
+}
+
 .footer-bg {
     color: #9b9b9b;
 }

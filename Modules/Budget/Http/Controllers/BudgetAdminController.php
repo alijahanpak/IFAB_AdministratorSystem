@@ -52,15 +52,7 @@ class BudgetAdminController extends Controller
         $deprivedArea->save();
 
         SystemLog::setBudgetSubSystemAdminLog('تعریف منطقه محروم ' . DeprivedArea::getDeprivedAreaLabel($deprivedArea->id));
-        $selectedTab = '';
-/*        if (Input::get('daCounty') != '' &&
-            Input::get('daRegion') != '' &&
-            Input::get('daRuralDistrict') != '' &&
-            Input::get('daVillage') != '')
-        {
-            $selectedTab = '#village';
-        }*/
-        return Redirect::to(URL::previous() . $selectedTab);
+        return Redirect::to(URL::previous());
     }
 
     public function fiscalYear()

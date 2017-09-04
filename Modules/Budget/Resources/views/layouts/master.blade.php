@@ -226,6 +226,8 @@
             <script src="{{ asset('js/modules/budget/admin/tiny_season.js')  }}"></script>
         @elseif($requireJsFile =='provincial_budget_proposal')
             <script src="{{ asset('js/modules/budget/credit_distribution/provincial_budget_proposal.js')  }}"></script>
+        @elseif($requireJsFile =='capital_assets_approved_plan')
+            <script src="{{ asset('js/modules/budget/plan/capital_assets_approved_plan.js')  }}"></script>
         @endif
     @endif
     @if (session('messageDialogPm'))

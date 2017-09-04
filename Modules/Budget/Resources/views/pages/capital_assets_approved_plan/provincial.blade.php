@@ -1,5 +1,6 @@
 
 <div class="tabs-panel is-active table-mrg-btm dynamic-height-level1" id="provincial">
+    @if(count($caps) > 0)
         <div class="medium-12  bottom-mrg">
             <div class="clearfix border-btm-line ">
                 <div class="button-group float-left report-mrg">
@@ -30,7 +31,7 @@
                 <div class="medium-2  table-border">
                     <strong>شماره</strong>
                 </div>
-                <div class="medium-2  table-border">
+                <div class="medium-1  table-border">
                     <strong>تاریخ</strong>
                 </div>
                 <div class="medium-1  table-border">
@@ -39,7 +40,7 @@
                 <div class="medium-1  table-border">
                     <strong>نوع</strong>
                 </div>
-                <div class="medium-1  table-border">
+                <div class="medium-2  table-border">
                     <strong>ردیف</strong>
                 </div>
                 <div class="medium-3  table-border">
@@ -47,47 +48,39 @@
                 </div>
             </div>
             <!--Header End-->
-            <div class="table-contain" id="plansTable">
-                <div class="grid-x">
+            <div class="table-contain" id="provincialCapTable">
+                <?php $rowColor = 0; ?>
+                @foreach($caps as $cap)
+                    <div class="grid-x {{ $rowColor % 2 == 1 ? 'tableRowColor' : '' }} selectAbleRow">
+                        <div class="medium-2 table-contain-border cell-vertical-center">{{ $cap->creditDistributionTitle->cdtIdNumber . ' - ' . $cap->creditDistributionTitle->cdtSubject }}</div>
+                        <div class="medium-2 table-contain-border cell-vertical-center">{{ $cap->capLetterNumber }}</div>
+                        <div class="medium-1 table-contain-border cell-vertical-center small-font-xx">{{ $cap->capLetterDate }}</div>
+                        <div class="medium-1 table-contain-border cell-vertical-center small-font-xx">{{ $cap->capExchangeDate }}</div>
+                        <div class="medium-1 table-contain-border cell-vertical-center">{{ $cap->planType->ptSubject }}</div>
                         <div class="medium-2 table-contain-border cell-vertical-center">
-                            ghhfg
-                        </div>
-                        <div class="medium-2 table-contain-border cell-vertical-center">
-                            kghjgh
-                        </div>
-                        <div class="medium-2 table-contain-border cell-vertical-center">
-                            hjghj
-                        </div>
-                        <div class="medium-1 table-contain-border cell-vertical-center">
-                            yjugyj
-                        </div>
-                        <div class="medium-1 table-contain-border cell-vertical-center">
-                            ghkghkgk
-                        </div>
-                        <div class="medium-1 table-contain-border cell-vertical-center">
-                            <a onclick="">link</a>
+                            <a onclick="openTableRowAcc('cdrCapAmount{{ $cap->id }}' , 'provincialCapTable')">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CapitalAssetsApprovedPlan::getTotalAmount($cap->id)) }}</a>
                         </div>
                         <div class="medium-3 table-contain-border cell-vertical-center">
                             <div class="grid-x">
                                 <div class="medium-11">
-                                    gdfgdg
+                                    {{ $cap->capDescription }}
                                 </div>
                                 <div class="medium-1 cell-vertical-center">
-                                    <a class="dropdown small sm-btn-align"  type="button" data-toggle="planActionDropdown"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
-                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="planActionDropdown" data-dropdown data-auto-focus="true">
+                                    <a class="dropdown small sm-btn-align display-off"  type="button" data-toggle="capActionDropdown{{ $cap->id }}"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
+                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="capActionDropdown{{ $cap->id }}" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font">
                                             <li><a data-open="preloaderModal"  onclick="CDPUpdateDialogOpen"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                            <li><a data-open="CDP_modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                            <li><a data-open="CAP_modalDelete{{ $cap->id }}"><i class="fi-trash size-16"></i>  حذف</a></li>
                                         </ul>
                                     </div>
                                     <!--Modal Delete Start-->
-                                    <div style="z-index: 9999;" class="tiny reveal" id="CDP_modalDelete" data-reveal>
+                                    <div style="z-index: 9999;" class="tiny reveal" id="CAP_modalDelete{{ $cap->id }}" data-reveal>
                                         <div class="modal-margin small-font">
                                             <p>کاربر گرامی</p>
                                             <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
                                             <div class="grid-x dashboard-padding">
                                                 <div class="medium-6 ">
-                                                    <a href="" class="button primary btn-large-w large-offset-3">بله</a>
+                                                    <a href="{{ url('/budget/plan/capital_assets/plans/provincial/delete/' . $cap->id) }}" class="button primary btn-large-w large-offset-3">بله</a>
                                                 </div>
                                                 <div class="medium-6">
                                                     <a data-close aria-label="Close modal" class="button primary hollow btn-large-w large-offset-4">خیر</a>
@@ -103,35 +96,39 @@
                             </div>
                         </div>
                     </div>
-                    <div id="countyPlanAmount" class="grid-x display-off">
+                    <div id="cdrCapAmount{{ $cap->id }}" class="grid-x display-off {{ $rowColor % 2 == 1 ? 'tableRowColor' : '' }} accordionRow">
                         <div class="medium-12 table-contain-border horizontal-scroll">
                             <table class="tbl-secondary-mrg small-font">
                                 <thead class="my-thead">
-                                <tr class="" style="background-color: #F1F1F1 !important;">
-
-                                        <th></th>
-
-                                </tr>
+                                    <tr class="" style="background-color: #F1F1F1 !important;">
+                                        @foreach(\Modules\Budget\Entities\CreditDistributionRow::all() as $cdRow)
+                                            <th>{{ $cdRow->cdSubject }}</th>
+                                        @endforeach
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                   <td></td>
-                                </tr>
+                                    <tr>
+                                        @foreach(\Modules\Budget\Entities\CreditDistributionRow::all() as $cdRow)
+                                            <td>{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CdrCap::getCapCdrAmount($cap->id , $cdRow->id)) }}</td>
+                                        @endforeach
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                    <?php $rowColor++; ?>
+                @endforeach
             </div>
         </div>
-
-       {{-- <!--Panel nothing Insert Start-->
-        <div class="column">
-            <div style="height: 200px;" class="card">
-                <div class="card-section text-center" style="margin-top:60px;">
-                    <span>کاربر گرامی، </span><span class="login-txt small-font">ردیف توزیع اعتباری ثبت نشده است!<span><a data-open="CDP_ModalInsert" class="custom-btn-pos my-secondary button tiny">ثبت</a></span></span>
+        @else
+        <!--Panel nothing Insert Start-->
+            <div class="column">
+                <div class="card dynamic-height-notif">
+                    <div class="card-section text-center" style="margin-top:40%;">
+                        <span>کاربر گرامی، </span><span class="login-txt small-font">ردیف توزیع اعتباری ثبت نشده است!<span><a data-open="CDP_ModalInsert" class="custom-btn-pos my-secondary button tiny">ثبت</a></span></span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!--Panel nothing Insert End-->--}}
-
+        <!--Panel nothing Insert End-->
+        @endif
 </div>

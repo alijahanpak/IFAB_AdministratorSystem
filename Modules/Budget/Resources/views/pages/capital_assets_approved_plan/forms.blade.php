@@ -2,7 +2,7 @@
 <!--Modal Insert Start-->
 <div style="z-index: 9999;" class="small reveal" id="CAP_ModalInsert" data-reveal data-animation-in="someAnimationIn">
     <div class="modal-margin small-font  padding-lr">
-        {!! Form::open(array('id' => 'registerCAPForm' , 'url' => '/budget/plan/capital_assets/plans/register' , 'class' => 'form' , 'data-abide novalidate')) !!}
+        {!! Form::open(array('id' => 'registerCAPForm' , 'url' => '/budget/plan/capital_assets/plans/provincial/register' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}
         <div class="grid-x" id="existErrorInRegForm" style="display: none">
             <div class="medium-12 columns">
@@ -75,7 +75,7 @@
             </div>
         </div>
         <div class="medium-6 columns padding-lr">
-            <button name="Submit" onmouseover="setCDRCheckExistUrl"  type="submit" class="my-secondary button float-left btn-for-load"> <span>  ثبت</span><i id="registerSubmitActivityCircle">
+            <button name="Submit" onmouseover="setCAPCheckExistUrl('{{ url('/budget/plan/capital_assets/plans/provincial/PCAPIsExist') }}')"  type="submit" class="my-secondary button float-left btn-for-load"> <span>  ثبت</span><i id="registerSubmitActivityCircle">
                     <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
                         <div></div>
                         <div></div>
