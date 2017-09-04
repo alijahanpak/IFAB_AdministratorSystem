@@ -1,5 +1,9 @@
 $(document).foundation()
-
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
 function openTableRowAcc(trId , tableContainerId) {
     if ($('#' + trId).css('display') == 'none') {
         $("#" + tableContainerId ).parent().find('div.accordionRow').addClass("display-off");

@@ -36,9 +36,9 @@ class PlanController extends Controller
         $cap->capCdtId = Input::get('capPtitle');
         $cap->capFyId = Auth::user()->seFiscalYear;
         $cap->capPtId = Input::get('capPlanType');
-        $cap->capLetterNumber = Input::get('capTitleNumber');
+        $cap->capLetterNumber = Input::get('capLetterNumber');
 
-        $cap->capLetterDate = Input::get('capTitleDate');
+        $cap->capLetterDate = Input::get('capLetterDate');
         $cap->capExchangeDate = Input::get('capExchangeDate');
         $cap->capDescription = Input::get('capDescription');
         $cap->save();
@@ -74,20 +74,44 @@ class PlanController extends Controller
         }
     }
 
-    public function PCAPIsExist($cdrId , $letterNumber , $capId = null)
+    public function PCAPIsExist(Request $request)
     {
         if (\Illuminate\Support\Facades\Request::ajax())
         {
-            if ($capId == null){
+            if (!isset($request->capId)){
                 $cap = CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear);
             }
             else{
-                $cap = CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)->where('id' , '<>' , $capId);
+                $cap = CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)->where('id' , '<>' , $request->capId);
             }
-            if ($cap->where('capCdtId' , '=' , $cdrId)->orWhere('capLetterNumber' , '=' , $letterNumber)->exists())
+            if (($cap->where('capCdtId' , '=' , $request->cdtId)->exists()) || ($cap->Where('capLetterNumber' , '=' , $request->letterNumber)->exists()))
                 return \Illuminate\Support\Facades\Response::json(['exist' => true]);
             else
                 return \Illuminate\Support\Facades\Response::json(['exist' => false]);
         }
+    }
+
+    public function updateProvincialCapitalAssetsApprovedPlan(Request $request)
+    {
+        $cap = CapitalAssetsApprovedPlan::find(Input::get('capId'));
+        $cap->capUId = Auth::user()->id;
+        $cap->capCdtId = Input::get('capPtitle');
+        $cap->capPtId = Input::get('capPlanType');
+        $cap->capLetterNumber = Input::get('capLetterNumber');
+
+        $cap->capLetterDate = Input::get('capLetterDate');
+        $cap->capExchangeDate = Input::get('capExchangeDate');
+        $cap->capDescription = Input::get('capDescription');
+        $cap->save();
+
+        foreach (CreditDistributionRow::all() as $cdRow)
+        {
+            CdrCap::where('ccCapId' , '=' , Input::get('capId'))->where('ccCdrId' , '=' , $cdRow->id)
+                ->update(['ccAmount' => AmountUnit::convertInputAmount(Input::get('capCdRow' . $cdRow->id)) ,
+                    'ccUId' => Auth::user()->id]);
+        }
+
+        SystemLog::setBudgetSubSystemLog('تغییر در طرح تملک داریی های سرمایه ای استانی');
+        return Redirect::to(URL::previous() . '#provincial');
     }
 }

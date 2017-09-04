@@ -13,4 +13,9 @@ class CdrCap extends Model
     {
         return CdrCap::where('ccCapId' , '=' , $capId)->where('ccCdrId' , '=' , $cdrId)->first()->ccAmount;
     }
+
+    public function creditDistributionRow()
+    {
+        return $this->belongsTo(CreditDistributionRow::class , 'ccCdrId' , 'id');
+    }
 }

@@ -1,3 +1,20 @@
+function CAPUpdateDialogOpen(cdRowId , cdRowAmount , cdtId , lNumber , lDate , exDate , pType , capId , description) {
+    $('#capPtitle_u').val(cdtId);
+    for (var i=0 ; i < cdRowId.length ; i++)
+    {
+        $('#' + cdRowId[i]).val(cdRowAmount[i]);
+    }
+    $('#capLetterNumber_u').val(lNumber);
+    $('#capLetterDate_u').val(lDate);
+    $('#capExchangeDate_u').val(exDate);
+    $('#capPlanType_u').val(pType);
+    $('#capDescription_u').val(description);
+    $('#capId_u').val(capId);
+    setTimeout(function () {
+        $('#CAP_ModalUpdate').foundation('toggle');
+    }, 100);
+}
+
 var checkCAPExistUrl = '';
 function setCAPCheckExistUrl(url) {
     checkCAPExistUrl = url;
@@ -8,14 +25,16 @@ var updateCAPFormDataIsExist = true;
 $(document).ready(function () {
     $('#registerSubmitActivityCircle').hide();
     $('#registerCAPForm').submit(function(event) {
-        var url = checkCAPExistUrl + '/' + $('#capPtitle').val() + '/' + $('#capTitleNumber').val();
-        alert(url);
         if ($('#capPtitle').val() != '') {
             $('#registerSubmitActivityCircle').show();
             $.ajax({
-                type: "GET",
+                type: "POST",
                 dataType: "JSON",
-                url: url,
+                data:{
+                    cdtId: $('#capPtitle').val(),
+                    letterNumber: $('#capLetterNumber').val()
+                },
+                url: checkCAPExistUrl,
                 success: function (data) {
                     if (data.exist == true)
                     {
@@ -56,13 +75,17 @@ $(document).ready(function () {
 
     $('#updateSubmitActivityCircle').hide();
     $('#updateCAPForm').submit(function(event) {
-        var url = checkCAPExistUrl + '/' + $('#pbpProjectTitle_u').val() + '/' + $('#pbpProjectCode_u').val() + '/' + $('#pbpId_u').val();
-        if ($('#pbpCounty_u').val() != '') {
+        if ($('#capPtitle_u').val() != '') {
             $('#updateSubmitActivityCircle').show();
             $.ajax({
-                type: "GET",
+                type: "POST",
                 dataType: "JSON",
-                url: url,
+                data:{
+                    cdtId: $('#capPtitle_u').val(),
+                    letterNumber: $('#capLetterNumber_u').val(),
+                    capId: $('#capId_u').val()
+                },
+                url: checkCAPExistUrl,
                 success: function (data) {
                     if (data.exist == true)
                     {
@@ -92,6 +115,7 @@ $(document).ready(function () {
                     } else {
                         msg = 'Uncaught Error.\n' + jqXHR.responseText;
                     }
+
                     setTimeout(function(){ $('#updateSubmitActivityCircle').hide(); } , 2000);
                     console.log(msg);
                 }
