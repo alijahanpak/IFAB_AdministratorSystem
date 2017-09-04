@@ -8,8 +8,8 @@
                     <nav aria-label="You are here:" role="navigation">
                         <ul class="breadcrumbs">
                             <li><a href="{{ url('/budget') }}">داشبورد</a></li>
-                            <li><a href="#"> موافقت نامه</a> </li>
-                            <li><a href="#">تملک دارایی سرمایه ای</a> </li>
+                            <li> <a class="disabled">موافقتنامه</a></li>
+                            <li> <a class="disabled">تملک دارایی سرمایه ای</a></li>
                             <li>
                                 <span class="show-for-sr">Current: </span>طرح ها
                             </li>

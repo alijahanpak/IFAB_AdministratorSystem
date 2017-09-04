@@ -35,7 +35,7 @@
                 <div class="row">
                     <div class="small-12 columns">
                         <label>نام کاربری
-                            {{ Form::text('email', \Illuminate\Support\Facades\Input::old('email') , array( 'required' , 'pattern' => 'text')) }}
+                            {{ Form::text('email', \Illuminate\Support\Facades\Input::old('email') , array( 'required' , 'pattern' => 'text' , 'id' => 'userName')) }}
                             <span class="form-error font-wei">نام کاربر فراموش شده است!</span>
                         </label>
                     </div>
@@ -73,5 +73,10 @@
 <script src="{{ asset('js/vendor/what-input.js') }}"></script>
 <script src="{{ asset('js/vendor/foundation.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
+<script>
+    window.onload = function() {
+        var input = document.getElementById("userName").focus();
+    }
+</script>
 </body>
 </html>

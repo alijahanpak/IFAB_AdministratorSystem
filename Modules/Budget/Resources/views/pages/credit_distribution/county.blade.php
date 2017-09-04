@@ -1,4 +1,5 @@
-<div class="tabs-panel table-mrg-btm" id="county_tab">
+<div class="tabs-panel table-mrg-btm dynamic-height-level1" id="county_tab">
+    <div id="dynamicParentId1">
     @if(count($cdPlan_rows) > 0)
         <div class="medium-12  bottom-mrg">
             <div class="clearfix border-btm-line ">
@@ -52,7 +53,7 @@
                 </div>
             </div>
             <!--Header End-->
-            <div class="table-contain">
+            <div class="table-contain dynamic-height-level2">
                 <?php $rowColor = 0; ?>
                 @foreach($cdPlan_counties as $cdPlan)
                     <?php
@@ -95,8 +96,8 @@
         @else
                 <!--Panel nothing Insert Start-->
         <div class="column">
-            <div style="height: 200px;" class="card">
-                <div class="card-section text-center" style="margin-top:60px;">
+            <div class="card dynamic-height-notif">
+                <div class="card-section text-center" style="margin-top:40%;">
                     <span>کاربر گرامی، </span><span class="login-txt small-font">ردیف توزیع اعتباری ثبت نشده است!<span><a data-open="CDP_ModalInsert" class="custom-btn-pos my-secondary button tiny">ثبت</a></span></span>
                 </div>
             </div>
@@ -105,3 +106,4 @@
     @endif
 </div>
 <!--Table End-->
+</div>

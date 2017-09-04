@@ -20,9 +20,9 @@
                     </div>
                 </div>
             </div>
-            <div class="grid-x dashboard-padding">
+            <div class="grid-x dashboard-padding dynamic-height-level1">
                 @if(count($subSeasons) > 0)
-                <div class="medium-12 column my-callout">
+                <div id="dynamicParentId1" class="medium-12 column my-callout">
                     <div class="grid-x bottom-mrg">
                         <div class="medium-12">
                             <div class="clearfix border-btm-line">
@@ -66,7 +66,7 @@
                             </div>
                         </div>
                         <!--Header End-->
-                        <div class="table-contain">
+                        <div class="table-contain dynamic-height-level2">
                             <?php $rowColor = 0; ?>
                             @foreach($subSeasons as $subSeason)
                             <div class="grid-x">
@@ -123,8 +123,8 @@
                 @else
                     <!--Panel nothing Insert Start-->
                     <div class="medium-12 column">
-                        <div style="height: 200px;" class="card">
-                            <div class="card-section text-center" style="margin-top:60px;">
+                        <div class="card dynamic-height-notif">
+                            <div class="card-section text-center" style="margin-top:40%;">
                                 <span>کاربر گرامی، </span><span class="login-txt small-font">ریز فصل ثبت نشده است!<span><a data-open="SS_ModalInsert" class="custom-btn-pos my-secondary button tiny">ثبت</a></span></span>
                             </div>
                         </div>
@@ -134,6 +134,5 @@
             </div>
             </div>
         </div>
-
 @stop
 

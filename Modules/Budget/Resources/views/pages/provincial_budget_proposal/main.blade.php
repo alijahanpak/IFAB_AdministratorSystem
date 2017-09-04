@@ -8,15 +8,9 @@
                     <nav aria-label="You are here:" role="navigation">
                         <ul class="breadcrumbs">
                             <li><a href="{{ url('/budget') }}">داشبورد</a></li>
-                            <li>
-                                <span class="show-for-sr">Current: </span>توزیع اعتبار
-                            </li>
-                            <li>
-                                <span class="show-for-sr">Current: </span>تملک داریی های سرمایه ای
-                            </li>
-                            <li>
-                                <span class="show-for-sr">Current: </span>استانی
-                            </li>
+                            <li> <a class="disabled">توزیع اعتبار</a></li>
+                            <li> <a class="disabled">تملک دارایی های سرمایه ای</a></li>
+                            <li> <a class="disabled">استانی</a></li>
                             <li>
                                 <span class="show-for-sr">Current: </span>پیشنهاد دستگاه ها
                             </li>

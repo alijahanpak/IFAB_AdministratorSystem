@@ -714,6 +714,9 @@ html, body {
 .dynamic-height-level3 {
     width: 100%;
 }
+.dynamic-height-notif {
+    width: 100%;
+}
 .my-footer{
     border-top: solid 1px #D8DEE2;
     background-color:#F8F8F8 ;

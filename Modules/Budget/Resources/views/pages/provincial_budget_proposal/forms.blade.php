@@ -1,6 +1,6 @@
 <!--Tab 1 Start-->
 <!--Modal Insert Start-->
-<div style="z-index: 9999;" class="small reveal" id="PBP_ModalInsert" data-reveal data-animation-in="someAnimationIn">
+<div style="z-index: 9999;" class="small reveal" id="PBP_ModalInsert" data-reveal data-animation-in="someAnimationIn fast">
     <div class="modal-margin small-font  padding-lr">
         {!! Form::open(array('id' => 'registerPBPForm' , 'url' => '/budget/credit_distribution/capital_assets/provincial/proposal/register' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}

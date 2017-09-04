@@ -1,4 +1,5 @@
-<div class="tabs-panel table-mrg-btm" id="county">
+<div class="tabs-panel table-mrg-btm dynamic-height-level1" id="county">
+    <div id="">
     @if(\Modules\Budget\Entities\DeprivedArea::isExistCounty() == true)
         <div class="medium-12 bottom-mrg">
             <div class="clearfix border-btm-line ">
@@ -9,6 +10,15 @@
                     <a  class="clear button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
                         <i class="fi-clipboard-notes size-30 secondry-color"></i>
                     </a>
+                </div>
+                <div class="float-right">
+                    <div class="input-group float-left">
+                        <input class="input-group-field small-font" type="text">
+                        <div class="input-group-button">
+                            <button type="button" class="my-secondary button"><i class="fi-magnifying-glass"></i></button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -73,12 +83,13 @@
     @else
     <!--Panel nothing Insert Start-->
         <div class="column">
-            <div style="height: 200px;" class="card">
-                <div class="card-section text-center" style="margin-top:60px;">
+            <div class="card dynamic-height-notif">
+                <div class="card-section text-center" style="margin-top:40%;">
                     <span>کاربر گرامی، </span><span class="login-txt small-font">شهرستان محروم ثبت نشده است!<span><a data-open="modalInsertDeprivedArea" class="custom-btn-pos my-secondary button tiny">ثبت</a></span></span>
                 </div>
             </div>
         </div>
         <!--Panel nothing Insert End-->
     @endif
+</div>
 </div>
