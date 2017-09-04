@@ -57,5 +57,6 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
     ///////////////////////////////////////////////////////////////////////////
     Route::prefix('plan')->group(function () {
         Route::get('capital_assets/plans', 'PlanController@capitalAssetsApprovedPlan');
+        Route::post('capital_assets/plans/register', 'PlanController@registerCapitalAssetsApprovedPlan');
     });
 });
