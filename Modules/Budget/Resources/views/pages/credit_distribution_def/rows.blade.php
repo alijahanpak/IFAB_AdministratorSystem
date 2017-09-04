@@ -1,4 +1,5 @@
-<div class="tabs-panel is-active table-mrg-btm" id="row_tab">
+<div class="tabs-panel is-active table-mrg-btm dynamic-height-level1" id="row_tab">
+    <div id="dynamicParentId1">
     @if(count($creditDRs) > 0)
         <div class="medium-12  bottom-mrg">
             <div class="clearfix border-btm-line ">
@@ -9,6 +10,15 @@
                     <a  class="clear button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
                         <i class="fi-clipboard-notes size-30 secondry-color"></i>
                     </a>
+                </div>
+                <div class="float-right">
+                    <div class="input-group float-left">
+                        <input class="input-group-field small-font" type="text">
+                        <div class="input-group-button">
+                            <button type="button" class="my-secondary button"><i class="fi-magnifying-glass"></i></button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -23,7 +33,7 @@
                 </div>
             </div>
             <!--Header End-->
-            <div class="table-contain">
+            <div class="table-contain dynamic-height-level2">
                 <?php $rowColor = 0; ?>
                 @foreach($creditDRs as $creditDR)
                     <div class="grid-x {{ $rowColor % 2 == 1 ? 'tableRowColor' : '' }} selectAbleRow">
@@ -79,4 +89,5 @@
         </div>
         <!--Panel nothing Insert End-->
     @endif
+    </div>
 </div>

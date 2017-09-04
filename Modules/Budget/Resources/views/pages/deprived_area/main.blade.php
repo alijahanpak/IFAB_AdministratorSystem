@@ -8,30 +8,13 @@
                 <div class="grid-x border-btm-line">
                     <nav aria-label="You are here:" role="navigation">
                         <ul class="breadcrumbs">
-                            <li><a href="#">داشبورد</a></li>
-                            <li>
-                                <span class="show-for-sr">Current: </span>مدیریت
-                            </li>
+                            <li><a href="{{ url('/budget') }}">داشبورد</a></li>
+                            <li> <a class="disabled">مدیریت</a></li>
                             <li>
                                 <span class="show-for-sr">Current: </span>مناطق محروم
                             </li>
                         </ul>
                     </nav>
-                </div>
-            </div>
-        </div>
-        <div class="grid-x my-grid-margin">
-            <div class="medium-12 padding-lr">
-                <div class="clearfix">
-                    <div class="float-left">
-                        <div class="input-group float-left">
-                            <input class="input-group-field small-font" type="text">
-                            <div class="input-group-button">
-                                <button type="button" class="my-secondary button"><i class="fi-magnifying-glass"></i></button>
-                            </div>
-                        </div>
-
-                    </div>
                 </div>
             </div>
         </div>

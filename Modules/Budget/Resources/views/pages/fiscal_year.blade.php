@@ -2,13 +2,13 @@
 @section('content')
     <!--Inner body start-->
     <div class="medium-10 border-right-line inner-body-pad main-margin">
-        <div class="grid-x padding-lr">
-            <div class="medium-12">
+        <div class="grid-x">
+            <div class="medium-12 bottom-mrg">
                 <div class="grid-x border-btm-line">
                     <nav aria-label="You are here:" role="navigation">
                         <ul class="breadcrumbs">
-                            <li><a href="#">داشبورد</a></li>
-                            <li><span class="show-for-sr">Current: </span>مدیریت</li>
+                            <li><a href="{{ url('/budget') }}">داشبورد</a></li>
+                            <li><a class="disabled" href="#">مدیریت</a></li>
                             <li>
                                 <span class="show-for-sr">Current: </span>سال مالی
                             </li>
@@ -19,9 +19,9 @@
         </div>
 
         <div class="grid-x">
-            <div class="medium-12 column">
+            <div id="dynamicParentId1" class="medium-12 column my-callout dynamic-height-level1">
                 <!--Tab 1 Start-->
-                <div class="tabs-panel is-active table-mrg-btm" id="panel1">
+                <div class="tabs-panel is-active table-mrg-btm">
                     <div class="columns">
                         <!--Header Start-->
                         <div class="grid-x table-header">
@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <!--Header End-->
-                        <div class="table-contain">
+                        <div id="dynamicParentId2" class="table-contain dynamic-height-level2">
                             <?php $rowColor = 0; ?>
                             @foreach(\Modules\Admin\Entities\FiscalYear::all() as $fiscalYear)
                                 <div class="grid-x {{ $rowColor % 2 == 1 ? 'tableRowColor' : '' }} selectAbleRow">

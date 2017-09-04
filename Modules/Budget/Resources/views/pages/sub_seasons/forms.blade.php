@@ -1,5 +1,5 @@
 <!--Modal Insert Start-->
-<div style="z-index: 9999;" class="tiny reveal" id="SS_ModalInsert" data-reveal data-animation-in="someAnimationIn">
+<div style="z-index: 9999;" class="tiny reveal" id="SS_ModalInsert" data-reveal data-animation-in="someAnimationIn" data-animation-out="someAnimationOut">
     <div class="modal-margin small-font  padding-lr">
         {!! Form::open(array('id' => 'registerTSForm' , 'url' => '/budget/admin/sub_seasons/register' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}

@@ -1,4 +1,5 @@
-<div class="tabs-panel is-active table-mrg-btm" id="credit_distribution_plan_all_tab">
+<div class="tabs-panel is-active table-mrg-btm dynamic-height-level1" id="credit_distribution_plan_all_tab">
+    <div id="dynamic-height-level1">
     @if(count($cdPlans) > 0)
         <div class="medium-12  bottom-mrg">
             <div class="clearfix border-btm-line ">
@@ -44,7 +45,7 @@
                 </div>
             </div>
             <!--Header End-->
-            <div class="table-contain" id="plansTable">
+            <div class="table-contain dynamic-height-level2" id="plansTable">
                 <?php $rowColor = 0; ?>
                 @foreach($cdPlans as $cdPlan)
                     <?php
@@ -133,12 +134,13 @@
     @else
         <!--Panel nothing Insert Start-->
         <div class="column">
-            <div style="height: 200px;" class="card">
-                <div class="card-section text-center" style="margin-top:60px;">
+            <div class="card dynamic-height-notif">
+                <div class="card-section text-center" style="margin-top:40%;">
                     <span>کاربر گرامی، </span><span class="login-txt small-font">ردیف توزیع اعتباری ثبت نشده است!<span><a data-open="CDP_ModalInsert" class="custom-btn-pos my-secondary button tiny">ثبت</a></span></span>
                 </div>
             </div>
         </div>
         <!--Panel nothing Insert End-->
     @endif
+</div>
 </div>

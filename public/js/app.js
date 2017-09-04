@@ -3,9 +3,9 @@ $(document).foundation()
 function openTableRowAcc(trId , tableContainerId) {
     if ($('#' + trId).css('display') == 'none') {
         $("#" + tableContainerId ).parent().find('div.accordionRow').addClass("display-off");
-        $("#" + trId).removeClass('display-off');
+        $("#" + trId).removeClass('display-off').hide().fadeToggle("1000");
     } else {
-        $('#' + trId).addClass('display-off');
+        $('#' + trId).addClass('display-off').show().fadeToggle("1000");
     }
 }
 
@@ -25,14 +25,26 @@ $(function(){
     res();
 });
 function res() {
-    $('.dynamic-height-level1').css('height',($.w.outerHeight()-230)+'px');
-    var x = $("#dynamicParentId1").parent().height();
-    $('.dynamic-height-level2').css('height',(x-110  )+'px');
-    $('.dynamic-height-level2-2').css('height',(x-110  )+'px');
-    var x1 = $("#dynamicParentId2").parent().height();
-    $('.dynamic-height-level3').css('height',(x1-70  )+'px');
+    var tabHeight = $('.tabs').height();
+    var notifHeight=25;
+    if (tabHeight===undefined) {
+        tabHeight = 0;
+        notifHeight=0;
 
-    $('.dynamic-height-notif').css('height',(x-45  )+'px');
+    }
+
+    var subTabHeight=tabHeight-13;
+
+
+        $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 205 - tabHeight ) + 'px');
+        var x = $("#dynamicParentId1").parent().height();
+        $('.dynamic-height-level2').css('height', (x - 110 -(tabHeight-subTabHeight )  ) + 'px');
+        $('.dynamic-height-level2-2').css('height', (x - 110 -tabHeight-subTabHeight ) + 'px');
+        var x1 = $("#dynamicParentId2").parent().height();
+        $('.dynamic-height-level3').css('height', (x1 - 70 -tabHeight-subTabHeight  ) + 'px');
+
+        $('.dynamic-height-notif').css('height', (x - 40+notifHeight ) + 'px')
+
 }
 
 function datePicker(dateId){

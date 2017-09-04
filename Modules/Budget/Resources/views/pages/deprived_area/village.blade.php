@@ -1,4 +1,5 @@
-<div class="tabs-panel table-mrg-btm" id="village">
+<div class="tabs-panel table-mrg-btm dynamic-height-level1" id="village">
+    <div id="dynamicParentId1">
     @if(\Modules\Budget\Entities\DeprivedArea::isExistVillage())
         <div class="medium-12 bottom-mrg">
             <div class="clearfix border-btm-line ">
@@ -9,6 +10,15 @@
                     <a  class="clear button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
                         <i class="fi-clipboard-notes size-30 secondry-color"></i>
                     </a>
+                </div>
+                <div class="float-right">
+                    <div class="input-group float-left">
+                        <input class="input-group-field small-font" type="text">
+                        <div class="input-group-button">
+                            <button type="button" class="my-secondary button"><i class="fi-magnifying-glass"></i></button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -32,7 +42,7 @@
                 </div>
             </div>
             <!--Header End-->
-            <div class="table-contain">
+            <div class="table-contain dynamic-height-level2">
                 <?php $rowColor = 0; ?>
                 @foreach($dAreas as $dArea)
                     @if($dArea->daCoId != '' && $dArea->daReId != '' && $dArea->daRdId != '' && $dArea->daViId != '')
@@ -93,4 +103,5 @@
         </div>
         <!--Panel nothing Insert End-->
     @endif
+    </div>
 </div>
