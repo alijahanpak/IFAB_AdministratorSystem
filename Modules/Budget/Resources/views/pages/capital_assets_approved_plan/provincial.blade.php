@@ -1,5 +1,6 @@
 <div class="tabs-panel is-active table-mrg-btm dynamic-height-level1" id="provincial">
-    @if(count($provinceCaps) > 0)
+    <div id="dynamicParentId1">
+        @if(count($provinceCaps) > 0)
         <div class="medium-12  bottom-mrg">
             <div class="clearfix border-btm-line ">
                 <div class="button-group float-left report-mrg">
@@ -47,7 +48,7 @@
                 </div>
             </div>
             <!--Header End-->
-            <div class="table-contain" id="provincialCapTable">
+            <div class="table-contain dynamic-height-level2" id="provincialCapTable">
                 <?php $rowColor = 0; ?>
                 @foreach($provinceCaps as $cap)
                     <?php
@@ -145,4 +146,5 @@
             </div>
         <!--Panel nothing Insert End-->
         @endif
+    </div>
 </div>

@@ -1,4 +1,5 @@
 <div class="tabs-panel table-mrg-btm dynamic-height-level1" id="national">
+    <div id="dynamicParentId1">
     @if(count($nationalCaps) > 0)
         <div class="medium-12  bottom-mrg">
             <div class="clearfix border-btm-line ">
@@ -47,7 +48,7 @@
                 </div>
             </div>
             <!--Header End-->
-            <div class="table-contain" id="provincialCapTable">
+            <div class="table-contain dynamic-height-level2" id="provincialCapTable">
                 <?php $rowColor = 0; ?>
                 @foreach($nationalCaps as $ncap)
                     <div class="grid-x {{ $rowColor % 2 == 1 ? 'tableRowColor' : '' }} selectAbleRow">
@@ -108,6 +109,7 @@
                 </div>
             </div>
         </div>
-        <!--Panel nothing Insert End-->
+
     @endif
+</div>
 </div>
