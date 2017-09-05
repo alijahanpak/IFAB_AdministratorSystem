@@ -1,4 +1,5 @@
 <div class="tabs-panel table-mrg-btm dynamic-height-level1" id="national">
+    <div id="dynamicParentId1">
         <div class="medium-12  bottom-mrg">
             <div class="clearfix border-btm-line ">
                 <div class="button-group float-left report-mrg">
@@ -133,4 +134,5 @@
         </div>
         <!--Panel nothing Insert End-->--}}
 
+</div>
 </div>
