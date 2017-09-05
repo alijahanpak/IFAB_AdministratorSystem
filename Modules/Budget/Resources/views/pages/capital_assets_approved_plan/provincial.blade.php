@@ -1,6 +1,5 @@
-
 <div class="tabs-panel is-active table-mrg-btm dynamic-height-level1" id="provincial">
-    @if(count($caps) > 0)
+    @if(count($provinceCaps) > 0)
         <div class="medium-12  bottom-mrg">
             <div class="clearfix border-btm-line ">
                 <div class="button-group float-left report-mrg">
@@ -50,7 +49,7 @@
             <!--Header End-->
             <div class="table-contain" id="provincialCapTable">
                 <?php $rowColor = 0; ?>
-                @foreach($caps as $cap)
+                @foreach($provinceCaps as $cap)
                     <?php
                         $cAmounts = \Modules\Budget\Entities\CdrCap::where('ccCapId' , '=' , $cap->id)->get();
                         $cdRowId = array();
@@ -95,7 +94,7 @@
                                             <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
                                             <div class="grid-x dashboard-padding">
                                                 <div class="medium-6 ">
-                                                    <a href="{{ url('/budget/plan/capital_assets/plans/provincial/delete/' . $cap->id) }}" class="button primary btn-large-w large-offset-3">بله</a>
+                                                    <a href="{{ url('/budget/plan/capital_assets/plans/delete/' . $cap->id) }}" class="button primary btn-large-w large-offset-3">بله</a>
                                                 </div>
                                                 <div class="medium-6">
                                                     <a data-close aria-label="Close modal" class="button primary hollow btn-large-w large-offset-4">خیر</a>

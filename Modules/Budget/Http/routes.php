@@ -57,9 +57,9 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
     ///////////////////////////////////////////////////////////////////////////
     Route::prefix('plan')->group(function () {
         Route::get('capital_assets/plans', 'PlanController@capitalAssetsApprovedPlan');
-        Route::post('capital_assets/plans/provincial/register', 'PlanController@registerProvincialCapitalAssetsApprovedPlan');
-        Route::get('capital_assets/plans/provincial/delete/{capId}', 'PlanController@deleteProvincialCapitalAssetsApprovedPlan');
-        Route::post('capital_assets/plans/provincial/PCAPIsExist', 'PlanController@PCAPIsExist');
-        Route::post('capital_assets/plans/provincial/update', 'PlanController@updateProvincialCapitalAssetsApprovedPlan');
+        Route::post('capital_assets/plans/register', 'PlanController@registerCapitalAssetsApprovedPlan');
+        Route::get('capital_assets/plans/delete/{capId}', 'PlanController@deleteCapitalAssetsApprovedPlan');
+        Route::post('capital_assets/plans/CAPIsExist', 'PlanController@CAPIsExist');
+        Route::post('capital_assets/plans/update', 'PlanController@updateCapitalAssetsApprovedPlan');
     });
 });

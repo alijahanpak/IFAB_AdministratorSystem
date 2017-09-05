@@ -23,6 +23,8 @@ class CreateCapitalAssetsApprovedPlanTable extends Migration
                 $table->string('capLetterNumber');
                 $table->string('capLetterDate');
                 $table->string('capExchangeDate');
+                $table->bigInteger('capTotalAmount')->nullable();
+                $table->boolean('capProvinceOrNational');
                 $table->longText('capDescription')->nullable();
                 $table->timestamps();
 
