@@ -34,7 +34,10 @@
                 <div class="medium-2 table-border">
                     <strong>فصل بودجه</strong>
                 </div>
-                <div class="medium-5 table-border">
+                <div class="medium-2 table-border">
+                    <strong>سطح شهرستان</strong>
+                </div>
+                <div class="medium-3 table-border">
                     <strong>شرح</strong>
                 </div>
             </div>
@@ -46,7 +49,8 @@
                         <div class="medium-2 table-contain-border cell-vertical-center">{{ $creditDP->cdtIdNumber }}</div>
                         <div class="medium-3 table-contain-border cell-vertical-center">{{ $creditDP->cdtSubject }}</div>
                         <div class="medium-2 table-contain-border cell-vertical-center">{{ $creditDP->budgetSeason->bsSubject }}</div>
-                        <div class="medium-5 table-contain-border cell-vertical-center">
+                        <div class="medium-2 table-contain-border cell-vertical-center"></div>
+                        <div class="medium-3 table-contain-border cell-vertical-center">
                             <div class="grid-x">
                                 <div class="medium-11">
                                     {{ $creditDP->cdtDescription }}

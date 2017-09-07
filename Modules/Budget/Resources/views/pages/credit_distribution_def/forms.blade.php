@@ -198,7 +198,7 @@
 
 <!--Tab 3 Start-->
 <!--Modal Insert Start-->
-<div style="z-index: 9999;" class="tiny reveal" id="CDPT_ModalInsert" data-reveal>
+<div style="z-index: 9999;" class="small reveal" id="CDPT_ModalInsert" data-reveal>
     <div class="modal-margin small-font  padding-lr">
         {!! Form::open(array('id' => 'registerCDPTForm' , 'url' => '/budget/admin/credit_distribution_def/plan_title/register' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}
@@ -210,7 +210,7 @@
             </div>
         </div>
         <div class="grid-x">
-            <div class="medium-12 cell">
+            <div class="medium-6 cell padding-lr">
                 <label>فصل بودجه
                     <select name="cdptSelectSeason" id="cdptSelectSeason" required>
                         <option value=""></option>
@@ -221,9 +221,7 @@
                 </label>
                 <span class="form-error error-font" data-form-error-for="cdptSelectSeason">فصل بودجه را انتخاب کنید!</span>
             </div>
-        </div>
-        <div class="grid-x">
-            <div class="small-12 columns">
+            <div class="small-6 columns padding-lr">
                 <label>شماره طرح
                     <input type="text" name="cdptIdNumber" id="cdptIdNumber" required pattern="text">
                     <span class="form-error font-wei">لطفا شماره طرح مورد نظر را وارد نمایید!</span>
@@ -231,7 +229,7 @@
             </div>
         </div>
         <div class="grid-x">
-            <div class="small-12 columns">
+            <div class="small-12 columns padding-lr">
                 <label>عنوان طرح
                     <input type="text" name="cdptSubject" id="cdptSubject" required pattern="text">
                     <span class="form-error font-wei">لطفا عنوان طرح مورد نظر را وارد نمایید!</span>
@@ -239,12 +237,64 @@
             </div>
         </div>
         <div class="grid-x">
-            <div class="small-12 columns">
+            <div style="padding-left: 14px;margin-bottom: 10px;" class="medium-12 column ">
+                <ul style="margin-right: 0;" class="vertical menu accordion-menu" data-accordion-menu>
+                    <li>
+                        <a href="#">سطح شهرستان</a>
+                        <ul class="vertical nested">
+                        <div class="grid-x">
+                            <div class="medium-12 column my-callout">
+                                <div class="grid-x">
+                            <div class="medium-4 padding-lr">
+                                <label>همدان
+                                    <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
+                                </label>
+                            </div>
+                            <div class="medium-8 padding-lr">
+                                <label>شرح
+                                    <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
+                                </label>
+                            </div>
+
+                            <div class="medium-4 padding-lr">
+                                <label>همدان
+                                    <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
+                                </label>
+                            </div>
+                            <div class="medium-8 padding-lr">
+                                <label>شرح
+                                    <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
+                                </label>
+                            </div>
+
+                            <div class="medium-4 padding-lr">
+                                <label>همدان
+                                    <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
+                                </label>
+                            </div>
+                            <div class="medium-8 padding-lr">
+                                <label>شرح
+                                    <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
+                                </label>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="grid-x">
+            <div class="small-12 columns padding-lr">
                 <label>شرح
                     <textarea name="cdptDescription" id="cdptDescription" style="min-height: 150px;"></textarea>
                 </label>
             </div>
         </div>
+        <div class="grid-x">
+            <div class="medium-12 column padding-lr">
         <button name="cdptFormSubmit" onmouseover="setCDPTCheckExistUrl('{{ url('/budget/admin/credit_distribution_def/plan_title/CDPTIsExist') }}')" type="submit" class="my-secondary button float-left btn-for-load"><span style="margin-left: 3px;">  ثبت</span><i id="cdptRegisterSubmitActivityCircle">
                 <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
                     <div></div>
@@ -257,6 +307,8 @@
                     <div></div>
                 </div>
             </i> </button>
+            </div>
+        </div>
         {!! Form::close() !!}
     </div>
     <button class="close-button" data-close aria-label="Close modal" type="button">
@@ -265,7 +317,7 @@
 </div>
 <!--Modal Insert End-->
 <!--Modal update Start-->
-<div style="z-index: 9999;" class="tiny reveal" id="CDPT_ModalUpdate" data-reveal>
+<div style="z-index: 9999;" class="small reveal" id="CDPT_ModalUpdate" data-reveal>
     <div class="modal-margin small-font  padding-lr">
         {!! Form::open(array('id' => 'updateCDPTForm' , 'url' => '/budget/admin/credit_distribution_def/plan_title/update' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}
@@ -278,7 +330,7 @@
             </div>
             <input type="hidden" name="cdptId" id="cdptId_u">
             <div class="grid-x">
-                <div class="medium-12 cell">
+                <div class="medium-6 cell padding-lr">
                     <label>فصل بودجه
                         <select name="cdptSelectSeason" id="cdptSelectSeason_u" required>
                             <option value=""></option>
@@ -289,9 +341,7 @@
                     </label>
                     <span class="form-error error-font" data-form-error-for="cdptSelectSeason_u">فصل بودجه را انتخاب کنید!</span>
                 </div>
-            </div>
-            <div class="grid-x">
-                <div class="small-12 columns">
+                <div class="small-6 columns padding-lr">
                     <label>شماره طرح
                         <input type="text" name="cdptIdNumber" id="cdptIdNumber_u" required pattern="text">
                         <span class="form-error font-wei">لطفا شماره طرح مورد نظر را وارد نمایید!</span>
@@ -299,20 +349,73 @@
                 </div>
             </div>
             <div class="grid-x">
-                <div class="small-12 columns">
+
+                <div class="small-12 columns padding-lr">
                     <label>عنوان طرح
                         <input type="text" name="cdptSubject" id="cdptSubject_u" required pattern="text">
                         <span class="form-error font-wei">لطفا عنوان طرح مورد نظر را وارد نمایید!</span>
                     </label>
                 </div>
             </div>
+        <div class="grid-x">
+            <div style="padding-left: 14px;margin-bottom: 10px;" class="medium-12 column padding-lr">
+                <ul style="margin-right: 0;" class="vertical menu accordion-menu" data-accordion-menu>
+                    <li>
+                        <a href="#">سطح شهرستان</a>
+                        <ul class="vertical nested">
+                            <div class="grid-x">
+                                <div class="medium-12 column my-callout">
+                                    <div class="grid-x">
+                                        <div class="medium-4 padding-lr">
+                                            <label>همدان
+                                                <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
+                                            </label>
+                                        </div>
+                                        <div class="medium-8 padding-lr">
+                                            <label>شرح
+                                                <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
+                                            </label>
+                                        </div>
+
+                                        <div class="medium-4 padding-lr">
+                                            <label>همدان
+                                                <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
+                                            </label>
+                                        </div>
+                                        <div class="medium-8 padding-lr">
+                                            <label>شرح
+                                                <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
+                                            </label>
+                                        </div>
+
+                                        <div class="medium-4 padding-lr">
+                                            <label>همدان
+                                                <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
+                                            </label>
+                                        </div>
+                                        <div class="medium-8 padding-lr">
+                                            <label>شرح
+                                                <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
             <div class="grid-x">
-                <div class="small-12 columns">
+                <div class="small-12 columns padding-lr">
                     <label>شرح
                         <textarea name="cdptDescription" id="cdptDescription_u" style="min-height: 150px;"></textarea>
                     </label>
                 </div>
             </div>
+        <div class="grid-x">
+            <div class="medium-12 column padding-lr">
             <button name="cdptUpFormSubmit" onmouseover="setCDPTCheckExistUrl('{{ url('/budget/admin/credit_distribution_def/plan_title/CDPTIsExist') }}')" type="submit" class="my-secondary button float-left btn-for-load"><span style="margin-left: 3px;">  ثبت</span><i id="cdptUpdateSubmitActivityCircle">
                     <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
                         <div></div>
@@ -325,6 +428,8 @@
                         <div></div>
                     </div>
                 </i> </button>
+            </div>
+        </div>
         {!! Form::close() !!}
     </div>
     <button class="close-button" data-close aria-label="Close modal" type="button">
