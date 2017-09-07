@@ -64,4 +64,16 @@ function datePicker(dateId){
         format: 'YYYY/MM/DD'
     });
 }
+///////////////// get table contain scroll-bar width and sed to table header///////////
+$(document).ready(function () {
+    var scrollDiv = document.createElement("div");
+    scrollDiv.className = "table-contain";
+    document.body.appendChild(scrollDiv);
+// Get the scrollbar width
+    var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+    console.warn(scrollbarWidth); // Mac:  15
+// Delete the DIV
+    document.body.removeChild(scrollDiv);
+    $('.table-header').css('margin-left',(scrollbarWidth - 2)+'px');
+});
 

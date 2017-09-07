@@ -18,6 +18,8 @@ class CreateCreditDistributionTitlesTable extends Migration
                 $table->increments('id');
                 $table->integer('cdtUId')->length(10)->unsigned();
                 $table->integer('cdtBsId')->length(10)->unsigned();
+                $table->integer('cdtCoId')->length(10)->unsigned()->nullable();
+                $table->integer('cdtCdtId')->length(10)->unsigned()->nullable();
                 $table->string('cdtIdNumber')->unique();
                 $table->string('cdtSubject');
                 $table->longText('cdtDescription')->nullable();
