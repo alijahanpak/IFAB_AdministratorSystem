@@ -34,21 +34,19 @@ function res() {
     if (tabHeight===undefined) {
         tabHeight = 0;
         notifHeight=0;
-
     }
-
+    if ($('.vertical-tab').length > 0)
+    {
+        tabHeight = 10;
+    }
     var subTabHeight=tabHeight-13;
-
-
-        $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 205 - tabHeight ) + 'px');
-        var x = $("#dynamicParentId1").parent().height();
-        $('.dynamic-height-level2').css('height', (x - 110 -(tabHeight-subTabHeight )  ) + 'px');
-        $('.dynamic-height-level2-2').css('height', (x - 110 -tabHeight-subTabHeight ) + 'px');
-        var x1 = $("#dynamicParentId2").parent().height();
-        $('.dynamic-height-level3').css('height', (x1 - 70 -tabHeight-subTabHeight  ) + 'px');
-
-        $('.dynamic-height-notif').css('height', (x - 40+notifHeight ) + 'px')
-
+    $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 205 - tabHeight ) + 'px');
+    var x = $("#dynamicParentId1").parent().height();
+    $('.dynamic-height-level2').css('height', (x - 110 -(tabHeight-subTabHeight )  ) + 'px');
+    $('.dynamic-height-level2-2').css('height', (x - 110 -tabHeight-subTabHeight ) + 'px');
+    var x1 = $("#dynamicParentId2").parent().height();
+    $('.dynamic-height-level3').css('height', (x1 - 70 -tabHeight-subTabHeight  ) + 'px');
+    $('.dynamic-height-notif').css('height', (x - 40+notifHeight ) + 'px')
 }
 
 function datePicker(dateId){
@@ -61,7 +59,8 @@ function datePicker(dateId){
         altFormat: 'LLLL',
         initialValue: false,
         observer: true,
-        format: 'YYYY/MM/DD'
+        format: 'YYYY/MM/DD',
+        autoClose: true
     });
 }
 ///////////////// get table contain scroll-bar width and sed to table header///////////

@@ -46,7 +46,7 @@
                 </div>
                 <div  class="grid-x">
                     <div class="medium-1 columns my-tab-attribute dynamic-height-level2">
-                        <ul class="vertical tabs" data-tabs id="provincial_budget_proposal_tab_view" data-deep-link="true" data-update-history="true" data-deep-link-smudge="true" data-deep-link-smudge="500">
+                        <ul class="vertical tabs vertical-tab" data-tabs id="provincial_budget_proposal_tab_view" data-deep-link="true" data-update-history="true" data-deep-link-smudge="true" data-deep-link-smudge="500">
                             <?php
                                 $isFirst = true;
                                 $rowIndex = 0;
