@@ -1,5 +1,4 @@
 [type="text"],[type="password"]{
-    border-radius: 3px;
     line-height: 1px;
     }
 [type="text"]:focus,[type="password"]:focus,textarea:focus,select:focus{
@@ -734,4 +733,12 @@ html, body {
 }
 .footer-margin{
     margin-right: 238px;
+}
+.my-menu-accordion{
+    padding: 4px 4px 0 4px;
+    margin-bottom: 15px;
+    margin-top: 10px;
+}
+.my-menu-accordion:last-child{
+    margin-bottom: 20px;
 }
