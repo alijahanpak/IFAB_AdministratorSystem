@@ -240,44 +240,28 @@
             <div style="padding-left: 14px;margin-bottom: 10px;" class="medium-12 column ">
                 <ul style="margin-right: 0;" class="vertical menu accordion-menu" data-accordion-menu>
                     <li>
-                        <a href="#">سطح شهرستان</a>
+                        <a href="#">کد طرح در سطح شهرستان</a>
                         <ul class="vertical nested">
                         <div class="grid-x">
                             <div class="medium-12 column my-callout">
                                 <div class="grid-x">
-                            <div class="medium-4 padding-lr">
-                                <label>همدان
-                                    <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
-                                </label>
-                            </div>
-                            <div class="medium-8 padding-lr">
-                                <label>شرح
-                                    <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
-                                </label>
-                            </div>
-
-                            <div class="medium-4 padding-lr">
-                                <label>همدان
-                                    <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
-                                </label>
-                            </div>
-                            <div class="medium-8 padding-lr">
-                                <label>شرح
-                                    <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
-                                </label>
-                            </div>
-
-                            <div class="medium-4 padding-lr">
-                                <label>همدان
-                                    <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
-                                </label>
-                            </div>
-                            <div class="medium-8 padding-lr">
-                                <label>شرح
-                                    <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
-                                </label>
-                            </div>
-                            </div>
+                                    @foreach(\Modules\Admin\Entities\County::all() as $county)
+                                        <div class="medium-4 padding-lr">
+                                            <label>{{ $county->coName }}
+                                                <div class="input-group">
+                                                    <input class="input-group-field" type="text" name="cdptCounty{{ $county->id }}" id="cdptCounty{{ $county->id }}">
+                                                    <span class="input-group-label" style="padding-right: 4px;padding-left: 4px">-</span>
+                                                    <span class="input-group-label" style="padding-right: 2px;padding-left: 2px">1704002</span>
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div class="medium-8 padding-lr">
+                                            <label>شرح
+                                                <input type="text" name="cdptCountyDesc{{ $county->id }}" id="cdptCountyDesc{{ $county->id }}">
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                         </ul>

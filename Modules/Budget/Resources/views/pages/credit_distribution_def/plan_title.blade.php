@@ -1,5 +1,6 @@
 <div class="tabs-panel table-mrg-btm dynamic-height-level1" id="plan_title_tab">
     <div id="dynamic-height-level1">
+    {{ '078' . 'ه' . '1704002' }}
     @if(count($creditDPs) > 0)
         <div class="medium-12 bottom-mrg">
             <div class="clearfix border-btm-line ">
