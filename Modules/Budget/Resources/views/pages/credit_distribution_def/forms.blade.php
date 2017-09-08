@@ -197,6 +197,14 @@
 <!--Modal update End-->
 
 <!--Tab 3 Start-->
+<?php
+    $counties = \Modules\Admin\Entities\County::all();
+    $planCodeLabelId = array();
+    foreach ($counties as $county)
+        {
+            $planCodeLabelId[] = 'cdptPlanCodeLabel' . $county->id;
+        }
+?>
 <!--Modal Insert Start-->
 <div style="z-index: 9999;" class="small reveal" id="CDPT_ModalInsert" data-reveal>
     <div class="modal-margin small-font  padding-lr">
@@ -222,9 +230,9 @@
                 <span class="form-error error-font" data-form-error-for="cdptSelectSeason">فصل بودجه را انتخاب کنید!</span>
             </div>
             <div class="small-6 columns padding-lr">
-                <label>شماره طرح
-                    <input type="text" name="cdptIdNumber" id="cdptIdNumber" required pattern="text">
-                    <span class="form-error font-wei">لطفا شماره طرح مورد نظر را وارد نمایید!</span>
+                <label>کد طرح
+                    <input oninput="setPrivincePlanCode({{ json_encode($planCodeLabelId) }} , this)" type="text" name="cdptIdNumber" id="cdptIdNumber" required pattern="number">
+                    <span class="form-error font-wei">لطفا کد طرح مورد نظر را وارد نمایید!</span>
                 </label>
             </div>
         </div>
@@ -237,38 +245,38 @@
             </div>
         </div>
         <div class="grid-x">
-            <div style="padding-left: 14px;margin-bottom: 10px;" class="medium-12 column ">
-                <ul style="margin-right: 0;" class="vertical menu accordion-menu" data-accordion-menu>
-                    <li>
-                        <a href="#">کد طرح در سطح شهرستان</a>
-                        <ul class="vertical nested">
-                        <div class="grid-x">
-                            <div class="medium-12 column my-callout">
-                                <div class="grid-x">
-                                    @foreach(\Modules\Admin\Entities\County::all() as $county)
-                                        <div class="medium-4 padding-lr">
-                                            <label>{{ $county->coName }}
-                                                <div class="input-group">
-                                                    <input class="input-group-field" type="text" name="cdptCounty{{ $county->id }}" id="cdptCounty{{ $county->id }}">
-                                                    <span class="input-group-label" style="padding-right: 4px;padding-left: 4px">-</span>
-                                                    <span class="input-group-label" style="padding-right: 2px;padding-left: 2px">1704002</span>
-                                                </div>
-                                            </label>
-                                        </div>
-                                        <div class="medium-8 padding-lr">
-                                            <label>شرح
-                                                <input type="text" name="cdptCountyDesc{{ $county->id }}" id="cdptCountyDesc{{ $county->id }}">
-                                            </label>
-                                        </div>
-                                    @endforeach
+            <div class="medium-12 column padding-lr">
+                <ul class="accordion" data-accordion data-allow-all-closed="true" style="margin-bottom: 0">
+                    <li class="accordion-item" data-accordion-item>
+                        <a href="#" class="accordion-title">کد طرح در سطح شهرستان</a>
+                        <!-- Accordion tab content: it would start in the open state due to using the `is-active` state class. -->
+                        <div class="accordion-content" data-tab-content>
+                            <div class="grid-x">
+                                <div class="medium-12 column">
+                                    <div class="grid-x">
+                                        @foreach($counties as $county)
+                                            <div class="medium-4 padding-lr">
+                                                <label>{{ $county->coName }}
+                                                    <div class="input-group">
+                                                        <input class="input-group-field text-left" type="text" name="cdptCounty{{ $county->id }}" id="cdptCounty{{ $county->id }}" autocomplete="off">
+                                                        <span class="input-group-label" style="padding-right: 4px;padding-left: 4px">{{ \Modules\Admin\Entities\PublicSetting::getProvincePlanLebel() }}</span>
+                                                        <span class="input-group-label" style="padding-right: 2px;padding-left: 2px" id="cdptPlanCodeLabel{{ $county->id }}">--</span>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                            <div class="medium-8 padding-lr">
+                                                <label>شرح
+                                                    <input type="text" name="cdptCountyDesc{{ $county->id }}" id="cdptCountyDesc{{ $county->id }}">
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        </ul>
                     </li>
                 </ul>
             </div>
-
         </div>
         <div class="grid-x">
             <div class="small-12 columns padding-lr">
@@ -326,9 +334,9 @@
                     <span class="form-error error-font" data-form-error-for="cdptSelectSeason_u">فصل بودجه را انتخاب کنید!</span>
                 </div>
                 <div class="small-6 columns padding-lr">
-                    <label>شماره طرح
-                        <input type="text" name="cdptIdNumber" id="cdptIdNumber_u" required pattern="text">
-                        <span class="form-error font-wei">لطفا شماره طرح مورد نظر را وارد نمایید!</span>
+                    <label>کد طرح
+                        <input type="text" name="cdptIdNumber" id="cdptIdNumber_u" required pattern="number">
+                        <span class="form-error font-wei">لطفا کد طرح مورد نظر را وارد نمایید!</span>
                     </label>
                 </div>
             </div>

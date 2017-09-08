@@ -8,4 +8,9 @@ class PublicSetting extends Model
 {
     protected $table = 'tbl_public_setting';
     protected $fillable = [];
+
+    public static function getProvincePlanLebel()
+    {
+        return PublicSetting::first()->psProvincePlanLabel;
+    }
 }

@@ -1,6 +1,5 @@
 <div class="tabs-panel table-mrg-btm dynamic-height-level1" id="plan_title_tab">
     <div id="dynamic-height-level1">
-    {{ '078' . 'ه' . '1704002' }}
     @if(count($creditDPs) > 0)
         <div class="medium-12 bottom-mrg">
             <div class="clearfix border-btm-line ">
@@ -43,14 +42,16 @@
                 </div>
             </div>
             <!--Header End-->
-            <div class="table-contain dynamic-height-level2">
+            <div class="table-contain dynamic-height-level2" id="planTitleTable">
                 <?php $rowColor = 0; ?>
                 @foreach($creditDPs as $creditDP)
                     <div class="grid-x {{ $rowColor % 2 == 1 ? 'tableRowColor' : '' }} selectAbleRow">
                         <div class="medium-2 table-contain-border cell-vertical-center">{{ $creditDP->cdtIdNumber }}</div>
                         <div class="medium-3 table-contain-border cell-vertical-center">{{ $creditDP->cdtSubject }}</div>
                         <div class="medium-2 table-contain-border cell-vertical-center">{{ $creditDP->budgetSeason->bsSubject }}</div>
-                        <div class="medium-2 table-contain-border cell-vertical-center"></div>
+                        <div class="medium-2 table-contain-border cell-vertical-center">
+                            <a onclick="openTableRowAcc('privincePlanCodes{{ $creditDP->id }}' , 'planTitleTable')">مشاهده</a>
+                        </div>
                         <div class="medium-3 table-contain-border cell-vertical-center">
                             <div class="grid-x">
                                 <div class="medium-11">
@@ -85,6 +86,28 @@
                                     <!--Modal Delete End-->
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div id="privincePlanCodes{{ $creditDP->id }}" class="grid-x display-off {{ $rowColor % 2 == 1 ? 'tableRowColor' : '' }} accordionRow">
+                        <div class="medium-12 table-contain-border horizontal-scroll">
+                            <table class="unstriped tbl-secondary-mrg small-font">
+                                <thead class="my-thead">
+                                <tr class="{{ $rowColor % 2 == 1 ? 'tableRowColor' : '' }}" style="background-color: #F1F1F1 !important;">
+                                    <th>شهرستان</th>
+                                    <th>کد</th>
+                                    <th>شرح</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach(\Modules\Budget\Entities\CreditDistributionTitle::where('cdtCdtId' , '=' , $creditDP->id)->get() as $cdt_p)
+                                        <tr>
+                                            <td>{{ $cdt_p->county->coName }}</td>
+                                            <td>{{ $cdt_p->cdtIdNumber }}</td>
+                                            <td>{{ $cdt_p->cdtDescription }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <?php $rowColor++; ?>

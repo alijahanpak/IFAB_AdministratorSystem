@@ -409,3 +409,10 @@ $(document).ready(function () {
     ////////////////////////////////////////////////////////
 });
 
+function setPrivincePlanCode(labelsId , planCodeId) {
+    for (var i=0; i < labelsId.length ; i++)
+    {
+        $('#' + labelsId[i]).text(planCodeId.value != '' ? planCodeId.value : '--');
+    }
+}
+

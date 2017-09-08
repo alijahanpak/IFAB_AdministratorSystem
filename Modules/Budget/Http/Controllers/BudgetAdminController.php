@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\Rules\In;
 use Modules\Admin\Entities\County;
 use Modules\Admin\Entities\FiscalYear;
+use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\Season;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Admin\Entities\Village;
@@ -65,7 +66,7 @@ class BudgetAdminController extends Controller
     {
         $creditDRs = CreditDistributionRow::all();
         $bSeasons = BudgetSeason::all();
-        $creditDPs = CreditDistributionTitle::all();
+        $creditDPs = CreditDistributionTitle::where('cdtCoId' , '=' , null)->where('cdtCdtId' , '=' , null)->get();
         return view('budget::pages.credit_distribution_def.main' ,
             ['pageTitle' => 'تعاریف توزیع اعتبار' ,
                 'creditDRs' => $creditDRs ,
@@ -346,6 +347,24 @@ class BudgetAdminController extends Controller
         $cdpt->cdtDescription = Input::get('cdptDescription');
         $cdpt->save();
 
+        $counties = County::all();
+        foreach ($counties as $county)
+        {
+            if (Input::get('cdptCounty' . $county->id) != '')
+            {
+                $cdpt_co = new CreditDistributionTitle;
+                $cdpt_co->cdtUId = Auth::user()->id;
+                $cdpt_co->cdtBsId = Input::get('cdptSelectSeason');
+                $cdpt_co->cdtIdNumber = Input::get('cdptCounty' . $county->id) . PublicSetting::getProvincePlanLebel() . Input::get('cdptIdNumber');
+                $cdpt_co->cdtSubject = Input::get('cdptSubject');
+                $cdpt_co->cdtDescription = Input::get('cdptCountyDesc' . $county->id);
+                $cdpt_co->cdtCoId = $county->id;
+                $cdpt_co->cdtCdtId = $cdpt->id;
+                $cdpt_co->save();
+                SystemLog::setBudgetSubSystemAdminLog('تعریف عنوان طرح توزیع اعتبار در سطح شهرستان ' . $county->coName);
+            }
+        }
+
         SystemLog::setBudgetSubSystemAdminLog('تعریف طرح توزیع اعتبار با عنوان ' . Input::get('cdptSubject'));
         return Redirect::to(URL::previous() . '#plan_title_tab');
     }
@@ -395,9 +414,12 @@ class BudgetAdminController extends Controller
 
     public function deletePlanTitle($cdptId)
     {
-        $cdpt = CreditDistributionTitle::find($cdptId);
         try {
-            $logTemp = BudgetSeason::find($cdptId);
+            $logTemp = CreditDistributionTitle::find($cdptId);
+            CreditDistributionTitle::where('cdtCdtId' , '=' , $cdptId)->delete();
+            SystemLog::setBudgetSubSystemAdminLog('حذف عنوان طرح توزیع اعتبار در سطح شهرستان با عنوان ' . $logTemp->cdptSubject);
+
+            $cdpt = CreditDistributionTitle::find($cdptId);
             $cdpt->delete();
             SystemLog::setBudgetSubSystemAdminLog('حذف عنوان طرح توزیع اعتبار ' . $logTemp->cdptSubject);
             return Redirect::to(URL::previous() . '#plan_title_tab');
