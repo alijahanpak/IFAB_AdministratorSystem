@@ -16,12 +16,18 @@ function BSUpdateDialogOpen(budgetAdminAjaxUri , subject , description , bsId) {
     }, 10);
 }
 
-function CDPTUpdateDialogOpen(budgetAdminAjaxUri , bsId , idNumber , subject , description , cdptId) {
+function CDPTUpdateDialogOpen(planCodeLabelId_u , cdtCounty , coLabel , bsId , idNumber , subject , description , cdptId) {
     $('#cdptSelectSeason_u').val(bsId);
     $('#cdptIdNumber_u').val(idNumber);
     $('#cdptSubject_u').val(subject);
     $('#cdptDescription_u').val(description);
     $('#cdptId_u').val(cdptId);
+    setPrivincePlanCode(planCodeLabelId_u , 'cdptIdNumber_u');
+    for (var i=0 ;i <cdtCounty.length ; i++)
+    {
+        $('#cdptCounty' + cdtCounty[i].cdtCoId + '_u').val(((cdtCounty[i].cdtIdNumber).split(coLabel + idNumber))[0]);
+        $('#cdptCountyDesc' + cdtCounty[i].cdtCoId + '_u').val(cdtCounty[i].cdtDescription);
+    }
     setTimeout(function () {
         $('#CDPT_ModalUpdate').foundation('toggle');
     }, 10);
@@ -412,7 +418,7 @@ $(document).ready(function () {
 function setPrivincePlanCode(labelsId , planCodeId) {
     for (var i=0; i < labelsId.length ; i++)
     {
-        $('#' + labelsId[i]).text(planCodeId.value != '' ? planCodeId.value : '--');
+        $('#' + labelsId[i]).text($('#' + planCodeId).val() != '' ? $('#' + planCodeId).val() : '--');
     }
 }
 

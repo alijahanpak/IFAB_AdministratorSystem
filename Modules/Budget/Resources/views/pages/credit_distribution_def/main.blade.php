@@ -17,6 +17,16 @@
                     </div>
                 </div>
             </div>
+            <?php
+            $counties = \Modules\Admin\Entities\County::all();
+            $planCodeLabelId = array();
+            $planCodeLabelId_u = array();
+            foreach ($counties as $county)
+            {
+                $planCodeLabelId[] = 'cdptPlanCodeLabel' . $county->id;
+                $planCodeLabelId_u[] = 'cdptPlanCodeLabel' . $county->id . '_u';
+            }
+            ?>
             @include('budget::pages.credit_distribution_def.forms')
             <div class="grid-x dashboard-padding">
                 <div class="medium-12 column">

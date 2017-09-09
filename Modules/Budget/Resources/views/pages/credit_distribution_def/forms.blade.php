@@ -195,16 +195,7 @@
     </button>
 </div>
 <!--Modal update End-->
-
 <!--Tab 3 Start-->
-<?php
-    $counties = \Modules\Admin\Entities\County::all();
-    $planCodeLabelId = array();
-    foreach ($counties as $county)
-        {
-            $planCodeLabelId[] = 'cdptPlanCodeLabel' . $county->id;
-        }
-?>
 <!--Modal Insert Start-->
 <div style="z-index: 9999;" class="small reveal" id="CDPT_ModalInsert" data-reveal>
     <div class="modal-margin small-font  padding-lr">
@@ -231,7 +222,7 @@
             </div>
             <div class="small-6 columns padding-lr">
                 <label>کد طرح
-                    <input oninput="setPrivincePlanCode({{ json_encode($planCodeLabelId) }} , this)" type="text" name="cdptIdNumber" id="cdptIdNumber" required pattern="number">
+                    <input oninput="setPrivincePlanCode({{ json_encode($planCodeLabelId) }} , this.id)" type="text" name="cdptIdNumber" id="cdptIdNumber" required pattern="number">
                     <span class="form-error font-wei">لطفا کد طرح مورد نظر را وارد نمایید!</span>
                 </label>
             </div>
@@ -308,6 +299,7 @@
     </button>
 </div>
 <!--Modal Insert End-->
+
 <!--Modal update Start-->
 <div style="z-index: 9999;" class="small reveal" id="CDPT_ModalUpdate" data-reveal>
     <div class="modal-margin small-font  padding-lr">
@@ -335,7 +327,7 @@
                 </div>
                 <div class="small-6 columns padding-lr">
                     <label>کد طرح
-                        <input type="text" name="cdptIdNumber" id="cdptIdNumber_u" required pattern="number">
+                        <input oninput="setPrivincePlanCode({{ json_encode($planCodeLabelId_u) }} , this.id)" type="text" name="cdptIdNumber" id="cdptIdNumber_u" required pattern="number">
                         <span class="form-error font-wei">لطفا کد طرح مورد نظر را وارد نمایید!</span>
                     </label>
                 </div>
@@ -349,56 +341,40 @@
                     </label>
                 </div>
             </div>
-        <div class="grid-x">
-            <div style="padding-left: 14px;margin-bottom: 10px;" class="medium-12 column padding-lr">
-                <ul style="margin-right: 0;" class="vertical menu accordion-menu" data-accordion-menu>
-                    <li>
-                        <a href="#">سطح شهرستان</a>
-                        <ul class="vertical nested">
-                            <div class="grid-x">
-                                <div class="medium-12 column my-callout">
-                                    <div class="grid-x">
-                                        <div class="medium-4 padding-lr">
-                                            <label>همدان
-                                                <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
-                                            </label>
-                                        </div>
-                                        <div class="medium-8 padding-lr">
-                                            <label>شرح
-                                                <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
-                                            </label>
-                                        </div>
-
-                                        <div class="medium-4 padding-lr">
-                                            <label>همدان
-                                                <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
-                                            </label>
-                                        </div>
-                                        <div class="medium-8 padding-lr">
-                                            <label>شرح
-                                                <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
-                                            </label>
-                                        </div>
-
-                                        <div class="medium-4 padding-lr">
-                                            <label>همدان
-                                                <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
-                                            </label>
-                                        </div>
-                                        <div class="medium-8 padding-lr">
-                                            <label>شرح
-                                                <input type="text" name="cdptSubject" id="cdptSubject" pattern="text">
-                                            </label>
+            <div class="grid-x">
+                <div class="medium-12 column padding-lr">
+                    <ul class="accordion" data-accordion data-allow-all-closed="true" style="margin-bottom: 0">
+                        <li class="accordion-item" data-accordion-item>
+                            <a href="#" class="accordion-title">کد طرح در سطح شهرستان</a>
+                            <!-- Accordion tab content: it would start in the open state due to using the `is-active` state class. -->
+                            <div class="accordion-content" data-tab-content>
+                                <div class="grid-x">
+                                    <div class="medium-12 column">
+                                        <div class="grid-x">
+                                            @foreach($counties as $county)
+                                                <div class="medium-4 padding-lr">
+                                                    <label>{{ $county->coName }}
+                                                        <div class="input-group">
+                                                            <input class="input-group-field text-left" type="text" name="cdptCounty{{ $county->id }}" id="cdptCounty{{ $county->id }}_u" autocomplete="off">
+                                                            <span class="input-group-label" style="padding-right: 4px;padding-left: 4px">{{ \Modules\Admin\Entities\PublicSetting::getProvincePlanLebel() }}</span>
+                                                            <span class="input-group-label" style="padding-right: 2px;padding-left: 2px" id="cdptPlanCodeLabel{{ $county->id }}_u">--</span>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                                <div class="medium-8 padding-lr">
+                                                    <label>شرح
+                                                        <input type="text" name="cdptCountyDesc{{ $county->id }}" id="cdptCountyDesc{{ $county->id }}_u">
+                                                    </label>
+                                                </div>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </ul>
-                    </li>
-                </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
-
-        </div>
             <div class="grid-x">
                 <div class="small-12 columns padding-lr">
                     <label>شرح
