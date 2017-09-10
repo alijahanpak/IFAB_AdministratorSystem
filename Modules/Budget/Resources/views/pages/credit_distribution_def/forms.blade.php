@@ -1,6 +1,6 @@
 <!--Tab 1 Start-->
 <!--Modal Insert Start-->
-<div style="z-index: 9999;" class="tiny reveal" id="CDR_ModalInsert" data-reveal>
+<div style="z-index: 9999;" class="tiny reveal" id="CDR_ModalInsert" data-reveal data-animation-in="slide-in-down fast bounce">
     <div class="modal-margin small-font  padding-lr">
         {!! Form::open(array('id' => 'registerCDRForm' , 'url' => '/budget/admin/credit_distribution_def/rows/register' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}
@@ -48,7 +48,7 @@
 </div>
 <!--Modal Insert End-->
 <!--Modal update Start-->
-<div style="z-index: 9999;" class="tiny reveal" id="CDR_ModalUpdate" data-reveal>
+<div style="z-index: 9999;" class="tiny reveal" id="CDR_ModalUpdate" data-reveal data-animation-in="slide-in-down fast bounce">
     <div class="modal-margin small-font  padding-lr">
         {!! Form::open(array('id' => 'updateCDRForm' , 'url' => '/budget/admin/credit_distribution_def/rows/update' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}
@@ -99,7 +99,7 @@
 
 <!--Tab 2 Start-->
 <!--Modal Insert Start-->
-<div style="z-index: 9999;" class="tiny reveal" id="BS_ModalInsert" data-reveal>
+<div style="z-index: 9999;" class="tiny reveal" id="BS_ModalInsert" data-reveal data-animation-in="slide-in-down fast bounce">
     <div class="modal-margin small-font  padding-lr">
         {!! Form::open(array('id' => 'registerBSForm' , 'url' => '/budget/admin/credit_distribution_def/budget_season/register' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}
@@ -147,7 +147,7 @@
 </div>
 <!--Modal Insert End-->
 <!--Modal update Start-->
-<div style="z-index: 9999;" class="tiny reveal" id="BS_ModalUpdate" data-reveal>
+<div style="z-index: 9999;" class="tiny reveal" id="BS_ModalUpdate" data-reveal data-animation-in="slide-in-down fast bounce">
     <div class="modal-margin small-font  padding-lr">
         {!! Form::open(array('id' => 'updateBSForm' , 'url' => '/budget/admin/credit_distribution_def/budget_season/update' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}
@@ -194,11 +194,17 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
+{{--
 <!--Modal update End-->
 <!--Tab 3 Start-->
 <!--Modal Insert Start-->
+<<<<<<< HEAD
 <div style="z-index: 9999;" class="small reveal" id="CDPT_ModalInsert" data-reveal>
     <div class="modal-margin small-font padding-lr">
+=======
+<div style="z-index: 9999;" class="small reveal" id="CDPT_ModalInsert" data-reveal data-animation-in="slide-in-down fast bounce">
+    <div class="modal-margin small-font  padding-lr">
+>>>>>>> 5dab15d89dd0fa13f4a454df5db95f32719d9324
         {!! Form::open(array('id' => 'registerCDPTForm' , 'url' => '/budget/admin/credit_distribution_def/plan_title/register' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}
         <div class="grid-x" id="CDPT_existErrorInRegForm" style="display: none">
@@ -301,8 +307,13 @@
 <!--Modal Insert End-->
 
 <!--Modal update Start-->
+<<<<<<< HEAD
 <div style="z-index: 9999;" class="small reveal" id="CDPT_ModalUpdate" data-reveal>
     <div class="modal-margin small-font padding-lr">
+=======
+<div style="z-index: 9999;" class="small reveal" id="CDPT_ModalUpdate" data-reveal data-animation-in="slide-in-down fast bounce">
+    <div class="modal-margin small-font  padding-lr">
+>>>>>>> 5dab15d89dd0fa13f4a454df5db95f32719d9324
         {!! Form::open(array('id' => 'updateCDPTForm' , 'url' => '/budget/admin/credit_distribution_def/plan_title/update' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}
             <div class="grid-x" id="CDPT_existErrorInUpForm" style="display: none">
@@ -404,4 +415,4 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<!--Modal update End-->
+<!--Modal update End-->--}}

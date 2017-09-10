@@ -75,4 +75,5 @@ $(document).ready(function () {
     document.body.removeChild(scrollDiv);
     $('.table-header').css('margin-left',(scrollbarWidth - 2)+'px');
 });
+///////////////////////////////////////////////////////////////////
 
