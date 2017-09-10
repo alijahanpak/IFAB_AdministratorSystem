@@ -237,7 +237,7 @@
         </div>
         <div class="grid-x">
             <div class="medium-12 column padding-lr">
-                <ul class="accordion" data-accordion data-allow-all-closed="true" style="margin-bottom: 0">
+                <ul class="accordion" data-accordion data-allow-all-closed="true">
                     <li class="accordion-item" data-accordion-item>
                         <a href="#" class="accordion-title">کد طرح در سطح شهرستان</a>
                         <!-- Accordion tab content: it would start in the open state due to using the `is-active` state class. -->
@@ -267,6 +267,11 @@
                         </div>
                     </li>
                 </ul>
+            </div>
+        </div>
+        <div class="grid-x">
+            <div class="small-12 columns padding-lr">
+                <span class="form-error font-wei" id="CDPT_duplicateErro">لطفا در وارد کردن کد طرح دقت کنید - کد تکراری!</span>
             </div>
         </div>
         <div class="grid-x">
@@ -343,7 +348,7 @@
             </div>
             <div class="grid-x">
                 <div class="medium-12 column padding-lr">
-                    <ul class="accordion" data-accordion data-allow-all-closed="true" style="margin-bottom: 0">
+                    <ul class="accordion" data-accordion data-allow-all-closed="true">
                         <li class="accordion-item" data-accordion-item>
                             <a href="#" class="accordion-title">کد طرح در سطح شهرستان</a>
                             <!-- Accordion tab content: it would start in the open state due to using the `is-active` state class. -->
@@ -373,6 +378,11 @@
                             </div>
                         </li>
                     </ul>
+                </div>
+            </div>
+            <div class="grid-x">
+                <div class="small-12 columns padding-lr">
+                    <span class="form-error font-wei" id="CDPT_duplicateErro_u">لطفا در وارد کردن کد طرح دقت کنید - کد تکراری!</span>
                 </div>
             </div>
             <div class="grid-x">

@@ -4,7 +4,7 @@
         <div class="medium-12 bottom-mrg">
             <div class="clearfix border-btm-line ">
                 <div class="button-group float-left report-mrg">
-                    <a  class="clear button"  data-open="CDPT_ModalInsert"  type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
+                    <a  class="clear button" onclick="checkDublicateCode({{ json_encode($planCodeId) }})"  data-open="CDPT_ModalInsert"  type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
                         <i class="fi-plus size-30 secondry-color"></i>
                     </a>
                     <a  class="clear button" type="button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
@@ -61,7 +61,7 @@
                                     <a class="dropdown small sm-btn-align display-off"  type="button" data-toggle="cdptActionDropdown{{ $creditDP->id }}"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="cdptActionDropdown{{ $creditDP->id }}" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font text-right">
-                                            <li><a data-open="preloaderModal"  onclick="CDPTUpdateDialogOpen({{ json_encode($planCodeLabelId_u) }} , {{ json_encode(\Modules\Budget\Entities\CreditDistributionTitle::where('cdtCdtId' , $creditDP->id)->get()) }} , '{{ \Modules\Admin\Entities\PublicSetting::getProvincePlanLebel() }}' , '{{ $creditDP->cdtBsId }}' , '{{ $creditDP->cdtIdNumber }}' , '{{ $creditDP->cdtSubject }}' , '{{ $creditDP->cdtDescription }}' , '{{ $creditDP->id }}')"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                            <li><a data-open="preloaderModal"  onclick="checkDublicateCode({{ json_encode($planCodeId_u) }});CDPTUpdateDialogOpen({{ json_encode($planCodeLabelId_u) }} , {{ json_encode(\Modules\Budget\Entities\CreditDistributionTitle::where('cdtCdtId' , $creditDP->id)->get()) }} , '{{ \Modules\Admin\Entities\PublicSetting::getProvincePlanLebel() }}' , '{{ $creditDP->cdtBsId }}' , '{{ $creditDP->cdtIdNumber }}' , '{{ $creditDP->cdtSubject }}' , '{{ $creditDP->cdtDescription }}' , '{{ $creditDP->id }}')"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
                                             <li><a data-open="CDPT_modalDelete{{ $creditDP->id }}"><i class="fi-trash size-16"></i>  حذف</a></li>
                                         </ul>
                                     </div>
