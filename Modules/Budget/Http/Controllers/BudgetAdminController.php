@@ -23,6 +23,7 @@ use Modules\Budget\Entities\CreditDistributionTitle;
 use Modules\Budget\Entities\DeprivedArea;
 use Modules\Budget\Entities\FyPermissionInBudget;
 use Modules\Budget\Entities\TinySeason;
+use Ramsey\Uuid\Uuid;
 
 class BudgetAdminController extends Controller
 {
@@ -412,12 +413,12 @@ class BudgetAdminController extends Controller
         $counties = County::all();
         foreach ($counties as $county)
         {
-            $cdtP = CreditDistributionTitle::where('cdtCdtId' , $cdpt->id)->where('cdtCoId' , $county->id);
+            $cdtP = CreditDistributionTitle::where('cdtCdtId' , $cdpt->id);
             if (Input::get('cdptCounty' . $county->id) != '')
             {
                 if ($cdtP->where('cdtIdNumber' , '=' , Input::get('cdptCounty' . $county->id) . PublicSetting::getProvincePlanLebel() . Input::get('cdptIdNumber'))->exists())
                 {
-
+                    $cdtP->where('cdtIdNumber' , '=' , Input::get('cdptCounty' . $county->id) . PublicSetting::getProvincePlanLebel() . Input::get('cdptIdNumber'))->update(['cdtIdNumber' => Uuid::uuid4() . Auth::user()->id]);
                 }
                 CreditDistributionTitle::updateOrCreate(['cdtCdtId' => Input::get('cdptId') , 'cdtCoId' => $county->id] , ['cdtUId' => Auth::user()->id,
                     'cdtBsId' => Input::get('cdptSelectSeason'),
@@ -428,9 +429,9 @@ class BudgetAdminController extends Controller
                     'cdtCdtId' => $cdpt->id]);
                 SystemLog::setBudgetSubSystemAdminLog('تغییر عنوان طرح توزیع اعتبار در سطح شهرستان ' . $county->coName);
             }
-            elseif($cdtP->exists()){
+            else if($cdtP->where('cdtCoId' , $county->id)->exists()){
                 try {
-                    $cdtP->delete();
+                    $cdtP->where('cdtCoId' , $county->id)->delete();
                     SystemLog::setBudgetSubSystemAdminLog('حذف عنوان طرح توزیع اعتبار ' . $county->coName);
                 }
                 catch (\Illuminate\Database\QueryException $e) {

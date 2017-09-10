@@ -426,3 +426,14 @@ function setPrivincePlanCode(labelsId , planCodeId) {
     }
 }
 
+function pPlanCodeValidate(planCodeId) {
+    for (var i=0;i<planCodeId.length - 1;i++)
+    {
+        for (var j=i + 1;j<planCodeId.length;j++)
+        {
+            if ($('#' + planCodeId[i]).val() == $('#' + planCodeId[j]).val())
+                return false;
+        }
+    }
+}
+
