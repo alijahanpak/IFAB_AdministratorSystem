@@ -198,7 +198,7 @@
 <!--Tab 3 Start-->
 <!--Modal Insert Start-->
 <div style="z-index: 9999;" class="small reveal" id="CDPT_ModalInsert" data-reveal>
-    <div class="modal-margin small-font  padding-lr">
+    <div class="modal-margin small-font padding-lr">
         {!! Form::open(array('id' => 'registerCDPTForm' , 'url' => '/budget/admin/credit_distribution_def/plan_title/register' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}
         <div class="grid-x" id="CDPT_existErrorInRegForm" style="display: none">
@@ -302,11 +302,11 @@
 
 <!--Modal update Start-->
 <div style="z-index: 9999;" class="small reveal" id="CDPT_ModalUpdate" data-reveal>
-    <div class="modal-margin small-font  padding-lr">
+    <div class="modal-margin small-font padding-lr">
         {!! Form::open(array('id' => 'updateCDPTForm' , 'url' => '/budget/admin/credit_distribution_def/plan_title/update' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}
             <div class="grid-x" id="CDPT_existErrorInUpForm" style="display: none">
-                <div class="medium-12 columns">
+                <div class="medium-12 columns padding-lr">
                     <div class="alert callout">
                         <p class="BYekan login-alert"><i class="fi-alert"></i>عنوان طرح با این مشخصات قبلا ثبت شده است!</p>
                     </div>
@@ -363,7 +363,7 @@
                                                 </div>
                                                 <div class="medium-8 padding-lr">
                                                     <label>شرح
-                                                        <input type="text" name="cdptCountyDesc{{ $county->id }}" id="cdptCountyDesc{{ $county->id }}_u">
+                                                        <input class="countyPlanCode" type="text" name="cdptCountyDesc{{ $county->id }}" id="cdptCountyDesc{{ $county->id }}_u">
                                                     </label>
                                                 </div>
                                             @endforeach

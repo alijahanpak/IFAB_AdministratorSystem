@@ -391,6 +391,8 @@ $(document).ready(function () {
         $('#cdptIdNumber').val('');
         $('#cdptSubject').val('');
         $('#cdptDescription').val('');
+        $('input.input-group-field').val('');
+        $('input.countyPlanCode').val('');
         $('#CDPT_existErrorInRegForm').hide();
     });
 
@@ -399,6 +401,8 @@ $(document).ready(function () {
         $('#cdptIdNumber_u').val('');
         $('#cdptSubject_u').val('');
         $('#cdptDescription_u').val('');
+        $('input.input-group-field').val('');
+        $('input.countyPlanCode').val('');
         $('#CDPT_existErrorInUpForm').hide();
     });
 

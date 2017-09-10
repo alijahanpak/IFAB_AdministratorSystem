@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
@@ -375,7 +376,7 @@ class BudgetAdminController extends Controller
         {
             if ($cdptId == null)
             {
-                if (CreditDistributionTitle::where('cdtIdNumber' , '=' , $cdptIdNumber)->orWhere('cdtSubject' , '=' , $cdptSubject)->exists())
+                if (CreditDistributionTitle::where('cdtIdNumber' , '=' , $cdptIdNumber)->exists())
                 {
                     return \Illuminate\Support\Facades\Response::json(['exist' => true]);
                 }
@@ -385,8 +386,7 @@ class BudgetAdminController extends Controller
                 }
             }
             else{
-                if ((CreditDistributionTitle::where('id' , '<>' , $cdptId)->where('cdtIdNumber' , '=' , $cdptIdNumber)->exists()) ||
-                    (CreditDistributionTitle::where('id' , '<>' , $cdptId)->Where('cdtSubject' , '=' , $cdptSubject)->exists()))
+                if (CreditDistributionTitle::where('id' , '<>' , $cdptId)->where('cdtIdNumber' , '=' , $cdptIdNumber)->exists())
                 {
                     return \Illuminate\Support\Facades\Response::json(['exist' => true]);
                 }
@@ -402,12 +402,41 @@ class BudgetAdminController extends Controller
     {
         $old = CreditDistributionTitle::find(Input::get('cdptId'));
         $cdpt = CreditDistributionTitle::find(Input::get('cdptId'));
-        $cdpt->cdtSubject = Input::get('cdptSubject');
-        $cdpt->cdtIdNumber = Input::get('cdptIdNumber');
+        $cdpt->cdtUId = Auth::user()->id;
         $cdpt->cdtBsId = Input::get('cdptSelectSeason');
+        $cdpt->cdtIdNumber = Input::get('cdptIdNumber');
+        $cdpt->cdtSubject = Input::get('cdptSubject');
         $cdpt->cdtDescription = Input::get('cdptDescription');
         $cdpt->save();
 
+        $counties = County::all();
+        foreach ($counties as $county)
+        {
+            $cdtP = CreditDistributionTitle::where('cdtCdtId' , $cdpt->id)->where('cdtCoId' , $county->id);
+            if (Input::get('cdptCounty' . $county->id) != '')
+            {
+                if ($cdtP->where('cdtIdNumber' , '=' , Input::get('cdptCounty' . $county->id) . PublicSetting::getProvincePlanLebel() . Input::get('cdptIdNumber'))->exists())
+                {
+
+                }
+                CreditDistributionTitle::updateOrCreate(['cdtCdtId' => Input::get('cdptId') , 'cdtCoId' => $county->id] , ['cdtUId' => Auth::user()->id,
+                    'cdtBsId' => Input::get('cdptSelectSeason'),
+                    'cdtIdNumber' => Input::get('cdptCounty' . $county->id) . PublicSetting::getProvincePlanLebel() . Input::get('cdptIdNumber'),
+                    'cdtSubject' => Input::get('cdptSubject'),
+                    'cdtDescription' => Input::get('cdptCountyDesc' . $county->id),
+                    'cdtCoId' => $county->id,
+                    'cdtCdtId' => $cdpt->id]);
+                SystemLog::setBudgetSubSystemAdminLog('تغییر عنوان طرح توزیع اعتبار در سطح شهرستان ' . $county->coName);
+            }
+            elseif($cdtP->exists()){
+                try {
+                    $cdtP->delete();
+                    SystemLog::setBudgetSubSystemAdminLog('حذف عنوان طرح توزیع اعتبار ' . $county->coName);
+                }
+                catch (\Illuminate\Database\QueryException $e) {
+                }
+            }
+        }
         SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان طرح توزیع اعتبار (' . $old->cdtSubject . ') به (' . $cdpt->cdtSubject . ')');
         return Redirect::to(URL::previous() . '#plan_title_tab');
     }
