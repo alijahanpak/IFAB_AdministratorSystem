@@ -1,4 +1,4 @@
-<div style="z-index: 9999;" class="tiny reveal" id="modalInsertDeprivedArea" data-reveal data-animation-in="someAnimationIn">
+<div style="z-index: 9999;" class="tiny reveal" id="modalInsertDeprivedArea" data-reveal data-animation-in="slide-in-down fast bounce">
     <div class="modal-margin">
         {!! Form::open(array('id' => 'registerDAForm' , 'url' => '/budget/admin/deprived_area/register' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}
@@ -71,7 +71,7 @@
     </button>
 </div>
 {{--/////////////////////////////update form/////////////////////////////--}}
-<div style="z-index: 9999;" class="tiny reveal" id="modalUpdateDeprivedArea" data-reveal data-animation-in="someAnimationIn">
+<div style="z-index: 9999;" class="tiny reveal" id="modalUpdateDeprivedArea" data-reveal data-animation-in="slide-in-down fast bounce">
     <div  class="modal-margin">
         {!! Form::open(array('id' => 'updateDAForm' , 'url' => '/budget/admin/deprived_area/update' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}

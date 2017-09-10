@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{$pageTitle}}</title>
+    <link rel="icon" type="image/png" href="{{ asset('pic\logom.jpg') }}">
     <link rel="stylesheet" href="{{ asset('css/foundation.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font.css') }}">
@@ -90,7 +91,7 @@
         <div id="leftmenuinner" style="background-color: #F8F8F8;z-index: 995;" class="medium-2 cell small-font">
             <div  id="leftmenuinnerinner ">
                 <nav class="accordion"  data-margin-top="4.2">
-                    <ul class="vertical menu sub-menu accordion-menu" data-accordion-menu >
+                    <ul class="vertical menu sub-menu accordion-menu" data-accordion-menu data-multi-open="false" >
                         <li>
                             <a class="right-menu-btm-border" href="#">توزیع اعتبار</a>
                             <ul class="menu vertical nested">

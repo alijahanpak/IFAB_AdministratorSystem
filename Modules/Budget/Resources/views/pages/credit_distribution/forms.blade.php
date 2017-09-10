@@ -1,5 +1,5 @@
 <!--Modal Insert Start-->
-<div style="z-index: 9999;" class="small reveal" id="CDP_ModalInsert" data-reveal data-animation-in="someAnimationIn">
+<div style="z-index: 9999;" class="small reveal" id="CDP_ModalInsert" data-reveal data-animation-in="slide-in-down fast bounce">
     <div class="modal-margin small-font  padding-lr">
         {!! Form::open(array('id' => 'registerCDPForm' , 'url' => '/budget/credit_distribution/capital_assets/provincial/plans/register' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}
@@ -84,7 +84,7 @@
 </div>
 <!--Modal Insert End-->
 <!--Modal update Start-->
-<div style="z-index: 9999;" class="small reveal" id="CDP_ModalUpdate" data-reveal data-animation-in="someAnimationIn">
+<div style="z-index: 9999;" class="small reveal" id="CDP_ModalUpdate" data-reveal data-animation-in="slide-in-down fast bounce">
     <div class="modal-margin small-font  padding-lr">
         {!! Form::open(array('id' => 'updateCDPForm' , 'url' => '/budget/credit_distribution/capital_assets/provincial/plans/update' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}
