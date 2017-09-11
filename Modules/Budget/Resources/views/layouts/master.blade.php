@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{{ asset('css/key.css') }}">
     <script src="{{ asset('js/Chart.js') }}"></script>
 </head>
-<body  class="BYekan" style="background-color: #F7F7F7">
+<body  class="BYekan">
 
     <!--chart1 Modal Start-->
     <div style="z-index: 9999;" class="large reveal" id="exampleModal1" data-reveal>

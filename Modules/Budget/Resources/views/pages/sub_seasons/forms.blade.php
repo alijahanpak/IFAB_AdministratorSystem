@@ -20,7 +20,7 @@
                             @endforeach
                         </select>
                     </label>
-                    <span class="form-error error-font" data-form-error-for="cdpTitle">طرح توزیع اعتبار را انتخاب کنید!</span>
+                    <span class="form-error error-font" data-form-error-for="sId">فصل را انتخاب کنید!</span>
                 </div>
             </div>
             <div class="grid-x">
@@ -83,7 +83,7 @@
                             @endforeach
                         </select>
                     </label>
-                    <span class="form-error error-font" data-form-error-for="cdpTitle">فصل را انتخاب کنید!</span>
+                    <span class="form-error error-font" data-form-error-for="sId_u">فصل را انتخاب کنید!</span>
                 </div>
             </div>
             <div class="grid-x">
