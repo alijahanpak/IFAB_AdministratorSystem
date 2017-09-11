@@ -744,3 +744,7 @@ html, body {
 .my-menu-accordion:last-child{
     margin-bottom: 20px;
 }
+
+.dropdown-text-indent{
+    text-indent: 1rem;
+}

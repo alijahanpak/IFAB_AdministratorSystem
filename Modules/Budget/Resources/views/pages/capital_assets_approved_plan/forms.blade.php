@@ -11,29 +11,19 @@
                 </div>
             </div>
         </div>
-        <input type="hidden" name="capProvinceOrNational" id="capProvinceOrNational" value="0">
+        <input type="hidden" name="capProvinceOrNational" id="capProvinceOrNational">
         <div class="grid-x">
             <div class="medium-12 cell padding-lr">
                 <label>طرح
                     <select name="capPtitle" id="capPtitle" onchange="" required>
                         <option value=""></option>
                         @foreach(\Modules\Budget\Entities\CreditDistributionTitle::all() as $pTitle)
-                            <option value="{{ $pTitle->id }}">{{ $pTitle->cdtIdNumber . ' - ' . $pTitle->cdtSubject }}</option>
+                            <option class="{{ $pTitle->cdtCdtId == null ? 'black-color' : 'dropdown-text-indent' }}" value="{{ $pTitle->id }}">{{ $pTitle->cdtIdNumber . ' - ' . $pTitle->cdtSubject . ($pTitle->cdtCdtId != null ? ' - شهرستان ' . $pTitle->county->coName : '') }}</option>
                         @endforeach
                     </select>
                 </label>
                 <span class="form-error error-font" data-form-error-for="capPtitle">طرح را انتخاب کنید!</span>
             </div>
-        </div>
-        <div class="grid-x">
-            @foreach(\Modules\Budget\Entities\CreditDistributionRow::all() as $cdRow)
-                <div class="medium-4 columns padding-lr">
-                    <label>{{ $cdRow->cdSubject }}
-                        <input type="text" name="capCdRow{{ $cdRow->id }}" id="capCdRow{{ $cdRow->id }}" autocomplete="off" required pattern="number">
-                    </label>
-                    <span class="form-error error-font" data-form-error-for="capCdRow{{ $cdRow->id }}">عنوان یک فراموش شده است!</span>
-                </div>
-            @endforeach
         </div>
         <div class="grid-x">
             <div class="medium-6 columns padding-lr">
@@ -86,7 +76,6 @@
     </button>
 </div>
 <!--Modal Insert End-->
-
 <!--Modal update Start-->
 <div style="z-index: 9999;" class="small reveal" id="CAP_ModalUpdate" data-reveal data-animation-in="slide-in-down fast bounce">
     <div class="modal-margin small-font  padding-lr">
@@ -107,22 +96,12 @@
                         <select name="capPtitle" id="capPtitle_u" onchange="" required>
                             <option value=""></option>
                             @foreach(\Modules\Budget\Entities\CreditDistributionTitle::all() as $pTitle)
-                                <option value="{{ $pTitle->id }}">{{ $pTitle->cdtIdNumber . ' - ' . $pTitle->cdtSubject }}</option>
+                                <option class="{{ $pTitle->cdtCdtId == null ? 'black-color' : 'dropdown-text-indent' }}" value="{{ $pTitle->id }}">{{ $pTitle->cdtIdNumber . ' - ' . $pTitle->cdtSubject . ($pTitle->cdtCdtId != null ? ' - شهرستان ' . $pTitle->county->coName : '') }}</option>
                             @endforeach
                         </select>
                     </label>
                     <span class="form-error error-font" data-form-error-for="capPtitle_u">طرح را انتخاب کنید!</span>
                 </div>
-            </div>
-            <div class="grid-x">
-                @foreach(\Modules\Budget\Entities\CreditDistributionRow::all() as $cdRow)
-                    <div class="medium-4 columns padding-lr">
-                        <label>{{ $cdRow->cdSubject }}
-                            <input type="text" name="capCdRow{{ $cdRow->id }}" id="capCdRow{{ $cdRow->id }}_u" autocomplete="off" required pattern="number">
-                        </label>
-                        <span class="form-error error-font" data-form-error-for="capCdRow{{ $cdRow->id }}_u">عنوان یک فراموش شده است!</span>
-                    </div>
-                @endforeach
             </div>
             <div class="grid-x">
                 <div class="medium-6 columns padding-lr">

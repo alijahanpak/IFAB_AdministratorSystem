@@ -37,7 +37,7 @@ class PlanController extends Controller
         $cap->capUId = Auth::user()->id;
         $cap->capCdtId = Input::get('capPtitle');
         $cap->capFyId = Auth::user()->seFiscalYear;
-        $cap->capPtId = Input::get('capPlanType');
+        //$cap->capPtId = Input::get('capPlanType');
         $cap->capLetterNumber = Input::get('capLetterNumber');
 
         $cap->capLetterDate = Input::get('capLetterDate');
@@ -45,27 +45,6 @@ class PlanController extends Controller
         $cap->capProvinceOrNational = Input::get('capProvinceOrNational');
         $cap->capDescription = Input::get('capDescription');
         $cap->save();
-
-        $sum = 0;
-        if (Input::get('capProvinceOrNational') == 0)
-        {
-
-            foreach (CreditDistributionRow::all() as $cdRow)
-            {
-                $cdrCap = new CdrCap;
-                $cdrCap->ccUId = Auth::user()->id;
-                $cdrCap->ccCdrId = $cdRow->id;
-                $cdrCap->ccCapId = $cap->id;
-                $cdrCap->ccAmount = AmountUnit::convertInputAmount(Input::get('capCdRow' . $cdRow->id));
-                $sum += $cdrCap->ccAmount;
-                $cdrCap->save();
-            }
-        }
-        else{
-            $sum = AmountUnit::convertInputAmount(Input::get('capTotalAmount'));
-        }
-
-        CapitalAssetsApprovedPlan::where('id' , $cap->id)->update(['capTotalAmount' => $sum]);
 
         SystemLog::setBudgetSubSystemLog('ثبت طرح تملک داریی های سرمایه ای استانی');
         return Redirect::to(URL::previous() . '#provincial');
@@ -75,10 +54,9 @@ class PlanController extends Controller
     {
         $cap = CapitalAssetsApprovedPlan::find($capId);
         try {
-            CdrCap::where('ccCapId' , '=' , $capId)->delete();
             $logTemp = $cap->creditDistributionTitle->cdtSubject;
             $cap->delete();
-            SystemLog::setBudgetSubSystemLog('حذف طرح مصوب استانی ' . $logTemp);
+            SystemLog::setBudgetSubSystemLog('حذف طرح مصوب تملک داریی های سرمایه ای ' . $logTemp);
             return Redirect::to(URL::previous() . '#provincial');
         }
         catch (\Illuminate\Database\QueryException $e) {
@@ -125,30 +103,13 @@ class PlanController extends Controller
         $cap = CapitalAssetsApprovedPlan::find(Input::get('capId'));
         $cap->capUId = Auth::user()->id;
         $cap->capCdtId = Input::get('capPtitle');
-        $cap->capPtId = Input::get('capPlanType');
         $cap->capLetterNumber = Input::get('capLetterNumber');
-
         $cap->capLetterDate = Input::get('capLetterDate');
         $cap->capExchangeDate = Input::get('capExchangeDate');
         $cap->capDescription = Input::get('capDescription');
         $cap->save();
 
-        $sum = 0;
-        if (Input::get('capProvinceOrNational') == 0) {
-            foreach (CreditDistributionRow::all() as $cdRow) {
-                CdrCap::where('ccCapId', '=', Input::get('capId'))->where('ccCdrId', '=', $cdRow->id)
-                    ->update(['ccAmount' => AmountUnit::convertInputAmount(Input::get('capCdRow' . $cdRow->id)),
-                        'ccUId' => Auth::user()->id]);
-
-                $sum += AmountUnit::convertInputAmount(Input::get('capCdRow' . $cdRow->id));
-            }
-        }
-        else{
-            $sum = AmountUnit::convertInputAmount(Input::get('capTotalAmount'));
-        }
-
-        CapitalAssetsApprovedPlan::where('id' , $cap->id)->update(['capTotalAmount' => $sum]);
-        SystemLog::setBudgetSubSystemLog('تغییر در طرح تملک داریی های سرمایه ای استانی');
+        SystemLog::setBudgetSubSystemLog('تغییر در طرح تملک داریی های سرمایه ای ');
         return Redirect::to(URL::previous() . '#provincial');
     }
 }

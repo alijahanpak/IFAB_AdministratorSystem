@@ -20,7 +20,6 @@ class RedirectIfAuthenticated
         if (Auth::guest()) {
             return redirect('/login');
         }
-
         return $next($request);
     }
 }
