@@ -197,7 +197,7 @@
 <!--Modal update End-->
 <!--Tab 3 Start-->
 <!--Modal Insert Start-->
-<div style="z-index: 9999;" class="small reveal" id="CDPT_ModalInsert" data-reveal>
+<div style="z-index: 9999;" class="small reveal" id="CDPT_ModalInsert" data-reveal data-animation-in="slide-in-down fast bounce">
     <div class="modal-margin small-font padding-lr">
         {!! Form::open(array('id' => 'registerCDPTForm' , 'url' => '/budget/admin/credit_distribution_def/plan_title/register' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}
@@ -330,7 +330,7 @@
                     </label>
                     <span class="form-error error-font" data-form-error-for="cdptSelectSeason_u">فصل بودجه را انتخاب کنید!</span>
                 </div>
-                <div class="small-6 columns padding-lr">
+                <div class="medium-6 columns padding-lr">
                     <label>کد طرح
                         <input oninput="setPrivincePlanCode({{ json_encode($planCodeLabelId_u) }} , this.id)" type="text" name="cdptIdNumber" id="cdptIdNumber_u" required pattern="number">
                         <span class="form-error font-wei">لطفا کد طرح مورد نظر را وارد نمایید!</span>
@@ -338,7 +338,6 @@
                 </div>
             </div>
             <div class="grid-x">
-
                 <div class="small-12 columns padding-lr">
                     <label>عنوان طرح
                         <input type="text" name="cdptSubject" id="cdptSubject_u" required pattern="text">
@@ -392,22 +391,23 @@
                     </label>
                 </div>
             </div>
-        <div class="grid-x">
-            <div class="medium-12 column padding-lr">
-            <button name="cdptUpFormSubmit" onmouseover="setCDPTCheckExistUrl('{{ url('/budget/admin/credit_distribution_def/plan_title/CDPTIsExist') }}')" type="submit" class="my-secondary button float-left btn-for-load"><span style="margin-left: 3px;">  ثبت</span><i id="cdptUpdateSubmitActivityCircle">
-                    <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
-                </i> </button>
+            <div class="grid-x">
+                <div class="medium-12 column padding-lr">
+                <button name="cdptUpFormSubmit" onmouseover="setCDPTCheckExistUrl('{{ url('/budget/admin/credit_distribution_def/plan_title/CDPTIsExist') }}')" type="submit" class="my-secondary button float-left btn-for-load"><span style="margin-left: 3px;">  ثبت</span><i id="cdptUpdateSubmitActivityCircle">
+                        <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </i>
+                </button>
+                </div>
             </div>
-        </div>
         {!! Form::close() !!}
     </div>
     <button class="close-button" data-close aria-label="Close modal" type="button">

@@ -1,6 +1,6 @@
 <!--Tab 1 Start-->
 <!--Modal Insert Start-->
-<div style="z-index: 9999;" class="small reveal" id="PBP_ModalInsert" data-reveal data-animation-in="someAnimationIn fast">
+<div style="z-index: 9999;" class="small reveal" id="PBP_ModalInsert" data-reveal data-animation-in="slide-in-down fast bounce">
     <div class="modal-margin small-font  padding-lr">
         {!! Form::open(array('id' => 'registerPBPForm' , 'url' => '/budget/credit_distribution/capital_assets/provincial/proposal/register' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}
@@ -96,7 +96,7 @@
 <!--Modal Insert End-->
 
 <!--Modal update Start-->
-<div style="z-index: 9999;" class="small reveal" id="PBP_ModalUpdate" data-reveal>
+<div style="z-index: 9999;" class="small reveal" id="PBP_ModalUpdate" data-reveal data-animation-in="slide-in-down fast bounce">
     <div class="modal-margin small-font  padding-lr">
         {!! Form::open(array('id' => 'updatePBPForm' , 'url' => '/budget/credit_distribution/capital_assets/provincial/proposal/update' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}

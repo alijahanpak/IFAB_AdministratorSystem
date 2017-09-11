@@ -51,9 +51,9 @@
                                     <div class="medium-2 table-contain-border cell-vertical-center">{{ \Modules\Admin\Entities\FiscalYear::getFYStatus($fiscalYear->fyStatus) }}</div>
                                     <div class="medium-2 table-contain-border cell-vertical-center text-center">
                                         @if($fiscalYear->fyStatus != 0)
-                                            <a href="#" data-open="modalPermission{{ $fiscalYear->fyLabel }}"><i class="fi-clipboard-pencil size-21 blue-color"></i> </a>
+                                            <a data-open="modalPermission{{ $fiscalYear->fyLabel }}"><i class="fi-clipboard-pencil size-21 blue-color"></i> </a>
                                             <!--Modal Permission Start-->
-                                            <div style="z-index: 9999;" class="large reveal" id="modalPermission{{ $fiscalYear->fyLabel }}" data-reveal data-animation-in="someAnimationIn">
+                                            <div style="z-index: 9999;" class="large reveal" id="modalPermission{{ $fiscalYear->fyLabel }}" data-reveal data-animation-in="slide-in-down fast bounce">
                                                 <div class="modal-margin small-font">
                                                     <div class="grid-x">
                                                         <div class="medium-12 column">

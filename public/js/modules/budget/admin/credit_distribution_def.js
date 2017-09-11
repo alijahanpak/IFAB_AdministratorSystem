@@ -17,7 +17,7 @@ function BSUpdateDialogOpen(budgetAdminAjaxUri , subject , description , bsId) {
 }
 
 var cdtCoIds;
-function CDPTUpdateDialogOpen(planCodeLabelId_u , cdtCounty , coLabel , bsId , idNumber , subject , description , cdptId) {
+function CDPTUpdateDialogOpen(planCodeId , planCodeLabelId_u , cdtCounty , coLabel , bsId , idNumber , subject , description , cdptId) {
     $('#cdptSelectSeason_u').val(bsId);
     $('#cdptIdNumber_u').val(idNumber);
     $('#cdptSubject_u').val(subject);
@@ -29,6 +29,7 @@ function CDPTUpdateDialogOpen(planCodeLabelId_u , cdtCounty , coLabel , bsId , i
         $('#cdptCounty' + cdtCounty[i].cdtCoId + '_u').val(((cdtCounty[i].cdtIdNumber).split(coLabel + idNumber))[0]);
         $('#cdptCountyDesc' + cdtCounty[i].cdtCoId + '_u').val(cdtCounty[i].cdtDescription);
     }
+    checkDublicateCode(planCodeId);
     setTimeout(function () {
         $('#CDPT_ModalUpdate').foundation('toggle');
     }, 10);
@@ -360,10 +361,11 @@ $(document).ready(function () {
                     }
                 });
             }
-        }else{
+        }
+        else
+        {
             cdpt_updateCDRFormDataIsExist = true;
         }
-
         if (cdpt_updateCDRFormDataIsExist == true)
             event.preventDefault();
     });
