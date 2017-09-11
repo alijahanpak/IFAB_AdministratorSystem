@@ -16,7 +16,8 @@ function BSUpdateDialogOpen(budgetAdminAjaxUri , subject , description , bsId) {
     }, 10);
 }
 
-function CDPTUpdateDialogOpen(planCodeLabelId_u , cdtCounty , coLabel , bsId , idNumber , subject , description , cdptId) {
+var cdtCoIds;
+function CDPTUpdateDialogOpen(planCodeId , planCodeLabelId_u , cdtCounty , coLabel , bsId , idNumber , subject , description , cdptId) {
     $('#cdptSelectSeason_u').val(bsId);
     $('#cdptIdNumber_u').val(idNumber);
     $('#cdptSubject_u').val(subject);
@@ -28,6 +29,7 @@ function CDPTUpdateDialogOpen(planCodeLabelId_u , cdtCounty , coLabel , bsId , i
         $('#cdptCounty' + cdtCounty[i].cdtCoId + '_u').val(((cdtCounty[i].cdtIdNumber).split(coLabel + idNumber))[0]);
         $('#cdptCountyDesc' + cdtCounty[i].cdtCoId + '_u').val(cdtCounty[i].cdtDescription);
     }
+    checkDublicateCode(planCodeId);
     setTimeout(function () {
         $('#CDPT_ModalUpdate').foundation('toggle');
     }, 10);
@@ -259,48 +261,53 @@ $(document).ready(function () {
     ///////////////////////////////////////// paln title check exist /////////////////////////////
     $('#cdptRegisterSubmitActivityCircle').hide();
     $('#registerCDPTForm').submit(function(event) {
-        if ($('#cdptSubject').val() != '') {
-            var url = checkCDPTExistUrl + '/' + $('#cdptIdNumber').val() + '/' + $('#cdptSubject').val();
-            $('#cdptRegisterSubmitActivityCircle').show();
-            $.ajax({
-                type: "GET",
-                dataType: "JSON",
-                url: url,
-                success: function (data) {
-                    if (data.exist == true) {
-                        $('#CDPT_existErrorInRegForm').show();
+        $('#CDPT_duplicateErro').hide();
+        if (pPlanCodeValidate('CDPT_duplicateErro')) {
+            if ($('#cdptSubject').val() != '') {
+                var url = checkCDPTExistUrl + '/' + $('#cdptIdNumber').val() + '/' + $('#cdptSubject').val();
+                $('#cdptRegisterSubmitActivityCircle').show();
+                $.ajax({
+                    type: "GET",
+                    dataType: "JSON",
+                    url: url,
+                    success: function (data) {
+                        if (data.exist == true) {
+                            $('#CDPT_existErrorInRegForm').show();
+                            setTimeout(function () {
+                                $('#cdptRegisterSubmitActivityCircle').hide();
+                            }, 2000);
+                        }
+                        else {
+                            cdpt_registerCDRFormDataIsExist = false;
+                            $('#registerCDPTForm').submit();
+                        }
+                    },
+                    error: function (jqXHR) {
+                        var msg = '';
+                        if (jqXHR.status === 0) {
+                            msg = 'Not connect.\n Verify Network.';
+                        } else if (jqXHR.status == 404) {
+                            msg = 'Requested page not found. [404]';
+                        } else if (jqXHR.status == 500) {
+                            msg = 'Internal Server Error [500].';
+                        } else if (exception === 'parsererror') {
+                            msg = 'Requested JSON parse failed.';
+                        } else if (exception === 'timeout') {
+                            msg = 'Time out error.';
+                        } else if (exception === 'abort') {
+                            msg = 'Ajax request aborted.';
+                        } else {
+                            msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                        }
                         setTimeout(function () {
                             $('#cdptRegisterSubmitActivityCircle').hide();
                         }, 2000);
+                        console.log(msg);
                     }
-                    else {
-                        cdpt_registerCDRFormDataIsExist = false;
-                        $('#registerCDPTForm').submit();
-                    }
-                },
-                error: function (jqXHR) {
-                    var msg = '';
-                    if (jqXHR.status === 0) {
-                        msg = 'Not connect.\n Verify Network.';
-                    } else if (jqXHR.status == 404) {
-                        msg = 'Requested page not found. [404]';
-                    } else if (jqXHR.status == 500) {
-                        msg = 'Internal Server Error [500].';
-                    } else if (exception === 'parsererror') {
-                        msg = 'Requested JSON parse failed.';
-                    } else if (exception === 'timeout') {
-                        msg = 'Time out error.';
-                    } else if (exception === 'abort') {
-                        msg = 'Ajax request aborted.';
-                    } else {
-                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
-                    }
-                    setTimeout(function () {
-                        $('#cdptRegisterSubmitActivityCircle').hide();
-                    }, 2000);
-                    console.log(msg);
-                }
-            });
+                });
+            }
+        }else{
+            cdpt_registerCDRFormDataIsExist = true;
         }
         if (cdpt_registerCDRFormDataIsExist == true)
             event.preventDefault();
@@ -308,48 +315,56 @@ $(document).ready(function () {
 
     $('#cdptUpdateSubmitActivityCircle').hide();
     $('#updateCDPTForm').submit(function(event) {
-        if ($('#cdptSubject_u').val() != '') {
-            var url = checkCDPTExistUrl + '/' + $('#cdptIdNumber_u').val() + '/' + $('#cdptSubject_u').val() + '/' + $('#cdptId_u').val();
-            $('#cdptUpdateSubmitActivityCircle').show();
-            $.ajax({
-                type: "GET",
-                dataType: "JSON",
-                url: url,
-                success: function (data) {
-                    if (data.exist == true)
-                    {
-                        $('#CDPT_existErrorInUpForm').show();
-                        setTimeout(function(){ $('#cdptUpdateSubmitActivityCircle').hide(); } , 2000);
+        $('#CDPT_duplicateErro_u').hide();
+        if (pPlanCodeValidate('CDPT_duplicateErro_u'))
+        {
+            if ($('#cdptSubject_u').val() != '') {
+                var url = checkCDPTExistUrl + '/' + $('#cdptIdNumber_u').val() + '/' + $('#cdptSubject_u').val() + '/' + $('#cdptId_u').val();
+                $('#cdptUpdateSubmitActivityCircle').show();
+                $.ajax({
+                    type: "GET",
+                    dataType: "JSON",
+                    url: url,
+                    success: function (data) {
+                        if (data.exist == true)
+                        {
+                            $('#CDPT_existErrorInUpForm').show();
+                            setTimeout(function(){ $('#cdptUpdateSubmitActivityCircle').hide(); } , 2000);
+                        }
+                        else
+                        {
+                            cdpt_updateCDRFormDataIsExist = false;
+                            $('#updateCDPTForm').submit();
+                        }
+                    },
+                    error: function (jqXHR) {
+                        var msg = '';
+                        if (jqXHR.status === 0) {
+                            msg = 'Not connect.\n Verify Network.';
+                        } else if (jqXHR.status == 404) {
+                            msg = 'Requested page not found. [404]';
+                        } else if (jqXHR.status == 500) {
+                            msg = 'Internal Server Error [500].';
+                        } else if (exception === 'parsererror') {
+                            msg = 'Requested JSON parse failed.';
+                        } else if (exception === 'timeout') {
+                            msg = 'Time out error.';
+                        } else if (exception === 'abort') {
+                            msg = 'Ajax request aborted.';
+                        } else {
+                            msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                        }
+                        setTimeout(function () {
+                            $('#cdptUpdateSubmitActivityCircle').hide();
+                        }, 2000);
+                        console.log(msg);
                     }
-                    else
-                    {
-                        cdpt_updateCDRFormDataIsExist = false;
-                        $('#updateCDPTForm').submit();
-                    }
-                },
-                error: function (jqXHR) {
-                    var msg = '';
-                    if (jqXHR.status === 0) {
-                        msg = 'Not connect.\n Verify Network.';
-                    } else if (jqXHR.status == 404) {
-                        msg = 'Requested page not found. [404]';
-                    } else if (jqXHR.status == 500) {
-                        msg = 'Internal Server Error [500].';
-                    } else if (exception === 'parsererror') {
-                        msg = 'Requested JSON parse failed.';
-                    } else if (exception === 'timeout') {
-                        msg = 'Time out error.';
-                    } else if (exception === 'abort') {
-                        msg = 'Ajax request aborted.';
-                    } else {
-                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
-                    }
-                    setTimeout(function () {
-                        $('#cdptUpdateSubmitActivityCircle').hide();
-                    }, 2000);
-                    console.log(msg);
-                }
-            });
+                });
+            }
+        }
+        else
+        {
+            cdpt_updateCDRFormDataIsExist = true;
         }
         if (cdpt_updateCDRFormDataIsExist == true)
             event.preventDefault();
@@ -391,6 +406,9 @@ $(document).ready(function () {
         $('#cdptIdNumber').val('');
         $('#cdptSubject').val('');
         $('#cdptDescription').val('');
+        $('input.input-group-field').val('');
+        $('input.countyPlanCode').val('');
+        $('#CDPT_duplicateErro').hide();
         $('#CDPT_existErrorInRegForm').hide();
     });
 
@@ -399,6 +417,9 @@ $(document).ready(function () {
         $('#cdptIdNumber_u').val('');
         $('#cdptSubject_u').val('');
         $('#cdptDescription_u').val('');
+        $('input.input-group-field').val('');
+        $('input.countyPlanCode').val('');
+        $('#CDPT_duplicateErro_u').hide();
         $('#CDPT_existErrorInUpForm').hide();
     });
 
@@ -420,5 +441,35 @@ function setPrivincePlanCode(labelsId , planCodeId) {
     {
         $('#' + labelsId[i]).text($('#' + planCodeId).val() != '' ? $('#' + planCodeId).val() : '--');
     }
+}
+
+function pPlanCodeValidate(errId) {
+    if (cdtCoIds.length > 2)
+    {
+        for (var i=0;i<cdtCoIds.length - 1;i++)
+        {
+            for (var j=i + 1;j<cdtCoIds.length;j++)
+            {
+                if (($('#' + cdtCoIds[i]).val() != '' && $('#' + cdtCoIds[j]).val() != '') && ($('#' + cdtCoIds[i]).val() == $('#' + cdtCoIds[j]).val()))
+                {
+                    $('#' + errId).show();
+                    return false;
+                }
+
+            }
+        }
+    }else if(cdtCoIds.length == 2)
+    {
+        if (($('#' + cdtCoIds[0]).val() != '' && $('#' + cdtCoIds[1]).val() != '') && ($('#' + cdtCoIds[0]).val() == $('#' + cdtCoIds[1]).val()))
+        {
+            $('#' + errId).show();
+            return false;
+        }
+    }
+    return true;
+}
+
+function checkDublicateCode(coCodeId) {
+    cdtCoIds = coCodeId;
 }
 

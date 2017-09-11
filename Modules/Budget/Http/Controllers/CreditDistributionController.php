@@ -27,7 +27,7 @@ class CreditDistributionController extends Controller
     public function creditDistributionPlan()
     {
         $cdr = CreditDistributionRow::all();
-        $cdt = CreditDistributionTitle::all();
+        $cdt = CreditDistributionTitle::where('cdtCdtId' , '=' , null)->get();
         $counties = County::all();
         $cdPlans = CreditDistributionPlan::select(['cdpCdtId' , 'cdpCdrId' , 'cdpDescription'])->where('cdpFyId' , '=' , Auth::user()->seFiscalYear)->groupBy(['cdpCdtId' , 'cdpCdrId' , 'cdpDescription'])->get();
         $cdPlan_rows = CreditDistributionPlan::select(['cdpCdrId'])->where('cdpFyId' , '=' , Auth::user()->seFiscalYear)->groupBy(['cdpCdrId'])->get();

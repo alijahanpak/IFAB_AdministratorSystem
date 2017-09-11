@@ -8,7 +8,8 @@ use Modules\Admin\Entities\County;
 class CreditDistributionTitle extends Model
 {
     protected $table = 'tbl_credit_distribution_titles';
-    protected $fillable = [];
+    protected $primaryKey = 'id';
+    protected $fillable = ['cdtCdtId' , 'cdtCoId' , 'cdtUId' , 'cdtBsId' , 'cdtIdNumber' , 'cdtSubject' , 'cdtDescription'];
 
     public function budgetSeason()
     {

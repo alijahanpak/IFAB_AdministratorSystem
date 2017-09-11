@@ -18,12 +18,10 @@ class CreateCapitalAssetsApprovedPlanTable extends Migration
                 $table->increments('id');
                 $table->integer('capUId')->length(10)->unsigned();
                 $table->integer('capCdtId')->length(10)->unsigned();
-                $table->integer('capPtId')->length(10)->unsigned();
                 $table->integer('capFyId')->length(10)->unsigned();
                 $table->string('capLetterNumber');
                 $table->string('capLetterDate');
                 $table->string('capExchangeDate');
-                $table->bigInteger('capTotalAmount')->nullable();
                 $table->boolean('capProvinceOrNational');
                 $table->longText('capDescription')->nullable();
                 $table->timestamps();
@@ -35,11 +33,6 @@ class CreateCapitalAssetsApprovedPlanTable extends Migration
 
                 $table->foreign('capCdtId')
                     ->references('id')->on('tbl_credit_distribution_titles')
-                    ->onDelete('restrict')
-                    ->onUpdate('cascade');
-
-                $table->foreign('capPtId')
-                    ->references('id')->on('tbl_plan_types')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
 

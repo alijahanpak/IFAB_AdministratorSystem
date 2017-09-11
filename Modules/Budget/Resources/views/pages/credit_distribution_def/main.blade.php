@@ -21,10 +21,15 @@
             $counties = \Modules\Admin\Entities\County::all();
             $planCodeLabelId = array();
             $planCodeLabelId_u = array();
+            $planCodeId = array();
+            $planCodeId_u = array();
             foreach ($counties as $county)
             {
                 $planCodeLabelId[] = 'cdptPlanCodeLabel' . $county->id;
                 $planCodeLabelId_u[] = 'cdptPlanCodeLabel' . $county->id . '_u';
+
+                $planCodeId[] = 'cdptCounty' . $county->id;
+                $planCodeId_u[] = 'cdptCounty' . $county->id . '_u';
             }
             ?>
             @include('budget::pages.credit_distribution_def.forms')

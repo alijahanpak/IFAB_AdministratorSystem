@@ -7,6 +7,7 @@ function TSUpdateDialogOpen(sId , subject , description , tsId) {
         $('#SS_ModalUpdate').foundation('toggle');
     }, 100);
 }
+
 var checkTSExistUrl = '';
 function setTSCheckExistUrl(url) {
     checkTSExistUrl = url;
@@ -34,8 +35,6 @@ $(document).ready(function () {
                     registerTSFormDataIsExist = false;
                     $('#registerTSForm').submit();
                 }
-
-
             },
             error: function (jqXHR) {
                 var msg = '';

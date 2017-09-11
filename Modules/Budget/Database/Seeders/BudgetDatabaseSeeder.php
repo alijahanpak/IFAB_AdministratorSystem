@@ -18,6 +18,5 @@ class BudgetDatabaseSeeder extends Seeder
 
         $this->call(SeedFyPermissionTableSeederTableSeeder::class);
         $this->call(SeedTinySeasonsTableSeederTableSeeder::class);
-        $this->call(SeedPlanTypeTableSeederTableSeeder::class);
     }
 }

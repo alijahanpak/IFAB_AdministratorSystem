@@ -4,7 +4,7 @@
         <div class="medium-12  bottom-mrg">
             <div class="clearfix border-btm-line ">
                 <div class="button-group float-left report-mrg">
-                    <a  class="clear button"  data-open="CAP_ModalInsert" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
+                    <a  class="clear button"  onclick="openRegisterPlanForm('provincial')" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
                         <i class="fi-plus size-30 secondry-color"></i>
                     </a>
                     <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
@@ -34,14 +34,14 @@
                 <div class="medium-1  table-border">
                     <strong>تاریخ</strong>
                 </div>
-                <div class="medium-1  table-border">
+                <div class="medium-2  table-border">
+                    <strong>شهرستان</strong>
+                </div>
+                <div class="medium-1 table-border">
                     <strong>تاریخ مبادله</strong>
                 </div>
                 <div class="medium-1  table-border">
-                    <strong>نوع</strong>
-                </div>
-                <div class="medium-2  table-border">
-                    <strong>ردیف</strong>
+                    <strong>منابع</strong>
                 </div>
                 <div class="medium-3  table-border">
                     <strong>شرح</strong>
@@ -51,28 +51,13 @@
             <div class="table-contain dynamic-height-level2" id="provincialCapTable">
                 <?php $rowColor = 0; ?>
                 @foreach($provinceCaps as $cap)
-                    <?php
-                        $cAmounts = \Modules\Budget\Entities\CdrCap::where('ccCapId' , '=' , $cap->id)->get();
-                        $cdRowId = array();
-                        $i = 0;
-                        foreach ($cAmounts as $cAmount)
-                        {
-                            $cdRowId[$i++] = 'capCdRow' . $cAmount->creditDistributionRow->id . '_u';
-                        }
-
-                        $i = 0;
-                        foreach ($cAmounts as $cAmount)
-                        {
-                            $cdRowAmount[$i++] = \Modules\Admin\Entities\AmountUnit::convertDispAmountWithoutSplliter($cAmount->ccAmount);
-                        }
-                    ?>
                     <div class="grid-x {{ $rowColor % 2 == 1 ? 'tableRowColor' : '' }} selectAbleRow">
                         <div class="medium-2 table-contain-border cell-vertical-center">{{ $cap->creditDistributionTitle->cdtIdNumber . ' - ' . $cap->creditDistributionTitle->cdtSubject }}</div>
                         <div class="medium-2 table-contain-border cell-vertical-center">{{ $cap->capLetterNumber }}</div>
                         <div class="medium-1 table-contain-border cell-vertical-center small-font-xx">{{ $cap->capLetterDate }}</div>
+                        <div class="medium-2  table-contain-border cell-vertical-center">{{ $cap->creditDistributionTitle->cdtCdtId == null ? 'استانی' : $cap->creditDistributionTitle->county->coName }}</div>
                         <div class="medium-1 table-contain-border cell-vertical-center small-font-xx">{{ $cap->capExchangeDate }}</div>
-                        <div class="medium-1 table-contain-border cell-vertical-center">{{ $cap->planType->ptSubject }}</div>
-                        <div class="medium-2 table-contain-border cell-vertical-center">
+                        <div class="medium-1 table-contain-border cell-vertical-center">
                             <a onclick="openTableRowAcc('cdrCapAmount{{ $cap->id }}' , 'provincialCapTable')">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CapitalAssetsApprovedPlan::getTotalAmount($cap->id)) }}</a>
                         </div>
                         <div class="medium-3 table-contain-border cell-vertical-center">
@@ -84,7 +69,7 @@
                                     <a class="dropdown small sm-btn-align display-off"  type="button" data-toggle="capActionDropdown{{ $cap->id }}"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="capActionDropdown{{ $cap->id }}" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font">
-                                            <li><a data-open="preloaderModal"  onclick="CAPUpdateDialogOpen({{ json_encode($cdRowId) }} , {{ json_encode($cdRowAmount) }} , '{{ $cap->capCdtId }}' , '{{ $cap->capLetterNumber }}' , '{{ $cap->capLetterDate }}' , '{{ $cap->capExchangeDate }}' , '{{ $cap->capPtId }}' , '{{ $cap->id }}' , '{{ $cap->capDescription }}')"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                            <li><a data-open="preloaderModal"  onclick="CAPUpdateDialogOpen('{{ $cap->capCdtId }}' , '{{ $cap->capLetterNumber }}' , '{{ $cap->capLetterDate }}' , '{{ $cap->capExchangeDate }}' , '{{ $cap->id }}' , '{{ $cap->capDescription }}' , 'provincial')"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
                                             <li><a data-open="CAP_modalDelete{{ $cap->id }}"><i class="fi-trash size-16"></i>  حذف</a></li>
                                         </ul>
                                     </div>
@@ -116,16 +101,12 @@
                             <table class="tbl-secondary-mrg small-font">
                                 <thead class="my-thead">
                                     <tr class="" style="background-color: #F1F1F1 !important;">
-                                        @foreach(\Modules\Budget\Entities\CreditDistributionRow::all() as $cdRow)
-                                            <th>{{ $cdRow->cdSubject }}</th>
-                                        @endforeach
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        @foreach(\Modules\Budget\Entities\CreditDistributionRow::all() as $cdRow)
-                                            <td>{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CdrCap::getCapCdrAmount($cap->id , $cdRow->id)) }}</td>
-                                        @endforeach
+
                                     </tr>
                                 </tbody>
                             </table>
@@ -140,7 +121,7 @@
             <div class="column">
                 <div class="card dynamic-height-notif">
                     <div class="card-section text-center" style="margin-top:40%;">
-                        <span>کاربر گرامی، </span><span class="login-txt small-font">طرح مصوب استانی ثبت نشده است!<span><a data-open="CAP_ModalInsert" class="custom-btn-pos my-secondary button tiny">ثبت</a></span></span>
+                        <span>کاربر گرامی، </span><span class="login-txt small-font">طرح مصوب استانی ثبت نشده است!<span><a onclick="openRegisterPlanForm('provincial')" class="custom-btn-pos my-secondary button tiny">ثبت</a></span></span>
                     </div>
                 </div>
             </div>

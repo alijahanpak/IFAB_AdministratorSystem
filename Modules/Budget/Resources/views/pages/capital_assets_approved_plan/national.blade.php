@@ -4,7 +4,7 @@
         <div class="medium-12  bottom-mrg">
             <div class="clearfix border-btm-line ">
                 <div class="button-group float-left report-mrg">
-                    <a  class="clear button"  data-open="CAP_national_ModalInsert" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
+                    <a  class="clear button"  onclick="openRegisterPlanForm('national')" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
                         <i class="fi-plus size-30 secondry-color"></i>
                     </a>
                     <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
@@ -34,31 +34,31 @@
                 <div class="medium-1  table-border">
                     <strong>تاریخ</strong>
                 </div>
-                <div class="medium-1  table-border">
+                <div class="medium-2  table-border">
+                    <strong>شهرستان</strong>
+                </div>
+                <div class="medium-1 table-border">
                     <strong>تاریخ مبادله</strong>
                 </div>
                 <div class="medium-1  table-border">
-                    <strong>نوع</strong>
-                </div>
-                <div class="medium-2  table-border">
-                    <strong>ردیف</strong>
+                    <strong>منابع</strong>
                 </div>
                 <div class="medium-3  table-border">
                     <strong>شرح</strong>
                 </div>
             </div>
             <!--Header End-->
-            <div class="table-contain dynamic-height-level2" id="provincialCapTable">
+            <div class="table-contain dynamic-height-level2" id="nationalCapTable">
                 <?php $rowColor = 0; ?>
                 @foreach($nationalCaps as $ncap)
                     <div class="grid-x {{ $rowColor % 2 == 1 ? 'tableRowColor' : '' }} selectAbleRow">
                         <div class="medium-2 table-contain-border cell-vertical-center">{{ $ncap->creditDistributionTitle->cdtIdNumber . ' - ' . $ncap->creditDistributionTitle->cdtSubject }}</div>
                         <div class="medium-2 table-contain-border cell-vertical-center">{{ $ncap->capLetterNumber }}</div>
                         <div class="medium-1 table-contain-border cell-vertical-center small-font-xx">{{ $ncap->capLetterDate }}</div>
+                        <div class="medium-2 table-contain-border cell-vertical-center">{{ $ncap->creditDistributionTitle->cdtCdtId == null ? 'استانی' : $ncap->creditDistributionTitle->county->coName }}</div>
                         <div class="medium-1 table-contain-border cell-vertical-center small-font-xx">{{ $ncap->capExchangeDate }}</div>
-                        <div class="medium-1 table-contain-border cell-vertical-center">{{ $ncap->planType->ptSubject }}</div>
-                        <div class="medium-2 table-contain-border cell-vertical-center">
-                            {{ \Modules\Admin\Entities\AmountUnit::convertDispAmount($ncap->capTotalAmount) }}
+                        <div class="medium-1 table-contain-border cell-vertical-center">
+                            <a onclick="openTableRowAcc('cdrCapAmount_national{{ $ncap->id }}' , 'nationalCapTable')">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CapitalAssetsApprovedPlan::getTotalAmount($ncap->id)) }}</a>
                         </div>
                         <div class="medium-3 table-contain-border cell-vertical-center">
                             <div class="grid-x">
@@ -69,7 +69,7 @@
                                     <a class="dropdown small sm-btn-align display-off"  type="button" data-toggle="ncapActionDropdown{{ $ncap->id }}"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="ncapActionDropdown{{ $ncap->id }}" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font">
-                                            <li><a data-open="preloaderModal"  onclick="CAPUpdateDialogOpen('{{ $ncap->capCdtId }}' , '{{ $ncap->capLetterNumber }}' , '{{ $ncap->capLetterDate }}' , '{{ $ncap->capExchangeDate }}' , '{{ $ncap->capPtId }}' , '{{ $ncap->id }}' , '{{ $ncap->capDescription }}')"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                            <li><a data-open="preloaderModal"  onclick="CAPUpdateDialogOpen('{{ $ncap->capCdtId }}' , '{{ $ncap->capLetterNumber }}' , '{{ $ncap->capLetterDate }}' , '{{ $ncap->capExchangeDate }}' , '{{ $ncap->id }}' , '{{ $ncap->capDescription }}' , 'national')"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
                                             <li><a data-open="NCAP_modalDelete{{ $ncap->id }}"><i class="fi-trash size-16"></i>  حذف</a></li>
                                         </ul>
                                     </div>
@@ -96,6 +96,22 @@
                             </div>
                         </div>
                     </div>
+                    <div id="cdrCapAmount_national{{ $ncap->id }}" class="grid-x display-off {{ $rowColor % 2 == 1 ? 'tableRowColor' : '' }} accordionRow">
+                        <div class="medium-12 table-contain-border horizontal-scroll">
+                            <table class="tbl-secondary-mrg small-font">
+                                <thead class="my-thead">
+                                <tr class="" style="background-color: #F1F1F1 !important;">
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <?php $rowColor++; ?>
                 @endforeach
             </div>
@@ -105,7 +121,7 @@
         <div class="column">
             <div class="card dynamic-height-notif">
                 <div class="card-section text-center" style="margin-top:40%;">
-                    <span>کاربر گرامی، </span><span class="login-txt small-font">طرح مصوب ملی ثبت نشده است!<span><a data-open="CAP_national_ModalInsert" class="custom-btn-pos my-secondary button tiny">ثبت</a></span></span>
+                    <span>کاربر گرامی، </span><span class="login-txt small-font">طرح مصوب ملی ثبت نشده است!<span><a onclick="openRegisterPlanForm('national')" class="custom-btn-pos my-secondary button tiny">ثبت</a></span></span>
                 </div>
             </div>
         </div>
