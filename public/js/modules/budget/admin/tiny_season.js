@@ -82,8 +82,6 @@ $(document).ready(function () {
                     updateTSFormDataIsExist = false;
                     $('#updateTSForm').submit();
                 }
-
-
             },
             error: function (jqXHR) {
                 var msg = '';
@@ -166,3 +164,9 @@ $(document).ready(function () {
         $('#CDPT_existErrorInUpForm').hide();*/
     ////////////////////////////////////////////////////////
 });
+var app = new Vue({
+    el: '#app',
+    data: {
+        message: 'Hello Vue!'
+    }
+})

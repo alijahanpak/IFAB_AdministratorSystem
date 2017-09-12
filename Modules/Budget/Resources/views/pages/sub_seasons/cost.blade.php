@@ -40,14 +40,11 @@
                 </div>
                 <!--Header End-->
                 <div class="table-contain dynamic-height-level2">
-                        <div class="grid-x">
+                    <div class="grid-x">
 
-
-                        </div>
-
+                    </div>
                 </div>
             </div>
-                   </div>
-
+       </div>
     </div>
 </div>
