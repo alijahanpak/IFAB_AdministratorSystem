@@ -164,14 +164,6 @@ $(document).ready(function () {
         $('#CDPT_existErrorInUpForm').hide();*/
     ////////////////////////////////////////////////////////
 });
-<<<<<<< HEAD
-var app = new Vue({
-    el: '#app',
-    data: {
-        message: 'Hello Vue!'
-    }
-})
-=======
 
 var demo = new Vue({
     el: '#demo',
@@ -198,4 +190,3 @@ var AddProduct = Vue.extend({
         }
     }
 });
->>>>>>> 88d8628e3e1892f5a799b756e5ebf9f9d4ff5e4b
