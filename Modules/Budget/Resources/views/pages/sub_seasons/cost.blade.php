@@ -42,12 +42,12 @@
                 <div id="demo"  class="table-contain dynamic-height-level2">
                     <div class="grid-x" v-for="key in gridData">
                         <div class="medium-2 table-contain-border cell-vertical-center">
-                            @{{ key.name }}
+                            @{{ key.season }}
                         </div>
                         <div class="medium-10">
                                 <div class="grid-x selectAbleRow">
                                     <div class="medium-6 table-contain-border cell-vertical-center">
-                                        @{{ key.power }}
+                                        @{{ key.subSeason }}
                                     </div>
                                     <div class="medium-6  table-contain-border cell-vertical-center">
                                         @{{ key.description }}
