@@ -159,8 +159,6 @@
                 </nav>
             </div>
         </div>
-
-
         @yield('content')
 
         {{-- messageDialogPm reveal--}}
@@ -212,6 +210,7 @@
     <script src="{{ asset('js/vendor/jquery.js') }}"></script>
     <script src="{{ asset('js/vendor/what-input.js') }}"></script>
     <script src="{{ asset('js/vendor/foundation.js') }}"></script>
+    <script src="{{ asset('js/vue.js') }}"></script>
     <script src="{{ asset('js/persian-date.min.js') }}"></script>
     <script src="{{ asset('js/persian-datepicker.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
