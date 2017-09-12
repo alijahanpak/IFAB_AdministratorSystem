@@ -31,7 +31,7 @@
                     @include('budget::pages.sub_seasons.capital_assets')
                     <!--Tab 1-->
                         <!--Tab 2-->
-
+                    @include('budget::pages.sub_seasons.cost')
                     <!--Tab 2-->
 
                     </div>

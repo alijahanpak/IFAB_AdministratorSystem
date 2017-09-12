@@ -1,9 +1,9 @@
 <div class="tabs-panel table-mrg-btm dynamic-height-level1" id="cost">
     <div id="dynamicParentId1">
         <div class="medium-12 bottom-mrg">
-            <div class="clearfix border-btm-line">
+            <div class="clearfix border-btm-line bottom-mrg">
                 <div class="button-group float-left report-mrg">
-                    <a  class="clear button"  data-open="SS_ModalInsert" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
+                    <a  class="clear button"  data-open="SSC_ModalInsert" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
                         <i class="fi-plus size-30 secondry-color"></i>
                     </a>
                     <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
@@ -39,15 +39,30 @@
                     </div>
                 </div>
                 <!--Header End-->
-                <div class="table-contain dynamic-height-level2">
-                        <div class="grid-x">
-
-
+                <div id="demo"  class="table-contain dynamic-height-level2">
+                    <div class="grid-x" v-for="key in gridData">
+                        <div class="medium-2 table-contain-border cell-vertical-center">
+                            @{{ key.name }}
                         </div>
-
+                        <div class="medium-10">
+                                <div class="grid-x selectAbleRow">
+                                    <div class="medium-6 table-contain-border cell-vertical-center">
+                                        @{{ key.power }}
+                                    </div>
+                                    <div class="medium-6  table-contain-border cell-vertical-center">
+                                        @{{ key.description }}
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
                 </div>
             </div>
                    </div>
 
     </div>
 </div>
+
+<script>
+
+</script>
+

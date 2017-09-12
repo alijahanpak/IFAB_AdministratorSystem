@@ -166,3 +166,29 @@ $(document).ready(function () {
         $('#CDPT_existErrorInUpForm').hide();*/
     ////////////////////////////////////////////////////////
 });
+
+var demo = new Vue({
+    el: '#demo',
+    data: {
+        gridData: [
+            { name: 'سه درصد نفت و گاز', power:'test',description:''},
+            { name: 'سه درصد نفت و گاز', power:'test',description:''},
+            { name: 'سه درصد نفت و گاز', power:'test',description:''},
+            { name: 'سه درصد نفت و گاز', power:'test',description:''}
+        ]
+    }
+});
+
+//add
+var AddProduct = Vue.extend({
+    template: '#add-product',
+    data: function () {
+        return {product: {season: '', subSeason: '', description: ''}
+        }
+    },
+    methods: {
+        createProduct: function() {
+           alert('shondoll');
+        }
+    }
+});
