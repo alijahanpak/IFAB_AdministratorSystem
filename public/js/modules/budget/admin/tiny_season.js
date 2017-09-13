@@ -164,7 +164,6 @@ $(document).ready(function () {
         $('#CDPT_existErrorInUpForm').hide();*/
     ////////////////////////////////////////////////////////
 });
-
 var demo = new Vue({
     el: '#demo',
     data: {
@@ -181,10 +180,18 @@ var AddProduct = new Vue({
         product: {season: '', subSeason: '', description: ''}
     },
     methods : {
-        createProduct: function() {
+        createProduct: function () {
             //alert(this.product.season + ' - ' + this.product.subSeason + ' - ' + this.product.description);
-            demo.gridData.push({season: this.product.season , subSeason: this.product.subSeason , description: this.product.description});
-            $('#SSC_ModalInsert').foundation('close');
+            //demo.gridData.push({season: this.product.season , subSeason: this.product.subSeason , description: this.product.description});
+            //$('#SSC_ModalInsert').foundation('close');
+            alert("morteza");
+            this.$http.get('/budget/admin/sub_seasons_cost/register',this.product).then((response) => {
+                alert("ok");
+            }, (response) => {
+                alert("error");
+            });
+            alert("ali");
+
         }
     }
 });
