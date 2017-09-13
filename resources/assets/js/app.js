@@ -5,7 +5,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-//require('./foundation');
+require('./foundation');
 
 window.Vue = require('vue');
 

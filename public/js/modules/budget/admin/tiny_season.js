@@ -164,6 +164,7 @@ $(document).ready(function () {
         $('#CDPT_existErrorInUpForm').hide();*/
     ////////////////////////////////////////////////////////
 });
+
 var demo = new Vue({
     el: '#demo',
     data: {
@@ -185,9 +186,21 @@ var AddProduct = new Vue({
             //demo.gridData.push({season: this.product.season , subSeason: this.product.subSeason , description: this.product.description});
             //$('#SSC_ModalInsert').foundation('close');
             alert("morteza");
-            this.$http.get('/budget/admin/sub_seasons_cost/register',this.product).then((response) => {
+/*            this.$http.get('http://localhost/IFAB_AdministratorSystem/public/budget/admin/sub_seasons_cost/register').then((response) => {
                 alert("ok");
             }, (response) => {
+                alert("error");
+            });*/
+
+            axios.get('http://localhost/IFAB_AdministratorSystem/public/budget/admin/sub_seasons_cost/register')
+                .then(function (response) {
+                    alert("ok");
+                });
+
+            // GET /someUrl
+            this.$http.get('http://localhost/IFAB_AdministratorSystem/public/budget/admin/sub_seasons_cost/register').then(response => {
+                alert("ok");
+            }, response => {
                 alert("error");
             });
             alert("ali");
