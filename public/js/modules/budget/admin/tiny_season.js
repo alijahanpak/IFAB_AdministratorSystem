@@ -164,29 +164,34 @@ $(document).ready(function () {
         $('#CDPT_existErrorInUpForm').hide();*/
     ////////////////////////////////////////////////////////
 });
-
 var demo = new Vue({
     el: '#demo',
     data: {
         gridData: [
-            { name: 'سه درصد نفت و گاز', power:'test',description:''},
-            { name: 'سه درصد نفت و گاز', power:'test',description:''},
-            { name: 'سه درصد نفت و گاز', power:'test',description:''},
-            { name: 'سه درصد نفت و گاز', power:'test',description:''}
+            { season: 1 , subSeason:'اکتشافات و باستانشناختی',description:'برای تست'},
         ]
     }
 });
 
 //add
-var AddProduct = Vue.extend({
-    template: '#add-product',
-    data: function () {
-        return {product: {season: '', subSeason: '', description: ''}
-        }
+var AddProduct = new Vue({
+    el: '#add-product',
+    data: {
+        product: {season: '', subSeason: '', description: ''}
     },
-    methods: {
-        createProduct: function() {
-           alert('shondoll');
+    methods : {
+        createProduct: function () {
+            //alert(this.product.season + ' - ' + this.product.subSeason + ' - ' + this.product.description);
+            //demo.gridData.push({season: this.product.season , subSeason: this.product.subSeason , description: this.product.description});
+            //$('#SSC_ModalInsert').foundation('close');
+            alert("morteza");
+            this.$http.get('/budget/admin/sub_seasons_cost/register',this.product).then((response) => {
+                alert("ok");
+            }, (response) => {
+                alert("error");
+            });
+            alert("ali");
+
         }
     }
 });

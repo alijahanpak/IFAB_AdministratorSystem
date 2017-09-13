@@ -213,8 +213,8 @@
     <script src="{{ asset('js/vue.js') }}"></script>
     <script src="{{ asset('js/persian-date.min.js') }}"></script>
     <script src="{{ asset('js/persian-datepicker.min.js') }}"></script>
+    <script src="{{ asset('js/key.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/vue.js') }}"></script>
     @if(isset($requireJsFile))
         @if($requireJsFile == 'deprived_area')
             <script src="{{ asset('js/modules/budget/admin/deprived_area.js') }}"></script>

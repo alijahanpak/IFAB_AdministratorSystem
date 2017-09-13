@@ -21,6 +21,7 @@ class SeedTinySeasonsTableSeederTableSeeder extends Seeder
         $tSeason = new TinySeason;
         $tSeason->tsUId = 1;
         $tSeason->tsSId = 1;
+        $tSeason->tsPlanOrCost = 0;
         $tSeason->tsSubject = 'مطالعه برای احداث ساختمان و مستحدثات';
         $tSeason->tsDescription = 'برای تست';
         $tSeason->save();
