@@ -18,6 +18,7 @@ class CreateTinySeasonsTable extends Migration
                 $table->increments('id');
                 $table->integer('tsUId')->length(10)->unsigned();
                 $table->integer('tsSId')->length(10)->unsigned();
+                $table->boolean('tsPlanOrCost');
                 $table->string('tsSubject');
                 $table->longText('tsDescription')->nullable();
                 $table->timestamps();

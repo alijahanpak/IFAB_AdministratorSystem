@@ -28,7 +28,7 @@ use Ramsey\Uuid\Uuid;
 class BudgetAdminController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -466,6 +466,7 @@ class BudgetAdminController extends Controller
         $ts = new TinySeason;
         $ts->tsUId = Auth::user()->id;
         $ts->tsSId = Input::get('sId');
+        $ts->tsPlanOrCost = 0; //capital assets
         $ts->tsSubject = Input::get('tsSubject');
         $ts->tsDescription = Input::get('tsDescription');
         $ts->save();
@@ -529,6 +530,20 @@ class BudgetAdminController extends Controller
 
         SystemLog::setBudgetSubSystemAdminLog('تغییر  ریز فصل (' . $old->tsSubject . ') به (' . $ts->tsSubject . ')');
         return Redirect::to(URL::previous() . '#plan_title_tab');
+    }
+
+    public function registerSubSeason_cost(Request $request)
+    {
+/*        $ts = new TinySeason;
+        $ts->tsUId = Auth::user()->id;
+        $ts->tsSId = $request->sId;
+        $ts->tsPlanOrCost = 1; //capital assets
+        $ts->tsSubject = $request->tsSubject;
+        $ts->tsDescription = $request->tsDescription;
+        $ts->save();
+
+        SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل ' . $request->tsSubject . ' در فصل ' . Season::find($request->sId)->sSubject);*/
+        return \response()->json([TinySeason::first()]);
     }
 }
 

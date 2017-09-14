@@ -181,10 +181,30 @@ var AddProduct = new Vue({
         product: {season: '', subSeason: '', description: ''}
     },
     methods : {
-        createProduct: function() {
+        createProduct: function () {
             //alert(this.product.season + ' - ' + this.product.subSeason + ' - ' + this.product.description);
-            demo.gridData.push({season: this.product.season , subSeason: this.product.subSeason , description: this.product.description});
-            $('#SSC_ModalInsert').foundation('close');
+            //demo.gridData.push({season: this.product.season , subSeason: this.product.subSeason , description: this.product.description});
+            //$('#SSC_ModalInsert').foundation('close');
+            alert("morteza");
+/*            this.$http.get('http://localhost/IFAB_AdministratorSystem/public/budget/admin/sub_seasons_cost/register').then((response) => {
+                alert("ok");
+            }, (response) => {
+                alert("error");
+            });*/
+
+            axios.get('http://localhost/IFAB_AdministratorSystem/public/budget/admin/sub_seasons_cost/register')
+                .then(function (response) {
+                    alert("ok");
+                });
+
+            // GET /someUrl
+            this.$http.get('http://localhost/IFAB_AdministratorSystem/public/budget/admin/sub_seasons_cost/register').then(response => {
+                alert("ok");
+            }, response => {
+                alert("error");
+            });
+            alert("ali");
+
         }
     }
 });
