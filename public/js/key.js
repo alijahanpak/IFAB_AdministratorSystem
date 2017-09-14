@@ -1,4 +1,5 @@
-$(document).foundation()
+$(document).foundation();
+const IFAB_baseUrl = 'http://localhost/IFAB_AdministratorSystem/public';
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

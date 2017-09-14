@@ -534,16 +534,22 @@ class BudgetAdminController extends Controller
 
     public function registerSubSeason_cost(Request $request)
     {
-/*        $ts = new TinySeason;
+        $ts = new TinySeason;
         $ts->tsUId = Auth::user()->id;
-        $ts->tsSId = $request->sId;
+        $ts->tsSId = $request->tsSId;
         $ts->tsPlanOrCost = 1; //capital assets
         $ts->tsSubject = $request->tsSubject;
         $ts->tsDescription = $request->tsDescription;
         $ts->save();
 
-        SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل ' . $request->tsSubject . ' در فصل ' . Season::find($request->sId)->sSubject);*/
-        return \response()->json([TinySeason::first()]);
+        SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل ' . $request->tsSubject . ' در فصل ' . Season::find($request->tsSId)->sSubject);
+        return $this->tinySeasonCost_fetchData();
+    }
+
+    public function tinySeasonCost_fetchData()
+    {
+        $seasons = Season::with('tinySeason')->get();
+        return \response()->json($seasons);
     }
 }
 

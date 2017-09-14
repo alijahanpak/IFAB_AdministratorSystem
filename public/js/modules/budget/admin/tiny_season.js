@@ -165,46 +165,45 @@ $(document).ready(function () {
     ////////////////////////////////////////////////////////
 });
 
-var demo = new Vue({
-    el: '#demo',
+var costTable = new Vue({
+    el: '#costTable',
     data: {
-        gridData: [
-            { season: 1 , subSeason:'اکتشافات و باستانشناختی',description:'برای تست'},
-        ]
+        tinySeasons: [],
+    },
+
+    created: function () {
+        this.fetchData();
+    },
+
+    methods:{
+        fetchData: function () {
+            axios.get(IFAB_baseUrl + '/budget/admin/sub_seasons_cost/fetchData')
+                .then((response) => {
+                    costTable.tinySeasons = response.data;
+                    console.log(response);
+                },(error) => {
+                    alert("error");
+                });
+        },
     }
 });
 
-//add
-var AddProduct = new Vue({
-    el: '#add-product',
+var AddTinySeason = new Vue({
+    el: '#add-tinySeason',
     data: {
-        product: {season: '', subSeason: '', description: ''}
+        tinySeasonsInput: {tsSId: '' , tsSubject: '' , tsDescription: ''},
+
     },
     methods : {
         createProduct: function () {
-            //alert(this.product.season + ' - ' + this.product.subSeason + ' - ' + this.product.description);
-            //demo.gridData.push({season: this.product.season , subSeason: this.product.subSeason , description: this.product.description});
-            //$('#SSC_ModalInsert').foundation('close');
-            alert("morteza");
-/*            this.$http.get('http://localhost/IFAB_AdministratorSystem/public/budget/admin/sub_seasons_cost/register').then((response) => {
-                alert("ok");
-            }, (response) => {
-                alert("error");
-            });*/
-
-            axios.get('http://localhost/IFAB_AdministratorSystem/public/budget/admin/sub_seasons_cost/register')
-                .then(function (response) {
-                    alert("ok");
+            axios.post(IFAB_baseUrl + '/budget/admin/sub_seasons_cost/register' , this.tinySeasonsInput)
+                .then((response) => {
+                    costTable.tinySeasons = response.data;
+                    $('#SSC_ModalInsert').foundation('close');
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
                 });
-
-            // GET /someUrl
-            this.$http.get('http://localhost/IFAB_AdministratorSystem/public/budget/admin/sub_seasons_cost/register').then(response => {
-                alert("ok");
-            }, response => {
-                alert("error");
-            });
-            alert("ali");
-
         }
     }
 });

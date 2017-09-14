@@ -39,7 +39,8 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::get('sub_seasons/SSIsExist/{sId}/{tsSubject}/{tsId?}', 'BudgetAdminController@SSIsExist');
         Route::post('sub_seasons/update', 'BudgetAdminController@updateSubSeason');
 
-        Route::get('sub_seasons_cost/register', 'BudgetAdminController@registerSubSeason_cost');
+        Route::get('sub_seasons_cost/fetchData', 'BudgetAdminController@tinySeasonCost_fetchData');
+        Route::post('sub_seasons_cost/register', 'BudgetAdminController@registerSubSeason_cost');
     });
     //////////////////////////////////////////////////////////////////////////
     Route::prefix('credit_distribution')->group(function () {
