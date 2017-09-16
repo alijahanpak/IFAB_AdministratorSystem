@@ -1,9 +1,9 @@
-<div class="tabs-panel table-mrg-btm dynamic-height-level1" id="cost">
+<div class="tabs-panel table-mrg-btm dynamic-height-level1" id="cost" xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div id="dynamicParentId1">
         <div class="medium-12 bottom-mrg">
             <div class="clearfix border-btm-line bottom-mrg">
                 <div class="button-group float-left report-mrg">
-                    <a  class="clear button" data-open="SSC_ModalInsert" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
+                    <a  class="clear button" id="show-modal" @click="showModal = true" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
                         <i class="fi-plus size-30 secondry-color"></i>
                     </a>
                     <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <!--Header End-->
-                <div id="costTable"  class="table-contain dynamic-height-level2">
+                <div class="table-contain dynamic-height-level2">
                     <div class="grid-x" v-for="season in tinySeasons">
                         <div class="medium-2 table-contain-border cell-vertical-center">
                             @{{ season.sSubject }}
@@ -71,8 +71,4 @@
        </div>
     </div>
 </div>
-
-<script>
-
-</script>
 

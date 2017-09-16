@@ -165,10 +165,15 @@ $(document).ready(function () {
     ////////////////////////////////////////////////////////
 });
 
-var costTable = new Vue({
-    el: '#costTable',
+Vue.component('modal', {template: '#modal-template'});
+
+
+var tinySeasons = new Vue({
+    el: '#tinySeasons',
     data: {
         tinySeasons: [],
+        tinySeasonsInput: {tsSId: '' , tsSubject: '' , tsDescription: '' , planOrCost: ''},
+        showModal: false
     },
 
     created: function () {
@@ -177,33 +182,30 @@ var costTable = new Vue({
 
     methods:{
         fetchData: function () {
-            axios.get(IFAB_baseUrl + '/budget/admin/sub_seasons_cost/fetchData')
+            axios.get(IFAB_baseUrl + '/budget/admin/sub_seasons/fetchData' , {params:{planOrCost: 1}})
                 .then((response) => {
-                    costTable.tinySeasons = response.data;
-                    console.log(response);
-                },(error) => {
-                    alert("error");
-                });
-        },
-    }
-});
-
-var AddTinySeason = new Vue({
-    el: '#add-tinySeason',
-    data: {
-        tinySeasonsInput: {tsSId: '' , tsSubject: '' , tsDescription: ''},
-
-    },
-    methods : {
-        createProduct: function () {
-            axios.post(IFAB_baseUrl + '/budget/admin/sub_seasons_cost/register' , this.tinySeasonsInput)
-                .then((response) => {
-                    costTable.tinySeasons = response.data;
-                    $('#SSC_ModalInsert').foundation('close');
+                    this.tinySeasons = response.data;
                     console.log(response);
                 },(error) => {
                     console.log(error);
                 });
+        },
+
+        createTinySeason: function (type) {
+            this.tinySeasonsInput.planOrCost = type;
+            axios.post(IFAB_baseUrl + '/budget/admin/sub_seasons/register' , this.tinySeasonsInput)
+                .then((response) => {
+                    this.tinySeasons = response.data;
+                    this.showModal = false;
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+
+/*            this.$notify({
+                title: 'Important message',
+                text: 'Hello user! This is a notification!'
+            });*/
         }
     }
 });
