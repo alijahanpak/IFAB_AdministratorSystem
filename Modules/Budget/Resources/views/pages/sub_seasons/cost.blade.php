@@ -20,6 +20,7 @@
 
                 </div>
             </div>
+            <a class="button" v-on:click="callNotif"></a>
             <!--Table Start-->
             <div class="columns">
                 <!--Header Start-->

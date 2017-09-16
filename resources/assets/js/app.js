@@ -9,10 +9,10 @@ require('./foundation');
 
 window.Vue = require('vue');
 
-import Vue           from 'vue'
 import Notifications from 'vue-notification'
+import velocity      from 'velocity-animate'
 
-Vue.use(Notifications);
+window.Vue.use(Notifications , {velocity});
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

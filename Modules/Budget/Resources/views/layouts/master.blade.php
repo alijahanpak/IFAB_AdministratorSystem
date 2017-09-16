@@ -160,7 +160,6 @@
             </div>
         </div>
         @yield('content')
-
         {{-- messageDialogPm reveal--}}
         @if (session('messageDialogPm'))
             <div style="z-index: 9999;" class="tiny reveal" id="messageDialogPm" data-reveal>
