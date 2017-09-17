@@ -539,7 +539,7 @@ class BudgetAdminController extends Controller
             ->Where('tsSubject' , '=' , $request->tsSubject)
             ->exists())
         {
-            return \Illuminate\Support\Facades\Response::json(['exist' => true]);
+            return \response()->json([] , 409);
         }
         else
         {

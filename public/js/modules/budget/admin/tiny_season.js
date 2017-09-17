@@ -167,7 +167,6 @@ $(document).ready(function () {
 
 Vue.component('modal', {template: '#modal-template'});
 
-
 var tinySeasons = new Vue({
     el: '#tinySeasons',
     data: {
@@ -179,6 +178,10 @@ var tinySeasons = new Vue({
 
     created: function () {
         this.fetchData();
+    },
+
+    updated: function () {
+        $(this.$el).foundation(); //WORKS!
     },
 
     methods:{
@@ -204,6 +207,7 @@ var tinySeasons = new Vue({
                         console.log(response);
                     },(error) => {
                         console.log(error);
+                        this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
                     });
             }
             else {
