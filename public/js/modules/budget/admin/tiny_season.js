@@ -191,21 +191,21 @@ var tinySeasons = new Vue({
                 });
         },
 
+        callNotif: function (type , title , ) {
+
+        },
+
         createTinySeason: function (type) {
             this.tinySeasonsInput.planOrCost = type;
             axios.post(IFAB_baseUrl + '/budget/admin/sub_seasons/register' , this.tinySeasonsInput)
                 .then((response) => {
                     this.tinySeasons = response.data;
                     this.showModal = false;
+                    this.$notify({group: 'successPm', title: 'پیام ثبت موفق', text: 'رکورد با موفقیت ثبت شد.' , type: 'success'});
                     console.log(response);
                 },(error) => {
                     console.log(error);
                 });
-
-/*            this.$notify({
-                title: 'Important message',
-                text: 'Hello user! This is a notification!'
-            });*/
         }
     }
 });
