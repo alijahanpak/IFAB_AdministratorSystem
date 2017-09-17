@@ -195,8 +195,8 @@
 =======
 <!--Modal Insert End-->--}}
 <!-- use the modal component, pass in the prop -->
-<modal v-if="showModal" @close="showModal = false">
-    <div slot="body">
+<modal-tiny v-if="showModal" @close="showModal = false">
+    <div  slot="body">
         {!! Form::open(array('v-on:submit.prevent' => 'createTinySeason(1)' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}
         <div class="grid-x" id="sscexistErrorInRegForm" style="display: none">
@@ -251,7 +251,7 @@
             </button>
         </div>
         {!! Form::close() !!}
-    </div>
-</modal>
+        </div>
+</modal-tiny>
 
 

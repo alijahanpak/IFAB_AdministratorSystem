@@ -165,7 +165,7 @@ $(document).ready(function () {
     ////////////////////////////////////////////////////////
 });
 
-Vue.component('modal', {template: '#modal-template'});
+Vue.component('modal-tiny', {template: '#modal-tiny-template'});
 
 
 var tinySeasons = new Vue({
@@ -206,6 +206,10 @@ var tinySeasons = new Vue({
                 },(error) => {
                     console.log(error);
                 });
+        },
+
+        closemodal: function(){
+            this.showModal=false;
         }
     }
 });
