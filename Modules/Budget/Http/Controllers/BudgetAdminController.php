@@ -534,19 +534,29 @@ class BudgetAdminController extends Controller
 
     public function registerTinySeason(Request $request)
     {
-        $ts = new TinySeason;
-        $ts->tsUId = Auth::user()->id;
-        $ts->tsSId = $request->tsSId;
-        $ts->tsPlanOrCost = $request->planOrCost;
-        $ts->tsSubject = $request->tsSubject;
-        $ts->tsDescription = $request->tsDescription;
-        $ts->save();
+        if (TinySeason::where('tsSId' , '=' , $request->tsSId)
+            ->where('tsPlanOrCost' , '=' , $request->planOrCost)
+            ->Where('tsSubject' , '=' , $request->tsSubject)
+            ->exists())
+        {
+            return \response()->json([] , 409);
+        }
+        else
+        {
+            $ts = new TinySeason;
+            $ts->tsUId = Auth::user()->id;
+            $ts->tsSId = $request->tsSId;
+            $ts->tsPlanOrCost = $request->planOrCost;
+            $ts->tsSubject = $request->tsSubject;
+            $ts->tsDescription = $request->tsDescription;
+            $ts->save();
 
-        SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل ' . $request->tsSubject . ' در فصل ' . Season::find($request->tsSId)->sSubject);
-        $seasons = Season::with('tinySeason')->whereHas('tinySeason' , function ($query) use ($request){
-            $query->where('tsPlanOrCost' , '=' , $request->planOrCost);
-        })->get();
-        return \response()->json($seasons);
+            SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل ' . $request->tsSubject . ' در فصل ' . Season::find($request->tsSId)->sSubject);
+            $seasons = Season::with('tinySeason')->whereHas('tinySeason' , function ($query) use ($request){
+                $query->where('tsPlanOrCost' , '=' , $request->planOrCost);
+            })->get();
+            return \response()->json($seasons , 200);
+        }
     }
 
     public function FetchTinySeasonData(Request $request)
