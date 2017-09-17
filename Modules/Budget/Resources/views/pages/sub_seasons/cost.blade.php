@@ -58,7 +58,7 @@
                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + tinySeason.id" data-dropdown data-auto-focus="true">
                                             <ul class="my-menu small-font text-right">
                                                 <li><a v-on:click.prevent="tinySeasonUpdateDialog(tinySeason , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                <li><a data-open="TS_modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(tinySeason)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                             </ul>
                                         </div>
                                     </div>

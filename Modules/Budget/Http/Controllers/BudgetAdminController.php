@@ -587,6 +587,24 @@ class BudgetAdminController extends Controller
         }
     }
 
+    public function deleteTinySeason(Request $request)
+    {
+        $ts = TinySeason::find($request->id);
+        try {
+            $ts->delete();
+            SystemLog::setBudgetSubSystemAdminLog('حذف ریز فصل ' . $request->tsSubject);
+            $seasons = Season::with('tinySeason')->whereHas('tinySeason' , function ($query) use ($request){
+                $query->where('tsPlanOrCost' , '=' , $request->tsPlanOrCost);
+            })->get();
+            return \response()->json($seasons , 200);
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                return \response()->json([] , 204);
+            }
+        }
+    }
+
     public function FetchTinySeasonData(Request $request)
     {
         $seasons = Season::with('tinySeason')->whereHas('tinySeason' , function ($query) use ($request){

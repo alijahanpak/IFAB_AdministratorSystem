@@ -210,20 +210,18 @@
             <div class="modal-mask">
                 <div class="modal-wrapper">
                     <div class="my-tiny">
-                        <div class="modal-footer">
-                            <div class="modal-header">
-                                <slot name="header">
-                                    <button class="change-pointer" @click="$emit('close')" type="button">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </slot>
-                            </div>
-                            <div class="modal-body">
-                                <slot name="body">
-                                </slot>
-                            </div>
+                        <div class="modal-header">
+                            <slot name="header">
+                                <button class="change-pointer" @click="$emit('close')" type="button">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </slot>
                         </div>
+                        <div class="modal-body">
+                            <slot name="body">
+                            </slot>
                         </div>
+                    </div>
                 </div>
             </div>
         </transition>
@@ -233,18 +231,16 @@
             <div class="modal-mask">
                 <div class="modal-wrapper">
                     <div class="my-small">
-                        <div class="modal-footer">
-                            <div class="modal-header">
-                                <slot name="header">
-                                    <button class="change-pointer" @click="$emit('close')" type="button">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </slot>
-                            </div>
-                            <div class="modal-body">
-                                <slot name="body">
-                                </slot>
-                            </div>
+                        <div class="modal-header">
+                            <slot name="header">
+                                <button class="change-pointer" @click="$emit('close')" type="button">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </slot>
+                        </div>
+                        <div class="modal-body">
+                            <slot name="body">
+                            </slot>
                         </div>
                     </div>
                 </div>
@@ -256,18 +252,16 @@
             <div class="modal-mask">
                 <div class="modal-wrapper">
                     <div class="my-large">
-                        <div class="modal-footer">
-                            <div class="modal-header">
-                                <slot name="header">
-                                    <button class="change-pointer" @click="$emit('close')" type="button">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </slot>
-                            </div>
-                            <div class="modal-body">
-                                <slot name="body">
-                                </slot>
-                            </div>
+                        <div class="modal-header">
+                            <slot name="header">
+                                <button class="change-pointer" @click="$emit('close')" type="button">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </slot>
+                        </div>
+                        <div class="modal-body">
+                            <slot name="body">
+                            </slot>
                         </div>
                     </div>
                 </div>

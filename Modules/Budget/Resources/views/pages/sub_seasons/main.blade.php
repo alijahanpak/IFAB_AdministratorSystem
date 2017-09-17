@@ -38,6 +38,10 @@
                                            position="bottom right"
                                            animation-type="velocity"
                                            :speed="700" />
+                            <notifications group="errorPm"
+                                           position="bottom right"
+                                           animation-type="velocity"
+                                           :speed="700" />
                     </div>
                 </div>
             </div>

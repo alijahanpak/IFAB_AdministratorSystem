@@ -176,7 +176,9 @@ var tinySeasons = new Vue({
         tinySeasonsInput: {tsSId: '' , tsSubject: '' , tsDescription: '' , planOrCost: ''},
         showModal: false,
         showModalUpdate: false,
+        showModalDelete: false,
         tinySeasonsFill: {tsSId: '' , tsSubject: '' , tsDescription: '' , planOrCost: '' , id: ''},
+        tsIdDelete: {},
     },
 
     created: function () {
@@ -245,6 +247,24 @@ var tinySeasons = new Vue({
             else {
                 this.errorMessage_update = ' لطفا در وارد کردن اطلاعات دقت کنید!';
             }
+        },
+
+        openDeleteTinySeasonConfirm: function (ts) {
+            this.tsIdDelete = ts;
+            this.showModalDelete = true;
+        },
+
+        deleteTinySeason: function () {
+            axios.post('/budget/admin/sub_seasons/delete' , this.tsIdDelete)
+                .then((response) => {
+                    this.tinySeasons = response.data;
+                    this.showModalDelete = false;
+                    this.$notify({group: 'successPm', title: 'پیام حذف موفق', text: 'حذف رکورد با موفقیت انجام شد.' , type: 'success'});
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                    this.$notify({group: 'errorPm', title: 'خطای در حذف رکورد', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
+                });
         }
     }
 });

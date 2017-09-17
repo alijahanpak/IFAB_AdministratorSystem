@@ -308,4 +308,16 @@
         {!! Form::close() !!}
     </div>
 </modal-tiny>
+<!-- delete modal -->
+<modal-tiny v-if="showModalDelete" @close="showModalDelete = false">
+<div  slot="body">
+    <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
+        <p>کاربر گرامی</p>
+        <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
+        <div class="medium-12 text-center">
+            <a  class="button primary btn-large-w" v-on:click="deleteTinySeason">بله</a>
+        </div>
+    </div>
+</div>
+</modal-tiny>
 
