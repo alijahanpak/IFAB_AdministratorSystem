@@ -171,9 +171,12 @@ var tinySeasons = new Vue({
     el: '#tinySeasons',
     data: {
         errorMessage: '',
+        errorMessage_update: '',
         tinySeasons: [],
         tinySeasonsInput: {tsSId: '' , tsSubject: '' , tsDescription: '' , planOrCost: ''},
-        showModal: false
+        showModal: false,
+        showModalUpdate: false,
+        tinySeasonsFill: {tsSId: '' , tsSubject: '' , tsDescription: '' , planOrCost: '' , id: ''},
     },
 
     created: function () {
@@ -197,8 +200,6 @@ var tinySeasons = new Vue({
 
         createTinySeason: function (type) {
             this.tinySeasonsInput.planOrCost = type;
-
-
             if (this.tinySeasonsInput.tsSId != '' && this.tinySeasonsInput.tsSubject != '')
             {
                 axios.post('/budget/admin/sub_seasons/register' , this.tinySeasonsInput)
@@ -214,6 +215,35 @@ var tinySeasons = new Vue({
             }
             else {
                 this.errorMessage = ' لطفا در وارد کردن اطلاعات دقت کنید!';
+            }
+        },
+
+        tinySeasonUpdateDialog: function (item , type) {
+            this.tinySeasonsFill.tsSId = item.tsSId;
+            this.tinySeasonsFill.tsSubject = item.tsSubject;
+            this.tinySeasonsFill.tsDescription = item.tsDescription;
+            this.tinySeasonsFill.id = item.id;
+            this.tinySeasonsFill.planOrCost = type;
+            this.errorMessage_update = '';
+            this.showModalUpdate = true;
+        },
+
+        updateTinySeason: function () {
+            if (this.tinySeasonsFill.tsSId != '' && this.tinySeasonsFill.tsSubject != '')
+            {
+                axios.post('/budget/admin/sub_seasons/update' , this.tinySeasonsFill)
+                    .then((response) => {
+                        this.tinySeasons = response.data;
+                        this.showModalUpdate = false;
+                        this.$notify({group: 'successPm', title: 'پیام بروزرسانی موفق', text: 'بروزرسانی با موفقیت انجام شد.' , type: 'success'});
+                        console.log(response);
+                    },(error) => {
+                        console.log(error);
+                        this.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                    });
+            }
+            else {
+                this.errorMessage_update = ' لطفا در وارد کردن اطلاعات دقت کنید!';
             }
         }
     }

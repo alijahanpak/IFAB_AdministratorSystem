@@ -28,7 +28,7 @@ use Ramsey\Uuid\Uuid;
 class BudgetAdminController extends Controller
 {
     public function __construct() {
-        //$this->middleware('auth');
+        $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -552,6 +552,34 @@ class BudgetAdminController extends Controller
             $ts->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل ' . $request->tsSubject . ' در فصل ' . Season::find($request->tsSId)->sSubject);
+            $seasons = Season::with('tinySeason')->whereHas('tinySeason' , function ($query) use ($request){
+                $query->where('tsPlanOrCost' , '=' , $request->planOrCost);
+            })->get();
+            return \response()->json($seasons , 200);
+        }
+    }
+
+    public function updateTinySeason(Request $request)
+    {
+        if (TinySeason::where('id' , '<>' , $request->id)
+            ->where('tsSId' , '=' , $request->tsSId)
+            ->where('tsPlanOrCost' , '=' , $request->planOrCost)
+            ->Where('tsSubject' , '=' , $request->tsSubject)
+            ->exists())
+        {
+            return \response()->json([] , 409);
+        }
+        else
+        {
+            $old = TinySeason::find($request->id);
+            $ts = TinySeason::find($request->id);
+            $ts->tsUId = Auth::user()->id;
+            $ts->tsSId = $request->tsSId;
+            $ts->tsSubject = $request->tsSubject;
+            $ts->tsDescription = $request->tsDescription;
+            $ts->save();
+
+            SystemLog::setBudgetSubSystemAdminLog('تغییر  ریز فصل (' . $old->tsSubject . ') به (' . $ts->tsSubject . ')');
             $seasons = Season::with('tinySeason')->whereHas('tinySeason' , function ($query) use ($request){
                 $query->where('tsPlanOrCost' , '=' , $request->planOrCost);
             })->get();

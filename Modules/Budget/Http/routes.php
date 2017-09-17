@@ -41,6 +41,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
 
         Route::get('sub_seasons/fetchData', 'BudgetAdminController@FetchTinySeasonData');
         Route::post('sub_seasons/register', 'BudgetAdminController@registerTinySeason');
+        Route::post('sub_seasons/update', 'BudgetAdminController@updateTinySeason');
     });
     //////////////////////////////////////////////////////////////////////////
     Route::prefix('credit_distribution')->group(function () {

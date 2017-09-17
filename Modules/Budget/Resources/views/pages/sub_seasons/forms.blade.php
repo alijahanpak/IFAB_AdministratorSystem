@@ -197,9 +197,9 @@
 <!-- use the modal component, pass in the prop -->
 <modal-tiny v-if="showModal" @close="showModal = false">
     <div  slot="body">
-        {!! Form::open(array('v-on:submit.prevent' => 'createTinySeason(1)' , 'class' => 'form' , 'data-abide novalidate')) !!}
+        {!! Form::open(array('v-on:submit.prevent' => 'createTinySeason(1)')) !!}
         {!! csrf_field() !!}
-        <div class="grid-x" id="sscexistErrorInRegForm" v-if="errorMessage">
+        <div class="grid-x" v-if="errorMessage">
             <div class="medium-12 columns padding-lr">
                 <div class="alert callout">
                     <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
@@ -209,7 +209,7 @@
         <div class="grid-x">
             <div class="medium-12 cell padding-lr">
                 <label>فصل
-                    <select name="sId" id="sscsId" required v-model="tinySeasonsInput.tsSId">
+                    <select name="sId" v-model="tinySeasonsInput.tsSId">
                         <option value=""></option>
                         @foreach($seasons as $season)
                             <option value="{{ $season->id }}">{{ $season->sSubject }}</option>
@@ -221,14 +221,14 @@
         <div class="grid-x">
             <div class="medium-12 columns padding-lr">
                 <label>ریز فصل
-                    <input type="text" name="tsSubject" id="ssctsSubject" required pattern="text" v-model="tinySeasonsInput.tsSubject">
+                    <input type="text" name="tsSubject" v-model="tinySeasonsInput.tsSubject">
                 </label>
             </div>
         </div>
         <div class="grid-x">
             <div class="small-12 columns padding-lr">
                 <label>شرح
-                    <textarea name="tsDescription" id="ssctsDescription" style="min-height: 150px;" v-model="tinySeasonsInput.tsDescription"></textarea>
+                    <textarea name="tsDescription" style="min-height: 150px;" v-model="tinySeasonsInput.tsDescription"></textarea>
                 </label>
             </div>
         </div>
@@ -250,5 +250,62 @@
         </div>
         {!! Form::close() !!}
         </div>
+</modal-tiny>
+<!-- update modal -->
+<modal-tiny v-if="showModalUpdate" @close="showModalUpdate = false">
+    <div  slot="body">
+        {!! Form::open(array('v-on:submit.prevent' => 'updateTinySeason(1)')) !!}
+        {!! csrf_field() !!}
+        <div class="grid-x" v-if="errorMessage_update">
+            <div class="medium-12 columns padding-lr">
+                <div class="alert callout">
+                    <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage_update }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="grid-x">
+            <div class="medium-12 cell padding-lr">
+                <label>فصل
+                    <select name="sId" v-model="tinySeasonsFill.tsSId">
+                        <option value=""></option>
+                        @foreach($seasons as $season)
+                            <option value="{{ $season->id }}">{{ $season->sSubject }}</option>
+                        @endforeach
+                    </select>
+                </label>
+            </div>
+        </div>
+        <div class="grid-x">
+            <div class="medium-12 columns padding-lr">
+                <label>ریز فصل
+                    <input type="text" name="tsSubject" v-model="tinySeasonsFill.tsSubject">
+                </label>
+            </div>
+        </div>
+        <div class="grid-x">
+            <div class="small-12 columns padding-lr">
+                <label>شرح
+                    <textarea name="tsDescription" style="min-height: 150px;" v-model="tinySeasonsFill.tsDescription"></textarea>
+                </label>
+            </div>
+        </div>
+        <div class="medium-6 columns padding-lr">
+            <button name="Submit" class="my-secondary button float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span>
+                <i id="registerSubmitActivityCircle">
+                    <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </i>
+            </button>
+        </div>
+        {!! Form::close() !!}
+    </div>
 </modal-tiny>
 
