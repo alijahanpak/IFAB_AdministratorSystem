@@ -171,6 +171,7 @@ Vue.component('modal', {template: '#modal-template'});
 var tinySeasons = new Vue({
     el: '#tinySeasons',
     data: {
+        errorMessage: '',
         tinySeasons: [],
         tinySeasonsInput: {tsSId: '' , tsSubject: '' , tsDescription: '' , planOrCost: ''},
         showModal: false
@@ -182,30 +183,32 @@ var tinySeasons = new Vue({
 
     methods:{
         fetchData: function () {
-            axios.get(IFAB_baseUrl + '/budget/admin/sub_seasons/fetchData' , {params:{planOrCost: 1}})
+            axios.get('/budget/admin/sub_seasons/fetchData' , {params:{planOrCost: 1}})
                 .then((response) => {
                     this.tinySeasons = response.data;
                     console.log(response);
                 },(error) => {
                     console.log(error);
                 });
-        },
-
-        callNotif: function (type , title , ) {
-
         },
 
         createTinySeason: function (type) {
             this.tinySeasonsInput.planOrCost = type;
-            axios.post(IFAB_baseUrl + '/budget/admin/sub_seasons/register' , this.tinySeasonsInput)
-                .then((response) => {
-                    this.tinySeasons = response.data;
-                    this.showModal = false;
-                    this.$notify({group: 'successPm', title: 'پیام ثبت موفق', text: 'رکورد با موفقیت ثبت شد.' , type: 'success'});
-                    console.log(response);
-                },(error) => {
-                    console.log(error);
-                });
+            if (this.tinySeasonsInput.tsSId != '' && this.tinySeasonsInput.tsSubject != '')
+            {
+                axios.post('/budget/admin/sub_seasons/register' , this.tinySeasonsInput)
+                    .then((response) => {
+                        this.tinySeasons = response.data;
+                        this.showModal = false;
+                        this.$notify({group: 'successPm', title: 'پیام ثبت موفق', text: 'رکورد با موفقیت ثبت شد.' , type: 'success'});
+                        console.log(response);
+                    },(error) => {
+                        console.log(error);
+                    });
+            }
+            else {
+                this.errorMessage = ' لطفا در وارد کردن اطلاعات دقت کنید!';
+            }
         }
     }
 });

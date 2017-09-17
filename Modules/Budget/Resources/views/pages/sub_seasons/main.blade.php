@@ -37,7 +37,7 @@
                             <notifications group="successPm"
                                            position="bottom right"
                                            animation-type="velocity"
-                                           :speed="500" />
+                                           :speed="700" />
                     </div>
                 </div>
             </div>

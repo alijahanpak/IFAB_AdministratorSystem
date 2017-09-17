@@ -191,10 +191,10 @@
     <div slot="body">
         {!! Form::open(array('v-on:submit.prevent' => 'createTinySeason(1)' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}
-        <div class="grid-x" id="sscexistErrorInRegForm" style="display: none">
+        <div class="grid-x" id="sscexistErrorInRegForm" v-if="errorMessage">
             <div class="medium-12 columns padding-lr">
                 <div class="alert callout">
-                    <p class="BYekan login-alert"><i class="fi-alert"></i> ریز فصل با این مشخصات قبلا ثبت شده است!</p>
+                    <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
                 </div>
             </div>
         </div>
@@ -208,7 +208,6 @@
                         @endforeach
                     </select>
                 </label>
-                <span class="form-error error-font" data-form-error-for="sscsId">فصل را انتخاب کنید!</span>
             </div>
         </div>
         <div class="grid-x">
@@ -216,7 +215,6 @@
                 <label>ریز فصل
                     <input type="text" name="tsSubject" id="ssctsSubject" required pattern="text" v-model="tinySeasonsInput.tsSubject">
                 </label>
-                <span class="form-error error-font" data-form-error-for="ssctsSubject">ریز فصل فراموش شده است!</span>
             </div>
         </div>
         <div class="grid-x">
