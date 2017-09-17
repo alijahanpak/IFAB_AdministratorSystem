@@ -49,7 +49,7 @@
                                 @foreach(\Modules\Budget\Entities\TinySeason::getTinySeasonWithSId($subSeason->tsSId) as $sb)
                                     <div class="grid-x {{ $rowColor % 2 == 1 ? 'tableRowColor' : '' }} selectAbleRow">
                                         <div class="medium-6 table-contain-border cell-vertical-center">{{ $sb->tsSubject }}</div>
-                                        <div class="medium-6  table-contain-border cell-vertical-center">
+                                        <div class="medium-6 table-contain-border cell-vertical-center">
                                             <div class="grid-x">
                                                 <div class="medium-11">
                                                     {{ $sb->tsDescription }}

@@ -1,9 +1,9 @@
-<div class="tabs-panel table-mrg-btm dynamic-height-level1" id="cost">
+<div class="tabs-panel table-mrg-btm dynamic-height-level1" id="cost" xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div id="dynamicParentId1">
         <div class="medium-12 bottom-mrg">
             <div class="clearfix border-btm-line bottom-mrg">
                 <div class="button-group float-left report-mrg">
-                    <a  class="clear button"  data-open="SSC_ModalInsert" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
+                    <a  class="clear button" id="show-modal" @click="showModal = true" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
                         <i class="fi-plus size-30 secondry-color"></i>
                     </a>
                     <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
@@ -39,20 +39,31 @@
                     </div>
                 </div>
                 <!--Header End-->
-                <div id="demo"  class="table-contain dynamic-height-level2">
-                    <div class="grid-x" v-for="key in gridData">
+                <div class="table-contain dynamic-height-level2">
+                    <div class="grid-x" v-for="season in tinySeasons">
                         <div class="medium-2 table-contain-border cell-vertical-center">
-                            @{{ key.season }}
+                            @{{ season.sSubject }}
                         </div>
                         <div class="medium-10">
-                                <div class="grid-x selectAbleRow">
-                                    <div class="medium-6 table-contain-border cell-vertical-center">
-                                        @{{ key.subSeason }}
+                            <div class="grid-x selectAbleRow" v-for="tinySeason in season.tiny_season">
+                                <div class="medium-6 table-contain-border cell-vertical-center">
+                                    @{{ tinySeason.tsSubject }}
+                                </div>
+                                <div class="medium-6  table-contain-border cell-vertical-center">
+                                    <div class="medium-11">
+                                        @{{ tinySeason.tsDescription }}
                                     </div>
-                                    <div class="medium-6  table-contain-border cell-vertical-center">
-                                        @{{ key.description }}
+                                    <div class="medium-1 cell-vertical-center text-left">
+                                        <a class="dropdown small sm-btn-align display-off"  type="button" data-toggle="tsActionDropdown@{{ tinySeason.id }}"><img width="15px" height="15px"  src="{{ asset('pic/menu.svg') }}"></a>
+                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="tsActionDropdown@{{ tinySeason.id }}" data-dropdown data-auto-focus="true">
+                                            <ul class="my-menu small-font text-right">
+                                                <li><a data-open="preloaderModal"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                <li><a data-open="TS_modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -60,8 +71,4 @@
        </div>
     </div>
 </div>
-
-<script>
-
-</script>
 

@@ -532,18 +532,29 @@ class BudgetAdminController extends Controller
         return Redirect::to(URL::previous() . '#plan_title_tab');
     }
 
-    public function registerSubSeason_cost(Request $request)
+    public function registerTinySeason(Request $request)
     {
-/*        $ts = new TinySeason;
+        $ts = new TinySeason;
         $ts->tsUId = Auth::user()->id;
-        $ts->tsSId = $request->sId;
-        $ts->tsPlanOrCost = 1; //capital assets
+        $ts->tsSId = $request->tsSId;
+        $ts->tsPlanOrCost = $request->planOrCost;
         $ts->tsSubject = $request->tsSubject;
         $ts->tsDescription = $request->tsDescription;
         $ts->save();
 
-        SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل ' . $request->tsSubject . ' در فصل ' . Season::find($request->sId)->sSubject);*/
-        return \response()->json([TinySeason::first()]);
+        SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل ' . $request->tsSubject . ' در فصل ' . Season::find($request->tsSId)->sSubject);
+        $seasons = Season::with('tinySeason')->whereHas('tinySeason' , function ($query) use ($request){
+            $query->where('tsPlanOrCost' , '=' , $request->planOrCost);
+        })->get();
+        return \response()->json($seasons);
+    }
+
+    public function FetchTinySeasonData(Request $request)
+    {
+        $seasons = Season::with('tinySeason')->whereHas('tinySeason' , function ($query) use ($request){
+            $query->where('tsPlanOrCost' , '=' , $request->planOrCost);
+        })->get();
+        return \response()->json($seasons);
     }
 }
 

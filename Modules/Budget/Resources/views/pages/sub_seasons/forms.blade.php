@@ -1,4 +1,4 @@
-<!--Modal Insert Start-->
+{{--<!--Modal Insert Start-->
 <div style="z-index: 9999;" class="tiny reveal" id="SS_ModalInsert" data-reveal
      data-animation-in="slide-in-down fast bounce" xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class="modal-margin small-font  padding-lr">
@@ -123,12 +123,11 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<!--Modal update End-->
+<!--Modal update End-->--}}
 <!--Modal Insert Start-->
-<div style="z-index: 9999;" class="tiny reveal" id="SSC_ModalInsert" data-reveal
-     data-animation-in="slide-in-down fast bounce" xmlns:v-on="http://www.w3.org/1999/xhtml">
-    <div id="add-product" class="modal-margin small-font  padding-lr">
-        {!! Form::open(array('v-on:submit.prevent' => 'createProduct','id' => 'registerTSCForm' , 'url' => '' , 'class' => 'form' , 'data-abide novalidate')) !!}
+{{--<div style="z-index: 9999;" class="tiny reveal" id="SSC_ModalInsert" data-reveal data-animation-in="slide-in-down fast bounce" xmlns:v-on="http://www.w3.org/1999/xhtml">
+    <div class="modal-margin small-font  padding-lr">
+        {!! Form::open(array('v-on:submit.prevent' => 'createTinySeason(1)' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}
         <div class="grid-x" id="sscexistErrorInRegForm" style="display: none">
             <div class="medium-12 columns padding-lr">
@@ -140,7 +139,7 @@
         <div class="grid-x">
             <div class="medium-12 cell padding-lr">
                 <label>فصل
-                    <select name="sId" id="sscsId" required v-model="product.season">
+                    <select name="sId" id="sscsId" required v-model="tinySeasonsInput.tsSId">
                         <option value=""></option>
                         @foreach($seasons as $season)
                             <option value="{{ $season->id }}">{{ $season->sSubject }}</option>
@@ -153,7 +152,7 @@
         <div class="grid-x">
             <div class="medium-12 columns padding-lr">
                 <label>ریز فصل
-                    <input type="text" name="tsSubject" id="ssctsSubject" required pattern="text" v-model="product.subSeason">
+                    <input type="text" name="tsSubject" id="ssctsSubject" required pattern="text" v-model="tinySeasonsInput.tsSubject">
                 </label>
                 <span class="form-error error-font" data-form-error-for="ssctsSubject">ریز فصل فراموش شده است!</span>
             </div>
@@ -161,7 +160,7 @@
         <div class="grid-x">
             <div class="small-12 columns padding-lr">
                 <label>شرح
-                    <textarea name="tsDescription" id="ssctsDescription" style="min-height: 150px;" v-model="product.description"></textarea>
+                    <textarea name="tsDescription" id="ssctsDescription" style="min-height: 150px;" v-model="tinySeasonsInput.tsDescription"></textarea>
                 </label>
             </div>
         </div>
@@ -186,12 +185,19 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
+<<<<<<< HEAD
 <!--Modal Insert End-->
 <!--Modal Update cost Start-->
 <div style="z-index: 9999;" class="tiny reveal" id="SSC_ModalInsert" data-reveal
      data-animation-in="slide-in-down fast bounce" xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div id="add-product" class="modal-margin small-font  padding-lr">
         {!! Form::open(array('v-on:submit.prevent' => 'createProduct','id' => 'registerTSCForm' , 'url' => '' , 'class' => 'form' , 'data-abide novalidate')) !!}
+=======
+<!--Modal Insert End-->--}}
+<!-- use the modal component, pass in the prop -->
+<modal v-if="showModal" @close="showModal = false">
+    <div slot="body">
+        {!! Form::open(array('v-on:submit.prevent' => 'createTinySeason(1)' , 'class' => 'form' , 'data-abide novalidate')) !!}
         {!! csrf_field() !!}
         <div class="grid-x" id="sscexistErrorInRegForm" style="display: none">
             <div class="medium-12 columns padding-lr">
@@ -203,7 +209,7 @@
         <div class="grid-x">
             <div class="medium-12 cell padding-lr">
                 <label>فصل
-                    <select name="sId" id="sscsId" required v-model="product.season">
+                    <select name="sId" id="sscsId" required v-model="tinySeasonsInput.tsSId">
                         <option value=""></option>
                         @foreach($seasons as $season)
                             <option value="{{ $season->id }}">{{ $season->sSubject }}</option>
@@ -216,7 +222,7 @@
         <div class="grid-x">
             <div class="medium-12 columns padding-lr">
                 <label>ریز فصل
-                    <input type="text" name="tsSubject" id="ssctsSubject" required pattern="text" v-model="product.subSeason">
+                    <input type="text" name="tsSubject" id="ssctsSubject" required pattern="text" v-model="tinySeasonsInput.tsSubject">
                 </label>
                 <span class="form-error error-font" data-form-error-for="ssctsSubject">ریز فصل فراموش شده است!</span>
             </div>
@@ -224,12 +230,13 @@
         <div class="grid-x">
             <div class="small-12 columns padding-lr">
                 <label>شرح
-                    <textarea name="tsDescription" id="ssctsDescription" style="min-height: 150px;" v-model="product.description"></textarea>
+                    <textarea name="tsDescription" id="ssctsDescription" style="min-height: 150px;" v-model="tinySeasonsInput.tsDescription"></textarea>
                 </label>
             </div>
         </div>
         <div class="medium-6 columns padding-lr">
-            <button name="Submit" class="my-secondary button float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span>    <i id="registerSubmitActivityCircle">
+            <button name="Submit" class="my-secondary button float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span>
+                <i id="registerSubmitActivityCircle">
                     <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
                         <div></div>
                         <div></div>
@@ -245,9 +252,5 @@
         </div>
         {!! Form::close() !!}
     </div>
-    <button class="close-button" data-close aria-label="Close modal" type="button">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-<!--Modal Update Cost End-->
+</modal>
 

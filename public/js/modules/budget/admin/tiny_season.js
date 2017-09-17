@@ -165,46 +165,47 @@ $(document).ready(function () {
     ////////////////////////////////////////////////////////
 });
 
-var demo = new Vue({
-    el: '#demo',
-    data: {
-        gridData: [
-            { season: 1 , subSeason:'اکتشافات و باستانشناختی',description:'برای تست'},
-        ]
-    }
-});
+Vue.component('modal', {template: '#modal-template'});
 
-//add
-var AddProduct = new Vue({
-    el: '#add-product',
+
+var tinySeasons = new Vue({
+    el: '#tinySeasons',
     data: {
-        product: {season: '', subSeason: '', description: ''}
+        tinySeasons: [],
+        tinySeasonsInput: {tsSId: '' , tsSubject: '' , tsDescription: '' , planOrCost: ''},
+        showModal: false
     },
-    methods : {
-        createProduct: function () {
-            //alert(this.product.season + ' - ' + this.product.subSeason + ' - ' + this.product.description);
-            //demo.gridData.push({season: this.product.season , subSeason: this.product.subSeason , description: this.product.description});
-            //$('#SSC_ModalInsert').foundation('close');
-            alert("morteza");
-/*            this.$http.get('http://localhost/IFAB_AdministratorSystem/public/budget/admin/sub_seasons_cost/register').then((response) => {
-                alert("ok");
-            }, (response) => {
-                alert("error");
-            });*/
 
-            axios.get('http://localhost/IFAB_AdministratorSystem/public/budget/admin/sub_seasons_cost/register')
-                .then(function (response) {
-                    alert("ok");
+    created: function () {
+        this.fetchData();
+    },
+
+    methods:{
+        fetchData: function () {
+            axios.get(IFAB_baseUrl + '/budget/admin/sub_seasons/fetchData' , {params:{planOrCost: 1}})
+                .then((response) => {
+                    this.tinySeasons = response.data;
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+        },
+
+        createTinySeason: function (type) {
+            this.tinySeasonsInput.planOrCost = type;
+            axios.post(IFAB_baseUrl + '/budget/admin/sub_seasons/register' , this.tinySeasonsInput)
+                .then((response) => {
+                    this.tinySeasons = response.data;
+                    this.showModal = false;
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
                 });
 
-            // GET /someUrl
-            this.$http.get('http://localhost/IFAB_AdministratorSystem/public/budget/admin/sub_seasons_cost/register').then(response => {
-                alert("ok");
-            }, response => {
-                alert("error");
-            });
-            alert("ali");
-
+/*            this.$notify({
+                title: 'Important message',
+                text: 'Hello user! This is a notification!'
+            });*/
         }
     }
 });

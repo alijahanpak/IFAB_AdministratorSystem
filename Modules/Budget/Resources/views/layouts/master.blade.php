@@ -206,15 +206,35 @@
             </div>
         </div>
     </div>
-
+    <script type="text/x-template" id="modal-template">
+        <transition name="modal">
+            <div class="modal-mask">
+                <div class="modal-wrapper">
+                    <div class="modal-container">
+                        <div class="modal-footer">
+                            <div class="modal-header">
+                                <slot name="header">
+                                    <button @click="$emit('close')" type="button">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </slot>
+                            </div>
+                            <div class="modal-body">
+                                <slot name="body"></slot>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+    </script>
     <script src="{{ asset('js/vendor/jquery.js') }}"></script>
     <script src="{{ asset('js/vendor/what-input.js') }}"></script>
     <script src="{{ asset('js/vendor/foundation.js') }}"></script>
-    <script src="{{ asset('js/vue.js') }}"></script>
     <script src="{{ asset('js/persian-date.min.js') }}"></script>
     <script src="{{ asset('js/persian-datepicker.min.js') }}"></script>
-    <script src="{{ asset('js/key.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/key.js') }}"></script>
     @if(isset($requireJsFile))
         @if($requireJsFile == 'deprived_area')
             <script src="{{ asset('js/modules/budget/admin/deprived_area.js') }}"></script>
@@ -240,6 +260,5 @@
                 });
         </script>
     @endif
-
 </body>
 </html>
