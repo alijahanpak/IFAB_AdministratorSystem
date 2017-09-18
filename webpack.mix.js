@@ -1,4 +1,4 @@
-let mix = requifdropdown-menure('laravel-mix');
+let mix = require('laravel-mix');
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management

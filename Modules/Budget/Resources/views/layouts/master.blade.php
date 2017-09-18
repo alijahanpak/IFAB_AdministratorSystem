@@ -151,6 +151,7 @@
                                 <li><a href="{{ url('/budget/admin/deprived_area') }}">مناطق محروم</a></li>
                                 <li><a href="{{ url('/budget/admin/credit_distribution_def') }}">توزیع اعتبار</a></li>
                                 <li><a href="{{ url('/budget/admin/sub_seasons') }}">ریز فصول</a></li>
+                                <li><a href="{{ url('/budget/admin/sub_seasons') }}">ردیف توزیع اعتبار</a></li>
                             </ul>
                         </li>
 

@@ -263,7 +263,7 @@ var tinySeasons = new Vue({
                     console.log(response);
                 },(error) => {
                     console.log(error);
-                    this.$notify({group: 'errorPm', title: 'خطای در حذف رکورد', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
+                    this.$notify({group: 'errorPm', title: 'خطا در حذف رکورد', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                 });
         }
     }

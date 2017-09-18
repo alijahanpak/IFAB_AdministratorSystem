@@ -34,14 +34,15 @@
                             <!--Tab 2-->
                         @include('budget::pages.sub_seasons.cost')
                         <!--Tab 2-->
-                            <notifications group="successPm"
+                            <notifications
+                                           group="successPm"
                                            position="bottom right"
                                            animation-type="velocity"
                                            :speed="700" />
                             <notifications group="errorPm"
                                            position="bottom right"
                                            animation-type="velocity"
-                                           :speed="700" />
+                                           speed="700" />
                     </div>
                 </div>
             </div>

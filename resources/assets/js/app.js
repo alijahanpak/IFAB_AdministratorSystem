@@ -7,11 +7,11 @@
 require('./foundation');
 
 window.Vue = require('vue');
-window.Vue.http.headers.common['Access-Control-Request-Method'] = '*';
 
 import Notifications from 'vue-notification'
 import velocity      from 'velocity-animate'
 
+window.Vue.use(Notifications);
 window.Vue.use(Notifications , {velocity});
 
 /**

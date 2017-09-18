@@ -289,7 +289,7 @@
                 </label>
             </div>
         </div>
-        <div class="medium-6 columns padding-lr">
+        <div class="medium-6 columns padding-lr padding-bottom-modal">
             <button name="Submit" class="my-secondary button float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span>
                 <i id="registerSubmitActivityCircle">
                     <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
@@ -315,11 +315,8 @@
         <p>کاربر گرامی</p>
         <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
         <div class="grid-x">
-            <div class="medium-6 column text-center">
+            <div class="medium-12 column text-center">
                 <button  class="button primary btn-large-w" v-on:click="deleteTinySeason">بله</button>
-            </div>
-            <div class="medium-6 column text-center">
-                <button  class="button primary btn-large-w">خیر</button>
             </div>
         </div>
     </div>

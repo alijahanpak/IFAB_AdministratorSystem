@@ -1,4 +1,4 @@
-<div class="tabs-panel table-mrg-btm dynamic-height-level1" id="cost" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<div class="tabs-panel table-mrg-btm dynamic-height-level1" id="provincial_income" xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div id="dynamicParentId1">
         <div class="medium-12 bottom-mrg">
             <div class="clearfix border-btm-line bottom-mrg">
@@ -6,7 +6,7 @@
                     <a  class="clear button" id="show-modal" @click="showModal = true; errorMessage = ''" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
                         <i class="fi-plus size-30 secondry-color"></i>
                     </a>
-                    <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
+                    <a class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
                         <i class="fi-clipboard-notes size-30 secondry-color"></i>
                     </a>
                 </div>

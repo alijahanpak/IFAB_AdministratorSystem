@@ -45,6 +45,8 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::post('sub_seasons/delete', 'BudgetAdminController@deleteTinySeason');
     });
     //////////////////////////////////////////////////////////////////////////
+    Route::get('sub_seasons', 'BudgetAdminController@subSeasons');
+    //////////////////////////////////////////////////////////////////////////
     Route::prefix('credit_distribution')->group(function () {
         Route::get('capital_assets/provincial/plans', 'CreditDistributionController@creditDistributionPlan');
         Route::post('capital_assets/provincial/plans/register', 'CreditDistributionController@registerCreditDistributionPlan');
@@ -67,4 +69,6 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::post('capital_assets/plans/CAPIsExist', 'PlanController@CAPIsExist');
         Route::post('capital_assets/plans/update', 'PlanController@updateCapitalAssetsApprovedPlan');
     });
+    ///////////////////////////////////////////////////////////////////////////
+
 });
