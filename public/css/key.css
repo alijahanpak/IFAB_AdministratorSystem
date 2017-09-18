@@ -806,7 +806,7 @@ html, body {
     max-width: 62.5rem;
     width: 30%;
     margin: 0px auto;
-    padding: 10px 20px 50px 20px;
+    padding: 10px 20px 5px 20px;
     background-color: #fff;
     border-radius: 2px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
@@ -817,7 +817,7 @@ html, body {
     width: 50%;
     max-width: 62.5rem;
     margin: 0px auto;
-    padding: 20px 20px 50px 20px;
+    padding: 20px 20px 5px 20px;
     background-color: #fff;
     border-radius: 2px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
@@ -827,7 +827,7 @@ html, body {
     width: 90%;
     max-width: 62.5rem;
     margin: 0px auto;
-    padding: 20px 20px 50px 20px;
+    padding: 20px 20px 5px 20px;
     background-color: #fff;
     border-radius: 2px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
@@ -836,4 +836,7 @@ html, body {
 
 .change-pointer{
     cursor: pointer;
+}
+.padding-bottom-modal{
+    padding-bottom: 40px;
 }
