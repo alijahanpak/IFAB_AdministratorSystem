@@ -11,7 +11,6 @@ window.Vue = require('vue');
 import Notifications from 'vue-notification'
 import velocity      from 'velocity-animate'
 
-window.Vue.use(Notifications);
 window.Vue.use(Notifications , {velocity});
 
 /**

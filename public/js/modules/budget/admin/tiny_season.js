@@ -208,7 +208,7 @@ var tinySeasons = new Vue({
                     .then((response) => {
                         this.tinySeasons = response.data;
                         this.showModal = false;
-                        this.$notify({group: 'successPm', title: 'پیام ثبت موفق', text: 'رکورد با موفقیت ثبت شد.' , type: 'success'});
+                        this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'رکورد با موفقیت ثبت شد.' , type: 'success'});
                         console.log(response);
                     },(error) => {
                         console.log(error);
@@ -237,7 +237,7 @@ var tinySeasons = new Vue({
                     .then((response) => {
                         this.tinySeasons = response.data;
                         this.showModalUpdate = false;
-                        this.$notify({group: 'successPm', title: 'پیام بروزرسانی موفق', text: 'بروزرسانی با موفقیت انجام شد.' , type: 'success'});
+                        this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'بروزرسانی با موفقیت انجام شد.' , type: 'success'});
                         console.log(response);
                     },(error) => {
                         console.log(error);
@@ -259,11 +259,11 @@ var tinySeasons = new Vue({
                 .then((response) => {
                     this.tinySeasons = response.data;
                     this.showModalDelete = false;
-                    this.$notify({group: 'successPm', title: 'پیام حذف موفق', text: 'حذف رکورد با موفقیت انجام شد.' , type: 'success'});
+                    this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'حذف رکورد با موفقیت انجام شد.' , type: 'success'});
                     console.log(response);
                 },(error) => {
                     console.log(error);
-                    this.$notify({group: 'errorPm', title: 'خطا در حذف رکورد', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
+                    this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                 });
         }
     }
