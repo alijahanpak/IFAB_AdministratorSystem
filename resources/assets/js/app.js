@@ -12,7 +12,9 @@ import Notifications from 'vue-notification'
 import velocity      from 'velocity-animate'
 
 window.Vue.use(Notifications , {velocity});
-
+Vue.component('modal-tiny', {template: '#modal-tiny-template'});
+Vue.component('modal-small', {template: '#modal-small-template'});
+Vue.component('modal-large', {template: '#modal-large-template'});
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

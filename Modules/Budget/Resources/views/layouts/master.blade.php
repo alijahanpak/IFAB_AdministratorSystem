@@ -151,7 +151,8 @@
                                 <li><a href="{{ url('/budget/admin/deprived_area') }}">مناطق محروم</a></li>
                                 <li><a href="{{ url('/budget/admin/credit_distribution_def') }}">توزیع اعتبار</a></li>
                                 <li><a href="{{ url('/budget/admin/sub_seasons') }}">ریز فصول</a></li>
-                                <li><a href="{{ url('/budget/admin/sub_seasons') }}">ردیف توزیع اعتبار</a></li>
+                                <li><a href="{{ url('/budget/admin/row_distribution_credit') }}">ردیف توزیع اعتبار</a></li>
+                                <li><a href="{{ url('/budget/admin/title_of_plans') }}">عنوان طرح / برنامه</a></li>
                             </ul>
                         </li>
 
@@ -291,6 +292,10 @@
             <script src="{{ asset('js/modules/budget/credit_distribution/provincial_budget_proposal.js')  }}"></script>
         @elseif($requireJsFile =='capital_assets_approved_plan')
             <script src="{{ asset('js/modules/budget/plan/capital_assets_approved_plan.js')  }}"></script>
+        @elseif($requireJsFile =='row_distribution_credit')
+            <script src="{{ asset('js/modules/budget/admin/row_distribution_credit.js')  }}"></script>
+        @elseif($requireJsFile =='title_of_plans')
+            <script src="{{ asset('js/modules/budget/admin/title_of_plans.js')  }}"></script>
         @endif
     @endif
     @if (session('messageDialogPm'))

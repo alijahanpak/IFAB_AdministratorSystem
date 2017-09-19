@@ -25371,7 +25371,9 @@ window.Vue = __webpack_require__(27);
 
 
 window.Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_notification___default.a, { velocity: __WEBPACK_IMPORTED_MODULE_1_velocity_animate___default.a });
-
+Vue.component('modal-tiny', { template: '#modal-tiny-template' });
+Vue.component('modal-small', { template: '#modal-small-template' });
+Vue.component('modal-large', { template: '#modal-large-template' });
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

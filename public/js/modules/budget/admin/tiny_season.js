@@ -165,7 +165,7 @@ $(document).ready(function () {
     ////////////////////////////////////////////////////////
 });
 
-Vue.component('modal-tiny', {template: '#modal-tiny-template'});
+
 
 var tinySeasons = new Vue({
     el: '#tinySeasons',

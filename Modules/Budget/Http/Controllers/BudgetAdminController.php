@@ -612,5 +612,17 @@ class BudgetAdminController extends Controller
         })->get();
         return \response()->json($seasons);
     }
+
+    public function rowDistributionCredit()
+    {
+        return view('budget::pages.row_distribution_credit.main', ['pageTitle' => 'ردیف توزیع اعتبار',
+            'requireJsFile' => 'row_distribution_credit' ]);
+    }
+
+    public function titleOfPlans()
+    {
+        return view('budget::pages.title_of_plans.main', ['pageTitle' => 'عنوان طرح / برنامه',
+            'requireJsFile' => 'title_of_plans' ]);
+    }
 }
 
