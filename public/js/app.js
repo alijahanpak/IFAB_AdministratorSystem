@@ -25370,7 +25370,6 @@ window.Vue = __webpack_require__(27);
 
 
 
-window.Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_notification___default.a);
 window.Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_notification___default.a, { velocity: __WEBPACK_IMPORTED_MODULE_1_velocity_animate___default.a });
 
 /**
