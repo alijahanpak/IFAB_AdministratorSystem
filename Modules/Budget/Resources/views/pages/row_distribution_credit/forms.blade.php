@@ -60,14 +60,14 @@
         <div class="grid-x">
             <div class="medium-12 columns padding-lr">
                 <label>عنوان
-                    <input type="text" name="rdcSubject" v-model="rowDistributionCreditInput.rdcSubject">
+                    <input type="text" name="rdcSubject" v-model="rowDistributionCreditFill.rdcSubject">
                 </label>
             </div>
         </div>
         <div class="grid-x">
             <div class="small-12 columns padding-lr">
                 <label>شرح
-                    <textarea name="rdcDescription" style="min-height: 150px;" v-model="rowDistributionCreditInput.rdcDescription"></textarea>
+                    <textarea name="rdcDescription" style="min-height: 150px;" v-model="rowDistributionCreditFill.rdcDescription"></textarea>
                 </label>
             </div>
         </div>

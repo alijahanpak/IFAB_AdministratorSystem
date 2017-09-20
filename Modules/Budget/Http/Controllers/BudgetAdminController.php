@@ -520,6 +520,8 @@ class BudgetAdminController extends Controller
         }
     }
 
+    ///////////////////////////////////////////////////////////////
+
     public function updateSubSeason(Request $request)
     {
         $old = TinySeason::find(Input::get('tsId'));
@@ -634,16 +636,62 @@ class BudgetAdminController extends Controller
 
     public function registerRowDC(Request $request)
     {
-        $cdr = new CreditDistributionRow;
-        $cdr->cdUId = Auth::user()->id;
-        $cdr->cdPlanOrCost = $request->planOrCost;
-        $cdr->cdSubject = $request->rdcSubject;
-        $cdr->cdDescription = $request->rdcDescription;
-        $cdr->save();
 
-        SystemLog::setBudgetSubSystemAdminLog('تعریف ردیف توزیع اعتبار ' . $request->rdcSubject);
-        $cdr = CreditDistributionRow::where('cdPlanOrCost' , $request->planOrCost)->get();
-        return \response()->json($cdr);
+        if (CreditDistributionRow::where('cdSubject' , '=' , $request->rdcSubject)->exists())
+        {
+            return \response()->json([] , 409);
+        }
+        else
+        {
+            $cdr = new CreditDistributionRow;
+            $cdr->cdUId = Auth::user()->id;
+            $cdr->cdPlanOrCost = $request->planOrCost;
+            $cdr->cdSubject = $request->rdcSubject;
+            $cdr->cdDescription = $request->rdcDescription;
+            $cdr->save();
+
+            SystemLog::setBudgetSubSystemAdminLog('تعریف ردیف توزیع اعتبار ' . $request->rdcSubject);
+            $cdr = CreditDistributionRow::where('cdPlanOrCost' , $request->planOrCost)->get();
+            return \response()->json($cdr);
+        }
+    }
+
+    public function updateRowDC(Request $request)
+    {
+        if (CreditDistributionRow::where('id' , '<>' , $request->id)->where('cdSubject' , '=' , $request->rdcSubject)->exists())
+        {
+            return \response()->json([] , 409);
+        }
+        else
+        {
+            $old = CreditDistributionRow::find($request->id);
+            $cdr = CreditDistributionRow::find($request->id);
+            $cdr->cdSubject = $request->rdcSubject;
+            $cdr->cdDescription = $request->rdcDescription;
+            $cdr->save();
+
+            SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان ردیف توزیع اعتبار (' . $old->cdSubject . ') به (' . $request->rdcSubject . ')');
+            $cdr = CreditDistributionRow::where('cdPlanOrCost' , $request->planOrCost)->get();
+            return \response()->json($cdr);
+        }
+    }
+
+    public function deleteRowDC(Request $request)
+    {
+        $cdr = CreditDistributionRow::find($request->id);
+        try {
+            $logTemp = $cdr->cdSubject;
+            $cdr->delete();
+            SystemLog::setBudgetSubSystemAdminLog('حذف ردیف توزیع اعتبار ' . $logTemp);
+            $cdr = CreditDistributionRow::where('cdPlanOrCost' , $request->cdPlanOrCost)->get();
+            return \response()->json($cdr , 200);
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                $cdr = CreditDistributionRow::where('cdPlanOrCost' , $request->cdPlanOrCost)->get();
+                return \response()->json($cdr , 204);
+            }
+        }
     }
 }
 
