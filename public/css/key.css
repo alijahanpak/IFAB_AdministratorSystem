@@ -8,6 +8,13 @@
     outline: medium none;
     transition: box-shadow 0.5s ease 0s, border-color 0.25s ease-in-out 0s;
 }
+.select-error{
+                background-color: #fefefe;
+    border: 1px solid #cc4b37 !important;
+    box-shadow: 0 0 5px #cc4b37;
+    outline: medium none;
+    transition: box-shadow 0.5s ease 0s, border-color 0.25s ease-in-out 0s;
+            }
 select{
     font-size: small;
 }
@@ -427,8 +434,25 @@ a:focus,button:focus {
     margin-bottom: -10px;
 }
 .error-font{
-    font-weight: normal;
+    font-size: small;
+    margin-top: -1.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.75rem;
+    color: #cc4b37;
 }
+.error-border{
+    border: 1px solid #cc4b37 !important;
+    box-shadow: 0 0 5px #cc4b37;
+    outline: medium none;
+    transition: box-shadow 0.5s ease 0s, border-color 0.25s ease-in-out 0s;
+}
+.error-border1{
+    border: 1px solid #cc4b37;
+    box-shadow: 0 0 5px #cc4b37;
+}
+.form-error.is-visible {
+    display: block; }
+
 .font-wei{
     font-weight: normal;
 }
