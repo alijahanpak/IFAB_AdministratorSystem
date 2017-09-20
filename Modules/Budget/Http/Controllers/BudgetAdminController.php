@@ -81,6 +81,7 @@ class BudgetAdminController extends Controller
     {
         $cdr = new CreditDistributionRow;
         $cdr->cdUId = Auth::user()->id;
+        $cdr->cdPlanOrCost = 0;
         $cdr->cdSubject = Input::get('cdrSubject');
         $cdr->cdDescription = Input::get('cdrDescription');
         $cdr->save();
@@ -623,6 +624,26 @@ class BudgetAdminController extends Controller
     {
         return view('budget::pages.title_of_plans.main', ['pageTitle' => 'عنوان طرح / برنامه',
             'requireJsFile' => 'title_of_plans' ]);
+    }
+
+    public function FetchRowDC(Request $request)
+    {
+        $cdr = CreditDistributionRow::where('cdPlanOrCost' , $request->planOrCost)->get();
+        return \response()->json($cdr);
+    }
+
+    public function registerRowDC(Request $request)
+    {
+        $cdr = new CreditDistributionRow;
+        $cdr->cdUId = Auth::user()->id;
+        $cdr->cdPlanOrCost = $request->planOrCost;
+        $cdr->cdSubject = $request->rdcSubject;
+        $cdr->cdDescription = $request->rdcDescription;
+        $cdr->save();
+
+        SystemLog::setBudgetSubSystemAdminLog('تعریف ردیف توزیع اعتبار ' . $request->rdcSubject);
+        $cdr = CreditDistributionRow::where('cdPlanOrCost' , $request->planOrCost)->get();
+        return \response()->json($cdr);
     }
 }
 

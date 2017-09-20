@@ -11,6 +11,9 @@ window.Vue = require('vue');
 import Notifications from 'vue-notification'
 import velocity      from 'velocity-animate'
 
+import VeeValidate from 'vee-validate'
+window.Vue.use(VeeValidate);
+
 window.Vue.use(Notifications , {velocity});
 Vue.component('modal-tiny', {template: '#modal-tiny-template'});
 Vue.component('modal-small', {template: '#modal-small-template'});

@@ -201,23 +201,27 @@ var tinySeasons = new Vue({
         },
 
         createTinySeason: function (type) {
-            this.tinySeasonsInput.planOrCost = type;
-            if (this.tinySeasonsInput.tsSId != '' && this.tinySeasonsInput.tsSubject != '')
-            {
-                axios.post('/budget/admin/sub_seasons/register' , this.tinySeasonsInput)
-                    .then((response) => {
-                        this.tinySeasons = response.data;
-                        this.showModal = false;
-                        this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'رکورد با موفقیت ثبت شد.' , type: 'success'});
-                        console.log(response);
-                    },(error) => {
-                        console.log(error);
-                        this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                    });
-            }
-            else {
-                this.errorMessage = ' لطفا در وارد کردن اطلاعات دقت کنید!';
-            }
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+                    this.tinySeasonsInput.planOrCost = type;
+                    if (this.tinySeasonsInput.tsSId != '' && this.tinySeasonsInput.tsSubject != '')
+                    {
+                        axios.post('/budget/admin/sub_seasons/register' , this.tinySeasonsInput)
+                            .then((response) => {
+                                this.tinySeasons = response.data;
+                                this.showModal = false;
+                                this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'رکورد با موفقیت ثبت شد.' , type: 'success'});
+                                console.log(response);
+                            },(error) => {
+                                console.log(error);
+                                this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                            });
+                    }
+                    else {
+                        this.errorMessage = ' لطفا در وارد کردن اطلاعات دقت کنید!';
+                    }
+                }
+            });
         },
 
         tinySeasonUpdateDialog: function (item , type) {

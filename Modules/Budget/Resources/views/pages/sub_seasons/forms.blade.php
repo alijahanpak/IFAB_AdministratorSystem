@@ -221,8 +221,9 @@
         <div class="grid-x">
             <div class="medium-12 columns padding-lr">
                 <label>ریز فصل
-                    <input type="text" name="tsSubject" v-model="tinySeasonsInput.tsSubject">
+                    <input type="text" name="tsSubject" v-model="tinySeasonsInput.tsSubject" v-validate="'required'" :class="{'input': true, '': errors.has('tsSubject')}">
                 </label>
+                <span v-show="errors.has('tsSubject')" class="error-font">طرح را انتخاب کنید!</span>
             </div>
         </div>
         <div class="grid-x">

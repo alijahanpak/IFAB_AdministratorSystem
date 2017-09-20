@@ -35,24 +35,20 @@
                 <div class="table-contain dynamic-height-level2">
                     <div class="grid-x" v-for="cost in rowDistributionCredit">
                         <div class="medium-4 table-contain-border cell-vertical-center">
-                            @{{ rowDistributionCredit.rdcSubject }}
+                            @{{ cost.cdSubject }}
                         </div>
-                        <div class="medium-8">
-                            <div class="grid-x selectAbleRow">
-                                <div class="medium-12  table-contain-border cell-vertical-center">
-                                    <div class="grid-x">
-                                        <div class="medium-11">
-                                            @{{ rowDistributionCredit.rdcDescription }}
-                                        </div>
-                                        <div class="medium-1 cell-vertical-center text-left">
-                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'rdcRowDistributionCredit' + rowDistributionCredit.id"><img width="15px" height="15px" src="{{ asset('pic/menu.svg') }}"></a>
-                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'rdcrowDistributionCredit' + rowDistributionCredit.id" data-dropdown data-auto-focus="true">
-                                                <ul class="my-menu small-font text-right">
-                                                    <li><a v-on:click.prevent="rowDistributionCreditUpdateDialog(tinySeason , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                    <li><a v-on:click.prevent="openDeleteRowDistributionCreditConfirm(rowDistributionCredit)"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
+                        <div class="medium-8 table-contain-border cell-vertical-center">
+                            <div class="grid-x">
+                                <div class="medium-11">
+                                    @{{ cost.cdDescription }}
+                                </div>
+                                <div class="medium-1 cell-vertical-center text-left">
+                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'rdcRowDistributionCredit' + rowDistributionCredit.id"><img width="15px" height="15px" src="{{ asset('pic/menu.svg') }}"></a>
+                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'rdcrowDistributionCredit' + rowDistributionCredit.id" data-dropdown data-auto-focus="true">
+                                        <ul class="my-menu small-font text-right">
+                                            <li><a v-on:click.prevent="rowDistributionCreditUpdateDialog(tinySeason , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                            <li><a v-on:click.prevent="openDeleteRowDistributionCreditConfirm(rowDistributionCredit)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
