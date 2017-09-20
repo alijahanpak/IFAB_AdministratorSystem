@@ -209,21 +209,22 @@
         <div class="grid-x">
             <div class="medium-12 cell padding-lr">
                 <label>فصل
-                    <select name="sId" v-model="tinySeasonsInput.tsSId">
+                    <select name="sId" v-model="tinySeasonsInput.tsSId" v-validate="'required'" :class="{'input': true, 'select-error': errors.has('tsSId')}">
                         <option value=""></option>
                         @foreach($seasons as $season)
                             <option value="{{ $season->id }}">{{ $season->sSubject }}</option>
                         @endforeach
                     </select>
                 </label>
+                <span v-show="errors.has('sId')" class="error-font">لطفا فصل انتخاب کنید!</span>
             </div>
         </div>
         <div class="grid-x">
             <div class="medium-12 columns padding-lr">
                 <label>ریز فصل
-                    <input type="text" name="tsSubject" v-model="tinySeasonsInput.tsSubject" v-validate="'required'" :class="{'input': true, '': errors.has('tsSubject')}">
+                    <input type="text" name="tsSubject" v-model="tinySeasonsInput.tsSubject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('tsSubject')}">
                 </label>
-                <span v-show="errors.has('tsSubject')" class="error-font">طرح را انتخاب کنید!</span>
+                <span v-show="errors.has('tsSubject')" class="error-font">لطفا ریزفصل انتخاب کنید!</span>
             </div>
         </div>
         <div class="grid-x">
