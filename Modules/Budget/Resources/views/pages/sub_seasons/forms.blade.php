@@ -197,7 +197,7 @@
 <!-- use the modal component, pass in the prop -->
 <modal-tiny v-if="showModal" @close="showModal = false">
     <div  slot="body">
-        {!! Form::open(array('v-on:submit.prevent' => 'createTinySeason(1)')) !!}
+        {!! Form::open(array('v-on:submit.prevent' => 'createTinySeason')) !!}
         {!! csrf_field() !!}
         <div class="grid-x" v-if="errorMessage">
             <div class="medium-12 columns padding-lr">
@@ -255,7 +255,7 @@
 <!-- update modal -->
 <modal-tiny v-if="showModalUpdate" @close="showModalUpdate = false">
     <div  slot="body">
-        {!! Form::open(array('v-on:submit.prevent' => 'updateTinySeason(1)')) !!}
+        {!! Form::open(array('v-on:submit.prevent' => 'updateTinySeason')) !!}
         {!! csrf_field() !!}
         <div class="grid-x" v-if="errorMessage_update">
             <div class="medium-12 columns padding-lr">

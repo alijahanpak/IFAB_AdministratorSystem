@@ -51,6 +51,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::post('row_distribution_credit/delete', 'BudgetAdminController@deleteRowDC');
         ///////////////////////////////////////////////////////////////////////
         Route::get('title_of_plans', 'BudgetAdminController@titleOfPlans');
+        Route::get('title_of_plans/fetchData', 'BudgetAdminController@FetchTitleOfPlan');
     });
 
     //////////////////////////////////////////////////////////////////////////

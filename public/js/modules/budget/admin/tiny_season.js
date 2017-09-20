@@ -170,9 +170,11 @@ $(document).ready(function () {
 var tinySeasons = new Vue({
     el: '#tinySeasons',
     data: {
+        planOrCost: 0,
         errorMessage: '',
         errorMessage_update: '',
         tinySeasons: [],
+        tinySeasonsCost: [],
         tinySeasonsInput: {tsSId: '' , tsSubject: '' , tsDescription: '' , planOrCost: ''},
         showModal: false,
         showModalUpdate: false,
@@ -182,6 +184,7 @@ var tinySeasons = new Vue({
     },
 
     created: function () {
+        this.fetchCostData();
         this.fetchData();
     },
 
@@ -191,7 +194,7 @@ var tinySeasons = new Vue({
 
     methods:{
         fetchData: function () {
-            axios.get('/budget/admin/sub_seasons/fetchData' , {params:{planOrCost: 1}})
+            axios.get('/budget/admin/sub_seasons/fetchData' , {params:{planOrCost: 0}})
                 .then((response) => {
                     this.tinySeasons = response.data;
                     console.log(response);
@@ -200,17 +203,31 @@ var tinySeasons = new Vue({
                 });
         },
 
-        createTinySeason: function (type) {
+        fetchCostData: function () {
+            axios.get('/budget/admin/sub_seasons/fetchData' , {params:{planOrCost: 1}})
+                .then((response) => {
+                    this.tinySeasonsCost = response.data;
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+        },
+
+        createTinySeason: function () {
             this.$validator.validateAll().then((result) => {
                 if (result) {
-                    this.tinySeasonsInput.planOrCost = type;
+                    this.tinySeasonsInput.planOrCost = this.planOrCost;
                     if (this.tinySeasonsInput.tsSId != '' && this.tinySeasonsInput.tsSubject != '')
                     {
                         axios.post('/budget/admin/sub_seasons/register' , this.tinySeasonsInput)
                             .then((response) => {
-                                this.tinySeasons = response.data;
+                                if(this.planOrCost == 1)
+                                    this.tinySeasonsCost = response.data;
+                                else
+                                    this.tinySeasons = response.data;
                                 this.showModal = false;
                                 this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'رکورد با موفقیت ثبت شد.' , type: 'success'});
+                                this.tinySeasonsInput = [];
                                 console.log(response);
                             },(error) => {
                                 console.log(error);
@@ -224,12 +241,13 @@ var tinySeasons = new Vue({
             });
         },
 
-        tinySeasonUpdateDialog: function (item , type) {
+        tinySeasonUpdateDialog: function (item , planOrCost) {
             this.tinySeasonsFill.tsSId = item.tsSId;
             this.tinySeasonsFill.tsSubject = item.tsSubject;
             this.tinySeasonsFill.tsDescription = item.tsDescription;
             this.tinySeasonsFill.id = item.id;
-            this.tinySeasonsFill.planOrCost = type;
+            this.tinySeasonsFill.planOrCost = planOrCost;
+            this.planOrCost = planOrCost;
             this.errorMessage_update = '';
             this.showModalUpdate = true;
         },
@@ -239,7 +257,10 @@ var tinySeasons = new Vue({
             {
                 axios.post('/budget/admin/sub_seasons/update' , this.tinySeasonsFill)
                     .then((response) => {
-                        this.tinySeasons = response.data;
+                        if(this.planOrCost == 1)
+                            this.tinySeasonsCost = response.data;
+                        else
+                            this.tinySeasons = response.data;
                         this.showModalUpdate = false;
                         this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'بروزرسانی با موفقیت انجام شد.' , type: 'success'});
                         console.log(response);
@@ -261,7 +282,10 @@ var tinySeasons = new Vue({
         deleteTinySeason: function () {
             axios.post('/budget/admin/sub_seasons/delete' , this.tsIdDelete)
                 .then((response) => {
-                    this.tinySeasons = response.data;
+                    if(response.data.tsPlanOrCost == 1)
+                        this.tinySeasonsCost = response.data;
+                    else
+                        this.tinySeasons = response.data;
                     this.showModalDelete = false;
                     this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'حذف رکورد با موفقیت انجام شد.' , type: 'success'});
                     console.log(response);

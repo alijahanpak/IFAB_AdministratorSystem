@@ -625,6 +625,7 @@ class BudgetAdminController extends Controller
     public function titleOfPlans()
     {
         return view('budget::pages.title_of_plans.main', ['pageTitle' => 'عنوان طرح / برنامه',
+            'bSeasons' => $bSeasons = BudgetSeason::all(),
             'requireJsFile' => 'title_of_plans' ]);
     }
 

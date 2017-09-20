@@ -16,7 +16,9 @@
                 <label>فصل بودجه
                     <select name="topSeasonBudget" v-model="titleOfPlansInput.topSeasonBudget">
                         <option value=""></option>
-                            <option value="1"></option>
+                        @foreach($bSeasons as $bSeason)
+                            <option value="{{ $bSeason->id }}">{{ $bSeason->bsSubject }}</option>
+                        @endforeach
                     </select>
                 </label>
             </div>
@@ -76,7 +78,9 @@
                 <label>فصل بودجه
                     <select name="topSeasonBudget" v-model="titleOfPlansInput.topSeasonBudget">
                         <option value=""></option>
-                        <option value="1"></option>
+                        @foreach($bSeasons as $bSeason)
+                            <option value="{{ $bSeason->id }}">{{ $bSeason->bsSubject }}</option>
+                        @endforeach
                     </select>
                 </label>
             </div>
