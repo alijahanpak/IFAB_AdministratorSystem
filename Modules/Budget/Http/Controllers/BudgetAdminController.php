@@ -520,8 +520,6 @@ class BudgetAdminController extends Controller
         }
     }
 
-    ///////////////////////////////////////////////////////////////
-
     public function updateSubSeason(Request $request)
     {
         $old = TinySeason::find(Input::get('tsId'));
@@ -534,6 +532,8 @@ class BudgetAdminController extends Controller
         SystemLog::setBudgetSubSystemAdminLog('تغییر  ریز فصل (' . $old->tsSubject . ') به (' . $ts->tsSubject . ')');
         return Redirect::to(URL::previous() . '#plan_title_tab');
     }
+
+    ///////////////////////////////////////////////////////////////
 
     public function registerTinySeason(Request $request)
     {
@@ -555,10 +555,7 @@ class BudgetAdminController extends Controller
             $ts->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل ' . $request->tsSubject . ' در فصل ' . Season::find($request->tsSId)->sSubject);
-            $seasons = Season::with('tinySeason')->whereHas('tinySeason' , function ($query) use ($request){
-                $query->where('tsPlanOrCost' , '=' , $request->planOrCost);
-            })->get();
-            return \response()->json($seasons , 200);
+            return \response()->json($this->getAllTinySeasons($request->planOrCost) , 200);
         }
     }
 
@@ -583,10 +580,7 @@ class BudgetAdminController extends Controller
             $ts->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تغییر  ریز فصل (' . $old->tsSubject . ') به (' . $ts->tsSubject . ')');
-            $seasons = Season::with('tinySeason')->whereHas('tinySeason' , function ($query) use ($request){
-                $query->where('tsPlanOrCost' , '=' , $request->planOrCost);
-            })->get();
-            return \response()->json($seasons , 200);
+            return \response()->json($this->getAllTinySeasons($request->planOrCost) , 200);
         }
     }
 
@@ -596,10 +590,7 @@ class BudgetAdminController extends Controller
         try {
             $ts->delete();
             SystemLog::setBudgetSubSystemAdminLog('حذف ریز فصل ' . $request->tsSubject);
-            $seasons = Season::with('tinySeason')->whereHas('tinySeason' , function ($query) use ($request){
-                $query->where('tsPlanOrCost' , '=' , $request->tsPlanOrCost);
-            })->get();
-            return \response()->json($seasons , 200);
+            return \response()->json($this->getAllTinySeasons($request->planOrCost) , 200);
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
@@ -610,10 +601,17 @@ class BudgetAdminController extends Controller
 
     public function FetchTinySeasonData(Request $request)
     {
-        $seasons = Season::with('tinySeason')->whereHas('tinySeason' , function ($query) use ($request){
-            $query->where('tsPlanOrCost' , '=' , $request->planOrCost);
-        })->get();
-        return \response()->json($seasons);
+        return \response()->json($this->getAllTinySeasons($request->planOrCost));
+    }
+
+    public function getAllTinySeasons($planOrCost)
+    {
+        $seasons = Season::whereHas('tinySeason' , function ($query) use ($planOrCost){
+            return $query->where('tsPlanOrCost' , '=' , $planOrCost);
+        })->with(['tinySeason' => function($query)  use ($planOrCost){
+            return $query->where('tsPlanOrCost' , '=' , $planOrCost);
+        }])->get();
+        return $seasons;
     }
 
     public function rowDistributionCredit()
