@@ -10,11 +10,14 @@ window.Vue = require('vue');
 
 import Notifications from 'vue-notification'
 import velocity      from 'velocity-animate'
-
+import VueRouter from 'vue-router'
 import VeeValidate from 'vee-validate'
-window.Vue.use(VeeValidate);
 
+
+window.Vue.use(VeeValidate);
 window.Vue.use(Notifications , {velocity});
+window.Vue.use(VueRouter);
+
 Vue.component('modal-tiny', {template: '#modal-tiny-template'});
 Vue.component('modal-small', {template: '#modal-small-template'});
 Vue.component('modal-large', {template: '#modal-large-template'});
@@ -24,12 +27,25 @@ Vue.component('modal-large', {template: '#modal-large-template'});
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.component('example', require('./components/Example.vue'));
 
-//Vue.component('example', require('./components/Example.vue'));
+const routes = [
+    {path: '/', component: levi },
+    {path: '/product', component: product },
+    {path:'/price', component: price }
+];
 
-/*const app = new Vue({
+
+//export router instance
+
+export default new Router({
+
+    mode: 'history',
+    routes,
+    linkActiveClass:'is-active'
+});
+
+const app = new Vue({
     el: '#app',
-    data:{
-        message: 'alijahanpak'
-    }
-});*/
+    router,
+});
