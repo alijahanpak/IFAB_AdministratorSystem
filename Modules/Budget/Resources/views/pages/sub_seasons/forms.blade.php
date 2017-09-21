@@ -209,14 +209,14 @@
         <div class="grid-x">
             <div class="medium-12 cell padding-lr">
                 <label>فصل
-                    <select name="sId" v-model="tinySeasonsInput.tsSId" v-validate="'required'" :class="{'input': true, 'select-error': errors.has('tsSId')}">
+                    <select v-model="tinySeasonsInput.tsSId" name="sId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('sId')}">
                         <option value=""></option>
                         @foreach($seasons as $season)
                             <option value="{{ $season->id }}">{{ $season->sSubject }}</option>
                         @endforeach
                     </select>
+                    <span v-show="errors.has('sId')" class="error-font">لطفا فصل انتخاب کنید!</span>
                 </label>
-                <span v-show="errors.has('sId')" class="error-font">لطفا فصل انتخاب کنید!</span>
             </div>
         </div>
         <div class="grid-x">
