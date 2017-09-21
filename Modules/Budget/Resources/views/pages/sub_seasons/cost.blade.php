@@ -3,7 +3,7 @@
         <div class="medium-12 bottom-mrg">
             <div class="clearfix border-btm-line bottom-mrg">
                 <div class="button-group float-left report-mrg">
-                    <a  class="clear button" id="show-modal" @click="showModal = true; errorMessage = ''" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
+                    <a  class="clear button" id="show-modal" @click="planOrCost = 1; showModal = true; errorMessage = ''" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
                         <i class="fi-plus size-30 secondry-color"></i>
                     </a>
                     <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
@@ -39,7 +39,7 @@
                 </div>
                 <!--Header End-->
                 <div class="table-contain dynamic-height-level2">
-                    <div class="grid-x" v-for="season in tinySeasons">
+                    <div class="grid-x" v-for="season in tinySeasonsCost">
                         <div class="medium-2 table-contain-border cell-vertical-center">
                             @{{ season.sSubject }}
                         </div>

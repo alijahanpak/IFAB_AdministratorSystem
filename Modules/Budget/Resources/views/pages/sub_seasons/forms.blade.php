@@ -197,7 +197,7 @@
 <!-- use the modal component, pass in the prop -->
 <modal-tiny v-if="showModal" @close="showModal = false">
     <div  slot="body">
-        {!! Form::open(array('v-on:submit.prevent' => 'createTinySeason(1)')) !!}
+        {!! Form::open(array('v-on:submit.prevent' => 'createTinySeason')) !!}
         {!! csrf_field() !!}
         <div class="grid-x" v-if="errorMessage">
             <div class="medium-12 columns padding-lr">
@@ -209,20 +209,22 @@
         <div class="grid-x">
             <div class="medium-12 cell padding-lr">
                 <label>فصل
-                    <select name="sId" v-model="tinySeasonsInput.tsSId">
+                    <select v-model="tinySeasonsInput.tsSId" name="sId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('sId')}">
                         <option value=""></option>
                         @foreach($seasons as $season)
                             <option value="{{ $season->id }}">{{ $season->sSubject }}</option>
                         @endforeach
                     </select>
+                    <span v-show="errors.has('sId')" class="error-font">لطفا فصل انتخاب کنید!</span>
                 </label>
             </div>
         </div>
         <div class="grid-x">
             <div class="medium-12 columns padding-lr">
                 <label>ریز فصل
-                    <input type="text" name="tsSubject" v-model="tinySeasonsInput.tsSubject">
+                    <input type="text" name="tsSubject" v-model="tinySeasonsInput.tsSubject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('tsSubject')}">
                 </label>
+                <span v-show="errors.has('tsSubject')" class="error-font">لطفا ریزفصل انتخاب کنید!</span>
             </div>
         </div>
         <div class="grid-x">
@@ -254,7 +256,7 @@
 <!-- update modal -->
 <modal-tiny v-if="showModalUpdate" @close="showModalUpdate = false">
     <div  slot="body">
-        {!! Form::open(array('v-on:submit.prevent' => 'updateTinySeason(1)')) !!}
+        {!! Form::open(array('v-on:submit.prevent' => 'updateTinySeason')) !!}
         {!! csrf_field() !!}
         <div class="grid-x" v-if="errorMessage_update">
             <div class="medium-12 columns padding-lr">

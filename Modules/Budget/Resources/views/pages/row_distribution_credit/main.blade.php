@@ -31,7 +31,10 @@
                         <!--Tab 1-->
                     @include('budget::pages.row_distribution_credit.cost')
                         <!--Tab 1-->
-
+                    <notifications group="rowDistributionCreditPm"
+                                   position="bottom right"
+                                   animation-type="velocity"
+                                   :speed="700" />
                     </div>
                 </div>
             </div>

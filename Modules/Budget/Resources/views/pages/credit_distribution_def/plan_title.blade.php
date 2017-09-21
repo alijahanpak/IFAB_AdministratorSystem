@@ -119,7 +119,7 @@
         <div class="column">
             <div class="card dynamic-height-notif">
                 <div class="card-section text-center" style="margin-top:40%;">
-                    <span>کاربر گرامی، </span><span class="login-txt small-font"> عنوان طرح ثبت نشده است!<span><a data-open="CDPT_ModalInsert" class="custom-btn-pos my-secondary button tiny">ثبت</a></span></span>
+                    <span>کاربر گرامی، </span><span class="login-txt small-font"> عنوان طرح / برنامه ثبت نشده است!<span><a data-open="CDPT_ModalInsert" class="custom-btn-pos my-secondary button tiny">ثبت</a></span></span>
                 </div>
             </div>
         </div>

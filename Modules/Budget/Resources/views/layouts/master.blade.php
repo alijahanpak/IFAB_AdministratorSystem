@@ -122,7 +122,7 @@
                                 <li><a href="#">تملک دارایی سرمایه ای</a>
                                     <ul class="menu vertical nested">
                                         <li><a href="{{ url('/budget/plan/capital_assets/plans') }}">طرح ها</a></li>
-                                        <li><a href="#">پروژه ها</a></li>
+                                        <li><a href="{{ url('/budget/project/capital_assets/projects') }}">پروژه ها</a></li>
                                     </ul>
                                 </li>
 
@@ -152,7 +152,6 @@
                                 <li><a href="{{ url('/budget/admin/credit_distribution_def') }}">توزیع اعتبار</a></li>
                                 <li><a href="{{ url('/budget/admin/sub_seasons') }}">ریز فصول</a></li>
                                 <li><a href="{{ url('/budget/admin/row_distribution_credit') }}">ردیف توزیع اعتبار</a></li>
-                                <li><a href="{{ url('/budget/admin/title_of_plans') }}">عنوان طرح / برنامه</a></li>
                             </ul>
                         </li>
 
@@ -296,6 +295,8 @@
             <script src="{{ asset('js/modules/budget/admin/row_distribution_credit.js')  }}"></script>
         @elseif($requireJsFile =='title_of_plans')
             <script src="{{ asset('js/modules/budget/admin/title_of_plans.js')  }}"></script>
+        @elseif($requireJsFile =='approved_projects')
+            <script src="{{ asset('js/modules/budget/admin/projects/approved_projects.js')  }}"></script>
         @endif
     @endif
     @if (session('messageDialogPm'))

@@ -22,31 +22,30 @@ var rowDistributionCredit = new Vue({
 
     methods:{
         fetchData: function () {
-            /*axios.get('/budget/admin/sub_seasons/fetchData' , {params:{planOrCost: 1}})
+            axios.get('/budget/admin/row_distribution_credit/fetchData' , {params:{planOrCost: 1}})
                 .then((response) => {
-                    this.tinySeasons = response.data;
+                    this.rowDistributionCredit = response.data;
                     console.log(response);
                 },(error) => {
                     console.log(error);
-                });*/
-            alert('Fetch')
+                });
         },
 
         createRowDistributionCredit: function (type) {
-            this.rowDistributionCreditInput.capital_assetsOrCost = type;
-            if (this.rowDistributionCreditFill.rdcSubject != '')
+            this.rowDistributionCreditInput.planOrCost = type;
+            if (this.rowDistributionCreditInput.rdcSubject != '')
             {
-                /*axios.post('/budget/admin/sub_seasons/register' , this.tinySeasonsInput)
+                axios.post('/budget/admin/row_distribution_credit/register' , this.rowDistributionCreditInput)
                     .then((response) => {
-                        this.tinySeasons = response.data;
+                        this.rowDistributionCredit = response.data;
                         this.showModal = false;
-                        this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'رکورد با موفقیت ثبت شد.' , type: 'success'});
+                        this.$notify({group: 'rowDistributionCreditPm', title: 'پیام سیستم', text: 'رکورد با موفقیت ثبت شد.' , type: 'success'});
+                        this.rowDistributionCreditPm = [];
                         console.log(response);
                     },(error) => {
                         console.log(error);
                         this.errorMessage = 'ردیف توزیع اعتبار با این مشخصات قبلا ثبت شده است!';
-                    });*/
-                alert('درج انجام شد');
+                    });
             }
             else {
                 this.errorMessage = ' لطفا در وارد کردن اطلاعات دقت کنید!';
@@ -54,8 +53,8 @@ var rowDistributionCredit = new Vue({
         },
 
         rowDistributionCreditUpdateDialog: function (item , type) {
-            this.rowDistributionCreditFill.rdcSubject = item.rdcSubject;
-            this.rowDistributionCreditFill.rdcDescription = item.rdcDescription;
+            this.rowDistributionCreditFill.rdcSubject = item.cdSubject;
+            this.rowDistributionCreditFill.rdcDescription = item.cdDescription;
             this.rowDistributionCreditFill.id = item.id;
             this.rowDistributionCreditFill.planOrCost = type;
             this.errorMessage_update = '';
@@ -65,17 +64,16 @@ var rowDistributionCredit = new Vue({
         updateRowDistributionCredit: function () {
             if (this.rowDistributionCreditFill.rdcSubject != '')
             {
-                /*axios.post('/budget/admin/sub_seasons/update' , this.tinySeasonsFill)
+                axios.post('/budget/admin/row_distribution_credit/update' , this.rowDistributionCreditFill)
                     .then((response) => {
-                        this.tinySeasons = response.data;
+                        this.rowDistributionCredit = response.data;
                         this.showModalUpdate = false;
-                        this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'بروزرسانی با موفقیت انجام شد.' , type: 'success'});
+                        this.$notify({group: 'rowDistributionCreditPm', title: 'پیام سیستم', text: 'بروزرسانی با موفقیت انجام شد.' , type: 'success'});
                         console.log(response);
                     },(error) => {
                         console.log(error);
-                        this.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                    });*/
-                alert('ویرایش اجام شد');
+                        this.errorMessage_update = 'ردیف توزیع اعتبار با این مشخصات قبلا ثبت شده است!';
+                    });
             }
             else {
                 this.errorMessage_update = ' لطفا در وارد کردن اطلاعات دقت کنید!';
@@ -88,17 +86,16 @@ var rowDistributionCredit = new Vue({
         },
 
         deleteRowDistributionCredit: function () {
-            /*axios.post('/budget/admin/sub_seasons/delete' , this.tsIdDelete)
+            axios.post('/budget/admin/row_distribution_credit/delete' , this.rdcIdDelete)
                 .then((response) => {
                     this.tinySeasons = response.data;
                     this.showModalDelete = false;
-                    this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'حذف رکورد با موفقیت انجام شد.' , type: 'success'});
+                    this.$notify({group: 'rowDistributionCreditPm', title: 'پیام سیستم', text: 'حذف رکورد با موفقیت انجام شد.' , type: 'success'});
                     console.log(response);
                 },(error) => {
                     console.log(error);
-                    this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
-                });*/
-            alert('حذف انجام شد');
+                    this.$notify({group: 'rowDistributionCreditPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
+                });
         }
     }
 });

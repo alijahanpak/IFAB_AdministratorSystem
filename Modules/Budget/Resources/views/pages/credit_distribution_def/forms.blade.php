@@ -221,7 +221,7 @@
                 <span class="form-error error-font" data-form-error-for="cdptSelectSeason">فصل بودجه را انتخاب کنید!</span>
             </div>
             <div class="small-6 columns padding-lr">
-                <label>کد طرح
+                <label>کد طرح / برنامه
                     <input oninput="setPrivincePlanCode({{ json_encode($planCodeLabelId) }} , this.id)" type="text" name="cdptIdNumber" id="cdptIdNumber" required pattern="number">
                     <span class="form-error font-wei">لطفا کد طرح مورد نظر را وارد نمایید!</span>
                 </label>
@@ -229,7 +229,7 @@
         </div>
         <div class="grid-x">
             <div class="small-12 columns padding-lr">
-                <label>عنوان طرح
+                <label>عنوان طرح / برنامه
                     <input type="text" name="cdptSubject" id="cdptSubject" required pattern="text">
                     <span class="form-error font-wei">لطفا عنوان طرح مورد نظر را وارد نمایید!</span>
                 </label>
@@ -331,7 +331,7 @@
                     <span class="form-error error-font" data-form-error-for="cdptSelectSeason_u">فصل بودجه را انتخاب کنید!</span>
                 </div>
                 <div class="medium-6 columns padding-lr">
-                    <label>کد طرح
+                    <label>کد طرح / برنامه
                         <input oninput="setPrivincePlanCode({{ json_encode($planCodeLabelId_u) }} , this.id)" type="text" name="cdptIdNumber" id="cdptIdNumber_u" required pattern="number">
                         <span class="form-error font-wei">لطفا کد طرح مورد نظر را وارد نمایید!</span>
                     </label>
@@ -339,7 +339,7 @@
             </div>
             <div class="grid-x">
                 <div class="small-12 columns padding-lr">
-                    <label>عنوان طرح
+                    <label>عنوان طرح / برنامه
                         <input type="text" name="cdptSubject" id="cdptSubject_u" required pattern="text">
                         <span class="form-error font-wei">لطفا عنوان طرح مورد نظر را وارد نمایید!</span>
                     </label>

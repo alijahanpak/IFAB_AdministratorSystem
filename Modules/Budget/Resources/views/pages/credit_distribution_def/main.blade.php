@@ -38,7 +38,7 @@
                     <ul class="tabs tab-color" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="credit_distribution_def" data-deep-link="true" data-update-history="true" data-deep-link-smudge="true" data-deep-link-smudge="500">
                         <li class="tabs-title is-active"><a href="#row_tab" aria-selected="true">ردیف توزیع اعتبار</a></li>
                         <li class="tabs-title"><a href="#budget_season_tab">فصول بودجه</a></li>
-                        <li class="tabs-title"><a href="#plan_title_tab">عنوان طرح</a></li>
+                        <li class="tabs-title"><a href="#plan_title_tab">عنوان طرح / برنامه</a></li>
                     </ul>
                     <div class="tabs-content" data-tabs-content="credit_distribution_def">
                         <!--Tab 1 Start-->

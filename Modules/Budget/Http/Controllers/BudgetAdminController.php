@@ -81,6 +81,7 @@ class BudgetAdminController extends Controller
     {
         $cdr = new CreditDistributionRow;
         $cdr->cdUId = Auth::user()->id;
+        $cdr->cdPlanOrCost = 0;
         $cdr->cdSubject = Input::get('cdrSubject');
         $cdr->cdDescription = Input::get('cdrDescription');
         $cdr->save();
@@ -532,6 +533,8 @@ class BudgetAdminController extends Controller
         return Redirect::to(URL::previous() . '#plan_title_tab');
     }
 
+    ///////////////////////////////////////////////////////////////
+
     public function registerTinySeason(Request $request)
     {
         if (TinySeason::where('tsSId' , '=' , $request->tsSId)
@@ -552,10 +555,7 @@ class BudgetAdminController extends Controller
             $ts->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل ' . $request->tsSubject . ' در فصل ' . Season::find($request->tsSId)->sSubject);
-            $seasons = Season::with('tinySeason')->whereHas('tinySeason' , function ($query) use ($request){
-                $query->where('tsPlanOrCost' , '=' , $request->planOrCost);
-            })->get();
-            return \response()->json($seasons , 200);
+            return \response()->json($this->getAllTinySeasons($request->planOrCost) , 200);
         }
     }
 
@@ -580,10 +580,7 @@ class BudgetAdminController extends Controller
             $ts->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تغییر  ریز فصل (' . $old->tsSubject . ') به (' . $ts->tsSubject . ')');
-            $seasons = Season::with('tinySeason')->whereHas('tinySeason' , function ($query) use ($request){
-                $query->where('tsPlanOrCost' , '=' , $request->planOrCost);
-            })->get();
-            return \response()->json($seasons , 200);
+            return \response()->json($this->getAllTinySeasons($request->planOrCost) , 200);
         }
     }
 
@@ -593,10 +590,7 @@ class BudgetAdminController extends Controller
         try {
             $ts->delete();
             SystemLog::setBudgetSubSystemAdminLog('حذف ریز فصل ' . $request->tsSubject);
-            $seasons = Season::with('tinySeason')->whereHas('tinySeason' , function ($query) use ($request){
-                $query->where('tsPlanOrCost' , '=' , $request->tsPlanOrCost);
-            })->get();
-            return \response()->json($seasons , 200);
+            return \response()->json($this->getAllTinySeasons($request->planOrCost) , 200);
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
@@ -607,10 +601,17 @@ class BudgetAdminController extends Controller
 
     public function FetchTinySeasonData(Request $request)
     {
-        $seasons = Season::with('tinySeason')->whereHas('tinySeason' , function ($query) use ($request){
-            $query->where('tsPlanOrCost' , '=' , $request->planOrCost);
-        })->get();
-        return \response()->json($seasons);
+        return \response()->json($this->getAllTinySeasons($request->planOrCost));
+    }
+
+    public function getAllTinySeasons($planOrCost)
+    {
+        $seasons = Season::whereHas('tinySeason' , function ($query) use ($planOrCost){
+            return $query->where('tsPlanOrCost' , '=' , $planOrCost);
+        })->with(['tinySeason' => function($query)  use ($planOrCost){
+            return $query->where('tsPlanOrCost' , '=' , $planOrCost);
+        }])->get();
+        return $seasons;
     }
 
     public function rowDistributionCredit()
@@ -622,7 +623,74 @@ class BudgetAdminController extends Controller
     public function titleOfPlans()
     {
         return view('budget::pages.title_of_plans.main', ['pageTitle' => 'عنوان طرح / برنامه',
+            'bSeasons' => $bSeasons = BudgetSeason::all(),
             'requireJsFile' => 'title_of_plans' ]);
+    }
+
+    public function FetchRowDC(Request $request)
+    {
+        $cdr = CreditDistributionRow::where('cdPlanOrCost' , $request->planOrCost)->get();
+        return \response()->json($cdr);
+    }
+
+    public function registerRowDC(Request $request)
+    {
+
+        if (CreditDistributionRow::where('cdSubject' , '=' , $request->rdcSubject)->exists())
+        {
+            return \response()->json([] , 409);
+        }
+        else
+        {
+            $cdr = new CreditDistributionRow;
+            $cdr->cdUId = Auth::user()->id;
+            $cdr->cdPlanOrCost = $request->planOrCost;
+            $cdr->cdSubject = $request->rdcSubject;
+            $cdr->cdDescription = $request->rdcDescription;
+            $cdr->save();
+
+            SystemLog::setBudgetSubSystemAdminLog('تعریف ردیف توزیع اعتبار ' . $request->rdcSubject);
+            $cdr = CreditDistributionRow::where('cdPlanOrCost' , $request->planOrCost)->get();
+            return \response()->json($cdr);
+        }
+    }
+
+    public function updateRowDC(Request $request)
+    {
+        if (CreditDistributionRow::where('id' , '<>' , $request->id)->where('cdSubject' , '=' , $request->rdcSubject)->exists())
+        {
+            return \response()->json([] , 409);
+        }
+        else
+        {
+            $old = CreditDistributionRow::find($request->id);
+            $cdr = CreditDistributionRow::find($request->id);
+            $cdr->cdSubject = $request->rdcSubject;
+            $cdr->cdDescription = $request->rdcDescription;
+            $cdr->save();
+
+            SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان ردیف توزیع اعتبار (' . $old->cdSubject . ') به (' . $request->rdcSubject . ')');
+            $cdr = CreditDistributionRow::where('cdPlanOrCost' , $request->planOrCost)->get();
+            return \response()->json($cdr);
+        }
+    }
+
+    public function deleteRowDC(Request $request)
+    {
+        $cdr = CreditDistributionRow::find($request->id);
+        try {
+            $logTemp = $cdr->cdSubject;
+            $cdr->delete();
+            SystemLog::setBudgetSubSystemAdminLog('حذف ردیف توزیع اعتبار ' . $logTemp);
+            $cdr = CreditDistributionRow::where('cdPlanOrCost' , $request->cdPlanOrCost)->get();
+            return \response()->json($cdr , 200);
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                $cdr = CreditDistributionRow::where('cdPlanOrCost' , $request->cdPlanOrCost)->get();
+                return \response()->json($cdr , 204);
+            }
+        }
     }
 }
 

@@ -45,8 +45,13 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::post('sub_seasons/delete', 'BudgetAdminController@deleteTinySeason');
         ///////////////////////////////////////////////////////////////////////
         Route::get('row_distribution_credit', 'BudgetAdminController@rowDistributionCredit');
+        Route::get('row_distribution_credit/fetchData', 'BudgetAdminController@FetchRowDC');
+        Route::post('row_distribution_credit/register', 'BudgetAdminController@registerRowDC');
+        Route::post('row_distribution_credit/update', 'BudgetAdminController@updateRowDC');
+        Route::post('row_distribution_credit/delete', 'BudgetAdminController@deleteRowDC');
         ///////////////////////////////////////////////////////////////////////
         Route::get('title_of_plans', 'BudgetAdminController@titleOfPlans');
+        Route::get('title_of_plans/fetchData', 'BudgetAdminController@FetchTitleOfPlan');
     });
 
     //////////////////////////////////////////////////////////////////////////
@@ -73,5 +78,8 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::post('capital_assets/plans/update', 'PlanController@updateCapitalAssetsApprovedPlan');
     });
     ///////////////////////////////////////////////////////////////////////////
+    Route::prefix('project')->group(function () {
+        Route::get('capital_assets/projects', 'ProjectController@approved_projects');
+    });
 
 });
