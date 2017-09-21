@@ -1,7 +1,6 @@
 var approvedProjects = new Vue({
     el: '#approvedProjects',
     data: {
-        planOrCost: 0,
         errorMessage: '',
         errorMessage_update: '',
         approvedProjects: [],
@@ -18,7 +17,6 @@ var approvedProjects = new Vue({
     },
 
     created: function () {
-        this.fetchCostData();
         this.fetchData();
     },
 
@@ -42,8 +40,6 @@ var approvedProjects = new Vue({
         createApprovedProjects: function () {
             this.$validator.validateAll().then((result) => {
                 if (result) {
-                    if (this.approvedProjectsInput.apPlan != '' && this.approvedProjectsInput.apProjectTitle != '' && this.approvedProjectsInput.apProjectCode != '' && this.approvedProjectsInput.apStartYear != '' && this.approvedProjectsInput.apEndYear != ''&& this.approvedProjectsInput.apHowToRun != ''&& this.approvedProjectsInput.apPhysicalProgress != ''&& this.approvedProjectsInput.apCity != ''&& this.approvedProjectsInput.apSeason!= ''&& this.approvedProjectsInput.apSubSeason != '')
-                    {
                         /*axios.post('/budget/admin/sub_seasons/register' , this.tinySeasonsInput)
                             .then((response) => {
                                 if(this.planOrCost == 1)
@@ -59,10 +55,6 @@ var approvedProjects = new Vue({
                                 this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
                             });*/
                         alert('ثبت انجام شد');
-                    }
-                    else {
-                        this.errorMessage = ' لطفا در وارد کردن اطلاعات دقت کنید!';
-                    }
                 }
             });
         },
@@ -75,16 +67,16 @@ var approvedProjects = new Vue({
             this.approvedProjectsFill.apEndYear = item.apEndYear;
             this.approvedProjectsFill.apHowToRun = item.apHowToRun;
             this.approvedProjectsFill.apPhysicalProgress = item.apPhysicalProgress;
-            this.approvedProjectsFill.apHowToRun = item.apCity;
-            this.approvedProjectsFill.apHowToRun = item.apSeason;
-            this.approvedProjectsFill.apHowToRun = item.apSubSeason;
-            this.approvedProjectsFill.apHowToRun = item.apLocation;
-            this.approvedProjectsFill.apHowToRun = item.apDescription;
+            this.approvedProjectsFill.apCity = item.apCity;
+            this.approvedProjectsFill.apSeason = item.apSeason;
+            this.approvedProjectsFill.apSubSeason = item.apSubSeason;
+            this.approvedProjectsFill.apLocation = item.apLocation;
+            this.approvedProjectsFill.apDescription = item.apDescription;
             this.errorMessage_update = '';
             this.showModalUpdate = true;
         },
 
-        updateapprovedProjects: function () {
+        updateApprovedProjects: function () {
             if (this.approvedProjectsFill.apPlan != '' && this.approvedProjectsFill.apProjectTitle != '' && this.approvedProjectsFill.apProjectCode != '' && this.approvedProjectsFill.apStartYear != '' && this.approvedProjectsFill.apEndYear != ''&& this.approvedProjectsFill.apHowToRun != ''&& this.approvedProjectsFill.apPhysicalProgress != ''&& this.approvedProjectsFill.apCity != ''&& this.approvedProjectsFill.apSeason!= ''&& this.approvedProjectsFill.apSubSeason != '')
             {
                 /*axios.post('/budget/admin/sub_seasons/update' , this.tinySeasonsFill)

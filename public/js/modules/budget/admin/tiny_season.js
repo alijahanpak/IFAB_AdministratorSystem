@@ -217,8 +217,7 @@ var tinySeasons = new Vue({
             this.$validator.validateAll().then((result) => {
                 if (result) {
                     this.tinySeasonsInput.planOrCost = this.planOrCost;
-                    if (this.tinySeasonsInput.tsSId != '' && this.tinySeasonsInput.tsSubject != '')
-                    {
+
                         axios.post('/budget/admin/sub_seasons/register' , this.tinySeasonsInput)
                             .then((response) => {
                                 if(this.planOrCost == 1)
@@ -233,10 +232,6 @@ var tinySeasons = new Vue({
                                 console.log(error);
                                 this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
                             });
-                    }
-                    else {
-                        this.errorMessage = ' لطفا در وارد کردن اطلاعات دقت کنید!';
-                    }
                 }
             });
         },

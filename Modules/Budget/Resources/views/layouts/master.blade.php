@@ -295,7 +295,7 @@
             <script src="{{ asset('js/modules/budget/admin/row_distribution_credit.js')  }}"></script>
         @elseif($requireJsFile =='title_of_plans')
             <script src="{{ asset('js/modules/budget/admin/title_of_plans.js')  }}"></script>
-        @elseif($requireJsFile =='title_of_plans')
+        @elseif($requireJsFile =='approved_projects')
             <script src="{{ asset('js/modules/budget/admin/projects/approved_projects.js')  }}"></script>
         @endif
     @endif

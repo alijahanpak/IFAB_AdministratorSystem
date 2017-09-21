@@ -22,12 +22,13 @@
                 </div>
             </div>
         </div>
-        <div class="grid-x dashboard-padding">
+        <div id="approvedProjects" class="grid-x dashboard-padding">
+            @include('budget::pages.approved_projects.forms')
             <div  class="medium-12 column my-callout dynamic-height-level1">
                 <div id="dynamicParentId1">
                 <div class="clearfix border-btm-line bottom-mrg">
                     <div class="button-group float-left report-mrg">
-                        <a  class="clear button" id="show-modal" @click="planOrCost = 1; showModal = true; errorMessage = ''" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
+                        <a  class="clear button" id="show-modal" @click="showModal = true; errorMessage = ''" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
                             <i class="fi-plus size-30 secondry-color"></i>
                         </a>
                         <a  class="clear button" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
