@@ -78,5 +78,8 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::post('capital_assets/plans/update', 'PlanController@updateCapitalAssetsApprovedPlan');
     });
     ///////////////////////////////////////////////////////////////////////////
+    Route::prefix('project')->group(function () {
+        Route::get('capital_assets/projects', 'ProjectController@approved_projects');
+    });
 
 });
