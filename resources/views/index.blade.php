@@ -16,8 +16,7 @@
     <link rel="stylesheet" href="{{ asset('css/key.css') }}">
     <script src="{{ asset('js/Chart.js') }}"></script>
 </head>
-<body  class="BYekan" id="app">
-
+<body  class="BYekan">
     <!--chart1 Modal Start-->
     <div style="z-index: 9999;" class="large reveal" id="exampleModal1" data-reveal>
         <h6 class="text-center BYekan">نمودار تخصیص اعتبارات بر اساس منابع</h6>
@@ -87,7 +86,7 @@
         </div>
     </div>
     <!--Body system-->
-    <div class="grid-x">
+    <div id="container" class="grid-x">
         <div id="leftmenuinner" style="background-color: #F8F8F8;z-index: 995;" class="medium-2 cell small-font">
             <div  id="leftmenuinnerinner ">
                 <nav class="accordion"  data-margin-top="4.2">
@@ -152,17 +151,15 @@
                                 <li><a href="{{ url('/budget/admin/credit_distribution_def') }}">توزیع اعتبار</a></li>
                                 <li><a href="{{ url('/budget/admin/sub_seasons') }}">ریز فصول</a></li>
                                 <li><a href="{{ url('/budget/admin/row_distribution_credit') }}">ردیف توزیع اعتبار</a></li>
+                                <li><router-link to="/budget">داشبورد</router-link></li>
+                                <li><router-link to="/budget/tiny_seasons">ریز فصل</router-link></li>
                             </ul>
                         </li>
-
-
                     </ul>
                 </nav>
             </div>
         </div>
-        <div class="medium-10 border-right-line inner-body-pad main-margin">
-
-        </div>
+        <router-view></router-view>
         <!--Modal Preloader Start-->
             <div class="full reveal reveal-overlay" id="preloaderModal" data-reveal>
                 <div class="la-line-spin-clockwise-fade-rotating la-2x loader-pos">
