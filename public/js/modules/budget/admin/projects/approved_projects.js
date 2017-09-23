@@ -6,13 +6,13 @@ var approvedProjects = new Vue({
         approvedProjects: [],
         approvedProjectsInput: {apPlan: '' , apProjectTitle: '' , apProjectCode: '' , apStartYear: '', apEndYear: '',
                                 apHowToRun: '', apPhysicalProgress: '', apCity: '', apSeason: '', apSubSeason: ''
-                                , apLocation: '', apDescription: ''},
+                                , apLocation: '', apDescription: '', apCredit:''},
         showModal: false,
         showModalUpdate: false,
         showModalDelete: false,
         approvedProjectsFill: {apPlan: '' , apProjectTitle: '' , apProjectCode: '' , apStartYear: '', apEndYear: '',
             apHowToRun: '', apPhysicalProgress: '', aCity: '', apSeason: '', apSubSeason: ''
-            , apLocation: '', apDescription: ''},
+            , apLocation: '', apDescription: '',apCredit:''},
         apIdDelete: {},
     },
 

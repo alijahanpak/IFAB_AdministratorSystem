@@ -14,7 +14,7 @@
         <div class="grid-x">
             <div class="medium-12 cell padding-lr">
                 <label>طرح
-                    <select v-model="approvedProjectsInput.apPlan" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
+                    <select style="margin-bottom: 0px;" v-model="approvedProjectsInput.apPlan" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
                         <option value=""></option>
                             <option value="1">1</option>
                     </select>
@@ -39,15 +39,15 @@
         <div class="grid-x">
             <div class="medium-4 cell padding-lr">
                 <label>سال شروع
-                    <input type="text" name="projectTitle" v-model="approvedProjectsInput.apProjectTitle" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('projectTitle')}">
+                    <input type="text" name="startYear" v-model="approvedProjectsInput.apStartYear" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('startYear')}">
                 </label>
-                <span v-show="errors.has('projectTitle')" class="error-font">لطفا سال شروع پروژه را وارد کنید!</span>
+                <span v-show="errors.has('startYear')" class="error-font">لطفا سال شروع پروژه را وارد کنید!</span>
             </div>
             <div class="medium-4 cell padding-lr">
                 <label>سال خاتمه
-                    <input type="text" name="projectCode" v-model="approvedProjectsInput.apProjectCode" v-validate="'required|number'" :class="{'input': true, 'error-border': errors.has('projectCode')}">
+                    <input type="text" name="endYear" v-model="approvedProjectsInput.apEndYear" v-validate="'required|number'" :class="{'input': true, 'error-border': errors.has('endYear')}">
                 </label>
-                <span v-show="errors.has('projectTitle')" class="error-font">لطفا سال خاتمه پروژه را وارد کنید!</span>
+                <span v-show="errors.has('endYear')" class="error-font">لطفا سال خاتمه پروژه را وارد کنید!</span>
             </div>
             <div class="medium-4 cell padding-lr">
                 <label>نحوه اجرا
@@ -95,10 +95,10 @@
             </div>
         </div>
         <div class="grid-x">
-            <div class="medium-6 columns padding-lr">
-                <p>سه درصد نفت وگاز</p>
+            <div class="medium-3 columns padding-lr">
+                <p style="margin-top:3px;">سه درصد نفت وگاز</p>
             </div>
-            <div class="medium-6 columns padding-lr">
+            <div class="medium-9 columns padding-lr">
                 <label>
                     <input type="text" name="location" v-model="approvedProjectsInput.apLocation" v-validate="'required|number'" :class="{'input': true, 'error-border': errors.has('location')}">
                 </label>

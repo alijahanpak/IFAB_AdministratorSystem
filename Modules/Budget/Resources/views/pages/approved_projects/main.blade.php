@@ -49,14 +49,20 @@
                     <!--Header Start-->
                     <div class="grid-x table-header">
                         <div class="medium-2 table-border">
-                            <strong>فصل</strong>
+                            <strong>کد طرح</strong>
                         </div>
                         <div class="medium-10">
                             <div class="grid-x">
-                                <div class="medium-6 table-border">
+                                <div class="medium-2 table-border">
                                     <strong>کد</strong>
                                 </div>
-                                <div class="medium-6  table-border">
+                                <div class="medium-2 table-border">
+                                    <strong>نحوه اجرا</strong>
+                                </div>
+                                <div class="medium-3 table-border">
+                                    <strong>اعتبار</strong>
+                                </div>
+                                <div class="medium-5  table-border">
                                     <strong>شرح</strong>
                                 </div>
                             </div>
@@ -64,19 +70,25 @@
                     </div>
                     <!--Header End-->
                     <div class="table-contain dynamic-height-level2">
-                        <div class="grid-x" v-for="season in tinySeasonsCost">
+                        <div class="grid-x" v-for="projects in approvedProjects">
                             <div class="medium-2 table-contain-border cell-vertical-center">
-                                @{{ season.sSubject }}
+                                @{{ projects.apPlan }}
                             </div>
                             <div class="medium-10">
                                 <div class="grid-x selectAbleRow" v-for="tinySeason in season.tiny_season">
-                                    <div class="medium-6 table-contain-border cell-vertical-center">
-                                        @{{ tinySeason.tsSubject }}
+                                    <div class="medium-2 table-contain-border cell-vertical-center">
+                                        @{{ projects.apProjectCode }}
                                     </div>
-                                    <div class="medium-6  table-contain-border cell-vertical-center">
+                                    <div class="medium-2 table-contain-border cell-vertical-center">
+                                        @{{ projects.apProjectTitle }}
+                                    </div>
+                                    <div class="medium-3 table-contain-border cell-vertical-center">
+                                        @{{ projects.apCredit }}
+                                    </div>
+                                    <div class="medium-5  table-contain-border cell-vertical-center">
                                         <div class="grid-x">
                                             <div class="medium-11">
-                                                @{{ tinySeason.tsDescription }}
+                                                @{{ projects.apDescription }}
                                             </div>
                                             <div class="medium-1 cell-vertical-center text-left">
                                                 <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + tinySeason.id"><img width="15px" height="15px" src="{{ asset('pic/menu.svg') }}"></a>
@@ -90,6 +102,15 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="medium-12 table-contain-border cell-vertical-center">
+                                <a href="#">مشخصات طرح</a>
+                            </div>
+                            <div class="medium-12 table-contain-border cell-vertical-center">
+                                <a href="#">مشخصات پروژه</a>
+                            </div>
+                            <div class="medium-12 table-contain-border cell-vertical-center">
+                                <a href="#">ردیف های توزیع اعتبار</a>
                             </div>
                         </div>
                     </div>
