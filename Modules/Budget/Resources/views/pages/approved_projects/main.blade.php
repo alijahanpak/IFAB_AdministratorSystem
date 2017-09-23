@@ -53,16 +53,19 @@
                         </div>
                         <div class="medium-10">
                             <div class="grid-x">
-                                <div class="medium-2 table-border">
+                                <div class="medium-1 table-border">
                                     <strong>کد</strong>
                                 </div>
-                                <div class="medium-2 table-border">
+                                <div class="medium-4 table-border">
+                                    <strong>عنوان</strong>
+                                </div>
+                                <div class="medium-1 table-border">
                                     <strong>نحوه اجرا</strong>
                                 </div>
-                                <div class="medium-3 table-border">
+                                <div class="medium-2 table-border">
                                     <strong>اعتبار</strong>
                                 </div>
-                                <div class="medium-5  table-border">
+                                <div class="medium-4  table-border">
                                     <strong>شرح</strong>
                                 </div>
                             </div>
@@ -75,27 +78,27 @@
                                 @{{ projects.apPlan }}
                             </div>
                             <div class="medium-10">
-                                <div class="grid-x selectAbleRow" v-for="tinySeason in season.tiny_season">
+                                <div class="grid-x selectAbleRow" v-for="approvedProjects in projects.approved_projects">
                                     <div class="medium-2 table-contain-border cell-vertical-center">
-                                        @{{ projects.apProjectCode }}
+                                        @{{ approvedProjects.apProjectCode }}
                                     </div>
                                     <div class="medium-2 table-contain-border cell-vertical-center">
-                                        @{{ projects.apProjectTitle }}
+                                        @{{ approvedProjects.apProjectTitle }}
                                     </div>
                                     <div class="medium-3 table-contain-border cell-vertical-center">
-                                        @{{ projects.apCredit }}
+                                        @{{ approvedProjects.apCredit }}
                                     </div>
                                     <div class="medium-5  table-contain-border cell-vertical-center">
                                         <div class="grid-x">
                                             <div class="medium-11">
-                                                @{{ projects.apDescription }}
+                                                @{{ approvedProjects.apDescription }}
                                             </div>
                                             <div class="medium-1 cell-vertical-center text-left">
-                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + tinySeason.id"><img width="15px" height="15px" src="{{ asset('pic/menu.svg') }}"></a>
-                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + tinySeason.id" data-dropdown data-auto-focus="true">
+                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'apApprovedProjects' + approvedProjects.id"><img width="15px" height="15px" src="{{ asset('pic/menu.svg') }}"></a>
+                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'apApprovedProjects' + approvedProjects.id" data-dropdown data-auto-focus="true">
                                                     <ul class="my-menu small-font text-right">
-                                                        <li><a v-on:click.prevent="tinySeasonUpdateDialog(tinySeason , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                        <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(tinySeason)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                        <li><a v-on:click.prevent="approvedProjectsUpdateDialog(approvedProjects , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                        <li><a v-on:click.prevent="openDeleteApprovedProjectsConfirm(approvedProjects)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -104,13 +107,13 @@
                                 </div>
                             </div>
                             <div class="medium-12 table-contain-border cell-vertical-center">
-                                <a href="#">مشخصات طرح</a>
+                                <a class="text-center" href="#">مشخصات طرح</a>
                             </div>
                             <div class="medium-12 table-contain-border cell-vertical-center">
-                                <a href="#">مشخصات پروژه</a>
+                                <a class="text-center" href="#">مشخصات پروژه</a>
                             </div>
                             <div class="medium-12 table-contain-border cell-vertical-center">
-                                <a href="#">ردیف های توزیع اعتبار</a>
+                                <a class="text-center" href="#">ردیف های توزیع اعتبار</a>
                             </div>
                         </div>
                     </div>
