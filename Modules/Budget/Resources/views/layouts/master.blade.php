@@ -139,7 +139,8 @@
                                 </li>
                                 <li><a href="#">تملک دارایی سرمایه ای</a>
                                     <ul class="menu vertical nested">
-                                        <li><a href="#">پروژه ها</a></li>
+                                        <li><a href="{{ url('/budget/allocation/register_of_credit_allocation_assets/allocation') }}">استانی</a></li>
+                                        <li><a href="#">ملی</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -152,7 +153,6 @@
                                 <li><a href="{{ url('/budget/admin/credit_distribution_def') }}">توزیع اعتبار</a></li>
                                 <li><a href="{{ url('/budget/admin/sub_seasons') }}">ریز فصول</a></li>
                                 <li><a href="{{ url('/budget/admin/row_distribution_credit') }}">ردیف توزیع اعتبار</a></li>
-                                <li><a href="{{ url('/budget/admin/row_distribution_credit') }}">ثبت تخصیص اعتبار</a></li>
                             </ul>
                         </li>
 
@@ -249,8 +249,8 @@
             </div>
         </transition>
     </script>
-    <script type="text/x-template" id="modal-larg-template">
-        <transition name="modal-larg">
+    <script type="text/x-template" id="modal-large-template">
+        <transition name="modal-large">
             <div class="modal-mask">
                 <div class="modal-wrapper">
                     <div class="my-large">
@@ -298,6 +298,8 @@
             <script src="{{ asset('js/modules/budget/admin/title_of_plans.js')  }}"></script>
         @elseif($requireJsFile =='approved_projects')
             <script src="{{ asset('js/modules/budget/admin/projects/approved_projects.js')  }}"></script>
+        @elseif($requireJsFile =='register_of_credit_allocation_assets')
+            <script src="{{ asset('js/modules/budget/allocation_of_capital_assets/register_of_credit_allocation_assets.js')  }}"></script>
         @endif
     @endif
     @if (session('messageDialogPm'))

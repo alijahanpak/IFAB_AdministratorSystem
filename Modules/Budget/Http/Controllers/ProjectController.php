@@ -11,7 +11,7 @@ class ProjectController extends Controller
     public function approved_projects(){
         return view('budget::pages.approved_projects.main',
             ['pageTitle' => 'ثبت پروژه های مصوب',
-                'requireJsFile' => 'approved_projects']);
+                'requireJsFile' > 'approved_projects']);
     }
 
 }
