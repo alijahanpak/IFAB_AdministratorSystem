@@ -152,6 +152,7 @@
                                 <li><a href="{{ url('/budget/admin/credit_distribution_def') }}">توزیع اعتبار</a></li>
                                 <li><a href="{{ url('/budget/admin/sub_seasons') }}">ریز فصول</a></li>
                                 <li><a href="{{ url('/budget/admin/row_distribution_credit') }}">ردیف توزیع اعتبار</a></li>
+                                <li><a href="{{ url('/budget/admin/row_distribution_credit') }}">ثبت تخصیص اعتبار</a></li>
                             </ul>
                         </li>
 
