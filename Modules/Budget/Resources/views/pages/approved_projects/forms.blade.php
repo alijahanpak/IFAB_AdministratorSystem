@@ -60,7 +60,7 @@
             </div>
             <div class="medium-4 cell padding-lr">
                 <label> پیشرفت فیزیکی<span class="btn-red small-font"> (درصد) </span>
-                    <input class="form-element-margin-btm" type="text" name="physicalProgress" v-model="approvedProjectsInput.apPhysicalProgress" v-validate="'required|number'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
+                    <input  type="number" min="0" max="100" value="0" name="physicalProgress" v-model="approvedProjectsInput.apPhysicalProgress" v-validate="'required|number'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
                 </label>
                 <span v-show="errors.has('physicalProgress')" class="error-font">لطفا پیشرفت فیزیکی را وارد کنید!</span>
             </div>
@@ -194,7 +194,7 @@
             </div>
             <div class="medium-4 cell padding-lr">
                 <label> پیشرفت فیزیکی<span class="btn-red small-font"> (درصد) </span>
-                    <input class="form-element-margin-btm" type="text" name="physicalProgress" v-model="approvedProjectsInput.apPhysicalProgress" v-validate="'required|number'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
+                    <input  type="number" min="0" max="100" value="0"  name="physicalProgress" v-model="approvedProjectsInput.apPhysicalProgress" v-validate="'required|number'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
                 </label>
                 <span v-show="errors.has('physicalProgress')" class="error-font">لطفا پیشرفت فیزیکی را وارد کنید!</span>
             </div>
@@ -220,7 +220,7 @@
             </div>
             <div class="medium-8 column padding-lr">
                 <label>ریز فصل
-                    <select  v-model="approvedProjectsInput.apSubSeason" name="subSeason" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('subSeason')}">
+                    <select class="form-element-margin-btm" v-model="approvedProjectsInput.apSubSeason" name="subSeason" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('subSeason')}">
                         <option value=""></option>
                         <option value="1">1</option>
                     </select>
@@ -228,11 +228,11 @@
                 </label>
             </div>
         </div>
-        <div class="grid-x">
+        <div style="margin-top: 20px;" class="grid-x">
             <div class="medium-3 columns padding-lr">
-                <p style="margin-top:3px;">سه درصد نفت وگاز</p>
+                <p style="margin-top:5px;">سه درصد نفت وگاز</p>
             </div>
-            <div class="medium-9 columns padding-lr">
+            <div  class="medium-9 columns padding-lr">
                 <label>
                     <input class="form-element-margin-btm" type="text" name="location" v-model="approvedProjectsInput.apLocation" v-validate="'required|number'" :class="{'input': true, 'error-border': errors.has('location')}">
                 </label>

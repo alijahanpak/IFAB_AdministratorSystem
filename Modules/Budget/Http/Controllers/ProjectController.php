@@ -13,4 +13,5 @@ class ProjectController extends Controller
             ['pageTitle' => 'ثبت پروژه های مصوب',
                 'requireJsFile' => 'approved_projects']);
     }
+
 }
