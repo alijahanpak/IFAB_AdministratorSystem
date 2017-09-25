@@ -8,4 +8,6 @@ Route::group(['middleware' => 'web', 'prefix' => 'admin', 'namespace' => 'Module
     Route::get('/getRuralDistrictByRegionId/{rId}' , 'AdminController@getRuralDistrictByRegionId');
     Route::get('/getVillagesByRuralDistrictId/{rId}' , 'AdminController@getVillagesByRuralDistrictId');
     ///////////////////////////////////////////////////////////////////////////////
+    Route::get('/get_all_counties' , 'AdminController@getAllCounties');
+    Route::get('/get_all_seasons' , 'AdminController@getAllSeasons');
 });

@@ -5,19 +5,31 @@ var approvedProjects = new Vue({
         errorMessage_update: '',
         approvedProjects: [],
         approvedProjectsInput: {apPlan: '' , apProjectTitle: '' , apProjectCode: '' , apStartYear: '', apEndYear: '',
-                                apHowToRun: '', apPhysicalProgress: '', apCity: '', apSeason: '', apSubSeason: ''
-                                , apLocation: '', apDescription: '', apCredit:''},
+                                apHowToRun: '', apPhysicalProgress: '', apCity: '', apSubSeason: ''
+                                , apDescription: ''},
         showModal: false,
         showModalUpdate: false,
         showModalDelete: false,
         approvedProjectsFill: {apPlan: '' , apProjectTitle: '' , apProjectCode: '' , apStartYear: '', apEndYear: '',
-            apHowToRun: '', apPhysicalProgress: '', aCity: '', apSeason: '', apSubSeason: ''
+            apHowToRun: '', apPhysicalProgress: '', aCity: '', apSubSeason: ''
             , apLocation: '', apDescription: '',apCredit:''},
         apIdDelete: {},
+        approvedPlans: {},
+        counties: {},
+        seasons: {},
+        tinySeasons: {},
+        selectedSeasons: '',
+        creditDistributionRows: {},
+        creditDistributionRowInput: {}
     },
 
     created: function () {
         this.fetchData();
+        this.getAllApprovedPlan(0); // 0 = provincial
+        this.getHowToRun();
+        this.getCounties();
+        this.getSeasons();
+        this.getCreditDistributionRow();
     },
 
     updated: function () {
@@ -33,30 +45,103 @@ var approvedProjects = new Vue({
                 },(error) => {
                     console.log(error);
                 });*/
-            alert('Fetch Data');
         },
 
+        getAllApprovedPlan: function (pOrN) {
+            axios.get('/budget/plan/capital_assets/plans/getAllItems' , {params:{pOrN: 0}})
+                .then((response) => {
+                    this.approvedPlans = response.data;
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+        },
+
+        getHowToRun: function () {
+            axios.get('/budget/admin/how_to_run/getAllItems' , {params:{}})
+                .then((response) => {
+                    this.howToRuns = response.data;
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+        },
+
+        getHowToRun: function () {
+            axios.get('/budget/admin/how_to_run/getAllItems' , {params:{}})
+                .then((response) => {
+                    this.howToRuns = response.data;
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+        },
+
+        getCounties: function () {
+            axios.get('/admin/get_all_counties' , {params:{}})
+                .then((response) => {
+                    this.counties = response.data;
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+        },
+
+        getSeasons: function () {
+            axios.get('/admin/get_all_seasons' , {params:{}})
+                .then((response) => {
+                    this.seasons = response.data;
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+        },
+
+        getTinySeasons: function () {
+            axios.get('/budget/admin/sub_seasons/get_tiny_seasons_whit_season_id' , {params:{sId: this.selectedSeasons , planOrCost: 0}})
+                .then((response) => {
+                    this.tinySeasons = response.data;
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+        },
+
+        getCreditDistributionRow: function () {
+            axios.get('/budget/admin/credit_distribution_def/rows/getAllItems' , {params:{planOrCost: 0}})
+                .then((response) => {
+                    this.creditDistributionRows = response.data;
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+        },
 
         createApprovedProjects: function () {
             this.$validator.validateAll().then((result) => {
                 if (result) {
-                        /*axios.post('/budget/admin/sub_seasons/register' , this.tinySeasonsInput)
-                            .then((response) => {
-                                if(this.planOrCost == 1)
-                                    this.tinySeasonsCost = response.data;
-                                else
-                                    this.tinySeasons = response.data;
-                                this.showModal = false;
-                                this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'رکورد با موفقیت ثبت شد.' , type: 'success'});
-                                this.tinySeasonsInput = [];
-                                console.log(response);
-                            },(error) => {
-                                console.log(error);
-                                this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                            });*/
-                        alert('ثبت انجام شد');
+
                 }
             });
+
+            this.creditDistributionRows.forEach(cdr => {
+                "use strict";
+                this.$set(this.creditDistributionRowInput , 'apCdr' + cdr.id);
+            });
+
+            this.creditDistributionRowInput.forEach(temp => {
+                "use strict";
+                alert("morteza");
+            });
+            axios.post('/budget/project/capital_assets/projects/register' , {pInput: this.approvedProjectsInput , cdrInput: this.creditDistributionRowInput})
+                .then((response) => {
+                    this.showModal = false;
+                    this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'رکورد با موفقیت ثبت شد.' , type: 'success'});
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                    //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                });
         },
 
         approvedProjectsUpdateDialog: function (item) {
