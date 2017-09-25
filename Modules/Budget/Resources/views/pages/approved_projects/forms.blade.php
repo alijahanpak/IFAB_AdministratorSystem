@@ -60,7 +60,10 @@
             </div>
             <div class="medium-4 cell padding-lr">
                 <label> پیشرفت فیزیکی<span class="btn-red small-font"> (درصد) </span>
-                    <input  type="number" min="0" max="100" value="0" name="physicalProgress" v-model="approvedProjectsInput.apPhysicalProgress" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
+                    <input  type="number" min="0" max="100" value="0" name="physicalProgress" v-model="approvedProjectsInput.apPhysicalProgress" v-validate="'required|number'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
+                    <div style="margin-top: -16px;height:2px;" class="alert progress form-element-margin-btm">
+                        <div class="progress-meter" style="width: 75%"></div>
+                    </div>
                 </label>
                 <span v-show="errors.has('physicalProgress')" class="error-font">لطفا پیشرفت فیزیکی را وارد کنید!</span>
             </div>

@@ -90,5 +90,9 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::get('capital_assets/projects/fetchData', 'ProjectController@FetchApprovedProjects');
         Route::post('capital_assets/projects/register', 'ProjectController@registerCapitalAssetsApprovedProject');
     });
+    ///////////////////////////////////////////////////////////////////////////
+    Route::prefix('allocation')->group(function () {
+        Route::get('register_of_credit_allocation_assets/allocation', 'AllocationOfCapitalAssetsController@register_of_credit_allocation_assets');
+    });
 
 });
