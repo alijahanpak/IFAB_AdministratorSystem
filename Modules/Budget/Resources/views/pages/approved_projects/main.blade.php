@@ -56,10 +56,10 @@
                                 <div class="medium-1 table-border">
                                     <strong>کد</strong>
                                 </div>
-                                <div class="medium-4 table-border">
+                                <div class="medium-3 table-border">
                                     <strong>عنوان</strong>
                                 </div>
-                                <div class="medium-1 table-border">
+                                <div class="medium-2 table-border">
                                     <strong>نحوه اجرا</strong>
                                 </div>
                                 <div class="medium-2 table-border">
@@ -82,10 +82,10 @@
                                     <div class="medium-1 table-contain-border cell-vertical-center">
                                         @{{ projects.cpCode }}
                                     </div>
-                                    <div class="medium-4 table-contain-border cell-vertical-center">
+                                    <div class="medium-3 table-contain-border cell-vertical-center">
                                         @{{ projects.cpSubject }}
                                     </div>
-                                    <div class="medium-1 table-contain-border cell-vertical-center">
+                                    <div class="medium-2 table-contain-border cell-vertical-center">
                                         @{{ projects.how_to_run.htrSubject }}
                                     </div>
                                     <div class="medium-2 table-contain-border cell-vertical-center">

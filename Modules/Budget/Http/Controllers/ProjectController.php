@@ -24,13 +24,18 @@ class ProjectController extends Controller
     public function FetchApprovedProjects(Request $request)
     {
         return \response()->json(
-            CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
+            $this->getAllProject()
+        );
+    }
+
+    public function getAllProject()
+    {
+        return CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
             ->with('creditDistributionTitle')
             ->with('capitalAssetsProject')
             ->with('capitalAssetsProject.howToRun')
             ->with('capitalAssetsProject.tinySeason')
-            ->with('capitalAssetsProject.cdrCp')->get()
-        );
+            ->with('capitalAssetsProject.cdrCp')->get();
     }
 
     public function registerCapitalAssetsApprovedProject(Request $request)
@@ -64,8 +69,9 @@ class ProjectController extends Controller
         }
 
         SystemLog::setBudgetSubSystemLog('ثبت پروژه تملک داریی های سرمایه ای استانی ' . $pInput['apProjectTitle']);
-        $cdr = CreditDistributionRow::where('cdPlanOrCost' , $request->planOrCost)->get();
-        return \response()->json([]);
+        return \response()->json(
+            $this->getAllProject()
+        );
     }
 
 }

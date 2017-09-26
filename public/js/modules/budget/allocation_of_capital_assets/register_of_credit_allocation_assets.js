@@ -29,7 +29,7 @@ var registerOfCreditAllocationAssets = new Vue({
                 },(error) => {
                     console.log(error);
                 });*/
-            alert('Fetch Data');
+            //alert('Fetch Data');
         },
 
         createRegisterOfCreditAllocationAssets: function () {
