@@ -691,10 +691,10 @@ a:focus,button:focus {
     color: #555555;
     font-size: 0.8em;
 }
-.table-contain .table-contain-border1{
+.table-contain .table-contain-border1 {
     padding: 1rem;
     border-left: 1px solid #C7CDD1;
-    border-bottom: 1px solid #FFFFFF;
+    border-bottom: 1px solid #C7CDD1;
     color: #555555;
     font-size: 0.8em;
 }
@@ -703,6 +703,10 @@ a:focus,button:focus {
     border-left: none;
 
 }
+.row-bottom-border{
+    border-bottom: 1px solid #C7CDD1;
+}
+
 .cell-vertical-center{
     display: flex;
     flex-direction: column;
@@ -775,6 +779,12 @@ html, body {
 }
 .footer-text-padd{
     padding: 1em;
+}
+.footer-menu{
+    color: #666;
+}
+.footer-menu a{
+    color: #666;
 }
 .footer-margin{
     margin-right: 238px;
@@ -927,5 +937,9 @@ html, body {
  }
 .form-element-margin-btm{
     margin-bottom: 0px;
-}
+
+}.button.menu-color {
+     color: #666;
+ }
+
 
