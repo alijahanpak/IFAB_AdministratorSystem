@@ -34,7 +34,7 @@
             <div class="top-bar-left">
                 <ul data-dropdown-menu class="dropdown menu user-menu" >
                     <li>
-                        <a href="#"><span style="font-size: 14px;"> علی جهان پاک </span></a>
+                        <a href="#"><span style="font-size: 14px;color: #666;"> علی جهان پاک </span></a>
                         <ul style="background-color: #ffffff;" class="menu vertical small-font white-color">
                             <li><a href="#"><i class="fi-torso-business"></i> <span>کارشناس اداری مالی</span></a></li>
                             <li><a href="#"><i class="fi-widget"></i> <span>تنظیمات</span></a></li>
@@ -197,11 +197,11 @@
         <div class="medium-12 my-footer">
             <div class="grid-x">
                 <div class="medium-12">
-                    <div class="small button-group float-left">
-                        <a class="clear button primary">راهنمای سامانه</a>
-                        <a class="clear button primary">درباره ما</a>
-                        <a class="clear button primary">ارتباط با ما</a>
-                        <a class="clear button primary">دیدگاه</a>
+                    <div class="small button-group float-left footer-menu">
+                        <a class="clear button menu-color">راهنمای سامانه</a>
+                        <a class="clear button menu-color">درباره ما</a>
+                        <a class="clear button menu-color">ارتباط با ما</a>
+                        <a class="clear button menu-color">دیدگاه</a>
                     </div>
                 </div>
             </div>

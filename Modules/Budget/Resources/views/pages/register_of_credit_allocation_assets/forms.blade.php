@@ -181,7 +181,7 @@
                     </div>
                     <div style="margin-top: -7px;" class="medium-3 padding-lr">
                         <label>
-                            <input class="form-element-margin-btm" type="text" name="cost" v-model="registerOfCreditAllocationAssetsInput.rocaaCost" v-validate="'required|number'" :class="{'input': true, 'error-border': errors.has('cost')}">
+                            <input class="form-element-margin-btm" type="text" name="cost" v-model="registerOfCreditAllocationAssetsInput.rocaaCost" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('cost')}">
                         </label>
                         <span v-show="errors.has('cost')" class="error-font">لطفا مبلغ را وارد کنید!</span>
                     </div>

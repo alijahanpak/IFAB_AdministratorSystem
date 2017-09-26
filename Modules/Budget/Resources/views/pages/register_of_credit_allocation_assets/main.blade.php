@@ -62,10 +62,10 @@
                                             <strong>ردیف اعتبار</strong>
                                         </div>
                                         <div class="medium-2 table-border">
-                                            <strong>تاریخ</strong>
+                                            <strong>شماره</strong>
                                         </div>
                                         <div class="medium-2 table-border">
-                                            <strong>شماره</strong>
+                                            <strong>تاریخ</strong>
                                         </div>
                                         <div class="medium-2  table-border">
                                             <strong>مبلغ</strong>
@@ -80,25 +80,25 @@
                     </div>
                     <!--Header End-->
                     <div class="table-contain dynamic-height-level2">
-                        <div style="border-bottom: 1px solid #C7CDD1;margin-bottom: -1px !important;padding-bottom: -1px !important;"  class="grid-x">
+                        <div class="grid-x row-bottom-border" v-for="project in registerOfCreditAllocationAssets">
                             <div class="medium-2 table-contain-border1 cell-vertical-center">
-                                1704002087- مطالفه و حفظ و احیا میراث فرهنگی شهرستان همدان
+                               @{{ project.rocaaPlan }}
                             </div>
                             <div class="medium-10">
                                 <div class="grid-x">
-                                    <div class="medium-2 table-contain-border cell-vertical-center">
-                                       951047- مرمت مسجدمرمت مسجد جامع همدان جامع همدان
+                                    <div class="medium-2 table-contain-border cell-vertical-center" v-for="registerOfCreditAllocationAssets in project.register_of_credit_allocation_assets">
+                                        @{{ registerOfCreditAllocationAssets.rocaaProject }}
                                     </div>
                                     <div class="medium-8">
                                         <div class="grid-x">
                                             <div class="medium-6 table-contain-border cell-vertical-center">
-                                                سه درصدنفت وگاز
+                                                @{{ registerOfCreditAllocationAssets.rocaaRow }}                                 سه درصدنفت وگاز
                                             </div>
                                             <div class="medium-2 table-contain-border cell-vertical-center">
-                                                1395/07/21
+                                                @{{ registerOfCreditAllocationAssets.rocaaNumber }}
                                             </div>
                                             <div class="medium-2 table-contain-border cell-vertical-center">
-                                                215475
+                                                @{{ registerOfCreditAllocationAssets.rocaaDate }}
                                             </div>
                                             <div class="medium-2  table-contain-border cell-vertical-center">
                                                 123456
@@ -106,7 +106,20 @@
                                         </div>
                                     </div>
                                     <div style="border-right: 1px solid #C7CDD1;" class="medium-2 table-contain-border1 cell-vertical-center">
-                                        123456
+                                        <div class="grid-x">
+                                            <div class="medium-11">
+                                                @{{ tinySeason.tsDescription }}
+                                            </div>
+                                            <div class="medium-1 cell-vertical-center text-left">
+                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'rocaaRegisterOfCreditAllocationAssets' + registerOfCreditAllocationAssets.id"><img width="15px" height="15px" src="{{ asset('pic/menu.svg') }}"></a>
+                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'rocaaRegisterOfCreditAllocationAssets' + registerOfCreditAllocationAssets.id" data-dropdown data-auto-focus="true">
+                                                    <ul class="my-menu small-font text-right">
+                                                        <li><a v-on:click.prevent="registerOfCreditAllocationAssetsUpdateDialog(tinySeason , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                        <li><a v-on:click.prevent="openDeleteRegisterOfCreditAllocationAssetsConfirm(registerOfCreditAllocationAssets)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

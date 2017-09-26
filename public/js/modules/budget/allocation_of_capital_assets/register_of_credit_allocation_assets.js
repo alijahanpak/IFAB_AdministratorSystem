@@ -4,11 +4,11 @@ var registerOfCreditAllocationAssets = new Vue({
         errorMessage: '',
         errorMessage_update: '',
         registerOfCreditAllocationAssets: [],
-        registerOfCreditAllocationAssetsInput: {rocaPlan: '' ,rocaaProject:'',roccaCost:'',rocaaNumber:'',rocaaDate:''},
+        registerOfCreditAllocationAssetsInput: {rocaPlan: '' ,rocaaProject:'',rocaaRow:'',roccaCost:'',rocaaNumber:'',rocaaDate:''},
         showModal: false,
         showModalUpdate: false,
         showModalDelete: false,
-        registerOfCreditAllocationAssetsFill: {rocaPlan: '' ,rocaaProject:'',roccaCost:'',rocaaNumber:'',rocaaDate:''},
+        registerOfCreditAllocationAssetsFill: {rocaPlan: '' ,rocaaProject:'',rocaaRow:'',roccaCost:'',rocaaNumber:'',rocaaDate:''},
         rocaaIdDelete: {},
     },
 
@@ -58,6 +58,7 @@ var registerOfCreditAllocationAssets = new Vue({
         registerOfCreditAllocationAssetsUpdateDialog: function (item) {
             this.registerOfCreditAllocationAssetsFill.rocaPlan = item.rocaPlan;
             this.registerOfCreditAllocationAssetsFill.rocaaProject = item.rocaaProject;
+            this.registerOfCreditAllocationAssetsFill.rocaaRow = item.rocaaRow;
             this.registerOfCreditAllocationAssetsFill.roccaCost = item.roccaCost;
             this.registerOfCreditAllocationAssetsFill.rocaaNumber = item.rocaaNumber;
             this.registerOfCreditAllocationAssetsFill.rocaaDate = item.rocaaDate;
