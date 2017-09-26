@@ -14,6 +14,11 @@ class CapitalAssetsApprovedPlan extends Model
         return $this->belongsTo(CreditDistributionTitle::class , 'capCdtId' , 'id');
     }
 
+    public function capitalAssetsProject()
+    {
+        return $this->hasMany(CapitalAssetsProject::class , 'cpCapId' , 'id');
+    }
+
     public static function getTotalAmount($capId)
     {
         return 0;

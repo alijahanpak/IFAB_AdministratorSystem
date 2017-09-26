@@ -8,8 +8,10 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Modules\Admin\Entities\AmountUnit;
 use Modules\Admin\Entities\SystemLog;
+use Modules\Budget\Entities\CapitalAssetsApprovedPlan;
 use Modules\Budget\Entities\CapitalAssetsProject;
 use Modules\Budget\Entities\CdrCp;
+use Modules\Budget\Entities\CreditDistributionRow;
 
 class ProjectController extends Controller
 {
@@ -21,14 +23,21 @@ class ProjectController extends Controller
 
     public function FetchApprovedProjects(Request $request)
     {
-
+        return \response()->json(
+            CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
+            ->with('creditDistributionTitle')
+            ->with('capitalAssetsProject')
+            ->with('capitalAssetsProject.howToRun')
+            ->with('capitalAssetsProject.tinySeason')
+            ->with('capitalAssetsProject.cdrCp')->get()
+        );
     }
 
     public function registerCapitalAssetsApprovedProject(Request $request)
     {
-/*        $pInput = $request['pInput'];
+        $pInput = $request['pInput'];
         $project = new CapitalAssetsProject;
-        $project->cdUId = Auth::user()->id;
+        $project->cpUId = Auth::user()->id;
         $project->cpCapId = $pInput['apPlan'];
         $project->cpCoId = $pInput['apCity'];
         $project->cpTsId = $pInput['apSubSeason'];
@@ -55,8 +64,8 @@ class ProjectController extends Controller
         }
 
         SystemLog::setBudgetSubSystemLog('ثبت پروژه تملک داریی های سرمایه ای استانی ' . $pInput['apProjectTitle']);
-        //$cdr = CreditDistributionRow::where('cdPlanOrCost' , $request->planOrCost)->get();
-        return \response()->json([]);*/
+        $cdr = CreditDistributionRow::where('cdPlanOrCost' , $request->planOrCost)->get();
+        return \response()->json([]);
     }
 
 }

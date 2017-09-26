@@ -297,7 +297,6 @@
         @elseif($requireJsFile =='title_of_plans')
             <script src="{{ asset('js/modules/budget/admin/title_of_plans.js')  }}"></script>
         @elseif($requireJsFile == 'approved_projects')
-            <script>alert("morteza");</script>
             <script src="{{ asset('js/modules/budget/admin/projects/approved_projects.js')  }}"></script>
         @elseif($requireJsFile =='register_of_credit_allocation_assets')
             <script src="{{ asset('js/modules/budget/allocation_of_capital_assets/register_of_credit_allocation_assets.js')  }}"></script>

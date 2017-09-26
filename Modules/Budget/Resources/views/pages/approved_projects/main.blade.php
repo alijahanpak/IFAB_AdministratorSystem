@@ -73,32 +73,35 @@
                     </div>
                     <!--Header End-->
                     <div class="table-contain dynamic-height-level2">
-                        <div class="grid-x" v-for="projects in approvedProjects">
+                        <div class="grid-x" v-for="plans in approvedProjects">
                             <div class="medium-2 table-contain-border cell-vertical-center">
-                                @{{ projects.apPlan }}
+                                @{{ plans.credit_distribution_title.cdtIdNumber }}
                             </div>
                             <div class="medium-10">
-                                <div class="grid-x selectAbleRow" v-for="approvedProjects in projects.approved_projects">
-                                    <div class="medium-2 table-contain-border cell-vertical-center">
-                                        @{{ approvedProjects.apProjectCode }}
+                                <div class="grid-x selectAbleRow" v-for="projects in plans.capital_assets_project">
+                                    <div class="medium-1 table-contain-border cell-vertical-center">
+                                        @{{ projects.cpCode }}
+                                    </div>
+                                    <div class="medium-4 table-contain-border cell-vertical-center">
+                                        @{{ projects.cpSubject }}
+                                    </div>
+                                    <div class="medium-1 table-contain-border cell-vertical-center">
+                                        @{{ projects.how_to_run.htrSubject }}
                                     </div>
                                     <div class="medium-2 table-contain-border cell-vertical-center">
-                                        @{{ approvedProjects.apProjectTitle }}
+                                        @{{ getProjectAmount(projects.cdr_cp) }}
                                     </div>
-                                    <div class="medium-3 table-contain-border cell-vertical-center">
-                                        @{{ approvedProjects.apCredit }}
-                                    </div>
-                                    <div class="medium-5  table-contain-border cell-vertical-center">
+                                    <div class="medium-4  table-contain-border cell-vertical-center">
                                         <div class="grid-x">
                                             <div class="medium-11">
-                                                @{{ approvedProjects.apDescription }}
+                                                @{{ projects.cpDescription }}
                                             </div>
                                             <div class="medium-1 cell-vertical-center text-left">
-                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'apApprovedProjects' + approvedProjects.id"><img width="15px" height="15px" src="{{ asset('pic/menu.svg') }}"></a>
-                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'apApprovedProjects' + approvedProjects.id" data-dropdown data-auto-focus="true">
+                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'apApprovedProjects' + projects.id"><img width="15px" height="15px" src="{{ asset('pic/menu.svg') }}"></a>
+                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'apApprovedProjects' + projects.id" data-dropdown data-auto-focus="true">
                                                     <ul class="my-menu small-font text-right">
-                                                        <li><a v-on:click.prevent="approvedProjectsUpdateDialog(approvedProjects , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                        <li><a v-on:click.prevent="openDeleteApprovedProjectsConfirm(approvedProjects)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                        <li><a v-on:click.prevent="approvedProjectsUpdateDialog(projects , plans.id)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                        <li><a v-on:click.prevent="openDeleteApprovedProjectsConfirm(projects)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -106,20 +109,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="medium-12 table-contain-border cell-vertical-center">
-                                <a class="text-center" href="#">مشخصات طرح</a>
-                            </div>
-                            <div class="medium-12 table-contain-border cell-vertical-center">
-                                <a class="text-center" href="#">مشخصات پروژه</a>
-                            </div>
-                            <div class="medium-12 table-contain-border cell-vertical-center">
-                                <a class="text-center" href="#">ردیف های توزیع اعتبار</a>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <notifications group="capital_assetsPm"
+                       position="bottom right"
+                       animation-type="velocity"
+                       :speed="700" />
     </div>
     </div>
 @stop
