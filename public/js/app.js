@@ -66234,20 +66234,22 @@ if (false) {(function () {
 //
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-    name: 'tinySeason',
-    data: {
-        planOrCost: 0,
-        errorMessage: '',
-        errorMessage_update: '',
-        tinySeasons: [],
-        tinySeasonsCost: [],
-        tinySeasonsInput: { tsSId: '', tsSubject: '', tsDescription: '', planOrCost: '' },
-        showModal: false,
-        showModalUpdate: false,
-        showModalDelete: false,
-        tinySeasonsFill: { tsSId: '', tsSubject: '', tsDescription: '', planOrCost: '', id: '' },
-        tsIdDelete: {}
+    data: function data() {
+        return {
+            planOrCost: 0,
+            errorMessage: '',
+            errorMessage_update: '',
+            tinySeasons: [],
+            tinySeasonsCost: [],
+            tinySeasonsInput: { tsSId: '', tsSubject: '', tsDescription: '', planOrCost: '' },
+            showModal: false,
+            showModalUpdate: false,
+            showModalDelete: false,
+            tinySeasonsFill: { tsSId: '', tsSubject: '', tsDescription: '', planOrCost: '', id: '' },
+            tsIdDelete: {}
+        };
     },
+
 
     created: function created() {
         this.fetchCostData();
@@ -66389,7 +66391,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "BYekan login-alert"
   }, [_c('i', {
     staticClass: "fi-alert"
-  }), _vm._v("@" + _vm._s(_vm.errorMessage))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
+  }), _vm._v(_vm._s(_vm.errorMessage))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12 cell padding-lr"
@@ -66512,11 +66514,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
-  }, [_vm._v("ثبت")]), _vm._v(" "), _c('i', {
-    attrs: {
-      "id": "registerSubmitActivityCircle"
-    }
-  }, [_c('div', {
+  }, [_vm._v("ثبت")]), _vm._v(" "), _c('i', [_c('div', {
     staticClass: "la-line-spin-clockwise-fade-rotating la-sm float-left"
   }, [_c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div')])])])]), _vm._v("\n                        {!! Form::close() !!}\n                        ")])]) : _vm._e(), _vm._v(" "), (_vm.showModalUpdate) ? _c('modal-tiny', {
     on: {
@@ -66539,7 +66537,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "BYekan login-alert"
   }, [_c('i', {
     staticClass: "fi-alert"
-  }), _vm._v("@" + _vm._s(_vm.errorMessage_update))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
+  }), _vm._v(_vm._s(_vm.errorMessage_update))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12 cell padding-lr"
@@ -66709,20 +66707,20 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-2 table-contain-border cell-vertical-center"
-    }, [_vm._v("\n                                            @" + _vm._s(season.sSubject) + "\n                                        ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                            " + _vm._s(season.sSubject) + "\n                                        ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-10"
     }, _vm._l((season.tiny_season), function(tinySeason) {
       return _c('div', {
         staticClass: "grid-x selectAbleRow"
       }, [_c('div', {
         staticClass: "medium-6 table-contain-border cell-vertical-center"
-      }, [_vm._v("\n                                                    @" + _vm._s(tinySeason.tsSubject) + "\n                                                ")]), _vm._v(" "), _c('div', {
+      }, [_vm._v("\n                                                    " + _vm._s(tinySeason.tsSubject) + "\n                                                ")]), _vm._v(" "), _c('div', {
         staticClass: "medium-6  table-contain-border cell-vertical-center"
       }, [_c('div', {
         staticClass: "grid-x"
       }, [_c('div', {
         staticClass: "medium-11"
-      }, [_vm._v("\n                                                            @" + _vm._s(tinySeason.tsDescription) + "\n                                                        ")]), _vm._v(" "), _c('div', {
+      }, [_vm._v("\n                                                            " + _vm._s(tinySeason.tsDescription) + "\n                                                        ")]), _vm._v(" "), _c('div', {
         staticClass: "medium-1 cell-vertical-center text-left"
       }, [_c('a', {
         staticClass: "dropdown small sm-btn-align",
@@ -66816,20 +66814,20 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-2 table-contain-border cell-vertical-center"
-    }, [_vm._v("\n                                            @" + _vm._s(season.sSubject) + "\n                                        ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                            " + _vm._s(season.sSubject) + "\n                                        ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-10"
     }, _vm._l((season.tiny_season), function(tinySeason) {
       return _c('div', {
         staticClass: "grid-x selectAbleRow"
       }, [_c('div', {
         staticClass: "medium-6 table-contain-border cell-vertical-center"
-      }, [_vm._v("\n                                                    @" + _vm._s(tinySeason.tsSubject) + "\n                                                ")]), _vm._v(" "), _c('div', {
+      }, [_vm._v("\n                                                    " + _vm._s(tinySeason.tsSubject) + "\n                                                ")]), _vm._v(" "), _c('div', {
         staticClass: "medium-6  table-contain-border cell-vertical-center"
       }, [_c('div', {
         staticClass: "grid-x"
       }, [_c('div', {
         staticClass: "medium-11"
-      }, [_vm._v("\n                                                        @" + _vm._s(tinySeason.tsDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
+      }, [_vm._v("\n                                                        " + _vm._s(tinySeason.tsDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
         staticClass: "medium-1 cell-vertical-center text-left"
       }, [_c('a', {
         staticClass: "dropdown small sm-btn-align",

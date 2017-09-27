@@ -33,7 +33,7 @@
                             <div class="grid-x" v-if="errorMessage">
                                 <div class="medium-12 columns padding-lr">
                                     <div class="alert callout">
-                                        <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
+                                        <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
                                 <button name="Submit" class="my-secondary button float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span>
-                                    <i id="registerSubmitActivityCircle">
+                                    <i>
                                         <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
                                             <div></div>
                                             <div></div>
@@ -90,7 +90,7 @@
                             <div class="grid-x" v-if="errorMessage_update">
                                 <div class="medium-12 columns padding-lr">
                                     <div class="alert callout">
-                                        <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage_update }}</p>
+                                        <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage_update }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -197,17 +197,17 @@
                                     <div class="table-contain dynamic-height-level2">
                                         <div class="grid-x" v-for="season in tinySeasons">
                                             <div class="medium-2 table-contain-border cell-vertical-center">
-                                                @{{ season.sSubject }}
+                                                {{ season.sSubject }}
                                             </div>
                                             <div class="medium-10">
                                                 <div class="grid-x selectAbleRow" v-for="tinySeason in season.tiny_season">
                                                     <div class="medium-6 table-contain-border cell-vertical-center">
-                                                        @{{ tinySeason.tsSubject }}
+                                                        {{ tinySeason.tsSubject }}
                                                     </div>
                                                     <div class="medium-6  table-contain-border cell-vertical-center">
                                                         <div class="grid-x">
                                                             <div class="medium-11">
-                                                                @{{ tinySeason.tsDescription }}
+                                                                {{ tinySeason.tsDescription }}
                                                             </div>
                                                             <div class="medium-1 cell-vertical-center text-left">
                                                                 <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + tinySeason.id"><img width="15px" height="15px" src=""></a>
@@ -273,17 +273,17 @@
                                     <div class="table-contain dynamic-height-level2">
                                         <div class="grid-x" v-for="season in tinySeasonsCost">
                                             <div class="medium-2 table-contain-border cell-vertical-center">
-                                                @{{ season.sSubject }}
+                                                {{ season.sSubject }}
                                             </div>
                                             <div class="medium-10">
                                                 <div class="grid-x selectAbleRow" v-for="tinySeason in season.tiny_season">
                                                     <div class="medium-6 table-contain-border cell-vertical-center">
-                                                        @{{ tinySeason.tsSubject }}
+                                                        {{ tinySeason.tsSubject }}
                                                     </div>
                                                     <div class="medium-6  table-contain-border cell-vertical-center">
                                                         <div class="grid-x">
                                                         <div class="medium-11">
-                                                            @{{ tinySeason.tsDescription }}
+                                                            {{ tinySeason.tsDescription }}
                                                         </div>
                                                         <div class="medium-1 cell-vertical-center text-left">
                                                             <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + tinySeason.id"><img width="15px" height="15px" src=""></a>
@@ -316,19 +316,20 @@
 </template>
 <script>
     export default {
-        name: 'tinySeason',
-        data: {
-            planOrCost: 0,
-            errorMessage: '',
-            errorMessage_update: '',
-            tinySeasons: [],
-            tinySeasonsCost: [],
-            tinySeasonsInput: {tsSId: '' , tsSubject: '' , tsDescription: '' , planOrCost: ''},
-            showModal: false,
-            showModalUpdate: false,
-            showModalDelete: false,
-            tinySeasonsFill: {tsSId: '' , tsSubject: '' , tsDescription: '' , planOrCost: '' , id: ''},
-            tsIdDelete: {},
+        data(){
+            return {
+                planOrCost: 0,
+                errorMessage: '',
+                errorMessage_update: '',
+                tinySeasons: [],
+                tinySeasonsCost: [],
+                tinySeasonsInput: {tsSId: '' , tsSubject: '' , tsDescription: '' , planOrCost: ''},
+                showModal: false,
+                showModalUpdate: false,
+                showModalDelete: false,
+                tinySeasonsFill: {tsSId: '' , tsSubject: '' , tsDescription: '' , planOrCost: '' , id: ''},
+                tsIdDelete: {},
+            }
         },
 
         created: function () {
