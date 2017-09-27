@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font.css') }}">
     <link rel="stylesheet" href="{{ asset('foundation-icons/foundation-icons.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/line-spin-clockwise-fade-rotating.css') }}">
+    {{--<link rel="stylesheet" href="{{ asset('css/line-spin-clockwise-fade-rotating.css') }}">--}}
     <link rel="stylesheet" href="{{ asset('css/persian-datepicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/key.css') }}">
     <script src="{{ asset('js/Chart.js') }}"></script>
@@ -42,7 +42,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a style="margin-top: -1px;" href="#"><img style="color: #337AB7;font-size: 14px;" src="{{ asset('pic\bell-icon.svg') }}" width="18px" height="18px;"></a>
+                        <a style="margin-top: -1px;" href="#"><img style="color: #337AB7;font-size: 14px;" src="{{ asset('pic\bell-icon666.svg') }}" width="18px" height="18px;"></a>
                         <ul style="background-color: #FFFFFF;" class="menu vertical">
                             <li class="border-btm-line">
                                 <a style="padding-bottom: -5px;" href="#">
