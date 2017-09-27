@@ -1,6 +1,6 @@
 <!--Modal Insert End-->
 <!-- use the modal component, pass in the prop -->
-<modal-large v-if="showModal" @close="showModal = false">
+<modal-large v-if="showModal" @close="showModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div  slot="body">
         {!! Form::open(array('v-on:submit.prevent' => 'createRegisterOfCreditAllocationAssets')) !!}
         {!! csrf_field() !!}
@@ -23,13 +23,12 @@
                 </label>
             </div>
         </div>
-
         <div class="grid-x">
             <div class="medium-6 cell padding-lr">
                 <label>طرح
-                    <select class="form-element-margin-btm"  v-model="registerOfCreditAllocationAssetsInput.rocaaPlan" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
+                    <select class="form-element-margin-btm"  v-model="selectedPlan" v-on:change="getProjects" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
                         <option value=""></option>
-                        <option value="1">1</option>
+                        <option v-for="approvedPlan in approvedPlans" :value="approvedPlan.id">@{{ approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject }}</option>
                     </select>
                     <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
                 </label>
@@ -38,7 +37,7 @@
                 <label>عنوان پروژه
                     <select class="form-element-margin-btm"  v-model="registerOfCreditAllocationAssetsInput.rocaaProject" name="projectTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('projectTitle')}">
                         <option value=""></option>
-                        <option value="1">1</option>
+                        <option v-for="project in approvedProjects" :value="project.id">@{{ project.cpCode + ' - ' + project.cpSubject }}</option>
                     </select>
                 </label>
                 <span v-show="errors.has('projectTitle')" class="error-font">لطفا عنوان پروژه انتخاب کنید!</span>
@@ -64,26 +63,25 @@
         </div>
         <div style="margin-top: 15px;margin-bottom: 25px;" class="grid-x padding-lr small-font">
             <div class="medium-12">
-                <div class="grid-x">
+                <div v-for="creditDistributionRow in creditDistributionRows" class="grid-x input-margin-top">
                     <div class="medium-4 padding-lr">
-                        <p>ردیف توزیع اعتبار</p>
+                        <p>@{{ creditDistributionRow.cdSubject }}</p>
                     </div>
                     <div class="medium-3 padding-lr">
-                        <p>اعتبار مبادله شده</p>
+                        <p></p>
                     </div>
                     <div class="medium-2 padding-lr">
-                        <p>آخرین تخصیص</p>
+                        <p></p>
                     </div>
                     <div style="margin-top: -7px;" class="medium-3 padding-lr">
                         <label>
-                            <input class="form-element-margin-btm" type="text" name="cost" v-model="registerOfCreditAllocationAssetsInput.rocaaCost" v-validate="'required|number'" :class="{'input': true, 'error-border': errors.has('cost')}">
+                            <input class="form-element-margin-btm" type="text" :name="'cost' + creditDistributionRow.id" v-model="creditDistributionRowInput['cost' + creditDistributionRow.id]" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('cost' + creditDistributionRow.id)}">
                         </label>
-                        <span v-show="errors.has('cost')" class="error-font">لطفا مبلغ را وارد کنید!</span>
+                        <span v-show="errors.has('cost' + creditDistributionRow.id)" class="error-font">لطفا مبلغ را وارد کنید!</span>
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="medium-6 columns padding-lr padding-bottom-modal">
             <button name="Submit" class="my-secondary button float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span>
                 <i id="registerSubmitActivityCircle">

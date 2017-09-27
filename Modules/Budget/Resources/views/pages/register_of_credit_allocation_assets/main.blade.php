@@ -56,7 +56,7 @@
                                 <div class="medium-2 table-border">
                                     <strong>پروژه</strong>
                                 </div>
-                                <div class="medium-8">
+                                <div class="medium-10">
                                     <div class="grid-x">
                                         <div class="medium-6 table-border">
                                             <strong>ردیف اعتبار</strong>
@@ -80,35 +80,43 @@
                     </div>
                     <!--Header End-->
                     <div class="table-contain dynamic-height-level2">
-                        <div class="grid-x row-bottom-border" v-for="project in registerOfCreditAllocationAssets">
+                        <div class="grid-x row-bottom-border" v-for="plans in registerOfCreditAllocationAssets">
                             <div class="medium-2 table-contain-border1 cell-vertical-center">
-                               @{{ project.rocaaPlan }}
+                               @{{ plans.credit_distribution_title.cdtIdNumber }}
                             </div>
                             <div class="medium-10">
                                 <div class="grid-x">
-                                    <div class="medium-2 table-contain-border cell-vertical-center" v-for="registerOfCreditAllocationAssets in project.register_of_credit_allocation_assets">
-                                        @{{ registerOfCreditAllocationAssets.rocaaProject }}
-                                    </div>
-                                    <div class="medium-8">
+                                    <div class="medium-10 table-contain-border cell-vertical-center" v-for="projects in plans.capital_assets_project">
                                         <div class="grid-x">
-                                            <div class="medium-6 table-contain-border cell-vertical-center">
-                                                @{{ registerOfCreditAllocationAssets.rocaaRow }}                                 سه درصدنفت وگاز
+                                            <div class="medium-3">
+                                                @{{ projects.cpCode }}
                                             </div>
-                                            <div class="medium-2 table-contain-border cell-vertical-center">
-                                                @{{ registerOfCreditAllocationAssets.rocaaNumber }}
-                                            </div>
-                                            <div class="medium-2 table-contain-border cell-vertical-center">
-                                                @{{ registerOfCreditAllocationAssets.rocaaDate }}
-                                            </div>
-                                            <div class="medium-2  table-contain-border cell-vertical-center">
-                                                123456
+                                            <div class="medium-9">
+                                                <div v-for="cdrCp in projects.cdr_cp" class="grid-x">
+                                                    <div class="medium-6 table-contain-border cell-vertical-center">
+                                                        @{{ cdrCp.credit_distribution_row.cdSubject }}                                 سه درصدنفت وگاز
+                                                    </div>
+                                                    <div class="medium-6 table-contain-border cell-vertical-center">
+                                                        <div  class="grid-x">
+                                                            <div class="medium-2 table-contain-border cell-vertical-center">
+                                                                @{{ registerOfCreditAllocationAssets.rocaaNumber }}
+                                                            </div>
+                                                            <div class="medium-2 table-contain-border cell-vertical-center">
+                                                                @{{ registerOfCreditAllocationAssets.rocaaDate }}
+                                                            </div>
+                                                            <div class="medium-2  table-contain-border cell-vertical-center">
+                                                                123456
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div style="border-right: 1px solid #C7CDD1;" class="medium-2 table-contain-border1 cell-vertical-center">
                                         <div class="grid-x">
                                             <div class="medium-11">
-                                                @{{ tinySeason.tsDescription }}
+                                                @{{ }}
                                             </div>
                                             <div class="medium-1 cell-vertical-center text-left">
                                                 <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'rocaaRegisterOfCreditAllocationAssets' + registerOfCreditAllocationAssets.id"><img width="15px" height="15px" src="{{ asset('pic/menu.svg') }}"></a>
@@ -128,6 +136,10 @@
                 </div>
             </div>
         </div>
+        <notifications group="allocationPm"
+                       position="bottom right"
+                       animation-type="velocity"
+                       :speed="700" />
     </div>
     </div>
 @stop

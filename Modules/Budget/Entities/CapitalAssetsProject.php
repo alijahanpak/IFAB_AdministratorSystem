@@ -29,8 +29,9 @@ class CapitalAssetsProject extends Model
         return $this->hasMany(CdrCp::class , 'ccCpId' , 'id');
     }
 
-    public function getProjectAmount($apId)
+    public function capitalAssetsAllocation()
     {
-
+        return $this->hasMany(CapitalAssetsAllocation::class , 'caaCpId' , 'id');
     }
+
 }

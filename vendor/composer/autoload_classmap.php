@@ -1453,6 +1453,8 @@ return array(
     'Modules\\Budget\\Database\\Seeders\\SeedHowToRunTableSeederTableSeeder' => $baseDir . '/Modules/Budget/Database/Seeders/SeedHowToRunTableSeederTableSeeder.php',
     'Modules\\Budget\\Database\\Seeders\\SeedTinySeasonsTableSeederTableSeeder' => $baseDir . '/Modules/Budget/Database/Seeders/SeedTinySeasonsTableSeederTableSeeder.php',
     'Modules\\Budget\\Entities\\BudgetSeason' => $baseDir . '/Modules/Budget/Entities/BudgetSeason.php',
+    'Modules\\Budget\\Entities\\CaaCp' => $baseDir . '/Modules/Budget/Entities/CaaCp.php',
+    'Modules\\Budget\\Entities\\CapitalAssetsAllocation' => $baseDir . '/Modules/Budget/Entities/CapitalAssetsAllocation.php',
     'Modules\\Budget\\Entities\\CapitalAssetsApprovedPlan' => $baseDir . '/Modules/Budget/Entities/CapitalAssetsApprovedPlan.php',
     'Modules\\Budget\\Entities\\CapitalAssetsProject' => $baseDir . '/Modules/Budget/Entities/CapitalAssetsProject.php',
     'Modules\\Budget\\Entities\\CdrCp' => $baseDir . '/Modules/Budget/Entities/CdrCp.php',
