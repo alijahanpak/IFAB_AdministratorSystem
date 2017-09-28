@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{{ asset('css/key.css') }}">
     <script src="{{ asset('js/Chart.js') }}"></script>
 </head>
-<body  class="BYekan">
+<body class="body-color BYekan">
 
     <!--chart1 Modal Start-->
     <div style="z-index: 9999;" class="large reveal" id="exampleModal1" data-reveal>
@@ -30,9 +30,9 @@
     </div>
     <!--chart1 Modal End-->
     <div style="z-index: 999;" data-sticky-container>
-        <div class="top-bar top-menu-color" data-sticky data-margin-top="0">
+        <div style="background-color: #FFFFFF;" class="top-bar top-menu-color" data-sticky data-margin-top="0">
             <div class="top-bar-left">
-                <ul data-dropdown-menu class="dropdown menu user-menu" >
+                <ul style="background-color: #FFFFFF;" data-dropdown-menu class="dropdown menu user-menu" >
                     <li>
                         <a href="#"><span style="font-size: 14px;color: #666;"> علی جهان پاک </span></a>
                         <ul style="background-color: #ffffff;" class="menu vertical small-font white-color">
@@ -88,7 +88,7 @@
     </div>
     <!--Body system-->
     <div class="grid-x">
-        <div id="leftmenuinner" style="background-color: #F8F8F8;z-index: 995;" class="medium-2 cell small-font">
+        <div id="leftmenuinner" style="background-color: #FFFFFF;z-index: 995;" class="medium-2 cell small-font">
             <div  id="leftmenuinnerinner ">
                 <nav class="accordion"  data-margin-top="4.2">
                     <ul class="vertical menu sub-menu accordion-menu" data-accordion-menu data-multi-open="false" >
@@ -153,6 +153,7 @@
                                 <li><a href="{{ url('/budget/admin/credit_distribution_def') }}">توزیع اعتبار</a></li>
                                 <li><a href="{{ url('/budget/admin/sub_seasons') }}">ریز فصول</a></li>
                                 <li><a href="{{ url('/budget/admin/row_distribution_credit') }}">ردیف توزیع اعتبار</a></li>
+                                <li><a  @click="showModalLogin = true;">فرم ورود</a></li>
                             </ul>
                         </li>
 
