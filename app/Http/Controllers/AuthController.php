@@ -34,4 +34,25 @@ class AuthController extends Controller
         Auth::logout();
         return Redirect::to('/login');
     }
+
+    public function login_api(Request $request)
+    {
+        //$request->request->replace(is_array($data) ? $data : array());
+        //echo dump($request) . "for test";
+        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+            $user = Auth::user();
+            $success['token'] =  $user->createToken('MyApp')->accessToken;
+            return response()->json(['success' => $success], 200);
+        }
+        else{
+            return response()->json(['error'=>'Unauthorised'], 401);
+        }
+    }
+
+    public function getUserInfo(Request $request)
+    {
+        $user = Auth::user()->id;
+        echo "morteza";
+        //return \response()->json(Auth::user());
+    }
 }
