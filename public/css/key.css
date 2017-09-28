@@ -126,6 +126,9 @@ a:focus,button:focus {
     border-right: solid 1.1px #D8DEE2;
     padding: 20px;
 }
+.body-color{
+    background-color: #F2F3F8;
+}
 .my-callout-bg-color{
     background-color: #F8F8F8;
     padding: 20px 20px 0 20px;
@@ -239,7 +242,7 @@ a:focus,button:focus {
     border-left:solid 1.7px #D8DEE2;
 }
 .border-btm-line{
-    border-bottom:solid 1.7px #D8DEE2;
+    border-bottom:solid 1px #D8DEE2;
 }
 .black-color{
     color: #333;
@@ -255,7 +258,6 @@ a:focus,button:focus {
     padding: 30px 15px 30px 0px;
     line-height: 2;
 }
-
 .menu ul li a:hover{
     background-color:#EEEEEE;
 }
@@ -468,7 +470,7 @@ a:focus,button:focus {
     margin-top: -10px;
 }
 .inner-body-pad{
-    padding: 30px;
+    padding: 15px 30px 30px 30px;
 }
 .icon-mar{
     margin-right: 5px;
@@ -521,6 +523,10 @@ a:focus,button:focus {
 }
 .bottom-mrg{
     margin-bottom: 15px;
+}
+.my-callout-box{
+    box-shadow: 0 1px 15px 1px rgba(113,106,202,.08);
+    background-color: #fff;
 }
 .reveal-overlay {
     display: none;
@@ -665,8 +671,9 @@ a:focus,button:focus {
 }*/
 .table-header{
     margin-left: 12px;
-    background-color: #2980B9;
-    color: #ffffff;
+    background-color: #F4F3FB;
+    color: #575962;
+    border: 1px solid #D8DEE2;
     font-size: small;
     font-weight: bold;
     border-bottom: none;
@@ -681,20 +688,20 @@ a:focus,button:focus {
 .table-contain{
     overflow-y:scroll;
     margin-bottom: 1rem;
-    border: 1px solid #C7CDD1;
+    border: 1px solid #D8DEE2;
 }
 
 .table-contain .table-contain-border{
     padding: 1rem;
-    border-left: 1px solid #C7CDD1;
-    border-bottom: 1px solid #C7CDD1;
+    border-left: 1px solid #D8DEE2;
+    border-bottom: 1px solid #D8DEE2;
     color: #555555;
     font-size: 0.8em;
 }
 .table-contain .table-contain-border1 {
     padding: 1rem;
-    border-left: 1px solid #C7CDD1;
-    border-bottom: 1px solid #C7CDD1;
+    border-left: 1px solid #D8DEE2;
+    border-bottom: 1px solid #D8DEE2;
     color: #555555;
     font-size: 0.8em;
 }
@@ -704,7 +711,7 @@ a:focus,button:focus {
 
 }
 .row-bottom-border{
-    border-bottom: 1px solid #C7CDD1;
+    border-bottom: 1px solid #D8DEE2;
 }
 
 .cell-vertical-center{
@@ -767,7 +774,7 @@ html, body {
 }
 .my-footer{
     border-top: solid 1px #D8DEE2;
-    background-color:#F8F8F8 ;
+    background-color:#FFFFFF ;
     height: 40px;
     position: fixed;
     bottom: 0;
@@ -944,4 +951,60 @@ html, body {
 
 .input-margin-top{
     margin-bottom: 15px;
+}
+.tabs-content {
+    border: 1px solid #FFFFFF;
+    border-top: 0;
+    background: #fefefe;
+    color: #0a0a0a;
+    transition: all 0.5s ease;
+}
+
+.pagination .current {
+    padding: 0.1875rem 0.625rem;
+    background: #716aca;
+    color: #fff;
+    cursor: default;
+}
+.my-button {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 0 1rem 0;
+    font-family: inherit;
+    padding: 0.85em 1em;
+    -webkit-appearance: none;
+    border: 1px solid transparent;
+    border-radius: 0px;
+    transition: background-color 0.25s ease-out, color 0.25s ease-out;
+    font-size: 0.9rem;
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+    background-color: #1779ba;
+    color: #716aca;
+}
+[data-whatinput='mouse'] .my-button {
+    outline: 0; }
+.my-button:hover, .my-button:focus {
+    background-color: #F4F5F8;
+    color:#716aca;
+}
+.toolbox-btn{
+    background-color:#ffffff;
+    color: #716aca;
+    border:1px solid #D8DEE2;
+}
+.button-group .my-button {
+    margin: 0;
+    margin-left: 3px;
+    margin-bottom: 1px;
+    font-size: 0.9rem;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto; }
+.button-group .my-button:last-child {
+    margin-left: 0;
+}
+button.purple-btn {
+    background-color: #716aca;
+    color: #FFFFFF;
 }

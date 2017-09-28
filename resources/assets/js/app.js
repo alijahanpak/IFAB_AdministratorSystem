@@ -34,6 +34,7 @@ Vue.component(
 Vue.component('modal-tiny', {template: '#modal-tiny-template'});
 Vue.component('modal-small', {template: '#modal-small-template'});
 Vue.component('modal-large', {template: '#modal-large-template'});
+Vue.component('modal-login', {template: '#modal-login-template'});
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
