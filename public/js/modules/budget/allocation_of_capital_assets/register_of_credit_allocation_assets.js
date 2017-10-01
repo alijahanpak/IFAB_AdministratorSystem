@@ -10,10 +10,17 @@ var registerOfCreditAllocationAssets = new Vue({
         showModalDelete: false,
         registerOfCreditAllocationAssetsFill: {rocaPlan: '' ,rocaaProject:'',rocaaRow:'',roccaCost:'',rocaaNumber:'',rocaaDate:''},
         rocaaIdDelete: {},
+        approvedPlans: {},
+        selectedPlan: '',
+        approvedProjects: {},
+        creditDistributionRows: {},
+        creditDistributionRowInput: {},
     },
 
     created: function () {
         this.fetchData();
+        this.getAllApprovedPlan(0); // 0 = provincial
+        this.getCreditDistributionRow();
     },
 
     updated: function () {
@@ -22,35 +29,58 @@ var registerOfCreditAllocationAssets = new Vue({
 
     methods:{
         fetchData: function () {
-            /*axios.get('/budget/admin/sub_seasons/fetchData' , {params:{planOrCost: 0}})
+            axios.get('/budget/allocation/register_of_credit_allocation_assets/fetchData' , {params:{planOrCost: 0}})
                 .then((response) => {
-                    this.tinySeasons = response.data;
+                    this.registerOfCreditAllocationAssets = response.data;
                     console.log(response);
                 },(error) => {
                     console.log(error);
-                });*/
-            //alert('Fetch Data');
+                });
+        },
+
+        getAllApprovedPlan: function (pOrN) {
+            axios.get('/budget/plan/capital_assets/plans/getAllItems' , {params:{pOrN: 0}})
+                .then((response) => {
+                    this.approvedPlans = response.data;
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+        },
+
+        getProjects: function () {
+            axios.get('/budget/project/capital_assets/projects/getAllItems' , {params:{pId: this.selectedPlan , planOrCost: 0}})
+                .then((response) => {
+                    this.approvedProjects = response.data;
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+        },
+
+        getCreditDistributionRow: function () {
+            axios.get('/budget/admin/credit_distribution_def/rows/getAllItems' , {params:{planOrCost: 0}})
+                .then((response) => {
+                    this.creditDistributionRows = response.data;
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
         },
 
         createRegisterOfCreditAllocationAssets: function () {
-
             this.$validator.validateAll().then((result) => {
                 if (result) {
-                        /*axios.post('/budget/admin/sub_seasons/register' , this.tinySeasonsInput)
+                        axios.post('/budget/allocation/register_of_credit_allocation_assets/register' , {aInput: this.registerOfCreditAllocationAssetsInput , cdrInput: this.creditDistributionRowInput})
                             .then((response) => {
-                                if(this.planOrCost == 1)
-                                    this.tinySeasonsCost = response.data;
-                                else
-                                    this.tinySeasons = response.data;
+                                this.registerOfCreditAllocationAssets = response.data;
                                 this.showModal = false;
-                                this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'رکورد با موفقیت ثبت شد.' , type: 'success'});
-                                this.tinySeasonsInput = [];
+                                this.$notify({group: 'allocationPm', title: 'پیام سیستم', text: 'رکورد با موفقیت ثبت شد.' , type: 'success'});
                                 console.log(response);
                             },(error) => {
                                 console.log(error);
-                                this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                            });*/
-                        alert('ثبت انجام شد');
+                                this.errorMessage = 'تخصیص با این مشخصات قبلا ثبت شده است!';
+                            });
                 }
             });
         },

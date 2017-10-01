@@ -74,4 +74,11 @@ class ProjectController extends Controller
         );
     }
 
+    public function getAllApprovedProjects(Request $request)
+    {
+        return \response()->json(CapitalAssetsProject::whereHas('capitalAssetsApprovedPlan' , function ($query){
+            $query->where('capFyId' , '=' , Auth::user()->seFiscalYear);
+        })->get());
+    }
+
 }

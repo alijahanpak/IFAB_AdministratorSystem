@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
 
 class AuthController extends Controller
 {
@@ -33,5 +35,28 @@ class AuthController extends Controller
     {
         Auth::logout();
         return Redirect::to('/login');
+    }
+
+    public function login_api(Request $request)
+    {
+        $http = new Client();
+
+        $response = $http->post(url('/oauth/token'), [
+            'form_params' => [
+                'grant_type' => 'password',
+                'client_id' => env('PASSWORD_CLIENT_ID'),
+                'client_secret' => env('PASSWORD_CLIENT_SECRET'),
+                'username' => $request->email,
+                'password' => $request->password,
+                'scope' => '',
+            ],
+        ]);
+
+        return json_decode((string) $response->getBody(), true);
+    }
+
+    public function userIsAuthorize(Request $request)
+    {
+        return \response()->json([] , 200);
     }
 }

@@ -33,7 +33,7 @@
                             <div class="grid-x" v-if="errorMessage">
                                 <div class="medium-12 columns padding-lr">
                                     <div class="alert callout">
-                                        <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
+                                        <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
                                 <button name="Submit" class="my-secondary button float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span>
-                                    <i id="registerSubmitActivityCircle">
+                                    <i>
                                         <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
                                             <div></div>
                                             <div></div>
@@ -90,7 +90,7 @@
                             <div class="grid-x" v-if="errorMessage_update">
                                 <div class="medium-12 columns padding-lr">
                                     <div class="alert callout">
-                                        <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage_update }}</p>
+                                        <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage_update }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -158,7 +158,7 @@
                             <div class="medium-12 bottom-mrg">
                                 <div class="clearfix border-btm-line bottom-mrg">
                                     <div class="button-group float-left report-mrg">
-                                        <a @click="planOrCost = 0; showModal = true; errorMessage = ''" data-tooltip aria-haspopup="true" class="has-tip clear button" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
+                                        <a @click="planOrCost = 0; showModal = false; errorMessage = '';" data-tooltip aria-haspopup="true" class="has-tip clear button" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
                                             <i class="fi-plus size-30 secondry-color"></i>
                                         </a>
                                         <a data-tooltip aria-haspopup="true" class="has-tip clear button" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
@@ -197,17 +197,17 @@
                                     <div class="table-contain dynamic-height-level2">
                                         <div class="grid-x" v-for="season in tinySeasons">
                                             <div class="medium-2 table-contain-border cell-vertical-center">
-                                                @{{ season.sSubject }}
+                                                {{ season.sSubject }}
                                             </div>
                                             <div class="medium-10">
                                                 <div class="grid-x selectAbleRow" v-for="tinySeason in season.tiny_season">
                                                     <div class="medium-6 table-contain-border cell-vertical-center">
-                                                        @{{ tinySeason.tsSubject }}
+                                                        {{ tinySeason.tsSubject }}
                                                     </div>
                                                     <div class="medium-6  table-contain-border cell-vertical-center">
                                                         <div class="grid-x">
                                                             <div class="medium-11">
-                                                                @{{ tinySeason.tsDescription }}
+                                                                {{ tinySeason.tsDescription }}
                                                             </div>
                                                             <div class="medium-1 cell-vertical-center text-left">
                                                                 <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + tinySeason.id"><img width="15px" height="15px" src=""></a>
@@ -273,17 +273,17 @@
                                     <div class="table-contain dynamic-height-level2">
                                         <div class="grid-x" v-for="season in tinySeasonsCost">
                                             <div class="medium-2 table-contain-border cell-vertical-center">
-                                                @{{ season.sSubject }}
+                                                {{ season.sSubject }}
                                             </div>
                                             <div class="medium-10">
                                                 <div class="grid-x selectAbleRow" v-for="tinySeason in season.tiny_season">
                                                     <div class="medium-6 table-contain-border cell-vertical-center">
-                                                        @{{ tinySeason.tsSubject }}
+                                                        {{ tinySeason.tsSubject }}
                                                     </div>
                                                     <div class="medium-6  table-contain-border cell-vertical-center">
                                                         <div class="grid-x">
                                                         <div class="medium-11">
-                                                            @{{ tinySeason.tsDescription }}
+                                                            {{ tinySeason.tsDescription }}
                                                         </div>
                                                         <div class="medium-1 cell-vertical-center text-left">
                                                             <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + tinySeason.id"><img width="15px" height="15px" src=""></a>
@@ -315,32 +315,40 @@
     </div>
 </template>
 <script>
+    //import {auth} from '../../../auth.js';
     export default {
-        name: 'tinySeason',
-        data: {
-            planOrCost: 0,
-            errorMessage: '',
-            errorMessage_update: '',
-            tinySeasons: [],
-            tinySeasonsCost: [],
-            tinySeasonsInput: {tsSId: '' , tsSubject: '' , tsDescription: '' , planOrCost: ''},
-            showModal: false,
-            showModalUpdate: false,
-            showModalDelete: false,
-            tinySeasonsFill: {tsSId: '' , tsSubject: '' , tsDescription: '' , planOrCost: '' , id: ''},
-            tsIdDelete: {},
+        data(){
+            return {
+                planOrCost: 0,
+                errorMessage: '',
+                errorMessage_update: '',
+                tinySeasons: [],
+                tinySeasonsCost: [],
+                tinySeasonsInput: {tsSId: '' , tsSubject: '' , tsDescription: '' , planOrCost: ''},
+                showModal: false,
+                showModalUpdate: false,
+                showModalDelete: false,
+                tinySeasonsFill: {tsSId: '' , tsSubject: '' , tsDescription: '' , planOrCost: '' , id: ''},
+                tsIdDelete: {},
+            }
         },
 
         created: function () {
             this.fetchCostData();
             this.fetchData();
+            //this.$store.dispatch("logout");
         },
 
 
 
         methods:{
+            check_before_call_action: function () {
+                alert("morteza");
+
+            },
+
             fetchData: function () {
-                axios.get('/budget/admin/sub_seasons/fetchData' , {params:{planOrCost: 0}})
+                axios.get('/budget/sub_seasons/fetchData' , {params:{planOrCost: 0}, headers: JSON.parse(localStorage.getItem("ifab_token_info"))})
                     .then((response) => {
                         this.tinySeasons = response.data;
                         console.log(response);

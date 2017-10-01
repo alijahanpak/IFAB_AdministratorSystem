@@ -7,7 +7,9 @@
     "require": {
         "php": ">=5.6.4",
         "barryvdh/laravel-cors": "^0.9.3",
+        "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "5.4.*",
+        "laravel/passport": "^4.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.3.0",
         "nwidart/laravel-modules": "^1.27"

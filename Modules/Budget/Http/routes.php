@@ -89,10 +89,18 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::get('capital_assets/projects', 'ProjectController@approved_projects');
         Route::get('capital_assets/projects/fetchData', 'ProjectController@FetchApprovedProjects');
         Route::post('capital_assets/projects/register', 'ProjectController@registerCapitalAssetsApprovedProject');
+        Route::get('capital_assets/projects/getAllItems', 'ProjectController@getAllApprovedProjects');
     });
     ///////////////////////////////////////////////////////////////////////////
     Route::prefix('allocation')->group(function () {
         Route::get('register_of_credit_allocation_assets/allocation', 'AllocationOfCapitalAssetsController@register_of_credit_allocation_assets');
+        Route::get('register_of_credit_allocation_assets/fetchData', 'AllocationOfCapitalAssetsController@FetchAllocation');
+        Route::post('register_of_credit_allocation_assets/register', 'AllocationOfCapitalAssetsController@registerCapitalAssetsAllocation');
     });
 
+});
+
+Route::group(['middleware' => 'api', 'prefix' => 'budget', 'namespace' => 'Modules\Budget\Http\Controllers'], function()
+{
+    Route::get('sub_seasons/fetchData', 'BudgetAdminController@FetchTinySeasonData')->middleware('auth_api:api');
 });
