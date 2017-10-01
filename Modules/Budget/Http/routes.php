@@ -99,3 +99,8 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
     });
 
 });
+
+Route::group(['middleware' => 'api', 'prefix' => 'budget', 'namespace' => 'Modules\Budget\Http\Controllers'], function()
+{
+    Route::get('sub_seasons/fetchData', 'BudgetAdminController@FetchTinySeasonData')->middleware('auth_api:api');
+});

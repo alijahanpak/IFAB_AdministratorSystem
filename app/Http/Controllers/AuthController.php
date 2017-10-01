@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
 
 class AuthController extends Controller
 {
@@ -37,22 +39,24 @@ class AuthController extends Controller
 
     public function login_api(Request $request)
     {
-        //$request->request->replace(is_array($data) ? $data : array());
-        //echo dump($request) . "for test";
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-            $user = Auth::user();
-            $success['token'] =  $user->createToken('MyApp')->accessToken;
-            return response()->json(['success' => $success], 200);
-        }
-        else{
-            return response()->json(['error'=>'Unauthorised'], 401);
-        }
+        $http = new Client();
+
+        $response = $http->post(url('/oauth/token'), [
+            'form_params' => [
+                'grant_type' => 'password',
+                'client_id' => env('PASSWORD_CLIENT_ID'),
+                'client_secret' => env('PASSWORD_CLIENT_SECRET'),
+                'username' => $request->email,
+                'password' => $request->password,
+                'scope' => '',
+            ],
+        ]);
+
+        return json_decode((string) $response->getBody(), true);
     }
 
-    public function getUserInfo(Request $request)
+    public function userIsAuthorize(Request $request)
     {
-        $user = Auth::user()->id;
-        echo "morteza";
-        //return \response()->json(Auth::user());
+        return \response()->json([] , 200);
     }
 }

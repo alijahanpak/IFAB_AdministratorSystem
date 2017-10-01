@@ -158,7 +158,7 @@
                             <div class="medium-12 bottom-mrg">
                                 <div class="clearfix border-btm-line bottom-mrg">
                                     <div class="button-group float-left report-mrg">
-                                        <a @click="planOrCost = 0; showModal = true; errorMessage = ''" data-tooltip aria-haspopup="true" class="has-tip clear button" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
+                                        <a @click="planOrCost = 0; showModal = false; errorMessage = '';" data-tooltip aria-haspopup="true" class="has-tip clear button" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
                                             <i class="fi-plus size-30 secondry-color"></i>
                                         </a>
                                         <a data-tooltip aria-haspopup="true" class="has-tip clear button" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
@@ -315,6 +315,7 @@
     </div>
 </template>
 <script>
+    //import {auth} from '../../../auth.js';
     export default {
         data(){
             return {
@@ -335,13 +336,19 @@
         created: function () {
             this.fetchCostData();
             this.fetchData();
+            //this.$store.dispatch("logout");
         },
 
 
 
         methods:{
+            check_before_call_action: function () {
+                alert("morteza");
+
+            },
+
             fetchData: function () {
-                axios.get('/budget/admin/sub_seasons/fetchData' , {params:{planOrCost: 0}})
+                axios.get('/budget/sub_seasons/fetchData' , {params:{planOrCost: 0}, headers: JSON.parse(localStorage.getItem("ifab_token_info"))})
                     .then((response) => {
                         this.tinySeasons = response.data;
                         console.log(response);

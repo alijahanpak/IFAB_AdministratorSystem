@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="en" dir="rtl">
+<html class="no-js" lang="en" dir="rtl" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -17,6 +17,9 @@
     <script src="{{ asset('js/Chart.js') }}"></script>
 </head>
 <body  class="BYekan">
+    <passport-clients></passport-clients>
+    <passport-authorized-clients></passport-authorized-clients>
+    <passport-personal-access-tokens></passport-personal-access-tokens>
     <!--chart1 Modal Start-->
     <div style="z-index: 9999;" class="large reveal" id="exampleModal1" data-reveal>
         <h6 class="text-center BYekan">نمودار تخصیص اعتبارات بر اساس منابع</h6>
@@ -160,6 +163,7 @@
             </div>
         </div>
         <router-view></router-view>
+        <!-- Login modal End-->
         <!--Modal Preloader Start-->
             <div class="full reveal reveal-overlay" id="preloaderModal" data-reveal>
                 <div class="la-line-spin-clockwise-fade-rotating la-2x loader-pos">
@@ -186,6 +190,47 @@
                 </div>
             </div>
         </div>
+        <!--Modal Insert Start-->--}}
+        <modal-login v-if="showModalLogin" @close="showModalLogin = false">
+        <div slot="body">
+            <form v-on:submit.prevent="login">
+                <div class="grid-x" v-if="errorMessage">
+                    <div class="medium-12 columns padding-lr">
+                        <div class="alert callout">
+                            <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-x">
+                    <div class="medium-12">
+                        <img class="login-logo-mrg" src="{{ asset('pic\logom.jpg') }}" width="74px" height="74px">
+                    </div>
+                </div>
+                <div class="grid-x">
+                    <div class="medium-12">
+                        <h5 class="BYekan login-txt text-center">سامانه یکپارچه اداری-مالی و بودجه</h5>
+                    </div>
+                </div>
+                <div class="grid-x">
+                    <div class="medium-12 columns padding-lr">
+                        <label>نام کاربری
+                            <input type="text" name="user" v-model="authInfo.email" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('user')}">
+                        </label>
+                        <span v-show="errors.has('user')" class="error-font">لطفا نام کاربری را وارد کنید!</span>
+                    </div>
+                    <div class="medium-12 columns padding-lr">
+                        <label>رمز عبور
+                            <input type="text" name="pass" v-model="authInfo.password"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('pass')}">
+                        </label>
+                        <span v-show="errors.has('pass')" class="error-font">لطفا رمز عبور را وارد کنید!</span>
+                    </div>
+                    <div class="medium-12">
+                        <button name="submit" class="button expanded">ورود</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        </modal-login>
     </div>
     <script type="text/x-template" id="modal-tiny-template">
         <transition name="modal-tiny">
@@ -254,7 +299,7 @@
         <transition name="modal-login">
             <div class="modal-mask">
                 <div class="modal-wrapper">
-                    <div class="my-small">
+                    <div class="my-tiny">
                         <div class="modal-header">
                             <slot name="header">
 
@@ -269,50 +314,6 @@
             </div>
         </transition>
     </script>
-
-    <!--Modal Insert Start-->--}}
-     <modal-login v-if="showModalLogin" @close="showModalLogin = false">
-        <div slot="body">
-            <form>
-            <div class="grid-x" v-if="errorMessage">
-                <div class="medium-12 columns padding-lr">
-                    <div class="alert callout">
-                        <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="grid-x">
-                <div class="medium-12">
-                    <img class="login-logo-mrg" src="{{ asset('pic\logom.jpg') }}" width="74px" height="74px">
-                </div>
-            </div>
-            <div class="grid-x">
-                <div class="medium-12">
-                    <h5 class="BYekan login-txt text-center">سامانه یکپارچه اداری-مالی و بودجه</h5>
-                </div>
-            </div>
-            <div class="grid-x">
-                <div class="medium-12 columns padding-lr">
-                    <label>نام کاربری
-                        <input type="text" name="user"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('user')}">
-                    </label>
-                    <span v-show="errors.has('tsSubject')" class="error-font">لطفا نام کاربری را وارد کنید!</span>
-                </div>
-                <div class="medium-12 columns padding-lr">
-                    <label>رمز عبور
-                        <input type="text" name="pass"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('pass')}">
-                    </label>
-                    <span v-show="errors.has('tsSubject')" class="error-font">لطفا رمز عبور را وارد کنید!</span>
-                </div>
-                <div class="medium-12">
-                    <button name="submit" class="button expanded">ورود</button>
-                </div>
-            </div>
-            </form>
-        </div>
-    </modal-login>
-    <!-- Login modal End-->
-
     <script src="{{ asset('js/vendor/jquery.js') }}"></script>
     <script src="{{ asset('js/vendor/what-input.js') }}"></script>
     <script src="{{ asset('js/vendor/foundation.js') }}"></script>

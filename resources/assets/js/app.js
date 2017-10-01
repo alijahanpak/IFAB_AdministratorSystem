@@ -42,7 +42,6 @@ Vue.component('modal-login', {template: '#modal-login-template'});
  */
 
 require('./router');
-
 /*const app = new Vue({
     el: '#app',
 });*/
