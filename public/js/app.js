@@ -64835,16 +64835,27 @@ router.afterEach(function (to, from, next) {
     if (!store.getters.isLoggedIn) {
         app.showModalLogin = true;
     } else {
-        axios.post('/api/userIsAuthorize', null, { headers: JSON.parse(localStorage.getItem("ifab_token_info")) }).then(function (response) {
-            console.log(response);
-            next();
-        }, function (error) {
-            app.showModalLogin = true;
-            console.log(error);
-        });
+        next();
     }
 });
-////////////////////////////// vuex /////////////////////////////////////
+/////////////////////// config axios request /////////////////////////////////////
+axios.interceptors.response.use(function (response) {
+    return response;
+}, function (error) {
+    console.log(error);
+    if (error.response.status == 401) {
+        app.showModalLogin = true;
+    }
+    return Promise.reject(error);
+});
+
+axios.interceptors.request.use(function (config) {
+    config.headers = JSON.parse(localStorage.getItem("ifab_token_info")); //set headers to config axios request
+    return config;
+}, function (error) {
+    return Promise.reject(error);
+});
+////////////////////////////// vuex for user authentication manage /////////////////////////////////////
 var LOGIN = "LOGIN";
 var LOGIN_SUCCESS = "LOGIN_SUCCESS";
 var LOGOUT = "LOGOUT";
@@ -64902,29 +64913,21 @@ var app = new Vue({
     },
 
     created: function created() {
-        var _this = this;
-
         if (!store.getters.isLoggedIn) {
             this.showModalLogin = true;
-        } else {
-            axios.post('/api/userIsAuthorize', null, { headers: JSON.parse(localStorage.getItem("ifab_token_info")) }).then(function (response) {
-                console.log(response);
-            }, function (error) {
-                _this.showModalLogin = true;
-                console.log(error);
-            });
         }
     },
 
     methods: {
         login: function login() {
-            var _this2 = this;
+            var _this = this;
 
             axios.post('/api/login', this.authInfo).then(function (response) {
                 console.log(response);
-                _this2.tokenInfo.Authorization = 'Bearer ' + response.data.access_token;
-                _this2.$store.dispatch("login", _this2.tokenInfo);
-                _this2.showModalLogin = false;
+                _this.tokenInfo.Authorization = 'Bearer ' + response.data.access_token;
+                _this.$store.dispatch("login", _this.tokenInfo);
+                _this.showModalLogin = false;
+                _this.$router.go(_this.$router.currentRoute.path); //for reload page data
             }, function (error) {
                 console.log(error);
             });
@@ -69149,8 +69152,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
 
 //import {auth} from '../../../auth.js';
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -69166,7 +69167,8 @@ if (false) {(function () {
             showModalUpdate: false,
             showModalDelete: false,
             tinySeasonsFill: { tsSId: '', tsSubject: '', tsDescription: '', planOrCost: '', id: '' },
-            tsIdDelete: {}
+            tsIdDelete: {},
+            seasons: {}
         };
     },
 
@@ -69174,18 +69176,19 @@ if (false) {(function () {
     created: function created() {
         this.fetchCostData();
         this.fetchData();
+        this.getSeasons();
         //this.$store.dispatch("logout");
     },
 
-    methods: {
-        check_before_call_action: function check_before_call_action() {
-            alert("morteza");
-        },
+    updated: function updated() {
+        $(this.$el).foundation(); //WORKS!
+    },
 
+    methods: {
         fetchData: function fetchData() {
             var _this = this;
 
-            axios.get('/budget/sub_seasons/fetchData', { params: { planOrCost: 0 }, headers: JSON.parse(localStorage.getItem("ifab_token_info")) }).then(function (response) {
+            axios.get('/budget/admin/sub_seasons/fetchData', { params: { planOrCost: 0 } }).then(function (response) {
                 _this.tinySeasons = response.data;
                 console.log(response);
             }, function (error) {
@@ -69204,22 +69207,32 @@ if (false) {(function () {
             });
         },
 
-        createTinySeason: function createTinySeason() {
+        getSeasons: function getSeasons() {
             var _this3 = this;
+
+            axios.get('/admin/get_all_seasons', { params: {} }).then(function (response) {
+                _this3.seasons = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        createTinySeason: function createTinySeason() {
+            var _this4 = this;
 
             this.$validator.validateAll().then(function (result) {
                 if (result) {
-                    _this3.tinySeasonsInput.planOrCost = _this3.planOrCost;
-
-                    axios.post('/budget/admin/sub_seasons/register', _this3.tinySeasonsInput).then(function (response) {
-                        if (_this3.planOrCost == 1) _this3.tinySeasonsCost = response.data;else _this3.tinySeasons = response.data;
-                        _this3.showModal = false;
-                        _this3.$notify({ group: 'tinySeasonPm', title: 'پیام سیستم', text: 'رکورد با موفقیت ثبت شد.', type: 'success' });
-                        _this3.tinySeasonsInput = [];
+                    _this4.tinySeasonsInput.planOrCost = _this4.planOrCost;
+                    axios.post('/budget/admin/sub_seasons/register', _this4.tinySeasonsInput).then(function (response) {
+                        if (_this4.planOrCost == 1) _this4.tinySeasonsCost = response.data;else _this4.tinySeasons = response.data;
+                        _this4.showModal = false;
+                        _this4.$notify({ group: 'tinySeasonPm', title: 'پیام سیستم', text: 'رکورد با موفقیت ثبت شد.', type: 'success' });
+                        _this4.tinySeasonsInput = [];
                         console.log(response);
                     }, function (error) {
                         console.log(error);
-                        _this3.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                        _this4.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
                     });
                 }
             });
@@ -69237,17 +69250,17 @@ if (false) {(function () {
         },
 
         updateTinySeason: function updateTinySeason() {
-            var _this4 = this;
+            var _this5 = this;
 
             if (this.tinySeasonsFill.tsSId != '' && this.tinySeasonsFill.tsSubject != '') {
                 axios.post('/budget/admin/sub_seasons/update', this.tinySeasonsFill).then(function (response) {
-                    if (_this4.planOrCost == 1) _this4.tinySeasonsCost = response.data;else _this4.tinySeasons = response.data;
-                    _this4.showModalUpdate = false;
-                    _this4.$notify({ group: 'tinySeasonPm', title: 'پیام سیستم', text: 'بروزرسانی با موفقیت انجام شد.', type: 'success' });
+                    if (_this5.planOrCost == 1) _this5.tinySeasonsCost = response.data;else _this5.tinySeasons = response.data;
+                    _this5.showModalUpdate = false;
+                    _this5.$notify({ group: 'tinySeasonPm', title: 'پیام سیستم', text: 'بروزرسانی با موفقیت انجام شد.', type: 'success' });
                     console.log(response);
                 }, function (error) {
                     console.log(error);
-                    _this4.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                    _this5.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
                 });
             } else {
                 this.errorMessage_update = ' لطفا در وارد کردن اطلاعات دقت کنید!';
@@ -69260,17 +69273,29 @@ if (false) {(function () {
         },
 
         deleteTinySeason: function deleteTinySeason() {
-            var _this5 = this;
+            var _this6 = this;
 
             axios.post('/budget/admin/sub_seasons/delete', this.tsIdDelete).then(function (response) {
-                if (response.data.tsPlanOrCost == 1) _this5.tinySeasonsCost = response.data;else _this5.tinySeasons = response.data;
-                _this5.showModalDelete = false;
-                _this5.$notify({ group: 'tinySeasonPm', title: 'پیام سیستم', text: 'حذف رکورد با موفقیت انجام شد.', type: 'success' });
+                if (response.data.tsPlanOrCost == 1) _this6.tinySeasonsCost = response.data;else {
+                    _this6.tinySeasons = response.data;
+                }
+                _this6.showModalDelete = false;
+                _this6.displayNotif(response.response.status);
                 console.log(response);
             }, function (error) {
                 console.log(error);
-                _this5.$notify({ group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
             });
+        },
+
+        displayNotif: function displayNotif(httpStatusCode) {
+            switch (httpStatusCode) {
+                case 204:
+                    this.$notify({ group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
+                    break;
+                case 200:
+                    this.$notify({ group: 'tinySeasonPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
+                    break;
+            }
         }
     }
 });
@@ -69306,7 +69331,14 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "slot": "body"
     },
     slot: "body"
-  }, [_vm._v("\n                        {!! Form::open(array('v-on:submit.prevent' => 'createTinySeason')) !!}\n                        {!! csrf_field() !!}\n                        "), (_vm.errorMessage) ? _c('div', {
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.createTinySeason($event)
+      }
+    }
+  }, [(_vm.errorMessage) ? _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12 columns padding-lr"
@@ -69320,7 +69352,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12 cell padding-lr"
-  }, [_c('label', [_vm._v("فصل\n                                    "), _c('select', {
+  }, [_c('label', [_vm._v("فصل\n                                        "), _c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -69352,11 +69384,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "value": ""
     }
-  }), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "1"
-    }
-  }, [_vm._v("1")])]), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _vm._l((_vm.seasons), function(season) {
+    return _c('option', {
+      domProps: {
+        "value": season.id
+      }
+    }, [_vm._v(_vm._s(season.sSubject))])
+  })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -69368,7 +69402,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12 columns padding-lr"
-  }, [_c('label', [_vm._v("ریز فصل\n                                    "), _c('input', {
+  }, [_c('label', [_vm._v("ریز فصل\n                                        "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -69408,7 +69442,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "small-12 columns padding-lr"
-  }, [_c('label', [_vm._v("شرح\n                                    "), _c('textarea', {
+  }, [_c('label', [_vm._v("شرح\n                                        "), _c('textarea', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -69441,7 +69475,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "btn-txt-mrg"
   }, [_vm._v("ثبت")]), _vm._v(" "), _c('i', [_c('div', {
     staticClass: "la-line-spin-clockwise-fade-rotating la-sm float-left"
-  }, [_c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div')])])])]), _vm._v("\n                        {!! Form::close() !!}\n                        ")])]) : _vm._e(), _vm._v(" "), (_vm.showModalUpdate) ? _c('modal-tiny', {
+  }, [_c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div')])])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showModalUpdate) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showModalUpdate = false
@@ -69452,7 +69486,14 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "slot": "body"
     },
     slot: "body"
-  }, [_vm._v("\n                        {!! Form::open(array('v-on:submit.prevent' => 'updateTinySeason')) !!}\n                        {!! csrf_field() !!}\n                        "), (_vm.errorMessage_update) ? _c('div', {
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.updateTinySeason($event)
+      }
+    }
+  }, [(_vm.errorMessage_update) ? _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12 columns padding-lr"
@@ -69466,7 +69507,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12 cell padding-lr"
-  }, [_c('label', [_vm._v("فصل\n                                    "), _c('select', {
+  }, [_c('label', [_vm._v("فصل\n                                        "), _c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -69491,15 +69532,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "value": ""
     }
-  }), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "1"
-    }
-  }, [_vm._v("1")])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _vm._l((_vm.seasons), function(season) {
+    return _c('option', {
+      domProps: {
+        "value": season.id
+      }
+    }, [_vm._v(_vm._s(season.sSubject))])
+  })], 2)])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12 columns padding-lr"
-  }, [_c('label', [_vm._v("ریز فصل\n                                    "), _c('input', {
+  }, [_c('label', [_vm._v("ریز فصل\n                                        "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -69523,7 +69566,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "small-12 columns padding-lr"
-  }, [_c('label', [_vm._v("شرح\n                                    "), _c('textarea', {
+  }, [_c('label', [_vm._v("شرح\n                                        "), _c('textarea', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -69560,7 +69603,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('div', {
     staticClass: "la-line-spin-clockwise-fade-rotating la-sm float-left"
-  }, [_c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div')])])])]), _vm._v("\n                        {!! Form::close() !!}\n                    ")])]) : _vm._e(), _vm._v(" "), (_vm.showModalDelete) ? _c('modal-tiny', {
+  }, [_c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div')])])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showModalDelete) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showModalDelete = false
@@ -69617,7 +69660,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": function($event) {
         _vm.planOrCost = 0;
-        _vm.showModal = false;
+        _vm.showModal = true;
         _vm.errorMessage = '';
       }
     }
@@ -69657,7 +69700,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         attrs: {
           "width": "15px",
           "height": "15px",
-          "src": ""
+          "src": __webpack_require__(101)
         }
       })]), _vm._v(" "), _c('div', {
         staticClass: "dropdown-pane dropdown-pane-sm ",
@@ -69677,7 +69720,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         on: {
           "click": function($event) {
             $event.preventDefault();
-            _vm.tinySeasonUpdateDialog(tinySeason, 1)
+            _vm.tinySeasonUpdateDialog(tinySeason, 0)
           }
         }
       }, [_c('i', {
@@ -69837,10 +69880,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "tabs tab-color",
     attrs: {
       "data-responsive-accordion-tabs": "tabs medium-accordion large-tabs",
-      "id": "sub_season_tab_view",
-      "data-deep-link": "true",
-      "data-update-history": "true",
-      "data-deep-link-smudge": "true"
+      "id": "sub_season_tab_view"
     }
   }, [_c('li', {
     staticClass: "tabs-title is-active"
@@ -69964,6 +70004,12 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-0d39c2dc", esExports)
   }
 }
+
+/***/ }),
+/* 101 */
+/***/ (function(module, exports) {
+
+module.exports = "/fonts/menu.svg?8b21397c3c624f015a44b42a4f6b7ca5";
 
 /***/ })
 /******/ ]);

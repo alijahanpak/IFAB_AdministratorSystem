@@ -39,7 +39,7 @@ class AuthController extends Controller
 
     public function login_api(Request $request)
     {
-        $http = new Client();
+        $http = new \GuzzleHttp\Client;
 
         $response = $http->post(url('/oauth/token'), [
             'form_params' => [

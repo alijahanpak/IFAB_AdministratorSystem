@@ -13,13 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-/*Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});*/
+/*Route::get('/user', function (Request $request) {
+    return Auth::user()->id;
+})->middleware('auth_api:api');*/
 
 Route::post('/login' , 'AuthController@login_api');
 Route::post('/userIsAuthorize' , 'AuthController@userIsAuthorize')->middleware('auth_api:api');
-
-/*Route::get('/user', function () {
-    echo Auth::user()->name;
-})->middleware('auth_api:api');*/
