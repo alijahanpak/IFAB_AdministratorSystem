@@ -24,17 +24,28 @@ router.afterEach((to, from, next) => {
         app.showModalLogin = true;
     }
     else{
-        axios.post('/api/userIsAuthorize' , null ,{headers: JSON.parse(localStorage.getItem("ifab_token_info"))})
-            .then((response) => {
-                console.log(response);
-                next();
-            },(error) => {
-                app.showModalLogin = true;
-                console.log(error);
-            });
+        next();
     }
 });
-////////////////////////////// vuex /////////////////////////////////////
+/////////////////////// config axios request /////////////////////////////////////
+axios.interceptors.response.use(response => {
+    return response;
+},function (error) {
+    console.log(error);
+    if (error.response.status == 401)
+    {
+        app.showModalLogin = true;
+    }
+    return Promise.reject(error);
+});
+
+axios.interceptors.request.use(function (config) {
+    config.headers = JSON.parse(localStorage.getItem("ifab_token_info")); //set headers to config axios request
+    return config;
+}, function (error) {
+    return Promise.reject(error);
+});
+////////////////////////////// vuex for user authentication manage /////////////////////////////////////
 const LOGIN = "LOGIN";
 const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 const LOGOUT = "LOGOUT";
@@ -98,15 +109,6 @@ var app = new Vue({
         {
             this.showModalLogin = true;
         }
-        else{
-            axios.post('/api/userIsAuthorize' , null ,{headers: JSON.parse(localStorage.getItem("ifab_token_info"))})
-                .then((response) => {
-                    console.log(response);
-                },(error) => {
-                    this.showModalLogin = true;
-                    console.log(error);
-                });
-        }
     },
 
     methods:{
@@ -117,6 +119,7 @@ var app = new Vue({
                     this.tokenInfo.Authorization = 'Bearer ' + response.data.access_token;
                     this.$store.dispatch("login" , this.tokenInfo);
                     this.showModalLogin = false;
+                    this.$router.go(this.$router.currentRoute.path); //for reload page data
                 },(error) => {
                     console.log(error);
                 });

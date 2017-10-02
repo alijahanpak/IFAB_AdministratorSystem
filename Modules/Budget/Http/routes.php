@@ -102,5 +102,10 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
 
 Route::group(['middleware' => 'api', 'prefix' => 'budget', 'namespace' => 'Modules\Budget\Http\Controllers'], function()
 {
-    Route::get('sub_seasons/fetchData', 'BudgetAdminController@FetchTinySeasonData')->middleware('auth_api:api');
+    Route::prefix('admin/sub_seasons')->group(function () {
+        Route::get('/fetchData', 'BudgetAdminController@FetchTinySeasonData')->middleware('auth_api:api');
+        Route::post('/register', 'BudgetAdminController@registerTinySeason')->middleware('auth_api:api');
+        Route::post('/update', 'BudgetAdminController@updateTinySeason')->middleware('auth_api:api');
+        Route::post('/delete', 'BudgetAdminController@deleteTinySeason')->middleware('auth_api:api');
+    });
 });
