@@ -223,7 +223,12 @@ a:focus,button:focus {
 }
 .border-btm-line{
     color: #808080;
-    border-bottom: solid 1.1px #D8DEE2;
+    font-size: small;
+    text-align: justify;
+}
+.border-btm-line-dash{
+
+    border-bottom: dashed 1px #D8DEE2;
     font-size: small;
     text-align: justify;
 }
@@ -380,12 +385,12 @@ a:focus,button:focus {
 
 }
 .my-menu li a{
-    color: #333333;
+    color: #6f727d;
     padding: 10px;
     display: block;
 }
-.my-menu li:hover{
-    background-color:#EEEEEE;
+.my-menu li a:hover{
+    color:#716aca;
 
 }
 .dashboard-padding{
@@ -496,7 +501,7 @@ a:focus,button:focus {
     top: 0;
     width: 240px;
     overflow-y: auto;
-    border-left:solid 1.7px #D8DEE2;
+    border-left:solid 1px #D8DEE2;
 }
 #leftmenuinnerinner {
     height: 100%;
@@ -1007,4 +1012,48 @@ html, body {
 button.purple-btn {
     background-color: #716aca;
     color: #FFFFFF;
+}
+.pagination a, .pagination button {
+    display: block;
+    padding: 0.1875rem 0.625rem;
+    border-radius: 0px;
+    color: #898b96;
+}
+.pagination a:hover, .pagination button:hover {
+    background: #e6e6e6;
+    color: #716aca;
+}
+.pagination .ellipsis::after {
+    padding: 0.1875rem 0.625rem;
+    content: '\2026';
+    color:#898b96;
+}
+.tbl-menu{
+    color:#c1bfd0;
+    padding-top: 5px;
+    margin-left: 10px;
+}
+.dropdown-pane {
+    position: absolute;
+    z-index: 10;
+    width: 150px;
+    padding: 1rem;
+    visibility: hidden;
+    display: none;
+    border: none;
+    border-radius: 0px;
+    font-size: 1rem;
+    background-color: #ffffff;
+    box-shadow: 0 0 15px 1px rgba(113,106,202,.2);
+}
+.top-menu-bg{
+    background: url("../pic/notification_bg.jpg");
+    padding: 15px;
+    color: #FFFFFF;
+    background-size: cover;
+}
+.top-menu-style{
+    background-color: #FFFFFF;
+    box-shadow: 0 0 15px 1px rgba(113,106,202,.2);
+    border: none;
 }

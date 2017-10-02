@@ -43,12 +43,24 @@
                     </li>
                     <li>
                         <a style="margin-top: -1px;" href="#"><img style="color: #337AB7;font-size: 14px;" src="{{ asset('pic\bell-icon666.svg') }}" width="18px" height="18px;"></a>
-                        <ul style="background-color: #FFFFFF;" class="menu vertical">
-                            <li class="border-btm-line">
+                        <ul style="background-color:#FFFFFF;     " class="top-menu-style menu vertical">
+                            <li>
+                                <div class="top-menu-bg">
+                                    <div class="grid-x">
+                                        <div class="medium-12">
+                                            <h5 class="text-center BYekan">9 پیام جدید</h5>
+                                        </div>
+                                        <div class="medium-12">
+                                            <p class="text-center">پیام های کاربر</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="border-btm-line-dash">
                                 <a style="padding-bottom: -5px;" href="#">
                                     <div>
                                         <strong style="color: #000000;">علیرضا طاهری</strong>
-                                        <span style="color: #777;" class="message-time large-offset-7"><i class="fi-calendar size-18"></i>41 دقیقه قبل</span>
+                                        <span style="color: #777;" class="message-time large-offset-7">41 دقیقه قبل</span>
                                     </div>
                                     <div>
                                         <p style="color:  #333;margin-top: 12px;"> موافقت نامه سال 1396 در مورد پروژه های عمرانی در دست اقدام پیگیری از سازمان</p>
@@ -62,7 +74,7 @@
                                 <a style="padding-bottom: -5px;" href="#">
                                     <div>
                                         <strong style="color: #000000;">علیرضا طاهری</strong>
-                                        <span style="color: #777;" class="message-time large-offset-7"><i class="fi-calendar size-18"></i>دو روز پیش</span>
+                                        <span style="color: #777;" class="message-time large-offset-7">دو روز پیش</span>
                                     </div>
                                     <div>
                                         <p style="color:  #333;margin-top: 12px;"> موافقت نامه سال 1396 در مورد پروژه های عمرانی در دست اقدام پیگیری از سازمان</p>
