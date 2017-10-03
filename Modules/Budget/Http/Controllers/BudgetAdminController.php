@@ -595,7 +595,7 @@ class BudgetAdminController extends Controller
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return \response()->json($request , 204);
+                return \response()->json($this->getAllTinySeasons($request->planOrCost) , 204);
             }
         }
     }

@@ -17,15 +17,12 @@ const routes = [
 const router = new VueRouter({
     routes
 });
-
 router.afterEach((to, from, next) => {
     if (!store.getters.isLoggedIn)
     {
         app.showModalLogin = true;
     }
-    else{
-        next();
-    }
+
 });
 /////////////////////// config axios request /////////////////////////////////////
 axios.interceptors.response.use(response => {
@@ -124,6 +121,11 @@ var app = new Vue({
                     console.log(error);
                 });
         },
+
+        logout: function () {
+            this.$store.dispatch("logout");
+            this.$router.go(this.$router.currentRoute.path);
+        }
     }
 });
 

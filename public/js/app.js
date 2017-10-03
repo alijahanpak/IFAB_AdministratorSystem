@@ -64830,12 +64830,9 @@ var routes = [{ path: '/budget', component: __WEBPACK_IMPORTED_MODULE_2__compone
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
     routes: routes
 });
-
 router.afterEach(function (to, from, next) {
     if (!store.getters.isLoggedIn) {
         app.showModalLogin = true;
-    } else {
-        next();
     }
 });
 /////////////////////// config axios request /////////////////////////////////////
@@ -64931,6 +64928,11 @@ var app = new Vue({
             }, function (error) {
                 console.log(error);
             });
+        },
+
+        logout: function logout() {
+            this.$store.dispatch("logout");
+            this.$router.go(this.$router.currentRoute.path);
         }
     }
 });
