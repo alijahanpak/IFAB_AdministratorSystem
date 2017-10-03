@@ -32,21 +32,33 @@
     <div style="z-index: 999;" data-sticky-container>
         <div style="background-color: #FFFFFF;" class="top-bar top-menu-color" data-sticky data-margin-top="0">
             <div class="top-bar-left">
-                <ul style="background-color: #FFFFFF;" data-dropdown-menu class="dropdown menu user-menu" >
+                <ul style="background-color: #FFFFFF;" data-dropdown-menu class="dropdown  menu user-menu" >
                     <li>
                         <a href="#"><span style="font-size: 14px;color: #666;"> علی جهان پاک </span></a>
-                        <ul style="background-color: #ffffff;" class="menu vertical small-font white-color">
-                            <li><a href="#"><i class="fi-torso-business"></i> <span>کارشناس اداری مالی</span></a></li>
-                            <li><a href="#"><i class="fi-widget"></i> <span>تنظیمات</span></a></li>
-                            <li><a href="{{ url('/logout') }}"><i class="fi-power"></i> <span>خروج</span></a></li>
+                        <ul style="background-color: #ffffff;" class="top-menu-style menu vertical small-font white-color">
+                            <li>
+                                <div class="top-menu-bg">
+                                    <div class="grid-x cover-color">
+                                        <div class="medium-12">
+                                            <h5 class="text-center BYekan">علی جهان پاک</h5>
+                                        </div>
+                                        <div class="medium-12">
+                                            <p class="text-center">کارشناس بودجه</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li><a href="#"><i class="tbl-menu fi-torso-business"></i> <span>کارشناس اداری مالی</span></a></li>
+                            <li><a href="#"><i class="tbl-menu fi-widget"></i> <span>تنظیمات</span></a></li>
+                            <li><a href="{{ url('/logout') }}"><i class="tbl-menu fi-power"></i> <span>خروج</span></a></li>
                         </ul>
                     </li>
                     <li>
                         <a style="margin-top: -1px;" href="#"><img style="color: #337AB7;font-size: 14px;" src="{{ asset('pic\bell-icon666.svg') }}" width="18px" height="18px;"></a>
-                        <ul style="background-color:#FFFFFF;     " class="top-menu-style menu vertical">
+                        <ul style="background-color:#FFFFFF;" class="top-menu-style menu vertical">
                             <li>
                                 <div class="top-menu-bg">
-                                    <div class="grid-x">
+                                    <div class="grid-x cover-color">
                                         <div class="medium-12">
                                             <h5 class="text-center BYekan">9 پیام جدید</h5>
                                         </div>

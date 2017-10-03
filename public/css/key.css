@@ -891,11 +891,12 @@ html, body {
     border-radius: 2px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
     transition: all .3s ease;
-     max-height:100vh;
+    max-height:100vh;
      overflow-y: auto;
 
 
 }
+
 .my-large {
     width: 90%;
     max-width: 62.5rem;
@@ -1048,12 +1049,58 @@ button.purple-btn {
 }
 .top-menu-bg{
     background: url("../pic/notification_bg.jpg");
-    padding: 15px;
+    padding: 0px;
     color: #FFFFFF;
     background-size: cover;
+}
+.cover-color{
+    background-color: #716ACA;
+    opacity: 0.9;
+    padding: 15px;"
 }
 .top-menu-style{
     background-color: #FFFFFF;
     box-shadow: 0 0 15px 1px rgba(113,106,202,.2);
     border: none;
+}
+.top-margin-element{
+    margin-top: 20px;
+}
+
+.my-button-master {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 0 1rem 0;
+    font-family: inherit;
+    padding: 0.85em 1em;
+    -webkit-appearance: none;
+    border: 1px solid transparent;
+    border-radius: 0px;
+    transition: background-color 0.25s ease-out, color 0.25s ease-out;
+    font-size: 0.9rem;
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+    background-color: #00c5dc;
+    color: #FFFFFF;
+}
+[data-whatinput='mouse'] .my-button {
+    outline: 0; }
+.my-button-master:hover, .my-button-master:focus {
+    color: #fff;
+    background-color: #00a3b6;
+}
+
+.button.clear.primary-login {
+    color: #FFFFFF; }
+.button.clear.primary-login:hover, .button.clear.primary-login:focus {
+
+    color: #D0D8E7;
+}
+
+.modal-bottom{
+    position:inherit;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }

@@ -156,6 +156,7 @@
                                 <li><a href="{{ url('/budget/admin/row_distribution_credit') }}">ردیف توزیع اعتبار</a></li>
                                 <li><router-link to="/budget">داشبورد</router-link></li>
                                 <li><router-link to="/budget/tiny_seasons">ریز فصل</router-link></li>
+                                <li><a @click="showModalLogin = true">ورود</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -163,7 +164,6 @@
             </div>
         </div>
         <router-view></router-view>
-        <!-- Login modal End-->
         <!--Modal Preloader Start-->
             <div class="full reveal reveal-overlay" id="preloaderModal" data-reveal>
                 <div class="la-line-spin-clockwise-fade-rotating la-2x loader-pos">
@@ -190,47 +190,69 @@
                 </div>
             </div>
         </div>
-        <!--Modal Insert Start-->--}}
+        <!--Modal Login Start-->
         <modal-login v-if="showModalLogin" @close="showModalLogin = false">
         <div slot="body">
-            <form v-on:submit.prevent="login">
-                <div class="grid-x" v-if="errorMessage">
-                    <div class="medium-12 columns padding-lr">
-                        <div class="alert callout">
-                            <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
+
+                <div class="grid-x">
+                    <div style="background-color:#716aca;color: #FFFFFF;" class="medium-4">
+                        <div class="grid-x">
+                            <div class="medium-12">
+                                <img  class="text-center large-offset-4" src="{{ asset('pic\logom1.png') }}" width="74px" height="74px">
+                            </div>
                         </div>
+                        <div class="grid-x">
+                            <div class="medium-12">
+                                <h6 class="BYekan  text-center">سامانه یکپارچه اداری-مالی و بودجه</h6>
+                            </div>
+                        </div>
+
+                        <div class="grid-x modal-bottom">
+                            <div class="medium-12 ">
+                                <div class="small button-group float-left">
+                                    <a class="clear button primary-login">راهنمای سامانه</a>
+                                    <a class="clear button primary-login">درباره ما</a>
+                                    <a class="clear button primary-login">ارتباط با ما</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div style="margin: auto;padding: 20px 50px 20px 50px"  class="medium-8">
+                        <form v-on:submit.prevent="login">
+                        <div class="grid-x">
+                            <div class="medium-12 columns padding-lr">
+                                <div class="alert callout">
+                                    <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-12 columns padding-lr">
+                                <label>نام کاربری
+                                    <input class="form-element-margin-btm" type="text" name="user" v-model="authInfo.email" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('user')}">
+                                </label>
+                                <span v-show="errors.has('user')" class="error-font">لطفا نام کاربری را وارد کنید!</span>
+                            </div>
+                            <div class="medium-12 columns padding-lr">
+                                <label>رمز عبور
+                                    <input class="form-element-margin-btm" type="password" name="pass" v-model="authInfo.password"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('pass')}">
+                                </label>
+                                <span v-show="errors.has('pass')" class="error-font">لطفا رمز عبور را وارد کنید!</span>
+                            </div>
+                            <div class="medium-12 padding-lr top-margin-element">
+                                <button name="submit" class="button my-button-master expanded">ورود</button>
+                            </div>
+                        </div>
+                        </form>
                     </div>
                 </div>
-                <div class="grid-x">
-                    <div class="medium-12">
-                        <img class="login-logo-mrg" src="{{ asset('pic\logom.jpg') }}" width="74px" height="74px">
-                    </div>
-                </div>
-                <div class="grid-x">
-                    <div class="medium-12">
-                        <h5 class="BYekan login-txt text-center">سامانه یکپارچه اداری-مالی و بودجه</h5>
-                    </div>
-                </div>
-                <div class="grid-x">
-                    <div class="medium-12 columns padding-lr">
-                        <label>نام کاربری
-                            <input type="text" name="user" v-model="authInfo.email" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('user')}">
-                        </label>
-                        <span v-show="errors.has('user')" class="error-font">لطفا نام کاربری را وارد کنید!</span>
-                    </div>
-                    <div class="medium-12 columns padding-lr">
-                        <label>رمز عبور
-                            <input type="text" name="pass" v-model="authInfo.password"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('pass')}">
-                        </label>
-                        <span v-show="errors.has('pass')" class="error-font">لطفا رمز عبور را وارد کنید!</span>
-                    </div>
-                    <div class="medium-12">
-                        <button name="submit" class="button expanded">ورود</button>
-                    </div>
-                </div>
-            </form>
+
+
+
         </div>
         </modal-login>
+        <!--Modal Login End-->
     </div>
     <script type="text/x-template" id="modal-tiny-template">
         <transition name="modal-tiny">
@@ -299,13 +321,13 @@
         <transition name="modal-login">
             <div class="modal-mask">
                 <div class="modal-wrapper">
-                    <div class="my-tiny">
+                    <div style="padding: 0;" class="my-small">
                         <div class="modal-header">
                             <slot name="header">
 
                             </slot>
                         </div>
-                        <div class="modal-body">
+                        <div style="margin: 0;" class="modal-body">
                             <slot name="body">
                             </slot>
                         </div>
