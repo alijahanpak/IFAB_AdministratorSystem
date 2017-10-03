@@ -94,7 +94,7 @@ var app = new Vue({
     data:{
         showModalLogin: false,
         authInfo: {email: '' , password: ''},
-        tokenInfo: {Authorization: '' , Accept: 'application/json'}
+        tokenInfo: {"Authorization": '' , "Accept": 'application/json; charset=utf-8' , "Content-type" : 'application/json; charset=utf-8'}
     },
     updated: function () {
         $(this.$el).foundation(); //WORKS!
@@ -125,7 +125,26 @@ var app = new Vue({
         logout: function () {
             this.$store.dispatch("logout");
             this.$router.go(this.$router.currentRoute.path);
-        }
+        },
+
+        start () {
+            this.$Progress.start()
+        },
+        set (num) {
+            this.$Progress.set(num)
+        },
+        increase (num) {
+            this.$Progress.increase(num)
+        },
+        decrease (num) {
+            this.$Progress.decrease(num)
+        },
+        finish () {
+            this.$Progress.finish()
+        },
+        fail () {
+            this.$Progress.fail()
+        },
     }
 });
 

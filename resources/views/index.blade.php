@@ -164,7 +164,8 @@
                 </div>
             </div>
             <router-view></router-view>
-            <!-- Login modal End-->
+            <!-- set progressbar -->
+            <vue-progress-bar></vue-progress-bar>
             <!--Modal Preloader Start-->
                 <div class="full reveal reveal-overlay" id="preloaderModal" data-reveal>
                     <div class="la-line-spin-clockwise-fade-rotating la-2x loader-pos">
