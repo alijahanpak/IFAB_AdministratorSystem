@@ -65369,7 +65369,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Example.vue"
+Component.options.__file = "resources\\assets\\js\\components\\Example.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Example.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -65461,7 +65461,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Budget/Dashboard.vue"
+Component.options.__file = "resources\\assets\\js\\components\\Budget\\Dashboard.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Dashboard.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -65689,7 +65689,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "panel-footer panel-footer-red small-font"
   }, [_c('i', {
     staticClass: "fi-arrow-left size-18 float-left"
-  }), _vm._v("مشاهده جزئیات\n                        ")])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v("مشاهده جزئیات\r\n                        ")])])])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-3"
   }, [_c('div', {
     staticClass: "notification-panel panel-yellow"
@@ -65713,7 +65713,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "panel-footer panel-footer-yellow small-font"
   }, [_c('i', {
     staticClass: "fi-arrow-left size-18 float-left"
-  }), _vm._v("مشاهده جزئیات\n                        ")])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v("مشاهده جزئیات\r\n                        ")])])])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-3"
   }, [_c('div', {
     staticClass: "notification-panel panel-green"
@@ -65737,7 +65737,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "panel-footer panel-footer-green small-font"
   }, [_c('i', {
     staticClass: "fi-arrow-left size-18 float-left"
-  }), _vm._v("مشاهده جزئیات\n                        ")])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v("مشاهده جزئیات\r\n                        ")])])])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-3"
   }, [_c('div', {
     staticClass: "notification-panel panel-primary"
@@ -65761,7 +65761,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "panel-footer panel-footer-primary small-font"
   }, [_c('i', {
     staticClass: "fi-arrow-left size-18 float-left"
-  }), _vm._v("مشاهده جزئیات\n                        ")])])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v("مشاهده جزئیات\r\n                        ")])])])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x my-grid-margin"
   }, [_c('div', {
     staticClass: "medium-6 dashboard-padding"
@@ -65888,7 +65888,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Budget/Admin/tiny_seasons.vue"
+Component.options.__file = "resources\\assets\\js\\components\\Budget\\Admin\\tiny_seasons.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] tiny_seasons.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -66355,10 +66355,7 @@ if (false) {(function () {
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "medium-10 border-right-line inner-body-pad main-margin",
-    attrs: {
-      "xmlns:v-on": "http://www.w3.org/1999/xhtml"
-    }
+    staticClass: "medium-10 border-right-line inner-body-pad main-margin"
   }, [_vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "grid-x dashboard-padding"
   }, [_c('div', {
@@ -66631,11 +66628,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
-  }, [_vm._v("ثبت")]), _vm._v(" "), _c('i', {
-    attrs: {
-      "id": "registerSubmitActivityCircle"
-    }
-  }, [_c('div', {
+  }, [_vm._v("ثبت")]), _vm._v(" "), _c('i', [_c('div', {
     staticClass: "la-line-spin-clockwise-fade-rotating la-sm float-left"
   }, [_c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div'), _vm._v(" "), _c('div')])])])]), _vm._v("\n                        {!! Form::close() !!}\n                    ")])]) : _vm._e(), _vm._v(" "), (_vm.showModalDelete) ? _c('modal-tiny', {
     on: {

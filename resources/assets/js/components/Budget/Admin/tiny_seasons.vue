@@ -1,6 +1,6 @@
-<template>
+<template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <!--Inner body start-->
-    <div class="medium-10 border-right-line inner-body-pad main-margin" xmlns:v-on="http://www.w3.org/1999/xhtml">
+    <div class="medium-10 border-right-line inner-body-pad main-margin">
         <div class="grid-x padding-lr">
             <div class="medium-12">
                 <div class="grid-x border-btm-line">
@@ -120,7 +120,7 @@
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
                                 <button name="Submit" class="my-secondary button float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span>
-                                    <i id="registerSubmitActivityCircle">
+                                    <i>
                                         <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
                                             <div></div>
                                             <div></div>
