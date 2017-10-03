@@ -49,14 +49,23 @@
                     <!--Header Start-->
                     <div class="grid-x table-header">
                         <div class="medium-2 table-border">
-                            <strong>فصل</strong>
+                            <strong>کد طرح</strong>
                         </div>
                         <div class="medium-10">
                             <div class="grid-x">
-                                <div class="medium-6 table-border">
+                                <div class="medium-1 table-border">
                                     <strong>کد</strong>
                                 </div>
-                                <div class="medium-6  table-border">
+                                <div class="medium-3 table-border">
+                                    <strong>عنوان</strong>
+                                </div>
+                                <div class="medium-2 table-border">
+                                    <strong>نحوه اجرا</strong>
+                                </div>
+                                <div class="medium-2 table-border">
+                                    <strong>اعتبار</strong>
+                                </div>
+                                <div class="medium-4  table-border">
                                     <strong>شرح</strong>
                                 </div>
                             </div>
@@ -64,26 +73,35 @@
                     </div>
                     <!--Header End-->
                     <div class="table-contain dynamic-height-level2">
-                        <div class="grid-x" v-for="season in tinySeasonsCost">
+                        <div class="grid-x" v-for="plans in approvedProjects">
                             <div class="medium-2 table-contain-border cell-vertical-center">
-                                @{{ season.sSubject }}
+                                @{{ plans.credit_distribution_title.cdtIdNumber }}
                             </div>
                             <div class="medium-10">
-                                <div class="grid-x selectAbleRow" v-for="tinySeason in season.tiny_season">
-                                    <div class="medium-6 table-contain-border cell-vertical-center">
-                                        @{{ tinySeason.tsSubject }}
+                                <div class="grid-x selectAbleRow" v-for="projects in plans.capital_assets_project">
+                                    <div class="medium-1 table-contain-border cell-vertical-center">
+                                        @{{ projects.cpCode }}
                                     </div>
-                                    <div class="medium-6  table-contain-border cell-vertical-center">
+                                    <div class="medium-3 table-contain-border cell-vertical-center">
+                                        @{{ projects.cpSubject }}
+                                    </div>
+                                    <div class="medium-2 table-contain-border cell-vertical-center">
+                                        @{{ projects.how_to_run.htrSubject }}
+                                    </div>
+                                    <div class="medium-2 table-contain-border cell-vertical-center">
+                                        @{{ getProjectAmount(projects.cdr_cp) }}
+                                    </div>
+                                    <div class="medium-4  table-contain-border cell-vertical-center">
                                         <div class="grid-x">
                                             <div class="medium-11">
-                                                @{{ tinySeason.tsDescription }}
+                                                @{{ projects.cpDescription }}
                                             </div>
                                             <div class="medium-1 cell-vertical-center text-left">
-                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + tinySeason.id"><img width="15px" height="15px" src="{{ asset('pic/menu.svg') }}"></a>
-                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + tinySeason.id" data-dropdown data-auto-focus="true">
+                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'apApprovedProjects' + projects.id"><img width="15px" height="15px" src="{{ asset('pic/menu.svg') }}"></a>
+                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'apApprovedProjects' + projects.id" data-dropdown data-auto-focus="true">
                                                     <ul class="my-menu small-font text-right">
-                                                        <li><a v-on:click.prevent="tinySeasonUpdateDialog(tinySeason , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                        <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(tinySeason)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                        <li><a v-on:click.prevent="approvedProjectsUpdateDialog(projects , plans.id)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                        <li><a v-on:click.prevent="openDeleteApprovedProjectsConfirm(projects)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -96,6 +114,10 @@
                 </div>
             </div>
         </div>
+        <notifications group="capital_assetsPm"
+                       position="bottom right"
+                       animation-type="velocity"
+                       :speed="700" />
     </div>
     </div>
 @stop

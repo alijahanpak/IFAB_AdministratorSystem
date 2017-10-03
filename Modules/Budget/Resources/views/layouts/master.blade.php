@@ -11,12 +11,12 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font.css') }}">
     <link rel="stylesheet" href="{{ asset('foundation-icons/foundation-icons.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/line-spin-clockwise-fade-rotating.css') }}">
+    {{--<link rel="stylesheet" href="{{ asset('css/line-spin-clockwise-fade-rotating.css') }}">--}}
     <link rel="stylesheet" href="{{ asset('css/persian-datepicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/key.css') }}">
     <script src="{{ asset('js/Chart.js') }}"></script>
 </head>
-<body  class="BYekan">
+<body class="body-color BYekan">
 
     <!--chart1 Modal Start-->
     <div style="z-index: 9999;" class="large reveal" id="exampleModal1" data-reveal>
@@ -30,11 +30,11 @@
     </div>
     <!--chart1 Modal End-->
     <div style="z-index: 999;" data-sticky-container>
-        <div class="top-bar top-menu-color" data-sticky data-margin-top="0">
+        <div style="background-color: #FFFFFF;" class="top-bar top-menu-color" data-sticky data-margin-top="0">
             <div class="top-bar-left">
-                <ul data-dropdown-menu class="dropdown menu user-menu" >
+                <ul style="background-color: #FFFFFF;" data-dropdown-menu class="dropdown menu user-menu" >
                     <li>
-                        <a href="#"><span style="font-size: 14px;"> علی جهان پاک </span></a>
+                        <a href="#"><span style="font-size: 14px;color: #666;"> علی جهان پاک </span></a>
                         <ul style="background-color: #ffffff;" class="menu vertical small-font white-color">
                             <li><a href="#"><i class="fi-torso-business"></i> <span>کارشناس اداری مالی</span></a></li>
                             <li><a href="#"><i class="fi-widget"></i> <span>تنظیمات</span></a></li>
@@ -42,13 +42,25 @@
                         </ul>
                     </li>
                     <li>
-                        <a style="margin-top: -1px;" href="#"><img style="color: #337AB7;font-size: 14px;" src="{{ asset('pic\bell-icon.svg') }}" width="18px" height="18px;"></a>
-                        <ul style="background-color: #FFFFFF;" class="menu vertical">
-                            <li class="border-btm-line">
+                        <a style="margin-top: -1px;" href="#"><img style="color: #337AB7;font-size: 14px;" src="{{ asset('pic\bell-icon666.svg') }}" width="18px" height="18px;"></a>
+                        <ul style="background-color:#FFFFFF;     " class="top-menu-style menu vertical">
+                            <li>
+                                <div class="top-menu-bg">
+                                    <div class="grid-x">
+                                        <div class="medium-12">
+                                            <h5 class="text-center BYekan">9 پیام جدید</h5>
+                                        </div>
+                                        <div class="medium-12">
+                                            <p class="text-center">پیام های کاربر</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="border-btm-line-dash">
                                 <a style="padding-bottom: -5px;" href="#">
                                     <div>
                                         <strong style="color: #000000;">علیرضا طاهری</strong>
-                                        <span style="color: #777;" class="message-time large-offset-7"><i class="fi-calendar size-18"></i>41 دقیقه قبل</span>
+                                        <span style="color: #777;" class="message-time large-offset-7">41 دقیقه قبل</span>
                                     </div>
                                     <div>
                                         <p style="color:  #333;margin-top: 12px;"> موافقت نامه سال 1396 در مورد پروژه های عمرانی در دست اقدام پیگیری از سازمان</p>
@@ -62,7 +74,7 @@
                                 <a style="padding-bottom: -5px;" href="#">
                                     <div>
                                         <strong style="color: #000000;">علیرضا طاهری</strong>
-                                        <span style="color: #777;" class="message-time large-offset-7"><i class="fi-calendar size-18"></i>دو روز پیش</span>
+                                        <span style="color: #777;" class="message-time large-offset-7">دو روز پیش</span>
                                     </div>
                                     <div>
                                         <p style="color:  #333;margin-top: 12px;"> موافقت نامه سال 1396 در مورد پروژه های عمرانی در دست اقدام پیگیری از سازمان</p>
@@ -88,7 +100,7 @@
     </div>
     <!--Body system-->
     <div class="grid-x">
-        <div id="leftmenuinner" style="background-color: #F8F8F8;z-index: 995;" class="medium-2 cell small-font">
+        <div id="leftmenuinner" style="background-color: #FFFFFF;z-index: 995;" class="medium-2 cell small-font">
             <div  id="leftmenuinnerinner ">
                 <nav class="accordion"  data-margin-top="4.2">
                     <ul class="vertical menu sub-menu accordion-menu" data-accordion-menu data-multi-open="false" >
@@ -139,7 +151,8 @@
                                 </li>
                                 <li><a href="#">تملک دارایی سرمایه ای</a>
                                     <ul class="menu vertical nested">
-                                        <li><a href="#">پروژه ها</a></li>
+                                        <li><a href="{{ url('/budget/allocation/register_of_credit_allocation_assets/allocation') }}">استانی</a></li>
+                                        <li><a href="#">ملی</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -152,6 +165,7 @@
                                 <li><a href="{{ url('/budget/admin/credit_distribution_def') }}">توزیع اعتبار</a></li>
                                 <li><a href="{{ url('/budget/admin/sub_seasons') }}">ریز فصول</a></li>
                                 <li><a href="{{ url('/budget/admin/row_distribution_credit') }}">ردیف توزیع اعتبار</a></li>
+                                <li><a  @click="showModalLogin = true;">فرم ورود</a></li>
                             </ul>
                         </li>
 
@@ -196,11 +210,11 @@
         <div class="medium-12 my-footer">
             <div class="grid-x">
                 <div class="medium-12">
-                    <div class="small button-group float-left">
-                        <a class="clear button primary">راهنمای سامانه</a>
-                        <a class="clear button primary">درباره ما</a>
-                        <a class="clear button primary">ارتباط با ما</a>
-                        <a class="clear button primary">دیدگاه</a>
+                    <div class="small button-group float-left footer-menu">
+                        <a class="clear button menu-color">راهنمای سامانه</a>
+                        <a class="clear button menu-color">درباره ما</a>
+                        <a class="clear button menu-color">ارتباط با ما</a>
+                        <a class="clear button menu-color">دیدگاه</a>
                     </div>
                 </div>
             </div>
@@ -248,8 +262,8 @@
             </div>
         </transition>
     </script>
-    <script type="text/x-template" id="modal-larg-template">
-        <transition name="modal-larg">
+    <script type="text/x-template" id="modal-large-template">
+        <transition name="modal-large">
             <div class="modal-mask">
                 <div class="modal-wrapper">
                     <div class="my-large">
@@ -295,8 +309,10 @@
             <script src="{{ asset('js/modules/budget/admin/row_distribution_credit.js')  }}"></script>
         @elseif($requireJsFile =='title_of_plans')
             <script src="{{ asset('js/modules/budget/admin/title_of_plans.js')  }}"></script>
-        @elseif($requireJsFile =='approved_projects')
+        @elseif($requireJsFile == 'approved_projects')
             <script src="{{ asset('js/modules/budget/admin/projects/approved_projects.js')  }}"></script>
+        @elseif($requireJsFile =='register_of_credit_allocation_assets')
+            <script src="{{ asset('js/modules/budget/allocation_of_capital_assets/register_of_credit_allocation_assets.js')  }}"></script>
         @endif
     @endif
     @if (session('messageDialogPm'))

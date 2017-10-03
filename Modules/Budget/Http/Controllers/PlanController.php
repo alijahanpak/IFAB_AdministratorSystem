@@ -112,4 +112,12 @@ class PlanController extends Controller
         SystemLog::setBudgetSubSystemLog('تغییر در طرح تملک داریی های سرمایه ای ');
         return Redirect::to(URL::previous() . '#provincial');
     }
+
+    public function getAllApprovedPlan(Request $request)
+    {
+        return \response()->json(CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
+            //->where('capProvinceOrNational' , '=' , $request->pOrN)
+            ->with('creditDistributionTitle')
+            ->get());
+    }
 }

@@ -22,13 +22,14 @@ use Modules\Budget\Entities\CreditDistributionRow;
 use Modules\Budget\Entities\CreditDistributionTitle;
 use Modules\Budget\Entities\DeprivedArea;
 use Modules\Budget\Entities\FyPermissionInBudget;
+use Modules\Budget\Entities\HowToRun;
 use Modules\Budget\Entities\TinySeason;
 use Ramsey\Uuid\Uuid;
 
 class BudgetAdminController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -590,13 +591,22 @@ class BudgetAdminController extends Controller
         try {
             $ts->delete();
             SystemLog::setBudgetSubSystemAdminLog('حذف ریز فصل ' . $request->tsSubject);
-            return \response()->json($this->getAllTinySeasons($request->planOrCost) , 200);
+            return \response()->json($this->getAllTinySeasons($request->tsPlanOrCost) , 200);
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return \response()->json([] , 204);
+                return \response()->json($this->getAllTinySeasons($request->tsPlanOrCost) , 204);
             }
         }
+    }
+
+    public function getTinySeasonsWhitSeasonId(Request $request)
+    {
+        return \response()->json(
+            TinySeason::where('tsSId' , '=' , $request->sId)
+            ->where('tsPlanOrCost' , '=' , $request->planOrCost)
+            ->get()
+        );
     }
 
     public function FetchTinySeasonData(Request $request)
@@ -691,6 +701,20 @@ class BudgetAdminController extends Controller
                 return \response()->json($cdr , 204);
             }
         }
+    }
+
+    public function getAllHowToRun()
+    {
+        return \response()->json(
+            HowToRun::all()
+        );
+    }
+
+    public function getAllCreditDistributionRows(Request $request)
+    {
+        return \response()->json(
+            CreditDistributionRow::where('cdPlanOrCost' , $request->planOrCost)->get()
+        );
     }
 }
 
