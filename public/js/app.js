@@ -69162,6 +69162,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     data: function data() {
@@ -69190,6 +69192,7 @@ if (false) {(function () {
 
     updated: function updated() {
         $(this.$el).foundation(); //WORKS!
+        res();
     },
 
     methods: {
@@ -69241,8 +69244,11 @@ if (false) {(function () {
             this.$validator.validateAll().then(function (result) {
                 if (result) {
                     _this4.$root.start();
-                    _this4.tinySeasonsInput.planOrCost = _this4.planOrCost;
-                    axios.post('/budget/admin/sub_seasons/register', _this4.tinySeasonsInput).then(function (response) {
+                    axios.post('/budget/admin/sub_seasons/register', {
+                        tsSId: _this4.tinySeasonsInput.tsSId,
+                        tsSubject: _this4.tinySeasonsInput.tsSubject,
+                        tsDescription: _this4.tinySeasonsInput.tsDescription,
+                        planOrCost: _this4.planOrCost }).then(function (response) {
                         if (_this4.planOrCost == 1) _this4.tinySeasonsCost = response.data;else _this4.tinySeasons = response.data;
                         _this4.showModal = false;
                         _this4.displayNotif(response.status);
@@ -69250,7 +69256,6 @@ if (false) {(function () {
                         console.log(response);
                         _this4.$root.finish();
                     }, function (error) {
-                        alert(_this4.tinySeasonsInput.planOrCost + ' - ' + _this4.tinySeasonsInput.tsSubject + ' - ' + _this4.tinySeasonsInput.tsSId);
                         console.log(error);
                         _this4.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
                         _this4.$root.fail();
@@ -69273,22 +69278,22 @@ if (false) {(function () {
         updateTinySeason: function updateTinySeason() {
             var _this5 = this;
 
-            if (this.tinySeasonsFill.tsSId != '' && this.tinySeasonsFill.tsSubject != '') {
-                this.$root.start();
-                axios.post('/budget/admin/sub_seasons/update', this.tinySeasonsFill).then(function (response) {
-                    if (_this5.planOrCost == 1) _this5.tinySeasonsCost = response.data;else _this5.tinySeasons = response.data;
-                    _this5.showModalUpdate = false;
-                    _this5.displayNotif(response.status);
-                    console.log(response);
-                    _this5.$root.finish();
-                }, function (error) {
-                    console.log(error);
-                    _this5.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                    _this5.$root.fail();
-                });
-            } else {
-                this.errorMessage_update = ' لطفا در وارد کردن اطلاعات دقت کنید!';
-            }
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    _this5.$root.start();
+                    axios.post('/budget/admin/sub_seasons/update', _this5.tinySeasonsFill).then(function (response) {
+                        if (_this5.planOrCost == 1) _this5.tinySeasonsCost = response.data;else _this5.tinySeasons = response.data;
+                        _this5.showModalUpdate = false;
+                        _this5.displayNotif(response.status);
+                        console.log(response);
+                        _this5.$root.finish();
+                    }, function (error) {
+                        console.log(error);
+                        _this5.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                        _this5.$root.fail();
+                    });
+                }
+            });
         },
 
         openDeleteTinySeasonConfirm: function openDeleteTinySeasonConfirm(ts) {
@@ -69536,9 +69541,16 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       rawName: "v-model",
       value: (_vm.tinySeasonsFill.tsSId),
       expression: "tinySeasonsFill.tsSId"
+    }, {
+      name: "validate",
+      rawName: "v-validate"
     }],
+    class: {
+      'input': true, 'select-error': _vm.errors.has('sId')
+    },
     attrs: {
-      "name": "sId"
+      "name": "sId",
+      "data-vv-rules": "required"
     },
     on: {
       "change": function($event) {
@@ -69561,7 +69573,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "value": season.id
       }
     }, [_vm._v(_vm._s(season.sSubject))])
-  })], 2)])])]), _vm._v(" "), _c('div', {
+  })], 2), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('sId')),
+      expression: "errors.has('sId')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("لطفا فصل انتخاب کنید!")])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12 columns padding-lr"
@@ -69571,7 +69591,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       rawName: "v-model",
       value: (_vm.tinySeasonsFill.tsSubject),
       expression: "tinySeasonsFill.tsSubject"
+    }, {
+      name: "validate",
+      rawName: "v-validate",
+      value: ('required'),
+      expression: "'required'"
     }],
+    class: {
+      'input': true, 'error-border': _vm.errors.has('tsSubject')
+    },
     attrs: {
       "type": "text",
       "name": "tsSubject"
@@ -69585,7 +69613,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.tinySeasonsFill.tsSubject = $event.target.value
       }
     }
-  })])])]), _vm._v(" "), _c('div', {
+  })]), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('tsSubject')),
+      expression: "errors.has('tsSubject')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("لطفا ریزفصل انتخاب کنید!")])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "small-12 columns padding-lr"
@@ -69654,9 +69690,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "xmlns:v-on": "http://www.w3.org/1999/xhtml"
     }
   }, [_c('div', {
-    attrs: {
-      "id": "dynamicParentId1"
-    }
+    staticClass: "dynamicParentId1"
   }, [_c('div', {
     staticClass: "medium-12 bottom-mrg"
   }, [_c('div', {
@@ -69760,9 +69794,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "xmlns:v-on": "http://www.w3.org/1999/xhtml"
     }
   }, [_c('div', {
-    attrs: {
-      "id": "dynamicParentId1"
-    }
+    staticClass: "dynamicParentId1"
   }, [_c('div', {
     staticClass: "medium-12 bottom-mrg"
   }, [_c('div', {

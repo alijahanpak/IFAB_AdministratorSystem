@@ -82,18 +82,20 @@
                                 <div class="grid-x">
                                     <div class="medium-12 cell padding-lr">
                                         <label>فصل
-                                            <select name="sId" v-model="tinySeasonsFill.tsSId">
+                                            <select name="sId" v-model="tinySeasonsFill.tsSId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('sId')}">
                                                 <option value=""></option>
                                                 <option v-for="season in seasons" :value="season.id">{{ season.sSubject }}</option>
                                             </select>
+                                            <span v-show="errors.has('sId')" class="error-font">لطفا فصل انتخاب کنید!</span>
                                         </label>
                                     </div>
                                 </div>
                                 <div class="grid-x">
                                     <div class="medium-12 columns padding-lr">
                                         <label>ریز فصل
-                                            <input type="text" name="tsSubject" v-model="tinySeasonsFill.tsSubject">
+                                            <input type="text" name="tsSubject" v-model="tinySeasonsFill.tsSubject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('tsSubject')}">
                                         </label>
+                                        <span v-show="errors.has('tsSubject')" class="error-font">لطفا ریزفصل انتخاب کنید!</span>
                                     </div>
                                 </div>
                                 <div class="grid-x">
@@ -126,7 +128,7 @@
                     <!--Tab 1-->
                     <div class="tabs-panel is-active table-mrg-btm dynamic-height-level1" id="capital_assets"
                          xmlns:v-on="http://www.w3.org/1999/xhtml">
-                        <div id="dynamicParentId1">
+                        <div class="dynamicParentId1">
                             <div class="medium-12 bottom-mrg">
                                 <div class="clearfix border-btm-line bottom-mrg">
                                     <div class="button-group float-left report-mrg">
@@ -203,7 +205,7 @@
                     <!--Tab 1-->
                     <!--Tab 2-->
                     <div class="tabs-panel table-mrg-btm dynamic-height-level1" id="cost" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                        <div id="dynamicParentId1">
+                        <div class="dynamicParentId1">
                             <div class="medium-12 bottom-mrg">
                                 <div class="clearfix border-btm-line bottom-mrg">
                                     <div class="button-group float-left report-mrg">
@@ -313,6 +315,7 @@
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
+            res();
         },
 
         methods:{
@@ -359,8 +362,11 @@
                 this.$validator.validateAll().then((result) => {
                     if (result) {
                         this.$root.start();
-                        this.tinySeasonsInput.planOrCost = this.planOrCost;
-                        axios.post('/budget/admin/sub_seasons/register' , this.tinySeasonsInput)
+                        axios.post('/budget/admin/sub_seasons/register' , {
+                            tsSId: this.tinySeasonsInput.tsSId ,
+                            tsSubject: this.tinySeasonsInput.tsSubject ,
+                            tsDescription: this.tinySeasonsInput.tsDescription ,
+                            planOrCost: this.planOrCost})
                             .then((response) => {
                                 if(this.planOrCost == 1)
                                     this.tinySeasonsCost = response.data;
@@ -372,7 +378,6 @@
                                 console.log(response);
                                 this.$root.finish();
                             },(error) => {
-                                alert(this.tinySeasonsInput.planOrCost +  ' - ' + this.tinySeasonsInput.tsSubject + ' - ' + this.tinySeasonsInput.tsSId);
                                 console.log(error);
                                 this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
                                 this.$root.fail();
@@ -393,28 +398,26 @@
             },
 
             updateTinySeason: function () {
-                if (this.tinySeasonsFill.tsSId != '' && this.tinySeasonsFill.tsSubject != '')
-                {
-                    this.$root.start();
-                    axios.post('/budget/admin/sub_seasons/update' , this.tinySeasonsFill)
-                        .then((response) => {
-                            if(this.planOrCost == 1)
-                                this.tinySeasonsCost = response.data;
-                            else
-                                this.tinySeasons = response.data;
-                            this.showModalUpdate = false;
-                            this.displayNotif(response.status);
-                            console.log(response);
-                            this.$root.finish();
-                        },(error) => {
-                            console.log(error);
-                            this.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                            this.$root.fail();
-                        });
-                }
-                else {
-                    this.errorMessage_update = ' لطفا در وارد کردن اطلاعات دقت کنید!';
-                }
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        this.$root.start();
+                        axios.post('/budget/admin/sub_seasons/update' , this.tinySeasonsFill)
+                            .then((response) => {
+                                if(this.planOrCost == 1)
+                                    this.tinySeasonsCost = response.data;
+                                else
+                                    this.tinySeasons = response.data;
+                                this.showModalUpdate = false;
+                                this.displayNotif(response.status);
+                                console.log(response);
+                                this.$root.finish();
+                            },(error) => {
+                                console.log(error);
+                                this.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                                this.$root.fail();
+                            });
+                        }
+                });
             },
 
             openDeleteTinySeasonConfirm: function (ts) {
