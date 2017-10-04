@@ -11,10 +11,16 @@ window.Vue = require('vue');
 import Notifications from 'vue-notification'
 import velocity      from 'velocity-animate'
 import VeeValidate from 'vee-validate'
+import VueProgressBar from 'vue-progressbar'
 
 
 window.Vue.use(VeeValidate);
 window.Vue.use(Notifications , {velocity});
+window.Vue.use(VueProgressBar, {
+    color: 'rgb(113, 106, 202)',
+    failedColor: 'red',
+    height: '8px'
+});
 
 Vue.component(
     'passport-clients',

@@ -8,10 +8,12 @@ window.Vue.use(Vuex);
 ///////////////////////////// router ///////////////////////////////////
 import dashboard from './components/Budget/Dashboard.vue'
 import tiny_seasons from './components/Budget/Admin/tiny_seasons.vue'
+import fiscal_year from './components/Budget/Admin/fiscalYear.vue'
 //export router instance
 const routes = [
     { path: '/budget', component: dashboard },
-    { path: '/budget/tiny_seasons', component: tiny_seasons }
+    { path: '/budget/admin/tiny_seasons', component: tiny_seasons },
+    { path: '/budget/admin/fiscal_year', component: fiscal_year }
 ]
 
 const router = new VueRouter({
@@ -22,9 +24,6 @@ router.afterEach((to, from, next) => {
     if (!store.getters.isLoggedIn)
     {
         app.showModalLogin = true;
-    }
-    else{
-        next();
     }
 });
 /////////////////////// config axios request /////////////////////////////////////
@@ -97,7 +96,7 @@ var app = new Vue({
     data:{
         showModalLogin: false,
         authInfo: {email: '' , password: ''},
-        tokenInfo: {Authorization: '' , Accept: 'application/json'}
+        tokenInfo: {"Authorization": '' , "Accept": 'application/json; charset=utf-8' , "Content-type" : 'application/json; charset=utf-8'}
     },
     updated: function () {
         $(this.$el).foundation(); //WORKS!
@@ -123,6 +122,30 @@ var app = new Vue({
                 },(error) => {
                     console.log(error);
                 });
+        },
+
+        logout: function () {
+            this.$store.dispatch("logout");
+            this.$router.go(this.$router.currentRoute.path);
+        },
+
+        start () {
+            this.$Progress.start()
+        },
+        set (num) {
+            this.$Progress.set(num)
+        },
+        increase (num) {
+            this.$Progress.increase(num)
+        },
+        decrease (num) {
+            this.$Progress.decrease(num)
+        },
+        finish () {
+            this.$Progress.finish()
+        },
+        fail () {
+            this.$Progress.fail()
         },
     }
 });

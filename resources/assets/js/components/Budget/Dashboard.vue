@@ -102,38 +102,38 @@
     </div>
 
     <div class="grid-x my-grid-margin">
-        <div class="medium-6 dashboard-padding">
-            <div class="medium-12 panel-heading"><i class="fi-graph-bar"></i> <span class="small-font">تخصیص اعتبارات به تفکیک منابع</span>
+        <div class="medium-6 dashboard-padding ">
+            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fi-graph-bar"></i> <span class="small-font">تخصیص اعتبارات به تفکیک منابع</span>
                 <button type="button" class="my-secondary button tiny float-left" data-open="exampleModal1" onclick="myChartF1('myChartM')">اطلاعات بیشتر</button>
             </div>
-            <div class="medium-12 my-callout">
+            <div class="medium-12 my-callout-box my-callout-bg-color">
                 <canvas id="myChart"></canvas>
             </div>
         </div>
-        <div class="medium-6 dashboard-padding">
-            <div class="medium-12 panel-heading"><i class="fi-graph-bar"></i> <span class="small-font">تخصیص اعتبارات به تفکیک فصول</span>
-                <button type="button" class="my-secondary button tiny float-left">اطلاعات بیشتر</button>
+        <div class="medium-6 dashboard-padding ">
+            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fi-graph-bar"></i> <span class="small-font">تخصیص اعتبارات به تفکیک منابع</span>
+                <button type="button" class="my-secondary button tiny float-left" data-open="exampleModal1" onclick="myChartF1('myChartM')">اطلاعات بیشتر</button>
             </div>
-            <div class="medium-12 my-callout">
+            <div class="medium-12 my-callout-box my-callout-bg-color">
                 <canvas id="myChart1"></canvas>
             </div>
         </div>
     </div>
 
     <div class="grid-x my-grid-margin">
-        <div class="medium-6 dashboard-padding">
-            <div class="medium-12 panel-heading"><i class="fi-graph-pie"></i> <span class="small-font">بودجه مصوب جاری و عمرانی </span>
-                <button type="button" class="my-secondary button tiny float-left" data-open="exampleModal1">اطلاعات بیشتر</button>
+        <div class="medium-6 dashboard-padding ">
+            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fi-graph-bar"></i> <span class="small-font">تخصیص اعتبارات به تفکیک منابع</span>
+                <button type="button" class="my-secondary button tiny float-left" data-open="exampleModal1" onclick="myChartF1('myChartM')">اطلاعات بیشتر</button>
             </div>
-            <div class="medium-12 my-callout" style="padding: 20px;">
+            <div class="medium-12 my-callout-box my-callout-bg-color">
                 <canvas id="myChart2"></canvas>
             </div>
         </div>
-        <div class="medium-6 dashboard-padding" style="padding: 20px;">
-            <div class="medium-12 panel-heading"><i class="fi-graph-bar"></i> <span class="small-font">نمودار بودجه مصوب جاری و عمرانی</span>
-                <button type="button" class="my-secondary button tiny float-left">اطلاعات بیشتر</button>
+        <div class="medium-6 dashboard-padding ">
+            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fi-graph-bar"></i> <span class="small-font">تخصیص اعتبارات به تفکیک منابع</span>
+                <button type="button" class="my-secondary button tiny float-left" data-open="exampleModal1" onclick="myChartF1('myChartM')">اطلاعات بیشتر</button>
             </div>
-            <div class="medium-12 my-callout">
+            <div class="medium-12 my-callout-box my-callout-bg-color">
                 <canvas id="myChart3"></canvas>
             </div>
         </div>

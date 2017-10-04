@@ -591,11 +591,11 @@ class BudgetAdminController extends Controller
         try {
             $ts->delete();
             SystemLog::setBudgetSubSystemAdminLog('حذف ریز فصل ' . $request->tsSubject);
-            return \response()->json($this->getAllTinySeasons($request->planOrCost) , 200);
+            return \response()->json($this->getAllTinySeasons($request->tsPlanOrCost) , 200);
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return \response()->json($this->getAllTinySeasons($request->planOrCost) , 204);
+                return \response()->json($this->getAllTinySeasons($request->tsPlanOrCost) , 204);
             }
         }
     }
@@ -620,7 +620,7 @@ class BudgetAdminController extends Controller
             return $query->where('tsPlanOrCost' , '=' , $planOrCost);
         })->with(['tinySeason' => function($query)  use ($planOrCost){
             return $query->where('tsPlanOrCost' , '=' , $planOrCost);
-        }])->get();
+        }])->paginate(5);
         return $seasons;
     }
 
