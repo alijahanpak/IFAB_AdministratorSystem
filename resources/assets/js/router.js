@@ -8,21 +8,23 @@ window.Vue.use(Vuex);
 ///////////////////////////// router ///////////////////////////////////
 import dashboard from './components/Budget/Dashboard.vue'
 import tiny_seasons from './components/Budget/Admin/tiny_seasons.vue'
+import fiscal_year from './components/Budget/Admin/fiscalYear.vue'
 //export router instance
 const routes = [
     { path: '/budget', component: dashboard },
-    { path: '/budget/tiny_seasons', component: tiny_seasons }
+    { path: '/budget/admin/tiny_seasons', component: tiny_seasons },
+    { path: '/budget/admin/fiscal_year', component: fiscal_year }
 ]
 
 const router = new VueRouter({
     routes
 });
+
 router.afterEach((to, from, next) => {
     if (!store.getters.isLoggedIn)
     {
         app.showModalLogin = true;
     }
-
 });
 /////////////////////// config axios request /////////////////////////////////////
 axios.interceptors.response.use(response => {

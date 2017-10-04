@@ -132,7 +132,7 @@
                             <div class="medium-12 bottom-mrg">
                                 <div class="clearfix border-btm-line bottom-mrg">
                                     <div class="button-group float-right report-mrg">
-                                        <a class="my-button toolbox-btn" @click="planOrCost = 1; showModal = true; errorMessage = ''">جدید</a>
+                                        <a class="my-button toolbox-btn" @click="planOrCost = 0; showModal = true; errorMessage = ''">جدید</a>
                                         <a class="my-button toolbox-btn">گزارش</a>
                                     </div>
                                     <div class="float-left">
@@ -195,17 +195,10 @@
                                     </div>
                                     <div class="grid-x">
                                         <div class="medium-12">
-                                            <ul class="pagination" role="navigation" aria-label="Pagination">
-                                                <li class="pagination-previous disabled">قبلی <span class="show-for-sr">page</span></li>
-                                                <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
-                                                <li><a href="#" aria-label="Page 2">2</a></li>
-                                                <li><a href="#" aria-label="Page 3">3</a></li>
-                                                <li><a href="#" aria-label="Page 4">4</a></li>
-                                                <li class="ellipsis" aria-hidden="true"></li>
-                                                <li><a href="#" aria-label="Page 12">12</a></li>
-                                                <li><a href="#" aria-label="Page 13">13</a></li>
-                                                <li class="pagination-next"><a href="#" aria-label="Next page">بعدی <span class="show-for-sr">page</span></a></li>
-                                            </ul>
+                                            <vue-pagination  v-bind:pagination="plan_pagination"
+                                                             v-on:click.native="fetchData(plan_pagination.current_page)"
+                                                             :offset="4">
+                                            </vue-pagination>
                                         </div>
                                     </div>
                                 </div>
@@ -282,17 +275,10 @@
                                     </div>
                                     <div class="grid-x">
                                         <div class="medium-12">
-                                            <ul class="pagination" role="navigation" aria-label="Pagination">
-                                                <li class="pagination-previous disabled">قبلی <span class="show-for-sr">page</span></li>
-                                                <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
-                                                <li><a href="#" aria-label="Page 2">2</a></li>
-                                                <li><a href="#" aria-label="Page 3">3</a></li>
-                                                <li><a href="#" aria-label="Page 4">4</a></li>
-                                                <li class="ellipsis" aria-hidden="true"></li>
-                                                <li><a href="#" aria-label="Page 12">12</a></li>
-                                                <li><a href="#" aria-label="Page 13">13</a></li>
-                                                <li class="pagination-next"><a href="#" aria-label="Next page">بعدی <span class="show-for-sr">page</span></a></li>
-                                            </ul>
+                                            <vue-pagination  v-bind:pagination="cost_pagination"
+                                                             v-on:click.native="fetchData(cost_pagination.current_page)"
+                                                             :offset="4">
+                                            </vue-pagination>
                                         </div>
                                     </div>
                                 </div>
@@ -310,6 +296,7 @@
     </div>
 </template>
 <script>
+    import VuePagination from '../../../public_component/pagination.vue';
     export default {
         data(){
             return {
@@ -324,7 +311,20 @@
                 showModalDelete: false,
                 tinySeasonsFill: {tsSId: '' , tsSubject: '' , tsDescription: '' , planOrCost: '' , id: ''},
                 tsIdDelete: {},
-                seasons: {}
+                seasons: {},
+                cost_pagination: {
+                    total: 0,
+                    to: 0,
+                    current_page: 1,
+                    last_page: ''
+                },
+
+                plan_pagination: {
+                    total: 0,
+                    to: 0,
+                    current_page: 1,
+                    last_page: ''
+                },
             }
         },
 
@@ -339,13 +339,18 @@
             res();
         },
 
+        components:{
+            'vue-pagination' : VuePagination
+        },
+
         methods:{
-            fetchData: function () {
+            fetchData: function (page = 1) {
                 this.$root.start();
-                axios.get('/budget/admin/sub_seasons/fetchData' , {params:{planOrCost: 0}})
+                axios.get('/budget/admin/sub_seasons/fetchData?page=' + page , {params:{planOrCost: 0}})
                     .then((response) => {
-                        this.tinySeasons = response.data;
-                        console.log(response);
+                        this.tinySeasons = response.data.data;
+                        this.makePagination(response.data , "plan");
+                        console.log(response.data);
                         this.$root.finish();
                     },(error) => {
                         console.log(error);
@@ -353,17 +358,32 @@
                     });
             },
 
-            fetchCostData: function () {
+            fetchCostData: function (page = 1) {
                 this.$root.start();
-                axios.get('/budget/admin/sub_seasons/fetchData' , {params:{planOrCost: 1}})
+                axios.get('/budget/admin/sub_seasons/fetchData?page=' + page , {params:{planOrCost: 1}})
                     .then((response) => {
-                        this.tinySeasonsCost = response.data;
-                        console.log(response);
+                        this.tinySeasonsCost = response.data.data;
+                        this.makePagination(response.data , "cost");
+                        console.log(response.data);
                         this.$root.finish();
                     },(error) => {
                         console.log(error);
                         this.$root.fail();
                     });
+            },
+
+            makePagination: function(data , type){
+                if (type == "cost")
+                {
+                    this.cost_pagination.current_page = data.current_page;
+                    this.cost_pagination.to = data.to;
+                    this.cost_pagination.last_page = data.last_page;
+                }else if (type == "plan")
+                {
+                    this.plan_pagination.current_page = data.current_page;
+                    this.plan_pagination.to = data.to;
+                    this.plan_pagination.last_page = data.last_page;
+                }
             },
 
             getSeasons: function () {
@@ -390,9 +410,9 @@
                             planOrCost: this.planOrCost})
                             .then((response) => {
                                 if(this.planOrCost == 1)
-                                    this.tinySeasonsCost = response.data;
+                                    this.tinySeasonsCost = response.data.data;
                                 else
-                                    this.tinySeasons = response.data;
+                                    this.tinySeasons = response.data.data;
                                 this.showModal = false;
                                 this.displayNotif(response.status);
                                 this.tinySeasonsInput = [];
@@ -425,9 +445,9 @@
                         axios.post('/budget/admin/sub_seasons/update' , this.tinySeasonsFill)
                             .then((response) => {
                                 if(this.planOrCost == 1)
-                                    this.tinySeasonsCost = response.data;
+                                    this.tinySeasonsCost = response.data.data;
                                 else
-                                    this.tinySeasons = response.data;
+                                    this.tinySeasons = response.data.data;
                                 this.showModalUpdate = false;
                                 this.displayNotif(response.status);
                                 console.log(response);
@@ -453,9 +473,9 @@
                         if (response.status != 204) //http status code for error in delete (no content)
                         {
                             if(response.data.tsPlanOrCost == 1)
-                                this.tinySeasonsCost = response.data;
+                                this.tinySeasonsCost = response.data.data;
                             else
-                                this.tinySeasons = response.data;
+                                this.tinySeasons = response.data.data;
 
                         }
                         this.showModalDelete = false;

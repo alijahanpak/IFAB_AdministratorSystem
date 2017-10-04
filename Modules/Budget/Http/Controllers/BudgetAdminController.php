@@ -620,7 +620,7 @@ class BudgetAdminController extends Controller
             return $query->where('tsPlanOrCost' , '=' , $planOrCost);
         })->with(['tinySeason' => function($query)  use ($planOrCost){
             return $query->where('tsPlanOrCost' , '=' , $planOrCost);
-        }])->get();
+        }])->paginate(5);
         return $seasons;
     }
 

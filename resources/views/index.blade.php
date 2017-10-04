@@ -232,13 +232,13 @@
                             <li>
                                 <a class="right-mp right-menu-btm-border" href="#">مدیریت</a>
                                 <ul class="menu vertical nested">
-                                    <li><a href="{{ url('/budget/admin/fiscal_year') }}">سال مالی</a>
-                                    <li><a href="{{ url('/budget/admin/deprived_area') }}">مناطق محروم</a></li>
-                                    <li><a href="{{ url('/budget/admin/credit_distribution_def') }}">توزیع اعتبار</a></li>
-                                    <li><a href="{{ url('/budget/admin/sub_seasons') }}">ریز فصول</a></li>
-                                    <li><a href="{{ url('/budget/admin/row_distribution_credit') }}">ردیف توزیع اعتبار</a></li>
+                                    <li><router-link to="/budget/admin/fiscal_year">سال مالی</router-link></li>
+                                    <li><a href="">مناطق محروم</a></li>
+                                    <li><a href="">توزیع اعتبار</a></li>
+                                    <li><a href="">ریز فصول</a></li>
+                                    <li><a href="">ردیف توزیع اعتبار</a></li>
                                     <li><router-link to="/budget">داشبورد</router-link></li>
-                                    <li><router-link to="/budget/tiny_seasons">ریز فصل</router-link></li>
+                                    <li><router-link to="/budget/admin/tiny_seasons">ریز فصل</router-link></li>
                                 </ul>
                             </li>
                         </ul>
