@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
+use Modules\Admin\Entities\User;
 
 class AuthController extends Controller
 {
@@ -39,20 +41,25 @@ class AuthController extends Controller
 
     public function login_api(Request $request)
     {
+        $userInfo = User::where('email' , '=' , $request->email)->first();
         $http = new \GuzzleHttp\Client;
-
-        $response = $http->post(url('/oauth/token'), [
-            'form_params' => [
-                'grant_type' => 'password',
-                'client_id' => env('PASSWORD_CLIENT_ID'),
-                'client_secret' => env('PASSWORD_CLIENT_SECRET'),
-                'username' => $request->email,
-                'password' => $request->password,
-                'scope' => '',
-            ],
-        ]);
-
-        return json_decode((string) $response->getBody(), true);
+        if ($userInfo && Hash::check($request->password , $userInfo->password))
+        {
+            $response = $http->post(url('/oauth/token'), [
+                'form_params' => [
+                    'grant_type' => 'password',
+                    'client_id' => env('PASSWORD_CLIENT_ID'),
+                    'client_secret' => env('PASSWORD_CLIENT_SECRET'),
+                    'username' => $request->email,
+                    'password' => $request->password,
+                    'scope' => '',
+                ],
+            ]);
+            return json_decode((string) $response->getBody(), true);
+        }
+        else{
+            return \response()->json([], 401);
+        }
     }
 
     public function userIsAuthorize(Request $request)
