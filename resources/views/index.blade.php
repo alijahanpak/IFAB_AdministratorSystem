@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{{ asset('css/key.css') }}">
     <script src="{{ asset('js/Chart.js') }}"></script>
 </head>
-<body  class="BYekan">
+<body  class="BYekan body-color">
     <passport-clients></passport-clients>
     <passport-authorized-clients></passport-authorized-clients>
     <passport-personal-access-tokens></passport-personal-access-tokens>
@@ -32,26 +32,52 @@
     </div>
     <!--chart1 Modal End-->
     <div id="container">
+
+        <!--Top Menu Start-->
         <div style="z-index: 999;" data-sticky-container>
-            <div class="top-bar top-menu-color" data-sticky data-margin-top="0">
+            <div style="background-color: #FFFFFF;" class="top-bar top-menu-color" data-sticky data-margin-top="0">
                 <div class="top-bar-left">
-                    <ul data-dropdown-menu class="dropdown menu user-menu" >
+                    <ul style="background-color: #FFFFFF;" data-dropdown-menu class="dropdown  menu user-menu" >
                         <li>
-                            <a href="#"><span style="font-size: 14px;"> علی جهان پاک </span></a>
-                            <ul style="background-color: #ffffff;" class="menu vertical small-font white-color">
-                                <li><a href="#"><i class="fi-torso-business"></i> <span>کارشناس اداری مالی</span></a></li>
-                                <li><a href="#"><i class="fi-widget"></i> <span>تنظیمات</span></a></li>
+                            <a href="#"><span style="font-size: 14px;color: #666;"> علی جهان پاک </span></a>
+                            <ul style="background-color: #ffffff;" class="top-menu-style menu vertical small-font white-color">
+                                <li>
+                                    <div class="top-menu-bg">
+                                        <div class="grid-x cover-color">
+                                            <div class="medium-12">
+                                                <h5 class="text-center BYekan">علی جهان پاک</h5>
+                                            </div>
+                                            <div class="medium-12">
+                                                <p class="text-center">کارشناس بودجه</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li><a href="#"><i class="tbl-menu fi-torso-business"></i> <span>کارشناس اداری مالی</span></a></li>
+                                <li><a href="#"><i class="tbl-menu fi-widget"></i> <span>تنظیمات</span></a></li>
                                 <li><a v-on:click="logout"><i class="fi-power"></i> <span>خروج</span></a></li>
                             </ul>
                         </li>
                         <li>
-                            <a style="margin-top: -1px;" href="#"><img style="color: #337AB7;font-size: 14px;" src="{{ asset('pic\bell-icon.svg') }}" width="18px" height="18px;"></a>
-                            <ul style="background-color: #FFFFFF;" class="menu vertical">
-                                <li class="border-btm-line">
+                            <a style="margin-top: -1px;" href="#"><img style="color: #337AB7;font-size: 14px;" src="{{ asset('pic\bell-icon666.svg') }}" width="18px" height="18px;"></a>
+                            <ul style="background-color:#FFFFFF;" class="top-menu-style menu vertical">
+                                <li>
+                                    <div class="top-menu-bg">
+                                        <div class="grid-x cover-color">
+                                            <div class="medium-12">
+                                                <h5 class="text-center BYekan">9 پیام جدید</h5>
+                                            </div>
+                                            <div class="medium-12">
+                                                <p class="text-center">پیام های کاربر</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="border-btm-line-dash">
                                     <a style="padding-bottom: -5px;" href="#">
                                         <div>
                                             <strong style="color: #000000;">علیرضا طاهری</strong>
-                                            <span style="color: #777;" class="message-time large-offset-7"><i class="fi-calendar size-18"></i>41 دقیقه قبل</span>
+                                            <span style="color: #777;" class="message-time large-offset-7">41 دقیقه قبل</span>
                                         </div>
                                         <div>
                                             <p style="color:  #333;margin-top: 12px;"> موافقت نامه سال 1396 در مورد پروژه های عمرانی در دست اقدام پیگیری از سازمان</p>
@@ -62,7 +88,7 @@
                                     <a style="padding-bottom: -5px;" href="#">
                                         <div>
                                             <strong style="color: #000000;">علیرضا طاهری</strong>
-                                            <span style="color: #777;" class="message-time large-offset-7"><i class="fi-calendar size-18"></i>دو روز پیش</span>
+                                            <span style="color: #777;" class="message-time large-offset-7">دو روز پیش</span>
                                         </div>
                                         <div>
                                             <p style="color:  #333;margin-top: 12px;"> موافقت نامه سال 1396 در مورد پروژه های عمرانی در دست اقدام پیگیری از سازمان</p>
@@ -86,9 +112,68 @@
                 </div>
             </div>
         </div>
+        <!--Top Menu End-->
+
+        <!--Modal Login Start-->
+        <modal-login v-if="showModalLogin" @close="showModalLogin = false">
+        <div slot="body">
+            <div class="grid-x">
+                <div style="background-color:#716aca;color: #FFFFFF;" class="medium-4">
+                    <div class="grid-x">
+                        <div class="medium-12">
+                            <img  class="text-center large-offset-4" src="{{ asset('pic\logom1.png') }}" width="74px" height="74px">
+                        </div>
+                    </div>
+                    <div class="grid-x">
+                        <div class="medium-12">
+                            <h6 class="BYekan  text-center">سامانه یکپارچه اداری-مالی و بودجه</h6>
+                        </div>
+                    </div>
+                    <div class="grid-x modal-bottom">
+                        <div class="medium-12 ">
+                            <div class="small button-group float-left">
+                                <a class="clear button primary-login">راهنمای سامانه</a>
+                                <a class="clear button primary-login">درباره ما</a>
+                                <a class="clear button primary-login">ارتباط با ما</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin: auto;padding: 20px 50px 20px 50px"  class="medium-8">
+                    <form v-on:submit.prevent="login">
+                    <div class="grid-x">
+                        <div class="medium-12 columns padding-lr">
+                            <div class="alert callout">
+                                <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-x">
+                        <div class="medium-12 columns padding-lr">
+                            <label>نام کاربری
+                                <input class="form-element-margin-btm" type="text" name="user" v-model="authInfo.email" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('user')}">
+                            </label>
+                            <span v-show="errors.has('user')" class="error-font">لطفا نام کاربری را وارد کنید!</span>
+                        </div>
+                        <div class="medium-12 columns padding-lr">
+                            <label>رمز عبور
+                                <input class="form-element-margin-btm" type="password" name="pass" v-model="authInfo.password"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('pass')}">
+                            </label>
+                            <span v-show="errors.has('pass')" class="error-font">لطفا رمز عبور را وارد کنید!</span>
+                        </div>
+                        <div class="medium-12 padding-lr top-margin-element">
+                            <button name="submit" class="button my-button-master expanded">ورود</button>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        </modal-login>
+        <!--Modal Login End-->
         <!--Body system-->
         <div class="grid-x">
-            <div id="leftmenuinner" style="background-color: #F8F8F8;z-index: 995;" class="medium-2 cell small-font">
+            <div id="leftmenuinner" style="background-color: #FFFFFF;z-index: 995;" class="medium-2 cell small-font">
                 <div  id="leftmenuinnerinner ">
                     <nav class="accordion"  data-margin-top="4.2">
                         <ul class="vertical menu sub-menu accordion-menu" data-accordion-menu data-multi-open="false" >
@@ -163,73 +248,18 @@
             <router-view></router-view>
             <!-- set progressbar -->
             <vue-progress-bar></vue-progress-bar>
-            <!--Modal Preloader Start-->
-                <div class="full reveal reveal-overlay" id="preloaderModal" data-reveal>
-                    <div class="la-line-spin-clockwise-fade-rotating la-2x loader-pos">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
-                </div>
-            <!--Modal Preloader Start-->
             <div class="medium-12 my-footer">
                 <div class="grid-x">
                     <div class="medium-12">
-                        <div class="small button-group float-left">
-                            <a class="clear button primary">راهنمای سامانه</a>
-                            <a class="clear button primary">درباره ما</a>
-                            <a class="clear button primary">ارتباط با ما</a>
-                            <a class="clear button primary">دیدگاه</a>
+                        <div class="small button-group float-left footer-menu">
+                            <a class="clear button menu-color">راهنمای سامانه</a>
+                            <a class="clear button menu-color">درباره ما</a>
+                            <a class="clear button menu-color">ارتباط با ما</a>
+                            <a class="clear button menu-color">دیدگاه</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--Modal Insert Start-->--}}
-            <modal-login v-if="showModalLogin" @close="showModalLogin = false">
-            <div slot="body">
-                <form v-on:submit.prevent="login">
-                    <div class="grid-x" v-if="errorMessage">
-                        <div class="medium-12 columns padding-lr">
-                            <div class="alert callout">
-                                <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="medium-12">
-                            <img class="login-logo-mrg" src="{{ asset('pic\logom.jpg') }}" width="74px" height="74px">
-                        </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="medium-12">
-                            <h5 class="BYekan login-txt text-center">سامانه یکپارچه اداری-مالی و بودجه</h5>
-                        </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="medium-12 columns padding-lr">
-                            <label>نام کاربری
-                                <input type="text" name="user" v-model="authInfo.email" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('user')}">
-                            </label>
-                            <span v-show="errors.has('user')" class="error-font">لطفا نام کاربری را وارد کنید!</span>
-                        </div>
-                        <div class="medium-12 columns padding-lr">
-                            <label>رمز عبور
-                                <input type="text" name="pass" v-model="authInfo.password"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('pass')}">
-                            </label>
-                            <span v-show="errors.has('pass')" class="error-font">لطفا رمز عبور را وارد کنید!</span>
-                        </div>
-                        <div class="medium-12">
-                            <button name="submit" class="button expanded">ورود</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            </modal-login>
         </div>
     </div>
     <script type="text/x-template" id="modal-tiny-template">
@@ -274,8 +304,8 @@
             </div>
         </transition>
     </script>
-    <script type="text/x-template" id="modal-larg-template">
-        <transition name="modal-larg">
+    <script type="text/x-template" id="modal-large-template">
+        <transition name="modal-large">
             <div class="modal-mask">
                 <div class="modal-wrapper">
                     <div class="my-large">
@@ -299,13 +329,13 @@
         <transition name="modal-login">
             <div class="modal-mask">
                 <div class="modal-wrapper">
-                    <div class="my-tiny">
+                    <div style="padding: 0;" class="my-small">
                         <div class="modal-header">
                             <slot name="header">
 
                             </slot>
                         </div>
-                        <div class="modal-body">
+                        <div style="margin: 0;" class="modal-body">
                             <slot name="body">
                             </slot>
                         </div>

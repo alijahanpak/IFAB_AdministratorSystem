@@ -63146,7 +63146,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\passport\\Clients.vue"
+Component.options.__file = "resources/assets/js/components/passport/Clients.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Clients.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -63956,7 +63956,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\passport\\AuthorizedClients.vue"
+Component.options.__file = "resources/assets/js/components/passport/AuthorizedClients.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] AuthorizedClients.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -64223,7 +64223,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\passport\\PersonalAccessTokens.vue"
+Component.options.__file = "resources/assets/js/components/passport/PersonalAccessTokens.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] PersonalAccessTokens.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -68419,7 +68419,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Dashboard.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Dashboard.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Dashboard.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -68647,7 +68647,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "panel-footer panel-footer-red small-font"
   }, [_c('i', {
     staticClass: "fi-arrow-left size-18 float-left"
-  }), _vm._v("مشاهده جزئیات\r\n                        ")])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v("مشاهده جزئیات\n                        ")])])])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-3"
   }, [_c('div', {
     staticClass: "notification-panel panel-yellow"
@@ -68671,7 +68671,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "panel-footer panel-footer-yellow small-font"
   }, [_c('i', {
     staticClass: "fi-arrow-left size-18 float-left"
-  }), _vm._v("مشاهده جزئیات\r\n                        ")])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v("مشاهده جزئیات\n                        ")])])])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-3"
   }, [_c('div', {
     staticClass: "notification-panel panel-green"
@@ -68695,7 +68695,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "panel-footer panel-footer-green small-font"
   }, [_c('i', {
     staticClass: "fi-arrow-left size-18 float-left"
-  }), _vm._v("مشاهده جزئیات\r\n                        ")])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v("مشاهده جزئیات\n                        ")])])])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-3"
   }, [_c('div', {
     staticClass: "notification-panel panel-primary"
@@ -68719,12 +68719,15 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "panel-footer panel-footer-primary small-font"
   }, [_c('i', {
     staticClass: "fi-arrow-left size-18 float-left"
-  }), _vm._v("مشاهده جزئیات\r\n                        ")])])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v("مشاهده جزئیات\n                        ")])])])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x my-grid-margin"
   }, [_c('div', {
-    staticClass: "medium-6 dashboard-padding"
+    staticClass: "medium-6 dashboard-padding "
   }, [_c('div', {
-    staticClass: "medium-12 panel-heading"
+    staticClass: "medium-12 my-callout-box my-callout-bg-color",
+    staticStyle: {
+      "padding": "10px"
+    }
   }, [_c('i', {
     staticClass: "fi-graph-bar"
   }), _vm._v(" "), _c('span', {
@@ -68737,26 +68740,31 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "onclick": "myChartF1('myChartM')"
     }
   }, [_vm._v("اطلاعات بیشتر")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-12 my-callout"
+    staticClass: "medium-12 my-callout-box my-callout-bg-color"
   }, [_c('canvas', {
     attrs: {
       "id": "myChart"
     }
   })])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-6 dashboard-padding"
+    staticClass: "medium-6 dashboard-padding "
   }, [_c('div', {
-    staticClass: "medium-12 panel-heading"
+    staticClass: "medium-12 my-callout-box my-callout-bg-color",
+    staticStyle: {
+      "padding": "10px"
+    }
   }, [_c('i', {
     staticClass: "fi-graph-bar"
   }), _vm._v(" "), _c('span', {
     staticClass: "small-font"
-  }, [_vm._v("تخصیص اعتبارات به تفکیک فصول")]), _vm._v(" "), _c('button', {
+  }, [_vm._v("تخصیص اعتبارات به تفکیک منابع")]), _vm._v(" "), _c('button', {
     staticClass: "my-secondary button tiny float-left",
     attrs: {
-      "type": "button"
+      "type": "button",
+      "data-open": "exampleModal1",
+      "onclick": "myChartF1('myChartM')"
     }
   }, [_vm._v("اطلاعات بیشتر")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-12 my-callout"
+    staticClass: "medium-12 my-callout-box my-callout-bg-color"
   }, [_c('canvas', {
     attrs: {
       "id": "myChart1"
@@ -68764,46 +68772,49 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x my-grid-margin"
   }, [_c('div', {
-    staticClass: "medium-6 dashboard-padding"
+    staticClass: "medium-6 dashboard-padding "
   }, [_c('div', {
-    staticClass: "medium-12 panel-heading"
+    staticClass: "medium-12 my-callout-box my-callout-bg-color",
+    staticStyle: {
+      "padding": "10px"
+    }
   }, [_c('i', {
-    staticClass: "fi-graph-pie"
+    staticClass: "fi-graph-bar"
   }), _vm._v(" "), _c('span', {
     staticClass: "small-font"
-  }, [_vm._v("بودجه مصوب جاری و عمرانی ")]), _vm._v(" "), _c('button', {
+  }, [_vm._v("تخصیص اعتبارات به تفکیک منابع")]), _vm._v(" "), _c('button', {
     staticClass: "my-secondary button tiny float-left",
     attrs: {
       "type": "button",
-      "data-open": "exampleModal1"
+      "data-open": "exampleModal1",
+      "onclick": "myChartF1('myChartM')"
     }
   }, [_vm._v("اطلاعات بیشتر")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-12 my-callout",
-    staticStyle: {
-      "padding": "20px"
-    }
+    staticClass: "medium-12 my-callout-box my-callout-bg-color"
   }, [_c('canvas', {
     attrs: {
       "id": "myChart2"
     }
   })])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-6 dashboard-padding",
-    staticStyle: {
-      "padding": "20px"
-    }
+    staticClass: "medium-6 dashboard-padding "
   }, [_c('div', {
-    staticClass: "medium-12 panel-heading"
+    staticClass: "medium-12 my-callout-box my-callout-bg-color",
+    staticStyle: {
+      "padding": "10px"
+    }
   }, [_c('i', {
     staticClass: "fi-graph-bar"
   }), _vm._v(" "), _c('span', {
     staticClass: "small-font"
-  }, [_vm._v("نمودار بودجه مصوب جاری و عمرانی")]), _vm._v(" "), _c('button', {
+  }, [_vm._v("تخصیص اعتبارات به تفکیک منابع")]), _vm._v(" "), _c('button', {
     staticClass: "my-secondary button tiny float-left",
     attrs: {
-      "type": "button"
+      "type": "button",
+      "data-open": "exampleModal1",
+      "onclick": "myChartF1('myChartM')"
     }
   }, [_vm._v("اطلاعات بیشتر")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-12 my-callout"
+    staticClass: "medium-12 my-callout-box my-callout-bg-color"
   }, [_c('canvas', {
     attrs: {
       "id": "myChart3"
@@ -68846,7 +68857,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Admin\\tiny_seasons.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Admin/tiny_seasons.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] tiny_seasons.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -68874,6 +68885,27 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -69342,7 +69374,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   return _c('div', {
     staticClass: "medium-10 border-right-line inner-body-pad main-margin"
   }, [_vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "grid-x dashboard-padding"
+    staticClass: "grid-x my-callout-box container-mrg-top"
   }, [_c('div', {
     staticClass: "medium-12 column"
   }, [_vm._m(1), _vm._v(" "), _c('div', {
@@ -69696,30 +69728,21 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "clearfix border-btm-line bottom-mrg"
   }, [_c('div', {
-    staticClass: "button-group float-left report-mrg"
+    staticClass: "button-group float-right report-mrg"
   }, [_c('a', {
-    staticClass: "has-tip clear button",
-    attrs: {
-      "data-tooltip": "",
-      "aria-haspopup": "true",
-      "data-disable-hover": "false",
-      "tabindex": "1",
-      "title": "جدید",
-      "data-position": "top",
-      "data-alignment": "center"
-    },
+    staticClass: "my-button toolbox-btn",
     on: {
       "click": function($event) {
-        _vm.planOrCost = 0;
+        _vm.planOrCost = 1;
         _vm.showModal = true;
-        _vm.errorMessage = '';
+        _vm.errorMessage = ''
       }
     }
-  }, [_c('i', {
-    staticClass: "fi-plus size-30 secondry-color"
-  })]), _vm._v(" "), _vm._m(2)]), _vm._v(" "), _vm._m(3)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
+    staticClass: "my-button toolbox-btn"
+  }, [_vm._v("گزارش")])]), _vm._v(" "), _vm._m(2)]), _vm._v(" "), _c('div', {
     staticClass: "columns"
-  }, [_vm._m(4), _vm._v(" "), _c('div', {
+  }, [_vm._m(3), _vm._v(" "), _c('div', {
     staticClass: "table-contain dynamic-height-level2"
   }, _vm._l((_vm.tinySeasons), function(season) {
     return _c('div', {
@@ -69787,7 +69810,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         staticClass: "fi-trash size-16"
       }), _vm._v("  حذف")])])])])])])])])
     }))])
-  }))])])])]), _vm._v(" "), _c('div', {
+  })), _vm._v(" "), _vm._m(4)])])])]), _vm._v(" "), _c('div', {
     staticClass: "tabs-panel table-mrg-btm dynamic-height-level1",
     attrs: {
       "id": "cost",
@@ -69800,19 +69823,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "clearfix border-btm-line bottom-mrg"
   }, [_c('div', {
-    staticClass: "button-group float-left report-mrg"
+    staticClass: "button-group float-right report-mrg"
   }, [_c('a', {
-    staticClass: "has-tip clear button",
-    attrs: {
-      "id": "show-modal",
-      "data-tooltip": "",
-      "aria-haspopup": "true",
-      "data-disable-hover": "false",
-      "tabindex": "1",
-      "title": "جدید",
-      "data-position": "top",
-      "data-alignment": "center"
-    },
+    staticClass: "my-button toolbox-btn",
     on: {
       "click": function($event) {
         _vm.planOrCost = 1;
@@ -69820,11 +69833,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.errorMessage = ''
       }
     }
-  }, [_c('i', {
-    staticClass: "fi-plus size-30 secondry-color"
-  })]), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
+    staticClass: "my-button toolbox-btn"
+  }, [_vm._v("گزارش")])]), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _c('div', {
     staticClass: "columns"
-  }, [_vm._m(7), _vm._v(" "), _c('div', {
+  }, [_vm._m(6), _vm._v(" "), _c('div', {
     staticClass: "table-contain dynamic-height-level2"
   }, _vm._l((_vm.tinySeasonsCost), function(season) {
     return _c('div', {
@@ -69892,7 +69905,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         staticClass: "fi-trash size-16"
       }), _vm._v("  حذف")])])])])])])])])
     }))])
-  }))])])])]), _vm._v(" "), _c('notifications', {
+  })), _vm._v(" "), _vm._m(7)])])])]), _vm._v(" "), _c('notifications', {
     attrs: {
       "group": "tinySeasonPm",
       "position": "bottom right",
@@ -69907,7 +69920,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }, [_c('div', {
     staticClass: "medium-12"
   }, [_c('div', {
-    staticClass: "grid-x border-btm-line"
+    staticClass: "grid-x"
   }, [_c('nav', {
     attrs: {
       "aria-label": "You are here:",
@@ -69926,7 +69939,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }, [_vm._v("Current: ")]), _vm._v("ریز فصول\n                        ")])])])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('ul', {
-    staticClass: "tabs tab-color",
+    staticClass: "tabs tab-color my-tab-style",
     attrs: {
       "data-responsive-accordion-tabs": "tabs medium-accordion large-tabs",
       "id": "sub_season_tab_view"
@@ -69946,23 +69959,8 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }, [_vm._v("هزینه ای")])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', {
-    staticClass: "has-tip clear button",
-    attrs: {
-      "data-tooltip": "",
-      "aria-haspopup": "true",
-      "data-disable-hover": "false",
-      "tabindex": "1",
-      "title": "گزارش",
-      "data-position": "top",
-      "data-alignment": "center"
-    }
-  }, [_c('i', {
-    staticClass: "fi-clipboard-notes size-30 secondry-color"
-  })])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "float-right"
+    staticClass: "float-left"
   }, [_c('div', {
     staticClass: "input-group float-left"
   }, [_c('input', {
@@ -69973,7 +69971,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }), _vm._v(" "), _c('div', {
     staticClass: "input-group-button"
   }, [_c('button', {
-    staticClass: "my-secondary button",
+    staticClass: "purple-btn button",
     attrs: {
       "type": "button"
     }
@@ -69995,23 +69993,67 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "medium-6  table-border"
   }, [_c('strong', [_vm._v("شرح")])])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', {
-    staticClass: "has-tip clear button",
+  return _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12"
+  }, [_c('ul', {
+    staticClass: "pagination",
     attrs: {
-      "data-tooltip": "",
-      "aria-haspopup": "true",
-      "data-disable-hover": "false",
-      "tabindex": "1",
-      "title": "گزارش",
-      "data-position": "top",
-      "data-alignment": "center"
+      "role": "navigation",
+      "aria-label": "Pagination"
     }
-  }, [_c('i', {
-    staticClass: "fi-clipboard-notes size-30 secondry-color"
-  })])
+  }, [_c('li', {
+    staticClass: "pagination-previous disabled"
+  }, [_vm._v("قبلی "), _c('span', {
+    staticClass: "show-for-sr"
+  }, [_vm._v("page")])]), _vm._v(" "), _c('li', {
+    staticClass: "current"
+  }, [_c('span', {
+    staticClass: "show-for-sr"
+  }, [_vm._v("You're on page")]), _vm._v(" 1")]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#",
+      "aria-label": "Page 2"
+    }
+  }, [_vm._v("2")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#",
+      "aria-label": "Page 3"
+    }
+  }, [_vm._v("3")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#",
+      "aria-label": "Page 4"
+    }
+  }, [_vm._v("4")])]), _vm._v(" "), _c('li', {
+    staticClass: "ellipsis",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#",
+      "aria-label": "Page 12"
+    }
+  }, [_vm._v("12")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#",
+      "aria-label": "Page 13"
+    }
+  }, [_vm._v("13")])]), _vm._v(" "), _c('li', {
+    staticClass: "pagination-next"
+  }, [_c('a', {
+    attrs: {
+      "href": "#",
+      "aria-label": "Next page"
+    }
+  }, [_vm._v("بعدی "), _c('span', {
+    staticClass: "show-for-sr"
+  }, [_vm._v("page")])])])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "float-right"
+    staticClass: "float-left"
   }, [_c('div', {
     staticClass: "input-group float-left"
   }, [_c('input', {
@@ -70022,7 +70064,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }), _vm._v(" "), _c('div', {
     staticClass: "input-group-button"
   }, [_c('button', {
-    staticClass: "my-secondary button",
+    staticClass: "purple-btn button",
     attrs: {
       "type": "button"
     }
@@ -70043,6 +70085,65 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }, [_c('strong', [_vm._v("ریز فصل")])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6  table-border"
   }, [_c('strong', [_vm._v("شرح")])])])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12"
+  }, [_c('ul', {
+    staticClass: "pagination",
+    attrs: {
+      "role": "navigation",
+      "aria-label": "Pagination"
+    }
+  }, [_c('li', {
+    staticClass: "pagination-previous disabled"
+  }, [_vm._v("قبلی "), _c('span', {
+    staticClass: "show-for-sr"
+  }, [_vm._v("page")])]), _vm._v(" "), _c('li', {
+    staticClass: "current"
+  }, [_c('span', {
+    staticClass: "show-for-sr"
+  }, [_vm._v("You're on page")]), _vm._v(" 1")]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#",
+      "aria-label": "Page 2"
+    }
+  }, [_vm._v("2")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#",
+      "aria-label": "Page 3"
+    }
+  }, [_vm._v("3")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#",
+      "aria-label": "Page 4"
+    }
+  }, [_vm._v("4")])]), _vm._v(" "), _c('li', {
+    staticClass: "ellipsis",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#",
+      "aria-label": "Page 12"
+    }
+  }, [_vm._v("12")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#",
+      "aria-label": "Page 13"
+    }
+  }, [_vm._v("13")])]), _vm._v(" "), _c('li', {
+    staticClass: "pagination-next"
+  }, [_c('a', {
+    attrs: {
+      "href": "#",
+      "aria-label": "Next page"
+    }
+  }, [_vm._v("بعدی "), _c('span', {
+    staticClass: "show-for-sr"
+  }, [_vm._v("page")])])])])])])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }

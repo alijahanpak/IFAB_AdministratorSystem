@@ -3,7 +3,7 @@
     <div class="medium-10 border-right-line inner-body-pad main-margin">
         <div class="grid-x padding-lr">
             <div class="medium-12">
-                <div class="grid-x border-btm-line">
+                <div class="grid-x">
                     <nav aria-label="You are here:" role="navigation">
                         <ul class="breadcrumbs">
                             <li><a href="">داشبورد</a></li>
@@ -18,9 +18,9 @@
                 </div>
             </div>
         </div>
-        <div class="grid-x dashboard-padding">
+        <div class="grid-x my-callout-box container-mrg-top">
             <div class="medium-12 column">
-                <ul class="tabs tab-color" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="sub_season_tab_view">
+                <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="sub_season_tab_view">
                     <li class="tabs-title is-active"><a href="#capital_assets" aria-selected="true">تملک دارایی سرمایه ای</a></li>
                     <li class="tabs-title"><a href="#cost">هزینه ای</a></li>
                 </ul>
@@ -131,22 +131,17 @@
                         <div class="dynamicParentId1">
                             <div class="medium-12 bottom-mrg">
                                 <div class="clearfix border-btm-line bottom-mrg">
-                                    <div class="button-group float-left report-mrg">
-                                        <a @click="planOrCost = 0; showModal = true; errorMessage = '';" data-tooltip aria-haspopup="true" class="has-tip clear button" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
-                                            <i class="fi-plus size-30 secondry-color"></i>
-                                        </a>
-                                        <a data-tooltip aria-haspopup="true" class="has-tip clear button" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
-                                            <i class="fi-clipboard-notes size-30 secondry-color"></i>
-                                        </a>
+                                    <div class="button-group float-right report-mrg">
+                                        <a class="my-button toolbox-btn" @click="planOrCost = 1; showModal = true; errorMessage = ''">جدید</a>
+                                        <a class="my-button toolbox-btn">گزارش</a>
                                     </div>
-                                    <div class="float-right">
+                                    <div class="float-left">
                                         <div class="input-group float-left">
                                             <input class="input-group-field small-font" type="text">
                                             <div class="input-group-button">
-                                                <button type="button" class="my-secondary button"><i class="fi-magnifying-glass"></i></button>
+                                                <button type="button" class="purple-btn button"><i class="fi-magnifying-glass"></i></button>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                                 <!--Table Start-->
@@ -198,6 +193,21 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="grid-x">
+                                        <div class="medium-12">
+                                            <ul class="pagination" role="navigation" aria-label="Pagination">
+                                                <li class="pagination-previous disabled">قبلی <span class="show-for-sr">page</span></li>
+                                                <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
+                                                <li><a href="#" aria-label="Page 2">2</a></li>
+                                                <li><a href="#" aria-label="Page 3">3</a></li>
+                                                <li><a href="#" aria-label="Page 4">4</a></li>
+                                                <li class="ellipsis" aria-hidden="true"></li>
+                                                <li><a href="#" aria-label="Page 12">12</a></li>
+                                                <li><a href="#" aria-label="Page 13">13</a></li>
+                                                <li class="pagination-next"><a href="#" aria-label="Next page">بعدی <span class="show-for-sr">page</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -208,19 +218,15 @@
                         <div class="dynamicParentId1">
                             <div class="medium-12 bottom-mrg">
                                 <div class="clearfix border-btm-line bottom-mrg">
-                                    <div class="button-group float-left report-mrg">
-                                        <a id="show-modal" @click="planOrCost = 1; showModal = true; errorMessage = ''" data-tooltip aria-haspopup="true" class="has-tip clear button" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
-                                            <i class="fi-plus size-30 secondry-color"></i>
-                                        </a>
-                                        <a data-tooltip aria-haspopup="true" class="has-tip clear button" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
-                                            <i class="fi-clipboard-notes size-30 secondry-color"></i>
-                                        </a>
+                                    <div class="button-group float-right report-mrg">
+                                        <a class="my-button toolbox-btn" @click="planOrCost = 1; showModal = true; errorMessage = ''">جدید</a>
+                                        <a class="my-button toolbox-btn">گزارش</a>
                                     </div>
-                                    <div class="float-right">
+                                    <div class="float-left">
                                         <div class="input-group float-left">
                                             <input class="input-group-field small-font" type="text">
                                             <div class="input-group-button">
-                                                <button type="button" class="my-secondary button"><i class="fi-magnifying-glass"></i></button>
+                                                <button type="button" class="purple-btn button"><i class="fi-magnifying-glass"></i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -272,6 +278,21 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x">
+                                        <div class="medium-12">
+                                            <ul class="pagination" role="navigation" aria-label="Pagination">
+                                                <li class="pagination-previous disabled">قبلی <span class="show-for-sr">page</span></li>
+                                                <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
+                                                <li><a href="#" aria-label="Page 2">2</a></li>
+                                                <li><a href="#" aria-label="Page 3">3</a></li>
+                                                <li><a href="#" aria-label="Page 4">4</a></li>
+                                                <li class="ellipsis" aria-hidden="true"></li>
+                                                <li><a href="#" aria-label="Page 12">12</a></li>
+                                                <li><a href="#" aria-label="Page 13">13</a></li>
+                                                <li class="pagination-next"><a href="#" aria-label="Next page">بعدی <span class="show-for-sr">page</span></a></li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
