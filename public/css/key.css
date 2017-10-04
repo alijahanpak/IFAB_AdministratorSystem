@@ -532,7 +532,7 @@ a:focus,button:focus {
 .my-callout-box{
     box-shadow: 0 1px 15px 1px rgba(113,106,202,.08);
     background-color: #fff;
-}
+    }
 .reveal-overlay {
     display: none;
     position: fixed;
@@ -1103,4 +1103,14 @@ button.purple-btn {
     right: 0;
     bottom: 0;
     left: 0;
+}
+.chart-header-pad{
+    padding: 8px 15px 15px 15px;
+}
+.container-mrg-top{
+    margin-top: 10px;
+}
+.my-tab-style{
+    border: none;
+    border-bottom: 1px solid #e6e6e6;
 }

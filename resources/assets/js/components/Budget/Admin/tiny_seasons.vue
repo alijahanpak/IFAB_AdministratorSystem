@@ -1,9 +1,9 @@
 <template xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <!--Inner body start-->
     <div class="medium-10 border-right-line inner-body-pad main-margin" xmlns:v-on="http://www.w3.org/1999/xhtml">
-        <div class="grid-x padding-lr">
+        <div style="padding-top: 15px;" class="grid-x padding-lr">
             <div class="medium-12">
-                <div class="grid-x border-btm-line">
+                <div class="grid-x">
                     <nav aria-label="You are here:" role="navigation">
                         <ul class="breadcrumbs">
                             <li><a href="">داشبورد</a></li>
@@ -18,9 +18,9 @@
                 </div>
             </div>
         </div>
-        <div class="grid-x dashboard-padding">
+        <div class="grid-x my-callout-box container-mrg-top">
             <div class="medium-12 column">
-                <ul class="tabs tab-color" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="sub_season_tab_view">
+                <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="sub_season_tab_view">
                     <li class="tabs-title is-active"><a href="#capital_assets" aria-selected="true">تملک دارایی سرمایه ای</a></li>
                     <li class="tabs-title"><a href="#cost">هزینه ای</a></li>
                 </ul>
@@ -63,23 +63,10 @@
                                     </div>
                                 </div>
                                 <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                    <button name="Submit" class="my-secondary button float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span>
-                                        <i>
-                                            <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
-                                                <div></div>
-                                                <div></div>
-                                                <div></div>
-                                                <div></div>
-                                                <div></div>
-                                                <div></div>
-                                                <div></div>
-                                                <div></div>
-                                            </div>
-                                        </i>
-                                    </button>
+                                    <button name="Submit" class="my-secondary button float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
                                 </div>
                             </form>
-                            </div>
+                        </div>
                     </modal-tiny>
                     <!-- update modal -->
                     <modal-tiny v-if="showModalUpdate" @close="showModalUpdate = false">
@@ -117,20 +104,7 @@
                                     </div>
                                 </div>
                                 <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                    <button name="Submit" class="my-secondary button float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span>
-                                        <i id="registerSubmitActivityCircle">
-                                            <div class="la-line-spin-clockwise-fade-rotating la-sm float-left">
-                                                <div></div>
-                                                <div></div>
-                                                <div></div>
-                                                <div></div>
-                                                <div></div>
-                                                <div></div>
-                                                <div></div>
-                                                <div></div>
-                                            </div>
-                                        </i>
-                                    </button>
+                                    <button name="Submit" class="my-secondary button float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
                                 </div>
                             </form>
                         </div>
@@ -152,25 +126,20 @@
                     <!--Tab 1-->
                     <div class="tabs-panel is-active table-mrg-btm dynamic-height-level1" id="capital_assets"
                          xmlns:v-on="http://www.w3.org/1999/xhtml">
-                        <div id="dynamicParentId1">
+                        <div class="dynamicParentId1">
                             <div class="medium-12 bottom-mrg">
                                 <div class="clearfix border-btm-line bottom-mrg">
-                                    <div class="button-group float-left report-mrg">
-                                        <a @click="planOrCost = 0; showModal = true; errorMessage = '';" data-tooltip aria-haspopup="true" class="has-tip clear button" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
-                                            <i class="fi-plus size-30 secondry-color"></i>
-                                        </a>
-                                        <a data-tooltip aria-haspopup="true" class="has-tip clear button" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
-                                            <i class="fi-clipboard-notes size-30 secondry-color"></i>
-                                        </a>
+                                    <div class="button-group float-right report-mrg">
+                                        <a class="my-button toolbox-btn" id="show-modal" @click="planOrCost = 1; showModal = true; errorMessage = ''">جدید</a>
+                                        <a class="my-button toolbox-btn">گزارش</a>
                                     </div>
-                                    <div class="float-right">
+                                    <div class="float-left">
                                         <div class="input-group float-left">
                                             <input class="input-group-field small-font" type="text">
                                             <div class="input-group-button">
-                                                <button type="button" class="my-secondary button"><i class="fi-magnifying-glass"></i></button>
+                                                <button type="button" class="purple-btn button"><i class="fi-magnifying-glass"></i></button>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                                 <!--Table Start-->
@@ -208,7 +177,7 @@
                                                                 {{ tinySeason.tsDescription }}
                                                             </div>
                                                             <div class="medium-1 cell-vertical-center text-left">
-                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + tinySeason.id"><img width="15px" height="15px" src="../../../../pic/menu.svg"></a>
+                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + tinySeason.id"><img width="15px" height="15px" src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + tinySeason.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
                                                                         <li><a v-on:click.prevent="tinySeasonUpdateDialog(tinySeason , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
@@ -222,6 +191,21 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="grid-x">
+                                        <div class="medium-12">
+                                            <ul class="pagination" role="navigation" aria-label="Pagination">
+                                                <li class="pagination-previous disabled">قبلی <span class="show-for-sr">page</span></li>
+                                                <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
+                                                <li><a href="#" aria-label="Page 2">2</a></li>
+                                                <li><a href="#" aria-label="Page 3">3</a></li>
+                                                <li><a href="#" aria-label="Page 4">4</a></li>
+                                                <li class="ellipsis" aria-hidden="true"></li>
+                                                <li><a href="#" aria-label="Page 12">12</a></li>
+                                                <li><a href="#" aria-label="Page 13">13</a></li>
+                                                <li class="pagination-next"><a href="#" aria-label="Next page">بعدی <span class="show-for-sr">page</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -229,22 +213,18 @@
                     <!--Tab 1-->
                     <!--Tab 2-->
                     <div class="tabs-panel table-mrg-btm dynamic-height-level1" id="cost" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                        <div id="dynamicParentId1">
+                        <div class="dynamicParentId1">
                             <div class="medium-12 bottom-mrg">
                                 <div class="clearfix border-btm-line bottom-mrg">
-                                    <div class="button-group float-left report-mrg">
-                                        <a id="show-modal" @click="planOrCost = 1; showModal = true; errorMessage = ''" data-tooltip aria-haspopup="true" class="has-tip clear button" data-disable-hover="false" tabindex="1" title="جدید" data-position="top" data-alignment="center">
-                                            <i class="fi-plus size-30 secondry-color"></i>
-                                        </a>
-                                        <a data-tooltip aria-haspopup="true" class="has-tip clear button" data-disable-hover="false" tabindex="1" title="گزارش" data-position="top" data-alignment="center">
-                                            <i class="fi-clipboard-notes size-30 secondry-color"></i>
-                                        </a>
+                                    <div class="button-group float-right report-mrg">
+                                        <a class="my-button toolbox-btn" id="show-modal" @click="planOrCost = 1; showModal = true; errorMessage = ''">جدید</a>
+                                        <a class="my-button toolbox-btn">گزارش</a>
                                     </div>
-                                    <div class="float-right">
+                                    <div class="float-left">
                                         <div class="input-group float-left">
                                             <input class="input-group-field small-font" type="text">
                                             <div class="input-group-button">
-                                                <button type="button" class="my-secondary button"><i class="fi-magnifying-glass"></i></button>
+                                                <button type="button" class="purple-btn button"><i class="fi-magnifying-glass"></i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -284,7 +264,7 @@
                                                             {{ tinySeason.tsDescription }}
                                                         </div>
                                                         <div class="medium-1 cell-vertical-center text-left">
-                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + tinySeason.id"><img width="15px" height="15px" src=""></a>
+                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + tinySeason.id"><img width="15px" height="15px" src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + tinySeason.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
                                                                     <li><a v-on:click.prevent="tinySeasonUpdateDialog(tinySeason , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
@@ -296,6 +276,21 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x">
+                                        <div class="medium-12">
+                                            <ul class="pagination" role="navigation" aria-label="Pagination">
+                                                <li class="pagination-previous disabled">قبلی <span class="show-for-sr">page</span></li>
+                                                <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
+                                                <li><a href="#" aria-label="Page 2">2</a></li>
+                                                <li><a href="#" aria-label="Page 3">3</a></li>
+                                                <li><a href="#" aria-label="Page 4">4</a></li>
+                                                <li class="ellipsis" aria-hidden="true"></li>
+                                                <li><a href="#" aria-label="Page 12">12</a></li>
+                                                <li><a href="#" aria-label="Page 13">13</a></li>
+                                                <li class="pagination-next"><a href="#" aria-label="Next page">بعدی <span class="show-for-sr">page</span></a></li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -313,7 +308,6 @@
     </div>
 </template>
 <script>
-    //import {auth} from '../../../auth.js';
     export default {
         data(){
             return {
@@ -336,7 +330,6 @@
             this.fetchCostData();
             this.fetchData();
             this.getSeasons();
-            //this.$store.dispatch("logout");
         },
 
         updated: function () {
@@ -345,38 +338,48 @@
 
         methods:{
             fetchData: function () {
+                this.$root.start();
                 axios.get('/budget/admin/sub_seasons/fetchData' , {params:{planOrCost: 0}})
                     .then((response) => {
                         this.tinySeasons = response.data;
                         console.log(response);
+                        this.$root.finish();
                     },(error) => {
                         console.log(error);
+                        this.$root.fail();
                     });
             },
 
             fetchCostData: function () {
+                this.$root.start();
                 axios.get('/budget/admin/sub_seasons/fetchData' , {params:{planOrCost: 1}})
                     .then((response) => {
                         this.tinySeasonsCost = response.data;
                         console.log(response);
+                        this.$root.finish();
                     },(error) => {
                         console.log(error);
+                        this.$root.fail();
                     });
             },
 
             getSeasons: function () {
-                axios.get('/admin/get_all_seasons' , {params:{}})
+                this.$root.start();
+                axios.get('/admin/get_all_seasons')
                     .then((response) => {
                         this.seasons = response.data;
                         console.log(response);
+                        this.$root.finish();
                     },(error) => {
                         console.log(error);
+                        this.$root.fail();
                     });
             },
 
             createTinySeason: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        this.$root.start();
                         this.tinySeasonsInput.planOrCost = this.planOrCost;
                         axios.post('/budget/admin/sub_seasons/register' , this.tinySeasonsInput)
                             .then((response) => {
@@ -385,12 +388,15 @@
                                 else
                                     this.tinySeasons = response.data;
                                 this.showModal = false;
-                                this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'رکورد با موفقیت ثبت شد.' , type: 'success'});
+                                this.displayNotif(response.status);
                                 this.tinySeasonsInput = [];
                                 console.log(response);
+                                this.$root.finish();
                             },(error) => {
+                                alert(this.tinySeasonsInput.planOrCost +  ' - ' + this.tinySeasonsInput.tsSubject + ' - ' + this.tinySeasonsInput.tsSId);
                                 console.log(error);
                                 this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                                this.$root.fail();
                             });
                     }
                 });
@@ -410,6 +416,7 @@
             updateTinySeason: function () {
                 if (this.tinySeasonsFill.tsSId != '' && this.tinySeasonsFill.tsSubject != '')
                 {
+                    this.$root.start();
                     axios.post('/budget/admin/sub_seasons/update' , this.tinySeasonsFill)
                         .then((response) => {
                             if(this.planOrCost == 1)
@@ -417,11 +424,13 @@
                             else
                                 this.tinySeasons = response.data;
                             this.showModalUpdate = false;
-                            this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'بروزرسانی با موفقیت انجام شد.' , type: 'success'});
+                            this.displayNotif(response.status);
                             console.log(response);
+                            this.$root.finish();
                         },(error) => {
                             console.log(error);
                             this.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                            this.$root.fail();
                         });
                 }
                 else {
@@ -435,19 +444,24 @@
             },
 
             deleteTinySeason: function () {
+                this.$root.start();
                 axios.post('/budget/admin/sub_seasons/delete' , this.tsIdDelete)
                     .then((response) => {
-                        if(response.data.tsPlanOrCost == 1)
-                            this.tinySeasonsCost = response.data;
-                        else
+                        if (response.status != 204) //http status code for error in delete (no content)
                         {
-                            this.tinySeasons = response.data;
+                            if(response.data.tsPlanOrCost == 1)
+                                this.tinySeasonsCost = response.data;
+                            else
+                                this.tinySeasons = response.data;
+
                         }
                         this.showModalDelete = false;
-                        this.displayNotif(response.response.status);
                         console.log(response);
+                        this.$root.finish();
+                        this.displayNotif(response.status);
                     },(error) => {
                         console.log(error);
+                        this.$root.fail();
                     });
             },
 
@@ -460,7 +474,7 @@
                         this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.' , type: 'success'});
                         break;
                 }
-            }
+            },
         }
     }
 </script>
