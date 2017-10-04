@@ -393,6 +393,10 @@ a:focus,button:focus {
     color:#716aca;
 
 }
+.my-menu li a > i:hover{
+    color:#716aca;
+
+}
 .dashboard-padding{
     padding: 14px;
 }
@@ -551,12 +555,12 @@ a:focus,button:focus {
     z-index: 1;
 }
 .is-active-tab{
-    background-color: #FFFFFF;
-    border-bottom: 3px solid #d9534f;
+    background-colo: #FFFFFF;
+    border-bottom: 2px solid #d9534f;
 }
 .tabs-title > a:focus, .tabs-title > a[aria-selected="true"] {
     background-color: #FFFFFF;
-    border-bottom: 3px solid #d9534f;
+    border-bottom: 2px solid #d9534f;
     color: #333;
 }
 
@@ -1010,9 +1014,16 @@ html, body {
 .button-group .my-button:last-child {
     margin-left: 0;
 }
+.my-button.tiny {
+    font-size: 0.6rem; }
+.my-button.small {
+    font-size: 0.78rem; }
 button.purple-btn {
     background-color: #716aca;
     color: #FFFFFF;
+}
+.checked-color{
+    color:#f4516c;
 }
 .pagination a, .pagination button {
     display: block;
@@ -1114,3 +1125,48 @@ button.purple-btn {
     border: none;
     border-bottom: 1px solid #e6e6e6;
 }
+.my-button.dropdown::after {
+    position: relative;
+    top: 0.3em;
+    display: inline-block;
+    float: left;
+    margin-right: 1em;
+    /* top: 3pt; Uncomment this to lower the icons as requested in comments*/
+    content: "";
+    display: inline-block;
+    /* By using an em scale, the arrows will size with the font */
+    width: 0.4em;
+    height: 0.4em;
+    border-right: 0.1em solid #716aca;
+    border-top: 0.1em solid #716aca;
+    transform: rotate(134deg);
+    margin-right: 0.5em;
+}
+.dropdown.menu > li.is-dropdown-submenu-parent > a::after {
+    border:       solid #716aca;
+    border-width: 0 .1em .1em 0;
+    display:      inline-block;
+    padding:      .20em;
+    transform:rotate(45deg);
+}
+
+.my-button.dropdown.hollow::after {
+    border-top-color: #1779ba; }
+.my-button.dropdown.hollow.primary::after {
+    border-top-color: #1779ba; }
+.my-button.dropdown.hollow.secondary::after {
+    border-top-color: #e9e9e9; }
+.my-button.dropdown.hollow.alert::after {
+    border-top-color: #c60f13; }
+.my-button.dropdown.hollow.success::after {
+    border-top-color: #5da423; }
+.my-button.dropdown.hollow.warning::after {
+    border-top-color: #ffae00; }
+.my-button.dropdown.hollow.body-font::after {
+    border-top-color: #222222; }
+.my-button.dropdown.hollow.header::after {
+    border-top-color: #222222; }
+.my-button.arrow-only::after {
+    top: -0.1em;
+    float: none;
+    margin-right: 0; }
