@@ -131,9 +131,20 @@
                         <div class="dynamicParentId1">
                             <div class="medium-12 bottom-mrg">
                                 <div class="clearfix border-btm-line bottom-mrg">
-                                    <div class="button-group float-right report-mrg">
-                                        <a class="my-button toolbox-btn" @click="planOrCost = 1; showModal = true; errorMessage = ''">جدید</a>
-                                        <a class="my-button toolbox-btn">گزارش</a>
+                                    <div style="margin-top: 2px;" class="button-group float-right report-mrg">
+                                        <a class="my-button toolbox-btn small" @click="planOrCost = 1; showModal = true; errorMessage = ''">جدید</a>
+                                        <a class="my-button toolbox-btn small">گزارش</a>
+                                        <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش</button>
+                                        <div style="width: 97px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
+                                            <ul class="my-menu small-font float-left">
+                                                <li><a  href="#">10</a></li>
+                                                <li><a  href="#"><span class="fi-check checked-color size-14"></span>20</a></li>
+                                                <li><a  href="#">30</a></li>
+                                                <li><a  href="#">50</a></li>
+                                                <li><a  href="#">100</a></li>
+                                                <li><a  href="#">200</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                     <div class="float-left">
                                         <div class="input-group float-left">
@@ -218,9 +229,20 @@
                         <div class="dynamicParentId1">
                             <div class="medium-12 bottom-mrg">
                                 <div class="clearfix border-btm-line bottom-mrg">
-                                    <div class="button-group float-right report-mrg">
-                                        <a class="my-button toolbox-btn" @click="planOrCost = 1; showModal = true; errorMessage = ''">جدید</a>
-                                        <a class="my-button toolbox-btn">گزارش</a>
+                                    <div style="margin-top: 2px;" class="button-group float-right report-mrg">
+                                        <a class="my-button toolbox-btn small" @click="planOrCost = 1; showModal = true; errorMessage = ''">جدید</a>
+                                        <a class="my-button toolbox-btn small">گزارش</a>
+                                        <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="costDropDown">تعداد نمایش</button>
+                                        <div style="width: 100px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="costDropDown" data-dropdown data-auto-focus="true">
+                                            <ul class="my-menu small-font float-left">
+                                                <li><a  href="#">10</a></li>
+                                                <li><a  href="#"><span class="fi-check checked-color size-14"></span>20</a></li>
+                                                <li><a  href="#">30</a></li>
+                                                <li><a  href="#">50</a></li>
+                                                <li><a  href="#">100</a></li>
+                                                <li><a  href="#">200</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                     <div class="float-left">
                                         <div class="input-group float-left">
@@ -269,8 +291,8 @@
                                                             <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + tinySeason.id"><img width="15px" height="15px" src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + tinySeason.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent="tinySeasonUpdateDialog(tinySeason , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(tinySeason)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                    <li><a v-on:click.prevent="tinySeasonUpdateDialog(tinySeason , 1)"><i class="tbl-menu fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(tinySeason)"><i class="tbl-menu fi-trash size-16"></i>  حذف</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>

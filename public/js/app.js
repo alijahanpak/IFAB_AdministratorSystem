@@ -69196,6 +69196,28 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     data: function data() {
@@ -69728,9 +69750,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "clearfix border-btm-line bottom-mrg"
   }, [_c('div', {
-    staticClass: "button-group float-right report-mrg"
+    staticClass: "button-group float-right report-mrg",
+    staticStyle: {
+      "margin-top": "2px"
+    }
   }, [_c('a', {
-    staticClass: "my-button toolbox-btn",
+    staticClass: "my-button toolbox-btn small",
     on: {
       "click": function($event) {
         _vm.planOrCost = 1;
@@ -69739,10 +69764,16 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
-    staticClass: "my-button toolbox-btn"
-  }, [_vm._v("گزارش")])]), _vm._v(" "), _vm._m(2)]), _vm._v(" "), _c('div', {
+    staticClass: "my-button toolbox-btn small"
+  }, [_vm._v("گزارش")]), _vm._v(" "), _c('button', {
+    staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
+    attrs: {
+      "type": "button",
+      "data-toggle": "assetsDropDown"
+    }
+  }, [_vm._v("تعداد نمایش")]), _vm._v(" "), _vm._m(2)]), _vm._v(" "), _vm._m(3)]), _vm._v(" "), _c('div', {
     staticClass: "columns"
-  }, [_vm._m(3), _vm._v(" "), _c('div', {
+  }, [_vm._m(4), _vm._v(" "), _c('div', {
     staticClass: "table-contain dynamic-height-level2"
   }, _vm._l((_vm.tinySeasons), function(season) {
     return _c('div', {
@@ -69810,7 +69841,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         staticClass: "fi-trash size-16"
       }), _vm._v("  حذف")])])])])])])])])
     }))])
-  })), _vm._v(" "), _vm._m(4)])])])]), _vm._v(" "), _c('div', {
+  })), _vm._v(" "), _vm._m(5)])])])]), _vm._v(" "), _c('div', {
     staticClass: "tabs-panel table-mrg-btm dynamic-height-level1",
     attrs: {
       "id": "cost",
@@ -69823,9 +69854,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "clearfix border-btm-line bottom-mrg"
   }, [_c('div', {
-    staticClass: "button-group float-right report-mrg"
+    staticClass: "button-group float-right report-mrg",
+    staticStyle: {
+      "margin-top": "2px"
+    }
   }, [_c('a', {
-    staticClass: "my-button toolbox-btn",
+    staticClass: "my-button toolbox-btn small",
     on: {
       "click": function($event) {
         _vm.planOrCost = 1;
@@ -69834,10 +69868,16 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
-    staticClass: "my-button toolbox-btn"
-  }, [_vm._v("گزارش")])]), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _c('div', {
+    staticClass: "my-button toolbox-btn small"
+  }, [_vm._v("گزارش")]), _vm._v(" "), _c('button', {
+    staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
+    attrs: {
+      "type": "button",
+      "data-toggle": "costDropDown"
+    }
+  }, [_vm._v("تعداد نمایش")]), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _vm._m(7)]), _vm._v(" "), _c('div', {
     staticClass: "columns"
-  }, [_vm._m(6), _vm._v(" "), _c('div', {
+  }, [_vm._m(8), _vm._v(" "), _c('div', {
     staticClass: "table-contain dynamic-height-level2"
   }, _vm._l((_vm.tinySeasonsCost), function(season) {
     return _c('div', {
@@ -69893,7 +69933,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           }
         }
       }, [_c('i', {
-        staticClass: "fi-pencil size-16"
+        staticClass: "tbl-menu fi-pencil size-16"
       }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
         on: {
           "click": function($event) {
@@ -69902,10 +69942,10 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           }
         }
       }, [_c('i', {
-        staticClass: "fi-trash size-16"
+        staticClass: "tbl-menu fi-trash size-16"
       }), _vm._v("  حذف")])])])])])])])])
     }))])
-  })), _vm._v(" "), _vm._m(7)])])])]), _vm._v(" "), _c('notifications', {
+  })), _vm._v(" "), _vm._m(9)])])])]), _vm._v(" "), _c('notifications', {
     attrs: {
       "group": "tinySeasonPm",
       "position": "bottom right",
@@ -69958,6 +69998,51 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "href": "#cost"
     }
   }, [_vm._v("هزینه ای")])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "dropdown-pane dropdown-pane-sm ",
+    staticStyle: {
+      "width": "97px"
+    },
+    attrs: {
+      "data-close-on-click": "true",
+      "data-hover": "true",
+      "data-hover-pane": "true",
+      "data-position": "bottom",
+      "data-alignment": "left",
+      "id": "assetsDropDown",
+      "data-dropdown": "",
+      "data-auto-focus": "true"
+    }
+  }, [_c('ul', {
+    staticClass: "my-menu small-font float-left"
+  }, [_c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("10")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_c('span', {
+    staticClass: "fi-check checked-color size-14"
+  }), _vm._v("20")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("30")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("50")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("100")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("200")])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "float-left"
@@ -70051,6 +70136,51 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }, [_vm._v("بعدی "), _c('span', {
     staticClass: "show-for-sr"
   }, [_vm._v("page")])])])])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "dropdown-pane dropdown-pane-sm ",
+    staticStyle: {
+      "width": "100px"
+    },
+    attrs: {
+      "data-close-on-click": "true",
+      "data-hover": "true",
+      "data-hover-pane": "true",
+      "data-position": "bottom",
+      "data-alignment": "left",
+      "id": "costDropDown",
+      "data-dropdown": "",
+      "data-auto-focus": "true"
+    }
+  }, [_c('ul', {
+    staticClass: "my-menu small-font float-left"
+  }, [_c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("10")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_c('span', {
+    staticClass: "fi-check checked-color size-14"
+  }), _vm._v("20")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("30")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("50")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("100")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("200")])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "float-left"
