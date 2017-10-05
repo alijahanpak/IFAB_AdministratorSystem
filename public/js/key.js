@@ -30,23 +30,42 @@ $(function(){
 });
 function res() {
     var tabHeight = $('.tabs').height();
+    var toolBarHeight = $('.tool-bar').height();
     var notifHeight=25;
+    if (toolBarHeight === undefined)
+    {
+        toolBarHeight = -8;
+    }
+
     if (tabHeight===undefined) {
-        tabHeight = 0;
+        tabHeight = -8;
         notifHeight=0;
     }
+
     if ($('.vertical-tab').length > 0)
     {
         tabHeight = 10;
     }
-    var subTabHeight=tabHeight-13;
-    $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 170 - tabHeight ) + 'px');
+
+/*    $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 170 - tabHeight ) + 'px');
+
     var x = $(".dynamicParentId1").parent().height();
-    $('.dynamic-height-level2').css('height', (x - 153 -(tabHeight-subTabHeight )  ) + 'px');
-    $('.dynamic-height-level2-2').css('height', (x - 110 -tabHeight-subTabHeight ) + 'px');
+    $('.dynamic-height-level2').css('height', (x - 55 - (tabHeight  + toolBarHeight)) + 'px');
+    $('.dynamic-height-level2-2').css('height', (x - 166 - (tabHeight  + toolBarHeight)) + 'px');
+
     var x1 = $(".dynamicParentId2").parent().height();
-    $('.dynamic-height-level3').css('height', (x1 - 70 -tabHeight-subTabHeight  ) + 'px');
-    $('.dynamic-height-notif').css('height', (x - 40+notifHeight ) + 'px')
+    $('.dynamic-height-level3').css('height', (x1 - 126 - (tabHeight  + toolBarHeight)) + 'px');
+    $('.dynamic-height-notif').css('height', (x - 40 + notifHeight ) + 'px')*/
+
+    $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 180) + 'px');
+
+    var x = $(".dynamic-height-level1").height();
+    $('.dynamic-height-level2').css('height', (x - 125 - (tabHeight  + toolBarHeight)) + 'px');
+    //$('.dynamic-height-level2-2').css('height', (x - 166 - (tabHeight  + toolBarHeight)) + 'px');
+
+/*    var x1 = $(".dynamicParentId2").parent().height();
+    $('.dynamic-height-level3').css('height', (x1 - 126 - (tabHeight  + toolBarHeight)) + 'px');
+    $('.dynamic-height-notif').css('height', (x - 40 + notifHeight ) + 'px')*/
 }
 
 function datePicker(dateId){

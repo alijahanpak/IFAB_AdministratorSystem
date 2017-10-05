@@ -6,7 +6,7 @@
                 <div class="grid-x">
                     <nav aria-label="You are here:" role="navigation">
                         <ul class="breadcrumbs">
-                            <li><a href="">داشبورد</a></li>
+                            <li><router-link to="/budget">داشبورد</router-link></li>
                             <li>
                                 <a class="disabled">مدیریت</a>
                             </li>
@@ -18,7 +18,7 @@
                 </div>
             </div>
         </div>
-        <div class="grid-x my-callout-box container-mrg-top">
+        <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
             <div class="medium-12 column">
                 <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="sub_season_tab_view">
                     <li class="tabs-title is-active"><a href="#capital_assets" aria-selected="true">تملک دارایی سرمایه ای</a></li>
@@ -126,13 +126,13 @@
                         </div>
                     </modal-tiny>
                     <!--Tab 1-->
-                    <div class="tabs-panel is-active table-mrg-btm dynamic-height-level1" id="capital_assets"
+                    <div class="tabs-panel is-active table-mrg-btm" id="capital_assets"
                          xmlns:v-on="http://www.w3.org/1999/xhtml">
-                        <div class="dynamicParentId1">
+                        <div class="">
                             <div class="medium-12 bottom-mrg">
-                                <div class="clearfix border-btm-line bottom-mrg">
+                                <div class="clearfix border-btm-line bottom-mrg tool-bar">
                                     <div style="margin-top: 2px;" class="button-group float-right report-mrg">
-                                        <a class="my-button toolbox-btn small" @click="planOrCost = 1; showModal = true; errorMessage = ''">جدید</a>
+                                        <a class="my-button toolbox-btn small" @click="planOrCost = 0; showModal = true; errorMessage = ''">جدید</a>
                                         <a class="my-button toolbox-btn small">گزارش</a>
                                         <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش</button>
                                         <div style="width: 97px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
@@ -218,8 +218,8 @@
                     </div>
                     <!--Tab 1-->
                     <!--Tab 2-->
-                    <div class="tabs-panel table-mrg-btm dynamic-height-level1" id="cost" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                        <div class="dynamicParentId1">
+                    <div class="tabs-panel table-mrg-btm" id="cost" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                        <div class="">
                             <div class="medium-12 bottom-mrg">
                                 <div class="clearfix border-btm-line bottom-mrg">
                                     <div style="margin-top: 2px;" class="button-group float-right report-mrg">
@@ -356,7 +356,8 @@
             this.getSeasons();
         },
 
-        updated: function () {
+        mounted: function () {
+            console.log("mounted tiny season component");
             $(this.$el).foundation(); //WORKS!
             res();
         },

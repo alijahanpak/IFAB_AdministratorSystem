@@ -716,5 +716,11 @@ class BudgetAdminController extends Controller
             CreditDistributionRow::where('cdPlanOrCost' , $request->planOrCost)->get()
         );
     }
+
+    ///////////////////////////////// fiscal year api ////////////////////////////////
+    public function fetchFiscalYearData(Request $request)
+    {
+        return \response()->json(FiscalYear::paginate(5));
+    }
 }
 

@@ -141,30 +141,30 @@
                 </div>
                 <div style="margin: auto;padding: 20px 50px 20px 50px"  class="medium-8">
                     <form v-on:submit.prevent="login">
-                    <div class="grid-x">
-                        <div class="medium-12 columns padding-lr">
-                            <div class="alert callout">
-                                <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
+                        <div class="grid-x" v-show="errorMessage">
+                            <div class="medium-12 columns padding-lr">
+                                <div class="alert callout">
+                                    <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="medium-12 columns padding-lr">
-                            <label>نام کاربری
-                                <input class="form-element-margin-btm" type="text" name="user" v-model="authInfo.email" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('user')}">
-                            </label>
-                            <span v-show="errors.has('user')" class="error-font">لطفا نام کاربری را وارد کنید!</span>
+                        <div class="grid-x">
+                            <div class="medium-12 columns padding-lr">
+                                <label>نام کاربری
+                                    <input class="form-element-margin-btm" type="text" name="user" v-model="authInfo.email" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('user')}">
+                                </label>
+                                <span v-show="errors.has('user')" class="error-font">لطفا نام کاربری را وارد کنید!</span>
+                            </div>
+                            <div class="medium-12 columns padding-lr">
+                                <label>رمز عبور
+                                    <input class="form-element-margin-btm" type="password" name="pass" v-model="authInfo.password"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('pass')}">
+                                </label>
+                                <span v-show="errors.has('pass')" class="error-font">لطفا رمز عبور را وارد کنید!</span>
+                            </div>
+                            <div class="medium-12 padding-lr top-margin-element">
+                                <button name="submit" class="button my-button-master expanded">ورود</button>
+                            </div>
                         </div>
-                        <div class="medium-12 columns padding-lr">
-                            <label>رمز عبور
-                                <input class="form-element-margin-btm" type="password" name="pass" v-model="authInfo.password"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('pass')}">
-                            </label>
-                            <span v-show="errors.has('pass')" class="error-font">لطفا رمز عبور را وارد کنید!</span>
-                        </div>
-                        <div class="medium-12 padding-lr top-margin-element">
-                            <button name="submit" class="button my-button-master expanded">ورود</button>
-                        </div>
-                    </div>
                     </form>
                 </div>
             </div>
@@ -235,10 +235,8 @@
                                     <li><router-link to="/budget/admin/fiscal_year">سال مالی</router-link></li>
                                     <li><a href="">مناطق محروم</a></li>
                                     <li><a href="">توزیع اعتبار</a></li>
-                                    <li><a href="">ریز فصول</a></li>
+                                    <li><router-link to="/budget/admin/tiny_seasons">ریز فصول</router-link></li>
                                     <li><a href="">ردیف توزیع اعتبار</a></li>
-                                    <li><router-link to="/budget">داشبورد</router-link></li>
-                                    <li><router-link to="/budget/admin/tiny_seasons">ریز فصل</router-link></li>
                                 </ul>
                             </li>
                         </ul>

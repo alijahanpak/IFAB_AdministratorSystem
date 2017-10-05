@@ -8,7 +8,7 @@ window.Vue.use(Vuex);
 ///////////////////////////// router ///////////////////////////////////
 import dashboard from './components/Budget/Dashboard.vue'
 import tiny_seasons from './components/Budget/Admin/tiny_seasons.vue'
-import fiscal_year from './components/Budget/Admin/fiscalYear.vue'
+import fiscal_year from './components/Budget/Admin/fiscal_year.vue'
 //export router instance
 const routes = [
     { path: '/budget', component: dashboard },

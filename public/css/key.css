@@ -516,6 +516,7 @@ a:focus,button:focus {
 }
 .table-mrg-btm{
     margin-bottom: -16px;
+    padding-bottom: 0;
 }
 .user-menu{
     color: #333;
@@ -767,7 +768,6 @@ html, body {
 .dynamic-height-level1{
     /*height: calc(100vh - 56px);*/
     width:100%;
-    height: 100%;
 }
 .dynamic-height-level2{
     width:100%;

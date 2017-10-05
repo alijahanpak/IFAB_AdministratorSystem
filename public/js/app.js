@@ -64874,7 +64874,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(96);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Budget_Dashboard_vue__ = __webpack_require__(97);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Budget_Admin_tiny_seasons_vue__ = __webpack_require__(100);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_Budget_Admin_fiscalYear_vue__ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_Budget_Admin_fiscal_year_vue__ = __webpack_require__(108);
 var _mutations;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -64891,7 +64891,7 @@ window.Vue.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 
 
 //export router instance
-var routes = [{ path: '/budget', component: __WEBPACK_IMPORTED_MODULE_2__components_Budget_Dashboard_vue__["a" /* default */] }, { path: '/budget/admin/tiny_seasons', component: __WEBPACK_IMPORTED_MODULE_3__components_Budget_Admin_tiny_seasons_vue__["a" /* default */] }, { path: '/budget/admin/fiscal_year', component: __WEBPACK_IMPORTED_MODULE_4__components_Budget_Admin_fiscalYear_vue__["a" /* default */] }];
+var routes = [{ path: '/budget', component: __WEBPACK_IMPORTED_MODULE_2__components_Budget_Dashboard_vue__["a" /* default */] }, { path: '/budget/admin/tiny_seasons', component: __WEBPACK_IMPORTED_MODULE_3__components_Budget_Admin_tiny_seasons_vue__["a" /* default */] }, { path: '/budget/admin/fiscal_year', component: __WEBPACK_IMPORTED_MODULE_4__components_Budget_Admin_fiscal_year_vue__["a" /* default */] }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
     routes: routes
@@ -69297,7 +69297,8 @@ if (false) {(function () {
         this.getSeasons();
     },
 
-    updated: function updated() {
+    mounted: function mounted() {
+        console.log("mounted tiny season component");
         $(this.$el).foundation(); //WORKS!
         res();
     },
@@ -69608,11 +69609,28 @@ if (false) {
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "medium-10 border-right-line inner-body-pad main-margin"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "grid-x my-callout-box container-mrg-top"
+  }, [_c('div', {
+    staticClass: "grid-x padding-lr"
+  }, [_c('div', {
+    staticClass: "medium-12"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('nav', {
+    attrs: {
+      "aria-label": "You are here:",
+      "role": "navigation"
+    }
+  }, [_c('ul', {
+    staticClass: "breadcrumbs"
+  }, [_c('li', [_c('router-link', {
+    attrs: {
+      "to": "/budget"
+    }
+  }, [_vm._v("داشبورد")])], 1), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1)])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x my-callout-box container-mrg-top dynamic-height-level1"
   }, [_c('div', {
     staticClass: "medium-12 column"
-  }, [_vm._m(1), _vm._v(" "), _c('div', {
+  }, [_vm._m(2), _vm._v(" "), _c('div', {
     staticClass: "tabs-content",
     attrs: {
       "data-tabs-content": "sub_season_tab_view"
@@ -69951,17 +69969,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "click": _vm.deleteTinySeason
     }
   }, [_vm._v("بله")])])])])])]) : _vm._e(), _vm._v(" "), _c('div', {
-    staticClass: "tabs-panel is-active table-mrg-btm dynamic-height-level1",
+    staticClass: "tabs-panel is-active table-mrg-btm",
     attrs: {
       "id": "capital_assets",
       "xmlns:v-on": "http://www.w3.org/1999/xhtml"
     }
-  }, [_c('div', {
-    staticClass: "dynamicParentId1"
-  }, [_c('div', {
+  }, [_c('div', {}, [_c('div', {
     staticClass: "medium-12 bottom-mrg"
   }, [_c('div', {
-    staticClass: "clearfix border-btm-line bottom-mrg"
+    staticClass: "clearfix border-btm-line bottom-mrg tool-bar"
   }, [_c('div', {
     staticClass: "button-group float-right report-mrg",
     staticStyle: {
@@ -69971,7 +69987,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "my-button toolbox-btn small",
     on: {
       "click": function($event) {
-        _vm.planOrCost = 1;
+        _vm.planOrCost = 0;
         _vm.showModal = true;
         _vm.errorMessage = ''
       }
@@ -69984,9 +70000,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "type": "button",
       "data-toggle": "assetsDropDown"
     }
-  }, [_vm._v("تعداد نمایش")]), _vm._v(" "), _vm._m(2)]), _vm._v(" "), _vm._m(3)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("تعداد نمایش")]), _vm._v(" "), _vm._m(3)]), _vm._v(" "), _vm._m(4)]), _vm._v(" "), _c('div', {
     staticClass: "columns"
-  }, [_vm._m(4), _vm._v(" "), _c('div', {
+  }, [_vm._m(5), _vm._v(" "), _c('div', {
     staticClass: "table-contain dynamic-height-level2"
   }, _vm._l((_vm.tinySeasons), function(season) {
     return _c('div', {
@@ -70069,14 +70085,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }
   })], 1)])])])])]), _vm._v(" "), _c('div', {
-    staticClass: "tabs-panel table-mrg-btm dynamic-height-level1",
+    staticClass: "tabs-panel table-mrg-btm",
     attrs: {
       "id": "cost",
       "xmlns:v-on": "http://www.w3.org/1999/xhtml"
     }
-  }, [_c('div', {
-    staticClass: "dynamicParentId1"
-  }, [_c('div', {
+  }, [_c('div', {}, [_c('div', {
     staticClass: "medium-12 bottom-mrg"
   }, [_c('div', {
     staticClass: "clearfix border-btm-line bottom-mrg"
@@ -70102,9 +70116,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "type": "button",
       "data-toggle": "costDropDown"
     }
-  }, [_vm._v("تعداد نمایش")]), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("تعداد نمایش")]), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _vm._m(7)]), _vm._v(" "), _c('div', {
     staticClass: "columns"
-  }, [_vm._m(7), _vm._v(" "), _c('div', {
+  }, [_vm._m(8), _vm._v(" "), _c('div', {
     staticClass: "table-contain dynamic-height-level2"
   }, _vm._l((_vm.tinySeasonsCost), function(season) {
     return _c('div', {
@@ -70196,28 +70210,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   })], 1)])])])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "grid-x padding-lr"
-  }, [_c('div', {
-    staticClass: "medium-12"
-  }, [_c('div', {
-    staticClass: "grid-x"
-  }, [_c('nav', {
-    attrs: {
-      "aria-label": "You are here:",
-      "role": "navigation"
-    }
-  }, [_c('ul', {
-    staticClass: "breadcrumbs"
-  }, [_c('li', [_c('a', {
-    attrs: {
-      "href": ""
-    }
-  }, [_vm._v("داشبورد")])]), _vm._v(" "), _c('li', [_c('a', {
+  return _c('li', [_c('a', {
     staticClass: "disabled"
-  }, [_vm._v("مدیریت")])]), _vm._v(" "), _c('li', [_c('span', {
+  }, [_vm._v("مدیریت")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', [_c('span', {
     staticClass: "show-for-sr"
-  }, [_vm._v("Current: ")]), _vm._v("ریز فصول\n                        ")])])])])])])
+  }, [_vm._v("Current: ")]), _vm._v("ریز فصول\n                        ")])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('ul', {
     staticClass: "tabs tab-color my-tab-style",
@@ -70409,12 +70408,15 @@ if (false) {
 }
 
 /***/ }),
-/* 105 */
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_fiscalYear_vue__ = __webpack_require__(106);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_1236e206_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_fiscalYear_vue__ = __webpack_require__(107);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_fiscal_year_vue__ = __webpack_require__(109);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_f3e8e37a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_fiscal_year_vue__ = __webpack_require__(110);
 var disposed = false
 var normalizeComponent = __webpack_require__(8)
 /* script */
@@ -70428,15 +70430,15 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_fiscalYear_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_1236e206_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_fiscalYear_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_fiscal_year_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_f3e8e37a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_fiscal_year_vue__["a" /* default */],
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Budget/Admin/fiscalYear.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Admin/fiscal_year.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] fiscalYear.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] fiscal_year.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -70445,9 +70447,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1236e206", Component.options)
+    hotAPI.createRecord("data-v-f3e8e37a", Component.options)
   } else {
-    hotAPI.reload("data-v-1236e206", Component.options)
+    hotAPI.reload("data-v-f3e8e37a", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -70458,7 +70460,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 106 */
+/* 109 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -70527,11 +70529,50 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     data: function data() {
-        return {};
+        return {
+            fiscalYears: [],
+            fyActiveModal: false,
+            pagination: {
+                total: 0,
+                to: 0,
+                current_page: 1,
+                last_page: ''
+            }
+        };
     },
 
 
@@ -70539,7 +70580,8 @@ if (false) {(function () {
         this.fetchData();
     },
 
-    updated: function updated() {
+    mounted: function mounted() {
+        console.log("mounted fiscal year component");
         $(this.$el).foundation(); //WORKS!
         res();
     },
@@ -70550,40 +70592,45 @@ if (false) {(function () {
 
     methods: {
         fetchData: function fetchData() {
-            /*                this.$root.start();
-                            axios.get('/budget/admin/sub_seasons/fetchData?page=' + page , {params:{planOrCost: 0}})
-                                .then((response) => {
-                                    this.tinySeasons = response.data.data;
-                                    this.makePagination(response.data , "plan");
-                                    console.log(response.data);
-                                    this.$root.finish();
-                                },(error) => {
-                                    console.log(error);
-                                    this.$root.fail();
-                                });*/
+            var _this = this;
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            this.$root.start();
+            axios.get('/budget/admin/fiscal_year/fetchData?page=' + page).then(function (response) {
+                _this.fiscalYears = response.data.data;
+                _this.makePagination(response.data);
+                console.log(response.data);
+                _this.$root.finish();
+            }, function (error) {
+                console.log(error);
+                _this.$root.fail();
+            });
         },
 
-        makePagination: function makePagination(data, type) {
-            if (type == "cost") {
-                this.cost_pagination.current_page = data.current_page;
-                this.cost_pagination.to = data.to;
-                this.cost_pagination.last_page = data.last_page;
-            } else if (type == "plan") {
-                this.plan_pagination.current_page = data.current_page;
-                this.plan_pagination.to = data.to;
-                this.plan_pagination.last_page = data.last_page;
+        makePagination: function makePagination(data) {
+            this.pagination.current_page = data.current_page;
+            this.pagination.to = data.to;
+            this.pagination.last_page = data.last_page;
+        },
+
+        getFiscalYearStatus: function getFiscalYearStatus(status) {
+            if (status == 0) {
+                return 'غیر فعال';
+            } else if (status == 1) {
+                return 'فعال';
+            } else if (status == 2) {
+                return 'بسته شده';
             }
         },
 
         displayNotif: function displayNotif(httpStatusCode) {
             switch (httpStatusCode) {
                 case 204:
-                    this.$notify({ group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
+                    this.$notify({ group: 'fiscalYearPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
                     break;
                 case 200:
-                    this.$notify({ group: 'tinySeasonPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
+                    this.$notify({ group: 'fiscalYearPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
                     break;
             }
         }
@@ -70591,14 +70638,11 @@ if (false) {(function () {
 });
 
 /***/ }),
-/* 107 */
+/* 110 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-}
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "medium-10 border-right-line inner-body-pad main-margin"
   }, [_c('div', {
@@ -70614,25 +70658,110 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }, [_c('ul', {
     staticClass: "breadcrumbs"
-  }, [_c('li', [_c('a', {
+  }, [_c('li', [_c('router-link', {
     attrs: {
-      "href": ""
+      "to": "/budget"
     }
-  }, [_vm._v("داشبورد")])]), _vm._v(" "), _c('li', [_c('a', {
-    staticClass: "disabled"
-  }, [_vm._v("مدیریت")])]), _vm._v(" "), _c('li', [_c('span', {
-    staticClass: "show-for-sr"
-  }, [_vm._v("Current: ")]), _vm._v("ریز فصول\n                        ")])])])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("داشبورد")])], 1), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1)])])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x my-callout-box container-mrg-top dynamic-height-level1"
   }, [_c('div', {
     staticClass: "medium-12 column"
   }, [_c('div', {
-    staticClass: "dynamicParentId1"
-  }, [_c('div', {
     staticClass: "tabs-panel is-active table-mrg-btm"
   }, [_c('div', {
     staticClass: "columns"
+  }, [_vm._m(2), _vm._v(" "), _c('div', {
+    staticClass: "table-contain dynamic-height-level2"
+  }, _vm._l((_vm.fiscalYears), function(fiscalYear) {
+    return _c('div', {
+      staticClass: "grid-x"
+    }, [_c('div', {
+      staticClass: "medium-2 table-contain-border cell-vertical-center"
+    }, [_vm._v(_vm._s(fiscalYear.fyLabel))]), _vm._v(" "), _c('div', {
+      staticClass: "medium-4 table-contain-border cell-vertical-center"
+    }, [_vm._v(_vm._s(fiscalYear.fyDescription))]), _vm._v(" "), _c('div', {
+      staticClass: "medium-2 table-contain-border cell-vertical-center"
+    }, [_vm._v(_vm._s(_vm.getFiscalYearStatus(fiscalYear.fyStatus)))]), _vm._v(" "), _c('div', {
+      staticClass: "medium-2 table-contain-border cell-vertical-center text-center"
+    }), _vm._v(" "), _c('div', {
+      staticClass: "medium-2 table-contain-border cell-vertical-center text-center"
+    }, [_c('div', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (fiscalYear.fyStatus == 0),
+        expression: "fiscalYear.fyStatus == 0"
+      }]
+    }, [_c('a', {
+      on: {
+        "click": function($event) {
+          _vm.fyActiveModal = true
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fi-checkbox size-21 edit-pencil"
+    })])])])])
+  })), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
   }, [_c('div', {
+    staticClass: "medium-12"
+  }, [_c('vue-pagination', {
+    attrs: {
+      "pagination": _vm.pagination,
+      "offset": 4
+    },
+    nativeOn: {
+      "click": function($event) {
+        _vm.fetchData(_vm.pagination.current_page)
+      }
+    }
+  })], 1)])])]), _vm._v(" "), _c('notifications', {
+    attrs: {
+      "group": "tinySeasonPm",
+      "position": "bottom right",
+      "animation-type": "velocity",
+      "speed": 700
+    }
+  })], 1)]), _vm._v(" "), (_vm.fyActiveModal) ? _c('modal-tiny', {
+    on: {
+      "close": function($event) {
+        _vm.fyActiveModal = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('div', {
+    staticClass: "small-font",
+    attrs: {
+      "xmlns:v-on": "http://www.w3.org/1999/xhtml"
+    }
+  }, [_c('p', [_vm._v("کاربر گرامی")]), _vm._v(" "), _c('p', {
+    staticClass: "large-offset-1 modal-text"
+  }, [_vm._v("آیا مایل به فعال سازی سال مالی "), _c('span', [_vm._v(".............")]), _vm._v("هستید؟")]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-6 text-center"
+  }, [_c('a', {
+    staticClass: "button primary btn-large-w"
+  }, [_vm._v("بله")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 text-center"
+  }, [_c('a', {
+    staticClass: "button primary hollow btn-large-w"
+  }, [_vm._v("خیر")])])])])])]) : _vm._e()], 1)
+}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', [_c('a', {
+    staticClass: "disabled"
+  }, [_vm._v("مدیریت")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', [_c('span', {
+    staticClass: "show-for-sr"
+  }, [_vm._v("Current: ")]), _vm._v("سال مالی\n                        ")])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "grid-x table-header"
   }, [_c('div', {
     staticClass: "medium-2 table-border"
@@ -70644,21 +70773,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "medium-2 table-border"
   }, [_c('strong', [_vm._v("مجوزها")])]), _vm._v(" "), _c('div', {
     staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("فعالسازی")])])]), _vm._v(" "), _c('div', {
-    staticClass: "table-contain dynamic-height-level2"
-  }, [_c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-2 table-contain-border cell-vertical-center"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "medium-4 table-contain-border cell-vertical-center"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-contain-border cell-vertical-center"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-contain-border cell-vertical-center text-center"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-contain-border cell-vertical-center text-center"
-  })])])])])])])])])
+  }, [_c('strong', [_vm._v("فعالسازی")])])])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
@@ -70666,7 +70781,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-1236e206", esExports)
+     require("vue-hot-reload-api").rerender("data-v-f3e8e37a", esExports)
   }
 }
 

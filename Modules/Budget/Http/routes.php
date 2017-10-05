@@ -34,7 +34,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::post('credit_distribution_def/plan_title/update', 'BudgetAdminController@updatePlanTitle');
         Route::get('credit_distribution_def/plan_title/delete/{cdptId}', 'BudgetAdminController@deletePlanTitle');
         //////////////////////////////////////////////////////////////////////
-        Route::get('sub_seasons', 'BudgetAdminController@subSeasons');
+/*        Route::get('sub_seasons', 'BudgetAdminController@subSeasons');
         //Route::post('sub_seasons/register', 'BudgetAdminController@registerSubSeason');
         Route::get('sub_seasons/delete/{ssId}', 'BudgetAdminController@deleteSubSeason');
         Route::get('sub_seasons/SSIsExist/{sId}/{tsSubject}/{tsId?}', 'BudgetAdminController@SSIsExist');
@@ -43,7 +43,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::get('sub_seasons/fetchData', 'BudgetAdminController@FetchTinySeasonData');
         Route::post('sub_seasons/register', 'BudgetAdminController@registerTinySeason');
         Route::post('sub_seasons/update', 'BudgetAdminController@updateTinySeason');
-        Route::post('sub_seasons/delete', 'BudgetAdminController@deleteTinySeason');
+        Route::post('sub_seasons/delete', 'BudgetAdminController@deleteTinySeason');*/
 
         Route::get('sub_seasons/get_tiny_seasons_whit_season_id', 'BudgetAdminController@getTinySeasonsWhitSeasonId');
         ///////////////////////////////////////////////////////////////////////
@@ -103,6 +103,13 @@ Route::group(['middleware' => 'api', 'prefix' => 'budget', 'namespace' => 'Modul
 {
     Route::prefix('admin/sub_seasons')->group(function () {
         Route::get('/fetchData', 'BudgetAdminController@FetchTinySeasonData')->middleware('auth_api:api');
+        Route::post('/register', 'BudgetAdminController@registerTinySeason')->middleware('auth_api:api');
+        Route::post('/update', 'BudgetAdminController@updateTinySeason')->middleware('auth_api:api');
+        Route::post('/delete', 'BudgetAdminController@deleteTinySeason')->middleware('auth_api:api');
+    });
+
+    Route::prefix('admin/fiscal_year')->group(function () {
+        Route::get('/fetchData', 'BudgetAdminController@fetchFiscalYearData')->middleware('auth_api:api');
         Route::post('/register', 'BudgetAdminController@registerTinySeason')->middleware('auth_api:api');
         Route::post('/update', 'BudgetAdminController@updateTinySeason')->middleware('auth_api:api');
         Route::post('/delete', 'BudgetAdminController@deleteTinySeason')->middleware('auth_api:api');
