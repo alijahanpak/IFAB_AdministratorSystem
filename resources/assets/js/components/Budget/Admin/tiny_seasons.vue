@@ -1,7 +1,7 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <!--Inner body start-->
     <div class="medium-10 border-right-line inner-body-pad main-margin">
-        <div class="grid-x padding-lr">
+        <div style="padding-top: 15px;" class="grid-x padding-lr">
             <div class="medium-12">
                 <div class="grid-x">
                     <nav aria-label="You are here:" role="navigation">
@@ -63,7 +63,7 @@
                                     </div>
                                 </div>
                                 <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                    <button name="Submit" class="my-secondary button float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                    <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
                                 </div>
                             </form>
                         </div>
@@ -134,11 +134,11 @@
                                     <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                         <a class="my-button toolbox-btn small" @click="planOrCost = 0; showModal = true; errorMessage = ''">جدید</a>
                                         <a class="my-button toolbox-btn small">گزارش</a>
-                                        <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش</button>
-                                        <div style="width: 97px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
-                                            <ul class="my-menu small-font float-left">
+                                        <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
+                                        <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
+                                            <ul class="my-menu small-font ltr-dir">
                                                 <li><a  href="#">10</a></li>
-                                                <li><a  href="#"><span class="fi-check checked-color size-14"></span>20</a></li>
+                                                <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
                                                 <li><a  href="#">30</a></li>
                                                 <li><a  href="#">50</a></li>
                                                 <li><a  href="#">100</a></li>
@@ -150,7 +150,7 @@
                                         <div class="input-group float-left">
                                             <input class="input-group-field small-font" type="text">
                                             <div class="input-group-button">
-                                                <button type="button" class="purple-btn button"><i class="fi-magnifying-glass"></i></button>
+                                                <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -225,11 +225,11 @@
                                     <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                         <a class="my-button toolbox-btn small" @click="planOrCost = 1; showModal = true; errorMessage = ''">جدید</a>
                                         <a class="my-button toolbox-btn small">گزارش</a>
-                                        <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="costDropDown">تعداد نمایش</button>
-                                        <div style="width: 100px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="costDropDown" data-dropdown data-auto-focus="true">
-                                            <ul class="my-menu small-font float-left">
+                                        <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="costDropDown">تعداد نمایش<span> 20 </span></button>
+                                        <div style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="costDropDown" data-dropdown data-auto-focus="true">
+                                            <ul class="my-menu small-font ltr-dir">
                                                 <li><a  href="#">10</a></li>
-                                                <li><a  href="#"><span class="fi-check checked-color size-14"></span>20</a></li>
+                                                <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
                                                 <li><a  href="#">30</a></li>
                                                 <li><a  href="#">50</a></li>
                                                 <li><a  href="#">100</a></li>
@@ -241,7 +241,7 @@
                                         <div class="input-group float-left">
                                             <input class="input-group-field small-font" type="text">
                                             <div class="input-group-button">
-                                                <button type="button" class="purple-btn button"><i class="fi-magnifying-glass"></i></button>
+                                                <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
                                             </div>
                                         </div>
                                     </div>

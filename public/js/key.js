@@ -60,7 +60,7 @@ function res() {
     $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 180) + 'px');
 
     var x = $(".dynamic-height-level1").height();
-    $('.dynamic-height-level2').css('height', (x - 125 - (tabHeight  + toolBarHeight)) + 'px');
+    $('.dynamic-height-level2').css('height', (x - 135 - (tabHeight  + toolBarHeight)) + 'px');
     //$('.dynamic-height-level2-2').css('height', (x - 166 - (tabHeight  + toolBarHeight)) + 'px');
 
 /*    var x1 = $(".dynamicParentId2").parent().height();

@@ -69613,7 +69613,10 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   return _c('div', {
     staticClass: "medium-10 border-right-line inner-body-pad main-margin"
   }, [_c('div', {
-    staticClass: "grid-x padding-lr"
+    staticClass: "grid-x padding-lr",
+    staticStyle: {
+      "padding-top": "15px"
+    }
   }, [_c('div', {
     staticClass: "medium-12"
   }, [_c('div', {
@@ -69785,7 +69788,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6 columns padding-lr padding-bottom-modal"
   }, [_c('button', {
-    staticClass: "my-secondary button float-left btn-for-load",
+    staticClass: "my-button my-success float-left btn-for-load",
     attrs: {
       "name": "Submit"
     }
@@ -69997,15 +70000,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")]), _vm._v(" "), _c('button', {
-    staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
-    attrs: {
-      "type": "button",
-      "data-toggle": "assetsDropDown"
-    }
-  }, [_vm._v("تعداد نمایش")]), _vm._v(" "), _vm._m(3)]), _vm._v(" "), _vm._m(4)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(3), _vm._v(" "), _vm._m(4)]), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _c('div', {
     staticClass: "columns"
-  }, [_vm._m(5), _vm._v(" "), _c('div', {
+  }, [_vm._m(6), _vm._v(" "), _c('div', {
     staticClass: "table-contain dynamic-height-level2"
   }, _vm._l((_vm.tinySeasons), function(season) {
     return _c('div', {
@@ -70113,15 +70110,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")]), _vm._v(" "), _c('button', {
-    staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
-    attrs: {
-      "type": "button",
-      "data-toggle": "costDropDown"
-    }
-  }, [_vm._v("تعداد نمایش")]), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _vm._m(7)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(7), _vm._v(" "), _vm._m(8)]), _vm._v(" "), _vm._m(9)]), _vm._v(" "), _c('div', {
     staticClass: "columns"
-  }, [_vm._m(8), _vm._v(" "), _c('div', {
+  }, [_vm._m(10), _vm._v(" "), _c('div', {
     staticClass: "table-contain dynamic-height-level2"
   }, _vm._l((_vm.tinySeasonsCost), function(season) {
     return _c('div', {
@@ -70242,10 +70233,18 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }, [_vm._v("هزینه ای")])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
+    attrs: {
+      "type": "button",
+      "data-toggle": "assetsDropDown"
+    }
+  }, [_vm._v("تعداد نمایش"), _c('span', [_vm._v(" 20 ")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "dropdown-pane dropdown-pane-sm ",
     staticStyle: {
-      "width": "97px"
+      "width": "113px"
     },
     attrs: {
       "data-close-on-click": "true",
@@ -70258,7 +70257,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "data-auto-focus": "true"
     }
   }, [_c('ul', {
-    staticClass: "my-menu small-font float-left"
+    staticClass: "my-menu small-font ltr-dir"
   }, [_c('li', [_c('a', {
     attrs: {
       "href": "#"
@@ -70267,9 +70266,9 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     attrs: {
       "href": "#"
     }
-  }, [_c('span', {
+  }, [_vm._v("20"), _c('span', {
     staticClass: "fi-check checked-color size-14"
-  }), _vm._v("20")])]), _vm._v(" "), _c('li', [_c('a', {
+  })])]), _vm._v(" "), _c('li', [_c('a', {
     attrs: {
       "href": "#"
     }
@@ -70299,7 +70298,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }), _vm._v(" "), _c('div', {
     staticClass: "input-group-button"
   }, [_c('button', {
-    staticClass: "purple-btn button",
+    staticClass: "my-button my-brand",
     attrs: {
       "type": "button"
     }
@@ -70321,10 +70320,18 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "medium-6  table-border"
   }, [_c('strong', [_vm._v("شرح")])])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
+    attrs: {
+      "type": "button",
+      "data-toggle": "costDropDown"
+    }
+  }, [_vm._v("تعداد نمایش"), _c('span', [_vm._v(" 20 ")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "dropdown-pane dropdown-pane-sm ",
     staticStyle: {
-      "width": "100px"
+      "width": "113px"
     },
     attrs: {
       "data-close-on-click": "true",
@@ -70337,7 +70344,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "data-auto-focus": "true"
     }
   }, [_c('ul', {
-    staticClass: "my-menu small-font float-left"
+    staticClass: "my-menu small-font ltr-dir"
   }, [_c('li', [_c('a', {
     attrs: {
       "href": "#"
@@ -70346,9 +70353,9 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     attrs: {
       "href": "#"
     }
-  }, [_c('span', {
+  }, [_vm._v("20"), _c('span', {
     staticClass: "fi-check checked-color size-14"
-  }), _vm._v("20")])]), _vm._v(" "), _c('li', [_c('a', {
+  })])]), _vm._v(" "), _c('li', [_c('a', {
     attrs: {
       "href": "#"
     }
@@ -70378,7 +70385,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }), _vm._v(" "), _c('div', {
     staticClass: "input-group-button"
   }, [_c('button', {
-    staticClass: "purple-btn button",
+    staticClass: "my-button my-brand",
     attrs: {
       "type": "button"
     }
