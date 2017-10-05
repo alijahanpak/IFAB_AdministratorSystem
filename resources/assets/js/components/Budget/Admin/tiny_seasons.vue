@@ -356,9 +356,12 @@
             this.getSeasons();
         },
 
+        updated: function () {
+            $(this.$el).foundation(); //WORKS!
+        },
+
         mounted: function () {
             console.log("mounted tiny season component");
-            $(this.$el).foundation(); //WORKS!
             res();
         },
 

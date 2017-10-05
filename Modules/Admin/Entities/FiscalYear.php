@@ -25,7 +25,7 @@ class FiscalYear extends Model
         }
     }
 
-    public static function activation($fyId)
+    public static function activate($fyId)
     {
         $fiscalYear = FiscalYear::find($fyId);
         $fiscalYear->fyStatus = 1;

@@ -12,11 +12,11 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::get('deprived_area/DAIsExist/{coId}/{reId?}/{rdId?}/{viId?}', 'BudgetAdminController@DAIsExist');
         Route::get('deprived_area/DAIsExistForUpdate/{daId}/{coId}/{reId?}/{rdId?}/{viId?}', 'BudgetAdminController@DAIsExistForUpdate');
         /////////////////////////////////////////////////////////////////////
-        Route::get('fiscal_year', 'BudgetAdminController@fiscalYear');
-        Route::post('fiscal_year/activation', 'BudgetAdminController@fiscalYearActivation');
-        Route::get('fiscal_year/checkSectionPermissionState/{section}/{fyId}', 'BudgetAdminController@checkSectionPermissionState');
-        Route::get('fiscal_year/changeBudgetItemPermissionState/{pbId}/{state}', 'BudgetAdminController@changeBudgetItemPermissionState');
-        Route::get('fiscal_year/changeSectionPermissionState/{section}/{fyId}/{state}', 'BudgetAdminController@changeSectionPermissionState');
+        //Route::get('fiscal_year', 'BudgetAdminController@fiscalYear');
+        //Route::post('fiscal_year/activation', 'BudgetAdminController@fiscalYearActivation');
+        //Route::get('fiscal_year/checkSectionPermissionState/{section}/{fyId}', 'BudgetAdminController@checkSectionPermissionState');
+        //Route::get('fiscal_year/changeBudgetItemPermissionState/{pbId}/{state}', 'BudgetAdminController@changeBudgetItemPermissionState');
+        //Route::get('fiscal_year/changeSectionPermissionState/{section}/{fyId}/{state}', 'BudgetAdminController@changeSectionPermissionState');
         //////////////////////////////////////////////////////////////////////
         Route::get('credit_distribution_def', 'BudgetAdminController@creditDistributionDef');
         Route::post('credit_distribution_def/rows/register', 'BudgetAdminController@registerCreditDistributionRow');
@@ -110,8 +110,12 @@ Route::group(['middleware' => 'api', 'prefix' => 'budget', 'namespace' => 'Modul
 
     Route::prefix('admin/fiscal_year')->group(function () {
         Route::get('/fetchData', 'BudgetAdminController@fetchFiscalYearData')->middleware('auth_api:api');
+        Route::get('/getFyPermissionInBudget', 'BudgetAdminController@getFyPermissionInBudget')->middleware('auth_api:api');
+        Route::post('/changeSectionPermissionState', 'BudgetAdminController@changeSectionPermissionState')->middleware('auth_api:api');
+        Route::post('/changeBudgetItemPermissionState', 'BudgetAdminController@changeBudgetItemPermissionState');
         Route::post('/register', 'BudgetAdminController@registerTinySeason')->middleware('auth_api:api');
         Route::post('/update', 'BudgetAdminController@updateTinySeason')->middleware('auth_api:api');
         Route::post('/delete', 'BudgetAdminController@deleteTinySeason')->middleware('auth_api:api');
+        Route::post('/activate', 'BudgetAdminController@fiscalYearActivate')->middleware('auth_api:api');
     });
 });

@@ -48,10 +48,13 @@
                                     <div class="medium-4 table-contain-border cell-vertical-center">{{ fiscalYear.fyDescription }}</div>
                                     <div class="medium-2 table-contain-border cell-vertical-center">{{ getFiscalYearStatus(fiscalYear.fyStatus) }}</div>
                                     <div class="medium-2 table-contain-border cell-vertical-center text-center">
+                                        <div v-show="fiscalYear.fyStatus != 0">
+                                            <a @click="openChangePermissionDialog(fiscalYear.id)"><i class="fi-clipboard-pencil size-21 blue-color"></i> </a>
+                                        </div>
                                     </div>
                                     <div class="medium-2 table-contain-border cell-vertical-center text-center">
                                         <div v-show="fiscalYear.fyStatus == 0">
-                                            <a @click="fyActiveModal = true"><i class="fi-checkbox size-21 edit-pencil"></i></a>
+                                            <a @click="openFyActiveRequestDialog(fiscalYear.fyLabel , fiscalYear.id)"><i class="fi-checkbox size-21 edit-pencil"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -67,29 +70,86 @@
                         </div>
                     </div>
                     <!--Tab 1 End-->
-                    <notifications group="tinySeasonPm"
+                    <notifications group="fiscalYearPm"
                                    position="bottom right"
                                    animation-type="velocity"
                                    :speed="700" />
             </div>
         </div>
         <!--modalFYActivate Start-->
-        <modal-tiny v-if="fyActiveModal" @close="fyActiveModal = false">
+        <modal-tiny v-if="showFyActiveModal" @close="showFyActiveModal = false">
             <div  slot="body">
                 <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <p>کاربر گرامی</p>
-                    <p class="large-offset-1 modal-text">آیا مایل به فعال سازی سال مالی <span>.............</span>هستید؟</p>
+                    <p class="large-offset-1 modal-text">آیا مایل به فعال سازی سال مالی <span>{{ fyLabel}}</span>هستید؟</p>
                     <div class="grid-x">
                         <div class="medium-6 text-center">
-                            <a class="button primary btn-large-w">بله</a>
+                            <a @click="sendFyActiveRequest" class="button primary btn-large-w">بله</a>
                         </div>
                         <div class="medium-6 text-center">
-                            <a class="button primary hollow btn-large-w">خیر</a>
+                            <a @click="showFyActiveModal = false" class="button primary hollow btn-large-w">خیر</a>
                         </div>
                     </div>
                 </div>
             </div>
         </modal-tiny>
+        <!--modalFyActivate end-->
+
+        <!--Modal Permission Start-->
+        <modal-large v-if="showChangePermissionDialog" @close="showChangePermissionDialog = false">
+            <div  slot="body">
+            <div class="small-font">
+                <div class="grid-x">
+                    <div class="medium-12 column">
+                        <ul class="accordion" data-accordion>
+                            <li class="accordion-item is-active" data-accordion-item>
+                                <a href="#" class="accordion-title">بودجه</a>
+                                <div class="accordion-content" data-tab-content >
+                                    <div style="margin-bottom: 20px;" class="grid-x column">
+                                        <div class="medium-12">
+                                            <div class="grid-x padding-lr">
+                                                <div class="medium-1">
+                                                    <div class="switch tiny">
+                                                        <input class="switch-input" id="budgetPermissionAllId" type="checkbox" autocomplete="off"  v-model="allPermissionSelectedSection.budget" @change="changeFySectionPermissionState('budget')">
+                                                        <label class="switch-paddle" for="budgetPermissionAllId">
+                                                            <span class="switch-active" aria-hidden="true">بلی</span>
+                                                            <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="medium-11">
+                                                    <p>همه موارد</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div v-for="(fyPIB , index) in fyPermissionInBudget" class="grid-x column">
+                                        <div class="medium-12">
+                                            <div class="grid-x padding-lr">
+                                                <div class="medium-2">
+                                                    <div class="switch tiny">
+                                                        <input class="switch-input" type="checkbox" :value="fyPIB.id" v-model="budgetPermissionState" :id="'budgetPermission' + fyPIB.id" @change="changeBudgetItemPermissionState(fyPIB.id)">
+                                                        <label class="switch-paddle" :for="'budgetPermission' + fyPIB.id">
+                                                            <span class="switch-active" aria-hidden="true">بلی</span>
+                                                            <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="medium-10">
+                                                    <p>{{ fyPIB.pbLabel }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </modal-large>
+        <!--Modal Permission End-->
     </div>
 </template>
 <script>
@@ -98,7 +158,13 @@
         data(){
             return {
                 fiscalYears: [],
-                fyActiveModal: false,
+                fyPermissionInBudget: {},
+                showFyActiveModal: false,
+                showChangePermissionDialog: false,
+                allPermissionSelectedSection: {budget: ''},
+                fyLabel: '',
+                fyActiveId: '',
+                budgetPermissionState: [],
                 pagination: {
                     total: 0,
                     to: 0,
@@ -112,9 +178,12 @@
             this.fetchData();
         },
 
+        updated: function () {
+            $(this.$el).foundation(); //WORKS!
+        },
+
         mounted: function () {
             console.log("mounted fiscal year component");
-            $(this.$el).foundation(); //WORKS!
             res();
         },
 
@@ -156,6 +225,99 @@
                 {
                     return 'بسته شده';
                 }
+            },
+
+            openFyActiveRequestDialog: function (label , fyId) {
+                this.fyLabel = label;
+                this.fyActiveId = fyId;
+                this.showFyActiveModal = true;
+            },
+
+            sendFyActiveRequest: function () {
+                this.$root.start();
+                axios.post('/budget/admin/fiscal_year/activate',{
+                    fyId: this.fyActiveId
+                })
+                    .then((response) => {
+                        this.fiscalYears = response.data.data;
+                        this.makePagination(response.data);
+                        this.showFyActiveModal = false;
+                        console.log(response.data);
+                        this.$root.finish();
+                        this.displayNotif(response.status);
+                    },(error) => {
+                        console.log(error);
+                        this.$root.fail();
+                    });
+            },
+
+            openChangePermissionDialog: function (fyId) {
+                this.fyActiveId = fyId;
+                this.getFyPermissionInBudget();
+                this.showChangePermissionDialog = true;
+            },
+
+            getFyPermissionInBudget: function () {
+                this.$root.start();
+                axios.get('/budget/admin/fiscal_year/getFyPermissionInBudget' , {params:{fyId: this.fyActiveId}})
+                    .then((response) => {
+                        var BPA_state = false;
+                        this.fyPermissionInBudget = response.data;
+                        this.fyPermissionInBudget.forEach(item => {
+                            if (item.pbStatus == 0)
+                            {
+                                this.allPermissionSelectedSection.budget = false;
+                                BPA_state = true;
+                            }
+                        });
+                        if (BPA_state == false)
+                        {
+                            this.allPermissionSelectedSection.budget = true;
+                        }
+                        console.log(response.data);
+                        this.$root.finish();
+                    },(error) => {
+                        console.log(error);
+                        this.$root.fail();
+                    });
+            },
+
+            changeFySectionPermissionState: function (section , fyId) {
+                switch (section){
+                    case "budget":
+                        this.$root.start();
+                        axios.post('/budget/admin/fiscal_year/changeSectionPermissionState',{
+                            fyId: this.fyActiveId,
+                            section: section,
+                            state: this.allPermissionSelectedSection.budget
+                        }).then((response) => {
+                                this.fyPermissionInBudget = response.data;
+                                console.log(response.data);
+                                this.$root.finish();
+                                this.displayNotif(response.status);
+                            },(error) => {
+                                console.log(error);
+                                this.$root.fail();
+                            });
+                        break;
+                }
+            },
+
+            changeBudgetItemPermissionState: function (pbId) {
+                alert(this.budgetPermissionState.includes(pbId));
+                this.$root.start();
+                axios.post('/budget/admin/fiscal_year/changeBudgetItemPermissionState',{
+                    pbId: pbId,
+                    state: this.budgetPermissionState.includes(pbId)
+                }).then((response) => {
+                    this.fyPermissionInBudget = response.data;
+                    console.log(response.data);
+                    this.$root.finish();
+                    this.displayNotif(response.status);
+                },(error) => {
+                    console.log(error);
+                    this.$root.fail();
+                });
             },
 
             displayNotif: function (httpStatusCode) {

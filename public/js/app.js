@@ -64874,7 +64874,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(96);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Budget_Dashboard_vue__ = __webpack_require__(97);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Budget_Admin_tiny_seasons_vue__ = __webpack_require__(100);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_Budget_Admin_fiscal_year_vue__ = __webpack_require__(108);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_Budget_Admin_fiscal_year_vue__ = __webpack_require__(105);
 var _mutations;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -69297,9 +69297,12 @@ if (false) {(function () {
         this.getSeasons();
     },
 
+    updated: function updated() {
+        $(this.$el).foundation(); //WORKS!
+    },
+
     mounted: function mounted() {
         console.log("mounted tiny season component");
-        $(this.$el).foundation(); //WORKS!
         res();
     },
 
@@ -70408,15 +70411,12 @@ if (false) {
 }
 
 /***/ }),
-/* 105 */,
-/* 106 */,
-/* 107 */,
-/* 108 */
+/* 105 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_fiscal_year_vue__ = __webpack_require__(109);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_f3e8e37a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_fiscal_year_vue__ = __webpack_require__(110);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_fiscal_year_vue__ = __webpack_require__(106);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_f3e8e37a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_fiscal_year_vue__ = __webpack_require__(107);
 var disposed = false
 var normalizeComponent = __webpack_require__(8)
 /* script */
@@ -70460,11 +70460,71 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 109 */
+/* 106 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__ = __webpack_require__(31);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -70565,7 +70625,13 @@ if (false) {(function () {
     data: function data() {
         return {
             fiscalYears: [],
-            fyActiveModal: false,
+            fyPermissionInBudget: {},
+            showFyActiveModal: false,
+            showChangePermissionDialog: false,
+            allPermissionSelectedSection: { budget: '' },
+            fyLabel: '',
+            fyActiveId: '',
+            budgetPermissionState: [],
             pagination: {
                 total: 0,
                 to: 0,
@@ -70580,9 +70646,12 @@ if (false) {(function () {
         this.fetchData();
     },
 
+    updated: function updated() {
+        $(this.$el).foundation(); //WORKS!
+    },
+
     mounted: function mounted() {
         console.log("mounted fiscal year component");
-        $(this.$el).foundation(); //WORKS!
         res();
     },
 
@@ -70624,6 +70693,103 @@ if (false) {(function () {
             }
         },
 
+        openFyActiveRequestDialog: function openFyActiveRequestDialog(label, fyId) {
+            this.fyLabel = label;
+            this.fyActiveId = fyId;
+            this.showFyActiveModal = true;
+        },
+
+        sendFyActiveRequest: function sendFyActiveRequest() {
+            var _this2 = this;
+
+            this.$root.start();
+            axios.post('/budget/admin/fiscal_year/activate', {
+                fyId: this.fyActiveId
+            }).then(function (response) {
+                _this2.fiscalYears = response.data.data;
+                _this2.makePagination(response.data);
+                _this2.showFyActiveModal = false;
+                console.log(response.data);
+                _this2.$root.finish();
+                _this2.displayNotif(response.status);
+            }, function (error) {
+                console.log(error);
+                _this2.$root.fail();
+            });
+        },
+
+        openChangePermissionDialog: function openChangePermissionDialog(fyId) {
+            this.fyActiveId = fyId;
+            this.getFyPermissionInBudget();
+            this.showChangePermissionDialog = true;
+        },
+
+        getFyPermissionInBudget: function getFyPermissionInBudget() {
+            var _this3 = this;
+
+            this.$root.start();
+            axios.get('/budget/admin/fiscal_year/getFyPermissionInBudget', { params: { fyId: this.fyActiveId } }).then(function (response) {
+                var BPA_state = false;
+                _this3.fyPermissionInBudget = response.data;
+                _this3.fyPermissionInBudget.forEach(function (item) {
+                    if (item.pbStatus == 0) {
+                        _this3.allPermissionSelectedSection.budget = false;
+                        BPA_state = true;
+                    }
+                });
+                if (BPA_state == false) {
+                    _this3.allPermissionSelectedSection.budget = true;
+                }
+                console.log(response.data);
+                _this3.$root.finish();
+            }, function (error) {
+                console.log(error);
+                _this3.$root.fail();
+            });
+        },
+
+        changeFySectionPermissionState: function changeFySectionPermissionState(section, fyId) {
+            var _this4 = this;
+
+            switch (section) {
+                case "budget":
+                    this.$root.start();
+                    axios.post('/budget/admin/fiscal_year/changeSectionPermissionState', {
+                        fyId: this.fyActiveId,
+                        section: section,
+                        state: this.allPermissionSelectedSection.budget
+                    }).then(function (response) {
+                        _this4.fyPermissionInBudget = response.data;
+                        console.log(response.data);
+                        _this4.$root.finish();
+                        _this4.displayNotif(response.status);
+                    }, function (error) {
+                        console.log(error);
+                        _this4.$root.fail();
+                    });
+                    break;
+            }
+        },
+
+        changeBudgetItemPermissionState: function changeBudgetItemPermissionState(pbId) {
+            var _this5 = this;
+
+            alert(this.budgetPermissionState.includes(pbId));
+            this.$root.start();
+            axios.post('/budget/admin/fiscal_year/changeBudgetItemPermissionState', {
+                pbId: pbId,
+                state: this.budgetPermissionState.includes(pbId)
+            }).then(function (response) {
+                _this5.fyPermissionInBudget = response.data;
+                console.log(response.data);
+                _this5.$root.finish();
+                _this5.displayNotif(response.status);
+            }, function (error) {
+                console.log(error);
+                _this5.$root.fail();
+            });
+        },
+
         displayNotif: function displayNotif(httpStatusCode) {
             switch (httpStatusCode) {
                 case 204:
@@ -70638,7 +70804,7 @@ if (false) {(function () {
 });
 
 /***/ }),
-/* 110 */
+/* 107 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -70683,7 +70849,22 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "medium-2 table-contain-border cell-vertical-center"
     }, [_vm._v(_vm._s(_vm.getFiscalYearStatus(fiscalYear.fyStatus)))]), _vm._v(" "), _c('div', {
       staticClass: "medium-2 table-contain-border cell-vertical-center text-center"
-    }), _vm._v(" "), _c('div', {
+    }, [_c('div', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (fiscalYear.fyStatus != 0),
+        expression: "fiscalYear.fyStatus != 0"
+      }]
+    }, [_c('a', {
+      on: {
+        "click": function($event) {
+          _vm.openChangePermissionDialog(fiscalYear.id)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fi-clipboard-pencil size-21 blue-color"
+    })])])]), _vm._v(" "), _c('div', {
       staticClass: "medium-2 table-contain-border cell-vertical-center text-center"
     }, [_c('div', {
       directives: [{
@@ -70695,7 +70876,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_c('a', {
       on: {
         "click": function($event) {
-          _vm.fyActiveModal = true
+          _vm.openFyActiveRequestDialog(fiscalYear.fyLabel, fiscalYear.id)
         }
       }
     }, [_c('i', {
@@ -70717,15 +70898,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   })], 1)])])]), _vm._v(" "), _c('notifications', {
     attrs: {
-      "group": "tinySeasonPm",
+      "group": "fiscalYearPm",
       "position": "bottom right",
       "animation-type": "velocity",
       "speed": 700
     }
-  })], 1)]), _vm._v(" "), (_vm.fyActiveModal) ? _c('modal-tiny', {
+  })], 1)]), _vm._v(" "), (_vm.showFyActiveModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
-        _vm.fyActiveModal = false
+        _vm.showFyActiveModal = false
       }
     }
   }, [_c('div', {
@@ -70740,17 +70921,195 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('p', [_vm._v("کاربر گرامی")]), _vm._v(" "), _c('p', {
     staticClass: "large-offset-1 modal-text"
-  }, [_vm._v("آیا مایل به فعال سازی سال مالی "), _c('span', [_vm._v(".............")]), _vm._v("هستید؟")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("آیا مایل به فعال سازی سال مالی "), _c('span', [_vm._v(_vm._s(_vm.fyLabel))]), _vm._v("هستید؟")]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-6 text-center"
   }, [_c('a', {
-    staticClass: "button primary btn-large-w"
+    staticClass: "button primary btn-large-w",
+    on: {
+      "click": _vm.sendFyActiveRequest
+    }
   }, [_vm._v("بله")])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6 text-center"
   }, [_c('a', {
-    staticClass: "button primary hollow btn-large-w"
-  }, [_vm._v("خیر")])])])])])]) : _vm._e()], 1)
+    staticClass: "button primary hollow btn-large-w",
+    on: {
+      "click": function($event) {
+        _vm.showFyActiveModal = false
+      }
+    }
+  }, [_vm._v("خیر")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showChangePermissionDialog) ? _c('modal-large', {
+    on: {
+      "close": function($event) {
+        _vm.showChangePermissionDialog = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('div', {
+    staticClass: "small-font"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 column"
+  }, [_c('ul', {
+    staticClass: "accordion",
+    attrs: {
+      "data-accordion": ""
+    }
+  }, [_c('li', {
+    staticClass: "accordion-item is-active",
+    attrs: {
+      "data-accordion-item": ""
+    }
+  }, [_c('a', {
+    staticClass: "accordion-title",
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("بودجه")]), _vm._v(" "), _c('div', {
+    staticClass: "accordion-content",
+    attrs: {
+      "data-tab-content": ""
+    }
+  }, [_c('div', {
+    staticClass: "grid-x column",
+    staticStyle: {
+      "margin-bottom": "20px"
+    }
+  }, [_c('div', {
+    staticClass: "medium-12"
+  }, [_c('div', {
+    staticClass: "grid-x padding-lr"
+  }, [_c('div', {
+    staticClass: "medium-1"
+  }, [_c('div', {
+    staticClass: "switch tiny"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.allPermissionSelectedSection.budget),
+      expression: "allPermissionSelectedSection.budget"
+    }],
+    staticClass: "switch-input",
+    attrs: {
+      "id": "budgetPermissionAllId",
+      "type": "checkbox",
+      "autocomplete": "off"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.allPermissionSelectedSection.budget) ? _vm._i(_vm.allPermissionSelectedSection.budget, null) > -1 : (_vm.allPermissionSelectedSection.budget)
+    },
+    on: {
+      "change": function($event) {
+        _vm.changeFySectionPermissionState('budget')
+      },
+      "__c": function($event) {
+        var $$a = _vm.allPermissionSelectedSection.budget,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.allPermissionSelectedSection.budget = $$a.concat([$$v]))
+          } else {
+            $$i > -1 && (_vm.allPermissionSelectedSection.budget = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.allPermissionSelectedSection.budget = $$c
+        }
+      }
+    }
+  }), _vm._v(" "), _c('label', {
+    staticClass: "switch-paddle",
+    attrs: {
+      "for": "budgetPermissionAllId"
+    }
+  }, [_c('span', {
+    staticClass: "switch-active",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("بلی")]), _vm._v(" "), _c('span', {
+    staticClass: "switch-inactive",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("خیر")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-11"
+  }, [_c('p', [_vm._v("همه موارد")])])])])]), _vm._v(" "), _vm._l((_vm.fyPermissionInBudget), function(fyPIB, index) {
+    return _c('div', {
+      staticClass: "grid-x column"
+    }, [_c('div', {
+      staticClass: "medium-12"
+    }, [_c('div', {
+      staticClass: "grid-x padding-lr"
+    }, [_c('div', {
+      staticClass: "medium-2"
+    }, [_c('div', {
+      staticClass: "switch tiny"
+    }, [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.budgetPermissionState),
+        expression: "budgetPermissionState"
+      }],
+      staticClass: "switch-input",
+      attrs: {
+        "type": "checkbox",
+        "id": 'budgetPermission' + fyPIB.id
+      },
+      domProps: {
+        "value": fyPIB.id,
+        "checked": Array.isArray(_vm.budgetPermissionState) ? _vm._i(_vm.budgetPermissionState, fyPIB.id) > -1 : (_vm.budgetPermissionState)
+      },
+      on: {
+        "change": function($event) {
+          _vm.changeBudgetItemPermissionState(fyPIB.id)
+        },
+        "__c": function($event) {
+          var $$a = _vm.budgetPermissionState,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = fyPIB.id,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (_vm.budgetPermissionState = $$a.concat([$$v]))
+            } else {
+              $$i > -1 && (_vm.budgetPermissionState = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            _vm.budgetPermissionState = $$c
+          }
+        }
+      }
+    }), _vm._v(" "), _c('label', {
+      staticClass: "switch-paddle",
+      attrs: {
+        "for": 'budgetPermission' + fyPIB.id
+      }
+    }, [_c('span', {
+      staticClass: "switch-active",
+      attrs: {
+        "aria-hidden": "true"
+      }
+    }, [_vm._v("بلی")]), _vm._v(" "), _c('span', {
+      staticClass: "switch-inactive",
+      attrs: {
+        "aria-hidden": "true"
+      }
+    }, [_vm._v("خیر")])])])]), _vm._v(" "), _c('div', {
+      staticClass: "medium-10"
+    }, [_c('p', [_vm._v(_vm._s(fyPIB.pbLabel))])])])])])
+  })], 2)])])])])])])]) : _vm._e()], 1)
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', [_c('a', {

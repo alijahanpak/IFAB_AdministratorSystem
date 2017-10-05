@@ -129,12 +129,12 @@ class BudgetAdminController extends Controller
         }
     }
 
-    public function fiscalYearActivation(Request $request)
+/*    public function fiscalYearActivation(Request $request)
     {
         FiscalYear::activation(Input::get('fyId'));
         SystemLog::setBudgetSubSystemAdminLog('فعالسازی سال مالی ' . FiscalYear::find(Input::get('fyId'))->fyLabel  );
         return Redirect::to(URL::previous());
-    }
+    }*/
 
     public function deleteDeprivedArea($dId)
     {
@@ -227,7 +227,7 @@ class BudgetAdminController extends Controller
         }
     }
 
-    function changeBudgetItemPermissionState($pbId , $state)
+/*    function changeBudgetItemPermissionState($pbId , $state)
     {
         if (\Illuminate\Support\Facades\Request::ajax())
         {
@@ -237,7 +237,7 @@ class BudgetAdminController extends Controller
             SystemLog::setBudgetSubSystemAdminLog('تغییر مجوز ' . $fyBudgetPermission->pbLabel . ' در سال مالی ' . FiscalYear::where('id' , '=' , $fyBudgetPermission->pbFyId)->value('fyLabel') . ' برای زیر سیستم بودجه.');
             return \Illuminate\Support\Facades\Response::json(['state' => true]);
         }
-    }
+    }*/
 
     function checkSectionPermissionState($section , $fyId)
     {
@@ -259,7 +259,7 @@ class BudgetAdminController extends Controller
         }
     }
 
-    function changeSectionPermissionState($section , $fyId , $state)
+/*    function changeSectionPermissionState($section , $fyId , $state)
     {
         if (\Illuminate\Support\Facades\Request::ajax())
         {
@@ -271,7 +271,7 @@ class BudgetAdminController extends Controller
                     return \Illuminate\Support\Facades\Response::json(['state' => true]);
             }
         }
-    }
+    }*/
 
     public function registerBudgetSeason(Request $request)
     {
@@ -720,7 +720,50 @@ class BudgetAdminController extends Controller
     ///////////////////////////////// fiscal year api ////////////////////////////////
     public function fetchFiscalYearData(Request $request)
     {
-        return \response()->json(FiscalYear::paginate(5));
+        return \response()->json($this->getAllFiscallYears());
+    }
+
+    public function getAllFiscallYears()
+    {
+        return FiscalYear::paginate(5);
+    }
+
+    public function fiscalYearActivate(Request $request)
+    {
+        FiscalYear::activate($request->fyId);
+        SystemLog::setBudgetSubSystemAdminLog('فعالسازی سال مالی ' . FiscalYear::find($request->fyId)->fyLabel);
+        return \response()->json($this->getAllFiscallYears());
+    }
+
+    public function getFyPermissionInBudget(Request $request)
+    {
+        return \response()->json($this->getBudgetPermissionWithFyId($request->fyId));
+    }
+
+    public function getBudgetPermissionWithFyId($fyId)
+    {
+        return FyPermissionInBudget::where('pbFyId' , '=' , $fyId)->get();
+    }
+
+    function changeSectionPermissionState(Request $request)
+    {
+        switch ($request->section)
+        {
+            case 'budget':
+                FyPermissionInBudget::where('pbFyId' , '=' , $request->fyId)->update(['pbStatus' => $request->state]);
+                SystemLog::setBudgetSubSystemAdminLog('تغییر مجوز های سال مالی ' . FiscalYear::where('id' , '=' , $request->fyId)->value('fyLabel') . ' در زیر سیستم بودجه.');
+                return \response()->json($this->getBudgetPermissionWithFyId($request->fyId));
+        }
+    }
+
+    function changeBudgetItemPermissionState(Request $request)
+    {
+        $fyBudgetPermission = FyPermissionInBudget::find($request->pbId);
+        $fyBudgetPermission->pbStatus = $request->state;
+        $fyBudgetPermission->save();
+        SystemLog::setBudgetSubSystemAdminLog('تغییر مجوز ' . $fyBudgetPermission->pbLabel . ' در سال مالی ' . FiscalYear::where('id' , '=' , $fyBudgetPermission->pbFyId)->value('fyLabel') . ' برای زیر سیستم بودجه.');
+        return \response()->json($this->getBudgetPermissionWithFyId($fyBudgetPermission->bpFyId));
+
     }
 }
 
