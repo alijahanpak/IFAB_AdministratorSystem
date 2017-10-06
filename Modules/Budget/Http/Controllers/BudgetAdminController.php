@@ -762,7 +762,7 @@ class BudgetAdminController extends Controller
         $fyBudgetPermission->pbStatus = $request->state;
         $fyBudgetPermission->save();
         SystemLog::setBudgetSubSystemAdminLog('تغییر مجوز ' . $fyBudgetPermission->pbLabel . ' در سال مالی ' . FiscalYear::where('id' , '=' , $fyBudgetPermission->pbFyId)->value('fyLabel') . ' برای زیر سیستم بودجه.');
-        return \response()->json($this->getBudgetPermissionWithFyId($fyBudgetPermission->bpFyId));
+        return \response()->json($this->getBudgetPermissionWithFyId($fyBudgetPermission->pbFyId));
 
     }
 }

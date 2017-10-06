@@ -70638,7 +70638,7 @@ if (false) {(function () {
             allPermissionSelectedSection: { budget: '' },
             fyLabel: '',
             fyActiveId: '',
-            budgetPermissionState: [],
+            budgetPermissionState: {},
             pagination: {
                 total: 0,
                 to: 0,
@@ -70739,11 +70739,13 @@ if (false) {(function () {
                 var BPA_state = false;
                 _this3.fyPermissionInBudget = response.data;
                 _this3.fyPermissionInBudget.forEach(function (item) {
+                    Vue.set(_this3.budgetPermissionState, item.id, item.pbStatus);
                     if (item.pbStatus == 0) {
                         _this3.allPermissionSelectedSection.budget = false;
                         BPA_state = true;
                     }
                 });
+
                 if (BPA_state == false) {
                     _this3.allPermissionSelectedSection.budget = true;
                 }
@@ -70781,11 +70783,10 @@ if (false) {(function () {
         changeBudgetItemPermissionState: function changeBudgetItemPermissionState(pbId) {
             var _this5 = this;
 
-            alert(this.budgetPermissionState.includes(pbId));
             this.$root.start();
             axios.post('/budget/admin/fiscal_year/changeBudgetItemPermissionState', {
                 pbId: pbId,
-                state: this.budgetPermissionState.includes(pbId)
+                state: this.budgetPermissionState[pbId]
             }).then(function (response) {
                 _this5.fyPermissionInBudget = response.data;
                 console.log(response.data);
@@ -71065,8 +71066,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: (_vm.budgetPermissionState),
-        expression: "budgetPermissionState"
+        value: (_vm.budgetPermissionState[fyPIB.id]),
+        expression: "budgetPermissionState[fyPIB.id]"
       }],
       staticClass: "switch-input",
       attrs: {
@@ -71074,27 +71075,26 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "id": 'budgetPermission' + fyPIB.id
       },
       domProps: {
-        "value": fyPIB.id,
-        "checked": Array.isArray(_vm.budgetPermissionState) ? _vm._i(_vm.budgetPermissionState, fyPIB.id) > -1 : (_vm.budgetPermissionState)
+        "checked": Array.isArray(_vm.budgetPermissionState[fyPIB.id]) ? _vm._i(_vm.budgetPermissionState[fyPIB.id], null) > -1 : (_vm.budgetPermissionState[fyPIB.id])
       },
       on: {
         "change": function($event) {
           _vm.changeBudgetItemPermissionState(fyPIB.id)
         },
         "__c": function($event) {
-          var $$a = _vm.budgetPermissionState,
+          var $$a = _vm.budgetPermissionState[fyPIB.id],
             $$el = $event.target,
             $$c = $$el.checked ? (true) : (false);
           if (Array.isArray($$a)) {
-            var $$v = fyPIB.id,
+            var $$v = null,
               $$i = _vm._i($$a, $$v);
             if ($$el.checked) {
-              $$i < 0 && (_vm.budgetPermissionState = $$a.concat([$$v]))
+              $$i < 0 && (_vm.budgetPermissionState[fyPIB.id] = $$a.concat([$$v]))
             } else {
-              $$i > -1 && (_vm.budgetPermissionState = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+              $$i > -1 && (_vm.budgetPermissionState[fyPIB.id] = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
             }
           } else {
-            _vm.budgetPermissionState = $$c
+            _vm.$set(_vm.budgetPermissionState, fyPIB.id, $$c)
           }
         }
       }

@@ -128,7 +128,7 @@
                                             <div class="grid-x padding-lr">
                                                 <div class="medium-2">
                                                     <div class="switch tiny">
-                                                        <input class="switch-input" type="checkbox" :value="fyPIB.id" v-model="budgetPermissionState" :id="'budgetPermission' + fyPIB.id" @change="changeBudgetItemPermissionState(fyPIB.id)">
+                                                        <input class="switch-input" type="checkbox" v-model="budgetPermissionState[fyPIB.id]" :id="'budgetPermission' + fyPIB.id" @change="changeBudgetItemPermissionState(fyPIB.id)">
                                                         <label class="switch-paddle" :for="'budgetPermission' + fyPIB.id">
                                                             <span class="switch-active" aria-hidden="true">بلی</span>
                                                             <span class="switch-inactive" aria-hidden="true">خیر</span>
@@ -164,7 +164,7 @@
                 allPermissionSelectedSection: {budget: ''},
                 fyLabel: '',
                 fyActiveId: '',
-                budgetPermissionState: [],
+                budgetPermissionState: {},
                 pagination: {
                     total: 0,
                     to: 0,
@@ -264,12 +264,14 @@
                         var BPA_state = false;
                         this.fyPermissionInBudget = response.data;
                         this.fyPermissionInBudget.forEach(item => {
+                            Vue.set(this.budgetPermissionState , item.id , item.pbStatus);
                             if (item.pbStatus == 0)
                             {
                                 this.allPermissionSelectedSection.budget = false;
                                 BPA_state = true;
                             }
                         });
+
                         if (BPA_state == false)
                         {
                             this.allPermissionSelectedSection.budget = true;
@@ -304,11 +306,10 @@
             },
 
             changeBudgetItemPermissionState: function (pbId) {
-                alert(this.budgetPermissionState.includes(pbId));
                 this.$root.start();
                 axios.post('/budget/admin/fiscal_year/changeBudgetItemPermissionState',{
                     pbId: pbId,
-                    state: this.budgetPermissionState.includes(pbId)
+                    state: this.budgetPermissionState[pbId]
                 }).then((response) => {
                     this.fyPermissionInBudget = response.data;
                     console.log(response.data);
