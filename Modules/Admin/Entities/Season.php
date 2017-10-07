@@ -3,7 +3,7 @@
 namespace Modules\Admin\Entities;
 
 use Illuminate\Database\Eloquent\Model;
-use Modules\Budget\Entities\TinySeason;
+use Modules\Budget\Entities\CapitalAssetsTinySeason;
 
 class Season extends Model
 {
@@ -12,6 +12,6 @@ class Season extends Model
 
     public function tinySeason()
     {
-        return $this->hasMany(TinySeason::class , 'tsSId' , 'id');
+        return $this->hasMany(CapitalAssetsTinySeason::class , 'tsSId' , 'id');
     }
 }

@@ -23,7 +23,7 @@ use Modules\Budget\Entities\CreditDistributionTitle;
 use Modules\Budget\Entities\DeprivedArea;
 use Modules\Budget\Entities\FyPermissionInBudget;
 use Modules\Budget\Entities\HowToRun;
-use Modules\Budget\Entities\TinySeason;
+use Modules\Budget\Entities\CapitalAssetsTinySeason;
 use Ramsey\Uuid\Uuid;
 
 class BudgetAdminController extends Controller
@@ -93,7 +93,7 @@ class BudgetAdminController extends Controller
 
     public function subSeasons()
     {
-        $subSeasons = TinySeason::select(['tsSId'])->groupBy(['tsSId'])->get();
+        $subSeasons = CapitalAssetsTinySeason::select(['tsSId'])->groupBy(['tsSId'])->get();
         $seasons = Season::all();
         return view('budget::pages.sub_seasons.main', ['subSeasons' => $subSeasons,
             'seasons' => $seasons ,
@@ -465,7 +465,7 @@ class BudgetAdminController extends Controller
 
     public function registerSubSeason(Request $request)
     {
-        $ts = new TinySeason;
+        $ts = new CapitalAssetsTinySeason;
         $ts->tsUId = Auth::user()->id;
         $ts->tsSId = Input::get('sId');
         $ts->tsPlanOrCost = 0; //capital assets
@@ -479,9 +479,9 @@ class BudgetAdminController extends Controller
 
     public function deleteSubSeason($tsId)
     {
-        $ts = TinySeason::find($tsId);
+        $ts = CapitalAssetsTinySeason::find($tsId);
         try {
-            $logTemp = TinySeason::find($tsId);
+            $logTemp = CapitalAssetsTinySeason::find($tsId);
             $ts->delete();
             SystemLog::setBudgetSubSystemAdminLog('حذف ریز فصل ' . $logTemp->tsSubject);
             return Redirect::to(URL::previous());
@@ -499,7 +499,7 @@ class BudgetAdminController extends Controller
         {
             if ($tsId == null)
             {
-                if (TinySeason::where('tsSId' , '=' , $sId)->Where('tsSubject' , '=' , $tsSubject)->exists())
+                if (CapitalAssetsTinySeason::where('tsSId' , '=' , $sId)->Where('tsSubject' , '=' , $tsSubject)->exists())
                 {
                     return \Illuminate\Support\Facades\Response::json(['exist' => true]);
                 }
@@ -509,7 +509,7 @@ class BudgetAdminController extends Controller
                 }
             }
             else{
-                if (TinySeason::where('id' , '<>' , $tsId)->where('tsSId' , '=' , $sId)->where('tsSubject' , '=' , $tsSubject)->exists())
+                if (CapitalAssetsTinySeason::where('id' , '<>' , $tsId)->where('tsSId' , '=' , $sId)->where('tsSubject' , '=' , $tsSubject)->exists())
                 {
                     return \Illuminate\Support\Facades\Response::json(['exist' => true]);
                 }
@@ -523,8 +523,8 @@ class BudgetAdminController extends Controller
 
     public function updateSubSeason(Request $request)
     {
-        $old = TinySeason::find(Input::get('tsId'));
-        $ts = TinySeason::find(Input::get('tsId'));
+        $old = CapitalAssetsTinySeason::find(Input::get('tsId'));
+        $ts = CapitalAssetsTinySeason::find(Input::get('tsId'));
         $ts->tsSId = Input::get('sId');
         $ts->tsSubject = Input::get('tsSubject');
         $ts->tsDescription = Input::get('tsDescription');
@@ -538,7 +538,7 @@ class BudgetAdminController extends Controller
 
     public function registerTinySeason(Request $request)
     {
-        if (TinySeason::where('tsSId' , '=' , $request->tsSId)
+        if (CapitalAssetsTinySeason::where('tsSId' , '=' , $request->tsSId)
             ->where('tsPlanOrCost' , '=' , $request->planOrCost)
             ->Where('tsSubject' , '=' , $request->tsSubject)
             ->exists())
@@ -547,7 +547,7 @@ class BudgetAdminController extends Controller
         }
         else
         {
-            $ts = new TinySeason;
+            $ts = new CapitalAssetsTinySeason;
             $ts->tsUId = Auth::user()->id;
             $ts->tsSId = $request->tsSId;
             $ts->tsPlanOrCost = $request->planOrCost;
@@ -562,7 +562,7 @@ class BudgetAdminController extends Controller
 
     public function updateTinySeason(Request $request)
     {
-        if (TinySeason::where('id' , '<>' , $request->id)
+        if (CapitalAssetsTinySeason::where('id' , '<>' , $request->id)
             ->where('tsSId' , '=' , $request->tsSId)
             ->where('tsPlanOrCost' , '=' , $request->planOrCost)
             ->Where('tsSubject' , '=' , $request->tsSubject)
@@ -572,8 +572,8 @@ class BudgetAdminController extends Controller
         }
         else
         {
-            $old = TinySeason::find($request->id);
-            $ts = TinySeason::find($request->id);
+            $old = CapitalAssetsTinySeason::find($request->id);
+            $ts = CapitalAssetsTinySeason::find($request->id);
             $ts->tsUId = Auth::user()->id;
             $ts->tsSId = $request->tsSId;
             $ts->tsSubject = $request->tsSubject;
@@ -587,7 +587,7 @@ class BudgetAdminController extends Controller
 
     public function deleteTinySeason(Request $request)
     {
-        $ts = TinySeason::find($request->id);
+        $ts = CapitalAssetsTinySeason::find($request->id);
         try {
             $ts->delete();
             SystemLog::setBudgetSubSystemAdminLog('حذف ریز فصل ' . $request->tsSubject);
@@ -603,7 +603,7 @@ class BudgetAdminController extends Controller
     public function getTinySeasonsWhitSeasonId(Request $request)
     {
         return \response()->json(
-            TinySeason::where('tsSId' , '=' , $request->sId)
+            CapitalAssetsTinySeason::where('tsSId' , '=' , $request->sId)
             ->where('tsPlanOrCost' , '=' , $request->planOrCost)
             ->get()
         );

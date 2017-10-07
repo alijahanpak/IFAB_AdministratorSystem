@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Modules\Budget\Entities\CapitalAssetsProject;
 use Modules\Budget\Entities\HowToRun;
 
-class SeedHowToRunTableSeederTableSeeder extends Seeder
+class SeedHowToRunTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

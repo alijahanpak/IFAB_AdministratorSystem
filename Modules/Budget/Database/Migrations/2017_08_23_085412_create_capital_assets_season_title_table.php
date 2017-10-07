@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTinySeasonsTable extends Migration
+class CreateCapitalAssetsSeasonTitleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,22 +13,21 @@ class CreateTinySeasonsTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('tbl_tiny_seasons')) {
-            Schema::create('tbl_tiny_seasons', function (Blueprint $table) {
+        if (!Schema::hasTable('tbl_capital_assets_season_title')) {
+            Schema::create('tbl_capital_assets_season_title', function (Blueprint $table) {
                 $table->increments('id');
-                $table->integer('tsUId')->length(10)->unsigned();
-                $table->integer('tsSId')->length(10)->unsigned();
-                $table->boolean('tsPlanOrCost');
-                $table->string('tsSubject');
-                $table->longText('tsDescription')->nullable();
+                $table->integer('castUId')->length(10)->unsigned();
+                $table->integer('castSId')->length(10)->unsigned();
+                $table->string('castSubject');
+                $table->longText('castDescription')->nullable();
                 $table->timestamps();
 
-                $table->foreign('tsUId')
+                $table->foreign('castUId')
                     ->references('id')->on('users')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
 
-                $table->foreign('tsSId')
+                $table->foreign('castSId')
                     ->references('id')->on('tbl_seasons')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
@@ -43,6 +42,6 @@ class CreateTinySeasonsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_tiny_seasons');
+        Schema::dropIfExists('tbl_capital_assets_season_title');
     }
 }

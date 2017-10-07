@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Budget\Entities\FyPermissionInBudget;
 
-class SeedFyPermissionTableSeederTableSeeder extends Seeder
+class SeedFyPermissionTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
