@@ -233,7 +233,7 @@
                                 <a class="right-mp right-menu-btm-border" href="#">مدیریت</a>
                                 <ul class="menu vertical nested">
                                     <li><router-link to="/budget/admin/fiscal_year">سال مالی</router-link></li>
-                                    <li><a href="">مناطق محروم</a></li>
+                                    <li><router-link to="/budget/admin/deprived_area">مناطق محروم</router-link></li>
                                     <li><a href="">توزیع اعتبار</a></li>
                                     <li><router-link to="/budget/admin/tiny_seasons">ریز فصول</router-link></li>
                                     <li><a href="">ردیف توزیع اعتبار</a></li>

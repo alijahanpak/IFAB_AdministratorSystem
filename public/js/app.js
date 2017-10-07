@@ -64875,6 +64875,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Budget_Dashboard_vue__ = __webpack_require__(97);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Budget_Admin_tiny_seasons_vue__ = __webpack_require__(100);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_Budget_Admin_fiscal_year_vue__ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Budget_Admin_deprived_area_vue__ = __webpack_require__(108);
 var _mutations;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -64890,8 +64891,9 @@ window.Vue.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 
 
 
+
 //export router instance
-var routes = [{ path: '/budget', component: __WEBPACK_IMPORTED_MODULE_2__components_Budget_Dashboard_vue__["a" /* default */] }, { path: '/budget/admin/tiny_seasons', component: __WEBPACK_IMPORTED_MODULE_3__components_Budget_Admin_tiny_seasons_vue__["a" /* default */] }, { path: '/budget/admin/fiscal_year', component: __WEBPACK_IMPORTED_MODULE_4__components_Budget_Admin_fiscal_year_vue__["a" /* default */] }];
+var routes = [{ path: '/budget', component: __WEBPACK_IMPORTED_MODULE_2__components_Budget_Dashboard_vue__["a" /* default */] }, { path: '/budget/admin/tiny_seasons', component: __WEBPACK_IMPORTED_MODULE_3__components_Budget_Admin_tiny_seasons_vue__["a" /* default */] }, { path: '/budget/admin/fiscal_year', component: __WEBPACK_IMPORTED_MODULE_4__components_Budget_Admin_fiscal_year_vue__["a" /* default */] }, { path: '/budget/admin/deprived_area', component: __WEBPACK_IMPORTED_MODULE_5__components_Budget_Admin_deprived_area_vue__["a" /* default */] }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
     routes: routes
@@ -69254,9 +69256,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -69641,346 +69640,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "data-tabs-content": "sub_season_tab_view"
     }
-  }, [(_vm.showModal) ? _c('modal-tiny', {
-    on: {
-      "close": function($event) {
-        _vm.showModal = false
-      }
-    }
   }, [_c('div', {
-    attrs: {
-      "slot": "body"
-    },
-    slot: "body"
-  }, [_c('form', {
-    on: {
-      "submit": function($event) {
-        $event.preventDefault();
-        _vm.createTinySeason($event)
-      }
-    }
-  }, [(_vm.errorMessage) ? _c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-12 columns padding-lr"
-  }, [_c('div', {
-    staticClass: "alert callout"
-  }, [_c('p', {
-    staticClass: "BYekan login-alert"
-  }, [_c('i', {
-    staticClass: "fi-alert"
-  }), _vm._v(_vm._s(_vm.errorMessage))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-12 cell padding-lr"
-  }, [_c('label', [_vm._v("فصل\n                                        "), _c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.tinySeasonsInput.tsSId),
-      expression: "tinySeasonsInput.tsSId"
-    }, {
-      name: "validate",
-      rawName: "v-validate"
-    }],
-    class: {
-      'input': true, 'select-error': _vm.errors.has('sId')
-    },
-    attrs: {
-      "name": "sId",
-      "data-vv-rules": "required"
-    },
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.tinySeasonsInput.tsSId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": ""
-    }
-  }), _vm._v(" "), _vm._l((_vm.seasons), function(season) {
-    return _c('option', {
-      domProps: {
-        "value": season.id
-      }
-    }, [_vm._v(_vm._s(season.sSubject))])
-  })], 2), _vm._v(" "), _c('span', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.errors.has('sId')),
-      expression: "errors.has('sId')"
-    }],
-    staticClass: "error-font"
-  }, [_vm._v("لطفا فصل انتخاب کنید!")])])])]), _vm._v(" "), _c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-12 columns padding-lr"
-  }, [_c('label', [_vm._v("ریز فصل\n                                        "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.tinySeasonsInput.tsSubject),
-      expression: "tinySeasonsInput.tsSubject"
-    }, {
-      name: "validate",
-      rawName: "v-validate",
-      value: ('required'),
-      expression: "'required'"
-    }],
-    class: {
-      'input': true, 'error-border': _vm.errors.has('tsSubject')
-    },
-    attrs: {
-      "type": "text",
-      "name": "tsSubject"
-    },
-    domProps: {
-      "value": (_vm.tinySeasonsInput.tsSubject)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.tinySeasonsInput.tsSubject = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('span', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.errors.has('tsSubject')),
-      expression: "errors.has('tsSubject')"
-    }],
-    staticClass: "error-font"
-  }, [_vm._v("لطفا ریزفصل انتخاب کنید!")])])]), _vm._v(" "), _c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "small-12 columns padding-lr"
-  }, [_c('label', [_vm._v("شرح\n                                        "), _c('textarea', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.tinySeasonsInput.tsDescription),
-      expression: "tinySeasonsInput.tsDescription"
-    }],
-    staticStyle: {
-      "min-height": "150px"
-    },
-    attrs: {
-      "name": "tsDescription"
-    },
-    domProps: {
-      "value": (_vm.tinySeasonsInput.tsDescription)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.tinySeasonsInput.tsDescription = $event.target.value
-      }
-    }
-  })])])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-6 columns padding-lr padding-bottom-modal"
-  }, [_c('button', {
-    staticClass: "my-button my-success float-left btn-for-load",
-    attrs: {
-      "name": "Submit"
-    }
-  }, [_c('span', {
-    staticClass: "btn-txt-mrg"
-  }, [_vm._v("ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showModalUpdate) ? _c('modal-tiny', {
-    on: {
-      "close": function($event) {
-        _vm.showModalUpdate = false
-      }
-    }
-  }, [_c('div', {
-    attrs: {
-      "slot": "body"
-    },
-    slot: "body"
-  }, [_c('form', {
-    on: {
-      "submit": function($event) {
-        $event.preventDefault();
-        _vm.updateTinySeason($event)
-      }
-    }
-  }, [(_vm.errorMessage_update) ? _c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-12 columns padding-lr"
-  }, [_c('div', {
-    staticClass: "alert callout"
-  }, [_c('p', {
-    staticClass: "BYekan login-alert"
-  }, [_c('i', {
-    staticClass: "fi-alert"
-  }), _vm._v(_vm._s(_vm.errorMessage_update))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-12 cell padding-lr"
-  }, [_c('label', [_vm._v("فصل\n                                        "), _c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.tinySeasonsFill.tsSId),
-      expression: "tinySeasonsFill.tsSId"
-    }, {
-      name: "validate",
-      rawName: "v-validate"
-    }],
-    class: {
-      'input': true, 'select-error': _vm.errors.has('sId')
-    },
-    attrs: {
-      "name": "sId",
-      "data-vv-rules": "required"
-    },
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.tinySeasonsFill.tsSId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": ""
-    }
-  }), _vm._v(" "), _vm._l((_vm.seasons), function(season) {
-    return _c('option', {
-      domProps: {
-        "value": season.id
-      }
-    }, [_vm._v(_vm._s(season.sSubject))])
-  })], 2), _vm._v(" "), _c('span', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.errors.has('sId')),
-      expression: "errors.has('sId')"
-    }],
-    staticClass: "error-font"
-  }, [_vm._v("لطفا فصل انتخاب کنید!")])])])]), _vm._v(" "), _c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-12 columns padding-lr"
-  }, [_c('label', [_vm._v("ریز فصل\n                                        "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.tinySeasonsFill.tsSubject),
-      expression: "tinySeasonsFill.tsSubject"
-    }, {
-      name: "validate",
-      rawName: "v-validate",
-      value: ('required'),
-      expression: "'required'"
-    }],
-    class: {
-      'input': true, 'error-border': _vm.errors.has('tsSubject')
-    },
-    attrs: {
-      "type": "text",
-      "name": "tsSubject"
-    },
-    domProps: {
-      "value": (_vm.tinySeasonsFill.tsSubject)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.tinySeasonsFill.tsSubject = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('span', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.errors.has('tsSubject')),
-      expression: "errors.has('tsSubject')"
-    }],
-    staticClass: "error-font"
-  }, [_vm._v("لطفا ریزفصل انتخاب کنید!")])])]), _vm._v(" "), _c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "small-12 columns padding-lr"
-  }, [_c('label', [_vm._v("شرح\n                                        "), _c('textarea', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.tinySeasonsFill.tsDescription),
-      expression: "tinySeasonsFill.tsDescription"
-    }],
-    staticStyle: {
-      "min-height": "150px"
-    },
-    attrs: {
-      "name": "tsDescription"
-    },
-    domProps: {
-      "value": (_vm.tinySeasonsFill.tsDescription)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.tinySeasonsFill.tsDescription = $event.target.value
-      }
-    }
-  })])])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-6 columns padding-lr padding-bottom-modal"
-  }, [_c('button', {
-    staticClass: "my-secondary button float-left btn-for-load",
-    attrs: {
-      "name": "Submit"
-    }
-  }, [_c('span', {
-    staticClass: "btn-txt-mrg"
-  }, [_vm._v("ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showModalDelete) ? _c('modal-tiny', {
-    on: {
-      "close": function($event) {
-        _vm.showModalDelete = false
-      }
-    }
-  }, [_c('div', {
-    attrs: {
-      "slot": "body"
-    },
-    slot: "body"
-  }, [_c('div', {
-    staticClass: "small-font",
-    attrs: {
-      "xmlns:v-on": "http://www.w3.org/1999/xhtml"
-    }
-  }, [_c('p', [_vm._v("کاربر گرامی")]), _vm._v(" "), _c('p', {
-    staticClass: "large-offset-1 modal-text"
-  }, [_vm._v("برای حذف رکورد مورد نظر اطمینان دارید؟")]), _vm._v(" "), _c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-12 column text-center"
-  }, [_c('button', {
-    staticClass: "button primary btn-large-w",
-    on: {
-      "click": _vm.deleteTinySeason
-    }
-  }, [_vm._v("بله")])])])])])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "tabs-panel is-active table-mrg-btm",
     attrs: {
       "id": "capital_assets",
       "xmlns:v-on": "http://www.w3.org/1999/xhtml"
     }
-  }, [_c('div', {}, [_c('div', {
+  }, [_c('div', {
     staticClass: "medium-12 bottom-mrg"
   }, [_c('div', {
     staticClass: "clearfix border-btm-line bottom-mrg tool-bar"
@@ -70009,20 +69675,20 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-2 table-contain-border cell-vertical-center"
-    }, [_vm._v("\n                                            " + _vm._s(season.sSubject) + "\n                                        ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                        " + _vm._s(season.sSubject) + "\n                                    ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-10"
     }, _vm._l((season.tiny_season), function(tinySeason) {
       return _c('div', {
         staticClass: "grid-x selectAbleRow"
       }, [_c('div', {
         staticClass: "medium-6 table-contain-border cell-vertical-center"
-      }, [_vm._v("\n                                                    " + _vm._s(tinySeason.tsSubject) + "\n                                                ")]), _vm._v(" "), _c('div', {
+      }, [_vm._v("\n                                                " + _vm._s(tinySeason.tsSubject) + "\n                                            ")]), _vm._v(" "), _c('div', {
         staticClass: "medium-6  table-contain-border cell-vertical-center"
       }, [_c('div', {
         staticClass: "grid-x"
       }, [_c('div', {
         staticClass: "medium-11"
-      }, [_vm._v("\n                                                            " + _vm._s(tinySeason.tsDescription) + "\n                                                        ")]), _vm._v(" "), _c('div', {
+      }, [_vm._v("\n                                                        " + _vm._s(tinySeason.tsDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
         staticClass: "medium-1 cell-vertical-center text-left"
       }, [_c('a', {
         staticClass: "dropdown small sm-btn-align",
@@ -70084,7 +69750,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchData(_vm.plan_pagination.current_page)
       }
     }
-  })], 1)])])])])]), _vm._v(" "), _c('div', {
+  })], 1)])])])]), _vm._v(" "), _c('div', {
     staticClass: "tabs-panel table-mrg-btm",
     attrs: {
       "id": "cost",
@@ -70201,7 +69867,340 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "animation-type": "velocity",
       "speed": 700
     }
-  })], 1)])])])
+  })], 1), _vm._v(" "), (_vm.showModal) ? _c('modal-tiny', {
+    on: {
+      "close": function($event) {
+        _vm.showModal = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.createTinySeason($event)
+      }
+    }
+  }, [(_vm.errorMessage) ? _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 columns padding-lr"
+  }, [_c('div', {
+    staticClass: "alert callout"
+  }, [_c('p', {
+    staticClass: "BYekan login-alert"
+  }, [_c('i', {
+    staticClass: "fi-alert"
+  }), _vm._v(_vm._s(_vm.errorMessage))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 cell padding-lr"
+  }, [_c('label', [_vm._v("فصل\n                                    "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.tinySeasonsInput.tsSId),
+      expression: "tinySeasonsInput.tsSId"
+    }, {
+      name: "validate",
+      rawName: "v-validate"
+    }],
+    class: {
+      'input': true, 'select-error': _vm.errors.has('sId')
+    },
+    attrs: {
+      "name": "sId",
+      "data-vv-rules": "required"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.tinySeasonsInput.tsSId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.seasons), function(season) {
+    return _c('option', {
+      domProps: {
+        "value": season.id
+      }
+    }, [_vm._v(_vm._s(season.sSubject))])
+  })], 2), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('sId')),
+      expression: "errors.has('sId')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("لطفا فصل انتخاب کنید!")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 columns padding-lr"
+  }, [_c('label', [_vm._v("ریز فصل\n                                    "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.tinySeasonsInput.tsSubject),
+      expression: "tinySeasonsInput.tsSubject"
+    }, {
+      name: "validate",
+      rawName: "v-validate",
+      value: ('required'),
+      expression: "'required'"
+    }],
+    class: {
+      'input': true, 'error-border': _vm.errors.has('tsSubject')
+    },
+    attrs: {
+      "type": "text",
+      "name": "tsSubject"
+    },
+    domProps: {
+      "value": (_vm.tinySeasonsInput.tsSubject)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.tinySeasonsInput.tsSubject = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('tsSubject')),
+      expression: "errors.has('tsSubject')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("لطفا ریزفصل انتخاب کنید!")])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "small-12 columns padding-lr"
+  }, [_c('label', [_vm._v("شرح\n                                    "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.tinySeasonsInput.tsDescription),
+      expression: "tinySeasonsInput.tsDescription"
+    }],
+    staticStyle: {
+      "min-height": "150px"
+    },
+    attrs: {
+      "name": "tsDescription"
+    },
+    domProps: {
+      "value": (_vm.tinySeasonsInput.tsDescription)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.tinySeasonsInput.tsDescription = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 columns padding-lr padding-bottom-modal"
+  }, [_c('button', {
+    staticClass: "my-button my-success float-left btn-for-load",
+    attrs: {
+      "name": "Submit"
+    }
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showModalUpdate) ? _c('modal-tiny', {
+    on: {
+      "close": function($event) {
+        _vm.showModalUpdate = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.updateTinySeason($event)
+      }
+    }
+  }, [(_vm.errorMessage_update) ? _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 columns padding-lr"
+  }, [_c('div', {
+    staticClass: "alert callout"
+  }, [_c('p', {
+    staticClass: "BYekan login-alert"
+  }, [_c('i', {
+    staticClass: "fi-alert"
+  }), _vm._v(_vm._s(_vm.errorMessage_update))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 cell padding-lr"
+  }, [_c('label', [_vm._v("فصل\n                                    "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.tinySeasonsFill.tsSId),
+      expression: "tinySeasonsFill.tsSId"
+    }, {
+      name: "validate",
+      rawName: "v-validate"
+    }],
+    class: {
+      'input': true, 'select-error': _vm.errors.has('sId')
+    },
+    attrs: {
+      "name": "sId",
+      "data-vv-rules": "required"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.tinySeasonsFill.tsSId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.seasons), function(season) {
+    return _c('option', {
+      domProps: {
+        "value": season.id
+      }
+    }, [_vm._v(_vm._s(season.sSubject))])
+  })], 2), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('sId')),
+      expression: "errors.has('sId')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("لطفا فصل انتخاب کنید!")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 columns padding-lr"
+  }, [_c('label', [_vm._v("ریز فصل\n                                    "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.tinySeasonsFill.tsSubject),
+      expression: "tinySeasonsFill.tsSubject"
+    }, {
+      name: "validate",
+      rawName: "v-validate",
+      value: ('required'),
+      expression: "'required'"
+    }],
+    class: {
+      'input': true, 'error-border': _vm.errors.has('tsSubject')
+    },
+    attrs: {
+      "type": "text",
+      "name": "tsSubject"
+    },
+    domProps: {
+      "value": (_vm.tinySeasonsFill.tsSubject)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.tinySeasonsFill.tsSubject = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('tsSubject')),
+      expression: "errors.has('tsSubject')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("لطفا ریزفصل انتخاب کنید!")])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "small-12 columns padding-lr"
+  }, [_c('label', [_vm._v("شرح\n                                    "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.tinySeasonsFill.tsDescription),
+      expression: "tinySeasonsFill.tsDescription"
+    }],
+    staticStyle: {
+      "min-height": "150px"
+    },
+    attrs: {
+      "name": "tsDescription"
+    },
+    domProps: {
+      "value": (_vm.tinySeasonsFill.tsDescription)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.tinySeasonsFill.tsDescription = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 columns padding-lr padding-bottom-modal"
+  }, [_c('button', {
+    staticClass: "my-secondary button float-left btn-for-load",
+    attrs: {
+      "name": "Submit"
+    }
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showModalDelete) ? _c('modal-tiny', {
+    on: {
+      "close": function($event) {
+        _vm.showModalDelete = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('div', {
+    staticClass: "small-font",
+    attrs: {
+      "xmlns:v-on": "http://www.w3.org/1999/xhtml"
+    }
+  }, [_c('p', [_vm._v("کاربر گرامی")]), _vm._v(" "), _c('p', {
+    staticClass: "large-offset-1 modal-text"
+  }, [_vm._v("برای حذف رکورد مورد نظر اطمینان دارید؟")]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 column text-center"
+  }, [_c('button', {
+    staticClass: "button primary btn-large-w",
+    on: {
+      "click": _vm.deleteTinySeason
+    }
+  }, [_vm._v("بله")])])])])])]) : _vm._e()], 1)])])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', [_c('a', {
@@ -71148,6 +71147,1063 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-f3e8e37a", esExports)
+  }
+}
+
+/***/ }),
+/* 108 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_deprived_area_vue__ = __webpack_require__(109);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4f8904e2_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_deprived_area_vue__ = __webpack_require__(110);
+var disposed = false
+var normalizeComponent = __webpack_require__(8)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_deprived_area_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4f8904e2_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_deprived_area_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Budget/Admin/deprived_area.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] deprived_area.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4f8904e2", Component.options)
+  } else {
+    hotAPI.reload("data-v-4f8904e2", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 109 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    data: function data() {
+        return {
+            showInsertModal: false
+        };
+    },
+
+
+    created: function created() {
+        this.fetchData();
+    },
+
+    updated: function updated() {
+        $(this.$el).foundation(); //WORKS!
+    },
+
+    mounted: function mounted() {
+        console.log("mounted deprived area component");
+        res();
+    },
+
+    methods: {
+        fetchData: function fetchData() {
+            /*                this.$root.start();
+                            axios.get('/budget/admin/fiscal_year/fetchData?page=' + page)
+                                .then((response) => {
+                                    this.fiscalYears = response.data.data;
+                                    this.makePagination(response.data);
+                                    console.log(response.data);
+                                    this.$root.finish();
+                                },(error) => {
+                                    console.log(error);
+                                    this.$root.fail();
+                                });*/
+        },
+
+        displayNotif: function displayNotif(httpStatusCode) {
+            switch (httpStatusCode) {
+                case 204:
+                    this.$notify({ group: 'fiscalYearPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
+                    break;
+                case 200:
+                    this.$notify({ group: 'fiscalYearPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
+                    break;
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 110 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "medium-10 border-right-line inner-body-pad main-margin"
+  }, [_c('div', {
+    staticClass: "grid-x padding-lr"
+  }, [_c('div', {
+    staticClass: "medium-12"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('nav', {
+    attrs: {
+      "aria-label": "You are here:",
+      "role": "navigation"
+    }
+  }, [_c('ul', {
+    staticClass: "breadcrumbs"
+  }, [_c('li', [_c('router-link', {
+    attrs: {
+      "to": "/budget"
+    }
+  }, [_vm._v("داشبورد")])], 1), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1)])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x my-callout-box container-mrg-top dynamic-height-level1"
+  }, [_c('div', {
+    staticClass: "medium-12 column"
+  }, [_vm._m(2), _vm._v(" "), _c('div', {
+    staticClass: "medium-12 padding-lr",
+    staticStyle: {
+      "margin-top": "15px"
+    }
+  }, [_c('div', {
+    staticClass: "clearfix border-btm-line tool-bar"
+  }, [_c('div', {
+    staticClass: "button-group float-right report-mrg",
+    staticStyle: {
+      "margin-top": "2px"
+    }
+  }, [_c('a', {
+    staticClass: "my-button toolbox-btn small",
+    on: {
+      "click": function($event) {
+        _vm.showInsertModal = true;
+      }
+    }
+  }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
+    staticClass: "my-button toolbox-btn small"
+  }, [_vm._v("گزارش")])]), _vm._v(" "), _vm._m(3)])]), _vm._v(" "), _vm._m(4)]), _vm._v(" "), _c('notifications', {
+    attrs: {
+      "group": "deprivedAreaPm",
+      "position": "bottom right",
+      "animation-type": "velocity",
+      "speed": 700
+    }
+  })], 1), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-tiny', {
+    on: {
+      "close": function($event) {
+        _vm.showInsertModal = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.createTinySeason($event)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "grid-x",
+    staticStyle: {
+      "display": "none"
+    },
+    attrs: {
+      "id": "existErrorInRegForm"
+    }
+  }, [_c('div', {
+    staticClass: "medium-12 columns padding-lr"
+  }, [_c('div', {
+    staticClass: "alert callout"
+  }, [_c('p', {
+    staticClass: "BYekan login-alert"
+  }, [_c('i', {
+    staticClass: "fi-alert"
+  }), _vm._v(" این منطقه محروم قبلا ثبت شده است!")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-6 cell padding-lr"
+  }, [_c('label', [_vm._v("شهرستان\n                            "), _c('select', {
+    attrs: {
+      "name": "daCounty",
+      "id": "selectCounty",
+      "required": ""
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": ""
+    }
+  })])]), _vm._v(" "), _c('span', {
+    staticClass: "form-error error-font",
+    attrs: {
+      "data-form-error-for": "selectCounty"
+    }
+  }, [_vm._v("شهرستان را انتخاب کنید!")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 cell padding-lr"
+  }, [_c('label', [_vm._v("بخش\n                            "), _c('select', {
+    attrs: {
+      "name": "daRegion",
+      "id": "selectRegion",
+      "disabled": ""
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-6 cell padding-lr"
+  }, [_c('label', [_vm._v("دهستان\n                            "), _c('select', {
+    attrs: {
+      "name": "daRuralDistrict",
+      "id": "selectRuralDistrict",
+      "disabled": ""
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 cell padding-lr"
+  }, [_c('label', [_vm._v("روستا\n                            "), _c('select', {
+    attrs: {
+      "name": "daVillage",
+      "id": "selectVillage",
+      "disabled": ""
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 columns padding-lr"
+  }, [_c('label', [_vm._v("شرح\n                        "), _c('textarea', {
+    staticStyle: {
+      "min-height": "150px"
+    },
+    attrs: {
+      "name": "daDescription",
+      "id": "daDescription"
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 columns padding-lr"
+  }, [_c('button', {
+    staticClass: "my-secondary button float-left btn-for-load",
+    attrs: {
+      "name": "daFormSubmit",
+      "type": "submit"
+    }
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("  ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showChangePermissionDialog) ? _c('modal-large', {
+    on: {
+      "close": function($event) {
+        _vm.showChangePermissionDialog = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  })]) : _vm._e()], 1)
+}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', [_c('a', {
+    staticClass: "disabled"
+  }, [_vm._v("مدیریت")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', [_c('span', {
+    staticClass: "show-for-sr"
+  }, [_vm._v("Current: ")]), _vm._v("مناطق محروم\n                        ")])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('ul', {
+    staticClass: "tabs tab-color my-tab-style",
+    attrs: {
+      "data-responsive-accordion-tabs": "tabs medium-accordion large-tabs",
+      "id": "deprived_area"
+    }
+  }, [_c('li', {
+    staticClass: "tabs-title is-active"
+  }, [_c('a', {
+    attrs: {
+      "href": "#province",
+      "aria-selected": "true"
+    }
+  }, [_vm._v("استان")])]), _vm._v(" "), _c('li', {
+    staticClass: "tabs-title"
+  }, [_c('a', {
+    attrs: {
+      "href": "#county"
+    }
+  }, [_vm._v("شهرستان")])]), _vm._v(" "), _c('li', {
+    staticClass: "tabs-title"
+  }, [_c('a', {
+    attrs: {
+      "href": "#region"
+    }
+  }, [_vm._v("بخش")])]), _vm._v(" "), _c('li', {
+    staticClass: "tabs-title"
+  }, [_c('a', {
+    attrs: {
+      "href": "#rural_district"
+    }
+  }, [_vm._v("دهستان")])]), _vm._v(" "), _c('li', {
+    staticClass: "tabs-title"
+  }, [_c('a', {
+    attrs: {
+      "href": "#village"
+    }
+  }, [_vm._v("روستا")])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "float-left"
+  }, [_c('div', {
+    staticClass: "input-group float-left"
+  }, [_c('input', {
+    staticClass: "input-group-field small-font",
+    attrs: {
+      "type": "text"
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "input-group-button"
+  }, [_c('button', {
+    staticClass: "my-button my-brand",
+    attrs: {
+      "type": "button"
+    }
+  }, [_c('i', {
+    staticClass: "fi-magnifying-glass"
+  })])])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "tabs-content",
+    attrs: {
+      "data-tabs-content": "deprived_area"
+    }
+  }, [_c('div', {
+    staticClass: "tabs-panel is-active table-mrg-btm",
+    attrs: {
+      "id": "province"
+    }
+  }, [_c('div', {
+    staticClass: "columns"
+  }, [_c('div', {
+    staticClass: "grid-x table-header"
+  }, [_c('div', {
+    staticClass: "medium-2 table-border"
+  }, [_c('strong', [_vm._v("شهرستان")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-2 table-border"
+  }, [_c('strong', [_vm._v("بخش")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-2 table-border"
+  }, [_c('strong', [_vm._v("دهستان")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-2 table-border"
+  }, [_c('strong', [_vm._v("روستا")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-4 table-border"
+  }, [_c('strong', [_vm._v("شرح")])])]), _vm._v(" "), _c('div', {
+    staticClass: "table-contain dynamic-height-level2"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-2 table-contain-border cell-vertical-center"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "medium-2 table-contain-border cell-vertical-center"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "medium-2 table-contain-border cell-vertical-center"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "medium-2 table-contain-border cell-vertical-center"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "medium-4 table-contain-border cell-vertical-center"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-11"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "medium-1 cell-vertical-center text-left"
+  }, [_c('a', {
+    staticClass: "dropdown small sm-btn-align display-off",
+    attrs: {
+      "type": "button",
+      "data-toggle": "daActionDropdown"
+    }
+  }, [_c('img', {
+    attrs: {
+      "width": "15px",
+      "height": "15px",
+      "src": ""
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "dropdown-pane dropdown-pane-sm ",
+    attrs: {
+      "data-close-on-click": "true",
+      "data-hover": "true",
+      "data-hover-pane": "true",
+      "data-position": "bottom",
+      "data-alignment": "right",
+      "id": "daActionDropdown",
+      "data-dropdown": "",
+      "data-auto-focus": "true"
+    }
+  }, [_c('ul', {
+    staticClass: "my-menu small-font text-right"
+  }, [_c('li', [_c('a', {
+    attrs: {
+      "data-open": "preloaderModal"
+    }
+  }, [_c('i', {
+    staticClass: "fi-pencil size-16"
+  }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "data-open": "modalDelete"
+    }
+  }, [_c('i', {
+    staticClass: "fi-trash size-16"
+  }), _vm._v("  حذف")])])])])])])])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "tabs-panel table-mrg-btm",
+    attrs: {
+      "id": "county"
+    }
+  }, [_c('div', {
+    staticClass: "columns"
+  }, [_c('div', {
+    staticClass: "grid-x table-header"
+  }, [_c('div', {
+    staticClass: "medium-4 table-border"
+  }, [_c('strong', [_vm._v("نام")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-8 table-border"
+  }, [_c('strong', [_vm._v("شرح")])])]), _vm._v(" "), _c('div', {
+    staticClass: "table-contain dynamic-height-level2"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-4 table-contain-border cell-vertical-center"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "medium-8 table-contain-border cell-vertical-center"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-11"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "medium-1 cell-vertical-center text-left"
+  }, [_c('a', {
+    staticClass: "dropdown small sm-btn-align display-off",
+    attrs: {
+      "type": "button",
+      "data-toggle": "daActionDropdown_county"
+    }
+  }, [_c('img', {
+    attrs: {
+      "width": "15px",
+      "height": "15px",
+      "src": ""
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "dropdown-pane dropdown-pane-sm ",
+    attrs: {
+      "data-close-on-click": "true",
+      "data-hover": "true",
+      "data-hover-pane": "true",
+      "data-position": "bottom",
+      "data-alignment": "right",
+      "id": "daActionDropdown_county",
+      "data-dropdown": "",
+      "data-auto-focus": "true"
+    }
+  }, [_c('ul', {
+    staticClass: "my-menu small-font text-right"
+  }, [_c('li', [_c('a', {
+    attrs: {
+      "data-open": "preloaderModal"
+    }
+  }, [_c('i', {
+    staticClass: "fi-pencil size-16"
+  }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "data-open": "modalDelete"
+    }
+  }, [_c('i', {
+    staticClass: "fi-trash size-16"
+  }), _vm._v("  حذف")])])])])])])])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "tabs-panel table-mrg-btm",
+    attrs: {
+      "id": "region"
+    }
+  }, [_c('div', {
+    staticClass: "columns"
+  }, [_c('div', {
+    staticClass: "grid-x table-header"
+  }, [_c('div', {
+    staticClass: "medium-3 table-border"
+  }, [_c('strong', [_vm._v("نام")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-3 table-border"
+  }, [_c('strong', [_vm._v("شهرستان")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 table-border"
+  }, [_c('strong', [_vm._v("شرح")])])]), _vm._v(" "), _c('div', {
+    staticClass: "table-contain dynamic-height-level2"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-3 table-contain-border cell-vertical-center"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "medium-3 table-contain-border cell-vertical-center"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 table-contain-border cell-vertical-center"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-11"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "medium-1 cell-vertical-center text-left"
+  }, [_c('a', {
+    staticClass: "dropdown small sm-btn-align display-off",
+    attrs: {
+      "type": "button",
+      "data-toggle": "daActionDropdown_region"
+    }
+  }, [_c('img', {
+    attrs: {
+      "width": "15px",
+      "height": "15px",
+      "src": ""
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "dropdown-pane dropdown-pane-sm ",
+    attrs: {
+      "data-close-on-click": "true",
+      "data-hover": "true",
+      "data-hover-pane": "true",
+      "data-position": "bottom",
+      "data-alignment": "right",
+      "id": "daActionDropdown_region",
+      "data-dropdown": "",
+      "data-auto-focus": "true"
+    }
+  }, [_c('ul', {
+    staticClass: "my-menu small-font text-right"
+  }, [_c('li', [_c('a', {
+    attrs: {
+      "data-open": "preloaderModal"
+    }
+  }, [_c('i', {
+    staticClass: "fi-pencil size-16"
+  }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "data-open": "modalDelete"
+    }
+  }, [_c('i', {
+    staticClass: "fi-trash size-16"
+  }), _vm._v("  حذف")])])])])])])])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "tabs-panel table-mrg-btm",
+    attrs: {
+      "id": "rural_district"
+    }
+  }, [_c('div', {
+    staticClass: "columns"
+  }, [_c('div', {
+    staticClass: "grid-x table-header"
+  }, [_c('div', {
+    staticClass: "medium-2 table-border"
+  }, [_c('strong', [_vm._v("نام")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-2 table-border"
+  }, [_c('strong', [_vm._v("شهرستان")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-2 table-border"
+  }, [_c('strong', [_vm._v("بخش")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 table-border"
+  }, [_c('strong', [_vm._v("شرح")])])]), _vm._v(" "), _c('div', {
+    staticClass: "table-contain dynamic-height-level2"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-2 table-contain-border cell-vertical-center"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "medium-2 table-contain-border cell-vertical-center"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "medium-2 table-contain-border cell-vertical-center"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 table-contain-border cell-vertical-center"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-11"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "medium-1 cell-vertical-center text-left"
+  }, [_c('a', {
+    staticClass: "dropdown small sm-btn-align display-off",
+    attrs: {
+      "type": "button",
+      "data-toggle": "daActionDropdown_ruralDistrict"
+    }
+  }, [_c('img', {
+    attrs: {
+      "width": "15px",
+      "height": "15px",
+      "src": ""
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "dropdown-pane dropdown-pane-sm ",
+    attrs: {
+      "data-close-on-click": "true",
+      "data-hover": "true",
+      "data-hover-pane": "true",
+      "data-position": "bottom",
+      "data-alignment": "right",
+      "id": "daActionDropdown_ruralDistrict",
+      "data-dropdown": "",
+      "data-auto-focus": "true"
+    }
+  }, [_c('ul', {
+    staticClass: "my-menu small-font text-right"
+  }, [_c('li', [_c('a', {
+    attrs: {
+      "data-open": "preloaderModal"
+    }
+  }, [_c('i', {
+    staticClass: "fi-pencil size-16"
+  }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "data-open": "modalDelete"
+    }
+  }, [_c('i', {
+    staticClass: "fi-trash size-16"
+  }), _vm._v("  حذف")])])])])])])])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "tabs-panel table-mrg-btm",
+    attrs: {
+      "id": "village"
+    }
+  }, [_c('div', {
+    staticClass: "columns"
+  }, [_c('div', {
+    staticClass: "grid-x table-header"
+  }, [_c('div', {
+    staticClass: "medium-2 table-border"
+  }, [_c('strong', [_vm._v("نام")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-2 table-border"
+  }, [_c('strong', [_vm._v("شهرستان")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-2 table-border"
+  }, [_c('strong', [_vm._v("بخش")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-2 table-border"
+  }, [_c('strong', [_vm._v("دهستان")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-4 table-border"
+  }, [_c('strong', [_vm._v("شرح")])])]), _vm._v(" "), _c('div', {
+    staticClass: "table-contain dynamic-height-level2"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-2 table-contain-border cell-vertical-center"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "medium-2 table-contain-border cell-vertical-center"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "medium-2 table-contain-border cell-vertical-center"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "medium-2 table-contain-border cell-vertical-center"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "medium-4 table-contain-border cell-vertical-center"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-11"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "medium-1 cell-vertical-center text-left"
+  }, [_c('a', {
+    staticClass: "dropdown small sm-btn-align display-off",
+    attrs: {
+      "type": "button",
+      "data-toggle": "daActionDropdown_village"
+    }
+  }, [_c('img', {
+    attrs: {
+      "width": "15px",
+      "height": "15px",
+      "src": ""
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "dropdown-pane dropdown-pane-sm ",
+    attrs: {
+      "data-close-on-click": "true",
+      "data-hover": "true",
+      "data-hover-pane": "true",
+      "data-position": "bottom",
+      "data-alignment": "right",
+      "id": "daActionDropdown_village",
+      "data-dropdown": "",
+      "data-auto-focus": "true"
+    }
+  }, [_c('ul', {
+    staticClass: "my-menu small-font text-right"
+  }, [_c('li', [_c('a', {
+    attrs: {
+      "data-open": "preloaderModal"
+    }
+  }, [_c('i', {
+    staticClass: "fi-pencil size-16"
+  }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "data-open": "modalDelete"
+    }
+  }, [_c('i', {
+    staticClass: "fi-trash size-16"
+  }), _vm._v("  حذف")])])])])])])])])])])])])
+}]
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-4f8904e2", esExports)
   }
 }
 

@@ -9,11 +9,13 @@ window.Vue.use(Vuex);
 import dashboard from './components/Budget/Dashboard.vue'
 import tiny_seasons from './components/Budget/Admin/tiny_seasons.vue'
 import fiscal_year from './components/Budget/Admin/fiscal_year.vue'
+import deprived_area from './components/Budget/Admin/deprived_area.vue'
 //export router instance
 const routes = [
     { path: '/budget', component: dashboard },
     { path: '/budget/admin/tiny_seasons', component: tiny_seasons },
-    { path: '/budget/admin/fiscal_year', component: fiscal_year }
+    { path: '/budget/admin/fiscal_year', component: fiscal_year },
+    { path: '/budget/admin/deprived_area', component: deprived_area }
 ]
 
 const router = new VueRouter({
