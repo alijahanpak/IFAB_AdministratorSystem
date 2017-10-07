@@ -76,8 +76,8 @@
                                                 {{ da.daDescription }}
                                             </div>
                                             <div class="medium-1 cell-vertical-center text-left">
-                                                <a class="dropdown small sm-btn-align"  type="button" data-toggle="'daActionDropdown' + da.id"><img width="15px" height="15px"  src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
-                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="'daActionDropdown' + da.id" data-dropdown data-auto-focus="true">
+                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown' + da.id"><img width="15px" height="15px"  src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
+                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown' + da.id" data-dropdown data-auto-focus="true">
                                                     <ul class="my-menu small-font text-right">
                                                         <li><a data-open="preloaderModal"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
                                                         <li><a data-open="modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
@@ -104,20 +104,22 @@
                             </div>
                             <!--Header End-->
                             <div class="table-contain dynamic-height-level2">
-                                <div class="grid-x">
-                                    <div class="medium-4 table-contain-border cell-vertical-center"></div>
-                                    <div class="medium-8 table-contain-border cell-vertical-center">
-                                        <div class="grid-x">
-                                            <div class="medium-11">
-
-                                            </div>
-                                            <div class="medium-1 cell-vertical-center text-left">
-                                                <a class="dropdown small sm-btn-align display-off"  type="button" data-toggle="daActionDropdown_county"><img width="15px" height="15px"  src=""></a>
-                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="daActionDropdown_county" data-dropdown data-auto-focus="true">
-                                                    <ul class="my-menu small-font text-right">
-                                                        <li><a data-open="preloaderModal"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                        <li><a data-open="modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                    </ul>
+                                <div v-for="da in deprivedArea">
+                                    <div class="grid-x" v-if="da.daReId == null">
+                                        <div class="medium-4 table-contain-border cell-vertical-center">{{ da.county.coName }}</div>
+                                        <div class="medium-8 table-contain-border cell-vertical-center">
+                                            <div class="grid-x">
+                                                <div class="medium-11">
+                                                    {{ da.daDescription }}
+                                                </div>
+                                                <div class="medium-1 cell-vertical-center text-left">
+                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown_county' + da.id"><img width="15px" height="15px"  src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
+                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown_county' + da.id" data-dropdown data-auto-focus="true">
+                                                        <ul class="my-menu small-font text-right">
+                                                            <li><a data-open="preloaderModal"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                            <li><a data-open="modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -143,21 +145,23 @@
                             </div>
                             <!--Header End-->
                             <div class="table-contain dynamic-height-level2">
-                                <div class="grid-x">
-                                    <div class="medium-3 table-contain-border cell-vertical-center"></div>
-                                    <div class="medium-3 table-contain-border cell-vertical-center"></div>
-                                    <div class="medium-6 table-contain-border cell-vertical-center">
-                                        <div class="grid-x">
-                                            <div class="medium-11">
-
-                                            </div>
-                                            <div class="medium-1 cell-vertical-center text-left">
-                                                <a class="dropdown small sm-btn-align display-off"  type="button" data-toggle="daActionDropdown_region"><img width="15px" height="15px"  src=""></a>
-                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="daActionDropdown_region" data-dropdown data-auto-focus="true">
-                                                    <ul class="my-menu small-font text-right">
-                                                        <li><a data-open="preloaderModal"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                        <li><a data-open="modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                    </ul>
+                                <div v-for="da in deprivedArea">
+                                    <div class="grid-x" v-if="da.daReId != null && da.daRdId == null">
+                                        <div class="medium-3 table-contain-border cell-vertical-center">{{ da.region.reName }}</div>
+                                        <div class="medium-3 table-contain-border cell-vertical-center">{{ da.county.coName }}</div>
+                                        <div class="medium-6 table-contain-border cell-vertical-center">
+                                            <div class="grid-x">
+                                                <div class="medium-11">
+                                                    {{ da.daDescription }}
+                                                </div>
+                                                <div class="medium-1 cell-vertical-center text-left">
+                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown_region' + da.id"><img width="15px" height="15px"  src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
+                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown_region' + da.id" data-dropdown data-auto-focus="true">
+                                                        <ul class="my-menu small-font text-right">
+                                                            <li><a data-open="preloaderModal"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                            <li><a data-open="modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -186,22 +190,24 @@
                             </div>
                             <!--Header End-->
                             <div class="table-contain dynamic-height-level2">
-                                <div class="grid-x">
-                                    <div class="medium-2 table-contain-border cell-vertical-center"></div>
-                                    <div class="medium-2 table-contain-border cell-vertical-center"></div>
-                                    <div class="medium-2 table-contain-border cell-vertical-center"></div>
-                                    <div class="medium-6 table-contain-border cell-vertical-center">
-                                        <div class="grid-x">
-                                            <div class="medium-11">
-
-                                            </div>
-                                            <div class="medium-1 cell-vertical-center text-left">
-                                                <a class="dropdown small sm-btn-align display-off"  type="button" data-toggle="daActionDropdown_ruralDistrict"><img width="15px" height="15px"  src=""></a>
-                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="daActionDropdown_ruralDistrict" data-dropdown data-auto-focus="true">
-                                                    <ul class="my-menu small-font text-right">
-                                                        <li><a data-open="preloaderModal"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                        <li><a data-open="modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                    </ul>
+                                <div v-for="da in deprivedArea">
+                                    <div class="grid-x" v-if="da.daRdId != null && da.daViId == null">
+                                        <div class="medium-2 table-contain-border cell-vertical-center">{{ da.rural_district.rdName }}</div>
+                                        <div class="medium-2 table-contain-border cell-vertical-center">{{ da.county.coName }}</div>
+                                        <div class="medium-2 table-contain-border cell-vertical-center">{{ da.region.reName }}</div>
+                                        <div class="medium-6 table-contain-border cell-vertical-center">
+                                            <div class="grid-x">
+                                                <div class="medium-11">
+                                                    {{ da.daDescription }}
+                                                </div>
+                                                <div class="medium-1 cell-vertical-center text-left">
+                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown_ruralDistrict' + da.id"><img width="15px" height="15px"  src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
+                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown_ruralDistrict' + da.id" data-dropdown data-auto-focus="true">
+                                                        <ul class="my-menu small-font text-right">
+                                                            <li><a data-open="preloaderModal"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                            <li><a data-open="modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -233,23 +239,25 @@
                             </div>
                             <!--Header End-->
                             <div class="table-contain dynamic-height-level2">
-                                <div class="grid-x">
-                                    <div class="medium-2 table-contain-border cell-vertical-center"></div>
-                                    <div class="medium-2 table-contain-border cell-vertical-center"></div>
-                                    <div class="medium-2 table-contain-border cell-vertical-center"></div>
-                                    <div class="medium-2 table-contain-border cell-vertical-center"></div>
-                                    <div class="medium-4 table-contain-border cell-vertical-center">
-                                        <div class="grid-x">
-                                            <div class="medium-11">
-
-                                            </div>
-                                            <div class="medium-1 cell-vertical-center text-left">
-                                                <a class="dropdown small sm-btn-align display-off"  type="button" data-toggle="daActionDropdown_village"><img width="15px" height="15px"  src=""></a>
-                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="daActionDropdown_village" data-dropdown data-auto-focus="true">
-                                                    <ul class="my-menu small-font text-right">
-                                                        <li><a data-open="preloaderModal"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                        <li><a data-open="modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                    </ul>
+                                <div v-for="da in deprivedArea">
+                                    <div class="grid-x" v-if="da.daViId != null">
+                                        <div class="medium-2 table-contain-border cell-vertical-center">{{ da.village.viName }}</div>
+                                        <div class="medium-2 table-contain-border cell-vertical-center">{{ da.county.coName }}</div>
+                                        <div class="medium-2 table-contain-border cell-vertical-center">{{ da.region.reName }}</div>
+                                        <div class="medium-2 table-contain-border cell-vertical-center">{{ da.rural_district.rdName }}</div>
+                                        <div class="medium-4 table-contain-border cell-vertical-center">
+                                            <div class="grid-x">
+                                                <div class="medium-11">
+                                                    {{ da.daDescription }}
+                                                </div>
+                                                <div class="medium-1 cell-vertical-center text-left">
+                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown_village' + da.id"><img width="15px" height="15px"  src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
+                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown_village' + da.id" data-dropdown data-auto-focus="true">
+                                                        <ul class="my-menu small-font text-right">
+                                                            <li><a data-open="preloaderModal"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                            <li><a data-open="modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

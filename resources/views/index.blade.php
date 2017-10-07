@@ -234,7 +234,14 @@
                                 <ul class="menu vertical nested">
                                     <li><router-link to="/budget/admin/fiscal_year">سال مالی</router-link></li>
                                     <li><router-link to="/budget/admin/deprived_area">مناطق محروم</router-link></li>
-                                    <li><a href="">توزیع اعتبار</a></li>
+                                    <li>
+                                        <a href="">توزیع اعتبار</a>
+                                        <ul class="menu vertical nested">
+                                            <li><router-link to="/budget/admin/credit_distribution_def/budget_season">فصل بودجه</router-link></li>
+                                            <li><router-link to="">ردیف توزیع اعتبار</router-link></li>
+                                            <li><router-link to="">عنوان طرح / برنامه</router-link></li>
+                                        </ul>
+                                    </li>
                                     <li><router-link to="/budget/admin/tiny_seasons">ریز فصول</router-link></li>
                                     <li><a href="">ردیف توزیع اعتبار</a></li>
                                 </ul>

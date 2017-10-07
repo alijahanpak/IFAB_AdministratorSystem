@@ -19,6 +19,22 @@
             </div>
         </div>
         <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
+            <div class="medium-12 padding-lr" style="margin-top: 15px;">
+                <div class="clearfix border-btm-line tool-bar">
+                    <div style="margin-top: 2px;" class="button-group float-right report-mrg">
+                        <a class="my-button toolbox-btn small" @click="showInsertModal = true;">جدید</a>
+                        <a class="my-button toolbox-btn small">گزارش</a>
+                    </div>
+                    <div class="float-left">
+                        <div class="input-group float-left">
+                            <input class="input-group-field small-font" type="text">
+                            <div class="input-group-button">
+                                <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="medium-12 column">
                     <!--Tab 1 Start-->
                     <div class="columns padding-lr table-mrg-top">
@@ -58,17 +74,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="grid-x">
-                            <div class="medium-12">
-                                <vue-pagination  v-bind:pagination="pagination"
-                                                 v-on:click.native="fetchData(pagination.current_page)"
-                                                 :offset="4">
-                                </vue-pagination>
-                            </div>
-                        </div>
                     </div>
                     <!--Tab 1 End-->
-                    <notifications group="fiscalYearPm"
+                    <notifications group="budgetSeasonPm"
                                    position="bottom right"
                                    animation-type="velocity"
                                    :speed="700" />
@@ -173,7 +181,7 @@
         },
 
         created: function () {
-            this.fetchData();
+            //this.fetchData();
         },
 
         updated: function () {
