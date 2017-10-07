@@ -11187,7 +11187,7 @@ function getKeyCodes(kcs) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Triggers; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__foundation_util_motion__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__foundation_util_motion__ = __webpack_require__(8);
 
 
 
@@ -11460,6 +11460,103 @@ Triggers.init = function($, Foundation) {
 
 /***/ }),
 /* 7 */
+/***/ (function(module, exports) {
+
+/* globals __VUE_SSR_CONTEXT__ */
+
+// this module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier /* server only */
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = injectStyles
+  }
+
+  if (hook) {
+    var functional = options.functional
+    var existing = functional
+      ? options.render
+      : options.beforeCreate
+    if (!functional) {
+      // inject component registration as beforeCreate hook
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    } else {
+      // register for functioal component in vue file
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return existing(h, context)
+      }
+    }
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11572,103 +11669,6 @@ function animate(isIn, element, animation, cb) {
 
 
 
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports) {
-
-/* globals __VUE_SSR_CONTEXT__ */
-
-// this module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier /* server only */
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = injectStyles
-  }
-
-  if (hook) {
-    var functional = options.functional
-    var existing = functional
-      ? options.render
-      : options.beforeCreate
-    if (!functional) {
-      // inject component registration as beforeCreate hook
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    } else {
-      // register for functioal component in vue file
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return existing(h, context)
-      }
-    }
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
 
 
 /***/ }),
@@ -25748,7 +25748,7 @@ module.exports = Vue$3;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_pagination_vue__ = __webpack_require__(102);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_1d0885d8_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_pagination_vue__ = __webpack_require__(103);
 var disposed = false
-var normalizeComponent = __webpack_require__(8)
+var normalizeComponent = __webpack_require__(7)
 /* script */
 
 /* template */
@@ -43044,7 +43044,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__js_foundation_util_imageLoader__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__js_foundation_util_keyboard__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__js_foundation_util_mediaQuery__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__js_foundation_util_motion__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__js_foundation_util_motion__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__js_foundation_util_nest__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__js_foundation_util_timer__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__js_foundation_util_touch__ = __webpack_require__(12);
@@ -45945,7 +45945,7 @@ OffCanvas.defaults = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__foundation_util_keyboard__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__foundation_util_motion__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__foundation_util_motion__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__foundation_util_timer__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__foundation_util_imageLoader__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__foundation_util_core__ = __webpack_require__(1);
@@ -46664,7 +46664,7 @@ ResponsiveMenu.defaults = {};
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__foundation_util_mediaQuery__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__foundation_util_motion__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__foundation_util_motion__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__foundation_plugin__ = __webpack_require__(2);
 
 
@@ -46834,7 +46834,7 @@ ResponsiveToggle.defaults = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__foundation_util_keyboard__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__foundation_util_mediaQuery__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__foundation_util_motion__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__foundation_util_motion__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__foundation_plugin__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__foundation_util_triggers__ = __webpack_require__(6);
 
@@ -47433,7 +47433,7 @@ function mobileSniff() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__foundation_util_keyboard__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__foundation_util_motion__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__foundation_util_motion__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__foundation_util_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__foundation_plugin__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__foundation_util_touch__ = __webpack_require__(12);
@@ -48681,7 +48681,7 @@ function emCalc(em) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Toggler; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__foundation_util_motion__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__foundation_util_motion__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__foundation_plugin__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__foundation_util_triggers__ = __webpack_require__(6);
 
@@ -63177,7 +63177,7 @@ function injectStyle (ssrContext) {
   if (disposed) return
   __webpack_require__(79)
 }
-var normalizeComponent = __webpack_require__(8)
+var normalizeComponent = __webpack_require__(7)
 /* script */
 
 /* template */
@@ -63987,7 +63987,7 @@ function injectStyle (ssrContext) {
   if (disposed) return
   __webpack_require__(85)
 }
-var normalizeComponent = __webpack_require__(8)
+var normalizeComponent = __webpack_require__(7)
 /* script */
 
 /* template */
@@ -64254,7 +64254,7 @@ function injectStyle (ssrContext) {
   if (disposed) return
   __webpack_require__(90)
 }
-var normalizeComponent = __webpack_require__(8)
+var normalizeComponent = __webpack_require__(7)
 /* script */
 
 /* template */
@@ -68455,7 +68455,7 @@ var index_esm = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_Dashboard_vue__ = __webpack_require__(98);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8f6a890e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_Dashboard_vue__ = __webpack_require__(99);
 var disposed = false
-var normalizeComponent = __webpack_require__(8)
+var normalizeComponent = __webpack_require__(7)
 /* script */
 
 /* template */
@@ -68893,7 +68893,7 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_tiny_seasons_vue__ = __webpack_require__(101);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0d39c2dc_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_tiny_seasons_vue__ = __webpack_require__(104);
 var disposed = false
-var normalizeComponent = __webpack_require__(8)
+var normalizeComponent = __webpack_require__(7)
 /* script */
 
 /* template */
@@ -69256,6 +69256,34 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -69292,7 +69320,7 @@ if (false) {(function () {
 
     created: function created() {
         this.fetchCostData();
-        this.fetchData();
+        this.fetchCapitalAssetsData();
         this.getSeasons();
     },
 
@@ -69310,13 +69338,13 @@ if (false) {(function () {
     },
 
     methods: {
-        fetchData: function fetchData() {
+        fetchCapitalAssetsData: function fetchCapitalAssetsData() {
             var _this = this;
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             this.$root.start();
-            axios.get('/budget/admin/sub_seasons/fetchData?page=' + page, { params: { planOrCost: 0 } }).then(function (response) {
+            axios.get('/budget/admin/sub_seasons/capital_assets/fetchData?page=' + page).then(function (response) {
                 _this.tinySeasons = response.data.data;
                 _this.makePagination(response.data, "plan");
                 console.log(response.data);
@@ -69333,7 +69361,7 @@ if (false) {(function () {
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             this.$root.start();
-            axios.get('/budget/admin/sub_seasons/fetchData?page=' + page, { params: { planOrCost: 1 } }).then(function (response) {
+            axios.get('/budget/admin/sub_seasons/cost/fetchData?page=' + page).then(function (response) {
                 _this2.tinySeasonsCost = response.data.data;
                 _this2.makePagination(response.data, "cost");
                 console.log(response.data);
@@ -69677,64 +69705,72 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "medium-2 table-contain-border cell-vertical-center"
     }, [_vm._v("\n                                        " + _vm._s(season.sSubject) + "\n                                    ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-10"
-    }, _vm._l((season.tiny_season), function(tinySeason) {
+    }, _vm._l((season.capital_assets_season_title), function(capitalAssetsSeasonTitle) {
       return _c('div', {
-        staticClass: "grid-x selectAbleRow"
-      }, [_c('div', {
-        staticClass: "medium-6 table-contain-border cell-vertical-center"
-      }, [_vm._v("\n                                                " + _vm._s(tinySeason.tsSubject) + "\n                                            ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-6  table-contain-border cell-vertical-center"
-      }, [_c('div', {
         staticClass: "grid-x"
       }, [_c('div', {
-        staticClass: "medium-11"
-      }, [_vm._v("\n                                                        " + _vm._s(tinySeason.tsDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-1 cell-vertical-center text-left"
-      }, [_c('a', {
-        staticClass: "dropdown small sm-btn-align",
-        attrs: {
-          "type": "button",
-          "data-toggle": 'tsTinySeason' + tinySeason.id
-        }
-      }, [_c('img', {
-        attrs: {
-          "width": "15px",
-          "height": "15px",
-          "src": "/IFAB_AdministratorSystem/public/pic/menu.svg"
-        }
-      })]), _vm._v(" "), _c('div', {
-        staticClass: "dropdown-pane dropdown-pane-sm ",
-        attrs: {
-          "data-close-on-click": "true",
-          "data-hover": "true",
-          "data-hover-pane": "true",
-          "data-position": "bottom",
-          "data-alignment": "right",
-          "id": 'tsTinySeason' + tinySeason.id,
-          "data-dropdown": "",
-          "data-auto-focus": "true"
-        }
-      }, [_c('ul', {
-        staticClass: "my-menu small-font text-right"
-      }, [_c('li', [_c('a', {
-        on: {
-          "click": function($event) {
-            $event.preventDefault();
-            _vm.tinySeasonUpdateDialog(tinySeason, 0)
+        staticClass: "medium-3 table-contain-border cell-vertical-center"
+      }, [_vm._v("\n                                                " + _vm._s(capitalAssetsSeasonTitle.castSubject) + "\n                                            ")]), _vm._v(" "), _c('div', {
+        staticClass: "medium-9"
+      }, _vm._l((capitalAssetsSeasonTitle.capital_assets_tiny_season), function(capitalAssetsTinySeason) {
+        return _c('div', {
+          staticClass: "grid-x"
+        }, [_c('div', {
+          staticClass: "medium-6 table-contain-border cell-vertical-center"
+        }, [_vm._v("\n                                                        " + _vm._s(capitalAssetsTinySeason.catsSubject) + "\n                                                    ")]), _vm._v(" "), _c('div', {
+          staticClass: "medium-6  table-contain-border cell-vertical-center"
+        }, [_c('div', {
+          staticClass: "grid-x"
+        }, [_c('div', {
+          staticClass: "medium-11"
+        }, [_vm._v("\n                                                                " + _vm._s(capitalAssetsTinySeason.catsDescription) + "\n                                                            ")]), _vm._v(" "), _c('div', {
+          staticClass: "medium-1 cell-vertical-center text-left"
+        }, [_c('a', {
+          staticClass: "dropdown small sm-btn-align",
+          attrs: {
+            "type": "button",
+            "data-toggle": 'tsTinySeason' + season.id + capitalAssetsSeasonTitle.id + capitalAssetsTinySeason.id
           }
-        }
-      }, [_c('i', {
-        staticClass: "fi-pencil size-16"
-      }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
-        on: {
-          "click": function($event) {
-            $event.preventDefault();
-            _vm.openDeleteTinySeasonConfirm(tinySeason)
+        }, [_c('img', {
+          attrs: {
+            "width": "15px",
+            "height": "15px",
+            "src": "/IFAB_AdministratorSystem/public/pic/menu.svg"
           }
-        }
-      }, [_c('i', {
-        staticClass: "fi-trash size-16"
-      }), _vm._v("  حذف")])])])])])])])])
+        })]), _vm._v(" "), _c('div', {
+          staticClass: "dropdown-pane dropdown-pane-sm ",
+          attrs: {
+            "data-close-on-click": "true",
+            "data-hover": "true",
+            "data-hover-pane": "true",
+            "data-position": "bottom",
+            "data-alignment": "right",
+            "id": 'tsTinySeason' + season.id + capitalAssetsSeasonTitle.id + capitalAssetsTinySeason.id,
+            "data-dropdown": "",
+            "data-auto-focus": "true"
+          }
+        }, [_c('ul', {
+          staticClass: "my-menu small-font text-right"
+        }, [_c('li', [_c('a', {
+          on: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.tinySeasonUpdateDialog(capitalAssetsTinySeason, 0)
+            }
+          }
+        }, [_c('i', {
+          staticClass: "fi-pencil size-16"
+        }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+          on: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.openDeleteTinySeasonConfirm(capitalAssetsTinySeason)
+            }
+          }
+        }, [_c('i', {
+          staticClass: "fi-trash size-16"
+        }), _vm._v("  حذف")])])])])])])])])
+      }))])
     }))])
   })), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
@@ -69747,7 +69783,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     },
     nativeOn: {
       "click": function($event) {
-        _vm.fetchData(_vm.plan_pagination.current_page)
+        _vm.fetchCapitalAssetsData(_vm.plan_pagination.current_page)
       }
     }
   })], 1)])])])]), _vm._v(" "), _c('div', {
@@ -69787,64 +69823,72 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "medium-2 table-contain-border cell-vertical-center"
     }, [_vm._v("\n                                            " + _vm._s(season.sSubject) + "\n                                        ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-10"
-    }, _vm._l((season.tiny_season), function(tinySeason) {
+    }, _vm._l((season.cost_season_title), function(costSeasonTitle) {
       return _c('div', {
-        staticClass: "grid-x selectAbleRow"
-      }, [_c('div', {
-        staticClass: "medium-6 table-contain-border cell-vertical-center"
-      }, [_vm._v("\n                                                    " + _vm._s(tinySeason.tsSubject) + "\n                                                ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-6  table-contain-border cell-vertical-center"
-      }, [_c('div', {
         staticClass: "grid-x"
       }, [_c('div', {
-        staticClass: "medium-11"
-      }, [_vm._v("\n                                                        " + _vm._s(tinySeason.tsDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-1 cell-vertical-center text-left"
-      }, [_c('a', {
-        staticClass: "dropdown small sm-btn-align",
-        attrs: {
-          "type": "button",
-          "data-toggle": 'tsTinySeason' + tinySeason.id
-        }
-      }, [_c('img', {
-        attrs: {
-          "width": "15px",
-          "height": "15px",
-          "src": "/IFAB_AdministratorSystem/public/pic/menu.svg"
-        }
-      })]), _vm._v(" "), _c('div', {
-        staticClass: "dropdown-pane dropdown-pane-sm ",
-        attrs: {
-          "data-close-on-click": "true",
-          "data-hover": "true",
-          "data-hover-pane": "true",
-          "data-position": "bottom",
-          "data-alignment": "right",
-          "id": 'tsTinySeason' + tinySeason.id,
-          "data-dropdown": "",
-          "data-auto-focus": "true"
-        }
-      }, [_c('ul', {
-        staticClass: "my-menu small-font text-right"
-      }, [_c('li', [_c('a', {
-        on: {
-          "click": function($event) {
-            $event.preventDefault();
-            _vm.tinySeasonUpdateDialog(tinySeason, 1)
+        staticClass: "medium-3 table-contain-border cell-vertical-center"
+      }, [_vm._v("\n                                                    " + _vm._s(costSeasonTitle.cstSubject) + "\n                                                ")]), _vm._v(" "), _c('div', {
+        staticClass: "medium-9"
+      }, _vm._l((costSeasonTitle.cost_tiny_season), function(costTinySeason) {
+        return _c('div', {
+          staticClass: "grid-x"
+        }, [_c('div', {
+          staticClass: "medium-6 table-contain-border cell-vertical-center"
+        }, [_vm._v("\n                                                            " + _vm._s(costTinySeason.ctsSubject) + "\n                                                        ")]), _vm._v(" "), _c('div', {
+          staticClass: "medium-6  table-contain-border cell-vertical-center"
+        }, [_c('div', {
+          staticClass: "grid-x"
+        }, [_c('div', {
+          staticClass: "medium-11"
+        }, [_vm._v("\n                                                                    " + _vm._s(costTinySeason.ctsDescription) + "\n                                                                ")]), _vm._v(" "), _c('div', {
+          staticClass: "medium-1 cell-vertical-center text-left"
+        }, [_c('a', {
+          staticClass: "dropdown small sm-btn-align",
+          attrs: {
+            "type": "button",
+            "data-toggle": 'ctsTinySeason' + season.id + costSeasonTitle.id + costTinySeason.id
           }
-        }
-      }, [_c('i', {
-        staticClass: "tbl-menu fi-pencil size-16"
-      }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
-        on: {
-          "click": function($event) {
-            $event.preventDefault();
-            _vm.openDeleteTinySeasonConfirm(tinySeason)
+        }, [_c('img', {
+          attrs: {
+            "width": "15px",
+            "height": "15px",
+            "src": "/IFAB_AdministratorSystem/public/pic/menu.svg"
           }
-        }
-      }, [_c('i', {
-        staticClass: "tbl-menu fi-trash size-16"
-      }), _vm._v("  حذف")])])])])])])])])
+        })]), _vm._v(" "), _c('div', {
+          staticClass: "dropdown-pane dropdown-pane-sm ",
+          attrs: {
+            "data-close-on-click": "true",
+            "data-hover": "true",
+            "data-hover-pane": "true",
+            "data-position": "bottom",
+            "data-alignment": "right",
+            "id": 'ctsTinySeason' + season.id + costSeasonTitle.id + costTinySeason.id,
+            "data-dropdown": "",
+            "data-auto-focus": "true"
+          }
+        }, [_c('ul', {
+          staticClass: "my-menu small-font text-right"
+        }, [_c('li', [_c('a', {
+          on: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.tinySeasonUpdateDialog(costTinySeason, 0)
+            }
+          }
+        }, [_c('i', {
+          staticClass: "fi-pencil size-16"
+        }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+          on: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.openDeleteTinySeasonConfirm(costTinySeason)
+            }
+          }
+        }, [_c('i', {
+          staticClass: "fi-trash size-16"
+        }), _vm._v("  حذف")])])])])])])])])
+      }))])
     }))])
   })), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
@@ -69857,7 +69901,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     },
     nativeOn: {
       "click": function($event) {
-        _vm.fetchData(_vm.cost_pagination.current_page)
+        _vm.fetchCostData(_vm.cost_pagination.current_page)
       }
     }
   })], 1)])])])])]), _vm._v(" "), _c('notifications', {
@@ -70314,10 +70358,16 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }, [_c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
+    staticClass: "medium-3 table-border"
+  }, [_c('strong', [_vm._v("عنوان فصل")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-9"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
     staticClass: "medium-6 table-border"
   }, [_c('strong', [_vm._v("ریز فصل")])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6  table-border"
-  }, [_c('strong', [_vm._v("شرح")])])])])])
+  }, [_c('strong', [_vm._v("شرح")])])])])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
@@ -70401,10 +70451,16 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }, [_c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
+    staticClass: "medium-3 table-border"
+  }, [_c('strong', [_vm._v("عنوان فصل")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-9"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
     staticClass: "medium-6 table-border"
   }, [_c('strong', [_vm._v("ریز فصل")])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6  table-border"
-  }, [_c('strong', [_vm._v("شرح")])])])])])
+  }, [_c('strong', [_vm._v("شرح")])])])])])])])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
@@ -70424,7 +70480,7 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_fiscal_year_vue__ = __webpack_require__(106);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_f3e8e37a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_fiscal_year_vue__ = __webpack_require__(107);
 var disposed = false
-var normalizeComponent = __webpack_require__(8)
+var normalizeComponent = __webpack_require__(7)
 /* script */
 
 /* template */
@@ -71158,7 +71214,7 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_deprived_area_vue__ = __webpack_require__(109);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4f8904e2_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_deprived_area_vue__ = __webpack_require__(110);
 var disposed = false
-var normalizeComponent = __webpack_require__(8)
+var normalizeComponent = __webpack_require__(7)
 /* script */
 
 /* template */
@@ -71204,6 +71260,12 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__ = __webpack_require__(31);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -71539,16 +71601,28 @@ if (false) {(function () {
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["a"] = ({
     data: function data() {
         return {
-            showInsertModal: false
+            showInsertModal: false,
+            deprivedArea: [],
+            deprivedAreaInput: { county: '', region: '', ruralDistrict: '', village: '', description: '' },
+            counties: [],
+            regions: [],
+            ruralDistricts: [],
+            villages: [],
+            regionDisable: true,
+            ruralDistrictDisable: true,
+            villageDisable: true
+
         };
     },
 
 
     created: function created() {
         this.fetchData();
+        this.getCounties();
     },
 
     updated: function updated() {
@@ -71560,28 +71634,132 @@ if (false) {(function () {
         res();
     },
 
+    components: {
+        'vue-pagination': __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__["a" /* default */]
+    },
+
     methods: {
         fetchData: function fetchData() {
-            /*                this.$root.start();
-                            axios.get('/budget/admin/fiscal_year/fetchData?page=' + page)
-                                .then((response) => {
-                                    this.fiscalYears = response.data.data;
-                                    this.makePagination(response.data);
-                                    console.log(response.data);
-                                    this.$root.finish();
-                                },(error) => {
-                                    console.log(error);
-                                    this.$root.fail();
-                                });*/
+            var _this = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            this.$root.start();
+            axios.get('/budget/admin/deprived_area/fetchData?page=' + page).then(function (response) {
+                _this.deprivedArea = response.data;
+                console.log(response.data);
+                _this.$root.finish();
+            }, function (error) {
+                console.log(error);
+                _this.$root.fail();
+            });
+        },
+
+        createDeprivedArea: function createDeprivedArea() {
+            var _this2 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    _this2.$root.start();
+                    axios.post('/budget/admin/deprived_area/register', {
+                        county: _this2.deprivedAreaInput.county,
+                        region: _this2.deprivedAreaInput.region,
+                        ruralDistrict: _this2.deprivedAreaInput.ruralDistrict,
+                        village: _this2.deprivedAreaInput.village,
+                        description: _this2.deprivedAreaInput.description }).then(function (response) {
+                        _this2.deprivedArea = response.data;
+                        _this2.showInsertModal = false;
+                        _this2.displayNotif(response.status);
+                        _this2.deprivedAreaInput = [];
+                        console.log(response);
+                        _this2.$root.finish();
+                    }, function (error) {
+                        console.log(error);
+                        _this2.errorMessage = 'منطقه محروم با این مشخصات قبلا ثبت شده است!';
+                        _this2.$root.fail();
+                    });
+                }
+            });
+        },
+
+        getCounties: function getCounties() {
+            var _this3 = this;
+
+            this.$root.start();
+            axios.get('/admin/get_all_counties').then(function (response) {
+                _this3.counties = response.data;
+                console.log(response);
+                _this3.$root.finish();
+            }, function (error) {
+                console.log(error);
+                _this3.$root.fail();
+            });
+        },
+
+        getRegions: function getRegions() {
+            var _this4 = this;
+
+            if (this.deprivedAreaInput.county != "") {
+                this.$root.start();
+                axios.get('/admin/getCountyRegions', { params: { coId: this.deprivedAreaInput.county } }).then(function (response) {
+                    _this4.regions = response.data;
+                    _this4.regionDisable = false;
+                    console.log(response);
+                    _this4.$root.finish();
+                }, function (error) {
+                    console.log(error);
+                    _this4.$root.fail();
+                });
+            } else {
+                this.regionDisable = true;
+            }
+        },
+
+        getRuralDistricts: function getRuralDistricts() {
+            var _this5 = this;
+
+            if (this.deprivedAreaInput.region != "") {
+                this.$root.start();
+                axios.get('/admin/getRuralDistrictByRegionId', { params: { reId: this.deprivedAreaInput.region } }).then(function (response) {
+                    _this5.ruralDistricts = response.data;
+                    _this5.ruralDistrictDisable = false;
+                    console.log(response);
+                    _this5.$root.finish();
+                }, function (error) {
+                    console.log(error);
+                    _this5.$root.fail();
+                });
+            } else {
+                this.ruralDistrictDisable = true;
+            }
+        },
+
+        getVillages: function getVillages() {
+            var _this6 = this;
+
+            if (this.deprivedAreaInput.ruralDistrict != "") {
+                this.$root.start();
+                axios.get('/admin/getVillagesByRuralDistrictId', { params: { rdId: this.deprivedAreaInput.ruralDistrict } }).then(function (response) {
+                    _this6.villages = response.data;
+                    _this6.villageDisable = false;
+                    console.log(response);
+                    _this6.$root.finish();
+                }, function (error) {
+                    console.log(error);
+                    _this6.$root.fail();
+                });
+            } else {
+                this.villageDisable = true;
+            }
         },
 
         displayNotif: function displayNotif(httpStatusCode) {
             switch (httpStatusCode) {
                 case 204:
-                    this.$notify({ group: 'fiscalYearPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
+                    this.$notify({ group: 'deprivedAreaPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
                     break;
                 case 200:
-                    this.$notify({ group: 'fiscalYearPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
+                    this.$notify({ group: 'deprivedAreaPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
                     break;
             }
         }
@@ -71638,7 +71816,39 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")])]), _vm._v(" "), _vm._m(3)])]), _vm._v(" "), _vm._m(4)]), _vm._v(" "), _c('notifications', {
+  }, [_vm._v("گزارش")])]), _vm._v(" "), _vm._m(3)])]), _vm._v(" "), _c('div', {
+    staticClass: "tabs-content",
+    attrs: {
+      "data-tabs-content": "deprived_area"
+    }
+  }, [_c('div', {
+    staticClass: "tabs-panel is-active table-mrg-btm",
+    attrs: {
+      "id": "province"
+    }
+  }, [_c('div', {
+    staticClass: "columns"
+  }, [_vm._m(4), _vm._v(" "), _c('div', {
+    staticClass: "table-contain dynamic-height-level2"
+  }, _vm._l((_vm.deprivedArea), function(da) {
+    return _c('div', {
+      staticClass: "grid-x"
+    }, [_c('div', {
+      staticClass: "medium-2 table-contain-border cell-vertical-center"
+    }, [_vm._v(_vm._s(da.county.coName))]), _vm._v(" "), _c('div', {
+      staticClass: "medium-2 table-contain-border cell-vertical-center"
+    }, [_vm._v(_vm._s(da.region == null ? '--' : da.region.reName))]), _vm._v(" "), _c('div', {
+      staticClass: "medium-2 table-contain-border cell-vertical-center"
+    }, [_vm._v(_vm._s(da.rural_district == null ? '--' : da.rural_district.rdName))]), _vm._v(" "), _c('div', {
+      staticClass: "medium-2 table-contain-border cell-vertical-center"
+    }, [_vm._v(_vm._s(da.village == null ? '--' : da.village.viName))]), _vm._v(" "), _c('div', {
+      staticClass: "medium-4 table-contain-border cell-vertical-center"
+    }, [_c('div', {
+      staticClass: "grid-x"
+    }, [_c('div', {
+      staticClass: "medium-11"
+    }, [_vm._v("\n                                            " + _vm._s(da.daDescription) + "\n                                        ")]), _vm._v(" "), _vm._m(5, true)])])])
+  }))])]), _vm._v(" "), _vm._m(6), _vm._v(" "), _vm._m(7), _vm._v(" "), _vm._m(8), _vm._v(" "), _vm._m(9)])]), _vm._v(" "), _c('notifications', {
     attrs: {
       "group": "deprivedAreaPm",
       "position": "bottom right",
@@ -71660,7 +71870,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
-        _vm.createTinySeason($event)
+        _vm.createDeprivedArea($event)
       }
     }
   }, [_c('div', {
@@ -71684,59 +71894,175 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "medium-6 cell padding-lr"
   }, [_c('label', [_vm._v("شهرستان\n                            "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.deprivedAreaInput.county),
+      expression: "deprivedAreaInput.county"
+    }, {
+      name: "validate",
+      rawName: "v-validate"
+    }],
+    class: {
+      'input': true, 'select-error': _vm.errors.has('daCounty')
+    },
     attrs: {
       "name": "daCounty",
-      "id": "selectCounty",
-      "required": ""
+      "data-vv-rules": "required"
+    },
+    on: {
+      "change": [function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.deprivedAreaInput.county = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }, _vm.getRegions]
     }
   }, [_c('option', {
     attrs: {
       "value": ""
     }
-  }), _vm._v(" "), _c('option', {
+  }), _vm._v(" "), _vm._l((_vm.counties), function(county) {
+    return _c('option', {
+      domProps: {
+        "value": county.id
+      }
+    }, [_vm._v(_vm._s(county.coName))])
+  })], 2), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('daCounty')),
+      expression: "errors.has('daCounty')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("شهرستان را انتخاب کنید!")])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 cell padding-lr"
+  }, [_c('label', [_vm._v("بخش\n                            "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.deprivedAreaInput.region),
+      expression: "deprivedAreaInput.region"
+    }],
+    attrs: {
+      "disabled": _vm.regionDisable
+    },
+    on: {
+      "change": [function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.deprivedAreaInput.region = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }, _vm.getRuralDistricts]
+    }
+  }, [_c('option', {
     attrs: {
       "value": ""
     }
-  })])]), _vm._v(" "), _c('span', {
-    staticClass: "form-error error-font",
-    attrs: {
-      "data-form-error-for": "selectCounty"
-    }
-  }, [_vm._v("شهرستان را انتخاب کنید!")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-6 cell padding-lr"
-  }, [_c('label', [_vm._v("بخش\n                            "), _c('select', {
-    attrs: {
-      "name": "daRegion",
-      "id": "selectRegion",
-      "disabled": ""
-    }
-  })])])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _vm._l((_vm.regions), function(region) {
+    return _c('option', {
+      domProps: {
+        "value": region.id
+      }
+    }, [_vm._v(_vm._s(region.reName))])
+  })], 2)])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-6 cell padding-lr"
   }, [_c('label', [_vm._v("دهستان\n                            "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.deprivedAreaInput.ruralDistrict),
+      expression: "deprivedAreaInput.ruralDistrict"
+    }],
     attrs: {
-      "name": "daRuralDistrict",
-      "id": "selectRuralDistrict",
-      "disabled": ""
+      "disabled": _vm.ruralDistrictDisable
+    },
+    on: {
+      "change": [function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.deprivedAreaInput.ruralDistrict = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }, _vm.getVillages]
     }
-  })])]), _vm._v(" "), _c('div', {
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.ruralDistricts), function(ruralDistrict) {
+    return _c('option', {
+      domProps: {
+        "value": ruralDistrict.id
+      }
+    }, [_vm._v(_vm._s(ruralDistrict.rdName))])
+  })], 2)])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6 cell padding-lr"
   }, [_c('label', [_vm._v("روستا\n                            "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.deprivedAreaInput.village),
+      expression: "deprivedAreaInput.village"
+    }],
     attrs: {
-      "name": "daVillage",
-      "id": "selectVillage",
-      "disabled": ""
+      "disabled": _vm.villageDisable
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.deprivedAreaInput.village = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
-  })])])]), _vm._v(" "), _c('div', {
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.villages), function(village) {
+    return _c('option', {
+      domProps: {
+        "value": village.id
+      }
+    }, [_vm._v(_vm._s(village.viName))])
+  })], 2)])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6 columns padding-lr"
   }, [_c('label', [_vm._v("شرح\n                        "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.deprivedAreaInput.description),
+      expression: "deprivedAreaInput.description"
+    }],
     staticStyle: {
       "min-height": "150px"
     },
     attrs: {
-      "name": "daDescription",
-      "id": "daDescription"
+      "name": "daDescription"
+    },
+    domProps: {
+      "value": (_vm.deprivedAreaInput.description)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.deprivedAreaInput.description = $event.target.value
+      }
     }
   })])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6 columns padding-lr"
@@ -71830,18 +72156,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   })])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "tabs-content",
-    attrs: {
-      "data-tabs-content": "deprived_area"
-    }
-  }, [_c('div', {
-    staticClass: "tabs-panel is-active table-mrg-btm",
-    attrs: {
-      "id": "province"
-    }
-  }, [_c('div', {
-    staticClass: "columns"
-  }, [_c('div', {
     staticClass: "grid-x table-header"
   }, [_c('div', {
     staticClass: "medium-2 table-border"
@@ -71853,37 +72167,21 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "medium-2 table-border"
   }, [_c('strong', [_vm._v("روستا")])]), _vm._v(" "), _c('div', {
     staticClass: "medium-4 table-border"
-  }, [_c('strong', [_vm._v("شرح")])])]), _vm._v(" "), _c('div', {
-    staticClass: "table-contain dynamic-height-level2"
-  }, [_c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-2 table-contain-border cell-vertical-center"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-contain-border cell-vertical-center"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-contain-border cell-vertical-center"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-contain-border cell-vertical-center"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "medium-4 table-contain-border cell-vertical-center"
-  }, [_c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-11"
-  }), _vm._v(" "), _c('div', {
+  }, [_c('strong', [_vm._v("شرح")])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "medium-1 cell-vertical-center text-left"
   }, [_c('a', {
-    staticClass: "dropdown small sm-btn-align display-off",
+    staticClass: "dropdown small sm-btn-align",
     attrs: {
       "type": "button",
-      "data-toggle": "daActionDropdown"
+      "data-toggle": "'daActionDropdown' + da.id"
     }
   }, [_c('img', {
     attrs: {
       "width": "15px",
       "height": "15px",
-      "src": ""
+      "src": "/IFAB_AdministratorSystem/public/pic/menu.svg"
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "dropdown-pane dropdown-pane-sm ",
@@ -71893,7 +72191,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "data-hover-pane": "true",
       "data-position": "bottom",
       "data-alignment": "right",
-      "id": "daActionDropdown",
+      "id": "'daActionDropdown' + da.id",
       "data-dropdown": "",
       "data-auto-focus": "true"
     }
@@ -71911,7 +72209,9 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }, [_c('i', {
     staticClass: "fi-trash size-16"
-  }), _vm._v("  حذف")])])])])])])])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v("  حذف")])])])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "tabs-panel table-mrg-btm",
     attrs: {
       "id": "county"
@@ -71976,7 +72276,9 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }, [_c('i', {
     staticClass: "fi-trash size-16"
-  }), _vm._v("  حذف")])])])])])])])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v("  حذف")])])])])])])])])])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "tabs-panel table-mrg-btm",
     attrs: {
       "id": "region"
@@ -72045,7 +72347,9 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }, [_c('i', {
     staticClass: "fi-trash size-16"
-  }), _vm._v("  حذف")])])])])])])])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v("  حذف")])])])])])])])])])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "tabs-panel table-mrg-btm",
     attrs: {
       "id": "rural_district"
@@ -72118,7 +72422,9 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }, [_c('i', {
     staticClass: "fi-trash size-16"
-  }), _vm._v("  حذف")])])])])])])])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v("  حذف")])])])])])])])])])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "tabs-panel table-mrg-btm",
     attrs: {
       "id": "village"
@@ -72195,7 +72501,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }, [_c('i', {
     staticClass: "fi-trash size-16"
-  }), _vm._v("  حذف")])])])])])])])])])])])])
+  }), _vm._v("  حذف")])])])])])])])])])])])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }

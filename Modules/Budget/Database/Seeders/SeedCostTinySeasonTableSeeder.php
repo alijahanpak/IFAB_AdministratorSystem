@@ -21,7 +21,7 @@ class SeedCostTinySeasonTableSeeder extends Seeder
         $ctsSeason = new CostTinySeason;
         $ctsSeason->ctsUId = 1;
         $ctsSeason->ctsCstId = 1;
-        $ctsSeason->ctsSubject = 'مطالعه برای احداث ساختمان و مستحدثات';
+        $ctsSeason->ctsSubject = 'حقوق و دستمزد';
         $ctsSeason->ctsDescription = 'برای تست';
         $ctsSeason->save();
     }

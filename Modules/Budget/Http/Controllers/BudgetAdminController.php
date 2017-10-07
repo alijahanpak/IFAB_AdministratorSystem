@@ -43,7 +43,7 @@ class BudgetAdminController extends Controller
             'requireJsFile' => 'deprived_area']);
     }
 
-    public function registerDeprivedArea(Request $request)
+/*    public function registerDeprivedArea(Request $request)
     {
 
         $deprivedArea = new DeprivedArea;
@@ -57,7 +57,7 @@ class BudgetAdminController extends Controller
 
         SystemLog::setBudgetSubSystemAdminLog('تعریف منطقه محروم ' . DeprivedArea::getDeprivedAreaLabel($deprivedArea->id));
         return Redirect::to(URL::previous());
-    }
+    }*/
 
     public function fiscalYear()
     {
@@ -533,8 +533,42 @@ class BudgetAdminController extends Controller
         SystemLog::setBudgetSubSystemAdminLog('تغییر  ریز فصل (' . $old->tsSubject . ') به (' . $ts->tsSubject . ')');
         return Redirect::to(URL::previous() . '#plan_title_tab');
     }
+    ////////////////////////////// cost tiny season /////////////////////////////////
+    public function FetchCostTinySeasonData(Request $request)
+    {
+        return \response()->json($this->getAllTinySeasons("cost"));
+    }
 
-    ///////////////////////////////////////////////////////////////
+    ////////////////////////////// capital assets tiny season /////////////////////////////////
+    public function getCapitalAssetsTinySeasonsWhitSeasonId(Request $request)
+    {
+        return \response()->json(
+            CapitalAssetsTinySeason::where('tsSId' , '=' , $request->sId)->get()
+        );
+    }
+
+    public function FetchCapitalAssetsTinySeasonData(Request $request)
+    {
+        return \response()->json($this->getAllTinySeasons("capitalAssets"));
+    }
+
+    public function getAllTinySeasons($type)
+    {
+        if ($type == "capitalAssets")
+        {
+            $seasons = Season::with('capitalAssetsSeasonTitle')
+                ->with('capitalAssetsSeasonTitle.capitalAssetsTinySeason')
+                ->whereHas('capitalAssetsSeasonTitle.capitalAssetsTinySeason')->paginate(5);
+            return $seasons;
+        }else if ($type == "cost")
+        {
+            $seasons = Season::with('costSeasonTitle')
+                ->with('costSeasonTitle.costTinySeason')
+                ->whereHas('costSeasonTitle.costTinySeason')->paginate(5);
+            return $seasons;
+        }
+
+    }
 
     public function registerTinySeason(Request $request)
     {
@@ -556,7 +590,7 @@ class BudgetAdminController extends Controller
             $ts->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل ' . $request->tsSubject . ' در فصل ' . Season::find($request->tsSId)->sSubject);
-            return \response()->json($this->getAllTinySeasons($request->planOrCost) , 200);
+            return \response()->json($this->getAllTinySeasons("capitalAssets") , 200);
         }
     }
 
@@ -581,7 +615,7 @@ class BudgetAdminController extends Controller
             $ts->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تغییر  ریز فصل (' . $old->tsSubject . ') به (' . $ts->tsSubject . ')');
-            return \response()->json($this->getAllTinySeasons($request->planOrCost) , 200);
+            return \response()->json($this->getAllTinySeasons("capitalAssets") , 200);
         }
     }
 
@@ -591,37 +625,13 @@ class BudgetAdminController extends Controller
         try {
             $ts->delete();
             SystemLog::setBudgetSubSystemAdminLog('حذف ریز فصل ' . $request->tsSubject);
-            return \response()->json($this->getAllTinySeasons($request->tsPlanOrCost) , 200);
+            return \response()->json($this->getAllTinySeasons("capitalAssets") , 200);
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return \response()->json($this->getAllTinySeasons($request->tsPlanOrCost) , 204);
+                return \response()->json($this->getAllTinySeasons("capitalAssets") , 204);
             }
         }
-    }
-
-    public function getTinySeasonsWhitSeasonId(Request $request)
-    {
-        return \response()->json(
-            CapitalAssetsTinySeason::where('tsSId' , '=' , $request->sId)
-            ->where('tsPlanOrCost' , '=' , $request->planOrCost)
-            ->get()
-        );
-    }
-
-    public function FetchTinySeasonData(Request $request)
-    {
-        return \response()->json($this->getAllTinySeasons($request->planOrCost));
-    }
-
-    public function getAllTinySeasons($planOrCost)
-    {
-        $seasons = Season::whereHas('tinySeason' , function ($query) use ($planOrCost){
-            return $query->where('tsPlanOrCost' , '=' , $planOrCost);
-        })->with(['tinySeason' => function($query)  use ($planOrCost){
-            return $query->where('tsPlanOrCost' , '=' , $planOrCost);
-        }])->paginate(5);
-        return $seasons;
     }
 
     public function rowDistributionCredit()
@@ -764,6 +774,37 @@ class BudgetAdminController extends Controller
         SystemLog::setBudgetSubSystemAdminLog('تغییر مجوز ' . $fyBudgetPermission->pbLabel . ' در سال مالی ' . FiscalYear::where('id' , '=' , $fyBudgetPermission->pbFyId)->value('fyLabel') . ' برای زیر سیستم بودجه.');
         return \response()->json($this->getBudgetPermissionWithFyId($fyBudgetPermission->pbFyId));
 
+    }
+
+    /////////////////////////////// deprived area ///////////////////////////////////////////
+    public function fetchDeprivedAreaData(Request $request)
+    {
+        return \response()->json($this->getAllDeprivedArea());
+    }
+
+    public function getAllDeprivedArea()
+    {
+        return DeprivedArea::with('county')
+            ->with('region')
+            ->with('ruralDistrict')
+            ->with('village')
+            ->get();
+    }
+
+    public function registerDeprivedArea(Request $request)
+    {
+
+        $deprivedArea = new DeprivedArea;
+        $deprivedArea->daUId = Auth::user()->id;
+        $deprivedArea->daCoId = $request->county;
+        $deprivedArea->daReId = $request->region;
+        $deprivedArea->daRdId = $request->ruralDistrict;
+        $deprivedArea->daViId = $request->village;
+        $deprivedArea->daDescription = $request->description;
+        $deprivedArea->save();
+
+        SystemLog::setBudgetSubSystemAdminLog('تعریف منطقه محروم ' . DeprivedArea::getDeprivedAreaLabel($deprivedArea->id));
+        return \response()->json($this->getAllDeprivedArea());
     }
 }
 

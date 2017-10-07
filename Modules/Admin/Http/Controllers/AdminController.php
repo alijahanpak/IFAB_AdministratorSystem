@@ -13,34 +13,22 @@ use Modules\Admin\Entities\Village;
 
 class AdminController extends Controller
 {
-    public function getRegionsByCountyId($cId)
+    public function getRegionsByCountyId(Request $request)
     {
-        if (\Illuminate\Support\Facades\Request::ajax())
-        {
-            $region = Region::where('reCoId' , '=' , $cId)->get();
-            return \Illuminate\Support\Facades\Response::json($region);
-        }
-
+            $region = Region::where('reCoId' , '=' , $request->coId)->get();
+            return \response()->json($region);
     }
 
-    public function getRuralDistrictByRegionId($rId)
+    public function getRuralDistrictByRegionId(Request $request)
     {
-        if (\Illuminate\Support\Facades\Request::ajax())
-        {
-            $ruralDistricts = RuralDistrict::where('rdReId' , '=' , $rId)->get();
-            return \Illuminate\Support\Facades\Response::json($ruralDistricts);
-        }
-
+        $ruralDistricts = RuralDistrict::where('rdReId' , '=' , $request->reId)->get();
+        return \response()->json($ruralDistricts);
     }
 
-    public function getVillagesByRuralDistrictId($rId)
+    public function getVillagesByRuralDistrictId(Request $request)
     {
-        if (\Illuminate\Support\Facades\Request::ajax())
-        {
-            $ruralDistricts = Village::where('viRdId' , '=' , $rId)->get();
-            return \Illuminate\Support\Facades\Response::json($ruralDistricts);
-        }
-
+        $ruralDistricts = Village::where('viRdId' , '=' , $request->rdId)->get();
+        return \response()->json($ruralDistricts);
     }
 
     public function getAllCounties()
