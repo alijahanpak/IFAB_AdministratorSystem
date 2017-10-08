@@ -243,7 +243,14 @@
                                             <li><router-link to="">عنوان طرح / برنامه</router-link></li>
                                         </ul>
                                     </li>
-                                    <li><router-link to="/budget/admin/tiny_seasons">ریز فصول</router-link></li>
+                                    <li>
+                                        <a href="">فصول</a>
+                                        <ul class="menu vertical nested">
+                                            <li><router-link to="/budget/admin/season/season_title">عنوان فصل</router-link></li>
+                                            <li><router-link to="/budget/admin/season/tiny_seasons">ریز فصول</router-link></li>
+                                        </ul>
+                                    </li>
+
                                     <li><a href="">ردیف توزیع اعتبار</a></li>
                                 </ul>
                             </li>

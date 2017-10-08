@@ -82,10 +82,10 @@
                     <p class="large-offset-1 modal-text">آیا مایل به فعال سازی سال مالی <span>{{ fyLabel}}</span>هستید؟</p>
                     <div class="grid-x">
                         <div class="medium-6 text-center">
-                            <a @click="sendFyActiveRequest" class="button primary btn-large-w">بله</a>
+                            <a @click="sendFyActiveRequest" class="my-button my-primary btn-large-w">بله</a>
                         </div>
                         <div class="medium-6 text-center">
-                            <a @click="showFyActiveModal = false" class="button primary hollow btn-large-w">خیر</a>
+                            <a @click="showFyActiveModal = false" class="my-button my-metal hollow btn-large-w">خیر</a>
                         </div>
                     </div>
                 </div>
