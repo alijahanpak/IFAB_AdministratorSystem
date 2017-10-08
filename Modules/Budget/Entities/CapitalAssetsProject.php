@@ -21,7 +21,7 @@ class CapitalAssetsProject extends Model
 
     public function tinySeason()
     {
-        return $this->belongsTo(TinySeason::class , 'cpTsId' , 'id');
+        return $this->belongsTo(CapitalAssetsTinySeason::class , 'cpTsId' , 'id');
     }
 
     public function cdrCp()

@@ -13,6 +13,26 @@ class DeprivedArea extends Model
     protected $table = 'tbl_deprived_areas';
     protected $fillable = [];
 
+    public function county()
+    {
+        return $this->belongsTo(County::class , 'daCoId' , 'id');
+    }
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class , 'daReId' , 'id');
+    }
+
+    public function ruralDistrict()
+    {
+        return $this->belongsTo(RuralDistrict::class , 'daRdId' , 'id');
+    }
+
+    public function village()
+    {
+        return $this->belongsTo(Village::class , 'daViId' , 'id');
+    }
+
     public static function getDeprivedAreaLabel($daId)
     {
         $dArea = DeprivedArea::find($daId);

@@ -3,6 +3,7 @@
 namespace Modules\Admin\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Budget\Entities\DeprivedArea;
 
 class County extends Model
 {

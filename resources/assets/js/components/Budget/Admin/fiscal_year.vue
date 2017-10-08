@@ -21,51 +21,49 @@
         <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
             <div class="medium-12 column">
                     <!--Tab 1 Start-->
-                    <div class="tabs-panel is-active table-mrg-btm">
-                        <div class="columns">
-                            <!--Header Start-->
-                            <div class="grid-x table-header">
-                                <div class="medium-2 table-border">
-                                    <strong>سال مالی</strong>
-                                </div>
-                                <div class="medium-4 table-border">
-                                    <strong>شرح</strong>
-                                </div>
-                                <div class="medium-2 table-border">
-                                    <strong>وضعیت</strong>
-                                </div>
-                                <div class="medium-2 table-border">
-                                    <strong>مجوزها</strong>
-                                </div>
-                                <div class="medium-2 table-border">
-                                    <strong>فعالسازی</strong>
-                                </div>
+                    <div class="columns padding-lr table-mrg-top">
+                        <!--Header Start-->
+                        <div class="grid-x table-header">
+                            <div class="medium-2 table-border">
+                                <strong>سال مالی</strong>
                             </div>
-                            <!--Header End-->
-                            <div class="table-contain dynamic-height-level2">
-                                <div class="grid-x" v-for="fiscalYear in fiscalYears">
-                                    <div class="medium-2 table-contain-border cell-vertical-center">{{ fiscalYear.fyLabel }}</div>
-                                    <div class="medium-4 table-contain-border cell-vertical-center">{{ fiscalYear.fyDescription }}</div>
-                                    <div class="medium-2 table-contain-border cell-vertical-center">{{ getFiscalYearStatus(fiscalYear.fyStatus) }}</div>
-                                    <div class="medium-2 table-contain-border cell-vertical-center text-center">
-                                        <div v-show="fiscalYear.fyStatus != 0">
-                                            <a @click="openChangePermissionDialog(fiscalYear.id)"><i class="fi-clipboard-pencil size-21 blue-color"></i> </a>
-                                        </div>
+                            <div class="medium-4 table-border">
+                                <strong>شرح</strong>
+                            </div>
+                            <div class="medium-2 table-border">
+                                <strong>وضعیت</strong>
+                            </div>
+                            <div class="medium-2 table-border">
+                                <strong>مجوزها</strong>
+                            </div>
+                            <div class="medium-2 table-border">
+                                <strong>فعالسازی</strong>
+                            </div>
+                        </div>
+                        <!--Header End-->
+                        <div class="table-contain dynamic-height-level2">
+                            <div class="grid-x" v-for="fiscalYear in fiscalYears">
+                                <div class="medium-2 table-contain-border cell-vertical-center">{{ fiscalYear.fyLabel }}</div>
+                                <div class="medium-4 table-contain-border cell-vertical-center">{{ fiscalYear.fyDescription }}</div>
+                                <div class="medium-2 table-contain-border cell-vertical-center">{{ getFiscalYearStatus(fiscalYear.fyStatus) }}</div>
+                                <div class="medium-2 table-contain-border cell-vertical-center text-center">
+                                    <div v-show="fiscalYear.fyStatus != 0">
+                                        <a @click="openChangePermissionDialog(fiscalYear.id)"><i class="fi-clipboard-pencil size-21 blue-color"></i> </a>
                                     </div>
-                                    <div class="medium-2 table-contain-border cell-vertical-center text-center">
-                                        <div v-show="fiscalYear.fyStatus == 0">
-                                            <a @click="openFyActiveRequestDialog(fiscalYear.fyLabel , fiscalYear.id)"><i class="fi-checkbox size-21 edit-pencil"></i></a>
-                                        </div>
+                                </div>
+                                <div class="medium-2 table-contain-border cell-vertical-center text-center">
+                                    <div v-show="fiscalYear.fyStatus == 0">
+                                        <a @click="openFyActiveRequestDialog(fiscalYear.fyLabel , fiscalYear.id)"><i class="fi-checkbox size-21 edit-pencil"></i></a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="grid-x">
-                                <div class="medium-12">
-                                    <vue-pagination  v-bind:pagination="pagination"
-                                                     v-on:click.native="fetchData(pagination.current_page)"
-                                                     :offset="4">
-                                    </vue-pagination>
-                                </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-12">
+                                <vue-pagination  v-bind:pagination="pagination"
+                                                 v-on:click.native="fetchData(pagination.current_page)"
+                                                 :offset="4">
+                                </vue-pagination>
                             </div>
                         </div>
                     </div>

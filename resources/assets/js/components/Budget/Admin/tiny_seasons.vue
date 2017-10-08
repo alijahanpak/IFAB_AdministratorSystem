@@ -63,11 +63,18 @@
                                     </div>
                                     <div class="medium-10">
                                         <div class="grid-x">
-                                            <div class="medium-6 table-border">
-                                                <strong>ریز فصل</strong>
+                                            <div class="medium-3 table-border">
+                                                <strong>عنوان فصل</strong>
                                             </div>
-                                            <div class="medium-6  table-border">
-                                                <strong>شرح</strong>
+                                            <div class="medium-9">
+                                                <div class="grid-x">
+                                                    <div class="medium-6 table-border">
+                                                        <strong>ریز فصل</strong>
+                                                    </div>
+                                                    <div class="medium-6  table-border">
+                                                        <strong>شرح</strong>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -79,22 +86,29 @@
                                             {{ season.sSubject }}
                                         </div>
                                         <div class="medium-10">
-                                            <div class="grid-x selectAbleRow" v-for="tinySeason in season.tiny_season">
-                                                <div class="medium-6 table-contain-border cell-vertical-center">
-                                                    {{ tinySeason.tsSubject }}
+                                            <div class="grid-x" v-for="capitalAssetsSeasonTitle in season.capital_assets_season_title">
+                                                <div class="medium-3 table-contain-border cell-vertical-center">
+                                                    {{ capitalAssetsSeasonTitle.castSubject }}
                                                 </div>
-                                                <div class="medium-6  table-contain-border cell-vertical-center">
-                                                    <div class="grid-x">
-                                                        <div class="medium-11">
-                                                            {{ tinySeason.tsDescription }}
+                                                <div class="medium-9">
+                                                    <div class="grid-x" v-for="capitalAssetsTinySeason in capitalAssetsSeasonTitle.capital_assets_tiny_season">
+                                                        <div class="medium-6 table-contain-border cell-vertical-center">
+                                                            {{ capitalAssetsTinySeason.catsSubject }}
                                                         </div>
-                                                        <div class="medium-1 cell-vertical-center text-left">
-                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + tinySeason.id"><img width="15px" height="15px" src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + tinySeason.id" data-dropdown data-auto-focus="true">
-                                                                <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent="tinySeasonUpdateDialog(tinySeason , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(tinySeason)"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                                </ul>
+                                                        <div class="medium-6  table-contain-border cell-vertical-center">
+                                                            <div class="grid-x">
+                                                                <div class="medium-11">
+                                                                    {{ capitalAssetsTinySeason.catsDescription }}
+                                                                </div>
+                                                                <div class="medium-1 cell-vertical-center text-left">
+                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + season.id + capitalAssetsSeasonTitle.id + capitalAssetsTinySeason.id"><img width="15px" height="15px" src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
+                                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + season.id + capitalAssetsSeasonTitle.id + capitalAssetsTinySeason.id" data-dropdown data-auto-focus="true">
+                                                                        <ul class="my-menu small-font text-right">
+                                                                            <li><a v-on:click.prevent="tinySeasonUpdateDialog(capitalAssetsTinySeason , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                            <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(capitalAssetsTinySeason)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -106,7 +120,7 @@
                                 <div class="grid-x">
                                     <div class="medium-12">
                                         <vue-pagination  v-bind:pagination="plan_pagination"
-                                                         v-on:click.native="fetchData(plan_pagination.current_page)"
+                                                         v-on:click.native="fetchCapitalAssetsData(plan_pagination.current_page)"
                                                          :offset="4">
                                         </vue-pagination>
                                     </div>
@@ -153,11 +167,18 @@
                                         </div>
                                         <div class="medium-10">
                                             <div class="grid-x">
-                                                <div class="medium-6 table-border">
-                                                    <strong>ریز فصل</strong>
+                                                <div class="medium-3 table-border">
+                                                    <strong>عنوان فصل</strong>
                                                 </div>
-                                                <div class="medium-6  table-border">
-                                                    <strong>شرح</strong>
+                                                <div class="medium-9">
+                                                    <div class="grid-x">
+                                                        <div class="medium-6 table-border">
+                                                            <strong>ریز فصل</strong>
+                                                        </div>
+                                                        <div class="medium-6  table-border">
+                                                            <strong>شرح</strong>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -169,24 +190,31 @@
                                                 {{ season.sSubject }}
                                             </div>
                                             <div class="medium-10">
-                                                <div class="grid-x selectAbleRow" v-for="tinySeason in season.tiny_season">
-                                                    <div class="medium-6 table-contain-border cell-vertical-center">
-                                                        {{ tinySeason.tsSubject }}
+                                                <div class="grid-x" v-for="costSeasonTitle in season.cost_season_title">
+                                                    <div class="medium-3 table-contain-border cell-vertical-center">
+                                                        {{ costSeasonTitle.cstSubject }}
                                                     </div>
-                                                    <div class="medium-6  table-contain-border cell-vertical-center">
-                                                        <div class="grid-x">
-                                                        <div class="medium-11">
-                                                            {{ tinySeason.tsDescription }}
-                                                        </div>
-                                                        <div class="medium-1 cell-vertical-center text-left">
-                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + tinySeason.id"><img width="15px" height="15px" src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + tinySeason.id" data-dropdown data-auto-focus="true">
-                                                                <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent="tinySeasonUpdateDialog(tinySeason , 1)"><i class="tbl-menu fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(tinySeason)"><i class="tbl-menu fi-trash size-16"></i>  حذف</a></li>
-                                                                </ul>
+                                                    <div class="medium-9">
+                                                        <div class="grid-x" v-for="costTinySeason in costSeasonTitle.cost_tiny_season">
+                                                            <div class="medium-6 table-contain-border cell-vertical-center">
+                                                                {{ costTinySeason.ctsSubject }}
                                                             </div>
-                                                        </div>
+                                                            <div class="medium-6  table-contain-border cell-vertical-center">
+                                                                <div class="grid-x">
+                                                                    <div class="medium-11">
+                                                                        {{ costTinySeason.ctsDescription }}
+                                                                    </div>
+                                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'ctsTinySeason' + season.id + costSeasonTitle.id + costTinySeason.id"><img width="15px" height="15px" src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
+                                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'ctsTinySeason' + season.id + costSeasonTitle.id + costTinySeason.id" data-dropdown data-auto-focus="true">
+                                                                            <ul class="my-menu small-font text-right">
+                                                                                <li><a v-on:click.prevent="tinySeasonUpdateDialog(costTinySeason , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                                <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(costTinySeason)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -196,7 +224,7 @@
                                     <div class="grid-x">
                                         <div class="medium-12">
                                             <vue-pagination  v-bind:pagination="cost_pagination"
-                                                             v-on:click.native="fetchData(cost_pagination.current_page)"
+                                                             v-on:click.native="fetchCostData(cost_pagination.current_page)"
                                                              :offset="4">
                                             </vue-pagination>
                                         </div>
@@ -349,7 +377,7 @@
 
         created: function () {
             this.fetchCostData();
-            this.fetchData();
+            this.fetchCapitalAssetsData();
             this.getSeasons();
         },
 
@@ -367,9 +395,9 @@
         },
 
         methods:{
-            fetchData: function (page = 1) {
+            fetchCapitalAssetsData: function (page = 1) {
                 this.$root.start();
-                axios.get('/budget/admin/sub_seasons/fetchData?page=' + page , {params:{planOrCost: 0}})
+                axios.get('/budget/admin/sub_seasons/capital_assets/fetchData?page=' + page)
                     .then((response) => {
                         this.tinySeasons = response.data.data;
                         this.makePagination(response.data , "plan");
@@ -383,7 +411,7 @@
 
             fetchCostData: function (page = 1) {
                 this.$root.start();
-                axios.get('/budget/admin/sub_seasons/fetchData?page=' + page , {params:{planOrCost: 1}})
+                axios.get('/budget/admin/sub_seasons/cost/fetchData?page=' + page)
                     .then((response) => {
                         this.tinySeasonsCost = response.data.data;
                         this.makePagination(response.data , "cost");

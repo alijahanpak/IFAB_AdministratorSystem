@@ -1202,6 +1202,11 @@ button.purple-btn {
 .container-mrg-top{
     margin-top: 10px;
 }
+
+.table-mrg-top{
+    margin-top: 15px;
+}
+
 .my-tab-style{
     border: none;
     border-bottom: 1px solid #e6e6e6;

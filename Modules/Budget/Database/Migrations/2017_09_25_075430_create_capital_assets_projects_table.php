@@ -44,7 +44,7 @@ class CreateCapitalAssetsProjectsTable extends Migration
                 ->onUpdate('cascade');
 
             $table->foreign('cpTsId')
-                ->references('id')->on('tbl_tiny_seasons')
+                ->references('id')->on('tbl_capital_assets_tiny_seasons')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
