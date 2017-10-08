@@ -1273,3 +1273,11 @@ button.purple-btn {
     top: 50%;
     width: 0;
 }
+.icon-gradient{
+    background: linear-gradient(180deg,#ad5beb 25%,#c678db 50%,#da6ea9 75%,#e76e92 100%);
+    background-clip: border-box;
+    background-clip: text;
+    text-fill-color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

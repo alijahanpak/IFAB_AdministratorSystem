@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font.css') }}">
     <link rel="stylesheet" href="{{ asset('foundation-icons/foundation-icons.css') }}">
+    <link rel="stylesheet" href="{{ asset('font-awesome-4.7.0/css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/line-spin-clockwise-fade-rotating.css') }}">
     <link rel="stylesheet" href="{{ asset('css/persian-datepicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/key.css') }}">
@@ -59,7 +60,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a style="margin-top: -1px;" href="#"><img style="color: #337AB7;font-size: 14px;" src="{{ asset('pic\bell-icon666.svg') }}" width="18px" height="18px;"></a>
+                            <a style="margin-top: -1px;" href="#"><i class="fa fa-bell-o size-21git  icon-gradient" aria-hidden="true"></i></a>
                             <ul style="background-color:#FFFFFF;" class="top-menu-style menu vertical">
                                 <li>
                                     <div class="top-menu-bg">
