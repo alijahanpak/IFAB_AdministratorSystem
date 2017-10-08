@@ -60,7 +60,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a style="margin-top: -1px;" href="#"><i class="fa fa-bell-o size-21git  icon-gradient" aria-hidden="true"></i></a>
+                            <a style="margin-top: -1px;" href="#"><i class="fa fa-bell-o size-21 icon-gradient" aria-hidden="true"></i></a>
                             <ul style="background-color:#FFFFFF;" class="top-menu-style menu vertical">
                                 <li>
                                     <div class="top-menu-bg">
