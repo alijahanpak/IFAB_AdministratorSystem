@@ -12,14 +12,16 @@ import fiscal_year from './components/Budget/Admin/fiscal_year.vue'
 import deprived_area from './components/Budget/Admin/deprived_area.vue'
 import budget_season from './components/Budget/Admin/budget_season.vue'
 import credit_distribution_row from './components/Budget/Admin/credit_distribution_row.vue'
+import season_title from './components/Budget/Admin/season_title.vue'
 //export router instance
 const routes = [
     { path: '/budget', component: dashboard },
-    { path: '/budget/admin/tiny_seasons', component: tiny_seasons },
+    { path: '/budget/admin/season/tiny_seasons', component: tiny_seasons },
     { path: '/budget/admin/fiscal_year', component: fiscal_year },
     { path: '/budget/admin/deprived_area', component: deprived_area },
     { path: '/budget/admin/credit_distribution_def/budget_season', component: budget_season },
-    { path: '/budget/admin/credit_distribution_def/row', component: credit_distribution_row }
+    { path: '/budget/admin/credit_distribution_def/row', component: credit_distribution_row },
+    { path: '/budget/admin/season/season_title', component: season_title }
 ]
 
 const router = new VueRouter({

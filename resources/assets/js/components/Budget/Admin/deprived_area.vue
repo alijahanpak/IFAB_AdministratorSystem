@@ -288,7 +288,7 @@
                     <div class="grid-x">
                         <div class="medium-6 cell padding-lr">
                             <label>شهرستان
-                                <select v-model="deprivedAreaInput.county" @change="getRegions" name="daCounty" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('daCounty')}">
+                                <select class="form-element-margin-btm" v-model="deprivedAreaInput.county" @change="getRegions" name="daCounty" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('daCounty')}">
                                     <option value=""></option>
                                     <option v-for="county in counties" :value="county.id">{{ county.coName }}</option>
                                 </select>
@@ -297,7 +297,7 @@
                         </div>
                         <div class="medium-6 cell padding-lr">
                             <label>بخش
-                                <select v-model="deprivedAreaInput.region" @change="getRuralDistricts" :disabled="regionDisable">
+                                <select class="form-element-margin-btm" v-model="deprivedAreaInput.region" @change="getRuralDistricts" :disabled="regionDisable">
                                     <option value=""></option>
                                     <option v-for="region in regions" :value="region.id">{{ region.reName }}</option>
                                 </select>
@@ -307,7 +307,7 @@
                     <div class="grid-x">
                         <div class="medium-6 cell padding-lr">
                             <label>دهستان
-                                <select v-model="deprivedAreaInput.ruralDistrict" @change="getVillages" :disabled="ruralDistrictDisable">
+                                <select class="form-element-margin-btm" v-model="deprivedAreaInput.ruralDistrict" @change="getVillages" :disabled="ruralDistrictDisable">
                                     <option value=""></option>
                                     <option v-for="ruralDistrict in ruralDistricts" :value="ruralDistrict.id">{{ ruralDistrict.rdName }}</option>
                                 </select>
@@ -315,7 +315,7 @@
                         </div>
                         <div class="medium-6 cell padding-lr">
                             <label>روستا
-                                <select v-model="deprivedAreaInput.village" :disabled="villageDisable">
+                                <select class="form-element-margin-btm" v-model="deprivedAreaInput.village" :disabled="villageDisable">
                                     <option value=""></option>
                                     <option v-for="village in villages" :value="village.id">{{ village.viName }}</option>
                                 </select>
@@ -329,7 +329,7 @@
                     </div>
 
                     <div class="medium-6 columns padding-lr">
-                        <button name="daFormSubmit" type="submit" class="my-secondary button float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                        <button name="daFormSubmit" type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
                     </div>
                 </form>
             </div>
