@@ -34,86 +34,7 @@
     <!--chart1 Modal End-->
     <div id="container">
 
-        <!--Top Menu Start-->
-        <div style="z-index: 999;" data-sticky-container>
-            <div style="background-color: #FFFFFF;" class="top-bar top-menu-color" data-sticky data-margin-top="0">
-                <div class="top-bar-left">
-                    <ul style="background-color: #FFFFFF;" data-dropdown-menu class="dropdown  menu user-menu" >
-                        <li>
-                            <a href="#"><span style="font-size: 14px;color: #666;"> علی جهان پاک </span></a>
-                            <ul style="background-color: #ffffff;" class="top-menu-style menu vertical small-font white-color">
-                                <li>
-                                    <div class="top-menu-bg">
-                                        <div class="grid-x cover-color">
-                                            <div class="medium-12">
-                                                <h5 class="text-center BYekan">علی جهان پاک</h5>
-                                            </div>
-                                            <div class="medium-12">
-                                                <p class="text-center">کارشناس بودجه</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li><a href="#"><i class="tbl-menu fi-torso-business"></i> <span>کارشناس اداری مالی</span></a></li>
-                                <li><a href="#"><i class="tbl-menu fi-widget"></i> <span>تنظیمات</span></a></li>
-                                <li><a v-on:click="logout"><i class="fi-power"></i> <span>خروج</span></a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a style="margin-top: -1px;" href="#"><i class="fa fa-bell-o size-21 icon-gradient" aria-hidden="true"></i></a>
-                            <ul style="background-color:#FFFFFF;" class="top-menu-style menu vertical">
-                                <li>
-                                    <div class="top-menu-bg">
-                                        <div class="grid-x cover-color">
-                                            <div class="medium-12">
-                                                <h5 class="text-center BYekan">9 پیام جدید</h5>
-                                            </div>
-                                            <div class="medium-12">
-                                                <p class="text-center">پیام های کاربر</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="border-btm-line-dash">
-                                    <a style="padding-bottom: -5px;" href="#">
-                                        <div>
-                                            <strong style="color: #000000;">علیرضا طاهری</strong>
-                                            <span style="color: #777;" class="message-time large-offset-7">41 دقیقه قبل</span>
-                                        </div>
-                                        <div>
-                                            <p style="color:  #333;margin-top: 12px;"> موافقت نامه سال 1396 در مورد پروژه های عمرانی در دست اقدام پیگیری از سازمان</p>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="border-btm-line">
-                                    <a style="padding-bottom: -5px;" href="#">
-                                        <div>
-                                            <strong style="color: #000000;">علیرضا طاهری</strong>
-                                            <span style="color: #777;" class="message-time large-offset-7">دو روز پیش</span>
-                                        </div>
-                                        <div>
-                                            <p style="color:  #333;margin-top: 12px;"> موافقت نامه سال 1396 در مورد پروژه های عمرانی در دست اقدام پیگیری از سازمان</p>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
 
-                    </ul>
-                </div>
-                <div class="top-bar-right">
-                    <button style="margin-bottom: 0;font-size: 0.9em;" class="my-button my-drop-down-btn-clear dropdown small sm-btn-align"  type="button" data-toggle="example-dropdown-bottom-left">سال مالی<span class="comlpleted-badage">1396</span></button>
-                    <div style="width: 120px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="example-dropdown-bottom-left" data-dropdown data-auto-focus="true">
-                        <ul class="my-menu small-font ltr-dir">
-                            <li><a  href="#">1395</a></li>
-                            <li><a  href="#">1394</a></li>
-                            <li><a  href="#">1393</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--Top Menu End-->
 
         <!--Modal Login Start-->
         <modal-login v-if="showModalLogin" @close="showModalLogin = false">
@@ -174,10 +95,10 @@
         <!--Modal Login End-->
         <!--Body system-->
         <div class="grid-x">
-            <div id="leftmenuinner" style="background-color: #212529;z-index: 995;" class="medium-2 cell small-font">
+            <div id="leftmenuinner" style="background-color: #2C2E3E;z-index: 995;" class="medium-2 cell small-font">
                 <div  id="leftmenuinnerinner ">
                     <nav class="accordion"  data-margin-top="4.2">
-                        <ul style="background-color: #212529;" class="vertical menu sub-menu accordion-menu" data-accordion-menu data-multi-open="false" >
+                        <ul style="background-color: #2C2E3E;" class="vertical menu sub-menu accordion-menu" data-accordion-menu data-multi-open="false" >
                             <li>
                                 <a class="right-menu-btm-border" href="#">توزیع اعتبار</a>
                                 <ul class="menu vertical nested">
@@ -208,7 +129,7 @@
                                     <li><a href="#">تملک دارایی سرمایه ای</a>
                                         <ul class="menu vertical nested">
                                             <li><a href="{{ url('/budget/plan/capital_assets/plans') }}">طرح ها</a></li>
-                                            <li><a href="#">پروژه ها</a></li>
+                                            <li><router-link to="/budget/approved/capital_assets/project/approved_project">پروژه ها</router-link></li>
                                         </ul>
                                     </li>
 
@@ -258,6 +179,93 @@
                     </nav>
                 </div>
             </div>
+
+
+            <div class="medium-10 main-margin my-callout-box">
+                <!--Top Menu Start-->
+                <div style="z-index: 999;" data-sticky-container>
+                    <div style="background-color: #FFFFFF;" class="top-bar top-menu-color" data-sticky data-margin-top="0">
+                        <div class="top-bar-left">
+                            <ul style="background-color: #FFFFFF;" data-dropdown-menu class="dropdown  menu user-menu" >
+                                <li>
+                                    <a href="#"><span style="font-size: 14px;color: #666;"> علی جهان پاک </span></a>
+                                    <ul style="background-color: #ffffff;" class="top-menu-style menu vertical small-font white-color">
+                                        <li>
+                                            <div class="top-menu-bg">
+                                                <div class="grid-x cover-color">
+                                                    <div class="medium-12">
+                                                        <h5 class="text-center BYekan">علی جهان پاک</h5>
+                                                    </div>
+                                                    <div class="medium-12">
+                                                        <p class="text-center">کارشناس بودجه</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li><a href="#"><i class="tbl-menu fi-torso-business"></i> <span>کارشناس اداری مالی</span></a></li>
+                                        <li><a href="#"><i class="tbl-menu fi-widget"></i> <span>تنظیمات</span></a></li>
+                                        <li><a v-on:click="logout"><i class="fi-power"></i> <span>خروج</span></a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a style="margin-top: -1px;" href="#"><i class="fa fa-bell-o size-21 icon-gradient" aria-hidden="true"></i></a>
+                                    <ul style="background-color:#FFFFFF;" class="top-menu-style menu vertical">
+                                        <li>
+                                            <div class="top-menu-bg">
+                                                <div class="grid-x cover-color">
+                                                    <div class="medium-12">
+                                                        <h5 class="text-center BYekan">9 پیام جدید</h5>
+                                                    </div>
+                                                    <div class="medium-12">
+                                                        <p class="text-center">پیام های کاربر</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="border-btm-line-dash">
+                                            <a style="padding-bottom: -5px;" href="#">
+                                                <div>
+                                                    <strong style="color: #000000;">علیرضا طاهری</strong>
+                                                    <span style="color: #777;" class="message-time large-offset-7">41 دقیقه قبل</span>
+                                                </div>
+                                                <div>
+                                                    <p style="color:  #333;margin-top: 12px;"> موافقت نامه سال 1396 در مورد پروژه های عمرانی در دست اقدام پیگیری از سازمان</p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="border-btm-line">
+                                            <a style="padding-bottom: -5px;" href="#">
+                                                <div>
+                                                    <strong style="color: #000000;">علیرضا طاهری</strong>
+                                                    <span style="color: #777;" class="message-time large-offset-7">دو روز پیش</span>
+                                                </div>
+                                                <div>
+                                                    <p style="color:  #333;margin-top: 12px;"> موافقت نامه سال 1396 در مورد پروژه های عمرانی در دست اقدام پیگیری از سازمان</p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="top-bar-right">
+                            <button style="margin-bottom: 0;font-size: 0.9em;" class="my-button my-drop-down-btn-clear dropdown small sm-btn-align"  type="button" data-toggle="example-dropdown-bottom-left">سال مالی<span class="comlpleted-badage">1396</span></button>
+                            <div style="width: 120px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="example-dropdown-bottom-left" data-dropdown data-auto-focus="true">
+                                <ul class="my-menu small-font ltr-dir">
+                                    <li><a  href="#">1395</a></li>
+                                    <li><a  href="#">1394</a></li>
+                                    <li><a  href="#">1393</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Top Menu End-->
+            </div>
+
+
+
             <router-view></router-view>
             <!-- set progressbar -->
             <vue-progress-bar></vue-progress-bar>
