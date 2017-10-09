@@ -588,6 +588,21 @@ class BudgetAdminController extends Controller
         }
     }
 
+    public function deleteCostTinySeason(Request $request)
+    {
+        $ts = CostTinySeason::find($request->id);
+        try {
+            $ts->delete();
+            SystemLog::setBudgetSubSystemAdminLog('حذف ریز فصل ' . $request->subject);
+            return \response()->json($this->getAllTinySeasons("cost") , 200);
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                return \response()->json($this->getAllTinySeasons("cost") , 204);
+            }
+        }
+    }
+
     ////////////////////////////// capital assets tiny season /////////////////////////////////
     public function getCapitalAssetsTinySeasonsWhitSeasonId(Request $request)
     {
@@ -670,12 +685,12 @@ class BudgetAdminController extends Controller
         }
     }
 
-    public function deleteTinySeason(Request $request)
+    public function deleteCapitalAssetsTinySeason(Request $request)
     {
         $ts = CapitalAssetsTinySeason::find($request->id);
         try {
             $ts->delete();
-            SystemLog::setBudgetSubSystemAdminLog('حذف ریز فصل ' . $request->tsSubject);
+            SystemLog::setBudgetSubSystemAdminLog('حذف ریز فصل ' . $request->subject);
             return \response()->json($this->getAllTinySeasons("capitalAssets") , 200);
         }
         catch (\Illuminate\Database\QueryException $e) {
@@ -792,6 +807,19 @@ class BudgetAdminController extends Controller
         return \response()->json($this->getAllSeasonTitle("plan"));
     }
 
+    public function updateCapitalAssetsSeasonTitle(Request $request)
+    {
+        $st = CapitalAssetsSeasonTitle::find($request->id);
+        $st->castUId = Auth::user()->id;
+        $st->castSId = $request->sId;
+        $st->castSubject = $request->subject;
+        $st->castDescription = $request->description;
+        $st->save();
+
+        SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان فصل تملک داریی های سرمایه ای ' . $request->subject);
+        return \response()->json($this->getAllSeasonTitle("plan"));
+    }
+
     public function fetchCapitalAssetsSeasonTitleData(Request $request)
     {
         return \response()->json($this->getAllSeasonTitle("plan"));
@@ -814,6 +842,20 @@ class BudgetAdminController extends Controller
         return \response()->json(CapitalAssetsSeasonTitle::where('castSId' , '=' , $request->sId)->get());
     }
 
+    public function deleteCapitalAssetsSeasonTitle(Request $request)
+    {
+        $st = CapitalAssetsSeasonTitle::find($request->id);
+        try {
+            $st->delete();
+            SystemLog::setBudgetSubSystemAdminLog('حذف عنوان فصل ' . $request->subject);
+            return \response()->json($this->getAllSeasonTitle("plan") , 200);
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                return \response()->json($this->getAllSeasonTitle("plan") , 204);
+            }
+        }
+    }
     ///////////////////////////////// cost season title ////////////////////
     public function registerCostSeasonTitle(Request $request)
     {
@@ -828,6 +870,19 @@ class BudgetAdminController extends Controller
         return \response()->json($this->getAllSeasonTitle("cost"));
     }
 
+    public function updateCostSeasonTitle(Request $request)
+    {
+        $st = CostSeasonTitle::find($request->id);
+        $st->cstUId = Auth::user()->id;
+        $st->cstSId = $request->sId;
+        $st->cstSubject = $request->subject;
+        $st->cstDescription = $request->description;
+        $st->save();
+
+        SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان فصل هزینه ای ' . $request->subject);
+        return \response()->json($this->getAllSeasonTitle("cost"));
+    }
+
     public function fetchCostSeasonTitleData(Request $request)
     {
         return \response()->json($this->getAllSeasonTitle("cost"));
@@ -836,6 +891,21 @@ class BudgetAdminController extends Controller
     public function getCostSeasonTitleWithSId(Request $request)
     {
         return \response()->json(CostSeasonTitle::where('cstSId' , '=' , $request->sId)->get());
+    }
+
+    public function deleteCostSeasonTitle(Request $request)
+    {
+        $st = CostSeasonTitle::find($request->id);
+        try {
+            $st->delete();
+            SystemLog::setBudgetSubSystemAdminLog('حذف عنوان فصل ' . $request->subject);
+            return \response()->json($this->getAllSeasonTitle("cost") , 200);
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                return \response()->json($this->getAllSeasonTitle("cost") , 204);
+            }
+        }
     }
     ///////////////////////////////// fiscal year api ////////////////////////////////
     public function fetchFiscalYearData(Request $request)

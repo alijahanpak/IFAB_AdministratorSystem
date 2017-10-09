@@ -92,8 +92,8 @@
                                                             <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'stSeasonTitle' + seasonTitle.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'stSeasonTitle' + seasonTitle.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent="seasonTitleUpdateDialog(capitalAssetsSeasonTitle , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent="openDeleteSeasonTitleConfirm(capitalAssetsSeasonTitle)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li><a v-on:click.prevent="seasonTitleUpdateDialog(seasonTitle , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent="openDeleteSeasonTitleConfirm(seasonTitle , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -181,8 +181,8 @@
                                                             <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'stSeasonTitle_cost' + sTCost.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'stSeasonTitle_cost' + sTCost.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent="seasonTitleUpdateDialog(capitalAssetsSeasonTitle , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent="openDeleteSeasonTitleConfirm(capitalAssetsSeasonTitle)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li><a v-on:click.prevent="seasonTitleUpdateDialog(sTCost , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent="openDeleteSeasonTitleConfirm(sTCost , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -240,7 +240,6 @@
                                     </label>
                                 </div>
                             </div>
-
                             <div class="grid-x">
                                 <div class="small-12 columns padding-lr">
                                     <label>شرح
@@ -254,7 +253,7 @@
                         </form>
                     </div>
                 </modal-tiny>
-                <!--&lt;!&ndash; update modal &ndash;&gt;
+                <!-- update modal -->
                 <modal-tiny v-if="showModalUpdate" @close="showModalUpdate = false">
                     <div  slot="body">
                         <form v-on:submit.prevent="updateSeasonTitle">
@@ -268,9 +267,9 @@
                             <div class="grid-x">
                                 <div class="medium-12 cell padding-lr">
                                     <label>فصل
-                                        <select class="form-element-margin-btm" v-model="seasonTitleInput.stSeason" name="sId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('sId')}">
+                                        <select class="form-element-margin-btm" v-model="seasonTitleFill.stSId" name="sId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('sId')}">
                                             <option value=""></option>
-                                            <option v-for="season in seasons" :value="season.id">{{ season.stSeason }}</option>
+                                            <option v-for="season in seasons" :value="season.id">{{ season.sSubject }}</option>
                                         </select>
                                         <span v-show="errors.has('sId')" class="error-font">لطفا فصل را انتخاب کنید!</span>
                                     </label>
@@ -278,27 +277,18 @@
                             </div>
                             <div class="grid-x">
                                 <div class="medium-12 cell padding-lr">
-                                    <label>عنوان فصل
-                                        <select class="form-element-margin-btm" v-model="seasonTitleInput.stSubject" name="sSubject" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('sSubject')}">
-                                            <option value=""></option>
-                                            <option v-for="season in seasons" :value="season.id">{{ season.stSubject }}</option>
-                                        </select>
-                                        <span v-show="errors.has('sSubject')" class="error-font">لطفا عنوان فصل انتخاب کنید!</span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="grid-x">
-                                <div class="small-12 columns padding-lr">
-                                    <label>شرح
-                                        <textarea name="tsDescription" style="min-height: 150px;" v-model="seasonTitleInput.stDescription"></textarea>
+                                    <label>
+                                        <label>عنوان فصل
+                                            <input class="form-element-margin-btm" type="text" name="tsSubject" v-model="seasonTitleFill.stSubject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('tsSubject')}">
+                                        </label>
+                                        <span v-show="errors.has('tsSubject')" class="error-font">لطفا عنوان فصل انتخاب کنید!</span>
                                     </label>
                                 </div>
                             </div>
                             <div class="grid-x">
                                 <div class="small-12 columns padding-lr">
                                     <label>شرح
-                                        <textarea name="tsDescription" style="min-height: 150px;" v-model="tinySeasonsFill.tsDescription"></textarea>
+                                        <textarea name="tsDescription" style="min-height: 150px;" v-model="seasonTitleFill.stDescription"></textarea>
                                     </label>
                                 </div>
                             </div>
@@ -308,7 +298,7 @@
                         </form>
                     </div>
                 </modal-tiny>
-                &lt;!&ndash; delete modal &ndash;&gt;-->
+                <!-- delete modal -->
                 <modal-tiny v-if="showModalDelete" @close="showModalDelete = false">
                     <div  slot="body">
                         <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
@@ -316,7 +306,7 @@
                             <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
                             <div class="grid-x">
                                 <div class="medium-12 column text-center">
-                                    <button  class="button primary btn-large-w" v-on:click="deleteTinySeason">بله</button>
+                                    <button  class="button primary btn-large-w" v-on:click="deleteSeasonTitle">بله</button>
                                 </div>
                             </div>
                         </div>
@@ -339,7 +329,7 @@
                 showModal: false,
                 showModalUpdate: false,
                 showModalDelete: false,
-                seasonTitleFill: {stSeason: '' , stSubject: '' , stDescription: '' , id: ''},
+                seasonTitleFill: {stSId: '' , stSubject: '' , stDescription: '' , id: ''},
                 stIdDelete: {},
                 seasons: {},
                 planOrCost: 0,
@@ -440,8 +430,7 @@
                             sId: this.seasonTitleInput.stSeason,
                             subject: this.seasonTitleInput.stSubject,
                             description: this.seasonTitleInput.stDescription
-                        })
-                            .then((response) => {
+                        }).then((response) => {
                                 if (this.planOrCost == 1)
                                 {
                                     this.seasonTitleCosts = response.data.data;
@@ -461,17 +450,26 @@
                                 console.log(error);
                                 this.errorMessage = 'عنوان فصل با این مشخصات قبلا ثبت شده است!';
                                 this.$root.fail();
-                            });
+                        });
                     }
                 });
             },
 
-            tinySeasonUpdateDialog: function (item, planOrCost) {
-                this.seasonTitleFill.stSeason = item.stSeason;
-                this.seasonTitleFill.stSubject = item.stSubject;
-                this.seasonTitleFill.stDescription = item.stDescription;
+            seasonTitleUpdateDialog: function (item, planOrCost) {
+                if (planOrCost == 0)
+                {
+                    this.seasonTitleFill.stSId = item.castSId;
+                    this.seasonTitleFill.stSubject = item.castSubject;
+                    this.seasonTitleFill.stDescription = item.castDescription;
+
+                }
+                else if (planOrCost == 1)
+                {
+                    this.seasonTitleFill.stSId = item.cstSId;
+                    this.seasonTitleFill.stSubject = item.cstSubject;
+                    this.seasonTitleFill.stDescription = item.cstDescription;
+                }
                 this.seasonTitleFill.id = item.id;
-                this.seasonTitleFill.planOrCost = planOrCost;
                 this.planOrCost = planOrCost;
                 this.errorMessage_update = '';
                 this.showModalUpdate = true;
@@ -481,41 +479,59 @@
                 this.$validator.validateAll().then((result) => {
                     if (result) {
                         this.$root.start();
-                        axios.post('/budget/admin/sub_seasons/update', this.seasonTitleFill)
-                            .then((response) => {
-                                if (this.planOrCost == 1)
-                                    this.seasonTitleCost = response.data.data;
-                                else
-                                    this.seasonTitle = response.data.data;
-                                this.showModalUpdate = false;
-                                this.displayNotif(response.status);
-                                console.log(response);
-                                this.$root.finish();
-                            }, (error) => {
-                                console.log(error);
-                                this.errorMessage_update = 'عنوان فصل با این مشخصات قبلا ثبت شده است!';
-                                this.$root.fail();
-                            });
+                        axios.post(this.planOrCost == 0 ? '/budget/admin/season_title/capital_assets/update' : '/budget/admin/season_title/cost/update' , {
+                            id: this.seasonTitleFill.id,
+                            sId: this.seasonTitleFill.stSId,
+                            subject: this.seasonTitleFill.stSubject,
+                            description: this.seasonTitleFill.stDescription
+                        }).then((response) => {
+                            if (this.planOrCost == 1)
+                        {
+                            this.seasonTitleCosts = response.data.data;
+                            this.makePagination(response.data , "cost");
+                        }
+                        else
+                        {
+                            this.seasonTitles = response.data.data;
+                            this.makePagination(response.data , "plan");
+                        }
+                        this.showModalUpdate = false;
+                        this.displayNotif(response.status);
+                        console.log(response);
+                        this.$root.finish();
+                    }, (error) => {
+                            console.log(error);
+                            this.errorMessage = 'عنوان فصل با این مشخصات قبلا ثبت شده است!';
+                            this.$root.fail();
+                        });
                     }
                 });
             },
 
-            openDeleteSeasonTitleConfirm: function (st) {
+            openDeleteSeasonTitleConfirm: function (st , type) {
+                this.planOrCost = type;
                 this.stIdDelete = st;
                 this.showModalDelete = true;
             },
 
             deleteSeasonTitle: function () {
                 this.$root.start();
-                axios.post('/budget/admin/season_title/delete', this.stIdDelete)
-                    .then((response) => {
+                axios.post(this.planOrCost == 0 ? '/budget/admin/season_title/capital_assets/delete' : '/budget/admin/season_title/cost/delete', {
+                    id: this.stIdDelete.id,
+                    subject: this.planOrCost == 0 ? this.stIdDelete.castSubject : this.stIdDelete.cstSubject
+                }).then((response) => {
                         if (response.status != 204) //http status code for error in delete (no content)
                         {
-                            if (response.data.tsPlanOrCost == 1)
-                                this.seasonTitleCost = response.data.data;
+                            if (this.planOrCost == 1)
+                            {
+                                this.seasonTitleCosts = response.data.data;
+                                this.makePagination(response.data , "cost");
+                            }
                             else
-                                this.seasonTitle = response.data.data;
-
+                            {
+                                this.seasonTitles = response.data.data;
+                                this.makePagination(response.data , "plan");
+                            }
                         }
                         this.showModalDelete = false;
                         console.log(response);

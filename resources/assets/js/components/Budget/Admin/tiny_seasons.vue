@@ -105,7 +105,7 @@
                                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + season.id + capitalAssetsSeasonTitle.id + capitalAssetsTinySeason.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
                                                                             <li><a v-on:click.prevent="tinySeasonUpdateDialog(season.id , capitalAssetsTinySeason , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                            <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(capitalAssetsTinySeason)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                            <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(capitalAssetsTinySeason , 0)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                                         </ul>
                                                                     </div>
                                                                 </div>
@@ -212,7 +212,7 @@
                                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'ctsTinySeason' + season.id + costSeasonTitle.id + costTinySeason.id" data-dropdown data-auto-focus="true">
                                                                             <ul class="my-menu small-font text-right">
                                                                                 <li><a v-on:click.prevent="tinySeasonUpdateDialog(season.id , costTinySeason , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                                <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(costTinySeason)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                                <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(costTinySeason , 1)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                                             </ul>
                                                                         </div>
                                                                     </div>
@@ -491,6 +491,7 @@
             },
 
             openInsertModal: function (pOrC) {
+                this.selectedSeason = -1;
                 this.tinySeasonsInput = [];
                 this.planOrCost = pOrC;
                 this.errorMessage = '';
@@ -504,12 +505,17 @@
                         axios.post(this.planOrCost == 0 ? '/budget/admin/sub_seasons/capital_assets/register' : '/budget/admin/sub_seasons/cost/register' , {
                             stId: this.tinySeasonsInput.tsStId ,
                             subject: this.tinySeasonsInput.tsSubject ,
-                            description: this.tinySeasonsInput.tsDescription})
-                            .then((response) => {
+                            description: this.tinySeasonsInput.tsDescription}).then((response) => {
                                 if(this.planOrCost == 1)
+                                {
                                     this.tinySeasonsCost = response.data.data;
+                                    this.makePagination(response.data , "cost");
+                                }
                                 else
+                                {
                                     this.tinySeasons = response.data.data;
+                                    this.makePagination(response.data , "plan");
+                                }
                                 this.showModal = false;
                                 this.displayNotif(response.status);
                                 this.tinySeasonsInput = [];
@@ -520,8 +526,7 @@
                                 this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
                                 this.$root.fail();
                             });
-                    }
-                });
+                    }});
             },
 
             tinySeasonUpdateDialog: function (sId , item , planOrCost) {
@@ -554,12 +559,17 @@
                             id: this.tinySeasonsFill.id,
                             stId: this.tinySeasonsFill.tsStId ,
                             subject: this.tinySeasonsFill.tsSubject ,
-                            description: this.tinySeasonsFill.tsDescription})
-                            .then((response) => {
-                                if(this.planOrCost == 1)
+                            description: this.tinySeasonsFill.tsDescription}).then((response) => {
+                            if(this.planOrCost == 1)
+                                {
                                     this.tinySeasonsCost = response.data.data;
-                                else
+                                    this.makePagination(response.data , "cost");
+                                }
+                            else
+                                {
                                     this.tinySeasons = response.data.data;
+                                    this.makePagination(response.data , "plan");
+                                }
                                 this.showModalUpdate = false;
                                 this.displayNotif(response.status);
                                 console.log(response);
@@ -573,22 +583,24 @@
                 });
             },
 
-            openDeleteTinySeasonConfirm: function (ts) {
+            openDeleteTinySeasonConfirm: function (ts , type) {
                 this.tsIdDelete = ts;
+                this.planOrCost = type;
                 this.showModalDelete = true;
             },
 
             deleteTinySeason: function () {
                 this.$root.start();
-                axios.post('/budget/admin/sub_seasons/delete' , this.tsIdDelete)
-                    .then((response) => {
+                axios.post(this.planOrCost == 0 ? '/budget/admin/sub_seasons/capital_assets/delete' : '/budget/admin/sub_seasons/cost/delete' , {
+                    id: this.tsIdDelete.id,
+                    subject: this.planOrCost == 0 ? this.tsIdDelete.catsSubject : this.tsIdDelete.ctsSubject,
+                }).then((response) => {
                         if (response.status != 204) //http status code for error in delete (no content)
                         {
-                            if(response.data.tsPlanOrCost == 1)
+                            if(this.planOrCost == 1)
                                 this.tinySeasonsCost = response.data.data;
                             else
                                 this.tinySeasons = response.data.data;
-
                         }
                         this.showModalDelete = false;
                         console.log(response);
@@ -597,7 +609,7 @@
                     },(error) => {
                         console.log(error);
                         this.$root.fail();
-                    });
+                });
             },
 
             displayNotif: function (httpStatusCode) {
