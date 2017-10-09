@@ -31,7 +31,7 @@
                         <div class="medium-12 bottom-mrg">
                             <div class="clearfix border-btm-line bottom-mrg tool-bar">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
-                                    <a class="my-button toolbox-btn small" @click="planOrCost = 0; showModal = true; errorMessage = ''">جدید</a>
+                                    <a class="my-button toolbox-btn small" @click="openInsertModal(0)">جدید</a>
                                     <a class="my-button toolbox-btn small">گزارش</a>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
@@ -86,7 +86,7 @@
                                             {{ season.sSubject }}
                                         </div>
                                         <div class="medium-10">
-                                            <div class="grid-x" v-for="capitalAssetsSeasonTitle in season.capital_assets_season_title">
+                                            <div  class="grid-x" v-for="capitalAssetsSeasonTitle in season.capital_assets_season_title">
                                                 <div class="medium-3 table-contain-border cell-vertical-center">
                                                     {{ capitalAssetsSeasonTitle.castSubject }}
                                                 </div>
@@ -104,7 +104,7 @@
                                                                     <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + season.id + capitalAssetsSeasonTitle.id + capitalAssetsTinySeason.id"><img width="15px" height="15px" src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
                                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + season.id + capitalAssetsSeasonTitle.id + capitalAssetsTinySeason.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
-                                                                            <li><a v-on:click.prevent="tinySeasonUpdateDialog(capitalAssetsTinySeason , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                            <li><a v-on:click.prevent="tinySeasonUpdateDialog(season.id , capitalAssetsTinySeason , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
                                                                             <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(capitalAssetsTinySeason)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                                         </ul>
                                                                     </div>
@@ -135,7 +135,7 @@
                             <div class="medium-12 bottom-mrg">
                                 <div class="clearfix border-btm-line bottom-mrg">
                                     <div style="margin-top: 2px;" class="button-group float-right report-mrg">
-                                        <a class="my-button toolbox-btn small" @click="planOrCost = 1; showModal = true; errorMessage = ''">جدید</a>
+                                        <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
                                         <a class="my-button toolbox-btn small">گزارش</a>
                                         <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="costDropDown">تعداد نمایش<span> 20 </span></button>
                                         <div style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="costDropDown" data-dropdown data-auto-focus="true">
@@ -211,7 +211,7 @@
                                                                         <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'ctsTinySeason' + season.id + costSeasonTitle.id + costTinySeason.id"><img width="15px" height="15px" src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
                                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'ctsTinySeason' + season.id + costSeasonTitle.id + costTinySeason.id" data-dropdown data-auto-focus="true">
                                                                             <ul class="my-menu small-font text-right">
-                                                                                <li><a v-on:click.prevent="tinySeasonUpdateDialog(costTinySeason , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                                <li><a v-on:click.prevent="tinySeasonUpdateDialog(season.id , costTinySeason , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
                                                                                 <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(costTinySeason)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                                             </ul>
                                                                         </div>
@@ -255,7 +255,7 @@
                             <div class="grid-x">
                                 <div class="medium-12 cell padding-lr">
                                     <label>فصل
-                                        <select class="form-element-margin-btm" v-model="tinySeasonsInput.tsSId" name="sId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('sId')}">
+                                        <select class="form-element-margin-btm" v-model="selectedSeason" @change="getSeasonTitle" name="sId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('sId')}">
                                             <option value=""></option>
                                             <option v-for="season in seasons" :value="season.id">{{ season.sSubject }}</option>
                                         </select>
@@ -266,9 +266,9 @@
                             <div class="grid-x">
                                 <div class="medium-12 cell padding-lr">
                                     <label>عنوان فصل
-                                        <select class="form-element-margin-btm" v-model="tinySeasonsInput.tsSId" name="season_title" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('season_title')}">
+                                        <select class="form-element-margin-btm" v-model="tinySeasonsInput.tsStId" name="season_title" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('season_title')}">
                                             <option value=""></option>
-                                            <option v-for="season in seasons" :value="season.id">{{ season.sSubject }}</option>
+                                            <option v-for="seasonTitle in seasonTitles" :value="seasonTitle.id">{{ planOrCost == 0 ? seasonTitle.castSubject :  seasonTitle.cstSubject }}</option>
                                         </select>
                                         <span v-show="errors.has('season_title')" class="error-font">لطفا فصل انتخاب کنید!</span>
                                     </label>
@@ -309,7 +309,7 @@
                             <div class="grid-x">
                                 <div class="medium-12 cell padding-lr">
                                     <label>فصل
-                                        <select class="form-element-margin-btm" name="sId" v-model="tinySeasonsFill.tsSId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('sId')}">
+                                        <select class="form-element-margin-btm" v-model="selectedSeason" @change="getSeasonTitle" name="sId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('sId')}">
                                             <option value=""></option>
                                             <option v-for="season in seasons" :value="season.id">{{ season.sSubject }}</option>
                                         </select>
@@ -320,9 +320,9 @@
                             <div class="grid-x">
                                 <div class="medium-12 cell padding-lr">
                                     <label>عنوان فصل
-                                        <select class="form-element-margin-btm" v-model="tinySeasonsInput.tsSId" name="season_title" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('season_title')}">
+                                        <select class="form-element-margin-btm" v-model="tinySeasonsFill.tsStId" name="season_title" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('season_title')}">
                                             <option value=""></option>
-                                            <option v-for="season in seasons" :value="season.id">{{ season.sSubject }}</option>
+                                            <option v-for="seasonTitle in seasonTitles" :value="seasonTitle.id">{{ planOrCost == 0 ? seasonTitle.castSubject :  seasonTitle.cstSubject }}</option>
                                         </select>
                                         <span v-show="errors.has('season_title')" class="error-font">لطفا فصل انتخاب کنید!</span>
                                     </label>
@@ -375,15 +375,17 @@
                 planOrCost: 0,
                 errorMessage: '',
                 errorMessage_update: '',
+                selectedSeason: '',
                 tinySeasons: [],
                 tinySeasonsCost: [],
-                tinySeasonsInput: {tsSId: '' , tsSubject: '' , tsDescription: '' , planOrCost: ''},
+                tinySeasonsInput: {tsStId: '' , tsSubject: '' , tsDescription: ''},
                 showModal: false,
                 showModalUpdate: false,
                 showModalDelete: false,
-                tinySeasonsFill: {tsSId: '' , tsSubject: '' , tsDescription: '' , planOrCost: '' , id: ''},
+                tinySeasonsFill: {tsStId: '' , tsSubject: '' , tsDescription: '' , id: ''},
                 tsIdDelete: {},
                 seasons: {},
+                seasonTitles: {},
                 cost_pagination: {
                     total: 0,
                     to: 0,
@@ -475,15 +477,34 @@
                     });
             },
 
+            getSeasonTitle: function () {
+                this.$root.start();
+                axios.get(this.planOrCost == 0 ? '/budget/admin/season_title/capital_assets/getWithSeasonId' : '/budget/admin/season_title/cost/getWithSeasonId' , {params:{sId: this.selectedSeason}})
+                    .then((response) => {
+                        this.seasonTitles = response.data;
+                        console.log(response);
+                        this.$root.finish();
+                    },(error) => {
+                        console.log(error);
+                        this.$root.fail();
+                    });
+            },
+
+            openInsertModal: function (pOrC) {
+                this.tinySeasonsInput = [];
+                this.planOrCost = pOrC;
+                this.errorMessage = '';
+                this.showModal = true;
+            },
+
             createTinySeason: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
                         this.$root.start();
-                        axios.post('/budget/admin/sub_seasons/register' , {
-                            tsSId: this.tinySeasonsInput.tsSId ,
-                            tsSubject: this.tinySeasonsInput.tsSubject ,
-                            tsDescription: this.tinySeasonsInput.tsDescription ,
-                            planOrCost: this.planOrCost})
+                        axios.post(this.planOrCost == 0 ? '/budget/admin/sub_seasons/capital_assets/register' : '/budget/admin/sub_seasons/cost/register' , {
+                            stId: this.tinySeasonsInput.tsStId ,
+                            subject: this.tinySeasonsInput.tsSubject ,
+                            description: this.tinySeasonsInput.tsDescription})
                             .then((response) => {
                                 if(this.planOrCost == 1)
                                     this.tinySeasonsCost = response.data.data;
@@ -503,13 +524,24 @@
                 });
             },
 
-            tinySeasonUpdateDialog: function (item , planOrCost) {
-                this.tinySeasonsFill.tsSId = item.tsSId;
-                this.tinySeasonsFill.tsSubject = item.tsSubject;
-                this.tinySeasonsFill.tsDescription = item.tsDescription;
-                this.tinySeasonsFill.id = item.id;
-                this.tinySeasonsFill.planOrCost = planOrCost;
+            tinySeasonUpdateDialog: function (sId , item , planOrCost) {
                 this.planOrCost = planOrCost;
+                this.selectedSeason = sId;
+                this.getSeasonTitle();
+                if (this.planOrCost == 0)
+                {
+                    this.tinySeasonsFill.tsStId = item.catsCastId;
+                    this.tinySeasonsFill.tsSubject = item.catsSubject;
+                    this.tinySeasonsFill.tsDescription = item.catsDescription;
+                    this.tinySeasonsFill.id = item.id;
+                }
+                else if (this.planOrCost == 1)
+                {
+                    this.tinySeasonsFill.tsStId = item.ctsCstId;
+                    this.tinySeasonsFill.tsSubject = item.ctsSubject;
+                    this.tinySeasonsFill.tsDescription = item.ctsDescription;
+                    this.tinySeasonsFill.id = item.id;
+                }
                 this.errorMessage_update = '';
                 this.showModalUpdate = true;
             },
@@ -518,7 +550,11 @@
                 this.$validator.validateAll().then((result) => {
                     if (result) {
                         this.$root.start();
-                        axios.post('/budget/admin/sub_seasons/update' , this.tinySeasonsFill)
+                        axios.post(this.planOrCost == 0 ? '/budget/admin/sub_seasons/capital_assets/update' : '/budget/admin/sub_seasons/cost/update' , {
+                            id: this.tinySeasonsFill.id,
+                            stId: this.tinySeasonsFill.tsStId ,
+                            subject: this.tinySeasonsFill.tsSubject ,
+                            description: this.tinySeasonsFill.tsDescription})
                             .then((response) => {
                                 if(this.planOrCost == 1)
                                     this.tinySeasonsCost = response.data.data;

@@ -18,6 +18,9 @@ use Modules\Admin\Entities\Season;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Admin\Entities\Village;
 use Modules\Budget\Entities\BudgetSeason;
+use Modules\Budget\Entities\CapitalAssetsSeasonTitle;
+use Modules\Budget\Entities\CostSeasonTitle;
+use Modules\Budget\Entities\CostTinySeason;
 use Modules\Budget\Entities\CreditDistributionRow;
 use Modules\Budget\Entities\CreditDistributionTitle;
 use Modules\Budget\Entities\DeprivedArea;
@@ -539,6 +542,52 @@ class BudgetAdminController extends Controller
         return \response()->json($this->getAllTinySeasons("cost"));
     }
 
+    public function registerCostTinySeason(Request $request)
+    {
+        if (CostTinySeason::where('ctsCstId' , '=' , $request->stId)
+            ->Where('ctsSubject' , '=' , $request->subject)
+            ->exists())
+        {
+            return \response()->json([] , 409);
+        }
+        else
+        {
+            $ts = new CostTinySeason;
+            $ts->ctsUId = Auth::user()->id;
+            $ts->ctsCstId = $request->stId;
+            $ts->ctsSubject = $request->subject;
+            $ts->ctsDescription = $request->description;
+            $ts->save();
+
+            SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل هزینه ای ' . $request->subject . ' در عنوان فصل ' . CostSeasonTitle::find($request->stId)->catsSubject);
+            return \response()->json($this->getAllTinySeasons("cost") , 200);
+        }
+    }
+
+    public function updateCostTinySeason(Request $request)
+    {
+        if (CostTinySeason::where('id' , '<>' , $request->id)
+            ->where('ctsCstId' , '=' , $request->stId)
+            ->Where('ctsSubject' , '=' , $request->subject)
+            ->exists())
+        {
+            return \response()->json([] , 409);
+        }
+        else
+        {
+            $old = CostTinySeason::find($request->id);
+            $ts = CostTinySeason::find($request->id);
+            $ts->ctsUId = Auth::user()->id;
+            $ts->ctsCstId = $request->stId;
+            $ts->ctsSubject = $request->subject;
+            $ts->ctsDescription = $request->description;
+            $ts->save();
+
+            SystemLog::setBudgetSubSystemAdminLog('تغییر  ریز فصل (' . $old->ctsSubject . ') به (' . $ts->ctsubject . ')');
+            return \response()->json($this->getAllTinySeasons("cost") , 200);
+        }
+    }
+
     ////////////////////////////// capital assets tiny season /////////////////////////////////
     public function getCapitalAssetsTinySeasonsWhitSeasonId(Request $request)
     {
@@ -556,25 +605,29 @@ class BudgetAdminController extends Controller
     {
         if ($type == "capitalAssets")
         {
-            $seasons = Season::with('capitalAssetsSeasonTitle')
-                ->with('capitalAssetsSeasonTitle.capitalAssetsTinySeason')
-                ->whereHas('capitalAssetsSeasonTitle.capitalAssetsTinySeason')->paginate(5);
+            $seasons = Season::with(['capitalAssetsSeasonTitle' => function($q){
+                $q->with('capitalAssetsTinySeason')
+                    ->has('capitalAssetsTinySeason');
+            }])->whereHas('capitalAssetsSeasonTitle' , function ($q){
+                $q->whereHas('capitalAssetsTinySeason');
+            })->paginate(5);
             return $seasons;
         }else if ($type == "cost")
         {
-            $seasons = Season::with('costSeasonTitle')
-                ->with('costSeasonTitle.costTinySeason')
-                ->whereHas('costSeasonTitle.costTinySeason')->paginate(5);
+            $seasons = Season::with(['costSeasonTitle' => function($q){
+                $q->with('costTinySeason')
+                    ->has('costTinySeason');
+            }])->whereHas('costSeasonTitle' , function ($q){
+                $q->whereHas('costTinySeason');
+            })->paginate(5);
             return $seasons;
         }
-
     }
 
-    public function registerTinySeason(Request $request)
+    public function registerCapitalAssetsTinySeason(Request $request)
     {
-        if (CapitalAssetsTinySeason::where('tsSId' , '=' , $request->tsSId)
-            ->where('tsPlanOrCost' , '=' , $request->planOrCost)
-            ->Where('tsSubject' , '=' , $request->tsSubject)
+        if (CapitalAssetsTinySeason::where('catsCastId' , '=' , $request->stId)
+            ->Where('catsSubject' , '=' , $request->subject)
             ->exists())
         {
             return \response()->json([] , 409);
@@ -582,24 +635,22 @@ class BudgetAdminController extends Controller
         else
         {
             $ts = new CapitalAssetsTinySeason;
-            $ts->tsUId = Auth::user()->id;
-            $ts->tsSId = $request->tsSId;
-            $ts->tsPlanOrCost = $request->planOrCost;
-            $ts->tsSubject = $request->tsSubject;
-            $ts->tsDescription = $request->tsDescription;
+            $ts->catsUId = Auth::user()->id;
+            $ts->catsCastId = $request->stId;
+            $ts->catsSubject = $request->subject;
+            $ts->catsDescription = $request->description;
             $ts->save();
 
-            SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل ' . $request->tsSubject . ' در فصل ' . Season::find($request->tsSId)->sSubject);
+            SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل عمرانی ' . $request->subject . ' در عنوان فصل ' . CapitalAssetsSeasonTitle::find($request->stId)->castSubject);
             return \response()->json($this->getAllTinySeasons("capitalAssets") , 200);
         }
     }
 
-    public function updateTinySeason(Request $request)
+    public function updateCapitalAssetsTinySeason(Request $request)
     {
         if (CapitalAssetsTinySeason::where('id' , '<>' , $request->id)
-            ->where('tsSId' , '=' , $request->tsSId)
-            ->where('tsPlanOrCost' , '=' , $request->planOrCost)
-            ->Where('tsSubject' , '=' , $request->tsSubject)
+            ->where('catsCastId' , '=' , $request->stId)
+            ->Where('catsSubject' , '=' , $request->subject)
             ->exists())
         {
             return \response()->json([] , 409);
@@ -608,13 +659,13 @@ class BudgetAdminController extends Controller
         {
             $old = CapitalAssetsTinySeason::find($request->id);
             $ts = CapitalAssetsTinySeason::find($request->id);
-            $ts->tsUId = Auth::user()->id;
-            $ts->tsSId = $request->tsSId;
-            $ts->tsSubject = $request->tsSubject;
-            $ts->tsDescription = $request->tsDescription;
+            $ts->catsUId = Auth::user()->id;
+            $ts->catsCastId = $request->stId;
+            $ts->catsSubject = $request->subject;
+            $ts->catsDescription = $request->description;
             $ts->save();
 
-            SystemLog::setBudgetSubSystemAdminLog('تغییر  ریز فصل (' . $old->tsSubject . ') به (' . $ts->tsSubject . ')');
+            SystemLog::setBudgetSubSystemAdminLog('تغییر  ریز فصل (' . $old->catsSubject . ') به (' . $ts->catsubject . ')');
             return \response()->json($this->getAllTinySeasons("capitalAssets") , 200);
         }
     }
@@ -727,6 +778,65 @@ class BudgetAdminController extends Controller
         );
     }*/
 
+    ///////////////////////////////// capital assets season title ////////////////////
+    public function registerCapitalAssetsSeasonTitle(Request $request)
+    {
+        $st = new CapitalAssetsSeasonTitle;
+        $st->castUId = Auth::user()->id;
+        $st->castSId = $request->sId;
+        $st->castSubject = $request->subject;
+        $st->castDescription = $request->description;
+        $st->save();
+
+        SystemLog::setBudgetSubSystemAdminLog('تعریف عنوان فصل تملک داریی های سرمایه ای ' . $request->subject);
+        return \response()->json($this->getAllSeasonTitle("plan"));
+    }
+
+    public function fetchCapitalAssetsSeasonTitleData(Request $request)
+    {
+        return \response()->json($this->getAllSeasonTitle("plan"));
+    }
+
+    public function getAllSeasonTitle($pOrC)
+    {
+        if ($pOrC == "cost")
+        {
+            return Season::with('costSeasonTitle')->whereHas('costSeasonTitle')->paginate(5);
+        }
+        else if ($pOrC == "plan")
+        {
+            return Season::with('capitalAssetsSeasonTitle')->whereHas('capitalAssetsSeasonTitle')->paginate(5);
+        }
+    }
+
+    public function getCapitalAssetsSeasonTitleWithSId(Request $request)
+    {
+        return \response()->json(CapitalAssetsSeasonTitle::where('castSId' , '=' , $request->sId)->get());
+    }
+
+    ///////////////////////////////// cost season title ////////////////////
+    public function registerCostSeasonTitle(Request $request)
+    {
+        $st = new CostSeasonTitle;
+        $st->cstUId = Auth::user()->id;
+        $st->cstSId = $request->sId;
+        $st->cstSubject = $request->subject;
+        $st->cstDescription = $request->description;
+        $st->save();
+
+        SystemLog::setBudgetSubSystemAdminLog('تعریف عنوان فصل هزینه ای ' . $request->subject);
+        return \response()->json($this->getAllSeasonTitle("cost"));
+    }
+
+    public function fetchCostSeasonTitleData(Request $request)
+    {
+        return \response()->json($this->getAllSeasonTitle("cost"));
+    }
+
+    public function getCostSeasonTitleWithSId(Request $request)
+    {
+        return \response()->json(CostSeasonTitle::where('cstSId' , '=' , $request->sId)->get());
+    }
     ///////////////////////////////// fiscal year api ////////////////////////////////
     public function fetchFiscalYearData(Request $request)
     {

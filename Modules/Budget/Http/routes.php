@@ -18,7 +18,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         //Route::get('fiscal_year/changeBudgetItemPermissionState/{pbId}/{state}', 'BudgetAdminController@changeBudgetItemPermissionState');
         //Route::get('fiscal_year/changeSectionPermissionState/{section}/{fyId}/{state}', 'BudgetAdminController@changeSectionPermissionState');
         //////////////////////////////////////////////////////////////////////
-        Route::get('credit_distribution_def', 'BudgetAdminController@creditDistributionDef');
+        //Route::get('credit_distribution_def', 'BudgetAdminController@creditDistributionDef');
 /*        Route::post('credit_distribution_def/rows/register', 'BudgetAdminController@registerCreditDistributionRow');
         Route::get('credit_distribution_def/rows/delete/{cdId}', 'BudgetAdminController@deleteCreditDistributionRow');
         Route::get('credit_distribution_def/rows/CDRIsExist/{cdSubject}/{cdId?}', 'BudgetAdminController@CDRIsExist');
@@ -45,7 +45,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::post('sub_seasons/update', 'BudgetAdminController@updateTinySeason');
         Route::post('sub_seasons/delete', 'BudgetAdminController@deleteTinySeason');*/
 
-        Route::get('sub_seasons/get_tiny_seasons_whit_season_id', 'BudgetAdminController@getTinySeasonsWhitSeasonId');
+        //Route::get('sub_seasons/get_tiny_seasons_whit_season_id', 'BudgetAdminController@getTinySeasonsWhitSeasonId');
         ///////////////////////////////////////////////////////////////////////
         Route::get('row_distribution_credit', 'BudgetAdminController@rowDistributionCredit');
         Route::get('row_distribution_credit/fetchData', 'BudgetAdminController@FetchRowDC');
@@ -104,14 +104,30 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
 {
     Route::prefix('admin/sub_seasons/cost')->group(function () {
         Route::get('/fetchData', 'BudgetAdminController@FetchCostTinySeasonData');
-        //Route::post('/register', 'BudgetAdminController@registerTinySeason')->middleware('auth_api:api');
-        //Route::post('/update', 'BudgetAdminController@updateTinySeason')->middleware('auth_api:api');
+        Route::post('/register', 'BudgetAdminController@registerCostTinySeason');
+        Route::post('/update', 'BudgetAdminController@updateCostTinySeason');
         //Route::post('/delete', 'BudgetAdminController@deleteTinySeason')->middleware('auth_api:api');
     });
 
     Route::prefix('admin/sub_seasons/capital_assets')->group(function () {
         Route::get('/fetchData', 'BudgetAdminController@FetchCapitalAssetsTinySeasonData');
-        //Route::post('/register', 'BudgetAdminController@registerTinySeason')->middleware('auth_api:api');
+        Route::post('/register', 'BudgetAdminController@registerCapitalAssetsTinySeason');
+        Route::post('/update', 'BudgetAdminController@updateCapitalAssetsTinySeason');
+        //Route::post('/delete', 'BudgetAdminController@deleteTinySeason')->middleware('auth_api:api');
+    });
+
+    Route::prefix('admin/season_title/cost')->group(function () {
+        Route::get('/fetchData', 'BudgetAdminController@fetchCostSeasonTitleData');
+        Route::get('/getWithSeasonId', 'BudgetAdminController@getCostSeasonTitleWithSId');
+        Route::post('/register', 'BudgetAdminController@registerCostSeasonTitle');
+        //Route::post('/update', 'BudgetAdminController@updateTinySeason')->middleware('auth_api:api');
+        //Route::post('/delete', 'BudgetAdminController@deleteTinySeason')->middleware('auth_api:api');
+    });
+
+    Route::prefix('admin/season_title/capital_assets')->group(function () {
+        Route::get('/fetchData', 'BudgetAdminController@fetchCapitalAssetsSeasonTitleData');
+        Route::get('/getWithSeasonId', 'BudgetAdminController@getCapitalAssetsSeasonTitleWithSId');
+        Route::post('/register', 'BudgetAdminController@registerCapitalAssetsSeasonTitle');
         //Route::post('/update', 'BudgetAdminController@updateTinySeason')->middleware('auth_api:api');
         //Route::post('/delete', 'BudgetAdminController@deleteTinySeason')->middleware('auth_api:api');
     });

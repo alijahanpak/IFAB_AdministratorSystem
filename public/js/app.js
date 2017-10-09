@@ -69323,15 +69323,17 @@ if (false) {(function () {
             planOrCost: 0,
             errorMessage: '',
             errorMessage_update: '',
+            selectedSeason: '',
             tinySeasons: [],
             tinySeasonsCost: [],
-            tinySeasonsInput: { tsSId: '', tsSubject: '', tsDescription: '', planOrCost: '' },
+            tinySeasonsInput: { tsStId: '', tsSubject: '', tsDescription: '' },
             showModal: false,
             showModalUpdate: false,
             showModalDelete: false,
-            tinySeasonsFill: { tsSId: '', tsSubject: '', tsDescription: '', planOrCost: '', id: '' },
+            tinySeasonsFill: { tsStId: '', tsSubject: '', tsDescription: '', id: '' },
             tsIdDelete: {},
             seasons: {},
+            seasonTitles: {},
             cost_pagination: {
                 total: 0,
                 to: 0,
@@ -69429,59 +69431,91 @@ if (false) {(function () {
             });
         },
 
-        createTinySeason: function createTinySeason() {
+        getSeasonTitle: function getSeasonTitle() {
             var _this4 = this;
 
-            this.$validator.validateAll().then(function (result) {
-                if (result) {
-                    _this4.$root.start();
-                    axios.post('/budget/admin/sub_seasons/register', {
-                        tsSId: _this4.tinySeasonsInput.tsSId,
-                        tsSubject: _this4.tinySeasonsInput.tsSubject,
-                        tsDescription: _this4.tinySeasonsInput.tsDescription,
-                        planOrCost: _this4.planOrCost }).then(function (response) {
-                        if (_this4.planOrCost == 1) _this4.tinySeasonsCost = response.data.data;else _this4.tinySeasons = response.data.data;
-                        _this4.showModal = false;
-                        _this4.displayNotif(response.status);
-                        _this4.tinySeasonsInput = [];
-                        console.log(response);
-                        _this4.$root.finish();
-                    }, function (error) {
-                        console.log(error);
-                        _this4.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                        _this4.$root.fail();
-                    });
-                }
+            this.$root.start();
+            axios.get(this.planOrCost == 0 ? '/budget/admin/season_title/capital_assets/getWithSeasonId' : '/budget/admin/season_title/cost/getWithSeasonId', { params: { sId: this.selectedSeason } }).then(function (response) {
+                _this4.seasonTitles = response.data;
+                console.log(response);
+                _this4.$root.finish();
+            }, function (error) {
+                console.log(error);
+                _this4.$root.fail();
             });
         },
 
-        tinySeasonUpdateDialog: function tinySeasonUpdateDialog(item, planOrCost) {
-            this.tinySeasonsFill.tsSId = item.tsSId;
-            this.tinySeasonsFill.tsSubject = item.tsSubject;
-            this.tinySeasonsFill.tsDescription = item.tsDescription;
-            this.tinySeasonsFill.id = item.id;
-            this.tinySeasonsFill.planOrCost = planOrCost;
-            this.planOrCost = planOrCost;
-            this.errorMessage_update = '';
-            this.showModalUpdate = true;
+        openInsertModal: function openInsertModal(pOrC) {
+            this.tinySeasonsInput = [];
+            this.planOrCost = pOrC;
+            this.errorMessage = '';
+            this.showModal = true;
         },
 
-        updateTinySeason: function updateTinySeason() {
+        createTinySeason: function createTinySeason() {
             var _this5 = this;
 
             this.$validator.validateAll().then(function (result) {
                 if (result) {
                     _this5.$root.start();
-                    axios.post('/budget/admin/sub_seasons/update', _this5.tinySeasonsFill).then(function (response) {
+                    axios.post(_this5.planOrCost == 0 ? '/budget/admin/sub_seasons/capital_assets/register' : '/budget/admin/sub_seasons/cost/register', {
+                        stId: _this5.tinySeasonsInput.tsStId,
+                        subject: _this5.tinySeasonsInput.tsSubject,
+                        description: _this5.tinySeasonsInput.tsDescription }).then(function (response) {
                         if (_this5.planOrCost == 1) _this5.tinySeasonsCost = response.data.data;else _this5.tinySeasons = response.data.data;
-                        _this5.showModalUpdate = false;
+                        _this5.showModal = false;
                         _this5.displayNotif(response.status);
+                        _this5.tinySeasonsInput = [];
                         console.log(response);
                         _this5.$root.finish();
                     }, function (error) {
                         console.log(error);
-                        _this5.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                        _this5.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
                         _this5.$root.fail();
+                    });
+                }
+            });
+        },
+
+        tinySeasonUpdateDialog: function tinySeasonUpdateDialog(sId, item, planOrCost) {
+            this.planOrCost = planOrCost;
+            this.selectedSeason = sId;
+            this.getSeasonTitle();
+            if (this.planOrCost == 0) {
+                this.tinySeasonsFill.tsStId = item.catsCastId;
+                this.tinySeasonsFill.tsSubject = item.catsSubject;
+                this.tinySeasonsFill.tsDescription = item.catsDescription;
+                this.tinySeasonsFill.id = item.id;
+            } else if (this.planOrCost == 1) {
+                this.tinySeasonsFill.tsStId = item.ctsCstId;
+                this.tinySeasonsFill.tsSubject = item.ctsSubject;
+                this.tinySeasonsFill.tsDescription = item.ctsDescription;
+                this.tinySeasonsFill.id = item.id;
+            }
+            this.errorMessage_update = '';
+            this.showModalUpdate = true;
+        },
+
+        updateTinySeason: function updateTinySeason() {
+            var _this6 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    _this6.$root.start();
+                    axios.post(_this6.planOrCost == 0 ? '/budget/admin/sub_seasons/capital_assets/update' : '/budget/admin/sub_seasons/cost/update', {
+                        id: _this6.tinySeasonsFill.id,
+                        stId: _this6.tinySeasonsFill.tsStId,
+                        subject: _this6.tinySeasonsFill.tsSubject,
+                        description: _this6.tinySeasonsFill.tsDescription }).then(function (response) {
+                        if (_this6.planOrCost == 1) _this6.tinySeasonsCost = response.data.data;else _this6.tinySeasons = response.data.data;
+                        _this6.showModalUpdate = false;
+                        _this6.displayNotif(response.status);
+                        console.log(response);
+                        _this6.$root.finish();
+                    }, function (error) {
+                        console.log(error);
+                        _this6.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                        _this6.$root.fail();
                     });
                 }
             });
@@ -69493,21 +69527,21 @@ if (false) {(function () {
         },
 
         deleteTinySeason: function deleteTinySeason() {
-            var _this6 = this;
+            var _this7 = this;
 
             this.$root.start();
             axios.post('/budget/admin/sub_seasons/delete', this.tsIdDelete).then(function (response) {
                 if (response.status != 204) //http status code for error in delete (no content)
                     {
-                        if (response.data.tsPlanOrCost == 1) _this6.tinySeasonsCost = response.data.data;else _this6.tinySeasons = response.data.data;
+                        if (response.data.tsPlanOrCost == 1) _this7.tinySeasonsCost = response.data.data;else _this7.tinySeasons = response.data.data;
                     }
-                _this6.showModalDelete = false;
+                _this7.showModalDelete = false;
                 console.log(response);
-                _this6.$root.finish();
-                _this6.displayNotif(response.status);
+                _this7.$root.finish();
+                _this7.displayNotif(response.status);
             }, function (error) {
                 console.log(error);
-                _this6.$root.fail();
+                _this7.$root.fail();
             });
         },
 
@@ -69718,9 +69752,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "my-button toolbox-btn small",
     on: {
       "click": function($event) {
-        _vm.planOrCost = 0;
-        _vm.showModal = true;
-        _vm.errorMessage = ''
+        _vm.openInsertModal(0)
       }
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
@@ -69786,7 +69818,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           on: {
             "click": function($event) {
               $event.preventDefault();
-              _vm.tinySeasonUpdateDialog(capitalAssetsTinySeason, 0)
+              _vm.tinySeasonUpdateDialog(season.id, capitalAssetsTinySeason, 0)
             }
           }
         }, [_c('i', {
@@ -69836,9 +69868,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "my-button toolbox-btn small",
     on: {
       "click": function($event) {
-        _vm.planOrCost = 1;
-        _vm.showModal = true;
-        _vm.errorMessage = ''
+        _vm.openInsertModal(1)
       }
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
@@ -69904,7 +69934,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           on: {
             "click": function($event) {
               $event.preventDefault();
-              _vm.tinySeasonUpdateDialog(costTinySeason, 0)
+              _vm.tinySeasonUpdateDialog(season.id, costTinySeason, 1)
             }
           }
         }, [_c('i', {
@@ -69978,8 +70008,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.tinySeasonsInput.tsSId),
-      expression: "tinySeasonsInput.tsSId"
+      value: (_vm.selectedSeason),
+      expression: "selectedSeason"
     }, {
       name: "validate",
       rawName: "v-validate"
@@ -69993,15 +70023,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "data-vv-rules": "required"
     },
     on: {
-      "change": function($event) {
+      "change": [function($event) {
         var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
           return o.selected
         }).map(function(o) {
           var val = "_value" in o ? o._value : o.value;
           return val
         });
-        _vm.tinySeasonsInput.tsSId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
+        _vm.selectedSeason = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }, _vm.getSeasonTitle]
     }
   }, [_c('option', {
     attrs: {
@@ -70029,8 +70059,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.tinySeasonsInput.tsSId),
-      expression: "tinySeasonsInput.tsSId"
+      value: (_vm.tinySeasonsInput.tsStId),
+      expression: "tinySeasonsInput.tsStId"
     }, {
       name: "validate",
       rawName: "v-validate"
@@ -70051,19 +70081,19 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           var val = "_value" in o ? o._value : o.value;
           return val
         });
-        _vm.tinySeasonsInput.tsSId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+        _vm.tinySeasonsInput.tsStId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
       }
     }
   }, [_c('option', {
     attrs: {
       "value": ""
     }
-  }), _vm._v(" "), _vm._l((_vm.seasons), function(season) {
+  }), _vm._v(" "), _vm._l((_vm.seasonTitles), function(seasonTitle) {
     return _c('option', {
       domProps: {
-        "value": season.id
+        "value": seasonTitle.id
       }
-    }, [_vm._v(_vm._s(season.sSubject))])
+    }, [_vm._v(_vm._s(_vm.planOrCost == 0 ? seasonTitle.castSubject : seasonTitle.cstSubject))])
   })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
@@ -70184,8 +70214,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.tinySeasonsFill.tsSId),
-      expression: "tinySeasonsFill.tsSId"
+      value: (_vm.selectedSeason),
+      expression: "selectedSeason"
     }, {
       name: "validate",
       rawName: "v-validate"
@@ -70199,15 +70229,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "data-vv-rules": "required"
     },
     on: {
-      "change": function($event) {
+      "change": [function($event) {
         var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
           return o.selected
         }).map(function(o) {
           var val = "_value" in o ? o._value : o.value;
           return val
         });
-        _vm.tinySeasonsFill.tsSId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
+        _vm.selectedSeason = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }, _vm.getSeasonTitle]
     }
   }, [_c('option', {
     attrs: {
@@ -70235,8 +70265,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.tinySeasonsInput.tsSId),
-      expression: "tinySeasonsInput.tsSId"
+      value: (_vm.tinySeasonsFill.tsStId),
+      expression: "tinySeasonsFill.tsStId"
     }, {
       name: "validate",
       rawName: "v-validate"
@@ -70257,19 +70287,19 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           var val = "_value" in o ? o._value : o.value;
           return val
         });
-        _vm.tinySeasonsInput.tsSId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+        _vm.tinySeasonsFill.tsStId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
       }
     }
   }, [_c('option', {
     attrs: {
       "value": ""
     }
-  }), _vm._v(" "), _vm._l((_vm.seasons), function(season) {
+  }), _vm._v(" "), _vm._l((_vm.seasonTitles), function(seasonTitle) {
     return _c('option', {
       domProps: {
-        "value": season.id
+        "value": seasonTitle.id
       }
-    }, [_vm._v(_vm._s(season.sSubject))])
+    }, [_vm._v(_vm._s(_vm.planOrCost == 0 ? seasonTitle.castSubject : seasonTitle.cstSubject))])
   })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
@@ -74632,26 +74662,23 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     data: function data() {
         return {
-            planOrCost: 0,
             errorMessage: '',
             errorMessage_update: '',
-            season_title: [],
-            seasonTitleCost: [],
-            seasonTitleInput: { stSeason: '', stSubject: '', stDescription: '', planOrCost: '' },
+            seasonTitles: [],
+            seasonTitleCosts: [],
+            seasonTitleInput: { stSeason: '', stSubject: '', stDescription: '' },
             showModal: false,
             showModalUpdate: false,
             showModalDelete: false,
-            seasonTitleFill: { stSeason: '', stSubject: '', stDescription: '', planOrCost: '', id: '' },
+            seasonTitleFill: { stSeason: '', stSubject: '', stDescription: '', id: '' },
             stIdDelete: {},
             seasons: {},
+            planOrCost: 0,
             cost_pagination: {
                 total: 0,
                 to: 0,
@@ -74689,152 +74716,173 @@ if (false) {(function () {
     },
 
     methods: {
-        /*fetchCapitalAssetsData: function (page = 1) {
+        fetchCapitalAssetsData: function fetchCapitalAssetsData() {
+            var _this = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
             this.$root.start();
-            axios.get('/budget/admin/sub_seasons/capital_assets/fetchData?page=' + page)
-                .then((response) => {
-                    this.tinySeasons = response.data.data;
-                    this.makePagination(response.data , "plan");
-                    console.log(response.data);
-                    this.$root.finish();
-                },(error) => {
-                    console.log(error);
-                    this.$root.fail();
-                });*/
-    },
-
-    fetchCostData: function fetchCostData() {
-        /*this.$root.start();
-        axios.get('/budget/admin/sub_seasons/cost/fetchData?page=' + page)
-            .then((response) => {
-                this.tinySeasonsCost = response.data.data;
-                this.makePagination(response.data , "cost");
+            axios.get('/budget/admin/season_title/capital_assets/fetchData?page=' + page).then(function (response) {
+                _this.seasonTitles = response.data.data;
+                _this.makePagination(response.data, "plan");
                 console.log(response.data);
-                this.$root.finish();
-            },(error) => {
+                _this.$root.finish();
+            }, function (error) {
                 console.log(error);
-                this.$root.fail();
-            });*/
+                _this.$root.fail();
+            });
+        },
 
-        var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-    },
+        fetchCostData: function fetchCostData() {
+            var _this2 = this;
 
-    makePagination: function makePagination(data, type) {
-        if (type == "cost") {
-            this.cost_pagination.current_page = data.current_page;
-            this.cost_pagination.to = data.to;
-            this.cost_pagination.last_page = data.last_page;
-        } else if (type == "plan") {
-            this.plan_pagination.current_page = data.current_page;
-            this.plan_pagination.to = data.to;
-            this.plan_pagination.last_page = data.last_page;
-        }
-    },
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-    getSeasons: function getSeasons() {
-        var _this = this;
+            this.$root.start();
+            axios.get('/budget/admin/season_title/cost/fetchData?page=' + page).then(function (response) {
+                _this2.seasonTitleCosts = response.data.data;
+                _this2.makePagination(response.data, "cost");
+                console.log(response.data);
+                _this2.$root.finish();
+            }, function (error) {
+                console.log(error);
+                _this2.$root.fail();
+            });
+        },
 
-        this.$root.start();
-        axios.get('/admin/get_all_seasons').then(function (response) {
-            _this.seasons = response.data;
-            console.log(response);
-            _this.$root.finish();
-        }, function (error) {
-            console.log(error);
-            _this.$root.fail();
-        });
-    },
-
-    createSeasonTitle: function createSeasonTitle() {
-        var _this2 = this;
-
-        this.$validator.validateAll().then(function (result) {
-            if (result) {
-                _this2.$root.start();
-                axios.post('/budget/admin/sub_seasons/register', {
-                    stSeason: _this2.seasonTitleInput.stSeason,
-                    stSubject: _this2.seasonTitleInput.stSubject,
-                    stDescription: _this2.seasonTitleInput.stDescription,
-                    planOrCost: _this2.planOrCost }).then(function (response) {
-                    if (_this2.planOrCost == 1) _this2.seasonTitleCost = response.data.data;else _this2.seasonTitle = response.data.data;
-                    _this2.showModal = false;
-                    _this2.displayNotif(response.status);
-                    _this2.seasonTitleInput = [];
-                    console.log(response);
-                    _this2.$root.finish();
-                }, function (error) {
-                    console.log(error);
-                    _this2.errorMessage = 'عنوان فصل با این مشخصات قبلا ثبت شده است!';
-                    _this2.$root.fail();
-                });
+        makePagination: function makePagination(data, type) {
+            if (type == "cost") {
+                this.cost_pagination.current_page = data.current_page;
+                this.cost_pagination.to = data.to;
+                this.cost_pagination.last_page = data.last_page;
+            } else if (type == "plan") {
+                this.plan_pagination.current_page = data.current_page;
+                this.plan_pagination.to = data.to;
+                this.plan_pagination.last_page = data.last_page;
             }
-        });
-    },
+        },
 
-    tinySeasonUpdateDialog: function tinySeasonUpdateDialog(item, planOrCost) {
-        this.seasonTitleFill.stSeason = item.stSeason;
-        this.seasonTitleFill.stSubject = item.stSubject;
-        this.seasonTitleFill.stDescription = item.stDescription;
-        this.seasonTitleFill.id = item.id;
-        this.seasonTitleFill.planOrCost = planOrCost;
-        this.planOrCost = planOrCost;
-        this.errorMessage_update = '';
-        this.showModalUpdate = true;
-    },
+        getSeasons: function getSeasons() {
+            var _this3 = this;
 
-    updateSeasonTitle: function updateSeasonTitle() {
-        var _this3 = this;
+            this.$root.start();
+            axios.get('/admin/get_all_seasons').then(function (response) {
+                _this3.seasons = response.data;
+                console.log(response);
+                _this3.$root.finish();
+            }, function (error) {
+                console.log(error);
+                _this3.$root.fail();
+            });
+        },
 
-        this.$validator.validateAll().then(function (result) {
-            if (result) {
-                _this3.$root.start();
-                axios.post('/budget/admin/sub_seasons/update', _this3.seasonTitleFill).then(function (response) {
-                    if (_this3.planOrCost == 1) _this3.seasonTitleCost = response.data.data;else _this3.seasonTitle = response.data.data;
-                    _this3.showModalUpdate = false;
-                    _this3.displayNotif(response.status);
-                    console.log(response);
-                    _this3.$root.finish();
-                }, function (error) {
-                    console.log(error);
-                    _this3.errorMessage_update = 'عنوان فصل با این مشخصات قبلا ثبت شده است!';
-                    _this3.$root.fail();
-                });
-            }
-        });
-    },
+        createSeasonTitle: function createSeasonTitle() {
+            var _this4 = this;
 
-    openDeleteSeasonTitleConfirm: function openDeleteSeasonTitleConfirm(st) {
-        this.stIdDelete = st;
-        this.showModalDelete = true;
-    },
-
-    deleteSeasonTitle: function deleteSeasonTitle() {
-        var _this4 = this;
-
-        this.$root.start();
-        axios.post('/budget/admin/season_title/delete', this.stIdDelete).then(function (response) {
-            if (response.status != 204) //http status code for error in delete (no content)
-                {
-                    if (response.data.tsPlanOrCost == 1) _this4.seasonTitleCost = response.data.data;else _this4.seasonTitle = response.data.data;
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    _this4.$root.start();
+                    axios.post(_this4.planOrCost == 0 ? '/budget/admin/season_title/capital_assets/register' : '/budget/admin/season_title/cost/register', {
+                        sId: _this4.seasonTitleInput.stSeason,
+                        subject: _this4.seasonTitleInput.stSubject,
+                        description: _this4.seasonTitleInput.stDescription
+                    }).then(function (response) {
+                        if (_this4.planOrCost == 1) {
+                            _this4.seasonTitleCosts = response.data.data;
+                            _this4.makePagination(response.data, "cost");
+                        } else {
+                            _this4.seasonTitles = response.data.data;
+                            _this4.makePagination(response.data, "plan");
+                        }
+                        _this4.showModal = false;
+                        _this4.displayNotif(response.status);
+                        _this4.seasonTitleInput = [];
+                        console.log(response);
+                        _this4.$root.finish();
+                    }, function (error) {
+                        console.log(error);
+                        _this4.errorMessage = 'عنوان فصل با این مشخصات قبلا ثبت شده است!';
+                        _this4.$root.fail();
+                    });
                 }
-            _this4.showModalDelete = false;
-            console.log(response);
-            _this4.$root.finish();
-            _this4.displayNotif(response.status);
-        }, function (error) {
-            console.log(error);
-            _this4.$root.fail();
-        });
-    },
+            });
+        },
 
-    displayNotif: function displayNotif(httpStatusCode) {
-        switch (httpStatusCode) {
-            case 204:
-                this.$notify({ group: 'seasonTitlePm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
-                break;
-            case 200:
-                this.$notify({ group: 'seasonTitlePm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
-                break;
+        tinySeasonUpdateDialog: function tinySeasonUpdateDialog(item, planOrCost) {
+            this.seasonTitleFill.stSeason = item.stSeason;
+            this.seasonTitleFill.stSubject = item.stSubject;
+            this.seasonTitleFill.stDescription = item.stDescription;
+            this.seasonTitleFill.id = item.id;
+            this.seasonTitleFill.planOrCost = planOrCost;
+            this.planOrCost = planOrCost;
+            this.errorMessage_update = '';
+            this.showModalUpdate = true;
+        },
+
+        updateSeasonTitle: function updateSeasonTitle() {
+            var _this5 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    _this5.$root.start();
+                    axios.post('/budget/admin/sub_seasons/update', _this5.seasonTitleFill).then(function (response) {
+                        if (_this5.planOrCost == 1) _this5.seasonTitleCost = response.data.data;else _this5.seasonTitle = response.data.data;
+                        _this5.showModalUpdate = false;
+                        _this5.displayNotif(response.status);
+                        console.log(response);
+                        _this5.$root.finish();
+                    }, function (error) {
+                        console.log(error);
+                        _this5.errorMessage_update = 'عنوان فصل با این مشخصات قبلا ثبت شده است!';
+                        _this5.$root.fail();
+                    });
+                }
+            });
+        },
+
+        openDeleteSeasonTitleConfirm: function openDeleteSeasonTitleConfirm(st) {
+            this.stIdDelete = st;
+            this.showModalDelete = true;
+        },
+
+        deleteSeasonTitle: function deleteSeasonTitle() {
+            var _this6 = this;
+
+            this.$root.start();
+            axios.post('/budget/admin/season_title/delete', this.stIdDelete).then(function (response) {
+                if (response.status != 204) //http status code for error in delete (no content)
+                    {
+                        if (response.data.tsPlanOrCost == 1) _this6.seasonTitleCost = response.data.data;else _this6.seasonTitle = response.data.data;
+                    }
+                _this6.showModalDelete = false;
+                console.log(response);
+                _this6.$root.finish();
+                _this6.displayNotif(response.status);
+            }, function (error) {
+                console.log(error);
+                _this6.$root.fail();
+            });
+        },
+
+        displayNotif: function displayNotif(httpStatusCode) {
+            switch (httpStatusCode) {
+                case 204:
+                    this.$notify({
+                        group: 'seasonTitlePm',
+                        title: 'پیام سیستم',
+                        text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.',
+                        type: 'error'
+                    });
+                    break;
+                case 200:
+                    this.$notify({
+                        group: 'seasonTitlePm',
+                        title: 'پیام سیستم',
+                        text: 'درخواست با موفقیت انجام شد.',
+                        type: 'success'
+                    });
+                    break;
+            }
         }
     }
 });
@@ -74906,65 +74954,69 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "columns"
   }, [_vm._m(6), _vm._v(" "), _c('div', {
     staticClass: "table-contain dynamic-height-level2"
-  }, [_c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-2 table-contain-border cell-vertical-center"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "medium-10"
-  }, [_c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-8 table-contain-border cell-vertical-center"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "medium-4 table-contain-border cell-vertical-center"
-  }, [_c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-11"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "medium-1 cell-vertical-center text-left"
-  }, [_c('a', {
-    staticClass: "dropdown small sm-btn-align",
-    attrs: {
-      "type": "button",
-      "data-toggle": 'stSeasonTitle'
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-ellipsis-v size-18"
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "dropdown-pane dropdown-pane-sm ",
-    attrs: {
-      "data-close-on-click": "true",
-      "data-hover": "true",
-      "data-hover-pane": "true",
-      "data-position": "bottom",
-      "data-alignment": "right",
-      "id": 'stSeasonTitle',
-      "data-dropdown": "",
-      "data-auto-focus": "true"
-    }
-  }, [_c('ul', {
-    staticClass: "my-menu small-font text-right"
-  }, [_c('li', [_c('a', {
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.seasonTitleUpdateDialog(_vm.capitalAssetsSeasonTitle, 0)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-pencil-square-o size-16"
-  }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.openDeleteSeasonTitleConfirm(_vm.capitalAssetsSeasonTitle)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-trash-o size-16"
-  }), _vm._v("  حذف")])])])])])])])])])])]), _vm._v(" "), _c('div', {
+  }, _vm._l((_vm.seasonTitles), function(season) {
+    return _c('div', {
+      staticClass: "grid-x"
+    }, [_c('div', {
+      staticClass: "medium-2 table-contain-border cell-vertical-center"
+    }, [_vm._v("\n                                        " + _vm._s(season.sSubject) + "\n                                    ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-10"
+    }, _vm._l((season.capital_assets_season_title), function(seasonTitle) {
+      return _c('div', {
+        staticClass: "grid-x"
+      }, [_c('div', {
+        staticClass: "medium-8 table-contain-border cell-vertical-center"
+      }, [_vm._v("\n                                                " + _vm._s(seasonTitle.castSubject) + "\n                                            ")]), _vm._v(" "), _c('div', {
+        staticClass: "medium-4 table-contain-border cell-vertical-center"
+      }, [_c('div', {
+        staticClass: "grid-x"
+      }, [_c('div', {
+        staticClass: "medium-11"
+      }, [_vm._v("\n                                                        " + _vm._s(seasonTitle.castDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
+        staticClass: "medium-1 cell-vertical-center text-left"
+      }, [_c('a', {
+        staticClass: "dropdown small sm-btn-align",
+        attrs: {
+          "type": "button",
+          "data-toggle": 'stSeasonTitle' + seasonTitle.id
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-ellipsis-v size-18"
+      })]), _vm._v(" "), _c('div', {
+        staticClass: "dropdown-pane dropdown-pane-sm ",
+        attrs: {
+          "data-close-on-click": "true",
+          "data-hover": "true",
+          "data-hover-pane": "true",
+          "data-position": "bottom",
+          "data-alignment": "right",
+          "id": 'stSeasonTitle' + seasonTitle.id,
+          "data-dropdown": "",
+          "data-auto-focus": "true"
+        }
+      }, [_c('ul', {
+        staticClass: "my-menu small-font text-right"
+      }, [_c('li', [_c('a', {
+        on: {
+          "click": function($event) {
+            $event.preventDefault();
+            _vm.seasonTitleUpdateDialog(_vm.capitalAssetsSeasonTitle, 0)
+          }
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-pencil-square-o size-16"
+      }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+        on: {
+          "click": function($event) {
+            $event.preventDefault();
+            _vm.openDeleteSeasonTitleConfirm(_vm.capitalAssetsSeasonTitle)
+          }
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-trash-o size-16"
+      }), _vm._v("  حذف")])])])])])])])])
+    }))])
+  })), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12"
@@ -74984,7 +75036,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "id": "cost",
       "xmlns:v-on": "http://www.w3.org/1999/xhtml"
     }
-  }, [_c('div', {}, [_c('div', {
+  }, [_c('div', {
     staticClass: "medium-12 bottom-mrg"
   }, [_c('div', {
     staticClass: "clearfix border-btm-line bottom-mrg"
@@ -75008,65 +75060,69 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "columns"
   }, [_vm._m(10), _vm._v(" "), _c('div', {
     staticClass: "table-contain dynamic-height-level2"
-  }, [_c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-2 table-contain-border cell-vertical-center"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "medium-10"
-  }, [_c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-8 table-contain-border cell-vertical-center"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "medium-4 table-contain-border cell-vertical-center"
-  }, [_c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-11"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "medium-1 cell-vertical-center text-left"
-  }, [_c('a', {
-    staticClass: "dropdown small sm-btn-align",
-    attrs: {
-      "type": "button",
-      "data-toggle": 'stSeasonTitle'
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-ellipsis-v size-18"
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "dropdown-pane dropdown-pane-sm ",
-    attrs: {
-      "data-close-on-click": "true",
-      "data-hover": "true",
-      "data-hover-pane": "true",
-      "data-position": "bottom",
-      "data-alignment": "right",
-      "id": 'stSeasonTitle',
-      "data-dropdown": "",
-      "data-auto-focus": "true"
-    }
-  }, [_c('ul', {
-    staticClass: "my-menu small-font text-right"
-  }, [_c('li', [_c('a', {
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.seasonTitleUpdateDialog(_vm.capitalAssetsSeasonTitle, 0)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-pencil-square-o size-16"
-  }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.openDeleteSeasonTitleConfirm(_vm.capitalAssetsSeasonTitle)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-trash-o size-16"
-  }), _vm._v("  حذف")])])])])])])])])])])]), _vm._v(" "), _c('div', {
+  }, _vm._l((_vm.seasonTitleCosts), function(season1) {
+    return _c('div', {
+      staticClass: "grid-x"
+    }, [_c('div', {
+      staticClass: "medium-2 table-contain-border cell-vertical-center"
+    }, [_vm._v("\n                                        " + _vm._s(season1.sSubject) + "\n                                    ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-10"
+    }, _vm._l((season1.cost_season_title), function(sTCost) {
+      return _c('div', {
+        staticClass: "grid-x"
+      }, [_c('div', {
+        staticClass: "medium-8 table-contain-border cell-vertical-center"
+      }, [_vm._v("\n                                                " + _vm._s(sTCost.cstSubject) + "\n                                            ")]), _vm._v(" "), _c('div', {
+        staticClass: "medium-4 table-contain-border cell-vertical-center"
+      }, [_c('div', {
+        staticClass: "grid-x"
+      }, [_c('div', {
+        staticClass: "medium-11"
+      }, [_vm._v("\n                                                        " + _vm._s(sTCost.cstDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
+        staticClass: "medium-1 cell-vertical-center text-left"
+      }, [_c('a', {
+        staticClass: "dropdown small sm-btn-align",
+        attrs: {
+          "type": "button",
+          "data-toggle": 'stSeasonTitle_cost' + sTCost.id
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-ellipsis-v size-18"
+      })]), _vm._v(" "), _c('div', {
+        staticClass: "dropdown-pane dropdown-pane-sm ",
+        attrs: {
+          "data-close-on-click": "true",
+          "data-hover": "true",
+          "data-hover-pane": "true",
+          "data-position": "bottom",
+          "data-alignment": "right",
+          "id": 'stSeasonTitle_cost' + sTCost.id,
+          "data-dropdown": "",
+          "data-auto-focus": "true"
+        }
+      }, [_c('ul', {
+        staticClass: "my-menu small-font text-right"
+      }, [_c('li', [_c('a', {
+        on: {
+          "click": function($event) {
+            $event.preventDefault();
+            _vm.seasonTitleUpdateDialog(_vm.capitalAssetsSeasonTitle, 0)
+          }
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-pencil-square-o size-16"
+      }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+        on: {
+          "click": function($event) {
+            $event.preventDefault();
+            _vm.openDeleteSeasonTitleConfirm(_vm.capitalAssetsSeasonTitle)
+          }
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-trash-o size-16"
+      }), _vm._v("  حذف")])])])])])])])])
+    }))])
+  })), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12"
@@ -75080,14 +75136,169 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchCostData(_vm.cost_pagination.current_page)
       }
     }
-  })], 1)])])])])]), _vm._v(" "), _c('notifications', {
+  })], 1)])])])]), _vm._v(" "), _c('notifications', {
     attrs: {
       "group": "seasonTitlePm",
       "position": "bottom right",
       "animation-type": "velocity",
       "speed": 700
     }
-  })], 1), _vm._v(" "), (_vm.showModalDelete) ? _c('modal-tiny', {
+  })], 1), _vm._v(" "), (_vm.showModal) ? _c('modal-tiny', {
+    on: {
+      "close": function($event) {
+        _vm.showModal = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.createSeasonTitle($event)
+      }
+    }
+  }, [(_vm.errorMessage) ? _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 columns padding-lr"
+  }, [_c('div', {
+    staticClass: "alert callout"
+  }, [_c('p', {
+    staticClass: "BYekan login-alert"
+  }, [_c('i', {
+    staticClass: "fi-alert"
+  }), _vm._v(_vm._s(_vm.errorMessage))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 cell padding-lr"
+  }, [_c('label', [_vm._v("فصل\n                                    "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.seasonTitleInput.stSeason),
+      expression: "seasonTitleInput.stSeason"
+    }, {
+      name: "validate",
+      rawName: "v-validate"
+    }],
+    staticClass: "form-element-margin-btm",
+    class: {
+      'input': true, 'select-error': _vm.errors.has('sId')
+    },
+    attrs: {
+      "name": "sId",
+      "data-vv-rules": "required"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.seasonTitleInput.stSeason = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.seasons), function(season) {
+    return _c('option', {
+      domProps: {
+        "value": season.id
+      }
+    }, [_vm._v(_vm._s(season.sSubject))])
+  })], 2), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('sId')),
+      expression: "errors.has('sId')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("لطفا فصل را انتخاب کنید!")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 cell padding-lr"
+  }, [_c('label', [_c('label', [_vm._v("عنوان فصل\n                                        "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.seasonTitleInput.stSubject),
+      expression: "seasonTitleInput.stSubject"
+    }, {
+      name: "validate",
+      rawName: "v-validate",
+      value: ('required'),
+      expression: "'required'"
+    }],
+    staticClass: "form-element-margin-btm",
+    class: {
+      'input': true, 'error-border': _vm.errors.has('tsSubject')
+    },
+    attrs: {
+      "type": "text",
+      "name": "tsSubject"
+    },
+    domProps: {
+      "value": (_vm.seasonTitleInput.stSubject)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.seasonTitleInput.stSubject = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('tsSubject')),
+      expression: "errors.has('tsSubject')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("لطفا عنوان فصل انتخاب کنید!")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "small-12 columns padding-lr"
+  }, [_c('label', [_vm._v("شرح\n                                    "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.seasonTitleInput.stDescription),
+      expression: "seasonTitleInput.stDescription"
+    }],
+    staticStyle: {
+      "min-height": "150px"
+    },
+    attrs: {
+      "name": "tsDescription"
+    },
+    domProps: {
+      "value": (_vm.seasonTitleInput.stDescription)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.seasonTitleInput.stDescription = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 columns padding-lr padding-bottom-modal"
+  }, [_c('button', {
+    staticClass: "my-button my-success float-left btn-for-load",
+    attrs: {
+      "name": "Submit"
+    }
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showModalDelete) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showModalDelete = false
