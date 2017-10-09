@@ -64878,6 +64878,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Budget_Admin_deprived_area_vue__ = __webpack_require__(108);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Budget_Admin_budget_season_vue__ = __webpack_require__(111);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_Budget_Admin_season_title_vue__ = __webpack_require__(114);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_Budget_Aprroved_approved_project_vue__ = __webpack_require__(117);
 var _mutations;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -64896,8 +64897,9 @@ window.Vue.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 
 
 
+
 //export router instance
-var routes = [{ path: '/budget', component: __WEBPACK_IMPORTED_MODULE_2__components_Budget_Dashboard_vue__["a" /* default */] }, { path: '/budget/admin/season/tiny_seasons', component: __WEBPACK_IMPORTED_MODULE_3__components_Budget_Admin_tiny_seasons_vue__["a" /* default */] }, { path: '/budget/admin/fiscal_year', component: __WEBPACK_IMPORTED_MODULE_4__components_Budget_Admin_fiscal_year_vue__["a" /* default */] }, { path: '/budget/admin/deprived_area', component: __WEBPACK_IMPORTED_MODULE_5__components_Budget_Admin_deprived_area_vue__["a" /* default */] }, { path: '/budget/admin/credit_distribution_def/budget_season', component: __WEBPACK_IMPORTED_MODULE_6__components_Budget_Admin_budget_season_vue__["a" /* default */] }, { path: '/budget/admin/season/season_title', component: __WEBPACK_IMPORTED_MODULE_7__components_Budget_Admin_season_title_vue__["a" /* default */] }];
+var routes = [{ path: '/budget', component: __WEBPACK_IMPORTED_MODULE_2__components_Budget_Dashboard_vue__["a" /* default */] }, { path: '/budget/admin/season/tiny_seasons', component: __WEBPACK_IMPORTED_MODULE_3__components_Budget_Admin_tiny_seasons_vue__["a" /* default */] }, { path: '/budget/admin/fiscal_year', component: __WEBPACK_IMPORTED_MODULE_4__components_Budget_Admin_fiscal_year_vue__["a" /* default */] }, { path: '/budget/admin/deprived_area', component: __WEBPACK_IMPORTED_MODULE_5__components_Budget_Admin_deprived_area_vue__["a" /* default */] }, { path: '/budget/admin/credit_distribution_def/budget_season', component: __WEBPACK_IMPORTED_MODULE_6__components_Budget_Admin_budget_season_vue__["a" /* default */] }, { path: '/budget/admin/season/season_title', component: __WEBPACK_IMPORTED_MODULE_7__components_Budget_Admin_season_title_vue__["a" /* default */] }, { path: '/budget/approved/capital_assets/project/approved_project', component: __WEBPACK_IMPORTED_MODULE_8__components_Budget_Aprroved_approved_project_vue__["a" /* default */] }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
     routes: routes
@@ -74517,6 +74519,697 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-f73098b2", esExports)
+  }
+}
+
+/***/ }),
+/* 117 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_approved_project_vue__ = __webpack_require__(118);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_187277d0_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_approved_project_vue__ = __webpack_require__(119);
+var disposed = false
+var normalizeComponent = __webpack_require__(6)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_approved_project_vue__["default"],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_187277d0_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_approved_project_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Budget/Aprroved/approved_project.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] approved_project.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-187277d0", Component.options)
+  } else {
+    hotAPI.reload("data-v-187277d0", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 118 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__ = __webpack_require__(9);
+var _methods;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var approvedProjects = new Vue({
+    el: '#approvedProjects',
+    data: {
+        errorMessage: '',
+        errorMessage_update: '',
+        approvedProjects: [],
+        approvedProjectsInput: { apPlan: '', apProjectTitle: '', apProjectCode: '', apStartYear: '', apEndYear: '',
+            apHowToRun: '', apPhysicalProgress: '', apCity: '', apSubSeason: '',
+            apDescription: '' },
+        showModal: false,
+        showModalUpdate: false,
+        showModalDelete: false,
+        approvedProjectsFill: { apPlan: '', apProjectTitle: '', apProjectCode: '', apStartYear: '', apEndYear: '',
+            apHowToRun: '', apPhysicalProgress: '', aCity: '', apSubSeason: '',
+            apLocation: '', apDescription: '', apCredit: '' },
+        apIdDelete: {},
+        approvedPlans: {},
+        counties: {},
+        seasons: {},
+        tinySeasons: {},
+        selectedSeasons: '',
+        creditDistributionRows: {},
+        creditDistributionRowInput: {}
+    },
+
+    created: function created() {
+        this.fetchData();
+        this.getAllApprovedPlan(0); // 0 = provincial
+        this.getHowToRun();
+        this.getCounties();
+        this.getSeasons();
+        this.getCreditDistributionRow();
+    },
+
+    updated: function updated() {
+        $(this.$el).foundation(); //WORKS!
+    },
+
+    methods: (_methods = {
+        fetchData: function fetchData() {
+            var _this = this;
+
+            axios.get('/budget/project/capital_assets/projects/fetchData', {}).then(function (response) {
+                _this.approvedProjects = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        getAllApprovedPlan: function getAllApprovedPlan(pOrN) {
+            var _this2 = this;
+
+            axios.get('/budget/plan/capital_assets/plans/getAllItems', { params: { pOrN: 0 } }).then(function (response) {
+                _this2.approvedPlans = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        getHowToRun: function getHowToRun() {
+            var _this3 = this;
+
+            axios.get('/budget/admin/how_to_run/getAllItems', { params: {} }).then(function (response) {
+                _this3.howToRuns = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        }
+
+    }, _defineProperty(_methods, 'getHowToRun', function getHowToRun() {
+        var _this4 = this;
+
+        axios.get('/budget/admin/how_to_run/getAllItems', { params: {} }).then(function (response) {
+            _this4.howToRuns = response.data;
+            console.log(response);
+        }, function (error) {
+            console.log(error);
+        });
+    }), _defineProperty(_methods, 'getCounties', function getCounties() {
+        var _this5 = this;
+
+        axios.get('/admin/get_all_counties', { params: {} }).then(function (response) {
+            _this5.counties = response.data;
+            console.log(response);
+        }, function (error) {
+            console.log(error);
+        });
+    }), _defineProperty(_methods, 'getSeasons', function getSeasons() {
+        var _this6 = this;
+
+        axios.get('/admin/get_all_seasons', { params: {} }).then(function (response) {
+            _this6.seasons = response.data;
+            console.log(response);
+        }, function (error) {
+            console.log(error);
+        });
+    }), _defineProperty(_methods, 'getTinySeasons', function getTinySeasons() {
+        var _this7 = this;
+
+        axios.get('/budget/admin/sub_seasons/get_tiny_seasons_whit_season_id', { params: { sId: this.selectedSeasons, planOrCost: 0 } }).then(function (response) {
+            _this7.tinySeasons = response.data;
+            console.log(response);
+        }, function (error) {
+            console.log(error);
+        });
+    }), _defineProperty(_methods, 'getCreditDistributionRow', function getCreditDistributionRow() {
+        var _this8 = this;
+
+        axios.get('/budget/admin/credit_distribution_def/rows/getAllItems', { params: { planOrCost: 0 } }).then(function (response) {
+            _this8.creditDistributionRows = response.data;
+            console.log(response);
+        }, function (error) {
+            console.log(error);
+        });
+    }), _defineProperty(_methods, 'createApprovedProjects', function createApprovedProjects() {
+        var _this9 = this;
+
+        this.$validator.validateAll().then(function (result) {
+            if (result) {
+                axios.post('/budget/project/capital_assets/projects/register', { pInput: _this9.approvedProjectsInput, cdrInput: _this9.creditDistributionRowInput }).then(function (response) {
+                    _this9.approvedProjects = response.data;
+                    _this9.showModal = false;
+                    _this9.$notify({ group: 'capital_assetsPm', title: 'پیام سیستم', text: 'رکورد با موفقیت ثبت شد.', type: 'success' });
+                    console.log(response);
+                }, function (error) {
+                    console.log(error);
+                    //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                });
+            }
+        });
+
+        /*            this.creditDistributionRows.forEach(cdr => {
+                        "use strict";
+                        this.$set(this.creditDistributionRowInput , 'apCdr' + cdr.id);
+                    });*/
+    }), _defineProperty(_methods, 'getProjectAmount', function getProjectAmount(cdrCp) {
+        var sum = 0;
+        cdrCp.forEach(function (cdr) {
+            "use strict";
+
+            sum += cdr.ccAmount;
+        });
+        return sum;
+    }), _defineProperty(_methods, 'approvedProjectsUpdateDialog', function approvedProjectsUpdateDialog(item, planId) {
+        var _this10 = this;
+
+        this.selectedSeasons = item.tiny_season.tsSId;
+        this.getTinySeasons();
+        this.approvedProjectsFill.apSubSeason = item.cpTsId;
+        this.approvedProjectsFill.apPlan = planId;
+        this.approvedProjectsFill.apProjectTitle = item.cpSubject;
+        this.approvedProjectsFill.apProjectCode = item.cpCode;
+        this.approvedProjectsFill.apStartYear = item.cpStartYear;
+        this.approvedProjectsFill.apEndYear = item.cpEndOfYear;
+        this.approvedProjectsFill.apHowToRun = item.cpHtrId;
+        this.approvedProjectsFill.apPhysicalProgress = item.cpPhysicalProgress;
+        this.approvedProjectsFill.apCity = item.cpCoId;
+        this.approvedProjectsFill.apDescription = item.cpDescription;
+        this.creditDistributionRows.forEach(function (cdr) {
+            "use strict";
+
+            Vue.set(_this10.creditDistributionRowInput, 'apCdr' + cdr.id, cdr.id);
+        });
+        this.errorMessage_update = '';
+        this.showModalUpdate = true;
+    }), _defineProperty(_methods, 'updateApprovedProjects', function updateApprovedProjects() {
+        if (this.approvedProjectsFill.apPlan != '' && this.approvedProjectsFill.apProjectTitle != '' && this.approvedProjectsFill.apProjectCode != '' && this.approvedProjectsFill.apStartYear != '' && this.approvedProjectsFill.apEndYear != '' && this.approvedProjectsFill.apHowToRun != '' && this.approvedProjectsFill.apPhysicalProgress != '' && this.approvedProjectsFill.apCity != '' && this.approvedProjectsFill.apSeason != '' && this.approvedProjectsFill.apSubSeason != '') {
+            /*axios.post('/budget/admin/sub_seasons/update' , this.tinySeasonsFill)
+                .then((response) => {
+                    if(this.planOrCost == 1)
+                        this.tinySeasonsCost = response.data;
+                    else
+                        this.tinySeasons = response.data;
+                    this.showModalUpdate = false;
+                    this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'بروزرسانی با موفقیت انجام شد.' , type: 'success'});
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                    this.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                });*/
+            alert('ویرایش انجام شد');
+        } else {
+            this.errorMessage_update = ' لطفا در وارد کردن اطلاعات دقت کنید!';
+        }
+    }), _defineProperty(_methods, 'openDeleteApprovedProjectsConfirm', function openDeleteApprovedProjectsConfirm(ap) {
+        this.apIdDelete = ap;
+        this.showModalDelete = true;
+    }), _defineProperty(_methods, 'deleteApprovedProjects', function deleteApprovedProjects() {
+        /*axios.post('/budget/admin/sub_seasons/delete' , this.tsIdDelete)
+            .then((response) => {
+                if(response.data.tsPlanOrCost == 1)
+                    this.tinySeasonsCost = response.data;
+                else
+                    this.tinySeasons = response.data;
+                this.showModalDelete = false;
+                this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'حذف رکورد با موفقیت انجام شد.' , type: 'success'});
+                console.log(response);
+            },(error) => {
+                console.log(error);
+                this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
+            });*/
+    }), _methods)
+});
+
+/***/ }),
+/* 119 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var esExports = {render:function(){},staticRenderFns: []}
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-187277d0", esExports)
   }
 }
 

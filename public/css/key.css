@@ -210,7 +210,6 @@ a:focus,button:focus {
 }
 .top-menu-color{
     background-color: #F8F8F8;
-    border-bottom: solid 1.7px #D8DEE2;"
 }
 .my-custom-color{
     background-color: #F8F8F8;
@@ -264,12 +263,22 @@ a:focus,button:focus {
     padding: 30px 15px 30px 0px;
     line-height: 2;
 }
+.accordion  a:focus{
+    color: #FFFFFF;
+    background-color:#292B3A ;
+}
+.right-menu-btm-border:hover {
+    color:#EEEEEE;
+    background-color:#292B3A ;
+}
 .menu ul li a{
    color:#868aa8;
 }
 .menu ul li a:hover{
     color:#EEEEEE;
+    background-color:#292B3A ;
 }
+
 .dropdown.menu > li.opens-left > .is-dropdown-submenu {
     top: 120%;
 }
@@ -786,7 +795,6 @@ html, body {
     width: 100%;
 }
 .my-footer{
-    border-top: solid 1px #D8DEE2;
     background-color:#FFFFFF ;
     height: 40px;
     position: fixed;
@@ -1294,4 +1302,23 @@ button.purple-btn {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-
+.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
+    display: block;
+    width: 0;
+    height: 0;
+    border: inset 6px;
+    border-bottom-width: 0px;
+    border-top-style: inset;
+    -moz-border-top-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    font-family: FontAwesome;
+    content: '\f107';
+    border-bottom-width: 0;
+    border-top-style: none;
+    border-color: #1779ba transparent transparent;
+    position: absolute;
+    top: 40%;
+    left: 1rem;
+}
