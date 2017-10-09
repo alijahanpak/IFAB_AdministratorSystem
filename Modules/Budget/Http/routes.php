@@ -5,12 +5,12 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
     Route::get('/', 'BudgetController@dashboard');
     /////////////////////// budget admin routes //////////////////////////////
     Route::prefix('admin')->group(function () {
-        Route::get('deprived_area', 'BudgetAdminController@deprivedArea');
+/*        Route::get('deprived_area', 'BudgetAdminController@deprivedArea');
         Route::post('deprived_area/register', 'BudgetAdminController@registerDeprivedArea');
         Route::post('deprived_area/update', 'BudgetAdminController@updateDeprivedArea');
         Route::get('deprived_area/delete/{dId}', 'BudgetAdminController@deleteDeprivedArea');
         Route::get('deprived_area/DAIsExist/{coId}/{reId?}/{rdId?}/{viId?}', 'BudgetAdminController@DAIsExist');
-        Route::get('deprived_area/DAIsExistForUpdate/{daId}/{coId}/{reId?}/{rdId?}/{viId?}', 'BudgetAdminController@DAIsExistForUpdate');
+        Route::get('deprived_area/DAIsExistForUpdate/{daId}/{coId}/{reId?}/{rdId?}/{viId?}', 'BudgetAdminController@DAIsExistForUpdate');*/
         /////////////////////////////////////////////////////////////////////
         //Route::get('fiscal_year', 'BudgetAdminController@fiscalYear');
         //Route::post('fiscal_year/activation', 'BudgetAdminController@fiscalYearActivation');
@@ -19,16 +19,16 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         //Route::get('fiscal_year/changeSectionPermissionState/{section}/{fyId}/{state}', 'BudgetAdminController@changeSectionPermissionState');
         //////////////////////////////////////////////////////////////////////
         Route::get('credit_distribution_def', 'BudgetAdminController@creditDistributionDef');
-        Route::post('credit_distribution_def/rows/register', 'BudgetAdminController@registerCreditDistributionRow');
+/*        Route::post('credit_distribution_def/rows/register', 'BudgetAdminController@registerCreditDistributionRow');
         Route::get('credit_distribution_def/rows/delete/{cdId}', 'BudgetAdminController@deleteCreditDistributionRow');
         Route::get('credit_distribution_def/rows/CDRIsExist/{cdSubject}/{cdId?}', 'BudgetAdminController@CDRIsExist');
         Route::post('credit_distribution_def/rows/update', 'BudgetAdminController@updateCreditDistributionRow');
-        Route::get('credit_distribution_def/rows/getAllItems', 'BudgetAdminController@getAllCreditDistributionRows');
+        Route::get('credit_distribution_def/rows/getAllItems', 'BudgetAdminController@getAllCreditDistributionRows');*/
 
-        Route::post('credit_distribution_def/budget_season/register', 'BudgetAdminController@registerBudgetSeason');
+/*        Route::post('credit_distribution_def/budget_season/register', 'BudgetAdminController@registerBudgetSeason');
         Route::get('credit_distribution_def/budget_season/delete/{bsId}', 'BudgetAdminController@deleteBudgetSeason');
         Route::get('credit_distribution_def/budget_season/BSIsExist/{bsSubject}/{bsId?}', 'BudgetAdminController@BSIsExist');
-        Route::post('credit_distribution_def/budget_season/update', 'BudgetAdminController@updateBudgetSeason');
+        Route::post('credit_distribution_def/budget_season/update', 'BudgetAdminController@updateBudgetSeason');*/
         Route::post('credit_distribution_def/plan_title/register', 'BudgetAdminController@registerPlanTitle');
         Route::get('credit_distribution_def/plan_title/CDPTIsExist/{cdptIdNumber}/{cdptSubject}/{cdptId?}', 'BudgetAdminController@CDPTIsExist');
         Route::post('credit_distribution_def/plan_title/update', 'BudgetAdminController@updatePlanTitle');
@@ -58,7 +58,6 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         ///////////////////////////////////////////////////////////////////////
         Route::get('how_to_run/getAllItems' , 'BudgetAdminController@getAllHowToRun');
     });
-
     //////////////////////////////////////////////////////////////////////////
     Route::prefix('credit_distribution')->group(function () {
         Route::get('capital_assets/provincial/plans', 'CreditDistributionController@creditDistributionPlan');
@@ -99,39 +98,53 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
 
 });
 
-Route::group(['middleware' => 'api', 'prefix' => 'budget', 'namespace' => 'Modules\Budget\Http\Controllers'], function()
+///////////////////////////////////////// api route /////////////////////////////////
+
+Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'namespace' => 'Modules\Budget\Http\Controllers'], function()
 {
     Route::prefix('admin/sub_seasons/cost')->group(function () {
-        Route::get('/fetchData', 'BudgetAdminController@FetchCostTinySeasonData')->middleware('auth_api:api');
+        Route::get('/fetchData', 'BudgetAdminController@FetchCostTinySeasonData');
         //Route::post('/register', 'BudgetAdminController@registerTinySeason')->middleware('auth_api:api');
         //Route::post('/update', 'BudgetAdminController@updateTinySeason')->middleware('auth_api:api');
         //Route::post('/delete', 'BudgetAdminController@deleteTinySeason')->middleware('auth_api:api');
     });
 
     Route::prefix('admin/sub_seasons/capital_assets')->group(function () {
-        Route::get('/fetchData', 'BudgetAdminController@FetchCapitalAssetsTinySeasonData')->middleware('auth_api:api');
+        Route::get('/fetchData', 'BudgetAdminController@FetchCapitalAssetsTinySeasonData');
         //Route::post('/register', 'BudgetAdminController@registerTinySeason')->middleware('auth_api:api');
         //Route::post('/update', 'BudgetAdminController@updateTinySeason')->middleware('auth_api:api');
         //Route::post('/delete', 'BudgetAdminController@deleteTinySeason')->middleware('auth_api:api');
     });
 
     Route::prefix('admin/fiscal_year')->group(function () {
-        Route::get('/fetchData', 'BudgetAdminController@fetchFiscalYearData')->middleware('auth_api:api');
-        Route::get('/getFyPermissionInBudget', 'BudgetAdminController@getFyPermissionInBudget')->middleware('auth_api:api');
-        Route::post('/changeSectionPermissionState', 'BudgetAdminController@changeSectionPermissionState')->middleware('auth_api:api');
-        Route::post('/changeBudgetItemPermissionState', 'BudgetAdminController@changeBudgetItemPermissionState')->middleware('auth_api:api');
-        Route::post('/register', 'BudgetAdminController@registerTinySeason')->middleware('auth_api:api');
-        Route::post('/update', 'BudgetAdminController@updateTinySeason')->middleware('auth_api:api');
-        Route::post('/delete', 'BudgetAdminController@deleteTinySeason')->middleware('auth_api:api');
-        Route::post('/activate', 'BudgetAdminController@fiscalYearActivate')->middleware('auth_api:api');
+        Route::get('/fetchData', 'BudgetAdminController@fetchFiscalYearData');
+        Route::get('/getFyPermissionInBudget', 'BudgetAdminController@getFyPermissionInBudget');
+        Route::post('/changeSectionPermissionState', 'BudgetAdminController@changeSectionPermissionState');
+        Route::post('/changeBudgetItemPermissionState', 'BudgetAdminController@changeBudgetItemPermissionState');
+        Route::post('/register', 'BudgetAdminController@registerTinySeason');
+        Route::post('/update', 'BudgetAdminController@updateTinySeason');
+        Route::post('/delete', 'BudgetAdminController@deleteTinySeason');
+        Route::post('/activate', 'BudgetAdminController@fiscalYearActivate');
     });
 
     Route::prefix('admin/deprived_area')->group(function () {
         Route::get('fetchData', 'BudgetAdminController@fetchDeprivedAreaData');
-        Route::post('/register', 'BudgetAdminController@registerDeprivedArea')->middleware('auth_api:api');
+        Route::post('/register', 'BudgetAdminController@registerDeprivedArea');
         //Route::post('deprived_area/update', 'BudgetAdminController@updateDeprivedArea');
         //Route::get('deprived_area/delete/{dId}', 'BudgetAdminController@deleteDeprivedArea');
         //Route::get('deprived_area/DAIsExist/{coId}/{reId?}/{rdId?}/{viId?}', 'BudgetAdminController@DAIsExist');
         //Route::get('deprived_area/DAIsExistForUpdate/{daId}/{coId}/{reId?}/{rdId?}/{viId?}', 'BudgetAdminController@DAIsExistForUpdate');
+    });
+
+    Route::prefix('admin/credit_distribution_def')->group(function () {
+        Route::get('/budget_season/fetchData', 'BudgetAdminController@fetchBudgetSeasonData');
+        Route::post('/budget_season/register', 'BudgetAdminController@registerBudgetSeason');
+/*        Route::get('/budget_season/delete/{bsId}', 'BudgetAdminController@deleteBudgetSeason');
+        Route::post('/budget_season/update', 'BudgetAdminController@updateBudgetSeason');*/
+        Route::get('/rows/fetchData', 'BudgetAdminController@fetchCreditDistributionRowsData');
+        Route::post('/rows/register', 'BudgetAdminController@registerCreditDistributionRow');
+        //Route::get('/rows/delete/{cdId}', 'BudgetAdminController@deleteCreditDistributionRow');
+        //Route::post('/rows/update', 'BudgetAdminController@updateCreditDistributionRow');
+        //Route::get('/rows/getAllItems', 'BudgetAdminController@getAllCreditDistributionRows');
     });
 });

@@ -40,36 +40,31 @@
                     <div class="columns padding-lr table-mrg-top">
                         <!--Header Start-->
                         <div class="grid-x table-header">
-                            <div class="medium-2 table-border">
-                                <strong>سال مالی</strong>
-                            </div>
                             <div class="medium-4 table-border">
+                                <strong>عنوان</strong>
+                            </div>
+                            <div class="medium-8 table-border">
                                 <strong>شرح</strong>
-                            </div>
-                            <div class="medium-2 table-border">
-                                <strong>وضعیت</strong>
-                            </div>
-                            <div class="medium-2 table-border">
-                                <strong>مجوزها</strong>
-                            </div>
-                            <div class="medium-2 table-border">
-                                <strong>فعالسازی</strong>
                             </div>
                         </div>
                         <!--Header End-->
                         <div class="table-contain dynamic-height-level2">
-                            <div class="grid-x" v-for="fiscalYear in fiscalYears">
-                                <div class="medium-2 table-contain-border cell-vertical-center">{{ fiscalYear.fyLabel }}</div>
-                                <div class="medium-4 table-contain-border cell-vertical-center">{{ fiscalYear.fyDescription }}</div>
-                                <div class="medium-2 table-contain-border cell-vertical-center">{{ getFiscalYearStatus(fiscalYear.fyStatus) }}</div>
-                                <div class="medium-2 table-contain-border cell-vertical-center text-center">
-                                    <div v-show="fiscalYear.fyStatus != 0">
-                                        <a @click="openChangePermissionDialog(fiscalYear.id)"><i class="fi-clipboard-pencil size-21 blue-color"></i> </a>
-                                    </div>
-                                </div>
-                                <div class="medium-2 table-contain-border cell-vertical-center text-center">
-                                    <div v-show="fiscalYear.fyStatus == 0">
-                                        <a @click="openFyActiveRequestDialog(fiscalYear.fyLabel , fiscalYear.id)"><i class="fi-checkbox size-21 edit-pencil"></i></a>
+                            <div class="grid-x" v-for="budgetSeason in budgetSeasons">
+                                <div class="medium-4 table-contain-border cell-vertical-center">{{ budgetSeason.bsSubject }}</div>
+                                <div class="medium-8 table-contain-border cell-vertical-center">
+                                    <div class="grid-x">
+                                        <div class="medium-11">
+                                            {{ budgetSeason.bsDescription }}
+                                        </div>
+                                        <div class="medium-1 cell-vertical-center text-left">
+                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'budgetSeason' + budgetSeason.id"><img width="15px" height="15px"  src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
+                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'budgetSeason' + budgetSeason.id" data-dropdown data-auto-focus="true">
+                                                <ul class="my-menu small-font text-right">
+                                                    <li><a data-open="preloaderModal"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                    <li><a data-open="modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -82,106 +77,63 @@
                                    :speed="700" />
             </div>
         </div>
-        <!--modalFYActivate Start-->
+        <!--modalDelete Start-->
         <modal-tiny v-if="showFyActiveModal" @close="showFyActiveModal = false">
             <div  slot="body">
-                <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                    <p>کاربر گرامی</p>
-                    <p class="large-offset-1 modal-text">آیا مایل به فعال سازی سال مالی <span>{{ fyLabel}}</span>هستید؟</p>
-                    <div class="grid-x">
-                        <div class="medium-6 text-center">
-                            <a @click="sendFyActiveRequest" class="button primary btn-large-w">بله</a>
+
+            </div>
+        </modal-tiny>
+        <!--modalDelete end-->
+
+        <!--ModalInsert Start-->
+        <modal-tiny v-if="showInsertModal" @close="showInsertModal = false">
+            <div  slot="body">
+                <div class="padding-lr">
+                    <form v-on:submit.prevent="createBudgetSeason">
+                        <div class="grid-x" style="display: none">
+                            <div class="medium-12 columns">
+                                <div class="alert callout">
+                                    <p class="BYekan login-alert"><i class="fi-alert"></i>این عنوان فصل بودجه قبلا ثبت شده است!</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="medium-6 text-center">
-                            <a @click="showFyActiveModal = false" class="button primary hollow btn-large-w">خیر</a>
+                        <div class="grid-x">
+                            <div class="small-12 columns">
+                                <label>عنوان فصل بودجه
+                                    <input type="text" name="bsSubject" v-model="budgetSeasonInput.subject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('bsSubject')}">
+                                </label>
+                                <span v-show="errors.has('bsSubject')" class="error-font">لطفا عنوان فصل بودجه را وارد نمایید!</span>
+                            </div>
                         </div>
-                    </div>
+                        <div class="grid-x">
+                            <div class="small-12 columns">
+                                <label>شرح
+                                    <textarea name="bsDescription" v-model="budgetSeasonInput.description" style="min-height: 150px;"></textarea>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="medium-6 columns">
+                            <button name="Submit" type="submit" class="my-secondary button float-left btn-for-load"> <span>  ثبت</span></button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </modal-tiny>
-        <!--modalFyActivate end-->
-
-        <!--Modal Permission Start-->
-        <modal-large v-if="showChangePermissionDialog" @close="showChangePermissionDialog = false">
-            <div  slot="body">
-            <div class="small-font">
-                <div class="grid-x">
-                    <div class="medium-12 column">
-                        <ul class="accordion" data-accordion>
-                            <li class="accordion-item is-active" data-accordion-item>
-                                <a href="#" class="accordion-title">بودجه</a>
-                                <div class="accordion-content" data-tab-content >
-                                    <div style="margin-bottom: 20px;" class="grid-x column">
-                                        <div class="medium-12">
-                                            <div class="grid-x padding-lr">
-                                                <div class="medium-1">
-                                                    <div class="switch tiny">
-                                                        <input class="switch-input" id="budgetPermissionAllId" type="checkbox" autocomplete="off"  v-model="allPermissionSelectedSection.budget" @change="changeFySectionPermissionState('budget')">
-                                                        <label class="switch-paddle" for="budgetPermissionAllId">
-                                                            <span class="switch-active" aria-hidden="true">بلی</span>
-                                                            <span class="switch-inactive" aria-hidden="true">خیر</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="medium-11">
-                                                    <p>همه موارد</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div v-for="(fyPIB , index) in fyPermissionInBudget" class="grid-x column">
-                                        <div class="medium-12">
-                                            <div class="grid-x padding-lr">
-                                                <div class="medium-2">
-                                                    <div class="switch tiny">
-                                                        <input class="switch-input" type="checkbox" v-model="budgetPermissionState[fyPIB.id]" :id="'budgetPermission' + fyPIB.id" @change="changeBudgetItemPermissionState(fyPIB.id)">
-                                                        <label class="switch-paddle" :for="'budgetPermission' + fyPIB.id">
-                                                            <span class="switch-active" aria-hidden="true">بلی</span>
-                                                            <span class="switch-inactive" aria-hidden="true">خیر</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="medium-10">
-                                                    <p>{{ fyPIB.pbLabel }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            </div>
-        </modal-large>
-        <!--Modal Permission End-->
+        <!--ModalInsert End-->
     </div>
 </template>
 <script>
-    import VuePagination from '../../../public_component/pagination.vue';
     export default {
         data(){
             return {
-                fiscalYears: [],
-                fyPermissionInBudget: {},
-                showFyActiveModal: false,
-                showChangePermissionDialog: false,
-                allPermissionSelectedSection: {budget: ''},
-                fyLabel: '',
-                fyActiveId: '',
-                budgetPermissionState: {},
-                pagination: {
-                    total: 0,
-                    to: 0,
-                    current_page: 1,
-                    last_page: ''
-                },
+                budgetSeasons: [],
+                budgetSeasonInput: {subject: '' , description: ''},
+                showInsertModal: false,
             }
         },
 
         created: function () {
-            //this.fetchData();
+            this.fetchData();
         },
 
         updated: function () {
@@ -189,22 +141,17 @@
         },
 
         mounted: function () {
-            console.log("mounted fiscal year component");
+            console.log("mounted budget season component");
             res();
         },
 
-        components:{
-            'vue-pagination' : VuePagination
-        },
-
         methods:{
-            fetchData: function (page = 1) {
+            fetchData: function () {
                 this.$root.start();
-                axios.get('/budget/admin/fiscal_year/fetchData?page=' + page)
+                axios.get('/budget/admin/credit_distribution_def/budget_season/fetchData')
                     .then((response) => {
-                        this.fiscalYears = response.data.data;
-                        this.makePagination(response.data);
-                        console.log(response.data);
+                        this.budgetSeasons = response.data;
+                        console.log(response);
                         this.$root.finish();
                     },(error) => {
                         console.log(error);
@@ -212,128 +159,36 @@
                     });
             },
 
-            makePagination: function(data){
-                this.pagination.current_page = data.current_page;
-                this.pagination.to = data.to;
-                this.pagination.last_page = data.last_page;
-            },
-
-            getFiscalYearStatus: function (status) {
-                if (status == 0)
-                {
-                    return 'غیر فعال';
-                }
-                else if (status == 1)
-                {
-                    return 'فعال';
-                }
-                else if (status == 2)
-                {
-                    return 'بسته شده';
-                }
-            },
-
-            openFyActiveRequestDialog: function (label , fyId) {
-                this.fyLabel = label;
-                this.fyActiveId = fyId;
-                this.showFyActiveModal = true;
-            },
-
-            sendFyActiveRequest: function () {
-                this.$root.start();
-                axios.post('/budget/admin/fiscal_year/activate',{
-                    fyId: this.fyActiveId
-                })
-                    .then((response) => {
-                        this.fiscalYears = response.data.data;
-                        this.makePagination(response.data);
-                        this.showFyActiveModal = false;
-                        console.log(response.data);
-                        this.$root.finish();
-                        this.displayNotif(response.status);
-                    },(error) => {
-                        console.log(error);
-                        this.$root.fail();
-                    });
-            },
-
-            openChangePermissionDialog: function (fyId) {
-                this.fyActiveId = fyId;
-                this.getFyPermissionInBudget();
-                this.showChangePermissionDialog = true;
-            },
-
-            getFyPermissionInBudget: function () {
-                this.$root.start();
-                axios.get('/budget/admin/fiscal_year/getFyPermissionInBudget' , {params:{fyId: this.fyActiveId}})
-                    .then((response) => {
-                        var BPA_state = false;
-                        this.fyPermissionInBudget = response.data;
-                        this.fyPermissionInBudget.forEach(item => {
-                            Vue.set(this.budgetPermissionState , item.id , item.pbStatus);
-                            if (item.pbStatus == 0)
-                            {
-                                this.allPermissionSelectedSection.budget = false;
-                                BPA_state = true;
-                            }
-                        });
-
-                        if (BPA_state == false)
-                        {
-                            this.allPermissionSelectedSection.budget = true;
-                        }
-                        console.log(response.data);
-                        this.$root.finish();
-                    },(error) => {
-                        console.log(error);
-                        this.$root.fail();
-                    });
-            },
-
-            changeFySectionPermissionState: function (section , fyId) {
-                switch (section){
-                    case "budget":
+            createBudgetSeason: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
                         this.$root.start();
-                        axios.post('/budget/admin/fiscal_year/changeSectionPermissionState',{
-                            fyId: this.fyActiveId,
-                            section: section,
-                            state: this.allPermissionSelectedSection.budget
-                        }).then((response) => {
-                                this.fyPermissionInBudget = response.data;
-                                console.log(response.data);
-                                this.$root.finish();
+                        axios.post('/budget/admin/credit_distribution_def/budget_season/register' , {
+                            subject: this.budgetSeasonInput.subject,
+                            description: this.budgetSeasonInput.description})
+                            .then((response) => {
+                                this.budgetSeasons = response.data;
+                                this.showInsertModal = false;
                                 this.displayNotif(response.status);
+                                this.budgetSeasonInput = [];
+                                console.log(response);
+                                this.$root.finish();
                             },(error) => {
                                 console.log(error);
+                                this.errorMessage = 'فصل بودجه با این مشخصات قبلا ثبت شده است!';
                                 this.$root.fail();
                             });
-                        break;
-                }
-            },
-
-            changeBudgetItemPermissionState: function (pbId) {
-                this.$root.start();
-                axios.post('/budget/admin/fiscal_year/changeBudgetItemPermissionState',{
-                    pbId: pbId,
-                    state: this.budgetPermissionState[pbId]
-                }).then((response) => {
-                    this.fyPermissionInBudget = response.data;
-                    console.log(response.data);
-                    this.$root.finish();
-                    this.displayNotif(response.status);
-                },(error) => {
-                    console.log(error);
-                    this.$root.fail();
+                    }
                 });
             },
 
             displayNotif: function (httpStatusCode) {
                 switch (httpStatusCode){
                     case 204:
-                        this.$notify({group: 'fiscalYearPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
+                        this.$notify({group: 'budgetSeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                         break;
                     case 200:
-                        this.$notify({group: 'fiscalYearPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.' , type: 'success'});
+                        this.$notify({group: 'budgetSeasonPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.' , type: 'success'});
                         break;
                 }
             }

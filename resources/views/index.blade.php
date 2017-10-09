@@ -160,7 +160,7 @@
                                         <a href="">توزیع اعتبار</a>
                                         <ul class="menu vertical nested">
                                             <li><router-link to="/budget/admin/credit_distribution_def/budget_season">فصل بودجه</router-link></li>
-                                            <li><router-link to="">ردیف توزیع اعتبار</router-link></li>
+                                            <li><router-link to="/budget/admin/credit_distribution_def/row">ردیف توزیع اعتبار</router-link></li>
                                             <li><router-link to="">عنوان طرح / برنامه</router-link></li>
                                         </ul>
                                     </li>

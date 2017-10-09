@@ -78,7 +78,7 @@ class BudgetAdminController extends Controller
                 'requireJsFile' => 'credit_distributed_def']);
     }
 
-    public function registerCreditDistributionRow(Request $request)
+/*    public function registerCreditDistributionRow(Request $request)
     {
         $cdr = new CreditDistributionRow;
         $cdr->cdUId = Auth::user()->id;
@@ -89,7 +89,7 @@ class BudgetAdminController extends Controller
 
         SystemLog::setBudgetSubSystemAdminLog('تعریف ردیف توزیع اعتبار ' . Input::get('cdrSubject'));
         return Redirect::to(URL::previous());
-    }
+    }*/
 
     public function subSeasons()
     {
@@ -273,7 +273,7 @@ class BudgetAdminController extends Controller
         }
     }*/
 
-    public function registerBudgetSeason(Request $request)
+/*    public function registerBudgetSeason(Request $request)
     {
         $bs = new BudgetSeason;
         $bs->bsUId = Auth::user()->id;
@@ -283,7 +283,7 @@ class BudgetAdminController extends Controller
 
         SystemLog::setBudgetSubSystemAdminLog('تعریف فصل بودجه ' . Input::get('bsSubject'));
         return Redirect::to(URL::previous() . '#budget_season_tab');
-    }
+    }*/
 
     public function deleteBudgetSeason($bsId)
     {
@@ -720,12 +720,12 @@ class BudgetAdminController extends Controller
         );
     }
 
-    public function getAllCreditDistributionRows(Request $request)
+/*    public function getAllCreditDistributionRows(Request $request)
     {
         return \response()->json(
             CreditDistributionRow::where('cdPlanOrCost' , $request->planOrCost)->get()
         );
-    }
+    }*/
 
     ///////////////////////////////// fiscal year api ////////////////////////////////
     public function fetchFiscalYearData(Request $request)
@@ -805,6 +805,54 @@ class BudgetAdminController extends Controller
 
         SystemLog::setBudgetSubSystemAdminLog('تعریف منطقه محروم ' . DeprivedArea::getDeprivedAreaLabel($deprivedArea->id));
         return \response()->json($this->getAllDeprivedArea());
+    }
+
+    /////////////////////////////// budget season /////////////////////////////////////////
+    public function fetchBudgetSeasonData(Request $request)
+    {
+        return \response()->json($this->getAllBudgetSeasons());
+    }
+
+    public function getAllBudgetSeasons()
+    {
+        return BudgetSeason::all();
+    }
+
+    public function registerBudgetSeason(Request $request)
+    {
+        $bs = new BudgetSeason;
+        $bs->bsUId = Auth::user()->id;
+        $bs->bsSubject = $request->subject;
+        $bs->bsDescription = $request->description;
+        $bs->save();
+
+        SystemLog::setBudgetSubSystemAdminLog('تعریف فصل بودجه ' . $request->subject);
+        return \response()->json($this->getAllBudgetSeasons());
+    }
+
+    //////////////////////////////// credit distribution rows //////////////////////////////
+    public function fetchCreditDistributionRowsData(Request $request)
+    {
+        return \response()->json($this->getAllCreditDistributionRows($request->planOrCost));
+    }
+
+    public function getAllCreditDistributionRows($planOrCost)
+    {
+        return CreditDistributionRow::where('cdPlanOrCost' , $planOrCost)->paginate(5);
+
+    }
+
+    public function registerCreditDistributionRow(Request $request)
+    {
+        $cdr = new CreditDistributionRow;
+        $cdr->cdUId = Auth::user()->id;
+        $cdr->cdPlanOrCost = $request->planOrCost;
+        $cdr->cdSubject = $request->subject;
+        $cdr->cdDescription = $request->description;
+        $cdr->save();
+
+        SystemLog::setBudgetSubSystemAdminLog('تعریف ردیف توزیع اعتبار ' . $request->subject);
+        return \response()->json($this->getAllCreditDistributionRows($request->planOrCost));
     }
 }
 
