@@ -186,8 +186,8 @@
                         <div class="top-bar-left">
                             <ul style="background-color: #FFFFFF;" data-dropdown-menu class="dropdown  menu user-menu" >
                                 <li>
-                                    <a href="#"><span style="font-size: 14px;color: #666;"> علی جهان پاک </span></a>
-                                    <ul style="background-color: #ffffff;" class="top-menu-style menu vertical small-font white-color">
+                                    <a><span style="font-size: 14px;color: #666;"> علی جهان پاک </span></a>
+                                    <ul style="background-color: #ffffff;" class="top-menu-style menu menu vertical small-font white-color">
                                         <li>
                                             <div class="top-menu-bg">
                                                 <div class="grid-x cover-color">
@@ -200,13 +200,13 @@
                                                 </div>
                                             </div>
                                         </li>
-                                        <li><a href="#"><i class="tbl-menu fi-torso-business"></i> <span>کارشناس اداری مالی</span></a></li>
-                                        <li><a href="#"><i class="tbl-menu fi-widget"></i> <span>تنظیمات</span></a></li>
-                                        <li><a v-on:click="logout"><i class="fi-power"></i> <span>خروج</span></a></li>
+                                        <li class="menu-top"><a href="#"><i class="tbl-menu fi-torso-business"></i> <span>کارشناس اداری مالی</span></a></li>
+                                        <li class="menu-top"><a href="#"><i class="tbl-menu fi-widget"></i> <span>تنظیمات</span></a></li>
+                                        <li class="menu-top"><a v-on:click="logout"><i class="fi-power"></i> <span>خروج</span></a></li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <a style="margin-top: -1px;" href="#"><i class="fa fa-bell-o size-21 icon-gradient" aria-hidden="true"></i></a>
+                                    <a style="margin-top: -1px;"><i class="fa fa-bell-o size-21 icon-gradient" aria-hidden="true"></i></a>
                                     <ul style="background-color:#FFFFFF;" class="top-menu-style menu vertical">
                                         <li>
                                             <div class="top-menu-bg">

@@ -276,10 +276,22 @@ a:focus,button:focus {
 }
 .menu ul li a:hover{
     color:#EEEEEE;
-    background-color:#292B3A ;
-}
 
+}
+.menu-top:hover{
+    background-color:#f4f3fb;
+}
+.menu-top ul li a{
+    color:#868aa8;
+}
+.menu-top ul li a:hover{
+    color:#EEEEEE;
+    background-color:#212529;
+}
 .dropdown.menu > li.opens-left > .is-dropdown-submenu {
+    top: 120%;
+}
+.dropdown.menu-top > li.opens-left > .is-dropdown-submenu {
     top: 120%;
 }
 .my-grid-margin{
@@ -972,7 +984,7 @@ html, body {
  }
 
 .input-margin-top{
-    margin-bottom: 15px;
+    margin-top: 15px;
 }
 .tabs-content {
     border: 1px solid #FFFFFF;
@@ -1251,6 +1263,13 @@ button.purple-btn {
     padding:      .20em;
     transform:rotate(45deg);
 }
+.dropdown.menu-top > li.is-dropdown-submenu-parent > a::after {
+    border:       solid #716aca;
+    border-width: 0 .1em .1em 0;
+    display:      inline-block;
+    padding:      .20em;
+    transform:rotate(45deg);
+}
 
 .my-button.dropdown.hollow::after {
     border-top-color: #1779ba; }
@@ -1302,7 +1321,7 @@ button.purple-btn {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
+/*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
     display: block;
     width: 0;
     height: 0;
@@ -1321,4 +1340,4 @@ button.purple-btn {
     position: absolute;
     top: 40%;
     left: 1rem;
-}
+}*/

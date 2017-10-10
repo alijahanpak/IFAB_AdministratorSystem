@@ -13,8 +13,8 @@ import deprived_area from './components/Budget/Admin/deprived_area.vue'
 import budget_season from './components/Budget/Admin/budget_season.vue'
 import credit_distribution_row from './components/Budget/Admin/credit_distribution_row.vue'
 import season_title from './components/Budget/Admin/season_title.vue'
-//import approved_project from './components/Budget/Aprroved/approved_project.vue'
 import plan_cost_title from './components/Budget/Admin/plan_cost_title.vue'
+import approved_project from './components/Budget/Aprroved/approved_project.vue'
 //export router instance
 const routes = [
     { path: '/budget', component: dashboard },
@@ -23,7 +23,7 @@ const routes = [
     { path: '/budget/admin/deprived_area', component: deprived_area },
     { path: '/budget/admin/credit_distribution_def/budget_season', component: budget_season },
     { path: '/budget/admin/season/season_title', component: season_title },
-    //{ path: '/budget/approved/capital_assets/project/approved_project', component: approved_project },
+    { path: '/budget/approved/capital_assets/project/approved_project', component: approved_project },
     { path: '/budget/admin/credit_distribution_def/row', component: credit_distribution_row },
     { path: '/budget/admin/credit_distribution_def/plan_cost_title', component: plan_cost_title },
 ]
