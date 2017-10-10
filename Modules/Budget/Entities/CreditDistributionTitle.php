@@ -20,4 +20,9 @@ class CreditDistributionTitle extends Model
     {
         return $this->belongsTo(County::class , 'cdtCoId' , 'id');
     }
+
+    public function CDTInCounty()
+    {
+        return $this->hasMany(CreditDistributionTitle::class , 'cdtCdtId' , 'id');
+    }
 }

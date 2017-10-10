@@ -29,10 +29,10 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::get('credit_distribution_def/budget_season/delete/{bsId}', 'BudgetAdminController@deleteBudgetSeason');
         Route::get('credit_distribution_def/budget_season/BSIsExist/{bsSubject}/{bsId?}', 'BudgetAdminController@BSIsExist');
         Route::post('credit_distribution_def/budget_season/update', 'BudgetAdminController@updateBudgetSeason');*/
-        Route::post('credit_distribution_def/plan_title/register', 'BudgetAdminController@registerPlanTitle');
+/*        Route::post('credit_distribution_def/plan_title/register', 'BudgetAdminController@registerPlanTitle');
         Route::get('credit_distribution_def/plan_title/CDPTIsExist/{cdptIdNumber}/{cdptSubject}/{cdptId?}', 'BudgetAdminController@CDPTIsExist');
         Route::post('credit_distribution_def/plan_title/update', 'BudgetAdminController@updatePlanTitle');
-        Route::get('credit_distribution_def/plan_title/delete/{cdptId}', 'BudgetAdminController@deletePlanTitle');
+        Route::get('credit_distribution_def/plan_title/delete/{cdptId}', 'BudgetAdminController@deletePlanTitle');*/
         //////////////////////////////////////////////////////////////////////
 /*        Route::get('sub_seasons', 'BudgetAdminController@subSeasons');
         //Route::post('sub_seasons/register', 'BudgetAdminController@registerSubSeason');
@@ -162,5 +162,11 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         //Route::get('/rows/delete/{cdId}', 'BudgetAdminController@deleteCreditDistributionRow');
         //Route::post('/rows/update', 'BudgetAdminController@updateCreditDistributionRow');
         //Route::get('/rows/getAllItems', 'BudgetAdminController@getAllCreditDistributionRows');
+
+        Route::get('/plan_cost_title/fetchData', 'BudgetAdminController@fetchPlanOrCostTitleData');
+        Route::post('/plan_cost_title/register', 'BudgetAdminController@registerPlanOrCostTitle');
+        //Route::post('credit_distribution_def/plan_title/update', 'BudgetAdminController@updatePlanTitle');
+        //Route::get('credit_distribution_def/plan_title/delete/{cdptId}', 'BudgetAdminController@deletePlanTitle');
+
     });
 });

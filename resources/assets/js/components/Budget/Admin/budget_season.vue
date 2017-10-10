@@ -11,7 +11,7 @@
                                 <a class="disabled">مدیریت</a>
                             </li>
                             <li>
-                                <span class="show-for-sr">Current: </span>سال مالی
+                                <span class="show-for-sr">Current: </span>فصل بودجه
                             </li>
                         </ul>
                     </nav>

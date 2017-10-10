@@ -64879,6 +64879,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Budget_Admin_budget_season_vue__ = __webpack_require__(111);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_Budget_Admin_credit_distribution_row_vue__ = __webpack_require__(114);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_Budget_Admin_season_title_vue__ = __webpack_require__(117);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_Budget_Admin_plan_cost_title_vue__ = __webpack_require__(123);
 var _mutations;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -64899,10 +64900,11 @@ window.Vue.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 
 
 //import approved_project from './components/Budget/Aprroved/approved_project.vue'
+
 //export router instance
 var routes = [{ path: '/budget', component: __WEBPACK_IMPORTED_MODULE_2__components_Budget_Dashboard_vue__["a" /* default */] }, { path: '/budget/admin/season/tiny_seasons', component: __WEBPACK_IMPORTED_MODULE_3__components_Budget_Admin_tiny_seasons_vue__["a" /* default */] }, { path: '/budget/admin/fiscal_year', component: __WEBPACK_IMPORTED_MODULE_4__components_Budget_Admin_fiscal_year_vue__["a" /* default */] }, { path: '/budget/admin/deprived_area', component: __WEBPACK_IMPORTED_MODULE_5__components_Budget_Admin_deprived_area_vue__["a" /* default */] }, { path: '/budget/admin/credit_distribution_def/budget_season', component: __WEBPACK_IMPORTED_MODULE_6__components_Budget_Admin_budget_season_vue__["a" /* default */] }, { path: '/budget/admin/season/season_title', component: __WEBPACK_IMPORTED_MODULE_8__components_Budget_Admin_season_title_vue__["a" /* default */] },
 //{ path: '/budget/approved/capital_assets/project/approved_project', component: approved_project },
-{ path: '/budget/admin/credit_distribution_def/row', component: __WEBPACK_IMPORTED_MODULE_7__components_Budget_Admin_credit_distribution_row_vue__["a" /* default */] }];
+{ path: '/budget/admin/credit_distribution_def/row', component: __WEBPACK_IMPORTED_MODULE_7__components_Budget_Admin_credit_distribution_row_vue__["a" /* default */] }, { path: '/budget/admin/credit_distribution_def/plan_cost_title', component: __WEBPACK_IMPORTED_MODULE_9__components_Budget_Admin_plan_cost_title_vue__["a" /* default */] }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
     routes: routes
@@ -73206,7 +73208,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', [_c('span', {
     staticClass: "show-for-sr"
-  }, [_vm._v("Current: ")]), _vm._v("سال مالی\n                        ")])
+  }, [_vm._v("Current: ")]), _vm._v("فصل بودجه\n                        ")])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "float-left"
@@ -75729,6 +75731,968 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-f73098b2", esExports)
+  }
+}
+
+/***/ }),
+/* 120 */,
+/* 121 */,
+/* 122 */,
+/* 123 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_plan_cost_title_vue__ = __webpack_require__(124);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3fa920e1_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_plan_cost_title_vue__ = __webpack_require__(125);
+var disposed = false
+var normalizeComponent = __webpack_require__(6)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_plan_cost_title_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3fa920e1_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_plan_cost_title_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Budget/Admin/plan_cost_title.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] plan_cost_title.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3fa920e1", Component.options)
+  } else {
+    hotAPI.reload("data-v-3fa920e1", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 124 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__ = __webpack_require__(9);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    data: function data() {
+        return {
+            planOrCosts: [],
+            planOrCostInput: {},
+            showInsertModal: false,
+            bSeasons: [],
+            counties: [],
+            displayCountyInfo: '',
+            provincePlanLabel: '',
+            pagination: {
+                total: 0,
+                to: 0,
+                current_page: 1,
+                last_page: ''
+            }
+        };
+    },
+
+
+    created: function created() {
+        this.fetchData();
+        this.getBudgetSeason();
+    },
+
+    updated: function updated() {
+        $(this.$el).foundation(); //WORKS!
+    },
+
+    mounted: function mounted() {
+        console.log("mounted budget season component");
+        res();
+    },
+
+    components: {
+        'vue-pagination': __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__["a" /* default */]
+    },
+
+    methods: {
+        fetchData: function fetchData() {
+            var _this = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            this.$root.start();
+            axios.get('/budget/admin/credit_distribution_def/plan_cost_title/fetchData?page=' + page).then(function (response) {
+                _this.planOrCosts = response.data.data;
+                _this.makePagination(response.data);
+                console.log(response.status);
+                _this.$root.finish();
+            }, function (error) {
+                console.log(error);
+                _this.$root.fail();
+            });
+        },
+
+        getBudgetSeason: function getBudgetSeason() {
+            var _this2 = this;
+
+            axios.get('/budget/admin/credit_distribution_def/budget_season/fetchData').then(function (response) {
+                _this2.bSeasons = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        getCounties: function getCounties() {
+            var _this3 = this;
+
+            axios.get('/admin/get_all_counties').then(function (response) {
+                _this3.counties = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        getProvincePlaLabel: function getProvincePlaLabel() {
+            var _this4 = this;
+
+            axios.get('/admin/get_province_plan_label').then(function (response) {
+                _this4.provincePlanLabel = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        openInsertModal: function openInsertModal() {
+            this.getCounties();
+            this.getProvincePlaLabel();
+            this.showInsertModal = true;
+        },
+
+        createPlanOrCostTitle: function createPlanOrCostTitle() {
+            var _this5 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    _this5.$root.start();
+                    var jsonString = '{';
+                    jsonString += '"bsId":"' + _this5.planOrCostInput.bsId + '",';
+                    jsonString += '"code":"' + _this5.planOrCostInput.code + '",';
+                    jsonString += '"subject":"' + _this5.planOrCostInput.subject + '",';
+                    jsonString += '"description":"' + _this5.planOrCostInput.description + '",';
+                    _this5.counties.forEach(function (county) {
+                        if (_this5.planOrCostInput['county' + county.id]) jsonString += '"county' + county.id + '":"' + _this5.planOrCostInput['county' + county.id] + '",';
+                        if (_this5.planOrCostInput['countyDesc' + county.id]) jsonString += '"countyDesc' + county.id + '":"' + _this5.planOrCostInput['countyDesc' + county.id] + '",';
+                    });
+                    jsonString += '"":""}';
+                    axios.post('/budget/admin/credit_distribution_def/plan_cost_title/register', JSON.parse(jsonString)).then(function (response) {
+                        _this5.planOrCosts = response.data.data;
+                        _this5.makePagination(response.data);
+                        _this5.showInsertModal = false;
+                        _this5.displayNotif(response.status);
+                        _this5.planOrCostInput = [];
+                        console.log(response);
+                        _this5.$root.finish();
+                    }, function (error) {
+                        console.log(error);
+                        _this5.errorMessage = 'عنوان طرح / برنامه با این مشخصات قبلا ثبت شده است!';
+                        _this5.$root.fail();
+                    });
+                }
+            });
+        },
+
+        makePagination: function makePagination(data) {
+            this.pagination.current_page = data.current_page;
+            this.pagination.to = data.to;
+            this.pagination.last_page = data.last_page;
+        },
+
+        displayNotif: function displayNotif(httpStatusCode) {
+            switch (httpStatusCode) {
+                case 204:
+                    this.$notify({ group: 'plan_cost_titlePm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
+                    break;
+                case 200:
+                    this.$notify({ group: 'plan_cost_titlePm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
+                    break;
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 125 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "medium-10 border-right-line inner-body-pad main-margin"
+  }, [_c('div', {
+    staticClass: "grid-x padding-lr"
+  }, [_c('div', {
+    staticClass: "medium-12"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('nav', {
+    attrs: {
+      "aria-label": "You are here:",
+      "role": "navigation"
+    }
+  }, [_c('ul', {
+    staticClass: "breadcrumbs"
+  }, [_c('li', [_c('router-link', {
+    attrs: {
+      "to": "/budget"
+    }
+  }, [_vm._v("داشبورد")])], 1), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1)])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x my-callout-box container-mrg-top dynamic-height-level1"
+  }, [_c('div', {
+    staticClass: "medium-12 padding-lr",
+    staticStyle: {
+      "margin-top": "15px"
+    }
+  }, [_c('div', {
+    staticClass: "clearfix border-btm-line tool-bar"
+  }, [_c('div', {
+    staticClass: "button-group float-right report-mrg",
+    staticStyle: {
+      "margin-top": "2px"
+    }
+  }, [_c('a', {
+    staticClass: "my-button toolbox-btn small",
+    on: {
+      "click": _vm.openInsertModal
+    }
+  }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
+    staticClass: "my-button toolbox-btn small"
+  }, [_vm._v("گزارش")])]), _vm._v(" "), _vm._m(2)])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-12 column"
+  }, [_c('div', {
+    staticClass: "columns padding-lr table-mrg-top"
+  }, [_vm._m(3), _vm._v(" "), _c('div', {
+    staticClass: "table-contain dynamic-height-level2"
+  }, _vm._l((_vm.planOrCosts), function(planOrCost) {
+    return _c('div', {
+      staticClass: "grid-x"
+    }, [_c('div', {
+      staticClass: "medium-2 table-contain-border cell-vertical-center"
+    }, [_vm._v(_vm._s(planOrCost.cdtIdNumber))]), _vm._v(" "), _c('div', {
+      staticClass: "medium-3 table-contain-border cell-vertical-center"
+    }, [_vm._v(_vm._s(planOrCost.cdtSubject))]), _vm._v(" "), _c('div', {
+      staticClass: "medium-2 table-contain-border cell-vertical-center"
+    }, [_vm._v(_vm._s(planOrCost.budget_season.bsSubject))]), _vm._v(" "), _c('div', {
+      staticClass: "medium-2 table-contain-border cell-vertical-center text-center"
+    }, [(planOrCost.c_d_t_in_county.length != 0) ? _c('a', {
+      on: {
+        "click": function($event) {
+          _vm.displayCountyInfo == planOrCost.id ? _vm.displayCountyInfo = '' : _vm.displayCountyInfo = planOrCost.id
+        }
+      }
+    }, [_vm._v("جزئیات")]) : _vm._e(), _vm._v(" "), (planOrCost.c_d_t_in_county.length == 0) ? _c('span', {
+      staticClass: "comlpleted-badage"
+    }, [_vm._v("تعریف نشده")]) : _vm._e()]), _vm._v(" "), _c('div', {
+      staticClass: "medium-3 table-contain-border cell-vertical-center"
+    }, [_c('div', {
+      staticClass: "grid-x"
+    }, [_c('div', {
+      staticClass: "medium-11"
+    }, [_vm._v("\n                                        " + _vm._s(planOrCost.cdtDescription) + "\n                                    ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-1 cell-vertical-center text-left"
+    }, [_c('a', {
+      staticClass: "dropdown small sm-btn-align",
+      attrs: {
+        "type": "button",
+        "data-toggle": 'budgetSeason' + planOrCost.id
+      }
+    }, [_c('img', {
+      attrs: {
+        "width": "15px",
+        "height": "15px",
+        "src": "/IFAB_AdministratorSystem/public/pic/menu.svg"
+      }
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "dropdown-pane dropdown-pane-sm ",
+      attrs: {
+        "data-close-on-click": "true",
+        "data-hover": "true",
+        "data-hover-pane": "true",
+        "data-position": "bottom",
+        "data-alignment": "right",
+        "id": 'budgetSeason' + planOrCost.id,
+        "data-dropdown": "",
+        "data-auto-focus": "true"
+      }
+    }, [_vm._m(4, true)])])])]), _vm._v(" "), _c('div', {
+      staticClass: "medium-12"
+    }, [_c('div', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.displayCountyInfo == planOrCost.id),
+        expression: "displayCountyInfo == planOrCost.id"
+      }],
+      staticClass: "grid-x"
+    }, [_c('div', {
+      staticClass: "medium-12 table-contain-border cell-vertical-center"
+    }, [_c('table', {
+      staticClass: "unstriped tbl-secondary-mrg small-font"
+    }, [_vm._m(5, true), _vm._v(" "), _c('tbody', _vm._l((planOrCost.c_d_t_in_county), function(cdtInCounty) {
+      return _c('tr', [_c('td', [_vm._v(_vm._s(cdtInCounty.county.coName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(cdtInCounty.cdtIdNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(cdtInCounty.cdtDescription))])])
+    }))])])])])])
+  }))]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12"
+  }, [_c('vue-pagination', {
+    attrs: {
+      "pagination": _vm.pagination,
+      "offset": 4
+    },
+    nativeOn: {
+      "click": function($event) {
+        _vm.fetchData(_vm.pagination.current_page)
+      }
+    }
+  })], 1)]), _vm._v(" "), _c('notifications', {
+    attrs: {
+      "group": "plan_cost_titlePm",
+      "position": "bottom right",
+      "animation-type": "velocity",
+      "speed": 700
+    }
+  })], 1)]), _vm._v(" "), (_vm.showFyActiveModal) ? _c('modal-tiny', {
+    on: {
+      "close": function($event) {
+        _vm.showFyActiveModal = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  })]) : _vm._e(), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-small', {
+    on: {
+      "close": function($event) {
+        _vm.showInsertModal = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('div', {
+    staticClass: "padding-lr"
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.createPlanOrCostTitle($event)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "grid-x",
+    staticStyle: {
+      "display": "none"
+    }
+  }, [_c('div', {
+    staticClass: "medium-12 columns"
+  }, [_c('div', {
+    staticClass: "alert callout"
+  }, [_c('p', {
+    staticClass: "BYekan login-alert"
+  }, [_c('i', {
+    staticClass: "fi-alert"
+  }), _vm._v("این عنوان طرح / برنامه قبلا ثبت شده است!")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-6 cell padding-lr"
+  }, [_c('label', [_vm._v("فصل بودجه\n                                "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.planOrCostInput['bsId']),
+      expression: "planOrCostInput['bsId']"
+    }, {
+      name: "validate",
+      rawName: "v-validate"
+    }],
+    staticClass: "form-element-margin-btm",
+    class: {
+      'input': true, 'select-error': _vm.errors.has('bsId')
+    },
+    attrs: {
+      "name": "bsId",
+      "data-vv-rules": "required"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.$set(_vm.planOrCostInput, 'bsId', $event.target.multiple ? $$selectedVal : $$selectedVal[0])
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.bSeasons), function(bSeason) {
+    return _c('option', {
+      domProps: {
+        "value": bSeason.id
+      }
+    }, [_vm._v(_vm._s(bSeason.bsSubject))])
+  })], 2), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('bsId')),
+      expression: "errors.has('bsId')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("فصل بودجه را انتخاب کنید!")])])]), _vm._v(" "), _c('div', {
+    staticClass: "small-6 columns padding-lr"
+  }, [_c('label', [_vm._v("کد طرح / برنامه\n                                "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.planOrCostInput['code']),
+      expression: "planOrCostInput['code']"
+    }, {
+      name: "validate",
+      rawName: "v-validate",
+      value: ('required'),
+      expression: "'required'"
+    }],
+    class: {
+      'input': true, 'error-border': _vm.errors.has('pCode')
+    },
+    attrs: {
+      "type": "text",
+      "name": "pCode"
+    },
+    domProps: {
+      "value": (_vm.planOrCostInput['code'])
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.planOrCostInput, 'code', $event.target.value)
+      }
+    }
+  }), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('pCode')),
+      expression: "errors.has('pCode')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("لطفا کد طرح مورد نظر را وارد نمایید!")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "small-12 columns padding-lr"
+  }, [_c('label', [_vm._v("عنوان طرح / برنامه\n                                "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.planOrCostInput['subject']),
+      expression: "planOrCostInput['subject']"
+    }, {
+      name: "validate",
+      rawName: "v-validate",
+      value: ('required'),
+      expression: "'required'"
+    }],
+    class: {
+      'input': true, 'error-border': _vm.errors.has('pcSubject')
+    },
+    attrs: {
+      "type": "text",
+      "name": "pcSubject"
+    },
+    domProps: {
+      "value": (_vm.planOrCostInput['subject'])
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.planOrCostInput, 'subject', $event.target.value)
+      }
+    }
+  }), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('pcSubject')),
+      expression: "errors.has('pcSubject')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("لطفا عنوان طرح مورد نظر را وارد نمایید!")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 column padding-lr"
+  }, [_c('ul', {
+    staticClass: "accordion",
+    attrs: {
+      "data-accordion": "",
+      "data-allow-all-closed": "true"
+    }
+  }, [_c('li', {
+    staticClass: "accordion-item",
+    attrs: {
+      "data-accordion-item": ""
+    }
+  }, [_c('a', {
+    staticClass: "accordion-title",
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("کد طرح در سطح شهرستان")]), _vm._v(" "), _c('div', {
+    staticClass: "accordion-content",
+    attrs: {
+      "data-tab-content": ""
+    }
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 column"
+  }, _vm._l((_vm.counties), function(county) {
+    return _c('div', {
+      staticClass: "grid-x"
+    }, [_c('div', {
+      staticClass: "medium-4 padding-lr"
+    }, [_c('label', [_vm._v(_vm._s(county.coName) + "\n                                                            "), _c('div', {
+      staticClass: "input-group"
+    }, [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.planOrCostInput['county' + county.id]),
+        expression: "planOrCostInput['county' + county.id]"
+      }],
+      staticClass: "input-group-field text-left",
+      attrs: {
+        "type": "text",
+        "name": "cdptCounty",
+        "id": "cdptCounty",
+        "autocomplete": "off"
+      },
+      domProps: {
+        "value": (_vm.planOrCostInput['county' + county.id])
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.planOrCostInput, 'county' + county.id, $event.target.value)
+        }
+      }
+    }), _vm._v(" "), _c('span', {
+      staticClass: "input-group-label",
+      staticStyle: {
+        "padding-right": "4px",
+        "padding-left": "4px"
+      }
+    }, [_vm._v(_vm._s(_vm.provincePlanLabel))]), _vm._v(" "), _c('span', {
+      staticClass: "input-group-label",
+      staticStyle: {
+        "padding-right": "2px",
+        "padding-left": "2px"
+      },
+      attrs: {
+        "id": "cdptPlanCodeLabel"
+      }
+    }, [_vm._v(_vm._s(_vm.planOrCostInput.code == '' ? '--' : _vm.planOrCostInput.code))])])])]), _vm._v(" "), _c('div', {
+      staticClass: "medium-8 padding-lr"
+    }, [_c('label', [_vm._v("شرح\n                                                            "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.planOrCostInput['countyDesc' + county.id]),
+        expression: "planOrCostInput['countyDesc' + county.id]"
+      }],
+      attrs: {
+        "type": "text",
+        "name": "cdptCountyDesc",
+        "id": "cdptCountyDesc"
+      },
+      domProps: {
+        "value": (_vm.planOrCostInput['countyDesc' + county.id])
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.planOrCostInput, 'countyDesc' + county.id, $event.target.value)
+        }
+      }
+    })])])])
+  }))])])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "small-12 columns padding-lr"
+  }, [_c('span', {
+    staticClass: "form-error font-wei",
+    attrs: {
+      "id": "CDPT_duplicateErro"
+    }
+  }, [_vm._v("لطفا در وارد کردن کد طرح دقت کنید - کد تکراری!")])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "small-12 columns padding-lr"
+  }, [_c('label', [_vm._v("شرح\n                                "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.planOrCostInput['description']),
+      expression: "planOrCostInput['description']"
+    }],
+    staticStyle: {
+      "min-height": "150px"
+    },
+    attrs: {
+      "name": "bsDescription"
+    },
+    domProps: {
+      "value": (_vm.planOrCostInput['description'])
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.planOrCostInput, 'description', $event.target.value)
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 columns padding-lr"
+  }, [_c('button', {
+    staticClass: "my-secondary button float-left btn-for-load",
+    attrs: {
+      "name": "Submit",
+      "type": "submit"
+    }
+  }, [_c('span', [_vm._v("  ثبت")])])])])])])]) : _vm._e()], 1)
+}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', [_c('a', {
+    staticClass: "disabled"
+  }, [_vm._v("مدیریت")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', [_c('span', {
+    staticClass: "show-for-sr"
+  }, [_vm._v("Current: ")]), _vm._v("عنوان طرح / برنامه\n                        ")])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "float-left"
+  }, [_c('div', {
+    staticClass: "input-group float-left"
+  }, [_c('input', {
+    staticClass: "input-group-field small-font",
+    attrs: {
+      "type": "text"
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "input-group-button"
+  }, [_c('button', {
+    staticClass: "my-button my-brand",
+    attrs: {
+      "type": "button"
+    }
+  }, [_c('i', {
+    staticClass: "fi-magnifying-glass"
+  })])])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "grid-x table-header"
+  }, [_c('div', {
+    staticClass: "medium-2 table-border"
+  }, [_c('strong', [_vm._v("شماره")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-3 table-border"
+  }, [_c('strong', [_vm._v("عنوان")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-2 table-border"
+  }, [_c('strong', [_vm._v("فصل بودجه")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-2 table-border"
+  }, [_c('strong', [_vm._v("سطح شهرستان")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-3 table-border"
+  }, [_c('strong', [_vm._v("شرح")])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('ul', {
+    staticClass: "my-menu small-font text-right"
+  }, [_c('li', [_c('a', {
+    attrs: {
+      "data-open": "preloaderModal"
+    }
+  }, [_c('i', {
+    staticClass: "fi-pencil size-16"
+  }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "data-open": "modalDelete"
+    }
+  }, [_c('i', {
+    staticClass: "fi-trash size-16"
+  }), _vm._v("  حذف")])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', {
+    staticClass: "my-thead"
+  }, [_c('tr', {
+    staticStyle: {
+      "background-color": "#F1F1F1 !important"
+    }
+  }, [_c('th', [_vm._v("شهرستان")]), _vm._v(" "), _c('th', [_vm._v("کد")]), _vm._v(" "), _c('th', [_vm._v("شرح")])])])
+}]
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-3fa920e1", esExports)
   }
 }
 

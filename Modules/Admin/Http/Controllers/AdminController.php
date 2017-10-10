@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Admin\Entities\County;
+use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\Region;
 use Modules\Admin\Entities\RuralDistrict;
 use Modules\Admin\Entities\Season;
@@ -39,5 +40,10 @@ class AdminController extends Controller
     public function getAllSeasons()
     {
         return \response()->json(Season::all());
+    }
+
+    public function getProvincePlanLabel(Request $request)
+    {
+        return \response()->json(PublicSetting::getProvincePlanLebel());
     }
 }
