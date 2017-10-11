@@ -146,7 +146,7 @@
                                     </li>
                                     <li><a href="#">تملک دارایی سرمایه ای</a>
                                         <ul class="menu vertical nested">
-                                            <li><a href="#">پروژه ها</a></li>
+                                            <li><router-link to="/budget/register_of_credit_allocation_assets/project">پروژه ها</router-link></li>
                                         </ul>
                                     </li>
                                 </ul>
