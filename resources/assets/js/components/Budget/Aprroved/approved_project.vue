@@ -136,7 +136,7 @@
                         </div>
                     </div>
                     <!-- national tab -->
-                    <div class="tabs-panel is-active table-mrg-btm" id="national_tab"
+                    <div class="tabs-panel table-mrg-btm" id="national_tab"
                          xmlns:v-on="http://www.w3.org/1999/xhtml">
                         <div class="medium-12 bottom-mrg">
                             <!--Tab 1-->
@@ -235,8 +235,8 @@
                             </div>
                             <div class="grid-x">
                                 <div class="medium-12">
-                                    <vue-pagination  v-bind:pagination="provincial_pagination"
-                                                     v-on:click.native="fetchProvincialData(provincial_pagination.current_page)"
+                                    <vue-pagination  v-bind:pagination="national_pagination"
+                                                     v-on:click.native="fetchNationalData(national_pagination.current_page)"
                                                      :offset="4">
                                     </vue-pagination>
                                 </div>
@@ -590,7 +590,7 @@
                 axios.get('/budget/project/capital_assets/projects/fetchData?page=' + page , {params:{pOrN: 1}})
                     .then((response) => {
                         this.approvedProjects_nat = response.data.data;
-                        this.makePagination(response.data , "provincial");
+                        this.makePagination(response.data , "national");
                         console.log(response);
                     },(error) => {
                         console.log(error);
