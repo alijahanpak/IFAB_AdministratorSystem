@@ -242,7 +242,7 @@ class BudgetAdminController extends Controller
         }
     }*/
 
-    function checkSectionPermissionState($section , $fyId)
+/*    function checkSectionPermissionState($section , $fyId)
     {
         if (\Illuminate\Support\Facades\Request::ajax())
         {
@@ -260,7 +260,7 @@ class BudgetAdminController extends Controller
                     }
             }
         }
-    }
+    }*/
 
 /*    function changeSectionPermissionState($section , $fyId , $state)
     {
@@ -288,7 +288,7 @@ class BudgetAdminController extends Controller
         return Redirect::to(URL::previous() . '#budget_season_tab');
     }*/
 
-    public function deleteBudgetSeason($bsId)
+/*    public function deleteBudgetSeason($bsId)
     {
         $bs = BudgetSeason::find($bsId);
         try {
@@ -342,7 +342,7 @@ class BudgetAdminController extends Controller
 
         SystemLog::setBudgetSubSystemAdminLog('تغییر در فصل بودجه (' . $old->bsSubject . ') به (' . $bs->bsSubject . ')');
         return Redirect::to(URL::previous() . '#budget_season_tab');
-    }
+    }*/
 
 /*    public function registerPlanTitle(Request $request)
     {

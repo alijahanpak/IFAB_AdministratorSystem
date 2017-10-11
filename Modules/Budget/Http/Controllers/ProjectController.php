@@ -21,56 +21,40 @@ class ProjectController extends Controller
                 'requireJsFile' => 'approved_projects']);
     }
 
-    public function FetchApprovedProjects(Request $request)
+    public function fetchApprovedProjectData(Request $request)
     {
         return \response()->json(
-            $this->getAllProject()
+            $this->getAllProject($request->pOrN)
         );
     }
 
-    public function getAllProject()
+    public function getAllProject($pOrN)
     {
         return CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
+            ->where('capProvinceOrNational' , '=' , $pOrN)
             ->with('creditDistributionTitle')
+            ->with('creditDistributionTitle.county')
             ->with('capitalAssetsProject')
-            ->with('capitalAssetsProject.howToRun')
-            ->with('capitalAssetsProject.tinySeason')
-            ->with('capitalAssetsProject.cdrCp')->get();
+            ->with('capitalAssetsProject.county')->paginate(5);
     }
 
-    public function registerCapitalAssetsApprovedProject(Request $request)
+    public function registerApprovedProject(Request $request)
     {
-        $pInput = $request['pInput'];
         $project = new CapitalAssetsProject;
         $project->cpUId = Auth::user()->id;
-        $project->cpCapId = $pInput['apPlan'];
-        $project->cpCoId = $pInput['apCity'];
-        $project->cpTsId = $pInput['apSubSeason'];
-        $project->cpHtrId = $pInput['apHowToRun'];
-        $project->cpSubject = $pInput['apProjectTitle'];
-        $project->cpCode = $pInput['apProjectCode'];
-        $project->cpStartYear = $pInput['apStartYear'];
-        $project->cpEndOfYear = $pInput['apEndYear'];
-        $project->cpPhysicalProgress = $pInput['apPhysicalProgress'];
-        $project->cpDescription = $pInput['apDescription'];
+        $project->cpCapId = $request->pId;
+        $project->cpCoId = $request->coId;
+        $project->cpSubject = $request->subject;
+        $project->cpCode = $request->code;
+        $project->cpStartYear = $request->startYear;
+        $project->cpEndOfYear = $request->endYear;
+        $project->cpPhysicalProgress = $request->pProgress;
+        $project->cpDescription = $request->description;
         $project->save();
 
-        $cdrInput = $request['cdrInput'];
-        $cdrs = CreditDistributionRow::where('cdPlanOrCost' , 0)->get(); // for capital_assets
-        foreach ($cdrs as $cdr) {
-            if (isset($cdrInput['apCdr' . $cdr->id]))
-            {
-                $cdrCp = new CdrCp;
-                $cdrCp->ccCpId = $project->id;
-                $cdrCp->ccCdrId = $cdr->id;
-                $cdrCp->ccAmount = AmountUnit::convertInputAmount($cdrInput['apCdr' . $cdr->id]);
-                $cdrCp->save();
-            }
-        }
-
-        SystemLog::setBudgetSubSystemLog('ثبت پروژه تملک داریی های سرمایه ای استانی ' . $pInput['apProjectTitle']);
+        SystemLog::setBudgetSubSystemLog('ثبت پروژه تملک داریی های سرمایه ای ' . $request->subject);
         return \response()->json(
-            $this->getAllProject()
+            $this->getAllProject($request->pOrN)
         );
     }
 

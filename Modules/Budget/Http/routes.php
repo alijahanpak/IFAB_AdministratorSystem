@@ -74,21 +74,21 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::get('capital_assets/provincial/proposal/PBPIsExist/{pbpSubject}/{pbpCode}/{pbpId?}', 'CreditDistributionController@PBPIsExist');
     });
     ///////////////////////////////////////////////////////////////////////////
-    Route::prefix('plan')->group(function () {
+/*    Route::prefix('plan')->group(function () {
         Route::get('capital_assets/plans', 'PlanController@capitalAssetsApprovedPlan');
         Route::post('capital_assets/plans/register', 'PlanController@registerCapitalAssetsApprovedPlan');
         Route::get('capital_assets/plans/delete/{capId}', 'PlanController@deleteCapitalAssetsApprovedPlan');
         Route::post('capital_assets/plans/CAPIsExist', 'PlanController@CAPIsExist');
         Route::post('capital_assets/plans/update', 'PlanController@updateCapitalAssetsApprovedPlan');
         Route::get('capital_assets/plans/getAllItems', 'PlanController@getAllApprovedPlan');
-    });
+    });*/
     ///////////////////////////////////////////////////////////////////////////
-    Route::prefix('project')->group(function () {
+/*    Route::prefix('project')->group(function () {
         Route::get('capital_assets/projects', 'ProjectController@approved_projects');
         Route::get('capital_assets/projects/fetchData', 'ProjectController@FetchApprovedProjects');
         Route::post('capital_assets/projects/register', 'ProjectController@registerCapitalAssetsApprovedProject');
         Route::get('capital_assets/projects/getAllItems', 'ProjectController@getAllApprovedProjects');
-    });
+    });*/
     ///////////////////////////////////////////////////////////////////////////
     Route::prefix('allocation')->group(function () {
         Route::get('register_of_credit_allocation_assets/allocation', 'AllocationOfCapitalAssetsController@register_of_credit_allocation_assets');
@@ -168,5 +168,20 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         //Route::post('credit_distribution_def/plan_title/update', 'BudgetAdminController@updatePlanTitle');
         //Route::get('credit_distribution_def/plan_title/delete/{cdptId}', 'BudgetAdminController@deletePlanTitle');
 
+    });
+
+    Route::prefix('approved_plan/capital_assets')->group(function () {
+        Route::get('/fetchData', 'PlanController@capitalAssetsApprovedPlan');
+        //Route::post('/register', 'PlanController@registerCapitalAssetsApprovedPlan');
+        //Route::post('/delete', 'PlanController@deleteCapitalAssetsApprovedPlan');
+        //Route::post('/update', 'PlanController@updateCapitalAssetsApprovedPlan');
+        Route::get('/getAllItems', 'PlanController@getAllApprovedPlan');
+    });
+
+    Route::prefix('approved_project/capital_assets')->group(function () {
+        Route::get('/fetchData', 'ProjectController@fetchApprovedProjectData');
+        //Route::get('capital_assets/projects/fetchData', 'ProjectController@FetchApprovedProjects');
+        Route::post('/register', 'ProjectController@registerApprovedProject');
+        //Route::get('capital_assets/projects/getAllItems', 'ProjectController@getAllApprovedProjects');
     });
 });

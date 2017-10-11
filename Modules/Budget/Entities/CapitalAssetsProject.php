@@ -3,6 +3,7 @@
 namespace Modules\Budget\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Admin\Entities\County;
 
 class CapitalAssetsProject extends Model
 {
@@ -14,24 +15,8 @@ class CapitalAssetsProject extends Model
         return $this->belongsTo(CapitalAssetsApprovedPlan::class , 'cpCapId' , 'id');
     }
 
-    public function howToRun()
+    public function county()
     {
-        return $this->belongsTo(HowToRun::class , 'cpHtrId' , 'id');
+        return $this->belongsTo(County::class , 'cpCoId' , 'id');
     }
-
-    public function tinySeason()
-    {
-        return $this->belongsTo(CapitalAssetsTinySeason::class , 'cpTsId' , 'id');
-    }
-
-    public function cdrCp()
-    {
-        return $this->hasMany(CdrCp::class , 'ccCpId' , 'id');
-    }
-
-    public function capitalAssetsAllocation()
-    {
-        return $this->hasMany(CapitalAssetsAllocation::class , 'caaCpId' , 'id');
-    }
-
 }

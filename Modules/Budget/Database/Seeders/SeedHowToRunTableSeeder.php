@@ -26,5 +26,9 @@ class SeedHowToRunTableSeeder extends Seeder
         $howToRun = new HowToRun;
         $howToRun->htrSubject = 'پیمانی';
         $howToRun->save();
+
+        $howToRun = new HowToRun;
+        $howToRun->htrSubject = 'امانی - پیمانی';
+        $howToRun->save();
     }
 }

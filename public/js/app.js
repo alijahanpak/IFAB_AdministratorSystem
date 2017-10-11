@@ -76009,6 +76009,17 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -76204,11 +76215,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")])]), _vm._v(" "), _vm._m(2)])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(2), _vm._v(" "), _vm._m(3)]), _vm._v(" "), _vm._m(4)])]), _vm._v(" "), _c('div', {
     staticClass: "medium-12 column"
   }, [_c('div', {
     staticClass: "columns padding-lr table-mrg-top"
-  }, [_vm._m(3), _vm._v(" "), _c('div', {
+  }, [_vm._m(5), _vm._v(" "), _c('div', {
     staticClass: "table-contain dynamic-height-level2"
   }, _vm._l((_vm.planOrCosts), function(planOrCost) {
     return _c('div', {
@@ -76261,7 +76272,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "data-dropdown": "",
         "data-auto-focus": "true"
       }
-    }, [_vm._m(4, true)])])])]), _vm._v(" "), _c('div', {
+    }, [_vm._m(6, true)])])])]), _vm._v(" "), _c('div', {
       staticClass: "medium-12"
     }, [_c('div', {
       directives: [{
@@ -76275,7 +76286,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "medium-12 table-contain-border cell-vertical-center"
     }, [_c('table', {
       staticClass: "unstriped tbl-secondary-mrg small-font"
-    }, [_vm._m(5, true), _vm._v(" "), _c('tbody', _vm._l((planOrCost.c_d_t_in_county), function(cdtInCounty) {
+    }, [_vm._m(7, true), _vm._v(" "), _c('tbody', _vm._l((planOrCost.c_d_t_in_county), function(cdtInCounty) {
       return _c('tr', [_c('td', [_vm._v(_vm._s(cdtInCounty.county.coName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(cdtInCounty.cdtIdNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(cdtInCounty.cdtDescription))])])
     }))])])])])])
   }))]), _vm._v(" "), _c('div', {
@@ -76623,6 +76634,59 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   return _c('li', [_c('span', {
     staticClass: "show-for-sr"
   }, [_vm._v("Current: ")]), _vm._v("عنوان طرح / برنامه\n                        ")])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
+    attrs: {
+      "type": "button",
+      "data-toggle": "costDropDown"
+    }
+  }, [_vm._v("تعداد نمایش"), _c('span', [_vm._v(" 20 ")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "dropdown-pane dropdown-pane-sm ",
+    staticStyle: {
+      "width": "113px"
+    },
+    attrs: {
+      "data-close-on-click": "true",
+      "data-hover": "true",
+      "data-hover-pane": "true",
+      "data-position": "bottom",
+      "data-alignment": "left",
+      "id": "costDropDown",
+      "data-dropdown": "",
+      "data-auto-focus": "true"
+    }
+  }, [_c('ul', {
+    staticClass: "my-menu small-font ltr-dir"
+  }, [_c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("10")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("20"), _c('span', {
+    staticClass: "fi-check checked-color size-14"
+  })])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("30")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("50")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("100")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("200")])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "float-left"
@@ -77154,6 +77218,114 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -77161,10 +77333,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return {
             errorMessage: '',
             errorMessage_update: '',
-            approvedProjects: [],
+            approvedProjects_prov: [],
+            approvedProjects_nat: [],
             approvedProjectsInput: { apPlan: '', apProjectTitle: '', apProjectCode: '', apStartYear: '', apEndYear: '',
-                apHowToRun: '', apPhysicalProgress: '', apCity: '', apSubSeason: '',
-                apDescription: '' },
+                apPhysicalProgress: '', apCity: '', apDescription: '' },
             showInsertModal: false,
             showProjectCostModal: false,
             showModalUpdate: false,
@@ -77172,6 +77344,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             approvedProjectsFill: { apPlan: '', apProjectTitle: '', apProjectCode: '', apStartYear: '', apEndYear: '',
                 apHowToRun: '', apPhysicalProgress: '', aCity: '', apSubSeason: '',
                 apLocation: '', apDescription: '', apCredit: '' },
+
+            provOrNat: '',
             apIdDelete: {},
             approvedPlans: {},
             counties: {},
@@ -77179,13 +77353,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             tinySeasons: {},
             selectedSeasons: '',
             creditDistributionRows: {},
-            creditDistributionRowInput: {}
+            national_pagination: {
+                total: 0,
+                to: 0,
+                current_page: 1,
+                last_page: ''
+            },
+
+            provincial_pagination: {
+                total: 0,
+                to: 0,
+                current_page: 1,
+                last_page: ''
+            }
         };
     },
 
 
     created: function created() {
-        this.fetchData();
+        this.fetchProvincialData();
         this.getAllApprovedPlan(0); // 0 = provincial
         this.getHowToRun();
         this.getCounties();
@@ -77197,32 +77383,58 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         $(this.$el).foundation(); //WORKS!
     },
 
+    mounted: function mounted() {
+        console.log("mounted approved project component");
+        res();
+    },
+
+    components: {
+        'vue-pagination': __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__["a" /* default */]
+    },
+
     methods: (_methods = {
-        fetchData: function fetchData() {
-            /*axios.get('/budget/project/capital_assets/projects/fetchData' , {})
-                .then((response) => {
-                    this.approvedProjects = response.data;
-                    console.log(response);
-                },(error) => {
-                    console.log(error);
-                });*/
-        },
-
-        /*getAllApprovedPlan: function (pOrN) {
-            axios.get('/budget/plan/capital_assets/plans/getAllItems' , {params:{pOrN: 0}})
-                .then((response) => {
-                    this.approvedPlans = response.data;
-                    console.log(response);
-                },(error) => {
-                    console.log(error);
-                });
-        },*/
-
-        getHowToRun: function getHowToRun() {
+        fetchProvincialData: function fetchProvincialData() {
             var _this = this;
 
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            axios.get('/budget/approved_project/capital_assets/fetchData?page=' + page, { params: { pOrN: 0 } }).then(function (response) {
+                _this.approvedProjects_prov = response.data.data;
+                _this.makePagination(response.data, "provincial");
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        fetchNationalData: function fetchNationalData() {
+            var _this2 = this;
+
+            axios.get('/budget/project/capital_assets/projects/fetchData?page=' + page, { params: { pOrN: 1 } }).then(function (response) {
+                _this2.approvedProjects_nat = response.data.data;
+                _this2.makePagination(response.data, "provincial");
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        getAllApprovedPlan: function getAllApprovedPlan(pOrN) {
+            var _this3 = this;
+
+            axios.get('/budget/approved_plan/capital_assets/getAllItems', { params: { pOrN: pOrN } }).then(function (response) {
+                _this3.approvedPlans = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        getHowToRun: function getHowToRun() {
+            var _this4 = this;
+
             axios.get('/budget/admin/how_to_run/getAllItems', { params: {} }).then(function (response) {
-                _this.howToRuns = response.data;
+                _this4.howToRuns = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -77230,59 +77442,74 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
 
     }, _defineProperty(_methods, 'getHowToRun', function getHowToRun() {
-        var _this2 = this;
+        var _this5 = this;
 
         axios.get('/budget/admin/how_to_run/getAllItems', { params: {} }).then(function (response) {
-            _this2.howToRuns = response.data;
+            _this5.howToRuns = response.data;
             console.log(response);
         }, function (error) {
             console.log(error);
         });
     }), _defineProperty(_methods, 'getCounties', function getCounties() {
-        var _this3 = this;
+        var _this6 = this;
 
         axios.get('/admin/get_all_counties', { params: {} }).then(function (response) {
-            _this3.counties = response.data;
+            _this6.counties = response.data;
             console.log(response);
         }, function (error) {
             console.log(error);
         });
     }), _defineProperty(_methods, 'getSeasons', function getSeasons() {
-        var _this4 = this;
+        var _this7 = this;
 
         axios.get('/admin/get_all_seasons', { params: {} }).then(function (response) {
-            _this4.seasons = response.data;
+            _this7.seasons = response.data;
             console.log(response);
         }, function (error) {
             console.log(error);
         });
     }), _defineProperty(_methods, 'getTinySeasons', function getTinySeasons() {
-        var _this5 = this;
+        var _this8 = this;
 
         axios.get('/budget/admin/sub_seasons/get_tiny_seasons_whit_season_id', { params: { sId: this.selectedSeasons, planOrCost: 0 } }).then(function (response) {
-            _this5.tinySeasons = response.data;
+            _this8.tinySeasons = response.data;
             console.log(response);
         }, function (error) {
             console.log(error);
         });
     }), _defineProperty(_methods, 'getCreditDistributionRow', function getCreditDistributionRow() {
-        var _this6 = this;
+        var _this9 = this;
 
         axios.get('/budget/admin/credit_distribution_def/rows/getAllItems', { params: { planOrCost: 0 } }).then(function (response) {
-            _this6.creditDistributionRows = response.data;
+            _this9.creditDistributionRows = response.data;
             console.log(response);
         }, function (error) {
             console.log(error);
         });
+    }), _defineProperty(_methods, 'openApprovedProjectInsertModal', function openApprovedProjectInsertModal(type) {
+        this.getAllApprovedPlan(type);
+        this.showInsertModal = true;
+        this.provOrNat = type;
     }), _defineProperty(_methods, 'createApprovedProjects', function createApprovedProjects() {
-        var _this7 = this;
+        var _this10 = this;
 
         this.$validator.validateAll().then(function (result) {
             if (result) {
-                axios.post('/budget/project/capital_assets/projects/register', { pInput: _this7.approvedProjectsInput, cdrInput: _this7.creditDistributionRowInput }).then(function (response) {
-                    _this7.approvedProjects = response.data;
-                    _this7.showInsertModal = false;
-                    _this7.$notify({ group: 'capital_assetsPm', title: 'پیام سیستم', text: 'رکورد با موفقیت ثبت شد.', type: 'success' });
+                axios.post('/budget/approved_project/capital_assets/register', {
+                    pId: _this10.approvedProjectsInput.apPlan,
+                    subject: _this10.approvedProjectsInput.apProjectTitle,
+                    code: _this10.approvedProjectsInput.apProjectCode,
+                    startYear: _this10.approvedProjectsInput.apStartYear,
+                    endYear: _this10.approvedProjectsInput.apEndYear,
+                    pProgress: _this10.approvedProjectsInput.apPhysicalProgress,
+                    coId: _this10.approvedProjectsInput.apCity,
+                    description: _this10.approvedProjectsInput.apDescription,
+                    pOrN: _this10.provOrNat
+                }).then(function (response) {
+                    _this10.approvedProjects_prov = response.data.data;
+                    _this10.makePagination(response.data, "provincial");
+                    _this10.showInsertModal = false;
+                    _this10.displayNotif(response.status);
                     console.log(response);
                 }, function (error) {
                     console.log(error);
@@ -77290,11 +77517,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 });
             }
         });
-
-        /*            this.creditDistributionRows.forEach(cdr => {
-                        "use strict";
-                        this.$set(this.creditDistributionRowInput , 'apCdr' + cdr.id);
-                    });*/
     }), _defineProperty(_methods, 'getProjectAmount', function getProjectAmount(cdrCp) {
         var sum = 0;
         cdrCp.forEach(function (cdr) {
@@ -77304,7 +77526,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
         return sum;
     }), _defineProperty(_methods, 'approvedProjectsUpdateDialog', function approvedProjectsUpdateDialog(item, planId) {
-        var _this8 = this;
+        var _this11 = this;
 
         this.selectedSeasons = item.tiny_season.tsSId;
         this.getTinySeasons();
@@ -77321,7 +77543,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.creditDistributionRows.forEach(function (cdr) {
             "use strict";
 
-            Vue.set(_this8.creditDistributionRowInput, 'apCdr' + cdr.id, cdr.id);
+            Vue.set(_this11.creditDistributionRowInput, 'apCdr' + cdr.id, cdr.id);
         });
         this.errorMessage_update = '';
         this.showModalUpdate = true;
@@ -77361,6 +77583,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 console.log(error);
                 this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
             });*/
+    }), _defineProperty(_methods, 'displayNotif', function displayNotif(httpStatusCode) {
+        switch (httpStatusCode) {
+            case 204:
+                this.$notify({ group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
+                break;
+            case 200:
+                this.$notify({ group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
+                break;
+        }
+    }), _defineProperty(_methods, 'makePagination', function makePagination(data, type) {
+        if (type == "national") {
+            this.national_pagination.current_page = data.current_page;
+            this.national_pagination.to = data.to;
+            this.national_pagination.last_page = data.last_page;
+        } else if (type == "provincial") {
+            this.provincial_pagination.current_page = data.current_page;
+            this.provincial_pagination.to = data.to;
+            this.provincial_pagination.last_page = data.last_page;
+        }
     }), _methods)
 });
 
@@ -77375,10 +77616,20 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "grid-x  my-callout-box container-mrg-top dynamic-height-level1"
   }, [_c('div', {
-    staticClass: "medium-12 padding-lr",
-    staticStyle: {
-      "margin-top": "15px"
+    staticClass: "medium-12 column"
+  }, [_vm._m(1), _vm._v(" "), _c('div', {
+    staticClass: "tabs-content",
+    attrs: {
+      "data-tabs-content": "approved_project_tab_view"
     }
+  }, [_c('div', {
+    staticClass: "tabs-panel is-active table-mrg-btm",
+    attrs: {
+      "id": "provincial_tab",
+      "xmlns:v-on": "http://www.w3.org/1999/xhtml"
+    }
+  }, [_c('div', {
+    staticClass: "medium-12 bottom-mrg"
   }, [_c('div', {
     staticClass: "clearfix border-btm-line bottom-mrg tool-bar"
   }, [_c('div', {
@@ -77390,7 +77641,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "my-button toolbox-btn small",
     on: {
       "click": function($event) {
-        _vm.showInsertModal = true
+        _vm.openApprovedProjectInsertModal(0)
       }
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
@@ -77400,35 +77651,35 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.showProjectCostModal = true
       }
     }
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2)]), _vm._v(" "), _vm._m(3)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(2), _vm._v(" "), _vm._m(3)]), _vm._v(" "), _vm._m(4)]), _vm._v(" "), _c('div', {
     staticClass: "columns"
-  }, [_vm._m(4), _vm._v(" "), _c('div', {
+  }, [_vm._m(5), _vm._v(" "), _c('div', {
     staticClass: "table-contain dynamic-height-level2"
-  }, _vm._l((_vm.approvedProjects), function(plans) {
+  }, _vm._l((_vm.approvedProjects_prov), function(plans) {
     return _c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-2 table-contain-border cell-vertical-center"
-    }, [_vm._v("\n                                @" + _vm._s(plans.credit_distribution_title.cdtIdNumber) + "\n                            ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                        " + _vm._s(plans.credit_distribution_title.cdtIdNumber) + "\n                                    ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-10"
     }, _vm._l((plans.capital_assets_project), function(projects) {
       return _c('div', {
         staticClass: "grid-x selectAbleRow"
       }, [_c('div', {
         staticClass: "medium-1 table-contain-border cell-vertical-center"
-      }, [_vm._v("\n                                        @" + _vm._s(projects.cpCode) + "\n                                    ")]), _vm._v(" "), _c('div', {
+      }, [_vm._v("\n                                                " + _vm._s(projects.cpCode) + "\n                                            ")]), _vm._v(" "), _c('div', {
         staticClass: "medium-3 table-contain-border cell-vertical-center"
-      }, [_vm._v("\n                                        @" + _vm._s(projects.cpSubject) + "\n                                    ")]), _vm._v(" "), _c('div', {
+      }, [_vm._v("\n                                                " + _vm._s(projects.cpSubject) + "\n                                            ")]), _vm._v(" "), _c('div', {
         staticClass: "medium-2 table-contain-border cell-vertical-center"
-      }, [_vm._v("\n                                        @" + _vm._s(projects.how_to_run.htrSubject) + "\n                                    ")]), _vm._v(" "), _c('div', {
+      }, [_vm._v("\n                                                " + _vm._s(projects.county.coName) + "\n                                            ")]), _vm._v(" "), _c('div', {
         staticClass: "medium-2 table-contain-border cell-vertical-center"
-      }, [_vm._v("\n                                        @" + _vm._s(_vm.getProjectAmount(projects.cdr_cp)) + "\n                                    ")]), _vm._v(" "), _c('div', {
+      }), _vm._v(" "), _c('div', {
         staticClass: "medium-4  table-contain-border cell-vertical-center"
       }, [_c('div', {
         staticClass: "grid-x"
       }, [_c('div', {
         staticClass: "medium-11"
-      }, [_vm._v("\n                                                @" + _vm._s(projects.cpDescription) + "\n                                            ")]), _vm._v(" "), _c('div', {
+      }, [_vm._v("\n                                                        " + _vm._s(projects.cpDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
         staticClass: "medium-1 cell-vertical-center text-left"
       }, [_c('a', {
         staticClass: "dropdown small sm-btn-align",
@@ -77436,12 +77687,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           "type": "button",
           "data-toggle": 'apApprovedProjects' + projects.id
         }
-      }, [_c('img', {
-        attrs: {
-          "width": "15px",
-          "height": "15px",
-          "src": ""
-        }
+      }, [_c('i', {
+        staticClass: "fa fa-ellipsis-v size-18"
       })]), _vm._v(" "), _c('div', {
         staticClass: "dropdown-pane dropdown-pane-sm ",
         attrs: {
@@ -77464,7 +77711,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           }
         }
       }, [_c('i', {
-        staticClass: "fi-pencil size-16"
+        staticClass: "fa fa-pencil-square-o size-16"
       }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
         on: {
           "click": function($event) {
@@ -77473,12 +77720,141 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           }
         }
       }, [_c('i', {
-        staticClass: "fi-trash size-16"
+        staticClass: "fa fa-trash-o size-16"
       }), _vm._v("  حذف")])])])])])])])])
     }))])
-  }))])]), _vm._v(" "), _c('notifications', {
+  }))]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12"
+  }, [_c('vue-pagination', {
     attrs: {
-      "group": "capital_assetsPm",
+      "pagination": _vm.provincial_pagination,
+      "offset": 4
+    },
+    nativeOn: {
+      "click": function($event) {
+        _vm.fetchProvincialData(_vm.provincial_pagination.current_page)
+      }
+    }
+  })], 1)])])]), _vm._v(" "), _c('div', {
+    staticClass: "tabs-panel is-active table-mrg-btm",
+    attrs: {
+      "id": "national_tab",
+      "xmlns:v-on": "http://www.w3.org/1999/xhtml"
+    }
+  }, [_c('div', {
+    staticClass: "medium-12 bottom-mrg"
+  }, [_c('div', {
+    staticClass: "clearfix border-btm-line bottom-mrg tool-bar"
+  }, [_c('div', {
+    staticClass: "button-group float-right report-mrg",
+    staticStyle: {
+      "margin-top": "2px"
+    }
+  }, [_c('a', {
+    staticClass: "my-button toolbox-btn small",
+    on: {
+      "click": function($event) {
+        _vm.openApprovedProjectInsertModal(1)
+      }
+    }
+  }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
+    staticClass: "my-button toolbox-btn small",
+    on: {
+      "click": function($event) {
+        _vm.showProjectCostModal = true
+      }
+    }
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(6), _vm._v(" "), _vm._m(7)]), _vm._v(" "), _vm._m(8)]), _vm._v(" "), _c('div', {
+    staticClass: "columns"
+  }, [_vm._m(9), _vm._v(" "), _c('div', {
+    staticClass: "table-contain dynamic-height-level2"
+  }, _vm._l((_vm.approvedProjects_nat), function(plans) {
+    return _c('div', {
+      staticClass: "grid-x"
+    }, [_c('div', {
+      staticClass: "medium-2 table-contain-border cell-vertical-center"
+    }, [_vm._v("\n                                        " + _vm._s(plans.credit_distribution_title.cdtIdNumber) + "\n                                    ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-10"
+    }, _vm._l((plans.capital_assets_project), function(projects) {
+      return _c('div', {
+        staticClass: "grid-x selectAbleRow"
+      }, [_c('div', {
+        staticClass: "medium-1 table-contain-border cell-vertical-center"
+      }, [_vm._v("\n                                                " + _vm._s(projects.cpCode) + "\n                                            ")]), _vm._v(" "), _c('div', {
+        staticClass: "medium-3 table-contain-border cell-vertical-center"
+      }, [_vm._v("\n                                                " + _vm._s(projects.cpSubject) + "\n                                            ")]), _vm._v(" "), _c('div', {
+        staticClass: "medium-2 table-contain-border cell-vertical-center"
+      }, [_vm._v("\n                                                " + _vm._s(projects.county.coName) + "\n                                            ")]), _vm._v(" "), _c('div', {
+        staticClass: "medium-2 table-contain-border cell-vertical-center"
+      }), _vm._v(" "), _c('div', {
+        staticClass: "medium-4  table-contain-border cell-vertical-center"
+      }, [_c('div', {
+        staticClass: "grid-x"
+      }, [_c('div', {
+        staticClass: "medium-11"
+      }, [_vm._v("\n                                                        " + _vm._s(projects.cpDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
+        staticClass: "medium-1 cell-vertical-center text-left"
+      }, [_c('a', {
+        staticClass: "dropdown small sm-btn-align",
+        attrs: {
+          "type": "button",
+          "data-toggle": 'apApprovedProjects' + projects.id
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-ellipsis-v size-18"
+      })]), _vm._v(" "), _c('div', {
+        staticClass: "dropdown-pane dropdown-pane-sm ",
+        attrs: {
+          "data-close-on-click": "true",
+          "data-hover": "true",
+          "data-hover-pane": "true",
+          "data-position": "bottom",
+          "data-alignment": "right",
+          "id": 'apApprovedProjects' + projects.id,
+          "data-dropdown": "",
+          "data-auto-focus": "true"
+        }
+      }, [_c('ul', {
+        staticClass: "my-menu small-font text-right"
+      }, [_c('li', [_c('a', {
+        on: {
+          "click": function($event) {
+            $event.preventDefault();
+            _vm.approvedProjectsUpdateDialog(projects, plans.id)
+          }
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-pencil-square-o size-16"
+      }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+        on: {
+          "click": function($event) {
+            $event.preventDefault();
+            _vm.openDeleteApprovedProjectsConfirm(projects)
+          }
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-trash-o size-16"
+      }), _vm._v("  حذف")])])])])])])])])
+    }))])
+  }))]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12"
+  }, [_c('vue-pagination', {
+    attrs: {
+      "pagination": _vm.provincial_pagination,
+      "offset": 4
+    },
+    nativeOn: {
+      "click": function($event) {
+        _vm.fetchProvincialData(_vm.provincial_pagination.current_page)
+      }
+    }
+  })], 1)])])])])]), _vm._v(" "), _c('notifications', {
+    attrs: {
+      "group": "aprrovedProjectPm",
       "position": "bottom right",
       "animation-type": "velocity",
       "speed": 700
@@ -77494,6 +77870,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "slot": "body"
     },
     slot: "body"
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.createApprovedProjects($event)
+      }
+    }
   }, [(_vm.errorMessage) ? _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
@@ -77504,11 +77887,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "BYekan login-alert"
   }, [_c('i', {
     staticClass: "fi-alert"
-  }), _vm._v("@" + _vm._s(_vm.errorMessage))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
+  }), _vm._v(_vm._s(_vm.errorMessage))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12 cell padding-lr"
-  }, [_c('label', [_vm._v("طرح\n                            "), _c('select', {
+  }, [_c('label', [_vm._v("طرح\n                                    "), _c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -77546,7 +77929,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       domProps: {
         "value": approvedPlan.id
       }
-    }, [_vm._v("@" + _vm._s(approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject))])
+    }, [_vm._v(_vm._s(approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject + ' - ' + approvedPlan.credit_distribution_title.county.coName))])
   })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
@@ -77559,7 +77942,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-8 cell padding-lr"
-  }, [_c('label', [_vm._v("عنوان پروژه\n                            "), _c('input', {
+  }, [_c('label', [_vm._v("عنوان پروژه\n                                    "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -77598,7 +77981,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "error-font"
   }, [_vm._v("لطفا عنوان پروژه انتخاب کنید!")])]), _vm._v(" "), _c('div', {
     staticClass: "medium-4 cell padding-lr"
-  }, [_c('label', [_vm._v("کد پروژه\n                            "), _c('input', {
+  }, [_c('label', [_vm._v("کد پروژه\n                                    "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -77639,7 +78022,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-4 cell padding-lr"
-  }, [_c('label', [_vm._v("سال شروع\n                            "), _c('input', {
+  }, [_c('label', [_vm._v("سال شروع\n                                    "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -77678,7 +78061,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "error-font"
   }, [_vm._v("لطفا سال شروع پروژه را وارد کنید!")])]), _vm._v(" "), _c('div', {
     staticClass: "medium-4 cell padding-lr"
-  }, [_c('label', [_vm._v("سال خاتمه\n                            "), _c('input', {
+  }, [_c('label', [_vm._v("سال خاتمه\n                                    "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -77771,7 +78154,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "error-font"
   }, [_vm._v("لطفا پیشرفت فیزیکی را وارد کنید!")])]), _vm._v(" "), _c('div', {
     staticClass: "medium-4 cell padding-lr"
-  }, [_c('label', [_vm._v("شهرستان\n                            "), _c('select', {
+  }, [_c('label', [_vm._v("شهرستان\n                                    "), _c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -77786,6 +78169,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       'input': true, 'select-error': _vm.errors.has('city')
     },
     attrs: {
+      "selected": _vm.approvedProjectsInput.apCity,
       "name": "city",
       "data-vv-rules": "required"
     },
@@ -77809,7 +78193,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       domProps: {
         "value": county.id
       }
-    }, [_vm._v("@" + _vm._s(county.coName))])
+    }, [_vm._v(_vm._s(county.coName))])
   })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
@@ -77818,63 +78202,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       expression: "errors.has('city')"
     }],
     staticClass: "error-font"
-  }, [_vm._v("لطفا شهرستان را انتخاب کنید!")])])])]), _vm._v(" "), _vm._l((_vm.creditDistributionRows), function(creditDistributionRow) {
-    return _c('div', {
-      staticClass: "grid-x",
-      staticStyle: {
-        "margin-top": "20px"
-      }
-    }, [_c('div', {
-      staticClass: "medium-4 columns padding-lr"
-    }, [_c('p', {
-      staticStyle: {
-        "margin-top": "5px"
-      }
-    }, [_vm._v("@" + _vm._s(creditDistributionRow.cdSubject))])]), _vm._v(" "), _c('div', {
-      staticClass: "medium-4 columns padding-lr"
-    }, [_c('label', [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.creditDistributionRowInput['apCdr' + creditDistributionRow.id]),
-        expression: "creditDistributionRowInput['apCdr' + creditDistributionRow.id]"
-      }, {
-        name: "validate",
-        rawName: "v-validate",
-        value: ('required|numeric'),
-        expression: "'required|numeric'"
-      }],
-      staticClass: "form-element-margin-btm",
-      class: {
-        'input': true, 'error-border': _vm.errors.has('apCdr' + creditDistributionRow.id)
-      },
-      attrs: {
-        "type": "text",
-        "name": 'apCdr' + creditDistributionRow.id
-      },
-      domProps: {
-        "value": (_vm.creditDistributionRowInput['apCdr' + creditDistributionRow.id])
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.$set(_vm.creditDistributionRowInput, 'apCdr' + creditDistributionRow.id, $event.target.value)
-        }
-      }
-    })]), _vm._v(" "), _c('span', {
-      directives: [{
-        name: "show",
-        rawName: "v-show",
-        value: (_vm.errors.has('apCdr' + creditDistributionRow.id)),
-        expression: "errors.has('apCdr' + creditDistributionRow.id)"
-      }],
-      staticClass: "error-font"
-    }, [_vm._v("لطفا مبلغ اعتبار را وارد کنید (حداقل ۰)!")])])])
-  }), _vm._v(" "), _c('div', {
+  }, [_vm._v("لطفا شهرستان را انتخاب کنید!")])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "small-12 columns padding-lr"
-  }, [_c('label', [_vm._v("شرح\n                            "), _c('textarea', {
+  }, [_c('label', [_vm._v("شرح\n                                    "), _c('textarea', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -77905,7 +78237,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
-  }, [_vm._v("ثبت")])])])], 2)]) : _vm._e(), _vm._v(" "), (_vm.showModalUpdate) ? _c('modal-small', {
+  }, [_vm._v("ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showModalUpdate) ? _c('modal-small', {
     attrs: {
       "xmlns:v-on": "http://www.w3.org/1999/xhtml"
     },
@@ -78232,59 +78564,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       expression: "errors.has('city')"
     }],
     staticClass: "error-font"
-  }, [_vm._v("لطفا شهرستان را انتخاب کنید!")])])])]), _vm._v(" "), _vm._l((_vm.creditDistributionRows), function(creditDistributionRow) {
-    return _c('div', {
-      staticClass: "grid-x",
-      staticStyle: {
-        "margin-top": "20px"
-      }
-    }, [_c('div', {
-      staticClass: "medium-4 columns padding-lr"
-    }, [_c('p', {
-      staticStyle: {
-        "margin-top": "5px"
-      }
-    }, [_vm._v("@" + _vm._s(creditDistributionRow.cdSubject))])]), _vm._v(" "), _c('div', {
-      staticClass: "medium-4 columns padding-lr"
-    }, [_c('label', [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.creditDistributionRowInput['apCdr' + creditDistributionRow.id]),
-        expression: "creditDistributionRowInput['apCdr' + creditDistributionRow.id]"
-      }, {
-        name: "validate",
-        rawName: "v-validate",
-        value: ('required|numeric'),
-        expression: "'required|numeric'"
-      }],
-      staticClass: "form-element-margin-btm",
-      class: {
-        'input': true, 'error-border': _vm.errors.has('apCdr' + creditDistributionRow.id)
-      },
-      attrs: {
-        "type": "text",
-        "name": 'apCdr' + creditDistributionRow.id
-      },
-      domProps: {
-        "value": (_vm.creditDistributionRowInput['apCdr' + creditDistributionRow.id])
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.$set(_vm.creditDistributionRowInput, 'apCdr' + creditDistributionRow.id, $event.target.value)
-        }
-      }
-    })]), _vm._v(" "), _c('span', {
-      directives: [{
-        name: "show",
-        rawName: "v-show",
-        value: (_vm.errors.has('apCdr' + creditDistributionRow.id)),
-        expression: "errors.has('apCdr' + creditDistributionRow.id)"
-      }],
-      staticClass: "error-font"
-    }, [_vm._v("لطفا مبلغ اعتبار را وارد کنید (حداقل ۰)!")])])])
-  }), _vm._v(" "), _c('div', {
+  }, [_vm._v("لطفا شهرستان را انتخاب کنید!")])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "small-12 columns padding-lr"
@@ -78319,7 +78599,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
-  }, [_vm._v("ثبت")])])])], 2)]) : _vm._e(), _vm._v(" "), (_vm.showModalDelete) ? _c('modal-tiny', {
+  }, [_vm._v("ثبت")])])])])]) : _vm._e(), _vm._v(" "), (_vm.showModalDelete) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showModalDelete = false
@@ -78580,6 +78860,27 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "show-for-sr"
   }, [_vm._v("Current: ")]), _vm._v("پروژه ها\n                        ")])])])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('ul', {
+    staticClass: "tabs tab-color my-tab-style",
+    attrs: {
+      "data-responsive-accordion-tabs": "tabs medium-accordion large-tabs",
+      "id": "approved_project_tab_view"
+    }
+  }, [_c('li', {
+    staticClass: "tabs-title is-active"
+  }, [_c('a', {
+    attrs: {
+      "href": "#provincial_tab",
+      "aria-selected": "true"
+    }
+  }, [_vm._v("استانی")])]), _vm._v(" "), _c('li', {
+    staticClass: "tabs-title"
+  }, [_c('a', {
+    attrs: {
+      "href": "#national_tab"
+    }
+  }, [_vm._v("ملی")])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
     attrs: {
@@ -78667,7 +78968,100 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "medium-3 table-border"
   }, [_c('strong', [_vm._v("عنوان")])]), _vm._v(" "), _c('div', {
     staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("نحوه اجرا")])]), _vm._v(" "), _c('div', {
+  }, [_c('strong', [_vm._v("شهرستان")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-2 table-border"
+  }, [_c('strong', [_vm._v("اعتبار")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-4  table-border"
+  }, [_c('strong', [_vm._v("شرح")])])])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
+    attrs: {
+      "type": "button",
+      "data-toggle": "assetsDropDown"
+    }
+  }, [_vm._v("تعداد نمایش"), _c('span', [_vm._v(" 20 ")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "dropdown-pane dropdown-pane-sm ",
+    staticStyle: {
+      "width": "113px"
+    },
+    attrs: {
+      "data-close-on-click": "true",
+      "data-hover": "true",
+      "data-hover-pane": "true",
+      "data-position": "bottom",
+      "data-alignment": "left",
+      "id": "assetsDropDown",
+      "data-dropdown": "",
+      "data-auto-focus": "true"
+    }
+  }, [_c('ul', {
+    staticClass: "my-menu small-font ltr-dir"
+  }, [_c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("10")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("20"), _c('span', {
+    staticClass: "fi-check checked-color size-14"
+  })])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("30")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("50")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("100")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("200")])])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "float-left"
+  }, [_c('div', {
+    staticClass: "input-group float-left"
+  }, [_c('input', {
+    staticClass: "input-group-field small-font",
+    attrs: {
+      "type": "text"
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "input-group-button"
+  }, [_c('button', {
+    staticClass: "my-button my-brand",
+    attrs: {
+      "type": "button"
+    }
+  }, [_c('i', {
+    staticClass: "fi-magnifying-glass"
+  })])])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "grid-x table-header"
+  }, [_c('div', {
+    staticClass: "medium-2 table-border"
+  }, [_c('strong', [_vm._v("کد طرح")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-10"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-1 table-border"
+  }, [_c('strong', [_vm._v("کد")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-3 table-border"
+  }, [_c('strong', [_vm._v("عنوان")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-2 table-border"
+  }, [_c('strong', [_vm._v("شهرستان")])]), _vm._v(" "), _c('div', {
     staticClass: "medium-2 table-border"
   }, [_c('strong', [_vm._v("اعتبار")])]), _vm._v(" "), _c('div', {
     staticClass: "medium-4  table-border"

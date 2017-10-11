@@ -24,6 +24,17 @@
                     <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                         <a class="my-button toolbox-btn small" @click="openInsertModal">جدید</a>
                         <a class="my-button toolbox-btn small">گزارش</a>
+                        <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="costDropDown">تعداد نمایش<span> 20 </span></button>
+                        <div style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="costDropDown" data-dropdown data-auto-focus="true">
+                            <ul class="my-menu small-font ltr-dir">
+                                <li><a  href="#">10</a></li>
+                                <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
+                                <li><a  href="#">30</a></li>
+                                <li><a  href="#">50</a></li>
+                                <li><a  href="#">100</a></li>
+                                <li><a  href="#">200</a></li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="float-left">
                         <div class="input-group float-left">

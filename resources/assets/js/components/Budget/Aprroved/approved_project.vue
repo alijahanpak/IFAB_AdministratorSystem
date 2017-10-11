@@ -22,91 +22,102 @@
             </div>
         </div>
         <div class="grid-x  my-callout-box container-mrg-top dynamic-height-level1">
-            <div  class="medium-12 padding-lr" style="margin-top: 15px;">
-                <div class="clearfix border-btm-line bottom-mrg tool-bar">
-                    <div style="margin-top: 2px;" class="button-group float-right report-mrg">
-                        <a class="my-button toolbox-btn small" @click="showInsertModal= true">جدید</a>
-                        <a class="my-button toolbox-btn small" @click="showProjectCostModal= true">گزارش</a>
-                        <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
-                        <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
-                            <ul class="my-menu small-font ltr-dir">
-                                <li><a  href="#">10</a></li>
-                                <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
-                                <li><a  href="#">30</a></li>
-                                <li><a  href="#">50</a></li>
-                                <li><a  href="#">100</a></li>
-                                <li><a  href="#">200</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="float-left">
-                        <div class="input-group float-left">
-                            <input class="input-group-field small-font" type="text">
-                            <div class="input-group-button">
-                                <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                    <!--Table Start-->
-                    <div class="columns">
-                        <!--Header Start-->
-                        <div class="grid-x table-header">
-                            <div class="medium-2 table-border">
-                                <strong>کد طرح</strong>
-                            </div>
-                            <div class="medium-10">
-                                <div class="grid-x">
-                                    <div class="medium-1 table-border">
-                                        <strong>کد</strong>
+            <div  class="medium-12 column">
+                <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="approved_project_tab_view">
+                    <li class="tabs-title is-active"><a href="#provincial_tab" aria-selected="true">استانی</a></li>
+                    <li class="tabs-title"><a href="#national_tab">ملی</a></li>
+                </ul>
+                <div class="tabs-content" data-tabs-content="approved_project_tab_view">
+                    <div class="tabs-panel is-active table-mrg-btm" id="provincial_tab"
+                         xmlns:v-on="http://www.w3.org/1999/xhtml">
+                        <div class="medium-12 bottom-mrg">
+                            <!--Tab 1-->
+                            <div class="clearfix border-btm-line bottom-mrg tool-bar">
+                                <div style="margin-top: 2px;" class="button-group float-right report-mrg">
+                                    <a class="my-button toolbox-btn small" @click="openApprovedProjectInsertModal(0)">جدید</a>
+                                    <a class="my-button toolbox-btn small" @click="showProjectCostModal= true">گزارش</a>
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
+                                        <ul class="my-menu small-font ltr-dir">
+                                            <li><a  href="#">10</a></li>
+                                            <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  href="#">30</a></li>
+                                            <li><a  href="#">50</a></li>
+                                            <li><a  href="#">100</a></li>
+                                            <li><a  href="#">200</a></li>
+                                        </ul>
                                     </div>
-                                    <div class="medium-3 table-border">
-                                        <strong>عنوان</strong>
-                                    </div>
-                                    <div class="medium-2 table-border">
-                                        <strong>نحوه اجرا</strong>
-                                    </div>
-                                    <div class="medium-2 table-border">
-                                        <strong>اعتبار</strong>
-                                    </div>
-                                    <div class="medium-4  table-border">
-                                        <strong>شرح</strong>
+                                </div>
+                                <div class="float-left">
+                                    <div class="input-group float-left">
+                                        <input class="input-group-field small-font" type="text">
+                                        <div class="input-group-button">
+                                            <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!--Header End-->
-                        <div class="table-contain dynamic-height-level2">
-                            <div class="grid-x" v-for="plans in approvedProjects">
-                                <div class="medium-2 table-contain-border cell-vertical-center">
-                                    @{{ plans.credit_distribution_title.cdtIdNumber }}
+                            <!--Table Start-->
+                            <div class="columns">
+                                <!--Header Start-->
+                                <div class="grid-x table-header">
+                                    <div class="medium-2 table-border">
+                                        <strong>کد طرح</strong>
+                                    </div>
+                                    <div class="medium-10">
+                                        <div class="grid-x">
+                                            <div class="medium-1 table-border">
+                                                <strong>کد</strong>
+                                            </div>
+                                            <div class="medium-3 table-border">
+                                                <strong>عنوان</strong>
+                                            </div>
+                                            <div class="medium-2 table-border">
+                                                <strong>شهرستان</strong>
+                                            </div>
+                                            <div class="medium-2 table-border">
+                                                <strong>اعتبار</strong>
+                                            </div>
+                                            <div class="medium-4  table-border">
+                                                <strong>شرح</strong>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="medium-10">
-                                    <div class="grid-x selectAbleRow" v-for="projects in plans.capital_assets_project">
-                                        <div class="medium-1 table-contain-border cell-vertical-center">
-                                            @{{ projects.cpCode }}
-                                        </div>
-                                        <div class="medium-3 table-contain-border cell-vertical-center">
-                                            @{{ projects.cpSubject }}
-                                        </div>
+                                <!--Header End-->
+                                <div class="table-contain dynamic-height-level2">
+                                    <div class="grid-x" v-for="plans in approvedProjects_prov">
                                         <div class="medium-2 table-contain-border cell-vertical-center">
-                                            @{{ projects.how_to_run.htrSubject }}
+                                            {{ plans.credit_distribution_title.cdtIdNumber }}
                                         </div>
-                                        <div class="medium-2 table-contain-border cell-vertical-center">
-                                            @{{ getProjectAmount(projects.cdr_cp) }}
-                                        </div>
-                                        <div class="medium-4  table-contain-border cell-vertical-center">
-                                            <div class="grid-x">
-                                                <div class="medium-11">
-                                                    @{{ projects.cpDescription }}
+                                        <div class="medium-10">
+                                            <div class="grid-x selectAbleRow" v-for="projects in plans.capital_assets_project">
+                                                <div class="medium-1 table-contain-border cell-vertical-center">
+                                                    {{ projects.cpCode }}
                                                 </div>
-                                                <div class="medium-1 cell-vertical-center text-left">
-                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'apApprovedProjects' + projects.id"><img width="15px" height="15px" src=""></a>
-                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'apApprovedProjects' + projects.id" data-dropdown data-auto-focus="true">
-                                                        <ul class="my-menu small-font text-right">
-                                                            <li><a v-on:click.prevent="approvedProjectsUpdateDialog(projects , plans.id)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                            <li><a v-on:click.prevent="openDeleteApprovedProjectsConfirm(projects)"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                         </ul>
+                                                <div class="medium-3 table-contain-border cell-vertical-center">
+                                                    {{ projects.cpSubject }}
+                                                </div>
+                                                <div class="medium-2 table-contain-border cell-vertical-center">
+                                                    {{ projects.county.coName }}
+                                                </div>
+                                                <div class="medium-2 table-contain-border cell-vertical-center">
+
+                                                </div>
+                                                <div class="medium-4  table-contain-border cell-vertical-center">
+                                                    <div class="grid-x">
+                                                        <div class="medium-11">
+                                                            {{ projects.cpDescription }}
+                                                        </div>
+                                                        <div class="medium-1 cell-vertical-center text-left">
+                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'apApprovedProjects' + projects.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'apApprovedProjects' + projects.id" data-dropdown data-auto-focus="true">
+                                                                <ul class="my-menu small-font text-right">
+                                                                    <li><a v-on:click.prevent="approvedProjectsUpdateDialog(projects , plans.id)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent="openDeleteApprovedProjectsConfirm(projects)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                 </ul>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -114,10 +125,127 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="grid-x">
+                                <div class="medium-12">
+                                    <vue-pagination  v-bind:pagination="provincial_pagination"
+                                                     v-on:click.native="fetchProvincialData(provincial_pagination.current_page)"
+                                                     :offset="4">
+                                    </vue-pagination>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <!-- national tab -->
+                    <div class="tabs-panel is-active table-mrg-btm" id="national_tab"
+                         xmlns:v-on="http://www.w3.org/1999/xhtml">
+                        <div class="medium-12 bottom-mrg">
+                            <!--Tab 1-->
+                            <div class="clearfix border-btm-line bottom-mrg tool-bar">
+                                <div style="margin-top: 2px;" class="button-group float-right report-mrg">
+                                    <a class="my-button toolbox-btn small" @click="openApprovedProjectInsertModal(1)">جدید</a>
+                                    <a class="my-button toolbox-btn small" @click="showProjectCostModal= true">گزارش</a>
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
+                                        <ul class="my-menu small-font ltr-dir">
+                                            <li><a  href="#">10</a></li>
+                                            <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  href="#">30</a></li>
+                                            <li><a  href="#">50</a></li>
+                                            <li><a  href="#">100</a></li>
+                                            <li><a  href="#">200</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="float-left">
+                                    <div class="input-group float-left">
+                                        <input class="input-group-field small-font" type="text">
+                                        <div class="input-group-button">
+                                            <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Table Start-->
+                            <div class="columns">
+                                <!--Header Start-->
+                                <div class="grid-x table-header">
+                                    <div class="medium-2 table-border">
+                                        <strong>کد طرح</strong>
+                                    </div>
+                                    <div class="medium-10">
+                                        <div class="grid-x">
+                                            <div class="medium-1 table-border">
+                                                <strong>کد</strong>
+                                            </div>
+                                            <div class="medium-3 table-border">
+                                                <strong>عنوان</strong>
+                                            </div>
+                                            <div class="medium-2 table-border">
+                                                <strong>شهرستان</strong>
+                                            </div>
+                                            <div class="medium-2 table-border">
+                                                <strong>اعتبار</strong>
+                                            </div>
+                                            <div class="medium-4  table-border">
+                                                <strong>شرح</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Header End-->
+                                <div class="table-contain dynamic-height-level2">
+                                    <div class="grid-x" v-for="plans in approvedProjects_nat">
+                                        <div class="medium-2 table-contain-border cell-vertical-center">
+                                            {{ plans.credit_distribution_title.cdtIdNumber }}
+                                        </div>
+                                        <div class="medium-10">
+                                            <div class="grid-x selectAbleRow" v-for="projects in plans.capital_assets_project">
+                                                <div class="medium-1 table-contain-border cell-vertical-center">
+                                                    {{ projects.cpCode }}
+                                                </div>
+                                                <div class="medium-3 table-contain-border cell-vertical-center">
+                                                    {{ projects.cpSubject }}
+                                                </div>
+                                                <div class="medium-2 table-contain-border cell-vertical-center">
+                                                    {{ projects.county.coName }}
+                                                </div>
+                                                <div class="medium-2 table-contain-border cell-vertical-center">
+
+                                                </div>
+                                                <div class="medium-4  table-contain-border cell-vertical-center">
+                                                    <div class="grid-x">
+                                                        <div class="medium-11">
+                                                            {{ projects.cpDescription }}
+                                                        </div>
+                                                        <div class="medium-1 cell-vertical-center text-left">
+                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'apApprovedProjects' + projects.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'apApprovedProjects' + projects.id" data-dropdown data-auto-focus="true">
+                                                                <ul class="my-menu small-font text-right">
+                                                                    <li><a v-on:click.prevent="approvedProjectsUpdateDialog(projects , plans.id)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent="openDeleteApprovedProjectsConfirm(projects)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-12">
+                                    <vue-pagination  v-bind:pagination="provincial_pagination"
+                                                     v-on:click.native="fetchProvincialData(provincial_pagination.current_page)"
+                                                     :offset="4">
+                                    </vue-pagination>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <notifications group="capital_assetsPm"
+            <notifications group="aprrovedProjectPm"
                            position="bottom right"
                            animation-type="velocity"
                            :speed="700" />
@@ -126,93 +254,84 @@
             <!--Insert Modal Start-->
             <!-- use the modal component, pass in the prop -->
             <modal-small v-if="showInsertModal" @close="showInsertModal = false">
-                <div  slot="body">
-                    <div class="grid-x" v-if="errorMessage">
-                        <div class="medium-12 columns padding-lr">
-                            <div class="alert callout">
-                                <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="medium-12 cell padding-lr">
-                            <label>طرح
-                                <select  class="form-element-margin-btm"  v-model="approvedProjectsInput.apPlan" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
-                                    <option value=""></option>
-                                    <option v-for="approvedPlan in approvedPlans" :value="approvedPlan.id">@{{ approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject }}</option>
-                                </select>
-                                <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="medium-8 cell padding-lr">
-                            <label>عنوان پروژه
-                                <input class="form-element-margin-btm" type="text" name="projectTitle" v-model="approvedProjectsInput.apProjectTitle" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('projectTitle')}">
-                            </label>
-                            <span v-show="errors.has('projectTitle')" class="error-font">لطفا عنوان پروژه انتخاب کنید!</span>
-                        </div>
-                        <div class="medium-4 cell padding-lr">
-                            <label>کد پروژه
-                                <input class="form-element-margin-btm" type="text" name="projectCode" v-model="approvedProjectsInput.apProjectCode" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('projectCode')}">
-                            </label>
-                            <span v-show="errors.has('projectTitle')" class="error-font">لطفا کد پروژه انتخاب کنید!</span>
-                        </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="medium-4 cell padding-lr">
-                            <label>سال شروع
-                                <input class="form-element-margin-btm" type="text" name="startYear" v-model="approvedProjectsInput.apStartYear" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('startYear')}">
-                            </label>
-                            <span v-show="errors.has('startYear')" class="error-font">لطفا سال شروع پروژه را وارد کنید!</span>
-                        </div>
-                        <div class="medium-4 cell padding-lr">
-                            <label>سال خاتمه
-                                <input class="form-element-margin-btm" type="text" name="endYear" v-model="approvedProjectsInput.apEndYear" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('endYear')}">
-                            </label>
-                            <span v-show="errors.has('endYear')" class="error-font">لطفا سال خاتمه پروژه را وارد کنید!</span>
-                        </div>
-                        <div class="medium-4 cell padding-lr">
-                            <label> پیشرفت فیزیکی<span class="btn-red small-font"> (درصد) </span>
-                                <input  type="number" min="0" max="100" value="0" name="physicalProgress" v-model="approvedProjectsInput.apPhysicalProgress" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
-                                <div style="margin-top: -16px;height:2px;" class="alert progress form-element-margin-btm">
-                                    <div class="progress-meter" style="width: 75%"></div>
+                    <div slot="body">
+                        <form v-on:submit.prevent="createApprovedProjects">
+                            <div class="grid-x" v-if="errorMessage">
+                                <div class="medium-12 columns padding-lr">
+                                    <div class="alert callout">
+                                        <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
+                                    </div>
                                 </div>
-                            </label>
-                            <span v-show="errors.has('physicalProgress')" class="error-font">لطفا پیشرفت فیزیکی را وارد کنید!</span>
-                        </div>
-                        <div class="medium-4 cell padding-lr">
-                            <label>شهرستان
-                                <select class="form-element-margin-btm" v-model="approvedProjectsInput.apCity" name="city" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('city')}">
-                                    <option value=""></option>
-                                    <option v-for="county in counties" :value="county.id">@{{ county.coName }}</option>
-                                </select>
-                                <span v-show="errors.has('city')" class="error-font">لطفا شهرستان را انتخاب کنید!</span>
-                            </label>
-                        </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-12 cell padding-lr">
+                                    <label>طرح
+                                        <select class="form-element-margin-btm"  v-model="approvedProjectsInput.apPlan" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
+                                            <option value=""></option>
+                                            <option v-for="approvedPlan in approvedPlans" :value="approvedPlan.id">{{ approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject + ' - ' +  approvedPlan.credit_distribution_title.county.coName}}</option>
+                                        </select>
+                                        <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-8 cell padding-lr">
+                                    <label>عنوان پروژه
+                                        <input class="form-element-margin-btm" type="text" name="projectTitle" v-model="approvedProjectsInput.apProjectTitle" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('projectTitle')}">
+                                    </label>
+                                    <span v-show="errors.has('projectTitle')" class="error-font">لطفا عنوان پروژه انتخاب کنید!</span>
+                                </div>
+                                <div class="medium-4 cell padding-lr">
+                                    <label>کد پروژه
+                                        <input class="form-element-margin-btm" type="text" name="projectCode" v-model="approvedProjectsInput.apProjectCode" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('projectCode')}">
+                                    </label>
+                                    <span v-show="errors.has('projectTitle')" class="error-font">لطفا کد پروژه انتخاب کنید!</span>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-4 cell padding-lr">
+                                    <label>سال شروع
+                                        <input class="form-element-margin-btm" type="text" name="startYear" v-model="approvedProjectsInput.apStartYear" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('startYear')}">
+                                    </label>
+                                    <span v-show="errors.has('startYear')" class="error-font">لطفا سال شروع پروژه را وارد کنید!</span>
+                                </div>
+                                <div class="medium-4 cell padding-lr">
+                                    <label>سال خاتمه
+                                        <input class="form-element-margin-btm" type="text" name="endYear" v-model="approvedProjectsInput.apEndYear" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('endYear')}">
+                                    </label>
+                                    <span v-show="errors.has('endYear')" class="error-font">لطفا سال خاتمه پروژه را وارد کنید!</span>
+                                </div>
+                                <div class="medium-4 cell padding-lr">
+                                    <label> پیشرفت فیزیکی<span class="btn-red small-font"> (درصد) </span>
+                                        <input  type="number" min="0" max="100" value="0" name="physicalProgress" v-model="approvedProjectsInput.apPhysicalProgress" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
+                                        <div style="margin-top: -16px;height:2px;" class="alert progress form-element-margin-btm">
+                                            <div class="progress-meter" style="width: 75%"></div>
+                                        </div>
+                                    </label>
+                                    <span v-show="errors.has('physicalProgress')" class="error-font">لطفا پیشرفت فیزیکی را وارد کنید!</span>
+                                </div>
+                                <div class="medium-4 cell padding-lr">
+                                    <label>شهرستان
+                                        <select class="form-element-margin-btm" :selected="approvedProjectsInput.apCity" v-model="approvedProjectsInput.apCity" name="city" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('city')}">
+                                            <option value=""></option>
+                                            <option v-for="county in counties" :value="county.id">{{ county.coName }}</option>
+                                        </select>
+                                        <span v-show="errors.has('city')" class="error-font">لطفا شهرستان را انتخاب کنید!</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="small-12 columns padding-lr">
+                                    <label>شرح
+                                        <textarea name="apDescription" style="min-height: 150px;" v-model="approvedProjectsInput.apDescription"></textarea>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="medium-6 columns padding-lr padding-bottom-modal">
+                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                            </div>
+                        </form>
                     </div>
-                    <div v-for="creditDistributionRow in creditDistributionRows" style="margin-top: 20px;" class="grid-x">
-                        <div class="medium-4 columns padding-lr">
-                            <p style="margin-top:5px;">@{{ creditDistributionRow.cdSubject }}</p>
-                        </div>
-                        <div  class="medium-4 columns padding-lr">
-                            <label>
-                                <input class="form-element-margin-btm" type="text" :name="'apCdr' + creditDistributionRow.id" v-model="creditDistributionRowInput['apCdr' + creditDistributionRow.id]" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('apCdr' + creditDistributionRow.id)}">
-                            </label>
-                            <span v-show="errors.has('apCdr' + creditDistributionRow.id)" class="error-font">لطفا مبلغ اعتبار را وارد کنید (حداقل ۰)!</span>
-                        </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="small-12 columns padding-lr">
-                            <label>شرح
-                                <textarea name="apDescription" style="min-height: 150px;" v-model="approvedProjectsInput.apDescription"></textarea>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="medium-6 columns padding-lr padding-bottom-modal">
-                        <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
-                    </div>
-                </div>
             </modal-small>
             <!--Insert Modal End-->
 
@@ -278,17 +397,6 @@
                                 </select>
                                 <span v-show="errors.has('city')" class="error-font">لطفا شهرستان را انتخاب کنید!</span>
                             </label>
-                        </div>
-                    </div>
-                    <div v-for="creditDistributionRow in creditDistributionRows" style="margin-top: 20px;" class="grid-x">
-                        <div class="medium-4 columns padding-lr">
-                            <p style="margin-top:5px;">@{{ creditDistributionRow.cdSubject }}</p>
-                        </div>
-                        <div  class="medium-4 columns padding-lr">
-                            <label>
-                                <input class="form-element-margin-btm" type="text" :name="'apCdr' + creditDistributionRow.id" v-model="creditDistributionRowInput['apCdr' + creditDistributionRow.id]" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('apCdr' + creditDistributionRow.id)}">
-                            </label>
-                            <span v-show="errors.has('apCdr' + creditDistributionRow.id)" class="error-font">لطفا مبلغ اعتبار را وارد کنید (حداقل ۰)!</span>
                         </div>
                     </div>
                     <div class="grid-x">
@@ -408,10 +516,10 @@
             return {
                 errorMessage: '',
                 errorMessage_update: '',
-                approvedProjects: [],
+                approvedProjects_prov: [],
+                approvedProjects_nat: [],
                 approvedProjectsInput: {apPlan: '' , apProjectTitle: '' , apProjectCode: '' , apStartYear: '', apEndYear: '',
-                    apHowToRun: '', apPhysicalProgress: '', apCity: '', apSubSeason: ''
-                    , apDescription: ''},
+                                        apPhysicalProgress: '', apCity: '' , apDescription: ''},
                 showInsertModal: false,
                 showProjectCostModal: false,
                 showModalUpdate: false,
@@ -419,6 +527,8 @@
                 approvedProjectsFill: {apPlan: '' , apProjectTitle: '' , apProjectCode: '' , apStartYear: '', apEndYear: '',
                     apHowToRun: '', apPhysicalProgress: '', aCity: '', apSubSeason: ''
                     , apLocation: '', apDescription: '',apCredit:''},
+
+                provOrNat: '',
                 apIdDelete: {},
                 approvedPlans: {},
                 counties: {},
@@ -426,12 +536,24 @@
                 tinySeasons: {},
                 selectedSeasons: '',
                 creditDistributionRows: {},
-                creditDistributionRowInput: {}
+                national_pagination: {
+                    total: 0,
+                    to: 0,
+                    current_page: 1,
+                    last_page: ''
+                },
+
+                provincial_pagination: {
+                    total: 0,
+                    to: 0,
+                    current_page: 1,
+                    last_page: ''
+                },
             }
         },
 
         created: function () {
-            this.fetchData();
+            this.fetchProvincialData();
             this.getAllApprovedPlan(0); // 0 = provincial
             this.getHowToRun();
             this.getCounties();
@@ -443,26 +565,47 @@
             $(this.$el).foundation(); //WORKS!
         },
 
+        mounted: function () {
+            console.log("mounted approved project component");
+            res();
+        },
+
+        components:{
+            'vue-pagination' : VuePagination
+        },
+
         methods:{
-            fetchData: function () {
-                /*axios.get('/budget/project/capital_assets/projects/fetchData' , {})
+            fetchProvincialData: function (page = 1) {
+                axios.get('/budget/approved_project/capital_assets/fetchData?page=' + page , {params:{pOrN: 0}})
                     .then((response) => {
-                        this.approvedProjects = response.data;
+                        this.approvedProjects_prov = response.data.data;
+                        this.makePagination(response.data , "provincial");
                         console.log(response);
                     },(error) => {
                         console.log(error);
-                    });*/
+                    });
             },
 
-            /*getAllApprovedPlan: function (pOrN) {
-                axios.get('/budget/plan/capital_assets/plans/getAllItems' , {params:{pOrN: 0}})
+            fetchNationalData: function () {
+                axios.get('/budget/project/capital_assets/projects/fetchData?page=' + page , {params:{pOrN: 1}})
+                    .then((response) => {
+                        this.approvedProjects_nat = response.data.data;
+                        this.makePagination(response.data , "provincial");
+                        console.log(response);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            getAllApprovedPlan: function (pOrN) {
+                axios.get('/budget/approved_plan/capital_assets/getAllItems' , {params:{pOrN: pOrN}})
                     .then((response) => {
                         this.approvedPlans = response.data;
                         console.log(response);
                     },(error) => {
                         console.log(error);
                     });
-            },*/
+            },
 
             getHowToRun: function () {
                 axios.get('/budget/admin/how_to_run/getAllItems' , {params:{}})
@@ -524,14 +667,30 @@
                     });
             },
 
+            openApprovedProjectInsertModal: function (type) {
+                this.getAllApprovedPlan(type);
+                this.showInsertModal= true;
+                this.provOrNat = type;
+            },
+
             createApprovedProjects: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        axios.post('/budget/project/capital_assets/projects/register' , {pInput: this.approvedProjectsInput , cdrInput: this.creditDistributionRowInput})
-                            .then((response) => {
-                                this.approvedProjects = response.data;
+                        axios.post('/budget/approved_project/capital_assets/register' , {
+                            pId: this.approvedProjectsInput.apPlan,
+                            subject: this.approvedProjectsInput.apProjectTitle,
+                            code: this.approvedProjectsInput.apProjectCode,
+                            startYear: this.approvedProjectsInput.apStartYear,
+                            endYear: this.approvedProjectsInput.apEndYear,
+                            pProgress: this.approvedProjectsInput.apPhysicalProgress,
+                            coId: this.approvedProjectsInput.apCity,
+                            description: this.approvedProjectsInput.apDescription,
+                            pOrN: this.provOrNat
+                        }).then((response) => {
+                                this.approvedProjects_prov = response.data.data;
+                                this.makePagination(response.data , "provincial");
                                 this.showInsertModal = false;
-                                this.$notify({group: 'capital_assetsPm', title: 'پیام سیستم', text: 'رکورد با موفقیت ثبت شد.' , type: 'success'});
+                                this.displayNotif(response.status);
                                 console.log(response);
                             },(error) => {
                                 console.log(error);
@@ -539,12 +698,6 @@
                             });
                     }
                 });
-
-                /*            this.creditDistributionRows.forEach(cdr => {
-                                "use strict";
-                                this.$set(this.creditDistributionRowInput , 'apCdr' + cdr.id);
-                            });*/
-
             },
 
             getProjectAmount: function (cdrCp) {
@@ -619,7 +772,32 @@
                         console.log(error);
                         this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                     });*/
-            }
+            },
+
+            displayNotif: function (httpStatusCode) {
+                switch (httpStatusCode){
+                    case 204:
+                        this.$notify({group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
+                        break;
+                    case 200:
+                        this.$notify({group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.' , type: 'success'});
+                        break;
+                }
+            },
+
+            makePagination: function(data , type){
+                if (type == "national")
+                {
+                    this.national_pagination.current_page = data.current_page;
+                    this.national_pagination.to = data.to;
+                    this.national_pagination.last_page = data.last_page;
+                }else if (type == "provincial")
+                {
+                    this.provincial_pagination.current_page = data.current_page;
+                    this.provincial_pagination.to = data.to;
+                    this.provincial_pagination.last_page = data.last_page;
+                }
+            },
         }
     }
 

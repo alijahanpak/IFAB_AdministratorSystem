@@ -13,24 +13,26 @@ class CreateCapitalAssetsAllocationTable extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_capital_assets_allocation', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('caaUId')->length(10)->unsigned();
-            $table->integer('caaCpId')->length(10)->unsigned();
-            $table->string('caaLetterNumber')->nullable();
-            $table->string('caaLetterDate')->nullable();
-            $table->timestamps();
+        if (!Schema::hasTable('tbl_capital_assets_allocation')) {
+            Schema::create('tbl_capital_assets_allocation', function (Blueprint $table) {
+                $table->increments('id');
+                $table->integer('caaUId')->length(10)->unsigned();
+                $table->integer('caaCpId')->length(10)->unsigned();
+                $table->string('caaLetterNumber')->nullable();
+                $table->string('caaLetterDate')->nullable();
+                $table->timestamps();
 
-            $table->foreign('caaUId')
-                ->references('id')->on('users')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');
+                $table->foreign('caaUId')
+                    ->references('id')->on('users')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
 
-            $table->foreign('caaCpId')
-                ->references('id')->on('tbl_capital_assets_projects')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');
-        });
+                $table->foreign('caaCpId')
+                    ->references('id')->on('tbl_capital_assets_projects')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+            });
+        }
     }
 
     /**

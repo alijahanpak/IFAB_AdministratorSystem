@@ -13,23 +13,25 @@ class CreateCdrCaaTable extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_cdr_caa', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('ccCdrId')->length(10)->unsigned();
-            $table->integer('ccCaaId')->length(10)->unsigned();
-            $table->bigInteger('ccAmount');
-            $table->timestamps();
+        if (!Schema::hasTable('tbl_cdr_caa')) {
+            Schema::create('tbl_cdr_caa', function (Blueprint $table) {
+                $table->increments('id');
+                $table->integer('ccCdrId')->length(10)->unsigned();
+                $table->integer('ccCaaId')->length(10)->unsigned();
+                $table->bigInteger('ccAmount');
+                $table->timestamps();
 
-            $table->foreign('ccCdrId')
-                ->references('id')->on('tbl_credit_distribution_rows')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');
+                $table->foreign('ccCdrId')
+                    ->references('id')->on('tbl_credit_distribution_rows')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
 
-            $table->foreign('ccCaaId')
-                ->references('id')->on('tbl_capital_assets_allocation')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');
-        });
+                $table->foreign('ccCaaId')
+                    ->references('id')->on('tbl_capital_assets_allocation')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+            });
+        }
     }
 
     /**

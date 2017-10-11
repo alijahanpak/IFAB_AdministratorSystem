@@ -116,8 +116,9 @@ class PlanController extends Controller
     public function getAllApprovedPlan(Request $request)
     {
         return \response()->json(CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
-            //->where('capProvinceOrNational' , '=' , $request->pOrN)
+            ->where('capProvinceOrNational' , '=' , $request->pOrN)
             ->with('creditDistributionTitle')
+            ->with('creditDistributionTitle.county')
             ->get());
     }
 }
