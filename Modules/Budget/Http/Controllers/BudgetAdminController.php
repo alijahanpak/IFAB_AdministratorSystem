@@ -68,7 +68,7 @@ class BudgetAdminController extends Controller
             'requireJsFile' => 'fiscal_year']);
     }
 
-    public function creditDistributionDef()
+/*    public function creditDistributionDef()
     {
         $creditDRs = CreditDistributionRow::all();
         $bSeasons = BudgetSeason::all();
@@ -79,7 +79,7 @@ class BudgetAdminController extends Controller
                 'bSeasons' => $bSeasons ,
                 'creditDPs' => $creditDPs,
                 'requireJsFile' => 'credit_distributed_def']);
-    }
+    }*/
 
 /*    public function registerCreditDistributionRow(Request $request)
     {
@@ -344,7 +344,7 @@ class BudgetAdminController extends Controller
         return Redirect::to(URL::previous() . '#budget_season_tab');
     }
 
-    public function registerPlanTitle(Request $request)
+/*    public function registerPlanTitle(Request $request)
     {
         $cdpt = new CreditDistributionTitle;
         $cdpt->cdtUId = Auth::user()->id;
@@ -374,7 +374,7 @@ class BudgetAdminController extends Controller
 
         SystemLog::setBudgetSubSystemAdminLog('تعریف طرح توزیع اعتبار با عنوان ' . Input::get('cdptSubject'));
         return Redirect::to(URL::previous() . '#plan_title_tab');
-    }
+    }*/
 
     public function CDPTIsExist($cdptIdNumber , $cdptSubject , $cdptId = null)
     {
@@ -1033,6 +1033,53 @@ class BudgetAdminController extends Controller
 
         SystemLog::setBudgetSubSystemAdminLog('تعریف ردیف توزیع اعتبار ' . $request->subject);
         return \response()->json($this->getAllCreditDistributionRows($request->planOrCost));
+    }
+    ////////////////////////////// credit distribution plan or cost title ////////////////////
+    public function registerPlanOrCostTitle(Request $request)
+    {
+        $cdpt = new CreditDistributionTitle;
+        $cdpt->cdtUId = Auth::user()->id;
+        $cdpt->cdtBsId = $request->bsId;
+        $cdpt->cdtIdNumber = $request->code;
+        $cdpt->cdtSubject = $request->subject;
+        $cdpt->cdtDescription = $request->description;
+        $cdpt->save();
+
+        $counties = County::all();
+        foreach ($counties as $county)
+        {
+            if (isset($request['county' . $county->id]))
+            {
+                $cdpt_co = new CreditDistributionTitle;
+                $cdpt_co->cdtUId = Auth::user()->id;
+                $cdpt_co->cdtBsId = $request->bsId;
+                $cdpt_co->cdtIdNumber = $request['county' . $county->id] . PublicSetting::getProvincePlanLebel() . $request->code;
+                $cdpt_co->cdtSubject = $request->subject;
+                if (isset($request['countyDesc' . $county->id]))
+                    $cdpt_co->cdtDescription = $request['countyDesc' . $county->id];
+                $cdpt_co->cdtCoId = $county->id;
+                $cdpt_co->cdtCdtId = $cdpt->id;
+                $cdpt_co->save();
+                SystemLog::setBudgetSubSystemAdminLog('تعریف عنوان طرح توزیع اعتبار در سطح شهرستان ' . $county->coName);
+            }
+        }
+
+        SystemLog::setBudgetSubSystemAdminLog('تعریف طرح / برنامه توزیع اعتبار با عنوان ' . $request->subject);
+        return \response()->json($this->getAllPlanOrCostTitle());
+    }
+
+    public function getAllPlanOrCostTitle()
+    {
+        return CreditDistributionTitle::where('cdtCoId' , '=' , null)
+            ->with('budgetSeason')
+            ->with('CDTInCounty')
+            ->with('CDTInCounty.county')
+            ->paginate(5);
+    }
+
+    public function fetchPlanOrCostTitleData()
+    {
+        return \response()->json($this->getAllPlanOrCostTitle());
     }
 }
 
