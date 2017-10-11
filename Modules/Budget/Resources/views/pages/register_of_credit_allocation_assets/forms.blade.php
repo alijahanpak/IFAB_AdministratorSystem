@@ -1,4 +1,4 @@
-<!--Modal Insert End-->
+<!--Modal Insert Start-->
 <!-- use the modal component, pass in the prop -->
 <modal-large v-if="showModal" @close="showModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div  slot="body">
@@ -101,6 +101,7 @@
         {!! Form::close() !!}
         </div>
 </modal-large>
+<!-- update modal -->
 <!-- update modal -->
 
 <modal-large v-if="showModalUpdate" @close="showModalUpdate = false">

@@ -14,6 +14,8 @@ import budget_season from './components/Budget/Admin/budget_season.vue'
 import credit_distribution_row from './components/Budget/Admin/credit_distribution_row.vue'
 import season_title from './components/Budget/Admin/season_title.vue'
 import approved_project from './components/Budget/Aprroved/approved_project.vue'
+import project from './components/Budget/Register_of_credit_allocation_assets/project.vue'
+
 //export router instance
 const routes = [
     { path: '/budget', component: dashboard },
@@ -24,6 +26,7 @@ const routes = [
     { path: '/budget/admin/season/season_title', component: season_title },
     { path: '/budget/approved/capital_assets/project/approved_project', component: approved_project },
     { path: '/budget/admin/credit_distribution_def/row', component: credit_distribution_row },
+    { path: '/budget/register_of_credit_allocation_assets/project', component: project },
 ]
 
 const router = new VueRouter({
