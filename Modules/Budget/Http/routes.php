@@ -47,11 +47,11 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
 
         //Route::get('sub_seasons/get_tiny_seasons_whit_season_id', 'BudgetAdminController@getTinySeasonsWhitSeasonId');
         ///////////////////////////////////////////////////////////////////////
-        Route::get('row_distribution_credit', 'BudgetAdminController@rowDistributionCredit');
+/*        Route::get('row_distribution_credit', 'BudgetAdminController@rowDistributionCredit');
         Route::get('row_distribution_credit/fetchData', 'BudgetAdminController@FetchRowDC');
         Route::post('row_distribution_credit/register', 'BudgetAdminController@registerRowDC');
         Route::post('row_distribution_credit/update', 'BudgetAdminController@updateRowDC');
-        Route::post('row_distribution_credit/delete', 'BudgetAdminController@deleteRowDC');
+        Route::post('row_distribution_credit/delete', 'BudgetAdminController@deleteRowDC');*/
         ///////////////////////////////////////////////////////////////////////
         Route::get('title_of_plans', 'BudgetAdminController@titleOfPlans');
         Route::get('title_of_plans/fetchData', 'BudgetAdminController@FetchTitleOfPlan');
@@ -168,12 +168,13 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('/plan_cost_title/register', 'BudgetAdminController@registerPlanOrCostTitle');
         //Route::post('credit_distribution_def/plan_title/update', 'BudgetAdminController@updatePlanTitle');
         //Route::get('credit_distribution_def/plan_title/delete/{cdptId}', 'BudgetAdminController@deletePlanTitle');
+        Route::get('/plan_cost_title/getAllItem', 'BudgetAdminController@getAllPlanOrCostTitleItem');
 
     });
 
     Route::prefix('approved_plan/capital_assets')->group(function () {
         Route::get('/fetchData', 'PlanController@capitalAssetsApprovedPlan');
-        //Route::post('/register', 'PlanController@registerCapitalAssetsApprovedPlan');
+        Route::post('/register', 'PlanController@registerCapitalAssetsApprovedPlan');
         //Route::post('/delete', 'PlanController@deleteCapitalAssetsApprovedPlan');
         //Route::post('/update', 'PlanController@updateCapitalAssetsApprovedPlan');
         Route::get('/getAllItems', 'PlanController@getAllApprovedPlan');

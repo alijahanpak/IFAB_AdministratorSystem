@@ -128,8 +128,8 @@
                                     <li><a href="#">هزینه ای</a>
                                     <li><a href="#">تملک دارایی سرمایه ای</a>
                                         <ul class="menu vertical nested">
-                                            <li><a href="{{ url('/budget/plan/capital_assets/plans') }}">طرح ها</a></li>
-                                            <li><router-link to="/budget/approved/capital_assets/project/approved_project">پروژه ها</router-link></li>
+                                            <li><router-link to="/budget/approved/capital_assets/approved/plan">طرح ها</router-link></li>
+                                            <li><router-link to="/budget/approved/capital_assets/approved/project">پروژه ها</router-link></li>
                                         </ul>
                                     </li>
 

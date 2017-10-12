@@ -37,17 +37,16 @@ class PlanController extends Controller
         $cap->capUId = Auth::user()->id;
         $cap->capCdtId = Input::get('capPtitle');
         $cap->capFyId = Auth::user()->seFiscalYear;
-        //$cap->capPtId = Input::get('capPlanType');
         $cap->capLetterNumber = Input::get('capLetterNumber');
-
         $cap->capLetterDate = Input::get('capLetterDate');
         $cap->capExchangeDate = Input::get('capExchangeDate');
+        $cap->capExchangeIdNumber = Input::get('capExchangeDate');
         $cap->capProvinceOrNational = Input::get('capProvinceOrNational');
         $cap->capDescription = Input::get('capDescription');
         $cap->save();
 
         SystemLog::setBudgetSubSystemLog('ثبت طرح تملک داریی های سرمایه ای استانی');
-        return Redirect::to(URL::previous() . '#provincial');
+        return \response()->json([]);
     }
 
     public function deleteCapitalAssetsApprovedPlan($capId)
@@ -134,6 +133,5 @@ class PlanController extends Controller
                 ->with('creditDistributionTitle.county')
                 ->get());
         }
-
     }
 }
