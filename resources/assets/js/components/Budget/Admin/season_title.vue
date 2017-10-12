@@ -1,7 +1,7 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <!--Inner body start-->
     <div class="medium-10 border-right-line inner-body-pad main-margin">
-        <div style="padding-top: 15px;" class="grid-x padding-lr">
+        <div style="padding-top: 15px;" class="grid-x padding-lr breadcrumbs-pos">
             <div class="medium-12">
                 <div class="grid-x">
                     <nav aria-label="You are here:" role="navigation">

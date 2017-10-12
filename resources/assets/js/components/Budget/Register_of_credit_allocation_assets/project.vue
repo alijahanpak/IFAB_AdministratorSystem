@@ -71,7 +71,7 @@
                                             <div class="medium-2 table-border">
                                                 <strong>پروژه</strong>
                                             </div>
-                                            <div class="medium-10">
+                                            <div class="medium-8">
                                                 <div class="grid-x">
                                                     <div class="medium-6 table-border">
                                                         <strong>ردیف اعتبار</strong>
@@ -200,7 +200,7 @@
                                             <div class="medium-2 table-border">
                                                 <strong>پروژه</strong>
                                             </div>
-                                            <div class="medium-10">
+                                            <div class="medium-8">
                                                 <div class="grid-x">
                                                     <div class="medium-6 table-border">
                                                         <strong>ردیف اعتبار</strong>

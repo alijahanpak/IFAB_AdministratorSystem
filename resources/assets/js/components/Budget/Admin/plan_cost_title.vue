@@ -1,7 +1,7 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:on-click="http://www.w3.org/1999/xhtml">
     <!--Inner body start-->
     <div class="medium-10 border-right-line inner-body-pad main-margin">
-        <div class="grid-x padding-lr">
+        <div class="grid-x padding-lr breadcrumbs-pos">
             <div class="medium-12">
                 <div class="grid-x">
                     <nav aria-label="You are here:" role="navigation">
@@ -180,7 +180,7 @@
                             <div class="medium-12 column padding-lr">
                                 <ul class="accordion" data-accordion data-allow-all-closed="true">
                                     <li class="accordion-item" data-accordion-item>
-                                        <a href="#" class="accordion-title">کد طرح در سطح شهرستان</a>
+                                        <a href="#" class="accordion-title acurdion-focus">کد طرح در سطح شهرستان</a>
                                         <!-- Accordion tab content: it would start in the open state due to using the `is-active` state class. -->
                                         <div class="accordion-content" data-tab-content>
                                             <div class="grid-x">

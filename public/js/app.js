@@ -69729,10 +69729,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   return _c('div', {
     staticClass: "medium-10 border-right-line inner-body-pad main-margin"
   }, [_c('div', {
-    staticClass: "grid-x padding-lr",
-    staticStyle: {
-      "padding-top": "15px"
-    }
+    staticClass: "grid-x padding-lr breadcrumbs-pos"
   }, [_c('div', {
     staticClass: "medium-12"
   }, [_c('div', {
@@ -71066,7 +71063,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   return _c('div', {
     staticClass: "medium-10 border-right-line inner-body-pad main-margin"
   }, [_c('div', {
-    staticClass: "grid-x padding-lr"
+    staticClass: "grid-x padding-lr breadcrumbs-pos"
   }, [_c('div', {
     staticClass: "medium-12"
   }, [_c('div', {
@@ -71972,7 +71969,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   return _c('div', {
     staticClass: "medium-10 border-right-line inner-body-pad main-margin"
   }, [_c('div', {
-    staticClass: "grid-x padding-lr"
+    staticClass: "grid-x padding-lr breadcrumbs-pos"
   }, [_c('div', {
     staticClass: "medium-12"
   }, [_c('div', {
@@ -72993,7 +72990,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   return _c('div', {
     staticClass: "medium-10 border-right-line inner-body-pad main-margin"
   }, [_c('div', {
-    staticClass: "grid-x padding-lr"
+    staticClass: "grid-x padding-lr breadcrumbs-pos"
   }, [_c('div', {
     staticClass: "medium-12"
   }, [_c('div', {
@@ -73746,10 +73743,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   return _c('div', {
     staticClass: "medium-10 border-right-line inner-body-pad main-margin"
   }, [_c('div', {
-    staticClass: "grid-x padding-lr",
-    staticStyle: {
-      "padding-top": "15px"
-    }
+    staticClass: "grid-x padding-lr breadcrumbs-pos"
   }, [_c('div', {
     staticClass: "medium-12"
   }, [_c('div', {
@@ -74936,7 +74930,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   return _c('div', {
     staticClass: "medium-10 border-right-line inner-body-pad main-margin"
   }, [_c('div', {
-    staticClass: "grid-x padding-lr",
+    staticClass: "grid-x padding-lr breadcrumbs-pos",
     staticStyle: {
       "padding-top": "15px"
     }
@@ -76181,7 +76175,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   return _c('div', {
     staticClass: "medium-10 border-right-line inner-body-pad main-margin"
   }, [_c('div', {
-    staticClass: "grid-x padding-lr"
+    staticClass: "grid-x padding-lr breadcrumbs-pos"
   }, [_c('div', {
     staticClass: "medium-12"
   }, [_c('div', {
@@ -76502,7 +76496,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "data-accordion-item": ""
     }
   }, [_c('a', {
-    staticClass: "accordion-title",
+    staticClass: "accordion-title acurdion-focus",
     attrs: {
       "href": "#"
     }
@@ -80997,7 +80991,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }, [_c('div', {
     staticClass: "medium-2 table-border"
   }, [_c('strong', [_vm._v("پروژه")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-10"
+    staticClass: "medium-8"
   }, [_c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
@@ -81096,7 +81090,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }, [_c('div', {
     staticClass: "medium-2 table-border"
   }, [_c('strong', [_vm._v("پروژه")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-10"
+    staticClass: "medium-8"
   }, [_c('div', {
     staticClass: "grid-x"
   }, [_c('div', {

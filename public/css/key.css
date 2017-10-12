@@ -265,7 +265,6 @@ a:focus,button:focus {
 }
 .accordion  a:focus{
     color: #FFFFFF;
-    background-color:#292B3A ;
 }
 .right-menu-btm-border:hover {
     color:#EEEEEE;
@@ -1320,6 +1319,12 @@ button.purple-btn {
     text-fill-color: transparent;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+.breadcrumbs-pos{
+    margin: 8px 0px -5px 0px;
+}
+.accordion-focus:focus{
+    background-color: #F4F3FB;
 }
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
     display: block;
