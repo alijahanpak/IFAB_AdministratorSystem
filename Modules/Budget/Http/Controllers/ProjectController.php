@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Modules\Admin\Entities\AmountUnit;
 use Modules\Admin\Entities\SystemLog;
+use Modules\Budget\Entities\CapCreditSource;
 use Modules\Budget\Entities\CapitalAssetsApprovedPlan;
 use Modules\Budget\Entities\CapitalAssetsProject;
 use Modules\Budget\Entities\CdrCp;
@@ -35,6 +36,12 @@ class ProjectController extends Controller
             ->with('creditDistributionTitle')
             ->with('creditDistributionTitle.county')
             ->with('capitalAssetsProject')
+            ->with('capitalAssetsProject.creditSource')
+            ->with('capitalAssetsProject.creditSource.creditDistributionRow')
+            ->with('capitalAssetsProject.creditSource.tinySeason')
+            ->with('capitalAssetsProject.creditSource.tinySeason.seasonTitle')
+            ->with('capitalAssetsProject.creditSource.tinySeason.seasonTitle.season')
+            ->with('capitalAssetsProject.creditSource.howToRun')
             ->with('capitalAssetsProject.county')->paginate(5);
     }
 
@@ -63,6 +70,24 @@ class ProjectController extends Controller
         return \response()->json(CapitalAssetsProject::whereHas('capitalAssetsApprovedPlan' , function ($query){
             $query->where('capFyId' , '=' , Auth::user()->seFiscalYear);
         })->get());
+    }
+
+    public function registerApCreditSource(Request $request)
+    {
+        $apCs = new CapCreditSource;
+        $apCs->ccsUId = Auth::user()->id;
+        $apCs->ccsCapId = $request->capId;
+        $apCs->ccsCdrId = $request->crId;
+        $apCs->ccsTsId = $request->tsId;
+        $apCs->ccsHtrId = $request->htrId;
+        $apCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
+        $apCs->ccsDescription = $request->description;
+        $apCs->save();
+
+        SystemLog::setBudgetSubSystemLog('ثبت تامین اعتبار پروژه تملک داریی های سرمایه ای ' . $request->subject);
+        return \response()->json(
+            $this->getAllProject($request->pOrN)
+        );
     }
 
 }

@@ -184,6 +184,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         //Route::get('capital_assets/projects/fetchData', 'ProjectController@FetchApprovedProjects');
         Route::post('/register', 'ProjectController@registerApprovedProject');
         //Route::get('capital_assets/projects/getAllItems', 'ProjectController@getAllApprovedProjects');
+        Route::post('/credit_source/register', 'ProjectController@registerApCreditSource');
     });
 
     Route::prefix('admin/how_to_run')->group(function () {

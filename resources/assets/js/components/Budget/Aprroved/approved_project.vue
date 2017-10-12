@@ -35,7 +35,7 @@
                             <div class="clearfix border-btm-line bottom-mrg tool-bar">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openApprovedProjectInsertModal(0)">جدید</a>
-                                    <a class="my-button toolbox-btn small" @click="showProjectCostModal= true">گزارش</a>
+                                    <a class="my-button toolbox-btn small" @click="">گزارش</a>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
@@ -88,10 +88,10 @@
                                 <div class="table-contain dynamic-height-level2">
                                     <div class="grid-x" v-for="plans in approvedProjects_prov">
                                         <div class="medium-2 table-contain-border cell-vertical-center">
-                                            {{ plans.credit_distribution_title.cdtIdNumber }}
+                                            {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' - ' + plans.credit_distribution_title.county.coName }}
                                         </div>
                                         <div class="medium-10">
-                                            <div class="grid-x selectAbleRow" v-for="projects in plans.capital_assets_project">
+                                            <div class="grid-x" v-for="projects in plans.capital_assets_project">
                                                 <div class="medium-1 table-contain-border cell-vertical-center">
                                                     {{ projects.cpCode }}
                                                 </div>
@@ -102,7 +102,7 @@
                                                     {{ projects.county.coName }}
                                                 </div>
                                                 <div class="medium-2 table-contain-border cell-vertical-center">
-
+                                                    <span @click="displayCreditSourceInfo_prov == projects.id ? displayCreditSourceInfo_prov = '' : displayCreditSourceInfo_prov = projects.id">123</span>
                                                 </div>
                                                 <div class="medium-4  table-contain-border cell-vertical-center">
                                                     <div class="grid-x">
@@ -115,8 +115,39 @@
                                                                 <ul class="my-menu small-font text-right">
                                                                     <li><a v-on:click.prevent="approvedProjectsUpdateDialog(projects , plans.id)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                                     <li><a v-on:click.prevent="openDeleteApprovedProjectsConfirm(projects)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li><a v-on:click.prevent="openApCreditSourceInsertModal(projects.id , 0)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
                                                                  </ul>
                                                             </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="medium-12">
+                                                    <div class="grid-x" v-show="displayCreditSourceInfo_prov == projects.id">
+                                                        <div class="medium-12 table-contain-border cell-vertical-center">
+                                                            <table class="unstriped tbl-secondary-mrg small-font">
+                                                                <thead class="my-thead">
+                                                                <tr style="background-color: #F1F1F1 !important;">
+                                                                    <th>ردیف</th>
+                                                                    <th>فصل</th>
+                                                                    <th>عنوان فصل</th>
+                                                                    <th>ریز فصل</th>
+                                                                    <th>نحوه اجرا</th>
+                                                                    <th>مبلغ</th>
+                                                                    <th>توضیحات</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr v-for="creditSource in projects.credit_source">
+                                                                    <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
+                                                                    <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
+                                                                    <td>{{ creditSource.tiny_season.season_title.castSubject }}</td>
+                                                                    <td>{{ creditSource.tiny_season.catsSubject }}</td>
+                                                                    <td>{{ creditSource.how_to_run.htrSubject }}</td>
+                                                                    <td>{{ creditSource.ccsAmount }}</td>
+                                                                    <td>{{ creditSource.ccsDescription }}</td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -143,7 +174,7 @@
                             <div class="clearfix border-btm-line bottom-mrg tool-bar">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openApprovedProjectInsertModal(1)">جدید</a>
-                                    <a class="my-button toolbox-btn small" @click="showProjectCostModal= true">گزارش</a>
+                                    <a class="my-button toolbox-btn small" @click="">گزارش</a>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
@@ -210,7 +241,7 @@
                                                     {{ projects.county.coName }}
                                                 </div>
                                                 <div class="medium-2 table-contain-border cell-vertical-center">
-
+                                                    <span @click="displayCreditSourceInfo_nat == projects.id ? displayCreditSourceInfo_nat = '' : displayCreditSourceInfo_nat = projects.id">123</span>
                                                 </div>
                                                 <div class="medium-4  table-contain-border cell-vertical-center">
                                                     <div class="grid-x">
@@ -223,8 +254,39 @@
                                                                 <ul class="my-menu small-font text-right">
                                                                     <li><a v-on:click.prevent="approvedProjectsUpdateDialog(projects , plans.id)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                                     <li><a v-on:click.prevent="openDeleteApprovedProjectsConfirm(projects)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li><a v-on:click.prevent="openApCreditSourceInsertModal(projects.id , 1)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
                                                                 </ul>
                                                             </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="medium-12">
+                                                    <div class="grid-x" v-show="displayCreditSourceInfo_nat == projects.id">
+                                                        <div class="medium-12 table-contain-border cell-vertical-center">
+                                                            <table class="unstriped tbl-secondary-mrg small-font">
+                                                                <thead class="my-thead">
+                                                                <tr style="background-color: #F1F1F1 !important;">
+                                                                    <th>ردیف</th>
+                                                                    <th>فصل</th>
+                                                                    <th>عنوان فصل</th>
+                                                                    <th>ریز فصل</th>
+                                                                    <th>نحوه اجرا</th>
+                                                                    <th>مبلغ</th>
+                                                                    <th>توضیحات</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr v-for="creditSource in projects.credit_source">
+                                                                    <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
+                                                                    <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
+                                                                    <td>{{ creditSource.tiny_season.season_title.castSubject }}</td>
+                                                                    <td>{{ creditSource.tiny_season.catsSubject }}</td>
+                                                                    <td>{{ creditSource.how_to_run.htrSubject }}</td>
+                                                                    <td>{{ creditSource.ccsAmount }}</td>
+                                                                    <td>{{ creditSource.ccsDescription }}</td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -429,8 +491,8 @@
             </modal-tiny>
             <!-- Delete Modal End -->
 
-            <!--Project Cost Modal Start-->
-            <modal-small v-if="showProjectCostModal" @close="showProjectCostModal = false">
+            <!--Project credit source Modal Start-->
+            <modal-small v-if="showApCsInsertModal" @close="showApCsInsertModal = false">
                 <div  slot="body">
                     <form v-on:submit.prevent="createApprovedProjectCreditSource">
                         <div class="grid-x" v-if="errorMessage">
@@ -443,7 +505,7 @@
                         <div class="grid-x">
                             <div class="medium-9 cell padding-lr">
                                 <label>ردیف توزیع اعتبار
-                                    <select  class="form-element-margin-btm"  name="row" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('row')}">
+                                    <select  class="form-element-margin-btm"  name="row" v-model="apCreditSourceInput.crId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('row')}">
                                         <option value=""></option>
                                         <option v-for="creditDistributionRow in creditDistributionRows" :value="creditDistributionRow.id">{{ creditDistributionRow.cdSubject }}</option>
                                     </select>
@@ -452,7 +514,7 @@
                             </div>
                             <div class="medium-3 cell padding-lr">
                                 <label>نحوه اجرا
-                                    <select class="form-element-margin-btm" name="howToRun" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('howToRun')}">
+                                    <select class="form-element-margin-btm" name="howToRun" v-model="apCreditSourceInput.htrId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('howToRun')}">
                                         <option value=""></option>
                                         <option v-for="howToRun in howToRuns" :value="howToRun.id">{{ howToRun.htrSubject }}</option>
                                     </select>
@@ -483,7 +545,7 @@
                         <div class="grid-x">
                             <div class="medium-12 column padding-lr">
                                 <label>ریز فصل
-                                    <select class="form-element-margin-btm" name="subSeason" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('subSeason')}">
+                                    <select class="form-element-margin-btm" v-model="apCreditSourceInput.tsId" name="subSeason" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('subSeason')}">
                                         <option value=""></option>
                                         <option v-for="tinySeason in tinySeasons" :value="tinySeason.id">{{ tinySeason.catsSubject }}</option>
                                     </select>
@@ -494,9 +556,16 @@
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
                                 <label>مبلغ اعتبار <span class="btn-red">(میلیون ریال)</span>
-                                    <input class="form-element-margin-btm" type="text" name="cost" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('cost')}">
+                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="apCreditSourceInput.csAmount" v-validate="'required|decimal'" :class="{'input': true, 'error-border': errors.has('amount')}">
                                 </label>
-                                <span v-show="errors.has('cost')" class="error-font">لطفا مبلغ اعتبار پروژه را وارد کنید!</span>
+                                <span v-show="errors.has('amount')" class="error-font">لطفا مبلغ اعتبار پروژه را وارد کنید!</span>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="small-12 columns padding-lr">
+                                <label>شرح
+                                    <textarea name="csDescription" style="min-height: 150px;" v-model="apCreditSourceInput.csDescription"></textarea>
+                                </label>
                             </div>
                         </div>
                         <div class="medium-6 columns padding-lr padding-bottom-modal input-margin-top">
@@ -524,13 +593,17 @@
                 approvedProjectsInput: {apPlan: '' , apProjectTitle: '' , apProjectCode: '' , apStartYear: '', apEndYear: '',
                                         apPhysicalProgress: '', apCity: '' , apDescription: ''},
                 showInsertModal: false,
-                showProjectCostModal: false,
+                showApCsInsertModal: false,
                 showModalUpdate: false,
                 showModalDelete: false,
                 approvedProjectsFill: {apPlan: '' , apProjectTitle: '' , apProjectCode: '' , apStartYear: '', apEndYear: '',
                     apHowToRun: '', apPhysicalProgress: '', aCity: '', apSubSeason: ''
                     , apLocation: '', apDescription: '',apCredit:''},
 
+                apCreditSourceInput: {},
+                capIdForInsertCreditSource: '',
+                displayCreditSourceInfo_prov: '',
+                displayCreditSourceInfo_nat: '',
                 provOrNat: '',
                 apIdDelete: {},
                 approvedPlans: {},
@@ -561,11 +634,6 @@
         created: function () {
             this.fetchProvincialData();
             this.fetchNationalData();
-            this.getAllApprovedPlan(0); // 0 = provincial
-            this.getHowToRun();
-            this.getCounties();
-            this.getSeasons();
-            this.getCreditDistributionRow();
         },
 
         updated: function () {
@@ -678,6 +746,7 @@
 
             openApprovedProjectInsertModal: function (type) {
                 this.getAllApprovedPlan(type);
+                this.getCounties();
                 this.showInsertModal= true;
                 this.provOrNat = type;
                 if (type == 0)
@@ -688,6 +757,15 @@
                 {
                     this.countyState = false;
                 }
+            },
+
+            openApCreditSourceInsertModal: function (capId , type) {
+                this.showApCsInsertModal = true;
+                this.capIdForInsertCreditSource = capId;
+                this.provOrNat = type;
+                this.getHowToRun();
+                this.getSeasons();
+                this.getCreditDistributionRow();
             },
 
             createApprovedProjects: function () {
@@ -728,7 +806,32 @@
             createApprovedProjectCreditSource: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        alert("morteza");
+                        axios.post('/budget/approved_project/capital_assets/credit_source/register' , {
+                            capId: this.capIdForInsertCreditSource,
+                            crId: this.apCreditSourceInput.crId,
+                            htrId: this.apCreditSourceInput.htrId,
+                            tsId: this.apCreditSourceInput.tsId,
+                            amount: this.apCreditSourceInput.csAmount,
+                            description: this.apCreditSourceInput.csDescription,
+                            pOrN: this.provOrNat
+                        }).then((response) => {
+                            if (this.provOrNat == 0)
+                            {
+                                this.approvedProjects_prov = response.data.data;
+                                this.makePagination(response.data , "provincial");
+                            }
+                            else
+                            {
+                                this.approvedProjects_nat = response.data.data;
+                                this.makePagination(response.data , "national");
+                            }
+                            this.showApCsInsertModal = false;
+                            this.displayNotif(response.status);
+                            console.log(response);
+                        },(error) => {
+                            console.log(error);
+                            //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                        });
                     }
                 });
             },

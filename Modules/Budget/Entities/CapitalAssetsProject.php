@@ -19,4 +19,9 @@ class CapitalAssetsProject extends Model
     {
         return $this->belongsTo(County::class , 'cpCoId' , 'id');
     }
+
+    public function creditSource()
+    {
+        return $this->hasMany(CapCreditSource::class , 'ccsCapId' , 'id');
+    }
 }

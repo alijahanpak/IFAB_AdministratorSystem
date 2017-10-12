@@ -20,6 +20,7 @@ class CreateCapCreditSourceTable extends Migration
                 $table->integer('ccsCdrId')->length(10)->unsigned();
                 $table->integer('ccsTsId')->length(10)->unsigned();
                 $table->integer('ccsHtrId')->length(10)->unsigned();
+                $table->integer('ccsCapId')->length(10)->unsigned();
                 $table->bigInteger('ccsAmount');
                 $table->longText('ccsDescription')->nullable();
                 $table->timestamps();
@@ -41,6 +42,11 @@ class CreateCapCreditSourceTable extends Migration
 
                 $table->foreign('ccsHtrId')
                     ->references('id')->on('tbl_how_to_run')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+
+                $table->foreign('ccsCapId')
+                    ->references('id')->on('tbl_capital_assets_projects')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
             });
