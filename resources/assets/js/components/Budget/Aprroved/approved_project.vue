@@ -1,4 +1,4 @@
-<template xmlns:v-on="http://www.w3.org/1999/xhtml">
+<template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <!--Inner body start-->
     <div class="medium-10 border-right-line inner-body-pad main-margin">
         <div style="padding-top: 15px;" class="grid-x padding-lr">
@@ -268,7 +268,7 @@
                                     <label>طرح
                                         <select class="form-element-margin-btm"  v-model="approvedProjectsInput.apPlan" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
                                             <option value=""></option>
-                                            <option v-for="approvedPlan in approvedPlans" :value="approvedPlan.id">{{ approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject + ' - ' +  approvedPlan.credit_distribution_title.county.coName}}</option>
+                                            <option v-for="approvedPlan in approvedPlans" @click="setCountyId(approvedPlan.credit_distribution_title.county.id)" :value="approvedPlan.id">{{ approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject + (approvedPlan.credit_distribution_title.county == null ? '' : ' - ' + approvedPlan.credit_distribution_title.county.coName)}}</option>
                                         </select>
                                         <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
                                     </label>
@@ -312,7 +312,7 @@
                                 </div>
                                 <div class="medium-4 cell padding-lr">
                                     <label>شهرستان
-                                        <select class="form-element-margin-btm" :selected="approvedProjectsInput.apCity" v-model="approvedProjectsInput.apCity" name="city" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('city')}">
+                                        <select class="form-element-margin-btm" :disabled="countyState" :selected="approvedProjectsInput.apCity" v-model="approvedProjectsInput.apCity" name="city" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('city')}">
                                             <option value=""></option>
                                             <option v-for="county in counties" :value="county.id">{{ county.coName }}</option>
                                         </select>
@@ -432,74 +432,77 @@
             <!--Project Cost Modal Start-->
             <modal-small v-if="showProjectCostModal" @close="showProjectCostModal = false">
                 <div  slot="body">
-                    <div class="grid-x" v-if="errorMessage">
-                        <div class="medium-12 columns padding-lr">
-                            <div class="alert callout">
-                                <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
+                    <form v-on:submit.prevent="createApprovedProjectCreditSource">
+                        <div class="grid-x" v-if="errorMessage">
+                            <div class="medium-12 columns padding-lr">
+                                <div class="alert callout">
+                                    <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="medium-9 cell padding-lr">
-                            <label>ردیف توزیع اعتبار
-                                <select  class="form-element-margin-btm"  name="row" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('row')}">
-                                    <option value=""></option>
-
-                                </select>
-                                <span v-show="errors.has('row')" class="error-font">لطفا ردیف توزیع را انتخاب کنید!</span>
-                            </label>
+                        <div class="grid-x">
+                            <div class="medium-9 cell padding-lr">
+                                <label>ردیف توزیع اعتبار
+                                    <select  class="form-element-margin-btm"  name="row" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('row')}">
+                                        <option value=""></option>
+                                        <option v-for="creditDistributionRow in creditDistributionRows" :value="creditDistributionRow.id">{{ creditDistributionRow.cdSubject }}</option>
+                                    </select>
+                                    <span v-show="errors.has('row')" class="error-font">لطفا ردیف توزیع را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                            <div class="medium-3 cell padding-lr">
+                                <label>نحوه اجرا
+                                    <select class="form-element-margin-btm" name="howToRun" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('howToRun')}">
+                                        <option value=""></option>
+                                        <option v-for="howToRun in howToRuns" :value="howToRun.id">{{ howToRun.htrSubject }}</option>
+                                    </select>
+                                    <span v-show="errors.has('howToRun')" class="error-font">لطفا نحوه اجرا را انتخاب کنید!</span>
+                                </label>
+                            </div>
                         </div>
-                        <div class="medium-3 cell padding-lr">
-                            <label>نحوه اجرا
-                                <select class="form-element-margin-btm" name="howToRun" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('howToRun')}">
-                                    <option value=""></option>
-                                </select>
-                                <span v-show="errors.has('howToRun')" class="error-font">لطفا نحوه اجرا را انتخاب کنید!</span>
-                            </label>
+                        <div class="grid-x">
+                            <div class="medium-4 column padding-lr">
+                                <label>فصل
+                                    <select class="form-element-margin-btm" v-model="selectedSeason" @change="getSeasonTitle"  name="season" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('season')}">
+                                        <option value=""></option>
+                                        <option v-for="season in seasons" :value="season.id">{{ season.sSubject }}</option>
+                                    </select>
+                                    <span v-show="errors.has('season')" class="error-font">لطفا فصل را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                            <div class="medium-8 column padding-lr">
+                                <label>عنوان فصل
+                                    <select class="form-element-margin-btm" v-model="selectedSeasonTitle" @change="getTinySeasons" name="seasonTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('seasonTitle')}">
+                                        <option value=""></option>
+                                        <option v-for="seasonTitle in seasonTitles" :value="seasonTitle.id">{{ seasonTitle.castSubject }}</option>
+                                    </select>
+                                    <span v-show="errors.has('seasonTitle')" class="error-font">لطفا عنوان فصل را انتخاب کنید!</span>
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="medium-4 column padding-lr">
-                            <label>فصل
-                                <select class="form-element-margin-btm"  name="season" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('season')}">
-                                    <option value=""></option>
-                                    <option v-for="season in seasons" :value="season.id"></option>
-                                </select>
-                                <span v-show="errors.has('season')" class="error-font">لطفا فصل را انتخاب کنید!</span>
-                            </label>
+                        <div class="grid-x">
+                            <div class="medium-12 column padding-lr">
+                                <label>ریز فصل
+                                    <select class="form-element-margin-btm" name="subSeason" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('subSeason')}">
+                                        <option value=""></option>
+                                        <option v-for="tinySeason in tinySeasons" :value="tinySeason.id">{{ tinySeason.catsSubject }}</option>
+                                    </select>
+                                    <span v-show="errors.has('subSeason')" class="error-font">لطفا ریز فصل را انتخاب کنید!</span>
+                                </label>
+                            </div>
                         </div>
-                        <div class="medium-8 column padding-lr">
-                            <label>عنوان فصل
-                                <select class="form-element-margin-btm"  name="seasonTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('seasonTitle')}">
-                                    <option value=""></option>
-
-                                </select>
-                                <span v-show="errors.has('seasonTitle')" class="error-font">لطفا عنوان فصل را انتخاب کنید!</span>
-                            </label>
+                        <div class="grid-x">
+                            <div class="medium-6 cell padding-lr">
+                                <label>مبلغ اعتبار <span class="btn-red">(میلیون ریال)</span>
+                                    <input class="form-element-margin-btm" type="text" name="cost" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('cost')}">
+                                </label>
+                                <span v-show="errors.has('cost')" class="error-font">لطفا مبلغ اعتبار پروژه را وارد کنید!</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="medium-12 column padding-lr">
-                            <label>ریز فصل
-                                <select class="form-element-margin-btm" name="subSeason" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('subSeason')}">
-                                    <option value=""></option>
-
-                                </select>
-                                <span v-show="errors.has('subSeason')" class="error-font">لطفا ریز فصل را انتخاب کنید!</span>
-                            </label>
+                        <div class="medium-6 columns padding-lr padding-bottom-modal input-margin-top">
+                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
                         </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="medium-6 cell padding-lr">
-                            <label>مبلغ اعتبار <span class="btn-red">(میلیون ریال)</span>
-                                <input class="form-element-margin-btm" type="text" name="cost" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('cost')}">
-                            </label>
-                            <span v-show="errors.has('cost')" class="error-font">لطفا مبلغ اعتبار پروژه را وارد کنید!</span>
-                        </div>
-                    </div>
-                    <div class="medium-6 columns padding-lr padding-bottom-modal input-margin-top">
-                        <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
-                    </div>
+                    </form>
                 </div>
             </modal-small>
             <!--Project Cost Modal End-->
@@ -532,9 +535,12 @@
                 apIdDelete: {},
                 approvedPlans: {},
                 counties: {},
+                countyState: false,
                 seasons: {},
+                seasonTitles: {},
                 tinySeasons: {},
                 selectedSeasons: '',
+                selectedSeasonTitle: '',
                 creditDistributionRows: {},
                 national_pagination: {
                     total: 0,
@@ -554,6 +560,7 @@
 
         created: function () {
             this.fetchProvincialData();
+            this.fetchNationalData();
             this.getAllApprovedPlan(0); // 0 = provincial
             this.getHowToRun();
             this.getCounties();
@@ -586,8 +593,8 @@
                     });
             },
 
-            fetchNationalData: function () {
-                axios.get('/budget/project/capital_assets/projects/fetchData?page=' + page , {params:{pOrN: 1}})
+            fetchNationalData: function (page = 1) {
+                axios.get('/budget/approved_project/capital_assets/fetchData?page=' + page , {params:{pOrN: 1}})
                     .then((response) => {
                         this.approvedProjects_nat = response.data.data;
                         this.makePagination(response.data , "national");
@@ -608,17 +615,7 @@
             },
 
             getHowToRun: function () {
-                axios.get('/budget/admin/how_to_run/getAllItems' , {params:{}})
-                    .then((response) => {
-                        this.howToRuns = response.data;
-                        console.log(response);
-                    },(error) => {
-                        console.log(error);
-                    });
-            },
-
-            getHowToRun: function () {
-                axios.get('/budget/admin/how_to_run/getAllItems' , {params:{}})
+                axios.get('/budget/admin/how_to_run/getAllItems')
                     .then((response) => {
                         this.howToRuns = response.data;
                         console.log(response);
@@ -647,8 +644,20 @@
                     });
             },
 
+            getSeasonTitle: function () {
+                this.$root.start();
+                axios.get('/budget/admin/season_title/capital_assets/getWithSeasonId' , {params:{sId: this.selectedSeason}}).then((response) => {
+                this.seasonTitles = response.data;
+                console.log(response);
+                this.$root.finish();
+            },(error) => {
+                    console.log(error);
+                    this.$root.fail();
+                });
+            },
+
             getTinySeasons: function () {
-                axios.get('/budget/admin/sub_seasons/get_tiny_seasons_whit_season_id' , {params:{sId: this.selectedSeasons , planOrCost: 0}})
+                axios.get('/budget/admin/sub_seasons/capital_assets/getAllItem' , {params:{castId: this.selectedSeasonTitle}})
                     .then((response) => {
                         this.tinySeasons = response.data;
                         console.log(response);
@@ -671,6 +680,14 @@
                 this.getAllApprovedPlan(type);
                 this.showInsertModal= true;
                 this.provOrNat = type;
+                if (type == 0)
+                {
+                    this.countyState = true;
+                }
+                else
+                {
+                    this.countyState = false;
+                }
             },
 
             createApprovedProjects: function () {
@@ -687,8 +704,16 @@
                             description: this.approvedProjectsInput.apDescription,
                             pOrN: this.provOrNat
                         }).then((response) => {
-                                this.approvedProjects_prov = response.data.data;
-                                this.makePagination(response.data , "provincial");
+                                if (this.provOrNat == 0)
+                                {
+                                    this.approvedProjects_prov = response.data.data;
+                                    this.makePagination(response.data , "provincial");
+                                }
+                                else
+                                {
+                                    this.approvedProjects_nat = response.data.data;
+                                    this.makePagination(response.data , "national");
+                                }
                                 this.showInsertModal = false;
                                 this.displayNotif(response.status);
                                 console.log(response);
@@ -698,6 +723,21 @@
                             });
                     }
                 });
+            },
+
+            createApprovedProjectCreditSource: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        alert("morteza");
+                    }
+                });
+            },
+
+            setCountyId: function (coId) {
+                if (this.provOrNat == 0)
+                {
+                    this.approvedProjectsInput.apCity = coId;
+                }
             },
 
             getProjectAmount: function (cdrCp) {

@@ -56,7 +56,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::get('title_of_plans', 'BudgetAdminController@titleOfPlans');
         Route::get('title_of_plans/fetchData', 'BudgetAdminController@FetchTitleOfPlan');
         ///////////////////////////////////////////////////////////////////////
-        Route::get('how_to_run/getAllItems' , 'BudgetAdminController@getAllHowToRun');
+        //Route::get('how_to_run/getAllItems' , 'BudgetAdminController@getAllHowToRun');
     });
     //////////////////////////////////////////////////////////////////////////
     Route::prefix('credit_distribution')->group(function () {
@@ -111,6 +111,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
 
     Route::prefix('admin/sub_seasons/capital_assets')->group(function () {
         Route::get('/fetchData', 'BudgetAdminController@FetchCapitalAssetsTinySeasonData');
+        Route::get('/getAllItem', 'BudgetAdminController@getAllCapitalAssetsTinySeason');
         Route::post('/register', 'BudgetAdminController@registerCapitalAssetsTinySeason');
         Route::post('/update', 'BudgetAdminController@updateCapitalAssetsTinySeason');
         Route::post('/delete', 'BudgetAdminController@deleteCapitalAssetsTinySeason');
@@ -161,7 +162,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('/rows/register', 'BudgetAdminController@registerCreditDistributionRow');
         //Route::get('/rows/delete/{cdId}', 'BudgetAdminController@deleteCreditDistributionRow');
         //Route::post('/rows/update', 'BudgetAdminController@updateCreditDistributionRow');
-        //Route::get('/rows/getAllItems', 'BudgetAdminController@getAllCreditDistributionRows');
+        Route::get('/rows/getAllItems', 'BudgetAdminController@getAllCDRItems');
 
         Route::get('/plan_cost_title/fetchData', 'BudgetAdminController@fetchPlanOrCostTitleData');
         Route::post('/plan_cost_title/register', 'BudgetAdminController@registerPlanOrCostTitle');
@@ -184,4 +185,9 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('/register', 'ProjectController@registerApprovedProject');
         //Route::get('capital_assets/projects/getAllItems', 'ProjectController@getAllApprovedProjects');
     });
+
+    Route::prefix('admin/how_to_run')->group(function () {
+        Route::get('/getAllItems' , 'BudgetAdminController@getAllHowToRun');
+    });
+    
 });

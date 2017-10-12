@@ -94,7 +94,7 @@ class BudgetAdminController extends Controller
         return Redirect::to(URL::previous());
     }*/
 
-    public function subSeasons()
+/*    public function subSeasons()
     {
         $subSeasons = CapitalAssetsTinySeason::select(['tsSId'])->groupBy(['tsSId'])->get();
         $seasons = Season::all();
@@ -102,7 +102,7 @@ class BudgetAdminController extends Controller
             'seasons' => $seasons ,
             'requireJsFile' => 'tiny_season',
             'pageTitle' => 'ریز فصول']);
-    }
+    }*/
     
     public function updateCreditDistributionRow(Request $request)
     {
@@ -466,7 +466,7 @@ class BudgetAdminController extends Controller
         }
     }
 
-    public function registerSubSeason(Request $request)
+/*    public function registerSubSeason(Request $request)
     {
         $ts = new CapitalAssetsTinySeason;
         $ts->tsUId = Auth::user()->id;
@@ -478,9 +478,9 @@ class BudgetAdminController extends Controller
 
         SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل ' . Input::get('tsSubject') . ' در فصل ' . Season::find(Input::get('sId'))->sSubject);
         return Redirect::to(URL::previous());
-    }
+    }*/
 
-    public function deleteSubSeason($tsId)
+/*    public function deleteSubSeason($tsId)
     {
         $ts = CapitalAssetsTinySeason::find($tsId);
         try {
@@ -494,9 +494,9 @@ class BudgetAdminController extends Controller
                 return Redirect::to(URL::previous())->with('messageDialogPm', 'با توجه به وابستگی اطلاعات، حذف رکورد مورد نظر ممکن نیست!');
             }
         }
-    }
+    }*/
 
-    public function SSIsExist($sId , $tsSubject , $tsId = null)
+/*    public function SSIsExist($sId , $tsSubject , $tsId = null)
     {
         if (\Illuminate\Support\Facades\Request::ajax())
         {
@@ -522,9 +522,9 @@ class BudgetAdminController extends Controller
                 }
             }
         }
-    }
+    }*/
 
-    public function updateSubSeason(Request $request)
+/*    public function updateSubSeason(Request $request)
     {
         $old = CapitalAssetsTinySeason::find(Input::get('tsId'));
         $ts = CapitalAssetsTinySeason::find(Input::get('tsId'));
@@ -535,7 +535,7 @@ class BudgetAdminController extends Controller
 
         SystemLog::setBudgetSubSystemAdminLog('تغییر  ریز فصل (' . $old->tsSubject . ') به (' . $ts->tsSubject . ')');
         return Redirect::to(URL::previous() . '#plan_title_tab');
-    }
+    }*/
     ////////////////////////////// cost tiny season /////////////////////////////////
     public function FetchCostTinySeasonData(Request $request)
     {
@@ -637,6 +637,11 @@ class BudgetAdminController extends Controller
             })->paginate(5);
             return $seasons;
         }
+    }
+
+    public function getAllCapitalAssetsTinySeason(Request $request)
+    {
+        return \response()->json(CapitalAssetsTinySeason::where('catsCastId' , '=' , $request->castId)->get());
     }
 
     public function registerCapitalAssetsTinySeason(Request $request)
@@ -1020,6 +1025,11 @@ class BudgetAdminController extends Controller
     {
         return CreditDistributionRow::where('cdPlanOrCost' , $planOrCost)->paginate(5);
 
+    }
+
+    public function getAllCDRItems(Request $request)
+    {
+        return \response()->json(CreditDistributionRow::where('cdPlanOrCost' , $request->planOrCost)->get());
     }
 
     public function registerCreditDistributionRow(Request $request)

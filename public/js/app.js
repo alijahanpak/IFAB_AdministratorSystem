@@ -76814,10 +76814,9 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__ = __webpack_require__(8);
-var _methods;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+//
+//
+//
 //
 //
 //
@@ -77352,9 +77351,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             apIdDelete: {},
             approvedPlans: {},
             counties: {},
+            countyState: false,
             seasons: {},
+            seasonTitles: {},
             tinySeasons: {},
             selectedSeasons: '',
+            selectedSeasonTitle: '',
             creditDistributionRows: {},
             national_pagination: {
                 total: 0,
@@ -77375,6 +77377,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     created: function created() {
         this.fetchProvincialData();
+        this.fetchNationalData();
         this.getAllApprovedPlan(0); // 0 = provincial
         this.getHowToRun();
         this.getCounties();
@@ -77395,7 +77398,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         'vue-pagination': __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__["a" /* default */]
     },
 
-    methods: (_methods = {
+    methods: {
         fetchProvincialData: function fetchProvincialData() {
             var _this = this;
 
@@ -77413,7 +77416,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         fetchNationalData: function fetchNationalData() {
             var _this2 = this;
 
-            axios.get('/budget/project/capital_assets/projects/fetchData?page=' + page, { params: { pOrN: 1 } }).then(function (response) {
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            axios.get('/budget/approved_project/capital_assets/fetchData?page=' + page, { params: { pOrN: 1 } }).then(function (response) {
                 _this2.approvedProjects_nat = response.data.data;
                 _this2.makePagination(response.data, "national");
                 console.log(response);
@@ -77436,176 +77441,230 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         getHowToRun: function getHowToRun() {
             var _this4 = this;
 
-            axios.get('/budget/admin/how_to_run/getAllItems', { params: {} }).then(function (response) {
+            axios.get('/budget/admin/how_to_run/getAllItems').then(function (response) {
                 _this4.howToRuns = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
             });
-        }
+        },
 
-    }, _defineProperty(_methods, 'getHowToRun', function getHowToRun() {
-        var _this5 = this;
+        getCounties: function getCounties() {
+            var _this5 = this;
 
-        axios.get('/budget/admin/how_to_run/getAllItems', { params: {} }).then(function (response) {
-            _this5.howToRuns = response.data;
-            console.log(response);
-        }, function (error) {
-            console.log(error);
-        });
-    }), _defineProperty(_methods, 'getCounties', function getCounties() {
-        var _this6 = this;
+            axios.get('/admin/get_all_counties', { params: {} }).then(function (response) {
+                _this5.counties = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
 
-        axios.get('/admin/get_all_counties', { params: {} }).then(function (response) {
-            _this6.counties = response.data;
-            console.log(response);
-        }, function (error) {
-            console.log(error);
-        });
-    }), _defineProperty(_methods, 'getSeasons', function getSeasons() {
-        var _this7 = this;
+        getSeasons: function getSeasons() {
+            var _this6 = this;
 
-        axios.get('/admin/get_all_seasons', { params: {} }).then(function (response) {
-            _this7.seasons = response.data;
-            console.log(response);
-        }, function (error) {
-            console.log(error);
-        });
-    }), _defineProperty(_methods, 'getTinySeasons', function getTinySeasons() {
-        var _this8 = this;
+            axios.get('/admin/get_all_seasons', { params: {} }).then(function (response) {
+                _this6.seasons = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
 
-        axios.get('/budget/admin/sub_seasons/get_tiny_seasons_whit_season_id', { params: { sId: this.selectedSeasons, planOrCost: 0 } }).then(function (response) {
-            _this8.tinySeasons = response.data;
-            console.log(response);
-        }, function (error) {
-            console.log(error);
-        });
-    }), _defineProperty(_methods, 'getCreditDistributionRow', function getCreditDistributionRow() {
-        var _this9 = this;
+        getSeasonTitle: function getSeasonTitle() {
+            var _this7 = this;
 
-        axios.get('/budget/admin/credit_distribution_def/rows/getAllItems', { params: { planOrCost: 0 } }).then(function (response) {
-            _this9.creditDistributionRows = response.data;
-            console.log(response);
-        }, function (error) {
-            console.log(error);
-        });
-    }), _defineProperty(_methods, 'openApprovedProjectInsertModal', function openApprovedProjectInsertModal(type) {
-        this.getAllApprovedPlan(type);
-        this.showInsertModal = true;
-        this.provOrNat = type;
-    }), _defineProperty(_methods, 'createApprovedProjects', function createApprovedProjects() {
-        var _this10 = this;
+            this.$root.start();
+            axios.get('/budget/admin/season_title/capital_assets/getWithSeasonId', { params: { sId: this.selectedSeason } }).then(function (response) {
+                _this7.seasonTitles = response.data;
+                console.log(response);
+                _this7.$root.finish();
+            }, function (error) {
+                console.log(error);
+                _this7.$root.fail();
+            });
+        },
 
-        this.$validator.validateAll().then(function (result) {
-            if (result) {
-                axios.post('/budget/approved_project/capital_assets/register', {
-                    pId: _this10.approvedProjectsInput.apPlan,
-                    subject: _this10.approvedProjectsInput.apProjectTitle,
-                    code: _this10.approvedProjectsInput.apProjectCode,
-                    startYear: _this10.approvedProjectsInput.apStartYear,
-                    endYear: _this10.approvedProjectsInput.apEndYear,
-                    pProgress: _this10.approvedProjectsInput.apPhysicalProgress,
-                    coId: _this10.approvedProjectsInput.apCity,
-                    description: _this10.approvedProjectsInput.apDescription,
-                    pOrN: _this10.provOrNat
-                }).then(function (response) {
-                    _this10.approvedProjects_prov = response.data.data;
-                    _this10.makePagination(response.data, "provincial");
-                    _this10.showInsertModal = false;
-                    _this10.displayNotif(response.status);
-                    console.log(response);
-                }, function (error) {
-                    console.log(error);
-                    //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                });
+        getTinySeasons: function getTinySeasons() {
+            var _this8 = this;
+
+            axios.get('/budget/admin/sub_seasons/capital_assets/getAllItem', { params: { castId: this.selectedSeasonTitle } }).then(function (response) {
+                _this8.tinySeasons = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        getCreditDistributionRow: function getCreditDistributionRow() {
+            var _this9 = this;
+
+            axios.get('/budget/admin/credit_distribution_def/rows/getAllItems', { params: { planOrCost: 0 } }).then(function (response) {
+                _this9.creditDistributionRows = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        openApprovedProjectInsertModal: function openApprovedProjectInsertModal(type) {
+            this.getAllApprovedPlan(type);
+            this.showInsertModal = true;
+            this.provOrNat = type;
+            if (type == 0) {
+                this.countyState = true;
+            } else {
+                this.countyState = false;
             }
-        });
-    }), _defineProperty(_methods, 'getProjectAmount', function getProjectAmount(cdrCp) {
-        var sum = 0;
-        cdrCp.forEach(function (cdr) {
-            "use strict";
+        },
 
-            sum += cdr.ccAmount;
-        });
-        return sum;
-    }), _defineProperty(_methods, 'approvedProjectsUpdateDialog', function approvedProjectsUpdateDialog(item, planId) {
-        var _this11 = this;
+        createApprovedProjects: function createApprovedProjects() {
+            var _this10 = this;
 
-        this.selectedSeasons = item.tiny_season.tsSId;
-        this.getTinySeasons();
-        this.approvedProjectsFill.apSubSeason = item.cpTsId;
-        this.approvedProjectsFill.apPlan = planId;
-        this.approvedProjectsFill.apProjectTitle = item.cpSubject;
-        this.approvedProjectsFill.apProjectCode = item.cpCode;
-        this.approvedProjectsFill.apStartYear = item.cpStartYear;
-        this.approvedProjectsFill.apEndYear = item.cpEndOfYear;
-        this.approvedProjectsFill.apHowToRun = item.cpHtrId;
-        this.approvedProjectsFill.apPhysicalProgress = item.cpPhysicalProgress;
-        this.approvedProjectsFill.apCity = item.cpCoId;
-        this.approvedProjectsFill.apDescription = item.cpDescription;
-        this.creditDistributionRows.forEach(function (cdr) {
-            "use strict";
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    axios.post('/budget/approved_project/capital_assets/register', {
+                        pId: _this10.approvedProjectsInput.apPlan,
+                        subject: _this10.approvedProjectsInput.apProjectTitle,
+                        code: _this10.approvedProjectsInput.apProjectCode,
+                        startYear: _this10.approvedProjectsInput.apStartYear,
+                        endYear: _this10.approvedProjectsInput.apEndYear,
+                        pProgress: _this10.approvedProjectsInput.apPhysicalProgress,
+                        coId: _this10.approvedProjectsInput.apCity,
+                        description: _this10.approvedProjectsInput.apDescription,
+                        pOrN: _this10.provOrNat
+                    }).then(function (response) {
+                        if (_this10.provOrNat == 0) {
+                            _this10.approvedProjects_prov = response.data.data;
+                            _this10.makePagination(response.data, "provincial");
+                        } else {
+                            _this10.approvedProjects_nat = response.data.data;
+                            _this10.makePagination(response.data, "national");
+                        }
+                        _this10.showInsertModal = false;
+                        _this10.displayNotif(response.status);
+                        console.log(response);
+                    }, function (error) {
+                        console.log(error);
+                        //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                    });
+                }
+            });
+        },
 
-            Vue.set(_this11.creditDistributionRowInput, 'apCdr' + cdr.id, cdr.id);
-        });
-        this.errorMessage_update = '';
-        this.showModalUpdate = true;
-    }), _defineProperty(_methods, 'updateApprovedProjects', function updateApprovedProjects() {
-        if (this.approvedProjectsFill.apPlan != '' && this.approvedProjectsFill.apProjectTitle != '' && this.approvedProjectsFill.apProjectCode != '' && this.approvedProjectsFill.apStartYear != '' && this.approvedProjectsFill.apEndYear != '' && this.approvedProjectsFill.apHowToRun != '' && this.approvedProjectsFill.apPhysicalProgress != '' && this.approvedProjectsFill.apCity != '' && this.approvedProjectsFill.apSeason != '' && this.approvedProjectsFill.apSubSeason != '') {
-            /*axios.post('/budget/admin/sub_seasons/update' , this.tinySeasonsFill)
+        createApprovedProjectCreditSource: function createApprovedProjectCreditSource() {
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    alert("morteza");
+                }
+            });
+        },
+
+        setCountyId: function setCountyId(coId) {
+            if (this.provOrNat == 0) {
+                this.approvedProjectsInput.apCity = coId;
+            }
+        },
+
+        getProjectAmount: function getProjectAmount(cdrCp) {
+            var sum = 0;
+            cdrCp.forEach(function (cdr) {
+                "use strict";
+
+                sum += cdr.ccAmount;
+            });
+            return sum;
+        },
+
+        approvedProjectsUpdateDialog: function approvedProjectsUpdateDialog(item, planId) {
+            var _this11 = this;
+
+            this.selectedSeasons = item.tiny_season.tsSId;
+            this.getTinySeasons();
+            this.approvedProjectsFill.apSubSeason = item.cpTsId;
+            this.approvedProjectsFill.apPlan = planId;
+            this.approvedProjectsFill.apProjectTitle = item.cpSubject;
+            this.approvedProjectsFill.apProjectCode = item.cpCode;
+            this.approvedProjectsFill.apStartYear = item.cpStartYear;
+            this.approvedProjectsFill.apEndYear = item.cpEndOfYear;
+            this.approvedProjectsFill.apHowToRun = item.cpHtrId;
+            this.approvedProjectsFill.apPhysicalProgress = item.cpPhysicalProgress;
+            this.approvedProjectsFill.apCity = item.cpCoId;
+            this.approvedProjectsFill.apDescription = item.cpDescription;
+            this.creditDistributionRows.forEach(function (cdr) {
+                "use strict";
+
+                Vue.set(_this11.creditDistributionRowInput, 'apCdr' + cdr.id, cdr.id);
+            });
+            this.errorMessage_update = '';
+            this.showModalUpdate = true;
+        },
+
+        updateApprovedProjects: function updateApprovedProjects() {
+            if (this.approvedProjectsFill.apPlan != '' && this.approvedProjectsFill.apProjectTitle != '' && this.approvedProjectsFill.apProjectCode != '' && this.approvedProjectsFill.apStartYear != '' && this.approvedProjectsFill.apEndYear != '' && this.approvedProjectsFill.apHowToRun != '' && this.approvedProjectsFill.apPhysicalProgress != '' && this.approvedProjectsFill.apCity != '' && this.approvedProjectsFill.apSeason != '' && this.approvedProjectsFill.apSubSeason != '') {
+                /*axios.post('/budget/admin/sub_seasons/update' , this.tinySeasonsFill)
+                    .then((response) => {
+                        if(this.planOrCost == 1)
+                            this.tinySeasonsCost = response.data;
+                        else
+                            this.tinySeasons = response.data;
+                        this.showModalUpdate = false;
+                        this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'بروزرسانی با موفقیت انجام شد.' , type: 'success'});
+                        console.log(response);
+                    },(error) => {
+                        console.log(error);
+                        this.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                    });*/
+                alert('ویرایش انجام شد');
+            } else {
+                this.errorMessage_update = ' لطفا در وارد کردن اطلاعات دقت کنید!';
+            }
+        },
+
+        openDeleteApprovedProjectsConfirm: function openDeleteApprovedProjectsConfirm(ap) {
+            this.apIdDelete = ap;
+            this.showModalDelete = true;
+        },
+
+        deleteApprovedProjects: function deleteApprovedProjects() {
+            /*axios.post('/budget/admin/sub_seasons/delete' , this.tsIdDelete)
                 .then((response) => {
-                    if(this.planOrCost == 1)
+                    if(response.data.tsPlanOrCost == 1)
                         this.tinySeasonsCost = response.data;
                     else
                         this.tinySeasons = response.data;
-                    this.showModalUpdate = false;
-                    this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'بروزرسانی با موفقیت انجام شد.' , type: 'success'});
+                    this.showModalDelete = false;
+                    this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'حذف رکورد با موفقیت انجام شد.' , type: 'success'});
                     console.log(response);
                 },(error) => {
                     console.log(error);
-                    this.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                    this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                 });*/
-            alert('ویرایش انجام شد');
-        } else {
-            this.errorMessage_update = ' لطفا در وارد کردن اطلاعات دقت کنید!';
+        },
+
+        displayNotif: function displayNotif(httpStatusCode) {
+            switch (httpStatusCode) {
+                case 204:
+                    this.$notify({ group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
+                    break;
+                case 200:
+                    this.$notify({ group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
+                    break;
+            }
+        },
+
+        makePagination: function makePagination(data, type) {
+            if (type == "national") {
+                this.national_pagination.current_page = data.current_page;
+                this.national_pagination.to = data.to;
+                this.national_pagination.last_page = data.last_page;
+            } else if (type == "provincial") {
+                this.provincial_pagination.current_page = data.current_page;
+                this.provincial_pagination.to = data.to;
+                this.provincial_pagination.last_page = data.last_page;
+            }
         }
-    }), _defineProperty(_methods, 'openDeleteApprovedProjectsConfirm', function openDeleteApprovedProjectsConfirm(ap) {
-        this.apIdDelete = ap;
-        this.showModalDelete = true;
-    }), _defineProperty(_methods, 'deleteApprovedProjects', function deleteApprovedProjects() {
-        /*axios.post('/budget/admin/sub_seasons/delete' , this.tsIdDelete)
-            .then((response) => {
-                if(response.data.tsPlanOrCost == 1)
-                    this.tinySeasonsCost = response.data;
-                else
-                    this.tinySeasons = response.data;
-                this.showModalDelete = false;
-                this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'حذف رکورد با موفقیت انجام شد.' , type: 'success'});
-                console.log(response);
-            },(error) => {
-                console.log(error);
-                this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
-            });*/
-    }), _defineProperty(_methods, 'displayNotif', function displayNotif(httpStatusCode) {
-        switch (httpStatusCode) {
-            case 204:
-                this.$notify({ group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
-                break;
-            case 200:
-                this.$notify({ group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
-                break;
-        }
-    }), _defineProperty(_methods, 'makePagination', function makePagination(data, type) {
-        if (type == "national") {
-            this.national_pagination.current_page = data.current_page;
-            this.national_pagination.to = data.to;
-            this.national_pagination.last_page = data.last_page;
-        } else if (type == "provincial") {
-            this.provincial_pagination.current_page = data.current_page;
-            this.provincial_pagination.to = data.to;
-            this.provincial_pagination.last_page = data.last_page;
-        }
-    }), _methods)
+    }
 });
 
 /***/ }),
@@ -77931,8 +77990,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     return _c('option', {
       domProps: {
         "value": approvedPlan.id
+      },
+      on: {
+        "click": function($event) {
+          _vm.setCountyId(approvedPlan.credit_distribution_title.county.id)
+        }
       }
-    }, [_vm._v(_vm._s(approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject + ' - ' + approvedPlan.credit_distribution_title.county.coName))])
+    }, [_vm._v(_vm._s(approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject + (approvedPlan.credit_distribution_title.county == null ? '' : ' - ' + approvedPlan.credit_distribution_title.county.coName)))])
   })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
@@ -78172,6 +78236,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       'input': true, 'select-error': _vm.errors.has('city')
     },
     attrs: {
+      "disabled": _vm.countyState,
       "selected": _vm.approvedProjectsInput.apCity,
       "name": "city",
       "data-vv-rules": "required"
@@ -78637,6 +78702,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "slot": "body"
     },
     slot: "body"
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.createApprovedProjectCreditSource($event)
+      }
+    }
   }, [(_vm.errorMessage) ? _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
@@ -78651,7 +78723,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-9 cell padding-lr"
-  }, [_c('label', [_vm._v("ردیف توزیع اعتبار\n                            "), _c('select', {
+  }, [_c('label', [_vm._v("ردیف توزیع اعتبار\n                                "), _c('select', {
     directives: [{
       name: "validate",
       rawName: "v-validate"
@@ -78668,7 +78740,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "value": ""
     }
-  })]), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _vm._l((_vm.creditDistributionRows), function(creditDistributionRow) {
+    return _c('option', {
+      domProps: {
+        "value": creditDistributionRow.id
+      }
+    }, [_vm._v(_vm._s(creditDistributionRow.cdSubject))])
+  })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -78678,7 +78756,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "error-font"
   }, [_vm._v("لطفا ردیف توزیع را انتخاب کنید!")])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-3 cell padding-lr"
-  }, [_c('label', [_vm._v("نحوه اجرا\n                            "), _c('select', {
+  }, [_c('label', [_vm._v("نحوه اجرا\n                                "), _c('select', {
     directives: [{
       name: "validate",
       rawName: "v-validate"
@@ -78695,7 +78773,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "value": ""
     }
-  })]), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _vm._l((_vm.howToRuns), function(howToRun) {
+    return _c('option', {
+      domProps: {
+        "value": howToRun.id
+      }
+    }, [_vm._v(_vm._s(howToRun.htrSubject))])
+  })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -78707,8 +78791,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-4 column padding-lr"
-  }, [_c('label', [_vm._v("فصل\n                            "), _c('select', {
+  }, [_c('label', [_vm._v("فصل\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectedSeason),
+      expression: "selectedSeason"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -78719,6 +78808,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "name": "season",
       "data-vv-rules": "required"
+    },
+    on: {
+      "change": [function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.selectedSeason = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }, _vm.getSeasonTitle]
     }
   }, [_c('option', {
     attrs: {
@@ -78729,7 +78829,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       domProps: {
         "value": season.id
       }
-    })
+    }, [_vm._v(_vm._s(season.sSubject))])
   })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
@@ -78740,8 +78840,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "error-font"
   }, [_vm._v("لطفا فصل را انتخاب کنید!")])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-8 column padding-lr"
-  }, [_c('label', [_vm._v("عنوان فصل\n                            "), _c('select', {
+  }, [_c('label', [_vm._v("عنوان فصل\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectedSeasonTitle),
+      expression: "selectedSeasonTitle"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -78752,12 +78857,29 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "name": "seasonTitle",
       "data-vv-rules": "required"
+    },
+    on: {
+      "change": [function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.selectedSeasonTitle = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }, _vm.getTinySeasons]
     }
   }, [_c('option', {
     attrs: {
       "value": ""
     }
-  })]), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _vm._l((_vm.seasonTitles), function(seasonTitle) {
+    return _c('option', {
+      domProps: {
+        "value": seasonTitle.id
+      }
+    }, [_vm._v(_vm._s(seasonTitle.castSubject))])
+  })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -78769,7 +78891,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12 column padding-lr"
-  }, [_c('label', [_vm._v("ریز فصل\n                            "), _c('select', {
+  }, [_c('label', [_vm._v("ریز فصل\n                                "), _c('select', {
     directives: [{
       name: "validate",
       rawName: "v-validate"
@@ -78786,7 +78908,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "value": ""
     }
-  })]), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _vm._l((_vm.tinySeasons), function(tinySeason) {
+    return _c('option', {
+      domProps: {
+        "value": tinySeason.id
+      }
+    }, [_vm._v(_vm._s(tinySeason.catsSubject))])
+  })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -78832,7 +78960,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
-  }, [_vm._v("ثبت")])])])])]) : _vm._e()], 1)])
+  }, [_vm._v("ثبت")])])])])])]) : _vm._e()], 1)])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {

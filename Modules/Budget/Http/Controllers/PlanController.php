@@ -115,10 +115,25 @@ class PlanController extends Controller
 
     public function getAllApprovedPlan(Request $request)
     {
-        return \response()->json(CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
-            ->where('capProvinceOrNational' , '=' , $request->pOrN)
-            ->with('creditDistributionTitle')
-            ->with('creditDistributionTitle.county')
-            ->get());
+        if ($request->pOrN == 0)
+        {
+            return \response()->json(CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
+                ->where('capProvinceOrNational' , '=' , $request->pOrN)
+                ->with(['creditDistributionTitle' => function($query){
+                    return $query->where('cdtCoId' , '<>' , null);
+                }])
+                ->with('creditDistributionTitle.county')
+                ->get());
+        }
+        else{
+            return \response()->json(CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
+                ->where('capProvinceOrNational' , '=' , $request->pOrN)
+                ->with(['creditDistributionTitle' => function($query){
+                    return $query->where('cdtCoId' , '=' , null);
+                }])
+                ->with('creditDistributionTitle.county')
+                ->get());
+        }
+
     }
 }
