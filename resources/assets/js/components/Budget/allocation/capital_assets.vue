@@ -1,7 +1,7 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <!--Inner body start-->
     <div class="medium-10 border-right-line inner-body-pad main-margin">
-        <div style="padding-top: 15px;" class="grid-x padding-lr">
+        <div class="grid-x padding-lr breadcrumbs-pos">
             <div class="medium-12">
                 <div class="grid-x">
                     <nav aria-label="You are here:" role="navigation">
@@ -14,10 +14,7 @@
                                 <a class="disabled">تخصیص اعتبار</a>
                             </li>
                             <li>
-                                <a class="disabled">تملک دارایی سرمایه ای</a>
-                            </li>
-                            <li>
-                                <span class="show-for-sr">Current: </span>پروژه ها
+                                <span class="show-for-sr">Current: </span> تملک دارایی سرمایه ای
                             </li>
                         </ul>
                     </nav>
@@ -298,111 +295,95 @@
                 <!--Insert Modal Start-->
                 <modal-large v-if="showModal" @close="showModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div  slot="body">
-                        <div class="grid-x" v-if="errorMessage">
-                            <div class="medium-12 columns padding-lr">
-                                <div class="alert callout">
-                                    <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="grid-x">
-                            <div class="medium-2 padding-lr">
-                                <label>شماره نامه
-                                    <input class="form-element-margin-btm" type="text" name="letterNumber" v-model="registerOfCreditAllocationAssetsInput.rocaaNumber">
-                                </label>
-                            </div>
-                            <div class="medium-2 padding-lr">
-                                <label>تاریخ نامه
-                                    <input class="form-element-margin-btm" type="text" name="letterDate" v-model="registerOfCreditAllocationAssetsInput.rocaaDate">
-                                </label>
-                            </div>
-                        </div>
-                        <div class="grid-x">
-                            <div class="medium-6 cell padding-lr">
-                                <label>طرح
-                                    <select class="form-element-margin-btm"  v-model="selectedPlan" v-on:change="getProjects" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
-                                        <option value=""></option>
-                                        <option v-for="approvedPlan in approvedPlans" :value="approvedPlan.id">@{{ approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject }}</option>
-                                    </select>
-                                    <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
-                                </label>
-                            </div>
-                            <div class="medium-6 cell padding-lr">
-                                <label>عنوان پروژه
-                                    <select class="form-element-margin-btm"  v-model="registerOfCreditAllocationAssetsInput.rocaaProject" name="projectTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('projectTitle')}">
-                                        <option value=""></option>
-                                        <option v-for="project in approvedProjects" :value="project.id">@{{ project.cpCode + ' - ' + project.cpSubject }}</option>
-                                    </select>
-                                </label>
-                                <span v-show="errors.has('projectTitle')" class="error-font">لطفا عنوان پروژه انتخاب کنید!</span>
-                            </div>
-                        </div>
-                        <div class="grid-x">
-                            <div class="medium-6 cell padding-lr">
-                                <label>اعتبار مصوب
-                                    <select class="form-element-margin-btm"  v-model="selectedPlan" v-on:change="getProjects" name="credit" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('credit')}">
-                                        <option value=""></option>
-                                        <option v-for="approvedPlan in approvedPlans" :value="approvedPlan.id">@{{ approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject }}</option>
-                                    </select>
-                                    <span v-show="errors.has('credit')" class="error-font">لطفا اعتبار مصوب را انتخاب کنید!</span>
-                                </label>
-                            </div>
-                            <div class="medium-6 cell padding-lr">
-                                <label>مبلغ تخصیص <span class="btn-red">(میلیون ریال)</span>
-                                    <select class="form-element-margin-btm"  v-model="registerOfCreditAllocationAssetsInput.rocaaProject" name="creditCost" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('creditCost')}">
-                                        <option value=""></option>
-                                        <option v-for="project in approvedProjects" :value="project.id">@{{ project.cpCode + ' - ' + project.cpSubject }}</option>
-                                    </select>
-                                </label>
-                                <span v-show="errors.has('creditCost')" class="error-font">لطفا مبلغ تخصیص انتخاب کنید!</span>
-                            </div>
-                        </div>
-
-                        <div style="margin-top: 15px;" class="grid-x padding-lr">
-                            <div class="medium-12 my-callout-bg-color">
-                                <div class="grid-x">
-                                    <div class="medium-4">
-                                        <p class="btn-red">اعتبار مصوب</p>
-                                    </div>
-                                    <div class="medium-3">
-                                        <p class="btn-red">آخرین تخصیص</p>
-                                    </div>
-                                    <div class="medium-2">
-                                        <p class="btn-red">درصدآخرین تخصیص</p>
+                        <form v-on:submit.prevent="createCapitalAssetsAllocation">
+                            <div class="grid-x" v-if="errorMessage">
+                                <div class="medium-12 columns padding-lr">
+                                    <div class="alert callout">
+                                        <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div style="margin-top: 15px;margin-bottom: 25px;" class="grid-x padding-lr small-font">
-                            <div class="medium-12">
-                                <div v-for="creditDistributionRow in creditDistributionRows" class="grid-x input-margin-top">
-                                    <div class="medium-4 padding-lr">
-                                        <p>@{{ creditDistributionRow.cdSubject }}</p>
-                                    </div>
-                                    <div class="medium-3 padding-lr">
-                                        <p></p>
-                                    </div>
-                                    <div class="medium-2 padding-lr">
-                                        <p></p>
-                                    </div>
-                                    <div style="margin-top: -7px;" class="medium-3 padding-lr">
-                                        <label>
-                                            <input class="form-element-margin-btm" type="text" :name="'cost' + creditDistributionRow.id" v-model="creditDistributionRowInput['cost' + creditDistributionRow.id]" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('cost' + creditDistributionRow.id)}">
-                                        </label>
-                                        <span v-show="errors.has('cost' + creditDistributionRow.id)" class="error-font">لطفا مبلغ را وارد کنید!</span>
+                            <div class="grid-x">
+                                <div class="medium-2 padding-lr">
+                                    <label>شماره نامه
+                                        <input class="form-element-margin-btm" type="text" name="letterNumber" v-model="AllocationInput.idNumber">
+                                    </label>
+                                </div>
+                                <div class="medium-2 padding-lr">
+                                    <label>تاریخ نامه
+                                        <input class="form-element-margin-btm" type="text" name="letterDate" v-model="AllocationInput.date">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-6 cell padding-lr">
+                                    <label>طرح
+                                        <select class="form-element-margin-btm"  v-model="selectedPlan" v-on:change="getProjects" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
+                                            <option value=""></option>
+                                            <option v-for="approvedPlan in approvedPlans" :value="approvedPlan.id">{{ approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject + (approvedPlan.credit_distribution_title.county == null ? '' : ' - ' + approvedPlan.credit_distribution_title.county.coName) }}</option>
+                                        </select>
+                                        <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
+                                    </label>
+                                </div>
+                                <div class="medium-6 cell padding-lr">
+                                    <label>پروژه
+                                        <select class="form-element-margin-btm" v-model="selectedProject" v-on:change="getProjectsCreditSource" name="projectTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('projectTitle')}">
+                                            <option value=""></option>
+                                            <option v-for="project in approvedProjects" :value="project.id">{{ project.cpCode + ' - ' + project.cpSubject }}</option>
+                                        </select>
+                                    </label>
+                                    <span v-show="errors.has('projectTitle')" class="error-font">لطفا عنوان پروژه انتخاب کنید!</span>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-6 cell padding-lr">
+                                    <label>اعتبار مصوب
+                                        <select class="form-element-margin-btm"  v-model="AllocationInput.pcsId" name="credit" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('credit')}">
+                                            <option value=""></option>
+                                            <option v-for="projectCreditSource in projectCreditSources" :value="projectCreditSource.id">{{ projectCreditSource.credit_distribution_row.cdSubject + ' - فصل ' + projectCreditSource.tiny_season.season_title.season.sSubject + ' - ' + projectCreditSource.tiny_season.season_title.castSubject + ' - ' + projectCreditSource.tiny_season.catsSubject + ' - ' + projectCreditSource.ccsAmount + ' میلیون ریال ' }}</option>
+                                        </select>
+                                        <span v-show="errors.has('credit')" class="error-font">لطفا اعتبار مصوب را انتخاب کنید!</span>
+                                    </label>
+                                </div>
+                                <div class="medium-6 cell padding-lr">
+                                    <label>مبلغ تخصیص <span class="btn-red">(میلیون ریال)</span>
+                                        <input class="form-element-margin-btm" type="text"  v-model="AllocationInput.amount" name="creditCost" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('creditCost')}"/>
+                                    </label>
+                                    <span v-show="errors.has('creditCost')" class="error-font">لطفا مبلغ تخصیص انتخاب کنید!</span>
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px;" class="grid-x padding-lr">
+                                <div class="medium-12 my-callout-bg-color">
+                                    <div class="grid-x">
+                                        <div class="medium-4">
+                                            <p class="btn-red">اعتبار مصوب</p>
+                                        </div>
+                                        <div class="medium-3">
+                                            <p class="btn-red">آخرین تخصیص</p>
+                                        </div>
+                                        <div class="medium-2">
+                                            <p class="btn-red">درصدآخرین تخصیص</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="medium-6 columns padding-lr padding-bottom-modal">
-                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
-                        </div>
+                            <div class="grid-x">
+                                <div class="small-12 columns padding-lr">
+                                    <label>شرح
+                                        <textarea name="csDescription" style="min-height: 150px;" v-model="AllocationInput.description"></textarea>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="medium-6 columns padding-lr padding-bottom-modal">
+                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                            </div>
+                        </form>
                     </div>
                 </modal-large>
                 <!--Insert Modal End-->
 
                 <!--Update Modal Start-->
-                <modal-large v-if="showModalUpdate" @close="showModalUpdate = false">
+<!--                <modal-large v-if="showModalUpdate" @close="showModalUpdate = false">
                     <div  slot="body">
                         <div class="grid-x" v-if="errorMessage">
                             <div class="medium-12 columns padding-lr">
@@ -414,12 +395,12 @@
                         <div class="grid-x">
                             <div class="medium-2 padding-lr">
                                 <label>شماره نامه
-                                    <input class="form-element-margin-btm" type="text" name="letterNumber" v-model="registerOfCreditAllocationAssetsInput.rocaaNumber">
+                                    <input class="form-element-margin-btm" type="text" name="letterNumber" v-model="AllocationInput.rocaaNumber">
                                 </label>
                             </div>
                             <div class="medium-2 padding-lr">
                                 <label>تاریخ نامه
-                                    <input class="form-element-margin-btm" type="text" name="letterDate" v-model="registerOfCreditAllocationAssetsInput.rocaaDate">
+                                    <input class="form-element-margin-btm" type="text" name="letterDate" v-model="AllocationInput.rocaaDate">
                                 </label>
                             </div>
                         </div>
@@ -427,7 +408,7 @@
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
                                 <label>طرح
-                                    <select class="form-element-margin-btm"  v-model="registerOfCreditAllocationAssetsInput.rocaaPlan" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
+                                    <select class="form-element-margin-btm"  v-model="AllocationInput.rocaaPlan" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
                                         <option value=""></option>
                                         <option value="1">1</option>
                                     </select>
@@ -436,7 +417,7 @@
                             </div>
                             <div class="medium-6 cell padding-lr">
                                 <label>عنوان پروژه
-                                    <select class="form-element-margin-btm"  v-model="registerOfCreditAllocationAssetsInput.rocaaProject" name="projectTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('projectTitle')}">
+                                    <select class="form-element-margin-btm"  v-model="AllocationInput.rocaaProject" name="projectTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('projectTitle')}">
                                         <option value=""></option>
                                         <option value="1">1</option>
                                     </select>
@@ -476,7 +457,7 @@
                                     </div>
                                     <div style="margin-top: -7px;" class="medium-3 padding-lr">
                                         <label>
-                                            <input class="form-element-margin-btm" type="text" name="cost" v-model="registerOfCreditAllocationAssetsInput.rocaaCost" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('cost')}">
+                                            <input class="form-element-margin-btm" type="text" name="cost" v-model="AllocationInput.rocaaCost" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('cost')}">
                                         </label>
                                         <span v-show="errors.has('cost')" class="error-font">لطفا مبلغ را وارد کنید!</span>
                                     </div>
@@ -487,11 +468,11 @@
                             <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
                         </div>
                     </div>
-                </modal-large>
+                </modal-large>-->
                 <!--Update Modal End-->
 
                 <!-- Delete Modal Start-->
-                <modal-tiny v-if="showModalDelete" @close="showModalDelete = false">
+<!--                <modal-tiny v-if="showModalDelete" @close="showModalDelete = false">
                     <div  slot="body">
                         <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
                             <p>کاربر گرامی</p>
@@ -503,7 +484,7 @@
                             </div>
                         </div>
                     </div>
-                </modal-tiny>
+                </modal-tiny>-->
                 <!-- Delete Modal End-->
                 <!--Forms End-->
             </div>
@@ -517,18 +498,20 @@
             return {
                 errorMessage: '',
                 errorMessage_update: '',
-                registerOfCreditAllocationAssets: [],
-                registerOfCreditAllocationAssetsInput: {rocaPlan: '' ,rocaaProject:'',rocaaRow:'',roccaCost:'',rocaaNumber:'',rocaaDate:''},
-                showModal: true,
+                provCapitalAssetsAllocations: [],
+                natCapitalAssetsAllocations: [],
+                AllocationInput: {},
+                provOrNat: '',
+                showModal: false,
                 showModalUpdate: false,
                 showModalDelete: false,
                 registerOfCreditAllocationAssetsFill: {rocaPlan: '' ,rocaaProject:'',rocaaRow:'',roccaCost:'',rocaaNumber:'',rocaaDate:''},
                 rocaaIdDelete: {},
                 approvedPlans: {},
                 selectedPlan: '',
+                selectedProject: '',
                 approvedProjects: {},
-                creditDistributionRows: {},
-                creditDistributionRowInput: {},
+                projectCreditSources: {},
             }
         },
         created: function () {
@@ -539,6 +522,15 @@
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
+        },
+
+        mounted: function () {
+            console.log("mounted capital assets allocation component");
+            res();
+        },
+
+        components:{
+            'vue-pagination' : VuePagination
         },
 
         methods:{
@@ -553,17 +545,17 @@
             },
 
             getAllApprovedPlan: function (pOrN) {
-                axios.get('/budget/plan/capital_assets/plans/getAllItems' , {params:{pOrN: 0}})
-                    .then((response) => {
+                axios.get('/budget/approved_plan/capital_assets/getAllItems' , {params:{pOrN: pOrN}})
+                        .then((response) => {
                         this.approvedPlans = response.data;
                         console.log(response);
-                    },(error) => {
-                        console.log(error);
-                    });
+                        },(error) => {
+                            console.log(error);
+                });
             },
 
             getProjects: function () {
-                axios.get('/budget/project/capital_assets/projects/getAllItems' , {params:{pId: this.selectedPlan , planOrCost: 0}})
+                axios.get('/budget/approved_project/capital_assets/getAllItems' , {params:{pId: this.selectedPlan , planOrCost: 0}})
                     .then((response) => {
                         this.approvedProjects = response.data;
                         console.log(response);
@@ -572,20 +564,28 @@
                     });
             },
 
-            getCreditDistributionRow: function () {
-                axios.get('/budget/admin/credit_distribution_def/rows/getAllItems' , {params:{planOrCost: 0}})
-                    .then((response) => {
-                        this.creditDistributionRows = response.data;
+            getProjectsCreditSource: function () {
+                axios.get('/budget/approved_project/capital_assets/credit_source/getAllItem' , {params:{pId: this.selectedProject}})
+                   .then((response) => {
+                        this.projectCreditSources = response.data;
                         console.log(response);
                     },(error) => {
                         console.log(error);
-                    });
+                });
             },
 
-            createRegisterOfCreditAllocationAssets: function () {
+            openInsertModal: function (type) {
+                this.provOrNat = type;
+                this.getAllApprovedPlan(type);
+                this.showModal = true;
+            },
+
+            createCapitalAssetsAllocation: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        axios.post('/budget/allocation/register_of_credit_allocation_assets/register' , {aInput: this.registerOfCreditAllocationAssetsInput , cdrInput: this.creditDistributionRowInput})
+                        axios.post('/budget/allocation/register_of_credit_allocation_assets/register' , {
+
+                        })
                             .then((response) => {
                                 this.registerOfCreditAllocationAssets = response.data;
                                 this.showModal = false;

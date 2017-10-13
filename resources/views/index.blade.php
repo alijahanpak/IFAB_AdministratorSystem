@@ -138,17 +138,8 @@
                             <li>
                                 <a class="right-mp right-menu-btm-border" href="#">تخصیص اعتبار</a>
                                 <ul class="menu vertical nested">
-                                    <li><a href="#">هزینه ای</a>
-                                        <ul class="menu vertical nested">
-                                            <li><a href="#">بند و</a></li>
-                                            <li><a href="#">سایر</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">تملک دارایی سرمایه ای</a>
-                                        <ul class="menu vertical nested">
-                                            <li><router-link to="/budget/register_of_credit_allocation_assets/project">پروژه ها</router-link></li>
-                                        </ul>
-                                    </li>
+                                    <li><a href="#">هزینه ای</a></li>
+                                    <li><router-link to="/budget/allocation/capital_assets">تملک دارایی سرمایه ای</router-link></li>
                                 </ul>
                             </li>
                             <li>

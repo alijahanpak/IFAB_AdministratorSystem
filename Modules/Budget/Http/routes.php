@@ -90,11 +90,11 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::get('capital_assets/projects/getAllItems', 'ProjectController@getAllApprovedProjects');
     });*/
     ///////////////////////////////////////////////////////////////////////////
-    Route::prefix('allocation')->group(function () {
+/*    Route::prefix('allocation')->group(function () {
         Route::get('register_of_credit_allocation_assets/allocation', 'AllocationOfCapitalAssetsController@register_of_credit_allocation_assets');
         Route::get('register_of_credit_allocation_assets/fetchData', 'AllocationOfCapitalAssetsController@FetchAllocation');
         Route::post('register_of_credit_allocation_assets/register', 'AllocationOfCapitalAssetsController@registerCapitalAssetsAllocation');
-    });
+    });*/
 
 });
 
@@ -173,7 +173,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
     });
 
     Route::prefix('approved_plan/capital_assets')->group(function () {
-        Route::get('/fetchData', 'PlanController@capitalAssetsApprovedPlan');
+        Route::get('/fetchData', 'PlanController@fetchCapitalAssetsApprovedPlan');
         Route::post('/register', 'PlanController@registerCapitalAssetsApprovedPlan');
         //Route::post('/delete', 'PlanController@deleteCapitalAssetsApprovedPlan');
         //Route::post('/update', 'PlanController@updateCapitalAssetsApprovedPlan');
@@ -184,12 +184,19 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::get('/fetchData', 'ProjectController@fetchApprovedProjectData');
         //Route::get('capital_assets/projects/fetchData', 'ProjectController@FetchApprovedProjects');
         Route::post('/register', 'ProjectController@registerApprovedProject');
-        //Route::get('capital_assets/projects/getAllItems', 'ProjectController@getAllApprovedProjects');
+        Route::get('/getAllItems', 'ProjectController@getAllApprovedProjects');
         Route::post('/credit_source/register', 'ProjectController@registerApCreditSource');
+        Route::get('/credit_source/getAllItem', 'ProjectController@getAllApCreditSourceItems');
     });
 
     Route::prefix('admin/how_to_run')->group(function () {
         Route::get('/getAllItems' , 'BudgetAdminController@getAllHowToRun');
+    });
+
+    Route::prefix('allocation/capital_assets')->group(function () {
+        //Route::get('register_of_credit_allocation_assets/allocation', 'AllocationOfCapitalAssetsController@register_of_credit_allocation_assets');
+        //Route::get('register_of_credit_allocation_assets/fetchData', 'AllocationOfCapitalAssetsController@FetchAllocation');
+        Route::post('/register', 'AllocationOfCapitalAssetsController@registerCapitalAssetsAllocation');
     });
     
 });

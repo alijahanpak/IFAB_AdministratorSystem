@@ -1,7 +1,7 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <!--Inner body start-->
     <div class="medium-10 border-right-line inner-body-pad main-margin">
-        <div style="padding-top: 15px;" class="grid-x padding-lr">
+        <div class="grid-x padding-lr breadcrumbs-pos">
             <div class="medium-12">
                 <div class="grid-x">
                     <nav aria-label="You are here:" role="navigation">
@@ -61,94 +61,51 @@
                             <div class="columns">
                                 <!--Header Start-->
                                 <div class="grid-x table-header">
-                                    <div class="medium-2 table-border">
-                                        <strong>کد طرح</strong>
+                                    <div class="medium-3  table-border">
+                                        <strong>طرح</strong>
                                     </div>
-                                    <div class="medium-10">
-                                        <div class="grid-x">
-                                            <div class="medium-1 table-border">
-                                                <strong>کد</strong>
-                                            </div>
-                                            <div class="medium-3 table-border">
-                                                <strong>عنوان</strong>
-                                            </div>
-                                            <div class="medium-2 table-border">
-                                                <strong>شهرستان</strong>
-                                            </div>
-                                            <div class="medium-2 table-border">
-                                                <strong>اعتبار</strong>
-                                            </div>
-                                            <div class="medium-4  table-border">
-                                                <strong>شرح</strong>
-                                            </div>
-                                        </div>
+                                    <div class="medium-2  table-border">
+                                        <strong>مبادله شده</strong>
+                                    </div>
+                                    <div class="medium-2 table-border">
+                                        <strong>ابلاغی</strong>
+                                    </div>
+                                    <div class="medium-2  table-border">
+                                        <strong>شهرستان</strong>
+                                    </div>
+                                    <div class="medium-3  table-border">
+                                        <strong>شرح</strong>
                                     </div>
                                 </div>
                                 <!--Header End-->
                                 <div class="table-contain dynamic-height-level2">
-                                    <div class="grid-x" v-for="plans in approvedProjects_prov">
-                                        <div class="medium-2 table-contain-border cell-vertical-center">
-                                            {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' - ' + plans.credit_distribution_title.county.coName }}
+                                    <div class="grid-x" v-for="plans in approvedPlan_prov">
+                                        <div class="medium-3 table-contain-border cell-vertical-center">
+                                            {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}
                                         </div>
-                                        <div class="medium-10">
-                                            <div class="grid-x" v-for="projects in plans.capital_assets_project">
-                                                <div class="medium-1 table-contain-border cell-vertical-center">
-                                                    {{ projects.cpCode }}
+                                        <div class="medium-2 table-contain-border cell-vertical-center text-center">
+                                            <div>{{ plans.capExchangeIdNumber }}</div>
+                                            <div>{{ plans.capExchangeDate }}</div>
+                                        </div>
+                                        <div class="medium-2 table-contain-border cell-vertical-center text-center">
+                                            <div>{{ plans.capLetterNumber }}</div>
+                                            <div>{{ plans.capLetterDate }}</div>
+                                        </div>
+                                        <div class="medium-2 table-contain-border cell-vertical-center">
+                                            {{ plans.credit_distribution_title.county.coName }}
+                                        </div>
+                                        <div class="medium-3  table-contain-border cell-vertical-center">
+                                            <div class="grid-x">
+                                                <div class="medium-11">
+                                                    {{ plans.capDescription }}
                                                 </div>
-                                                <div class="medium-3 table-contain-border cell-vertical-center">
-                                                    {{ projects.cpSubject }}
-                                                </div>
-                                                <div class="medium-2 table-contain-border cell-vertical-center">
-                                                    {{ projects.county.coName }}
-                                                </div>
-                                                <div class="medium-2 table-contain-border cell-vertical-center">
-                                                    <span @click="displayCreditSourceInfo_prov == projects.id ? displayCreditSourceInfo_prov = '' : displayCreditSourceInfo_prov = projects.id">123</span>
-                                                </div>
-                                                <div class="medium-4  table-contain-border cell-vertical-center">
-                                                    <div class="grid-x">
-                                                        <div class="medium-11">
-                                                            {{ projects.cpDescription }}
-                                                        </div>
-                                                        <div class="medium-1 cell-vertical-center text-left">
-                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'apApprovedProjects' + projects.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'apApprovedProjects' + projects.id" data-dropdown data-auto-focus="true">
-                                                                <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent="approvedProjectsUpdateDialog(projects , plans.id)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent="openDeleteApprovedProjectsConfirm(projects)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                    <li><a v-on:click.prevent="openApCreditSourceInsertModal(projects.id , 0)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
-                                                                 </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="medium-12">
-                                                    <div class="grid-x" v-show="displayCreditSourceInfo_prov == projects.id">
-                                                        <div class="medium-12 table-contain-border cell-vertical-center">
-                                                            <table class="unstriped tbl-secondary-mrg small-font">
-                                                                <thead class="my-thead">
-                                                                <tr style="background-color: #F1F1F1 !important;">
-                                                                    <th>ردیف</th>
-                                                                    <th>فصل</th>
-                                                                    <th>عنوان فصل</th>
-                                                                    <th>ریز فصل</th>
-                                                                    <th>نحوه اجرا</th>
-                                                                    <th>مبلغ</th>
-                                                                    <th>توضیحات</th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                <tr v-for="creditSource in projects.credit_source">
-                                                                    <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
-                                                                    <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
-                                                                    <td>{{ creditSource.tiny_season.season_title.castSubject }}</td>
-                                                                    <td>{{ creditSource.tiny_season.catsSubject }}</td>
-                                                                    <td>{{ creditSource.how_to_run.htrSubject }}</td>
-                                                                    <td>{{ creditSource.ccsAmount }}</td>
-                                                                    <td>{{ creditSource.ccsDescription }}</td>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
+                                                <div class="medium-1 cell-vertical-center text-left">
+                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
+                                                        <ul class="my-menu small-font text-right">
+                                                            <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                            <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                         </ul>
                                                     </div>
                                                 </div>
                                             </div>
@@ -200,94 +157,45 @@
                             <div class="columns">
                                 <!--Header Start-->
                                 <div class="grid-x table-header">
-                                    <div class="medium-2 table-border">
-                                        <strong>کد طرح</strong>
+                                    <div class="medium-3  table-border">
+                                        <strong>طرح</strong>
                                     </div>
-                                    <div class="medium-10">
-                                        <div class="grid-x">
-                                            <div class="medium-1 table-border">
-                                                <strong>کد</strong>
-                                            </div>
-                                            <div class="medium-3 table-border">
-                                                <strong>عنوان</strong>
-                                            </div>
-                                            <div class="medium-2 table-border">
-                                                <strong>شهرستان</strong>
-                                            </div>
-                                            <div class="medium-2 table-border">
-                                                <strong>اعتبار</strong>
-                                            </div>
-                                            <div class="medium-4  table-border">
-                                                <strong>شرح</strong>
-                                            </div>
-                                        </div>
+                                    <div class="medium-2  table-border">
+                                        <strong>مبادله شده</strong>
+                                    </div>
+                                    <div class="medium-2 table-border">
+                                        <strong>ابلاغی</strong>
+                                    </div>
+                                    <div class="medium-5  table-border">
+                                        <strong>شرح</strong>
                                     </div>
                                 </div>
                                 <!--Header End-->
                                 <div class="table-contain dynamic-height-level2">
-                                    <div class="grid-x" v-for="plans in approvedProjects_nat">
-                                        <div class="medium-2 table-contain-border cell-vertical-center">
-                                            {{ plans.credit_distribution_title.cdtIdNumber }}
+                                    <div class="grid-x" v-for="plans in approvedPlan_nat">
+                                        <div class="medium-3 table-contain-border cell-vertical-center">
+                                            {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}
                                         </div>
-                                        <div class="medium-10">
-                                            <div class="grid-x selectAbleRow" v-for="projects in plans.capital_assets_project">
-                                                <div class="medium-1 table-contain-border cell-vertical-center">
-                                                    {{ projects.cpCode }}
+                                        <div class="medium-2 table-contain-border cell-vertical-center text-center">
+                                            <div>{{ plans.capExchangeIdNumber }}</div>
+                                            <div>{{ plans.capExchangeDate }}</div>
+                                        </div>
+                                        <div class="medium-2 table-contain-border cell-vertical-center text-center">
+                                            <div>{{ plans.capLetterNumber }}</div>
+                                            <div>{{ plans.capLetterDate }}</div>
+                                        </div>
+                                        <div class="medium-5  table-contain-border cell-vertical-center">
+                                            <div class="grid-x">
+                                                <div class="medium-11">
+                                                    {{ plans.capDescription }}
                                                 </div>
-                                                <div class="medium-3 table-contain-border cell-vertical-center">
-                                                    {{ projects.cpSubject }}
-                                                </div>
-                                                <div class="medium-2 table-contain-border cell-vertical-center">
-                                                    {{ projects.county.coName }}
-                                                </div>
-                                                <div class="medium-2 table-contain-border cell-vertical-center">
-                                                    <span @click="displayCreditSourceInfo_nat == projects.id ? displayCreditSourceInfo_nat = '' : displayCreditSourceInfo_nat = projects.id">123</span>
-                                                </div>
-                                                <div class="medium-4  table-contain-border cell-vertical-center">
-                                                    <div class="grid-x">
-                                                        <div class="medium-11">
-                                                            {{ projects.cpDescription }}
-                                                        </div>
-                                                        <div class="medium-1 cell-vertical-center text-left">
-                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'apApprovedProjects' + projects.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'apApprovedProjects' + projects.id" data-dropdown data-auto-focus="true">
-                                                                <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent="approvedProjectsUpdateDialog(projects , plans.id)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent="openDeleteApprovedProjectsConfirm(projects)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                    <li><a v-on:click.prevent="openApCreditSourceInsertModal(projects.id , 1)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="medium-12">
-                                                    <div class="grid-x" v-show="displayCreditSourceInfo_nat == projects.id">
-                                                        <div class="medium-12 table-contain-border cell-vertical-center">
-                                                            <table class="unstriped tbl-secondary-mrg small-font">
-                                                                <thead class="my-thead">
-                                                                <tr style="background-color: #F1F1F1 !important;">
-                                                                    <th>ردیف</th>
-                                                                    <th>فصل</th>
-                                                                    <th>عنوان فصل</th>
-                                                                    <th>ریز فصل</th>
-                                                                    <th>نحوه اجرا</th>
-                                                                    <th>مبلغ</th>
-                                                                    <th>توضیحات</th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                <tr v-for="creditSource in projects.credit_source">
-                                                                    <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
-                                                                    <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
-                                                                    <td>{{ creditSource.tiny_season.season_title.castSubject }}</td>
-                                                                    <td>{{ creditSource.tiny_season.catsSubject }}</td>
-                                                                    <td>{{ creditSource.how_to_run.htrSubject }}</td>
-                                                                    <td>{{ creditSource.ccsAmount }}</td>
-                                                                    <td>{{ creditSource.ccsDescription }}</td>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
+                                                <div class="medium-1 cell-vertical-center text-left">
+                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
+                                                        <ul class="my-menu small-font text-right">
+                                                            <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                            <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                        </ul>
                                                     </div>
                                                 </div>
                                             </div>
@@ -330,7 +238,7 @@
                                     <label>طرح
                                         <select class="form-element-margin-btm"  v-model="approvedPlanInput.cdtId" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
                                             <option value=""></option>
-                                            <option v-for="creditDistributionTitle in creditDistributionTitles" :value="creditDistributionTitle.id">{{ creditDistributionTitle.cdtIdNumber + ' - ' + creditDistributionTitle.cdtSubject + ' - ' + creditDistributionTitle.county.coName}}</option>
+                                            <option v-for="creditDistributionTitle in creditDistributionTitles" :value="creditDistributionTitle.id">{{ creditDistributionTitle.cdtIdNumber + ' - ' + creditDistributionTitle.cdtSubject + (creditDistributionTitle.county == null ? '' : ' - ' + creditDistributionTitle.county.coName)}}</option>
                                         </select>
                                         <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
                                     </label>
@@ -435,8 +343,8 @@
         },
 
         created: function () {
-            //this.fetchProvincialData();
-            //this.fetchNationalData();
+            this.fetchProvincialData();
+            this.fetchNationalData();
         },
 
         updated: function () {
@@ -454,9 +362,9 @@
 
         methods:{
             fetchProvincialData: function (page = 1) {
-                axios.get('/budget/approved_project/capital_assets/fetchData?page=' + page , {params:{pOrN: 0}})
+                axios.get('/budget/approved_plan/capital_assets/fetchData?page=' + page , {params:{pOrN: 0}})
                     .then((response) => {
-                        this.approvedProjects_prov = response.data.data;
+                        this.approvedPlan_prov = response.data.data;
                         this.makePagination(response.data , "provincial");
                         console.log(response);
                     },(error) => {
@@ -465,9 +373,9 @@
             },
 
             fetchNationalData: function (page = 1) {
-                axios.get('/budget/approved_project/capital_assets/fetchData?page=' + page , {params:{pOrN: 1}})
+                axios.get('/budget/approved_plan/capital_assets/fetchData?page=' + page , {params:{pOrN: 1}})
                     .then((response) => {
-                        this.approvedProjects_nat = response.data.data;
+                        this.approvedPlan_nat = response.data.data;
                         this.makePagination(response.data , "national");
                         console.log(response);
                     },(error) => {
@@ -475,8 +383,8 @@
                     });
             },
 
-            getCreditDistributionTitle: function () {
-                axios.get('/budget/admin/credit_distribution_def/plan_cost_title/getAllItem' , {params:{pOrN: 0}})
+            getCreditDistributionTitle: function (pOrN) {
+                axios.get('/budget/admin/credit_distribution_def/plan_cost_title/getAllItem' , {params:{pOrN: pOrN}})
                     .then((response) => {
                         this.creditDistributionTitles = response.data;
                         console.log(response);
@@ -486,53 +394,31 @@
             },
 
             openApprovedPlanInsertModal: function (type) {
-                this.getCreditDistributionTitle();
-                this.showInsertModal= true;
-/*                this.getAllApprovedPlan(type);
-                this.getCounties();
-                this.showInsertModal= true;
+                this.getCreditDistributionTitle(type);
                 this.provOrNat = type;
-                if (type == 0)
-                {
-                    this.countyState = true;
-                }
-                else
-                {
-                    this.countyState = false;
-                }*/
-            },
-
-            openApCreditSourceInsertModal: function (capId , type) {
-                this.showApCsInsertModal = true;
-                this.capIdForInsertCreditSource = capId;
-                this.provOrNat = type;
-                this.getHowToRun();
-                this.getSeasons();
-                this.getCreditDistributionRow();
+                this.showInsertModal= true;
             },
 
             createApprovedPlan: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        axios.post('/budget/approved_project/capital_assets/register' , {
-                            pId: this.approvedProjectsInput.apPlan,
-                            subject: this.approvedProjectsInput.apProjectTitle,
-                            code: this.approvedProjectsInput.apProjectCode,
-                            startYear: this.approvedProjectsInput.apStartYear,
-                            endYear: this.approvedProjectsInput.apEndYear,
-                            pProgress: this.approvedProjectsInput.apPhysicalProgress,
-                            coId: this.approvedProjectsInput.apCity,
-                            description: this.approvedProjectsInput.apDescription,
+                        axios.post('/budget/approved_plan/capital_assets/register' , {
+                            cdtId: this.approvedPlanInput.cdtId,
+                            idNumber: this.approvedPlanInput.idNumber,
+                            date: this.approvedPlanInput.date,
+                            exIdNumber: this.approvedPlanInput.exIdNumber,
+                            exDate: this.approvedPlanInput.exDate,
+                            description: this.approvedPlanInput.apDescription,
                             pOrN: this.provOrNat
                         }).then((response) => {
                                 if (this.provOrNat == 0)
                                 {
-                                    this.approvedProjects_prov = response.data.data;
+                                    this.approvedPlan_prov = response.data.data;
                                     this.makePagination(response.data , "provincial");
                                 }
                                 else
                                 {
-                                    this.approvedProjects_nat = response.data.data;
+                                    this.approvedPlan_nat= response.data.data;
                                     this.makePagination(response.data , "national");
                                 }
                                 this.showInsertModal = false;
@@ -544,22 +430,6 @@
                             });
                     }
                 });
-            },
-
-            setCountyId: function (coId) {
-                if (this.provOrNat == 0)
-                {
-                    this.approvedProjectsInput.apCity = coId;
-                }
-            },
-
-            getProjectAmount: function (cdrCp) {
-                var sum = 0;
-                cdrCp.forEach(cdr => {
-                    "use strict";
-                    sum += cdr.ccAmount;
-                });
-                return sum;
             },
 
             approvedProjectsUpdateDialog: function (item , planId) {

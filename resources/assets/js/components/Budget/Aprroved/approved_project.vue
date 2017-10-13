@@ -1,7 +1,7 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <!--Inner body start-->
     <div class="medium-10 border-right-line inner-body-pad main-margin">
-        <div style="padding-top: 15px;" class="grid-x padding-lr">
+        <div class="grid-x padding-lr breadcrumbs-pos">
             <div class="medium-12">
                 <div class="grid-x">
                     <nav aria-label="You are here:" role="navigation">
@@ -227,7 +227,7 @@
                                 <div class="table-contain dynamic-height-level2">
                                     <div class="grid-x" v-for="plans in approvedProjects_nat">
                                         <div class="medium-2 table-contain-border cell-vertical-center">
-                                            {{ plans.credit_distribution_title.cdtIdNumber }}
+                                            {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}
                                         </div>
                                         <div class="medium-10">
                                             <div class="grid-x selectAbleRow" v-for="projects in plans.capital_assets_project">

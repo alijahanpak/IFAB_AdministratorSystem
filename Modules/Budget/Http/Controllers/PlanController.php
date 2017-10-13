@@ -21,32 +21,35 @@ class PlanController extends Controller
         $this->middleware('auth');
     }
 
-    public function capitalAssetsApprovedPlan(){
-        $provinceCaps = CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)->where('capProvinceOrNational' , '=' , 0)->get();
-        $nationalCaps = CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)->where('capProvinceOrNational' , '=' , 1)->get();
-        return view('budget::pages.capital_assets_approved_plan.main',
-            ['provinceCaps' => $provinceCaps ,
-                'nationalCaps' => $nationalCaps ,
-                'pageTitle' => 'ثبت طرح های مصوب عمرانی',
-                'requireJsFile' => 'capital_assets_approved_plan']);
+    public function fetchCapitalAssetsApprovedPlan(Request $request){
+        return \response()->json($this->getAllPlans($request->pOrN));
     }
 
     public function registerCapitalAssetsApprovedPlan(Request $request)
     {
         $cap = new CapitalAssetsApprovedPlan;
         $cap->capUId = Auth::user()->id;
-        $cap->capCdtId = Input::get('capPtitle');
+        $cap->capCdtId = $request->cdtId;
         $cap->capFyId = Auth::user()->seFiscalYear;
-        $cap->capLetterNumber = Input::get('capLetterNumber');
-        $cap->capLetterDate = Input::get('capLetterDate');
-        $cap->capExchangeDate = Input::get('capExchangeDate');
-        $cap->capExchangeIdNumber = Input::get('capExchangeDate');
-        $cap->capProvinceOrNational = Input::get('capProvinceOrNational');
-        $cap->capDescription = Input::get('capDescription');
+        $cap->capLetterNumber = $request->idNumber;
+        $cap->capLetterDate = $request->date;
+        $cap->capExchangeIdNumber = $request->exIdNumber;
+        $cap->capExchangeDate = $request->exDate;
+        $cap->capProvinceOrNational = $request->pOrN;
+        $cap->capDescription = $request->description;
         $cap->save();
 
         SystemLog::setBudgetSubSystemLog('ثبت طرح تملک داریی های سرمایه ای استانی');
-        return \response()->json([]);
+        return \response()->json($this->getAllPlans($request->pOrN));
+    }
+
+    public function getAllPlans($pOrN)
+    {
+        return CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
+            ->where('capProvinceOrNational' , '=' , $pOrN)
+            ->with('creditDistributionTitle')
+            ->with('creditDistributionTitle.county')
+            ->paginate(5);
     }
 
     public function deleteCapitalAssetsApprovedPlan($capId)
@@ -114,7 +117,12 @@ class PlanController extends Controller
 
     public function getAllApprovedPlan(Request $request)
     {
-        if ($request->pOrN == 0)
+        return \response()->json(CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
+            ->where('capProvinceOrNational' , '=' , $request->pOrN)
+            ->with('creditDistributionTitle')
+            ->with('creditDistributionTitle.county')
+            ->get());
+/*        if ($request->pOrN == 0)
         {
             return \response()->json(CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
                 ->where('capProvinceOrNational' , '=' , $request->pOrN)
@@ -132,6 +140,6 @@ class PlanController extends Controller
                 }])
                 ->with('creditDistributionTitle.county')
                 ->get());
-        }
+        }*/
     }
 }

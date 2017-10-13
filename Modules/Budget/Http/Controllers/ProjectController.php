@@ -33,9 +33,10 @@ class ProjectController extends Controller
     {
         return CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('capProvinceOrNational' , '=' , $pOrN)
+            ->with('capitalAssetsProject')
+            ->whereHas('capitalAssetsProject')
             ->with('creditDistributionTitle')
             ->with('creditDistributionTitle.county')
-            ->with('capitalAssetsProject')
             ->with('capitalAssetsProject.creditSource')
             ->with('capitalAssetsProject.creditSource.creditDistributionRow')
             ->with('capitalAssetsProject.creditSource.tinySeason')
@@ -90,4 +91,15 @@ class ProjectController extends Controller
         );
     }
 
+    public function getAllApCreditSourceItems(Request $request)
+    {
+        return \response()->json(
+            CapCreditSource::where('ccsCapId' , '=' , $request->pId)
+                ->with('creditDistributionRow')
+                ->with('tinySeason')
+                ->with('tinySeason.seasonTitle')
+                ->with('tinySeason.seasonTitle.season')
+                ->with('howToRun')->get()
+        );
+    }
 }

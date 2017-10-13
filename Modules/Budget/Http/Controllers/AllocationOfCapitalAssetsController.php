@@ -50,7 +50,7 @@ class AllocationOfCapitalAssetsController extends Controller
         $alloc->caaLetterDate = $aInput['rocaaDate'];
         $alloc->save();
 
-        $cdrInput = $request['cdrInput'];
+/*        $cdrInput = $request['cdrInput'];
         $cdrs = CreditDistributionRow::where('cdPlanOrCost' , 0)->get(); // for capital_assets
         foreach ($cdrs as $cdr) {
             if (isset($cdrInput['cost' . $cdr->id]))
@@ -61,7 +61,7 @@ class AllocationOfCapitalAssetsController extends Controller
                 $cdrCp->ccAmount = AmountUnit::convertInputAmount($cdrInput['cost' . $cdr->id]);
                 $cdrCp->save();
             }
-        }
+        }*/
 
         SystemLog::setBudgetSubSystemLog('ثبت تخصیص اعتبار تملک داریی های سرمایه ای');
         return \response()->json(
