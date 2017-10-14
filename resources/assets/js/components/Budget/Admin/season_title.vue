@@ -370,30 +370,24 @@
 
         methods: {
             fetchCapitalAssetsData: function (page = 1) {
-                this.$root.start();
                 axios.get('/budget/admin/season_title/capital_assets/fetchData?page=' + page)
                     .then((response) => {
                         this.seasonTitles = response.data.data;
                         this.makePagination(response.data , "plan");
                         console.log(response.data);
-                        this.$root.finish();
                     },(error) => {
                         console.log(error);
-                        this.$root.fail();
                     });
             },
 
             fetchCostData: function (page = 1) {
-                this.$root.start();
                 axios.get('/budget/admin/season_title/cost/fetchData?page=' + page)
                     .then((response) => {
                         this.seasonTitleCosts = response.data.data;
                         this.makePagination(response.data , "cost");
                         console.log(response.data);
-                        this.$root.finish();
                     },(error) => {
                         console.log(error);
-                        this.$root.fail();
                     });
             },
 
@@ -410,22 +404,18 @@
             },
 
             getSeasons: function () {
-                this.$root.start();
                 axios.get('/admin/get_all_seasons')
                     .then((response) => {
                         this.seasons = response.data;
                         console.log(response);
-                        this.$root.finish();
                     }, (error) => {
                         console.log(error);
-                        this.$root.fail();
                     });
             },
 
             createSeasonTitle: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        this.$root.start();
                         axios.post(this.planOrCost == 0 ? '/budget/admin/season_title/capital_assets/register' : '/budget/admin/season_title/cost/register' , {
                             sId: this.seasonTitleInput.stSeason,
                             subject: this.seasonTitleInput.stSubject,
@@ -445,11 +435,9 @@
                                 this.displayNotif(response.status);
                                 this.seasonTitleInput = [];
                                 console.log(response);
-                                this.$root.finish();
                             }, (error) => {
                                 console.log(error);
                                 this.errorMessage = 'عنوان فصل با این مشخصات قبلا ثبت شده است!';
-                                this.$root.fail();
                         });
                     }
                 });
@@ -478,7 +466,6 @@
             updateSeasonTitle: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        this.$root.start();
                         axios.post(this.planOrCost == 0 ? '/budget/admin/season_title/capital_assets/update' : '/budget/admin/season_title/cost/update' , {
                             id: this.seasonTitleFill.id,
                             sId: this.seasonTitleFill.stSId,
@@ -498,11 +485,9 @@
                         this.showModalUpdate = false;
                         this.displayNotif(response.status);
                         console.log(response);
-                        this.$root.finish();
                     }, (error) => {
                             console.log(error);
                             this.errorMessage = 'عنوان فصل با این مشخصات قبلا ثبت شده است!';
-                            this.$root.fail();
                         });
                     }
                 });
@@ -515,7 +500,6 @@
             },
 
             deleteSeasonTitle: function () {
-                this.$root.start();
                 axios.post(this.planOrCost == 0 ? '/budget/admin/season_title/capital_assets/delete' : '/budget/admin/season_title/cost/delete', {
                     id: this.stIdDelete.id,
                     subject: this.planOrCost == 0 ? this.stIdDelete.castSubject : this.stIdDelete.cstSubject
@@ -535,11 +519,9 @@
                         }
                         this.showModalDelete = false;
                         console.log(response);
-                        this.$root.finish();
                         this.displayNotif(response.status);
                     }, (error) => {
                         console.log(error);
-                        this.$root.fail();
                     });
             },
 

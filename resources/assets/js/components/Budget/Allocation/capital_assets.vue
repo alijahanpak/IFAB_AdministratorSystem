@@ -125,7 +125,7 @@
                                                                             {{ alloc.caaLetterDate }}
                                                                         </div>
                                                                         <div class="medium-4  table-contain-border cell-vertical-center">
-                                                                            {{ calcDispAmount(alloc.caaAmount , false) }}
+                                                                            {{ $parent.calcDispAmount(alloc.caaAmount , false) }}
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -348,7 +348,7 @@
                                     <label>اعتبار مصوب
                                         <select class="form-element-margin-btm" @change="displayCreditResourceInfo"  v-model="AllocationInput.pcsId" name="credit" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('credit')}">
                                             <option value=""></option>
-                                            <option v-for="projectCreditSource in projectCreditSources" :value="projectCreditSource.id">{{ projectCreditSource.credit_distribution_row.cdSubject + ' - فصل ' + projectCreditSource.tiny_season.season_title.season.sSubject + ' - ' + projectCreditSource.tiny_season.season_title.castSubject + ' - ' + projectCreditSource.tiny_season.catsSubject + ' - ' + calcDispAmount(projectCreditSource.ccsAmount) }}</option>
+                                            <option v-for="projectCreditSource in projectCreditSources" :value="projectCreditSource.id">{{ projectCreditSource.credit_distribution_row.cdSubject + ' - فصل ' + projectCreditSource.tiny_season.season_title.season.sSubject + ' - ' + projectCreditSource.tiny_season.season_title.castSubject + ' - ' + projectCreditSource.tiny_season.catsSubject + ' - ' + $parent.calcDispAmount(projectCreditSource.ccsAmount) }}</option>
                                         </select>
                                         <span v-show="errors.has('credit')" class="error-font">لطفا اعتبار مصوب را انتخاب کنید!</span>
                                     </label>
@@ -364,13 +364,13 @@
                                 <div class="medium-12 my-callout-bg-color">
                                     <div class="grid-x">
                                         <div class="medium-4">
-                                            <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + calcDispAmount(creditSourceInfo.approvedAmount) }}</span>
+                                            <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount) }}</span>
                                         </div>
                                         <div class="medium-4">
-                                            <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + calcDispAmount(creditSourceInfo.sumAllocation) }}</span>
+                                            <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.sumAllocation) }}</span>
                                         </div>
                                         <div class="medium-4">
-                                            <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + calcPrecent(creditSourceInfo.approvedAmount , creditSourceInfo.sumAllocation) }}</span>
+                                            <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.approvedAmount , creditSourceInfo.sumAllocation) }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -619,14 +619,6 @@
 
             },
 
-            calcPrecent: function (y1 , y2) {
-                if (y1 == 0 || y2 == 0 )
-                    return 0;
-                else {
-                    return ((y2 * 100) / y1).toFixed(2) + '%';
-                }
-            },
-
             openInsertModal: function (type) {
                 this.provOrNat = type;
                 this.getAllApprovedPlan(type);
@@ -695,10 +687,6 @@
                     });*/
                 alert('ویرایش انجام شد');
 
-            },
-
-            calcDispAmount: function (amount , withAmountBase = true) {
-                return (amount / this.$parent.amountBase.disp_amount_unit.auAmount) + (withAmountBase == true ? ' ' + this.$parent.amountBase.disp_amount_unit.auSubject : '');
             },
 
             openDeleteRegisterOfCreditAllocationAssetsConfirm: function (rocaa) {

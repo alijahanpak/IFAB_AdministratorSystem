@@ -29,7 +29,7 @@ var registerOfCreditAllocationAssets = new Vue({
 
     methods:{
         fetchData: function () {
-            axios.get('/budget/allocation/register_of_credit_allocation_assets/fetchData' , {params:{planOrCost: 0}})
+            axios.get('/budget/Allocation/register_of_credit_allocation_assets/fetchData' , {params:{planOrCost: 0}})
                 .then((response) => {
                     this.registerOfCreditAllocationAssets = response.data;
                     console.log(response);
@@ -71,7 +71,7 @@ var registerOfCreditAllocationAssets = new Vue({
         createRegisterOfCreditAllocationAssets: function () {
             this.$validator.validateAll().then((result) => {
                 if (result) {
-                        axios.post('/budget/allocation/register_of_credit_allocation_assets/register' , {aInput: this.registerOfCreditAllocationAssetsInput , cdrInput: this.creditDistributionRowInput})
+                        axios.post('/budget/Allocation/register_of_credit_allocation_assets/register' , {aInput: this.registerOfCreditAllocationAssetsInput , cdrInput: this.creditDistributionRowInput})
                             .then((response) => {
                                 this.registerOfCreditAllocationAssets = response.data;
                                 this.showModal = false;

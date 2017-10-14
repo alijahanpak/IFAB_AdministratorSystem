@@ -147,22 +147,18 @@
 
         methods:{
             fetchData: function () {
-                this.$root.start();
                 axios.get('/budget/admin/credit_distribution_def/budget_season/fetchData')
                     .then((response) => {
                         this.budgetSeasons = response.data;
                         console.log(response);
-                        this.$root.finish();
                     },(error) => {
                         console.log(error);
-                        this.$root.fail();
                     });
             },
 
             createBudgetSeason: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        this.$root.start();
                         axios.post('/budget/admin/credit_distribution_def/budget_season/register' , {
                             subject: this.budgetSeasonInput.subject,
                             description: this.budgetSeasonInput.description})
@@ -172,11 +168,9 @@
                                 this.displayNotif(response.status);
                                 this.budgetSeasonInput = [];
                                 console.log(response);
-                                this.$root.finish();
                             },(error) => {
                                 console.log(error);
                                 this.errorMessage = 'فصل بودجه با این مشخصات قبلا ثبت شده است!';
-                                this.$root.fail();
                             });
                     }
                 });

@@ -90,8 +90,8 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::get('capital_assets/projects/getAllItems', 'ProjectController@getAllApprovedProjects');
     });*/
     ///////////////////////////////////////////////////////////////////////////
-/*    Route::prefix('allocation')->group(function () {
-        Route::get('register_of_credit_allocation_assets/allocation', 'AllocationOfCapitalAssetsController@register_of_credit_allocation_assets');
+/*    Route::prefix('Allocation')->group(function () {
+        Route::get('register_of_credit_allocation_assets/Allocation', 'AllocationOfCapitalAssetsController@register_of_credit_allocation_assets');
         Route::get('register_of_credit_allocation_assets/fetchData', 'AllocationOfCapitalAssetsController@FetchAllocation');
         Route::post('register_of_credit_allocation_assets/register', 'AllocationOfCapitalAssetsController@registerCapitalAssetsAllocation');
     });*/
@@ -194,7 +194,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
     });
 
     Route::prefix('allocation/capital_assets')->group(function () {
-        //Route::get('register_of_credit_allocation_assets/allocation', 'AllocationOfCapitalAssetsController@register_of_credit_allocation_assets');
+        //Route::get('register_of_credit_allocation_assets/Allocation', 'AllocationOfCapitalAssetsController@register_of_credit_allocation_assets');
         Route::get('/fetchData', 'AllocationOfCapitalAssetsController@fetchAllocation');
         Route::post('/register', 'AllocationOfCapitalAssetsController@registerCapitalAssetsAllocation');
         Route::get('/getCapitalAssetsCreditSourceInfo', 'AllocationOfCapitalAssetsController@getCapitalAssetsCreditSourceInfo');

@@ -705,14 +705,11 @@
             },
 
             getSeasonTitle: function () {
-                this.$root.start();
                 axios.get('/budget/admin/season_title/capital_assets/getWithSeasonId' , {params:{sId: this.selectedSeason}}).then((response) => {
                 this.seasonTitles = response.data;
                 console.log(response);
-                this.$root.finish();
             },(error) => {
                     console.log(error);
-                    this.$root.fail();
                 });
             },
 

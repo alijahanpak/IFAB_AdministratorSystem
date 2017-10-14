@@ -27,12 +27,12 @@ class AllocationOfCapitalAssetsController extends Controller
         return CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('capProvinceOrNational' , '=' , $pOrN)
             ->with('capitalAssetsProject')
-            ->whereHas('capitalAssetsProject')
             ->with('creditDistributionTitle')
             ->with('creditDistributionTitle.county')
             ->with('capitalAssetsProject.creditSource')
+            ->with('capitalAssetsProject.creditSource.Allocation')
+            ->whereHas('capitalAssetsProject.creditSource.Allocation')
             ->with('capitalAssetsProject.creditSource.creditDistributionRow')
-            ->with('capitalAssetsProject.creditSource.allocation')
 /*            ->with('capitalAssetsProject.creditSource.tinySeason')
             ->with('capitalAssetsProject.creditSource.tinySeason.seasonTitle')
             ->with('capitalAssetsProject.creditSource.tinySeason.seasonTitle.season')
@@ -61,7 +61,7 @@ class AllocationOfCapitalAssetsController extends Controller
 
     public function getCapitalAssetsCreditSourceInfo(Request $request)
     {
-        $info['approvedAmount'] = CapCreditSource::find($request->pcsId)->value('ccsAmount');
+        $info['approvedAmount'] = CapCreditSource::where('id' , '=' , $request->pcsId)->value('ccsAmount');
         $info['sumAllocation'] = CapitalAssetsAllocation::where('caaCcsId' , '=' , $request->pcsId)->sum('caaAmount');
         return \response()->json($info);
     }

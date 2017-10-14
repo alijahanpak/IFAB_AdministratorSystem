@@ -17,7 +17,7 @@ import plan_cost_title from './components/Budget/Admin/plan_cost_title.vue'
 import approved_project from './components/Budget/Aprroved/approved_project.vue'
 import approved_plan from './components/Budget/Aprroved/approved_plan.vue'
 import approved_cost_program from './components/Budget/Aprroved/approved_cost_program.vue'
-import capital_assets_allocation from './components/Budget/allocation/capital_assets.vue'
+import capital_assets_allocation from './components/Budget/Allocation/capital_assets.vue'
 
 //export router instance
 const routes = [
@@ -31,7 +31,7 @@ const routes = [
     { path: '/budget/approved/capital_assets/approved/program', component: approved_cost_program },
     { path: '/budget/approved/capital_assets/approved/project', component: approved_project },
     { path: '/budget/admin/credit_distribution_def/row', component: credit_distribution_row },
-    { path: '/budget/allocation/capital_assets', component: capital_assets_allocation },
+    { path: '/budget/Allocation/capital_assets', component: capital_assets_allocation },
     { path: '/budget/admin/credit_distribution_def/plan_cost_title', component: plan_cost_title },
 
 ]
@@ -48,6 +48,7 @@ router.afterEach((to, from, next) => {
 });
 /////////////////////// config axios request /////////////////////////////////////
 axios.interceptors.response.use(response => {
+    app.finish();
     return response;
 },function (error) {
     console.log(error);
@@ -55,10 +56,12 @@ axios.interceptors.response.use(response => {
     {
         app.showModalLogin = true;
     }
+    app.fail();
     return Promise.reject(error);
 });
 
 axios.interceptors.request.use(function (config) {
+    app.start();
     config.headers = JSON.parse(localStorage.getItem("ifab_token_info")); //set headers to config axios request
     return config;
 }, function (error) {
@@ -168,6 +171,22 @@ var app = new Vue({
                 },(error) => {
                     console.log(error);
                 });
+        },
+
+        calcDispAmount: function (amount , withAmountBase = true) {
+            return (amount / this.amountBase.disp_amount_unit.auAmount) + (withAmountBase == true ? ' ' + this.amountBase.disp_amount_unit.auSubject : '');
+        },
+
+        calcPrecent: function (y1 , y2) {
+            if (y1 == 0 || y2 == 0 )
+                return 0;
+            else {
+                return ((y2 * 100) / y1).toFixed(2) + '%';
+            }
+        },
+
+        getAmountBaseLabel: function () {
+            return this.amountBase.in_put_amount_unit.auSubject;
         },
 
         logout: function () {

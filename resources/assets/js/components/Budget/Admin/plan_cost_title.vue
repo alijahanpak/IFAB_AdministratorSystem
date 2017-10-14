@@ -163,7 +163,7 @@
                             </div>
                             <div class="small-6 columns padding-lr">
                                 <label>کد طرح / برنامه
-                                    <input type="text" name="pCode" v-model="planOrCostInput['code']" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('pCode')}">
+                                    <input class="form-element-margin-btm" type="text" name="pCode" v-model="planOrCostInput['code']" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('pCode')}">
                                     <span v-show="errors.has('pCode')" class="error-font">لطفا کد طرح مورد نظر را وارد نمایید!</span>
                                 </label>
                             </div>
@@ -171,12 +171,12 @@
                         <div class="grid-x">
                             <div class="small-12 columns padding-lr">
                                 <label>عنوان طرح / برنامه
-                                    <input type="text" name="pcSubject" v-model="planOrCostInput['subject']" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('pcSubject')}">
+                                    <input class="form-element-margin-btm" type="text" name="pcSubject" v-model="planOrCostInput['subject']" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('pcSubject')}">
                                     <span v-show="errors.has('pcSubject')" class="error-font">لطفا عنوان طرح مورد نظر را وارد نمایید!</span>
                                 </label>
                             </div>
                         </div>
-                        <div class="grid-x">
+                        <div class="grid-x" style="margin-top: 20px">
                             <div class="medium-12 column padding-lr">
                                 <ul class="accordion" data-accordion data-allow-all-closed="true">
                                     <li class="accordion-item" data-accordion-item>
@@ -191,7 +191,7 @@
                                                                 <div class="input-group">
                                                                     <input class="input-group-field text-left" type="text" name="cdptCounty" v-model="planOrCostInput['county' + county.id]" id="cdptCounty" autocomplete="off">
                                                                     <span class="input-group-label" style="padding-right: 4px;padding-left: 4px">{{ provincePlanLabel }}</span>
-                                                                    <span class="input-group-label" style="padding-right: 2px;padding-left: 2px" id="cdptPlanCodeLabel">{{ planOrCostInput.code == '' ? '--' : planOrCostInput.code }}</span>
+                                                                    <span class="input-group-label" style="padding-right: 2px;padding-left: 2px" id="cdptPlanCodeLabel">{{ (planOrCostInput.code == null || planOrCostInput.code == '') ? '--' : planOrCostInput.code }}</span>
                                                                 </div>
                                                             </label>
                                                         </div>
@@ -271,16 +271,13 @@
 
         methods:{
             fetchData: function (page = 1) {
-                this.$root.start();
                 axios.get('/budget/admin/credit_distribution_def/plan_cost_title/fetchData?page=' + page)
                     .then((response) => {
                         this.planOrCosts = response.data.data;
                         this.makePagination(response.data);
                         console.log(response.status);
-                        this.$root.finish();
                     },(error) => {
                         console.log(error);
-                        this.$root.fail();
                     });
             },
 
@@ -323,7 +320,6 @@
             createPlanOrCostTitle: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        this.$root.start();
                         var jsonString = '{';
                         jsonString += '"bsId":"' + this.planOrCostInput.bsId + '",';
                         jsonString += '"code":"' + this.planOrCostInput.code + '",';
@@ -344,11 +340,9 @@
                                 this.displayNotif(response.status);
                                 this.planOrCostInput = [];
                                 console.log(response);
-                                this.$root.finish();
                             },(error) => {
                                 console.log(error);
                                 this.errorMessage = 'عنوان طرح / برنامه با این مشخصات قبلا ثبت شده است!';
-                                this.$root.fail();
                             });
                     }
                 });

@@ -102,7 +102,7 @@
                                                     {{ projects.county.coName }}
                                                 </div>
                                                 <div class="medium-2 table-contain-border cell-vertical-center">
-                                                    <span @click="displayCreditSourceInfo_prov == projects.id ? displayCreditSourceInfo_prov = '' : displayCreditSourceInfo_prov = projects.id">123</span>
+                                                    <span @click="displayCreditSourceInfo_prov == projects.id ? displayCreditSourceInfo_prov = '' : displayCreditSourceInfo_prov = projects.id">{{ $parent.calcDispAmount(sumOfAmount(projects.credit_source) , false) }}</span>
                                                 </div>
                                                 <div class="medium-4  table-contain-border cell-vertical-center">
                                                     <div class="grid-x">
@@ -143,7 +143,7 @@
                                                                     <td>{{ creditSource.tiny_season.season_title.castSubject }}</td>
                                                                     <td>{{ creditSource.tiny_season.catsSubject }}</td>
                                                                     <td>{{ creditSource.how_to_run.htrSubject }}</td>
-                                                                    <td>{{ creditSource.ccsAmount }}</td>
+                                                                    <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
                                                                     <td>{{ creditSource.ccsDescription }}</td>
                                                                 </tr>
                                                                 </tbody>
@@ -282,7 +282,7 @@
                                                                     <td>{{ creditSource.tiny_season.season_title.castSubject }}</td>
                                                                     <td>{{ creditSource.tiny_season.catsSubject }}</td>
                                                                     <td>{{ creditSource.how_to_run.htrSubject }}</td>
-                                                                    <td>{{ creditSource.ccsAmount }}</td>
+                                                                    <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
                                                                     <td>{{ creditSource.ccsDescription }}</td>
                                                                 </tr>
                                                                 </tbody>
@@ -555,7 +555,7 @@
                         </div>
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
-                                <label>مبلغ اعتبار <span class="btn-red">(میلیون ریال)</span>
+                                <label>مبلغ اعتبار <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
                                     <input class="form-element-margin-btm" type="text" name="amount" v-model="apCreditSourceInput.csAmount" v-validate="'required|decimal'" :class="{'input': true, 'error-border': errors.has('amount')}">
                                 </label>
                                 <span v-show="errors.has('amount')" class="error-font">لطفا مبلغ اعتبار پروژه را وارد کنید!</span>
@@ -713,14 +713,11 @@
             },
 
             getSeasonTitle: function () {
-                this.$root.start();
                 axios.get('/budget/admin/season_title/capital_assets/getWithSeasonId' , {params:{sId: this.selectedSeason}}).then((response) => {
                 this.seasonTitles = response.data;
                 console.log(response);
-                this.$root.finish();
             },(error) => {
                     console.log(error);
-                    this.$root.fail();
                 });
             },
 
@@ -742,6 +739,14 @@
                     },(error) => {
                         console.log(error);
                     });
+            },
+
+            sumOfAmount: function (items) {
+                var sum = 0;
+                items.forEach(item => {
+                    sum += item.ccsAmount;
+                });
+                return sum;
             },
 
             openApprovedProjectInsertModal: function (type) {

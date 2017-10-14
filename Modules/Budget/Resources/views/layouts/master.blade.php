@@ -163,7 +163,7 @@
                                 </li>
                                 <li><a href="#">تملک دارایی سرمایه ای</a>
                                     <ul class="menu vertical nested">
-                                        <li><a href="{{ url('/budget/allocation/register_of_credit_allocation_assets/allocation') }}">استانی</a></li>
+                                        <li><a href="{{ url('Allocation') }}">استانی</a></li>
                                         <li><a href="#">ملی</a></li>
                                     </ul>
                                 </li>

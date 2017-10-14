@@ -191,16 +191,13 @@
 
         methods:{
             fetchData: function (page = 1) {
-                this.$root.start();
                 axios.get('/budget/admin/fiscal_year/fetchData?page=' + page)
                     .then((response) => {
                         this.fiscalYears = response.data.data;
                         this.makePagination(response.data);
                         console.log(response.data);
-                        this.$root.finish();
                     },(error) => {
                         console.log(error);
-                        this.$root.fail();
                     });
             },
 
@@ -232,7 +229,6 @@
             },
 
             sendFyActiveRequest: function () {
-                this.$root.start();
                 axios.post('/budget/admin/fiscal_year/activate',{
                     fyId: this.fyActiveId
                 })
@@ -241,11 +237,9 @@
                         this.makePagination(response.data);
                         this.showFyActiveModal = false;
                         console.log(response.data);
-                        this.$root.finish();
                         this.displayNotif(response.status);
                     },(error) => {
                         console.log(error);
-                        this.$root.fail();
                     });
             },
 
@@ -256,7 +250,6 @@
             },
 
             getFyPermissionInBudget: function () {
-                this.$root.start();
                 axios.get('/budget/admin/fiscal_year/getFyPermissionInBudget' , {params:{fyId: this.fyActiveId}})
                     .then((response) => {
                         var BPA_state = false;
@@ -275,17 +268,14 @@
                             this.allPermissionSelectedSection.budget = true;
                         }
                         console.log(response.data);
-                        this.$root.finish();
                     },(error) => {
                         console.log(error);
-                        this.$root.fail();
                     });
             },
 
             changeFySectionPermissionState: function (section , fyId) {
                 switch (section){
                     case "budget":
-                        this.$root.start();
                         axios.post('/budget/admin/fiscal_year/changeSectionPermissionState',{
                             fyId: this.fyActiveId,
                             section: section,
@@ -293,29 +283,24 @@
                         }).then((response) => {
                                 this.fyPermissionInBudget = response.data;
                                 console.log(response.data);
-                                this.$root.finish();
                                 this.displayNotif(response.status);
                             },(error) => {
                                 console.log(error);
-                                this.$root.fail();
                             });
                         break;
                 }
             },
 
             changeBudgetItemPermissionState: function (pbId) {
-                this.$root.start();
                 axios.post('/budget/admin/fiscal_year/changeBudgetItemPermissionState',{
                     pbId: pbId,
                     state: this.budgetPermissionState[pbId]
                 }).then((response) => {
                     this.fyPermissionInBudget = response.data;
                     console.log(response.data);
-                    this.$root.finish();
                     this.displayNotif(response.status);
                 },(error) => {
                     console.log(error);
-                    this.$root.fail();
                 });
             },
 

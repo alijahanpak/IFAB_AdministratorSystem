@@ -384,22 +384,18 @@
 
         methods:{
             fetchData: function (page = 1) {
-                this.$root.start();
                 axios.get('/budget/admin/deprived_area/fetchData?page=' + page)
                     .then((response) => {
                         this.deprivedArea = response.data;
                         console.log(response.data);
-                        this.$root.finish();
                     },(error) => {
                         console.log(error);
-                        this.$root.fail();
                     });
             },
 
             createDeprivedArea: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        this.$root.start();
                         axios.post('/budget/admin/deprived_area/register' , {
                             county: this.deprivedAreaInput.county ,
                             region: this.deprivedAreaInput.region ,
@@ -412,42 +408,34 @@
                                 this.displayNotif(response.status);
                                 this.deprivedAreaInput = [];
                                 console.log(response);
-                                this.$root.finish();
                             },(error) => {
                                 console.log(error);
                                 this.errorMessage = 'منطقه محروم با این مشخصات قبلا ثبت شده است!';
-                                this.$root.fail();
                         });
                     }
                 });
             },
 
             getCounties: function () {
-                this.$root.start();
                 axios.get('/admin/get_all_counties')
                     .then((response) => {
                         this.counties = response.data;
                         console.log(response);
-                        this.$root.finish();
                     },(error) => {
                         console.log(error);
-                        this.$root.fail();
                     });
             },
 
             getRegions: function () {
                 if (this.deprivedAreaInput.county != "")
                 {
-                    this.$root.start();
                     axios.get('/admin/getCountyRegions' , {params:{coId: this.deprivedAreaInput.county}})
                         .then((response) => {
                             this.regions = response.data;
                             this.regionDisable = false;
                             console.log(response);
-                            this.$root.finish();
                         },(error) => {
                             console.log(error);
-                            this.$root.fail();
                         });
                 }
                 else{
@@ -458,16 +446,13 @@
             getRuralDistricts: function () {
                 if (this.deprivedAreaInput.region != "")
                 {
-                    this.$root.start();
                     axios.get('/admin/getRuralDistrictByRegionId' , {params:{reId: this.deprivedAreaInput.region}})
                         .then((response) => {
                             this.ruralDistricts = response.data;
                             this.ruralDistrictDisable = false;
                             console.log(response);
-                            this.$root.finish();
                         },(error) => {
                             console.log(error);
-                            this.$root.fail();
                         });
                 }
                 else{
@@ -478,16 +463,13 @@
             getVillages: function () {
                 if (this.deprivedAreaInput.ruralDistrict != "")
                 {
-                    this.$root.start();
                     axios.get('/admin/getVillagesByRuralDistrictId' , {params:{rdId: this.deprivedAreaInput.ruralDistrict}})
                         .then((response) => {
                             this.villages = response.data;
                             this.villageDisable = false;
                             console.log(response);
-                            this.$root.finish();
                         },(error) => {
                             console.log(error);
-                            this.$root.fail();
                         });
                 }
                 else{

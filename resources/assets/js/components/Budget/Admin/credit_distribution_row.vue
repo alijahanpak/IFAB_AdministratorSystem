@@ -285,21 +285,17 @@
 
         methods:{
             fetchCapitalAssetsData: function (page = 1) {
-                this.$root.start();
                 axios.get('/budget/admin/credit_distribution_def/rows/fetchData?page=' + page , {params:{planOrCost: 0}})
                     .then((response) => {
                         this.rowDistributionCredit = response.data.data;
                         this.makePagination(response.data , "plan");
                         console.log(response.data);
-                        this.$root.finish();
                     },(error) => {
                         console.log(error);
-                        this.$root.fail();
                     });
             },
 
             fetchCostData: function (page = 1) {
-                this.$root.start();
                 axios.get('/budget/admin/credit_distribution_def/rows/fetchData?page=' + page , {params:{planOrCost: 1}})
                     .then((response) => {
                         this.rowDistributionCredit_cost = response.data.data;
@@ -307,7 +303,6 @@
                         console.log(response.data);
                     },(error) => {
                         console.log(error);
-                        this.$root.fail();
                     });
             },
 

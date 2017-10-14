@@ -423,30 +423,24 @@
 
         methods:{
             fetchCapitalAssetsData: function (page = 1) {
-                this.$root.start();
                 axios.get('/budget/admin/sub_seasons/capital_assets/fetchData?page=' + page)
                     .then((response) => {
                         this.tinySeasons = response.data.data;
                         this.makePagination(response.data , "plan");
                         console.log(response.data);
-                        this.$root.finish();
                     },(error) => {
                         console.log(error);
-                        this.$root.fail();
                     });
             },
 
             fetchCostData: function (page = 1) {
-                this.$root.start();
                 axios.get('/budget/admin/sub_seasons/cost/fetchData?page=' + page)
                     .then((response) => {
                         this.tinySeasonsCost = response.data.data;
                         this.makePagination(response.data , "cost");
                         console.log(response.data);
-                        this.$root.finish();
                     },(error) => {
                         console.log(error);
-                        this.$root.fail();
                     });
             },
 
@@ -465,28 +459,22 @@
             },
 
             getSeasons: function () {
-                this.$root.start();
                 axios.get('/admin/get_all_seasons')
                     .then((response) => {
                         this.seasons = response.data;
                         console.log(response);
-                        this.$root.finish();
                     },(error) => {
                         console.log(error);
-                        this.$root.fail();
                     });
             },
 
             getSeasonTitle: function () {
-                this.$root.start();
                 axios.get(this.planOrCost == 0 ? '/budget/admin/season_title/capital_assets/getWithSeasonId' : '/budget/admin/season_title/cost/getWithSeasonId' , {params:{sId: this.selectedSeason}})
                     .then((response) => {
                         this.seasonTitles = response.data;
                         console.log(response);
-                        this.$root.finish();
                     },(error) => {
                         console.log(error);
-                        this.$root.fail();
                     });
             },
 
@@ -501,7 +489,6 @@
             createTinySeason: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        this.$root.start();
                         axios.post(this.planOrCost == 0 ? '/budget/admin/sub_seasons/capital_assets/register' : '/budget/admin/sub_seasons/cost/register' , {
                             stId: this.tinySeasonsInput.tsStId ,
                             subject: this.tinySeasonsInput.tsSubject ,
@@ -520,11 +507,9 @@
                                 this.displayNotif(response.status);
                                 this.tinySeasonsInput = [];
                                 console.log(response);
-                                this.$root.finish();
                             },(error) => {
                                 console.log(error);
                                 this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                                this.$root.fail();
                             });
                     }});
             },
@@ -554,7 +539,6 @@
             updateTinySeason: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        this.$root.start();
                         axios.post(this.planOrCost == 0 ? '/budget/admin/sub_seasons/capital_assets/update' : '/budget/admin/sub_seasons/cost/update' , {
                             id: this.tinySeasonsFill.id,
                             stId: this.tinySeasonsFill.tsStId ,
@@ -573,11 +557,9 @@
                                 this.showModalUpdate = false;
                                 this.displayNotif(response.status);
                                 console.log(response);
-                                this.$root.finish();
                             },(error) => {
                                 console.log(error);
                                 this.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                                this.$root.fail();
                             });
                         }
                 });
@@ -590,7 +572,6 @@
             },
 
             deleteTinySeason: function () {
-                this.$root.start();
                 axios.post(this.planOrCost == 0 ? '/budget/admin/sub_seasons/capital_assets/delete' : '/budget/admin/sub_seasons/cost/delete' , {
                     id: this.tsIdDelete.id,
                     subject: this.planOrCost == 0 ? this.tsIdDelete.catsSubject : this.tsIdDelete.ctsSubject,
@@ -604,11 +585,9 @@
                         }
                         this.showModalDelete = false;
                         console.log(response);
-                        this.$root.finish();
                         this.displayNotif(response.status);
                     },(error) => {
                         console.log(error);
-                        this.$root.fail();
                 });
             },
 
