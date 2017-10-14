@@ -14,4 +14,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'admin', 'na
     Route::get('/get_all_counties' , 'AdminController@getAllCounties');
     Route::get('/get_all_seasons' , 'AdminController@getAllSeasons');
     Route::get('/get_province_plan_label' , 'AdminController@getProvincePlanLabel');
+
+    Route::get('/getPublicParams' , 'AdminController@getPublicParams');
+    Route::get('/getAmountBase' , 'AdminController@getAmountBase');
 });

@@ -1688,7 +1688,6 @@ return array(
     'Modules\\Budget\\Entities\\CapitalAssetsProject' => $baseDir . '/Modules/Budget/Entities/CapitalAssetsProject.php',
     'Modules\\Budget\\Entities\\CapitalAssetsSeasonTitle' => $baseDir . '/Modules/Budget/Entities/CapitalAssetsSeasonTitle.php',
     'Modules\\Budget\\Entities\\CapitalAssetsTinySeason' => $baseDir . '/Modules/Budget/Entities/CapitalAssetsTinySeason.php',
-    'Modules\\Budget\\Entities\\CdrCaa' => $baseDir . '/Modules/Budget/Entities/CdrCaa.php',
     'Modules\\Budget\\Entities\\CostSeasonTitle' => $baseDir . '/Modules/Budget/Entities/CostSeasonTitle.php',
     'Modules\\Budget\\Entities\\CostTinySeason' => $baseDir . '/Modules/Budget/Entities/CostTinySeason.php',
     'Modules\\Budget\\Entities\\CreditDistributionPlan' => $baseDir . '/Modules/Budget/Entities/CreditDistributionPlan.php',

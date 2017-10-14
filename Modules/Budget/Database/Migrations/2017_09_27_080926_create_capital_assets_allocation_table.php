@@ -20,6 +20,7 @@ class CreateCapitalAssetsAllocationTable extends Migration
                 $table->integer('caaCcsId')->length(10)->unsigned();
                 $table->string('caaLetterNumber')->nullable();
                 $table->string('caaLetterDate')->nullable();
+                $table->bigInteger('caaAmount');
                 $table->longText('caaDescription')->nullable();
                 $table->timestamps();
 

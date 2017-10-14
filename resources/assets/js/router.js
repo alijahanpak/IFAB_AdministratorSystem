@@ -112,6 +112,8 @@ var app = new Vue({
     store,
     el: '#container',
     data:{
+        amountBase: {},
+        publicParams: {},
         showModalLogin: false,
         authInfo: {email: '' , password: ''},
         tokenInfo: {"Authorization": '' , "Accept": 'application/json; charset=utf-8' , "Content-type" : 'application/json; charset=utf-8'}
@@ -126,6 +128,10 @@ var app = new Vue({
         {
             this.showModalLogin = true;
         }
+        else{
+            this.getPublicParams();
+            this.getAmountBase();
+        }
     },
 
     methods:{
@@ -137,6 +143,26 @@ var app = new Vue({
                     this.$store.dispatch("login" , this.tokenInfo);
                     this.showModalLogin = false;
                     this.$router.go(this.$router.currentRoute.path); //for reload page data
+                },(error) => {
+                    console.log(error);
+                });
+        },
+
+        getPublicParams: function () {
+            axios.get('/admin/getPublicParams')
+                .then((response) => {
+                    console.log(response);
+                    this.publicParams = response.data;
+                },(error) => {
+                    console.log(error);
+                });
+        },
+
+        getAmountBase: function () {
+            axios.get('/admin/getAmountBase')
+                .then((response) => {
+                    console.log(response.data);
+                    this.amountBase = response.data;
                 },(error) => {
                     console.log(error);
                 });

@@ -65,22 +65,30 @@
                                     </div>
                                     <div class="medium-10">
                                         <div class="grid-x">
-                                            <div class="medium-2 table-border">
-                                                <strong>پروژه</strong>
-                                            </div>
-                                            <div class="medium-8">
+                                            <div class="medium-10">
                                                 <div class="grid-x">
-                                                    <div class="medium-6 table-border">
-                                                        <strong>ردیف اعتبار</strong>
+                                                    <div class="medium-3 table-border">
+                                                        <strong>پروژه</strong>
                                                     </div>
-                                                    <div class="medium-2 table-border">
-                                                        <strong>شماره</strong>
-                                                    </div>
-                                                    <div class="medium-2 table-border">
-                                                        <strong>تاریخ</strong>
-                                                    </div>
-                                                    <div class="medium-2  table-border">
-                                                        <strong>مبلغ</strong>
+                                                    <div class="medium-9">
+                                                        <div class="grid-x">
+                                                            <div class="medium-6 table-border">
+                                                                <strong>ردیف اعتبار</strong>
+                                                            </div>
+                                                            <div class="medium-6">
+                                                                <div class="grid-x">
+                                                                    <div class="medium-4 table-border">
+                                                                        <strong>شماره</strong>
+                                                                    </div>
+                                                                    <div class="medium-4 table-border">
+                                                                        <strong>تاریخ</strong>
+                                                                    </div>
+                                                                    <div class="medium-4 table-border">
+                                                                        <strong>مبلغ</strong>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -92,32 +100,32 @@
                                 </div>
                                 <!--Header End-->
                                 <div class="table-contain dynamic-height-level2">
-                                    <div class="grid-x row-bottom-border" v-for="plans in registerOfCreditAllocationAssets">
+                                    <div class="grid-x" v-for="plans in provCapitalAssetsAllocations">
                                         <div class="medium-2 table-contain-border1 cell-vertical-center">
-                                            @{{ plans.credit_distribution_title.cdtIdNumber }}
+                                            {{ plans.credit_distribution_title.cdtIdNumber }}
                                         </div>
                                         <div class="medium-10">
                                             <div class="grid-x">
-                                                <div class="medium-10 table-contain-border cell-vertical-center" v-for="projects in plans.capital_assets_project">
+                                                <div class="medium-10 cell-vertical-center" v-for="projects in plans.capital_assets_project">
                                                     <div class="grid-x">
-                                                        <div class="medium-3">
-                                                            @{{ projects.cpCode }}
+                                                        <div class="medium-3 table-contain-border cell-vertical-center">
+                                                            {{ projects.cpCode }}
                                                         </div>
                                                         <div class="medium-9">
-                                                            <div v-for="cdrCp in projects.cdr_cp" class="grid-x">
-                                                                <div class="medium-6 table-contain-border cell-vertical-center">
-                                                                    @{{ cdrCp.credit_distribution_row.cdSubject }}                                 سه درصدنفت وگاز
+                                                            <div v-for="credit_source in projects.credit_source" class="grid-x">
+                                                                <div class="medium-4 table-contain-border cell-vertical-center">
+                                                                    {{ credit_source.credit_distribution_row.cdSubject }}
                                                                 </div>
-                                                                <div class="medium-6 table-contain-border cell-vertical-center">
-                                                                    <div  class="grid-x">
-                                                                        <div class="medium-2 table-contain-border cell-vertical-center">
-                                                                            @{{ registerOfCreditAllocationAssets.rocaaNumber }}
+                                                                <div class="medium-8">
+                                                                    <div  class="grid-x" v-for="alloc in credit_source.allocation">
+                                                                        <div class="medium-4 table-contain-border cell-vertical-center">
+                                                                            {{ alloc.caaLetterNumber }}
                                                                         </div>
-                                                                        <div class="medium-2 table-contain-border cell-vertical-center">
-                                                                            @{{ registerOfCreditAllocationAssets.rocaaDate }}
+                                                                        <div class="medium-4 table-contain-border cell-vertical-center">
+                                                                            {{ alloc.caaLetterDate }}
                                                                         </div>
-                                                                        <div class="medium-2  table-contain-border cell-vertical-center">
-                                                                            123456
+                                                                        <div class="medium-4  table-contain-border cell-vertical-center">
+                                                                            {{ calcDispAmount(alloc.caaAmount , false) }}
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -128,14 +136,14 @@
                                                 <div style="border-right: 1px solid #C7CDD1;" class="medium-2 table-contain-border1 cell-vertical-center">
                                                     <div class="grid-x">
                                                         <div class="medium-11">
-                                                            @{{ }}
+                                                            {{ }}
                                                         </div>
                                                         <div class="medium-1 cell-vertical-center text-left">
-                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'rocaaRegisterOfCreditAllocationAssets' + registerOfCreditAllocationAssets.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'rocaaRegisterOfCreditAllocationAssets' + registerOfCreditAllocationAssets.id" data-dropdown data-auto-focus="true">
+                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'rocaaRegisterOfCreditAllocationAssets'"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'rocaaRegisterOfCreditAllocationAssets'" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent="registerOfCreditAllocationAssetsUpdateDialog(tinySeason , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent="openDeleteRegisterOfCreditAllocationAssetsConfirm(registerOfCreditAllocationAssets)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                    <li><a v-on:click.prevent="registerOfCreditAllocationAssetsUpdateDialog(alloc , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent="openDeleteRegisterOfCreditAllocationAssetsConfirm(alloc)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -147,8 +155,8 @@
                                 </div>
                                 <div class="grid-x">
                                     <div class="medium-12">
-                                        <vue-pagination  v-bind:pagination="plan_pagination"
-                                                         v-on:click.native="fetchCapitalAssetsData(plan_pagination.current_page)"
+                                        <vue-pagination  v-bind:pagination="provincial_pagination"
+                                                         v-on:click.native="fetchProvincialData(provincial_pagination.current_page)"
                                                          :offset="4">
                                         </vue-pagination>
                                     </div>
@@ -276,8 +284,8 @@
                                 </div>
                                 <div class="grid-x">
                                     <div class="medium-12">
-                                        <vue-pagination  v-bind:pagination="plan_pagination"
-                                                         v-on:click.native="fetchCapitalAssetsData(plan_pagination.current_page)"
+                                        <vue-pagination  v-bind:pagination="national_pagination"
+                                                         v-on:click.native="fetchNationalData(national_pagination.current_page)"
                                                          :offset="4">
                                         </vue-pagination>
                                     </div>
@@ -286,7 +294,7 @@
                         </div>
                     </div>
                     <!--Tab 2-->
-                    <notifications group="projectPm"
+                    <notifications group="allocationPm"
                                    position="bottom right"
                                    animation-type="velocity"
                                    :speed="700" />
@@ -299,7 +307,7 @@
                             <div class="grid-x" v-if="errorMessage">
                                 <div class="medium-12 columns padding-lr">
                                     <div class="alert callout">
-                                        <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
+                                        <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -338,9 +346,9 @@
                             <div class="grid-x">
                                 <div class="medium-6 cell padding-lr">
                                     <label>اعتبار مصوب
-                                        <select class="form-element-margin-btm"  v-model="AllocationInput.pcsId" name="credit" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('credit')}">
+                                        <select class="form-element-margin-btm" @change="displayCreditResourceInfo"  v-model="AllocationInput.pcsId" name="credit" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('credit')}">
                                             <option value=""></option>
-                                            <option v-for="projectCreditSource in projectCreditSources" :value="projectCreditSource.id">{{ projectCreditSource.credit_distribution_row.cdSubject + ' - فصل ' + projectCreditSource.tiny_season.season_title.season.sSubject + ' - ' + projectCreditSource.tiny_season.season_title.castSubject + ' - ' + projectCreditSource.tiny_season.catsSubject + ' - ' + projectCreditSource.ccsAmount + ' میلیون ریال ' }}</option>
+                                            <option v-for="projectCreditSource in projectCreditSources" :value="projectCreditSource.id">{{ projectCreditSource.credit_distribution_row.cdSubject + ' - فصل ' + projectCreditSource.tiny_season.season_title.season.sSubject + ' - ' + projectCreditSource.tiny_season.season_title.castSubject + ' - ' + projectCreditSource.tiny_season.catsSubject + ' - ' + calcDispAmount(projectCreditSource.ccsAmount) }}</option>
                                         </select>
                                         <span v-show="errors.has('credit')" class="error-font">لطفا اعتبار مصوب را انتخاب کنید!</span>
                                     </label>
@@ -352,17 +360,17 @@
                                     <span v-show="errors.has('creditCost')" class="error-font">لطفا مبلغ تخصیص انتخاب کنید!</span>
                                 </div>
                             </div>
-                            <div style="margin-top: 15px;" class="grid-x padding-lr">
+                            <div style="margin-top: 15px;" class="grid-x padding-lr" v-show="creditSourceInfo.approvedAmount">
                                 <div class="medium-12 my-callout-bg-color">
                                     <div class="grid-x">
                                         <div class="medium-4">
-                                            <p class="btn-red">اعتبار مصوب</p>
+                                            <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + calcDispAmount(creditSourceInfo.approvedAmount) }}</span>
                                         </div>
-                                        <div class="medium-3">
-                                            <p class="btn-red">آخرین تخصیص</p>
+                                        <div class="medium-4">
+                                            <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + calcDispAmount(creditSourceInfo.sumAllocation) }}</span>
                                         </div>
-                                        <div class="medium-2">
-                                            <p class="btn-red">درصدآخرین تخصیص</p>
+                                        <div class="medium-4">
+                                            <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + calcPrecent(creditSourceInfo.approvedAmount , creditSourceInfo.sumAllocation) }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -506,18 +514,32 @@
                 showModalUpdate: false,
                 showModalDelete: false,
                 registerOfCreditAllocationAssetsFill: {rocaPlan: '' ,rocaaProject:'',rocaaRow:'',roccaCost:'',rocaaNumber:'',rocaaDate:''},
+                creditSourceInfo: {},
                 rocaaIdDelete: {},
                 approvedPlans: {},
                 selectedPlan: '',
                 selectedProject: '',
                 approvedProjects: {},
                 projectCreditSources: {},
+
+                national_pagination: {
+                    total: 0,
+                    to: 0,
+                    current_page: 1,
+                    last_page: ''
+                },
+
+                provincial_pagination: {
+                    total: 0,
+                    to: 0,
+                    current_page: 1,
+                    last_page: ''
+                },
             }
         },
         created: function () {
-            this.fetchData();
+            this.fetchProvincialData();
             this.getAllApprovedPlan(0); // 0 = provincial
-            this.getCreditDistributionRow();
         },
 
         updated: function () {
@@ -534,10 +556,22 @@
         },
 
         methods:{
-            fetchData: function () {
-                axios.get('/budget/allocation/register_of_credit_allocation_assets/fetchData' , {params:{planOrCost: 0}})
+            fetchProvincialData: function (page = 1) {
+                axios.get('/budget/allocation/capital_assets/fetchData?page=' + page , {params:{pOrN: 0}})
                     .then((response) => {
-                        this.registerOfCreditAllocationAssets = response.data;
+                        this.provCapitalAssetsAllocations = response.data.data;
+                        this.makePagination(response.data , "provincial");
+                        console.log(response);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            fetchNationalData: function (page = 1) {
+                axios.get('/budget/allocation/register_of_credit_allocation_assets/fetchData?page=' + page , {params:{planOrCost: 0}})
+                    .then((response) => {
+                        this.natCapitalAssetsAllocations = response.data.data;
+                        this.makePagination(response.data , "national");
                         console.log(response);
                     },(error) => {
                         console.log(error);
@@ -574,6 +608,25 @@
                 });
             },
 
+            displayCreditResourceInfo: function () {
+                axios.get('/budget/allocation/capital_assets/getCapitalAssetsCreditSourceInfo' , {params:{pcsId: this.AllocationInput.pcsId}})
+                    .then((response) => {
+                        this.creditSourceInfo = response.data;
+                        console.log(response);
+                    },(error) => {
+                        console.log(error);
+                    });
+
+            },
+
+            calcPrecent: function (y1 , y2) {
+                if (y1 == 0 || y2 == 0 )
+                    return 0;
+                else {
+                    return ((y2 * 100) / y1).toFixed(2) + '%';
+                }
+            },
+
             openInsertModal: function (type) {
                 this.provOrNat = type;
                 this.getAllApprovedPlan(type);
@@ -583,13 +636,27 @@
             createCapitalAssetsAllocation: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        axios.post('/budget/allocation/register_of_credit_allocation_assets/register' , {
-
+                        axios.post('/budget/allocation/capital_assets/register' , {
+                            idNumber: this.AllocationInput.idNumber,
+                            date: this.AllocationInput.date,
+                            pcsId: this.AllocationInput.pcsId,
+                            amount: this.AllocationInput.amount,
+                            description: this.AllocationInput.description,
+                            pOrN: this.provOrNat
                         })
                             .then((response) => {
-                                this.registerOfCreditAllocationAssets = response.data;
+                                if (this.provOrNat == 0)
+                                {
+                                    this.provCapitalAssetsAllocations = response.data.data;
+                                    this.makePagination(response.data , "provincial");
+                                }
+                                else
+                                {
+                                    this.natCapitalAssetsAllocations = response.data.data;
+                                    this.makePagination(response.data , "national");
+                                }
                                 this.showModal = false;
-                                this.$notify({group: 'allocationPm', title: 'پیام سیستم', text: 'رکورد با موفقیت ثبت شد.' , type: 'success'});
+                                this.displayNotif(response.status);
                                 console.log(response);
                             },(error) => {
                                 console.log(error);
@@ -630,6 +697,10 @@
 
             },
 
+            calcDispAmount: function (amount , withAmountBase = true) {
+                return (amount / this.$parent.amountBase.disp_amount_unit.auAmount) + (withAmountBase == true ? ' ' + this.$parent.amountBase.disp_amount_unit.auSubject : '');
+            },
+
             openDeleteRegisterOfCreditAllocationAssetsConfirm: function (rocaa) {
                 this.apIdDelete = rocaa;
                 this.showModalDelete = true;
@@ -649,7 +720,32 @@
                         console.log(error);
                         this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                     });*/
-            }
+            },
+
+            displayNotif: function (httpStatusCode) {
+                switch (httpStatusCode){
+                    case 204:
+                        this.$notify({group: 'allocationPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
+                        break;
+                    case 200:
+                        this.$notify({group: 'allocationPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.' , type: 'success'});
+                        break;
+                }
+            },
+
+            makePagination: function(data , type){
+                if (type == "national")
+                {
+                    this.national_pagination.current_page = data.current_page;
+                    this.national_pagination.to = data.to;
+                    this.national_pagination.last_page = data.last_page;
+                }else if (type == "provincial")
+                {
+                    this.provincial_pagination.current_page = data.current_page;
+                    this.provincial_pagination.to = data.to;
+                    this.provincial_pagination.last_page = data.last_page;
+                }
+            },
         }
     }
 </script>
