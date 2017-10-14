@@ -126,6 +126,10 @@
                                 <a class="right-mp right-menu-btm-border" href="#">  موافقتنامه</a>
                                 <ul class="menu vertical nested">
                                     <li><a href="#">هزینه ای</a>
+                                        <ul class="menu vertical nested">
+                                            <li><router-link to="/budget/approved/capital_assets/approved/program">برنامه ها</router-link></li>
+                                        </ul>
+                                    </li>
                                     <li><a href="#">تملک دارایی سرمایه ای</a>
                                         <ul class="menu vertical nested">
                                             <li><router-link to="/budget/approved/capital_assets/approved/plan">طرح ها</router-link></li>

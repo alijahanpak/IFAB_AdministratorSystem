@@ -16,6 +16,7 @@ import season_title from './components/Budget/Admin/season_title.vue'
 import plan_cost_title from './components/Budget/Admin/plan_cost_title.vue'
 import approved_project from './components/Budget/Aprroved/approved_project.vue'
 import approved_plan from './components/Budget/Aprroved/approved_plan.vue'
+import approved_cost_program from './components/Budget/Aprroved/approved_cost_program.vue'
 import capital_assets_allocation from './components/Budget/allocation/capital_assets.vue'
 
 //export router instance
@@ -27,6 +28,7 @@ const routes = [
     { path: '/budget/admin/credit_distribution_def/budget_season', component: budget_season },
     { path: '/budget/admin/season/season_title', component: season_title },
     { path: '/budget/approved/capital_assets/approved/plan', component: approved_plan },
+    { path: '/budget/approved/capital_assets/approved/program', component: approved_cost_program },
     { path: '/budget/approved/capital_assets/approved/project', component: approved_project },
     { path: '/budget/admin/credit_distribution_def/row', component: credit_distribution_row },
     { path: '/budget/allocation/capital_assets', component: capital_assets_allocation },
