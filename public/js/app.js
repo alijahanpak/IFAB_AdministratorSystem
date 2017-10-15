@@ -11302,7 +11302,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\public_component\\pagination.vue"
+Component.options.__file = "resources/assets/js/public_component/pagination.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] pagination.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -63195,7 +63195,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\passport\\Clients.vue"
+Component.options.__file = "resources/assets/js/components/passport/Clients.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Clients.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -64005,7 +64005,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\passport\\AuthorizedClients.vue"
+Component.options.__file = "resources/assets/js/components/passport/AuthorizedClients.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] AuthorizedClients.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -64272,7 +64272,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\passport\\PersonalAccessTokens.vue"
+Component.options.__file = "resources/assets/js/components/passport/PersonalAccessTokens.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] PersonalAccessTokens.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -64883,7 +64883,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_Budget_Aprroved_approved_project_vue__ = __webpack_require__(123);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_Budget_Aprroved_approved_plan_vue__ = __webpack_require__(126);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_Budget_Aprroved_approved_cost_program_vue__ = __webpack_require__(129);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_Budget_Allocation_capital_assets_vue__ = __webpack_require__(135);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_Budget_Allocation_capital_assets_vue__ = __webpack_require__(132);
 var _mutations;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -68536,7 +68536,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Dashboard.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Dashboard.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Dashboard.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -68764,7 +68764,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "panel-footer panel-footer-red small-font"
   }, [_c('i', {
     staticClass: "fi-arrow-left size-18 float-left"
-  }), _vm._v("مشاهده جزئیات\r\n                        ")])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v("مشاهده جزئیات\n                        ")])])])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-3"
   }, [_c('div', {
     staticClass: "notification-panel panel-yellow"
@@ -68788,7 +68788,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "panel-footer panel-footer-yellow small-font"
   }, [_c('i', {
     staticClass: "fi-arrow-left size-18 float-left"
-  }), _vm._v("مشاهده جزئیات\r\n                        ")])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v("مشاهده جزئیات\n                        ")])])])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-3"
   }, [_c('div', {
     staticClass: "notification-panel panel-green"
@@ -68812,7 +68812,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "panel-footer panel-footer-green small-font"
   }, [_c('i', {
     staticClass: "fi-arrow-left size-18 float-left"
-  }), _vm._v("مشاهده جزئیات\r\n                        ")])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v("مشاهده جزئیات\n                        ")])])])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-3"
   }, [_c('div', {
     staticClass: "notification-panel panel-primary"
@@ -68836,7 +68836,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "panel-footer panel-footer-primary small-font"
   }, [_c('i', {
     staticClass: "fi-arrow-left size-18 float-left"
-  }), _vm._v("مشاهده جزئیات\r\n                        ")])])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v("مشاهده جزئیات\n                        ")])])])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x my-grid-margin"
   }, [_c('div', {
     staticClass: "medium-6 dashboard-padding "
@@ -68974,7 +68974,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Admin\\tiny_seasons.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Admin/tiny_seasons.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] tiny_seasons.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -70717,7 +70717,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Admin\\fiscal_year.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Admin/fiscal_year.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] fiscal_year.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -71432,7 +71432,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Admin\\deprived_area.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Admin/deprived_area.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] deprived_area.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -72749,7 +72749,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Admin\\budget_season.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Admin/budget_season.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] budget_season.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -73279,7 +73279,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Admin\\credit_distribution_row.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Admin/credit_distribution_row.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] credit_distribution_row.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -74308,7 +74308,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Admin\\season_title.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Admin/season_title.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] season_title.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -75723,7 +75723,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Admin\\plan_cost_title.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Admin/plan_cost_title.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] plan_cost_title.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -76745,7 +76745,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Aprroved\\approved_project.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Aprroved/approved_project.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] approved_project.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -77795,7 +77795,10 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }, [_c('div', {
         staticClass: "medium-1 table-contain-border cell-vertical-center"
       }, [_vm._v("\n                                                " + _vm._s(projects.cpCode) + "\n                                            ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-3 table-contain-border cell-vertical-center"
+        staticClass: "medium-3 table-contain-border cell-vertical-center",
+        staticStyle: {
+          "height": "10vh"
+        }
       }, [_vm._v("\n                                                " + _vm._s(projects.cpSubject) + "\n                                            ")]), _vm._v(" "), _c('div', {
         staticClass: "medium-2 table-contain-border cell-vertical-center"
       }, [_vm._v("\n                                                " + _vm._s(projects.county.coName) + "\n                                            ")]), _vm._v(" "), _c('div', {
@@ -79460,7 +79463,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Aprroved\\approved_plan.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Aprroved/approved_plan.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] approved_plan.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -80802,7 +80805,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Aprroved\\approved_cost_program.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Aprroved/approved_cost_program.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] approved_cost_program.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -83468,15 +83471,12 @@ if (false) {
 }
 
 /***/ }),
-/* 132 */,
-/* 133 */,
-/* 134 */,
-/* 135 */
+/* 132 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_capital_assets_vue__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_e7b158a4_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_capital_assets_vue__ = __webpack_require__(137);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_capital_assets_vue__ = __webpack_require__(133);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_e7b158a4_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_capital_assets_vue__ = __webpack_require__(134);
 var disposed = false
 var normalizeComponent = __webpack_require__(3)
 /* script */
@@ -83496,7 +83496,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Allocation\\capital_assets.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Allocation/capital_assets.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] capital_assets.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -83520,7 +83520,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 136 */
+/* 133 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -84270,7 +84270,7 @@ if (false) {(function () {
 });
 
 /***/ }),
-/* 137 */
+/* 134 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

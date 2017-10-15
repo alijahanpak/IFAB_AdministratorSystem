@@ -95,7 +95,7 @@
                                                 <div class="medium-1 table-contain-border cell-vertical-center">
                                                     {{ projects.cpCode }}
                                                 </div>
-                                                <div class="medium-3 table-contain-border cell-vertical-center">
+                                                <div style="height: 10vh;" class="medium-3 table-contain-border cell-vertical-center">
                                                     {{ projects.cpSubject }}
                                                 </div>
                                                 <div class="medium-2 table-contain-border cell-vertical-center">
