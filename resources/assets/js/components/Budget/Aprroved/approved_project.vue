@@ -241,7 +241,7 @@
                                                     {{ projects.county.coName }}
                                                 </div>
                                                 <div class="medium-2 table-contain-border cell-vertical-center">
-                                                    <span @click="displayCreditSourceInfo_nat == projects.id ? displayCreditSourceInfo_nat = '' : displayCreditSourceInfo_nat = projects.id">123</span>
+                                                    <span @click="displayCreditSourceInfo_nat == projects.id ? displayCreditSourceInfo_nat = '' : displayCreditSourceInfo_nat = projects.id">{{ $parent.calcDispAmount(sumOfAmount(projects.credit_source) , false) }}</span>
                                                 </div>
                                                 <div class="medium-4  table-contain-border cell-vertical-center">
                                                     <div class="grid-x">
@@ -353,13 +353,13 @@
                             <div class="grid-x">
                                 <div class="medium-4 cell padding-lr">
                                     <label>سال شروع
-                                        <input class="form-element-margin-btm" type="text" name="startYear" v-model="approvedProjectsInput.apStartYear" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('startYear')}">
+                                        <input class="form-element-margin-btm datePickerClass" type="text" name="startYear" v-model="approvedProjectsInput.apStartYear" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('startYear')}">
                                     </label>
                                     <span v-show="errors.has('startYear')" class="error-font">لطفا سال شروع پروژه را وارد کنید!</span>
                                 </div>
                                 <div class="medium-4 cell padding-lr">
                                     <label>سال خاتمه
-                                        <input class="form-element-margin-btm" type="text" name="endYear" v-model="approvedProjectsInput.apEndYear" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('endYear')}">
+                                        <input class="form-element-margin-btm datePickerClass" type="text" name="endYear" v-model="approvedProjectsInput.apEndYear" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('endYear')}">
                                     </label>
                                     <span v-show="errors.has('endYear')" class="error-font">لطفا سال خاتمه پروژه را وارد کنید!</span>
                                 </div>
@@ -638,6 +638,7 @@
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
+            myDatePicker();
         },
 
         mounted: function () {

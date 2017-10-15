@@ -29,6 +29,7 @@ $(function(){
     res();
 });
 function res() {
+    console.log("......................res..........................");
     var tabHeight = $('.tabs').height();
     var toolBarHeight = $('.tool-bar').height();
     var paginationHeight = $('.pagination').height();
@@ -74,7 +75,7 @@ function res() {
     $('.dynamic-height-notif').css('height', (x - 40 + notifHeight ) + 'px')*/
 }
 
-function datePicker(dateId){
+/*function datePicker(dateId){
     window.persianDatepickerDebug = false;
 
     // Normal Sample
@@ -86,6 +87,22 @@ function datePicker(dateId){
         observer: true,
         format: 'YYYY/MM/DD',
         autoClose: true
+    });
+}*/
+
+function myDatePicker(){
+    console.log("...................picker............................");
+    window.persianDatepickerDebug = false;
+
+    // Normal Sample
+    // --------------------------------------------
+    $('.datePickerClass').persianDatepicker({
+        altField: '#normalAlt',
+        altFormat: 'LLLL',
+        initialValue: false,
+        observer: true,
+        format: 'YYYY/MM/DD',
+        autoClose: true,
     });
 }
 ///////////////// get table contain scroll-bar width and sed to table header///////////

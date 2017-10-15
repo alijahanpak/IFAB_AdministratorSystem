@@ -13,7 +13,6 @@ import velocity      from 'velocity-animate'
 import VeeValidate from 'vee-validate'
 import VueProgressBar from 'vue-progressbar'
 
-
 window.Vue.use(VeeValidate);
 window.Vue.use(Notifications , {velocity});
 window.Vue.use(VueProgressBar, {

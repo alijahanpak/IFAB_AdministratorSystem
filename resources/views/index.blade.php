@@ -33,9 +33,6 @@
     </div>
     <!--chart1 Modal End-->
     <div id="container">
-
-
-
         <!--Modal Login Start-->
         <modal-login v-if="showModalLogin" @close="showModalLogin = false">
         <div slot="body">
@@ -361,9 +358,9 @@
     <script src="{{ asset('js/vendor/jquery.js') }}"></script>
     <script src="{{ asset('js/vendor/what-input.js') }}"></script>
     <script src="{{ asset('js/vendor/foundation.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/persian-date.min.js') }}"></script>
     <script src="{{ asset('js/persian-datepicker.min.js') }}"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/key.js') }}"></script>
 </body>
 </html>
