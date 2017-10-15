@@ -102,14 +102,14 @@
                                 <div class="table-contain dynamic-height-level2">
                                     <div class="grid-x" v-for="plans in provCapitalAssetsAllocations">
                                         <div class="medium-2 table-contain-border1 cell-vertical-center">
-                                            {{ plans.credit_distribution_title.cdtIdNumber }}
+                                            {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}
                                         </div>
                                         <div class="medium-10">
                                             <div class="grid-x">
-                                                <div class="medium-10 cell-vertical-center" v-for="projects in plans.capital_assets_project">
+                                                <div class="medium-10" v-for="projects in plans.capital_assets_project">
                                                     <div class="grid-x">
                                                         <div class="medium-3 table-contain-border cell-vertical-center">
-                                                            {{ projects.cpCode }}
+                                                            {{ projects.cpCode + ' - ' + projects.cpSubject }}
                                                         </div>
                                                         <div class="medium-9">
                                                             <div v-for="credit_source in projects.credit_source" class="grid-x">

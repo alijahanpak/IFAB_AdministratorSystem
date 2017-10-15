@@ -84336,18 +84336,18 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-2 table-contain-border1 cell-vertical-center"
-    }, [_vm._v("\n                                            " + _vm._s(plans.credit_distribution_title.cdtIdNumber) + "\n                                        ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                            " + _vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject) + "\n                                        ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-10"
     }, [_c('div', {
       staticClass: "grid-x"
     }, [_vm._l((plans.capital_assets_project), function(projects) {
       return _c('div', {
-        staticClass: "medium-10 cell-vertical-center"
+        staticClass: "medium-10"
       }, [_c('div', {
         staticClass: "grid-x"
       }, [_c('div', {
         staticClass: "medium-3 table-contain-border cell-vertical-center"
-      }, [_vm._v("\n                                                            " + _vm._s(projects.cpCode) + "\n                                                        ")]), _vm._v(" "), _c('div', {
+      }, [_vm._v("\n                                                            " + _vm._s(projects.cpCode + ' - ' + projects.cpSubject) + "\n                                                        ")]), _vm._v(" "), _c('div', {
         staticClass: "medium-9"
       }, _vm._l((projects.credit_source), function(credit_source) {
         return _c('div', {
