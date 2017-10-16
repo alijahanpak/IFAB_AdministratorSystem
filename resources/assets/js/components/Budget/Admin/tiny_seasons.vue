@@ -237,10 +237,6 @@
                         </div>
                     </div>
                     <!--Tab 2-->
-                    <notifications group="tinySeasonPm"
-                                   position="bottom right"
-                                   animation-type="velocity"
-                                   :speed="700" />
                 </div>
                 <modal-tiny v-if="showModal" @close="showModal = false">
                     <div  slot="body">
@@ -414,7 +410,7 @@
 
         mounted: function () {
             console.log("mounted tiny season component");
-            res();
+            this.$parent.myResize();
         },
 
         components:{
@@ -504,7 +500,7 @@
                                     this.makePagination(response.data , "plan");
                                 }
                                 this.showModal = false;
-                                this.displayNotif(response.status);
+                                this.$parent.displayNotif(response.status);
                                 this.tinySeasonsInput = [];
                                 console.log(response);
                             },(error) => {
@@ -555,7 +551,7 @@
                                     this.makePagination(response.data , "plan");
                                 }
                                 this.showModalUpdate = false;
-                                this.displayNotif(response.status);
+                                this.$parent.displayNotif(response.status);
                                 console.log(response);
                             },(error) => {
                                 console.log(error);
@@ -585,22 +581,11 @@
                         }
                         this.showModalDelete = false;
                         console.log(response);
-                        this.displayNotif(response.status);
+                        this.$parent.displayNotif(response.status);
                     },(error) => {
                         console.log(error);
                 });
-            },
-
-            displayNotif: function (httpStatusCode) {
-                switch (httpStatusCode){
-                    case 204:
-                        this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
-                        break;
-                    case 200:
-                        this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.' , type: 'success'});
-                        break;
-                }
-            },
+            }
         }
     }
 </script>

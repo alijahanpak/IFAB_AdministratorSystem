@@ -71,10 +71,6 @@
                         </div>
                     </div>
                     <!--Tab 1 End-->
-                    <notifications group="budgetSeasonPm"
-                                   position="bottom right"
-                                   animation-type="velocity"
-                                   :speed="700" />
             </div>
         </div>
         <!--modalDelete Start-->
@@ -142,7 +138,7 @@
 
         mounted: function () {
             console.log("mounted budget season component");
-            res();
+            this.$parent.myResize();
         },
 
         methods:{
@@ -165,7 +161,7 @@
                             .then((response) => {
                                 this.budgetSeasons = response.data;
                                 this.showInsertModal = false;
-                                this.displayNotif(response.status);
+                                this.$parent.displayNotif(response.status);
                                 this.budgetSeasonInput = [];
                                 console.log(response);
                             },(error) => {
@@ -175,17 +171,6 @@
                     }
                 });
             },
-
-            displayNotif: function (httpStatusCode) {
-                switch (httpStatusCode){
-                    case 204:
-                        this.$notify({group: 'budgetSeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
-                        break;
-                    case 200:
-                        this.$notify({group: 'budgetSeasonPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.' , type: 'success'});
-                        break;
-                }
-            }
         }
     }
 </script>

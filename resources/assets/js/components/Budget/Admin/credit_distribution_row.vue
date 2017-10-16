@@ -179,10 +179,6 @@
                         </div>
                     </div>
                     <!--Tab 2-->
-                    <notifications group="tinySeasonPm"
-                                   position="bottom right"
-                                   animation-type="velocity"
-                                   :speed="700" />
                 </div>
                 <modal-tiny v-if="showModal" @close="showModal = false">
                     <div  slot="body">
@@ -276,7 +272,7 @@
 
         mounted: function () {
             console.log("mounted tiny season component");
-            res();
+            this.$parent.myResize();
         },
 
         components:{
@@ -323,7 +319,7 @@
                     }
 
                     this.showModal = false;
-                    this.$notify({group: 'rowDistributionCreditPm', title: 'پیام سیستم', text: 'رکورد با موفقیت ثبت شد.' , type: 'success'});
+                    this.$parent.displayNotif(response.status);
                     this.rowDistributionCreditInput = [];
                     console.log(response.status);
                     },(error) => {
@@ -389,17 +385,6 @@
                     this.plan_pagination.current_page = data.current_page;
                     this.plan_pagination.to = data.to;
                     this.plan_pagination.last_page = data.last_page;
-                }
-            },
-
-            displayNotif: function (httpStatusCode) {
-                switch (httpStatusCode){
-                    case 204:
-                        this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
-                        break;
-                    case 200:
-                        this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.' , type: 'success'});
-                        break;
                 }
             },
         }

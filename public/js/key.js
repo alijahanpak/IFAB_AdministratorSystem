@@ -1,34 +1,53 @@
 $(document).foundation();
-$.ajaxSetup({
+/*$.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
-});
-function openTableRowAcc(trId , tableContainerId) {
+});*/
+/*function openTableRowAcc(trId , tableContainerId) {
     if ($('#' + trId).css('display') == 'none') {
         $("#" + tableContainerId ).parent().find('div.accordionRow').addClass("display-off");
         $("#" + trId).removeClass('display-off').hide().fadeToggle("1000");
     } else {
         $('#' + trId).addClass('display-off').show().fadeToggle("1000");
     }
-}
+}*/
 
+/*
 $("div.selectAbleRow").mouseover(function(){
     $(this).addClass('selected');
     $(this).find('a.dropdown').removeClass("display-off");
 });
+*/
 
-$("div.selectAbleRow").mouseleave(function(){
+/*$("div.selectAbleRow").mouseleave(function(){
     $(this).removeClass('selected');
     $(this).find('a.dropdown').addClass("display-off");
+});*/
+/*
+$(function(){
+
 });
 
-$(function(){
-    $.w = $(window);
-    $.w.on('resize', res);
-    res();
-});
-function res() {
+function myDatePicker(){
+    console.log("...................picker............................");
+    /!*    window.persianDatepickerDebug = false;
+
+        // Normal Sample
+        // --------------------------------------------
+        $('.datePickerClass').persianDatepicker({
+            altField: '#normalAlt',
+            altFormat: 'LLLL',
+            initialValue: true,
+            format: 'YYYY/MM/DD',
+            autoClose: true,
+            onSelect: function (selectedDayUnix) {
+                "use strict";
+            },
+        });*!/
+}*/
+
+/*function res() {
     console.log("......................res..........................");
     var tabHeight = $('.tabs').height();
     var toolBarHeight = $('.tool-bar').height();
@@ -54,7 +73,7 @@ function res() {
         tabHeight = 10;
     }
 
-/*    $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 170 - tabHeight ) + 'px');
+/!*    $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 170 - tabHeight ) + 'px');
 
     var x = $(".dynamicParentId1").parent().height();
     $('.dynamic-height-level2').css('height', (x - 55 - (tabHeight  + toolBarHeight)) + 'px');
@@ -62,7 +81,7 @@ function res() {
 
     var x1 = $(".dynamicParentId2").parent().height();
     $('.dynamic-height-level3').css('height', (x1 - 126 - (tabHeight  + toolBarHeight)) + 'px');
-    $('.dynamic-height-notif').css('height', (x - 40 + notifHeight ) + 'px')*/
+    $('.dynamic-height-notif').css('height', (x - 40 + notifHeight ) + 'px')*!/
 
     $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 180) + 'px');
 
@@ -70,12 +89,12 @@ function res() {
     $('.dynamic-height-level2').css('height', (x - 100 - (tabHeight  + toolBarHeight + paginationHeight)) + 'px');
     //$('.dynamic-height-level2-2').css('height', (x - 166 - (tabHeight  + toolBarHeight)) + 'px');
 
-/*    var x1 = $(".dynamicParentId2").parent().height();
+/!*    var x1 = $(".dynamicParentId2").parent().height();
     $('.dynamic-height-level3').css('height', (x1 - 126 - (tabHeight  + toolBarHeight)) + 'px');
-    $('.dynamic-height-notif').css('height', (x - 40 + notifHeight ) + 'px')*/
+    $('.dynamic-height-notif').css('height', (x - 40 + notifHeight ) + 'px')*!/
 }
 
-/*function datePicker(dateId){
+/!*function datePicker(dateId){
     window.persianDatepickerDebug = false;
 
     // Normal Sample
@@ -88,25 +107,9 @@ function res() {
         format: 'YYYY/MM/DD',
         autoClose: true
     });
-}*/
-
-function myDatePicker(){
-    console.log("...................picker............................");
-    window.persianDatepickerDebug = false;
-
-    // Normal Sample
-    // --------------------------------------------
-    $('.datePickerClass').persianDatepicker({
-        altField: '#normalAlt',
-        altFormat: 'LLLL',
-        initialValue: false,
-        observer: true,
-        format: 'YYYY/MM/DD',
-        autoClose: true,
-    });
-}
+}*!/*/
 ///////////////// get table contain scroll-bar width and sed to table header///////////
-$(document).ready(function () {
+/*$(document).ready(function () {
     var scrollDiv = document.createElement("div");
     scrollDiv.className = "table-contain";
     document.body.appendChild(scrollDiv);
@@ -116,5 +119,5 @@ $(document).ready(function () {
 // Delete the DIV
     document.body.removeChild(scrollDiv);
     $('.table-header').css('margin-left',(scrollbarWidth - 2)+'px');
-});
+});*/
 ///////////////////////////////////////////////////////////////////

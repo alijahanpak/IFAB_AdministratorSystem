@@ -71,7 +71,7 @@
                                             <div class="medium-1 table-border">
                                                 <strong>سرجمع</strong>
                                             </div>
-                                            <div class="medium-8">
+                                            <div class="medium-9">
                                                 <div class="grid-x">
                                                     <div class="medium-2 table-border">
                                                         <strong>ردیف اعتبار</strong>
@@ -112,7 +112,7 @@
                                                     {{ projects.cpCode + ' - ' + projects.cpSubject }}
                                                 </div>
                                                 <div class="medium-1 table-contain-border cell-vertical-center">
-                                                    {{  }}
+                                                    {{ $parent.calcDispAmount(getProjectAllocationSum(projects.credit_source) , false) }}
                                                 </div>
                                                 <div class="medium-9">
                                                     <div v-for="credit_source in projects.credit_source" class="grid-x">
@@ -212,7 +212,7 @@
                                             <div class="medium-1 table-border">
                                                 <strong>سرجمع</strong>
                                             </div>
-                                            <div class="medium-8">
+                                            <div class="medium-9">
                                                 <div class="grid-x">
                                                     <div class="medium-2 table-border">
                                                         <strong>ردیف اعتبار</strong>
@@ -253,7 +253,7 @@
                                                     {{ projects.cpCode + ' - ' + projects.cpSubject }}
                                                 </div>
                                                 <div class="medium-1 table-contain-border cell-vertical-center">
-                                                    {{  }}
+                                                    {{ $parent.calcDispAmount(getProjectAllocationSum(projects.credit_source) , false) }}
                                                 </div>
                                                 <div class="medium-9">
                                                     <div v-for="credit_source in projects.credit_source" class="grid-x">
@@ -310,10 +310,6 @@
                         </div>
                     </div>
                     <!--Tab 2-->
-                    <notifications group="allocationPm"
-                                   position="bottom right"
-                                   animation-type="velocity"
-                                   :speed="700" />
                 </div>
                 <!--Forms Start-->
                 <!--Insert Modal Start-->
@@ -376,16 +372,16 @@
                                     <span v-show="errors.has('creditCost')" class="error-font">لطفا مبلغ تخصیص انتخاب کنید!</span>
                                 </div>
                             </div>
-                            <div style="margin-top: 15px;" class="grid-x padding-lr" v-show="creditSourceInfo.approvedAmount">
+                            <div style="margin-top: 5px;margin-bottom: 10px" class="grid-x" v-show="creditSourceInfo.approvedAmount">
                                 <div class="medium-12 my-callout-bg-color">
                                     <div class="grid-x">
-                                        <div class="medium-4">
+                                        <div class="medium-12">
                                             <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount) }}</span>
                                         </div>
-                                        <div class="medium-4">
+                                        <div class="medium-12">
                                             <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.sumAllocation) }}</span>
                                         </div>
-                                        <div class="medium-4">
+                                        <div class="medium-12">
                                             <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.approvedAmount , creditSourceInfo.sumAllocation) }}</span>
                                         </div>
                                     </div>
@@ -555,6 +551,7 @@
         },
         created: function () {
             this.fetchProvincialData();
+            this.fetchNationalData();
             this.getAllApprovedPlan(0); // 0 = provincial
         },
 
@@ -564,7 +561,7 @@
 
         mounted: function () {
             console.log("mounted capital assets allocation component");
-            res();
+            this.$parent.myResize();
         },
 
         components:{
@@ -584,7 +581,7 @@
             },
 
             fetchNationalData: function (page = 1) {
-                axios.get('/budget/allocation/register_of_credit_allocation_assets/fetchData?page=' + page , {params:{planOrCost: 0}})
+                axios.get('/budget/allocation/capital_assets/fetchData?page=' + page , {params:{pOrN: 1}})
                     .then((response) => {
                         this.natCapitalAssetsAllocations = response.data.data;
                         this.makePagination(response.data , "national");
@@ -635,6 +632,17 @@
 
             },
 
+            getProjectAllocationSum: function (creditSource) {
+                var sum = 0;
+                creditSource.forEach(cs => {
+                    cs.allocation.forEach(alloc => {
+                        sum += alloc.caaAmount;
+                    });
+                });
+
+                return sum;
+            },
+
             openInsertModal: function (type) {
                 this.provOrNat = type;
                 this.getAllApprovedPlan(type);
@@ -664,7 +672,7 @@
                                     this.makePagination(response.data , "national");
                                 }
                                 this.showModal = false;
-                                this.displayNotif(response.status);
+                                this.$parent.displayNotif(response.status);
                                 console.log(response);
                             },(error) => {
                                 console.log(error);
@@ -724,17 +732,6 @@
                         console.log(error);
                         this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                     });*/
-            },
-
-            displayNotif: function (httpStatusCode) {
-                switch (httpStatusCode){
-                    case 204:
-                        this.$notify({group: 'allocationPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
-                        break;
-                    case 200:
-                        this.$notify({group: 'allocationPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.' , type: 'success'});
-                        break;
-                }
             },
 
             makePagination: function(data , type){

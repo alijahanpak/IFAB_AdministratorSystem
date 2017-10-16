@@ -68,10 +68,6 @@
                         </div>
                     </div>
                     <!--Tab 1 End-->
-                    <notifications group="fiscalYearPm"
-                                   position="bottom right"
-                                   animation-type="velocity"
-                                   :speed="700" />
             </div>
         </div>
         <!--modalFYActivate Start-->
@@ -182,7 +178,7 @@
 
         mounted: function () {
             console.log("mounted fiscal year component");
-            res();
+            this.$parent.myResize();
         },
 
         components:{
@@ -237,7 +233,7 @@
                         this.makePagination(response.data);
                         this.showFyActiveModal = false;
                         console.log(response.data);
-                        this.displayNotif(response.status);
+                        this.$parent.displayNotif(response.status);
                     },(error) => {
                         console.log(error);
                     });
@@ -283,7 +279,7 @@
                         }).then((response) => {
                                 this.fyPermissionInBudget = response.data;
                                 console.log(response.data);
-                                this.displayNotif(response.status);
+                                this.$parent.displayNotif(response.status);
                             },(error) => {
                                 console.log(error);
                             });
@@ -298,21 +294,10 @@
                 }).then((response) => {
                     this.fyPermissionInBudget = response.data;
                     console.log(response.data);
-                    this.displayNotif(response.status);
+                    this.$parent.displayNotif(response.status);
                 },(error) => {
                     console.log(error);
                 });
-            },
-
-            displayNotif: function (httpStatusCode) {
-                switch (httpStatusCode){
-                    case 204:
-                        this.$notify({group: 'fiscalYearPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
-                        break;
-                    case 200:
-                        this.$notify({group: 'fiscalYearPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.' , type: 'success'});
-                        break;
-                }
             }
         }
     }

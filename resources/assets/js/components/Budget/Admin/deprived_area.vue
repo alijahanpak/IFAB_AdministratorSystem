@@ -269,10 +269,6 @@
                 </div>
             </div>
             <!----------------->
-            <notifications group="deprivedAreaPm"
-                           position="bottom right"
-                           animation-type="velocity"
-                           :speed="700" />
         </div>
         <!-- modalFYActivate Start -->
         <modal-tiny v-if="showInsertModal" @close="showInsertModal = false">
@@ -375,7 +371,7 @@
 
         mounted: function () {
             console.log("mounted deprived area component");
-            res();
+            this.$parent.myResize();
         },
 
         components:{
@@ -405,7 +401,7 @@
                             .then((response) => {
                                 this.deprivedArea = response.data;
                                 this.showInsertModal = false;
-                                this.displayNotif(response.status);
+                                this.$parent.displayNotif(response.status);
                                 this.deprivedAreaInput = [];
                                 console.log(response);
                             },(error) => {
@@ -474,17 +470,6 @@
                 }
                 else{
                     this.villageDisable = true;
-                }
-            },
-
-            displayNotif: function (httpStatusCode) {
-                switch (httpStatusCode){
-                    case 204:
-                        this.$notify({group: 'deprivedAreaPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
-                        break;
-                    case 200:
-                        this.$notify({group: 'deprivedAreaPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.' , type: 'success'});
-                        break;
                 }
             }
         }
