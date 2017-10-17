@@ -12094,6 +12094,265 @@ const Nest = {
 
 /***/ }),
 /* 13 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Touch; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
+//**************************************************
+//**Work inspired by multiple jquery swipe plugins**
+//**Done by Yohai Ararat ***************************
+//**************************************************
+
+
+
+var Touch = {};
+
+var startPosX,
+    startPosY,
+    startTime,
+    elapsedTime,
+    isMoving = false;
+
+function onTouchEnd() {
+  //  alert(this);
+  this.removeEventListener('touchmove', onTouchMove);
+  this.removeEventListener('touchend', onTouchEnd);
+  isMoving = false;
+}
+
+function onTouchMove(e) {
+  if (__WEBPACK_IMPORTED_MODULE_0_jquery___default.a.spotSwipe.preventDefault) { e.preventDefault(); }
+  if(isMoving) {
+    var x = e.touches[0].pageX;
+    var y = e.touches[0].pageY;
+    var dx = startPosX - x;
+    var dy = startPosY - y;
+    var dir;
+    elapsedTime = new Date().getTime() - startTime;
+    if(Math.abs(dx) >= __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.spotSwipe.moveThreshold && elapsedTime <= __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.spotSwipe.timeThreshold) {
+      dir = dx > 0 ? 'left' : 'right';
+    }
+    // else if(Math.abs(dy) >= $.spotSwipe.moveThreshold && elapsedTime <= $.spotSwipe.timeThreshold) {
+    //   dir = dy > 0 ? 'down' : 'up';
+    // }
+    if(dir) {
+      e.preventDefault();
+      onTouchEnd.call(this);
+      __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).trigger('swipe', dir).trigger(`swipe${dir}`);
+    }
+  }
+}
+
+function onTouchStart(e) {
+  if (e.touches.length == 1) {
+    startPosX = e.touches[0].pageX;
+    startPosY = e.touches[0].pageY;
+    isMoving = true;
+    startTime = new Date().getTime();
+    this.addEventListener('touchmove', onTouchMove, false);
+    this.addEventListener('touchend', onTouchEnd, false);
+  }
+}
+
+function init() {
+  this.addEventListener && this.addEventListener('touchstart', onTouchStart, false);
+}
+
+function teardown() {
+  this.removeEventListener('touchstart', onTouchStart);
+}
+
+class SpotSwipe {
+  constructor($) {
+    this.version = '1.0.0';
+    this.enabled = 'ontouchstart' in document.documentElement;
+    this.preventDefault = false;
+    this.moveThreshold = 75;
+    this.timeThreshold = 200;
+    this.$ = $;
+    this._init();
+  }
+
+  _init() {
+    var $ = this.$;
+    $.event.special.swipe = { setup: init };
+
+    $.each(['left', 'up', 'down', 'right'], function () {
+      $.event.special[`swipe${this}`] = { setup: function(){
+        $(this).on('swipe', $.noop);
+      } };
+    });
+  }
+}
+
+/****************************************************
+ * As far as I can tell, both setupSpotSwipe and    *
+ * setupTouchHandler should be idempotent,          *
+ * because they directly replace functions &        *
+ * values, and do not add event handlers directly.  *
+ ****************************************************/
+
+Touch.setupSpotSwipe = function($) {
+  $.spotSwipe = new SpotSwipe($);
+};
+
+/****************************************************
+ * Method for adding pseudo drag events to elements *
+ ***************************************************/
+Touch.setupTouchHandler = function($) {
+  $.fn.addTouch = function(){
+    this.each(function(i,el){
+      $(el).bind('touchstart touchmove touchend touchcancel',function(){
+        //we pass the original event object because the jQuery event
+        //object is normalized to w3c specs and does not provide the TouchList
+        handleTouch(event);
+      });
+    });
+
+    var handleTouch = function(event){
+      var touches = event.changedTouches,
+          first = touches[0],
+          eventTypes = {
+            touchstart: 'mousedown',
+            touchmove: 'mousemove',
+            touchend: 'mouseup'
+          },
+          type = eventTypes[event.type],
+          simulatedEvent
+        ;
+
+      if('MouseEvent' in window && typeof window.MouseEvent === 'function') {
+        simulatedEvent = new window.MouseEvent(type, {
+          'bubbles': true,
+          'cancelable': true,
+          'screenX': first.screenX,
+          'screenY': first.screenY,
+          'clientX': first.clientX,
+          'clientY': first.clientY
+        });
+      } else {
+        simulatedEvent = document.createEvent('MouseEvent');
+        simulatedEvent.initMouseEvent(type, true, true, window, 1, first.screenX, first.screenY, first.clientX, first.clientY, false, false, false, false, 0/*left*/, null);
+      }
+      first.target.dispatchEvent(simulatedEvent);
+    };
+  };
+};
+
+Touch.init = function($) {
+  if(typeof($.spotSwipe) === 'undefined') {
+    Touch.setupSpotSwipe($);
+    Touch.setupTouchHandler($);
+  }
+};
+
+
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(4);
+var normalizeHeaderName = __webpack_require__(59);
+
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(27);
+  } else if (typeof process !== 'undefined') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(27);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(58)))
+
+/***/ }),
+/* 15 */
 /***/ (function(module, exports) {
 
 /*
@@ -12175,7 +12434,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 14 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -12394,265 +12653,6 @@ function applyToTag (styleElement, obj) {
   }
 }
 
-
-/***/ }),
-/* 15 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Touch; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
-//**************************************************
-//**Work inspired by multiple jquery swipe plugins**
-//**Done by Yohai Ararat ***************************
-//**************************************************
-
-
-
-var Touch = {};
-
-var startPosX,
-    startPosY,
-    startTime,
-    elapsedTime,
-    isMoving = false;
-
-function onTouchEnd() {
-  //  alert(this);
-  this.removeEventListener('touchmove', onTouchMove);
-  this.removeEventListener('touchend', onTouchEnd);
-  isMoving = false;
-}
-
-function onTouchMove(e) {
-  if (__WEBPACK_IMPORTED_MODULE_0_jquery___default.a.spotSwipe.preventDefault) { e.preventDefault(); }
-  if(isMoving) {
-    var x = e.touches[0].pageX;
-    var y = e.touches[0].pageY;
-    var dx = startPosX - x;
-    var dy = startPosY - y;
-    var dir;
-    elapsedTime = new Date().getTime() - startTime;
-    if(Math.abs(dx) >= __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.spotSwipe.moveThreshold && elapsedTime <= __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.spotSwipe.timeThreshold) {
-      dir = dx > 0 ? 'left' : 'right';
-    }
-    // else if(Math.abs(dy) >= $.spotSwipe.moveThreshold && elapsedTime <= $.spotSwipe.timeThreshold) {
-    //   dir = dy > 0 ? 'down' : 'up';
-    // }
-    if(dir) {
-      e.preventDefault();
-      onTouchEnd.call(this);
-      __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).trigger('swipe', dir).trigger(`swipe${dir}`);
-    }
-  }
-}
-
-function onTouchStart(e) {
-  if (e.touches.length == 1) {
-    startPosX = e.touches[0].pageX;
-    startPosY = e.touches[0].pageY;
-    isMoving = true;
-    startTime = new Date().getTime();
-    this.addEventListener('touchmove', onTouchMove, false);
-    this.addEventListener('touchend', onTouchEnd, false);
-  }
-}
-
-function init() {
-  this.addEventListener && this.addEventListener('touchstart', onTouchStart, false);
-}
-
-function teardown() {
-  this.removeEventListener('touchstart', onTouchStart);
-}
-
-class SpotSwipe {
-  constructor($) {
-    this.version = '1.0.0';
-    this.enabled = 'ontouchstart' in document.documentElement;
-    this.preventDefault = false;
-    this.moveThreshold = 75;
-    this.timeThreshold = 200;
-    this.$ = $;
-    this._init();
-  }
-
-  _init() {
-    var $ = this.$;
-    $.event.special.swipe = { setup: init };
-
-    $.each(['left', 'up', 'down', 'right'], function () {
-      $.event.special[`swipe${this}`] = { setup: function(){
-        $(this).on('swipe', $.noop);
-      } };
-    });
-  }
-}
-
-/****************************************************
- * As far as I can tell, both setupSpotSwipe and    *
- * setupTouchHandler should be idempotent,          *
- * because they directly replace functions &        *
- * values, and do not add event handlers directly.  *
- ****************************************************/
-
-Touch.setupSpotSwipe = function($) {
-  $.spotSwipe = new SpotSwipe($);
-};
-
-/****************************************************
- * Method for adding pseudo drag events to elements *
- ***************************************************/
-Touch.setupTouchHandler = function($) {
-  $.fn.addTouch = function(){
-    this.each(function(i,el){
-      $(el).bind('touchstart touchmove touchend touchcancel',function(){
-        //we pass the original event object because the jQuery event
-        //object is normalized to w3c specs and does not provide the TouchList
-        handleTouch(event);
-      });
-    });
-
-    var handleTouch = function(event){
-      var touches = event.changedTouches,
-          first = touches[0],
-          eventTypes = {
-            touchstart: 'mousedown',
-            touchmove: 'mousemove',
-            touchend: 'mouseup'
-          },
-          type = eventTypes[event.type],
-          simulatedEvent
-        ;
-
-      if('MouseEvent' in window && typeof window.MouseEvent === 'function') {
-        simulatedEvent = new window.MouseEvent(type, {
-          'bubbles': true,
-          'cancelable': true,
-          'screenX': first.screenX,
-          'screenY': first.screenY,
-          'clientX': first.clientX,
-          'clientY': first.clientY
-        });
-      } else {
-        simulatedEvent = document.createEvent('MouseEvent');
-        simulatedEvent.initMouseEvent(type, true, true, window, 1, first.screenX, first.screenY, first.clientX, first.clientY, false, false, false, false, 0/*left*/, null);
-      }
-      first.target.dispatchEvent(simulatedEvent);
-    };
-  };
-};
-
-Touch.init = function($) {
-  if(typeof($.spotSwipe) === 'undefined') {
-    Touch.setupSpotSwipe($);
-    Touch.setupTouchHandler($);
-  }
-};
-
-
-
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(4);
-var normalizeHeaderName = __webpack_require__(59);
-
-var DEFAULT_CONTENT_TYPE = {
-  'Content-Type': 'application/x-www-form-urlencoded'
-};
-
-function setContentTypeIfUnset(headers, value) {
-  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
-    headers['Content-Type'] = value;
-  }
-}
-
-function getDefaultAdapter() {
-  var adapter;
-  if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(27);
-  } else if (typeof process !== 'undefined') {
-    // For node use HTTP adapter
-    adapter = __webpack_require__(27);
-  }
-  return adapter;
-}
-
-var defaults = {
-  adapter: getDefaultAdapter(),
-
-  transformRequest: [function transformRequest(data, headers) {
-    normalizeHeaderName(headers, 'Content-Type');
-    if (utils.isFormData(data) ||
-      utils.isArrayBuffer(data) ||
-      utils.isBuffer(data) ||
-      utils.isStream(data) ||
-      utils.isFile(data) ||
-      utils.isBlob(data)
-    ) {
-      return data;
-    }
-    if (utils.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils.isURLSearchParams(data)) {
-      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
-      return data.toString();
-    }
-    if (utils.isObject(data)) {
-      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
-      return JSON.stringify(data);
-    }
-    return data;
-  }],
-
-  transformResponse: [function transformResponse(data) {
-    /*eslint no-param-reassign:0*/
-    if (typeof data === 'string') {
-      try {
-        data = JSON.parse(data);
-      } catch (e) { /* Ignore */ }
-    }
-    return data;
-  }],
-
-  timeout: 0,
-
-  xsrfCookieName: 'XSRF-TOKEN',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
-
-  maxContentLength: -1,
-
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  }
-};
-
-defaults.headers = {
-  common: {
-    'Accept': 'application/json, text/plain, */*'
-  }
-};
-
-utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
-  defaults.headers[method] = {};
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
-});
-
-module.exports = defaults;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(58)))
 
 /***/ }),
 /* 17 */
@@ -25847,7 +25847,6 @@ Vue.component('modal-login', { template: '#modal-login-template' });
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
 __webpack_require__(94);
 /*const app = new Vue({
     el: '#app',
@@ -43047,7 +43046,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__js_foundation_util_motion__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__js_foundation_util_nest__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__js_foundation_util_timer__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__js_foundation_util_touch__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__js_foundation_util_touch__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__js_foundation_util_triggers__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__js_foundation_abide__ = __webpack_require__(39);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__js_foundation_accordion__ = __webpack_require__(19);
@@ -45950,7 +45949,7 @@ OffCanvas.defaults = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__foundation_util_imageLoader__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__foundation_util_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__foundation_plugin__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__foundation_util_touch__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__foundation_util_touch__ = __webpack_require__(13);
 
 
 
@@ -47436,7 +47435,7 @@ function mobileSniff() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__foundation_util_motion__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__foundation_util_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__foundation_plugin__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__foundation_util_touch__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__foundation_util_touch__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__foundation_util_triggers__ = __webpack_require__(8);
 
 
@@ -49586,7 +49585,7 @@ module.exports = __webpack_require__(55);
 var utils = __webpack_require__(4);
 var bind = __webpack_require__(26);
 var Axios = __webpack_require__(57);
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(14);
 
 /**
  * Create an instance of Axios
@@ -49669,7 +49668,7 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(14);
 var utils = __webpack_require__(4);
 var InterceptorManager = __webpack_require__(67);
 var dispatchRequest = __webpack_require__(68);
@@ -50391,7 +50390,7 @@ module.exports = InterceptorManager;
 var utils = __webpack_require__(4);
 var transformData = __webpack_require__(69);
 var isCancel = __webpack_require__(29);
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(14);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -63229,7 +63228,7 @@ var content = __webpack_require__(80);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(14)("439a57f1", content, false);
+var update = __webpack_require__(16)("439a57f1", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -63248,7 +63247,7 @@ if(false) {
 /* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(13)(undefined);
+exports = module.exports = __webpack_require__(15)(undefined);
 // imports
 
 
@@ -64039,7 +64038,7 @@ var content = __webpack_require__(86);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(14)("654ee7a0", content, false);
+var update = __webpack_require__(16)("654ee7a0", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -64058,7 +64057,7 @@ if(false) {
 /* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(13)(undefined);
+exports = module.exports = __webpack_require__(15)(undefined);
 // imports
 
 
@@ -64306,7 +64305,7 @@ var content = __webpack_require__(91);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(14)("0f028d89", content, false);
+var update = __webpack_require__(16)("0f028d89", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -64325,7 +64324,7 @@ if(false) {
 /* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(13)(undefined);
+exports = module.exports = __webpack_require__(15)(undefined);
 // imports
 
 
@@ -65009,6 +65008,39 @@ var app = new Vue({
         }
     },
 
+    mounted: function mounted() {
+        $.w = $(window);
+        $.w.on('resize', function () {
+            console.log("......................res..........................");
+            var tabHeight = $('.tabs').height();
+            var toolBarHeight = $('.tool-bar').height();
+            var paginationHeight = $('.pagination').height();
+            var notifHeight = 25;
+            if (toolBarHeight === undefined) {
+                toolBarHeight = -8;
+            }
+
+            if (paginationHeight === undefined) {
+                paginationHeight = -8;
+            }
+
+            if (tabHeight === undefined) {
+                tabHeight = -8;
+                notifHeight = 0;
+            }
+
+            if ($('.vertical-tab').length > 0) {
+                tabHeight = 10;
+            }
+
+            $('.dynamic-height-level1').css('height', $.w.outerHeight() - 180 + 'px');
+
+            var x = $(".dynamic-height-level1").height();
+            $('.dynamic-height-level2').css('height', x - 100 - (tabHeight + toolBarHeight + paginationHeight) + 'px');
+        });
+        this.myResize();
+    },
+
     methods: {
         login: function login() {
             var _this = this;
@@ -65060,6 +65092,46 @@ var app = new Vue({
 
         getAmountBaseLabel: function getAmountBaseLabel() {
             return this.amountBase.in_put_amount_unit.auSubject;
+        },
+
+        displayNotif: function displayNotif(httpStatusCode) {
+            switch (httpStatusCode) {
+                case 204:
+                    this.$notify({ title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
+                    break;
+                case 200:
+                    this.$notify({ title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
+                    break;
+            }
+        },
+
+        myResize: function myResize() {
+            console.log("......................res..........................");
+            var tabHeight = $('.tabs').height();
+            var toolBarHeight = $('.tool-bar').height();
+            var paginationHeight = $('.pagination').height();
+            var notifHeight = 25;
+            if (toolBarHeight === undefined) {
+                toolBarHeight = -8;
+            }
+
+            if (paginationHeight === undefined) {
+                paginationHeight = -8;
+            }
+
+            if (tabHeight === undefined) {
+                tabHeight = -8;
+                notifHeight = 0;
+            }
+
+            if ($('.vertical-tab').length > 0) {
+                tabHeight = 10;
+            }
+
+            $('.dynamic-height-level1').css('height', $.w.outerHeight() - 180 + 'px');
+
+            var x = $(".dynamic-height-level1").height();
+            $('.dynamic-height-level2').css('height', x - 100 - (tabHeight + toolBarHeight + paginationHeight) + 'px');
         },
 
         logout: function logout() {
@@ -69368,10 +69440,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -69420,7 +69488,7 @@ if (false) {(function () {
 
     mounted: function mounted() {
         console.log("mounted tiny season component");
-        res();
+        this.$parent.myResize();
     },
 
     components: {
@@ -69515,7 +69583,7 @@ if (false) {(function () {
                             _this5.makePagination(response.data, "plan");
                         }
                         _this5.showModal = false;
-                        _this5.displayNotif(response.status);
+                        _this5.$parent.displayNotif(response.status);
                         _this5.tinySeasonsInput = [];
                         console.log(response);
                     }, function (error) {
@@ -69563,7 +69631,7 @@ if (false) {(function () {
                             _this6.makePagination(response.data, "plan");
                         }
                         _this6.showModalUpdate = false;
-                        _this6.displayNotif(response.status);
+                        _this6.$parent.displayNotif(response.status);
                         console.log(response);
                     }, function (error) {
                         console.log(error);
@@ -69592,21 +69660,10 @@ if (false) {(function () {
                     }
                 _this7.showModalDelete = false;
                 console.log(response);
-                _this7.displayNotif(response.status);
+                _this7.$parent.displayNotif(response.status);
             }, function (error) {
                 console.log(error);
             });
-        },
-
-        displayNotif: function displayNotif(httpStatusCode) {
-            switch (httpStatusCode) {
-                case 204:
-                    this.$notify({ group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
-                    break;
-                case 200:
-                    this.$notify({ group: 'tinySeasonPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
-                    break;
-            }
         }
     }
 });
@@ -70015,14 +70072,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchCostData(_vm.cost_pagination.current_page)
       }
     }
-  })], 1)])])])])]), _vm._v(" "), _c('notifications', {
-    attrs: {
-      "group": "tinySeasonPm",
-      "position": "bottom right",
-      "animation-type": "velocity",
-      "speed": 700
-    }
-  })], 1), _vm._v(" "), (_vm.showModal) ? _c('modal-tiny', {
+  })], 1)])])])])])]), _vm._v(" "), (_vm.showModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showModal = false
@@ -70894,10 +70944,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -70931,7 +70977,7 @@ if (false) {(function () {
 
     mounted: function mounted() {
         console.log("mounted fiscal year component");
-        res();
+        this.$parent.myResize();
     },
 
     components: {
@@ -70985,7 +71031,7 @@ if (false) {(function () {
                 _this2.makePagination(response.data);
                 _this2.showFyActiveModal = false;
                 console.log(response.data);
-                _this2.displayNotif(response.status);
+                _this2.$parent.displayNotif(response.status);
             }, function (error) {
                 console.log(error);
             });
@@ -71032,7 +71078,7 @@ if (false) {(function () {
                     }).then(function (response) {
                         _this4.fyPermissionInBudget = response.data;
                         console.log(response.data);
-                        _this4.displayNotif(response.status);
+                        _this4.$parent.displayNotif(response.status);
                     }, function (error) {
                         console.log(error);
                     });
@@ -71049,21 +71095,10 @@ if (false) {(function () {
             }).then(function (response) {
                 _this5.fyPermissionInBudget = response.data;
                 console.log(response.data);
-                _this5.displayNotif(response.status);
+                _this5.$parent.displayNotif(response.status);
             }, function (error) {
                 console.log(error);
             });
-        },
-
-        displayNotif: function displayNotif(httpStatusCode) {
-            switch (httpStatusCode) {
-                case 204:
-                    this.$notify({ group: 'fiscalYearPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
-                    break;
-                case 200:
-                    this.$notify({ group: 'fiscalYearPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
-                    break;
-            }
         }
     }
 });
@@ -71159,14 +71194,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchData(_vm.pagination.current_page)
       }
     }
-  })], 1)])]), _vm._v(" "), _c('notifications', {
-    attrs: {
-      "group": "fiscalYearPm",
-      "position": "bottom right",
-      "animation-type": "velocity",
-      "speed": 700
-    }
-  })], 1)]), _vm._v(" "), (_vm.showFyActiveModal) ? _c('modal-tiny', {
+  })], 1)])])])]), _vm._v(" "), (_vm.showFyActiveModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showFyActiveModal = false
@@ -71804,10 +71832,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -71839,7 +71863,7 @@ if (false) {(function () {
 
     mounted: function mounted() {
         console.log("mounted deprived area component");
-        res();
+        this.$parent.myResize();
     },
 
     components: {
@@ -71873,7 +71897,7 @@ if (false) {(function () {
                         description: _this2.deprivedAreaInput.description }).then(function (response) {
                         _this2.deprivedArea = response.data;
                         _this2.showInsertModal = false;
-                        _this2.displayNotif(response.status);
+                        _this2.$parent.displayNotif(response.status);
                         _this2.deprivedAreaInput = [];
                         console.log(response);
                     }, function (error) {
@@ -71940,17 +71964,6 @@ if (false) {(function () {
                 });
             } else {
                 this.villageDisable = true;
-            }
-        },
-
-        displayNotif: function displayNotif(httpStatusCode) {
-            switch (httpStatusCode) {
-                case 204:
-                    this.$notify({ group: 'deprivedAreaPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
-                    break;
-                case 200:
-                    this.$notify({ group: 'deprivedAreaPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
-                    break;
             }
         }
     }
@@ -72264,14 +72277,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "data-auto-focus": "true"
       }
     }, [_vm._m(13, true)])])])])]) : _vm._e()])
-  }))])])])]), _vm._v(" "), _c('notifications', {
-    attrs: {
-      "group": "deprivedAreaPm",
-      "position": "bottom right",
-      "animation-type": "velocity",
-      "speed": 700
-    }
-  })], 1), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-tiny', {
+  }))])])])])]), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showInsertModal = false
@@ -72897,10 +72903,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     data: function data() {
@@ -72922,7 +72924,7 @@ if (false) {(function () {
 
     mounted: function mounted() {
         console.log("mounted budget season component");
-        res();
+        this.$parent.myResize();
     },
 
     methods: {
@@ -72947,7 +72949,7 @@ if (false) {(function () {
                         description: _this2.budgetSeasonInput.description }).then(function (response) {
                         _this2.budgetSeasons = response.data;
                         _this2.showInsertModal = false;
-                        _this2.displayNotif(response.status);
+                        _this2.$parent.displayNotif(response.status);
                         _this2.budgetSeasonInput = [];
                         console.log(response);
                     }, function (error) {
@@ -72956,17 +72958,6 @@ if (false) {(function () {
                     });
                 }
             });
-        },
-
-        displayNotif: function displayNotif(httpStatusCode) {
-            switch (httpStatusCode) {
-                case 204:
-                    this.$notify({ group: 'budgetSeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
-                    break;
-                case 200:
-                    this.$notify({ group: 'budgetSeasonPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
-                    break;
-            }
         }
     }
 });
@@ -73063,14 +73054,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "data-auto-focus": "true"
       }
     }, [_vm._m(4, true)])])])])])
-  }))]), _vm._v(" "), _c('notifications', {
-    attrs: {
-      "group": "budgetSeasonPm",
-      "position": "bottom right",
-      "animation-type": "velocity",
-      "speed": 700
-    }
-  })], 1)]), _vm._v(" "), (_vm.showFyActiveModal) ? _c('modal-tiny', {
+  }))])])]), _vm._v(" "), (_vm.showFyActiveModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showFyActiveModal = false
@@ -73539,10 +73523,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -73587,7 +73567,7 @@ if (false) {(function () {
 
     mounted: function mounted() {
         console.log("mounted tiny season component");
-        res();
+        this.$parent.myResize();
     },
 
     components: {
@@ -73639,7 +73619,7 @@ if (false) {(function () {
                 }
 
                 _this3.showModal = false;
-                _this3.$notify({ group: 'rowDistributionCreditPm', title: 'پیام سیستم', text: 'رکورد با موفقیت ثبت شد.', type: 'success' });
+                _this3.$parent.displayNotif(response.status);
                 _this3.rowDistributionCreditInput = [];
                 console.log(response.status);
             }, function (error) {
@@ -73703,17 +73683,6 @@ if (false) {(function () {
                 this.plan_pagination.current_page = data.current_page;
                 this.plan_pagination.to = data.to;
                 this.plan_pagination.last_page = data.last_page;
-            }
-        },
-
-        displayNotif: function displayNotif(httpStatusCode) {
-            switch (httpStatusCode) {
-                case 204:
-                    this.$notify({ group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
-                    break;
-                case 200:
-                    this.$notify({ group: 'tinySeasonPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
-                    break;
             }
         }
     }
@@ -73955,14 +73924,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchCostData(_vm.cost_pagination.current_page)
       }
     }
-  })], 1)])])])])]), _vm._v(" "), _c('notifications', {
-    attrs: {
-      "group": "tinySeasonPm",
-      "position": "bottom right",
-      "animation-type": "velocity",
-      "speed": 700
-    }
-  })], 1), _vm._v(" "), (_vm.showModal) ? _c('modal-tiny', {
+  })], 1)])])])])])]), _vm._v(" "), (_vm.showModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showModal = false
@@ -74651,10 +74613,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -74701,7 +74659,7 @@ if (false) {(function () {
 
     mounted: function mounted() {
         console.log("mounted season title component");
-        res();
+        this.$parent.myResize();
     },
 
     components: {
@@ -74778,7 +74736,7 @@ if (false) {(function () {
                             _this4.makePagination(response.data, "plan");
                         }
                         _this4.showModal = false;
-                        _this4.displayNotif(response.status);
+                        _this4.$parent.displayNotif(response.status);
                         _this4.seasonTitleInput = [];
                         console.log(response);
                     }, function (error) {
@@ -74824,7 +74782,7 @@ if (false) {(function () {
                             _this5.makePagination(response.data, "plan");
                         }
                         _this5.showModalUpdate = false;
-                        _this5.displayNotif(response.status);
+                        _this5.$parent.displayNotif(response.status);
                         console.log(response);
                     }, function (error) {
                         console.log(error);
@@ -74859,31 +74817,10 @@ if (false) {(function () {
                     }
                 _this6.showModalDelete = false;
                 console.log(response);
-                _this6.displayNotif(response.status);
+                _this6.$parent.displayNotif(response.status);
             }, function (error) {
                 console.log(error);
             });
-        },
-
-        displayNotif: function displayNotif(httpStatusCode) {
-            switch (httpStatusCode) {
-                case 204:
-                    this.$notify({
-                        group: 'seasonTitlePm',
-                        title: 'پیام سیستم',
-                        text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.',
-                        type: 'error'
-                    });
-                    break;
-                case 200:
-                    this.$notify({
-                        group: 'seasonTitlePm',
-                        title: 'پیام سیستم',
-                        text: 'درخواست با موفقیت انجام شد.',
-                        type: 'success'
-                    });
-                    break;
-            }
         }
     }
 });
@@ -75137,14 +75074,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchCostData(_vm.cost_pagination.current_page)
       }
     }
-  })], 1)])])])]), _vm._v(" "), _c('notifications', {
-    attrs: {
-      "group": "seasonTitlePm",
-      "position": "bottom right",
-      "animation-type": "velocity",
-      "speed": 700
-    }
-  })], 1), _vm._v(" "), (_vm.showModal) ? _c('modal-tiny', {
+  })], 1)])])])])]), _vm._v(" "), (_vm.showModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showModal = false
@@ -75980,10 +75910,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -76017,7 +75943,7 @@ if (false) {(function () {
 
     mounted: function mounted() {
         console.log("mounted budget season component");
-        res();
+        this.$parent.myResize();
     },
 
     components: {
@@ -76097,7 +76023,7 @@ if (false) {(function () {
                         _this5.planOrCosts = response.data.data;
                         _this5.makePagination(response.data);
                         _this5.showInsertModal = false;
-                        _this5.displayNotif(response.status);
+                        _this5.$parent.displayNotif(response.status);
                         _this5.planOrCostInput = [];
                         console.log(response);
                     }, function (error) {
@@ -76112,17 +76038,6 @@ if (false) {(function () {
             this.pagination.current_page = data.current_page;
             this.pagination.to = data.to;
             this.pagination.last_page = data.last_page;
-        },
-
-        displayNotif: function displayNotif(httpStatusCode) {
-            switch (httpStatusCode) {
-                case 204:
-                    this.$notify({ group: 'plan_cost_titlePm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
-                    break;
-                case 200:
-                    this.$notify({ group: 'plan_cost_titlePm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
-                    break;
-            }
         }
     }
 });
@@ -76261,14 +76176,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchData(_vm.pagination.current_page)
       }
     }
-  })], 1)]), _vm._v(" "), _c('notifications', {
-    attrs: {
-      "group": "plan_cost_titlePm",
-      "position": "bottom right",
-      "animation-type": "velocity",
-      "speed": 700
-    }
-  })], 1)]), _vm._v(" "), (_vm.showFyActiveModal) ? _c('modal-tiny', {
+  })], 1)])])]), _vm._v(" "), (_vm.showFyActiveModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showFyActiveModal = false
@@ -77352,11 +77260,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -77411,6 +77314,7 @@ if (false) {(function () {
     created: function created() {
         this.fetchProvincialData();
         this.fetchNationalData();
+        //
     },
 
     updated: function updated() {
@@ -77419,7 +77323,7 @@ if (false) {(function () {
 
     mounted: function mounted() {
         console.log("mounted approved project component");
-        res();
+        this.$parent.myResize();
     },
 
     components: {
@@ -77562,19 +77466,52 @@ if (false) {(function () {
         },
 
         createApprovedProjects: function createApprovedProjects() {
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    /*                        axios.post('/budget/approved_project/capital_assets/register' , {
+                                                pId: this.approvedProjectsInput.apPlan,
+                                                subject: this.approvedProjectsInput.apProjectTitle,
+                                                code: this.approvedProjectsInput.apProjectCode,
+                                                startYear: this.approvedProjectsInput.apStartYear,
+                                                endYear: this.approvedProjectsInput.apEndYear,
+                                                pProgress: this.approvedProjectsInput.apPhysicalProgress,
+                                                coId: this.approvedProjectsInput.apCity,
+                                                description: this.approvedProjectsInput.apDescription,
+                                                pOrN: this.provOrNat
+                                            }).then((response) => {
+                                                    if (this.provOrNat == 0)
+                                                    {
+                                                        this.approvedProjects_prov = response.data.data;
+                                                        this.makePagination(response.data , "provincial");
+                                                    }
+                                                    else
+                                                    {
+                                                        this.approvedProjects_nat = response.data.data;
+                                                        this.makePagination(response.data , "national");
+                                                    }
+                                                    this.showInsertModal = false;
+                                                    this.$parent.displayNotif(response.status);
+                                                    console.log(response);
+                                                },(error) => {
+                                                    console.log(error);
+                                                    //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                                                });*/
+                }
+            });
+        },
+
+        createApprovedProjectCreditSource: function createApprovedProjectCreditSource() {
             var _this10 = this;
 
             this.$validator.validateAll().then(function (result) {
                 if (result) {
-                    axios.post('/budget/approved_project/capital_assets/register', {
-                        pId: _this10.approvedProjectsInput.apPlan,
-                        subject: _this10.approvedProjectsInput.apProjectTitle,
-                        code: _this10.approvedProjectsInput.apProjectCode,
-                        startYear: _this10.approvedProjectsInput.apStartYear,
-                        endYear: _this10.approvedProjectsInput.apEndYear,
-                        pProgress: _this10.approvedProjectsInput.apPhysicalProgress,
-                        coId: _this10.approvedProjectsInput.apCity,
-                        description: _this10.approvedProjectsInput.apDescription,
+                    axios.post('/budget/approved_project/capital_assets/credit_source/register', {
+                        capId: _this10.capIdForInsertCreditSource,
+                        crId: _this10.apCreditSourceInput.crId,
+                        htrId: _this10.apCreditSourceInput.htrId,
+                        tsId: _this10.apCreditSourceInput.tsId,
+                        amount: _this10.apCreditSourceInput.csAmount,
+                        description: _this10.apCreditSourceInput.csDescription,
                         pOrN: _this10.provOrNat
                     }).then(function (response) {
                         if (_this10.provOrNat == 0) {
@@ -77584,40 +77521,8 @@ if (false) {(function () {
                             _this10.approvedProjects_nat = response.data.data;
                             _this10.makePagination(response.data, "national");
                         }
-                        _this10.showInsertModal = false;
-                        _this10.displayNotif(response.status);
-                        console.log(response);
-                    }, function (error) {
-                        console.log(error);
-                        //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                    });
-                }
-            });
-        },
-
-        createApprovedProjectCreditSource: function createApprovedProjectCreditSource() {
-            var _this11 = this;
-
-            this.$validator.validateAll().then(function (result) {
-                if (result) {
-                    axios.post('/budget/approved_project/capital_assets/credit_source/register', {
-                        capId: _this11.capIdForInsertCreditSource,
-                        crId: _this11.apCreditSourceInput.crId,
-                        htrId: _this11.apCreditSourceInput.htrId,
-                        tsId: _this11.apCreditSourceInput.tsId,
-                        amount: _this11.apCreditSourceInput.csAmount,
-                        description: _this11.apCreditSourceInput.csDescription,
-                        pOrN: _this11.provOrNat
-                    }).then(function (response) {
-                        if (_this11.provOrNat == 0) {
-                            _this11.approvedProjects_prov = response.data.data;
-                            _this11.makePagination(response.data, "provincial");
-                        } else {
-                            _this11.approvedProjects_nat = response.data.data;
-                            _this11.makePagination(response.data, "national");
-                        }
-                        _this11.showApCsInsertModal = false;
-                        _this11.displayNotif(response.status);
+                        _this10.showApCsInsertModal = false;
+                        _this10.$parent.displayNotif(response.status);
                         console.log(response);
                     }, function (error) {
                         console.log(error);
@@ -77644,7 +77549,7 @@ if (false) {(function () {
         },
 
         approvedProjectsUpdateDialog: function approvedProjectsUpdateDialog(item, planId) {
-            var _this12 = this;
+            var _this11 = this;
 
             this.selectedSeasons = item.tiny_season.tsSId;
             this.getTinySeasons();
@@ -77661,7 +77566,7 @@ if (false) {(function () {
             this.creditDistributionRows.forEach(function (cdr) {
                 "use strict";
 
-                Vue.set(_this12.creditDistributionRowInput, 'apCdr' + cdr.id, cdr.id);
+                Vue.set(_this11.creditDistributionRowInput, 'apCdr' + cdr.id, cdr.id);
             });
             this.errorMessage_update = '';
             this.showModalUpdate = true;
@@ -77707,17 +77612,6 @@ if (false) {(function () {
                     console.log(error);
                     this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                 });*/
-        },
-
-        displayNotif: function displayNotif(httpStatusCode) {
-            switch (httpStatusCode) {
-                case 204:
-                    this.$notify({ group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
-                    break;
-                case 200:
-                    this.$notify({ group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
-                    break;
-            }
         },
 
         makePagination: function makePagination(data, type) {
@@ -77950,7 +77844,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
             _vm.displayCreditSourceInfo_nat == projects.id ? _vm.displayCreditSourceInfo_nat = '' : _vm.displayCreditSourceInfo_nat = projects.id
           }
         }
-      }, [_vm._v("123")])]), _vm._v(" "), _c('div', {
+      }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.sumOfAmount(projects.credit_source), false)))])]), _vm._v(" "), _c('div', {
         staticClass: "medium-4  table-contain-border cell-vertical-center"
       }, [_c('div', {
         staticClass: "grid-x"
@@ -78039,14 +77933,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchNationalData(_vm.national_pagination.current_page)
       }
     }
-  })], 1)])])])])]), _vm._v(" "), _c('notifications', {
-    attrs: {
-      "group": "aprrovedProjectPm",
-      "position": "bottom right",
-      "animation-type": "velocity",
-      "speed": 700
-    }
-  }), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-small', {
+  })], 1)])])])])]), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-small', {
     on: {
       "close": function($event) {
         _vm.showInsertModal = false
@@ -78206,8 +78093,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (_vm.errors.has('projectTitle')),
-      expression: "errors.has('projectTitle')"
+      value: (_vm.errors.has('projectCode')),
+      expression: "errors.has('projectCode')"
     }],
     staticClass: "error-font"
   }, [_vm._v("لطفا کد پروژه انتخاب کنید!")])])]), _vm._v(" "), _c('div', {
@@ -78220,16 +78107,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       rawName: "v-model",
       value: (_vm.approvedProjectsInput.apStartYear),
       expression: "approvedProjectsInput.apStartYear"
-    }, {
-      name: "validate",
-      rawName: "v-validate",
-      value: ('required'),
-      expression: "'required'"
     }],
-    staticClass: "form-element-margin-btm",
-    class: {
-      'input': true, 'error-border': _vm.errors.has('startYear')
-    },
+    staticClass: "form-element-margin-btm datePickerClass",
     attrs: {
       "type": "text",
       "name": "startYear"
@@ -78259,16 +78138,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       rawName: "v-model",
       value: (_vm.approvedProjectsInput.apEndYear),
       expression: "approvedProjectsInput.apEndYear"
-    }, {
-      name: "validate",
-      rawName: "v-validate",
-      value: ('required|numeric'),
-      expression: "'required|numeric'"
     }],
-    staticClass: "form-element-margin-btm",
-    class: {
-      'input': true, 'error-border': _vm.errors.has('endYear')
-    },
+    staticClass: "form-element-margin-btm datePickerClass",
     attrs: {
       "type": "text",
       "name": "endYear"
@@ -78334,7 +78205,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "progress-meter",
     staticStyle: {
-      "width": "75%"
+      "width": "100%"
     }
   })])]), _vm._v(" "), _c('span', {
     directives: [{
@@ -79794,11 +79665,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -79845,7 +79711,7 @@ if (false) {(function () {
 
     mounted: function mounted() {
         console.log("mounted approved project component");
-        res();
+        this.$parent.myResize();
     },
 
     components: {
@@ -79920,7 +79786,7 @@ if (false) {(function () {
                             _this4.makePagination(response.data, "national");
                         }
                         _this4.showInsertModal = false;
-                        _this4.displayNotif(response.status);
+                        _this4.$parent.displayNotif(response.status);
                         console.log(response);
                     }, function (error) {
                         console.log(error);
@@ -79994,17 +79860,6 @@ if (false) {(function () {
                     console.log(error);
                     this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                 });*/
-        },
-
-        displayNotif: function displayNotif(httpStatusCode) {
-            switch (httpStatusCode) {
-                case 204:
-                    this.$notify({ group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
-                    break;
-                case 200:
-                    this.$notify({ group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
-                    break;
-            }
         },
 
         makePagination: function makePagination(data, type) {
@@ -80246,14 +80101,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchNationalData(_vm.national_pagination.current_page)
       }
     }
-  })], 1)])])])])]), _vm._v(" "), _c('notifications', {
-    attrs: {
-      "group": "aprrovedPlanPm",
-      "position": "bottom right",
-      "animation-type": "velocity",
-      "speed": 700
-    }
-  }), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-small', {
+  })], 1)])])])])]), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-small', {
     on: {
       "close": function($event) {
         _vm.showInsertModal = false
@@ -81401,11 +81249,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -81468,7 +81311,7 @@ if (false) {(function () {
 
     mounted: function mounted() {
         console.log("mounted approved cost_program component");
-        res();
+        this.$parent.myResize();
     },
 
     components: {
@@ -81626,7 +81469,7 @@ if (false) {(function () {
                             _this10.makePagination(response.data, "national");
                         }
                         _this10.showInsertModal = false;
-                        _this10.displayNotif(response.status);
+                        _this10.$parent.displayNotif(response.status);
                         console.log(response);
                     }, function (error) {
                         console.log(error);
@@ -81658,7 +81501,7 @@ if (false) {(function () {
                             _this11.makePagination(response.data, "national");
                         }
                         _this11.showApCsInsertModal = false;
-                        _this11.displayNotif(response.status);
+                        _this11.$parent.displayNotif(response.status);
                         console.log(response);
                     }, function (error) {
                         console.log(error);
@@ -81748,17 +81591,6 @@ if (false) {(function () {
                     console.log(error);
                     this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                 });*/
-        },
-
-        displayNotif: function displayNotif(httpStatusCode) {
-            switch (httpStatusCode) {
-                case 204:
-                    this.$notify({ group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
-                    break;
-                case 200:
-                    this.$notify({ group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
-                    break;
-            }
         },
 
         makePagination: function makePagination(data, type) {
@@ -82080,14 +81912,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchNationalData(_vm.national_pagination.current_page)
       }
     }
-  })], 1)])])])])]), _vm._v(" "), _c('notifications', {
-    attrs: {
-      "group": "aprrovedProjectPm",
-      "position": "bottom right",
-      "animation-type": "velocity",
-      "speed": 700
-    }
-  }), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-small', {
+  })], 1)])])])])]), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-small', {
     on: {
       "close": function($event) {
         _vm.showInsertModal = false
@@ -83472,20 +83297,16 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_capital_assets_vue__ = __webpack_require__(135);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_e7b158a4_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_capital_assets_vue__ = __webpack_require__(136);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_capital_assets_vue__ = __webpack_require__(133);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_e7b158a4_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_capital_assets_vue__ = __webpack_require__(134);
 var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(133)
-}
 var normalizeComponent = __webpack_require__(3)
 /* script */
 
 /* template */
 
 /* styles */
-var __vue_styles__ = injectStyle
+var __vue_styles__ = null
 /* scopeId */
 var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
@@ -83522,50 +83343,52 @@ if (false) {(function () {
 
 /***/ }),
 /* 133 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(134);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(14)("5a2a898f", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-e7b158a4\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./capital_assets.vue", function() {
-     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-e7b158a4\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./capital_assets.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 134 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(13)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 135 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__ = __webpack_require__(7);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -84128,6 +83951,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
     created: function created() {
         this.fetchProvincialData();
+        this.fetchNationalData();
         this.getAllApprovedPlan(0); // 0 = provincial
     },
 
@@ -84137,7 +83961,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
     mounted: function mounted() {
         console.log("mounted capital assets allocation component");
-        res();
+        this.$parent.myResize();
     },
 
     components: {
@@ -84164,7 +83988,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-            axios.get('/budget/allocation/register_of_credit_allocation_assets/fetchData?page=' + page, { params: { planOrCost: 0 } }).then(function (response) {
+            axios.get('/budget/allocation/capital_assets/fetchData?page=' + page, { params: { pOrN: 1 } }).then(function (response) {
                 _this2.natCapitalAssetsAllocations = response.data.data;
                 _this2.makePagination(response.data, "national");
                 console.log(response);
@@ -84217,6 +84041,17 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
             });
         },
 
+        getProjectAllocationSum: function getProjectAllocationSum(creditSource) {
+            var sum = 0;
+            creditSource.forEach(function (cs) {
+                cs.allocation.forEach(function (alloc) {
+                    sum += alloc.caaAmount;
+                });
+            });
+
+            return sum;
+        },
+
         openInsertModal: function openInsertModal(type) {
             this.provOrNat = type;
             this.getAllApprovedPlan(type);
@@ -84244,7 +84079,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
                             _this7.makePagination(response.data, "national");
                         }
                         _this7.showModal = false;
-                        _this7.displayNotif(response.status);
+                        _this7.$parent.displayNotif(response.status);
                         console.log(response);
                     }, function (error) {
                         console.log(error);
@@ -84305,17 +84140,6 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
                 });*/
         },
 
-        displayNotif: function displayNotif(httpStatusCode) {
-            switch (httpStatusCode) {
-                case 204:
-                    this.$notify({ group: 'allocationPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
-                    break;
-                case 200:
-                    this.$notify({ group: 'allocationPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
-                    break;
-            }
-        },
-
         makePagination: function makePagination(data, type) {
             if (type == "national") {
                 this.national_pagination.current_page = data.current_page;
@@ -84331,7 +84155,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 });
 
 /***/ }),
-/* 136 */
+/* 134 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -84430,93 +84254,92 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "columns"
   }, [_vm._m(13), _vm._v(" "), _c('div', {
     staticClass: "table-contain dynamic-height-level2"
-  }, _vm._l((_vm.registerOfCreditAllocationAssets), function(plans) {
+  }, _vm._l((_vm.natCapitalAssetsAllocations), function(plans) {
     return _c('div', {
-      staticClass: "grid-x row-bottom-border"
+      staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-2 table-contain-border1 cell-vertical-center"
-    }, [_vm._v("\n                                            @" + _vm._s(plans.credit_distribution_title.cdtIdNumber) + "\n                                        ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                            " + _vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject) + "\n                                        ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-10"
-    }, [_c('div', {
-      staticClass: "grid-x"
-    }, [_vm._l((plans.capital_assets_project), function(projects) {
+    }, _vm._l((plans.capital_assets_project), function(projects) {
       return _c('div', {
-        staticClass: "medium-10 table-contain-border cell-vertical-center"
-      }, [_c('div', {
         staticClass: "grid-x"
       }, [_c('div', {
-        staticClass: "medium-3"
-      }, [_vm._v("\n                                                            @" + _vm._s(projects.cpCode) + "\n                                                        ")]), _vm._v(" "), _c('div', {
+        staticClass: "medium-2 table-contain-border cell-vertical-center"
+      }, [_vm._v("\n                                                    " + _vm._s(projects.cpCode + ' - ' + projects.cpSubject) + "\n                                                ")]), _vm._v(" "), _c('div', {
+        staticClass: "medium-1 table-contain-border cell-vertical-center"
+      }, [_vm._v("\n                                                    " + _vm._s(_vm.$parent.calcDispAmount(_vm.getProjectAllocationSum(projects.credit_source), false)) + "\n                                                ")]), _vm._v(" "), _c('div', {
         staticClass: "medium-9"
-      }, _vm._l((projects.cdr_cp), function(cdrCp) {
+      }, _vm._l((projects.credit_source), function(credit_source) {
         return _c('div', {
           staticClass: "grid-x"
         }, [_c('div', {
-          staticClass: "medium-6 table-contain-border cell-vertical-center"
-        }, [_vm._v("\n                                                                    @" + _vm._s(cdrCp.credit_distribution_row.cdSubject) + "                                 سه درصدنفت وگاز\n                                                                ")]), _vm._v(" "), _c('div', {
-          staticClass: "medium-6 table-contain-border cell-vertical-center"
-        }, [_c('div', {
-          staticClass: "grid-x"
-        }, [_c('div', {
           staticClass: "medium-2 table-contain-border cell-vertical-center"
-        }, [_vm._v("\n                                                                            @" + _vm._s(_vm.registerOfCreditAllocationAssets.rocaaNumber) + "\n                                                                        ")]), _vm._v(" "), _c('div', {
+        }, [_vm._v("\n                                                            " + _vm._s(credit_source.credit_distribution_row.cdSubject) + "\n                                                        ")]), _vm._v(" "), _c('div', {
+          staticClass: "medium-1 table-contain-border cell-vertical-center"
+        }, [_vm._v("\n                                                            " + _vm._s(credit_source.how_to_run.htrSubject) + "\n                                                        ")]), _vm._v(" "), _c('div', {
+          staticClass: "medium-1 table-contain-border cell-vertical-center"
+        }, [_vm._v("\n                                                            " + _vm._s(credit_source.tiny_season.season_title.season.sSubject) + "\n                                                        ")]), _vm._v(" "), _c('div', {
           staticClass: "medium-2 table-contain-border cell-vertical-center"
-        }, [_vm._v("\n                                                                            @" + _vm._s(_vm.registerOfCreditAllocationAssets.rocaaDate) + "\n                                                                        ")]), _vm._v(" "), _c('div', {
-          staticClass: "medium-2  table-contain-border cell-vertical-center"
-        }, [_vm._v("\n                                                                            123456\n                                                                        ")])])])])
-      }))])])
-    }), _vm._v(" "), _c('div', {
-      staticClass: "medium-2 table-contain-border1 cell-vertical-center",
-      staticStyle: {
-        "border-right": "1px solid #C7CDD1"
-      }
-    }, [_c('div', {
-      staticClass: "grid-x"
-    }, [_c('div', {
-      staticClass: "medium-11"
-    }, [_vm._v("\n                                                            @" + _vm._s() + "\n                                                        ")]), _vm._v(" "), _c('div', {
-      staticClass: "medium-1 cell-vertical-center text-left"
-    }, [_c('a', {
-      staticClass: "dropdown small sm-btn-align",
-      attrs: {
-        "type": "button",
-        "data-toggle": 'rocaaRegisterOfCreditAllocationAssets' + _vm.registerOfCreditAllocationAssets.id
-      }
-    }, [_c('i', {
-      staticClass: "fa fa-ellipsis-v size-18"
-    })]), _vm._v(" "), _c('div', {
-      staticClass: "dropdown-pane dropdown-pane-sm ",
-      attrs: {
-        "data-close-on-click": "true",
-        "data-hover": "true",
-        "data-hover-pane": "true",
-        "data-position": "bottom",
-        "data-alignment": "right",
-        "id": 'rocaaRegisterOfCreditAllocationAssets' + _vm.registerOfCreditAllocationAssets.id,
-        "data-dropdown": "",
-        "data-auto-focus": "true"
-      }
-    }, [_c('ul', {
-      staticClass: "my-menu small-font text-right"
-    }, [_c('li', [_c('a', {
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.registerOfCreditAllocationAssetsUpdateDialog(_vm.tinySeason, 1)
-        }
-      }
-    }, [_c('i', {
-      staticClass: "fi-pencil size-16"
-    }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.openDeleteRegisterOfCreditAllocationAssetsConfirm(_vm.registerOfCreditAllocationAssets)
-        }
-      }
-    }, [_c('i', {
-      staticClass: "fi-trash size-16"
-    }), _vm._v("  حذف")])])])])])])])], 2)])])
+        }, [_vm._v("\n                                                            " + _vm._s(credit_source.tiny_season.season_title.castSubject) + "\n                                                        ")]), _vm._v(" "), _c('div', {
+          staticClass: "medium-3 table-contain-border cell-vertical-center"
+        }, [_vm._v("\n                                                            " + _vm._s(credit_source.tiny_season.catsSubject) + "\n                                                        ")]), _vm._v(" "), _c('div', {
+          staticClass: "medium-3"
+        }, _vm._l((credit_source.allocation), function(alloc) {
+          return _c('div', {
+            staticClass: "grid-x"
+          }, [_c('div', {
+            staticClass: "medium-12  table-contain-border"
+          }, [_c('div', {
+            staticClass: "grid-x"
+          }, [_c('div', {
+            staticClass: "medium-10"
+          }, [_vm._v("\n                                                                            " + _vm._s(_vm.$parent.calcDispAmount(alloc.caaAmount, false)) + "\n                                                                        ")]), _vm._v(" "), _c('div', {
+            staticClass: "medium-2 cell-vertical-center text-left"
+          }, [_c('a', {
+            staticClass: "dropdown small sm-btn-align",
+            attrs: {
+              "type": "button",
+              "data-toggle": 'rocaaRegisterOfCreditAllocationAssets' + alloc.id
+            }
+          }, [_c('i', {
+            staticClass: "fa fa-ellipsis-v size-18"
+          })]), _vm._v(" "), _c('div', {
+            staticClass: "dropdown-pane dropdown-pane-sm ",
+            attrs: {
+              "data-close-on-click": "true",
+              "data-hover": "true",
+              "data-hover-pane": "true",
+              "data-position": "bottom",
+              "data-alignment": "right",
+              "id": 'rocaaRegisterOfCreditAllocationAssets' + alloc.id,
+              "data-dropdown": "",
+              "data-auto-focus": "true"
+            }
+          }, [_c('ul', {
+            staticClass: "my-menu small-font text-right"
+          }, [_c('li', [_c('a', {
+            on: {
+              "click": function($event) {
+                $event.preventDefault();
+                _vm.registerOfCreditAllocationAssetsUpdateDialog(alloc, 1)
+              }
+            }
+          }, [_c('i', {
+            staticClass: "fi-pencil size-16"
+          }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+            on: {
+              "click": function($event) {
+                $event.preventDefault();
+                _vm.openDeleteRegisterOfCreditAllocationAssetsConfirm(alloc)
+              }
+            }
+          }, [_c('i', {
+            staticClass: "fi-trash size-16"
+          }), _vm._v("  حذف")])])])])])])])])
+        }))])
+      }))])
+    }))])
   })), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
@@ -84531,14 +84354,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchNationalData(_vm.national_pagination.current_page)
       }
     }
-  })], 1)])])])]), _vm._v(" "), _c('notifications', {
-    attrs: {
-      "group": "allocationPm",
-      "position": "bottom right",
-      "animation-type": "velocity",
-      "speed": 700
-    }
-  })], 1), _vm._v(" "), (_vm.showModal) ? _c('modal-large', {
+  })], 1)])])])])]), _vm._v(" "), (_vm.showModal) ? _c('modal-small', {
     attrs: {
       "xmlns:v-on": "http://www.w3.org/1999/xhtml"
     },
@@ -84572,7 +84388,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }), _vm._v(_vm._s(_vm.errorMessage))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
-    staticClass: "medium-2 padding-lr"
+    staticClass: "medium-4 padding-lr"
   }, [_c('label', [_vm._v("شماره نامه\n                                        "), _c('input', {
     directives: [{
       name: "model",
@@ -84595,7 +84411,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }
   })])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 padding-lr"
+    staticClass: "medium-4 padding-lr"
   }, [_c('label', [_vm._v("تاریخ نامه\n                                        "), _c('input', {
     directives: [{
       name: "model",
@@ -84815,24 +84631,25 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       value: (_vm.creditSourceInfo.approvedAmount),
       expression: "creditSourceInfo.approvedAmount"
     }],
-    staticClass: "grid-x padding-lr",
+    staticClass: "grid-x",
     staticStyle: {
-      "margin-top": "15px"
+      "margin-top": "5px",
+      "margin-bottom": "10px"
     }
   }, [_c('div', {
     staticClass: "medium-12 my-callout-bg-color"
   }, [_c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
-    staticClass: "medium-4"
+    staticClass: "medium-12"
   }, [_c('span', {
     staticClass: "btn-red"
   }, [_vm._v("اعتبار مصوب:")]), _c('span', [_vm._v(_vm._s(' ' + _vm.$parent.calcDispAmount(_vm.creditSourceInfo.approvedAmount)))])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-4"
+    staticClass: "medium-12"
   }, [_c('span', {
     staticClass: "btn-red"
   }, [_vm._v("آخرین تخصیص:")]), _c('span', [_vm._v(_vm._s(' ' + _vm.$parent.calcDispAmount(_vm.creditSourceInfo.sumAllocation)))])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-4"
+    staticClass: "medium-12"
   }, [_c('span', {
     staticClass: "btn-red"
   }, [_vm._v("درصدآخرین تخصیص:")]), _c('span', [_vm._v(_vm._s(' ' + _vm.$parent.calcPrecent(_vm.creditSourceInfo.approvedAmount, _vm.creditSourceInfo.sumAllocation)))])])])])]), _vm._v(" "), _c('div', {
@@ -85153,20 +84970,28 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }, [_c('div', {
     staticClass: "medium-2 table-border"
   }, [_c('strong', [_vm._v("پروژه")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-8"
+    staticClass: "medium-1 table-border"
+  }, [_c('strong', [_vm._v("سرجمع")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-9"
   }, [_c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
-    staticClass: "medium-6 table-border"
+    staticClass: "medium-2 table-border"
   }, [_c('strong', [_vm._v("ردیف اعتبار")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("شماره")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("تاریخ")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2  table-border"
-  }, [_c('strong', [_vm._v("مبلغ")])])])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("سرجمع")])])])])])
+    staticClass: "medium-1 table-border"
+  }, [_c('strong', [_vm._v("اجرا")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-1 table-border"
+  }, [_c('strong', [_vm._v("فصل")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-3 table-border"
+  }, [_c('strong', [_vm._v("عنوان فصل")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-3 table-border"
+  }, [_c('strong', [_vm._v("ریز فصل")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-2"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 table-border"
+  }, [_c('strong', [_vm._v("مبلغ")])])])])])])])])])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }

@@ -215,11 +215,6 @@
                     </div>
                 </div>
             </div>
-            <notifications group="aprrovedPlanPm"
-                           position="bottom right"
-                           animation-type="velocity"
-                           :speed="700" />
-
             <!--Forms Start-->
             <!--Insert Modal Start-->
             <!-- use the modal component, pass in the prop -->
@@ -353,7 +348,7 @@
 
         mounted: function () {
             console.log("mounted approved project component");
-            res();
+            this.$parent.myResize();
         },
 
         components:{
@@ -422,7 +417,7 @@
                                     this.makePagination(response.data , "national");
                                 }
                                 this.showInsertModal = false;
-                                this.displayNotif(response.status);
+                                this.$parent.displayNotif(response.status);
                                 console.log(response);
                             },(error) => {
                                 console.log(error);
@@ -495,17 +490,6 @@
                         console.log(error);
                         this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                     });*/
-            },
-
-            displayNotif: function (httpStatusCode) {
-                switch (httpStatusCode){
-                    case 204:
-                        this.$notify({group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
-                        break;
-                    case 200:
-                        this.$notify({group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.' , type: 'success'});
-                        break;
-                }
             },
 
             makePagination: function(data , type){

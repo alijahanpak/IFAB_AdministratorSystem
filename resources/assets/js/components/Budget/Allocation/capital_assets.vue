@@ -115,6 +115,7 @@
                                     </table>
                                 </div>
                             </div>
+                            <!--Table Start-->
 
                             <!--Table Start-->
                             <!--<div class="columns">
@@ -125,9 +126,27 @@
                                             {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' بلاتبلا تبلا تبلات بلات بلات بلات بلات بلات بلات بلات بلاتب لات بلات بلات بلا' }}
                                         </div>
                                         <div class="medium-10">
-                                            <div class="grid-x">
-                                                <div class="medium-10" v-for="projects in plans.capital_assets_project">
-                                                    <div class="grid-x">
+                                            <div class="grid-x" v-for="projects in plans.capital_assets_project">
+                                                <div class="medium-2 table-contain-border cell-vertical-center">
+                                                    {{ projects.cpCode + ' - ' + projects.cpSubject }}
+                                                </div>
+                                                <div class="medium-1 table-contain-border cell-vertical-center">
+                                                    {{ $parent.calcDispAmount(getProjectAllocationSum(projects.credit_source) , false) }}
+                                                </div>
+                                                <div class="medium-9">
+                                                    <div v-for="credit_source in projects.credit_source" class="grid-x">
+                                                        <div class="medium-2 table-contain-border cell-vertical-center">
+                                                            {{ credit_source.credit_distribution_row.cdSubject }}
+                                                        </div>
+                                                        <div class="medium-1 table-contain-border cell-vertical-center">
+                                                            {{ credit_source.how_to_run.htrSubject }}
+                                                        </div>
+                                                        <div class="medium-1 table-contain-border cell-vertical-center">
+                                                            {{ credit_source.tiny_season.season_title.season.sSubject }}
+                                                        </div>
+                                                        <div class="medium-2 table-contain-border cell-vertical-center">
+                                                            {{ credit_source.tiny_season.season_title.castSubject }}
+                                                        </div>
                                                         <div class="medium-3 table-contain-border cell-vertical-center">
                                                             {{ projects.cpCode + ' - ' + projects.cpSubject + ' بلاتبلا تبلا تبلات بلات بلات بلات بلات بلات بلات بلات بلاتب لات بلات بلات بلا'}}
                                                         </div>
@@ -145,7 +164,23 @@
                                                                             {{ alloc.caaLetterDate }}
                                                                         </div>
                                                                         <div class="medium-4 table-contain-border cell-vertical-center">
+                                                            {{ credit_source.tiny_season.catsSubject }}
+                                                        </div>
+                                                        <div class="medium-3">
+                                                            <div  class="grid-x" v-for="alloc in credit_source.allocation">
+                                                                <div class="medium-12  table-contain-border">
+                                                                    <div class="grid-x">
+                                                                        <div class="medium-10">
                                                                             {{ $parent.calcDispAmount(alloc.caaAmount , false) }}
+                                                                        </div>
+                                                                        <div class="medium-2 cell-vertical-center text-left">
+                                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'rocaaRegisterOfCreditAllocationAssets' + alloc.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'rocaaRegisterOfCreditAllocationAssets' + alloc.id" data-dropdown data-auto-focus="true">
+                                                                                <ul class="my-menu small-font text-right">
+                                                                                    <li><a v-on:click.prevent="registerOfCreditAllocationAssetsUpdateDialog(alloc , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                                    <li><a v-on:click.prevent="openDeleteRegisterOfCreditAllocationAssetsConfirm(alloc)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                                </ul>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -180,8 +215,7 @@
                                                          :offset="4">
                                         </vue-pagination>
                                     </div>
-                                </div>
-                            </div>-->
+                                </div>-->
                         </div>
                     </div>
                     <!--Tab 1-->
@@ -225,75 +259,87 @@
                                             <div class="medium-2 table-border">
                                                 <strong>پروژه</strong>
                                             </div>
-                                            <div class="medium-8">
+                                            <div class="medium-1 table-border">
+                                                <strong>سرجمع</strong>
+                                            </div>
+                                            <div class="medium-9">
                                                 <div class="grid-x">
-                                                    <div class="medium-6 table-border">
+                                                    <div class="medium-2 table-border">
                                                         <strong>ردیف اعتبار</strong>
                                                     </div>
-                                                    <div class="medium-2 table-border">
-                                                        <strong>شماره</strong>
+                                                    <div class="medium-1 table-border">
+                                                        <strong>اجرا</strong>
                                                     </div>
-                                                    <div class="medium-2 table-border">
-                                                        <strong>تاریخ</strong>
+                                                    <div class="medium-1 table-border">
+                                                        <strong>فصل</strong>
                                                     </div>
-                                                    <div class="medium-2  table-border">
-                                                        <strong>مبلغ</strong>
+                                                    <div class="medium-3 table-border">
+                                                        <strong>عنوان فصل</strong>
+                                                    </div>
+                                                    <div class="medium-3 table-border">
+                                                        <strong>ریز فصل</strong>
+                                                    </div>
+                                                    <div class="medium-2">
+                                                        <div class="grid-x">
+                                                            <div class="medium-12 table-border">
+                                                                <strong>مبلغ</strong>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="medium-2 table-border">
-                                                <strong>سرجمع</strong>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <!--Header End-->
                                 <div class="table-contain dynamic-height-level2">
-                                    <div class="grid-x row-bottom-border" v-for="plans in registerOfCreditAllocationAssets">
+                                    <div class="grid-x" v-for="plans in natCapitalAssetsAllocations">
                                         <div class="medium-2 table-contain-border1 cell-vertical-center">
-                                            @{{ plans.credit_distribution_title.cdtIdNumber }}
+                                            {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}
                                         </div>
                                         <div class="medium-10">
-                                            <div class="grid-x">
-                                                <div class="medium-10 table-contain-border cell-vertical-center" v-for="projects in plans.capital_assets_project">
-                                                    <div class="grid-x">
-                                                        <div class="medium-3">
-                                                            @{{ projects.cpCode }}
+                                            <div class="grid-x" v-for="projects in plans.capital_assets_project">
+                                                <div class="medium-2 table-contain-border cell-vertical-center">
+                                                    {{ projects.cpCode + ' - ' + projects.cpSubject }}
+                                                </div>
+                                                <div class="medium-1 table-contain-border cell-vertical-center">
+                                                    {{ $parent.calcDispAmount(getProjectAllocationSum(projects.credit_source) , false) }}
+                                                </div>
+                                                <div class="medium-9">
+                                                    <div v-for="credit_source in projects.credit_source" class="grid-x">
+                                                        <div class="medium-2 table-contain-border cell-vertical-center">
+                                                            {{ credit_source.credit_distribution_row.cdSubject }}
                                                         </div>
-                                                        <div class="medium-9">
-                                                            <div v-for="cdrCp in projects.cdr_cp" class="grid-x">
-                                                                <div class="medium-6 table-contain-border cell-vertical-center">
-                                                                    @{{ cdrCp.credit_distribution_row.cdSubject }}                                 سه درصدنفت وگاز
-                                                                </div>
-                                                                <div class="medium-6 table-contain-border cell-vertical-center">
-                                                                    <div  class="grid-x">
-                                                                        <div class="medium-2 table-contain-border cell-vertical-center">
-                                                                            @{{ registerOfCreditAllocationAssets.rocaaNumber }}
+                                                        <div class="medium-1 table-contain-border cell-vertical-center">
+                                                            {{ credit_source.how_to_run.htrSubject }}
+                                                        </div>
+                                                        <div class="medium-1 table-contain-border cell-vertical-center">
+                                                            {{ credit_source.tiny_season.season_title.season.sSubject }}
+                                                        </div>
+                                                        <div class="medium-2 table-contain-border cell-vertical-center">
+                                                            {{ credit_source.tiny_season.season_title.castSubject }}
+                                                        </div>
+                                                        <div class="medium-3 table-contain-border cell-vertical-center">
+                                                            {{ credit_source.tiny_season.catsSubject }}
+                                                        </div>
+                                                        <div class="medium-3">
+                                                            <div  class="grid-x" v-for="alloc in credit_source.allocation">
+                                                                <div class="medium-12  table-contain-border">
+                                                                    <div class="grid-x">
+                                                                        <div class="medium-10">
+                                                                            {{ $parent.calcDispAmount(alloc.caaAmount , false) }}
                                                                         </div>
-                                                                        <div class="medium-2 table-contain-border cell-vertical-center">
-                                                                            @{{ registerOfCreditAllocationAssets.rocaaDate }}
-                                                                        </div>
-                                                                        <div class="medium-2  table-contain-border cell-vertical-center">
-                                                                            123456
+                                                                        <div class="medium-2 cell-vertical-center text-left">
+                                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'rocaaRegisterOfCreditAllocationAssets' + alloc.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'rocaaRegisterOfCreditAllocationAssets' + alloc.id" data-dropdown data-auto-focus="true">
+                                                                                <ul class="my-menu small-font text-right">
+                                                                                    <li><a v-on:click.prevent="registerOfCreditAllocationAssetsUpdateDialog(alloc , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                                    <li><a v-on:click.prevent="openDeleteRegisterOfCreditAllocationAssetsConfirm(alloc)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                                </ul>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div style="border-right: 1px solid #C7CDD1;" class="medium-2 table-contain-border1 cell-vertical-center">
-                                                    <div class="grid-x">
-                                                        <div class="medium-11">
-                                                            @{{ }}
-                                                        </div>
-                                                        <div class="medium-1 cell-vertical-center text-left">
-                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'rocaaRegisterOfCreditAllocationAssets' + registerOfCreditAllocationAssets.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'rocaaRegisterOfCreditAllocationAssets' + registerOfCreditAllocationAssets.id" data-dropdown data-auto-focus="true">
-                                                                <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent="registerOfCreditAllocationAssetsUpdateDialog(tinySeason , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent="openDeleteRegisterOfCreditAllocationAssetsConfirm(registerOfCreditAllocationAssets)"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                                </ul>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -314,14 +360,10 @@
                         </div>
                     </div>
                     <!--Tab 2-->
-                    <notifications group="allocationPm"
-                                   position="bottom right"
-                                   animation-type="velocity"
-                                   :speed="700" />
                 </div>
                 <!--Forms Start-->
                 <!--Insert Modal Start-->
-                <modal-large v-if="showModal" @close="showModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                <modal-small v-if="showModal" @close="showModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div  slot="body">
                         <form v-on:submit.prevent="createCapitalAssetsAllocation">
                             <div class="grid-x" v-if="errorMessage">
@@ -332,12 +374,12 @@
                                 </div>
                             </div>
                             <div class="grid-x">
-                                <div class="medium-2 padding-lr">
+                                <div class="medium-4 padding-lr">
                                     <label>شماره نامه
                                         <input class="form-element-margin-btm" type="text" name="letterNumber" v-model="AllocationInput.idNumber">
                                     </label>
                                 </div>
-                                <div class="medium-2 padding-lr">
+                                <div class="medium-4 padding-lr">
                                     <label>تاریخ نامه
                                         <input class="form-element-margin-btm" type="text" name="letterDate" v-model="AllocationInput.date">
                                     </label>
@@ -380,16 +422,16 @@
                                     <span v-show="errors.has('creditCost')" class="error-font">لطفا مبلغ تخصیص انتخاب کنید!</span>
                                 </div>
                             </div>
-                            <div style="margin-top: 15px;" class="grid-x padding-lr" v-show="creditSourceInfo.approvedAmount">
+                            <div style="margin-top: 5px;margin-bottom: 10px" class="grid-x" v-show="creditSourceInfo.approvedAmount">
                                 <div class="medium-12 my-callout-bg-color">
                                     <div class="grid-x">
-                                        <div class="medium-4">
+                                        <div class="medium-12">
                                             <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount) }}</span>
                                         </div>
-                                        <div class="medium-4">
+                                        <div class="medium-12">
                                             <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.sumAllocation) }}</span>
                                         </div>
-                                        <div class="medium-4">
+                                        <div class="medium-12">
                                             <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.approvedAmount , creditSourceInfo.sumAllocation) }}</span>
                                         </div>
                                     </div>
@@ -407,7 +449,7 @@
                             </div>
                         </form>
                     </div>
-                </modal-large>
+                </modal-small>
                 <!--Insert Modal End-->
 
                 <!--Update Modal Start-->
@@ -559,6 +601,7 @@
         },
         created: function () {
             this.fetchProvincialData();
+            this.fetchNationalData();
             this.getAllApprovedPlan(0); // 0 = provincial
         },
 
@@ -568,7 +611,7 @@
 
         mounted: function () {
             console.log("mounted capital assets allocation component");
-            res();
+            this.$parent.myResize();
         },
 
         components:{
@@ -588,7 +631,7 @@
             },
 
             fetchNationalData: function (page = 1) {
-                axios.get('/budget/allocation/register_of_credit_allocation_assets/fetchData?page=' + page , {params:{planOrCost: 0}})
+                axios.get('/budget/allocation/capital_assets/fetchData?page=' + page , {params:{pOrN: 1}})
                     .then((response) => {
                         this.natCapitalAssetsAllocations = response.data.data;
                         this.makePagination(response.data , "national");
@@ -639,6 +682,17 @@
 
             },
 
+            getProjectAllocationSum: function (creditSource) {
+                var sum = 0;
+                creditSource.forEach(cs => {
+                    cs.allocation.forEach(alloc => {
+                        sum += alloc.caaAmount;
+                    });
+                });
+
+                return sum;
+            },
+
             openInsertModal: function (type) {
                 this.provOrNat = type;
                 this.getAllApprovedPlan(type);
@@ -668,7 +722,7 @@
                                     this.makePagination(response.data , "national");
                                 }
                                 this.showModal = false;
-                                this.displayNotif(response.status);
+                                this.$parent.displayNotif(response.status);
                                 console.log(response);
                             },(error) => {
                                 console.log(error);
@@ -730,17 +784,6 @@
                     });*/
             },
 
-            displayNotif: function (httpStatusCode) {
-                switch (httpStatusCode){
-                    case 204:
-                        this.$notify({group: 'allocationPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
-                        break;
-                    case 200:
-                        this.$notify({group: 'allocationPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.' , type: 'success'});
-                        break;
-                }
-            },
-
             makePagination: function(data , type){
                 if (type == "national")
                 {
@@ -757,8 +800,4 @@
         }
     }
 </script>
-
-<style>
-
-</style>
 
