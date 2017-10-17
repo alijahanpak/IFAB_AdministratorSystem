@@ -56,63 +56,83 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--Table Start-->
-                            <div class="columns">
-                                <!--Header Start-->
-                                <div class="grid-x table-header">
-                                    <div class="medium-2 table-border">
-                                        <strong>طرح</strong>
-                                    </div>
-                                    <div class="medium-10">
-                                        <div class="grid-x">
-                                            <div class="medium-10">
-                                                <div class="grid-x">
-                                                    <div class="medium-3 table-border">
-                                                        <strong>پروژه</strong>
-                                                    </div>
-                                                    <div class="medium-9">
-                                                        <div class="grid-x">
-                                                            <div class="medium-6 table-border">
-                                                                <strong>ردیف اعتبار</strong>
-                                                            </div>
-                                                            <div class="medium-6">
-                                                                <div class="grid-x">
-                                                                    <div class="medium-4 table-border">
-                                                                        <strong>شماره</strong>
-                                                                    </div>
-                                                                    <div class="medium-4 table-border">
-                                                                        <strong>تاریخ</strong>
-                                                                    </div>
-                                                                    <div class="medium-4 table-border">
-                                                                        <strong>مبلغ</strong>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="medium-2 table-border">
-                                                <strong>سرجمع</strong>
-                                            </div>
-                                        </div>
-                                    </div>
+
+                            <div class="tbl-div-container dynamic-height-level2">
+                                <table class="tbl-head">
+                                    <colgroup>
+                                        <col width="200px"/>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="12px"/>
+                                    </colgroup>
+                                    <tbody class="tbl-head-style">
+                                    <tr class="tbl-head-style-cell">
+                                        <th class="tbl-head-style-cell">طرح</th>
+                                        <th class="tbl-head-style-cell">پروژه</th>
+                                        <th class="tbl-head-style-cell">ردیف اعتبار</th>
+                                        <th class="tbl-head-style-cell">شماره</th>
+                                        <th class="tbl-head-style-cell">تاریخ</th>
+                                        <th class="tbl-head-style-cell">مبلغ</th>
+                                        <th class="tbl-head-style-cell">سرجمع</th>
+                                        <th class="tbl-head-style-cell"></th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="">
+                                    <table class="tbl-body-contain">
+                                        <colgroup>
+                                            <col width="200px"/>
+                                            <col width="150px"/>
+                                            <col width="150px"/>
+                                            <col width="150px"/>
+                                            <col width="150px"/>
+                                            <col width="150px"/>
+                                            <col width="150px"/>
+                                        </colgroup>
+                                        <tbody class="tbl-head-style-cell">
+                                        <tr class="tbl-head-style-cell" v-for="plans in provCapitalAssetsAllocations">
+                                            <td rowspan="3">{{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' بلاتبلا تبلا تبلات بلات بلات بلات بلات بلات بلات بلات بلاتب لات بلات بلات بلا' }}</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                        </tr>
+                                        <tr class="tbl-head-style-cell">
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <!--Header End-->
-                                <div class="table-contain dynamic-height-level2">
+                            </div>
+
+                            <!--Table Start-->
+                            <!--<div class="columns">
+
+                                <div class="table-contain  dynamic-height-level2">
                                     <div class="grid-x" v-for="plans in provCapitalAssetsAllocations">
                                         <div class="medium-2 table-contain-border1 cell-vertical-center">
-                                            {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}
+                                            {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' بلاتبلا تبلا تبلات بلات بلات بلات بلات بلات بلات بلات بلاتب لات بلات بلات بلا' }}
                                         </div>
                                         <div class="medium-10">
                                             <div class="grid-x">
                                                 <div class="medium-10" v-for="projects in plans.capital_assets_project">
                                                     <div class="grid-x">
                                                         <div class="medium-3 table-contain-border cell-vertical-center">
-                                                            {{ projects.cpCode + ' - ' + projects.cpSubject }}
+                                                            {{ projects.cpCode + ' - ' + projects.cpSubject + ' بلاتبلا تبلا تبلات بلات بلات بلات بلات بلات بلات بلات بلاتب لات بلات بلات بلا'}}
                                                         </div>
                                                         <div class="medium-9">
-                                                            <div v-for="credit_source in projects.credit_source" class="grid-x">
+                                                            <div v-for="credit_source in projects.credit_source" class="grid-x" >
                                                                 <div class="medium-4 table-contain-border cell-vertical-center">
                                                                     {{ credit_source.credit_distribution_row.cdSubject }}
                                                                 </div>
@@ -124,7 +144,7 @@
                                                                         <div class="medium-4 table-contain-border cell-vertical-center">
                                                                             {{ alloc.caaLetterDate }}
                                                                         </div>
-                                                                        <div class="medium-4  table-contain-border cell-vertical-center">
+                                                                        <div class="medium-4 table-contain-border cell-vertical-center">
                                                                             {{ $parent.calcDispAmount(alloc.caaAmount , false) }}
                                                                         </div>
                                                                     </div>
@@ -133,7 +153,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div style="border-right: 1px solid #C7CDD1;" class="medium-2 table-contain-border1 cell-vertical-center">
+                                                <div style="border-right: 1px solid #C7CDD1;" class="medium-2 table-contain-border1 cell-vertical-center" data-equalizer-watch="foo" >
                                                     <div class="grid-x">
                                                         <div class="medium-11">
                                                             {{ }}
@@ -161,7 +181,7 @@
                                         </vue-pagination>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                     <!--Tab 1-->
@@ -737,3 +757,8 @@
         }
     }
 </script>
+
+<style>
+
+</style>
+
