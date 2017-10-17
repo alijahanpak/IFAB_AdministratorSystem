@@ -73,16 +73,16 @@
                                     <tr class="tbl-head-style-cell">
                                         <th class="tbl-head-style-cell">طرح</th>
                                         <th class="tbl-head-style-cell">پروژه</th>
+                                        <th class="tbl-head-style-cell">سرجمع</th>
                                         <th class="tbl-head-style-cell">ردیف اعتبار</th>
                                         <th class="tbl-head-style-cell">شماره</th>
                                         <th class="tbl-head-style-cell">تاریخ</th>
                                         <th class="tbl-head-style-cell">مبلغ</th>
-                                        <th class="tbl-head-style-cell">سرجمع</th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
                                 </table>
-                                <div class="">
+                                <div class="tbl-div-container">
                                     <table class="tbl-body-contain">
                                         <colgroup>
                                             <col width="200px"/>
@@ -94,23 +94,89 @@
                                             <col width="150px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                        <tr class="tbl-head-style-cell" v-for="plans in provCapitalAssetsAllocations">
-                                            <td rowspan="3">{{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' بلاتبلا تبلا تبلات بلات بلات بلات بلات بلات بلات بلات بلاتب لات بلات بلات بلا' }}</td>
-                                            <td>Row A-2</td>
-                                            <td>Row A-2</td>
-                                            <td>Row A-2</td>
-                                            <td>Row A-2</td>
-                                            <td>Row A-2</td>
-                                            <td>Row A-2</td>
-                                        </tr>
-                                        <tr class="tbl-head-style-cell">
-                                            <td>Row A-2</td>
-                                            <td>Row A-2</td>
-                                            <td>Row A-2</td>
-                                            <td>Row A-2</td>
-                                            <td>Row A-2</td>
-                                            <td>Row A-2</td>
-                                        </tr>
+<!--                                            <template v-for="plans in provCapitalAssetsAllocations">
+                                                <tr class="tbl-head-style-cell" >
+                                                    <td :rowspan="2">{{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
+                                                    <td :class="{ 'display-off' : plans.capital_assets_project.length > 0 }"></td>
+                                                    <td :class="{ 'display-off' : plans.capital_assets_project.length > 0 }"></td>
+                                                    <td :class="{ 'display-off' : plans.capital_assets_project.length > 0 }"></td>
+                                                    <td :class="{ 'display-off' : plans.capital_assets_project.length > 0 }"></td>
+                                                    <td :class="{ 'display-off' : plans.capital_assets_project.length > 0 }"></td>
+                                                    <td :class="{ 'display-off' : plans.capital_assets_project.length > 0 }"></td>
+                                                </tr>
+                                                <template v-for="projects in plans.capital_assets_project">
+                                                    <tr class="tbl-head-style-cell">
+                                                        <td>{{ projects.cpCode + ' - ' + projects.cpSubject }}</td>
+                                                        <td  :rowspan="2">{{ $parent.calcDispAmount(getProjectAllocationSum(projects.credit_source) , false) }}</td>
+                                                        <td :class="{ 'display-off' : projects.credit_source.length > 0 }"></td>
+                                                        <td :class="{ 'display-off' : projects.credit_source.length > 0 }"></td>
+                                                        <td :class="{ 'display-off' : projects.credit_source.length > 0 }"></td>
+                                                        <td :class="{ 'display-off' : projects.credit_source.length > 0 }"></td>
+                                                    </tr>
+                                                    <template v-for="credit_source in projects.credit_source">
+                                                        <tr class="tbl-head-style-cell">
+                                                            <td>{{ credit_source.credit_distribution_row.cdSubject }}</td>
+                                                            <td>Row A-2</td>
+                                                            <td>Row A-2</td>
+                                                            <td>Row A-2</td>
+                                                        </tr>
+                                                    </template>
+                                                </template>
+                                            </template>-->
+
+                                                <tr class="tbl-head-style-cell" >
+                                                    <td :rowspan="8">1</td>
+                                                    <td :rowspan="4">2</td>
+                                                    <td :rowspan="4">3</td>
+                                                    <td :rowspan="2">4</td>
+                                                    <td>5</td>
+                                                    <td>6</td>
+                                                    <td>7</td>
+                                                </tr>
+
+                                                <tr class="tbl-head-style-cell">
+                                                    <td>2</td>
+                                                    <td>2</td>
+                                                    <td>4</td>
+                                                </tr>
+
+                                                <tr class="tbl-head-style-cell">
+                                                    <td :rowspan="2">3</td>
+                                                    <td>4</td>
+                                                    <td>5</td>
+                                                    <td>6</td>
+                                                </tr>
+
+                                                <tr class="tbl-head-style-cell">
+                                                    <td>4</td>
+                                                    <td>4</td>
+                                                    <td>5</td>
+                                                </tr>
+
+                                                <tr class="tbl-head-style-cell">
+                                                    <td :rowspan="4">3</td>
+                                                    <td :rowspan="4">4</td>
+                                                    <td :rowspan="2">5</td>
+                                                    <td>5</td>
+                                                    <td>5</td>
+
+                                                </tr>
+                                                <tr class="tbl-head-style-cell">
+                                                    <td>3</td>
+                                                    <td>4</td>
+                                                    <td>5</td>
+                                                </tr>
+                                                <tr class="tbl-head-style-cell">
+                                                    <td :rowspan="2">3</td>
+                                                    <td>4</td>
+                                                    <td>5</td>
+                                                    <td>6</td>
+                                                </tr>
+                                                <tr class="tbl-head-style-cell">
+                                                    <td>3</td>
+                                                    <td>4</td>
+                                                    <td>5</td>
+                                                </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -691,6 +757,16 @@
                 });
 
                 return sum;
+            },
+
+            getAllPlanRowCount: function (project) {
+                  var count = 0;
+                    project.forEach(cap => {
+                          cap.credit_source.forEach(cs => {
+                             count += cs.allocation.length;
+                          });
+                      });
+                  return count;
             },
 
             openInsertModal: function (type) {
