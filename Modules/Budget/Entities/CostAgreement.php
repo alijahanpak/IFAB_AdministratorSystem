@@ -8,4 +8,9 @@ class CostAgreement extends Model
 {
     protected $table = 'tbl_cost_agreement';
     protected $fillable = [];
+
+    public function caCreditSource()
+    {
+        return $this->hasMany(CaCreditSource::class , 'ccsCaId' , 'id');
+    }
 }
