@@ -11302,7 +11302,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\public_component\\pagination.vue"
+Component.options.__file = "resources/assets/js/public_component/pagination.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] pagination.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -25847,7 +25847,6 @@ Vue.component('modal-login', { template: '#modal-login-template' });
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
 __webpack_require__(94);
 /*const app = new Vue({
     el: '#app',
@@ -63195,7 +63194,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\passport\\Clients.vue"
+Component.options.__file = "resources/assets/js/components/passport/Clients.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Clients.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -64005,7 +64004,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\passport\\AuthorizedClients.vue"
+Component.options.__file = "resources/assets/js/components/passport/AuthorizedClients.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] AuthorizedClients.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -64272,7 +64271,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\passport\\PersonalAccessTokens.vue"
+Component.options.__file = "resources/assets/js/components/passport/PersonalAccessTokens.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] PersonalAccessTokens.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -64883,7 +64882,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_Budget_Aprroved_approved_project_vue__ = __webpack_require__(123);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_Budget_Aprroved_approved_plan_vue__ = __webpack_require__(126);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_Budget_Aprroved_approved_cost_program_vue__ = __webpack_require__(129);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_Budget_Allocation_capital_assets_vue__ = __webpack_require__(135);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_Budget_Allocation_capital_assets_vue__ = __webpack_require__(132);
 var _mutations;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -65009,6 +65008,42 @@ var app = new Vue({
         }
     },
 
+    mounted: function mounted() {
+        /*        $.w = $(window);
+                $.w.on('resize', function () {
+                    console.log("......................res..........................");
+                    var tabHeight = $('.tabs').height();
+                    var toolBarHeight = $('.tool-bar').height();
+                    var paginationHeight = $('.pagination').height();
+                    var notifHeight=25;
+                    if (toolBarHeight === undefined)
+                    {
+                        toolBarHeight = -8;
+                    }
+        
+                    if (paginationHeight === undefined)
+                    {
+                        paginationHeight = -8;
+                    }
+        
+                    if (tabHeight===undefined) {
+                        tabHeight = -8;
+                        notifHeight=0;
+                    }
+        
+                    if ($('.vertical-tab').length > 0)
+                    {
+                        tabHeight = 10;
+                    }
+        
+                    $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 180) + 'px');
+        
+                    var x = $(".dynamic-height-level1").height();
+                    $('.dynamic-height-level2').css('height', (x - 100 - (tabHeight  + toolBarHeight + paginationHeight)) + 'px');
+                });
+                this.myResize();*/
+    },
+
     methods: {
         login: function login() {
             var _this = this;
@@ -65060,6 +65095,46 @@ var app = new Vue({
 
         getAmountBaseLabel: function getAmountBaseLabel() {
             return this.amountBase.in_put_amount_unit.auSubject;
+        },
+
+        displayNotif: function displayNotif(httpStatusCode) {
+            switch (httpStatusCode) {
+                case 204:
+                    this.$notify({ title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
+                    break;
+                case 200:
+                    this.$notify({ title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
+                    break;
+            }
+        },
+
+        myResize: function myResize() {
+            console.log("......................res..........................");
+            var tabHeight = $('.tabs').height();
+            var toolBarHeight = $('.tool-bar').height();
+            var paginationHeight = $('.pagination').height();
+            var notifHeight = 25;
+            if (toolBarHeight === undefined) {
+                toolBarHeight = -8;
+            }
+
+            if (paginationHeight === undefined) {
+                paginationHeight = -8;
+            }
+
+            if (tabHeight === undefined) {
+                tabHeight = -8;
+                notifHeight = 0;
+            }
+
+            if ($('.vertical-tab').length > 0) {
+                tabHeight = 10;
+            }
+
+            $('.dynamic-height-level1').css('height', $.w.outerHeight() - 180 + 'px');
+
+            var x = $(".dynamic-height-level1").height();
+            $('.dynamic-height-level2').css('height', x - 100 - (tabHeight + toolBarHeight + paginationHeight) + 'px');
         },
 
         logout: function logout() {
@@ -68536,7 +68611,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Dashboard.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Dashboard.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Dashboard.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -68764,7 +68839,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "panel-footer panel-footer-red small-font"
   }, [_c('i', {
     staticClass: "fi-arrow-left size-18 float-left"
-  }), _vm._v("مشاهده جزئیات\r\n                        ")])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v("مشاهده جزئیات\n                        ")])])])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-3"
   }, [_c('div', {
     staticClass: "notification-panel panel-yellow"
@@ -68788,7 +68863,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "panel-footer panel-footer-yellow small-font"
   }, [_c('i', {
     staticClass: "fi-arrow-left size-18 float-left"
-  }), _vm._v("مشاهده جزئیات\r\n                        ")])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v("مشاهده جزئیات\n                        ")])])])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-3"
   }, [_c('div', {
     staticClass: "notification-panel panel-green"
@@ -68812,7 +68887,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "panel-footer panel-footer-green small-font"
   }, [_c('i', {
     staticClass: "fi-arrow-left size-18 float-left"
-  }), _vm._v("مشاهده جزئیات\r\n                        ")])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v("مشاهده جزئیات\n                        ")])])])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-3"
   }, [_c('div', {
     staticClass: "notification-panel panel-primary"
@@ -68836,7 +68911,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "panel-footer panel-footer-primary small-font"
   }, [_c('i', {
     staticClass: "fi-arrow-left size-18 float-left"
-  }), _vm._v("مشاهده جزئیات\r\n                        ")])])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v("مشاهده جزئیات\n                        ")])])])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x my-grid-margin"
   }, [_c('div', {
     staticClass: "medium-6 dashboard-padding "
@@ -68974,7 +69049,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Admin\\tiny_seasons.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Admin/tiny_seasons.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] tiny_seasons.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -69003,10 +69078,6 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__ = __webpack_require__(7);
-//
-//
-//
-//
 //
 //
 //
@@ -69420,7 +69491,7 @@ if (false) {(function () {
 
     mounted: function mounted() {
         console.log("mounted tiny season component");
-        res();
+        this.$parent.myResize();
     },
 
     components: {
@@ -69515,7 +69586,7 @@ if (false) {(function () {
                             _this5.makePagination(response.data, "plan");
                         }
                         _this5.showModal = false;
-                        _this5.displayNotif(response.status);
+                        _this5.$parent.displayNotif(response.status);
                         _this5.tinySeasonsInput = [];
                         console.log(response);
                     }, function (error) {
@@ -69563,7 +69634,7 @@ if (false) {(function () {
                             _this6.makePagination(response.data, "plan");
                         }
                         _this6.showModalUpdate = false;
-                        _this6.displayNotif(response.status);
+                        _this6.$parent.displayNotif(response.status);
                         console.log(response);
                     }, function (error) {
                         console.log(error);
@@ -69592,21 +69663,10 @@ if (false) {(function () {
                     }
                 _this7.showModalDelete = false;
                 console.log(response);
-                _this7.displayNotif(response.status);
+                _this7.$parent.displayNotif(response.status);
             }, function (error) {
                 console.log(error);
             });
-        },
-
-        displayNotif: function displayNotif(httpStatusCode) {
-            switch (httpStatusCode) {
-                case 204:
-                    this.$notify({ group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
-                    break;
-                case 200:
-                    this.$notify({ group: 'tinySeasonPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
-                    break;
-            }
         }
     }
 });
@@ -70015,14 +70075,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchCostData(_vm.cost_pagination.current_page)
       }
     }
-  })], 1)])])])])]), _vm._v(" "), _c('notifications', {
-    attrs: {
-      "group": "tinySeasonPm",
-      "position": "bottom right",
-      "animation-type": "velocity",
-      "speed": 700
-    }
-  })], 1), _vm._v(" "), (_vm.showModal) ? _c('modal-tiny', {
+  })], 1)])])])])])]), _vm._v(" "), (_vm.showModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showModal = false
@@ -70717,7 +70770,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Admin\\fiscal_year.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Admin/fiscal_year.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] fiscal_year.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -70746,10 +70799,6 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__ = __webpack_require__(7);
-//
-//
-//
-//
 //
 //
 //
@@ -70931,7 +70980,7 @@ if (false) {(function () {
 
     mounted: function mounted() {
         console.log("mounted fiscal year component");
-        res();
+        this.$parent.myResize();
     },
 
     components: {
@@ -70985,7 +71034,7 @@ if (false) {(function () {
                 _this2.makePagination(response.data);
                 _this2.showFyActiveModal = false;
                 console.log(response.data);
-                _this2.displayNotif(response.status);
+                _this2.$parent.displayNotif(response.status);
             }, function (error) {
                 console.log(error);
             });
@@ -71032,7 +71081,7 @@ if (false) {(function () {
                     }).then(function (response) {
                         _this4.fyPermissionInBudget = response.data;
                         console.log(response.data);
-                        _this4.displayNotif(response.status);
+                        _this4.$parent.displayNotif(response.status);
                     }, function (error) {
                         console.log(error);
                     });
@@ -71049,21 +71098,10 @@ if (false) {(function () {
             }).then(function (response) {
                 _this5.fyPermissionInBudget = response.data;
                 console.log(response.data);
-                _this5.displayNotif(response.status);
+                _this5.$parent.displayNotif(response.status);
             }, function (error) {
                 console.log(error);
             });
-        },
-
-        displayNotif: function displayNotif(httpStatusCode) {
-            switch (httpStatusCode) {
-                case 204:
-                    this.$notify({ group: 'fiscalYearPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
-                    break;
-                case 200:
-                    this.$notify({ group: 'fiscalYearPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
-                    break;
-            }
         }
     }
 });
@@ -71159,14 +71197,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchData(_vm.pagination.current_page)
       }
     }
-  })], 1)])]), _vm._v(" "), _c('notifications', {
-    attrs: {
-      "group": "fiscalYearPm",
-      "position": "bottom right",
-      "animation-type": "velocity",
-      "speed": 700
-    }
-  })], 1)]), _vm._v(" "), (_vm.showFyActiveModal) ? _c('modal-tiny', {
+  })], 1)])])])]), _vm._v(" "), (_vm.showFyActiveModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showFyActiveModal = false
@@ -71432,7 +71463,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Admin\\deprived_area.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Admin/deprived_area.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] deprived_area.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -71461,10 +71492,6 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__ = __webpack_require__(7);
-//
-//
-//
-//
 //
 //
 //
@@ -71839,7 +71866,7 @@ if (false) {(function () {
 
     mounted: function mounted() {
         console.log("mounted deprived area component");
-        res();
+        this.$parent.myResize();
     },
 
     components: {
@@ -71873,7 +71900,7 @@ if (false) {(function () {
                         description: _this2.deprivedAreaInput.description }).then(function (response) {
                         _this2.deprivedArea = response.data;
                         _this2.showInsertModal = false;
-                        _this2.displayNotif(response.status);
+                        _this2.$parent.displayNotif(response.status);
                         _this2.deprivedAreaInput = [];
                         console.log(response);
                     }, function (error) {
@@ -71940,17 +71967,6 @@ if (false) {(function () {
                 });
             } else {
                 this.villageDisable = true;
-            }
-        },
-
-        displayNotif: function displayNotif(httpStatusCode) {
-            switch (httpStatusCode) {
-                case 204:
-                    this.$notify({ group: 'deprivedAreaPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
-                    break;
-                case 200:
-                    this.$notify({ group: 'deprivedAreaPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
-                    break;
             }
         }
     }
@@ -72264,14 +72280,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "data-auto-focus": "true"
       }
     }, [_vm._m(13, true)])])])])]) : _vm._e()])
-  }))])])])]), _vm._v(" "), _c('notifications', {
-    attrs: {
-      "group": "deprivedAreaPm",
-      "position": "bottom right",
-      "animation-type": "velocity",
-      "speed": 700
-    }
-  })], 1), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-tiny', {
+  }))])])])])]), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showInsertModal = false
@@ -72749,7 +72758,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Admin\\budget_season.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Admin/budget_season.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] budget_season.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -72897,10 +72906,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     data: function data() {
@@ -72922,7 +72927,7 @@ if (false) {(function () {
 
     mounted: function mounted() {
         console.log("mounted budget season component");
-        res();
+        this.$parent.myResize();
     },
 
     methods: {
@@ -72947,7 +72952,7 @@ if (false) {(function () {
                         description: _this2.budgetSeasonInput.description }).then(function (response) {
                         _this2.budgetSeasons = response.data;
                         _this2.showInsertModal = false;
-                        _this2.displayNotif(response.status);
+                        _this2.$parent.displayNotif(response.status);
                         _this2.budgetSeasonInput = [];
                         console.log(response);
                     }, function (error) {
@@ -72956,17 +72961,6 @@ if (false) {(function () {
                     });
                 }
             });
-        },
-
-        displayNotif: function displayNotif(httpStatusCode) {
-            switch (httpStatusCode) {
-                case 204:
-                    this.$notify({ group: 'budgetSeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
-                    break;
-                case 200:
-                    this.$notify({ group: 'budgetSeasonPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
-                    break;
-            }
         }
     }
 });
@@ -73063,14 +73057,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "data-auto-focus": "true"
       }
     }, [_vm._m(4, true)])])])])])
-  }))]), _vm._v(" "), _c('notifications', {
-    attrs: {
-      "group": "budgetSeasonPm",
-      "position": "bottom right",
-      "animation-type": "velocity",
-      "speed": 700
-    }
-  })], 1)]), _vm._v(" "), (_vm.showFyActiveModal) ? _c('modal-tiny', {
+  }))])])]), _vm._v(" "), (_vm.showFyActiveModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showFyActiveModal = false
@@ -73279,7 +73266,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Admin\\credit_distribution_row.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Admin/credit_distribution_row.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] credit_distribution_row.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -73308,10 +73295,6 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__ = __webpack_require__(7);
-//
-//
-//
-//
 //
 //
 //
@@ -73587,7 +73570,7 @@ if (false) {(function () {
 
     mounted: function mounted() {
         console.log("mounted tiny season component");
-        res();
+        this.$parent.myResize();
     },
 
     components: {
@@ -73639,7 +73622,7 @@ if (false) {(function () {
                 }
 
                 _this3.showModal = false;
-                _this3.$notify({ group: 'rowDistributionCreditPm', title: 'پیام سیستم', text: 'رکورد با موفقیت ثبت شد.', type: 'success' });
+                _this3.$parent.displayNotif(response.status);
                 _this3.rowDistributionCreditInput = [];
                 console.log(response.status);
             }, function (error) {
@@ -73703,17 +73686,6 @@ if (false) {(function () {
                 this.plan_pagination.current_page = data.current_page;
                 this.plan_pagination.to = data.to;
                 this.plan_pagination.last_page = data.last_page;
-            }
-        },
-
-        displayNotif: function displayNotif(httpStatusCode) {
-            switch (httpStatusCode) {
-                case 204:
-                    this.$notify({ group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
-                    break;
-                case 200:
-                    this.$notify({ group: 'tinySeasonPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
-                    break;
             }
         }
     }
@@ -73955,14 +73927,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchCostData(_vm.cost_pagination.current_page)
       }
     }
-  })], 1)])])])])]), _vm._v(" "), _c('notifications', {
-    attrs: {
-      "group": "tinySeasonPm",
-      "position": "bottom right",
-      "animation-type": "velocity",
-      "speed": 700
-    }
-  })], 1), _vm._v(" "), (_vm.showModal) ? _c('modal-tiny', {
+  })], 1)])])])])])]), _vm._v(" "), (_vm.showModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showModal = false
@@ -74308,7 +74273,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Admin\\season_title.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Admin/season_title.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] season_title.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -74337,10 +74302,6 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__ = __webpack_require__(7);
-//
-//
-//
-//
 //
 //
 //
@@ -74701,7 +74662,7 @@ if (false) {(function () {
 
     mounted: function mounted() {
         console.log("mounted season title component");
-        res();
+        this.$parent.myResize();
     },
 
     components: {
@@ -74778,7 +74739,7 @@ if (false) {(function () {
                             _this4.makePagination(response.data, "plan");
                         }
                         _this4.showModal = false;
-                        _this4.displayNotif(response.status);
+                        _this4.$parent.displayNotif(response.status);
                         _this4.seasonTitleInput = [];
                         console.log(response);
                     }, function (error) {
@@ -74824,7 +74785,7 @@ if (false) {(function () {
                             _this5.makePagination(response.data, "plan");
                         }
                         _this5.showModalUpdate = false;
-                        _this5.displayNotif(response.status);
+                        _this5.$parent.displayNotif(response.status);
                         console.log(response);
                     }, function (error) {
                         console.log(error);
@@ -74859,31 +74820,10 @@ if (false) {(function () {
                     }
                 _this6.showModalDelete = false;
                 console.log(response);
-                _this6.displayNotif(response.status);
+                _this6.$parent.displayNotif(response.status);
             }, function (error) {
                 console.log(error);
             });
-        },
-
-        displayNotif: function displayNotif(httpStatusCode) {
-            switch (httpStatusCode) {
-                case 204:
-                    this.$notify({
-                        group: 'seasonTitlePm',
-                        title: 'پیام سیستم',
-                        text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.',
-                        type: 'error'
-                    });
-                    break;
-                case 200:
-                    this.$notify({
-                        group: 'seasonTitlePm',
-                        title: 'پیام سیستم',
-                        text: 'درخواست با موفقیت انجام شد.',
-                        type: 'success'
-                    });
-                    break;
-            }
         }
     }
 });
@@ -75137,14 +75077,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchCostData(_vm.cost_pagination.current_page)
       }
     }
-  })], 1)])])])]), _vm._v(" "), _c('notifications', {
-    attrs: {
-      "group": "seasonTitlePm",
-      "position": "bottom right",
-      "animation-type": "velocity",
-      "speed": 700
-    }
-  })], 1), _vm._v(" "), (_vm.showModal) ? _c('modal-tiny', {
+  })], 1)])])])])]), _vm._v(" "), (_vm.showModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showModal = false
@@ -75723,7 +75656,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Admin\\plan_cost_title.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Admin/plan_cost_title.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] plan_cost_title.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -75752,10 +75685,6 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__ = __webpack_require__(7);
-//
-//
-//
-//
 //
 //
 //
@@ -76017,7 +75946,7 @@ if (false) {(function () {
 
     mounted: function mounted() {
         console.log("mounted budget season component");
-        res();
+        this.$parent.myResize();
     },
 
     components: {
@@ -76097,7 +76026,7 @@ if (false) {(function () {
                         _this5.planOrCosts = response.data.data;
                         _this5.makePagination(response.data);
                         _this5.showInsertModal = false;
-                        _this5.displayNotif(response.status);
+                        _this5.$parent.displayNotif(response.status);
                         _this5.planOrCostInput = [];
                         console.log(response);
                     }, function (error) {
@@ -76112,17 +76041,6 @@ if (false) {(function () {
             this.pagination.current_page = data.current_page;
             this.pagination.to = data.to;
             this.pagination.last_page = data.last_page;
-        },
-
-        displayNotif: function displayNotif(httpStatusCode) {
-            switch (httpStatusCode) {
-                case 204:
-                    this.$notify({ group: 'plan_cost_titlePm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
-                    break;
-                case 200:
-                    this.$notify({ group: 'plan_cost_titlePm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
-                    break;
-            }
         }
     }
 });
@@ -76261,14 +76179,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchData(_vm.pagination.current_page)
       }
     }
-  })], 1)]), _vm._v(" "), _c('notifications', {
-    attrs: {
-      "group": "plan_cost_titlePm",
-      "position": "bottom right",
-      "animation-type": "velocity",
-      "speed": 700
-    }
-  })], 1)]), _vm._v(" "), (_vm.showFyActiveModal) ? _c('modal-tiny', {
+  })], 1)])])]), _vm._v(" "), (_vm.showFyActiveModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showFyActiveModal = false
@@ -76745,7 +76656,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Aprroved\\approved_project.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Aprroved/approved_project.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] approved_project.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -76774,11 +76685,6 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__ = __webpack_require__(7);
-//
-//
-//
-//
-//
 //
 //
 //
@@ -77411,6 +77317,7 @@ if (false) {(function () {
     created: function created() {
         this.fetchProvincialData();
         this.fetchNationalData();
+        //
     },
 
     updated: function updated() {
@@ -77419,7 +77326,7 @@ if (false) {(function () {
 
     mounted: function mounted() {
         console.log("mounted approved project component");
-        res();
+        this.$parent.myResize();
     },
 
     components: {
@@ -77585,7 +77492,7 @@ if (false) {(function () {
                             _this10.makePagination(response.data, "national");
                         }
                         _this10.showInsertModal = false;
-                        _this10.displayNotif(response.status);
+                        _this10.$parent.displayNotif(response.status);
                         console.log(response);
                     }, function (error) {
                         console.log(error);
@@ -77617,7 +77524,7 @@ if (false) {(function () {
                             _this11.makePagination(response.data, "national");
                         }
                         _this11.showApCsInsertModal = false;
-                        _this11.displayNotif(response.status);
+                        _this11.$parent.displayNotif(response.status);
                         console.log(response);
                     }, function (error) {
                         console.log(error);
@@ -77709,17 +77616,6 @@ if (false) {(function () {
                 });*/
         },
 
-        displayNotif: function displayNotif(httpStatusCode) {
-            switch (httpStatusCode) {
-                case 204:
-                    this.$notify({ group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
-                    break;
-                case 200:
-                    this.$notify({ group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
-                    break;
-            }
-        },
-
         makePagination: function makePagination(data, type) {
             if (type == "national") {
                 this.national_pagination.current_page = data.current_page;
@@ -77786,20 +77682,20 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     return _c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
-      staticClass: "medium-2 table-contain-border cell-vertical-center"
+      staticClass: "medium-2 cell-height table-contain-border cell-vertical-center"
     }, [_vm._v("\n                                        " + _vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' - ' + plans.credit_distribution_title.county.coName) + "\n                                    ")]), _vm._v(" "), _c('div', {
-      staticClass: "medium-10"
+      staticClass: "medium-10 cell-height"
     }, _vm._l((plans.capital_assets_project), function(projects) {
       return _c('div', {
         staticClass: "grid-x"
       }, [_c('div', {
-        staticClass: "medium-1 table-contain-border cell-vertical-center"
+        staticClass: "medium-1 cell-height table-contain-border cell-vertical-center"
       }, [_vm._v("\n                                                " + _vm._s(projects.cpCode) + "\n                                            ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-3 table-contain-border cell-vertical-center"
+        staticClass: "medium-3 cell-height table-contain-border cell-vertical-center"
       }, [_vm._v("\n                                                " + _vm._s(projects.cpSubject) + "\n                                            ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-2 table-contain-border cell-vertical-center"
+        staticClass: "medium-2 cell-height table-contain-border cell-vertical-center"
       }, [_vm._v("\n                                                " + _vm._s(projects.county.coName) + "\n                                            ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-2 table-contain-border cell-vertical-center"
+        staticClass: "medium-2 cell-height table-contain-border cell-vertical-center"
       }, [_c('span', {
         on: {
           "click": function($event) {
@@ -77807,13 +77703,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           }
         }
       }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.sumOfAmount(projects.credit_source), false)))])]), _vm._v(" "), _c('div', {
-        staticClass: "medium-4  table-contain-border cell-vertical-center"
+        staticClass: "medium-4 cell-height  table-contain-border cell-vertical-center"
       }, [_c('div', {
         staticClass: "grid-x"
       }, [_c('div', {
-        staticClass: "medium-11"
+        staticClass: "medium-11 cell-height"
       }, [_vm._v("\n                                                        " + _vm._s(projects.cpDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-1 cell-vertical-center text-left"
+        staticClass: "medium-1 cell-height cell-vertical-center text-left"
       }, [_c('a', {
         staticClass: "dropdown small sm-btn-align",
         attrs: {
@@ -77950,7 +77846,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
             _vm.displayCreditSourceInfo_nat == projects.id ? _vm.displayCreditSourceInfo_nat = '' : _vm.displayCreditSourceInfo_nat = projects.id
           }
         }
-      }, [_vm._v("123")])]), _vm._v(" "), _c('div', {
+      }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.sumOfAmount(projects.credit_source), false)))])]), _vm._v(" "), _c('div', {
         staticClass: "medium-4  table-contain-border cell-vertical-center"
       }, [_c('div', {
         staticClass: "grid-x"
@@ -78039,14 +77935,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchNationalData(_vm.national_pagination.current_page)
       }
     }
-  })], 1)])])])])]), _vm._v(" "), _c('notifications', {
-    attrs: {
-      "group": "aprrovedProjectPm",
-      "position": "bottom right",
-      "animation-type": "velocity",
-      "speed": 700
-    }
-  }), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-small', {
+  })], 1)])])])])]), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-small', {
     on: {
       "close": function($event) {
         _vm.showInsertModal = false
@@ -78206,8 +78095,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (_vm.errors.has('projectTitle')),
-      expression: "errors.has('projectTitle')"
+      value: (_vm.errors.has('projectCode')),
+      expression: "errors.has('projectCode')"
     }],
     staticClass: "error-font"
   }, [_vm._v("لطفا کد پروژه انتخاب کنید!")])])]), _vm._v(" "), _c('div', {
@@ -78226,7 +78115,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       value: ('required'),
       expression: "'required'"
     }],
-    staticClass: "form-element-margin-btm",
+    staticClass: "form-element-margin-btm datePickerClass",
     class: {
       'input': true, 'error-border': _vm.errors.has('startYear')
     },
@@ -78262,10 +78151,10 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, {
       name: "validate",
       rawName: "v-validate",
-      value: ('required|numeric'),
-      expression: "'required|numeric'"
+      value: ('required'),
+      expression: "'required'"
     }],
-    staticClass: "form-element-margin-btm",
+    staticClass: "form-element-margin-btm datePickerClass",
     class: {
       'input': true, 'error-border': _vm.errors.has('endYear')
     },
@@ -78334,7 +78223,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "progress-meter",
     staticStyle: {
-      "width": "75%"
+      "width": "100%"
     }
   })])]), _vm._v(" "), _c('span', {
     directives: [{
@@ -79460,7 +79349,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Aprroved\\approved_plan.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Aprroved/approved_plan.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] approved_plan.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -79489,11 +79378,6 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__ = __webpack_require__(7);
-//
-//
-//
-//
-//
 //
 //
 //
@@ -79845,7 +79729,7 @@ if (false) {(function () {
 
     mounted: function mounted() {
         console.log("mounted approved project component");
-        res();
+        this.$parent.myResize();
     },
 
     components: {
@@ -79920,7 +79804,7 @@ if (false) {(function () {
                             _this4.makePagination(response.data, "national");
                         }
                         _this4.showInsertModal = false;
-                        _this4.displayNotif(response.status);
+                        _this4.$parent.displayNotif(response.status);
                         console.log(response);
                     }, function (error) {
                         console.log(error);
@@ -79994,17 +79878,6 @@ if (false) {(function () {
                     console.log(error);
                     this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                 });*/
-        },
-
-        displayNotif: function displayNotif(httpStatusCode) {
-            switch (httpStatusCode) {
-                case 204:
-                    this.$notify({ group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
-                    break;
-                case 200:
-                    this.$notify({ group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
-                    break;
-            }
         },
 
         makePagination: function makePagination(data, type) {
@@ -80246,14 +80119,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchNationalData(_vm.national_pagination.current_page)
       }
     }
-  })], 1)])])])])]), _vm._v(" "), _c('notifications', {
-    attrs: {
-      "group": "aprrovedPlanPm",
-      "position": "bottom right",
-      "animation-type": "velocity",
-      "speed": 700
-    }
-  }), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-small', {
+  })], 1)])])])])]), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-small', {
     on: {
       "close": function($event) {
         _vm.showInsertModal = false
@@ -80802,7 +80668,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Aprroved\\approved_cost_program.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Aprroved/approved_cost_program.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] approved_cost_program.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -81300,112 +81166,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -81413,20 +81173,17 @@ if (false) {(function () {
         return {
             errorMessage: '',
             errorMessage_update: '',
-            approvedProjects_prov: [],
-            approvedProjects_nat: [],
-            approvedProjectsInput: { apPlan: '', apProjectTitle: '', apProjectCode: '', apStartYear: '', apEndYear: '',
-                apPhysicalProgress: '', apCity: '', apDescription: '' },
+            costAgreement_prov: [],
+            costAgreement_nat: [],
+            costAgreementInput: {},
             showInsertModal: false,
-            showApCsInsertModal: false,
+            showCaCsInsertModal: false,
             showModalUpdate: false,
             showModalDelete: false,
-            approvedProjectsFill: { apPlan: '', apProjectTitle: '', apProjectCode: '', apStartYear: '', apEndYear: '',
-                apHowToRun: '', apPhysicalProgress: '', aCity: '', apSubSeason: '',
-                apLocation: '', apDescription: '', apCredit: '' },
+            costAgreementFill: {},
 
-            apCreditSourceInput: {},
-            capIdForInsertCreditSource: '',
+            caCreditSourceInput: {},
+            caIdForInsertCreditSource: '',
             displayCreditSourceInfo_prov: '',
             displayCreditSourceInfo_nat: '',
             provOrNat: '',
@@ -81440,6 +81197,7 @@ if (false) {(function () {
             selectedSeasons: '',
             selectedSeasonTitle: '',
             creditDistributionRows: {},
+            creditDistributionTitles: {},
             national_pagination: {
                 total: 0,
                 to: 0,
@@ -81468,7 +81226,7 @@ if (false) {(function () {
 
     mounted: function mounted() {
         console.log("mounted approved cost_program component");
-        res();
+        this.$parent.myResize();
     },
 
     components: {
@@ -81481,8 +81239,8 @@ if (false) {(function () {
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-            axios.get('/budget/approved_project/capital_assets/fetchData?page=' + page, { params: { pOrN: 0 } }).then(function (response) {
-                _this.approvedProjects_prov = response.data.data;
+            axios.get('/budget/approved_plan/cost/fetchData?page=' + page, { params: { pOrN: 0 } }).then(function (response) {
+                _this.costAgreement_prov = response.data.data;
                 _this.makePagination(response.data, "provincial");
                 console.log(response);
             }, function (error) {
@@ -81495,8 +81253,8 @@ if (false) {(function () {
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-            axios.get('/budget/approved_project/capital_assets/fetchData?page=' + page, { params: { pOrN: 1 } }).then(function (response) {
-                _this2.approvedProjects_nat = response.data.data;
+            axios.get('/budget/approved_plan/cost/fetchData?page=' + page, { params: { pOrN: 1 } }).then(function (response) {
+                _this2.costAgreement_nat = response.data.data;
                 _this2.makePagination(response.data, "national");
                 console.log(response);
             }, function (error) {
@@ -81504,44 +81262,11 @@ if (false) {(function () {
             });
         },
 
-        getAllApprovedPlan: function getAllApprovedPlan(pOrN) {
+        getSeasons: function getSeasons() {
             var _this3 = this;
 
-            axios.get('/budget/approved_plan/capital_assets/getAllItems', { params: { pOrN: pOrN } }).then(function (response) {
-                _this3.approvedPlans = response.data;
-                console.log(response);
-            }, function (error) {
-                console.log(error);
-            });
-        },
-
-        getHowToRun: function getHowToRun() {
-            var _this4 = this;
-
-            axios.get('/budget/admin/how_to_run/getAllItems').then(function (response) {
-                _this4.howToRuns = response.data;
-                console.log(response);
-            }, function (error) {
-                console.log(error);
-            });
-        },
-
-        getCounties: function getCounties() {
-            var _this5 = this;
-
-            axios.get('/admin/get_all_counties', { params: {} }).then(function (response) {
-                _this5.counties = response.data;
-                console.log(response);
-            }, function (error) {
-                console.log(error);
-            });
-        },
-
-        getSeasons: function getSeasons() {
-            var _this6 = this;
-
             axios.get('/admin/get_all_seasons', { params: {} }).then(function (response) {
-                _this6.seasons = response.data;
+                _this3.seasons = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -81549,10 +81274,10 @@ if (false) {(function () {
         },
 
         getSeasonTitle: function getSeasonTitle() {
-            var _this7 = this;
+            var _this4 = this;
 
             axios.get('/budget/admin/season_title/capital_assets/getWithSeasonId', { params: { sId: this.selectedSeason } }).then(function (response) {
-                _this7.seasonTitles = response.data;
+                _this4.seasonTitles = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -81560,10 +81285,10 @@ if (false) {(function () {
         },
 
         getTinySeasons: function getTinySeasons() {
-            var _this8 = this;
+            var _this5 = this;
 
             axios.get('/budget/admin/sub_seasons/capital_assets/getAllItem', { params: { castId: this.selectedSeasonTitle } }).then(function (response) {
-                _this8.tinySeasons = response.data;
+                _this5.tinySeasons = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -81571,62 +81296,63 @@ if (false) {(function () {
         },
 
         getCreditDistributionRow: function getCreditDistributionRow() {
-            var _this9 = this;
+            var _this6 = this;
 
             axios.get('/budget/admin/credit_distribution_def/rows/getAllItems', { params: { planOrCost: 0 } }).then(function (response) {
-                _this9.creditDistributionRows = response.data;
+                _this6.creditDistributionRows = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
             });
         },
 
-        openApprovedProjectInsertModal: function openApprovedProjectInsertModal(type) {
-            this.getAllApprovedPlan(type);
-            this.getCounties();
-            this.showInsertModal = true;
-            this.provOrNat = type;
-            if (type == 0) {
-                this.countyState = true;
-            } else {
-                this.countyState = false;
-            }
+        getCreditDistributionTitle: function getCreditDistributionTitle(pOrN) {
+            var _this7 = this;
+
+            axios.get('/budget/admin/credit_distribution_def/plan_cost_title/getAllItem', { params: { pOrN: pOrN } }).then(function (response) {
+                _this7.creditDistributionTitles = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
         },
 
-        openApCreditSourceInsertModal: function openApCreditSourceInsertModal(capId, type) {
-            this.showApCsInsertModal = true;
-            this.capIdForInsertCreditSource = capId;
+        openCostAgreementInsertModal: function openCostAgreementInsertModal(type) {
             this.provOrNat = type;
-            this.getHowToRun();
+            this.showInsertModal = true;
+        },
+
+        openCreditSourceInsertModal: function openCreditSourceInsertModal(caId, type) {
+            this.showCaCsInsertModal = true;
+            this.caIdForInsertCreditSource = caId;
+            this.provOrNat = type;
+            this.getCreditDistributionTitle(1); //all item should be national type => county = null
             this.getSeasons();
             this.getCreditDistributionRow();
         },
 
-        createApprovedProjects: function createApprovedProjects() {
-            var _this10 = this;
+        createCostAgreement: function createCostAgreement() {
+            var _this8 = this;
 
             this.$validator.validateAll().then(function (result) {
                 if (result) {
-                    axios.post('/budget/approved_project/capital_assets/register', {
-                        pId: _this10.approvedProjectsInput.apPlan,
-                        subject: _this10.approvedProjectsInput.apProjectTitle,
-                        code: _this10.approvedProjectsInput.apProjectCode,
-                        startYear: _this10.approvedProjectsInput.apStartYear,
-                        endYear: _this10.approvedProjectsInput.apEndYear,
-                        pProgress: _this10.approvedProjectsInput.apPhysicalProgress,
-                        coId: _this10.approvedProjectsInput.apCity,
-                        description: _this10.approvedProjectsInput.apDescription,
-                        pOrN: _this10.provOrNat
+                    axios.post('/budget/approved_plan/cost/register', {
+                        idNumber: _this8.costAgreementInput.idNumber,
+                        date: _this8.costAgreementInput.date,
+                        exIdNumber: _this8.costAgreementInput.exIdNumber,
+                        exDate: _this8.costAgreementInput.exDate,
+                        description: _this8.costAgreementInput.description,
+                        pOrN: _this8.provOrNat
                     }).then(function (response) {
-                        if (_this10.provOrNat == 0) {
-                            _this10.approvedProjects_prov = response.data.data;
-                            _this10.makePagination(response.data, "provincial");
+                        if (_this8.provOrNat == 0) {
+                            _this8.costAgreement_prov = response.data.data;
+                            _this8.makePagination(response.data, "provincial");
                         } else {
-                            _this10.approvedProjects_nat = response.data.data;
-                            _this10.makePagination(response.data, "national");
+                            _this8.costAgreement_nat = response.data.data;
+                            _this8.makePagination(response.data, "national");
                         }
-                        _this10.showInsertModal = false;
-                        _this10.displayNotif(response.status);
+                        _this8.showInsertModal = false;
+                        _this8.$parent.displayNotif(response.status);
                         console.log(response);
                     }, function (error) {
                         console.log(error);
@@ -81636,29 +81362,29 @@ if (false) {(function () {
             });
         },
 
-        createApprovedProjectCreditSource: function createApprovedProjectCreditSource() {
-            var _this11 = this;
+        createCaCreditSource: function createCaCreditSource() {
+            var _this9 = this;
 
             this.$validator.validateAll().then(function (result) {
                 if (result) {
-                    axios.post('/budget/approved_project/capital_assets/credit_source/register', {
-                        capId: _this11.capIdForInsertCreditSource,
-                        crId: _this11.apCreditSourceInput.crId,
-                        htrId: _this11.apCreditSourceInput.htrId,
-                        tsId: _this11.apCreditSourceInput.tsId,
-                        amount: _this11.apCreditSourceInput.csAmount,
-                        description: _this11.apCreditSourceInput.csDescription,
-                        pOrN: _this11.provOrNat
+                    axios.post('/budget/approved_plan/cost/credit_source/register', {
+                        caId: _this9.caIdForInsertCreditSource,
+                        crId: _this9.caCreditSourceInput.crId,
+                        cdtId: _this9.caCreditSourceInput.cdtId,
+                        tsId: _this9.caCreditSourceInput.tsId,
+                        amount: _this9.caCreditSourceInput.amount,
+                        description: _this9.caCreditSourceInput.description,
+                        pOrN: _this9.provOrNat
                     }).then(function (response) {
-                        if (_this11.provOrNat == 0) {
-                            _this11.approvedProjects_prov = response.data.data;
-                            _this11.makePagination(response.data, "provincial");
+                        if (_this9.provOrNat == 0) {
+                            _this9.costAgreement_prov = response.data.data;
+                            _this9.makePagination(response.data, "provincial");
                         } else {
-                            _this11.approvedProjects_nat = response.data.data;
-                            _this11.makePagination(response.data, "national");
+                            _this9.costAgreement_nat = response.data.data;
+                            _this9.makePagination(response.data, "national");
                         }
-                        _this11.showApCsInsertModal = false;
-                        _this11.displayNotif(response.status);
+                        _this9.showCaCsInsertModal = false;
+                        _this9.$parent.displayNotif(response.status);
                         console.log(response);
                     }, function (error) {
                         console.log(error);
@@ -81685,7 +81411,7 @@ if (false) {(function () {
         },
 
         approvedProjectsUpdateDialog: function approvedProjectsUpdateDialog(item, planId) {
-            var _this12 = this;
+            var _this10 = this;
 
             this.selectedSeasons = item.tiny_season.tsSId;
             this.getTinySeasons();
@@ -81702,7 +81428,7 @@ if (false) {(function () {
             this.creditDistributionRows.forEach(function (cdr) {
                 "use strict";
 
-                Vue.set(_this12.creditDistributionRowInput, 'apCdr' + cdr.id, cdr.id);
+                Vue.set(_this10.creditDistributionRowInput, 'apCdr' + cdr.id, cdr.id);
             });
             this.errorMessage_update = '';
             this.showModalUpdate = true;
@@ -81748,17 +81474,6 @@ if (false) {(function () {
                     console.log(error);
                     this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                 });*/
-        },
-
-        displayNotif: function displayNotif(httpStatusCode) {
-            switch (httpStatusCode) {
-                case 204:
-                    this.$notify({ group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
-                    break;
-                case 200:
-                    this.$notify({ group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
-                    break;
-            }
         },
 
         makePagination: function makePagination(data, type) {
@@ -81811,7 +81526,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "my-button toolbox-btn small",
     on: {
       "click": function($event) {
-        _vm.openApprovedCostProgramInsertModal(0)
+        _vm.openCostAgreementInsertModal(0)
       }
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
@@ -81823,105 +81538,75 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "columns"
   }, [_vm._m(5), _vm._v(" "), _c('div', {
     staticClass: "table-contain dynamic-height-level2"
-  }, _vm._l((_vm.approvedProjects_prov), function(plans) {
+  }, _vm._l((_vm.costAgreement_prov), function(cAp) {
     return _c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-2 table-contain-border cell-vertical-center"
-    }, [_vm._v("\n                                        " + _vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' - ' + plans.credit_distribution_title.county.coName) + "\n                                    ")]), _vm._v(" "), _c('div', {
-      staticClass: "medium-10"
-    }, _vm._l((plans.capital_assets_project), function(projects) {
-      return _c('div', {
-        staticClass: "grid-x"
-      }, [_c('div', {
-        staticClass: "medium-1 table-contain-border cell-vertical-center"
-      }, [_vm._v("\n                                                " + _vm._s(projects.cpCode) + "\n                                            ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-3 table-contain-border cell-vertical-center"
-      }, [_vm._v("\n                                                " + _vm._s(projects.cpSubject) + "\n                                            ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-2 table-contain-border cell-vertical-center"
-      }, [_vm._v("\n                                                " + _vm._s(projects.county.coName) + "\n                                            ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-2 table-contain-border cell-vertical-center"
-      }, [_c('span', {
-        on: {
-          "click": function($event) {
-            _vm.displayCreditSourceInfo_prov == projects.id ? _vm.displayCreditSourceInfo_prov = '' : _vm.displayCreditSourceInfo_prov = projects.id
-          }
+    }, [_vm._v("\n                                        " + _vm._s(cAp.caLetterNumber) + "\n                                    ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-2 table-contain-border cell-vertical-center"
+    }, [_vm._v("\n                                        " + _vm._s(cAp.caLetterDate) + "\n                                    ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-2 table-contain-border cell-vertical-center"
+    }, [_vm._v("\n                                        " + _vm._s(cAp.caExchangeDate) + "\n                                    ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-2 table-contain-border cell-vertical-center"
+    }, [_vm._v("\n                                        " + _vm._s(cAp.caExchangeIdNumber) + "\n                                    ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-2 table-contain-border cell-vertical-center"
+    }), _vm._v(" "), _c('div', {
+      staticClass: "medium-2  table-contain-border cell-vertical-center"
+    }, [_c('div', {
+      staticClass: "grid-x"
+    }, [_c('div', {
+      staticClass: "medium-11"
+    }, [_vm._v("\n                                                " + _vm._s(cAp.caDescription) + "\n                                            ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-1 cell-vertical-center text-left"
+    }, [_c('a', {
+      staticClass: "dropdown small sm-btn-align",
+      attrs: {
+        "type": "button",
+        "data-toggle": 'costAgreement' + cAp.id
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-ellipsis-v size-18"
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "dropdown-pane dropdown-pane-sm ",
+      attrs: {
+        "data-close-on-click": "true",
+        "data-hover": "true",
+        "data-hover-pane": "true",
+        "data-position": "bottom",
+        "data-alignment": "right",
+        "id": 'costAgreement' + cAp.id,
+        "data-dropdown": "",
+        "data-auto-focus": "true"
+      }
+    }, [_c('ul', {
+      staticClass: "my-menu small-font text-right"
+    }, [_c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
         }
-      }, [_vm._v("123")])]), _vm._v(" "), _c('div', {
-        staticClass: "medium-4  table-contain-border cell-vertical-center"
-      }, [_c('div', {
-        staticClass: "grid-x"
-      }, [_c('div', {
-        staticClass: "medium-11"
-      }, [_vm._v("\n                                                        " + _vm._s(projects.cpDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-1 cell-vertical-center text-left"
-      }, [_c('a', {
-        staticClass: "dropdown small sm-btn-align",
-        attrs: {
-          "type": "button",
-          "data-toggle": 'apApprovedProjects' + projects.id
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-pencil-square-o size-16"
+    }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
         }
-      }, [_c('i', {
-        staticClass: "fa fa-ellipsis-v size-18"
-      })]), _vm._v(" "), _c('div', {
-        staticClass: "dropdown-pane dropdown-pane-sm ",
-        attrs: {
-          "data-close-on-click": "true",
-          "data-hover": "true",
-          "data-hover-pane": "true",
-          "data-position": "bottom",
-          "data-alignment": "right",
-          "id": 'apApprovedProjects' + projects.id,
-          "data-dropdown": "",
-          "data-auto-focus": "true"
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-trash-o size-16"
+    }), _vm._v("  حذف")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.openCreditSourceInsertModal(cAp.id, 0)
         }
-      }, [_c('ul', {
-        staticClass: "my-menu small-font text-right"
-      }, [_c('li', [_c('a', {
-        on: {
-          "click": function($event) {
-            $event.preventDefault();
-            _vm.approvedProjectsUpdateDialog(projects, plans.id)
-          }
-        }
-      }, [_c('i', {
-        staticClass: "fa fa-pencil-square-o size-16"
-      }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
-        on: {
-          "click": function($event) {
-            $event.preventDefault();
-            _vm.openDeleteApprovedProjectsConfirm(projects)
-          }
-        }
-      }, [_c('i', {
-        staticClass: "fa fa-trash-o size-16"
-      }), _vm._v("  حذف")])]), _vm._v(" "), _c('li', [_c('a', {
-        on: {
-          "click": function($event) {
-            $event.preventDefault();
-            _vm.openApCreditSourceInsertModal(projects.id, 0)
-          }
-        }
-      }, [_c('i', {
-        staticClass: "fa fa-money size-16"
-      }), _vm._v("  اعتبارات")])])])])])])]), _vm._v(" "), _c('div', {
-        staticClass: "medium-12"
-      }, [_c('div', {
-        directives: [{
-          name: "show",
-          rawName: "v-show",
-          value: (_vm.displayCreditSourceInfo_prov == projects.id),
-          expression: "displayCreditSourceInfo_prov == projects.id"
-        }],
-        staticClass: "grid-x"
-      }, [_c('div', {
-        staticClass: "medium-12 table-contain-border cell-vertical-center"
-      }, [_c('table', {
-        staticClass: "unstriped tbl-secondary-mrg small-font"
-      }, [_vm._m(6, true), _vm._v(" "), _c('tbody', _vm._l((projects.credit_source), function(creditSource) {
-        return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.castSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.catsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.how_to_run.htrSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsAmount))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
-      }))])])])])])
-    }))])
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-money size-16"
+    }), _vm._v("  اعتبارات")])])])])])])])])
   }))]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
@@ -81955,7 +81640,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "my-button toolbox-btn small",
     on: {
       "click": function($event) {
-        _vm.openApprovedProjectInsertModal(1)
+        _vm.openCostAgreementInsertModal(1)
       }
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
@@ -81963,109 +81648,79 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": function($event) {}
     }
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(7), _vm._v(" "), _vm._m(8)]), _vm._v(" "), _vm._m(9)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(6), _vm._v(" "), _vm._m(7)]), _vm._v(" "), _vm._m(8)]), _vm._v(" "), _c('div', {
     staticClass: "columns"
-  }, [_vm._m(10), _vm._v(" "), _c('div', {
+  }, [_vm._m(9), _vm._v(" "), _c('div', {
     staticClass: "table-contain dynamic-height-level2"
-  }, _vm._l((_vm.approvedProjects_nat), function(plans) {
+  }, _vm._l((_vm.costAgreement_nat), function(cAp) {
     return _c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-2 table-contain-border cell-vertical-center"
-    }, [_vm._v("\n                                        " + _vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject) + "\n                                    ")]), _vm._v(" "), _c('div', {
-      staticClass: "medium-10"
-    }, _vm._l((plans.capital_assets_project), function(projects) {
-      return _c('div', {
-        staticClass: "grid-x selectAbleRow"
-      }, [_c('div', {
-        staticClass: "medium-1 table-contain-border cell-vertical-center"
-      }, [_vm._v("\n                                                " + _vm._s(projects.cpCode) + "\n                                            ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-3 table-contain-border cell-vertical-center"
-      }, [_vm._v("\n                                                " + _vm._s(projects.cpSubject) + "\n                                            ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-2 table-contain-border cell-vertical-center"
-      }, [_vm._v("\n                                                " + _vm._s(projects.county.coName) + "\n                                            ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-2 table-contain-border cell-vertical-center"
-      }, [_c('span', {
-        on: {
-          "click": function($event) {
-            _vm.displayCreditSourceInfo_nat == projects.id ? _vm.displayCreditSourceInfo_nat = '' : _vm.displayCreditSourceInfo_nat = projects.id
-          }
+    }, [_vm._v("\n                                        " + _vm._s(cAp.caLetterNumber) + "\n                                    ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-2 table-contain-border cell-vertical-center"
+    }, [_vm._v("\n                                        " + _vm._s(cAp.caLetterDate) + "\n                                    ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-2 table-contain-border cell-vertical-center"
+    }, [_vm._v("\n                                        " + _vm._s(cAp.caExchangeDate) + "\n                                    ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-2 table-contain-border cell-vertical-center"
+    }, [_vm._v("\n                                        " + _vm._s(cAp.caExchangeIdNumber) + "\n                                    ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-2 table-contain-border cell-vertical-center"
+    }), _vm._v(" "), _c('div', {
+      staticClass: "medium-2  table-contain-border cell-vertical-center"
+    }, [_c('div', {
+      staticClass: "grid-x"
+    }, [_c('div', {
+      staticClass: "medium-11"
+    }, [_vm._v("\n                                                " + _vm._s(cAp.caDescription) + "\n                                            ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-1 cell-vertical-center text-left"
+    }, [_c('a', {
+      staticClass: "dropdown small sm-btn-align",
+      attrs: {
+        "type": "button",
+        "data-toggle": 'costAgreement' + cAp.id
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-ellipsis-v size-18"
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "dropdown-pane dropdown-pane-sm ",
+      attrs: {
+        "data-close-on-click": "true",
+        "data-hover": "true",
+        "data-hover-pane": "true",
+        "data-position": "bottom",
+        "data-alignment": "right",
+        "id": 'costAgreement' + cAp.id,
+        "data-dropdown": "",
+        "data-auto-focus": "true"
+      }
+    }, [_c('ul', {
+      staticClass: "my-menu small-font text-right"
+    }, [_c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
         }
-      }, [_vm._v("123")])]), _vm._v(" "), _c('div', {
-        staticClass: "medium-4  table-contain-border cell-vertical-center"
-      }, [_c('div', {
-        staticClass: "grid-x"
-      }, [_c('div', {
-        staticClass: "medium-11"
-      }, [_vm._v("\n                                                        " + _vm._s(projects.cpDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-1 cell-vertical-center text-left"
-      }, [_c('a', {
-        staticClass: "dropdown small sm-btn-align",
-        attrs: {
-          "type": "button",
-          "data-toggle": 'apApprovedProjects' + projects.id
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-pencil-square-o size-16"
+    }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
         }
-      }, [_c('i', {
-        staticClass: "fa fa-ellipsis-v size-18"
-      })]), _vm._v(" "), _c('div', {
-        staticClass: "dropdown-pane dropdown-pane-sm ",
-        attrs: {
-          "data-close-on-click": "true",
-          "data-hover": "true",
-          "data-hover-pane": "true",
-          "data-position": "bottom",
-          "data-alignment": "right",
-          "id": 'apApprovedProjects' + projects.id,
-          "data-dropdown": "",
-          "data-auto-focus": "true"
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-trash-o size-16"
+    }), _vm._v("  حذف")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.openCreditSourceInsertModal(cAp.id, 1)
         }
-      }, [_c('ul', {
-        staticClass: "my-menu small-font text-right"
-      }, [_c('li', [_c('a', {
-        on: {
-          "click": function($event) {
-            $event.preventDefault();
-            _vm.approvedProjectsUpdateDialog(projects, plans.id)
-          }
-        }
-      }, [_c('i', {
-        staticClass: "fa fa-pencil-square-o size-16"
-      }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
-        on: {
-          "click": function($event) {
-            $event.preventDefault();
-            _vm.openDeleteApprovedProjectsConfirm(projects)
-          }
-        }
-      }, [_c('i', {
-        staticClass: "fa fa-trash-o size-16"
-      }), _vm._v("  حذف")])]), _vm._v(" "), _c('li', [_c('a', {
-        on: {
-          "click": function($event) {
-            $event.preventDefault();
-            _vm.openApCreditSourceInsertModal(projects.id, 1)
-          }
-        }
-      }, [_c('i', {
-        staticClass: "fa fa-money size-16"
-      }), _vm._v("  اعتبارات")])])])])])])]), _vm._v(" "), _c('div', {
-        staticClass: "medium-12"
-      }, [_c('div', {
-        directives: [{
-          name: "show",
-          rawName: "v-show",
-          value: (_vm.displayCreditSourceInfo_nat == projects.id),
-          expression: "displayCreditSourceInfo_nat == projects.id"
-        }],
-        staticClass: "grid-x"
-      }, [_c('div', {
-        staticClass: "medium-12 table-contain-border cell-vertical-center"
-      }, [_c('table', {
-        staticClass: "unstriped tbl-secondary-mrg small-font"
-      }, [_vm._m(11, true), _vm._v(" "), _c('tbody', _vm._l((projects.credit_source), function(creditSource) {
-        return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.castSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.catsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.how_to_run.htrSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsAmount))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
-      }))])])])])])
-    }))])
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-money size-16"
+    }), _vm._v("  اعتبارات")])])])])])])])])
   }))]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
@@ -82080,14 +81735,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchNationalData(_vm.national_pagination.current_page)
       }
     }
-  })], 1)])])])])]), _vm._v(" "), _c('notifications', {
-    attrs: {
-      "group": "aprrovedProjectPm",
-      "position": "bottom right",
-      "animation-type": "velocity",
-      "speed": 700
-    }
-  }), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-small', {
+  })], 1)])])])])]), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-small', {
     on: {
       "close": function($event) {
         _vm.showInsertModal = false
@@ -82102,7 +81750,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
-        _vm.createApprovedProjects($event)
+        _vm.createCostAgreement($event)
       }
     }
   }, [(_vm.errorMessage) ? _c('div', {
@@ -82118,334 +81766,167 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }), _vm._v(_vm._s(_vm.errorMessage))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
-    staticClass: "medium-12 cell padding-lr"
-  }, [_c('label', [_vm._v("طرح\n                                    "), _c('select', {
+    staticClass: "medium-6 columns padding-lr"
+  }, [_c('label', [_vm._v("شماره\n                                "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.approvedProjectsInput.apPlan),
-      expression: "approvedProjectsInput.apPlan"
+      value: (_vm.costAgreementInput.idNumber),
+      expression: "costAgreementInput.idNumber"
     }, {
       name: "validate",
       rawName: "v-validate"
     }],
     staticClass: "form-element-margin-btm",
     class: {
-      'input': true, 'select-error': _vm.errors.has('plan')
+      'input': true, 'select-error': _vm.errors.has('caLetterNumber')
     },
     attrs: {
-      "name": "plan",
+      "type": "text",
+      "name": "caLetterNumber",
       "data-vv-rules": "required"
     },
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.approvedProjectsInput.apPlan = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": ""
-    }
-  }), _vm._v(" "), _vm._l((_vm.approvedPlans), function(approvedPlan) {
-    return _c('option', {
-      domProps: {
-        "value": approvedPlan.id
-      },
-      on: {
-        "click": function($event) {
-          _vm.setCountyId(approvedPlan.credit_distribution_title.county.id)
-        }
-      }
-    }, [_vm._v(_vm._s(approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject + (approvedPlan.credit_distribution_title.county == null ? '' : ' - ' + approvedPlan.credit_distribution_title.county.coName)))])
-  })], 2), _vm._v(" "), _c('span', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.errors.has('plan')),
-      expression: "errors.has('plan')"
-    }],
-    staticClass: "error-font"
-  }, [_vm._v("لطفا طرح را انتخاب کنید!")])])])]), _vm._v(" "), _c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-8 cell padding-lr"
-  }, [_c('label', [_vm._v("عنوان پروژه\n                                    "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.approvedProjectsInput.apProjectTitle),
-      expression: "approvedProjectsInput.apProjectTitle"
-    }, {
-      name: "validate",
-      rawName: "v-validate",
-      value: ('required'),
-      expression: "'required'"
-    }],
-    staticClass: "form-element-margin-btm",
-    class: {
-      'input': true, 'error-border': _vm.errors.has('projectTitle')
-    },
-    attrs: {
-      "type": "text",
-      "name": "projectTitle"
-    },
     domProps: {
-      "value": (_vm.approvedProjectsInput.apProjectTitle)
+      "value": (_vm.costAgreementInput.idNumber)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.approvedProjectsInput.apProjectTitle = $event.target.value
+        _vm.costAgreementInput.idNumber = $event.target.value
       }
     }
   })]), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (_vm.errors.has('projectTitle')),
-      expression: "errors.has('projectTitle')"
+      value: (_vm.errors.has('caLetterNumber')),
+      expression: "errors.has('caLetterNumber')"
     }],
     staticClass: "error-font"
-  }, [_vm._v("لطفا عنوان پروژه انتخاب کنید!")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-4 cell padding-lr"
-  }, [_c('label', [_vm._v("کد پروژه\n                                    "), _c('input', {
+  }, [_vm._v("شماره فراموش شده است!")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 columns padding-lr"
+  }, [_c('label', [_vm._v("تاریخ\n                                "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.approvedProjectsInput.apProjectCode),
-      expression: "approvedProjectsInput.apProjectCode"
-    }, {
-      name: "validate",
-      rawName: "v-validate",
-      value: ('required|numeric'),
-      expression: "'required|numeric'"
-    }],
-    staticClass: "form-element-margin-btm",
-    class: {
-      'input': true, 'error-border': _vm.errors.has('projectCode')
-    },
-    attrs: {
-      "type": "text",
-      "name": "projectCode"
-    },
-    domProps: {
-      "value": (_vm.approvedProjectsInput.apProjectCode)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.approvedProjectsInput.apProjectCode = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('span', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.errors.has('projectTitle')),
-      expression: "errors.has('projectTitle')"
-    }],
-    staticClass: "error-font"
-  }, [_vm._v("لطفا کد پروژه انتخاب کنید!")])])]), _vm._v(" "), _c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-4 cell padding-lr"
-  }, [_c('label', [_vm._v("سال شروع\n                                    "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.approvedProjectsInput.apStartYear),
-      expression: "approvedProjectsInput.apStartYear"
-    }, {
-      name: "validate",
-      rawName: "v-validate",
-      value: ('required'),
-      expression: "'required'"
-    }],
-    staticClass: "form-element-margin-btm",
-    class: {
-      'input': true, 'error-border': _vm.errors.has('startYear')
-    },
-    attrs: {
-      "type": "text",
-      "name": "startYear"
-    },
-    domProps: {
-      "value": (_vm.approvedProjectsInput.apStartYear)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.approvedProjectsInput.apStartYear = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('span', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.errors.has('startYear')),
-      expression: "errors.has('startYear')"
-    }],
-    staticClass: "error-font"
-  }, [_vm._v("لطفا سال شروع پروژه را وارد کنید!")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-4 cell padding-lr"
-  }, [_c('label', [_vm._v("سال خاتمه\n                                    "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.approvedProjectsInput.apEndYear),
-      expression: "approvedProjectsInput.apEndYear"
-    }, {
-      name: "validate",
-      rawName: "v-validate",
-      value: ('required|numeric'),
-      expression: "'required|numeric'"
-    }],
-    staticClass: "form-element-margin-btm",
-    class: {
-      'input': true, 'error-border': _vm.errors.has('endYear')
-    },
-    attrs: {
-      "type": "text",
-      "name": "endYear"
-    },
-    domProps: {
-      "value": (_vm.approvedProjectsInput.apEndYear)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.approvedProjectsInput.apEndYear = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('span', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.errors.has('endYear')),
-      expression: "errors.has('endYear')"
-    }],
-    staticClass: "error-font"
-  }, [_vm._v("لطفا سال خاتمه پروژه را وارد کنید!")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-4 cell padding-lr"
-  }, [_c('label', [_vm._v(" پیشرفت فیزیکی"), _c('span', {
-    staticClass: "btn-red small-font"
-  }, [_vm._v(" (درصد) ")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.approvedProjectsInput.apPhysicalProgress),
-      expression: "approvedProjectsInput.apPhysicalProgress"
-    }, {
-      name: "validate",
-      rawName: "v-validate",
-      value: ('required|numeric'),
-      expression: "'required|numeric'"
-    }],
-    class: {
-      'input': true, 'error-border': _vm.errors.has('physicalProgress')
-    },
-    attrs: {
-      "type": "number",
-      "min": "0",
-      "max": "100",
-      "value": "0",
-      "name": "physicalProgress"
-    },
-    domProps: {
-      "value": (_vm.approvedProjectsInput.apPhysicalProgress)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.approvedProjectsInput.apPhysicalProgress = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "alert progress form-element-margin-btm",
-    staticStyle: {
-      "margin-top": "-16px",
-      "height": "2px"
-    }
-  }, [_c('div', {
-    staticClass: "progress-meter",
-    staticStyle: {
-      "width": "75%"
-    }
-  })])]), _vm._v(" "), _c('span', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.errors.has('physicalProgress')),
-      expression: "errors.has('physicalProgress')"
-    }],
-    staticClass: "error-font"
-  }, [_vm._v("لطفا پیشرفت فیزیکی را وارد کنید!")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-4 cell padding-lr"
-  }, [_c('label', [_vm._v("شهرستان\n                                    "), _c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.approvedProjectsInput.apCity),
-      expression: "approvedProjectsInput.apCity"
+      value: (_vm.costAgreementInput.date),
+      expression: "costAgreementInput.date"
     }, {
       name: "validate",
       rawName: "v-validate"
     }],
     staticClass: "form-element-margin-btm",
     class: {
-      'input': true, 'select-error': _vm.errors.has('city')
+      'input': true, 'select-error': _vm.errors.has('caLetterDate')
     },
     attrs: {
-      "disabled": _vm.countyState,
-      "selected": _vm.approvedProjectsInput.apCity,
-      "name": "city",
+      "type": "text",
+      "name": "caLetterDate",
       "data-vv-rules": "required"
     },
+    domProps: {
+      "value": (_vm.costAgreementInput.date)
+    },
     on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.approvedProjectsInput.apCity = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.costAgreementInput.date = $event.target.value
       }
     }
-  }, [_c('option', {
-    attrs: {
-      "value": ""
-    }
-  }), _vm._v(" "), _vm._l((_vm.counties), function(county) {
-    return _c('option', {
-      domProps: {
-        "value": county.id
-      }
-    }, [_vm._v(_vm._s(county.coName))])
-  })], 2), _vm._v(" "), _c('span', {
+  })]), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (_vm.errors.has('city')),
-      expression: "errors.has('city')"
+      value: (_vm.errors.has('caLetterDate')),
+      expression: "errors.has('caLetterDate')"
     }],
     staticClass: "error-font"
-  }, [_vm._v("لطفا شهرستان را انتخاب کنید!")])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("تاریخ فراموش شده است!")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 columns padding-lr"
+  }, [_c('label', [_vm._v("شماره مبادله\n                                "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.costAgreementInput.exIdNumber),
+      expression: "costAgreementInput.exIdNumber"
+    }, {
+      name: "validate",
+      rawName: "v-validate"
+    }],
+    staticClass: "form-element-margin-btm",
+    class: {
+      'input': true, 'select-error': _vm.errors.has('caExLetterNumber')
+    },
+    attrs: {
+      "type": "text",
+      "name": "caExLetterNumber",
+      "data-vv-rules": "required"
+    },
+    domProps: {
+      "value": (_vm.costAgreementInput.exIdNumber)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.costAgreementInput.exIdNumber = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('caExLetterNumber')),
+      expression: "errors.has('caExLetterNumber')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("شماره فراموش شده است!")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 columns padding-lr"
+  }, [_c('label', [_vm._v("تاریخ مبادله\n                                "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.costAgreementInput.exDate),
+      expression: "costAgreementInput.exDate"
+    }, {
+      name: "validate",
+      rawName: "v-validate"
+    }],
+    staticClass: "form-element-margin-btm",
+    class: {
+      'input': true, 'select-error': _vm.errors.has('caExLetterDate')
+    },
+    attrs: {
+      "type": "text",
+      "name": "caExLetterDate",
+      "data-vv-rules": "required"
+    },
+    domProps: {
+      "value": (_vm.costAgreementInput.exDate)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.costAgreementInput.exDate = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('caExLetterDate')),
+      expression: "errors.has('caExLetterDate')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("تاریخ فراموش شده است!")])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "small-12 columns padding-lr"
-  }, [_c('label', [_vm._v("شرح\n                                    "), _c('textarea', {
+  }, [_c('label', [_vm._v("شرح\n                                "), _c('textarea', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.approvedProjectsInput.apDescription),
-      expression: "approvedProjectsInput.apDescription"
+      value: (_vm.costAgreementInput.description),
+      expression: "costAgreementInput.description"
     }],
     staticStyle: {
       "min-height": "150px"
@@ -82454,12 +81935,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "name": "apDescription"
     },
     domProps: {
-      "value": (_vm.approvedProjectsInput.apDescription)
+      "value": (_vm.costAgreementInput.description)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.approvedProjectsInput.apDescription = $event.target.value
+        _vm.costAgreementInput.description = $event.target.value
       }
     }
   })])])]), _vm._v(" "), _c('div', {
@@ -82857,10 +82338,10 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": _vm.deleteTinySeason
     }
-  }, [_vm._v("بله")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showApCsInsertModal) ? _c('modal-small', {
+  }, [_vm._v("بله")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showCaCsInsertModal) ? _c('modal-small', {
     on: {
       "close": function($event) {
-        _vm.showApCsInsertModal = false
+        _vm.showCaCsInsertModal = false
       }
     }
   }, [_c('div', {
@@ -82872,7 +82353,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
-        _vm.createApprovedProjectCreditSource($event)
+        _vm.createCaCreditSource($event)
       }
     }
   }, [(_vm.errorMessage) ? _c('div', {
@@ -82885,16 +82366,65 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "BYekan login-alert"
   }, [_c('i', {
     staticClass: "fi-alert"
-  }), _vm._v("@" + _vm._s(_vm.errorMessage))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
+  }), _vm._v(_vm._s(_vm.errorMessage))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
-    staticClass: "medium-9 cell padding-lr"
+    staticClass: "medium-6 cell padding-lr"
+  }, [_c('label', [_vm._v("برنامه\n                                "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.caCreditSourceInput.cdtId),
+      expression: "caCreditSourceInput.cdtId"
+    }, {
+      name: "validate",
+      rawName: "v-validate"
+    }],
+    staticClass: "form-element-margin-btm",
+    class: {
+      'input': true, 'select-error': _vm.errors.has('howToRun')
+    },
+    attrs: {
+      "name": "cdTitle",
+      "data-vv-rules": "required"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.caCreditSourceInput.cdtId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.creditDistributionTitles), function(creditDistributionTitle) {
+    return _c('option', {
+      domProps: {
+        "value": creditDistributionTitle.id
+      }
+    }, [_vm._v(_vm._s(creditDistributionTitle.cdtIdNumber + ' - ' + creditDistributionTitle.cdtSubject + (creditDistributionTitle.county == null ? '' : ' - ' + creditDistributionTitle.county.coName)))])
+  })], 2), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('howToRun')),
+      expression: "errors.has('howToRun')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("لطفا عنوان برنامه را انتخاب کنید!")])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 cell padding-lr"
   }, [_c('label', [_vm._v("ردیف توزیع اعتبار\n                                "), _c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.apCreditSourceInput.crId),
-      expression: "apCreditSourceInput.crId"
+      value: (_vm.caCreditSourceInput.crId),
+      expression: "caCreditSourceInput.crId"
     }, {
       name: "validate",
       rawName: "v-validate"
@@ -82915,7 +82445,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           var val = "_value" in o ? o._value : o.value;
           return val
         });
-        _vm.apCreditSourceInput.crId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+        _vm.caCreditSourceInput.crId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
       }
     }
   }, [_c('option', {
@@ -82936,56 +82466,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       expression: "errors.has('row')"
     }],
     staticClass: "error-font"
-  }, [_vm._v("لطفا ردیف توزیع را انتخاب کنید!")])])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-3 cell padding-lr"
-  }, [_c('label', [_vm._v("نحوه اجرا\n                                "), _c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.apCreditSourceInput.htrId),
-      expression: "apCreditSourceInput.htrId"
-    }, {
-      name: "validate",
-      rawName: "v-validate"
-    }],
-    staticClass: "form-element-margin-btm",
-    class: {
-      'input': true, 'select-error': _vm.errors.has('howToRun')
-    },
-    attrs: {
-      "name": "howToRun",
-      "data-vv-rules": "required"
-    },
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.apCreditSourceInput.htrId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": ""
-    }
-  }), _vm._v(" "), _vm._l((_vm.howToRuns), function(howToRun) {
-    return _c('option', {
-      domProps: {
-        "value": howToRun.id
-      }
-    }, [_vm._v(_vm._s(howToRun.htrSubject))])
-  })], 2), _vm._v(" "), _c('span', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.errors.has('howToRun')),
-      expression: "errors.has('howToRun')"
-    }],
-    staticClass: "error-font"
-  }, [_vm._v("لطفا نحوه اجرا را انتخاب کنید!")])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("لطفا ردیف توزیع را انتخاب کنید!")])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-4 column padding-lr"
@@ -83093,8 +82574,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.apCreditSourceInput.tsId),
-      expression: "apCreditSourceInput.tsId"
+      value: (_vm.caCreditSourceInput.tsId),
+      expression: "caCreditSourceInput.tsId"
     }, {
       name: "validate",
       rawName: "v-validate"
@@ -83115,7 +82596,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           var val = "_value" in o ? o._value : o.value;
           return val
         });
-        _vm.apCreditSourceInput.tsId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+        _vm.caCreditSourceInput.tsId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
       }
     }
   }, [_c('option', {
@@ -83146,8 +82627,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.apCreditSourceInput.csAmount),
-      expression: "apCreditSourceInput.csAmount"
+      value: (_vm.caCreditSourceInput.amount),
+      expression: "caCreditSourceInput.amount"
     }, {
       name: "validate",
       rawName: "v-validate",
@@ -83163,12 +82644,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "name": "amount"
     },
     domProps: {
-      "value": (_vm.apCreditSourceInput.csAmount)
+      "value": (_vm.caCreditSourceInput.amount)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.apCreditSourceInput.csAmount = $event.target.value
+        _vm.caCreditSourceInput.amount = $event.target.value
       }
     }
   })]), _vm._v(" "), _c('span', {
@@ -83179,7 +82660,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       expression: "errors.has('amount')"
     }],
     staticClass: "error-font"
-  }, [_vm._v("لطفا مبلغ اعتبار پروژه را وارد کنید!")])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("لطفا مبلغ اعتبار را وارد کنید!")])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "small-12 columns padding-lr"
@@ -83187,8 +82668,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.apCreditSourceInput.csDescription),
-      expression: "apCreditSourceInput.csDescription"
+      value: (_vm.caCreditSourceInput.description),
+      expression: "caCreditSourceInput.description"
     }],
     staticStyle: {
       "min-height": "150px"
@@ -83197,12 +82678,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "name": "csDescription"
     },
     domProps: {
-      "value": (_vm.apCreditSourceInput.csDescription)
+      "value": (_vm.caCreditSourceInput.description)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.apCreditSourceInput.csDescription = $event.target.value
+        _vm.caCreditSourceInput.description = $event.target.value
       }
     }
   })])])]), _vm._v(" "), _c('div', {
@@ -83352,14 +82833,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "medium-2  table-border"
   }, [_c('strong', [_vm._v("شرح")])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', {
-    staticClass: "my-thead"
-  }, [_c('tr', {
-    staticStyle: {
-      "background-color": "#F1F1F1 !important"
-    }
-  }, [_c('th', [_vm._v("ردیف")]), _vm._v(" "), _c('th', [_vm._v("فصل")]), _vm._v(" "), _c('th', [_vm._v("عنوان فصل")]), _vm._v(" "), _c('th', [_vm._v("ریز فصل")]), _vm._v(" "), _c('th', [_vm._v("نحوه اجرا")]), _vm._v(" "), _c('th', [_vm._v("مبلغ")]), _vm._v(" "), _c('th', [_vm._v("توضیحات")])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
     attrs: {
@@ -83448,14 +82921,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }, [_c('strong', [_vm._v("اعتبار")])]), _vm._v(" "), _c('div', {
     staticClass: "medium-2  table-border"
   }, [_c('strong', [_vm._v("شرح")])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', {
-    staticClass: "my-thead"
-  }, [_c('tr', {
-    staticStyle: {
-      "background-color": "#F1F1F1 !important"
-    }
-  }, [_c('th', [_vm._v("ردیف")]), _vm._v(" "), _c('th', [_vm._v("فصل")]), _vm._v(" "), _c('th', [_vm._v("عنوان فصل")]), _vm._v(" "), _c('th', [_vm._v("ریز فصل")]), _vm._v(" "), _c('th', [_vm._v("نحوه اجرا")]), _vm._v(" "), _c('th', [_vm._v("مبلغ")]), _vm._v(" "), _c('th', [_vm._v("توضیحات")])])])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
@@ -83468,15 +82933,12 @@ if (false) {
 }
 
 /***/ }),
-/* 132 */,
-/* 133 */,
-/* 134 */,
-/* 135 */
+/* 132 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_capital_assets_vue__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_e7b158a4_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_capital_assets_vue__ = __webpack_require__(137);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_capital_assets_vue__ = __webpack_require__(133);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_e7b158a4_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_capital_assets_vue__ = __webpack_require__(134);
 var disposed = false
 var normalizeComponent = __webpack_require__(3)
 /* script */
@@ -83496,7 +82958,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Budget\\Allocation\\capital_assets.vue"
+Component.options.__file = "resources/assets/js/components/Budget/Allocation/capital_assets.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] capital_assets.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -83520,11 +82982,415 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 136 */
+/* 133 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__ = __webpack_require__(7);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -84067,6 +83933,7 @@ if (false) {(function () {
 
     created: function created() {
         this.fetchProvincialData();
+        this.fetchNationalData();
         this.getAllApprovedPlan(0); // 0 = provincial
     },
 
@@ -84076,7 +83943,7 @@ if (false) {(function () {
 
     mounted: function mounted() {
         console.log("mounted capital assets allocation component");
-        res();
+        //this.$parent.myResize();
     },
 
     components: {
@@ -84103,7 +83970,7 @@ if (false) {(function () {
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-            axios.get('/budget/allocation/register_of_credit_allocation_assets/fetchData?page=' + page, { params: { planOrCost: 0 } }).then(function (response) {
+            axios.get('/budget/allocation/capital_assets/fetchData?page=' + page, { params: { pOrN: 1 } }).then(function (response) {
                 _this2.natCapitalAssetsAllocations = response.data.data;
                 _this2.makePagination(response.data, "national");
                 console.log(response);
@@ -84156,6 +84023,27 @@ if (false) {(function () {
             });
         },
 
+        getProjectAllocationSum: function getProjectAllocationSum(creditSource) {
+            var sum = 0;
+            creditSource.forEach(function (cs) {
+                cs.allocation.forEach(function (alloc) {
+                    sum += alloc.caaAmount;
+                });
+            });
+
+            return sum;
+        },
+
+        getAllPlanRowCount: function getAllPlanRowCount(project) {
+            var count = 0;
+            project.forEach(function (cap) {
+                cap.credit_source.forEach(function (cs) {
+                    count += cs.allocation.length;
+                });
+            });
+            return count;
+        },
+
         openInsertModal: function openInsertModal(type) {
             this.provOrNat = type;
             this.getAllApprovedPlan(type);
@@ -84183,7 +84071,7 @@ if (false) {(function () {
                             _this7.makePagination(response.data, "national");
                         }
                         _this7.showModal = false;
-                        _this7.displayNotif(response.status);
+                        _this7.$parent.displayNotif(response.status);
                         console.log(response);
                     }, function (error) {
                         console.log(error);
@@ -84244,17 +84132,6 @@ if (false) {(function () {
                 });*/
         },
 
-        displayNotif: function displayNotif(httpStatusCode) {
-            switch (httpStatusCode) {
-                case 204:
-                    this.$notify({ group: 'allocationPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
-                    break;
-                case 200:
-                    this.$notify({ group: 'allocationPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
-                    break;
-            }
-        },
-
         makePagination: function makePagination(data, type) {
             if (type == "national") {
                 this.national_pagination.current_page = data.current_page;
@@ -84270,7 +84147,7 @@ if (false) {(function () {
 });
 
 /***/ }),
-/* 137 */
+/* 134 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -84328,113 +84205,85 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
   }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(4), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _c('div', {
-    staticClass: "columns"
+    staticClass: "tbl-div-container dynamic-height-level2"
   }, [_vm._m(7), _vm._v(" "), _c('div', {
-    staticClass: "table-contain dynamic-height-level2"
-  }, _vm._l((_vm.provCapitalAssetsAllocations), function(plans) {
-    return _c('div', {
-      staticClass: "grid-x"
-    }, [_c('div', {
-      staticClass: "medium-2 table-contain-border1 cell-vertical-center"
-    }, [_vm._v("\n                                            " + _vm._s(plans.credit_distribution_title.cdtIdNumber) + "\n                                        ")]), _vm._v(" "), _c('div', {
-      staticClass: "medium-10"
-    }, [_c('div', {
-      staticClass: "grid-x"
-    }, [_vm._l((plans.capital_assets_project), function(projects) {
-      return _c('div', {
-        staticClass: "medium-10 cell-vertical-center"
-      }, [_c('div', {
-        staticClass: "grid-x"
-      }, [_c('div', {
-        staticClass: "medium-3 table-contain-border cell-vertical-center"
-      }, [_vm._v("\n                                                            " + _vm._s(projects.cpCode) + "\n                                                        ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-9"
-      }, _vm._l((projects.credit_source), function(credit_source) {
-        return _c('div', {
-          staticClass: "grid-x"
-        }, [_c('div', {
-          staticClass: "medium-4 table-contain-border cell-vertical-center"
-        }, [_vm._v("\n                                                                    " + _vm._s(credit_source.credit_distribution_row.cdSubject) + "\n                                                                ")]), _vm._v(" "), _c('div', {
-          staticClass: "medium-8"
-        }, _vm._l((credit_source.allocation), function(alloc) {
-          return _c('div', {
-            staticClass: "grid-x"
-          }, [_c('div', {
-            staticClass: "medium-4 table-contain-border cell-vertical-center"
-          }, [_vm._v("\n                                                                            " + _vm._s(alloc.caaLetterNumber) + "\n                                                                        ")]), _vm._v(" "), _c('div', {
-            staticClass: "medium-4 table-contain-border cell-vertical-center"
-          }, [_vm._v("\n                                                                            " + _vm._s(alloc.caaLetterDate) + "\n                                                                        ")]), _vm._v(" "), _c('div', {
-            staticClass: "medium-4  table-contain-border cell-vertical-center"
-          }, [_vm._v("\n                                                                            " + _vm._s(_vm.$parent.calcDispAmount(alloc.caaAmount, false)) + "\n                                                                        ")])])
-        }))])
-      }))])])
-    }), _vm._v(" "), _c('div', {
-      staticClass: "medium-2 table-contain-border1 cell-vertical-center",
-      staticStyle: {
-        "border-right": "1px solid #C7CDD1"
-      }
-    }, [_c('div', {
-      staticClass: "grid-x"
-    }, [_c('div', {
-      staticClass: "medium-11"
-    }, [_vm._v("\n                                                            " + _vm._s() + "\n                                                        ")]), _vm._v(" "), _c('div', {
-      staticClass: "medium-1 cell-vertical-center text-left"
-    }, [_c('a', {
-      staticClass: "dropdown small sm-btn-align",
-      attrs: {
-        "type": "button",
-        "data-toggle": 'rocaaRegisterOfCreditAllocationAssets'
-      }
-    }, [_c('i', {
-      staticClass: "fa fa-ellipsis-v size-18"
-    })]), _vm._v(" "), _c('div', {
-      staticClass: "dropdown-pane dropdown-pane-sm ",
-      attrs: {
-        "data-close-on-click": "true",
-        "data-hover": "true",
-        "data-hover-pane": "true",
-        "data-position": "bottom",
-        "data-alignment": "right",
-        "id": 'rocaaRegisterOfCreditAllocationAssets',
-        "data-dropdown": "",
-        "data-auto-focus": "true"
-      }
-    }, [_c('ul', {
-      staticClass: "my-menu small-font text-right"
-    }, [_c('li', [_c('a', {
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.registerOfCreditAllocationAssetsUpdateDialog(_vm.alloc, 1)
-        }
-      }
-    }, [_c('i', {
-      staticClass: "fi-pencil size-16"
-    }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.openDeleteRegisterOfCreditAllocationAssetsConfirm(_vm.alloc)
-        }
-      }
-    }, [_c('i', {
-      staticClass: "fi-trash size-16"
-    }), _vm._v("  حذف")])])])])])])])], 2)])])
-  })), _vm._v(" "), _c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-12"
-  }, [_c('vue-pagination', {
-    attrs: {
-      "pagination": _vm.provincial_pagination,
-      "offset": 4
-    },
-    nativeOn: {
-      "click": function($event) {
-        _vm.fetchProvincialData(_vm.provincial_pagination.current_page)
-      }
+    staticClass: "tbl-div-container"
+  }, [_c('table', {
+    staticClass: "tbl-body-contain",
+    staticStyle: {
+      "margin-bottom": "100px"
     }
-  })], 1)])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._m(8), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style-cell"
+  }, [
+    [_c('tr', {
+      staticClass: "tbl-head-style-cell"
+    }, [_c('td', {
+      attrs: {
+        "rowspan": 8 + 4
+      }
+    }, [_vm._v("1")]), _vm._v(" "), _c('td', {
+      attrs: {
+        "rowspan": 4 + 2
+      }
+    }, [_vm._v("2")]), _vm._v(" "), _c('td', {
+      attrs: {
+        "rowspan": 4 + 2
+      }
+    }, [_vm._v("31")]), _vm._v(" "), _c('td', {
+      attrs: {
+        "rowspan": 2 + 1
+      }
+    }, [_vm._v("4")]), _vm._v(" "), _c('td', {
+      staticClass: "display-off"
+    }, [_vm._v("5")]), _vm._v(" "), _c('td', {
+      staticClass: "display-off"
+    }, [_vm._v("6")]), _vm._v(" "), _c('td', {
+      staticClass: "display-off"
+    }, [_vm._v("7")])]), _vm._v(" "), _vm._m(9), _vm._v(" "), _vm._m(10), _vm._v(" "), _c('tr', {
+      staticClass: "tbl-head-style-cell"
+    }, [_c('td', {
+      attrs: {
+        "rowspan": 2 + 1
+      }
+    }, [_vm._v("3")]), _vm._v(" "), _c('td', {
+      staticClass: "display-off"
+    }, [_vm._v("4")]), _vm._v(" "), _c('td', {
+      staticClass: "display-off"
+    }, [_vm._v("5")]), _vm._v(" "), _c('td', {
+      staticClass: "display-off"
+    }, [_vm._v("6")])]), _vm._v(" "), _vm._m(11), _vm._v(" "), _vm._m(12), _vm._v(" "), _c('tr', {
+      staticClass: "tbl-head-style-cell"
+    }, [_c('td', {
+      attrs: {
+        "rowspan": 4 + 2
+      }
+    }, [_vm._v("3")]), _vm._v(" "), _c('td', {
+      attrs: {
+        "rowspan": 4 + 2
+      }
+    }, [_vm._v("41")]), _vm._v(" "), _c('td', {
+      attrs: {
+        "rowspan": 2 + 1
+      }
+    }, [_vm._v("5")]), _vm._v(" "), _c('td', {
+      staticClass: "display-off"
+    }, [_vm._v("5")]), _vm._v(" "), _c('td', {
+      staticClass: "display-off"
+    }, [_vm._v("5")])]), _vm._v(" "), _vm._m(13), _vm._v(" "), _vm._m(14), _vm._v(" "), _c('tr', {
+      staticClass: "tbl-head-style-cell"
+    }, [_c('td', {
+      attrs: {
+        "rowspan": 2 + 1
+      }
+    }, [_vm._v("3")]), _vm._v(" "), _c('td', {
+      staticClass: "display-off"
+    }, [_vm._v("4")]), _vm._v(" "), _c('td', {
+      staticClass: "display-off"
+    }, [_vm._v("5")]), _vm._v(" "), _c('td', {
+      staticClass: "display-off"
+    }, [_vm._v("6")])]), _vm._v(" "), _vm._m(15), _vm._v(" "), _vm._m(16)]
+  ], 2)])])])])]), _vm._v(" "), _c('div', {
     staticClass: "tabs-panel table-mrg-btm",
     attrs: {
       "id": "provincial",
@@ -84458,97 +84307,96 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(8), _vm._v(" "), _vm._m(9)]), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(17), _vm._v(" "), _vm._m(18)]), _vm._v(" "), _vm._m(19)]), _vm._v(" "), _c('div', {
     staticClass: "columns"
-  }, [_vm._m(11), _vm._v(" "), _c('div', {
+  }, [_vm._m(20), _vm._v(" "), _c('div', {
     staticClass: "table-contain dynamic-height-level2"
-  }, _vm._l((_vm.registerOfCreditAllocationAssets), function(plans) {
+  }, _vm._l((_vm.natCapitalAssetsAllocations), function(plans) {
     return _c('div', {
-      staticClass: "grid-x row-bottom-border"
+      staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-2 table-contain-border1 cell-vertical-center"
-    }, [_vm._v("\n                                            @" + _vm._s(plans.credit_distribution_title.cdtIdNumber) + "\n                                        ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                            " + _vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject) + "\n                                        ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-10"
-    }, [_c('div', {
-      staticClass: "grid-x"
-    }, [_vm._l((plans.capital_assets_project), function(projects) {
+    }, _vm._l((plans.capital_assets_project), function(projects) {
       return _c('div', {
-        staticClass: "medium-10 table-contain-border cell-vertical-center"
-      }, [_c('div', {
         staticClass: "grid-x"
       }, [_c('div', {
-        staticClass: "medium-3"
-      }, [_vm._v("\n                                                            @" + _vm._s(projects.cpCode) + "\n                                                        ")]), _vm._v(" "), _c('div', {
+        staticClass: "medium-2 table-contain-border cell-vertical-center"
+      }, [_vm._v("\n                                                    " + _vm._s(projects.cpCode + ' - ' + projects.cpSubject) + "\n                                                ")]), _vm._v(" "), _c('div', {
+        staticClass: "medium-1 table-contain-border cell-vertical-center"
+      }, [_vm._v("\n                                                    " + _vm._s(_vm.$parent.calcDispAmount(_vm.getProjectAllocationSum(projects.credit_source), false)) + "\n                                                ")]), _vm._v(" "), _c('div', {
         staticClass: "medium-9"
-      }, _vm._l((projects.cdr_cp), function(cdrCp) {
+      }, _vm._l((projects.credit_source), function(credit_source) {
         return _c('div', {
           staticClass: "grid-x"
         }, [_c('div', {
-          staticClass: "medium-6 table-contain-border cell-vertical-center"
-        }, [_vm._v("\n                                                                    @" + _vm._s(cdrCp.credit_distribution_row.cdSubject) + "                                 سه درصدنفت وگاز\n                                                                ")]), _vm._v(" "), _c('div', {
-          staticClass: "medium-6 table-contain-border cell-vertical-center"
-        }, [_c('div', {
-          staticClass: "grid-x"
-        }, [_c('div', {
           staticClass: "medium-2 table-contain-border cell-vertical-center"
-        }, [_vm._v("\n                                                                            @" + _vm._s(_vm.registerOfCreditAllocationAssets.rocaaNumber) + "\n                                                                        ")]), _vm._v(" "), _c('div', {
+        }, [_vm._v("\n                                                            " + _vm._s(credit_source.credit_distribution_row.cdSubject) + "\n                                                        ")]), _vm._v(" "), _c('div', {
+          staticClass: "medium-1 table-contain-border cell-vertical-center"
+        }, [_vm._v("\n                                                            " + _vm._s(credit_source.how_to_run.htrSubject) + "\n                                                        ")]), _vm._v(" "), _c('div', {
+          staticClass: "medium-1 table-contain-border cell-vertical-center"
+        }, [_vm._v("\n                                                            " + _vm._s(credit_source.tiny_season.season_title.season.sSubject) + "\n                                                        ")]), _vm._v(" "), _c('div', {
           staticClass: "medium-2 table-contain-border cell-vertical-center"
-        }, [_vm._v("\n                                                                            @" + _vm._s(_vm.registerOfCreditAllocationAssets.rocaaDate) + "\n                                                                        ")]), _vm._v(" "), _c('div', {
-          staticClass: "medium-2  table-contain-border cell-vertical-center"
-        }, [_vm._v("\n                                                                            123456\n                                                                        ")])])])])
-      }))])])
-    }), _vm._v(" "), _c('div', {
-      staticClass: "medium-2 table-contain-border1 cell-vertical-center",
-      staticStyle: {
-        "border-right": "1px solid #C7CDD1"
-      }
-    }, [_c('div', {
-      staticClass: "grid-x"
-    }, [_c('div', {
-      staticClass: "medium-11"
-    }, [_vm._v("\n                                                            @" + _vm._s() + "\n                                                        ")]), _vm._v(" "), _c('div', {
-      staticClass: "medium-1 cell-vertical-center text-left"
-    }, [_c('a', {
-      staticClass: "dropdown small sm-btn-align",
-      attrs: {
-        "type": "button",
-        "data-toggle": 'rocaaRegisterOfCreditAllocationAssets' + _vm.registerOfCreditAllocationAssets.id
-      }
-    }, [_c('i', {
-      staticClass: "fa fa-ellipsis-v size-18"
-    })]), _vm._v(" "), _c('div', {
-      staticClass: "dropdown-pane dropdown-pane-sm ",
-      attrs: {
-        "data-close-on-click": "true",
-        "data-hover": "true",
-        "data-hover-pane": "true",
-        "data-position": "bottom",
-        "data-alignment": "right",
-        "id": 'rocaaRegisterOfCreditAllocationAssets' + _vm.registerOfCreditAllocationAssets.id,
-        "data-dropdown": "",
-        "data-auto-focus": "true"
-      }
-    }, [_c('ul', {
-      staticClass: "my-menu small-font text-right"
-    }, [_c('li', [_c('a', {
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.registerOfCreditAllocationAssetsUpdateDialog(_vm.tinySeason, 1)
-        }
-      }
-    }, [_c('i', {
-      staticClass: "fi-pencil size-16"
-    }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.openDeleteRegisterOfCreditAllocationAssetsConfirm(_vm.registerOfCreditAllocationAssets)
-        }
-      }
-    }, [_c('i', {
-      staticClass: "fi-trash size-16"
-    }), _vm._v("  حذف")])])])])])])])], 2)])])
+        }, [_vm._v("\n                                                            " + _vm._s(credit_source.tiny_season.season_title.castSubject) + "\n                                                        ")]), _vm._v(" "), _c('div', {
+          staticClass: "medium-3 table-contain-border cell-vertical-center"
+        }, [_vm._v("\n                                                            " + _vm._s(credit_source.tiny_season.catsSubject) + "\n                                                        ")]), _vm._v(" "), _c('div', {
+          staticClass: "medium-3"
+        }, _vm._l((credit_source.allocation), function(alloc) {
+          return _c('div', {
+            staticClass: "grid-x"
+          }, [_c('div', {
+            staticClass: "medium-12  table-contain-border"
+          }, [_c('div', {
+            staticClass: "grid-x"
+          }, [_c('div', {
+            staticClass: "medium-10"
+          }, [_vm._v("\n                                                                            " + _vm._s(_vm.$parent.calcDispAmount(alloc.caaAmount, false)) + "\n                                                                        ")]), _vm._v(" "), _c('div', {
+            staticClass: "medium-2 cell-vertical-center text-left"
+          }, [_c('a', {
+            staticClass: "dropdown small sm-btn-align",
+            attrs: {
+              "type": "button",
+              "data-toggle": 'rocaaRegisterOfCreditAllocationAssets' + alloc.id
+            }
+          }, [_c('i', {
+            staticClass: "fa fa-ellipsis-v size-18"
+          })]), _vm._v(" "), _c('div', {
+            staticClass: "dropdown-pane dropdown-pane-sm ",
+            attrs: {
+              "data-close-on-click": "true",
+              "data-hover": "true",
+              "data-hover-pane": "true",
+              "data-position": "bottom",
+              "data-alignment": "right",
+              "id": 'rocaaRegisterOfCreditAllocationAssets' + alloc.id,
+              "data-dropdown": "",
+              "data-auto-focus": "true"
+            }
+          }, [_c('ul', {
+            staticClass: "my-menu small-font text-right"
+          }, [_c('li', [_c('a', {
+            on: {
+              "click": function($event) {
+                $event.preventDefault();
+                _vm.registerOfCreditAllocationAssetsUpdateDialog(alloc, 1)
+              }
+            }
+          }, [_c('i', {
+            staticClass: "fi-pencil size-16"
+          }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+            on: {
+              "click": function($event) {
+                $event.preventDefault();
+                _vm.openDeleteRegisterOfCreditAllocationAssetsConfirm(alloc)
+              }
+            }
+          }, [_c('i', {
+            staticClass: "fi-trash size-16"
+          }), _vm._v("  حذف")])])])])])])])])
+        }))])
+      }))])
+    }))])
   })), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
@@ -84563,14 +84411,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchNationalData(_vm.national_pagination.current_page)
       }
     }
-  })], 1)])])])]), _vm._v(" "), _c('notifications', {
-    attrs: {
-      "group": "allocationPm",
-      "position": "bottom right",
-      "animation-type": "velocity",
-      "speed": 700
-    }
-  })], 1), _vm._v(" "), (_vm.showModal) ? _c('modal-large', {
+  })], 1)])])])])]), _vm._v(" "), (_vm.showModal) ? _c('modal-small', {
     attrs: {
       "xmlns:v-on": "http://www.w3.org/1999/xhtml"
     },
@@ -84604,7 +84445,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }), _vm._v(_vm._s(_vm.errorMessage))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
-    staticClass: "medium-2 padding-lr"
+    staticClass: "medium-4 padding-lr"
   }, [_c('label', [_vm._v("شماره نامه\n                                        "), _c('input', {
     directives: [{
       name: "model",
@@ -84627,7 +84468,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }
   })])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 padding-lr"
+    staticClass: "medium-4 padding-lr"
   }, [_c('label', [_vm._v("تاریخ نامه\n                                        "), _c('input', {
     directives: [{
       name: "model",
@@ -84847,24 +84688,25 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       value: (_vm.creditSourceInfo.approvedAmount),
       expression: "creditSourceInfo.approvedAmount"
     }],
-    staticClass: "grid-x padding-lr",
+    staticClass: "grid-x",
     staticStyle: {
-      "margin-top": "15px"
+      "margin-top": "5px",
+      "margin-bottom": "10px"
     }
   }, [_c('div', {
     staticClass: "medium-12 my-callout-bg-color"
   }, [_c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
-    staticClass: "medium-4"
+    staticClass: "medium-12"
   }, [_c('span', {
     staticClass: "btn-red"
   }, [_vm._v("اعتبار مصوب:")]), _c('span', [_vm._v(_vm._s(' ' + _vm.$parent.calcDispAmount(_vm.creditSourceInfo.approvedAmount)))])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-4"
+    staticClass: "medium-12"
   }, [_c('span', {
     staticClass: "btn-red"
   }, [_vm._v("آخرین تخصیص:")]), _c('span', [_vm._v(_vm._s(' ' + _vm.$parent.calcDispAmount(_vm.creditSourceInfo.sumAllocation)))])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-4"
+    staticClass: "medium-12"
   }, [_c('span', {
     staticClass: "btn-red"
   }, [_vm._v("درصدآخرین تخصیص:")]), _c('span', [_vm._v(_vm._s(' ' + _vm.$parent.calcPrecent(_vm.creditSourceInfo.approvedAmount, _vm.creditSourceInfo.sumAllocation)))])])])])]), _vm._v(" "), _c('div', {
@@ -85011,39 +84853,123 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "fi-magnifying-glass"
   })])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "grid-x table-header"
-  }, [_c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("طرح")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-10"
-  }, [_c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-10"
-  }, [_c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-3 table-border"
-  }, [_c('strong', [_vm._v("پروژه")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-9"
-  }, [_c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-6 table-border"
-  }, [_c('strong', [_vm._v("ردیف اعتبار")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-6"
-  }, [_c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-4 table-border"
-  }, [_c('strong', [_vm._v("شماره")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-4 table-border"
-  }, [_c('strong', [_vm._v("تاریخ")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-4 table-border"
-  }, [_c('strong', [_vm._v("مبلغ")])])])])])])])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("سرجمع")])])])])])
+  return _c('table', {
+    staticClass: "tbl-head"
+  }, [_c('colgroup', [_c('col', {
+    attrs: {
+      "width": "200px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "12px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style"
+  }, [_c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("طرح")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("پروژه")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("سرجمع")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("ردیف اعتبار")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شماره")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("تاریخ")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("مبلغ")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  })])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('colgroup', [_c('col', {
+    attrs: {
+      "width": "200px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  })])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('td', [_vm._v("2")]), _vm._v(" "), _c('td', [_vm._v("2")]), _vm._v(" "), _c('td', [_vm._v("4")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('td', [_vm._v("2")]), _vm._v(" "), _c('td', [_vm._v("2")]), _vm._v(" "), _c('td', [_vm._v("4")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('td', [_vm._v("4")]), _vm._v(" "), _c('td', [_vm._v("4")]), _vm._v(" "), _c('td', [_vm._v("5")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('td', [_vm._v("4")]), _vm._v(" "), _c('td', [_vm._v("4")]), _vm._v(" "), _c('td', [_vm._v("5")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('td', [_vm._v("3")]), _vm._v(" "), _c('td', [_vm._v("4")]), _vm._v(" "), _c('td', [_vm._v("5")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('td', [_vm._v("3")]), _vm._v(" "), _c('td', [_vm._v("4")]), _vm._v(" "), _c('td', [_vm._v("5")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('td', [_vm._v("3")]), _vm._v(" "), _c('td', [_vm._v("4")]), _vm._v(" "), _c('td', [_vm._v("5")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('td', [_vm._v("3")]), _vm._v(" "), _c('td', [_vm._v("4")]), _vm._v(" "), _c('td', [_vm._v("5")])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
@@ -85129,20 +85055,28 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }, [_c('div', {
     staticClass: "medium-2 table-border"
   }, [_c('strong', [_vm._v("پروژه")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-8"
+    staticClass: "medium-1 table-border"
+  }, [_c('strong', [_vm._v("سرجمع")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-9"
   }, [_c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
-    staticClass: "medium-6 table-border"
+    staticClass: "medium-2 table-border"
   }, [_c('strong', [_vm._v("ردیف اعتبار")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("شماره")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("تاریخ")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2  table-border"
-  }, [_c('strong', [_vm._v("مبلغ")])])])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("سرجمع")])])])])])
+    staticClass: "medium-1 table-border"
+  }, [_c('strong', [_vm._v("اجرا")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-1 table-border"
+  }, [_c('strong', [_vm._v("فصل")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-3 table-border"
+  }, [_c('strong', [_vm._v("عنوان فصل")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-3 table-border"
+  }, [_c('strong', [_vm._v("ریز فصل")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-2"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 table-border"
+  }, [_c('strong', [_vm._v("مبلغ")])])])])])])])])])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }

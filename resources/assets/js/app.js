@@ -13,7 +13,6 @@ import velocity      from 'velocity-animate'
 import VeeValidate from 'vee-validate'
 import VueProgressBar from 'vue-progressbar'
 
-
 window.Vue.use(VeeValidate);
 window.Vue.use(Notifications , {velocity});
 window.Vue.use(VueProgressBar, {
@@ -46,7 +45,6 @@ Vue.component('modal-login', {template: '#modal-login-template'});
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
 require('./router');
 /*const app = new Vue({
     el: '#app',

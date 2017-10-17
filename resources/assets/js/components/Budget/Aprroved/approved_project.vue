@@ -87,29 +87,29 @@
                                 <!--Header End-->
                                 <div class="table-contain dynamic-height-level2">
                                     <div class="grid-x" v-for="plans in approvedProjects_prov">
-                                        <div class="medium-2 table-contain-border cell-vertical-center">
+                                        <div class="medium-2 cell-height table-contain-border cell-vertical-center">
                                             {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' - ' + plans.credit_distribution_title.county.coName }}
                                         </div>
-                                        <div class="medium-10">
+                                        <div class="medium-10 cell-height">
                                             <div class="grid-x" v-for="projects in plans.capital_assets_project">
-                                                <div class="medium-1 table-contain-border cell-vertical-center">
+                                                <div class="medium-1 cell-height table-contain-border cell-vertical-center">
                                                     {{ projects.cpCode }}
                                                 </div>
-                                                <div class="medium-3 table-contain-border cell-vertical-center">
+                                                <div class="medium-3 cell-height table-contain-border cell-vertical-center">
                                                     {{ projects.cpSubject }}
                                                 </div>
-                                                <div class="medium-2 table-contain-border cell-vertical-center">
+                                                <div class="medium-2 cell-height table-contain-border cell-vertical-center">
                                                     {{ projects.county.coName }}
                                                 </div>
-                                                <div class="medium-2 table-contain-border cell-vertical-center">
+                                                <div class="medium-2 cell-height table-contain-border cell-vertical-center">
                                                     <span @click="displayCreditSourceInfo_prov == projects.id ? displayCreditSourceInfo_prov = '' : displayCreditSourceInfo_prov = projects.id">{{ $parent.calcDispAmount(sumOfAmount(projects.credit_source) , false) }}</span>
                                                 </div>
-                                                <div class="medium-4  table-contain-border cell-vertical-center">
+                                                <div class="medium-4 cell-height  table-contain-border cell-vertical-center">
                                                     <div class="grid-x">
-                                                        <div class="medium-11">
+                                                        <div class="medium-11 cell-height">
                                                             {{ projects.cpDescription }}
                                                         </div>
-                                                        <div class="medium-1 cell-vertical-center text-left">
+                                                        <div class="medium-1 cell-height cell-vertical-center text-left">
                                                             <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'apApprovedProjects' + projects.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'apApprovedProjects' + projects.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
@@ -241,7 +241,7 @@
                                                     {{ projects.county.coName }}
                                                 </div>
                                                 <div class="medium-2 table-contain-border cell-vertical-center">
-                                                    <span @click="displayCreditSourceInfo_nat == projects.id ? displayCreditSourceInfo_nat = '' : displayCreditSourceInfo_nat = projects.id">123</span>
+                                                    <span @click="displayCreditSourceInfo_nat == projects.id ? displayCreditSourceInfo_nat = '' : displayCreditSourceInfo_nat = projects.id">{{ $parent.calcDispAmount(sumOfAmount(projects.credit_source) , false) }}</span>
                                                 </div>
                                                 <div class="medium-4  table-contain-border cell-vertical-center">
                                                     <div class="grid-x">
@@ -307,11 +307,6 @@
                     </div>
                 </div>
             </div>
-            <notifications group="aprrovedProjectPm"
-                           position="bottom right"
-                           animation-type="velocity"
-                           :speed="700" />
-
             <!--Forms Start-->
             <!--Insert Modal Start-->
             <!-- use the modal component, pass in the prop -->
@@ -347,19 +342,19 @@
                                     <label>کد پروژه
                                         <input class="form-element-margin-btm" type="text" name="projectCode" v-model="approvedProjectsInput.apProjectCode" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('projectCode')}">
                                     </label>
-                                    <span v-show="errors.has('projectTitle')" class="error-font">لطفا کد پروژه انتخاب کنید!</span>
+                                    <span v-show="errors.has('projectCode')" class="error-font">لطفا کد پروژه انتخاب کنید!</span>
                                 </div>
                             </div>
                             <div class="grid-x">
                                 <div class="medium-4 cell padding-lr">
                                     <label>سال شروع
-                                        <input class="form-element-margin-btm" type="text" name="startYear" v-model="approvedProjectsInput.apStartYear" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('startYear')}">
+                                        <input class="form-element-margin-btm datePickerClass" type="text" name="startYear" v-model="approvedProjectsInput.apStartYear" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('startYear')}">
                                     </label>
                                     <span v-show="errors.has('startYear')" class="error-font">لطفا سال شروع پروژه را وارد کنید!</span>
                                 </div>
                                 <div class="medium-4 cell padding-lr">
                                     <label>سال خاتمه
-                                        <input class="form-element-margin-btm" type="text" name="endYear" v-model="approvedProjectsInput.apEndYear" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('endYear')}">
+                                        <input class="form-element-margin-btm datePickerClass" type="text" name="endYear" v-model="approvedProjectsInput.apEndYear" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('endYear')}">
                                     </label>
                                     <span v-show="errors.has('endYear')" class="error-font">لطفا سال خاتمه پروژه را وارد کنید!</span>
                                 </div>
@@ -367,7 +362,7 @@
                                     <label> پیشرفت فیزیکی<span class="btn-red small-font"> (درصد) </span>
                                         <input  type="number" min="0" max="100" value="0" name="physicalProgress" v-model="approvedProjectsInput.apPhysicalProgress" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
                                         <div style="margin-top: -16px;height:2px;" class="alert progress form-element-margin-btm">
-                                            <div class="progress-meter" style="width: 75%"></div>
+                                            <div class="progress-meter" style="width: 100%"></div>
                                         </div>
                                     </label>
                                     <span v-show="errors.has('physicalProgress')" class="error-font">لطفا پیشرفت فیزیکی را وارد کنید!</span>
@@ -634,6 +629,7 @@
         created: function () {
             this.fetchProvincialData();
             this.fetchNationalData();
+            //
         },
 
         updated: function () {
@@ -642,7 +638,8 @@
 
         mounted: function () {
             console.log("mounted approved project component");
-            res();
+            this.$parent.myResize();
+
         },
 
         components:{
@@ -798,12 +795,12 @@
                                     this.makePagination(response.data , "national");
                                 }
                                 this.showInsertModal = false;
-                                this.displayNotif(response.status);
+                                this.$parent.displayNotif(response.status);
                                 console.log(response);
                             },(error) => {
                                 console.log(error);
                                 //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                            });
+                        });
                     }
                 });
             },
@@ -831,7 +828,7 @@
                                 this.makePagination(response.data , "national");
                             }
                             this.showApCsInsertModal = false;
-                            this.displayNotif(response.status);
+                            this.$parent.displayNotif(response.status);
                             console.log(response);
                         },(error) => {
                             console.log(error);
@@ -920,17 +917,6 @@
                         console.log(error);
                         this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                     });*/
-            },
-
-            displayNotif: function (httpStatusCode) {
-                switch (httpStatusCode){
-                    case 204:
-                        this.$notify({group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
-                        break;
-                    case 200:
-                        this.$notify({group: 'aprrovedProjectPm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.' , type: 'success'});
-                        break;
-                }
             },
 
             makePagination: function(data , type){

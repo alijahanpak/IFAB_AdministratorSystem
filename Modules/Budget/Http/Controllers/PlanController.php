@@ -11,8 +11,10 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use Modules\Admin\Entities\AmountUnit;
 use Modules\Admin\Entities\SystemLog;
+use Modules\Budget\Entities\CaCreditSource;
 use Modules\Budget\Entities\CapitalAssetsApprovedPlan;
 use Modules\Budget\Entities\CdrCap;
+use Modules\Budget\Entities\CostAgreement;
 use Modules\Budget\Entities\CreditDistributionRow;
 
 class PlanController extends Controller
@@ -141,5 +143,56 @@ class PlanController extends Controller
                 ->with('creditDistributionTitle.county')
                 ->get());
         }*/
+    }
+
+    /////////////////////////////// cost ////////////////////////////////////////////
+    public function getAllCostAgreemrent($pOrN)
+    {
+        return CostAgreement::where('caFyId' , '=' , Auth::user()->seFiscalYear)
+            ->where('caProvinceOrNational' , '=' , $pOrN)
+            ->with('caCreditSource')
+            ->paginate(5);
+    }
+
+    public function fetchCostAgreementData(Request $request)
+    {
+        return \response()->json(
+            $this->getAllCostAgreemrent($request->pOrN)
+        );
+    }
+
+    public function registerCostAgreement(Request $request)
+    {
+        $ca = new CostAgreement;
+        $ca->caUId = Auth::user()->id;
+        $ca->caFyId = Auth::user()->seFiscalYear;
+        $ca->caProvinceOrNational = $request->pOrN;
+        $ca->caLetterNumber = $request->idNumber;
+        $ca->caLetterDate = $request->date;
+        $ca->caExchangeIdNumber = $request->exIdNumber;
+        $ca->caExchangeDate = $request->exDate;
+        $ca->caDescription = $request->description;
+        $ca->save();
+
+        SystemLog::setBudgetSubSystemLog('ثبت موافقت نامه هزینه ای ');
+        return \response()->json($this->getAllCostAgreemrent($request->pOrN));
+    }
+
+    public function registerCaCreditSource(Request $request)
+    {
+        $caCs = new CaCreditSource;
+        $caCs->ccsUId = Auth::user()->id;
+        $caCs->ccsCaId = $request->caId;
+        $caCs->ccsCdrId = $request->crId;
+        $caCs->ccsTsId = $request->tsId;
+        $caCs->ccsCdtId = $request->cdtId;
+        $caCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
+        $caCs->ccsDescription = $request->description;
+        $caCs->save();
+
+        SystemLog::setBudgetSubSystemLog('ثبت تامین اعتبار هزینه ای ' . $request->subject);
+        return \response()->json(
+            $this->getAllCostAgreemrent($request->pOrN)
+        );
     }
 }

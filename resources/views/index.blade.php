@@ -33,9 +33,6 @@
     </div>
     <!--chart1 Modal End-->
     <div id="container">
-
-
-
         <!--Modal Login Start-->
         <modal-login v-if="showModalLogin" @close="showModalLogin = false">
         <div slot="body">
@@ -102,26 +99,18 @@
                             <li>
                                 <a class="right-menu-btm-border" href="#">توزیع اعتبار</a>
                                 <ul class="menu vertical nested">
-                                    <li><a href="#">هزینه ای</a>
-                                        <ul class="menu vertical nested">
-                                            <li><a href="#">استانی</a></li>
-                                            <li><a href="#">ملی</a></li>
-                                        </ul>
-                                    </li>
                                     <li><a href="#">تملک دارایی سرمایه ای</a>
                                         <ul class="menu vertical nested">
                                             <li><a href="#">استانی</a>
                                                 <ul class="menu vertical nested">
-                                                    <li><a href="{{ url('/budget/credit_distribution/capital_assets/provincial/plans') }}">طرح های توزیع اعتبار</a></li>
-                                                    <li><a href="{{ url('/budget/credit_distribution/capital_assets/provincial/proposal') }}">پیشنهاد دستگاه</a></li>
+                                                    <li><a href="">طرح های توزیع اعتبار</a></li>
+                                                    <li><a href="">پیشنهاد دستگاه</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="#">ملی</a></li>
                                         </ul>
                                     </li>
                                 </ul>
                             </li>
-
                             <li>
                                 <a class="right-mp right-menu-btm-border" href="#">  موافقتنامه</a>
                                 <ul class="menu vertical nested">
@@ -172,8 +161,6 @@
                     </nav>
                 </div>
             </div>
-
-
             <div class="medium-10 main-margin my-callout-box">
                 <!--Top Menu Start-->
                 <div style="z-index: 999;" data-sticky-container>
@@ -256,9 +243,6 @@
                 </div>
                 <!--Top Menu End-->
             </div>
-
-
-
             <router-view></router-view>
             <!-- set progressbar -->
             <vue-progress-bar></vue-progress-bar>
@@ -275,6 +259,9 @@
                 </div>
             </div>
         </div>
+        <notifications position="bottom right"
+                       animation-type="velocity"
+                       :speed="700" />
     </div>
     <script type="text/x-template" id="modal-tiny-template">
         <transition name="modal-tiny">
@@ -361,9 +348,10 @@
     <script src="{{ asset('js/vendor/jquery.js') }}"></script>
     <script src="{{ asset('js/vendor/what-input.js') }}"></script>
     <script src="{{ asset('js/vendor/foundation.js') }}"></script>
-    <script src="{{ asset('js/persian-date.min.js') }}"></script>
-    <script src="{{ asset('js/persian-datepicker.min.js') }}"></script>
+{{--    <script src="{{ asset('js/persian-date.min.js') }}"></script>
+    <script src="{{ asset('js/persian-datepicker.min.js') }}"></script>--}}
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/key.js') }}"></script>
+
 </body>
 </html>

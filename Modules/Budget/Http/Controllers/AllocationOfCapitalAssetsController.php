@@ -26,18 +26,19 @@ class AllocationOfCapitalAssetsController extends Controller
     {
         return CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('capProvinceOrNational' , '=' , $pOrN)
-            ->with('capitalAssetsProject')
+            ->with(['capitalAssetsProject' => function($q) {
+                $q->with('creditSource')
+                    ->has('creditSource')
+                    ->with(['creditSource' => function($q){
+                        $q->with('Allocation')
+                            ->has('Allocation')
+                            ->with('creditDistributionRow')
+                            ->with('tinySeason.seasonTitle.season')
+                            ->with('howToRun');
+                    }]);
+            }])
             ->with('creditDistributionTitle')
             ->with('creditDistributionTitle.county')
-            ->with('capitalAssetsProject.creditSource.allocation')
-            ->whereHas('capitalAssetsProject.creditSource.allocation')
-            ->with('capitalAssetsProject.creditSource.creditDistributionRow')
-            ->whereHas('capitalAssetsProject.creditSource')
-/*            ->with('capitalAssetsProject.creditSource.tinySeason')
-            ->with('capitalAssetsProject.creditSource.tinySeason.seasonTitle')
-            ->with('capitalAssetsProject.creditSource.tinySeason.seasonTitle.season')
-            ->with('capitalAssetsProject.creditSource.howToRun')
-            ->with('capitalAssetsProject.county')*/
             ->paginate(5);
 
     }

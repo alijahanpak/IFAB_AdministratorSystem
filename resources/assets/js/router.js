@@ -139,6 +139,42 @@ var app = new Vue({
         }
     },
 
+    mounted: function () {
+/*        $.w = $(window);
+        $.w.on('resize', function () {
+            console.log("......................res..........................");
+            var tabHeight = $('.tabs').height();
+            var toolBarHeight = $('.tool-bar').height();
+            var paginationHeight = $('.pagination').height();
+            var notifHeight=25;
+            if (toolBarHeight === undefined)
+            {
+                toolBarHeight = -8;
+            }
+
+            if (paginationHeight === undefined)
+            {
+                paginationHeight = -8;
+            }
+
+            if (tabHeight===undefined) {
+                tabHeight = -8;
+                notifHeight=0;
+            }
+
+            if ($('.vertical-tab').length > 0)
+            {
+                tabHeight = 10;
+            }
+
+            $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 180) + 'px');
+
+            var x = $(".dynamic-height-level1").height();
+            $('.dynamic-height-level2').css('height', (x - 100 - (tabHeight  + toolBarHeight + paginationHeight)) + 'px');
+        });
+        this.myResize();*/
+    },
+
     methods:{
         login: function () {
             axios.post('/api/login' , this.authInfo)
@@ -187,6 +223,49 @@ var app = new Vue({
 
         getAmountBaseLabel: function () {
             return this.amountBase.in_put_amount_unit.auSubject;
+        },
+
+        displayNotif: function (httpStatusCode) {
+            switch (httpStatusCode){
+                case 204:
+                    this.$notify({title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
+                    break;
+                case 200:
+                    this.$notify({title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.' , type: 'success'});
+                    break;
+            }
+        },
+
+        myResize: function() {
+            console.log("......................res..........................");
+            var tabHeight = $('.tabs').height();
+            var toolBarHeight = $('.tool-bar').height();
+            var paginationHeight = $('.pagination').height();
+            var notifHeight=25;
+            if (toolBarHeight === undefined)
+            {
+                toolBarHeight = -8;
+            }
+
+            if (paginationHeight === undefined)
+            {
+                paginationHeight = -8;
+            }
+
+            if (tabHeight===undefined) {
+                tabHeight = -8;
+                notifHeight=0;
+            }
+
+            if ($('.vertical-tab').length > 0)
+            {
+                tabHeight = 10;
+            }
+
+            $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 180) + 'px');
+
+            var x = $(".dynamic-height-level1").height();
+            $('.dynamic-height-level2').css('height', (x - 100 - (tabHeight  + toolBarHeight + paginationHeight)) + 'px');
         },
 
         logout: function () {

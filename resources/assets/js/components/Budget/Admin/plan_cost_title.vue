@@ -125,10 +125,6 @@
                             </vue-pagination>
                         </div>
                     </div>
-                    <notifications group="plan_cost_titlePm"
-                                   position="bottom right"
-                                   animation-type="velocity"
-                                   :speed="700" />
             </div>
         </div>
         <!--modalDelete Start-->
@@ -262,7 +258,7 @@
 
         mounted: function () {
             console.log("mounted budget season component");
-            res();
+            this.$parent.myResize();
         },
 
         components:{
@@ -337,7 +333,7 @@
                                 this.planOrCosts = response.data.data;
                                 this.makePagination(response.data);
                                 this.showInsertModal = false;
-                                this.displayNotif(response.status);
+                                this.$parent.displayNotif(response.status);
                                 this.planOrCostInput = [];
                                 console.log(response);
                             },(error) => {
@@ -352,17 +348,6 @@
                 this.pagination.current_page = data.current_page;
                 this.pagination.to = data.to;
                 this.pagination.last_page = data.last_page;
-            },
-
-            displayNotif: function (httpStatusCode) {
-                switch (httpStatusCode){
-                    case 204:
-                        this.$notify({group: 'plan_cost_titlePm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
-                        break;
-                    case 200:
-                        this.$notify({group: 'plan_cost_titlePm', title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.' , type: 'success'});
-                        break;
-                }
             }
         }
     }

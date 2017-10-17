@@ -55,7 +55,7 @@ select,[type="text"],[type="password"],textarea{
 td {
     color: #555555;
     font-size: 12px;
-    border: solid 1px #C7CDD1;
+    border: solid 1.5px #C7CDD1;
 }
 th {
     border: solid 1.5px #C7CDD1;
@@ -1325,6 +1325,43 @@ button.purple-btn {
 }
 .accordion-focus:focus{
     background-color: #F4F3FB;
+}
+.tbl-div-container{
+    margin: 0;
+    padding: 0;
+    border-collapse: collapse;
+    width: 100%;
+    overflow: hidden;
+    border:1px solid lightgrey;
+}
+.tbl-head{
+    margin: 0;
+    padding: 0;
+    border-collapse: collapse;
+    color: White;
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    background-color: #F4F3FB;
+
+}
+.tbl-head-style{
+    color: #575962;
+    background-color: #F4F3FB;
+    font-size: small;
+    border-bottom:1px solid lightgrey;
+}
+.tbl-head-style-cell{
+    margin: 0;
+    padding: 5px;
+    border-collapse: collapse;
+    border: none;
+}
+.tbl-body-contain{
+    margin: 0;
+    padding: 0;
+    border-collapse: collapse;
+    width: 100%;
 }
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
     display: block;
