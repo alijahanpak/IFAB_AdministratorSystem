@@ -87,29 +87,29 @@
                                 <!--Header End-->
                                 <div class="table-contain dynamic-height-level2">
                                     <div class="grid-x" v-for="plans in approvedProjects_prov">
-                                        <div class="medium-2 table-contain-border cell-vertical-center">
+                                        <div class="medium-2 cell-height table-contain-border cell-vertical-center">
                                             {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' - ' + plans.credit_distribution_title.county.coName }}
                                         </div>
-                                        <div class="medium-10">
+                                        <div class="medium-10 cell-height">
                                             <div class="grid-x" v-for="projects in plans.capital_assets_project">
-                                                <div class="medium-1 table-contain-border cell-vertical-center">
+                                                <div class="medium-1 cell-height table-contain-border cell-vertical-center">
                                                     {{ projects.cpCode }}
                                                 </div>
-                                                <div class="medium-3 table-contain-border cell-vertical-center">
+                                                <div class="medium-3 cell-height table-contain-border cell-vertical-center">
                                                     {{ projects.cpSubject }}
                                                 </div>
-                                                <div class="medium-2 table-contain-border cell-vertical-center">
+                                                <div class="medium-2 cell-height table-contain-border cell-vertical-center">
                                                     {{ projects.county.coName }}
                                                 </div>
-                                                <div class="medium-2 table-contain-border cell-vertical-center">
+                                                <div class="medium-2 cell-height table-contain-border cell-vertical-center">
                                                     <span @click="displayCreditSourceInfo_prov == projects.id ? displayCreditSourceInfo_prov = '' : displayCreditSourceInfo_prov = projects.id">{{ $parent.calcDispAmount(sumOfAmount(projects.credit_source) , false) }}</span>
                                                 </div>
-                                                <div class="medium-4  table-contain-border cell-vertical-center">
+                                                <div class="medium-4 cell-height  table-contain-border cell-vertical-center">
                                                     <div class="grid-x">
-                                                        <div class="medium-11">
+                                                        <div class="medium-11 cell-height">
                                                             {{ projects.cpDescription }}
                                                         </div>
-                                                        <div class="medium-1 cell-vertical-center text-left">
+                                                        <div class="medium-1 cell-height cell-vertical-center text-left">
                                                             <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'apApprovedProjects' + projects.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'apApprovedProjects' + projects.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">

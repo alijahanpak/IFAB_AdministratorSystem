@@ -77679,20 +77679,20 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     return _c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
-      staticClass: "medium-2 table-contain-border cell-vertical-center"
+      staticClass: "medium-2 cell-height table-contain-border cell-vertical-center"
     }, [_vm._v("\n                                        " + _vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' - ' + plans.credit_distribution_title.county.coName) + "\n                                    ")]), _vm._v(" "), _c('div', {
-      staticClass: "medium-10"
+      staticClass: "medium-10 cell-height"
     }, _vm._l((plans.capital_assets_project), function(projects) {
       return _c('div', {
         staticClass: "grid-x"
       }, [_c('div', {
-        staticClass: "medium-1 table-contain-border cell-vertical-center"
+        staticClass: "medium-1 cell-height table-contain-border cell-vertical-center"
       }, [_vm._v("\n                                                " + _vm._s(projects.cpCode) + "\n                                            ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-3 table-contain-border cell-vertical-center"
+        staticClass: "medium-3 cell-height table-contain-border cell-vertical-center"
       }, [_vm._v("\n                                                " + _vm._s(projects.cpSubject) + "\n                                            ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-2 table-contain-border cell-vertical-center"
+        staticClass: "medium-2 cell-height table-contain-border cell-vertical-center"
       }, [_vm._v("\n                                                " + _vm._s(projects.county.coName) + "\n                                            ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-2 table-contain-border cell-vertical-center"
+        staticClass: "medium-2 cell-height table-contain-border cell-vertical-center"
       }, [_c('span', {
         on: {
           "click": function($event) {
@@ -77700,13 +77700,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           }
         }
       }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.sumOfAmount(projects.credit_source), false)))])]), _vm._v(" "), _c('div', {
-        staticClass: "medium-4  table-contain-border cell-vertical-center"
+        staticClass: "medium-4 cell-height  table-contain-border cell-vertical-center"
       }, [_c('div', {
         staticClass: "grid-x"
       }, [_c('div', {
-        staticClass: "medium-11"
+        staticClass: "medium-11 cell-height"
       }, [_vm._v("\n                                                        " + _vm._s(projects.cpDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-1 cell-vertical-center text-left"
+        staticClass: "medium-1 cell-height cell-vertical-center text-left"
       }, [_c('a', {
         staticClass: "dropdown small sm-btn-align",
         attrs: {
@@ -83497,6 +83497,56 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -83800,110 +83850,20 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
   }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(4), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _c('div', {
-    staticClass: "columns"
-  }, [_vm._m(7), _vm._v(" "), _c('div', {
-    staticClass: "table-contain dynamic-height-level2"
-  }, _vm._l((_vm.provCapitalAssetsAllocations), function(plans) {
-    return _c('div', {
-      staticClass: "grid-x"
-    }, [_c('div', {
-      staticClass: "medium-2 table-contain-border1 cell-vertical-center"
-    }, [_vm._v("\n                                            " + _vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject) + "\n                                        ")]), _vm._v(" "), _c('div', {
-      staticClass: "medium-10"
-    }, _vm._l((plans.capital_assets_project), function(projects) {
-      return _c('div', {
-        staticClass: "grid-x"
-      }, [_c('div', {
-        staticClass: "medium-2 table-contain-border cell-vertical-center"
-      }, [_vm._v("\n                                                    " + _vm._s(projects.cpCode + ' - ' + projects.cpSubject) + "\n                                                ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-1 table-contain-border cell-vertical-center"
-      }, [_vm._v("\n                                                    " + _vm._s(_vm.$parent.calcDispAmount(_vm.getProjectAllocationSum(projects.credit_source), false)) + "\n                                                ")]), _vm._v(" "), _c('div', {
-        staticClass: "medium-9"
-      }, _vm._l((projects.credit_source), function(credit_source) {
-        return _c('div', {
-          staticClass: "grid-x"
-        }, [_c('div', {
-          staticClass: "medium-2 table-contain-border cell-vertical-center"
-        }, [_vm._v("\n                                                            " + _vm._s(credit_source.credit_distribution_row.cdSubject) + "\n                                                        ")]), _vm._v(" "), _c('div', {
-          staticClass: "medium-1 table-contain-border cell-vertical-center"
-        }, [_vm._v("\n                                                            " + _vm._s(credit_source.how_to_run.htrSubject) + "\n                                                        ")]), _vm._v(" "), _c('div', {
-          staticClass: "medium-1 table-contain-border cell-vertical-center"
-        }, [_vm._v("\n                                                            " + _vm._s(credit_source.tiny_season.season_title.season.sSubject) + "\n                                                        ")]), _vm._v(" "), _c('div', {
-          staticClass: "medium-2 table-contain-border cell-vertical-center"
-        }, [_vm._v("\n                                                            " + _vm._s(credit_source.tiny_season.season_title.castSubject) + "\n                                                        ")]), _vm._v(" "), _c('div', {
-          staticClass: "medium-3 table-contain-border cell-vertical-center"
-        }, [_vm._v("\n                                                            " + _vm._s(credit_source.tiny_season.catsSubject) + "\n                                                        ")]), _vm._v(" "), _c('div', {
-          staticClass: "medium-3"
-        }, _vm._l((credit_source.allocation), function(alloc) {
-          return _c('div', {
-            staticClass: "grid-x"
-          }, [_c('div', {
-            staticClass: "medium-12  table-contain-border"
-          }, [_c('div', {
-            staticClass: "grid-x"
-          }, [_c('div', {
-            staticClass: "medium-10"
-          }, [_vm._v("\n                                                                            " + _vm._s(_vm.$parent.calcDispAmount(alloc.caaAmount, false)) + "\n                                                                        ")]), _vm._v(" "), _c('div', {
-            staticClass: "medium-2 cell-vertical-center text-left"
-          }, [_c('a', {
-            staticClass: "dropdown small sm-btn-align",
-            attrs: {
-              "type": "button",
-              "data-toggle": 'rocaaRegisterOfCreditAllocationAssets' + alloc.id
-            }
-          }, [_c('i', {
-            staticClass: "fa fa-ellipsis-v size-18"
-          })]), _vm._v(" "), _c('div', {
-            staticClass: "dropdown-pane dropdown-pane-sm ",
-            attrs: {
-              "data-close-on-click": "true",
-              "data-hover": "true",
-              "data-hover-pane": "true",
-              "data-position": "bottom",
-              "data-alignment": "right",
-              "id": 'rocaaRegisterOfCreditAllocationAssets' + alloc.id,
-              "data-dropdown": "",
-              "data-auto-focus": "true"
-            }
-          }, [_c('ul', {
-            staticClass: "my-menu small-font text-right"
-          }, [_c('li', [_c('a', {
-            on: {
-              "click": function($event) {
-                $event.preventDefault();
-                _vm.registerOfCreditAllocationAssetsUpdateDialog(alloc, 1)
-              }
-            }
-          }, [_c('i', {
-            staticClass: "fi-pencil size-16"
-          }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
-            on: {
-              "click": function($event) {
-                $event.preventDefault();
-                _vm.openDeleteRegisterOfCreditAllocationAssetsConfirm(alloc)
-              }
-            }
-          }, [_c('i', {
-            staticClass: "fi-trash size-16"
-          }), _vm._v("  حذف")])])])])])])])])
-        }))])
-      }))])
-    }))])
-  })), _vm._v(" "), _c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-12"
-  }, [_c('vue-pagination', {
-    attrs: {
-      "pagination": _vm.provincial_pagination,
-      "offset": 4
-    },
-    nativeOn: {
-      "click": function($event) {
-        _vm.fetchProvincialData(_vm.provincial_pagination.current_page)
+    staticClass: "tbl-div-container dynamic-height-level2"
+  }, [_vm._m(7), _vm._v(" "), _c('div', {}, [_c('table', {
+    staticClass: "tbl-body-contain"
+  }, [_vm._m(8), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._l((_vm.provCapitalAssetsAllocations), function(plans) {
+    return _c('tr', {
+      staticClass: "tbl-head-style-cell"
+    }, [_c('td', {
+      attrs: {
+        "rowspan": "3"
       }
-    }
-  })], 1)])])])]), _vm._v(" "), _c('div', {
+    }, [_vm._v(_vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' بلاتبلا تبلا تبلات بلات بلات بلات بلات بلات بلات بلات بلاتب لات بلات بلات بلا'))]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")])])
+  }), _vm._v(" "), _vm._m(9)], 2)])])])])]), _vm._v(" "), _c('div', {
     staticClass: "tabs-panel table-mrg-btm",
     attrs: {
       "id": "provincial",
@@ -83927,9 +83887,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(8), _vm._v(" "), _vm._m(9)]), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(10), _vm._v(" "), _vm._m(11)]), _vm._v(" "), _vm._m(12)]), _vm._v(" "), _c('div', {
     staticClass: "columns"
-  }, [_vm._m(11), _vm._v(" "), _c('div', {
+  }, [_vm._m(13), _vm._v(" "), _c('div', {
     staticClass: "table-contain dynamic-height-level2"
   }, _vm._l((_vm.natCapitalAssetsAllocations), function(plans) {
     return _c('div', {
@@ -84473,39 +84433,95 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "fi-magnifying-glass"
   })])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "grid-x table-header"
-  }, [_c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("طرح")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-10"
-  }, [_c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("پروژه")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-1 table-border"
-  }, [_c('strong', [_vm._v("سرجمع")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-9"
-  }, [_c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("ردیف اعتبار")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-1 table-border"
-  }, [_c('strong', [_vm._v("اجرا")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-1 table-border"
-  }, [_c('strong', [_vm._v("فصل")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-3 table-border"
-  }, [_c('strong', [_vm._v("عنوان فصل")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-3 table-border"
-  }, [_c('strong', [_vm._v("ریز فصل")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2"
-  }, [_c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-12 table-border"
-  }, [_c('strong', [_vm._v("مبلغ")])])])])])])])])])
+  return _c('table', {
+    staticClass: "tbl-head"
+  }, [_c('colgroup', [_c('col', {
+    attrs: {
+      "width": "200px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "12px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style"
+  }, [_c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("طرح")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("پروژه")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("ردیف اعتبار")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شماره")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("تاریخ")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("مبلغ")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("سرجمع")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  })])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('colgroup', [_c('col', {
+    attrs: {
+      "width": "200px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  })])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
