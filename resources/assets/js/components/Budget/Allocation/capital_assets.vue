@@ -82,8 +82,8 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <div class="tbl-div-container">
-                                    <table class="tbl-body-contain" style="margin-bottom: 100px">
+                                <div class="tbl_body_style dynamic-height-level2">
+                                    <table class="tbl-body-contain">
                                         <colgroup>
                                             <col width="200px"/>
                                             <col width="150px"/>
@@ -177,26 +177,51 @@
                                                     <td>4</td>
                                                     <td>5</td>
                                                 </tr>-->
-<!--                                        <template v-for="plans in provCapitalAssetsAllocations">
+                                        <template v-for="plans in provCapitalAssetsAllocations">
                                             <tr class="tbl-head-style-cell" >
-                                                <td :rowspan="8 + 4">{{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
-                                                <td :rowspan="4 + 2">2</td>
-                                                <td :rowspan="4 + 2">31</td>
-                                                <td :rowspan="2 + 1">4</td>
-                                                <td class="display-off">5</td>
-                                                <td class="display-off">6</td>
-                                                <td class="display-off">7</td>
+                                                <td :rowspan="getPlanAllocCount(plans.capital_assets_project)">{{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
+                                                <td :rowspan="getProjectAllocCount(plans.capital_assets_project[0].credit_source)">{{ plans.capital_assets_project[0].cpCode }}</td>
+                                                <td :rowspan="getProjectAllocCount(plans.capital_assets_project[0].credit_source)">0</td>
+                                                <td :rowspan="plans.capital_assets_project[0].credit_source[0].allocation.length">{{ plans.capital_assets_project[0].credit_source[0].credit_distribution_row.cdSubject }}</td>
+                                                <td>{{ plans.capital_assets_project[0].credit_source[0].allocation[0].caaLetterNumber }}</td>
+                                                <td>{{ plans.capital_assets_project[0].credit_source[0].allocation[0].caaLetterDate }}</td>
+                                                <td>{{ plans.capital_assets_project[0].credit_source[0].allocation[0].caaAmount }}</td>
                                             </tr>
-                                        </template>-->
-<template>
+                                           <template v-for="(projects, proIndex) in plans.capital_assets_project">
+                                               <tr class="tbl-head-style-cell" v-if="proIndex > 0">
+                                                   <td :rowspan="getProjectAllocCount(projects.credit_source)">{{ projects.cpCode }}</td>
+                                                   <td :rowspan="getProjectAllocCount(projects.credit_source)">{{ 0 }}</td>
+                                                   <td :rowspan="projects.credit_source[0].allocation.length">{{ projects.credit_source[0].credit_distribution_row.cdSubject }}</td>
+                                                   <td>{{ projects.credit_source[0].allocation[0].caaLetterNumber }}</td>
+                                                   <td>{{ projects.capital_assets_project[0].credit_source[0].allocation[0].caaLetterDate }}</td>
+                                                   <td>{{ projects.capital_assets_project[0].credit_source[0].allocation[0].caaAmount }}</td>
+                                               </tr>
+                                                <template v-for="(credit_source , csIndex) in projects.credit_source">
+                                                    <tr class="tbl-head-style-cell" v-if="csIndex > 0">
+                                                        <td :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_row.cdSubject }}</td>
+                                                        <td>{{ credit_source.allocation[0].caaLetterNumber }}</td>
+                                                        <td>{{ credit_source.allocation[0].caaLetterDate }}</td>
+                                                        <td>{{ credit_source.allocation[0].caaAmount }}</td>
+                                                    </tr>
+                                                    <template v-for="(alloc , allocIndex) in credit_source.allocation">
+                                                        <tr class="tbl-head-style-cell" v-if="allocIndex > 0">
+                                                            <td>{{ alloc.caaLetterNumber }}</td>
+                                                            <td>{{ alloc.caaLetterDate }}</td>
+                                                            <td>{{ alloc.caaAmount }}</td>
+                                                        </tr>
+                                                    </template>
+                                                </template>
+                                           </template>
+                                        </template>
+<!--<template>
     <tr class="tbl-head-style-cell" >
         <td :rowspan="8 + 4">1</td>
         <td :rowspan="4 + 2">2</td>
         <td :rowspan="4 + 2">31</td>
         <td :rowspan="2 + 1">4</td>
-        <td class="display-off">5</td>
-        <td class="display-off">6</td>
-        <td class="display-off">7</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
     </tr>
 
     <tr class="tbl-head-style-cell">
@@ -209,12 +234,12 @@
         <td>2</td>
         <td>4</td>
     </tr>
-    <!-- /////////////////////////////////// -->
+    &lt;!&ndash; /////////////////////////////////// &ndash;&gt;
     <tr class="tbl-head-style-cell">
         <td :rowspan="2 + 1">3</td>
-        <td class="display-off">4</td>
-        <td class="display-off">5</td>
-        <td class="display-off">6</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
     </tr>
 
     <tr class="tbl-head-style-cell">
@@ -228,17 +253,12 @@
         <td>4</td>
         <td>5</td>
     </tr>
-    <!-- /////////////////////////////////// -->
+    &lt;!&ndash; /////////////////////////////////// &ndash;&gt;
     <tr class="tbl-head-style-cell">
         <td :rowspan="4 + 2">3</td>
         <td :rowspan="4 + 2">41</td>
         <td :rowspan="2 + 1">5</td>
-        <td class="display-off">5</td>
-        <td class="display-off">5</td>
-    </tr>
-    <tr class="tbl-head-style-cell">
-        <td>3</td>
-        <td>4</td>
+        <td>5</td>
         <td>5</td>
     </tr>
     <tr class="tbl-head-style-cell">
@@ -246,12 +266,17 @@
         <td>4</td>
         <td>5</td>
     </tr>
-    <!-- /////////////////////////////////// -->
+    <tr class="tbl-head-style-cell">
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+    </tr>
+    &lt;!&ndash; /////////////////////////////////// &ndash;&gt;
     <tr class="tbl-head-style-cell">
         <td :rowspan="2 + 1">3</td>
-        <td class="display-off">4</td>
-        <td class="display-off">5</td>
-        <td class="display-off">6</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
     </tr>
     <tr class="tbl-head-style-cell">
         <td>3</td>
@@ -263,196 +288,7 @@
         <td>4</td>
         <td>5</td>
     </tr>
-</template>
-<!--                                        <tr class="tbl-head-style-cell">
-                                            <td>1</td>
-                                            <td>1</td>
-                                            <td>1</td>
-                                            <td>1</td>
-                                            <td>1</td>
-                                            <td>1</td>
-                                            <td>1</td>
-                                        </tr>
-<tr class="tbl-head-style-cell">
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-</tr>
-<tr class="tbl-head-style-cell">
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-</tr>
-<tr class="tbl-head-style-cell">
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-</tr>
-<tr class="tbl-head-style-cell">
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-</tr>
-<tr class="tbl-head-style-cell">
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-</tr>
-<tr class="tbl-head-style-cell">
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-</tr>
-<tr class="tbl-head-style-cell">
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-</tr>
-<tr class="tbl-head-style-cell">
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-</tr>
-<tr class="tbl-head-style-cell">
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-</tr>
-<tr class="tbl-head-style-cell">
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-</tr>
-<tr class="tbl-head-style-cell">
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-</tr>
-<tr class="tbl-head-style-cell">
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-</tr>
-<tr class="tbl-head-style-cell">
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-</tr>
-<tr class="tbl-head-style-cell">
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-</tr>
-<tr class="tbl-head-style-cell">
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-</tr>
-<tr class="tbl-head-style-cell">
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-</tr>
-<tr class="tbl-head-style-cell">
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-</tr>
-<tr class="tbl-head-style-cell">
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-</tr>
-<tr class="tbl-head-style-cell">
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-</tr>
-<tr class="tbl-head-style-cell">
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-</tr>-->
+</template>-->
                                         </tbody>
                                     </table>
                                 </div>
@@ -953,7 +789,7 @@
 
         mounted: function () {
             console.log("mounted capital assets allocation component");
-            //this.$parent.myResize();
+            this.$parent.myResize();
         },
 
         components:{
@@ -1035,14 +871,22 @@
                 return sum;
             },
 
-            getAllPlanRowCount: function (project) {
+            getPlanAllocCount: function (projects) {
                   var count = 0;
-                    project.forEach(cap => {
+                    projects.forEach(cap => {
                           cap.credit_source.forEach(cs => {
                              count += cs.allocation.length;
                           });
                       });
                   return count;
+            },
+
+            getProjectAllocCount: function (credit_sources) {
+                var count = 0;
+                credit_sources.forEach(cs => {
+                    count += cs.allocation.length;
+                });
+                return count;
             },
 
             openInsertModal: function (type) {

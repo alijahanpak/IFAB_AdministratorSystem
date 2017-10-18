@@ -65009,39 +65009,36 @@ var app = new Vue({
     },
 
     mounted: function mounted() {
-        /*        $.w = $(window);
-                $.w.on('resize', function () {
-                    console.log("......................res..........................");
-                    var tabHeight = $('.tabs').height();
-                    var toolBarHeight = $('.tool-bar').height();
-                    var paginationHeight = $('.pagination').height();
-                    var notifHeight=25;
-                    if (toolBarHeight === undefined)
-                    {
-                        toolBarHeight = -8;
-                    }
-        
-                    if (paginationHeight === undefined)
-                    {
-                        paginationHeight = -8;
-                    }
-        
-                    if (tabHeight===undefined) {
-                        tabHeight = -8;
-                        notifHeight=0;
-                    }
-        
-                    if ($('.vertical-tab').length > 0)
-                    {
-                        tabHeight = 10;
-                    }
-        
-                    $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 180) + 'px');
-        
-                    var x = $(".dynamic-height-level1").height();
-                    $('.dynamic-height-level2').css('height', (x - 100 - (tabHeight  + toolBarHeight + paginationHeight)) + 'px');
-                });
-                this.myResize();*/
+        $.w = $(window);
+        $.w.on('resize', function () {
+            console.log("......................res..........................");
+            var tabHeight = $('.tabs').height();
+            var toolBarHeight = $('.tool-bar').height();
+            var paginationHeight = $('.pagination').height();
+            var notifHeight = 25;
+            if (toolBarHeight === undefined) {
+                toolBarHeight = -8;
+            }
+
+            if (paginationHeight === undefined) {
+                paginationHeight = -8;
+            }
+
+            if (tabHeight === undefined) {
+                tabHeight = -8;
+                notifHeight = 0;
+            }
+
+            if ($('.vertical-tab').length > 0) {
+                tabHeight = 10;
+            }
+
+            $('.dynamic-height-level1').css('height', $.w.outerHeight() - 180 + 'px');
+
+            var x = $(".dynamic-height-level1").height();
+            $('.dynamic-height-level2').css('height', x - 100 - (tabHeight + toolBarHeight + paginationHeight) + 'px');
+        });
+        this.myResize();
     },
 
     methods: {
@@ -83728,170 +83725,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -83943,7 +83776,7 @@ if (false) {(function () {
 
     mounted: function mounted() {
         console.log("mounted capital assets allocation component");
-        //this.$parent.myResize();
+        this.$parent.myResize();
     },
 
     components: {
@@ -84034,12 +83867,20 @@ if (false) {(function () {
             return sum;
         },
 
-        getAllPlanRowCount: function getAllPlanRowCount(project) {
+        getPlanAllocCount: function getPlanAllocCount(projects) {
             var count = 0;
-            project.forEach(function (cap) {
+            projects.forEach(function (cap) {
                 cap.credit_source.forEach(function (cs) {
                     count += cs.allocation.length;
                 });
+            });
+            return count;
+        },
+
+        getProjectAllocCount: function getProjectAllocCount(credit_sources) {
+            var count = 0;
+            credit_sources.forEach(function (cs) {
+                count += cs.allocation.length;
             });
             return count;
         },
@@ -84207,83 +84048,60 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(4), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container dynamic-height-level2"
   }, [_vm._m(7), _vm._v(" "), _c('div', {
-    staticClass: "tbl-div-container"
+    staticClass: "tbl_body_style dynamic-height-level2"
   }, [_c('table', {
-    staticClass: "tbl-body-contain",
-    staticStyle: {
-      "margin-bottom": "100px"
-    }
+    staticClass: "tbl-body-contain"
   }, [_vm._m(8), _vm._v(" "), _c('tbody', {
     staticClass: "tbl-head-style-cell"
-  }, [
-    [_c('tr', {
+  }, [_vm._l((_vm.provCapitalAssetsAllocations), function(plans) {
+    return [_c('tr', {
       staticClass: "tbl-head-style-cell"
     }, [_c('td', {
       attrs: {
-        "rowspan": 8 + 4
+        "rowspan": _vm.getPlanAllocCount(plans.capital_assets_project)
       }
-    }, [_vm._v("1")]), _vm._v(" "), _c('td', {
+    }, [_vm._v(_vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
       attrs: {
-        "rowspan": 4 + 2
+        "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project[0].credit_source)
       }
-    }, [_vm._v("2")]), _vm._v(" "), _c('td', {
+    }, [_vm._v(_vm._s(plans.capital_assets_project[0].cpCode))]), _vm._v(" "), _c('td', {
       attrs: {
-        "rowspan": 4 + 2
+        "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project[0].credit_source)
       }
-    }, [_vm._v("31")]), _vm._v(" "), _c('td', {
+    }, [_vm._v("0")]), _vm._v(" "), _c('td', {
       attrs: {
-        "rowspan": 2 + 1
+        "rowspan": plans.capital_assets_project[0].credit_source[0].allocation.length
       }
-    }, [_vm._v("4")]), _vm._v(" "), _c('td', {
-      staticClass: "display-off"
-    }, [_vm._v("5")]), _vm._v(" "), _c('td', {
-      staticClass: "display-off"
-    }, [_vm._v("6")]), _vm._v(" "), _c('td', {
-      staticClass: "display-off"
-    }, [_vm._v("7")])]), _vm._v(" "), _vm._m(9), _vm._v(" "), _vm._m(10), _vm._v(" "), _c('tr', {
-      staticClass: "tbl-head-style-cell"
-    }, [_c('td', {
-      attrs: {
-        "rowspan": 2 + 1
-      }
-    }, [_vm._v("3")]), _vm._v(" "), _c('td', {
-      staticClass: "display-off"
-    }, [_vm._v("4")]), _vm._v(" "), _c('td', {
-      staticClass: "display-off"
-    }, [_vm._v("5")]), _vm._v(" "), _c('td', {
-      staticClass: "display-off"
-    }, [_vm._v("6")])]), _vm._v(" "), _vm._m(11), _vm._v(" "), _vm._m(12), _vm._v(" "), _c('tr', {
-      staticClass: "tbl-head-style-cell"
-    }, [_c('td', {
-      attrs: {
-        "rowspan": 4 + 2
-      }
-    }, [_vm._v("3")]), _vm._v(" "), _c('td', {
-      attrs: {
-        "rowspan": 4 + 2
-      }
-    }, [_vm._v("41")]), _vm._v(" "), _c('td', {
-      attrs: {
-        "rowspan": 2 + 1
-      }
-    }, [_vm._v("5")]), _vm._v(" "), _c('td', {
-      staticClass: "display-off"
-    }, [_vm._v("5")]), _vm._v(" "), _c('td', {
-      staticClass: "display-off"
-    }, [_vm._v("5")])]), _vm._v(" "), _vm._m(13), _vm._v(" "), _vm._m(14), _vm._v(" "), _c('tr', {
-      staticClass: "tbl-head-style-cell"
-    }, [_c('td', {
-      attrs: {
-        "rowspan": 2 + 1
-      }
-    }, [_vm._v("3")]), _vm._v(" "), _c('td', {
-      staticClass: "display-off"
-    }, [_vm._v("4")]), _vm._v(" "), _c('td', {
-      staticClass: "display-off"
-    }, [_vm._v("5")]), _vm._v(" "), _c('td', {
-      staticClass: "display-off"
-    }, [_vm._v("6")])]), _vm._v(" "), _vm._m(15), _vm._v(" "), _vm._m(16)]
-  ], 2)])])])])]), _vm._v(" "), _c('div', {
+    }, [_vm._v(_vm._s(plans.capital_assets_project[0].credit_source[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project[0].credit_source[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project[0].credit_source[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project[0].credit_source[0].allocation[0].caaAmount))])]), _vm._v(" "), _vm._l((plans.capital_assets_project), function(projects, proIndex) {
+      return [(proIndex > 0) ? _c('tr', {
+        staticClass: "tbl-head-style-cell"
+      }, [_c('td', {
+        attrs: {
+          "rowspan": _vm.getProjectAllocCount(projects.credit_source)
+        }
+      }, [_vm._v(_vm._s(projects.cpCode))]), _vm._v(" "), _c('td', {
+        attrs: {
+          "rowspan": _vm.getProjectAllocCount(projects.credit_source)
+        }
+      }, [_vm._v(_vm._s(0))]), _vm._v(" "), _c('td', {
+        attrs: {
+          "rowspan": projects.credit_source[0].allocation.length
+        }
+      }, [_vm._v(_vm._s(projects.credit_source[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.capital_assets_project[0].credit_source[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.capital_assets_project[0].credit_source[0].allocation[0].caaAmount))])]) : _vm._e(), _vm._v(" "), _vm._l((projects.credit_source), function(credit_source, csIndex) {
+        return [(csIndex > 0) ? _c('tr', {
+          staticClass: "tbl-head-style-cell"
+        }, [_c('td', {
+          attrs: {
+            "rowspan": credit_source.allocation.length
+          }
+        }, [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaAmount))])]) : _vm._e(), _vm._v(" "), _vm._l((credit_source.allocation), function(alloc, allocIndex) {
+          return [(allocIndex > 0) ? _c('tr', {
+            staticClass: "tbl-head-style-cell"
+          }, [_c('td', [_vm._v(_vm._s(alloc.caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caaAmount))])]) : _vm._e()]
+        })]
+      })]
+    })]
+  })], 2)])])])])]), _vm._v(" "), _c('div', {
     staticClass: "tabs-panel table-mrg-btm",
     attrs: {
       "id": "provincial",
@@ -84307,9 +84125,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(17), _vm._v(" "), _vm._m(18)]), _vm._v(" "), _vm._m(19)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(9), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _vm._m(11)]), _vm._v(" "), _c('div', {
     staticClass: "columns"
-  }, [_vm._m(20), _vm._v(" "), _c('div', {
+  }, [_vm._m(12), _vm._v(" "), _c('div', {
     staticClass: "table-contain dynamic-height-level2"
   }, _vm._l((_vm.natCapitalAssetsAllocations), function(plans) {
     return _c('div', {
@@ -84938,38 +84756,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "width": "150px"
     }
   })])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', {
-    staticClass: "tbl-head-style-cell"
-  }, [_c('td', [_vm._v("2")]), _vm._v(" "), _c('td', [_vm._v("2")]), _vm._v(" "), _c('td', [_vm._v("4")])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', {
-    staticClass: "tbl-head-style-cell"
-  }, [_c('td', [_vm._v("2")]), _vm._v(" "), _c('td', [_vm._v("2")]), _vm._v(" "), _c('td', [_vm._v("4")])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', {
-    staticClass: "tbl-head-style-cell"
-  }, [_c('td', [_vm._v("4")]), _vm._v(" "), _c('td', [_vm._v("4")]), _vm._v(" "), _c('td', [_vm._v("5")])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', {
-    staticClass: "tbl-head-style-cell"
-  }, [_c('td', [_vm._v("4")]), _vm._v(" "), _c('td', [_vm._v("4")]), _vm._v(" "), _c('td', [_vm._v("5")])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', {
-    staticClass: "tbl-head-style-cell"
-  }, [_c('td', [_vm._v("3")]), _vm._v(" "), _c('td', [_vm._v("4")]), _vm._v(" "), _c('td', [_vm._v("5")])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', {
-    staticClass: "tbl-head-style-cell"
-  }, [_c('td', [_vm._v("3")]), _vm._v(" "), _c('td', [_vm._v("4")]), _vm._v(" "), _c('td', [_vm._v("5")])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', {
-    staticClass: "tbl-head-style-cell"
-  }, [_c('td', [_vm._v("3")]), _vm._v(" "), _c('td', [_vm._v("4")]), _vm._v(" "), _c('td', [_vm._v("5")])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', {
-    staticClass: "tbl-head-style-cell"
-  }, [_c('td', [_vm._v("3")]), _vm._v(" "), _c('td', [_vm._v("4")]), _vm._v(" "), _c('td', [_vm._v("5")])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",

@@ -1363,6 +1363,13 @@ button.purple-btn {
     border-collapse: collapse;
     width: 100%;
 }
+
+.tbl_body_style{
+    margin: 0;
+    padding: 0;
+    border-collapse: collapse;
+    overflow: scroll;
+}
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
     display: block;
     width: 0;
@@ -1383,3 +1390,4 @@ button.purple-btn {
     top: 40%;
     left: 1rem;
 }*/
+

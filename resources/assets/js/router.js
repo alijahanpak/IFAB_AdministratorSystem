@@ -140,7 +140,7 @@ var app = new Vue({
     },
 
     mounted: function () {
-/*        $.w = $(window);
+        $.w = $(window);
         $.w.on('resize', function () {
             console.log("......................res..........................");
             var tabHeight = $('.tabs').height();
@@ -172,7 +172,7 @@ var app = new Vue({
             var x = $(".dynamic-height-level1").height();
             $('.dynamic-height-level2').css('height', (x - 100 - (tabHeight  + toolBarHeight + paginationHeight)) + 'px');
         });
-        this.myResize();*/
+        this.myResize();
     },
 
     methods:{
