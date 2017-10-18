@@ -1338,11 +1338,9 @@ button.purple-btn {
     margin: 0;
     padding: 0;
     border-collapse: collapse;
-    color: White;
     width: 100%;
     height: 40px;
     text-align: center;
-    background-color: #F4F3FB;
 
 }
 .tbl-head-style{
@@ -1368,7 +1366,7 @@ button.purple-btn {
     margin: 0;
     padding: 0;
     border-collapse: collapse;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
     display: block;

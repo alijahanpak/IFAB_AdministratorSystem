@@ -16,7 +16,7 @@ class CapitalAssetsApprovedPlan extends Model
 
     public function capitalAssetsProject()
     {
-        return $this->hasMany(CapitalAssetsProject::class , 'cpCapId' , 'id');
+        return $this->hasMany(CapitalAssetsProject::class , 'cpCapId' , 'id')->has('creditSource');
     }
 
     public static function getTotalAmount($capId)
