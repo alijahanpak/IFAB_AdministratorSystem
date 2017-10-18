@@ -83910,6 +83910,102 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -84214,7 +84310,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "my-button toolbox-btn small"
   }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(4), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container dynamic-height-level2"
-  }, [_vm._m(7), _vm._v(" "), _c('div', {}, [_c('table', {
+  }, [_vm._m(7), _vm._v(" "), _c('div', {
+    staticClass: "dynamic-height-level2",
+    staticStyle: {
+      "margin": "0",
+      "padding": "0",
+      "border-collapse": "collapse",
+      "overflow": "scroll"
+    }
+  }, [_c('table', {
     staticClass: "tbl-body-contain"
   }, [_vm._m(8), _vm._v(" "), _c('tbody', {
     staticClass: "tbl-head-style-cell"
@@ -84225,8 +84329,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       attrs: {
         "rowspan": "3"
       }
-    }, [_vm._v(_vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' بلاتبلا تبلا تبلات بلات بلات بلات بلات بلات بلات بلات بلاتب لات بلات بلات بلا'))]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")])])
-  }), _vm._v(" "), _vm._m(9)], 2)])])])])]), _vm._v(" "), _c('div', {
+    }, [_vm._v("1")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")])])
+  }), _vm._v(" "), _vm._m(9), _vm._v(" "), _vm._m(10), _vm._v(" "), _vm._m(11), _vm._v(" "), _vm._m(12), _vm._v(" "), _vm._m(13), _vm._v(" "), _vm._m(14), _vm._v(" "), _vm._m(15), _vm._v(" "), _vm._m(16), _vm._v(" "), _vm._m(17), _vm._v(" "), _vm._m(18), _vm._v(" "), _vm._m(19), _vm._v(" "), _vm._m(20), _vm._v(" "), _vm._m(21)], 2)])])])])]), _vm._v(" "), _c('div', {
     staticClass: "tabs-panel table-mrg-btm",
     attrs: {
       "id": "provincial",
@@ -84250,9 +84354,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(10), _vm._v(" "), _vm._m(11)]), _vm._v(" "), _vm._m(12)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(22), _vm._v(" "), _vm._m(23)]), _vm._v(" "), _vm._m(24)]), _vm._v(" "), _c('div', {
     staticClass: "columns"
-  }, [_vm._m(13), _vm._v(" "), _c('div', {
+  }, [_vm._m(25), _vm._v(" "), _c('div', {
     staticClass: "table-contain dynamic-height-level2"
   }, _vm._l((_vm.natCapitalAssetsAllocations), function(plans) {
     return _c('div', {
@@ -84881,6 +84985,54 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "width": "150px"
     }
   })])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")]), _vm._v(" "), _c('td', [_vm._v("Row A-2")])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', {
     staticClass: "tbl-head-style-cell"

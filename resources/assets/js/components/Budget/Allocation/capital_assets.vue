@@ -82,7 +82,7 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <div class="">
+                                <div class="dynamic-height-level2" style="margin: 0; padding: 0; border-collapse: collapse; overflow: scroll;">
                                     <table class="tbl-body-contain">
                                         <colgroup>
                                             <col width="200px"/>
@@ -95,7 +95,103 @@
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
                                         <tr class="tbl-head-style-cell" v-for="plans in provCapitalAssetsAllocations">
-                                            <td rowspan="3">{{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' بلاتبلا تبلا تبلات بلات بلات بلات بلات بلات بلات بلات بلاتب لات بلات بلات بلا' }}</td>
+                                            <td rowspan="3">1</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                        </tr>
+                                        <tr class="tbl-head-style-cell">
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                        </tr>
+                                        <tr class="tbl-head-style-cell">
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                        </tr>
+                                        <tr class="tbl-head-style-cell">
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                        </tr>
+                                        <tr class="tbl-head-style-cell">
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                        </tr>
+                                        <tr class="tbl-head-style-cell">
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                        </tr>
+                                        <tr class="tbl-head-style-cell">
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                        </tr>
+                                        <tr class="tbl-head-style-cell">
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                        </tr>
+                                        <tr class="tbl-head-style-cell">
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                        </tr>
+                                        <tr class="tbl-head-style-cell">
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                        </tr>
+                                        <tr class="tbl-head-style-cell">
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                        </tr>
+                                        <tr class="tbl-head-style-cell">
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                            <td>Row A-2</td>
+                                        </tr>
+                                        <tr class="tbl-head-style-cell">
                                             <td>Row A-2</td>
                                             <td>Row A-2</td>
                                             <td>Row A-2</td>
