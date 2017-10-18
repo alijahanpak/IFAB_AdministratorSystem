@@ -348,13 +348,13 @@
                             <div class="grid-x">
                                 <div class="medium-4 cell padding-lr">
                                     <label>سال شروع
-                                        <input class="form-element-margin-btm datePickerClass" type="text" name="startYear" v-model="approvedProjectsInput.apStartYear">
+                                        <input class="form-element-margin-btm datePickerClass" type="text" name="startYear" v-model="approvedProjectsInput.apStartYear" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('startYear')}">
                                     </label>
                                     <span v-show="errors.has('startYear')" class="error-font">لطفا سال شروع پروژه را وارد کنید!</span>
                                 </div>
                                 <div class="medium-4 cell padding-lr">
                                     <label>سال خاتمه
-                                        <input class="form-element-margin-btm datePickerClass" type="text" name="endYear" v-model="approvedProjectsInput.apEndYear">
+                                        <input class="form-element-margin-btm datePickerClass" type="text" name="endYear" v-model="approvedProjectsInput.apEndYear" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('endYear')}">
                                     </label>
                                     <span v-show="errors.has('endYear')" class="error-font">لطفا سال خاتمه پروژه را وارد کنید!</span>
                                 </div>
@@ -773,7 +773,7 @@
             createApprovedProjects: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-/*                        axios.post('/budget/approved_project/capital_assets/register' , {
+                        axios.post('/budget/approved_project/capital_assets/register' , {
                             pId: this.approvedProjectsInput.apPlan,
                             subject: this.approvedProjectsInput.apProjectTitle,
                             code: this.approvedProjectsInput.apProjectCode,
@@ -800,7 +800,7 @@
                             },(error) => {
                                 console.log(error);
                                 //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                            });*/
+                        });
                     }
                 });
             },
