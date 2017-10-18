@@ -64883,6 +64883,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_Budget_Aprroved_approved_plan_vue__ = __webpack_require__(126);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_Budget_Aprroved_approved_cost_program_vue__ = __webpack_require__(129);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_Budget_Allocation_capital_assets_vue__ = __webpack_require__(132);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_Budget_Allocation_cost_vue__ = __webpack_require__(135);
 var _mutations;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -64908,8 +64909,9 @@ window.Vue.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 
 
 
+
 //export router instance
-var routes = [{ path: '/budget', component: __WEBPACK_IMPORTED_MODULE_2__components_Budget_Dashboard_vue__["a" /* default */] }, { path: '/budget/admin/season/tiny_seasons', component: __WEBPACK_IMPORTED_MODULE_3__components_Budget_Admin_tiny_seasons_vue__["a" /* default */] }, { path: '/budget/admin/fiscal_year', component: __WEBPACK_IMPORTED_MODULE_4__components_Budget_Admin_fiscal_year_vue__["a" /* default */] }, { path: '/budget/admin/deprived_area', component: __WEBPACK_IMPORTED_MODULE_5__components_Budget_Admin_deprived_area_vue__["a" /* default */] }, { path: '/budget/admin/credit_distribution_def/budget_season', component: __WEBPACK_IMPORTED_MODULE_6__components_Budget_Admin_budget_season_vue__["a" /* default */] }, { path: '/budget/admin/season/season_title', component: __WEBPACK_IMPORTED_MODULE_8__components_Budget_Admin_season_title_vue__["a" /* default */] }, { path: '/budget/approved/capital_assets/approved/plan', component: __WEBPACK_IMPORTED_MODULE_11__components_Budget_Aprroved_approved_plan_vue__["a" /* default */] }, { path: '/budget/approved/capital_assets/approved/program', component: __WEBPACK_IMPORTED_MODULE_12__components_Budget_Aprroved_approved_cost_program_vue__["a" /* default */] }, { path: '/budget/approved/capital_assets/approved/project', component: __WEBPACK_IMPORTED_MODULE_10__components_Budget_Aprroved_approved_project_vue__["a" /* default */] }, { path: '/budget/admin/credit_distribution_def/row', component: __WEBPACK_IMPORTED_MODULE_7__components_Budget_Admin_credit_distribution_row_vue__["a" /* default */] }, { path: '/budget/Allocation/capital_assets', component: __WEBPACK_IMPORTED_MODULE_13__components_Budget_Allocation_capital_assets_vue__["a" /* default */] }, { path: '/budget/admin/credit_distribution_def/plan_cost_title', component: __WEBPACK_IMPORTED_MODULE_9__components_Budget_Admin_plan_cost_title_vue__["a" /* default */] }];
+var routes = [{ path: '/budget', component: __WEBPACK_IMPORTED_MODULE_2__components_Budget_Dashboard_vue__["a" /* default */] }, { path: '/budget/admin/season/tiny_seasons', component: __WEBPACK_IMPORTED_MODULE_3__components_Budget_Admin_tiny_seasons_vue__["a" /* default */] }, { path: '/budget/admin/fiscal_year', component: __WEBPACK_IMPORTED_MODULE_4__components_Budget_Admin_fiscal_year_vue__["a" /* default */] }, { path: '/budget/admin/deprived_area', component: __WEBPACK_IMPORTED_MODULE_5__components_Budget_Admin_deprived_area_vue__["a" /* default */] }, { path: '/budget/admin/credit_distribution_def/budget_season', component: __WEBPACK_IMPORTED_MODULE_6__components_Budget_Admin_budget_season_vue__["a" /* default */] }, { path: '/budget/admin/season/season_title', component: __WEBPACK_IMPORTED_MODULE_8__components_Budget_Admin_season_title_vue__["a" /* default */] }, { path: '/budget/approved/capital_assets/approved/plan', component: __WEBPACK_IMPORTED_MODULE_11__components_Budget_Aprroved_approved_plan_vue__["a" /* default */] }, { path: '/budget/approved/capital_assets/approved/program', component: __WEBPACK_IMPORTED_MODULE_12__components_Budget_Aprroved_approved_cost_program_vue__["a" /* default */] }, { path: '/budget/approved/capital_assets/approved/project', component: __WEBPACK_IMPORTED_MODULE_10__components_Budget_Aprroved_approved_project_vue__["a" /* default */] }, { path: '/budget/admin/credit_distribution_def/row', component: __WEBPACK_IMPORTED_MODULE_7__components_Budget_Admin_credit_distribution_row_vue__["a" /* default */] }, { path: '/budget/Allocation/capital_assets', component: __WEBPACK_IMPORTED_MODULE_13__components_Budget_Allocation_capital_assets_vue__["a" /* default */] }, { path: '/budget/Allocation/cost', component: __WEBPACK_IMPORTED_MODULE_14__components_Budget_Allocation_cost_vue__["a" /* default */] }, { path: '/budget/admin/credit_distribution_def/plan_cost_title', component: __WEBPACK_IMPORTED_MODULE_9__components_Budget_Admin_plan_cost_title_vue__["a" /* default */] }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
     routes: routes
@@ -83566,6 +83568,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -84712,6 +84716,1306 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-e7b158a4", esExports)
+  }
+}
+
+/***/ }),
+/* 135 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_cost_vue__ = __webpack_require__(136);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5bcc1ac1_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_cost_vue__ = __webpack_require__(137);
+var disposed = false
+var normalizeComponent = __webpack_require__(3)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_cost_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5bcc1ac1_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_cost_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Budget/Allocation/cost.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] cost.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5bcc1ac1", Component.options)
+  } else {
+    hotAPI.reload("data-v-5bcc1ac1", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 136 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__ = __webpack_require__(7);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    data: function data() {
+        return {
+            errorMessage: '',
+            errorMessage_update: '',
+            provCostAllocations: [],
+            natCapitalAssetsAllocations: [],
+            AllocationInput: {},
+            provOrNat: '',
+            showModal: false,
+            showModalUpdate: false,
+            showModalDelete: false,
+            costAllocationFill: { caPlan: '', caSum: '', caRow: '', caNumber: '', caDate: '', caCost: '' },
+            creditSourceInfo: {},
+            caIdDelete: {},
+            approvedPlans: {},
+            selectedPlan: '',
+            selectedProject: '',
+            approvedProjects: {},
+            projectCreditSources: {},
+
+            national_pagination: {
+                total: 0,
+                to: 0,
+                current_page: 1,
+                last_page: ''
+            },
+
+            provincial_pagination: {
+                total: 0,
+                to: 0,
+                current_page: 1,
+                last_page: ''
+            }
+        };
+    },
+
+    created: function created() {
+        this.fetchProvincialData();
+        this.fetchNationalData();
+        this.getAllApprovedPlan(0); // 0 = provincial
+    },
+
+    updated: function updated() {
+        $(this.$el).foundation(); //WORKS!
+    },
+
+    mounted: function mounted() {
+        console.log("mounted Cost allocation component");
+        this.$parent.myResize();
+    },
+
+    components: {
+        'vue-pagination': __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__["a" /* default */]
+    },
+
+    methods: {
+        fetchProvincialData: function fetchProvincialData() {
+            var _this = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            axios.get('/budget/allocation/capital_assets/fetchData?page=' + page, { params: { pOrN: 0 } }).then(function (response) {
+                _this.provCostAllocations = response.data.data;
+                _this.makePagination(response.data, "provincial");
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        fetchNationalData: function fetchNationalData() {
+            var _this2 = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            axios.get('/budget/allocation/capital_assets/fetchData?page=' + page, { params: { pOrN: 1 } }).then(function (response) {
+                _this2.natCostAllocations = response.data.data;
+                _this2.makePagination(response.data, "national");
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        getAllApprovedPlan: function getAllApprovedPlan(pOrN) {
+            var _this3 = this;
+
+            axios.get('/budget/approved_plan/capital_assets/getAllItems', { params: { pOrN: pOrN } }).then(function (response) {
+                _this3.approvedPlans = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        getProjects: function getProjects() {
+            var _this4 = this;
+
+            axios.get('/budget/approved_project/capital_assets/getAllItems', { params: { pId: this.selectedPlan, planOrCost: 0 } }).then(function (response) {
+                _this4.approvedProjects = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        getProjectsCreditSource: function getProjectsCreditSource() {
+            var _this5 = this;
+
+            axios.get('/budget/approved_project/capital_assets/credit_source/getAllItem', { params: { pId: this.selectedProject } }).then(function (response) {
+                _this5.projectCreditSources = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        displayCreditResourceInfo: function displayCreditResourceInfo() {
+            var _this6 = this;
+
+            axios.get('/budget/allocation/capital_assets/getCapitalAssetsCreditSourceInfo', { params: { pcsId: this.AllocationInput.pcsId } }).then(function (response) {
+                _this6.creditSourceInfo = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        getProjectAllocationSum: function getProjectAllocationSum(creditSource) {
+            var sum = 0;
+            creditSource.forEach(function (cs) {
+                cs.allocation.forEach(function (alloc) {
+                    sum += alloc.caaAmount;
+                });
+            });
+
+            return sum;
+        },
+
+        getPlanAllocCount: function getPlanAllocCount(projects) {
+            var count = 0;
+            projects.forEach(function (cap) {
+                cap.credit_source.forEach(function (cs) {
+                    count += cs.allocation.length;
+                });
+            });
+            return count;
+        },
+
+        getProjectAllocCount: function getProjectAllocCount(credit_sources) {
+            var count = 0;
+            credit_sources.forEach(function (cs) {
+                count += cs.allocation.length;
+            });
+            return count;
+        },
+
+        openInsertModal: function openInsertModal(type) {
+            this.provOrNat = type;
+            this.getAllApprovedPlan(type);
+            this.showModal = true;
+        },
+
+        createCostAllocation: function createCostAllocation() {
+            var _this7 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    axios.post('/budget/allocation/capital_assets/register', {
+                        idNumber: _this7.AllocationInput.idNumber,
+                        date: _this7.AllocationInput.date,
+                        pcsId: _this7.AllocationInput.pcsId,
+                        amount: _this7.AllocationInput.amount,
+                        description: _this7.AllocationInput.description,
+                        pOrN: _this7.provOrNat
+                    }).then(function (response) {
+                        if (_this7.provOrNat == 0) {
+                            _this7.provCostAllocations = response.data.data;
+                            _this7.makePagination(response.data, "provincial");
+                        } else {
+                            _this7.natCostAllocations = response.data.data;
+                            _this7.makePagination(response.data, "national");
+                        }
+                        _this7.showModal = false;
+                        _this7.$parent.displayNotif(response.status);
+                        console.log(response);
+                    }, function (error) {
+                        console.log(error);
+                        _this7.errorMessage = 'تخصیص با این مشخصات قبلا ثبت شده است!';
+                    });
+                }
+            });
+        },
+
+        registerOfCreditAllocationAssetsUpdateDialog: function registerOfCreditAllocationAssetsUpdateDialog(item) {
+            this.costAllocationFill.caPlan = item.caPlan;
+            this.costAllocationFill.caSum = item.caSum;
+            this.costAllocationFill.caRow = item.caRow;
+            this.costAllocationFill.caNumber = item.caNumber;
+            this.costAllocationFill.caDate = item.caDate;
+            this.costAllocationFill.caCost = item.caCost;
+
+            this.errorMessage_update = '';
+            this.showModalUpdate = true;
+        },
+
+        updateCostAllocation: function updateCostAllocation() {
+
+            /*axios.post('/budget/admin/sub_seasons/update' , this.tinySeasonsFill)
+                .then((response) => {
+                    if(this.planOrCost == 1)
+                        this.tinySeasonsCost = response.data;
+                    else
+                        this.tinySeasons = response.data;
+                    this.showModalUpdate = false;
+                    this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'بروزرسانی با موفقیت انجام شد.' , type: 'success'});
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                    this.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                });*/
+            alert('ویرایش انجام شد');
+        },
+
+        openDeleteCostAllocationConfirm: function openDeleteCostAllocationConfirm(ca) {
+            this.apIdDelete = rocaa;
+            this.showModalDelete = true;
+        },
+
+        deleteCostAllocation: function deleteCostAllocation() {
+            /*axios.post('/budget/admin/sub_seasons/delete' , this.tsIdDelete)
+                .then((response) => {
+                    if(response.data.tsPlanOrCost == 1)
+                        this.tinySeasonsCost = response.data;
+                    else
+                        this.tinySeasons = response.data;
+                    this.showModalDelete = false;
+                    this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'حذف رکورد با موفقیت انجام شد.' , type: 'success'});
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                    this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
+                });*/
+        },
+
+        makePagination: function makePagination(data, type) {
+            if (type == "national") {
+                this.national_pagination.current_page = data.current_page;
+                this.national_pagination.to = data.to;
+                this.national_pagination.last_page = data.last_page;
+            } else if (type == "provincial") {
+                this.provincial_pagination.current_page = data.current_page;
+                this.provincial_pagination.to = data.to;
+                this.provincial_pagination.last_page = data.last_page;
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 137 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "medium-10 border-right-line inner-body-pad main-margin"
+  }, [_c('div', {
+    staticClass: "grid-x padding-lr breadcrumbs-pos"
+  }, [_c('div', {
+    staticClass: "medium-12"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('nav', {
+    attrs: {
+      "aria-label": "You are here:",
+      "role": "navigation"
+    }
+  }, [_c('ul', {
+    staticClass: "breadcrumbs"
+  }, [_c('li', [_c('router-link', {
+    attrs: {
+      "to": "/budget"
+    }
+  }, [_vm._v("داشبورد")])], 1), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2)])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x my-callout-box container-mrg-top dynamic-height-level1"
+  }, [_c('div', {
+    staticClass: "medium-12 column"
+  }, [_vm._m(3), _vm._v(" "), _c('div', {
+    staticClass: "tabs-content",
+    attrs: {
+      "data-tabs-content": "Register_of_credit_allocation_assets_tab_view"
+    }
+  }, [_c('div', {
+    staticClass: "tabs-panel is-active table-mrg-btm",
+    attrs: {
+      "id": "national",
+      "xmlns:v-on": "http://www.w3.org/1999/xhtml"
+    }
+  }, [_c('div', {
+    staticClass: "medium-12 bottom-mrg"
+  }, [_c('div', {
+    staticClass: "clearfix border-btm-line bottom-mrg tool-bar"
+  }, [_c('div', {
+    staticClass: "button-group float-right report-mrg",
+    staticStyle: {
+      "margin-top": "2px"
+    }
+  }, [_c('a', {
+    staticClass: "my-button toolbox-btn small",
+    on: {
+      "click": function($event) {
+        _vm.openInsertModal(0)
+      }
+    }
+  }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
+    staticClass: "my-button toolbox-btn small"
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(4), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _c('div', {
+    staticClass: "tbl-div-container"
+  }, [_vm._m(7), _vm._v(" "), _c('div', {
+    staticClass: "tbl_body_style dynamic-height-level2"
+  }, [_c('table', {
+    staticClass: "tbl-body-contain"
+  }, [_vm._m(8), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._l((_vm.provCapitalAssetsAllocations), function(plans) {
+    return [_c('tr', {
+      staticClass: "tbl-head-style-cell"
+    }, [_c('td', {
+      attrs: {
+        "rowspan": _vm.getPlanAllocCount(plans.capital_assets_project)
+      }
+    }, [_vm._v(_vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
+      attrs: {
+        "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project[0].credit_source)
+      }
+    }, [_vm._v(_vm._s(plans.capital_assets_project[0].cpCode))]), _vm._v(" "), _c('td', {
+      attrs: {
+        "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project[0].credit_source)
+      }
+    }, [_vm._v("0")]), _vm._v(" "), _c('td', {
+      attrs: {
+        "rowspan": plans.capital_assets_project[0].credit_source[0].allocation.length
+      }
+    }, [_vm._v(_vm._s(plans.capital_assets_project[0].credit_source[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project[0].credit_source[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project[0].credit_source[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project[0].credit_source[0].allocation[0].caaAmount))])]), _vm._v(" "), _vm._l((plans.capital_assets_project), function(projects, proIndex) {
+      return [(proIndex > 0) ? _c('tr', {
+        staticClass: "tbl-head-style-cell"
+      }, [_c('td', {
+        attrs: {
+          "rowspan": _vm.getProjectAllocCount(projects.credit_source)
+        }
+      }, [_vm._v(_vm._s(projects.cpCode))]), _vm._v(" "), _c('td', {
+        attrs: {
+          "rowspan": _vm.getProjectAllocCount(projects.credit_source)
+        }
+      }, [_vm._v(_vm._s(0))]), _vm._v(" "), _c('td', {
+        attrs: {
+          "rowspan": projects.credit_source[0].allocation.length
+        }
+      }, [_vm._v(_vm._s(projects.credit_source[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.capital_assets_project[0].credit_source[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.capital_assets_project[0].credit_source[0].allocation[0].caaAmount))])]) : _vm._e(), _vm._v(" "), _vm._l((projects.credit_source), function(credit_source, csIndex) {
+        return [(csIndex > 0) ? _c('tr', {
+          staticClass: "tbl-head-style-cell"
+        }, [_c('td', {
+          attrs: {
+            "rowspan": credit_source.allocation.length
+          }
+        }, [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaAmount))])]) : _vm._e(), _vm._v(" "), _vm._l((credit_source.allocation), function(alloc, allocIndex) {
+          return [(allocIndex > 0) ? _c('tr', {
+            staticClass: "tbl-head-style-cell"
+          }, [_c('td', [_vm._v(_vm._s(alloc.caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caaAmount))])]) : _vm._e()]
+        })]
+      })]
+    })]
+  })], 2)])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "tabs-panel table-mrg-btm",
+    attrs: {
+      "id": "provincial",
+      "xmlns:v-on": "http://www.w3.org/1999/xhtml"
+    }
+  }, [_c('div', {
+    staticClass: "medium-12 bottom-mrg"
+  }, [_c('div', {
+    staticClass: "clearfix border-btm-line bottom-mrg tool-bar"
+  }, [_c('div', {
+    staticClass: "button-group float-right report-mrg",
+    staticStyle: {
+      "margin-top": "2px"
+    }
+  }, [_c('a', {
+    staticClass: "my-button toolbox-btn small",
+    on: {
+      "click": function($event) {
+        _vm.openInsertModal(1)
+      }
+    }
+  }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
+    staticClass: "my-button toolbox-btn small"
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(9), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _vm._m(11)]), _vm._v(" "), _c('div', {
+    staticClass: "tbl-div-container dynamic-height-level2"
+  }, [_vm._m(12), _vm._v(" "), _c('div', {
+    staticClass: "tbl_body_style"
+  }, [_c('table', {
+    staticClass: "tbl-body-contain"
+  }, [_vm._m(13), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._l((_vm.provCapitalAssetsAllocations), function(plans) {
+    return [_c('tr', {
+      staticClass: "tbl-head-style-cell"
+    }, [_c('td', {
+      attrs: {
+        "rowspan": _vm.getPlanAllocCount(plans.capital_assets_project)
+      }
+    }, [_vm._v(_vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
+      attrs: {
+        "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project[0].credit_source)
+      }
+    }, [_vm._v(_vm._s(plans.capital_assets_project[0].cpCode))]), _vm._v(" "), _c('td', {
+      attrs: {
+        "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project[0].credit_source)
+      }
+    }, [_vm._v("0")]), _vm._v(" "), _c('td', {
+      attrs: {
+        "rowspan": plans.capital_assets_project[0].credit_source[0].allocation.length
+      }
+    }, [_vm._v(_vm._s(plans.capital_assets_project[0].credit_source[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project[0].credit_source[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project[0].credit_source[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project[0].credit_source[0].allocation[0].caaAmount))])]), _vm._v(" "), _vm._l((plans.capital_assets_project), function(projects, proIndex) {
+      return [(proIndex > 0) ? _c('tr', {
+        staticClass: "tbl-head-style-cell"
+      }, [_c('td', {
+        attrs: {
+          "rowspan": _vm.getProjectAllocCount(projects.credit_source)
+        }
+      }, [_vm._v(_vm._s(projects.cpCode))]), _vm._v(" "), _c('td', {
+        attrs: {
+          "rowspan": _vm.getProjectAllocCount(projects.credit_source)
+        }
+      }, [_vm._v(_vm._s(0))]), _vm._v(" "), _c('td', {
+        attrs: {
+          "rowspan": projects.credit_source[0].allocation.length
+        }
+      }, [_vm._v(_vm._s(projects.credit_source[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.capital_assets_project[0].credit_source[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.capital_assets_project[0].credit_source[0].allocation[0].caaAmount))])]) : _vm._e(), _vm._v(" "), _vm._l((projects.credit_source), function(credit_source, csIndex) {
+        return [(csIndex > 0) ? _c('tr', {
+          staticClass: "tbl-head-style-cell"
+        }, [_c('td', {
+          attrs: {
+            "rowspan": credit_source.allocation.length
+          }
+        }, [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaAmount))])]) : _vm._e(), _vm._v(" "), _vm._l((credit_source.allocation), function(alloc, allocIndex) {
+          return [(allocIndex > 0) ? _c('tr', {
+            staticClass: "tbl-head-style-cell"
+          }, [_c('td', [_vm._v(_vm._s(alloc.caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caaAmount))])]) : _vm._e()]
+        })]
+      })]
+    })]
+  })], 2)])])])])])])])])])
+}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', [_c('a', {
+    staticClass: "disabled"
+  }, [_vm._v("مدیریت")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', [_c('a', {
+    staticClass: "disabled"
+  }, [_vm._v("تخصیص اعتبار")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', [_c('span', {
+    staticClass: "show-for-sr"
+  }, [_vm._v("Current: ")]), _vm._v(" هزینه ای\n                            ")])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('ul', {
+    staticClass: "tabs tab-color my-tab-style",
+    attrs: {
+      "data-responsive-accordion-tabs": "tabs medium-accordion large-tabs",
+      "id": "Register_of_credit_allocation_assets_tab_view"
+    }
+  }, [_c('li', {
+    staticClass: "tabs-title is-active"
+  }, [_c('a', {
+    attrs: {
+      "href": "#national",
+      "aria-selected": "true"
+    }
+  }, [_vm._v("استانی")])]), _vm._v(" "), _c('li', {
+    staticClass: "tabs-title"
+  }, [_c('a', {
+    attrs: {
+      "href": "#provincial"
+    }
+  }, [_vm._v("ملی")])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
+    attrs: {
+      "type": "button",
+      "data-toggle": "DropDown1"
+    }
+  }, [_vm._v("تعداد نمایش"), _c('span', [_vm._v(" 20 ")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "dropdown-pane dropdown-pane-sm ",
+    staticStyle: {
+      "width": "113px"
+    },
+    attrs: {
+      "data-close-on-click": "true",
+      "data-hover": "true",
+      "data-hover-pane": "true",
+      "data-position": "bottom",
+      "data-alignment": "left",
+      "id": "DropDown1",
+      "data-dropdown": "",
+      "data-auto-focus": "true"
+    }
+  }, [_c('ul', {
+    staticClass: "my-menu small-font ltr-dir"
+  }, [_c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("10")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("20"), _c('span', {
+    staticClass: "fi-check checked-color size-14"
+  })])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("30")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("50")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("100")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("200")])])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "float-left"
+  }, [_c('div', {
+    staticClass: "input-group float-left"
+  }, [_c('input', {
+    staticClass: "input-group-field small-font",
+    attrs: {
+      "type": "text"
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "input-group-button"
+  }, [_c('button', {
+    staticClass: "my-button my-brand",
+    attrs: {
+      "type": "button"
+    }
+  }, [_c('i', {
+    staticClass: "fi-magnifying-glass"
+  })])])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('table', {
+    staticClass: "tbl-head"
+  }, [_c('colgroup', [_c('col', {
+    attrs: {
+      "width": "200px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "250px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "12px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style"
+  }, [_c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("برنامه")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("سرجمع")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("ردیف اعتبار")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شماره")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("تاریخ")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("مبلغ")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  })])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('colgroup', [_c('col', {
+    attrs: {
+      "width": "200px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "250px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  })])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
+    attrs: {
+      "type": "button",
+      "data-toggle": "DropDown2"
+    }
+  }, [_vm._v("تعداد نمایش"), _c('span', [_vm._v(" 20 ")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "dropdown-pane dropdown-pane-sm ",
+    staticStyle: {
+      "width": "113px"
+    },
+    attrs: {
+      "data-close-on-click": "true",
+      "data-hover": "true",
+      "data-hover-pane": "true",
+      "data-position": "bottom",
+      "data-alignment": "left",
+      "id": "DropDown2",
+      "data-dropdown": "",
+      "data-auto-focus": "true"
+    }
+  }, [_c('ul', {
+    staticClass: "my-menu small-font ltr-dir"
+  }, [_c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("10")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("20"), _c('span', {
+    staticClass: "fi-check checked-color size-14"
+  })])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("30")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("50")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("100")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("200")])])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "float-left"
+  }, [_c('div', {
+    staticClass: "input-group float-left"
+  }, [_c('input', {
+    staticClass: "input-group-field small-font",
+    attrs: {
+      "type": "text"
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "input-group-button"
+  }, [_c('button', {
+    staticClass: "my-button my-brand",
+    attrs: {
+      "type": "button"
+    }
+  }, [_c('i', {
+    staticClass: "fi-magnifying-glass"
+  })])])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('table', {
+    staticClass: "tbl-head"
+  }, [_c('colgroup', [_c('col', {
+    attrs: {
+      "width": "200px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "250px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "12px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style"
+  }, [_c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("برنامه")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("سرجمع")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("ردیف اعتبار")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شماره")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("تاریخ")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("مبلغ")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  })])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('colgroup', [_c('col', {
+    attrs: {
+      "width": "200px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "250px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  })])
+}]
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-5bcc1ac1", esExports)
   }
 }
 

@@ -131,7 +131,7 @@
                             <li>
                                 <a class="right-mp right-menu-btm-border" href="#">تخصیص اعتبار</a>
                                 <ul class="menu vertical nested">
-                                    <li><a href="#">هزینه ای</a></li>
+                                    <li><router-link to="/budget/Allocation/cost">هزینه ای</router-link></li>
                                     <li><router-link to="/budget/allocation/capital_assets">تملک دارایی سرمایه ای</router-link></li>
                                 </ul>
                             </li>
