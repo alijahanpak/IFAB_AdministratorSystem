@@ -94,41 +94,30 @@
                                             <col width="150px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                            <template v-for="plans in provCapitalAssetsAllocations">
+                                            <template v-for="progs in provCostAllocations">
                                                 <tr class="tbl-head-style-cell" >
-                                                    <td :rowspan="getPlanAllocCount(plans.capital_assets_project)">{{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
-                                                    <td :rowspan="getProjectAllocCount(plans.capital_assets_project[0].credit_source)">{{ plans.capital_assets_project[0].cpCode }}</td>
-                                                    <td :rowspan="getProjectAllocCount(plans.capital_assets_project[0].credit_source)">0</td>
-                                                    <td :rowspan="plans.capital_assets_project[0].credit_source[0].allocation.length">{{ plans.capital_assets_project[0].credit_source[0].credit_distribution_row.cdSubject }}</td>
-                                                    <td>{{ plans.capital_assets_project[0].credit_source[0].allocation[0].caaLetterNumber }}</td>
-                                                    <td>{{ plans.capital_assets_project[0].credit_source[0].allocation[0].caaLetterDate }}</td>
-                                                    <td>{{ plans.capital_assets_project[0].credit_source[0].allocation[0].caaAmount }}</td>
+                                                    <td :rowspan="getProjectAllocCount(progs.ca_credit_source)">{{ progs.caLetterNumber }}</td>
+                                                    <td :rowspan="getProjectAllocCount(progs.ca_credit_source)">0</td>
+                                                    <td :rowspan="progs.ca_credit_source[0].allocation.length">{{ progs.ca_credit_source[0].credit_distribution_row.cdSubject }}</td>
+                                                    <td>{{ progs.ca_credit_source[0].allocation[0].caLetterNumber }}</td>
+                                                    <td>{{ progs.ca_credit_source[0].allocation[0].caLetterDate }}</td>
+                                                    <td>{{ progs.ca_credit_source[0].allocation[0].caAmount }}</td>
                                                 </tr>
-                                               <template v-for="(projects, proIndex) in plans.capital_assets_project">
-                                                   <tr class="tbl-head-style-cell" v-if="proIndex > 0">
-                                                       <td :rowspan="getProjectAllocCount(projects.credit_source)">{{ projects.cpCode }}</td>
-                                                       <td :rowspan="getProjectAllocCount(projects.credit_source)">{{ 0 }}</td>
-                                                       <td :rowspan="projects.credit_source[0].allocation.length">{{ projects.credit_source[0].credit_distribution_row.cdSubject }}</td>
-                                                       <td>{{ projects.credit_source[0].allocation[0].caaLetterNumber }}</td>
-                                                       <td>{{ projects.capital_assets_project[0].credit_source[0].allocation[0].caaLetterDate }}</td>
-                                                       <td>{{ projects.capital_assets_project[0].credit_source[0].allocation[0].caaAmount }}</td>
-                                                   </tr>
-                                                    <template v-for="(credit_source , csIndex) in projects.credit_source">
-                                                        <tr class="tbl-head-style-cell" v-if="csIndex > 0">
-                                                            <td :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_row.cdSubject }}</td>
-                                                            <td>{{ credit_source.allocation[0].caaLetterNumber }}</td>
-                                                            <td>{{ credit_source.allocation[0].caaLetterDate }}</td>
-                                                            <td>{{ credit_source.allocation[0].caaAmount }}</td>
+                                                <template v-for="(credit_source , csIndex) in progs.ca_credit_source">
+                                                    <tr class="tbl-head-style-cell" v-if="csIndex > 0">
+                                                        <td :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_row.cdSubject }}</td>
+                                                        <td>{{ credit_source.allocation[0].caLetterNumber }}</td>
+                                                        <td>{{ credit_source.allocation[0].caLetterDate }}</td>
+                                                        <td>{{ credit_source.allocation[0].caAmount }}</td>
+                                                    </tr>
+                                                    <template v-for="(alloc , allocIndex) in credit_source.allocation">
+                                                        <tr class="tbl-head-style-cell" v-if="allocIndex > 0">
+                                                            <td>{{ alloc.caLetterNumber }}</td>
+                                                            <td>{{ alloc.caLetterDate }}</td>
+                                                            <td>{{ alloc.caAmount }}</td>
                                                         </tr>
-                                                        <template v-for="(alloc , allocIndex) in credit_source.allocation">
-                                                            <tr class="tbl-head-style-cell" v-if="allocIndex > 0">
-                                                                <td>{{ alloc.caaLetterNumber }}</td>
-                                                                <td>{{ alloc.caaLetterDate }}</td>
-                                                                <td>{{ alloc.caaAmount }}</td>
-                                                            </tr>
-                                                        </template>
                                                     </template>
-                                               </template>
+                                                </template>
                                             </template>
                                         </tbody>
                                     </table>
@@ -205,42 +194,31 @@
                                             <col width="150px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                        <template v-for="plans in provCapitalAssetsAllocations">
-                                            <tr class="tbl-head-style-cell" >
-                                                <td :rowspan="getPlanAllocCount(plans.capital_assets_project)">{{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
-                                                <td :rowspan="getProjectAllocCount(plans.capital_assets_project[0].credit_source)">{{ plans.capital_assets_project[0].cpCode }}</td>
-                                                <td :rowspan="getProjectAllocCount(plans.capital_assets_project[0].credit_source)">0</td>
-                                                <td :rowspan="plans.capital_assets_project[0].credit_source[0].allocation.length">{{ plans.capital_assets_project[0].credit_source[0].credit_distribution_row.cdSubject }}</td>
-                                                <td>{{ plans.capital_assets_project[0].credit_source[0].allocation[0].caaLetterNumber }}</td>
-                                                <td>{{ plans.capital_assets_project[0].credit_source[0].allocation[0].caaLetterDate }}</td>
-                                                <td>{{ plans.capital_assets_project[0].credit_source[0].allocation[0].caaAmount }}</td>
-                                            </tr>
-                                            <template v-for="(projects, proIndex) in plans.capital_assets_project">
-                                                <tr class="tbl-head-style-cell" v-if="proIndex > 0">
-                                                    <td :rowspan="getProjectAllocCount(projects.credit_source)">{{ projects.cpCode }}</td>
-                                                    <td :rowspan="getProjectAllocCount(projects.credit_source)">{{ 0 }}</td>
-                                                    <td :rowspan="projects.credit_source[0].allocation.length">{{ projects.credit_source[0].credit_distribution_row.cdSubject }}</td>
-                                                    <td>{{ projects.credit_source[0].allocation[0].caaLetterNumber }}</td>
-                                                    <td>{{ projects.capital_assets_project[0].credit_source[0].allocation[0].caaLetterDate }}</td>
-                                                    <td>{{ projects.capital_assets_project[0].credit_source[0].allocation[0].caaAmount }}</td>
+                                            <template v-for="progs in natCostAllocations">
+                                                <tr class="tbl-head-style-cell" >
+                                                    <td :rowspan="getProjectAllocCount(progs.ca_credit_source)">{{ progs.caLetterNumber }}</td>
+                                                    <td :rowspan="getProjectAllocCount(progs.ca_credit_source)">0</td>
+                                                    <td :rowspan="progs.ca_credit_source[0].allocation.length">{{ progs.ca_credit_source[0].credit_distribution_row.cdSubject }}</td>
+                                                    <td>{{ progs.ca_credit_source[0].allocation[0].caLetterNumber }}</td>
+                                                    <td>{{ progs.ca_credit_source[0].allocation[0].caLetterDate }}</td>
+                                                    <td>{{ progs.ca_credit_source[0].allocation[0].caAmount }}</td>
                                                 </tr>
-                                                <template v-for="(credit_source , csIndex) in projects.credit_source">
+                                                <template v-for="(credit_source , csIndex) in progs.ca_credit_source">
                                                     <tr class="tbl-head-style-cell" v-if="csIndex > 0">
                                                         <td :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_row.cdSubject }}</td>
-                                                        <td>{{ credit_source.allocation[0].caaLetterNumber }}</td>
-                                                        <td>{{ credit_source.allocation[0].caaLetterDate }}</td>
-                                                        <td>{{ credit_source.allocation[0].caaAmount }}</td>
+                                                        <td>{{ credit_source.allocation[0].caLetterNumber }}</td>
+                                                        <td>{{ credit_source.allocation[0].caLetterDate }}</td>
+                                                        <td>{{ credit_source.allocation[0].caAmount }}</td>
                                                     </tr>
                                                     <template v-for="(alloc , allocIndex) in credit_source.allocation">
                                                         <tr class="tbl-head-style-cell" v-if="allocIndex > 0">
-                                                            <td>{{ alloc.caaLetterNumber }}</td>
-                                                            <td>{{ alloc.caaLetterDate }}</td>
-                                                            <td>{{ alloc.caaAmount }}</td>
+                                                            <td>{{ alloc.caLetterNumber }}</td>
+                                                            <td>{{ alloc.caLetterDate }}</td>
+                                                            <td>{{ alloc.caAmount }}</td>
                                                         </tr>
                                                     </template>
                                                 </template>
                                             </template>
-                                        </template>
                                         </tbody>
                                     </table>
                                 </div>
@@ -450,7 +428,7 @@
                 errorMessage: '',
                 errorMessage_update: '',
                 provCostAllocations: [],
-                natCapitalAssetsAllocations: [],
+                natCostAllocations: [],
                 AllocationInput: {},
                 provOrNat: '',
                 showModal: false,
@@ -482,7 +460,6 @@
         created: function () {
             this.fetchProvincialData();
             this.fetchNationalData();
-            this.getAllApprovedPlan(0); // 0 = provincial
         },
 
         updated: function () {
@@ -500,7 +477,7 @@
 
         methods:{
             fetchProvincialData: function (page = 1) {
-                axios.get('/budget/allocation/capital_assets/fetchData?page=' + page , {params:{pOrN: 0}})
+                axios.get('/budget/allocation/cost/fetchData?page=' + page , {params:{pOrN: 0}})
                     .then((response) => {
                         this.provCostAllocations = response.data.data;
                         this.makePagination(response.data , "provincial");
@@ -511,7 +488,7 @@
             },
 
             fetchNationalData: function (page = 1) {
-                axios.get('/budget/allocation/capital_assets/fetchData?page=' + page , {params:{pOrN: 1}})
+                axios.get('/budget/allocation/cost/fetchData?page=' + page , {params:{pOrN: 1}})
                     .then((response) => {
                         this.natCostAllocations = response.data.data;
                         this.makePagination(response.data , "national");
@@ -590,10 +567,10 @@
             createCostAllocation: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        axios.post('/budget/allocation/capital_assets/register' , {
+                        axios.post('/budget/allocation/cost/register' , {
                             idNumber: this.AllocationInput.idNumber,
                             date: this.AllocationInput.date,
-                            pcsId: this.AllocationInput.pcsId,
+                            ccsId: this.AllocationInput.caCsId,
                             amount: this.AllocationInput.amount,
                             description: this.AllocationInput.description,
                             pOrN: this.provOrNat

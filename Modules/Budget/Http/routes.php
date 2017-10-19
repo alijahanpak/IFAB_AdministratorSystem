@@ -212,7 +212,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
 
     Route::prefix('allocation/cost')->group(function () {
         //Route::get('register_of_credit_allocation_assets/Allocation', 'AllocationOfCapitalAssetsController@register_of_credit_allocation_assets');
-        Route::get('/fetchData', 'AllocationOfCapitalAssetsController@fetchAllocation');
+        Route::get('/fetchData', 'AllocationOfCapitalAssetsController@fetchCostAllocationData');
         Route::post('/register', 'AllocationOfCapitalAssetsController@registerCostAllocation');
         Route::get('/getCapitalAssetsCreditSourceInfo', 'AllocationOfCapitalAssetsController@getCapitalAssetsCreditSourceInfo');
     });

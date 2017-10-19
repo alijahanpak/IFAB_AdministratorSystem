@@ -92,4 +92,11 @@ class AllocationOfCapitalAssetsController extends Controller
             ->with('caCreditSource.creditDistributionTitle.county')
             ->paginate(5);
     }
+
+    public function fetchCostAllocationData(Request $request)
+    {
+        return \response()->json(
+            $this->getAllCostAllocates($request->pOrN)
+        );
+    }
 }

@@ -11,7 +11,7 @@ class CaCreditSource extends Model
 
     public function tinySeason()
     {
-        return $this->belongsTo(CapitalAssetsTinySeason::class , 'ccsTsId' , 'id');
+        return $this->belongsTo(CostTinySeason::class , 'ccsTsId' , 'id');
     }
 
     public function creditDistributionRow()

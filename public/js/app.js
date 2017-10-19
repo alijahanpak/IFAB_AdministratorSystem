@@ -85294,28 +85294,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -85324,7 +85302,7 @@ if (false) {(function () {
             errorMessage: '',
             errorMessage_update: '',
             provCostAllocations: [],
-            natCapitalAssetsAllocations: [],
+            natCostAllocations: [],
             AllocationInput: {},
             provOrNat: '',
             showModal: false,
@@ -85357,7 +85335,6 @@ if (false) {(function () {
     created: function created() {
         this.fetchProvincialData();
         this.fetchNationalData();
-        this.getAllApprovedPlan(0); // 0 = provincial
     },
 
     updated: function updated() {
@@ -85379,7 +85356,7 @@ if (false) {(function () {
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-            axios.get('/budget/allocation/capital_assets/fetchData?page=' + page, { params: { pOrN: 0 } }).then(function (response) {
+            axios.get('/budget/allocation/cost/fetchData?page=' + page, { params: { pOrN: 0 } }).then(function (response) {
                 _this.provCostAllocations = response.data.data;
                 _this.makePagination(response.data, "provincial");
                 console.log(response);
@@ -85393,7 +85370,7 @@ if (false) {(function () {
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-            axios.get('/budget/allocation/capital_assets/fetchData?page=' + page, { params: { pOrN: 1 } }).then(function (response) {
+            axios.get('/budget/allocation/cost/fetchData?page=' + page, { params: { pOrN: 1 } }).then(function (response) {
                 _this2.natCostAllocations = response.data.data;
                 _this2.makePagination(response.data, "national");
                 console.log(response);
@@ -85475,10 +85452,10 @@ if (false) {(function () {
 
             this.$validator.validateAll().then(function (result) {
                 if (result) {
-                    axios.post('/budget/allocation/capital_assets/register', {
+                    axios.post('/budget/allocation/cost/register', {
                         idNumber: _this6.AllocationInput.idNumber,
                         date: _this6.AllocationInput.date,
-                        pcsId: _this6.AllocationInput.pcsId,
+                        ccsId: _this6.AllocationInput.caCsId,
                         amount: _this6.AllocationInput.amount,
                         description: _this6.AllocationInput.description,
                         pOrN: _this6.provOrNat
@@ -85632,52 +85609,32 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "tbl-body-contain"
   }, [_vm._m(8), _vm._v(" "), _c('tbody', {
     staticClass: "tbl-head-style-cell"
-  }, [_vm._l((_vm.provCapitalAssetsAllocations), function(plans) {
+  }, [_vm._l((_vm.provCostAllocations), function(progs) {
     return [_c('tr', {
       staticClass: "tbl-head-style-cell"
     }, [_c('td', {
       attrs: {
-        "rowspan": _vm.getPlanAllocCount(plans.capital_assets_project)
+        "rowspan": _vm.getProjectAllocCount(progs.ca_credit_source)
       }
-    }, [_vm._v(_vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
+    }, [_vm._v(_vm._s(progs.caLetterNumber))]), _vm._v(" "), _c('td', {
       attrs: {
-        "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project[0].credit_source)
-      }
-    }, [_vm._v(_vm._s(plans.capital_assets_project[0].cpCode))]), _vm._v(" "), _c('td', {
-      attrs: {
-        "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project[0].credit_source)
+        "rowspan": _vm.getProjectAllocCount(progs.ca_credit_source)
       }
     }, [_vm._v("0")]), _vm._v(" "), _c('td', {
       attrs: {
-        "rowspan": plans.capital_assets_project[0].credit_source[0].allocation.length
+        "rowspan": progs.ca_credit_source[0].allocation.length
       }
-    }, [_vm._v(_vm._s(plans.capital_assets_project[0].credit_source[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project[0].credit_source[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project[0].credit_source[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project[0].credit_source[0].allocation[0].caaAmount))])]), _vm._v(" "), _vm._l((plans.capital_assets_project), function(projects, proIndex) {
-      return [(proIndex > 0) ? _c('tr', {
+    }, [_vm._v(_vm._s(progs.ca_credit_source[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(progs.ca_credit_source[0].allocation[0].caLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(progs.ca_credit_source[0].allocation[0].caLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(progs.ca_credit_source[0].allocation[0].caAmount))])]), _vm._v(" "), _vm._l((progs.ca_credit_source), function(credit_source, csIndex) {
+      return [(csIndex > 0) ? _c('tr', {
         staticClass: "tbl-head-style-cell"
       }, [_c('td', {
         attrs: {
-          "rowspan": _vm.getProjectAllocCount(projects.credit_source)
+          "rowspan": credit_source.allocation.length
         }
-      }, [_vm._v(_vm._s(projects.cpCode))]), _vm._v(" "), _c('td', {
-        attrs: {
-          "rowspan": _vm.getProjectAllocCount(projects.credit_source)
-        }
-      }, [_vm._v(_vm._s(0))]), _vm._v(" "), _c('td', {
-        attrs: {
-          "rowspan": projects.credit_source[0].allocation.length
-        }
-      }, [_vm._v(_vm._s(projects.credit_source[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.capital_assets_project[0].credit_source[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.capital_assets_project[0].credit_source[0].allocation[0].caaAmount))])]) : _vm._e(), _vm._v(" "), _vm._l((projects.credit_source), function(credit_source, csIndex) {
-        return [(csIndex > 0) ? _c('tr', {
+      }, [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caAmount))])]) : _vm._e(), _vm._v(" "), _vm._l((credit_source.allocation), function(alloc, allocIndex) {
+        return [(allocIndex > 0) ? _c('tr', {
           staticClass: "tbl-head-style-cell"
-        }, [_c('td', {
-          attrs: {
-            "rowspan": credit_source.allocation.length
-          }
-        }, [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaAmount))])]) : _vm._e(), _vm._v(" "), _vm._l((credit_source.allocation), function(alloc, allocIndex) {
-          return [(allocIndex > 0) ? _c('tr', {
-            staticClass: "tbl-head-style-cell"
-          }, [_c('td', [_vm._v(_vm._s(alloc.caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caaAmount))])]) : _vm._e()]
-        })]
+        }, [_c('td', [_vm._v(_vm._s(alloc.caLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caAmount))])]) : _vm._e()]
       })]
     })]
   })], 2)])])])])]), _vm._v(" "), _c('div', {
@@ -85712,52 +85669,32 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "tbl-body-contain"
   }, [_vm._m(13), _vm._v(" "), _c('tbody', {
     staticClass: "tbl-head-style-cell"
-  }, [_vm._l((_vm.provCapitalAssetsAllocations), function(plans) {
+  }, [_vm._l((_vm.natCostAllocations), function(progs) {
     return [_c('tr', {
       staticClass: "tbl-head-style-cell"
     }, [_c('td', {
       attrs: {
-        "rowspan": _vm.getPlanAllocCount(plans.capital_assets_project)
+        "rowspan": _vm.getProjectAllocCount(progs.ca_credit_source)
       }
-    }, [_vm._v(_vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
+    }, [_vm._v(_vm._s(progs.caLetterNumber))]), _vm._v(" "), _c('td', {
       attrs: {
-        "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project[0].credit_source)
-      }
-    }, [_vm._v(_vm._s(plans.capital_assets_project[0].cpCode))]), _vm._v(" "), _c('td', {
-      attrs: {
-        "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project[0].credit_source)
+        "rowspan": _vm.getProjectAllocCount(progs.ca_credit_source)
       }
     }, [_vm._v("0")]), _vm._v(" "), _c('td', {
       attrs: {
-        "rowspan": plans.capital_assets_project[0].credit_source[0].allocation.length
+        "rowspan": progs.ca_credit_source[0].allocation.length
       }
-    }, [_vm._v(_vm._s(plans.capital_assets_project[0].credit_source[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project[0].credit_source[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project[0].credit_source[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project[0].credit_source[0].allocation[0].caaAmount))])]), _vm._v(" "), _vm._l((plans.capital_assets_project), function(projects, proIndex) {
-      return [(proIndex > 0) ? _c('tr', {
+    }, [_vm._v(_vm._s(progs.ca_credit_source[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(progs.ca_credit_source[0].allocation[0].caLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(progs.ca_credit_source[0].allocation[0].caLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(progs.ca_credit_source[0].allocation[0].caAmount))])]), _vm._v(" "), _vm._l((progs.ca_credit_source), function(credit_source, csIndex) {
+      return [(csIndex > 0) ? _c('tr', {
         staticClass: "tbl-head-style-cell"
       }, [_c('td', {
         attrs: {
-          "rowspan": _vm.getProjectAllocCount(projects.credit_source)
+          "rowspan": credit_source.allocation.length
         }
-      }, [_vm._v(_vm._s(projects.cpCode))]), _vm._v(" "), _c('td', {
-        attrs: {
-          "rowspan": _vm.getProjectAllocCount(projects.credit_source)
-        }
-      }, [_vm._v(_vm._s(0))]), _vm._v(" "), _c('td', {
-        attrs: {
-          "rowspan": projects.credit_source[0].allocation.length
-        }
-      }, [_vm._v(_vm._s(projects.credit_source[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.capital_assets_project[0].credit_source[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.capital_assets_project[0].credit_source[0].allocation[0].caaAmount))])]) : _vm._e(), _vm._v(" "), _vm._l((projects.credit_source), function(credit_source, csIndex) {
-        return [(csIndex > 0) ? _c('tr', {
+      }, [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caAmount))])]) : _vm._e(), _vm._v(" "), _vm._l((credit_source.allocation), function(alloc, allocIndex) {
+        return [(allocIndex > 0) ? _c('tr', {
           staticClass: "tbl-head-style-cell"
-        }, [_c('td', {
-          attrs: {
-            "rowspan": credit_source.allocation.length
-          }
-        }, [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaAmount))])]) : _vm._e(), _vm._v(" "), _vm._l((credit_source.allocation), function(alloc, allocIndex) {
-          return [(allocIndex > 0) ? _c('tr', {
-            staticClass: "tbl-head-style-cell"
-          }, [_c('td', [_vm._v(_vm._s(alloc.caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caaAmount))])]) : _vm._e()]
-        })]
+        }, [_c('td', [_vm._v(_vm._s(alloc.caLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caAmount))])]) : _vm._e()]
       })]
     })]
   })], 2)])])])])])]), _vm._v(" "), (_vm.showModal) ? _c('modal-small', {
@@ -85778,7 +85715,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
-        _vm.createCostAgreement($event)
+        _vm.createCostAllocation($event)
       }
     }
   }, [(_vm.errorMessage) ? _c('div', {
