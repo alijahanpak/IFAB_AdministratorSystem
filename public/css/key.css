@@ -1119,7 +1119,11 @@ button.purple-btn {
 }
 [data-whatinput='mouse'] .my-button {
     outline: 0; }
-
+.my-button.expanded {
+    display: block;
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0; }
 .my-button.my-success {
     background-color:  #34bfa3;
     color: #FFFFFF;
@@ -1368,6 +1372,7 @@ button.purple-btn {
     border-collapse: collapse;
     overflow-y: scroll;
 }
+
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
     display: block;
     width: 0;
