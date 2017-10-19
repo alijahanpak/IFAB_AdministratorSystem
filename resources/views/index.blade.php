@@ -69,19 +69,20 @@
                         </div>
                         <div class="grid-x">
                             <div class="medium-12 columns padding-lr">
+
                                 <label>نام کاربری
-                                    <input class="form-element-margin-btm" type="text" name="user" v-model="authInfo.email" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('user')}">
+                                    <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="text" placeholder="&#xf2c0;" name="user" v-model="authInfo.email" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('user')}">
                                 </label>
                                 <span v-show="errors.has('user')" class="error-font">لطفا نام کاربری را وارد کنید!</span>
                             </div>
                             <div class="medium-12 columns padding-lr">
                                 <label>رمز عبور
-                                    <input class="form-element-margin-btm" type="password" name="pass" v-model="authInfo.password"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('pass')}">
+                                    <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="password" placeholder="&#xf09c;" name="pass" v-model="authInfo.password"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('pass')}">
                                 </label>
                                 <span v-show="errors.has('pass')" class="error-font">لطفا رمز عبور را وارد کنید!</span>
                             </div>
                             <div class="medium-12 padding-lr top-margin-element">
-                                <button name="submit" class="button my-button-master expanded">ورود</button>
+                                <button name="submit" class="my-button my-success expanded">ورود</button>
                             </div>
                         </div>
                     </form>
