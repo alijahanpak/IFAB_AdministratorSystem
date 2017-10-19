@@ -151,6 +151,9 @@ class PlanController extends Controller
         return CostAgreement::where('caFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('caProvinceOrNational' , '=' , $pOrN)
             ->with('caCreditSource')
+            ->with('caCreditSource.tinySeason.seasonTitle.season')
+            ->with('caCreditSource.creditDistributionRow')
+            ->with('caCreditSource.creditDistributionTitle')
             ->paginate(5);
     }
 
@@ -193,6 +196,25 @@ class PlanController extends Controller
         SystemLog::setBudgetSubSystemLog('ثبت تامین اعتبار هزینه ای ' . $request->subject);
         return \response()->json(
             $this->getAllCostAgreemrent($request->pOrN)
+        );
+    }
+
+    public function getAllCaItems(Request $request)
+    {
+        return \response()->json(
+            CostAgreement::where('caFyId' , '=' , Auth::user()->seFiscalYear)
+                ->where('caProvinceOrNational' , '=' , $request->pOrN)
+                ->get()
+        );
+    }
+    public function getAllcaCreditSourceItems(Request $request)
+    {
+        return \response()->json(
+            CaCreditSource::where('ccsCaId' , '=' , $request->caId)
+                ->with('creditDistributionRow')
+                ->with('creditDistributionTitle')
+                ->with('tinySeason.seasonTitle.season')
+                ->get()
         );
     }
 }

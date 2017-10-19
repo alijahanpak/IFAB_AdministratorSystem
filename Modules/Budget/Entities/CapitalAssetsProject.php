@@ -22,6 +22,11 @@ class CapitalAssetsProject extends Model
 
     public function creditSource()
     {
+        return $this->hasMany(CapCreditSource::class , 'ccsCapId' , 'id');
+    }
+
+    public function creditSourceHasAllocation()
+    {
         return $this->hasMany(CapCreditSource::class , 'ccsCapId' , 'id')->has('allocation');
     }
 }

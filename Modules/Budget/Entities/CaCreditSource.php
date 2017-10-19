@@ -9,5 +9,18 @@ class CaCreditSource extends Model
     protected $table = 'tbl_ca_credit_source';
     protected $fillable = [];
 
+    public function tinySeason()
+    {
+        return $this->belongsTo(CapitalAssetsTinySeason::class , 'ccsTsId' , 'id');
+    }
 
+    public function creditDistributionRow()
+    {
+        return $this->belongsTo(CreditDistributionRow::class , 'ccsCdrId' , 'id');
+    }
+
+    public function creditDistributionTitle()
+    {
+        return $this->belongsTo(CreditDistributionTitle::class , 'ccsCdtId' , 'id');
+    }
 }

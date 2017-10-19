@@ -96,6 +96,7 @@
                                             {{ cAp.caExchangeIdNumber }}
                                         </div>
                                         <div class="medium-2 table-contain-border cell-vertical-center">
+                                            <span @click="displayCreditSourceInfo_prov == cAp.id ? displayCreditSourceInfo_prov = '' : displayCreditSourceInfo_prov = cAp.id">{{ $parent.calcDispAmount(sumOfAmount(cAp.ca_credit_source) , false) }}</span>
                                         </div>
                                         <div class="medium-2  table-contain-border cell-vertical-center">
                                             <div class="grid-x">
@@ -111,6 +112,34 @@
                                                             <li><a v-on:click.prevent="openCreditSourceInsertModal(cAp.id , 0)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
                                                         </ul>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="medium-12">
+                                            <div class="grid-x" v-show="displayCreditSourceInfo_prov == cAp.id">
+                                                <div class="medium-12 table-contain-border cell-vertical-center">
+                                                    <table class="unstriped tbl-secondary-mrg small-font">
+                                                        <thead class="my-thead">
+                                                        <tr style="background-color: #F1F1F1 !important;">
+                                                            <th>ردیف</th>
+                                                            <th>فصل</th>
+                                                            <th>عنوان فصل</th>
+                                                            <th>ریز فصل</th>
+                                                            <th>مبلغ</th>
+                                                            <th>توضیحات</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr v-for="creditSource in cAp.ca_credit_source">
+                                                            <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
+                                                            <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
+                                                            <td>{{ creditSource.tiny_season.season_title.castSubject }}</td>
+                                                            <td>{{ creditSource.tiny_season.catsSubject }}</td>
+                                                            <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
+                                                            <td>{{ creditSource.ccsDescription }}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
                                         </div>
@@ -196,6 +225,7 @@
                                             {{ cAp.caExchangeIdNumber }}
                                         </div>
                                         <div class="medium-2 table-contain-border cell-vertical-center">
+                                            <span @click="displayCreditSourceInfo_nat == cAp.id ? displayCreditSourceInfo_nat = '' : displayCreditSourceInfo_nat = cAp.id">{{ $parent.calcDispAmount(sumOfAmount(cAp.ca_credit_source) , false) }}</span>
                                         </div>
                                         <div class="medium-2  table-contain-border cell-vertical-center">
                                             <div class="grid-x">
@@ -211,6 +241,34 @@
                                                             <li><a v-on:click.prevent="openCreditSourceInsertModal(cAp.id , 1)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
                                                         </ul>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="medium-12">
+                                            <div class="grid-x" v-show="displayCreditSourceInfo_nat == cAp.id">
+                                                <div class="medium-12 table-contain-border cell-vertical-center">
+                                                    <table class="unstriped tbl-secondary-mrg small-font">
+                                                        <thead class="my-thead">
+                                                        <tr style="background-color: #F1F1F1 !important;">
+                                                            <th>ردیف</th>
+                                                            <th>فصل</th>
+                                                            <th>عنوان فصل</th>
+                                                            <th>ریز فصل</th>
+                                                            <th>مبلغ</th>
+                                                            <th>توضیحات</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr v-for="creditSource in cAp.ca_credit_source">
+                                                            <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
+                                                            <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
+                                                            <td>{{ creditSource.tiny_season.season_title.castSubject }}</td>
+                                                            <td>{{ creditSource.tiny_season.catsSubject }}</td>
+                                                            <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
+                                                            <td>{{ creditSource.ccsDescription }}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
                                         </div>
@@ -603,6 +661,14 @@
                     },(error) => {
                         console.log(error);
                     });
+            },
+
+            sumOfAmount: function (items) {
+                var sum = 0;
+                items.forEach(item => {
+                    sum += item.ccsAmount;
+                });
+                return sum;
             },
 
             openCostAgreementInsertModal: function (type) {

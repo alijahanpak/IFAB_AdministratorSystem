@@ -253,9 +253,9 @@
                 </div>
                 <!--Forms Start-->
                 <!--Insert Modal Start-->
-                <!--<modal-small v-if="showModal" @close="showModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                <modal-small v-if="showModal" @close="showModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div  slot="body">
-                        <form v-on:submit.prevent="createCostAllocation">
+                        <form v-on:submit.prevent="createCostAgreement">
                             <div class="grid-x" v-if="errorMessage">
                                 <div class="medium-12 columns padding-lr">
                                     <div class="alert callout">
@@ -278,28 +278,27 @@
                             <div class="grid-x">
                                 <div class="medium-8 cell padding-lr">
                                     <label>موافقت نامه
-                                        <select class="form-element-margin-btm"  v-model="" v-on:change="" name="approved" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('approved')}">
+                                        <select class="form-element-margin-btm"  v-model="selectedCostAgreement" v-on:change="getCreditSource" name="approved" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('approved')}">
                                             <option value=""></option>
-                                            <option v-for="" :value="approvedPlan.id"></option>
+                                            <option v-for="costAgreement in costAgreements" :value="costAgreement.id">{{ 'موافقتنامه شماره ' + costAgreement.caLetterNumber }}</option>
                                         </select>
                                         <span v-show="errors.has('approved')" class="error-font">لطفا موافقت نامه را انتخاب کنید!</span>
                                     </label>
                                 </div>
-
                             </div>
                             <div class="grid-x">
                                 <div class="medium-6 cell padding-lr">
                                     <label>اعتبار مصوب
-                                        <select class="form-element-margin-btm" @change=""  v-model="" name="credit" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('credit')}">
+                                        <select class="form-element-margin-btm" @change=""  v-model="AllocationInput.caCsId" name="credit" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('credit')}">
                                             <option value=""></option>
-                                            <option v-for="" :value=""></option>
+                                            <option v-for="caCreditSource in caCreditSources" :value="caCreditSource.id">{{ caCreditSource.credit_distribution_title.cdtSubject + ' - ' + caCreditSource.credit_distribution_row.cdSubject + ' - ' + caCreditSource.tiny_season.season_title.season.sSubject + ' - ' + caCreditSource.tiny_season.season_title.castSubject + ' - ' + caCreditSource.tiny_season.catsSubject }}</option>
                                         </select>
                                         <span v-show="errors.has('credit')" class="error-font">لطفا اعتبار مصوب را انتخاب کنید!</span>
                                     </label>
                                 </div>
                                 <div class="medium-6 cell padding-lr">
                                     <label>مبلغ تخصیص <span class="btn-red">(میلیون ریال)</span>
-                                        <input class="form-element-margin-btm" type="text"  v-model="" name="creditCost" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('creditCost')}"/>
+                                        <input class="form-element-margin-btm" type="text"  v-model="AllocationInput.amount" name="creditCost" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('creditCost')}"/>
                                     </label>
                                     <span v-show="errors.has('creditCost')" class="error-font">لطفا مبلغ تخصیص انتخاب کنید!</span>
                                 </div>
@@ -331,7 +330,7 @@
                             </div>
                         </form>
                     </div>
-                </modal-small>-->
+                </modal-small>
                 <!--Insert Modal End-->
 
                 <!--Update Modal Start-->
@@ -457,14 +456,13 @@
                 showModal: false,
                 showModalUpdate: false,
                 showModalDelete: false,
-                costAllocationFill: {caPlan: '' ,caSum:'',caRow:'',caNumber:'',caDate:'',caCost:''},
+                costAllocationFill: {},
                 creditSourceInfo: {},
                 caIdDelete: {},
                 approvedPlans: {},
-                selectedPlan: '',
-                selectedProject: '',
-                approvedProjects: {},
-                projectCreditSources: {},
+                selectedCostAgreement: '',
+                costAgreements: {},
+                caCreditSources: {},
 
                 national_pagination: {
                     total: 0,
@@ -523,30 +521,20 @@
                     });
             },
 
-            getAllApprovedPlan: function (pOrN) {
-                axios.get('/budget/approved_plan/capital_assets/getAllItems' , {params:{pOrN: pOrN}})
+            getAllCostAgreements: function (pOrN) {
+                axios.get('/budget/approved_plan/cost/getAllItems' , {params:{pOrN: pOrN}})
                         .then((response) => {
-                        this.approvedPlans = response.data;
+                        this.costAgreements = response.data;
                         console.log(response);
                         },(error) => {
                             console.log(error);
                 });
             },
 
-            getProjects: function () {
-                axios.get('/budget/approved_project/capital_assets/getAllItems' , {params:{pId: this.selectedPlan , planOrCost: 0}})
-                    .then((response) => {
-                        this.approvedProjects = response.data;
-                        console.log(response);
-                    },(error) => {
-                        console.log(error);
-                    });
-            },
-
-            getProjectsCreditSource: function () {
-                axios.get('/budget/approved_project/capital_assets/credit_source/getAllItem' , {params:{pId: this.selectedProject}})
+            getCreditSource: function () {
+                axios.get('/budget/approved_plan/cost/credit_source/getAllItem' , {params:{caId: this.selectedCostAgreement}})
                    .then((response) => {
-                        this.projectCreditSources = response.data;
+                        this.caCreditSources = response.data;
                         console.log(response);
                     },(error) => {
                         console.log(error);
@@ -595,7 +583,7 @@
 
             openInsertModal: function (type) {
                 this.provOrNat = type;
-                this.getAllApprovedPlan(type);
+                this.getAllCostAgreements(type);
                 this.showModal = true;
             },
 

@@ -185,9 +185,9 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('/register', 'PlanController@registerCostAgreement');
         //Route::post('/delete', 'PlanController@deleteCapitalAssetsApprovedPlan');
         //Route::post('/update', 'PlanController@updateCapitalAssetsApprovedPlan');
-        //Route::get('/getAllItems', 'PlanController@getAllApprovedPlan');
+        Route::get('/getAllItems', 'PlanController@getAllCaItems');
         Route::post('/credit_source/register', 'PlanController@registerCaCreditSource');
-        //Route::get('/credit_source/getAllItem', 'PlanController@getAllApCreditSourceItems');
+        Route::get('/credit_source/getAllItem', 'PlanController@getAllcaCreditSourceItems');
     });
 
     Route::prefix('approved_project/capital_assets')->group(function () {
