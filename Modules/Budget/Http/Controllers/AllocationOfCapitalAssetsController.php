@@ -13,6 +13,8 @@ use Modules\Budget\Entities\CapitalAssetsAllocation;
 use Modules\Budget\Entities\CapitalAssetsApprovedPlan;
 use Modules\Budget\Entities\CapitalAssetsProject;
 use Modules\Budget\Entities\CdrCaa;
+use Modules\Budget\Entities\CostAgreement;
+use Modules\Budget\Entities\CostAllocation;
 use Modules\Budget\Entities\CreditDistributionRow;
 
 class AllocationOfCapitalAssetsController extends Controller
@@ -58,5 +60,36 @@ class AllocationOfCapitalAssetsController extends Controller
         $info['approvedAmount'] = CapCreditSource::where('id' , '=' , $request->pcsId)->value('ccsAmount');
         $info['sumAllocation'] = CapitalAssetsAllocation::where('caaCcsId' , '=' , $request->pcsId)->sum('caaAmount');
         return \response()->json($info);
+    }
+
+    ////////////////////////// cost ////////////////////////////////
+    public function registerCostAllocation(Request $request)
+    {
+        $caAlloc = new CostAllocation;
+        $caAlloc->caUId = Auth::user()->id;
+        $caAlloc->caCcsId = $request->ccsId;
+        $caAlloc->caLetterNumber = $request->idNumber;
+        $caAlloc->caLetterDate = $request->date;
+        $caAlloc->caAmount = AmountUnit::convertInputAmount($request->amount);
+        $caAlloc->caDescription = $request->description;
+        $caAlloc->save();
+
+        SystemLog::setBudgetSubSystemLog('ثبت تخصیص اعتبار هزینه ای');
+        return \response()->json(
+            $this->getAllCostAllocates($request->pOrN)
+        );
+    }
+
+    public function getAllCostAllocates($pOrN)
+    {
+        return CostAgreement::where('caFyId' , '=' , Auth::user()->seFiscalYear)
+            ->where('caProvinceOrNational' , '=' , $pOrN)
+            ->has('caCreditSource.allocation')
+            ->with('caCreditSource.allocation')
+            ->with('caCreditSource.creditDistributionRow')
+            ->with('caCreditSource.tinySeason.seasonTitle.season')
+            ->with('caCreditSource.creditDistributionTitle')
+            ->with('caCreditSource.creditDistributionTitle.county')
+            ->paginate(5);
     }
 }

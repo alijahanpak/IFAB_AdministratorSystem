@@ -255,7 +255,7 @@
                 <!--Insert Modal Start-->
                 <modal-small v-if="showModal" @close="showModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div  slot="body">
-                        <form v-on:submit.prevent="createCostAgreement">
+                        <form v-on:submit.prevent="createCostAllocation">
                             <div class="grid-x" v-if="errorMessage">
                                 <div class="medium-12 columns padding-lr">
                                     <div class="alert callout">
