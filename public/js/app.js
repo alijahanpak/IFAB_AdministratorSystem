@@ -81333,7 +81333,7 @@ if (false) {(function () {
         getSeasonTitle: function getSeasonTitle() {
             var _this4 = this;
 
-            axios.get('/budget/admin/season_title/capital_assets/getWithSeasonId', { params: { sId: this.selectedSeason } }).then(function (response) {
+            axios.get('/budget/admin/season_title/cost/getWithSeasonId', { params: { sId: this.selectedSeason } }).then(function (response) {
                 _this4.seasonTitles = response.data;
                 console.log(response);
             }, function (error) {
@@ -81344,7 +81344,7 @@ if (false) {(function () {
         getTinySeasons: function getTinySeasons() {
             var _this5 = this;
 
-            axios.get('/budget/admin/sub_seasons/capital_assets/getAllItem', { params: { castId: this.selectedSeasonTitle } }).then(function (response) {
+            axios.get('/budget/admin/sub_seasons/cost/getAllItem', { params: { cstId: this.selectedSeasonTitle } }).then(function (response) {
                 _this5.tinySeasons = response.data;
                 console.log(response);
             }, function (error) {
@@ -81692,7 +81692,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_c('table', {
       staticClass: "unstriped tbl-secondary-mrg small-font"
     }, [_vm._m(6, true), _vm._v(" "), _c('tbody', _vm._l((cAp.ca_credit_source), function(creditSource) {
-      return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.castSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.catsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
+      return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.cstSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.ctsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
     }))])])])])])
   }))]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
@@ -81828,7 +81828,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_c('table', {
       staticClass: "unstriped tbl-secondary-mrg small-font"
     }, [_vm._m(11, true), _vm._v(" "), _c('tbody', _vm._l((cAp.ca_credit_source), function(creditSource) {
-      return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.castSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.catsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
+      return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.cstSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.ctsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
     }))])])])])])
   }))]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
@@ -82666,7 +82666,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       domProps: {
         "value": seasonTitle.id
       }
-    }, [_vm._v(_vm._s(seasonTitle.castSubject))])
+    }, [_vm._v(_vm._s(seasonTitle.cstSubject))])
   })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
@@ -82717,7 +82717,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       domProps: {
         "value": tinySeason.id
       }
-    }, [_vm._v(_vm._s(tinySeason.catsSubject))])
+    }, [_vm._v(_vm._s(tinySeason.ctsSubject))])
   })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
@@ -84004,6 +84004,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)
       }
     }, [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].cpCode))]), _vm._v(" "), _c('td', {
+      staticClass: "text-center",
       attrs: {
         "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)
       }
@@ -84084,6 +84085,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)
       }
     }, [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].cpCode))]), _vm._v(" "), _c('td', {
+      staticClass: "text-center",
       attrs: {
         "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)
       }
@@ -85294,6 +85296,96 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -85412,11 +85504,11 @@ if (false) {(function () {
             });
         },
 
-        getProjectAllocationSum: function getProjectAllocationSum(creditSource) {
+        getProgAllocationSum: function getProgAllocationSum(creditSource) {
             var sum = 0;
             creditSource.forEach(function (cs) {
                 cs.allocation.forEach(function (alloc) {
-                    sum += alloc.caaAmount;
+                    sum += alloc.caAmount;
                 });
             });
 
@@ -85614,27 +85706,160 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "tbl-head-style-cell"
     }, [_c('td', {
       attrs: {
-        "rowspan": _vm.getProjectAllocCount(progs.ca_credit_source)
+        "rowspan": _vm.getProjectAllocCount(progs.ca_credit_source_has_allocation)
       }
     }, [_vm._v(_vm._s(progs.caLetterNumber))]), _vm._v(" "), _c('td', {
+      staticClass: "text-center",
       attrs: {
-        "rowspan": _vm.getProjectAllocCount(progs.ca_credit_source)
+        "rowspan": _vm.getProjectAllocCount(progs.ca_credit_source_has_allocation)
       }
-    }, [_vm._v("0")]), _vm._v(" "), _c('td', {
+    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getProgAllocationSum(progs.ca_credit_source_has_allocation), false)))]), _vm._v(" "), _c('td', {
       attrs: {
-        "rowspan": progs.ca_credit_source[0].allocation.length
+        "rowspan": progs.ca_credit_source_has_allocation[0].allocation.length
       }
-    }, [_vm._v(_vm._s(progs.ca_credit_source[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(progs.ca_credit_source[0].allocation[0].caLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(progs.ca_credit_source[0].allocation[0].caLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(progs.ca_credit_source[0].allocation[0].caAmount))])]), _vm._v(" "), _vm._l((progs.ca_credit_source), function(credit_source, csIndex) {
+    }, [_vm._v(_vm._s(progs.ca_credit_source_has_allocation[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(progs.ca_credit_source_has_allocation[0].allocation[0].caLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(progs.ca_credit_source_has_allocation[0].allocation[0].caLetterDate))]), _vm._v(" "), _c('td', [_c('div', {
+      staticClass: "grid-x"
+    }, [_c('div', {
+      staticClass: "medium-11"
+    }, [_vm._v("\n                                                                " + _vm._s(_vm.$parent.calcDispAmount(progs.ca_credit_source_has_allocation[0].allocation[0].caAmount, false)) + "\n                                                            ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-1 cell-vertical-center text-left"
+    }, [_c('a', {
+      staticClass: "dropdown small sm-btn-align",
+      attrs: {
+        "type": "button",
+        "data-toggle": 'provCostAllocation' + progs.id
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-ellipsis-v size-18"
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "dropdown-pane dropdown-pane-sm ",
+      attrs: {
+        "data-close-on-click": "true",
+        "data-hover": "true",
+        "data-hover-pane": "true",
+        "data-position": "bottom",
+        "data-alignment": "right",
+        "id": 'provCostAllocation' + progs.id,
+        "data-dropdown": "",
+        "data-auto-focus": "true"
+      }
+    }, [_c('ul', {
+      staticClass: "my-menu small-font text-right"
+    }, [_c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-pencil-square-o size-16"
+    }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-trash-o size-16"
+    }), _vm._v("  حذف")])])])])])])])]), _vm._v(" "), _vm._l((progs.ca_credit_source_has_allocation), function(credit_source, csIndex) {
       return [(csIndex > 0) ? _c('tr', {
         staticClass: "tbl-head-style-cell"
       }, [_c('td', {
         attrs: {
           "rowspan": credit_source.allocation.length
         }
-      }, [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caAmount))])]) : _vm._e(), _vm._v(" "), _vm._l((credit_source.allocation), function(alloc, allocIndex) {
+      }, [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caLetterDate))]), _vm._v(" "), _c('td', [_c('div', {
+        staticClass: "grid-x"
+      }, [_c('div', {
+        staticClass: "medium-11"
+      }, [_vm._v("\n                                                                    " + _vm._s(_vm.$parent.calcDispAmount(credit_source.allocation[0].caAmount, false)) + "\n                                                                ")]), _vm._v(" "), _c('div', {
+        staticClass: "medium-1 cell-vertical-center text-left"
+      }, [_c('a', {
+        staticClass: "dropdown small sm-btn-align",
+        attrs: {
+          "type": "button",
+          "data-toggle": 'provCostAllocation' + progs.id + credit_source.id
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-ellipsis-v size-18"
+      })]), _vm._v(" "), _c('div', {
+        staticClass: "dropdown-pane dropdown-pane-sm ",
+        attrs: {
+          "data-close-on-click": "true",
+          "data-hover": "true",
+          "data-hover-pane": "true",
+          "data-position": "bottom",
+          "data-alignment": "right",
+          "id": 'provCostAllocation' + progs.id + credit_source.id,
+          "data-dropdown": "",
+          "data-auto-focus": "true"
+        }
+      }, [_c('ul', {
+        staticClass: "my-menu small-font text-right"
+      }, [_c('li', [_c('a', {
+        on: {
+          "click": function($event) {
+            $event.preventDefault();
+          }
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-pencil-square-o size-16"
+      }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+        on: {
+          "click": function($event) {
+            $event.preventDefault();
+          }
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-trash-o size-16"
+      }), _vm._v("  حذف")])])])])])])])]) : _vm._e(), _vm._v(" "), _vm._l((credit_source.allocation), function(alloc, allocIndex) {
         return [(allocIndex > 0) ? _c('tr', {
           staticClass: "tbl-head-style-cell"
-        }, [_c('td', [_vm._v(_vm._s(alloc.caLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caAmount))])]) : _vm._e()]
+        }, [_c('td', [_vm._v(_vm._s(alloc.caLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caLetterDate))]), _vm._v(" "), _c('td', [_c('div', {
+          staticClass: "grid-x"
+        }, [_c('div', {
+          staticClass: "medium-11"
+        }, [_vm._v("\n                                                                        " + _vm._s(_vm.$parent.calcDispAmount(alloc.caAmount, false)) + "\n                                                                    ")]), _vm._v(" "), _c('div', {
+          staticClass: "medium-1 cell-vertical-center text-left"
+        }, [_c('a', {
+          staticClass: "dropdown small sm-btn-align",
+          attrs: {
+            "type": "button",
+            "data-toggle": 'provCostAllocation' + progs.id + credit_source.id + alloc.id
+          }
+        }, [_c('i', {
+          staticClass: "fa fa-ellipsis-v size-18"
+        })]), _vm._v(" "), _c('div', {
+          staticClass: "dropdown-pane dropdown-pane-sm ",
+          attrs: {
+            "data-close-on-click": "true",
+            "data-hover": "true",
+            "data-hover-pane": "true",
+            "data-position": "bottom",
+            "data-alignment": "right",
+            "id": 'provCostAllocation' + progs.id + credit_source.id + alloc.id,
+            "data-dropdown": "",
+            "data-auto-focus": "true"
+          }
+        }, [_c('ul', {
+          staticClass: "my-menu small-font text-right"
+        }, [_c('li', [_c('a', {
+          on: {
+            "click": function($event) {
+              $event.preventDefault();
+            }
+          }
+        }, [_c('i', {
+          staticClass: "fa fa-pencil-square-o size-16"
+        }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+          on: {
+            "click": function($event) {
+              $event.preventDefault();
+            }
+          }
+        }, [_c('i', {
+          staticClass: "fa fa-trash-o size-16"
+        }), _vm._v("  حذف")])])])])])])])]) : _vm._e()]
       })]
     })]
   })], 2)])])])])]), _vm._v(" "), _c('div', {
@@ -85662,9 +85887,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
   }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(9), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _vm._m(11)]), _vm._v(" "), _c('div', {
-    staticClass: "tbl-div-container dynamic-height-level2"
+    staticClass: "tbl-div-container"
   }, [_vm._m(12), _vm._v(" "), _c('div', {
-    staticClass: "tbl_body_style"
+    staticClass: "tbl_body_style dynamic-height-level2"
   }, [_c('table', {
     staticClass: "tbl-body-contain"
   }, [_vm._m(13), _vm._v(" "), _c('tbody', {
@@ -85674,27 +85899,160 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "tbl-head-style-cell"
     }, [_c('td', {
       attrs: {
-        "rowspan": _vm.getProjectAllocCount(progs.ca_credit_source)
+        "rowspan": _vm.getProjectAllocCount(progs.ca_credit_source_has_allocation)
       }
     }, [_vm._v(_vm._s(progs.caLetterNumber))]), _vm._v(" "), _c('td', {
+      staticClass: "text-center",
       attrs: {
-        "rowspan": _vm.getProjectAllocCount(progs.ca_credit_source)
+        "rowspan": _vm.getProjectAllocCount(progs.ca_credit_source_has_allocation)
       }
-    }, [_vm._v("0")]), _vm._v(" "), _c('td', {
+    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getProgAllocationSum(progs.ca_credit_source_has_allocation), false)))]), _vm._v(" "), _c('td', {
       attrs: {
-        "rowspan": progs.ca_credit_source[0].allocation.length
+        "rowspan": progs.ca_credit_source_has_allocation[0].allocation.length
       }
-    }, [_vm._v(_vm._s(progs.ca_credit_source[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(progs.ca_credit_source[0].allocation[0].caLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(progs.ca_credit_source[0].allocation[0].caLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(progs.ca_credit_source[0].allocation[0].caAmount))])]), _vm._v(" "), _vm._l((progs.ca_credit_source), function(credit_source, csIndex) {
+    }, [_vm._v(_vm._s(progs.ca_credit_source_has_allocation[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(progs.ca_credit_source_has_allocation[0].allocation[0].caLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(progs.ca_credit_source_has_allocation[0].allocation[0].caLetterDate))]), _vm._v(" "), _c('td', [_c('div', {
+      staticClass: "grid-x"
+    }, [_c('div', {
+      staticClass: "medium-11"
+    }, [_vm._v("\n                                                                " + _vm._s(_vm.$parent.calcDispAmount(progs.ca_credit_source_has_allocation[0].allocation[0].caAmount, false)) + "\n                                                            ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-1 cell-vertical-center text-left"
+    }, [_c('a', {
+      staticClass: "dropdown small sm-btn-align",
+      attrs: {
+        "type": "button",
+        "data-toggle": 'provCostAllocation' + progs.id
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-ellipsis-v size-18"
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "dropdown-pane dropdown-pane-sm ",
+      attrs: {
+        "data-close-on-click": "true",
+        "data-hover": "true",
+        "data-hover-pane": "true",
+        "data-position": "bottom",
+        "data-alignment": "right",
+        "id": 'provCostAllocation' + progs.id,
+        "data-dropdown": "",
+        "data-auto-focus": "true"
+      }
+    }, [_c('ul', {
+      staticClass: "my-menu small-font text-right"
+    }, [_c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-pencil-square-o size-16"
+    }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-trash-o size-16"
+    }), _vm._v("  حذف")])])])])])])])]), _vm._v(" "), _vm._l((progs.ca_credit_source_has_allocation), function(credit_source, csIndex) {
       return [(csIndex > 0) ? _c('tr', {
         staticClass: "tbl-head-style-cell"
       }, [_c('td', {
         attrs: {
           "rowspan": credit_source.allocation.length
         }
-      }, [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caAmount))])]) : _vm._e(), _vm._v(" "), _vm._l((credit_source.allocation), function(alloc, allocIndex) {
+      }, [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caLetterDate))]), _vm._v(" "), _c('td', [_c('div', {
+        staticClass: "grid-x"
+      }, [_c('div', {
+        staticClass: "medium-11"
+      }, [_vm._v("\n                                                                    " + _vm._s(_vm.$parent.calcDispAmount(credit_source.allocation[0].caAmount, false)) + "\n                                                                ")]), _vm._v(" "), _c('div', {
+        staticClass: "medium-1 cell-vertical-center text-left"
+      }, [_c('a', {
+        staticClass: "dropdown small sm-btn-align",
+        attrs: {
+          "type": "button",
+          "data-toggle": 'provCostAllocation' + progs.id + credit_source.id
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-ellipsis-v size-18"
+      })]), _vm._v(" "), _c('div', {
+        staticClass: "dropdown-pane dropdown-pane-sm ",
+        attrs: {
+          "data-close-on-click": "true",
+          "data-hover": "true",
+          "data-hover-pane": "true",
+          "data-position": "bottom",
+          "data-alignment": "right",
+          "id": 'provCostAllocation' + progs.id + credit_source.id,
+          "data-dropdown": "",
+          "data-auto-focus": "true"
+        }
+      }, [_c('ul', {
+        staticClass: "my-menu small-font text-right"
+      }, [_c('li', [_c('a', {
+        on: {
+          "click": function($event) {
+            $event.preventDefault();
+          }
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-pencil-square-o size-16"
+      }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+        on: {
+          "click": function($event) {
+            $event.preventDefault();
+          }
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-trash-o size-16"
+      }), _vm._v("  حذف")])])])])])])])]) : _vm._e(), _vm._v(" "), _vm._l((credit_source.allocation), function(alloc, allocIndex) {
         return [(allocIndex > 0) ? _c('tr', {
           staticClass: "tbl-head-style-cell"
-        }, [_c('td', [_vm._v(_vm._s(alloc.caLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caAmount))])]) : _vm._e()]
+        }, [_c('td', [_vm._v(_vm._s(alloc.caLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caLetterDate))]), _vm._v(" "), _c('td', [_c('div', {
+          staticClass: "grid-x"
+        }, [_c('div', {
+          staticClass: "medium-11"
+        }, [_vm._v("\n                                                                        " + _vm._s(_vm.$parent.calcDispAmount(alloc.caAmount, false)) + "\n                                                                    ")]), _vm._v(" "), _c('div', {
+          staticClass: "medium-1 cell-vertical-center text-left"
+        }, [_c('a', {
+          staticClass: "dropdown small sm-btn-align",
+          attrs: {
+            "type": "button",
+            "data-toggle": 'provCostAllocation' + progs.id + credit_source.id + alloc.id
+          }
+        }, [_c('i', {
+          staticClass: "fa fa-ellipsis-v size-18"
+        })]), _vm._v(" "), _c('div', {
+          staticClass: "dropdown-pane dropdown-pane-sm ",
+          attrs: {
+            "data-close-on-click": "true",
+            "data-hover": "true",
+            "data-hover-pane": "true",
+            "data-position": "bottom",
+            "data-alignment": "right",
+            "id": 'provCostAllocation' + progs.id + credit_source.id + alloc.id,
+            "data-dropdown": "",
+            "data-auto-focus": "true"
+          }
+        }, [_c('ul', {
+          staticClass: "my-menu small-font text-right"
+        }, [_c('li', [_c('a', {
+          on: {
+            "click": function($event) {
+              $event.preventDefault();
+            }
+          }
+        }, [_c('i', {
+          staticClass: "fa fa-pencil-square-o size-16"
+        }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+          on: {
+            "click": function($event) {
+              $event.preventDefault();
+            }
+          }
+        }, [_c('i', {
+          staticClass: "fa fa-trash-o size-16"
+        }), _vm._v("  حذف")])])])])])])])]) : _vm._e()]
       })]
     })]
   })], 2)])])])])])]), _vm._v(" "), (_vm.showModal) ? _c('modal-small', {
@@ -85869,7 +86227,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       domProps: {
         "value": caCreditSource.id
       }
-    }, [_vm._v(_vm._s(caCreditSource.credit_distribution_title.cdtSubject + ' - ' + caCreditSource.credit_distribution_row.cdSubject + ' - ' + caCreditSource.tiny_season.season_title.season.sSubject + ' - ' + caCreditSource.tiny_season.season_title.castSubject + ' - ' + caCreditSource.tiny_season.catsSubject))])
+    }, [_vm._v(_vm._s(caCreditSource.credit_distribution_title.cdtSubject + ' - ' + caCreditSource.credit_distribution_row.cdSubject + ' - ' + caCreditSource.tiny_season.season_title.season.sSubject + ' - ' + caCreditSource.tiny_season.season_title.cstSubject + ' - ' + caCreditSource.tiny_season.ctsSubject + ' - ' + _vm.$parent.calcDispAmount(caCreditSource.ccsAmount)))])
   })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
@@ -86106,15 +86464,15 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "250px"
+      "width": "150px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "100px"
+      "width": "150px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "100px"
+      "width": "150px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
@@ -86150,15 +86508,15 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "250px"
+      "width": "150px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "100px"
+      "width": "150px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "100px"
+      "width": "150px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
@@ -86255,22 +86613,22 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "250px"
+      "width": "150px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "100px"
+      "width": "150px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "100px"
+      "width": "150px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
       "width": "12px"
     }
   })]), _vm._v(" "), _c('tbody', {
-    staticClass: "tbl-head-style"
+    staticClass: "tbl-head-style "
   }, [_c('tr', {
     staticClass: "tbl-head-style-cell"
   }, [_c('th', {
@@ -86299,15 +86657,15 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "250px"
+      "width": "150px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "100px"
+      "width": "150px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "100px"
+      "width": "150px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {

@@ -603,6 +603,11 @@ class BudgetAdminController extends Controller
         }
     }
 
+    public function getAllCostTinySeason(Request $request)
+    {
+        return \response()->json(CostTinySeason::where('ctsCstId' , '=' , $request->cstId)->get());
+    }
+
     ////////////////////////////// capital assets tiny season /////////////////////////////////
     public function getCapitalAssetsTinySeasonsWhitSeasonId(Request $request)
     {

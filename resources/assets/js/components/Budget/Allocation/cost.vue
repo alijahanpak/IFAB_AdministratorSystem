@@ -64,9 +64,9 @@
                                         <col width="200px"/>
                                         <col width="150px"/>
                                         <col width="150px"/>
-                                        <col width="250px"/>
-                                        <col width="100px"/>
-                                        <col width="100px"/>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
                                         <col width="12px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style">
@@ -88,33 +88,78 @@
                                         <colgroup>
                                             <col width="200px"/>
                                             <col width="150px"/>
-                                            <col width="250px"/>
-                                            <col width="100px"/>
-                                            <col width="100px"/>
+                                            <col width="150px"/>
+                                            <col width="150px"/>
+                                            <col width="150px"/>
                                             <col width="150px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
                                             <template v-for="progs in provCostAllocations">
                                                 <tr class="tbl-head-style-cell" >
-                                                    <td :rowspan="getProjectAllocCount(progs.ca_credit_source)">{{ progs.caLetterNumber }}</td>
-                                                    <td :rowspan="getProjectAllocCount(progs.ca_credit_source)">0</td>
-                                                    <td :rowspan="progs.ca_credit_source[0].allocation.length">{{ progs.ca_credit_source[0].credit_distribution_row.cdSubject }}</td>
-                                                    <td>{{ progs.ca_credit_source[0].allocation[0].caLetterNumber }}</td>
-                                                    <td>{{ progs.ca_credit_source[0].allocation[0].caLetterDate }}</td>
-                                                    <td>{{ progs.ca_credit_source[0].allocation[0].caAmount }}</td>
+                                                    <td :rowspan="getProjectAllocCount(progs.ca_credit_source_has_allocation)">{{ progs.caLetterNumber }}</td>
+                                                    <td :rowspan="getProjectAllocCount(progs.ca_credit_source_has_allocation)" class="text-center">{{ $parent.calcDispAmount(getProgAllocationSum(progs.ca_credit_source_has_allocation) , false) }}</td>
+                                                    <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length">{{ progs.ca_credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
+                                                    <td>{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterNumber }}</td>
+                                                    <td>{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterDate }}</td>
+                                                    <td>
+                                                        <div class="grid-x">
+                                                            <div class="medium-11">
+                                                                {{ $parent.calcDispAmount(progs.ca_credit_source_has_allocation[0].allocation[0].caAmount , false) }}
+                                                            </div>
+                                                            <div class="medium-1 cell-vertical-center text-left">
+                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'provCostAllocation' + progs.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCostAllocation' + progs.id" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font text-right">
+                                                                        <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
                                                 </tr>
-                                                <template v-for="(credit_source , csIndex) in progs.ca_credit_source">
+                                                <template v-for="(credit_source , csIndex) in progs.ca_credit_source_has_allocation">
                                                     <tr class="tbl-head-style-cell" v-if="csIndex > 0">
                                                         <td :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_row.cdSubject }}</td>
                                                         <td>{{ credit_source.allocation[0].caLetterNumber }}</td>
                                                         <td>{{ credit_source.allocation[0].caLetterDate }}</td>
-                                                        <td>{{ credit_source.allocation[0].caAmount }}</td>
+                                                        <td>
+                                                            <div class="grid-x">
+                                                                <div class="medium-11">
+                                                                    {{ $parent.calcDispAmount(credit_source.allocation[0].caAmount , false) }}
+                                                                </div>
+                                                                <div class="medium-1 cell-vertical-center text-left">
+                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'provCostAllocation' + progs.id + credit_source.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCostAllocation' + progs.id + credit_source.id" data-dropdown data-auto-focus="true">
+                                                                        <ul class="my-menu small-font text-right">
+                                                                            <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                            <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
                                                     </tr>
                                                     <template v-for="(alloc , allocIndex) in credit_source.allocation">
                                                         <tr class="tbl-head-style-cell" v-if="allocIndex > 0">
                                                             <td>{{ alloc.caLetterNumber }}</td>
                                                             <td>{{ alloc.caLetterDate }}</td>
-                                                            <td>{{ alloc.caAmount }}</td>
+                                                            <td>
+                                                                <div class="grid-x">
+                                                                    <div class="medium-11">
+                                                                        {{ $parent.calcDispAmount(alloc.caAmount , false) }}
+                                                                    </div>
+                                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'provCostAllocation' + progs.id + credit_source.id + alloc.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCostAllocation' + progs.id + credit_source.id + alloc.id" data-dropdown data-auto-focus="true">
+                                                                            <ul class="my-menu small-font text-right">
+                                                                                <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                                <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                     </template>
                                                 </template>
@@ -158,18 +203,18 @@
                             </div>
                             <!--Table Start-->
                             <!--Table Head Start-->
-                            <div class="tbl-div-container dynamic-height-level2">
+                            <div class="tbl-div-container">
                                 <table class="tbl-head">
                                     <colgroup>
                                         <col width="200px"/>
                                         <col width="150px"/>
                                         <col width="150px"/>
-                                        <col width="250px"/>
-                                        <col width="100px"/>
-                                        <col width="100px"/>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
                                         <col width="12px"/>
                                     </colgroup>
-                                    <tbody class="tbl-head-style">
+                                    <tbody class="tbl-head-style ">
                                     <tr class="tbl-head-style-cell">
                                         <th class="tbl-head-style-cell">برنامه</th>
                                         <th class="tbl-head-style-cell">سرجمع</th>
@@ -183,38 +228,83 @@
                                 </table>
                                 <!--Table Head End-->
                                 <!--Table Body Start-->
-                                <div class="tbl_body_style">
+                                <div class="tbl_body_style dynamic-height-level2">
                                     <table class="tbl-body-contain">
                                         <colgroup>
                                             <col width="200px"/>
                                             <col width="150px"/>
-                                            <col width="250px"/>
-                                            <col width="100px"/>
-                                            <col width="100px"/>
+                                            <col width="150px"/>
+                                            <col width="150px"/>
+                                            <col width="150px"/>
                                             <col width="150px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
                                             <template v-for="progs in natCostAllocations">
                                                 <tr class="tbl-head-style-cell" >
-                                                    <td :rowspan="getProjectAllocCount(progs.ca_credit_source)">{{ progs.caLetterNumber }}</td>
-                                                    <td :rowspan="getProjectAllocCount(progs.ca_credit_source)">0</td>
-                                                    <td :rowspan="progs.ca_credit_source[0].allocation.length">{{ progs.ca_credit_source[0].credit_distribution_row.cdSubject }}</td>
-                                                    <td>{{ progs.ca_credit_source[0].allocation[0].caLetterNumber }}</td>
-                                                    <td>{{ progs.ca_credit_source[0].allocation[0].caLetterDate }}</td>
-                                                    <td>{{ progs.ca_credit_source[0].allocation[0].caAmount }}</td>
+                                                    <td :rowspan="getProjectAllocCount(progs.ca_credit_source_has_allocation)">{{ progs.caLetterNumber }}</td>
+                                                    <td :rowspan="getProjectAllocCount(progs.ca_credit_source_has_allocation)" class="text-center">{{ $parent.calcDispAmount(getProgAllocationSum(progs.ca_credit_source_has_allocation) , false) }}</td>
+                                                    <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length">{{ progs.ca_credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
+                                                    <td>{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterNumber }}</td>
+                                                    <td>{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterDate }}</td>
+                                                    <td>
+                                                        <div class="grid-x">
+                                                            <div class="medium-11">
+                                                                {{ $parent.calcDispAmount(progs.ca_credit_source_has_allocation[0].allocation[0].caAmount , false) }}
+                                                            </div>
+                                                            <div class="medium-1 cell-vertical-center text-left">
+                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'provCostAllocation' + progs.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCostAllocation' + progs.id" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font text-right">
+                                                                        <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
                                                 </tr>
-                                                <template v-for="(credit_source , csIndex) in progs.ca_credit_source">
+                                                <template v-for="(credit_source , csIndex) in progs.ca_credit_source_has_allocation">
                                                     <tr class="tbl-head-style-cell" v-if="csIndex > 0">
                                                         <td :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_row.cdSubject }}</td>
                                                         <td>{{ credit_source.allocation[0].caLetterNumber }}</td>
                                                         <td>{{ credit_source.allocation[0].caLetterDate }}</td>
-                                                        <td>{{ credit_source.allocation[0].caAmount }}</td>
+                                                        <td>
+                                                            <div class="grid-x">
+                                                                <div class="medium-11">
+                                                                    {{ $parent.calcDispAmount(credit_source.allocation[0].caAmount , false) }}
+                                                                </div>
+                                                                <div class="medium-1 cell-vertical-center text-left">
+                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'provCostAllocation' + progs.id + credit_source.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCostAllocation' + progs.id + credit_source.id" data-dropdown data-auto-focus="true">
+                                                                        <ul class="my-menu small-font text-right">
+                                                                            <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                            <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
                                                     </tr>
                                                     <template v-for="(alloc , allocIndex) in credit_source.allocation">
                                                         <tr class="tbl-head-style-cell" v-if="allocIndex > 0">
                                                             <td>{{ alloc.caLetterNumber }}</td>
                                                             <td>{{ alloc.caLetterDate }}</td>
-                                                            <td>{{ alloc.caAmount }}</td>
+                                                            <td>
+                                                                <div class="grid-x">
+                                                                    <div class="medium-11">
+                                                                        {{ $parent.calcDispAmount(alloc.caAmount , false) }}
+                                                                    </div>
+                                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'provCostAllocation' + progs.id + credit_source.id + alloc.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCostAllocation' + progs.id + credit_source.id + alloc.id" data-dropdown data-auto-focus="true">
+                                                                            <ul class="my-menu small-font text-right">
+                                                                                <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                                <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                     </template>
                                                 </template>
@@ -269,7 +359,7 @@
                                     <label>اعتبار مصوب
                                         <select class="form-element-margin-btm" @change=""  v-model="AllocationInput.caCsId" name="credit" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('credit')}">
                                             <option value=""></option>
-                                            <option v-for="caCreditSource in caCreditSources" :value="caCreditSource.id">{{ caCreditSource.credit_distribution_title.cdtSubject + ' - ' + caCreditSource.credit_distribution_row.cdSubject + ' - ' + caCreditSource.tiny_season.season_title.season.sSubject + ' - ' + caCreditSource.tiny_season.season_title.castSubject + ' - ' + caCreditSource.tiny_season.catsSubject }}</option>
+                                            <option v-for="caCreditSource in caCreditSources" :value="caCreditSource.id">{{ caCreditSource.credit_distribution_title.cdtSubject + ' - ' + caCreditSource.credit_distribution_row.cdSubject + ' - ' + caCreditSource.tiny_season.season_title.season.sSubject + ' - ' + caCreditSource.tiny_season.season_title.cstSubject + ' - ' + caCreditSource.tiny_season.ctsSubject + ' - ' + $parent.calcDispAmount(caCreditSource.ccsAmount) }}</option>
                                         </select>
                                         <span v-show="errors.has('credit')" class="error-font">لطفا اعتبار مصوب را انتخاب کنید!</span>
                                     </label>
@@ -529,11 +619,11 @@
 
             },
 
-            getProjectAllocationSum: function (creditSource) {
+            getProgAllocationSum: function (creditSource) {
                 var sum = 0;
                 creditSource.forEach(cs => {
                     cs.allocation.forEach(alloc => {
-                        sum += alloc.caaAmount;
+                        sum += alloc.caAmount;
                     });
                 });
 

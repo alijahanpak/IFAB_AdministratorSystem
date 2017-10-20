@@ -11,7 +11,7 @@ class CostTinySeason extends Model
 
     public function seasonTitle()
     {
-        return $this->belongsTo(CostSeasonTitle::class , 'catsCastId' , 'id');
+        return $this->belongsTo(CostSeasonTitle::class , 'ctsCstId' , 'id');
     }
 
     public static function getTinySeasonWithSId($sId)

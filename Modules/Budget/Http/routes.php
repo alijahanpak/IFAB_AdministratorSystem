@@ -104,6 +104,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
 {
     Route::prefix('admin/sub_seasons/cost')->group(function () {
         Route::get('/fetchData', 'BudgetAdminController@FetchCostTinySeasonData');
+        Route::get('/getAllItem', 'BudgetAdminController@getAllCostTinySeason');
         Route::post('/register', 'BudgetAdminController@registerCostTinySeason');
         Route::post('/update', 'BudgetAdminController@updateCostTinySeason');
         Route::post('/delete', 'BudgetAdminController@deleteCostTinySeason');

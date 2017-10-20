@@ -133,8 +133,8 @@
                                                         <tr v-for="creditSource in cAp.ca_credit_source">
                                                             <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
                                                             <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
-                                                            <td>{{ creditSource.tiny_season.season_title.castSubject }}</td>
-                                                            <td>{{ creditSource.tiny_season.catsSubject }}</td>
+                                                            <td>{{ creditSource.tiny_season.season_title.cstSubject }}</td>
+                                                            <td>{{ creditSource.tiny_season.ctsSubject }}</td>
                                                             <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
                                                             <td>{{ creditSource.ccsDescription }}</td>
                                                         </tr>
@@ -262,8 +262,8 @@
                                                         <tr v-for="creditSource in cAp.ca_credit_source">
                                                             <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
                                                             <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
-                                                            <td>{{ creditSource.tiny_season.season_title.castSubject }}</td>
-                                                            <td>{{ creditSource.tiny_season.catsSubject }}</td>
+                                                            <td>{{ creditSource.tiny_season.season_title.cstSubject }}</td>
+                                                            <td>{{ creditSource.tiny_season.ctsSubject }}</td>
                                                             <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
                                                             <td>{{ creditSource.ccsDescription }}</td>
                                                         </tr>
@@ -480,7 +480,7 @@
                                 <label>عنوان فصل
                                     <select class="form-element-margin-btm" v-model="selectedSeasonTitle" @change="getTinySeasons" name="seasonTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('seasonTitle')}">
                                         <option value=""></option>
-                                        <option v-for="seasonTitle in seasonTitles" :value="seasonTitle.id">{{ seasonTitle.castSubject }}</option>
+                                        <option v-for="seasonTitle in seasonTitles" :value="seasonTitle.id">{{ seasonTitle.cstSubject }}</option>
                                     </select>
                                     <span v-show="errors.has('seasonTitle')" class="error-font">لطفا عنوان فصل را انتخاب کنید!</span>
                                 </label>
@@ -491,7 +491,7 @@
                                 <label>ریز فصل
                                     <select class="form-element-margin-btm" v-model="caCreditSourceInput.tsId" name="subSeason" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('subSeason')}">
                                         <option value=""></option>
-                                        <option v-for="tinySeason in tinySeasons" :value="tinySeason.id">{{ tinySeason.catsSubject }}</option>
+                                        <option v-for="tinySeason in tinySeasons" :value="tinySeason.id">{{ tinySeason.ctsSubject }}</option>
                                     </select>
                                     <span v-show="errors.has('subSeason')" class="error-font">لطفا ریز فصل را انتخاب کنید!</span>
                                 </label>
@@ -625,7 +625,7 @@
             },
 
             getSeasonTitle: function () {
-                axios.get('/budget/admin/season_title/capital_assets/getWithSeasonId' , {params:{sId: this.selectedSeason}}).then((response) => {
+                axios.get('/budget/admin/season_title/cost/getWithSeasonId' , {params:{sId: this.selectedSeason}}).then((response) => {
                 this.seasonTitles = response.data;
                 console.log(response);
             },(error) => {
@@ -634,7 +634,7 @@
             },
 
             getTinySeasons: function () {
-                axios.get('/budget/admin/sub_seasons/capital_assets/getAllItem' , {params:{castId: this.selectedSeasonTitle}})
+                axios.get('/budget/admin/sub_seasons/cost/getAllItem' , {params:{cstId: this.selectedSeasonTitle}})
                     .then((response) => {
                         this.tinySeasons = response.data;
                         console.log(response);

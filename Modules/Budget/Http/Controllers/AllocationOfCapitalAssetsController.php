@@ -84,12 +84,12 @@ class AllocationOfCapitalAssetsController extends Controller
     {
         return CostAgreement::where('caFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('caProvinceOrNational' , '=' , $pOrN)
-            ->has('caCreditSource.allocation')
-            ->with('caCreditSource.allocation')
-            ->with('caCreditSource.creditDistributionRow')
-            ->with('caCreditSource.tinySeason.seasonTitle.season')
-            ->with('caCreditSource.creditDistributionTitle')
-            ->with('caCreditSource.creditDistributionTitle.county')
+            ->has('caCreditSourceHasAllocation')
+            ->with('caCreditSourceHasAllocation.allocation')
+            ->with('caCreditSourceHasAllocation.creditDistributionRow')
+            ->with('caCreditSourceHasAllocation.tinySeason.seasonTitle.season')
+            ->with('caCreditSourceHasAllocation.creditDistributionTitle')
+            ->with('caCreditSourceHasAllocation.creditDistributionTitle.county')
             ->paginate(5);
     }
 
