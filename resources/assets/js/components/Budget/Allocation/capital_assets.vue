@@ -135,6 +135,14 @@
                                     </table>
                                 </div>
                             </div>
+                            <div class="grid-x">
+                                <div class="medium-12">
+                                    <vue-pagination  v-bind:pagination="provincial_pagination"
+                                                     v-on:click.native="fetchProvincialData(provincial_pagination.current_page)"
+                                                     :offset="4">
+                                    </vue-pagination>
+                                </div>
+                            </div>
                             <!--Table Start-->
 
                             <!--Table Start-->
@@ -344,6 +352,14 @@
                                         </template>
                                         </tbody>
                                     </table>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-12">
+                                    <vue-pagination  v-bind:pagination="national_pagination"
+                                                     v-on:click.native="fetchNationalData(national_pagination.current_page)"
+                                                     :offset="4">
+                                    </vue-pagination>
                                 </div>
                             </div>
                         </div>

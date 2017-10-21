@@ -81211,18 +81211,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -81748,10 +81736,6 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "medium-2 table-contain-border cell-vertical-center"
     }, [_vm._v("\n                                        " + _vm._s(cAp.caLetterDate) + "\n                                    ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-2 table-contain-border cell-vertical-center"
-    }, [_vm._v("\n                                        " + _vm._s(cAp.caExchangeDate) + "\n                                    ")]), _vm._v(" "), _c('div', {
-      staticClass: "medium-2 table-contain-border cell-vertical-center"
-    }, [_vm._v("\n                                        " + _vm._s(cAp.caExchangeIdNumber) + "\n                                    ")]), _vm._v(" "), _c('div', {
-      staticClass: "medium-2 table-contain-border cell-vertical-center"
     }, [_c('span', {
       on: {
         "click": function($event) {
@@ -81759,7 +81743,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         }
       }
     }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.sumOfAmount(cAp.ca_credit_source), false)))])]), _vm._v(" "), _c('div', {
-      staticClass: "medium-2  table-contain-border cell-vertical-center"
+      staticClass: "medium-6  table-contain-border cell-vertical-center"
     }, [_c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
@@ -81876,7 +81860,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-6 columns padding-lr"
-  }, [_c('label', [_vm._v("شماره\n                                "), _c('input', {
+  }, [_c('label', [_vm._v("شماره ابلاغ\n                                "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -81914,7 +81898,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "error-font"
   }, [_vm._v("شماره فراموش شده است!")])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6 columns padding-lr"
-  }, [_c('label', [_vm._v("تاریخ\n                                "), _c('input', {
+  }, [_c('label', [_vm._v("تاریخ ابلاغ\n                                "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -81950,7 +81934,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       expression: "errors.has('caLetterDate')"
     }],
     staticClass: "error-font"
-  }, [_vm._v("تاریخ فراموش شده است!")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("تاریخ فراموش شده است!")])]), _vm._v(" "), (_vm.provOrNat == 0) ? _c('div', {
     staticClass: "medium-6 columns padding-lr"
   }, [_c('label', [_vm._v("شماره مبادله\n                                "), _c('input', {
     directives: [{
@@ -81988,7 +81972,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       expression: "errors.has('caExLetterNumber')"
     }],
     staticClass: "error-font"
-  }, [_vm._v("شماره فراموش شده است!")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("شماره فراموش شده است!")])]) : _vm._e(), _vm._v(" "), (_vm.provOrNat == 0) ? _c('div', {
     staticClass: "medium-6 columns padding-lr"
   }, [_c('label', [_vm._v("تاریخ مبادله\n                                "), _c('input', {
     directives: [{
@@ -82026,7 +82010,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       expression: "errors.has('caExLetterDate')"
     }],
     staticClass: "error-font"
-  }, [_vm._v("تاریخ فراموش شده است!")])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("تاریخ فراموش شده است!")])]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "small-12 columns padding-lr"
@@ -83027,16 +83011,12 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "grid-x table-header"
   }, [_c('div', {
     staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("شماره مبادله")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("تاریخ مبادله")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-border"
   }, [_c('strong', [_vm._v("شماره ابلاغ")])]), _vm._v(" "), _c('div', {
     staticClass: "medium-2 table-border"
   }, [_c('strong', [_vm._v("تاریخ ابلاغ")])]), _vm._v(" "), _c('div', {
     staticClass: "medium-2 table-border"
   }, [_c('strong', [_vm._v("اعتبار")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2  table-border"
+    staticClass: "medium-6  table-border"
   }, [_c('strong', [_vm._v("شرح")])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('thead', {
@@ -83112,6 +83092,22 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__ = __webpack_require__(7);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -84041,7 +84037,21 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         })]
       })]
     })]
-  })], 2)])])])])]), _vm._v(" "), _c('div', {
+  })], 2)])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12"
+  }, [_c('vue-pagination', {
+    attrs: {
+      "pagination": _vm.provincial_pagination,
+      "offset": 4
+    },
+    nativeOn: {
+      "click": function($event) {
+        _vm.fetchProvincialData(_vm.provincial_pagination.current_page)
+      }
+    }
+  })], 1)])])]), _vm._v(" "), _c('div', {
     staticClass: "tabs-panel table-mrg-btm",
     attrs: {
       "id": "provincial",
@@ -84122,7 +84132,21 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         })]
       })]
     })]
-  })], 2)])])])])])]), _vm._v(" "), (_vm.showModal) ? _c('modal-small', {
+  })], 2)])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12"
+  }, [_c('vue-pagination', {
+    attrs: {
+      "pagination": _vm.national_pagination,
+      "offset": 4
+    },
+    nativeOn: {
+      "click": function($event) {
+        _vm.fetchNationalData(_vm.national_pagination.current_page)
+      }
+    }
+  })], 1)])])])]), _vm._v(" "), (_vm.showModal) ? _c('modal-small', {
     attrs: {
       "xmlns:v-on": "http://www.w3.org/1999/xhtml"
     },
@@ -85386,6 +85410,34 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -85510,6 +85562,15 @@ if (false) {(function () {
                 cs.allocation.forEach(function (alloc) {
                     sum += alloc.caAmount;
                 });
+            });
+
+            return sum;
+        },
+
+        getCsAllocationSum: function getCsAllocationSum(allocs) {
+            var sum = 0;
+            allocs.forEach(function (alloc) {
+                sum += alloc.caAmount;
             });
 
             return sum;
@@ -85709,9 +85770,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "rowspan": _vm.getProjectAllocCount(progs.ca_credit_source_has_allocation)
       }
     }, [_vm._v(_vm._s(progs.caLetterNumber))]), _vm._v(" "), _c('td', {
+      attrs: {
+        "rowspan": progs.ca_credit_source_has_allocation[0].allocation.length
+      }
+    }, [_vm._v(_vm._s(progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtIdNumber + ' - ' + progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
       staticClass: "text-center",
       attrs: {
-        "rowspan": _vm.getProjectAllocCount(progs.ca_credit_source_has_allocation)
+        "rowspan": progs.ca_credit_source_has_allocation[0].allocation.length
       }
     }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getProgAllocationSum(progs.ca_credit_source_has_allocation), false)))]), _vm._v(" "), _c('td', {
       attrs: {
@@ -85765,6 +85830,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       return [(csIndex > 0) ? _c('tr', {
         staticClass: "tbl-head-style-cell"
       }, [_c('td', {
+        attrs: {
+          "rowspan": credit_source.allocation.length
+        }
+      }, [_vm._v(_vm._s(credit_source.credit_distribution_title.cdtIdNumber + ' - ' + credit_source.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
+        staticClass: "text-center",
+        attrs: {
+          "rowspan": credit_source.allocation.length
+        }
+      }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getCsAllocationSum(credit_source.allocation), false)))]), _vm._v(" "), _c('td', {
         attrs: {
           "rowspan": credit_source.allocation.length
         }
@@ -85862,7 +85936,21 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         }), _vm._v("  حذف")])])])])])])])]) : _vm._e()]
       })]
     })]
-  })], 2)])])])])]), _vm._v(" "), _c('div', {
+  })], 2)])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12"
+  }, [_c('vue-pagination', {
+    attrs: {
+      "pagination": _vm.provincial_pagination,
+      "offset": 4
+    },
+    nativeOn: {
+      "click": function($event) {
+        _vm.fetchProvincialData(_vm.provincial_pagination.current_page)
+      }
+    }
+  })], 1)])])]), _vm._v(" "), _c('div', {
     staticClass: "tabs-panel table-mrg-btm",
     attrs: {
       "id": "provincial",
@@ -85902,9 +85990,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "rowspan": _vm.getProjectAllocCount(progs.ca_credit_source_has_allocation)
       }
     }, [_vm._v(_vm._s(progs.caLetterNumber))]), _vm._v(" "), _c('td', {
+      attrs: {
+        "rowspan": progs.ca_credit_source_has_allocation[0].allocation.length
+      }
+    }, [_vm._v(_vm._s(progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtIdNumber + ' - ' + progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
       staticClass: "text-center",
       attrs: {
-        "rowspan": _vm.getProjectAllocCount(progs.ca_credit_source_has_allocation)
+        "rowspan": progs.ca_credit_source_has_allocation[0].allocation.length
       }
     }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getProgAllocationSum(progs.ca_credit_source_has_allocation), false)))]), _vm._v(" "), _c('td', {
       attrs: {
@@ -85958,6 +86050,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       return [(csIndex > 0) ? _c('tr', {
         staticClass: "tbl-head-style-cell"
       }, [_c('td', {
+        attrs: {
+          "rowspan": credit_source.allocation.length
+        }
+      }, [_vm._v(_vm._s(credit_source.credit_distribution_title.cdtIdNumber + ' - ' + credit_source.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
+        staticClass: "text-center",
+        attrs: {
+          "rowspan": credit_source.allocation.length
+        }
+      }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getCsAllocationSum(credit_source.allocation), false)))]), _vm._v(" "), _c('td', {
         attrs: {
           "rowspan": credit_source.allocation.length
         }
@@ -86055,7 +86156,21 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         }), _vm._v("  حذف")])])])])])])])]) : _vm._e()]
       })]
     })]
-  })], 2)])])])])])]), _vm._v(" "), (_vm.showModal) ? _c('modal-small', {
+  })], 2)])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12"
+  }, [_c('vue-pagination', {
+    attrs: {
+      "pagination": _vm.national_pagination,
+      "offset": 4
+    },
+    nativeOn: {
+      "click": function($event) {
+        _vm.fetchNationalData(_vm.national_pagination.current_page)
+      }
+    }
+  })], 1)])])])]), _vm._v(" "), (_vm.showModal) ? _c('modal-small', {
     attrs: {
       "xmlns:v-on": "http://www.w3.org/1999/xhtml"
     },
@@ -86176,7 +86291,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       domProps: {
         "value": costAgreement.id
       }
-    }, [_vm._v(_vm._s('موافقتنامه شماره ' + costAgreement.caLetterNumber))])
+    }, [_vm._v(_vm._s('موافقتنامه شماره ' + costAgreement.caLetterNumber + '  ابلاغ شده در تاریخ  ' + costAgreement.caLetterDate))])
   })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
@@ -86452,15 +86567,19 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "tbl-head"
   }, [_c('colgroup', [_c('col', {
     attrs: {
-      "width": "200px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
       "width": "150px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
       "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
@@ -86484,6 +86603,8 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "tbl-head-style-cell"
   }, [_c('th', {
     staticClass: "tbl-head-style-cell"
+  }, [_vm._v("موافقتنامه")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
   }, [_vm._v("برنامه")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
   }, [_vm._v("سرجمع")]), _vm._v(" "), _c('th', {
@@ -86500,15 +86621,19 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('colgroup', [_c('col', {
     attrs: {
-      "width": "200px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
       "width": "150px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
       "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
@@ -86601,15 +86726,19 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "tbl-head"
   }, [_c('colgroup', [_c('col', {
     attrs: {
-      "width": "200px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
       "width": "150px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
       "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
@@ -86633,6 +86762,8 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "tbl-head-style-cell"
   }, [_c('th', {
     staticClass: "tbl-head-style-cell"
+  }, [_vm._v("موافقتنامه")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
   }, [_vm._v("برنامه")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
   }, [_vm._v("سرجمع")]), _vm._v(" "), _c('th', {
@@ -86649,15 +86780,19 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('colgroup', [_c('col', {
     attrs: {
-      "width": "200px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
       "width": "150px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
       "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {

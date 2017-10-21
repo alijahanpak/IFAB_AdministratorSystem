@@ -191,12 +191,6 @@
                                 <!--Header Start-->
                                 <div class="grid-x table-header">
                                     <div class="medium-2 table-border">
-                                        <strong>شماره مبادله</strong>
-                                    </div>
-                                    <div class="medium-2 table-border">
-                                        <strong>تاریخ مبادله</strong>
-                                    </div>
-                                    <div class="medium-2 table-border">
                                         <strong>شماره ابلاغ</strong>
                                     </div>
                                     <div class="medium-2 table-border">
@@ -205,7 +199,7 @@
                                     <div class="medium-2 table-border">
                                         <strong>اعتبار</strong>
                                     </div>
-                                    <div class="medium-2  table-border">
+                                    <div class="medium-6  table-border">
                                         <strong>شرح</strong>
                                     </div>
                                 </div>
@@ -219,15 +213,9 @@
                                             {{ cAp.caLetterDate }}
                                         </div>
                                         <div class="medium-2 table-contain-border cell-vertical-center">
-                                            {{ cAp.caExchangeDate }}
-                                        </div>
-                                        <div class="medium-2 table-contain-border cell-vertical-center">
-                                            {{ cAp.caExchangeIdNumber }}
-                                        </div>
-                                        <div class="medium-2 table-contain-border cell-vertical-center">
                                             <span @click="displayCreditSourceInfo_nat == cAp.id ? displayCreditSourceInfo_nat = '' : displayCreditSourceInfo_nat = cAp.id">{{ $parent.calcDispAmount(sumOfAmount(cAp.ca_credit_source) , false) }}</span>
                                         </div>
-                                        <div class="medium-2  table-contain-border cell-vertical-center">
+                                        <div class="medium-6  table-contain-border cell-vertical-center">
                                             <div class="grid-x">
                                                 <div class="medium-11">
                                                     {{ cAp.caDescription }}
@@ -302,24 +290,24 @@
                         </div>
                         <div class="grid-x">
                             <div class="medium-6 columns padding-lr">
-                                <label>شماره
+                                <label>شماره ابلاغ
                                     <input class="form-element-margin-btm" type="text" name="caLetterNumber" v-model="costAgreementInput.idNumber" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('caLetterNumber')}">
                                 </label>
                                 <span v-show="errors.has('caLetterNumber')" class="error-font">شماره فراموش شده است!</span>
                             </div>
                             <div class="medium-6 columns padding-lr">
-                                <label>تاریخ
+                                <label>تاریخ ابلاغ
                                     <input class="form-element-margin-btm" type="text" name="caLetterDate"  v-model="costAgreementInput.date" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('caLetterDate')}">
                                 </label>
                                 <span v-show="errors.has('caLetterDate')" class="error-font">تاریخ فراموش شده است!</span>
                             </div>
-                            <div class="medium-6 columns padding-lr">
+                            <div class="medium-6 columns padding-lr" v-if="provOrNat == 0">
                                 <label>شماره مبادله
                                     <input class="form-element-margin-btm" type="text" name="caExLetterNumber" v-model="costAgreementInput.exIdNumber" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('caExLetterNumber')}">
                                 </label>
                                 <span v-show="errors.has('caExLetterNumber')" class="error-font">شماره فراموش شده است!</span>
                             </div>
-                            <div class="medium-6 columns padding-lr">
+                            <div class="medium-6 columns padding-lr" v-if="provOrNat == 0">
                                 <label>تاریخ مبادله
                                     <input class="form-element-margin-btm" type="text" name="caExLetterDate"  v-model="costAgreementInput.exDate" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('caExLetterDate')}">
                                 </label>
