@@ -61,9 +61,10 @@
                             <div class="tbl-div-container">
                                 <table class="tbl-head">
                                     <colgroup>
-                                        <col width="200px"/>
                                         <col width="150px"/>
                                         <col width="150px"/>
+                                        <col width="100px"/>
+                                        <col width="100px"/>
                                         <col width="150px"/>
                                         <col width="150px"/>
                                         <col width="150px"/>
@@ -71,6 +72,7 @@
                                     </colgroup>
                                     <tbody class="tbl-head-style">
                                     <tr class="tbl-head-style-cell">
+                                        <th class="tbl-head-style-cell">موافقتنامه</th>
                                         <th class="tbl-head-style-cell">برنامه</th>
                                         <th class="tbl-head-style-cell">سرجمع</th>
                                         <th class="tbl-head-style-cell">ردیف اعتبار</th>
@@ -87,9 +89,10 @@
                                 <div class="tbl_body_style dynamic-height-level2">
                                     <table class="tbl-body-contain">
                                         <colgroup>
-                                            <col width="200px"/>
                                             <col width="150px"/>
                                             <col width="150px"/>
+                                            <col width="100px"/>
+                                            <col width="100px"/>
                                             <col width="150px"/>
                                             <col width="150px"/>
                                             <col width="150px"/>
@@ -98,7 +101,8 @@
                                             <template v-for="progs in provCostAllocations">
                                                 <tr class="tbl-head-style-cell" >
                                                     <td :rowspan="getProjectAllocCount(progs.ca_credit_source_has_allocation)">{{ progs.caLetterNumber }}</td>
-                                                    <td :rowspan="getProjectAllocCount(progs.ca_credit_source_has_allocation)" class="text-center">{{ $parent.calcDispAmount(getProgAllocationSum(progs.ca_credit_source_has_allocation) , false) }}</td>
+                                                    <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length">{{ progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtIdNumber + ' - ' + progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtSubject }}</td>
+                                                    <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length" class="text-center">{{ $parent.calcDispAmount(getProgAllocationSum(progs.ca_credit_source_has_allocation) , false) }}</td>
                                                     <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length">{{ progs.ca_credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
                                                     <td>{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterNumber }}</td>
                                                     <td>{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterDate }}</td>
@@ -121,6 +125,8 @@
                                                 </tr>
                                                 <template v-for="(credit_source , csIndex) in progs.ca_credit_source_has_allocation">
                                                     <tr class="tbl-head-style-cell" v-if="csIndex > 0">
+                                                        <td :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_title.cdtIdNumber + ' - ' + credit_source.credit_distribution_title.cdtSubject }}</td>
+                                                        <td :rowspan="credit_source.allocation.length" class="text-center">{{ $parent.calcDispAmount(getCsAllocationSum(credit_source.allocation) , false) }}</td>
                                                         <td :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_row.cdSubject }}</td>
                                                         <td>{{ credit_source.allocation[0].caLetterNumber }}</td>
                                                         <td>{{ credit_source.allocation[0].caLetterDate }}</td>
@@ -170,6 +176,13 @@
                                 </div>
                                 <!--Table Body End-->
                             </div>
+                            <div class="grid-x">
+                                <div class="medium-12">
+                                    <vue-pagination  v-bind:pagination="provincial_pagination"
+                                                     v-on:click.native="fetchProvincialData(provincial_pagination.current_page)"
+                                                     :offset="4">
+                                    </vue-pagination>
+                                </div>
                             </div>
                             <!--Table End-->
                         </div>
@@ -208,9 +221,10 @@
                             <div class="tbl-div-container">
                                 <table class="tbl-head">
                                     <colgroup>
-                                        <col width="200px"/>
                                         <col width="150px"/>
                                         <col width="150px"/>
+                                        <col width="100px"/>
+                                        <col width="100px"/>
                                         <col width="150px"/>
                                         <col width="150px"/>
                                         <col width="150px"/>
@@ -218,6 +232,7 @@
                                     </colgroup>
                                     <tbody class="tbl-head-style ">
                                     <tr class="tbl-head-style-cell">
+                                        <th class="tbl-head-style-cell">موافقتنامه</th>
                                         <th class="tbl-head-style-cell">برنامه</th>
                                         <th class="tbl-head-style-cell">سرجمع</th>
                                         <th class="tbl-head-style-cell">ردیف اعتبار</th>
@@ -233,9 +248,10 @@
                                 <div class="tbl_body_style dynamic-height-level2">
                                     <table class="tbl-body-contain">
                                         <colgroup>
-                                            <col width="200px"/>
                                             <col width="150px"/>
                                             <col width="150px"/>
+                                            <col width="100px"/>
+                                            <col width="100px"/>
                                             <col width="150px"/>
                                             <col width="150px"/>
                                             <col width="150px"/>
@@ -244,7 +260,8 @@
                                             <template v-for="progs in natCostAllocations">
                                                 <tr class="tbl-head-style-cell" >
                                                     <td :rowspan="getProjectAllocCount(progs.ca_credit_source_has_allocation)">{{ progs.caLetterNumber }}</td>
-                                                    <td :rowspan="getProjectAllocCount(progs.ca_credit_source_has_allocation)" class="text-center">{{ $parent.calcDispAmount(getProgAllocationSum(progs.ca_credit_source_has_allocation) , false) }}</td>
+                                                    <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length">{{ progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtIdNumber + ' - ' + progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtSubject }}</td>
+                                                    <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length" class="text-center">{{ $parent.calcDispAmount(getProgAllocationSum(progs.ca_credit_source_has_allocation) , false) }}</td>
                                                     <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length">{{ progs.ca_credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
                                                     <td>{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterNumber }}</td>
                                                     <td>{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterDate }}</td>
@@ -267,6 +284,8 @@
                                                 </tr>
                                                 <template v-for="(credit_source , csIndex) in progs.ca_credit_source_has_allocation">
                                                     <tr class="tbl-head-style-cell" v-if="csIndex > 0">
+                                                        <td :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_title.cdtIdNumber + ' - ' + credit_source.credit_distribution_title.cdtSubject }}</td>
+                                                        <td :rowspan="credit_source.allocation.length" class="text-center">{{ $parent.calcDispAmount(getCsAllocationSum(credit_source.allocation) , false) }}</td>
                                                         <td :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_row.cdSubject }}</td>
                                                         <td>{{ credit_source.allocation[0].caLetterNumber }}</td>
                                                         <td>{{ credit_source.allocation[0].caLetterDate }}</td>
@@ -316,6 +335,14 @@
                                 </div>
                                 <!--Table Body End-->
                             </div>
+                            <div class="grid-x">
+                                <div class="medium-12">
+                                    <vue-pagination  v-bind:pagination="national_pagination"
+                                                     v-on:click.native="fetchNationalData(national_pagination.current_page)"
+                                                     :offset="4">
+                                    </vue-pagination>
+                                </div>
+                            </div>
                             <!--Table End-->
                         </div>
                     </div>
@@ -350,7 +377,7 @@
                                     <label>موافقت نامه
                                         <select class="form-element-margin-btm"  v-model="selectedCostAgreement" v-on:change="getCreditSource" name="approved" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('approved')}">
                                             <option value=""></option>
-                                            <option v-for="costAgreement in costAgreements" :value="costAgreement.id">{{ 'موافقتنامه شماره ' + costAgreement.caLetterNumber }}</option>
+                                            <option v-for="costAgreement in costAgreements" :value="costAgreement.id">{{ 'موافقتنامه شماره ' + costAgreement.caLetterNumber + '  ابلاغ شده در تاریخ  ' + costAgreement.caLetterDate}}</option>
                                         </select>
                                         <span v-show="errors.has('approved')" class="error-font">لطفا موافقت نامه را انتخاب کنید!</span>
                                     </label>
@@ -511,6 +538,7 @@
             </div>
         </div>
     </div>
+    </div>
 </template>
 <script>
     import VuePagination from '../../../public_component/pagination.vue';
@@ -552,7 +580,6 @@
         created: function () {
             this.fetchProvincialData();
             this.fetchNationalData();
-            $('.scrollbar-macosx').scrollbar();
 
         },
 
@@ -633,6 +660,15 @@
                     cs.allocation.forEach(alloc => {
                         sum += alloc.caAmount;
                     });
+                });
+
+                return sum;
+            },
+
+            getCsAllocationSum: function (allocs) {
+                var sum = 0;
+                allocs.forEach(alloc => {
+                    sum += alloc.caAmount;
                 });
 
                 return sum;

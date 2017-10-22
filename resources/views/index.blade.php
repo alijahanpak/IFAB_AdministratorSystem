@@ -154,7 +154,7 @@
                                         <a href="">فصول</a>
                                         <ul class="menu vertical nested">
                                             <li><router-link to="/budget/admin/season/season_title">عنوان فصل</router-link></li>
-                                            <li><router-link to="/budget/admin/season/tiny_seasons">ریز فصول</router-link></li>
+                                            <li><router-link to="/budget/admin/season/tiny_seasons">ریز فصل</router-link></li>
                                         </ul>
                                     </li>
                                 </ul>

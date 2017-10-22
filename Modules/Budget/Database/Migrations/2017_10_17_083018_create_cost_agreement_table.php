@@ -20,8 +20,8 @@ class CreateCostAgreementTable extends Migration
                 $table->integer('caFyId')->length(10)->unsigned();
                 $table->string('caLetterNumber');
                 $table->string('caLetterDate');
-                $table->string('caExchangeDate');
-                $table->string('caExchangeIdNumber');
+                $table->string('caExchangeDate')->nullable();
+                $table->string('caExchangeIdNumber')->nullable();
                 $table->boolean('caProvinceOrNational');
                 $table->longText('caDescription')->nullable();
                 $table->timestamps();
