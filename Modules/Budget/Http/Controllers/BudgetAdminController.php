@@ -716,12 +716,12 @@ class BudgetAdminController extends Controller
             'requireJsFile' => 'row_distribution_credit' ]);
     }
 
-    public function titleOfPlans()
+/*    public function titleOfPlans()
     {
         return view('budget::pages.title_of_plans.main', ['pageTitle' => 'عنوان طرح / برنامه',
             'bSeasons' => $bSeasons = BudgetSeason::all(),
             'requireJsFile' => 'title_of_plans' ]);
-    }
+    }*/
 
     public function FetchRowDC(Request $request)
     {

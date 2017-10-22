@@ -54,8 +54,8 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::post('row_distribution_credit/update', 'BudgetAdminController@updateRowDC');
         Route::post('row_distribution_credit/delete', 'BudgetAdminController@deleteRowDC');*/
         ///////////////////////////////////////////////////////////////////////
-        Route::get('title_of_plans', 'BudgetAdminController@titleOfPlans');
-        Route::get('title_of_plans/fetchData', 'BudgetAdminController@FetchTitleOfPlan');
+        //Route::get('title_of_plans', 'BudgetAdminController@titleOfPlans');
+        //Route::get('title_of_plans/fetchData', 'BudgetAdminController@FetchTitleOfPlan');
         ///////////////////////////////////////////////////////////////////////
         //Route::get('how_to_run/getAllItems' , 'BudgetAdminController@getAllHowToRun');
     });
@@ -217,5 +217,20 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::get('/fetchData', 'AllocationOfCapitalAssetsController@fetchCostAllocationData');
         Route::post('/register', 'AllocationOfCapitalAssetsController@registerCostAllocation');
         Route::get('/getCapitalAssetsCreditSourceInfo', 'AllocationOfCapitalAssetsController@getCapitalAssetsCreditSourceInfo');
+    });
+
+    Route::prefix('credit_distribution')->group(function () {
+//        Route::get('capital_assets/provincial/plans', 'CreditDistributionController@creditDistributionPlan');
+        Route::post('capital_assets/provincial/plans/register', 'CreditDistributionController@registerCreditDistributionPlan');
+//        Route::get('capital_assets/provincial/plans/delete/{cdtId}/{cdrId}', 'CreditDistributionController@deleteCreditDistributionPlan');
+//        Route::get('capital_assets/provincial/plans/CDPIsExist/{cdtId}/{cdrId}', 'CreditDistributionController@CDPIsExist');
+//        Route::post('capital_assets/provincial/plans/update', 'CreditDistributionController@updateCreditDistributionPlan');
+//        Route::get('capital_assets/provincial/proposal', 'CreditDistributionController@provincialBudgetProposal');
+//        Route::get('capital_assets/provincial/proposal/getPlans/{coId}', 'CreditDistributionController@getPlans');
+//        Route::post('capital_assets/provincial/proposal/register', 'CreditDistributionController@registerProvincialBudgetProposal');
+//        Route::get('capital_assets/provincial/proposal/getPlanRemainingAmount/{cdpId}', 'CreditDistributionController@getPlanRemainingAmount');
+//        Route::get('capital_assets/provincial/proposal/delete/{pbpId}', 'CreditDistributionController@deleteProvincialBudgetProposal');
+//        Route::post('capital_assets/provincial/proposal/update', 'CreditDistributionController@updateProvincialBudgetProposal');
+//        Route::get('capital_assets/provincial/proposal/PBPIsExist/{pbpSubject}/{pbpCode}/{pbpId?}', 'CreditDistributionController@PBPIsExist');
     });
 });

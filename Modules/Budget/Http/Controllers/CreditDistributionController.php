@@ -50,7 +50,7 @@ class CreditDistributionController extends Controller
             'requireJsFile' => 'credit_distribution_plan']);
     }
 
-    public function registerCreditDistributionPlan(Request $request)
+/*    public function registerCreditDistributionPlan(Request $request)
     {
         $counties = County::all();
         foreach ($counties as $county)
@@ -68,7 +68,7 @@ class CreditDistributionController extends Controller
 
         SystemLog::setBudgetSubSystemLog('اضافه کردن طرح توزیع اعتبار با عنوان ' . $cdp->creditDistributionTitle->cdtSubject . ' در ' . $cdp->creditDistributionRow->cdrSubject);
         return Redirect::to(URL::previous());
-    }
+    }*/
 
     public function deleteCreditDistributionPlan($cdtId , $cdrId)
     {
@@ -222,5 +222,26 @@ class CreditDistributionController extends Controller
             else
                 return \Illuminate\Support\Facades\Response::json(['exist' => false]);
         }
+    }
+
+    ///////////////////////// plans /////////////////////////////////
+    public function registerCreditDistributionPlan(Request $request)
+    {
+        $counties = County::all();
+        foreach ($counties as $county)
+        {
+            $cdp = new CreditDistributionPlan;
+            $cdp->cdpUId = Auth::user()->id;
+            $cdp->cdpCdtId = $request->cdtId;
+            $cdp->cdpCdrId = $request->cdrId;
+            $cdp->cdpFyId = Auth::user()->seFiscalYear;
+            $cdp->cdpCoId = $county->id;
+            $cdp->cdpCredit = AmountUnit::convertInputAmount($request['county' . $county->id]);
+            $cdp->cdpDescription = $request->description;
+            $cdp->save();
+        }
+
+        SystemLog::setBudgetSubSystemLog('اضافه کردن طرح توزیع اعتبار با عنوان ' . $cdp->creditDistributionTitle->cdtSubject . ' در ' . $cdp->creditDistributionRow->cdrSubject);
+        return \response()->json([]);
     }
 }
