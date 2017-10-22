@@ -55,7 +55,8 @@ select,[type="text"],[type="password"],textarea{
 td {
     color: #555555;
     font-size: 12px;
-    border: solid 1.5px #C7CDD1;
+    border: solid 1.5px  #D8DEE2;
+    background-color: #FFFFFF;
 }
 th {
     border: solid 1.5px #C7CDD1;
@@ -1337,7 +1338,7 @@ button.purple-btn {
     border-collapse: collapse;
     width: 100%;
     overflow: hidden;
-    border:1px solid lightgrey;
+    border:1px solid #D8DEE2;
 }
 .tbl-head{
     margin: 0;
@@ -1347,12 +1348,13 @@ button.purple-btn {
     height: 40px;
     text-align: center;
 
+
 }
 .tbl-head-style{
     color: #575962;
     background-color: #F4F3FB;
     font-size: small;
-    border-bottom:1px solid lightgrey;
+
 }
 .tbl-head-style-cell{
     margin: 0;
@@ -1371,7 +1373,15 @@ button.purple-btn {
     margin: 0;
     padding: 0;
     border-collapse: collapse;
-    overflow-y: scroll;
+    overflow-y: auto;
+}
+.date-picker-lbl{
+    display: block;
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: normal;
+    line-height: 1.8;
+    color: #0a0a0a;
 }
 
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {

@@ -12,6 +12,7 @@ import Notifications from 'vue-notification'
 import velocity      from 'velocity-animate'
 import VeeValidate from 'vee-validate'
 import VueProgressBar from 'vue-progressbar'
+import PDatePicker from 'vue2-persian-datepicker'
 
 window.Vue.use(VeeValidate);
 window.Vue.use(Notifications , {velocity});
@@ -20,6 +21,7 @@ window.Vue.use(VueProgressBar, {
     failedColor: 'red',
     height: '8px'
 });
+Vue.component('pdatepicker', PDatePicker);
 
 Vue.component(
     'passport-clients',
