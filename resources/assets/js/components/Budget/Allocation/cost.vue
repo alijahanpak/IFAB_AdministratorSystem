@@ -83,6 +83,7 @@
                                 </table>
                                 <!--Table Head End-->
                                 <!--Table Body Start-->
+                                <div class="scrollbar-macosx">
                                 <div class="tbl_body_style dynamic-height-level2">
                                     <table class="tbl-body-contain">
                                         <colgroup>
@@ -168,6 +169,7 @@
                                     </table>
                                 </div>
                                 <!--Table Body End-->
+                            </div>
                             </div>
                             <!--Table End-->
                         </div>
@@ -550,15 +552,21 @@
         created: function () {
             this.fetchProvincialData();
             this.fetchNationalData();
+            $('.scrollbar-macosx').scrollbar();
+
         },
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
+
+
         },
 
         mounted: function () {
             console.log("mounted Cost allocation component");
             this.$parent.myResize();
+
+
         },
 
         components:{
@@ -755,4 +763,5 @@
         }
     }
 </script>
+
 

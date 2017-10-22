@@ -85386,6 +85386,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -85427,10 +85429,12 @@ if (false) {(function () {
     created: function created() {
         this.fetchProvincialData();
         this.fetchNationalData();
+        $('.scrollbar-macosx').scrollbar();
     },
 
     updated: function updated() {
         $(this.$el).foundation(); //WORKS!
+
     },
 
     mounted: function mounted() {
@@ -85696,6 +85700,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(4), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
   }, [_vm._m(7), _vm._v(" "), _c('div', {
+    staticClass: "scrollbar-macosx"
+  }, [_c('div', {
     staticClass: "tbl_body_style dynamic-height-level2"
   }, [_c('table', {
     staticClass: "tbl-body-contain"
@@ -85862,7 +85868,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         }), _vm._v("  حذف")])])])])])])])]) : _vm._e()]
       })]
     })]
-  })], 2)])])])])]), _vm._v(" "), _c('div', {
+  })], 2)])])])])])]), _vm._v(" "), _c('div', {
     staticClass: "tabs-panel table-mrg-btm",
     attrs: {
       "id": "provincial",
