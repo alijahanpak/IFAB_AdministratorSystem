@@ -22,9 +22,9 @@ use Modules\Budget\Entities\ProvincialBudgetProposal;
 class CreditDistributionController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
-    public function creditDistributionPlan()
+/*    public function creditDistributionPlan()
     {
         $cdr = CreditDistributionRow::all();
         $cdt = CreditDistributionTitle::where('cdtCdtId' , '=' , null)->get();
@@ -48,7 +48,7 @@ class CreditDistributionController extends Controller
             'cdPlan_budgetSeasons' => $cdPlan_budgetSeasons,
             'cdPlan_counties' => $cdPlan_counties,
             'requireJsFile' => 'credit_distribution_plan']);
-    }
+    }*/
 
 /*    public function registerCreditDistributionPlan(Request $request)
     {
@@ -225,6 +225,11 @@ class CreditDistributionController extends Controller
     }
 
     ///////////////////////// plans /////////////////////////////////
+    public function fetchCreditDistributionPlan(Request $request)
+    {
+        return \response()->json(['byPlan' => $this->getAllCreditDistributionPlans()]);
+    }
+    
     public function registerCreditDistributionPlan(Request $request)
     {
         $counties = County::all();
@@ -242,6 +247,23 @@ class CreditDistributionController extends Controller
         }
 
         SystemLog::setBudgetSubSystemLog('اضافه کردن طرح توزیع اعتبار با عنوان ' . $cdp->creditDistributionTitle->cdtSubject . ' در ' . $cdp->creditDistributionRow->cdrSubject);
-        return \response()->json([]);
+        return \response()->json(['byPlan' => $this->getAllCreditDistributionPlans()]);
+    }
+
+    public function getAllCreditDistributionPlans()
+    {
+/*        return CreditDistributionPlan::where('cdpFyId' , '=' , Auth::user()->seFiscalYear)
+            ->with('county')
+            ->with('creditDistributionTitle')
+            ->with('creditDistributionRow')
+            ->paginate(5);*/
+        return CreditDistributionTitle::has('creditDistributionPlan')
+            ->whereHas('creditDistributionPlan' , function($q){
+                return $q->where('cdpFyId' , '=' , Auth::user()->seFiscalYear);
+            })
+            ->with('creditDistributionPlan.county')
+            ->with('creditDistributionPlan.creditDistributionTitle')
+            ->with('creditDistributionPlan.creditDistributionRow')
+            ->paginate(5);
     }
 }

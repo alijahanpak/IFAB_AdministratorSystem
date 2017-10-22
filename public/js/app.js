@@ -122041,175 +122041,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -122217,8 +122048,7 @@ if (false) {(function () {
         return {
             errorMessage: '',
             errorMessage_update: '',
-            provCapitalAssetsAllocations: [],
-            natCapitalAssetsAllocations: [],
+            cdPlans: [],
             CdPlanInput: {},
             provOrNat: '',
             showModal: false,
@@ -122253,9 +122083,7 @@ if (false) {(function () {
     },
 
     created: function created() {
-        this.fetchProvincialData();
-        this.fetchNationalData();
-        this.getAllApprovedPlan(0); // 0 = provincial
+        this.fetchData();
     },
 
     updated: function updated() {
@@ -122272,28 +122100,14 @@ if (false) {(function () {
     },
 
     methods: {
-        fetchProvincialData: function fetchProvincialData() {
+        fetchData: function fetchData() {
             var _this = this;
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-            axios.get('/budget/allocation/capital_assets/fetchData?page=' + page, { params: { pOrN: 0 } }).then(function (response) {
-                _this.provCapitalAssetsAllocations = response.data.data;
-                _this.makePagination(response.data, "provincial");
-                console.log(response);
-            }, function (error) {
-                console.log(error);
-            });
-        },
-
-        fetchNationalData: function fetchNationalData() {
-            var _this2 = this;
-
-            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-
-            axios.get('/budget/allocation/capital_assets/fetchData?page=' + page, { params: { pOrN: 1 } }).then(function (response) {
-                _this2.natCapitalAssetsAllocations = response.data.data;
-                _this2.makePagination(response.data, "national");
+            axios.get('/budget/credit_distribution/capital_assets/provincial/plans/fetchData?page=' + page).then(function (response) {
+                _this.cdPlans = response.data.byPlan.data;
+                _this.makePagination(response.data.byPlan, "provincial");
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -122301,10 +122115,10 @@ if (false) {(function () {
         },
 
         getCreditDistributionTitle: function getCreditDistributionTitle() {
-            var _this3 = this;
+            var _this2 = this;
 
             axios.get('/budget/admin/credit_distribution_def/plan_cost_title/getAllItem', { params: { pOrN: 1 } }).then(function (response) {
-                _this3.creditDistributionTitles = response.data;
+                _this2.creditDistributionTitles = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -122312,10 +122126,10 @@ if (false) {(function () {
         },
 
         getCreditDistributionRow: function getCreditDistributionRow() {
-            var _this4 = this;
+            var _this3 = this;
 
             axios.get('/budget/admin/credit_distribution_def/rows/getAllItems', { params: { planOrCost: 0 } }).then(function (response) {
-                _this4.creditDistributionRows = response.data;
+                _this3.creditDistributionRows = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -122323,10 +122137,10 @@ if (false) {(function () {
         },
 
         getCounties: function getCounties() {
-            var _this5 = this;
+            var _this4 = this;
 
             axios.get('/admin/get_all_counties').then(function (response) {
-                _this5.counties = response.data;
+                _this4.counties = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -122334,10 +122148,10 @@ if (false) {(function () {
         },
 
         getAllApprovedPlan: function getAllApprovedPlan(pOrN) {
-            var _this6 = this;
+            var _this5 = this;
 
             axios.get('/budget/approved_plan/capital_assets/getAllItems', { params: { pOrN: pOrN } }).then(function (response) {
-                _this6.approvedPlans = response.data;
+                _this5.approvedPlans = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -122345,10 +122159,10 @@ if (false) {(function () {
         },
 
         getProjects: function getProjects() {
-            var _this7 = this;
+            var _this6 = this;
 
             axios.get('/budget/approved_project/capital_assets/getAllItems', { params: { pId: this.selectedPlan, planOrCost: 0 } }).then(function (response) {
-                _this7.approvedProjects = response.data;
+                _this6.approvedProjects = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -122356,10 +122170,10 @@ if (false) {(function () {
         },
 
         getProjectsCreditSource: function getProjectsCreditSource() {
-            var _this8 = this;
+            var _this7 = this;
 
             axios.get('/budget/approved_project/capital_assets/credit_source/getAllItem', { params: { pId: this.selectedProject } }).then(function (response) {
-                _this8.projectCreditSources = response.data;
+                _this7.projectCreditSources = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -122367,10 +122181,10 @@ if (false) {(function () {
         },
 
         displayCreditResourceInfo: function displayCreditResourceInfo() {
-            var _this9 = this;
+            var _this8 = this;
 
             axios.get('/budget/allocation/capital_assets/getCapitalAssetsCreditSourceInfo', { params: { pcsId: this.AllocationInput.pcsId } }).then(function (response) {
-                _this9.creditSourceInfo = response.data;
+                _this8.creditSourceInfo = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -122414,27 +122228,27 @@ if (false) {(function () {
         },
 
         createCreditDistributionPlan: function createCreditDistributionPlan() {
-            var _this10 = this;
+            var _this9 = this;
 
             this.$validator.validateAll().then(function (result) {
                 if (result) {
                     var jsonString = '{';
-                    jsonString += '"cdtId":"' + _this10.CdPlanInput.cdtId + '",';
-                    jsonString += '"cdrId":"' + _this10.CdPlanInput.cdrId + '",';
-                    jsonString += '"description":"' + _this10.CdPlanInput.description + '",';
-                    _this10.counties.forEach(function (county) {
-                        if (_this10.CdPlanInput['county' + county.id]) jsonString += '"county' + county.id + '":"' + _this10.CdPlanInput['county' + county.id] + '",';
+                    jsonString += '"cdtId":"' + _this9.CdPlanInput.cdtId + '",';
+                    jsonString += '"cdrId":"' + _this9.CdPlanInput.cdrId + '",';
+                    jsonString += '"description":"' + _this9.CdPlanInput.description + '",';
+                    _this9.counties.forEach(function (county) {
+                        if (_this9.CdPlanInput['county' + county.id]) jsonString += '"county' + county.id + '":"' + _this9.CdPlanInput['county' + county.id] + '",';
                     });
                     jsonString += '"":""}';
                     axios.post('/budget/credit_distribution/capital_assets/provincial/plans/register', JSON.parse(jsonString)).then(function (response) {
-                        _this10.provCapitalAssetsAllocations = response.data.data;
-                        _this10.makePagination(response.data, "provincial");
-                        _this10.showModal = false;
-                        _this10.$parent.displayNotif(response.status);
+                        _this9.provCapitalAssetsAllocations = response.data.data;
+                        _this9.makePagination(response.data, "provincial");
+                        _this9.showModal = false;
+                        _this9.$parent.displayNotif(response.status);
                         console.log(response);
                     }, function (error) {
                         console.log(error);
-                        _this10.errorMessage = 'تخصیص با این مشخصات قبلا ثبت شده است!';
+                        _this9.errorMessage = 'تخصیص با این مشخصات قبلا ثبت شده است!';
                     });
                 }
             });
@@ -122571,54 +122385,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "tbl-body-contain"
   }, [_vm._m(9), _vm._v(" "), _c('tbody', {
     staticClass: "tbl-head-style-cell"
-  }, [_vm._l((_vm.provCapitalAssetsAllocations), function(plans) {
+  }, [_vm._l((_vm.cdPlans), function(plans) {
     return [_c('tr', {
       staticClass: "tbl-head-style-cell"
     }, [_c('td', {
       attrs: {
-        "rowspan": _vm.getPlanAllocCount(plans.capital_assets_project_has_credit_source)
+        "rowspan": plans.credit_distribution_plan.length
       }
-    }, [_vm._v(_vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
-      attrs: {
-        "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)
-      }
-    }, [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].cpCode))]), _vm._v(" "), _c('td', {
-      staticClass: "text-center",
-      attrs: {
-        "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)
-      }
-    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getProjectAllocationSum(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation), false)))]), _vm._v(" "), _c('td', {
-      attrs: {
-        "rowspan": plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation.length
-      }
-    }, [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount, false)))])]), _vm._v(" "), _vm._l((plans.capital_assets_project_has_credit_source), function(projects, proIndex) {
-      return [(proIndex > 0) ? _c('tr', {
+    }, [_vm._v(_vm._s(plans.cdtIdNumber + ' - ' + plans.cdtSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.credit_distribution_plan[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.credit_distribution_plan[0].county.coName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(plans.credit_distribution_plan[0].cdpCredit, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.credit_distribution_plan[0].cdpDescription))])]), _vm._v(" "), _vm._l((plans.credit_distribution_plan), function(cdPlan, cdIndex) {
+      return [(cdIndex > 0) ? _c('tr', {
         staticClass: "tbl-head-style-cell"
-      }, [_c('td', {
-        attrs: {
-          "rowspan": _vm.getProjectAllocCount(projects.credit_source_has_allocation)
-        }
-      }, [_vm._v(_vm._s(projects.cpCode))]), _vm._v(" "), _c('td', {
-        attrs: {
-          "rowspan": _vm.getProjectAllocCount(projects.credit_source_has_allocation)
-        }
-      }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getProjectAllocationSum(projects.credit_source_has_allocation), false)))]), _vm._v(" "), _c('td', {
-        attrs: {
-          "rowspan": projects.credit_source_has_allocation[0].allocation.length
-        }
-      }, [_vm._v(_vm._s(projects.credit_source_has_allocation[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source_has_allocation[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(projects.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount, false)))])]) : _vm._e(), _vm._v(" "), _vm._l((projects.credit_source_has_allocation), function(credit_source, csIndex) {
-        return [(csIndex > 0) ? _c('tr', {
-          staticClass: "tbl-head-style-cell"
-        }, [_c('td', {
-          attrs: {
-            "rowspan": credit_source.allocation.length
-          }
-        }, [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(credit_source.allocation[0].caaAmount, false)))])]) : _vm._e(), _vm._v(" "), _vm._l((credit_source.allocation), function(alloc, allocIndex) {
-          return [(allocIndex > 0) ? _c('tr', {
-            staticClass: "tbl-head-style-cell"
-          }, [_c('td', [_vm._v(_vm._s(alloc.caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(alloc.caaAmount, false)))])]) : _vm._e()]
-        })]
-      })]
+      }, [_c('td', [_vm._v(_vm._s(cdPlan.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(cdPlan.county.coName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(cdPlan.cdpCredit, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(cdPlan.cdpDescription))])]) : _vm._e()]
     })]
   })], 2)])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
@@ -122631,7 +122408,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     },
     nativeOn: {
       "click": function($event) {
-        _vm.fetchProvincialData(_vm.provincial_pagination.current_page)
+        _vm.fetchData(_vm.provincial_pagination.current_page)
       }
     }
   })], 1)])])]), _vm._v(" "), _c('div', {
@@ -122658,64 +122435,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(10), _vm._v(" "), _vm._m(11)]), _vm._v(" "), _vm._m(12)]), _vm._v(" "), _c('div', {
-    staticClass: "tbl-div-container"
-  }, [_vm._m(13), _vm._v(" "), _c('div', {
-    staticClass: "tbl_body_style dynamic-height-level2"
-  }, [_c('table', {
-    staticClass: "tbl-body-contain"
-  }, [_vm._m(14), _vm._v(" "), _c('tbody', {
-    staticClass: "tbl-head-style-cell"
-  }, [_vm._l((_vm.natCapitalAssetsAllocations), function(plans) {
-    return [_c('tr', {
-      staticClass: "tbl-head-style-cell"
-    }, [_c('td', {
-      attrs: {
-        "rowspan": _vm.getPlanAllocCount(plans.capital_assets_project_has_credit_source)
-      }
-    }, [_vm._v(_vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
-      attrs: {
-        "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)
-      }
-    }, [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].cpCode))]), _vm._v(" "), _c('td', {
-      staticClass: "text-center",
-      attrs: {
-        "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)
-      }
-    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getProjectAllocationSum(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation), false)))]), _vm._v(" "), _c('td', {
-      attrs: {
-        "rowspan": plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation.length
-      }
-    }, [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount, false)))])]), _vm._v(" "), _vm._l((plans.capital_assets_project_has_credit_source), function(projects, proIndex) {
-      return [(proIndex > 0) ? _c('tr', {
-        staticClass: "tbl-head-style-cell"
-      }, [_c('td', {
-        attrs: {
-          "rowspan": _vm.getProjectAllocCount(projects.credit_source_has_allocation)
-        }
-      }, [_vm._v(_vm._s(projects.cpCode))]), _vm._v(" "), _c('td', {
-        attrs: {
-          "rowspan": _vm.getProjectAllocCount(projects.credit_source_has_allocation)
-        }
-      }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getProjectAllocationSum(projects.credit_source_has_allocation), false)))]), _vm._v(" "), _c('td', {
-        attrs: {
-          "rowspan": projects.credit_source_has_allocation[0].allocation.length
-        }
-      }, [_vm._v(_vm._s(projects.credit_source_has_allocation[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source_has_allocation[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(projects.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount, false)))])]) : _vm._e(), _vm._v(" "), _vm._l((projects.credit_source_has_allocation), function(credit_source, csIndex) {
-        return [(csIndex > 0) ? _c('tr', {
-          staticClass: "tbl-head-style-cell"
-        }, [_c('td', {
-          attrs: {
-            "rowspan": credit_source.allocation.length
-          }
-        }, [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(credit_source.allocation[0].caaAmount, false)))])]) : _vm._e(), _vm._v(" "), _vm._l((credit_source.allocation), function(alloc, allocIndex) {
-          return [(allocIndex > 0) ? _c('tr', {
-            staticClass: "tbl-head-style-cell"
-          }, [_c('td', [_vm._v(_vm._s(alloc.caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(alloc.caaAmount, false)))])]) : _vm._e()]
-        })]
-      })]
-    })]
-  })], 2)])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(10), _vm._v(" "), _vm._m(11)]), _vm._v(" "), _vm._m(12)]), _vm._v(" "), _vm._m(13), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12"
@@ -122753,64 +122473,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(15), _vm._v(" "), _vm._m(16)]), _vm._v(" "), _vm._m(17)]), _vm._v(" "), _c('div', {
-    staticClass: "tbl-div-container"
-  }, [_vm._m(18), _vm._v(" "), _c('div', {
-    staticClass: "tbl_body_style dynamic-height-level2"
-  }, [_c('table', {
-    staticClass: "tbl-body-contain"
-  }, [_vm._m(19), _vm._v(" "), _c('tbody', {
-    staticClass: "tbl-head-style-cell"
-  }, [_vm._l((_vm.natCapitalAssetsAllocations), function(plans) {
-    return [_c('tr', {
-      staticClass: "tbl-head-style-cell"
-    }, [_c('td', {
-      attrs: {
-        "rowspan": _vm.getPlanAllocCount(plans.capital_assets_project_has_credit_source)
-      }
-    }, [_vm._v(_vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
-      attrs: {
-        "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)
-      }
-    }, [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].cpCode))]), _vm._v(" "), _c('td', {
-      staticClass: "text-center",
-      attrs: {
-        "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)
-      }
-    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getProjectAllocationSum(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation), false)))]), _vm._v(" "), _c('td', {
-      attrs: {
-        "rowspan": plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation.length
-      }
-    }, [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount, false)))])]), _vm._v(" "), _vm._l((plans.capital_assets_project_has_credit_source), function(projects, proIndex) {
-      return [(proIndex > 0) ? _c('tr', {
-        staticClass: "tbl-head-style-cell"
-      }, [_c('td', {
-        attrs: {
-          "rowspan": _vm.getProjectAllocCount(projects.credit_source_has_allocation)
-        }
-      }, [_vm._v(_vm._s(projects.cpCode))]), _vm._v(" "), _c('td', {
-        attrs: {
-          "rowspan": _vm.getProjectAllocCount(projects.credit_source_has_allocation)
-        }
-      }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getProjectAllocationSum(projects.credit_source_has_allocation), false)))]), _vm._v(" "), _c('td', {
-        attrs: {
-          "rowspan": projects.credit_source_has_allocation[0].allocation.length
-        }
-      }, [_vm._v(_vm._s(projects.credit_source_has_allocation[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source_has_allocation[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(projects.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount, false)))])]) : _vm._e(), _vm._v(" "), _vm._l((projects.credit_source_has_allocation), function(credit_source, csIndex) {
-        return [(csIndex > 0) ? _c('tr', {
-          staticClass: "tbl-head-style-cell"
-        }, [_c('td', {
-          attrs: {
-            "rowspan": credit_source.allocation.length
-          }
-        }, [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(credit_source.allocation[0].caaAmount, false)))])]) : _vm._e(), _vm._v(" "), _vm._l((credit_source.allocation), function(alloc, allocIndex) {
-          return [(allocIndex > 0) ? _c('tr', {
-            staticClass: "tbl-head-style-cell"
-          }, [_c('td', [_vm._v(_vm._s(alloc.caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(alloc.caaAmount, false)))])]) : _vm._e()]
-        })]
-      })]
-    })]
-  })], 2)])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(14), _vm._v(" "), _vm._m(15)]), _vm._v(" "), _vm._m(16)]), _vm._v(" "), _vm._m(17), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12"
@@ -122848,64 +122511,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(20), _vm._v(" "), _vm._m(21)]), _vm._v(" "), _vm._m(22)]), _vm._v(" "), _c('div', {
-    staticClass: "tbl-div-container"
-  }, [_vm._m(23), _vm._v(" "), _c('div', {
-    staticClass: "tbl_body_style dynamic-height-level2"
-  }, [_c('table', {
-    staticClass: "tbl-body-contain"
-  }, [_vm._m(24), _vm._v(" "), _c('tbody', {
-    staticClass: "tbl-head-style-cell"
-  }, [_vm._l((_vm.natCapitalAssetsAllocations), function(plans) {
-    return [_c('tr', {
-      staticClass: "tbl-head-style-cell"
-    }, [_c('td', {
-      attrs: {
-        "rowspan": _vm.getPlanAllocCount(plans.capital_assets_project_has_credit_source)
-      }
-    }, [_vm._v(_vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
-      attrs: {
-        "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)
-      }
-    }, [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].cpCode))]), _vm._v(" "), _c('td', {
-      staticClass: "text-center",
-      attrs: {
-        "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)
-      }
-    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getProjectAllocationSum(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation), false)))]), _vm._v(" "), _c('td', {
-      attrs: {
-        "rowspan": plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation.length
-      }
-    }, [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount, false)))])]), _vm._v(" "), _vm._l((plans.capital_assets_project_has_credit_source), function(projects, proIndex) {
-      return [(proIndex > 0) ? _c('tr', {
-        staticClass: "tbl-head-style-cell"
-      }, [_c('td', {
-        attrs: {
-          "rowspan": _vm.getProjectAllocCount(projects.credit_source_has_allocation)
-        }
-      }, [_vm._v(_vm._s(projects.cpCode))]), _vm._v(" "), _c('td', {
-        attrs: {
-          "rowspan": _vm.getProjectAllocCount(projects.credit_source_has_allocation)
-        }
-      }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getProjectAllocationSum(projects.credit_source_has_allocation), false)))]), _vm._v(" "), _c('td', {
-        attrs: {
-          "rowspan": projects.credit_source_has_allocation[0].allocation.length
-        }
-      }, [_vm._v(_vm._s(projects.credit_source_has_allocation[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source_has_allocation[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(projects.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount, false)))])]) : _vm._e(), _vm._v(" "), _vm._l((projects.credit_source_has_allocation), function(credit_source, csIndex) {
-        return [(csIndex > 0) ? _c('tr', {
-          staticClass: "tbl-head-style-cell"
-        }, [_c('td', {
-          attrs: {
-            "rowspan": credit_source.allocation.length
-          }
-        }, [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(credit_source.allocation[0].caaAmount, false)))])]) : _vm._e(), _vm._v(" "), _vm._l((credit_source.allocation), function(alloc, allocIndex) {
-          return [(allocIndex > 0) ? _c('tr', {
-            staticClass: "tbl-head-style-cell"
-          }, [_c('td', [_vm._v(_vm._s(alloc.caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(alloc.caaAmount, false)))])]) : _vm._e()]
-        })]
-      })]
-    })]
-  })], 2)])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(18), _vm._v(" "), _vm._m(19)]), _vm._v(" "), _vm._m(20)]), _vm._v(" "), _vm._m(21), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12"
@@ -123284,7 +122890,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "150px"
+      "width": "200px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
@@ -123292,19 +122898,11 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "150px"
+      "width": "100px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
+      "width": "200px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
@@ -123318,17 +122916,13 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "tbl-head-style-cell"
   }, [_vm._v("طرح")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
-  }, [_vm._v("پروژه")]), _vm._v(" "), _c('th', {
+  }, [_vm._v("ردیف")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
-  }, [_vm._v("سرجمع")]), _vm._v(" "), _c('th', {
+  }, [_vm._v("شهرستان")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
-  }, [_vm._v("ردیف اعتبار")]), _vm._v(" "), _c('th', {
+  }, [_vm._v("مبلغ اعتبار")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
-  }, [_vm._v("شماره")]), _vm._v(" "), _c('th', {
-    staticClass: "tbl-head-style-cell"
-  }, [_vm._v("تاریخ")]), _vm._v(" "), _c('th', {
-    staticClass: "tbl-head-style-cell"
-  }, [_vm._v("مبلغ")]), _vm._v(" "), _c('th', {
+  }, [_vm._v("توضیحات")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
   })])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -123338,7 +122932,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "150px"
+      "width": "200px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
@@ -123346,19 +122940,11 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "150px"
+      "width": "100px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
+      "width": "200px"
     }
   })])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -123435,7 +123021,9 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "fi-magnifying-glass"
   })])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('table', {
+  return _c('div', {
+    staticClass: "tbl-div-container"
+  }, [_c('table', {
     staticClass: "tbl-head"
   }, [_c('colgroup', [_c('col', {
     attrs: {
@@ -123489,36 +123077,8 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "tbl-head-style-cell"
   }, [_vm._v("مبلغ")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
-  })])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('colgroup', [_c('col', {
-    attrs: {
-      "width": "200px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "tbl_body_style dynamic-height-level2"
   })])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
@@ -123594,7 +123154,9 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "fi-magnifying-glass"
   })])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('table', {
+  return _c('div', {
+    staticClass: "tbl-div-container"
+  }, [_c('table', {
     staticClass: "tbl-head"
   }, [_c('colgroup', [_c('col', {
     attrs: {
@@ -123648,36 +123210,8 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "tbl-head-style-cell"
   }, [_vm._v("مبلغ")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
-  })])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('colgroup', [_c('col', {
-    attrs: {
-      "width": "200px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "tbl_body_style dynamic-height-level2"
   })])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
@@ -123753,7 +123287,9 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "fi-magnifying-glass"
   })])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('table', {
+  return _c('div', {
+    staticClass: "tbl-div-container"
+  }, [_c('table', {
     staticClass: "tbl-head"
   }, [_c('colgroup', [_c('col', {
     attrs: {
@@ -123807,36 +123343,8 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "tbl-head-style-cell"
   }, [_vm._v("مبلغ")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
-  })])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('colgroup', [_c('col', {
-    attrs: {
-      "width": "200px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "tbl_body_style dynamic-height-level2"
   })])
 }]
 render._withStripped = true

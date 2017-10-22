@@ -25,4 +25,9 @@ class CreditDistributionTitle extends Model
     {
         return $this->hasMany(CreditDistributionTitle::class , 'cdtCdtId' , 'id');
     }
+
+    public function creditDistributionPlan()
+    {
+        return $this->hasMany(CreditDistributionPlan::class , 'cdpCdtId' , 'id');
+    }
 }

@@ -20,7 +20,7 @@ use Modules\Budget\Entities\CreditDistributionRow;
 class PlanController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
 
     public function fetchCapitalAssetsApprovedPlan(Request $request){
