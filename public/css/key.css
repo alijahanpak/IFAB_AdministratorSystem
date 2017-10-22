@@ -1348,6 +1348,7 @@ button.purple-btn {
     height: 40px;
     text-align: center;
 
+
 }
 .tbl-head-style{
     color: #575962;
@@ -1373,6 +1374,14 @@ button.purple-btn {
     padding: 0;
     border-collapse: collapse;
     overflow-y: auto;
+}
+.date-picker-lbl{
+    display: block;
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: normal;
+    line-height: 1.8;
+    color: #0a0a0a;
 }
 
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
