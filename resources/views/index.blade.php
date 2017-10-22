@@ -21,17 +21,6 @@
     <passport-clients></passport-clients>
     <passport-authorized-clients></passport-authorized-clients>
     <passport-personal-access-tokens></passport-personal-access-tokens>
-    <!--chart1 Modal Start-->
-    <div style="z-index: 9999;" class="large reveal" id="exampleModal1" data-reveal>
-        <h6 class="text-center BYekan">نمودار تخصیص اعتبارات بر اساس منابع</h6>
-
-        <canvas id="myChartM"></canvas>
-        <button class="close-button" data-close aria-label="Close modal" type="button">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        <button type="button" class="my-secondary small button float-left" data-open="exampleModal1"><i class="fi-archive"></i> دریافت </button>
-    </div>
-    <!--chart1 Modal End-->
     <div id="container">
         <!--Modal Login Start-->
         <modal-login v-if="showModalLogin" @close="showModalLogin = false">
