@@ -100,14 +100,44 @@
                                                     <td>{{ plans.credit_distribution_plan[0].credit_distribution_row.cdSubject }}</td>
                                                     <td>{{ plans.credit_distribution_plan[0].county.coName }}</td>
                                                     <td>{{ $parent.calcDispAmount(plans.credit_distribution_plan[0].cdpCredit , false)  }}</td>
-                                                    <td>{{ plans.credit_distribution_plan[0].cdpDescription }}</td>
+                                                    <td>
+                                                        <div class="grid-x">
+                                                            <div class="medium-11">
+                                                                {{ plans.credit_distribution_plan[0].cdpDescription }}
+                                                            </div>
+                                                            <div class="medium-1 cell-vertical-center text-left">
+                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlan' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlan' + plans.id" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font text-right">
+                                                                        <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                                 <template v-for="(cdPlan , cdIndex) in plans.credit_distribution_plan">
                                                     <tr class="tbl-head-style-cell" v-if="cdIndex > 0">
                                                         <td>{{ cdPlan.credit_distribution_row.cdSubject }}</td>
                                                         <td>{{ cdPlan.county.coName }}</td>
                                                         <td>{{ $parent.calcDispAmount(cdPlan.cdpCredit , false)  }}</td>
-                                                        <td>{{ cdPlan.cdpDescription }}</td>
+                                                        <td>
+                                                            <div class="grid-x">
+                                                                <div class="medium-11">
+                                                                    {{ cdPlan.cdpDescription }}
+                                                                </div>
+                                                                <div class="medium-1 cell-vertical-center text-left">
+                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlan' + plans.id + cdPlan.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlan' + plans.id + cdPlan.id" data-dropdown data-auto-focus="true">
+                                                                        <ul class="my-menu small-font text-right">
+                                                                            <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                            <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
                                                     </tr>
                                                 </template>
                                             </template>
@@ -117,8 +147,8 @@
                             </div>
                             <div class="grid-x">
                                 <div class="medium-12">
-                                    <vue-pagination  v-bind:pagination="provincial_pagination"
-                                                     v-on:click.native="fetchData(provincial_pagination.current_page)"
+                                    <vue-pagination  v-bind:pagination="plan_pagination"
+                                                     v-on:click.native="fetchData(plan_pagination.current_page)"
                                                      :offset="4">
                                     </vue-pagination>
                                 </div>
@@ -160,36 +190,89 @@
                                 <table class="tbl-head">
                                     <colgroup>
                                         <col width="200px"/>
+                                        <col width="200px"/>
                                         <col width="150px"/>
-                                        <col width="150px"/>
-                                        <col width="150px"/>
-                                        <col width="150px"/>
-                                        <col width="150px"/>
-                                        <col width="150px"/>
+                                        <col width="100px"/>
+                                        <col width="200px"/>
                                         <col width="12px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style">
                                     <tr class="tbl-head-style-cell">
+                                        <th class="tbl-head-style-cell">ردیف</th>
                                         <th class="tbl-head-style-cell">طرح</th>
-                                        <th class="tbl-head-style-cell">پروژه</th>
-                                        <th class="tbl-head-style-cell">سرجمع</th>
-                                        <th class="tbl-head-style-cell">ردیف اعتبار</th>
-                                        <th class="tbl-head-style-cell">شماره</th>
-                                        <th class="tbl-head-style-cell">تاریخ</th>
-                                        <th class="tbl-head-style-cell">مبلغ</th>
+                                        <th class="tbl-head-style-cell">شهرستان</th>
+                                        <th class="tbl-head-style-cell">مبلغ اعتبار</th>
+                                        <th class="tbl-head-style-cell">توضیحات</th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
                                 </table>
 
                                 <div class="tbl_body_style dynamic-height-level2">
-
+                                    <table class="tbl-body-contain">
+                                        <colgroup>
+                                            <col width="200px"/>
+                                            <col width="200px"/>
+                                            <col width="150px"/>
+                                            <col width="100px"/>
+                                            <col width="200px"/>
+                                        </colgroup>
+                                        <tbody class="tbl-head-style-cell">
+                                        <template v-for="rows in cdPlansOrderByRow">
+                                            <tr class="tbl-head-style-cell" >
+                                                <td :rowspan="rows.credit_distribution_plan.length">{{ rows.cdSubject }}</td>
+                                                <td>{{ rows.credit_distribution_plan[0].credit_distribution_title.cdtIdNumber + ' - ' + rows.credit_distribution_plan[0].credit_distribution_title.cdtSubject }}</td>
+                                                <td>{{ rows.credit_distribution_plan[0].county.coName }}</td>
+                                                <td>{{ $parent.calcDispAmount(rows.credit_distribution_plan[0].cdpCredit , false)  }}</td>
+                                                <td>
+                                                    <div class="grid-x">
+                                                        <div class="medium-11">
+                                                            {{ rows.credit_distribution_plan[0].cdpDescription }}
+                                                        </div>
+                                                        <div class="medium-1 cell-vertical-center text-left">
+                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlanRows' + rows.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanRows' + rows.id" data-dropdown data-auto-focus="true">
+                                                                <ul class="my-menu small-font text-right">
+                                                                    <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <template v-for="(cdPlan , cdIndex) in rows.credit_distribution_plan">
+                                                <tr class="tbl-head-style-cell" v-if="cdIndex > 0">
+                                                    <td>{{ cdPlan.credit_distribution_title.cdtIdNumber + ' - ' + cdPlan.credit_distribution_title.cdtSubject }}</td>
+                                                    <td>{{ cdPlan.county.coName }}</td>
+                                                    <td>{{ $parent.calcDispAmount(cdPlan.cdpCredit , false)  }}</td>
+                                                    <td>
+                                                        <div class="grid-x">
+                                                            <div class="medium-11">
+                                                                {{ cdPlan.cdpDescription }}
+                                                            </div>
+                                                            <div class="medium-1 cell-vertical-center text-left">
+                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlanRows' + rows.id + cdPlan.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanRows' + rows.id + cdPlan.id" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font text-right">
+                                                                        <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </template>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="grid-x">
                                 <div class="medium-12">
-                                    <vue-pagination  v-bind:pagination="national_pagination"
-                                                     v-on:click.native="fetchNationalData(national_pagination.current_page)"
+                                    <vue-pagination  v-bind:pagination="row_pagination"
+                                                     v-on:click.native="fetchData(row_pagination.current_page)"
                                                      :offset="4">
                                     </vue-pagination>
                                 </div>
@@ -229,37 +312,118 @@
                             <div class="tbl-div-container">
                                 <table class="tbl-head">
                                     <colgroup>
+                                        <col width="100px"/>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="100px"/>
                                         <col width="200px"/>
-                                        <col width="150px"/>
-                                        <col width="150px"/>
-                                        <col width="150px"/>
-                                        <col width="150px"/>
-                                        <col width="150px"/>
-                                        <col width="150px"/>
                                         <col width="12px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style">
                                     <tr class="tbl-head-style-cell">
+                                        <th class="tbl-head-style-cell">فصل بودجه</th>
                                         <th class="tbl-head-style-cell">طرح</th>
-                                        <th class="tbl-head-style-cell">پروژه</th>
-                                        <th class="tbl-head-style-cell">سرجمع</th>
-                                        <th class="tbl-head-style-cell">ردیف اعتبار</th>
-                                        <th class="tbl-head-style-cell">شماره</th>
-                                        <th class="tbl-head-style-cell">تاریخ</th>
-                                        <th class="tbl-head-style-cell">مبلغ</th>
+                                        <th class="tbl-head-style-cell">ردیف</th>
+                                        <th class="tbl-head-style-cell">شهرستان</th>
+                                        <th class="tbl-head-style-cell">مبلغ اعتبار</th>
+                                        <th class="tbl-head-style-cell">توضیحات</th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
                                 </table>
 
                                 <div class="tbl_body_style dynamic-height-level2">
-
+                                    <table class="tbl-body-contain">
+                                        <colgroup>
+                                            <col width="100px"/>
+                                            <col width="150px"/>
+                                            <col width="150px"/>
+                                            <col width="150px"/>
+                                            <col width="100px"/>
+                                            <col width="200px"/>
+                                        </colgroup>
+                                        <tbody class="tbl-head-style-cell">
+                                        <template v-for="bs in cdPlansOrderByBudget">
+                                            <tr class="tbl-head-style-cell" >
+                                                <td :rowspan="getBsPlanCount(bs.cdp_title_has_credit_distribution_plan)">{{ bs.bsSubject }}</td>
+                                                <td :rowspan="bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan.length">{{ bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_title.cdtIdNumber + ' - ' + bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_title.cdtSubject }}</td>
+                                                <td>{{ bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_row.cdSubject }}</td>
+                                                <td>{{ bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].county.coName }}</td>
+                                                <td>{{ $parent.calcDispAmount(bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].cdpCredit , false)  }}</td>
+                                                <td>
+                                                    <div class="grid-x">
+                                                        <div class="medium-11">
+                                                            {{ bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].cdpDescription }}
+                                                        </div>
+                                                        <div class="medium-1 cell-vertical-center text-left">
+                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlanBudget' + bs.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanBudget' + bs.id" data-dropdown data-auto-focus="true">
+                                                                <ul class="my-menu small-font text-right">
+                                                                    <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <template v-for="(cdTitle , cdtIndex) in bs.cdp_title_has_credit_distribution_plan">
+                                                <tr class="tbl-head-style-cell" v-if="cdtIndex > 0">
+                                                    <td :rowspan="cdTitle.credit_distribution_plan.length">{{ cdTitle.credit_distribution_plan[0].credit_distribution_title.cdtIdNumber + ' - ' + cdTitle.credit_distribution_plan[0].credit_distribution_title.cdtSubject }}</td>
+                                                    <td>{{ cdTitle.credit_distribution_plan[0].credit_distribution_row.cdSubject }}</td>
+                                                    <td>{{ cdTitle.credit_distribution_plan[0].county.coName }}</td>
+                                                    <td>{{ $parent.calcDispAmount(cdTitle.credit_distribution_plan[0].cdpCredit , false)  }}</td>
+                                                    <td>
+                                                        <div class="grid-x">
+                                                            <div class="medium-11">
+                                                                {{ cdTitle.credit_distribution_plan[0].cdpDescription }}
+                                                            </div>
+                                                            <div class="medium-1 cell-vertical-center text-left">
+                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlanBudget' + bs.id + cdTitle.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanBudget' + bs.id + cdTitle.id" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font text-right">
+                                                                        <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <template v-for="(cdPlan , cdIndex) in cdTitle.credit_distribution_plan">
+                                                    <tr class="tbl-head-style-cell" v-if="cdIndex > 0">
+                                                        <td>{{ cdPlan.credit_distribution_row.cdSubject }}</td>
+                                                        <td>{{ cdPlan.county.coName }}</td>
+                                                        <td>{{ $parent.calcDispAmount(cdPlan.cdpCredit , false)  }}</td>
+                                                        <td>
+                                                            <div class="grid-x">
+                                                                <div class="medium-11">
+                                                                    {{ cdPlan.cdpDescription }}
+                                                                </div>
+                                                                <div class="medium-1 cell-vertical-center text-left">
+                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlanBudget' + bs.id + cdTitle.id + cdPlan.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanBudget' + bs.id + cdTitle.id + cdPlan.id" data-dropdown data-auto-focus="true">
+                                                                        <ul class="my-menu small-font text-right">
+                                                                            <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                            <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </template>
+                                        </template>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="grid-x">
                                 <div class="medium-12">
-                                    <vue-pagination  v-bind:pagination="national_pagination"
-                                                     v-on:click.native="fetchNationalData(national_pagination.current_page)"
+                                    <vue-pagination  v-bind:pagination="budget_pagination"
+                                                     v-on:click.native="fetchData(budget_pagination.current_page)"
                                                      :offset="4">
                                     </vue-pagination>
                                 </div>
@@ -299,37 +463,90 @@
                             <div class="tbl-div-container">
                                 <table class="tbl-head">
                                     <colgroup>
+                                        <col width="150px"/>
                                         <col width="200px"/>
-                                        <col width="150px"/>
-                                        <col width="150px"/>
-                                        <col width="150px"/>
-                                        <col width="150px"/>
-                                        <col width="150px"/>
-                                        <col width="150px"/>
+                                        <col width="200px"/>
+                                        <col width="100px"/>
+                                        <col width="200px"/>
                                         <col width="12px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style">
                                     <tr class="tbl-head-style-cell">
+                                        <th class="tbl-head-style-cell">شهرستان</th>
                                         <th class="tbl-head-style-cell">طرح</th>
-                                        <th class="tbl-head-style-cell">پروژه</th>
-                                        <th class="tbl-head-style-cell">سرجمع</th>
-                                        <th class="tbl-head-style-cell">ردیف اعتبار</th>
-                                        <th class="tbl-head-style-cell">شماره</th>
-                                        <th class="tbl-head-style-cell">تاریخ</th>
-                                        <th class="tbl-head-style-cell">مبلغ</th>
+                                        <th class="tbl-head-style-cell">ردیف</th>
+                                        <th class="tbl-head-style-cell">مبلغ اعتبار</th>
+                                        <th class="tbl-head-style-cell">توضیحات</th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
                                 </table>
 
                                 <div class="tbl_body_style dynamic-height-level2">
-
+                                    <table class="tbl-body-contain">
+                                        <colgroup>
+                                            <col width="150px"/>
+                                            <col width="200px"/>
+                                            <col width="200px"/>
+                                            <col width="100px"/>
+                                            <col width="200px"/>
+                                        </colgroup>
+                                        <tbody class="tbl-head-style-cell">
+                                        <template v-for="county in cdPlansOrderByCounty">
+                                            <tr class="tbl-head-style-cell" >
+                                                <td :rowspan="county.credit_distribution_plan.length">{{ county.coName }}</td>
+                                                <td>{{ county.credit_distribution_plan[0].credit_distribution_title.cdtIdNumber + ' - ' + county.credit_distribution_plan[0].credit_distribution_title.cdtSubject }}</td>
+                                                <td>{{ county.credit_distribution_plan[0].credit_distribution_row.cdSubject }}</td>
+                                                <td>{{ $parent.calcDispAmount(county.credit_distribution_plan[0].cdpCredit , false)  }}</td>
+                                                <td>
+                                                    <div class="grid-x">
+                                                        <div class="medium-11">
+                                                            {{ county.credit_distribution_plan[0].cdpDescription }}
+                                                        </div>
+                                                        <div class="medium-1 cell-vertical-center text-left">
+                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlanCounty' + county.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanCounty' + county.id" data-dropdown data-auto-focus="true">
+                                                                <ul class="my-menu small-font text-right">
+                                                                    <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <template v-for="(cdPlan , cdIndex) in county.credit_distribution_plan">
+                                                <tr class="tbl-head-style-cell" v-if="cdIndex > 0">
+                                                    <td>{{ cdPlan.credit_distribution_title.cdtIdNumber + ' - ' + cdPlan.credit_distribution_title.cdtSubject }}</td>
+                                                    <td>{{ cdPlan.credit_distribution_row.cdSubject }}</td>
+                                                    <td>{{ $parent.calcDispAmount(cdPlan.cdpCredit , false)  }}</td>
+                                                    <td>
+                                                        <div class="grid-x">
+                                                            <div class="medium-11">
+                                                                {{ cdPlan.cdpDescription }}
+                                                            </div>
+                                                            <div class="medium-1 cell-vertical-center text-left">
+                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlanCounty' + county.id + cdPlan.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanCounty' + county.id + cdPlan.id" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font text-right">
+                                                                        <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </template>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="grid-x">
                                 <div class="medium-12">
-                                    <vue-pagination  v-bind:pagination="national_pagination"
-                                                     v-on:click.native="fetchNationalData(national_pagination.current_page)"
+                                    <vue-pagination  v-bind:pagination="county_pagination"
+                                                     v-on:click.native="fetchData(county_pagination.current_page)"
                                                      :offset="4">
                                     </vue-pagination>
                                 </div>
@@ -416,31 +633,39 @@
                 errorMessage: '',
                 errorMessage_update: '',
                 cdPlans: [],
+                cdPlansOrderByRow: [],
+                cdPlansOrderByBudget: [],
+                cdPlansOrderByCounty: [],
                 CdPlanInput: {},
-                provOrNat: '',
                 showModal: false,
                 showModalUpdate: false,
                 showModalDelete: false,
-                registerOfCreditAllocationAssetsFill: {rocaPlan: '' ,rocaaProject:'',rocaaRow:'',roccaCost:'',rocaaNumber:'',rocaaDate:''},
-                creditSourceInfo: {},
-                rocaaIdDelete: {},
-                approvedPlans: {},
-                selectedPlan: '',
-                selectedProject: '',
-                approvedProjects: {},
                 creditDistributionTitles: {},
                 creditDistributionRows: {},
                 counties: {},
-                projectCreditSources: {},
 
-                national_pagination: {
+                plan_pagination: {
                     total: 0,
                     to: 0,
                     current_page: 1,
                     last_page: ''
                 },
 
-                provincial_pagination: {
+                row_pagination: {
+                    total: 0,
+                    to: 0,
+                    current_page: 1,
+                    last_page: ''
+                },
+
+                budget_pagination: {
+                    total: 0,
+                    to: 0,
+                    current_page: 1,
+                    last_page: ''
+                },
+
+                county_pagination: {
                     total: 0,
                     to: 0,
                     current_page: 1,
@@ -470,7 +695,13 @@
                 axios.get('/budget/credit_distribution/capital_assets/provincial/plans/fetchData?page=' + page)
                     .then((response) => {
                         this.cdPlans = response.data.byPlan.data;
-                        this.makePagination(response.data.byPlan , "provincial");
+                        this.makePagination(response.data.byPlan , "plan");
+                        this.cdPlansOrderByRow = response.data.byRow.data;
+                        this.makePagination(response.data.byRow , "row");
+                        this.cdPlansOrderByBudget = response.data.byBudget.data;
+                        this.makePagination(response.data.byBudget , "budget");
+                        this.cdPlansOrderByCounty = response.data.byCounty.data;
+                        this.makePagination(response.data.byCounty , "county");
                         console.log(response);
                     },(error) => {
                         console.log(error);
@@ -507,72 +738,10 @@
                     });
             },
 
-            getAllApprovedPlan: function (pOrN) {
-                axios.get('/budget/approved_plan/capital_assets/getAllItems' , {params:{pOrN: pOrN}})
-                        .then((response) => {
-                        this.approvedPlans = response.data;
-                        console.log(response);
-                        },(error) => {
-                            console.log(error);
-                });
-            },
-
-            getProjects: function () {
-                axios.get('/budget/approved_project/capital_assets/getAllItems' , {params:{pId: this.selectedPlan , planOrCost: 0}})
-                    .then((response) => {
-                        this.approvedProjects = response.data;
-                        console.log(response);
-                    },(error) => {
-                        console.log(error);
-                    });
-            },
-
-            getProjectsCreditSource: function () {
-                axios.get('/budget/approved_project/capital_assets/credit_source/getAllItem' , {params:{pId: this.selectedProject}})
-                   .then((response) => {
-                        this.projectCreditSources = response.data;
-                        console.log(response);
-                    },(error) => {
-                        console.log(error);
-                });
-            },
-
-            displayCreditResourceInfo: function () {
-                axios.get('/budget/allocation/capital_assets/getCapitalAssetsCreditSourceInfo' , {params:{pcsId: this.AllocationInput.pcsId}})
-                    .then((response) => {
-                        this.creditSourceInfo = response.data;
-                        console.log(response);
-                    },(error) => {
-                        console.log(error);
-                    });
-
-            },
-
-            getProjectAllocationSum: function (creditSource) {
-                var sum = 0;
-                creditSource.forEach(cs => {
-                    cs.allocation.forEach(alloc => {
-                        sum += alloc.caaAmount;
-                    });
-                });
-
-                return sum;
-            },
-
-            getPlanAllocCount: function (projects) {
-                  var count = 0;
-                    projects.forEach(cap => {
-                          cap.credit_source_has_allocation.forEach(cs => {
-                             count += cs.allocation.length;
-                          });
-                      });
-                  return count;
-            },
-
-            getProjectAllocCount: function (credit_sources) {
+            getBsPlanCount: function (cdpTitle) {
                 var count = 0;
-                credit_sources.forEach(cs => {
-                    count += cs.allocation.length;
+                cdpTitle.forEach(cdpT => {
+                    count += cdpT.credit_distribution_plan.length;
                 });
                 return count;
             },
@@ -598,8 +767,15 @@
                         jsonString += '"":""}';
                         axios.post('/budget/credit_distribution/capital_assets/provincial/plans/register' , JSON.parse(jsonString))
                             .then((response) => {
-                                this.provCapitalAssetsAllocations = response.data.data;
-                                this.makePagination(response.data , "provincial");
+                                this.cdPlans = response.data.byPlan.data;
+                                this.makePagination(response.data.byPlan , "plan");
+                                this.cdPlansOrderByRow = response.data.byRow.data;
+                                this.makePagination(response.data.byRow , "row");
+                                this.cdPlansOrderByBudget = response.data.byBudget.data;
+                                this.makePagination(response.data.byBudget , "budget");
+                                this.cdPlansOrderByCounty = response.data.byCounty.data;
+                                this.makePagination(response.data.byCounty , "county");
+
                                 this.showModal = false;
                                 this.$parent.displayNotif(response.status);
                                 console.log(response);
@@ -664,16 +840,26 @@
             },
 
             makePagination: function(data , type){
-                if (type == "national")
+                if (type == "plan")
                 {
-                    this.national_pagination.current_page = data.current_page;
-                    this.national_pagination.to = data.to;
-                    this.national_pagination.last_page = data.last_page;
-                }else if (type == "provincial")
+                    this.plan_pagination.current_page = data.current_page;
+                    this.plan_pagination.to = data.to;
+                    this.plan_pagination.last_page = data.last_page;
+                }else if (type == "row")
                 {
-                    this.provincial_pagination.current_page = data.current_page;
-                    this.provincial_pagination.to = data.to;
-                    this.provincial_pagination.last_page = data.last_page;
+                    this.row_pagination.current_page = data.current_page;
+                    this.row_pagination.to = data.to;
+                    this.row_pagination.last_page = data.last_page;
+                }else if (type == "budget")
+                {
+                    this.budget_pagination.current_page = data.current_page;
+                    this.budget_pagination.to = data.to;
+                    this.budget_pagination.last_page = data.last_page;
+                }else if (type == "county")
+                {
+                    this.county_pagination.current_page = data.current_page;
+                    this.county_pagination.to = data.to;
+                    this.county_pagination.last_page = data.last_page;
                 }
             },
         }

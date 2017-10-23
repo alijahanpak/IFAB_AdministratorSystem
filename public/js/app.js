@@ -122041,6 +122041,223 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -122049,31 +122266,39 @@ if (false) {(function () {
             errorMessage: '',
             errorMessage_update: '',
             cdPlans: [],
+            cdPlansOrderByRow: [],
+            cdPlansOrderByBudget: [],
+            cdPlansOrderByCounty: [],
             CdPlanInput: {},
-            provOrNat: '',
             showModal: false,
             showModalUpdate: false,
             showModalDelete: false,
-            registerOfCreditAllocationAssetsFill: { rocaPlan: '', rocaaProject: '', rocaaRow: '', roccaCost: '', rocaaNumber: '', rocaaDate: '' },
-            creditSourceInfo: {},
-            rocaaIdDelete: {},
-            approvedPlans: {},
-            selectedPlan: '',
-            selectedProject: '',
-            approvedProjects: {},
             creditDistributionTitles: {},
             creditDistributionRows: {},
             counties: {},
-            projectCreditSources: {},
 
-            national_pagination: {
+            plan_pagination: {
                 total: 0,
                 to: 0,
                 current_page: 1,
                 last_page: ''
             },
 
-            provincial_pagination: {
+            row_pagination: {
+                total: 0,
+                to: 0,
+                current_page: 1,
+                last_page: ''
+            },
+
+            budget_pagination: {
+                total: 0,
+                to: 0,
+                current_page: 1,
+                last_page: ''
+            },
+
+            county_pagination: {
                 total: 0,
                 to: 0,
                 current_page: 1,
@@ -122107,7 +122332,13 @@ if (false) {(function () {
 
             axios.get('/budget/credit_distribution/capital_assets/provincial/plans/fetchData?page=' + page).then(function (response) {
                 _this.cdPlans = response.data.byPlan.data;
-                _this.makePagination(response.data.byPlan, "provincial");
+                _this.makePagination(response.data.byPlan, "plan");
+                _this.cdPlansOrderByRow = response.data.byRow.data;
+                _this.makePagination(response.data.byRow, "row");
+                _this.cdPlansOrderByBudget = response.data.byBudget.data;
+                _this.makePagination(response.data.byBudget, "budget");
+                _this.cdPlansOrderByCounty = response.data.byCounty.data;
+                _this.makePagination(response.data.byCounty, "county");
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -122147,75 +122378,10 @@ if (false) {(function () {
             });
         },
 
-        getAllApprovedPlan: function getAllApprovedPlan(pOrN) {
-            var _this5 = this;
-
-            axios.get('/budget/approved_plan/capital_assets/getAllItems', { params: { pOrN: pOrN } }).then(function (response) {
-                _this5.approvedPlans = response.data;
-                console.log(response);
-            }, function (error) {
-                console.log(error);
-            });
-        },
-
-        getProjects: function getProjects() {
-            var _this6 = this;
-
-            axios.get('/budget/approved_project/capital_assets/getAllItems', { params: { pId: this.selectedPlan, planOrCost: 0 } }).then(function (response) {
-                _this6.approvedProjects = response.data;
-                console.log(response);
-            }, function (error) {
-                console.log(error);
-            });
-        },
-
-        getProjectsCreditSource: function getProjectsCreditSource() {
-            var _this7 = this;
-
-            axios.get('/budget/approved_project/capital_assets/credit_source/getAllItem', { params: { pId: this.selectedProject } }).then(function (response) {
-                _this7.projectCreditSources = response.data;
-                console.log(response);
-            }, function (error) {
-                console.log(error);
-            });
-        },
-
-        displayCreditResourceInfo: function displayCreditResourceInfo() {
-            var _this8 = this;
-
-            axios.get('/budget/allocation/capital_assets/getCapitalAssetsCreditSourceInfo', { params: { pcsId: this.AllocationInput.pcsId } }).then(function (response) {
-                _this8.creditSourceInfo = response.data;
-                console.log(response);
-            }, function (error) {
-                console.log(error);
-            });
-        },
-
-        getProjectAllocationSum: function getProjectAllocationSum(creditSource) {
-            var sum = 0;
-            creditSource.forEach(function (cs) {
-                cs.allocation.forEach(function (alloc) {
-                    sum += alloc.caaAmount;
-                });
-            });
-
-            return sum;
-        },
-
-        getPlanAllocCount: function getPlanAllocCount(projects) {
+        getBsPlanCount: function getBsPlanCount(cdpTitle) {
             var count = 0;
-            projects.forEach(function (cap) {
-                cap.credit_source_has_allocation.forEach(function (cs) {
-                    count += cs.allocation.length;
-                });
-            });
-            return count;
-        },
-
-        getProjectAllocCount: function getProjectAllocCount(credit_sources) {
-            var count = 0;
-            credit_sources.forEach(function (cs) {
-                count += cs.allocation.length;
+            cdpTitle.forEach(function (cdpT) {
+                count += cdpT.credit_distribution_plan.length;
             });
             return count;
         },
@@ -122228,27 +122394,34 @@ if (false) {(function () {
         },
 
         createCreditDistributionPlan: function createCreditDistributionPlan() {
-            var _this9 = this;
+            var _this5 = this;
 
             this.$validator.validateAll().then(function (result) {
                 if (result) {
                     var jsonString = '{';
-                    jsonString += '"cdtId":"' + _this9.CdPlanInput.cdtId + '",';
-                    jsonString += '"cdrId":"' + _this9.CdPlanInput.cdrId + '",';
-                    jsonString += '"description":"' + _this9.CdPlanInput.description + '",';
-                    _this9.counties.forEach(function (county) {
-                        if (_this9.CdPlanInput['county' + county.id]) jsonString += '"county' + county.id + '":"' + _this9.CdPlanInput['county' + county.id] + '",';
+                    jsonString += '"cdtId":"' + _this5.CdPlanInput.cdtId + '",';
+                    jsonString += '"cdrId":"' + _this5.CdPlanInput.cdrId + '",';
+                    jsonString += '"description":"' + _this5.CdPlanInput.description + '",';
+                    _this5.counties.forEach(function (county) {
+                        if (_this5.CdPlanInput['county' + county.id]) jsonString += '"county' + county.id + '":"' + _this5.CdPlanInput['county' + county.id] + '",';
                     });
                     jsonString += '"":""}';
                     axios.post('/budget/credit_distribution/capital_assets/provincial/plans/register', JSON.parse(jsonString)).then(function (response) {
-                        _this9.provCapitalAssetsAllocations = response.data.data;
-                        _this9.makePagination(response.data, "provincial");
-                        _this9.showModal = false;
-                        _this9.$parent.displayNotif(response.status);
+                        _this5.cdPlans = response.data.byPlan.data;
+                        _this5.makePagination(response.data.byPlan, "plan");
+                        _this5.cdPlansOrderByRow = response.data.byRow.data;
+                        _this5.makePagination(response.data.byRow, "row");
+                        _this5.cdPlansOrderByBudget = response.data.byBudget.data;
+                        _this5.makePagination(response.data.byBudget, "budget");
+                        _this5.cdPlansOrderByCounty = response.data.byCounty.data;
+                        _this5.makePagination(response.data.byCounty, "county");
+
+                        _this5.showModal = false;
+                        _this5.$parent.displayNotif(response.status);
                         console.log(response);
                     }, function (error) {
                         console.log(error);
-                        _this9.errorMessage = 'تخصیص با این مشخصات قبلا ثبت شده است!';
+                        _this5.errorMessage = 'تخصیص با این مشخصات قبلا ثبت شده است!';
                     });
                 }
             });
@@ -122306,14 +122479,22 @@ if (false) {(function () {
         },
 
         makePagination: function makePagination(data, type) {
-            if (type == "national") {
-                this.national_pagination.current_page = data.current_page;
-                this.national_pagination.to = data.to;
-                this.national_pagination.last_page = data.last_page;
-            } else if (type == "provincial") {
-                this.provincial_pagination.current_page = data.current_page;
-                this.provincial_pagination.to = data.to;
-                this.provincial_pagination.last_page = data.last_page;
+            if (type == "plan") {
+                this.plan_pagination.current_page = data.current_page;
+                this.plan_pagination.to = data.to;
+                this.plan_pagination.last_page = data.last_page;
+            } else if (type == "row") {
+                this.row_pagination.current_page = data.current_page;
+                this.row_pagination.to = data.to;
+                this.row_pagination.last_page = data.last_page;
+            } else if (type == "budget") {
+                this.budget_pagination.current_page = data.current_page;
+                this.budget_pagination.to = data.to;
+                this.budget_pagination.last_page = data.last_page;
+            } else if (type == "county") {
+                this.county_pagination.current_page = data.current_page;
+                this.county_pagination.to = data.to;
+                this.county_pagination.last_page = data.last_page;
             }
         }
     }
@@ -122392,10 +122573,98 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       attrs: {
         "rowspan": plans.credit_distribution_plan.length
       }
-    }, [_vm._v(_vm._s(plans.cdtIdNumber + ' - ' + plans.cdtSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.credit_distribution_plan[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.credit_distribution_plan[0].county.coName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(plans.credit_distribution_plan[0].cdpCredit, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.credit_distribution_plan[0].cdpDescription))])]), _vm._v(" "), _vm._l((plans.credit_distribution_plan), function(cdPlan, cdIndex) {
+    }, [_vm._v(_vm._s(plans.cdtIdNumber + ' - ' + plans.cdtSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.credit_distribution_plan[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plans.credit_distribution_plan[0].county.coName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(plans.credit_distribution_plan[0].cdpCredit, false)))]), _vm._v(" "), _c('td', [_c('div', {
+      staticClass: "grid-x"
+    }, [_c('div', {
+      staticClass: "medium-11"
+    }, [_vm._v("\n                                                            " + _vm._s(plans.credit_distribution_plan[0].cdpDescription) + "\n                                                        ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-1 cell-vertical-center text-left"
+    }, [_c('a', {
+      staticClass: "dropdown small sm-btn-align",
+      attrs: {
+        "type": "button",
+        "data-toggle": 'cdPlan' + plans.id
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-ellipsis-v size-18"
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "dropdown-pane dropdown-pane-sm ",
+      attrs: {
+        "data-close-on-click": "true",
+        "data-hover": "true",
+        "data-hover-pane": "true",
+        "data-position": "bottom",
+        "data-alignment": "right",
+        "id": 'cdPlan' + plans.id,
+        "data-dropdown": "",
+        "data-auto-focus": "true"
+      }
+    }, [_c('ul', {
+      staticClass: "my-menu small-font text-right"
+    }, [_c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-pencil-square-o size-16"
+    }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-trash-o size-16"
+    }), _vm._v("  حذف")])])])])])])])]), _vm._v(" "), _vm._l((plans.credit_distribution_plan), function(cdPlan, cdIndex) {
       return [(cdIndex > 0) ? _c('tr', {
         staticClass: "tbl-head-style-cell"
-      }, [_c('td', [_vm._v(_vm._s(cdPlan.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(cdPlan.county.coName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(cdPlan.cdpCredit, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(cdPlan.cdpDescription))])]) : _vm._e()]
+      }, [_c('td', [_vm._v(_vm._s(cdPlan.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(cdPlan.county.coName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(cdPlan.cdpCredit, false)))]), _vm._v(" "), _c('td', [_c('div', {
+        staticClass: "grid-x"
+      }, [_c('div', {
+        staticClass: "medium-11"
+      }, [_vm._v("\n                                                                " + _vm._s(cdPlan.cdpDescription) + "\n                                                            ")]), _vm._v(" "), _c('div', {
+        staticClass: "medium-1 cell-vertical-center text-left"
+      }, [_c('a', {
+        staticClass: "dropdown small sm-btn-align",
+        attrs: {
+          "type": "button",
+          "data-toggle": 'cdPlan' + plans.id + cdPlan.id
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-ellipsis-v size-18"
+      })]), _vm._v(" "), _c('div', {
+        staticClass: "dropdown-pane dropdown-pane-sm ",
+        attrs: {
+          "data-close-on-click": "true",
+          "data-hover": "true",
+          "data-hover-pane": "true",
+          "data-position": "bottom",
+          "data-alignment": "right",
+          "id": 'cdPlan' + plans.id + cdPlan.id,
+          "data-dropdown": "",
+          "data-auto-focus": "true"
+        }
+      }, [_c('ul', {
+        staticClass: "my-menu small-font text-right"
+      }, [_c('li', [_c('a', {
+        on: {
+          "click": function($event) {
+            $event.preventDefault();
+          }
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-pencil-square-o size-16"
+      }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+        on: {
+          "click": function($event) {
+            $event.preventDefault();
+          }
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-trash-o size-16"
+      }), _vm._v("  حذف")])])])])])])])]) : _vm._e()]
     })]
   })], 2)])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
@@ -122403,12 +122672,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-12"
   }, [_c('vue-pagination', {
     attrs: {
-      "pagination": _vm.provincial_pagination,
+      "pagination": _vm.plan_pagination,
       "offset": 4
     },
     nativeOn: {
       "click": function($event) {
-        _vm.fetchData(_vm.provincial_pagination.current_page)
+        _vm.fetchData(_vm.plan_pagination.current_page)
       }
     }
   })], 1)])])]), _vm._v(" "), _c('div', {
@@ -122435,18 +122704,126 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(10), _vm._v(" "), _vm._m(11)]), _vm._v(" "), _vm._m(12)]), _vm._v(" "), _vm._m(13), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(10), _vm._v(" "), _vm._m(11)]), _vm._v(" "), _vm._m(12)]), _vm._v(" "), _c('div', {
+    staticClass: "tbl-div-container"
+  }, [_vm._m(13), _vm._v(" "), _c('div', {
+    staticClass: "tbl_body_style dynamic-height-level2"
+  }, [_c('table', {
+    staticClass: "tbl-body-contain"
+  }, [_vm._m(14), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._l((_vm.cdPlansOrderByRow), function(rows) {
+    return [_c('tr', {
+      staticClass: "tbl-head-style-cell"
+    }, [_c('td', {
+      attrs: {
+        "rowspan": rows.credit_distribution_plan.length
+      }
+    }, [_vm._v(_vm._s(rows.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rows.credit_distribution_plan[0].credit_distribution_title.cdtIdNumber + ' - ' + rows.credit_distribution_plan[0].credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rows.credit_distribution_plan[0].county.coName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(rows.credit_distribution_plan[0].cdpCredit, false)))]), _vm._v(" "), _c('td', [_c('div', {
+      staticClass: "grid-x"
+    }, [_c('div', {
+      staticClass: "medium-11"
+    }, [_vm._v("\n                                                        " + _vm._s(rows.credit_distribution_plan[0].cdpDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-1 cell-vertical-center text-left"
+    }, [_c('a', {
+      staticClass: "dropdown small sm-btn-align",
+      attrs: {
+        "type": "button",
+        "data-toggle": 'cdPlanRows' + rows.id
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-ellipsis-v size-18"
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "dropdown-pane dropdown-pane-sm ",
+      attrs: {
+        "data-close-on-click": "true",
+        "data-hover": "true",
+        "data-hover-pane": "true",
+        "data-position": "bottom",
+        "data-alignment": "right",
+        "id": 'cdPlanRows' + rows.id,
+        "data-dropdown": "",
+        "data-auto-focus": "true"
+      }
+    }, [_c('ul', {
+      staticClass: "my-menu small-font text-right"
+    }, [_c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-pencil-square-o size-16"
+    }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-trash-o size-16"
+    }), _vm._v("  حذف")])])])])])])])]), _vm._v(" "), _vm._l((rows.credit_distribution_plan), function(cdPlan, cdIndex) {
+      return [(cdIndex > 0) ? _c('tr', {
+        staticClass: "tbl-head-style-cell"
+      }, [_c('td', [_vm._v(_vm._s(cdPlan.credit_distribution_title.cdtIdNumber + ' - ' + cdPlan.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(cdPlan.county.coName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(cdPlan.cdpCredit, false)))]), _vm._v(" "), _c('td', [_c('div', {
+        staticClass: "grid-x"
+      }, [_c('div', {
+        staticClass: "medium-11"
+      }, [_vm._v("\n                                                            " + _vm._s(cdPlan.cdpDescription) + "\n                                                        ")]), _vm._v(" "), _c('div', {
+        staticClass: "medium-1 cell-vertical-center text-left"
+      }, [_c('a', {
+        staticClass: "dropdown small sm-btn-align",
+        attrs: {
+          "type": "button",
+          "data-toggle": 'cdPlanRows' + rows.id + cdPlan.id
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-ellipsis-v size-18"
+      })]), _vm._v(" "), _c('div', {
+        staticClass: "dropdown-pane dropdown-pane-sm ",
+        attrs: {
+          "data-close-on-click": "true",
+          "data-hover": "true",
+          "data-hover-pane": "true",
+          "data-position": "bottom",
+          "data-alignment": "right",
+          "id": 'cdPlanRows' + rows.id + cdPlan.id,
+          "data-dropdown": "",
+          "data-auto-focus": "true"
+        }
+      }, [_c('ul', {
+        staticClass: "my-menu small-font text-right"
+      }, [_c('li', [_c('a', {
+        on: {
+          "click": function($event) {
+            $event.preventDefault();
+          }
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-pencil-square-o size-16"
+      }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+        on: {
+          "click": function($event) {
+            $event.preventDefault();
+          }
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-trash-o size-16"
+      }), _vm._v("  حذف")])])])])])])])]) : _vm._e()]
+    })]
+  })], 2)])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12"
   }, [_c('vue-pagination', {
     attrs: {
-      "pagination": _vm.national_pagination,
+      "pagination": _vm.row_pagination,
       "offset": 4
     },
     nativeOn: {
       "click": function($event) {
-        _vm.fetchNationalData(_vm.national_pagination.current_page)
+        _vm.fetchData(_vm.row_pagination.current_page)
       }
     }
   })], 1)])])]), _vm._v(" "), _c('div', {
@@ -122473,18 +122850,182 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(14), _vm._v(" "), _vm._m(15)]), _vm._v(" "), _vm._m(16)]), _vm._v(" "), _vm._m(17), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(15), _vm._v(" "), _vm._m(16)]), _vm._v(" "), _vm._m(17)]), _vm._v(" "), _c('div', {
+    staticClass: "tbl-div-container"
+  }, [_vm._m(18), _vm._v(" "), _c('div', {
+    staticClass: "tbl_body_style dynamic-height-level2"
+  }, [_c('table', {
+    staticClass: "tbl-body-contain"
+  }, [_vm._m(19), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._l((_vm.cdPlansOrderByBudget), function(bs) {
+    return [_c('tr', {
+      staticClass: "tbl-head-style-cell"
+    }, [_c('td', {
+      attrs: {
+        "rowspan": _vm.getBsPlanCount(bs.cdp_title_has_credit_distribution_plan)
+      }
+    }, [_vm._v(_vm._s(bs.bsSubject))]), _vm._v(" "), _c('td', {
+      attrs: {
+        "rowspan": bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan.length
+      }
+    }, [_vm._v(_vm._s(bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_title.cdtIdNumber + ' - ' + bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].county.coName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].cdpCredit, false)))]), _vm._v(" "), _c('td', [_c('div', {
+      staticClass: "grid-x"
+    }, [_c('div', {
+      staticClass: "medium-11"
+    }, [_vm._v("\n                                                        " + _vm._s(bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].cdpDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-1 cell-vertical-center text-left"
+    }, [_c('a', {
+      staticClass: "dropdown small sm-btn-align",
+      attrs: {
+        "type": "button",
+        "data-toggle": 'cdPlanBudget' + bs.id
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-ellipsis-v size-18"
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "dropdown-pane dropdown-pane-sm ",
+      attrs: {
+        "data-close-on-click": "true",
+        "data-hover": "true",
+        "data-hover-pane": "true",
+        "data-position": "bottom",
+        "data-alignment": "right",
+        "id": 'cdPlanBudget' + bs.id,
+        "data-dropdown": "",
+        "data-auto-focus": "true"
+      }
+    }, [_c('ul', {
+      staticClass: "my-menu small-font text-right"
+    }, [_c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-pencil-square-o size-16"
+    }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-trash-o size-16"
+    }), _vm._v("  حذف")])])])])])])])]), _vm._v(" "), _vm._l((bs.cdp_title_has_credit_distribution_plan), function(cdTitle, cdtIndex) {
+      return [(cdtIndex > 0) ? _c('tr', {
+        staticClass: "tbl-head-style-cell"
+      }, [_c('td', {
+        attrs: {
+          "rowspan": cdTitle.credit_distribution_plan.length
+        }
+      }, [_vm._v(_vm._s(cdTitle.credit_distribution_plan[0].credit_distribution_title.cdtIdNumber + ' - ' + cdTitle.credit_distribution_plan[0].credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(cdTitle.credit_distribution_plan[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(cdTitle.credit_distribution_plan[0].county.coName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(cdTitle.credit_distribution_plan[0].cdpCredit, false)))]), _vm._v(" "), _c('td', [_c('div', {
+        staticClass: "grid-x"
+      }, [_c('div', {
+        staticClass: "medium-11"
+      }, [_vm._v("\n                                                            " + _vm._s(cdTitle.credit_distribution_plan[0].cdpDescription) + "\n                                                        ")]), _vm._v(" "), _c('div', {
+        staticClass: "medium-1 cell-vertical-center text-left"
+      }, [_c('a', {
+        staticClass: "dropdown small sm-btn-align",
+        attrs: {
+          "type": "button",
+          "data-toggle": 'cdPlanBudget' + bs.id + cdTitle.id
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-ellipsis-v size-18"
+      })]), _vm._v(" "), _c('div', {
+        staticClass: "dropdown-pane dropdown-pane-sm ",
+        attrs: {
+          "data-close-on-click": "true",
+          "data-hover": "true",
+          "data-hover-pane": "true",
+          "data-position": "bottom",
+          "data-alignment": "right",
+          "id": 'cdPlanBudget' + bs.id + cdTitle.id,
+          "data-dropdown": "",
+          "data-auto-focus": "true"
+        }
+      }, [_c('ul', {
+        staticClass: "my-menu small-font text-right"
+      }, [_c('li', [_c('a', {
+        on: {
+          "click": function($event) {
+            $event.preventDefault();
+          }
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-pencil-square-o size-16"
+      }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+        on: {
+          "click": function($event) {
+            $event.preventDefault();
+          }
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-trash-o size-16"
+      }), _vm._v("  حذف")])])])])])])])]) : _vm._e(), _vm._v(" "), _vm._l((cdTitle.credit_distribution_plan), function(cdPlan, cdIndex) {
+        return [(cdIndex > 0) ? _c('tr', {
+          staticClass: "tbl-head-style-cell"
+        }, [_c('td', [_vm._v(_vm._s(cdPlan.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(cdPlan.county.coName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(cdPlan.cdpCredit, false)))]), _vm._v(" "), _c('td', [_c('div', {
+          staticClass: "grid-x"
+        }, [_c('div', {
+          staticClass: "medium-11"
+        }, [_vm._v("\n                                                                " + _vm._s(cdPlan.cdpDescription) + "\n                                                            ")]), _vm._v(" "), _c('div', {
+          staticClass: "medium-1 cell-vertical-center text-left"
+        }, [_c('a', {
+          staticClass: "dropdown small sm-btn-align",
+          attrs: {
+            "type": "button",
+            "data-toggle": 'cdPlanBudget' + bs.id + cdTitle.id + cdPlan.id
+          }
+        }, [_c('i', {
+          staticClass: "fa fa-ellipsis-v size-18"
+        })]), _vm._v(" "), _c('div', {
+          staticClass: "dropdown-pane dropdown-pane-sm ",
+          attrs: {
+            "data-close-on-click": "true",
+            "data-hover": "true",
+            "data-hover-pane": "true",
+            "data-position": "bottom",
+            "data-alignment": "right",
+            "id": 'cdPlanBudget' + bs.id + cdTitle.id + cdPlan.id,
+            "data-dropdown": "",
+            "data-auto-focus": "true"
+          }
+        }, [_c('ul', {
+          staticClass: "my-menu small-font text-right"
+        }, [_c('li', [_c('a', {
+          on: {
+            "click": function($event) {
+              $event.preventDefault();
+            }
+          }
+        }, [_c('i', {
+          staticClass: "fa fa-pencil-square-o size-16"
+        }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+          on: {
+            "click": function($event) {
+              $event.preventDefault();
+            }
+          }
+        }, [_c('i', {
+          staticClass: "fa fa-trash-o size-16"
+        }), _vm._v("  حذف")])])])])])])])]) : _vm._e()]
+      })]
+    })]
+  })], 2)])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12"
   }, [_c('vue-pagination', {
     attrs: {
-      "pagination": _vm.national_pagination,
+      "pagination": _vm.budget_pagination,
       "offset": 4
     },
     nativeOn: {
       "click": function($event) {
-        _vm.fetchNationalData(_vm.national_pagination.current_page)
+        _vm.fetchData(_vm.budget_pagination.current_page)
       }
     }
   })], 1)])])]), _vm._v(" "), _c('div', {
@@ -122511,18 +123052,126 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(18), _vm._v(" "), _vm._m(19)]), _vm._v(" "), _vm._m(20)]), _vm._v(" "), _vm._m(21), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(20), _vm._v(" "), _vm._m(21)]), _vm._v(" "), _vm._m(22)]), _vm._v(" "), _c('div', {
+    staticClass: "tbl-div-container"
+  }, [_vm._m(23), _vm._v(" "), _c('div', {
+    staticClass: "tbl_body_style dynamic-height-level2"
+  }, [_c('table', {
+    staticClass: "tbl-body-contain"
+  }, [_vm._m(24), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._l((_vm.cdPlansOrderByCounty), function(county) {
+    return [_c('tr', {
+      staticClass: "tbl-head-style-cell"
+    }, [_c('td', {
+      attrs: {
+        "rowspan": county.credit_distribution_plan.length
+      }
+    }, [_vm._v(_vm._s(county.coName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(county.credit_distribution_plan[0].credit_distribution_title.cdtIdNumber + ' - ' + county.credit_distribution_plan[0].credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(county.credit_distribution_plan[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(county.credit_distribution_plan[0].cdpCredit, false)))]), _vm._v(" "), _c('td', [_c('div', {
+      staticClass: "grid-x"
+    }, [_c('div', {
+      staticClass: "medium-11"
+    }, [_vm._v("\n                                                        " + _vm._s(county.credit_distribution_plan[0].cdpDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-1 cell-vertical-center text-left"
+    }, [_c('a', {
+      staticClass: "dropdown small sm-btn-align",
+      attrs: {
+        "type": "button",
+        "data-toggle": 'cdPlanCounty' + county.id
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-ellipsis-v size-18"
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "dropdown-pane dropdown-pane-sm ",
+      attrs: {
+        "data-close-on-click": "true",
+        "data-hover": "true",
+        "data-hover-pane": "true",
+        "data-position": "bottom",
+        "data-alignment": "right",
+        "id": 'cdPlanCounty' + county.id,
+        "data-dropdown": "",
+        "data-auto-focus": "true"
+      }
+    }, [_c('ul', {
+      staticClass: "my-menu small-font text-right"
+    }, [_c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-pencil-square-o size-16"
+    }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-trash-o size-16"
+    }), _vm._v("  حذف")])])])])])])])]), _vm._v(" "), _vm._l((county.credit_distribution_plan), function(cdPlan, cdIndex) {
+      return [(cdIndex > 0) ? _c('tr', {
+        staticClass: "tbl-head-style-cell"
+      }, [_c('td', [_vm._v(_vm._s(cdPlan.credit_distribution_title.cdtIdNumber + ' - ' + cdPlan.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(cdPlan.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(cdPlan.cdpCredit, false)))]), _vm._v(" "), _c('td', [_c('div', {
+        staticClass: "grid-x"
+      }, [_c('div', {
+        staticClass: "medium-11"
+      }, [_vm._v("\n                                                            " + _vm._s(cdPlan.cdpDescription) + "\n                                                        ")]), _vm._v(" "), _c('div', {
+        staticClass: "medium-1 cell-vertical-center text-left"
+      }, [_c('a', {
+        staticClass: "dropdown small sm-btn-align",
+        attrs: {
+          "type": "button",
+          "data-toggle": 'cdPlanCounty' + county.id + cdPlan.id
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-ellipsis-v size-18"
+      })]), _vm._v(" "), _c('div', {
+        staticClass: "dropdown-pane dropdown-pane-sm ",
+        attrs: {
+          "data-close-on-click": "true",
+          "data-hover": "true",
+          "data-hover-pane": "true",
+          "data-position": "bottom",
+          "data-alignment": "right",
+          "id": 'cdPlanCounty' + county.id + cdPlan.id,
+          "data-dropdown": "",
+          "data-auto-focus": "true"
+        }
+      }, [_c('ul', {
+        staticClass: "my-menu small-font text-right"
+      }, [_c('li', [_c('a', {
+        on: {
+          "click": function($event) {
+            $event.preventDefault();
+          }
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-pencil-square-o size-16"
+      }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+        on: {
+          "click": function($event) {
+            $event.preventDefault();
+          }
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-trash-o size-16"
+      }), _vm._v("  حذف")])])])])])])])]) : _vm._e()]
+    })]
+  })], 2)])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12"
   }, [_c('vue-pagination', {
     attrs: {
-      "pagination": _vm.national_pagination,
+      "pagination": _vm.county_pagination,
       "offset": 4
     },
     nativeOn: {
       "click": function($event) {
-        _vm.fetchNationalData(_vm.national_pagination.current_page)
+        _vm.fetchData(_vm.county_pagination.current_page)
       }
     }
   })], 1)])])])]), _vm._v(" "), (_vm.showModal) ? _c('modal-small', {
@@ -123021,11 +123670,13 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "fi-magnifying-glass"
   })])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "tbl-div-container"
-  }, [_c('table', {
+  return _c('table', {
     staticClass: "tbl-head"
   }, [_c('colgroup', [_c('col', {
+    attrs: {
+      "width": "200px"
+    }
+  }), _vm._v(" "), _c('col', {
     attrs: {
       "width": "200px"
     }
@@ -123035,23 +123686,11 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "150px"
+      "width": "100px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
+      "width": "200px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
@@ -123063,22 +123702,38 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "tbl-head-style-cell"
   }, [_c('th', {
     staticClass: "tbl-head-style-cell"
+  }, [_vm._v("ردیف")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
   }, [_vm._v("طرح")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
-  }, [_vm._v("پروژه")]), _vm._v(" "), _c('th', {
+  }, [_vm._v("شهرستان")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
-  }, [_vm._v("سرجمع")]), _vm._v(" "), _c('th', {
+  }, [_vm._v("مبلغ اعتبار")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
-  }, [_vm._v("ردیف اعتبار")]), _vm._v(" "), _c('th', {
+  }, [_vm._v("توضیحات")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
-  }, [_vm._v("شماره")]), _vm._v(" "), _c('th', {
-    staticClass: "tbl-head-style-cell"
-  }, [_vm._v("تاریخ")]), _vm._v(" "), _c('th', {
-    staticClass: "tbl-head-style-cell"
-  }, [_vm._v("مبلغ")]), _vm._v(" "), _c('th', {
-    staticClass: "tbl-head-style-cell"
-  })])])]), _vm._v(" "), _c('div', {
-    staticClass: "tbl_body_style dynamic-height-level2"
+  })])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('colgroup', [_c('col', {
+    attrs: {
+      "width": "200px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "200px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "200px"
+    }
   })])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
@@ -123154,37 +123809,31 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "fi-magnifying-glass"
   })])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "tbl-div-container"
-  }, [_c('table', {
+  return _c('table', {
     staticClass: "tbl-head"
   }, [_c('colgroup', [_c('col', {
     attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
       "width": "200px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
@@ -123196,22 +123845,44 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "tbl-head-style-cell"
   }, [_c('th', {
     staticClass: "tbl-head-style-cell"
+  }, [_vm._v("فصل بودجه")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
   }, [_vm._v("طرح")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
-  }, [_vm._v("پروژه")]), _vm._v(" "), _c('th', {
+  }, [_vm._v("ردیف")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
-  }, [_vm._v("سرجمع")]), _vm._v(" "), _c('th', {
+  }, [_vm._v("شهرستان")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
-  }, [_vm._v("ردیف اعتبار")]), _vm._v(" "), _c('th', {
+  }, [_vm._v("مبلغ اعتبار")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
-  }, [_vm._v("شماره")]), _vm._v(" "), _c('th', {
+  }, [_vm._v("توضیحات")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
-  }, [_vm._v("تاریخ")]), _vm._v(" "), _c('th', {
-    staticClass: "tbl-head-style-cell"
-  }, [_vm._v("مبلغ")]), _vm._v(" "), _c('th', {
-    staticClass: "tbl-head-style-cell"
-  })])])]), _vm._v(" "), _c('div', {
-    staticClass: "tbl_body_style dynamic-height-level2"
+  })])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('colgroup', [_c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "200px"
+    }
   })])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
@@ -123287,37 +123958,27 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "fi-magnifying-glass"
   })])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "tbl-div-container"
-  }, [_c('table', {
+  return _c('table', {
     staticClass: "tbl-head"
   }, [_c('colgroup', [_c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
     attrs: {
       "width": "200px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "150px"
+      "width": "200px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "150px"
+      "width": "100px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
-    }
-  }), _vm._v(" "), _c('col', {
-    attrs: {
-      "width": "150px"
+      "width": "200px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
@@ -123329,22 +123990,38 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "tbl-head-style-cell"
   }, [_c('th', {
     staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شهرستان")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
   }, [_vm._v("طرح")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
-  }, [_vm._v("پروژه")]), _vm._v(" "), _c('th', {
+  }, [_vm._v("ردیف")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
-  }, [_vm._v("سرجمع")]), _vm._v(" "), _c('th', {
+  }, [_vm._v("مبلغ اعتبار")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
-  }, [_vm._v("ردیف اعتبار")]), _vm._v(" "), _c('th', {
+  }, [_vm._v("توضیحات")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
-  }, [_vm._v("شماره")]), _vm._v(" "), _c('th', {
-    staticClass: "tbl-head-style-cell"
-  }, [_vm._v("تاریخ")]), _vm._v(" "), _c('th', {
-    staticClass: "tbl-head-style-cell"
-  }, [_vm._v("مبلغ")]), _vm._v(" "), _c('th', {
-    staticClass: "tbl-head-style-cell"
-  })])])]), _vm._v(" "), _c('div', {
-    staticClass: "tbl_body_style dynamic-height-level2"
+  })])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('colgroup', [_c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "200px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "200px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "200px"
+    }
   })])
 }]
 render._withStripped = true

@@ -13,4 +13,9 @@ class BudgetSeason extends Model
     {
         return $this->hasMany(CreditDistributionTitle::class , 'cdtBsId' , 'id');
     }
+
+    public function cdpTitleHasCreditDistributionPlan()
+    {
+        return $this->hasMany(CreditDistributionTitle::class , 'cdtBsId' , 'id')->has('creditDistributionPlan');
+    }
 }
