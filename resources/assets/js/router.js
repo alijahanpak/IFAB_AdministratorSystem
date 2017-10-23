@@ -20,6 +20,7 @@ import approved_cost_program from './components/Budget/Aprroved/approved_cost_pr
 import capital_assets_allocation from './components/Budget/Allocation/capital_assets.vue'
 import cost_allocation from './components/Budget/Allocation/cost.vue'
 import credit_distribution_plan from './components/Budget/CreditDistribution/plan.vue'
+import budget_proposal from './components/Budget/CreditDistribution/proposal.vue'
 
 //export router instance
 const routes = [
@@ -37,8 +38,7 @@ const routes = [
     { path: '/budget/Allocation/cost', component: cost_allocation },
     { path: '/budget/admin/credit_distribution_def/plan_cost_title', component: plan_cost_title },
     { path: '/budget/admin/credit_distribution/plan', component: credit_distribution_plan },
-
-
+    { path: '/budget/admin/credit_distribution/proposal', component: budget_proposal },
 ]
 
 const router = new VueRouter({

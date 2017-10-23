@@ -1099,17 +1099,36 @@ class BudgetAdminController extends Controller
 
     public function getAllPlanOrCostTitleItem(Request $request)
     {
-        if ($request->pOrN)
+        if (isset($request->bsId))
         {
-            return \response()->json(CreditDistributionTitle::with('county')
-                ->where('cdtCoId' , '=' , null)
-                ->get());
+            if ($request->pOrN)
+            {
+                return \response()->json(CreditDistributionTitle::with('county')
+                    ->where('cdtCoId' , '=' , null)
+                    ->where('cdtBsId' , '=' , $request->bsId)
+                    ->get());
+            }
+            else
+            {
+                return \response()->json(CreditDistributionTitle::with('county')
+                    ->where('cdtCoId' , '<>' , null)
+                    ->where('cdtBsId' , '=' , $request->bsId)
+                    ->get());
+            }
         }
-        else
-        {
-            return \response()->json(CreditDistributionTitle::with('county')
-                ->where('cdtCoId' , '<>' , null)
-                ->get());
+        else{
+            if ($request->pOrN)
+            {
+                return \response()->json(CreditDistributionTitle::with('county')
+                    ->where('cdtCoId' , '=' , null)
+                    ->get());
+            }
+            else
+            {
+                return \response()->json(CreditDistributionTitle::with('county')
+                    ->where('cdtCoId' , '<>' , null)
+                    ->get());
+            }
         }
     }
 }

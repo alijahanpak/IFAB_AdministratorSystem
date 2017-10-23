@@ -567,6 +567,63 @@
                                     </div>
                                 </div>
                             </div>
+
+
+                            <div class="grid-x">
+                                <div class="medium-4 cell padding-lr">
+                                    <label>شهرستان
+                                        <select class="form-element-margin-btm" v-model="deprivedAreaInput.county" @change="getRegions" name="daCounty" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('daCounty')}">
+                                            <option value=""></option>
+                                            <option v-for="county in counties" :value="county.id">{{ county.coName }}</option>
+                                        </select>
+                                        <span v-show="errors.has('daCounty')" class="error-font">شهرستان را انتخاب کنید!</span>
+                                    </label>
+                                </div>
+                                <div class="medium-8 cell padding-lr">
+                                    <label>طرح
+                                        <select name="pbpPlanCode" id="pbpPlanCode" onchange="getRemianingAmount('{{ url('/budget/credit_distribution/capital_assets/provincial/proposal/getPlanRemainingAmount') }}' , 'pbpPlanCode' , 'pbpPlanAmount')" required>
+                                            <option value=""></option>
+                                        </select>
+                                    </label>
+                                    <span class="form-error error-font" data-form-error-for="pbpPlanCode">کد طرح مورد نظر را انتخاب کنید!</span>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-12 column padding-lr">
+                                    <div class="grid-x my-callout-bg-color">
+                                        <div class="medium-2">
+                                            <p>اعتبار باقیمانده :</p>
+                                        </div>
+                                        <div class="medium-10 btn-red">
+                                            <strong id="pbpPlanAmount" style="margin-bottom: 0;">0 </strong><span>({{ \Modules\Admin\Entities\User::find(Auth::user()->id)->first()->inPutAmountUnit->auSubject }})</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-12 columns padding-lr">
+                                    <label>عنوان پروژه
+                                        <input type="text" name="pbpProjectTitle" id="pbpProjectTitle" required pattern="text">
+                                    </label>
+                                    <span class="form-error error-font" data-form-error-for="pbpProjectTitle">عنوان پروژه فراموش شده است!</span>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-6 columns padding-lr">
+                                    <label>کد پروژه
+                                        <input type="text" name="pbpProjectCode" id="pbpProjectCode" required pattern="text">
+                                    </label>
+                                    <span class="form-error error-font" data-form-error-for="pbpProjectCode">کد پروژه فراموش شده است!</span>
+                                </div>
+                                <div class="medium-6 columns padding-lr">
+                                    <label><span>مبلغ اعتبار</span><span style="color: #D9534F;">({{ \Modules\Admin\Entities\User::find(Auth::user()->id)->first()->inPutAmountUnit->auSubject }})</span>
+                                        <input type="text" name="pbpAmount" id="pbpAmount" required pattern="text">
+                                    </label>
+                                    <span class="form-error error-font" data-form-error-for="pbpAmount">مبلغ اعتبار فراموش شده است!</span>
+                                </div>
+                            </div>
+
+
                             <div class="grid-x">
                                 <div class="medium-6 column padding-lr">
                                     <label>فصل بودجه

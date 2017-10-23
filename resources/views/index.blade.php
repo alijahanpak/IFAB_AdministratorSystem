@@ -95,7 +95,7 @@
                                             <li><a href="#">استانی</a>
                                                 <ul class="menu vertical nested">
                                                     <li><router-link to="/budget/admin/credit_distribution/plan">طرح های توزیع اعتبار</router-link></li>
-                                                    <li><a href="">پیشنهاد دستگاه</a></li>
+                                                    <li><router-link to="/budget/admin/credit_distribution/proposal">پیشنهاد دستگاه</router-link></li>
                                                 </ul>
                                             </li>
                                         </ul>

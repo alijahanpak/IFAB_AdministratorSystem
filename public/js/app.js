@@ -82865,6 +82865,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_Budget_Allocation_capital_assets_vue__ = __webpack_require__(365);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_Budget_Allocation_cost_vue__ = __webpack_require__(368);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_Budget_CreditDistribution_plan_vue__ = __webpack_require__(371);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_Budget_CreditDistribution_proposal_vue__ = __webpack_require__(374);
 var _mutations;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -82892,8 +82893,9 @@ window.Vue.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 
 
 
+
 //export router instance
-var routes = [{ path: '/budget', component: __WEBPACK_IMPORTED_MODULE_2__components_Budget_Dashboard_vue__["a" /* default */] }, { path: '/budget/admin/season/tiny_seasons', component: __WEBPACK_IMPORTED_MODULE_3__components_Budget_Admin_tiny_seasons_vue__["a" /* default */] }, { path: '/budget/admin/fiscal_year', component: __WEBPACK_IMPORTED_MODULE_4__components_Budget_Admin_fiscal_year_vue__["a" /* default */] }, { path: '/budget/admin/deprived_area', component: __WEBPACK_IMPORTED_MODULE_5__components_Budget_Admin_deprived_area_vue__["a" /* default */] }, { path: '/budget/admin/credit_distribution_def/budget_season', component: __WEBPACK_IMPORTED_MODULE_6__components_Budget_Admin_budget_season_vue__["a" /* default */] }, { path: '/budget/admin/season/season_title', component: __WEBPACK_IMPORTED_MODULE_8__components_Budget_Admin_season_title_vue__["a" /* default */] }, { path: '/budget/approved/capital_assets/approved/plan', component: __WEBPACK_IMPORTED_MODULE_11__components_Budget_Aprroved_approved_plan_vue__["a" /* default */] }, { path: '/budget/approved/capital_assets/approved/program', component: __WEBPACK_IMPORTED_MODULE_12__components_Budget_Aprroved_approved_cost_program_vue__["a" /* default */] }, { path: '/budget/approved/capital_assets/approved/project', component: __WEBPACK_IMPORTED_MODULE_10__components_Budget_Aprroved_approved_project_vue__["a" /* default */] }, { path: '/budget/admin/credit_distribution_def/row', component: __WEBPACK_IMPORTED_MODULE_7__components_Budget_Admin_credit_distribution_row_vue__["a" /* default */] }, { path: '/budget/Allocation/capital_assets', component: __WEBPACK_IMPORTED_MODULE_13__components_Budget_Allocation_capital_assets_vue__["a" /* default */] }, { path: '/budget/Allocation/cost', component: __WEBPACK_IMPORTED_MODULE_14__components_Budget_Allocation_cost_vue__["a" /* default */] }, { path: '/budget/admin/credit_distribution_def/plan_cost_title', component: __WEBPACK_IMPORTED_MODULE_9__components_Budget_Admin_plan_cost_title_vue__["a" /* default */] }, { path: '/budget/admin/credit_distribution/plan', component: __WEBPACK_IMPORTED_MODULE_15__components_Budget_CreditDistribution_plan_vue__["a" /* default */] }];
+var routes = [{ path: '/budget', component: __WEBPACK_IMPORTED_MODULE_2__components_Budget_Dashboard_vue__["a" /* default */] }, { path: '/budget/admin/season/tiny_seasons', component: __WEBPACK_IMPORTED_MODULE_3__components_Budget_Admin_tiny_seasons_vue__["a" /* default */] }, { path: '/budget/admin/fiscal_year', component: __WEBPACK_IMPORTED_MODULE_4__components_Budget_Admin_fiscal_year_vue__["a" /* default */] }, { path: '/budget/admin/deprived_area', component: __WEBPACK_IMPORTED_MODULE_5__components_Budget_Admin_deprived_area_vue__["a" /* default */] }, { path: '/budget/admin/credit_distribution_def/budget_season', component: __WEBPACK_IMPORTED_MODULE_6__components_Budget_Admin_budget_season_vue__["a" /* default */] }, { path: '/budget/admin/season/season_title', component: __WEBPACK_IMPORTED_MODULE_8__components_Budget_Admin_season_title_vue__["a" /* default */] }, { path: '/budget/approved/capital_assets/approved/plan', component: __WEBPACK_IMPORTED_MODULE_11__components_Budget_Aprroved_approved_plan_vue__["a" /* default */] }, { path: '/budget/approved/capital_assets/approved/program', component: __WEBPACK_IMPORTED_MODULE_12__components_Budget_Aprroved_approved_cost_program_vue__["a" /* default */] }, { path: '/budget/approved/capital_assets/approved/project', component: __WEBPACK_IMPORTED_MODULE_10__components_Budget_Aprroved_approved_project_vue__["a" /* default */] }, { path: '/budget/admin/credit_distribution_def/row', component: __WEBPACK_IMPORTED_MODULE_7__components_Budget_Admin_credit_distribution_row_vue__["a" /* default */] }, { path: '/budget/Allocation/capital_assets', component: __WEBPACK_IMPORTED_MODULE_13__components_Budget_Allocation_capital_assets_vue__["a" /* default */] }, { path: '/budget/Allocation/cost', component: __WEBPACK_IMPORTED_MODULE_14__components_Budget_Allocation_cost_vue__["a" /* default */] }, { path: '/budget/admin/credit_distribution_def/plan_cost_title', component: __WEBPACK_IMPORTED_MODULE_9__components_Budget_Admin_plan_cost_title_vue__["a" /* default */] }, { path: '/budget/admin/credit_distribution/plan', component: __WEBPACK_IMPORTED_MODULE_15__components_Budget_CreditDistribution_plan_vue__["a" /* default */] }, { path: '/budget/admin/credit_distribution/proposal', component: __WEBPACK_IMPORTED_MODULE_16__components_Budget_CreditDistribution_proposal_vue__["a" /* default */] }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
     routes: routes
@@ -122258,6 +122260,17 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -122276,6 +122289,8 @@ if (false) {(function () {
             creditDistributionTitles: {},
             creditDistributionRows: {},
             counties: {},
+            bSeasons: {},
+            selectedBs: '',
 
             plan_pagination: {
                 total: 0,
@@ -122345,22 +122360,35 @@ if (false) {(function () {
             });
         },
 
-        getCreditDistributionTitle: function getCreditDistributionTitle() {
+        getBudgetSeason: function getBudgetSeason() {
             var _this2 = this;
 
-            axios.get('/budget/admin/credit_distribution_def/plan_cost_title/getAllItem', { params: { pOrN: 1 } }).then(function (response) {
-                _this2.creditDistributionTitles = response.data;
+            axios.get('/budget/admin/credit_distribution_def/budget_season/fetchData').then(function (response) {
+                _this2.bSeasons = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
             });
         },
 
-        getCreditDistributionRow: function getCreditDistributionRow() {
+        getAllCdTitle: function getAllCdTitle() {
             var _this3 = this;
 
+            if (this.selectedBs != '') {
+                axios.get('/budget/admin/credit_distribution_def/plan_cost_title/getAllItem', { params: { pOrN: 1, bsId: this.selectedBs } }).then(function (response) {
+                    _this3.creditDistributionTitles = response.data;
+                    console.log(response);
+                }, function (error) {
+                    console.log(error);
+                });
+            } else this.creditDistributionTitles = [];
+        },
+
+        getCreditDistributionRow: function getCreditDistributionRow() {
+            var _this4 = this;
+
             axios.get('/budget/admin/credit_distribution_def/rows/getAllItems', { params: { planOrCost: 0 } }).then(function (response) {
-                _this3.creditDistributionRows = response.data;
+                _this4.creditDistributionRows = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -122368,10 +122396,10 @@ if (false) {(function () {
         },
 
         getCounties: function getCounties() {
-            var _this4 = this;
+            var _this5 = this;
 
             axios.get('/admin/get_all_counties').then(function (response) {
-                _this4.counties = response.data;
+                _this5.counties = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -122387,41 +122415,41 @@ if (false) {(function () {
         },
 
         openInsertModal: function openInsertModal(type) {
-            this.getCreditDistributionTitle();
+            this.getBudgetSeason();
             this.getCreditDistributionRow();
             this.getCounties();
             this.showModal = true;
         },
 
         createCreditDistributionPlan: function createCreditDistributionPlan() {
-            var _this5 = this;
+            var _this6 = this;
 
             this.$validator.validateAll().then(function (result) {
                 if (result) {
                     var jsonString = '{';
-                    jsonString += '"cdtId":"' + _this5.CdPlanInput.cdtId + '",';
-                    jsonString += '"cdrId":"' + _this5.CdPlanInput.cdrId + '",';
-                    jsonString += '"description":"' + _this5.CdPlanInput.description + '",';
-                    _this5.counties.forEach(function (county) {
-                        if (_this5.CdPlanInput['county' + county.id]) jsonString += '"county' + county.id + '":"' + _this5.CdPlanInput['county' + county.id] + '",';
+                    jsonString += '"cdtId":"' + _this6.CdPlanInput.cdtId + '",';
+                    jsonString += '"cdrId":"' + _this6.CdPlanInput.cdrId + '",';
+                    jsonString += '"description":"' + _this6.CdPlanInput.description + '",';
+                    _this6.counties.forEach(function (county) {
+                        if (_this6.CdPlanInput['county' + county.id]) jsonString += '"county' + county.id + '":"' + _this6.CdPlanInput['county' + county.id] + '",';
                     });
                     jsonString += '"":""}';
                     axios.post('/budget/credit_distribution/capital_assets/provincial/plans/register', JSON.parse(jsonString)).then(function (response) {
-                        _this5.cdPlans = response.data.byPlan.data;
-                        _this5.makePagination(response.data.byPlan, "plan");
-                        _this5.cdPlansOrderByRow = response.data.byRow.data;
-                        _this5.makePagination(response.data.byRow, "row");
-                        _this5.cdPlansOrderByBudget = response.data.byBudget.data;
-                        _this5.makePagination(response.data.byBudget, "budget");
-                        _this5.cdPlansOrderByCounty = response.data.byCounty.data;
-                        _this5.makePagination(response.data.byCounty, "county");
+                        _this6.cdPlans = response.data.byPlan.data;
+                        _this6.makePagination(response.data.byPlan, "plan");
+                        _this6.cdPlansOrderByRow = response.data.byRow.data;
+                        _this6.makePagination(response.data.byRow, "row");
+                        _this6.cdPlansOrderByBudget = response.data.byBudget.data;
+                        _this6.makePagination(response.data.byBudget, "budget");
+                        _this6.cdPlansOrderByCounty = response.data.byCounty.data;
+                        _this6.makePagination(response.data.byCounty, "county");
 
-                        _this5.showModal = false;
-                        _this5.$parent.displayNotif(response.status);
+                        _this6.showModal = false;
+                        _this6.$parent.displayNotif(response.status);
                         console.log(response);
                     }, function (error) {
                         console.log(error);
-                        _this5.errorMessage = 'تخصیص با این مشخصات قبلا ثبت شده است!';
+                        _this6.errorMessage = 'تخصیص با این مشخصات قبلا ثبت شده است!';
                     });
                 }
             });
@@ -123206,6 +123234,57 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('i', {
     staticClass: "fi-alert"
   }), _vm._v(_vm._s(_vm.errorMessage))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-6 column padding-lr"
+  }, [_c('label', [_vm._v("فصل بودجه\n                                    "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectedBs),
+      expression: "selectedBs"
+    }, {
+      name: "validate",
+      rawName: "v-validate"
+    }],
+    staticClass: "form-element-margin-btm",
+    class: {
+      'input': true, 'select-error': _vm.errors.has('bsId')
+    },
+    attrs: {
+      "name": "bsId",
+      "data-vv-rules": "required"
+    },
+    on: {
+      "change": [function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.selectedBs = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }, _vm.getAllCdTitle]
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.bSeasons), function(bSeason) {
+    return _c('option', {
+      domProps: {
+        "value": bSeason.id
+      }
+    }, [_vm._v(_vm._s(bSeason.bsSubject))])
+  })], 2), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('bsId')),
+      expression: "errors.has('bsId')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("فصل بودجه را انتخاب کنید!")])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-8 cell padding-lr"
@@ -124031,6 +124110,1027 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-e4f8df00", esExports)
+  }
+}
+
+/***/ }),
+/* 374 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_proposal_vue__ = __webpack_require__(375);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_abfaa76e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_proposal_vue__ = __webpack_require__(376);
+var disposed = false
+var normalizeComponent = __webpack_require__(6)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_node_modules_vue_loader_lib_selector_type_script_index_0_proposal_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_abfaa76e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_proposal_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Budget/CreditDistribution/proposal.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] proposal.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-abfaa76e", Component.options)
+  } else {
+    hotAPI.reload("data-v-abfaa76e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 375 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__ = __webpack_require__(8);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    data: function data() {
+        return {
+            errorMessage: '',
+            errorMessage_update: '',
+            cdPlans: [],
+            cdPlansOrderByRow: [],
+            cdPlansOrderByBudget: [],
+            cdPlansOrderByCounty: [],
+            CdPlanInput: {},
+            showModal: false,
+            showModalUpdate: false,
+            showModalDelete: false,
+            creditDistributionTitles: {},
+            creditDistributionRows: {},
+            counties: {},
+            bSeasons: {},
+            selectedBs: '',
+
+            plan_pagination: {
+                total: 0,
+                to: 0,
+                current_page: 1,
+                last_page: ''
+            },
+
+            row_pagination: {
+                total: 0,
+                to: 0,
+                current_page: 1,
+                last_page: ''
+            },
+
+            budget_pagination: {
+                total: 0,
+                to: 0,
+                current_page: 1,
+                last_page: ''
+            },
+
+            county_pagination: {
+                total: 0,
+                to: 0,
+                current_page: 1,
+                last_page: ''
+            }
+        };
+    },
+
+    created: function created() {
+        this.fetchData();
+    },
+
+    updated: function updated() {
+        $(this.$el).foundation(); //WORKS!
+    },
+
+    mounted: function mounted() {
+        console.log("mounted credit distribution plans component");
+        this.$parent.myResize();
+    },
+
+    components: {
+        'vue-pagination': __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__["a" /* default */]
+    },
+
+    methods: {
+        fetchData: function fetchData() {
+            var _this = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            axios.get('/budget/credit_distribution/capital_assets/provincial/plans/fetchData?page=' + page).then(function (response) {
+                _this.cdPlans = response.data.byPlan.data;
+                _this.makePagination(response.data.byPlan, "plan");
+                _this.cdPlansOrderByRow = response.data.byRow.data;
+                _this.makePagination(response.data.byRow, "row");
+                _this.cdPlansOrderByBudget = response.data.byBudget.data;
+                _this.makePagination(response.data.byBudget, "budget");
+                _this.cdPlansOrderByCounty = response.data.byCounty.data;
+                _this.makePagination(response.data.byCounty, "county");
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        getBudgetSeason: function getBudgetSeason() {
+            var _this2 = this;
+
+            axios.get('/budget/admin/credit_distribution_def/budget_season/fetchData').then(function (response) {
+                _this2.bSeasons = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        getAllCdTitle: function getAllCdTitle() {
+            var _this3 = this;
+
+            if (this.selectedBs != '') {
+                axios.get('/budget/admin/credit_distribution_def/plan_cost_title/getAllItem', { params: { pOrN: 1, bsId: this.selectedBs } }).then(function (response) {
+                    _this3.creditDistributionTitles = response.data;
+                    console.log(response);
+                }, function (error) {
+                    console.log(error);
+                });
+            } else this.creditDistributionTitles = [];
+        },
+
+        getCreditDistributionRow: function getCreditDistributionRow() {
+            var _this4 = this;
+
+            axios.get('/budget/admin/credit_distribution_def/rows/getAllItems', { params: { planOrCost: 0 } }).then(function (response) {
+                _this4.creditDistributionRows = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        getCounties: function getCounties() {
+            var _this5 = this;
+
+            axios.get('/admin/get_all_counties').then(function (response) {
+                _this5.counties = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        getBsPlanCount: function getBsPlanCount(cdpTitle) {
+            var count = 0;
+            cdpTitle.forEach(function (cdpT) {
+                count += cdpT.credit_distribution_plan.length;
+            });
+            return count;
+        },
+
+        openInsertModal: function openInsertModal(type) {
+            this.getBudgetSeason();
+            this.getCreditDistributionRow();
+            this.getCounties();
+            this.showModal = true;
+        },
+
+        createCreditDistributionPlan: function createCreditDistributionPlan() {
+            var _this6 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    var jsonString = '{';
+                    jsonString += '"cdtId":"' + _this6.CdPlanInput.cdtId + '",';
+                    jsonString += '"cdrId":"' + _this6.CdPlanInput.cdrId + '",';
+                    jsonString += '"description":"' + _this6.CdPlanInput.description + '",';
+                    _this6.counties.forEach(function (county) {
+                        if (_this6.CdPlanInput['county' + county.id]) jsonString += '"county' + county.id + '":"' + _this6.CdPlanInput['county' + county.id] + '",';
+                    });
+                    jsonString += '"":""}';
+                    axios.post('/budget/credit_distribution/capital_assets/provincial/plans/register', JSON.parse(jsonString)).then(function (response) {
+                        _this6.cdPlans = response.data.byPlan.data;
+                        _this6.makePagination(response.data.byPlan, "plan");
+                        _this6.cdPlansOrderByRow = response.data.byRow.data;
+                        _this6.makePagination(response.data.byRow, "row");
+                        _this6.cdPlansOrderByBudget = response.data.byBudget.data;
+                        _this6.makePagination(response.data.byBudget, "budget");
+                        _this6.cdPlansOrderByCounty = response.data.byCounty.data;
+                        _this6.makePagination(response.data.byCounty, "county");
+
+                        _this6.showModal = false;
+                        _this6.$parent.displayNotif(response.status);
+                        console.log(response);
+                    }, function (error) {
+                        console.log(error);
+                        _this6.errorMessage = 'تخصیص با این مشخصات قبلا ثبت شده است!';
+                    });
+                }
+            });
+        },
+
+        registerOfCreditAllocationAssetsUpdateDialog: function registerOfCreditAllocationAssetsUpdateDialog(item) {
+            this.registerOfCreditAllocationAssetsFill.rocaPlan = item.rocaPlan;
+            this.registerOfCreditAllocationAssetsFill.rocaaProject = item.rocaaProject;
+            this.registerOfCreditAllocationAssetsFill.rocaaRow = item.rocaaRow;
+            this.registerOfCreditAllocationAssetsFill.roccaCost = item.roccaCost;
+            this.registerOfCreditAllocationAssetsFill.rocaaNumber = item.rocaaNumber;
+            this.registerOfCreditAllocationAssetsFill.rocaaDate = item.rocaaDate;
+
+            this.errorMessage_update = '';
+            this.showModalUpdate = true;
+        },
+
+        updateRegisterOfCreditAllocationAssets: function updateRegisterOfCreditAllocationAssets() {
+
+            /*axios.post('/budget/admin/sub_seasons/update' , this.tinySeasonsFill)
+                .then((response) => {
+                    if(this.planOrCost == 1)
+                        this.tinySeasonsCost = response.data;
+                    else
+                        this.tinySeasons = response.data;
+                    this.showModalUpdate = false;
+                    this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'بروزرسانی با موفقیت انجام شد.' , type: 'success'});
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                    this.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                });*/
+            alert('ویرایش انجام شد');
+        },
+
+        openDeleteRegisterOfCreditAllocationAssetsConfirm: function openDeleteRegisterOfCreditAllocationAssetsConfirm(rocaa) {
+            this.apIdDelete = rocaa;
+            this.showModalDelete = true;
+        },
+
+        deleteRegisterOfCreditAllocationAssets: function deleteRegisterOfCreditAllocationAssets() {
+            /*axios.post('/budget/admin/sub_seasons/delete' , this.tsIdDelete)
+                .then((response) => {
+                    if(response.data.tsPlanOrCost == 1)
+                        this.tinySeasonsCost = response.data;
+                    else
+                        this.tinySeasons = response.data;
+                    this.showModalDelete = false;
+                    this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'حذف رکورد با موفقیت انجام شد.' , type: 'success'});
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                    this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
+                });*/
+        },
+
+        makePagination: function makePagination(data, type) {
+            if (type == "plan") {
+                this.plan_pagination.current_page = data.current_page;
+                this.plan_pagination.to = data.to;
+                this.plan_pagination.last_page = data.last_page;
+            } else if (type == "row") {
+                this.row_pagination.current_page = data.current_page;
+                this.row_pagination.to = data.to;
+                this.row_pagination.last_page = data.last_page;
+            } else if (type == "budget") {
+                this.budget_pagination.current_page = data.current_page;
+                this.budget_pagination.to = data.to;
+                this.budget_pagination.last_page = data.last_page;
+            } else if (type == "county") {
+                this.county_pagination.current_page = data.current_page;
+                this.county_pagination.to = data.to;
+                this.county_pagination.last_page = data.last_page;
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 376 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var esExports = {render:function(){},staticRenderFns: []}
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-abfaa76e", esExports)
   }
 }
 
