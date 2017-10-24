@@ -55,4 +55,9 @@ class CreditDistributionPlan extends Model
     {
         return CreditDistributionPlan::where('cdpFyId' , '=' , Auth::user()->seFiscalYear)->where('cdpCoId' , '=' , $coId)->get();
     }
+
+    public function proposal()
+    {
+        return $this->hasMany(ProvincialBudgetProposal::class , 'pbpCdpId' , 'id');
+    }
 }

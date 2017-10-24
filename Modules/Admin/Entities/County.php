@@ -15,4 +15,9 @@ class County extends Model
     {
         return $this->hasMany(CreditDistributionPlan::class , 'cdpCoId' , 'id');
     }
+
+    public function creditDistributionPlanHasProposal()
+    {
+        return $this->hasMany(CreditDistributionPlan::class , 'cdpCoId' , 'id')->has('proposal');
+    }
 }

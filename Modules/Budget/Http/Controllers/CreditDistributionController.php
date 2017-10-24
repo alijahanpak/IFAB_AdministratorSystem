@@ -132,51 +132,6 @@ class CreditDistributionController extends Controller
         return Redirect::to(URL::previous());
     }
 
-    public function provincialBudgetProposal(){
-        $pbpGroupByCounty = ProvincialBudgetProposal::where('pbpFyId' , '=' , Auth::user()->seFiscalYear)
-            ->with('creditDistributionPlan.county')
-            ->get()
-            ->groupBy('creditDistributionPlan.county.coName');
-        return  view('budget::pages.provincial_budget_proposal.main', ['pageTitle' => 'پیشنهاد بودجه',
-            'pbps' => $pbpGroupByCounty,
-            'requireJsFile' => 'provincial_budget_proposal']);
-    }
-    
-    public function getPlans($coId)
-    {
-        if (\Illuminate\Support\Facades\Request::ajax())
-        {
-            $temp =CreditDistributionPlan::with(['creditDistributionTitle' , 'creditDistributionRow' , 'creditDistributionTitle.budgetSeason'])->where('cdpFyId' , '=' , Auth::user()->seFiscalYear)->where('cdpCoId' , '=' , $coId)->get();
-            return \Illuminate\Support\Facades\Response::json($temp);
-        }
-    }
-
-    public function registerProvincialBudgetProposal(Request $request)
-    {
-        $pbp = new ProvincialBudgetProposal;
-        $pbp->pbpUId = Auth::user()->id;
-        $pbp->pbpCdpId = Input::get('pbpPlanCode');
-        $pbp->pbpFyId = Auth::user()->seFiscalYear;
-        $pbp->pbpAmount = AmountUnit::convertInputAmount(Input::get('pbpAmount'));
-        $pbp->pbpSubject = Input::get('pbpProjectTitle');
-        $pbp->pbpCode = Input::get('pbpProjectCode');
-        $pbp->pbpDescription = Input::get('pbpDescription');
-        $pbp->save();
-
-        SystemLog::setBudgetSubSystemLog('ثبت پیشنهاد بودجه تملک داریی های سرمایه ای استانی برای پروژه ' . $pbp->pbpSubject);
-        return Redirect::to(URL::previous());
-    }
-
-    public function getPlanRemainingAmount($cdpId)
-    {
-        if (\Illuminate\Support\Facades\Request::ajax())
-        {
-            $proposedAmount = ProvincialBudgetProposal::where('pbpFyId' , '=' , Auth::user()->seFiscalYear)->where('pbpCdpId' , '=' , $cdpId)->sum('pbpAmount');
-            $cdpAmount = CreditDistributionPlan::where('id' , '=' , $cdpId)->first()->cdpCredit;
-            return \Illuminate\Support\Facades\Response::json(['remainingAmount' => AmountUnit::convertDispAmount($cdpAmount - $proposedAmount)]);
-        }
-    }
-
     public function deleteProvincialBudgetProposal($pbpId)
     {
         try {
@@ -303,5 +258,58 @@ class CreditDistributionController extends Controller
             ->with('creditDistributionPlan.creditDistributionTitle')
             ->with('creditDistributionPlan.creditDistributionRow')
             ->paginate(5);
+    }
+
+    public function getPlansWithCountyId(Request $request)
+    {
+        $temp =CreditDistributionPlan::with(['creditDistributionTitle' , 'creditDistributionRow' , 'creditDistributionTitle.budgetSeason'])
+            ->where('cdpFyId' , '=' , Auth::user()->seFiscalYear)
+            ->where('cdpCoId' , '=' , $request->coId)->get();
+        return \response()->json($temp);
+    }
+
+    public function getPlanRemainingAmount(Request $request)
+    {
+        $proposedAmount = ProvincialBudgetProposal::where('pbpFyId' , '=' , Auth::user()->seFiscalYear)
+            ->where('pbpCdpId' , '=' , $request->cdpId)
+            ->sum('pbpAmount');
+        $cdpAmount = CreditDistributionPlan::where('id' , '=' , $request->cdpId)
+            ->first()->cdpCredit;
+        return \response()->json(['remainingAmount' => AmountUnit::convertDispAmount($cdpAmount - $proposedAmount)]);
+    }
+
+    ///////////////////////// proposal ///////////////////////////
+    public function fetchProvincialBudgetProposalData(){
+
+        return \response()->json($this->getAllProvincialBudgetProposal());
+    }
+
+    public function getAllProvincialBudgetProposal()
+    {
+        return County::has('creditDistributionPlanHasProposal')
+            ->whereHas('creditDistributionPlanHasProposal' , function($q){
+                return $q->where('cdpFyId' , '=' , Auth::user()->seFiscalYear);
+            })
+            ->with('creditDistributionPlanHasProposal.creditDistributionTitle')
+            ->with('creditDistributionPlanHasProposal.creditDistributionRow')
+            ->with('creditDistributionPlanHasProposal.proposal')
+            ->paginate(5);
+
+    }
+
+    public function registerProvincialBudgetProposal(Request $request)
+    {
+        $pbp = new ProvincialBudgetProposal;
+        $pbp->pbpUId = Auth::user()->id;
+        $pbp->pbpCdpId = $request->cdpId;
+        $pbp->pbpFyId = Auth::user()->seFiscalYear;
+        $pbp->pbpAmount = AmountUnit::convertInputAmount($request->pAmount);
+        $pbp->pbpSubject = $request->pSubject;
+        $pbp->pbpCode = $request->pCode;
+        $pbp->pbpDescription = $request->pDescription;
+        $pbp->save();
+
+        SystemLog::setBudgetSubSystemLog('ثبت پیشنهاد بودجه تملک داریی های سرمایه ای استانی برای پروژه ' . $pbp->pbpSubject);
+        return \response()->json($this->getAllProvincialBudgetProposal());
     }
 }

@@ -222,13 +222,14 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
     Route::prefix('credit_distribution')->group(function () {
         Route::get('capital_assets/provincial/plans/fetchData', 'CreditDistributionController@fetchCreditDistributionPlan');
         Route::post('capital_assets/provincial/plans/register', 'CreditDistributionController@registerCreditDistributionPlan');
+        Route::get('capital_assets/provincial/plans/getAllWithCountyId', 'CreditDistributionController@getPlansWithCountyId');
+        Route::get('capital_assets/provincial/plans/getPlanRemainingAmount', 'CreditDistributionController@getPlanRemainingAmount');
 //        Route::get('capital_assets/provincial/plans/delete/{cdtId}/{cdrId}', 'CreditDistributionController@deleteCreditDistributionPlan');
 //        Route::get('capital_assets/provincial/plans/CDPIsExist/{cdtId}/{cdrId}', 'CreditDistributionController@CDPIsExist');
 //        Route::post('capital_assets/provincial/plans/update', 'CreditDistributionController@updateCreditDistributionPlan');
-//        Route::get('capital_assets/provincial/proposal', 'CreditDistributionController@provincialBudgetProposal');
-//        Route::get('capital_assets/provincial/proposal/getPlans/{coId}', 'CreditDistributionController@getPlans');
-//        Route::post('capital_assets/provincial/proposal/register', 'CreditDistributionController@registerProvincialBudgetProposal');
-//        Route::get('capital_assets/provincial/proposal/getPlanRemainingAmount/{cdpId}', 'CreditDistributionController@getPlanRemainingAmount');
+        Route::get('capital_assets/provincial/proposal/fetchData', 'CreditDistributionController@fetchProvincialBudgetProposalData');
+        Route::post('capital_assets/provincial/proposal/register', 'CreditDistributionController@registerProvincialBudgetProposal');
+
 //        Route::get('capital_assets/provincial/proposal/delete/{pbpId}', 'CreditDistributionController@deleteProvincialBudgetProposal');
 //        Route::post('capital_assets/provincial/proposal/update', 'CreditDistributionController@updateProvincialBudgetProposal');
 //        Route::get('capital_assets/provincial/proposal/PBPIsExist/{pbpSubject}/{pbpCode}/{pbpId?}', 'CreditDistributionController@PBPIsExist');

@@ -163,7 +163,10 @@ var app = new Vue({
             }
 
             if (tabHeight===undefined) {
-                tabHeight = -8;
+                if (toolBarHeight > 0)
+                    tabHeight = -28;
+                else
+                    tabHeight = -8;
                 notifHeight=0;
             }
 
@@ -258,7 +261,10 @@ var app = new Vue({
             }
 
             if (tabHeight===undefined) {
-                tabHeight = -8;
+                if (toolBarHeight > 0)
+                    tabHeight = -28;
+                else
+                    tabHeight = -8;
                 notifHeight=0;
             }
 
