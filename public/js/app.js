@@ -124696,7 +124696,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_vm._v(_vm._s(county.credit_distribution_plan_has_proposal[0].credit_distribution_title.cdtIdNumber + ' - ' + county.credit_distribution_plan_has_proposal[0].credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(county.credit_distribution_plan_has_proposal[0].proposal[0].pbpCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(county.credit_distribution_plan_has_proposal[0].proposal[0].pbpSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(county.credit_distribution_plan_has_proposal[0].proposal[0].pbpAmount, false)))]), _vm._v(" "), _c('td', [_c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
-      staticClass: "medium-11"
+      staticClass: "medium-11 text-justify"
     }, [_vm._v("\n                                                " + _vm._s(county.credit_distribution_plan_has_proposal[0].proposal[0].pbpDescription) + "\n                                            ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-1 cell-vertical-center text-left"
     }, [_c('a', {
@@ -124747,7 +124747,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }, [_vm._v(_vm._s(plan.credit_distribution_title.cdtIdNumber + ' - ' + plan.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plan.proposal[0].pbpCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(plan.proposal[0].pbpSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(plan.proposal[0].pbpAmount, false)))]), _vm._v(" "), _c('td', [_c('div', {
         staticClass: "grid-x"
       }, [_c('div', {
-        staticClass: "medium-11"
+        staticClass: "medium-11 text-justify"
       }, [_vm._v("\n                                                    " + _vm._s(plan.proposal[0].pbpDescription) + "\n                                                ")]), _vm._v(" "), _c('div', {
         staticClass: "medium-1 cell-vertical-center text-left"
       }, [_c('a', {
@@ -124794,7 +124794,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         }, [_c('td', [_vm._v(_vm._s(proposal.pbpCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(proposal.pbpSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(proposal.pbpAmount, false)))]), _vm._v(" "), _c('td', [_c('div', {
           staticClass: "grid-x"
         }, [_c('div', {
-          staticClass: "medium-11"
+          staticClass: "medium-11 text-justify"
         }, [_vm._v("\n                                                        " + _vm._s(proposal.pbpDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
           staticClass: "medium-1 cell-vertical-center text-left"
         }, [_c('a', {

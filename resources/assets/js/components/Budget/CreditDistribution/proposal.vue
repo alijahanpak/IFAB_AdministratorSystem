@@ -98,7 +98,7 @@
                                         <td>{{ $parent.calcDispAmount(county.credit_distribution_plan_has_proposal[0].proposal[0].pbpAmount , false)  }}</td>
                                         <td>
                                             <div class="grid-x">
-                                                <div class="medium-11">
+                                                <div class="medium-11 text-justify">
                                                     {{ county.credit_distribution_plan_has_proposal[0].proposal[0].pbpDescription }}
                                                 </div>
                                                 <div class="medium-1 cell-vertical-center text-left">
@@ -121,7 +121,7 @@
                                             <td>{{ $parent.calcDispAmount(plan.proposal[0].pbpAmount , false)  }}</td>
                                             <td>
                                                 <div class="grid-x">
-                                                    <div class="medium-11">
+                                                    <div class="medium-11 text-justify">
                                                         {{ plan.proposal[0].pbpDescription }}
                                                     </div>
                                                     <div class="medium-1 cell-vertical-center text-left">
@@ -143,7 +143,7 @@
                                                 <td>{{ $parent.calcDispAmount(proposal.pbpAmount , false)  }}</td>
                                                 <td>
                                                     <div class="grid-x">
-                                                        <div class="medium-11">
+                                                        <div class="medium-11 text-justify">
                                                             {{ proposal.pbpDescription }}
                                                         </div>
                                                         <div class="medium-1 cell-vertical-center text-left">
