@@ -105,6 +105,7 @@
                                                         <ul class="my-menu small-font text-right">
                                                             <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                             <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                            <li><a v-on:click.prevent="openApprovedAmendmentModal"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
                                                          </ul>
                                                     </div>
                                                 </div>
@@ -298,6 +299,262 @@
                 </div>
             </modal-tiny>
             <!-- Delete Modal End -->
+            <!--Amendment Modal Start-->
+            <modal-small v-if="showModalAmendment" @close="showModalAmendment = false">
+                <div slot="body">
+                    <form v-on:submit.prevent="">
+                        <div class="grid-x" v-if="errorMessage">
+                            <div class="medium-12 columns padding-lr">
+                                <div class="alert callout">
+                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-12 cell padding-lr">
+                                <label>طرح
+                                    <select disabled="true" name="plan">
+                                        <option value=""></option>
+                                        <option></option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-6 columns padding-lr">
+                                <label>شماره
+                                    <input class="form-element-margin-btm" type="text" name="capLetterNumber" v-model="approvedPlanInput.idNumber" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('capLetterNumber')}">
+                                </label>
+                                <span v-show="errors.has('capLetterNumber')" class="error-font">شماره فراموش شده است!</span>
+                            </div>
+                            <div class="medium-6 columns padding-lr">
+                                <label>تاریخ
+                                    <input class="form-element-margin-btm" type="text" name="capLetterDate"  v-model="approvedPlanInput.date" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('capLetterDate')}">
+                                </label>
+                                <span v-show="errors.has('capLetterDate')" class="error-font">تاریخ فراموش شده است!</span>
+                            </div>
+                            <div class="medium-6 columns padding-lr">
+                                <label>شماره مبادله
+                                    <input disabled="true" type="text" name="capExLetterNumber" v-model="approvedPlanInput.exIdNumber">
+                                </label>
+                            </div>
+                            <div class="medium-6 columns padding-lr">
+                                <label>تاریخ مبادله
+                                    <input disabled="true" type="text" name="capExLetterDate"  v-model="approvedPlanInput.exDate">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="small-12 columns padding-lr">
+                                <label>شرح
+                                    <textarea name="apDescription" style="min-height: 150px;" v-model="approvedPlanInput.apDescription"></textarea>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="medium-6 columns padding-lr padding-bottom-modal">
+                            <div class="button-group float-left report-mrg">
+                                <button class="my-button my-danger float-left btn-for-load"> <span class="btn-txt-mrg">لغو</span></button>
+                                <button @click="openApprovedAmendmentOfAgreementModal" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">تایید</span></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </modal-small>
+            <!--Amendment Modal End-->
+
+            <!--Amendment Of The Agreement Modal Start-->
+            <modal-full-screen v-if="showModalAmendmentOfAgreement" @close="showModalAmendmentOfAgreement = false">
+                <div slot="body">
+                        <div class="grid-x" v-if="errorMessage">
+                            <div class="medium-12 columns padding-lr">
+                                <div class="alert callout">
+                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding:0px;" class="grid-x border-btm-line">
+                            <div class="medium-12 cell padding-lr">
+                               <div class="grid-x">
+                                   <div class="medium-4">
+                                       <strong>اصلاحیه موافقت نامه: </strong>
+                                   </div>
+                                   <div class="medium-2">
+                                       <p>شماره ابلاغ : </p>
+                                   </div>
+                                   <div class="medium-2">
+                                       <strong class="btn-red">---- </strong>
+                                   </div>
+                                   <div class="medium-2">
+                                       <p>تاریخ ابلاغ : </p>
+                                   </div>
+                                   <div class="medium-2">
+                                       <strong class="btn-red">---- </strong>
+                                   </div>
+                               </div>
+                            </div>
+                            <div class="medium-12 cell padding-lr">
+                                <div class="grid-x">
+                                    <div class="medium-2">
+                                        <strong>شرح موافقت نامه: </strong>
+                                    </div>
+                                    <div class="medium-10 padding-bottom-modal">
+                                        <p style="display: inline">شماره ابلاغ :dfsdf df df dfssdsadsdsa sdasdasdasd asdasd as dasd dfdfdsfdsfsdf ffsdf df df dfdfdfdfsdfsdfsd sdf sdfds sdfsd fsdf sdf d fsdfdfsdfsdf sdf df dfsdfsdfsdfsdfsdfsdf sdf sdf d </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div style="margin-top: 15px;" class="grid-x border-btm-line">
+                        <div style="margin-top: 2px;" class="button-group float-right">
+                            <a class="my-button toolbox-btn small" @click="openInsertProjectModal">پروژه جدید</a>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;" class="grid-x">
+                        <!--Table Start-->
+                        <!--Table Head Start-->
+                        <div class="tbl-div-container">
+                            <table class="tbl-head">
+                                <colgroup>
+                                    <col width="200px"/>
+                                    <col width="150px"/>
+                                    <col width="100px"/>
+                                    <col width="100px"/>
+                                    <col width="100"/>
+                                    <col width="150px"/>
+                                    <col width="150px"/>
+                                    <col width="12px"/>
+                                </colgroup>
+                                <tbody class="tbl-head-style ">
+                                <tr class="tbl-head-style-cell">
+                                    <th class="tbl-head-style-cell">عنوان پروژه</th>
+                                    <th class="tbl-head-style-cell">کد پروژه</th>
+                                    <th class="tbl-head-style-cell">سال شروع </th>
+                                    <th class="tbl-head-style-cell">سال خاتمه</th>
+                                    <th class="tbl-head-style-cell">پیشرفت فیزیکی</th>
+                                    <th class="tbl-head-style-cell">شهرستان</th>
+                                    <th class="tbl-head-style-cell">شرح</th>
+                                    <th class="tbl-head-style-cell"></th>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--Table Head End-->
+                            <!--Table Body Start-->
+                            <div class="tbl_body_style dynamic-height-level1">
+                                <table class="tbl-body-contain">
+                                    <colgroup>
+                                        <col width="200px"/>
+                                        <col width="150px"/>
+                                        <col width="100px"/>
+                                        <col width="100px"/>
+                                        <col width="100"/>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                    </colgroup>
+                                    <tbody class="tbl-head-style-cell">
+                                    <td>مرمت مسجد جامع همدان</td>
+                                    <td>14242</td>
+                                    <td>42</td>
+                                    <td>424</td>
+                                    <td>424</td>
+                                    <td>424</td>
+                                    <td>
+                                        <div class="grid-x">
+                                            <div class="medium-11">
+                                                42
+                                            </div>
+                                            <div class="medium-1 cell-vertical-center text-left">
+                                                <a class="dropdown small sm-btn-align" data-toggle="tblRow"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="tblRow" data-dropdown data-auto-focus="true">
+                                                    <ul class="my-menu small-font text-right">
+                                                        <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                        <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                            <!--Table Body End-->
+                    </div>
+                </div>
+            </modal-full-screen>
+            <!--Amendment Of The Agreement Modal End-->
+
+            <!--Insert Project Modal Start-->
+            <modal-small v-if="showInsertModalProject" @close="showInsertModalProject = false">
+                <div slot="body">
+                    <form v-on:submit.prevent="">
+                        <div class="grid-x" v-if="errorMessage">
+                            <div class="medium-12 columns padding-lr">
+                                <div class="alert callout">
+                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-8 cell padding-lr">
+                                <label>عنوان پروژه
+                                    <input class="form-element-margin-btm" type="text" name="projectTitle"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('projectTitle')}">
+                                </label>
+                                <span v-show="errors.has('projectTitle')" class="error-font">لطفا عنوان پروژه انتخاب کنید!</span>
+                            </div>
+                            <div class="medium-4 cell padding-lr">
+                                <label>کد پروژه
+                                    <input class="form-element-margin-btm" type="text" name="projectCode" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('projectCode')}">
+                                </label>
+                                <span v-show="errors.has('projectCode')" class="error-font">لطفا کد پروژه انتخاب کنید!</span>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-4 cell padding-lr">
+                                <label>سال شروع
+                                    <input class="form-element-margin-btm datePickerClass" type="text" name="startYear"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('startYear')}">
+                                </label>
+                                <span v-show="errors.has('startYear')" class="error-font">لطفا سال شروع پروژه را وارد کنید!</span>
+                            </div>
+                            <div class="medium-4 cell padding-lr">
+                                <label>سال خاتمه
+                                    <input class="form-element-margin-btm datePickerClass" type="text" name="endYear"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('endYear')}">
+                                </label>
+                                <span v-show="errors.has('endYear')" class="error-font">لطفا سال خاتمه پروژه را وارد کنید!</span>
+                            </div>
+                            <div class="medium-4 cell padding-lr">
+                                <label> پیشرفت فیزیکی<span class="btn-red small-font"> (درصد) </span>
+                                    <input  type="number" min="0" max="100" value="0" name="physicalProgress" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
+                                    <div style="margin-top: -16px;height:2px;" class="alert progress form-element-margin-btm">
+                                        <div class="progress-meter" style="width: 100%"></div>
+                                    </div>
+                                </label>
+                                <span v-show="errors.has('physicalProgress')" class="error-font">لطفا پیشرفت فیزیکی را وارد کنید!</span>
+                            </div>
+                            <div class="medium-4 cell padding-lr">
+                                <label>شهرستان
+                                    <select class="form-element-margin-btm" name="city" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('city')}">
+                                        <option value=""></option>
+                                        <option></option>
+                                    </select>
+                                    <span v-show="errors.has('city')" class="error-font">لطفا شهرستان را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="small-12 columns padding-lr">
+                                <label>شرح
+                                    <textarea name="apDescription" style="min-height: 150px;" ></textarea>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="medium-6 columns padding-lr padding-bottom-modal">
+                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                        </div>
+                    </form>
+                </div>
+            </modal-small>
+            <!--Insert Project Modal End-->
+
             <!--Forms End-->
         </div>
     </div>
@@ -316,6 +573,9 @@
                 showInsertModal: false,
                 showModalUpdate: false,
                 showModalDelete: false,
+                showModalAmendment:false,
+                showModalAmendmentOfAgreement:false,
+                showInsertModalProject:false,
                 approvedPlanFill: {},
                 creditDistributionTitles: [],
 
@@ -490,6 +750,16 @@
                         console.log(error);
                         this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                     });*/
+            },
+            openApprovedAmendmentModal: function () {
+                this.showModalAmendment= true;
+            },
+            openApprovedAmendmentOfAgreementModal: function () {
+                this.showModalAmendmentOfAgreement= true;
+                this.$parent.myResize();
+            },
+            openInsertProjectModal: function () {
+                this.showInsertModalProject= true;
             },
 
             makePagination: function(data , type){

@@ -317,6 +317,27 @@
             </div>
         </transition>
     </script>
+    <script type="text/x-template" id="modal-full-screen-template">
+        <transition name="modal-full-screen">
+            <div class="modal-mask">
+                <div class="modal-wrapper">
+                    <div class="my-full-screen">
+                        <div class="modal-header">
+                            <slot name="header">
+                                <button class="change-pointer" @click="$emit('close')" type="button">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </slot>
+                        </div>
+                        <div class="modal-body">
+                            <slot name="body">
+                            </slot>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+    </script>
     <script type="text/x-template" id="modal-login-template">
         <transition name="modal-login">
             <div class="modal-mask">

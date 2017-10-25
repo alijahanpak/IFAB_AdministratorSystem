@@ -938,6 +938,20 @@ html, body {
     overflow-y: auto;
 
 }
+.my-full-screen {
+    width: 99%;
+    max-width: none;
+    margin: 0px auto;
+    padding: 20px 20px 5px 20px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+    transition: all .3s ease;
+    height:99%;
+    min-height: 99vh;
+    overflow-y: auto;
+
+}
 
 .change-pointer{
     cursor: pointer;
