@@ -369,10 +369,8 @@
                                 <div class="medium-4 padding-lr">
                                     <p class="date-picker-lbl">تاریخ نامه
                                         <!--<input class="form-element-margin-btm" type="text" name="letterDate" v-model="AllocationInput.date">-->
-                                        <pdatepicker v-model="AllocationInput.date" name="capLetterNumber"></pdatepicker>
-                                        <span v-show="errors.has('capLetterNumber')" class="error-font">شماره فراموش شده است!</span>
+                                        <pdatepicker id="datePicker" v-model="AllocationInput.date" name="capLetterNumber"  open-transition-animation="left-slide-fade"></pdatepicker>
                                     </p>
-
                                 </div>
                             </div>
                             <div class="grid-x">
@@ -544,6 +542,7 @@
 </template>
 <script>
     import VuePagination from '../../../public_component/pagination.vue';
+    import PDatePicker from 'vue2-persian-datepicker'
     export default {
         data(){
             return {
@@ -595,7 +594,8 @@
         },
 
         components:{
-            'vue-pagination' : VuePagination
+            'vue-pagination' : VuePagination,
+            'pdatepicker' : PDatePicker
         },
 
         methods:{
@@ -697,6 +697,7 @@
             },
 
             createCostAllocation: function () {
+                //this.PDatePicker.methods.validate();
                 this.$validator.validateAll().then((result) => {
                     if (result) {
                         axios.post('/budget/allocation/cost/register' , {

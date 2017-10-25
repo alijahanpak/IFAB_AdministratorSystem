@@ -43184,7 +43184,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vee_validate__ = __webpack_require__(213);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_progressbar__ = __webpack_require__(214);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_progressbar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue_progressbar__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue2_persian_datepicker__ = __webpack_require__(215);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -43200,7 +43199,6 @@ window.Vue = __webpack_require__(46);
 
 
 
-
 window.Vue.use(__WEBPACK_IMPORTED_MODULE_2_vee_validate__["a" /* default */]);
 window.Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_notification___default.a, { velocity: __WEBPACK_IMPORTED_MODULE_1_velocity_animate___default.a });
 window.Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue_progressbar___default.a, {
@@ -43208,7 +43206,6 @@ window.Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue_progressbar___default.a, {
     failedColor: 'red',
     height: '8px'
 });
-Vue.component('pdatepicker', __WEBPACK_IMPORTED_MODULE_4_vue2_persian_datepicker__["a" /* default */]);
 
 Vue.component('passport-clients', __webpack_require__(222));
 
@@ -80613,7 +80610,7 @@ exports = module.exports = __webpack_require__(21)(undefined);
 
 
 // module
-exports.push([module.i, "\n.pdatepicker[data-v-767ed962] {\n  position: relative;\n  display: inline-block;\n}\n.pdatepicker *[data-v-767ed962] {\n    box-sizing: border-box;\n}\n.pdatepicker input[data-v-767ed962] {\n    text-align: left;\n    direction: rtl;\n}\n.pdatepicker .dialog[data-v-767ed962] {\n    position: absolute;\n    box-shadow: 0 0 15px 1px rgba(113, 106, 202, 0.2);\n    background-color: #fafafa;\n    z-index: 100000;\n    width: 252px;\n}\n.pdatepicker .dialog .dialog-header[data-v-767ed962] {\n      width: 100%;\n      box-shadow: 0 0 15px 1px rgba(113, 106, 202, 0.2);\n}\n.pdatepicker .dialog .dialog-header[data-v-767ed962]::after {\n        display: block;\n        content: \"\";\n        clear: both;\n}\n.pdatepicker .dialog .endofweek[data-v-767ed962], .pdatepicker .dialog .endofseason[data-v-767ed962] {\n      padding: 0px;\n      margin: 0px;\n      width: 0px;\n      height: 0px;\n}\n.pdatepicker .dialog .endofweek[data-v-767ed962]::after, .pdatepicker .dialog .endofseason[data-v-767ed962]::after {\n        display: block;\n        content: \"\";\n        clear: both;\n}\n.pdatepicker .dialog .day-view[data-v-767ed962] {\n      text-align: right;\n}\n.pdatepicker .dialog .day-view .dialog-month[data-v-767ed962] {\n        width: 100%;\n}\n.pdatepicker .dialog .day-view .dialog-month div[data-v-767ed962] {\n          display: inline-block;\n          text-align: center;\n          padding: 10px 0;\n          cursor: pointer;\n}\n.pdatepicker .dialog .day-view .dialog-month .nextMonth[data-v-767ed962] {\n          float: right;\n          width: 10%;\n}\n.pdatepicker .dialog .day-view .dialog-month .nextMonth[data-v-767ed962]:hover {\n            background-color: rgba(200, 200, 200, 0.6);\n}\n.pdatepicker .dialog .day-view .dialog-month .preMonth[data-v-767ed962] {\n          float: right;\n          width: 10%;\n}\n.pdatepicker .dialog .day-view .dialog-month .preMonth[data-v-767ed962]:hover {\n            background-color: rgba(200, 200, 200, 0.6);\n}\n.pdatepicker .dialog .day-view .dialog-month .monthName[data-v-767ed962] {\n          float: right;\n          width: 80%;\n}\n.pdatepicker .dialog .day-view .dialog-month .monthName[data-v-767ed962]:hover {\n            background-color: rgba(200, 200, 200, 0.6);\n}\n.pdatepicker .dialog .day-view .dialog-week[data-v-767ed962] {\n        width: 100%;\n}\n.pdatepicker .dialog .day-view .day-box[data-v-767ed962] {\n        width: 35.71429px;\n        line-height: 35.71429px;\n        display: inline-block;\n        text-align: center;\n        border: 1px solid transparent;\n        padding: 0 5px;\n        cursor: pointer;\n        vertical-align: middle;\n        color: #7b7e8a;\n}\n.pdatepicker .dialog .day-view .day-box[data-v-767ed962]:hover {\n          background-color: #ebedf2;\n}\n.pdatepicker .dialog .day-view .day-name[data-v-767ed962] {\n        color: #575962;\n        font-weight: bold;\n}\n.pdatepicker .dialog .day-view .day-name[data-v-767ed962]:hover {\n          cursor: default;\n          border: inherit;\n}\n.pdatepicker .dialog .day-view .empty-box[data-v-767ed962] {\n        cursor: default;\n}\n.pdatepicker .dialog .day-view .empty-box[data-v-767ed962]:hover {\n          border: inherit;\n}\n.pdatepicker .dialog .year-view[data-v-767ed962] {\n      text-align: center;\n}\n.pdatepicker .dialog .year-view .dialog-year[data-v-767ed962] {\n        width: 100%;\n}\n.pdatepicker .dialog .year-view .dialog-year div[data-v-767ed962] {\n          display: inline-block;\n          text-align: center;\n          padding: 10px 0;\n          cursor: pointer;\n}\n.pdatepicker .dialog .year-view .dialog-year .nextYear[data-v-767ed962] {\n          float: right;\n          width: 10%;\n}\n.pdatepicker .dialog .year-view .dialog-year .preYear[data-v-767ed962] {\n          float: right;\n          width: 10%;\n}\n.pdatepicker .dialog .year-view .dialog-year .cyear[data-v-767ed962] {\n          float: right;\n          width: 80%;\n}\n.pdatepicker .dialog .year-view .month-box[data-v-767ed962] {\n        width: 83.33333px;\n        line-height: 35.71429px;\n        display: inline-block;\n        text-align: center;\n        border: 1px solid rgba(200, 200, 200, 0);\n        padding: 0 5px;\n        cursor: pointer;\n}\n.pdatepicker .dialog .year-view .month-box[data-v-767ed962]:hover {\n          border: 1px solid #c8c8c8;\n}\n.pdatepicker .dialog .chosenDay[data-v-767ed962], .pdatepicker .dialog .chosenMonth[data-v-767ed962] {\n      background-color: lightgray;\n}\n.pdatepicker.inline[data-v-767ed962] {\n    display: inline-block;\n}\n.pdatepicker.inline .dialog[data-v-767ed962] {\n      position: static;\n}\n.fade-enter-active[data-v-767ed962], .fade-leave-active[data-v-767ed962] {\n  transition: opacity .3s;\n}\n.fade-enter[data-v-767ed962], .fade-leave-to[data-v-767ed962] {\n  opacity: 0;\n}\n.slide-fade-enter-active[data-v-767ed962] {\n  transition: all .3s ease-out;\n}\n.slide-fade-leave-active[data-v-767ed962] {\n  transition: all .3s ease-out;\n}\n.slide-fade-enter[data-v-767ed962], .slide-fade-leave-to[data-v-767ed962] {\n  transform: translateY(-10px);\n  opacity: 0;\n}\n.left-slide-fade-enter-active[data-v-767ed962] {\n  transition: all .3s ease-out;\n}\n.left-slide-fade-leave-active[data-v-767ed962] {\n  transition: all .8s ease-out;\n}\n.left-slide-fade-enter[data-v-767ed962], .left-slide-fade-leave-to[data-v-767ed962] {\n  transform: translateX(-10px);\n  opacity: 0;\n}\n", ""]);
+exports.push([module.i, "\n.pdatepicker[data-v-767ed962] {\n  position: relative;\n  display: inline-block;\n}\n.pdatepicker *[data-v-767ed962] {\n    box-sizing: border-box;\n}\n.pdatepicker input[data-v-767ed962] {\n    text-align: left;\n    direction: rtl;\n}\n.pdatepicker .dialog[data-v-767ed962] {\n    position: absolute;\n    box-shadow: 0 0 15px 1px rgba(113, 106, 202, 0.2);\n    background-color: #fafafa;\n    z-index: 100000;\n    width: 202px;\n}\n.pdatepicker .dialog .dialog-header[data-v-767ed962] {\n      width: 100%;\n      box-shadow: 0 0 15px 1px rgba(113, 106, 202, 0.2);\n}\n.pdatepicker .dialog .dialog-header[data-v-767ed962]::after {\n        display: block;\n        content: \"\";\n        clear: both;\n}\n.pdatepicker .dialog .endofweek[data-v-767ed962], .pdatepicker .dialog .endofseason[data-v-767ed962] {\n      padding: 0px;\n      margin: 0px;\n      width: 0px;\n      height: 0px;\n}\n.pdatepicker .dialog .endofweek[data-v-767ed962]::after, .pdatepicker .dialog .endofseason[data-v-767ed962]::after {\n        display: block;\n        content: \"\";\n        clear: both;\n}\n.pdatepicker .dialog .day-view[data-v-767ed962] {\n      text-align: right;\n}\n.pdatepicker .dialog .day-view .dialog-month[data-v-767ed962] {\n        width: 100%;\n}\n.pdatepicker .dialog .day-view .dialog-month div[data-v-767ed962] {\n          display: inline-block;\n          text-align: center;\n          padding: 10px 0;\n          cursor: pointer;\n}\n.pdatepicker .dialog .day-view .dialog-month .nextMonth[data-v-767ed962] {\n          float: right;\n          width: 10%;\n}\n.pdatepicker .dialog .day-view .dialog-month .nextMonth[data-v-767ed962]:hover {\n            background-color: rgba(200, 200, 200, 0.6);\n}\n.pdatepicker .dialog .day-view .dialog-month .preMonth[data-v-767ed962] {\n          float: right;\n          width: 10%;\n}\n.pdatepicker .dialog .day-view .dialog-month .preMonth[data-v-767ed962]:hover {\n            background-color: rgba(200, 200, 200, 0.6);\n}\n.pdatepicker .dialog .day-view .dialog-month .monthName[data-v-767ed962] {\n          float: right;\n          width: 80%;\n}\n.pdatepicker .dialog .day-view .dialog-month .monthName[data-v-767ed962]:hover {\n            background-color: rgba(200, 200, 200, 0.6);\n}\n.pdatepicker .dialog .day-view .dialog-week[data-v-767ed962] {\n        width: 100%;\n}\n.pdatepicker .dialog .day-view .day-box[data-v-767ed962] {\n        width: 28.57143px;\n        line-height: 28.57143px;\n        display: inline-block;\n        text-align: center;\n        border: 1px solid transparent;\n        padding: 0 5px;\n        cursor: pointer;\n        vertical-align: middle;\n        color: #7b7e8a;\n}\n.pdatepicker .dialog .day-view .day-box[data-v-767ed962]:hover {\n          background-color: #ebedf2;\n}\n.pdatepicker .dialog .day-view .day-name[data-v-767ed962] {\n        color: #575962;\n        font-weight: bold;\n}\n.pdatepicker .dialog .day-view .day-name[data-v-767ed962]:hover {\n          cursor: default;\n          border: inherit;\n}\n.pdatepicker .dialog .day-view .empty-box[data-v-767ed962] {\n        cursor: default;\n}\n.pdatepicker .dialog .day-view .empty-box[data-v-767ed962]:hover {\n          border: inherit;\n}\n.pdatepicker .dialog .year-view[data-v-767ed962] {\n      text-align: center;\n}\n.pdatepicker .dialog .year-view .dialog-year[data-v-767ed962] {\n        width: 100%;\n}\n.pdatepicker .dialog .year-view .dialog-year div[data-v-767ed962] {\n          display: inline-block;\n          text-align: center;\n          padding: 10px 0;\n          cursor: pointer;\n}\n.pdatepicker .dialog .year-view .dialog-year .nextYear[data-v-767ed962] {\n          float: right;\n          width: 10%;\n}\n.pdatepicker .dialog .year-view .dialog-year .preYear[data-v-767ed962] {\n          float: right;\n          width: 10%;\n}\n.pdatepicker .dialog .year-view .dialog-year .cyear[data-v-767ed962] {\n          float: right;\n          width: 80%;\n}\n.pdatepicker .dialog .year-view .month-box[data-v-767ed962] {\n        width: 66.66667px;\n        line-height: 28.57143px;\n        display: inline-block;\n        text-align: center;\n        border: 1px solid rgba(200, 200, 200, 0);\n        padding: 0 5px;\n        cursor: pointer;\n}\n.pdatepicker .dialog .year-view .month-box[data-v-767ed962]:hover {\n          border: 1px solid #c8c8c8;\n}\n.pdatepicker .dialog .chosenDay[data-v-767ed962], .pdatepicker .dialog .chosenMonth[data-v-767ed962] {\n      background-color: lightgray;\n}\n.pdatepicker.inline[data-v-767ed962] {\n    display: inline-block;\n}\n.pdatepicker.inline .dialog[data-v-767ed962] {\n      position: static;\n}\n.fade-enter-active[data-v-767ed962], .fade-leave-active[data-v-767ed962] {\n  transition: opacity .3s;\n}\n.fade-enter[data-v-767ed962], .fade-leave-to[data-v-767ed962] {\n  opacity: 0;\n}\n.slide-fade-enter-active[data-v-767ed962] {\n  transition: all .3s ease-out;\n}\n.slide-fade-leave-active[data-v-767ed962] {\n  transition: all .3s ease-out;\n}\n.slide-fade-enter[data-v-767ed962], .slide-fade-leave-to[data-v-767ed962] {\n  transform: translateY(-10px);\n  opacity: 0;\n}\n.left-slide-fade-enter-active[data-v-767ed962] {\n  transition: all .3s ease-out;\n}\n.left-slide-fade-leave-active[data-v-767ed962] {\n  transition: all .8s ease-out;\n}\n.left-slide-fade-enter[data-v-767ed962], .left-slide-fade-leave-to[data-v-767ed962] {\n  transform: translateX(-10px);\n  opacity: 0;\n}\n", ""]);
 
 // exports
 
@@ -80709,11 +80706,8 @@ module.exports = function listToStyles (parentId, list) {
 //
 //
 //
-//
-//
-//
-//
 
+var bus = new Vue();
 /* harmony default export */ __webpack_exports__["a"] = ({
     name: 'PDatePicker',
     props: { 'placeholder': { default: '', String: String },
@@ -80725,7 +80719,7 @@ module.exports = function listToStyles (parentId, list) {
         'maximumYear': { default: 1450, type: Number },
         'value': { default: '' },
         'name': { default: '', type: String },
-        'required': { default: false, Boolean: Boolean },
+        '_required': { default: false, Boolean: Boolean },
         'id': { default: '', String: String },
         'inputClass': { default: '', String: String },
 
@@ -80769,7 +80763,8 @@ module.exports = function listToStyles (parentId, list) {
             formatedChosenDate: '',
             chosenDay: 1,
             chosenMonth: 1,
-            chosenYear: 1396
+            chosenYear: 1396,
+            validateError: true
         };
     },
     mounted: function mounted() {
@@ -80783,12 +80778,23 @@ module.exports = function listToStyles (parentId, list) {
         }
     },
 
+
     watch: {
         value: function value(_value) {
             this.inputChanged(_value);
         }
     },
+
     methods: {
+        deleteEvent: function deleteEvent() {
+            this.formatedChosenDate = '';
+        },
+
+        validate: function validate() {
+            alert("morteza");
+            this.validateError = true;
+        },
+
         inputClicked: function inputClicked() {
             if (!this.isDialogOpen) this.openDialog();else this.closeDialog();
         },
@@ -81045,31 +81051,37 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       'inline': _vm.inlineMode, wrapperClass: _vm.wrapperClass
     }
   }, [_c('input', {
-    directives: [{
-      name: "validate",
-      rawName: "v-validate"
-    }],
     staticClass: "inputClass form-element-margin-btm",
     class: {
-      'input': true, 'select-error': _vm.errors.has(_vm.name)
+      'select-error': _vm.validateError
     },
     attrs: {
       "id": _vm.id,
       "type": "text",
-      "name": _vm.name,
-      "data-vv-rules": "required",
-      "placeholder": _vm.placeholder
+      "name": _vm.name
     },
     domProps: {
       "value": _vm.formatedChosenDate
     },
     on: {
+      "keyup": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "delete", [8, 46])) { return null; }
+        _vm.deleteEvent($event)
+      },
       "click": _vm.inputClicked,
       "change": function($event) {
         _vm.inputChanged($event.target.value)
       }
     }
-  }), _vm._v(" "), _c('transition', {
+  }), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.validateError),
+      expression: "validateError"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("شماره فراموش شده است!")]), _vm._v(" "), _c('transition', {
     attrs: {
       "name": _vm.openTransitionAnimation
     }
@@ -119654,6 +119666,7 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue2_persian_datepicker__ = __webpack_require__(215);
 //
 //
 //
@@ -120196,8 +120209,7 @@ if (false) {(function () {
 //
 //
 //
-//
-//
+
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -120251,7 +120263,8 @@ if (false) {(function () {
     },
 
     components: {
-        'vue-pagination': __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__["a" /* default */]
+        'vue-pagination': __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__["a" /* default */],
+        'pdatepicker': __WEBPACK_IMPORTED_MODULE_1_vue2_persian_datepicker__["a" /* default */]
     },
 
     methods: {
@@ -120363,6 +120376,7 @@ if (false) {(function () {
         createCostAllocation: function createCostAllocation() {
             var _this6 = this;
 
+            //this.PDatePicker.methods.validate();
             this.$validator.validateAll().then(function (result) {
                 if (result) {
                     axios.post('/budget/allocation/cost/register', {
@@ -120992,7 +121006,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "date-picker-lbl"
   }, [_vm._v("تاریخ نامه\n                                    "), _vm._v(" "), _c('pdatepicker', {
     attrs: {
-      "name": "capLetterNumber"
+      "id": "datePicker",
+      "name": "capLetterNumber",
+      "open-transition-animation": "left-slide-fade"
     },
     model: {
       value: (_vm.AllocationInput.date),
@@ -121001,15 +121017,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       },
       expression: "AllocationInput.date"
     }
-  }), _vm._v(" "), _c('span', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.errors.has('capLetterNumber')),
-      expression: "errors.has('capLetterNumber')"
-    }],
-    staticClass: "error-font"
-  }, [_vm._v("شماره فراموش شده است!")])], 1)])]), _vm._v(" "), _c('div', {
+  })], 1)])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-8 cell padding-lr"
