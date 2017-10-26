@@ -939,7 +939,7 @@ html, body {
 
 }
 .my-full-screen {
-    width: 99%;
+    width: 95%;
     max-width: none;
     margin: 0px auto;
     padding: 20px 20px 5px 20px;
@@ -1212,7 +1212,61 @@ button.purple-btn {
     color: #716aca;
     background-color:#FFFFFF;
 }
+.my-button-menu {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 0 1rem 0;
+    font-family: inherit;
+    padding: 0.85em 1em;
+    -webkit-appearance: none;
+    border: 1px solid transparent;
+    transition: background-color 0.25s ease-out, color 0.25s ease-out;
+    font-size: 0.9rem;
+    line-height: 1;
+    border-radius: 50px;
+    min-width: 20px;
+    min-height: 20px;
+    text-align: center;
+    cursor: pointer;
+    color: #FFFFFF;
+}
+[data-whatinput='mouse'] .my-button-menu {
+    outline: 0; }
+.my-button-menu.my-button-info {
+    color: #36a3f7;
+}
+.my-button-menu.my-button-info :hover, .my-button-menu.my-button-info :focus {
+    color: #36a3f7;
+}
 
+.my-button-circle {
+    display: inline-block;
+    padding-top: 3px;
+    vertical-align: middle;
+    font-family: inherit;
+    -webkit-appearance: none;
+    border: 1px solid transparent;
+    border-radius: 50px;
+    min-width: 20px;
+    min-height: 20px;
+    transition: background-color 0.25s ease-out, color 0.25s ease-out;
+    font-size: 0.9rem;
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+    background-color: #00c5dc;
+    color: #fff;
+}
+[data-whatinput='mouse'] .my-button-circle {
+    outline: 0; }
+.my-button-circle.my-primary {
+    background-color:  #5867dd;
+    color: #FFF;
+}
+.my-button-circle.my-primary:hover, .my-button-circle.my-primary:focus {
+    color: #FFF;
+    background-color: #384ad7;
+}
 
 .button.clear.primary-login {
     color: #FFFFFF; }
