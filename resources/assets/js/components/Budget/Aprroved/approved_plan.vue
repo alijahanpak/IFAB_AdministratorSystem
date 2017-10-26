@@ -414,23 +414,19 @@
                         <div class="tbl-div-container">
                             <table class="tbl-head">
                                 <colgroup>
-                                    <col width="200px"/>
-                                    <col width="150px"/>
                                     <col width="100px"/>
-                                    <col width="100px"/>
-                                    <col width="100"/>
+                                    <col width="290px"/>
                                     <col width="150px"/>
                                     <col width="150px"/>
+                                    <col width="240px"/>
                                     <col width="12px"/>
                                 </colgroup>
                                 <tbody class="tbl-head-style ">
                                 <tr class="tbl-head-style-cell">
-                                    <th class="tbl-head-style-cell">عنوان پروژه</th>
                                     <th class="tbl-head-style-cell">کد پروژه</th>
-                                    <th class="tbl-head-style-cell">سال شروع </th>
-                                    <th class="tbl-head-style-cell">سال خاتمه</th>
-                                    <th class="tbl-head-style-cell">پیشرفت فیزیکی</th>
-                                    <th class="tbl-head-style-cell">شهرستان</th>
+                                    <th class="tbl-head-style-cell">عنوان پروژه</th>
+                                    <th class="tbl-head-style-cell">شهرستان </th>
+                                    <th class="tbl-head-style-cell">اعتبار</th>
                                     <th class="tbl-head-style-cell">شرح</th>
                                     <th class="tbl-head-style-cell"></th>
                                 </tr>
@@ -441,37 +437,79 @@
                             <div class="tbl_body_style dynamic-height-level1">
                                 <table class="tbl-body-contain">
                                     <colgroup>
-                                        <col width="200px"/>
-                                        <col width="150px"/>
                                         <col width="100px"/>
-                                        <col width="100px"/>
-                                        <col width="100"/>
+                                        <col width="290px"/>
                                         <col width="150px"/>
                                         <col width="150px"/>
+                                        <col width="240px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style-cell">
-                                    <td>مرمت مسجد جامع همدان</td>
-                                    <td>14242</td>
-                                    <td>42</td>
-                                    <td>424</td>
-                                    <td>424</td>
-                                    <td>424</td>
-                                    <td>
-                                        <div class="grid-x">
-                                            <div class="medium-11">
-                                                42
-                                            </div>
-                                            <div class="medium-1 cell-vertical-center text-left">
-                                                <a class="dropdown small sm-btn-align" data-toggle="tblRow"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="tblRow" data-dropdown data-auto-focus="true">
-                                                    <ul class="my-menu small-font text-right">
-                                                        <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                        <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                    </ul>
+                                        <tr>
+                                            <td>14242</td>
+                                            <td>مرمت مسجد جامع همدان</td>
+                                            <td>42</td>
+                                            <td>13.5</td>
+                                            <td>
+                                                <div class="grid-x">
+                                                    <div class="medium-11">
+                                                        42
+                                                    </div>
+                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                        <a class="dropdown small sm-btn-align" data-toggle="tblRow"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="tblRow" data-dropdown data-auto-focus="true">
+                                                            <ul class="my-menu small-font text-right">
+                                                                <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                <li><a v-on:click.prevent="openAPCreditInsertModal"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
+                                                                <li><a v-on:click.prevent="openEditProjectModal"><i class="fa fa-newspaper-o size-16"></i>  اصلاح</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5">
+                                                <table class="unstriped tbl-secondary-mrg small-font">
+                                                    <thead class="my-thead">
+                                                    <tr style="background-color: #F1F1F1 !important;">
+                                                        <th>ردیف</th>
+                                                        <th>فصل</th>
+                                                        <th>عنوان فصل</th>
+                                                        <th>ریز فصل</th>
+                                                        <th>نحوه اجرا</th>
+                                                        <th>مبلغ</th>
+                                                        <th>توضیحات</th>
+                                                        <th>عملیات</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>متوازن</td>
+                                                        <td>اول</td>
+                                                        <td>جبران خدمت کارکنان</td>
+                                                        <td>مطالعه برای احداث ساختمان و مستحدثات</td>
+                                                        <td>پیمانی</td>
+                                                        <td>15</td>
+                                                        <td></td>
+                                                        <td>
+                                                            <div class="grid-x">
+                                                                <div class="medium-12 cell-vertical-center text-left">
+                                                                    <a class="dropdown small sm-btn-align" data-toggle="tblRow"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="tblRow" data-dropdown data-auto-focus="true">
+                                                                        <ul class="my-menu small-font text-right">
+                                                                            <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                            <li><a v-on:click.prevent="openAPCreditInsertModal"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
+                                                                            <li><a v-on:click.prevent="openEditProjectModal"><i class="fa fa-newspaper-o size-16"></i>  اصلاح</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
 
                                     </tbody>
                                 </table>
@@ -492,6 +530,16 @@
                                 <div class="alert callout">
                                     <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-12 cell padding-lr">
+                                <label>طرح
+                                    <select disabled="true"  name="plan">
+                                        <option value=""></option>
+                                        <option></option>
+                                    </select>
+                                </label>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -555,6 +603,259 @@
             </modal-small>
             <!--Insert Project Modal End-->
 
+            <!--Edit Project Modal Start-->
+            <modal-small v-if="showEditModalProject" @close="showEditModalProject = false">
+                <div slot="body">
+                    <form v-on:submit.prevent="">
+                        <div class="grid-x" v-if="errorMessage">
+                            <div class="medium-12 columns padding-lr">
+                                <div class="alert callout">
+                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-12 cell padding-lr">
+                                <label>طرح
+                                    <select disabled="true"  name="plan">
+                                        <option value=""></option>
+                                        <option></option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-8 cell padding-lr">
+                                <label>عنوان پروژه
+                                    <input class="form-element-margin-btm" type="text" name="projectTitle"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('projectTitle')}">
+                                </label>
+                                <span v-show="errors.has('projectTitle')" class="error-font">لطفا عنوان پروژه انتخاب کنید!</span>
+                            </div>
+                            <div class="medium-4 cell padding-lr">
+                                <label>کد پروژه
+                                    <input class="form-element-margin-btm" type="text" name="projectCode" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('projectCode')}">
+                                </label>
+                                <span v-show="errors.has('projectCode')" class="error-font">لطفا کد پروژه انتخاب کنید!</span>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-4 cell padding-lr">
+                                <label>سال شروع
+                                    <input class="form-element-margin-btm datePickerClass" type="text" name="startYear"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('startYear')}">
+                                </label>
+                                <span v-show="errors.has('startYear')" class="error-font">لطفا سال شروع پروژه را وارد کنید!</span>
+                            </div>
+                            <div class="medium-4 cell padding-lr">
+                                <label>سال خاتمه
+                                    <input class="form-element-margin-btm datePickerClass" type="text" name="endYear"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('endYear')}">
+                                </label>
+                                <span v-show="errors.has('endYear')" class="error-font">لطفا سال خاتمه پروژه را وارد کنید!</span>
+                            </div>
+                            <div class="medium-4 cell padding-lr">
+                                <label> پیشرفت فیزیکی<span class="btn-red small-font"> (درصد) </span>
+                                    <input  type="number" min="0" max="100" value="0" name="physicalProgress" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
+                                    <div style="margin-top: -16px;height:2px;" class="alert progress form-element-margin-btm">
+                                        <div class="progress-meter" style="width: 100%"></div>
+                                    </div>
+                                </label>
+                                <span v-show="errors.has('physicalProgress')" class="error-font">لطفا پیشرفت فیزیکی را وارد کنید!</span>
+                            </div>
+                            <div class="medium-4 cell padding-lr">
+                                <label>شهرستان
+                                    <select class="form-element-margin-btm" name="city" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('city')}">
+                                        <option value=""></option>
+                                        <option></option>
+                                    </select>
+                                    <span v-show="errors.has('city')" class="error-font">لطفا شهرستان را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="small-12 columns padding-lr">
+                                <label>شرح
+                                    <textarea name="apDescription" style="min-height: 150px;" ></textarea>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="medium-6 columns padding-lr padding-bottom-modal">
+                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                        </div>
+                    </form>
+                </div>
+            </modal-small>
+            <!--Edit Project Modal End-->
+
+            <!--Project credit source Modal Start-->
+            <modal-small v-if="showApCreditEditModal" @close="showApCreditEditModal = false">
+                <div  slot="body">
+                    <form v-on:submit.prevent="">
+                        <div class="grid-x" v-if="errorMessage">
+                            <div class="medium-12 columns padding-lr">
+                                <div class="alert callout">
+                                    <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-9 cell padding-lr">
+                                <label>ردیف توزیع اعتبار
+                                    <select  class="form-element-margin-btm"  name="row"  v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('row')}">
+                                        <option value=""></option>
+                                        <option v-for="creditDistributionRow in creditDistributionRows" :value="creditDistributionRow.id">{{ creditDistributionRow.cdSubject }}</option>
+                                    </select>
+                                    <span v-show="errors.has('row')" class="error-font">لطفا ردیف توزیع را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                            <div class="medium-3 cell padding-lr">
+                                <label>نحوه اجرا
+                                    <select class="form-element-margin-btm" name="howToRun"  v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('howToRun')}">
+                                        <option value=""></option>
+                                        <option></option>
+                                    </select>
+                                    <span v-show="errors.has('howToRun')" class="error-font">لطفا نحوه اجرا را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-4 column padding-lr">
+                                <label>فصل
+                                    <select class="form-element-margin-btm" @change=""  name="season" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('season')}">
+                                        <option value=""></option>
+                                        <option></option>
+                                    </select>
+                                    <span v-show="errors.has('season')" class="error-font">لطفا فصل را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                            <div class="medium-8 column padding-lr">
+                                <label>عنوان فصل
+                                    <select class="form-element-margin-btm"  @change="" name="seasonTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('seasonTitle')}">
+                                        <option value=""></option>
+                                        <option></option>
+                                    </select>
+                                    <span v-show="errors.has('seasonTitle')" class="error-font">لطفا عنوان فصل را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-12 column padding-lr">
+                                <label>ریز فصل
+                                    <select class="form-element-margin-btm" name="subSeason" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('subSeason')}">
+                                        <option value=""></option>
+                                        <option></option>
+                                    </select>
+                                    <span v-show="errors.has('subSeason')" class="error-font">لطفا ریز فصل را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-6 cell padding-lr">
+                                <label>مبلغ اعتبار <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
+                                    <input class="form-element-margin-btm" type="text" name="amount"  v-validate="'required|decimal'" :class="{'input': true, 'error-border': errors.has('amount')}">
+                                </label>
+                                <span v-show="errors.has('amount')" class="error-font">لطفا مبلغ اعتبار پروژه را وارد کنید!</span>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="small-12 columns padding-lr">
+                                <label>شرح
+                                    <textarea name="csDescription" style="min-height: 150px;"></textarea>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="medium-6 columns padding-lr padding-bottom-modal input-margin-top">
+                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                        </div>
+                    </form>
+                </div>
+            </modal-small>
+            <!--Project Cost Modal End-->
+
+            <!--Project credit source Modal Insert Start-->
+            <modal-small v-if="showApCreditInsertModal" @close="showApCreditInsertModal = false">
+                <div  slot="body">
+                    <form v-on:submit.prevent="">
+                        <div class="grid-x" v-if="errorMessage">
+                            <div class="medium-12 columns padding-lr">
+                                <div class="alert callout">
+                                    <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-9 cell padding-lr">
+                                <label>ردیف توزیع اعتبار
+                                    <select  class="form-element-margin-btm"  name="row"  v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('row')}">
+                                        <option value=""></option>
+                                        <option v-for="creditDistributionRow in creditDistributionRows" :value="creditDistributionRow.id">{{ creditDistributionRow.cdSubject }}</option>
+                                    </select>
+                                    <span v-show="errors.has('row')" class="error-font">لطفا ردیف توزیع را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                            <div class="medium-3 cell padding-lr">
+                                <label>نحوه اجرا
+                                    <select class="form-element-margin-btm" name="howToRun"  v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('howToRun')}">
+                                        <option value=""></option>
+                                        <option></option>
+                                    </select>
+                                    <span v-show="errors.has('howToRun')" class="error-font">لطفا نحوه اجرا را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-4 column padding-lr">
+                                <label>فصل
+                                    <select class="form-element-margin-btm" @change=""  name="season" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('season')}">
+                                        <option value=""></option>
+                                        <option></option>
+                                    </select>
+                                    <span v-show="errors.has('season')" class="error-font">لطفا فصل را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                            <div class="medium-8 column padding-lr">
+                                <label>عنوان فصل
+                                    <select class="form-element-margin-btm"  @change="" name="seasonTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('seasonTitle')}">
+                                        <option value=""></option>
+                                        <option></option>
+                                    </select>
+                                    <span v-show="errors.has('seasonTitle')" class="error-font">لطفا عنوان فصل را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-12 column padding-lr">
+                                <label>ریز فصل
+                                    <select class="form-element-margin-btm" name="subSeason" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('subSeason')}">
+                                        <option value=""></option>
+                                        <option></option>
+                                    </select>
+                                    <span v-show="errors.has('subSeason')" class="error-font">لطفا ریز فصل را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-6 cell padding-lr">
+                                <label>مبلغ اعتبار <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
+                                    <input class="form-element-margin-btm" type="text" name="amount"  v-validate="'required|decimal'" :class="{'input': true, 'error-border': errors.has('amount')}">
+                                </label>
+                                <span v-show="errors.has('amount')" class="error-font">لطفا مبلغ اعتبار پروژه را وارد کنید!</span>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="small-12 columns padding-lr">
+                                <label>شرح
+                                    <textarea name="csDescription" style="min-height: 150px;"></textarea>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="medium-6 columns padding-lr padding-bottom-modal input-margin-top">
+                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                        </div>
+                    </form>
+                </div>
+            </modal-small>
+            <!--Project Credit Modal Edit End-->
+
+
             <!--Forms End-->
         </div>
     </div>
@@ -576,6 +877,9 @@
                 showModalAmendment:false,
                 showModalAmendmentOfAgreement:false,
                 showInsertModalProject:false,
+                showEditModalProject:false,
+                showApCreditInsertModal:false,
+                showApCreditEditModal:false,
                 approvedPlanFill: {},
                 creditDistributionTitles: [],
 
@@ -761,6 +1065,48 @@
             openInsertProjectModal: function () {
                 this.showInsertModalProject= true;
             },
+            openEditProjectModal: function () {
+                this.showEditModalProject= true;
+            },
+            openAPCreditInsertModal: function () {
+                this.showApCreditInsertModal=true;
+            },
+            openAPCreditEditModal: function () {
+                this.showApCreditEditModal=true;
+            },
+            myResizeModal: function() {
+                /*console.log("......................res..........................");
+                var tabHeight = $('.tabs').height();
+
+                if (toolBarHeight === undefined)
+                {
+                    toolBarHeight = -8;
+                }
+
+                if (paginationHeight === undefined)
+                {
+                    paginationHeight = -8;
+                }
+
+                if (tabHeight===undefined) {
+                    if (toolBarHeight > 0)
+                        tabHeight = -28;
+                    else
+                        tabHeight = -8;
+                    notifHeight=0;
+                }
+
+                if ($('.vertical-tab').length > 0)
+                {
+                    tabHeight = 10;
+                }
+
+                $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 180) + 'px');
+
+                var x = $(".dynamic-height-level1").height();
+                $('.dynamic-height-level2').css('height', (x - 100 - (tabHeight  + toolBarHeight + paginationHeight)) + 'px');*/
+            },
+
 
             makePagination: function(data , type){
                 if (type == "national")
