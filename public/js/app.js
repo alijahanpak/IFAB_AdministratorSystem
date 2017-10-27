@@ -80708,6 +80708,9 @@ module.exports = function listToStyles (parentId, list) {
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     name: 'PDatePicker',
@@ -80743,7 +80746,9 @@ module.exports = function listToStyles (parentId, list) {
             }
         },
         'openTransitionAnimation': { default: 'slide-fade', String: String },
-        'persianDigits': { default: true, String: String }
+        'persianDigits': { default: true, String: String },
+        'isValid': { default: true, Boolean: Boolean },
+        'errMessage': { default: '', String: String }
     },
     data: function data() {
         return {
@@ -81044,10 +81049,14 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('input', {
     staticClass: "inputClass form-element-margin-btm",
+    class: {
+      'select-error': !_vm.isValid
+    },
     attrs: {
       "id": _vm.id,
       "type": "text",
-      "name": _vm.name
+      "name": _vm.name,
+      "autocomplete": "off"
     },
     domProps: {
       "value": _vm.formatedChosenDate
@@ -81058,7 +81067,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.inputChanged($event.target.value)
       }
     }
-  }), _vm._v(" "), _c('transition', {
+  }), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (!_vm.isValid),
+      expression: "!isValid"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v(_vm._s(_vm.errMessage))]), _vm._v(" "), _c('transition', {
     attrs: {
       "name": _vm.openTransitionAnimation
     }
@@ -114985,6 +115002,7 @@ if (false) {(function () {
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -115512,7 +115530,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }), _vm._v(_vm._s(_vm.errorMessage))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
-    staticClass: "medium-12 cell padding-lr"
+    staticClass: "medium-12 padding-lr"
   }, [_c('label', [_vm._v("طرح\n                                    "), _c('select', {
     directives: [{
       name: "model",
@@ -115563,7 +115581,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("لطفا طرح را انتخاب کنید!")])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
-    staticClass: "medium-6 columns padding-lr"
+    staticClass: "medium-6 padding-lr"
   }, [_c('label', [_vm._v("شماره\n                                    "), _c('input', {
     directives: [{
       name: "model",
@@ -115601,45 +115619,27 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }],
     staticClass: "error-font"
   }, [_vm._v("شماره فراموش شده است!")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-6 columns padding-lr"
-  }, [_c('label', [_vm._v("تاریخ\n                                    "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.approvedPlanInput.date),
-      expression: "approvedPlanInput.date"
-    }, {
-      name: "validate",
-      rawName: "v-validate"
-    }],
-    staticClass: "form-element-margin-btm",
-    class: {
-      'input': true, 'select-error': _vm.errors.has('capLetterDate')
-    },
+    staticClass: "medium-6 padding-lr"
+  }, [_c('p', {
+    staticClass: "date-picker-lbl"
+  }, [_vm._v("تاریخ\n                                    "), _c('pdatepicker', {
     attrs: {
-      "type": "text",
-      "name": "capLetterDate",
-      "data-vv-rules": "required"
+      "id": "datePicker",
+      "errMessage": "تاریخ فراموش شده است!",
+      "isValid": false,
+      "open-transition-animation": "left-slide-fade"
     },
-    domProps: {
-      "value": (_vm.approvedPlanInput.date)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.approvedPlanInput.date = $event.target.value
-      }
+    model: {
+      value: (_vm.approvedPlanInput.date),
+      callback: function($$v) {
+        _vm.approvedPlanInput.date = $$v
+      },
+      expression: "approvedPlanInput.date"
     }
-  })]), _vm._v(" "), _c('span', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.errors.has('capLetterDate')),
-      expression: "errors.has('capLetterDate')"
-    }],
-    staticClass: "error-font"
-  }, [_vm._v("تاریخ فراموش شده است!")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-6 columns padding-lr"
+  })], 1)])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-6 padding-lr"
   }, [_c('label', [_vm._v("شماره مبادله\n                                    "), _c('input', {
     directives: [{
       name: "model",
@@ -115677,7 +115677,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }],
     staticClass: "error-font"
   }, [_vm._v("شماره فراموش شده است!")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-6 columns padding-lr"
+    staticClass: "medium-6 padding-lr"
   }, [_c('label', [_vm._v("تاریخ مبادله\n                                    "), _c('input', {
     directives: [{
       name: "model",
@@ -115717,7 +115717,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("تاریخ فراموش شده است!")])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
-    staticClass: "small-12 columns padding-lr"
+    staticClass: "small-12 padding-lr"
   }, [_c('label', [_vm._v("شرح\n                                    "), _c('textarea', {
     directives: [{
       name: "model",
@@ -115741,7 +115741,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }
   })])])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-6 columns padding-lr padding-bottom-modal"
+    staticClass: "medium-6 padding-lr padding-bottom-modal"
   }, [_c('button', {
     staticClass: "my-button my-success float-left btn-for-load",
     attrs: {
@@ -120409,9 +120409,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -120956,28 +120953,21 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   })])]), _vm._v(" "), _c('div', {
     staticClass: "medium-4 padding-lr"
-  }, [_c('label', [_vm._v("تاریخ نامه\n                                        "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.AllocationInput.date),
-      expression: "AllocationInput.date"
-    }],
-    staticClass: "form-element-margin-btm",
+  }, [_c('p', {
+    staticClass: "date-picker-lbl"
+  }, [_vm._v("تاریخ نامه\n                                        "), _vm._v(" "), _c('pdatepicker', {
     attrs: {
-      "type": "text",
-      "name": "letterDate"
+      "id": "datePicker",
+      "open-transition-animation": "left-slide-fade"
     },
-    domProps: {
-      "value": (_vm.AllocationInput.date)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.AllocationInput.date = $event.target.value
-      }
+    model: {
+      value: (_vm.AllocationInput.date),
+      callback: function($$v) {
+        _vm.AllocationInput.date = $$v
+      },
+      expression: "AllocationInput.date"
     }
-  })])])]), _vm._v(" "), _c('div', {
+  })], 1)])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-6 cell padding-lr"
@@ -121175,15 +121165,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       value: (_vm.creditSourceInfo.approvedAmount),
       expression: "creditSourceInfo.approvedAmount"
     }],
-    staticClass: "grid-x",
-    staticStyle: {
-      "margin-top": "5px",
-      "margin-bottom": "10px"
-    }
-  }, [_c('div', {
-    staticClass: "medium-12 my-callout-bg-color"
-  }, [_c('div', {
-    staticClass: "grid-x"
+    staticClass: "grid-x my-callout-bg-color"
   }, [_c('div', {
     staticClass: "medium-12"
   }, [_c('span', {
@@ -121196,7 +121178,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-12"
   }, [_c('span', {
     staticClass: "btn-red"
-  }, [_vm._v("درصدآخرین تخصیص:")]), _c('span', [_vm._v(_vm._s(' ' + _vm.$parent.calcPrecent(_vm.creditSourceInfo.approvedAmount, _vm.creditSourceInfo.sumAllocation)))])])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("درصدآخرین تخصیص:")]), _c('span', [_vm._v(_vm._s(' ' + _vm.$parent.calcPrecent(_vm.creditSourceInfo.approvedAmount, _vm.creditSourceInfo.sumAllocation)))])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "small-12 columns padding-lr"
@@ -122357,10 +122339,7 @@ if (false) {(function () {
         createCostAllocation: function createCostAllocation() {
             var _this6 = this;
 
-            alert(this.AllocationInput.date);
-            this.AllocationInput.date = '';
-            alert(this.AllocationInput.date);
-            $('#datePicker').val('');
+            if ($('#datePicker').val() == '') this.AllocationInput.date = '';
             this.$validator.validateAll().then(function (result) {
                 if (result) {
                     axios.post('/budget/allocation/cost/register', {
@@ -122380,13 +122359,20 @@ if (false) {(function () {
                         }
                         _this6.showModal = false;
                         _this6.$parent.displayNotif(response.status);
+                        _this6.clearInsertForm();
                         console.log(response);
                     }, function (error) {
                         console.log(error);
                         _this6.errorMessage = 'تخصیص با این مشخصات قبلا ثبت شده است!';
+                        _this6.clearInsertForm();
                     });
                 }
             });
+        },
+
+        clearInsertForm: function clearInsertForm() {
+            this.AllocationInput = {};
+            this.selectedCostAgreement = '';
         },
 
         registerOfCreditAllocationAssetsUpdateDialog: function registerOfCreditAllocationAssetsUpdateDialog(item) {

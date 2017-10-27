@@ -230,7 +230,7 @@
                                 </div>
                             </div>
                             <div class="grid-x">
-                                <div class="medium-12 cell padding-lr">
+                                <div class="medium-12 padding-lr">
                                     <label>طرح
                                         <select class="form-element-margin-btm"  v-model="approvedPlanInput.cdtId" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
                                             <option value=""></option>
@@ -241,25 +241,26 @@
                                 </div>
                             </div>
                             <div class="grid-x">
-                                <div class="medium-6 columns padding-lr">
+                                <div class="medium-6 padding-lr">
                                     <label>شماره
                                         <input class="form-element-margin-btm" type="text" name="capLetterNumber" v-model="approvedPlanInput.idNumber" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('capLetterNumber')}">
                                     </label>
                                     <span v-show="errors.has('capLetterNumber')" class="error-font">شماره فراموش شده است!</span>
                                 </div>
-                                <div class="medium-6 columns padding-lr">
-                                    <label>تاریخ
-                                        <input class="form-element-margin-btm" type="text" name="capLetterDate"  v-model="approvedPlanInput.date" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('capLetterDate')}">
-                                    </label>
-                                    <span v-show="errors.has('capLetterDate')" class="error-font">تاریخ فراموش شده است!</span>
+                                <div class="medium-6 padding-lr">
+                                    <p class="date-picker-lbl">تاریخ
+                                        <pdatepicker id="datePicker" v-model="approvedPlanInput.date" errMessage="تاریخ فراموش شده است!" :isValid="false" open-transition-animation="left-slide-fade"></pdatepicker>
+                                    </p>
                                 </div>
-                                <div class="medium-6 columns padding-lr">
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-6 padding-lr">
                                     <label>شماره مبادله
                                         <input class="form-element-margin-btm" type="text" name="capExLetterNumber" v-model="approvedPlanInput.exIdNumber" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('capExLetterNumber')}">
                                     </label>
                                     <span v-show="errors.has('capExLetterNumber')" class="error-font">شماره فراموش شده است!</span>
                                 </div>
-                                <div class="medium-6 columns padding-lr">
+                                <div class="medium-6 padding-lr">
                                     <label>تاریخ مبادله
                                         <input class="form-element-margin-btm" type="text" name="capExLetterDate"  v-model="approvedPlanInput.exDate" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('capExLetterDate')}">
                                     </label>
@@ -267,13 +268,13 @@
                                 </div>
                             </div>
                             <div class="grid-x">
-                                <div class="small-12 columns padding-lr">
+                                <div class="small-12 padding-lr">
                                     <label>شرح
                                         <textarea name="apDescription" style="min-height: 150px;" v-model="approvedPlanInput.apDescription"></textarea>
                                     </label>
                                 </div>
                             </div>
-                            <div class="medium-6 columns padding-lr padding-bottom-modal">
+                            <div class="medium-6 padding-lr padding-bottom-modal">
                                 <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
                             </div>
                         </form>

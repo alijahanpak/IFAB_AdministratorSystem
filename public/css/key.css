@@ -132,7 +132,8 @@ a:focus,button:focus {
 }
 .my-callout-bg-color{
     background-color: #F8F8F8;
-    padding: 20px 20px 0 20px;
+    padding: 20px 10px 20px 20px;
+    margin: 14px;
 }
 .login-logo-mrg{
     margin-right: 77%;

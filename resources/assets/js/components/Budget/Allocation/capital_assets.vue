@@ -385,9 +385,10 @@
                                     </label>
                                 </div>
                                 <div class="medium-4 padding-lr">
-                                    <label>تاریخ نامه
-                                        <input class="form-element-margin-btm" type="text" name="letterDate" v-model="AllocationInput.date">
-                                    </label>
+                                    <p class="date-picker-lbl">تاریخ نامه
+                                        <!--<input class="form-element-margin-btm" type="text" name="letterDate" v-model="AllocationInput.date">-->
+                                        <pdatepicker id="datePicker" v-model="AllocationInput.date"  open-transition-animation="left-slide-fade"></pdatepicker>
+                                    </p>
                                 </div>
                             </div>
                             <div class="grid-x">
@@ -427,19 +428,15 @@
                                     <span v-show="errors.has('creditCost')" class="error-font">لطفا مبلغ تخصیص انتخاب کنید!</span>
                                 </div>
                             </div>
-                            <div style="margin-top: 5px;margin-bottom: 10px" class="grid-x" v-show="creditSourceInfo.approvedAmount">
-                                <div class="medium-12 my-callout-bg-color">
-                                    <div class="grid-x">
-                                        <div class="medium-12">
-                                            <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount) }}</span>
-                                        </div>
-                                        <div class="medium-12">
-                                            <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.sumAllocation) }}</span>
-                                        </div>
-                                        <div class="medium-12">
-                                            <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.approvedAmount , creditSourceInfo.sumAllocation) }}</span>
-                                        </div>
-                                    </div>
+                            <div class="grid-x my-callout-bg-color" v-show="creditSourceInfo.approvedAmount">
+                                <div class="medium-12">
+                                    <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount) }}</span>
+                                </div>
+                                <div class="medium-12">
+                                    <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.sumAllocation) }}</span>
+                                </div>
+                                <div class="medium-12">
+                                    <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.approvedAmount , creditSourceInfo.sumAllocation) }}</span>
                                 </div>
                             </div>
                             <div class="grid-x">

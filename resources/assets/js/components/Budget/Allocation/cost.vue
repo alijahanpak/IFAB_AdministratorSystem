@@ -695,10 +695,8 @@
             },
 
             createCostAllocation: function () {
-                alert(this.AllocationInput.date);
-                this.AllocationInput.date = '';
-                alert(this.AllocationInput.date);
-                $('#datePicker').val('');
+                if ($('#datePicker').val() == '')
+                    this.AllocationInput.date = '';
                 this.$validator.validateAll().then((result) => {
                     if (result) {
                         axios.post('/budget/allocation/cost/register' , {
@@ -722,13 +720,20 @@
                                 }
                                 this.showModal = false;
                                 this.$parent.displayNotif(response.status);
+                                this.clearInsertForm();
                                 console.log(response);
                             },(error) => {
                                 console.log(error);
                                 this.errorMessage = 'تخصیص با این مشخصات قبلا ثبت شده است!';
+                                this.clearInsertForm();
                             });
                     }
                 });
+            },
+
+            clearInsertForm: function () {
+                this.AllocationInput = {};
+                this.selectedCostAgreement = '';
             },
 
             registerOfCreditAllocationAssetsUpdateDialog: function (item) {
