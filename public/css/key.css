@@ -1157,7 +1157,7 @@ button.purple-btn {
     background-color:  #fbaa00;
 }
 .my-button.my-danger {
-    background-color:#f4516c;;
+    background-color:#f4516c;
     color: #FFFFFF;
 }
 .my-button.my-danger:hover, .my-button.my-danger:focus {
@@ -1179,6 +1179,38 @@ button.purple-btn {
 .my-button.my-brand:hover, .my-button.my-brand:focus {
     color: #FFF;
     background-color:#564EC0;
+}
+.my-button.my-icon-brand {
+    background-color:  #716aca;
+    color: #FFF;
+    border-right: 1px solid #D8DEE2;
+    border-top: 1px solid #D8DEE2;
+    border-bottom: 1px solid #D8DEE2;
+    border-left:none;
+}
+.my-button.my-icon-brand:hover, .my-button.my-icon-brand:focus {
+    color: #FFF;
+    background-color:#564EC0;
+    border-right: 1px solid  #D8DEE2;
+    border-top: 1px solid #D8DEE2;
+    border-bottom: 1px solid #D8DEE2;
+    border-left:none;
+}
+.my-button.my-icon-danger {
+    background-color:#f4516c;
+    color: #FFF;
+    border-right: 1px solid #D8DEE2;
+    border-top: 1px solid #D8DEE2;
+    border-bottom: 1px solid #D8DEE2;
+    border-left:none;
+}
+.my-button.my-icon-danger:hover, .my-button.my-icon-danger:focus {
+    color: #FFF;
+    background-color: #f22d4e;
+    border-right: 1px solid  #D8DEE2;
+    border-top: 1px solid #D8DEE2;
+    border-bottom: 1px solid #D8DEE2;
+    border-left:none;
 }
 .my-button.my-focus {
     background-color:  #9816f4;;
@@ -1444,6 +1476,9 @@ button.purple-btn {
     border-collapse: collapse;
     overflow-y: auto;
 }
+.auto-margin{
+    margin: 0px auto;
+}
 .date-picker-lbl{
     display: block;
     margin: 0;
@@ -1451,6 +1486,21 @@ button.purple-btn {
     font-weight: normal;
     line-height: 1.8;
     color: #0a0a0a;
+}
+.icon-margin-dropdown{
+    margin-right: 8px;
+}
+
+.slide-fade-enter-active {
+    transition: all .3s ease;
+}
+.slide-fade-leave-active {
+    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+    /* .slide-fade-leave-active below version 2.1.8 */ {
+    transform: translateX(10px);
+    opacity: 0;
 }
 
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
