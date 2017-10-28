@@ -115003,6 +115003,7 @@ if (false) {(function () {
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -115013,6 +115014,7 @@ if (false) {(function () {
             approvedPlan_prov: [],
             approvedPlan_nat: [],
             approvedPlanInput: {},
+            approvedAmendmentInput: {},
             showInsertModal: false,
             showModalUpdate: false,
             showModalDelete: false,
@@ -115024,6 +115026,9 @@ if (false) {(function () {
             showApCreditEditModal: false,
             approvedPlanFill: {},
             creditDistributionTitles: [],
+            dateIsValid_delivery: true,
+            dateIsValid_delivery_amendment: true,
+            dateIsValid_exchange: true,
 
             provOrNat: '',
             apIdDelete: {},
@@ -115102,6 +115107,62 @@ if (false) {(function () {
             });
         },
 
+        checkValidDate: function checkValidDate(type) {
+            switch (type) {
+                case 'delivery':
+                    if (this.approvedPlanInput.date == null || this.approvedPlanInput.date == '') {
+                        this.dateIsValid_delivery = false;
+                        return false;
+                    } else {
+                        this.dateIsValid_delivery = true;
+                        return true;
+                    }
+                    break;
+                case 'exchange':
+                    if (this.approvedPlanInput.exDate == null || this.approvedPlanInput.exDate == '') {
+                        this.dateIsValid_exchange = false;
+                        return false;
+                    } else {
+                        this.dateIsValid_exchange = true;
+                        return true;
+                    }
+                    break;
+                case 'delivery_amendment':
+                    if (this.approvedAmendmentInput.date == null || this.approvedAmendmentInput.date == '') {
+                        this.dateIsValid_delivery_amendment = false;
+                        return false;
+                    } else {
+                        this.dateIsValid_delivery_amendment = true;
+                        return true;
+                    }
+                    break;
+            }
+        },
+
+        getAllProjectWithPlanId: function getAllProjectWithPlanId(pId) {
+            var _this4 = this;
+
+            axios.get('/budget/approved_project/capital_assets/getAllProjectWithPlanId', { params: { pId: pId } }).then(function (response) {
+                _this4.approvedAmendmentProjects = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        openAmendmentOfAgreementModal: function openAmendmentOfAgreementModal() {
+            var _this5 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    if (_this5.checkValidDate('delivery_amendment')) {
+                        _this5.showModalAmendment = false;
+                        _this5.showModalAmendmentOfAgreement = true;
+                    }
+                }
+            });
+        },
+
         openApprovedPlanInsertModal: function openApprovedPlanInsertModal(type) {
             this.getCreditDistributionTitle(type);
             this.provOrNat = type;
@@ -115109,39 +115170,41 @@ if (false) {(function () {
         },
 
         createApprovedPlan: function createApprovedPlan() {
-            var _this4 = this;
+            var _this6 = this;
 
             this.$validator.validateAll().then(function (result) {
                 if (result) {
-                    axios.post('/budget/approved_plan/capital_assets/register', {
-                        cdtId: _this4.approvedPlanInput.cdtId,
-                        idNumber: _this4.approvedPlanInput.idNumber,
-                        date: _this4.approvedPlanInput.date,
-                        exIdNumber: _this4.approvedPlanInput.exIdNumber,
-                        exDate: _this4.approvedPlanInput.exDate,
-                        description: _this4.approvedPlanInput.apDescription,
-                        pOrN: _this4.provOrNat
-                    }).then(function (response) {
-                        if (_this4.provOrNat == 0) {
-                            _this4.approvedPlan_prov = response.data.data;
-                            _this4.makePagination(response.data, "provincial");
-                        } else {
-                            _this4.approvedPlan_nat = response.data.data;
-                            _this4.makePagination(response.data, "national");
-                        }
-                        _this4.showInsertModal = false;
-                        _this4.$parent.displayNotif(response.status);
-                        console.log(response);
-                    }, function (error) {
-                        console.log(error);
-                        //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                    });
+                    if (_this6.checkValidDate('delivery') && _this6.checkValidDate('exchange')) {
+                        axios.post('/budget/approved_plan/capital_assets/register', {
+                            cdtId: _this6.approvedPlanInput.cdtId,
+                            idNumber: _this6.approvedPlanInput.idNumber,
+                            date: _this6.approvedPlanInput.date,
+                            exIdNumber: _this6.approvedPlanInput.exIdNumber,
+                            exDate: _this6.approvedPlanInput.exDate,
+                            description: _this6.approvedPlanInput.apDescription,
+                            pOrN: _this6.provOrNat
+                        }).then(function (response) {
+                            if (_this6.provOrNat == 0) {
+                                _this6.approvedPlan_prov = response.data.data;
+                                _this6.makePagination(response.data, "provincial");
+                            } else {
+                                _this6.approvedPlan_nat = response.data.data;
+                                _this6.makePagination(response.data, "national");
+                            }
+                            _this6.showInsertModal = false;
+                            _this6.$parent.displayNotif(response.status);
+                            console.log(response);
+                        }, function (error) {
+                            console.log(error);
+                            //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                        });
+                    }
                 }
             });
         },
 
         approvedProjectsUpdateDialog: function approvedProjectsUpdateDialog(item, planId) {
-            var _this5 = this;
+            var _this7 = this;
 
             this.selectedSeasons = item.tiny_season.tsSId;
             this.getTinySeasons();
@@ -115158,7 +115221,7 @@ if (false) {(function () {
             this.creditDistributionRows.forEach(function (cdr) {
                 "use strict";
 
-                Vue.set(_this5.creditDistributionRowInput, 'apCdr' + cdr.id, cdr.id);
+                Vue.set(_this7.creditDistributionRowInput, 'apCdr' + cdr.id, cdr.id);
             });
             this.errorMessage_update = '';
             this.showModalUpdate = true;
@@ -115205,9 +115268,54 @@ if (false) {(function () {
                     this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                 });*/
         },
-        openApprovedAmendmentModal: function openApprovedAmendmentModal() {
+        openApprovedAmendmentModal: function openApprovedAmendmentModal(plan) {
+            this.provOrNat = plan.capProvinceOrNational;
+            this.getCreditDistributionTitle(this.provOrNat);
+            this.approvedAmendmentInput.cdtId = plan.capCdtId;
+            this.approvedAmendmentInput.idNumber = '';
+            this.approvedAmendmentInput.date = '';
+            this.approvedAmendmentInput.exIdNumber = plan.capExchangeIdNumber;
+            this.approvedAmendmentInput.exDate = plan.capExchangeDate;
+            this.approvedAmendmentInput.apDescription = plan.capDescription;
+            this.approvedAmendmentInput.parentId = plan.capCapId == null ? plan.id : plan.capCapId;
             this.showModalAmendment = true;
         },
+
+        createApprovedAmendment: function createApprovedAmendment() {
+            var _this8 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    if (_this8.checkValidDate('delivery_amendment')) {
+                        axios.post('/budget/approved_plan/capital_assets/register', {
+                            cdtId: _this8.approvedAmendmentInput.cdtId,
+                            idNumber: _this8.approvedAmendmentInput.idNumber,
+                            date: _this8.approvedAmendmentInput.date,
+                            exIdNumber: _this8.approvedAmendmentInput.exIdNumber,
+                            exDate: _this8.approvedAmendmentInput.exDate,
+                            description: _this8.approvedAmendmentInput.apDescription,
+                            pOrN: _this8.provOrNat,
+                            capId: _this8.approvedAmendmentInput.parentId
+                        }).then(function (response) {
+                            if (_this8.provOrNat == 0) {
+                                _this8.approvedPlan_prov = response.data.data;
+                                _this8.makePagination(response.data, "provincial");
+                            } else {
+                                _this8.approvedPlan_nat = response.data.data;
+                                _this8.makePagination(response.data, "national");
+                            }
+                            _this8.showInsertModal = false;
+                            _this8.$parent.displayNotif(response.status);
+                            console.log(response);
+                        }, function (error) {
+                            console.log(error);
+                            //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                        });
+                    }
+                }
+            });
+        },
+
         openApprovedAmendmentOfAgreementModal: function openApprovedAmendmentOfAgreementModal() {
             this.showModalAmendmentOfAgreement = true;
             this.$parent.myResize();
@@ -115376,7 +115484,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.openApprovedAmendmentModal($event)
+          _vm.openApprovedAmendmentModal(plans, 0)
         }
       }
     }, [_c('i', {
@@ -115484,7 +115592,16 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }, [_c('i', {
       staticClass: "fa fa-trash-o size-16"
-    }), _vm._v("  حذف")])])])])])])])])
+    }), _vm._v("  حذف")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.openApprovedAmendmentModal(plans, 1)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-newspaper-o size-16"
+    }), _vm._v("  اصلاحیه")])])])])])])])])
   }))]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
@@ -115582,7 +115699,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-6 padding-lr"
-  }, [_c('label', [_vm._v("شماره\n                                    "), _c('input', {
+  }, [_c('label', [_vm._v("شماره ابلاغ\n                                    "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -115619,15 +115736,19 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }],
     staticClass: "error-font"
   }, [_vm._v("شماره فراموش شده است!")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-6 padding-lr"
+    staticClass: "medium-4 padding-lr"
   }, [_c('p', {
     staticClass: "date-picker-lbl"
-  }, [_vm._v("تاریخ\n                                    "), _c('pdatepicker', {
+  }, [_vm._v("تاریخ ابلاغ\n                                    "), _c('pdatepicker', {
     attrs: {
-      "id": "datePicker",
-      "errMessage": "تاریخ فراموش شده است!",
-      "isValid": false,
+      "errMessage": "تاریخ ابلاغ فراموش شده است!",
+      "isValid": _vm.dateIsValid_delivery,
       "open-transition-animation": "left-slide-fade"
+    },
+    on: {
+      "closed": function($event) {
+        _vm.checkValidDate('delivery')
+      }
     },
     model: {
       value: (_vm.approvedPlanInput.date),
@@ -115677,44 +115798,28 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }],
     staticClass: "error-font"
   }, [_vm._v("شماره فراموش شده است!")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-6 padding-lr"
-  }, [_c('label', [_vm._v("تاریخ مبادله\n                                    "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.approvedPlanInput.exDate),
-      expression: "approvedPlanInput.exDate"
-    }, {
-      name: "validate",
-      rawName: "v-validate"
-    }],
-    staticClass: "form-element-margin-btm",
-    class: {
-      'input': true, 'select-error': _vm.errors.has('capExLetterDate')
-    },
+    staticClass: "medium-4 padding-lr"
+  }, [_c('p', {
+    staticClass: "date-picker-lbl"
+  }, [_vm._v("تاریخ مبادله\n                                    "), _c('pdatepicker', {
     attrs: {
-      "type": "text",
-      "name": "capExLetterDate",
-      "data-vv-rules": "required"
-    },
-    domProps: {
-      "value": (_vm.approvedPlanInput.exDate)
+      "errMessage": "تاریخ مبادله فراموش شده است!",
+      "isValid": _vm.dateIsValid_exchange,
+      "open-transition-animation": "left-slide-fade"
     },
     on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.approvedPlanInput.exDate = $event.target.value
+      "closed": function($event) {
+        _vm.checkValidDate('exchange')
       }
+    },
+    model: {
+      value: (_vm.approvedPlanInput.exDate),
+      callback: function($$v) {
+        _vm.approvedPlanInput.exDate = $$v
+      },
+      expression: "approvedPlanInput.exDate"
     }
-  })]), _vm._v(" "), _c('span', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.errors.has('capExLetterDate')),
-      expression: "errors.has('capExLetterDate')"
-    }],
-    staticClass: "error-font"
-  }, [_vm._v("تاریخ فراموش شده است!")])])]), _vm._v(" "), _c('div', {
+  })], 1)])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "small-12 padding-lr"
@@ -115788,6 +115893,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
+        _vm.openAmendmentOfAgreementModal($event)
       }
     }
   }, [(_vm.errorMessage) ? _c('div', {
@@ -115805,24 +115911,47 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "medium-12 cell padding-lr"
   }, [_c('label', [_vm._v("طرح\n                                "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.approvedAmendmentInput.cdtId),
+      expression: "approvedAmendmentInput.cdtId"
+    }],
     attrs: {
       "disabled": "true",
       "name": "plan"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.approvedAmendmentInput.cdtId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
   }, [_c('option', {
     attrs: {
       "value": ""
     }
-  }), _vm._v(" "), _c('option')])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _vm._l((_vm.creditDistributionTitles), function(creditDistributionTitle) {
+    return _c('option', {
+      domProps: {
+        "value": creditDistributionTitle.id
+      }
+    }, [_vm._v(_vm._s(creditDistributionTitle.cdtIdNumber + ' - ' + creditDistributionTitle.cdtSubject + (creditDistributionTitle.county == null ? '' : ' - ' + creditDistributionTitle.county.coName)))])
+  })], 2)])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
-    staticClass: "medium-6 columns padding-lr"
-  }, [_c('label', [_vm._v("شماره\n                                "), _c('input', {
+    staticClass: "medium-6 padding-lr"
+  }, [_c('label', [_vm._v("شماره ابلاغ\n                                "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.approvedPlanInput.idNumber),
-      expression: "approvedPlanInput.idNumber"
+      value: (_vm.approvedAmendmentInput.idNumber),
+      expression: "approvedAmendmentInput.idNumber"
     }, {
       name: "validate",
       rawName: "v-validate"
@@ -115837,12 +115966,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "data-vv-rules": "required"
     },
     domProps: {
-      "value": (_vm.approvedPlanInput.idNumber)
+      "value": (_vm.approvedAmendmentInput.idNumber)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.approvedPlanInput.idNumber = $event.target.value
+        _vm.approvedAmendmentInput.idNumber = $event.target.value
       }
     }
   })]), _vm._v(" "), _c('span', {
@@ -115853,52 +115982,38 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       expression: "errors.has('capLetterNumber')"
     }],
     staticClass: "error-font"
-  }, [_vm._v("شماره فراموش شده است!")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-6 columns padding-lr"
-  }, [_c('label', [_vm._v("تاریخ\n                                "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.approvedPlanInput.date),
-      expression: "approvedPlanInput.date"
-    }, {
-      name: "validate",
-      rawName: "v-validate"
-    }],
-    staticClass: "form-element-margin-btm",
-    class: {
-      'input': true, 'select-error': _vm.errors.has('capLetterDate')
-    },
+  }, [_vm._v("شماره ابلاغ فراموش شده است!")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-4 padding-lr"
+  }, [_c('p', {
+    staticClass: "date-picker-lbl"
+  }, [_vm._v("تاریخ ابلاغ\n                                "), _c('pdatepicker', {
     attrs: {
-      "type": "text",
-      "name": "capLetterDate",
-      "data-vv-rules": "required"
-    },
-    domProps: {
-      "value": (_vm.approvedPlanInput.date)
+      "errMessage": "تاریخ ابلاغ فراموش شده است!",
+      "isValid": _vm.dateIsValid_delivery_amendment,
+      "open-transition-animation": "left-slide-fade"
     },
     on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.approvedPlanInput.date = $event.target.value
+      "closed": function($event) {
+        _vm.checkValidDate('delivery_amendment')
       }
+    },
+    model: {
+      value: (_vm.approvedAmendmentInput.date),
+      callback: function($$v) {
+        _vm.approvedAmendmentInput.date = $$v
+      },
+      expression: "approvedAmendmentInput.date"
     }
-  })]), _vm._v(" "), _c('span', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.errors.has('capLetterDate')),
-      expression: "errors.has('capLetterDate')"
-    }],
-    staticClass: "error-font"
-  }, [_vm._v("تاریخ فراموش شده است!")])]), _vm._v(" "), _c('div', {
+  })], 1)])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
     staticClass: "medium-6 columns padding-lr"
   }, [_c('label', [_vm._v("شماره مبادله\n                                "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.approvedPlanInput.exIdNumber),
-      expression: "approvedPlanInput.exIdNumber"
+      value: (_vm.approvedAmendmentInput.exIdNumber),
+      expression: "approvedAmendmentInput.exIdNumber"
     }],
     attrs: {
       "disabled": "true",
@@ -115906,22 +116021,22 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "name": "capExLetterNumber"
     },
     domProps: {
-      "value": (_vm.approvedPlanInput.exIdNumber)
+      "value": (_vm.approvedAmendmentInput.exIdNumber)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.approvedPlanInput.exIdNumber = $event.target.value
+        _vm.approvedAmendmentInput.exIdNumber = $event.target.value
       }
     }
   })])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-6 columns padding-lr"
+    staticClass: "medium-4 columns padding-lr"
   }, [_c('label', [_vm._v("تاریخ مبادله\n                                "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.approvedPlanInput.exDate),
-      expression: "approvedPlanInput.exDate"
+      value: (_vm.approvedAmendmentInput.exDate),
+      expression: "approvedAmendmentInput.exDate"
     }],
     attrs: {
       "disabled": "true",
@@ -115929,12 +116044,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "name": "capExLetterDate"
     },
     domProps: {
-      "value": (_vm.approvedPlanInput.exDate)
+      "value": (_vm.approvedAmendmentInput.exDate)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.approvedPlanInput.exDate = $event.target.value
+        _vm.approvedAmendmentInput.exDate = $event.target.value
       }
     }
   })])])]), _vm._v(" "), _c('div', {
@@ -115945,8 +116060,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.approvedPlanInput.apDescription),
-      expression: "approvedPlanInput.apDescription"
+      value: (_vm.approvedAmendmentInput.apDescription),
+      expression: "approvedAmendmentInput.apDescription"
     }],
     staticStyle: {
       "min-height": "150px"
@@ -115955,12 +116070,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "name": "apDescription"
     },
     domProps: {
-      "value": (_vm.approvedPlanInput.apDescription)
+      "value": (_vm.approvedAmendmentInput.apDescription)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.approvedPlanInput.apDescription = $event.target.value
+        _vm.approvedAmendmentInput.apDescription = $event.target.value
       }
     }
   })])])]), _vm._v(" "), _c('div', {
@@ -115968,14 +116083,16 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "button-group float-left report-mrg"
   }, [_c('button', {
-    staticClass: "my-button my-danger float-left btn-for-load"
+    staticClass: "my-button my-danger float-left btn-for-load",
+    on: {
+      "click": function($event) {
+        _vm.showModalAmendment = false
+      }
+    }
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
   }, [_vm._v("لغو")])]), _vm._v(" "), _c('button', {
-    staticClass: "my-button my-success float-left btn-for-load",
-    on: {
-      "click": _vm.openApprovedAmendmentOfAgreementModal
-    }
+    staticClass: "my-button my-success float-left btn-for-load"
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
   }, [_vm._v("تایید")])])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showModalAmendmentOfAgreement) ? _c('modal-full-screen', {

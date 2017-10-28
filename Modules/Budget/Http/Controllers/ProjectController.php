@@ -46,6 +46,22 @@ class ProjectController extends Controller
             ->with('capitalAssetsProject.county')->paginate(5);
     }
 
+    public function getAllProjectWithPlanId(Request $request)
+    {
+        return CapitalAssetsApprovedPlan::where('id' , '=' , $request->pId)
+            ->with('capitalAssetsProject')
+            ->whereHas('capitalAssetsProject')
+            ->with('creditDistributionTitle')
+            ->with('creditDistributionTitle.county')
+            ->with('capitalAssetsProject.creditSource')
+            ->with('capitalAssetsProject.creditSource.creditDistributionRow')
+            ->with('capitalAssetsProject.creditSource.tinySeason')
+            ->with('capitalAssetsProject.creditSource.tinySeason.seasonTitle')
+            ->with('capitalAssetsProject.creditSource.tinySeason.seasonTitle.season')
+            ->with('capitalAssetsProject.creditSource.howToRun')
+            ->with('capitalAssetsProject.county')->get();
+    }
+
     public function registerApprovedProject(Request $request)
     {
         $project = new CapitalAssetsProject;

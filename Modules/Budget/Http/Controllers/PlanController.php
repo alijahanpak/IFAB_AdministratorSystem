@@ -39,10 +39,39 @@ class PlanController extends Controller
         $cap->capExchangeDate = $request->exDate;
         $cap->capProvinceOrNational = $request->pOrN;
         $cap->capDescription = $request->description;
+        if (isset($request->capId))
+            $cap->capCapId = $request->capId;
         $cap->save();
+
+
 
         SystemLog::setBudgetSubSystemLog('ثبت طرح تملک داریی های سرمایه ای استانی');
         return \response()->json($this->getAllPlans($request->pOrN));
+    }
+
+    public function registerApprovedAmendment(Request $request)
+    {
+        $cap = new CapitalAssetsApprovedPlan;
+        $cap->capUId = Auth::user()->id;
+        $cap->capCdtId = $request->cdtId;
+        $cap->capFyId = Auth::user()->seFiscalYear;
+        $cap->capLetterNumber = $request->idNumber;
+        $cap->capLetterDate = $request->date;
+        $cap->capExchangeIdNumber = $request->exIdNumber;
+        $cap->capExchangeDate = $request->exDate;
+        $cap->capProvinceOrNational = $request->pOrN;
+        $cap->capDescription = $request->description;
+        $cap->capCapId = $request->capId;
+        $cap->save();
+        if (isset($request->capId))
+        {
+            CapitalAssetsApprovedPlan::where('id' , '=' , $request->capId)
+                ->orWhere('capCapId' , '=' , $request->capId)
+                ->where('id' , '<>' , $cap->id)
+                ->update(['capActive' => 0]);
+        }
+
+
     }
 
     public function getAllPlans($pOrN)

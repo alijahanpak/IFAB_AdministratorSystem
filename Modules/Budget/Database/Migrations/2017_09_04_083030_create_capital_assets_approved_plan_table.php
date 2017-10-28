@@ -19,11 +19,13 @@ class CreateCapitalAssetsApprovedPlanTable extends Migration
                 $table->integer('capUId')->length(10)->unsigned();
                 $table->integer('capCdtId')->length(10)->unsigned();
                 $table->integer('capFyId')->length(10)->unsigned();
+                $table->integer('capCapId')->length(10)->unsigned()->nullable()->default(null);
                 $table->string('capLetterNumber');
                 $table->string('capLetterDate');
                 $table->string('capExchangeDate');
                 $table->string('capExchangeIdNumber');
                 $table->boolean('capProvinceOrNational');
+                $table->boolean('capActive')->default(true);
                 $table->longText('capDescription')->nullable();
                 $table->timestamps();
 

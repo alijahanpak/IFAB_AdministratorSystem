@@ -105,7 +105,7 @@
                                                         <ul class="my-menu small-font text-right">
                                                             <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                             <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                            <li><a v-on:click.prevent="openApprovedAmendmentModal"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
+                                                            <li><a v-on:click.prevent="openApprovedAmendmentModal(plans , 0)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
                                                          </ul>
                                                     </div>
                                                 </div>
@@ -196,6 +196,7 @@
                                                         <ul class="my-menu small-font text-right">
                                                             <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                             <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                            <li><a v-on:click.prevent="openApprovedAmendmentModal(plans , 1)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -242,14 +243,14 @@
                             </div>
                             <div class="grid-x">
                                 <div class="medium-6 padding-lr">
-                                    <label>شماره
+                                    <label>شماره ابلاغ
                                         <input class="form-element-margin-btm" type="text" name="capLetterNumber" v-model="approvedPlanInput.idNumber" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('capLetterNumber')}">
                                     </label>
                                     <span v-show="errors.has('capLetterNumber')" class="error-font">شماره فراموش شده است!</span>
                                 </div>
-                                <div class="medium-6 padding-lr">
-                                    <p class="date-picker-lbl">تاریخ
-                                        <pdatepicker id="datePicker" v-model="approvedPlanInput.date" errMessage="تاریخ فراموش شده است!" :isValid="false" open-transition-animation="left-slide-fade"></pdatepicker>
+                                <div class="medium-4 padding-lr">
+                                    <p class="date-picker-lbl">تاریخ ابلاغ
+                                        <pdatepicker v-model="approvedPlanInput.date" v-on:closed="checkValidDate('delivery')" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery" open-transition-animation="left-slide-fade"></pdatepicker>
                                     </p>
                                 </div>
                             </div>
@@ -260,11 +261,10 @@
                                     </label>
                                     <span v-show="errors.has('capExLetterNumber')" class="error-font">شماره فراموش شده است!</span>
                                 </div>
-                                <div class="medium-6 padding-lr">
-                                    <label>تاریخ مبادله
-                                        <input class="form-element-margin-btm" type="text" name="capExLetterDate"  v-model="approvedPlanInput.exDate" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('capExLetterDate')}">
-                                    </label>
-                                    <span v-show="errors.has('capExLetterDate')" class="error-font">تاریخ فراموش شده است!</span>
+                                <div class="medium-4 padding-lr">
+                                    <p class="date-picker-lbl">تاریخ مبادله
+                                        <pdatepicker v-model="approvedPlanInput.exDate" v-on:closed="checkValidDate('exchange')" errMessage="تاریخ مبادله فراموش شده است!" :isValid="dateIsValid_exchange" open-transition-animation="left-slide-fade"></pdatepicker>
+                                    </p>
                                 </div>
                             </div>
                             <div class="grid-x">
@@ -303,7 +303,7 @@
             <!--Amendment Modal Start-->
             <modal-small v-if="showModalAmendment" @close="showModalAmendment = false">
                 <div slot="body">
-                    <form v-on:submit.prevent="">
+                    <form v-on:submit.prevent="openAmendmentOfAgreementModal">
                         <div class="grid-x" v-if="errorMessage">
                             <div class="medium-12 columns padding-lr">
                                 <div class="alert callout">
@@ -314,48 +314,49 @@
                         <div class="grid-x">
                             <div class="medium-12 cell padding-lr">
                                 <label>طرح
-                                    <select disabled="true" name="plan">
+                                    <select disabled="true" name="plan" v-model="approvedAmendmentInput.cdtId">
                                         <option value=""></option>
-                                        <option></option>
+                                        <option v-for="creditDistributionTitle in creditDistributionTitles" :value="creditDistributionTitle.id">{{ creditDistributionTitle.cdtIdNumber + ' - ' + creditDistributionTitle.cdtSubject + (creditDistributionTitle.county == null ? '' : ' - ' + creditDistributionTitle.county.coName)}}</option>
                                     </select>
                                 </label>
                             </div>
                         </div>
                         <div class="grid-x">
-                            <div class="medium-6 columns padding-lr">
-                                <label>شماره
-                                    <input class="form-element-margin-btm" type="text" name="capLetterNumber" v-model="approvedPlanInput.idNumber" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('capLetterNumber')}">
+                            <div class="medium-6 padding-lr">
+                                <label>شماره ابلاغ
+                                    <input class="form-element-margin-btm" type="text" name="capLetterNumber" v-model="approvedAmendmentInput.idNumber" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('capLetterNumber')}">
                                 </label>
-                                <span v-show="errors.has('capLetterNumber')" class="error-font">شماره فراموش شده است!</span>
+                                <span v-show="errors.has('capLetterNumber')" class="error-font">شماره ابلاغ فراموش شده است!</span>
                             </div>
-                            <div class="medium-6 columns padding-lr">
-                                <label>تاریخ
-                                    <input class="form-element-margin-btm" type="text" name="capLetterDate"  v-model="approvedPlanInput.date" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('capLetterDate')}">
-                                </label>
-                                <span v-show="errors.has('capLetterDate')" class="error-font">تاریخ فراموش شده است!</span>
+                            <div class="medium-4 padding-lr">
+                                <p class="date-picker-lbl">تاریخ ابلاغ
+                                    <pdatepicker v-model="approvedAmendmentInput.date" v-on:closed="checkValidDate('delivery_amendment')" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery_amendment" open-transition-animation="left-slide-fade"></pdatepicker>
+                                </p>
                             </div>
+                        </div>
+                        <div class="grid-x">
                             <div class="medium-6 columns padding-lr">
                                 <label>شماره مبادله
-                                    <input disabled="true" type="text" name="capExLetterNumber" v-model="approvedPlanInput.exIdNumber">
+                                    <input disabled="true" type="text" name="capExLetterNumber" v-model="approvedAmendmentInput.exIdNumber">
                                 </label>
                             </div>
-                            <div class="medium-6 columns padding-lr">
+                            <div class="medium-4 columns padding-lr">
                                 <label>تاریخ مبادله
-                                    <input disabled="true" type="text" name="capExLetterDate"  v-model="approvedPlanInput.exDate">
+                                    <input disabled="true" type="text" name="capExLetterDate"  v-model="approvedAmendmentInput.exDate">
                                 </label>
                             </div>
                         </div>
                         <div class="grid-x">
                             <div class="small-12 columns padding-lr">
                                 <label>شرح
-                                    <textarea name="apDescription" style="min-height: 150px;" v-model="approvedPlanInput.apDescription"></textarea>
+                                    <textarea name="apDescription" style="min-height: 150px;" v-model="approvedAmendmentInput.apDescription"></textarea>
                                 </label>
                             </div>
                         </div>
                         <div class="medium-6 columns padding-lr padding-bottom-modal">
                             <div class="button-group float-left report-mrg">
-                                <button class="my-button my-danger float-left btn-for-load"> <span class="btn-txt-mrg">لغو</span></button>
-                                <button @click="openApprovedAmendmentOfAgreementModal" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">تایید</span></button>
+                                <button @click="showModalAmendment = false" class="my-button my-danger float-left btn-for-load"> <span class="btn-txt-mrg">لغو</span></button>
+                                <button class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">تایید</span></button>
                             </div>
                         </div>
                     </form>
@@ -872,6 +873,7 @@
                 approvedPlan_prov: [],
                 approvedPlan_nat: [],
                 approvedPlanInput: {},
+                approvedAmendmentInput: {},
                 showInsertModal: false,
                 showModalUpdate: false,
                 showModalDelete: false,
@@ -883,6 +885,9 @@
                 showApCreditEditModal:false,
                 approvedPlanFill: {},
                 creditDistributionTitles: [],
+                dateIsValid_delivery: true,
+                dateIsValid_delivery_amendment: true,
+                dateIsValid_exchange: true,
 
                 provOrNat: '',
                 apIdDelete: {},
@@ -953,6 +958,70 @@
                     });
             },
 
+            checkValidDate: function (type) {
+                  switch (type)
+                  {
+                      case 'delivery':
+                          if (this.approvedPlanInput.date == null || this.approvedPlanInput.date == '')
+                          {
+                              this.dateIsValid_delivery = false;
+                              return false;
+                          }
+                          else
+                          {
+                              this.dateIsValid_delivery = true;
+                              return true;
+                          }
+                          break;
+                      case 'exchange':
+                          if (this.approvedPlanInput.exDate == null || this.approvedPlanInput.exDate == '')
+                          {
+                              this.dateIsValid_exchange = false;
+                              return false;
+                          }
+                          else
+                          {
+                              this.dateIsValid_exchange = true;
+                              return true;
+                          }
+                          break;
+                      case 'delivery_amendment':
+                          if (this.approvedAmendmentInput.date == null || this.approvedAmendmentInput.date == '')
+                          {
+                              this.dateIsValid_delivery_amendment = false;
+                              return false;
+                          }
+                          else
+                          {
+                              this.dateIsValid_delivery_amendment = true;
+                              return true;
+                          }
+                          break;
+                  }
+            },
+
+            getAllProjectWithPlanId: function (pId) {
+                axios.get('/budget/approved_project/capital_assets/getAllProjectWithPlanId' , {params:{pId: pId}})
+                    .then((response) => {
+                        this.approvedAmendmentProjects = response.data;
+                        console.log(response);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            openAmendmentOfAgreementModal: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        if (this.checkValidDate('delivery_amendment')) {
+                            this.showModalAmendment = false;
+                            this.showModalAmendmentOfAgreement = true;
+
+                        }
+                    }
+                });
+            },
+
             openApprovedPlanInsertModal: function (type) {
                 this.getCreditDistributionTitle(type);
                 this.provOrNat = type;
@@ -962,15 +1031,17 @@
             createApprovedPlan: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        axios.post('/budget/approved_plan/capital_assets/register' , {
-                            cdtId: this.approvedPlanInput.cdtId,
-                            idNumber: this.approvedPlanInput.idNumber,
-                            date: this.approvedPlanInput.date,
-                            exIdNumber: this.approvedPlanInput.exIdNumber,
-                            exDate: this.approvedPlanInput.exDate,
-                            description: this.approvedPlanInput.apDescription,
-                            pOrN: this.provOrNat
-                        }).then((response) => {
+                        if (this.checkValidDate('delivery') && this.checkValidDate('exchange'))
+                        {
+                            axios.post('/budget/approved_plan/capital_assets/register' , {
+                                cdtId: this.approvedPlanInput.cdtId,
+                                idNumber: this.approvedPlanInput.idNumber,
+                                date: this.approvedPlanInput.date,
+                                exIdNumber: this.approvedPlanInput.exIdNumber,
+                                exDate: this.approvedPlanInput.exDate,
+                                description: this.approvedPlanInput.apDescription,
+                                pOrN: this.provOrNat
+                            }).then((response) => {
                                 if (this.provOrNat == 0)
                                 {
                                     this.approvedPlan_prov = response.data.data;
@@ -988,6 +1059,7 @@
                                 console.log(error);
                                 //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
                             });
+                        }
                     }
                 });
             },
@@ -1056,9 +1128,56 @@
                         this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                     });*/
             },
-            openApprovedAmendmentModal: function () {
-                this.showModalAmendment= true;
+            openApprovedAmendmentModal: function (plan) {
+                this.provOrNat = plan.capProvinceOrNational;
+                this.getCreditDistributionTitle(this.provOrNat);
+                this.approvedAmendmentInput.cdtId = plan.capCdtId;
+                this.approvedAmendmentInput.idNumber = '';
+                this.approvedAmendmentInput.date = '';
+                this.approvedAmendmentInput.exIdNumber = plan.capExchangeIdNumber;
+                this.approvedAmendmentInput.exDate = plan.capExchangeDate;
+                this.approvedAmendmentInput.apDescription = plan.capDescription;
+                this.approvedAmendmentInput.parentId = (plan.capCapId == null ? plan.id : plan.capCapId);
+                this.showModalAmendment = true;
             },
+
+            createApprovedAmendment: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        if (this.checkValidDate('delivery_amendment'))
+                        {
+                            axios.post('/budget/approved_plan/capital_assets/register' , {
+                                cdtId: this.approvedAmendmentInput.cdtId,
+                                idNumber: this.approvedAmendmentInput.idNumber,
+                                date: this.approvedAmendmentInput.date,
+                                exIdNumber: this.approvedAmendmentInput.exIdNumber,
+                                exDate: this.approvedAmendmentInput.exDate,
+                                description: this.approvedAmendmentInput.apDescription,
+                                pOrN: this.provOrNat,
+                                capId: this.approvedAmendmentInput.parentId
+                            }).then((response) => {
+                                if (this.provOrNat == 0)
+                                {
+                                    this.approvedPlan_prov = response.data.data;
+                                    this.makePagination(response.data , "provincial");
+                                }
+                                else
+                                {
+                                    this.approvedPlan_nat= response.data.data;
+                                    this.makePagination(response.data , "national");
+                                }
+                                this.showInsertModal = false;
+                                this.$parent.displayNotif(response.status);
+                                console.log(response);
+                            },(error) => {
+                                console.log(error);
+                                //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                            });
+                        }
+                    }
+                });
+            },
+
             openApprovedAmendmentOfAgreementModal: function () {
                 this.showModalAmendmentOfAgreement= true;
                 this.$parent.myResize();
