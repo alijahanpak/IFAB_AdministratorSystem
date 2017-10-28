@@ -128,7 +128,7 @@
                                                                 <ul class="my-menu small-font text-right">
                                                                     <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                                     <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                    <li><a v-on:click.prevent="openApprovedAmendmentModal"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
+                                                                    <li><a v-on:click.prevent="openApprovedAmendmentModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -235,7 +235,7 @@
                                                         <ul class="my-menu small-font text-right">
                                                             <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                             <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                            <li><a v-on:click.prevent="openApprovedAmendmentModal(plans , 1)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
+                                                            <li><a v-on:click.prevent="openApprovedAmendmentModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -416,40 +416,37 @@
                         <div style="padding:0px;" class="grid-x border-btm-line">
                             <div class="medium-12 cell padding-lr">
                                <div class="grid-x">
-                                   <div class="medium-4">
-                                       <strong>اصلاحیه موافقت نامه: </strong>
+                                   <div class="medium-7">
+                                       <strong>طرح: </strong><span>{{ approvedAmendmentProjects.credit_distribution_title.cdtIdNumber + approvedAmendmentProjects.credit_distribution_title.cdtSubject }}</span>
                                    </div>
-                                   <div class="medium-2">
+                                   <div class="medium-1">
                                        <p>شماره ابلاغ : </p>
                                    </div>
                                    <div class="medium-2">
-                                       <strong class="btn-red">---- </strong>
+                                       <strong class="btn-red">{{ approvedAmendmentProjects.capLetterNumber }} </strong>
                                    </div>
-                                   <div class="medium-2">
+                                   <div class="medium-1">
                                        <p>تاریخ ابلاغ : </p>
                                    </div>
-                                   <div class="medium-2">
-                                       <strong class="btn-red">---- </strong>
+                                   <div class="medium-1">
+                                       <strong class="btn-red">{{ approvedAmendmentProjects.capLetterDate }} </strong>
                                    </div>
                                </div>
                             </div>
                             <div class="medium-12 cell padding-lr">
                                 <div class="grid-x">
-                                    <div class="medium-2">
-                                        <strong>شرح موافقت نامه: </strong>
-                                    </div>
-                                    <div class="medium-10 padding-bottom-modal">
-                                        <p style="display: inline">شماره ابلاغ :dfsdf df df dfssdsadsdsa sdasdasdasd asdasd as dasd dfdfdsfdsfsdf ffsdf df df dfdfdfdfsdfsdfsd sdf sdfds sdfsd fsdf sdf d fsdfdfsdfsdf sdf df dfsdfsdfsdfsdfsdfsdf sdf sdf d </p>
+                                    <div class="medium-12 padding-bottom-modal">
+                                        <strong>شرح: </strong><span style="display: inline">{{ approvedAmendmentProjects.capDescription }}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    <div style="margin-top: 15px;" class="grid-x border-btm-line">
+                    <div style="margin-top: 15px;" class="grid-x">
                         <div style="margin-top: 2px;" class="button-group float-right">
                             <a class="my-button toolbox-btn small" @click="openInsertProjectModal">پروژه جدید</a>
                         </div>
                     </div>
-                    <div style="margin-top: 10px;" class="grid-x">
+                    <div class="grid-x">
                         <!--Table Start-->
                         <!--Table Head Start-->
                         <div class="tbl-div-container">
@@ -485,19 +482,19 @@
                                         <col width="240px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style-cell">
-                                        <tr>
-                                            <td>14242</td>
-                                            <td>مرمت مسجد جامع همدان</td>
-                                            <td>42</td>
-                                            <td>13.5</td>
+                                        <tr v-for="project in approvedAmendmentProjects.capital_assets_project">
+                                            <td>{{ project.cpCode }}</td>
+                                            <td>{{ project.cpSubject }}</td>
+                                            <td>{{ project.county.coName }}</td>
+                                            <td>{{ $parent.calcDispAmount(sumOfAmount(project.credit_source) , false) }}</td>
                                             <td>
                                                 <div class="grid-x">
                                                     <div class="medium-11">
-                                                        42
+                                                        {{ project.cpDescription }}
                                                     </div>
                                                     <div class="medium-1 cell-vertical-center text-left">
-                                                        <a class="dropdown small sm-btn-align" data-toggle="tblRow"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="tblRow" data-dropdown data-auto-focus="true">
+                                                        <a class="dropdown small sm-btn-align" :data-toggle="'project' + project.id"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'project' + project.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
                                                                 <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                 <li><a v-on:click.prevent="openAPCreditInsertModal"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
@@ -928,6 +925,7 @@
                 dateIsValid_delivery: true,
                 dateIsValid_delivery_amendment: true,
                 dateIsValid_exchange: true,
+                approvedAmendmentProjects: [],
 
                 provOrNat: '',
                 apIdDelete: {},
@@ -998,6 +996,14 @@
                     });
             },
 
+            sumOfAmount: function (items) {
+                var sum = 0;
+                items.forEach(item => {
+                    sum += item.ccsAmount;
+            });
+                return sum;
+            },
+
             checkValidDate: function (type) {
                   switch (type)
                   {
@@ -1055,6 +1061,7 @@
                     if (result) {
                         if (this.checkValidDate('delivery_amendment')) {
                             this.showModalAmendment = false;
+                            this.getAllProjectWithPlanId(this.approvedAmendmentInput.id);
                             this.showModalAmendmentOfAgreement = true;
 
                         }
@@ -1171,6 +1178,7 @@
             openApprovedAmendmentModal: function (plan) {
                 this.provOrNat = plan.capProvinceOrNational;
                 this.getCreditDistributionTitle(this.provOrNat);
+                this.approvedAmendmentInput.id = plan.id;
                 this.approvedAmendmentInput.cdtId = plan.capCdtId;
                 this.approvedAmendmentInput.idNumber = '';
                 this.approvedAmendmentInput.date = '';

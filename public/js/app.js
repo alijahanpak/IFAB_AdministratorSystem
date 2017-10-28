@@ -115040,9 +115040,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -115069,6 +115066,7 @@ if (false) {(function () {
             dateIsValid_delivery: true,
             dateIsValid_delivery_amendment: true,
             dateIsValid_exchange: true,
+            approvedAmendmentProjects: [],
 
             provOrNat: '',
             apIdDelete: {},
@@ -115147,6 +115145,14 @@ if (false) {(function () {
             });
         },
 
+        sumOfAmount: function sumOfAmount(items) {
+            var sum = 0;
+            items.forEach(function (item) {
+                sum += item.ccsAmount;
+            });
+            return sum;
+        },
+
         checkValidDate: function checkValidDate(type) {
             switch (type) {
                 case 'delivery':
@@ -115197,6 +115203,7 @@ if (false) {(function () {
                 if (result) {
                     if (_this5.checkValidDate('delivery_amendment')) {
                         _this5.showModalAmendment = false;
+                        _this5.getAllProjectWithPlanId(_this5.approvedAmendmentInput.id);
                         _this5.showModalAmendmentOfAgreement = true;
                     }
                 }
@@ -115311,6 +115318,7 @@ if (false) {(function () {
         openApprovedAmendmentModal: function openApprovedAmendmentModal(plan) {
             this.provOrNat = plan.capProvinceOrNational;
             this.getCreditDistributionTitle(this.provOrNat);
+            this.approvedAmendmentInput.id = plan.id;
             this.approvedAmendmentInput.cdtId = plan.capCdtId;
             this.approvedAmendmentInput.idNumber = '';
             this.approvedAmendmentInput.date = '';
@@ -115629,7 +115637,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.openApprovedAmendmentModal($event)
+          _vm.openApprovedAmendmentModal(plans)
         }
       }
     }, [_c('i', {
@@ -115755,7 +115763,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.openApprovedAmendmentModal(plans, 1)
+          _vm.openApprovedAmendmentModal(plans)
         }
       }
     }, [_c('i', {
@@ -116285,33 +116293,31 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
-    staticClass: "medium-4"
-  }, [_c('strong', [_vm._v("اصلاحیه موافقت نامه: ")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2"
+    staticClass: "medium-7"
+  }, [_c('strong', [_vm._v("طرح: ")]), _c('span', [_vm._v(_vm._s(_vm.approvedAmendmentProjects.credit_distribution_title.cdtIdNumber + _vm.approvedAmendmentProjects.credit_distribution_title.cdtSubject))])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-1"
   }, [_c('p', [_vm._v("شماره ابلاغ : ")])]), _vm._v(" "), _c('div', {
     staticClass: "medium-2"
   }, [_c('strong', {
     staticClass: "btn-red"
-  }, [_vm._v("---- ")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2"
+  }, [_vm._v(_vm._s(_vm.approvedAmendmentProjects.capLetterNumber) + " ")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-1"
   }, [_c('p', [_vm._v("تاریخ ابلاغ : ")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2"
+    staticClass: "medium-1"
   }, [_c('strong', {
     staticClass: "btn-red"
-  }, [_vm._v("---- ")])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.approvedAmendmentProjects.capLetterDate) + " ")])])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-12 cell padding-lr"
   }, [_c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
-    staticClass: "medium-2"
-  }, [_c('strong', [_vm._v("شرح موافقت نامه: ")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-10 padding-bottom-modal"
-  }, [_c('p', {
+    staticClass: "medium-12 padding-bottom-modal"
+  }, [_c('strong', [_vm._v("شرح: ")]), _c('span', {
     staticStyle: {
       "display": "inline"
     }
-  }, [_vm._v("شماره ابلاغ :dfsdf df df dfssdsadsdsa sdasdasdasd asdasd as dasd dfdfdsfdsfsdf ffsdf df df dfdfdfdfsdfsdfsd sdf sdfds sdfsd fsdf sdf d fsdfdfsdfsdf sdf df dfsdfsdfsdfsdfsdfsdf sdf sdf d ")])])])])]), _vm._v(" "), _c('div', {
-    staticClass: "grid-x border-btm-line",
+  }, [_vm._v(_vm._s(_vm.approvedAmendmentProjects.capDescription))])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x",
     staticStyle: {
       "margin-top": "15px"
     }
@@ -116326,10 +116332,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "click": _vm.openInsertProjectModal
     }
   }, [_vm._v("پروژه جدید")])])]), _vm._v(" "), _c('div', {
-    staticClass: "grid-x",
-    staticStyle: {
-      "margin-top": "10px"
-    }
+    staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "tbl-div-container"
   }, [_c('table', {
@@ -116400,61 +116403,63 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   })]), _vm._v(" "), _c('tbody', {
     staticClass: "tbl-head-style-cell"
-  }, [_c('tr', [_c('td', [_vm._v("14242")]), _vm._v(" "), _c('td', [_vm._v("مرمت مسجد جامع همدان")]), _vm._v(" "), _c('td', [_vm._v("42")]), _vm._v(" "), _c('td', [_vm._v("13.5")]), _vm._v(" "), _c('td', [_c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-11"
-  }, [_vm._v("\n                                                    42\n                                                ")]), _vm._v(" "), _c('div', {
-    staticClass: "medium-1 cell-vertical-center text-left"
-  }, [_c('a', {
-    staticClass: "dropdown small sm-btn-align",
-    attrs: {
-      "data-toggle": "tblRow",
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-ellipsis-v size-18"
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "dropdown-pane dropdown-pane-sm ",
-    attrs: {
-      "data-close-on-click": "true",
-      "data-hover": "true",
-      "data-hover-pane": "true",
-      "data-position": "bottom",
-      "data-alignment": "right",
-      "id": "tblRow",
-      "data-dropdown": "",
-      "data-auto-focus": "true"
-    }
-  }, [_c('ul', {
-    staticClass: "my-menu small-font text-right"
-  }, [_c('li', [_c('a', {
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
+  }, [_vm._l((_vm.approvedAmendmentProjects.capital_assets_project), function(project) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(project.cpCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(project.cpSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(project.county.coName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.sumOfAmount(project.credit_source), false)))]), _vm._v(" "), _c('td', [_c('div', {
+      staticClass: "grid-x"
+    }, [_c('div', {
+      staticClass: "medium-11"
+    }, [_vm._v("\n                                                    " + _vm._s(project.cpDescription) + "\n                                                ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-1 cell-vertical-center text-left"
+    }, [_c('a', {
+      staticClass: "dropdown small sm-btn-align",
+      attrs: {
+        "data-toggle": 'project' + project.id,
+        "type": "button"
       }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-trash-o size-16"
-  }), _vm._v("  حذف")])]), _vm._v(" "), _c('li', [_c('a', {
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.openAPCreditInsertModal($event)
+    }, [_c('i', {
+      staticClass: "fa fa-ellipsis-v size-18"
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "dropdown-pane dropdown-pane-sm ",
+      attrs: {
+        "data-close-on-click": "true",
+        "data-hover": "true",
+        "data-hover-pane": "true",
+        "data-position": "bottom",
+        "data-alignment": "right",
+        "id": 'project' + project.id,
+        "data-dropdown": "",
+        "data-auto-focus": "true"
       }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-money size-16"
-  }), _vm._v("  اعتبارات")])]), _vm._v(" "), _c('li', [_c('a', {
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.openEditProjectModal($event)
+    }, [_c('ul', {
+      staticClass: "my-menu small-font text-right"
+    }, [_c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+        }
       }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-newspaper-o size-16"
-  }), _vm._v("  اصلاح")])])])])])])])]), _vm._v(" "), _c('tr', [_c('td', {
+    }, [_c('i', {
+      staticClass: "fa fa-trash-o size-16"
+    }), _vm._v("  حذف")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.openAPCreditInsertModal($event)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-money size-16"
+    }), _vm._v("  اعتبارات")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.openEditProjectModal($event)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-newspaper-o size-16"
+    }), _vm._v("  اصلاح")])])])])])])])])
+  }), _vm._v(" "), _c('tr', [_c('td', {
     attrs: {
       "colspan": "5"
     }
@@ -116518,7 +116523,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('i', {
     staticClass: "fa fa-newspaper-o size-16"
-  }), _vm._v("  اصلاح")])])])])])])])])])])])])])])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showInsertModalProject) ? _c('modal-small', {
+  }), _vm._v("  اصلاح")])])])])])])])])])])])])], 2)])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showInsertModalProject) ? _c('modal-small', {
     on: {
       "close": function($event) {
         _vm.showInsertModalProject = false
@@ -121122,7 +121127,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         attrs: {
           "rowspan": projects.credit_source_has_allocation[0].allocation.length
         }
-      }, [_vm._v(_vm._s(projects.credit_source_has_allocation[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source_has_allocation[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(projects.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount, false)))])]) : _vm._e(), _vm._v(" "), _vm._l((projects.credit_source_has_allocation), function(credit_source, csIndex) {
+      }, [_vm._v(_vm._s(projects.credit_source_has_allocation[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source_has_allocation[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source_has_allocation[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(projects.credit_source_has_allocation[0].allocation[0].caaAmount, false)))])]) : _vm._e(), _vm._v(" "), _vm._l((projects.credit_source_has_allocation), function(credit_source, csIndex) {
         return [(csIndex > 0) ? _c('tr', {
           staticClass: "tbl-head-style-cell"
         }, [_c('td', {
@@ -121217,7 +121222,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         attrs: {
           "rowspan": projects.credit_source_has_allocation[0].allocation.length
         }
-      }, [_vm._v(_vm._s(projects.credit_source_has_allocation[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source_has_allocation[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(projects.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount, false)))])]) : _vm._e(), _vm._v(" "), _vm._l((projects.credit_source_has_allocation), function(credit_source, csIndex) {
+      }, [_vm._v(_vm._s(projects.credit_source_has_allocation[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source_has_allocation[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source_has_allocation[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(projects.credit_source_has_allocation[0].allocation[0].caaAmount, false)))])]) : _vm._e(), _vm._v(" "), _vm._l((projects.credit_source_has_allocation), function(credit_source, csIndex) {
         return [(csIndex > 0) ? _c('tr', {
           staticClass: "tbl-head-style-cell"
         }, [_c('td', {

@@ -111,8 +111,8 @@
                                                        <td :rowspan="getProjectAllocCount(projects.credit_source_has_allocation)">{{ $parent.calcDispAmount(getProjectAllocationSum(projects.credit_source_has_allocation) , false) }}</td>
                                                        <td :rowspan="projects.credit_source_has_allocation[0].allocation.length">{{ projects.credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
                                                        <td>{{ projects.credit_source_has_allocation[0].allocation[0].caaLetterNumber }}</td>
-                                                       <td>{{ projects.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterDate }}</td>
-                                                       <td>{{ $parent.calcDispAmount(projects.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount , false) }}</td>
+                                                       <td>{{ projects.credit_source_has_allocation[0].allocation[0].caaLetterDate }}</td>
+                                                       <td>{{ $parent.calcDispAmount(projects.credit_source_has_allocation[0].allocation[0].caaAmount , false) }}</td>
                                                    </tr>
                                                     <template v-for="(credit_source , csIndex) in projects.credit_source_has_allocation">
                                                         <tr class="tbl-head-style-cell" v-if="csIndex > 0">
@@ -330,8 +330,8 @@
                                                     <td :rowspan="getProjectAllocCount(projects.credit_source_has_allocation)">{{ $parent.calcDispAmount(getProjectAllocationSum(projects.credit_source_has_allocation) , false) }}</td>
                                                     <td :rowspan="projects.credit_source_has_allocation[0].allocation.length">{{ projects.credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
                                                     <td>{{ projects.credit_source_has_allocation[0].allocation[0].caaLetterNumber }}</td>
-                                                    <td>{{ projects.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterDate }}</td>
-                                                    <td>{{ $parent.calcDispAmount(projects.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount , false) }}</td>
+                                                    <td>{{ projects.credit_source_has_allocation[0].allocation[0].caaLetterDate }}</td>
+                                                    <td>{{ $parent.calcDispAmount(projects.credit_source_has_allocation[0].allocation[0].caaAmount , false) }}</td>
                                                 </tr>
                                                 <template v-for="(credit_source , csIndex) in projects.credit_source_has_allocation">
                                                     <tr class="tbl-head-style-cell" v-if="csIndex > 0">
