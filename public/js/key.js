@@ -1,4 +1,11 @@
 $(document).foundation();
+
+$(function() {
+    $('.toggle-icon-change').click(function() {
+        $(this).find('i').toggleClass('fa-times  fa-check-square-o');
+        $(this).find('button').toggleClass('my-icon-danger  my-icon-brand');
+    });
+});
 /*$.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
