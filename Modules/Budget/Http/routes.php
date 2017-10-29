@@ -182,6 +182,16 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::get('/getAllItems', 'PlanController@getAllApprovedPlan');
     });
 
+    Route::prefix('approved_plan/capital_assets/amendment')->group(function () {
+        //Route::get('/fetchData', 'PlanController@fetchCapitalAssetsApprovedPlan');
+        Route::post('/temp/register', 'PlanController@registerApprovedAmendmentTemp');
+        Route::post('/temp/cancel', 'PlanController@cancelApprovedAmendmentTemp');
+        Route::post('/temp/project/register', 'PlanController@registerAmendmentProjectTemp');
+        //Route::post('/delete', 'PlanController@deleteCapitalAssetsApprovedPlan');
+        //Route::post('/update', 'PlanController@updateCapitalAssetsApprovedPlan');
+        //Route::get('/getAllItems', 'PlanController@getAllApprovedPlan');
+    });
+
     Route::prefix('approved_plan/cost')->group(function () {
         Route::get('/fetchData', 'PlanController@fetchCostAgreementData');
         Route::post('/register', 'PlanController@registerCostAgreement');
@@ -200,7 +210,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('/credit_source/register', 'ProjectController@registerApCreditSource');
         Route::get('/credit_source/getAllItem', 'ProjectController@getAllApCreditSourceItems');
 
-        Route::get('/getAllProjectWithPlanId', 'ProjectController@getAllProjectWithPlanId');
+        //Route::get('/getAllProjectWithPlanId', 'ProjectController@getAllProjectWithPlanId');
     });
 
     Route::prefix('admin/how_to_run')->group(function () {

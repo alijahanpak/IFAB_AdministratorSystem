@@ -342,7 +342,7 @@
             <!--Amendment Modal Start-->
             <modal-small v-if="showModalAmendment" @close="showModalAmendment = false">
                 <div slot="body">
-                    <form v-on:submit.prevent="openAmendmentOfAgreementModal">
+                    <form v-on:submit.prevent="createApprovedAmendment">
                         <div class="grid-x" v-if="errorMessage">
                             <div class="medium-12 columns padding-lr">
                                 <div class="alert callout">
@@ -441,9 +441,12 @@
                                 </div>
                             </div>
                         </div>
-                    <div style="margin-top: 15px;" class="grid-x">
-                        <div style="margin-top: 2px;" class="button-group float-right">
+                    <div style="margin-top: 17px;" class="grid-x">
+                        <div class="medium-2 button-group float-right">
                             <a class="my-button toolbox-btn small" @click="openInsertProjectModal">پروژه جدید</a>
+                        </div>
+                        <div class="medium-2 button-group float-right">
+                            <a class="my-button toolbox-btn small" @click="cancelApprovedAmendment">لغو</a>
                         </div>
                     </div>
                     <div class="grid-x">
@@ -1005,7 +1008,7 @@
                 var sum = 0;
                 items.forEach(item => {
                     sum += item.ccsAmount;
-            });
+                });
                 return sum;
             },
 
@@ -1051,17 +1054,6 @@
                   }
             },
 
-            getAllProjectWithPlanId: function (pId) {
-                axios.get('/budget/approved_project/capital_assets/getAllProjectWithPlanId' , {params:{pId: pId}})
-                    .then((response) => {
-                        this.approvedAmendmentProjects = response.data;
-                        console.log(response);
-                        console.log(JSON.stringify(this.approvedAmendmentProjects));
-                    },(error) => {
-                        console.log(error);
-                    });
-            },
-
             getAllApprovedPlan: function (pOrN) {
                 axios.get('/budget/approved_plan/capital_assets/getAllItems' , {params:{pOrN: pOrN}})
                     .then((response) => {
@@ -1069,19 +1061,6 @@
                         console.log(response);
                     },(error) => {
                         console.log(error);
-                    });
-            },
-
-            openAmendmentOfAgreementModal: function () {
-                this.$validator.validateAll().then((result) => {
-                    if (result) {
-                        if (this.checkValidDate('delivery_amendment')) {
-                            this.showModalAmendment = false;
-                            this.getAllProjectWithPlanId(this.approvedAmendmentInput.id);
-                            this.showModalAmendmentOfAgreement = true;
-
-                        }
-                    }
                 });
             },
 
@@ -1176,6 +1155,39 @@
                 this.showModalDelete = true;
             },
 
+            insertNewProject: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/register' , {
+                            pId: this.projectAmendmentInput.capId,
+                            subject: this.projectAmendmentInput.pSubject,
+                            code: this.projectAmendmentInput.pCode,
+                            startYear: this.projectAmendmentInput.startYear,
+                            endYear: this.projectAmendmentInput.endYear,
+                            pProgress: this.projectAmendmentInput.pProgress,
+                            coId: this.projectAmendmentInput.county,
+                            description: this.projectAmendmentInput.description,
+                            pOrN: this.provOrNat
+                        }).then((response) => {
+                            if (this.provOrNat == 0)
+                            {
+                                this.approvedAmendmentProjects = response.data;
+                            }
+                            else
+                            {
+                                //this.approvedProjects_nat = response.data;
+                            }
+                            this.showInsertModalProject = false;
+                            this.$parent.displayNotif(response.status);
+                            console.log(response);
+                        },(error) => {
+                            console.log(error);
+                            //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                        });
+                    }
+                });
+            },
+
             deleteApprovedProjects: function () {
                 /*axios.post('/budget/admin/sub_seasons/delete' , this.tsIdDelete)
                     .then((response) => {
@@ -1191,6 +1203,7 @@
                         this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                     });*/
             },
+
             openApprovedAmendmentModal: function (plan) {
                 this.provOrNat = plan.capProvinceOrNational;
                 this.getCreditDistributionTitle(this.provOrNat);
@@ -1205,33 +1218,33 @@
                 this.showModalAmendment = true;
             },
 
+            cancelApprovedAmendment: function () {
+                axios.post('/budget/approved_plan/capital_assets/amendment/temp/cancel' , {
+                    capId: this.approvedAmendmentProjects.id
+                }).then((response) => {
+                    this.showModalAmendment = false;
+                    this.showModalAmendmentOfAgreement = false;
+                    this.$parent.displayNotif(200);
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+            },
+
             createApprovedAmendment: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
                         if (this.checkValidDate('delivery_amendment'))
                         {
-                            axios.post('/budget/approved_plan/capital_assets/register' , {
-                                cdtId: this.approvedAmendmentInput.cdtId,
+                            axios.post('/budget/approved_plan/capital_assets/amendment/temp/register' , {
                                 idNumber: this.approvedAmendmentInput.idNumber,
                                 date: this.approvedAmendmentInput.date,
-                                exIdNumber: this.approvedAmendmentInput.exIdNumber,
-                                exDate: this.approvedAmendmentInput.exDate,
                                 description: this.approvedAmendmentInput.apDescription,
-                                pOrN: this.provOrNat,
                                 capId: this.approvedAmendmentInput.parentId
                             }).then((response) => {
-                                if (this.provOrNat == 0)
-                                {
-                                    this.approvedPlan_prov = response.data.data;
-                                    this.makePagination(response.data , "provincial");
-                                }
-                                else
-                                {
-                                    this.approvedPlan_nat= response.data.data;
-                                    this.makePagination(response.data , "national");
-                                }
-                                this.showInsertModal = false;
-                                this.$parent.displayNotif(response.status);
+                                this.approvedAmendmentProjects = response.data;
+                                this.showModalAmendment = false;
+                                this.showModalAmendmentOfAgreement = true;
                                 console.log(response);
                             },(error) => {
                                 console.log(error);

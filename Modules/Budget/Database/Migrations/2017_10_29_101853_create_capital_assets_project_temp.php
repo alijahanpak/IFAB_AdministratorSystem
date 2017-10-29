@@ -13,11 +13,36 @@ class CreateCapitalAssetsProjectTemp extends Migration
      */
     public function up()
     {
-        Schema::create('', function (Blueprint $table) {
-            $table->increments('id');
+        if (!Schema::hasTable('tbl_capital_assets_projects_temp')) {
+            Schema::create('tbl_capital_assets_projects_temp', function (Blueprint $table) {
+                $table->increments('id');
+                $table->integer('cpUId')->length(10)->unsigned();
+                $table->integer('cpCapId')->length(10)->unsigned();
+                $table->integer('cpCoId')->length(10)->unsigned()->nullable();
+                $table->string('cpSubject');
+                $table->string('cpCode');
+                $table->string('cpStartYear');
+                $table->string('cpEndOfYear');
+                $table->tinyInteger('cpPhysicalProgress')->default(0);
+                $table->longText('cpDescription')->nullable();
+                $table->timestamps();
 
-            $table->timestamps();
-        });
+                $table->foreign('cpUId')
+                    ->references('id')->on('users')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+
+                $table->foreign('cpCapId')
+                    ->references('id')->on('tbl_capital_assets_approved_plan_temp')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade');
+
+                $table->foreign('cpCoId')
+                    ->references('id')->on('tbl_counties')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+            });
+        }
     }
 
     /**
@@ -27,6 +52,8 @@ class CreateCapitalAssetsProjectTemp extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        Schema::dropIfExists('tbl_capital_assets_projects_temp');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

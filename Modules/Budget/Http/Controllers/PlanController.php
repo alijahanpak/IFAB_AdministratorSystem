@@ -12,7 +12,12 @@ use Illuminate\Support\Facades\URL;
 use Modules\Admin\Entities\AmountUnit;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Budget\Entities\CaCreditSource;
+use Modules\Budget\Entities\CapCreditSource;
+use Modules\Budget\Entities\CapCreditSourceTemp;
 use Modules\Budget\Entities\CapitalAssetsApprovedPlan;
+use Modules\Budget\Entities\CapitalAssetsApprovedPlanTemp;
+use Modules\Budget\Entities\CapitalAssetsProject;
+use Modules\Budget\Entities\CapitalAssetsProjectTemp;
 use Modules\Budget\Entities\CdrCap;
 use Modules\Budget\Entities\CostAgreement;
 use Modules\Budget\Entities\CreditDistributionRow;
@@ -47,31 +52,6 @@ class PlanController extends Controller
 
         SystemLog::setBudgetSubSystemLog('ثبت طرح تملک داریی های سرمایه ای استانی');
         return \response()->json($this->getAllPlans($request->pOrN));
-    }
-
-    public function registerApprovedAmendment(Request $request)
-    {
-        $cap = new CapitalAssetsApprovedPlan;
-        $cap->capUId = Auth::user()->id;
-        $cap->capCdtId = $request->cdtId;
-        $cap->capFyId = Auth::user()->seFiscalYear;
-        $cap->capLetterNumber = $request->idNumber;
-        $cap->capLetterDate = $request->date;
-        $cap->capExchangeIdNumber = $request->exIdNumber;
-        $cap->capExchangeDate = $request->exDate;
-        $cap->capProvinceOrNational = $request->pOrN;
-        $cap->capDescription = $request->description;
-        $cap->capCapId = $request->capId;
-        $cap->save();
-        if (isset($request->capId))
-        {
-            CapitalAssetsApprovedPlan::where('id' , '=' , $request->capId)
-                ->orWhere('capCapId' , '=' , $request->capId)
-                ->where('id' , '<>' , $cap->id)
-                ->update(['capActive' => 0]);
-        }
-
-
     }
 
     public function getAllPlans($pOrN)
@@ -153,25 +133,105 @@ class PlanController extends Controller
             ->with('creditDistributionTitle')
             ->with('creditDistributionTitle.county')
             ->get());
-/*        if ($request->pOrN == 0)
+    }
+
+    /////////////////////////////// temp ////////////////////////////////////////////
+    public function registerApprovedAmendmentTemp(Request $request)
+    {
+        $old = CapitalAssetsApprovedPlan::find($request->capId);
+        $cap = new CapitalAssetsApprovedPlanTemp;
+        $cap->capUId = Auth::user()->id;
+        $cap->capCdtId = $old->capCdtId;
+        $cap->capFyId = $old->capFyId;
+        $cap->capLetterNumber = $request->idNumber;
+        $cap->capLetterDate = $request->date;
+        $cap->capExchangeIdNumber = $old->capExchangeIdNumber;
+        $cap->capExchangeDate = $old->capExchangeDate;
+        $cap->capProvinceOrNational = $old->capProvinceOrNational;
+        $cap->capDescription = $request->description;
+        $cap->capCapId = $request->capId;
+        $cap->save();
+
+        $oldProject = CapitalAssetsProject::where('cpCapId' , '=' , $request->capId)->get();
+        foreach ($oldProject as $item)
         {
-            return \response()->json(CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
-                ->where('capProvinceOrNational' , '=' , $request->pOrN)
-                ->with(['creditDistributionTitle' => function($query){
-                    return $query->where('cdtCoId' , '<>' , null);
-                }])
-                ->with('creditDistributionTitle.county')
-                ->get());
+            $capP = new CapitalAssetsProjectTemp;
+            $capP->cpUId = $item->cpUId;
+            $capP->cpCapId = $cap->id;
+            $capP->cpCoId = $item->cpCoId;
+            $capP->cpSubject = $item->cpSubject;
+            $capP->cpCode = $item->cpCode;
+            $capP->cpStartYear = $item->cpStartYear;
+            $capP->cpEndOfYear = $item->cpEndOfYear;
+            $capP->cpPhysicalProgress = $item->cpPhysicalProgress;
+            $capP->cpDescription = $item->cpDescription;
+            $capP->save();
+
+            $oldCreditSource = CapCreditSource::where('ccsCapId' , '=' , $item->id)->get();
+            foreach ($oldCreditSource as $csItem)
+            {
+                $capCs = new CapCreditSourceTemp;
+                $capCs->ccsUId = $csItem->ccsUId;
+                $capCs->ccsCdrId = $csItem->ccsCdrId;
+                $capCs->ccsTsId = $csItem->ccsTsId;
+                $capCs->ccsHtrId = $csItem->ccsHtrId;
+                $capCs->ccsCapId = $capP->id;
+                $capCs->ccsAmount = $csItem->ccsAmount;
+                $capCs->ccsDescription = $csItem->ccsDescription;
+                $capCs->save();
+            }
+
         }
-        else{
-            return \response()->json(CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
-                ->where('capProvinceOrNational' , '=' , $request->pOrN)
-                ->with(['creditDistributionTitle' => function($query){
-                    return $query->where('cdtCoId' , '=' , null);
-                }])
-                ->with('creditDistributionTitle.county')
-                ->get());
-        }*/
+
+        /*        if (isset($request->capId))
+                {
+                    CapitalAssetsApprovedPlan::where('id' , '=' , $request->capId)
+                        ->orWhere('capCapId' , '=' , $request->capId)
+                        ->where('id' , '<>' , $cap->id)
+                        ->update(['capActive' => 0]);
+                }*/
+
+        return \response()->json($this->getAllTempProjectWithPlanId($cap->id));
+    }
+
+    public function registerAmendmentProjectTemp(Request $request)
+    {
+        $project = new CapitalAssetsProjectTemp;
+        $project->cpUId = Auth::user()->id;
+        $project->cpCapId = $request->pId;
+        $project->cpCoId = $request->coId;
+        $project->cpSubject = $request->subject;
+        $project->cpCode = $request->code;
+        $project->cpStartYear = $request->startYear;
+        $project->cpEndOfYear = $request->endYear;
+        $project->cpPhysicalProgress = $request->pProgress;
+        $project->cpDescription = $request->description;
+        $project->save();
+
+        return \response()->json(
+            $this->getAllTempProjectWithPlanId($request->pId)
+        );
+    }
+
+    public function cancelApprovedAmendmentTemp(Request $request)
+    {
+        return \response()->json(CapitalAssetsApprovedPlanTemp::find($request->capId)->delete());
+    }
+
+    public function getAllTempProjectWithPlanId($pId)
+    {
+        return CapitalAssetsApprovedPlanTemp::where('id' , '=' , $pId)
+            ->has('capitalAssetsProject')
+            ->with('capitalAssetsProject')
+            ->with('creditDistributionTitle')
+            ->with('creditDistributionTitle.county')
+            ->with('capitalAssetsProject.creditSource')
+            ->with('capitalAssetsProject.creditSource.creditDistributionRow')
+            ->with('capitalAssetsProject.creditSource.tinySeason')
+            ->with('capitalAssetsProject.creditSource.tinySeason.seasonTitle')
+            ->with('capitalAssetsProject.creditSource.tinySeason.seasonTitle.season')
+            ->with('capitalAssetsProject.creditSource.howToRun')
+            ->with('capitalAssetsProject.county')->first();
     }
 
     /////////////////////////////// cost ////////////////////////////////////////////

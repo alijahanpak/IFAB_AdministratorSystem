@@ -115042,6 +115042,9 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -115190,40 +115193,14 @@ if (false) {(function () {
             }
         },
 
-        getAllProjectWithPlanId: function getAllProjectWithPlanId(pId) {
+        getAllApprovedPlan: function getAllApprovedPlan(pOrN) {
             var _this4 = this;
 
-            axios.get('/budget/approved_project/capital_assets/getAllProjectWithPlanId', { params: { pId: pId } }).then(function (response) {
-                _this4.approvedAmendmentProjects = response.data;
-                console.log(response);
-                console.log(JSON.stringify(_this4.approvedAmendmentProjects));
-            }, function (error) {
-                console.log(error);
-            });
-        },
-
-        getAllApprovedPlan: function getAllApprovedPlan(pOrN) {
-            var _this5 = this;
-
             axios.get('/budget/approved_plan/capital_assets/getAllItems', { params: { pOrN: pOrN } }).then(function (response) {
-                _this5.approvedPlans = response.data;
+                _this4.approvedPlans = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
-            });
-        },
-
-        openAmendmentOfAgreementModal: function openAmendmentOfAgreementModal() {
-            var _this6 = this;
-
-            this.$validator.validateAll().then(function (result) {
-                if (result) {
-                    if (_this6.checkValidDate('delivery_amendment')) {
-                        _this6.showModalAmendment = false;
-                        _this6.getAllProjectWithPlanId(_this6.approvedAmendmentInput.id);
-                        _this6.showModalAmendmentOfAgreement = true;
-                    }
-                }
             });
         },
 
@@ -115234,29 +115211,29 @@ if (false) {(function () {
         },
 
         createApprovedPlan: function createApprovedPlan() {
-            var _this7 = this;
+            var _this5 = this;
 
             this.$validator.validateAll().then(function (result) {
                 if (result) {
-                    if (_this7.checkValidDate('delivery') && _this7.checkValidDate('exchange')) {
+                    if (_this5.checkValidDate('delivery') && _this5.checkValidDate('exchange')) {
                         axios.post('/budget/approved_plan/capital_assets/register', {
-                            cdtId: _this7.approvedPlanInput.cdtId,
-                            idNumber: _this7.approvedPlanInput.idNumber,
-                            date: _this7.approvedPlanInput.date,
-                            exIdNumber: _this7.approvedPlanInput.exIdNumber,
-                            exDate: _this7.approvedPlanInput.exDate,
-                            description: _this7.approvedPlanInput.apDescription,
-                            pOrN: _this7.provOrNat
+                            cdtId: _this5.approvedPlanInput.cdtId,
+                            idNumber: _this5.approvedPlanInput.idNumber,
+                            date: _this5.approvedPlanInput.date,
+                            exIdNumber: _this5.approvedPlanInput.exIdNumber,
+                            exDate: _this5.approvedPlanInput.exDate,
+                            description: _this5.approvedPlanInput.apDescription,
+                            pOrN: _this5.provOrNat
                         }).then(function (response) {
-                            if (_this7.provOrNat == 0) {
-                                _this7.approvedPlan_prov = response.data.data;
-                                _this7.makePagination(response.data, "provincial");
+                            if (_this5.provOrNat == 0) {
+                                _this5.approvedPlan_prov = response.data.data;
+                                _this5.makePagination(response.data, "provincial");
                             } else {
-                                _this7.approvedPlan_nat = response.data.data;
-                                _this7.makePagination(response.data, "national");
+                                _this5.approvedPlan_nat = response.data.data;
+                                _this5.makePagination(response.data, "national");
                             }
-                            _this7.showInsertModal = false;
-                            _this7.$parent.displayNotif(response.status);
+                            _this5.showInsertModal = false;
+                            _this5.$parent.displayNotif(response.status);
                             console.log(response);
                         }, function (error) {
                             console.log(error);
@@ -115268,7 +115245,7 @@ if (false) {(function () {
         },
 
         approvedProjectsUpdateDialog: function approvedProjectsUpdateDialog(item, planId) {
-            var _this8 = this;
+            var _this6 = this;
 
             this.selectedSeasons = item.tiny_season.tsSId;
             this.getTinySeasons();
@@ -115285,7 +115262,7 @@ if (false) {(function () {
             this.creditDistributionRows.forEach(function (cdr) {
                 "use strict";
 
-                Vue.set(_this8.creditDistributionRowInput, 'apCdr' + cdr.id, cdr.id);
+                Vue.set(_this6.creditDistributionRowInput, 'apCdr' + cdr.id, cdr.id);
             });
             this.errorMessage_update = '';
             this.showModalUpdate = true;
@@ -115317,6 +115294,38 @@ if (false) {(function () {
             this.showModalDelete = true;
         },
 
+        insertNewProject: function insertNewProject() {
+            var _this7 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/register', {
+                        pId: _this7.projectAmendmentInput.capId,
+                        subject: _this7.projectAmendmentInput.pSubject,
+                        code: _this7.projectAmendmentInput.pCode,
+                        startYear: _this7.projectAmendmentInput.startYear,
+                        endYear: _this7.projectAmendmentInput.endYear,
+                        pProgress: _this7.projectAmendmentInput.pProgress,
+                        coId: _this7.projectAmendmentInput.county,
+                        description: _this7.projectAmendmentInput.description,
+                        pOrN: _this7.provOrNat
+                    }).then(function (response) {
+                        if (_this7.provOrNat == 0) {
+                            _this7.approvedAmendmentProjects = response.data;
+                        } else {
+                            //this.approvedProjects_nat = response.data;
+                        }
+                        _this7.showInsertModalProject = false;
+                        _this7.$parent.displayNotif(response.status);
+                        console.log(response);
+                    }, function (error) {
+                        console.log(error);
+                        //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                    });
+                }
+            });
+        },
+
         deleteApprovedProjects: function deleteApprovedProjects() {
             /*axios.post('/budget/admin/sub_seasons/delete' , this.tsIdDelete)
                 .then((response) => {
@@ -115332,6 +115341,7 @@ if (false) {(function () {
                     this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                 });*/
         },
+
         openApprovedAmendmentModal: function openApprovedAmendmentModal(plan) {
             this.provOrNat = plan.capProvinceOrNational;
             this.getCreditDistributionTitle(this.provOrNat);
@@ -115346,31 +115356,36 @@ if (false) {(function () {
             this.showModalAmendment = true;
         },
 
+        cancelApprovedAmendment: function cancelApprovedAmendment() {
+            var _this8 = this;
+
+            axios.post('/budget/approved_plan/capital_assets/amendment/temp/cancel', {
+                capId: this.approvedAmendmentProjects.id
+            }).then(function (response) {
+                _this8.showModalAmendment = false;
+                _this8.showModalAmendmentOfAgreement = false;
+                _this8.$parent.displayNotif(200);
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
         createApprovedAmendment: function createApprovedAmendment() {
             var _this9 = this;
 
             this.$validator.validateAll().then(function (result) {
                 if (result) {
                     if (_this9.checkValidDate('delivery_amendment')) {
-                        axios.post('/budget/approved_plan/capital_assets/register', {
-                            cdtId: _this9.approvedAmendmentInput.cdtId,
+                        axios.post('/budget/approved_plan/capital_assets/amendment/temp/register', {
                             idNumber: _this9.approvedAmendmentInput.idNumber,
                             date: _this9.approvedAmendmentInput.date,
-                            exIdNumber: _this9.approvedAmendmentInput.exIdNumber,
-                            exDate: _this9.approvedAmendmentInput.exDate,
                             description: _this9.approvedAmendmentInput.apDescription,
-                            pOrN: _this9.provOrNat,
                             capId: _this9.approvedAmendmentInput.parentId
                         }).then(function (response) {
-                            if (_this9.provOrNat == 0) {
-                                _this9.approvedPlan_prov = response.data.data;
-                                _this9.makePagination(response.data, "provincial");
-                            } else {
-                                _this9.approvedPlan_nat = response.data.data;
-                                _this9.makePagination(response.data, "national");
-                            }
-                            _this9.showInsertModal = false;
-                            _this9.$parent.displayNotif(response.status);
+                            _this9.approvedAmendmentProjects = response.data;
+                            _this9.showModalAmendment = false;
+                            _this9.showModalAmendmentOfAgreement = true;
                             console.log(response);
                         }, function (error) {
                             console.log(error);
@@ -116079,7 +116094,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
-        _vm.openAmendmentOfAgreementModal($event)
+        _vm.createApprovedAmendment($event)
       }
     }
   }, [(_vm.errorMessage) ? _c('div', {
@@ -116338,19 +116353,23 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v(_vm._s(_vm.approvedAmendmentProjects.capDescription))])])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x",
     staticStyle: {
-      "margin-top": "15px"
+      "margin-top": "17px"
     }
   }, [_c('div', {
-    staticClass: "button-group float-right",
-    staticStyle: {
-      "margin-top": "2px"
-    }
+    staticClass: "medium-2 button-group float-right"
   }, [_c('a', {
     staticClass: "my-button toolbox-btn small",
     on: {
       "click": _vm.openInsertProjectModal
     }
-  }, [_vm._v("پروژه جدید")])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("پروژه جدید")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-2 button-group float-right"
+  }, [_c('a', {
+    staticClass: "my-button toolbox-btn small",
+    on: {
+      "click": _vm.cancelApprovedAmendment
+    }
+  }, [_vm._v("لغو")])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "tbl-div-container"

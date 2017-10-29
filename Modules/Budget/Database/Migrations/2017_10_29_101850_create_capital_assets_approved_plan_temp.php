@@ -13,11 +13,38 @@ class CreateCapitalAssetsApprovedPlanTemp extends Migration
      */
     public function up()
     {
-        Schema::create('', function (Blueprint $table) {
-            $table->increments('id');
+        if (!Schema::hasTable('tbl_capital_assets_approved_plan_temp')) {
+            Schema::create('tbl_capital_assets_approved_plan_temp', function (Blueprint $table) {
+                $table->increments('id');
+                $table->integer('capUId')->length(10)->unsigned();
+                $table->integer('capCdtId')->length(10)->unsigned();
+                $table->integer('capFyId')->length(10)->unsigned();
+                $table->integer('capCapId')->length(10)->unsigned()->nullable()->default(null);
+                $table->string('capLetterNumber');
+                $table->string('capLetterDate');
+                $table->string('capExchangeDate');
+                $table->string('capExchangeIdNumber');
+                $table->boolean('capProvinceOrNational');
+                $table->boolean('capActive')->default(true);
+                $table->longText('capDescription')->nullable();
+                $table->timestamps();
 
-            $table->timestamps();
-        });
+                $table->foreign('capUId')
+                    ->references('id')->on('users')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+
+                $table->foreign('capCdtId')
+                    ->references('id')->on('tbl_credit_distribution_titles')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+
+                $table->foreign('capFyId')
+                    ->references('id')->on('tbl_fiscal_years')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+            });
+        }
     }
 
     /**
@@ -27,6 +54,6 @@ class CreateCapitalAssetsApprovedPlanTemp extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('');
+        Schema::dropIfExists('tbl_capital_assets_approved_plan_temp');
     }
 }

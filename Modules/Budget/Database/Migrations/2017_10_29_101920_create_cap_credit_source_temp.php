@@ -13,11 +13,44 @@ class CreateCapCreditSourceTemp extends Migration
      */
     public function up()
     {
-        Schema::create('', function (Blueprint $table) {
-            $table->increments('id');
+        if (!Schema::hasTable('tbl_cap_credit_source_temp')) {
+            Schema::create('tbl_cap_credit_source_temp', function (Blueprint $table) {
+                $table->increments('id');
+                $table->integer('ccsUId')->length(10)->unsigned();
+                $table->integer('ccsCdrId')->length(10)->unsigned();
+                $table->integer('ccsTsId')->length(10)->unsigned();
+                $table->integer('ccsHtrId')->length(10)->unsigned();
+                $table->integer('ccsCapId')->length(10)->unsigned();
+                $table->bigInteger('ccsAmount');
+                $table->longText('ccsDescription')->nullable();
+                $table->timestamps();
 
-            $table->timestamps();
-        });
+                $table->foreign('ccsCdrId')
+                    ->references('id')->on('tbl_credit_distribution_rows')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+
+                $table->foreign('ccsUId')
+                    ->references('id')->on('users')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+
+                $table->foreign('ccsTsId')
+                    ->references('id')->on('tbl_capital_assets_tiny_seasons')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+
+                $table->foreign('ccsHtrId')
+                    ->references('id')->on('tbl_how_to_run')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+
+                $table->foreign('ccsCapId')
+                    ->references('id')->on('tbl_capital_assets_projects_temp')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade');
+            });
+        }
     }
 
     /**
@@ -27,6 +60,6 @@ class CreateCapCreditSourceTemp extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('');
+        Schema::dropIfExists('tbl_cap_credit_source_temp');
     }
 }
