@@ -61,7 +61,7 @@
                             <div class="medium-12 columns padding-lr">
 
                                 <label>نام کاربری
-                                    <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="text" placeholder="&#xf2c0;" name="user" v-model="authInfo.email" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('user')}">
+                                    <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="text" placeholder="&#xf2c0;" autofocus name="user" v-model="authInfo.email" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('user')}">
                                 </label>
                                 <span v-show="errors.has('user')" class="error-font">لطفا نام کاربری را وارد کنید!</span>
                             </div>

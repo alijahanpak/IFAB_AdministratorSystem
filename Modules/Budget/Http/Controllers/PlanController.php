@@ -183,7 +183,7 @@ class PlanController extends Controller
             ->with('caCreditSource.tinySeason.seasonTitle.season')
             ->with('caCreditSource.creditDistributionRow')
             ->with('caCreditSource.creditDistributionTitle')
-            ->paginate(5);
+            ->paginate(20);
     }
 
     public function fetchCostAgreementData(Request $request)

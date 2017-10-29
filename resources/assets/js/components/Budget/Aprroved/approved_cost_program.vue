@@ -35,7 +35,19 @@
                             <div class="clearfix border-btm-line bottom-mrg tool-bar">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openCostAgreementInsertModal(0)">جدید</a>
-                                    <a class="my-button toolbox-btn small" @click="">گزارش</a>
+                                    <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
+                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
+                                    </div>
+                                    <div v-if="selectColumn" class="input-group-button toggle-icon-change">
+                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
+                                    </div>
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
+                                        <ul class="my-menu small-font ltr-dir">
+                                            <li><a  href="#"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
+                                        </ul>
+                                    </div>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
@@ -58,94 +70,109 @@
                                 </div>
                             </div>
                             <!--Table Start-->
-                            <div class="columns">
-                                <!--Header Start-->
-                                <div class="grid-x table-header">
-                                    <div class="medium-2 table-border">
-                                        <strong>شماره مبادله</strong>
-                                    </div>
-                                    <div class="medium-2 table-border">
-                                        <strong>تاریخ مبادله</strong>
-                                    </div>
-                                    <div class="medium-2 table-border">
-                                        <strong>شماره ابلاغ</strong>
-                                    </div>
-                                    <div class="medium-2 table-border">
-                                        <strong>تاریخ ابلاغ</strong>
-                                    </div>
-                                    <div class="medium-2 table-border">
-                                        <strong>اعتبار</strong>
-                                    </div>
-                                    <div class="medium-2  table-border">
-                                        <strong>شرح</strong>
-                                    </div>
-                                </div>
-                                <!--Header End-->
-                                <div class="table-contain dynamic-height-level2">
-                                    <div class="grid-x" v-for="cAp in costAgreement_prov">
-                                        <div class="medium-2 table-contain-border cell-vertical-center">
-                                            {{ cAp.caLetterNumber }}
-                                        </div>
-                                        <div class="medium-2 table-contain-border cell-vertical-center">
-                                            {{ cAp.caLetterDate }}
-                                        </div>
-                                        <div class="medium-2 table-contain-border cell-vertical-center">
-                                            {{ cAp.caExchangeDate }}
-                                        </div>
-                                        <div class="medium-2 table-contain-border cell-vertical-center">
-                                            {{ cAp.caExchangeIdNumber }}
-                                        </div>
-                                        <div class="medium-2 table-contain-border cell-vertical-center">
-                                            <span @click="displayCreditSourceInfo_prov == cAp.id ? displayCreditSourceInfo_prov = '' : displayCreditSourceInfo_prov = cAp.id">{{ $parent.calcDispAmount(sumOfAmount(cAp.ca_credit_source) , false) }}</span>
-                                        </div>
-                                        <div class="medium-2  table-contain-border cell-vertical-center">
-                                            <div class="grid-x">
-                                                <div class="medium-11">
-                                                    {{ cAp.caDescription }}
-                                                </div>
-                                                <div class="medium-1 cell-vertical-center text-left">
-                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costAgreement' + cAp.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'costAgreement' + cAp.id" data-dropdown data-auto-focus="true">
-                                                        <ul class="my-menu small-font text-right">
-                                                            <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                            <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                            <li><a v-on:click.prevent="openCreditSourceInsertModal(cAp.id , 0)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
-                                                        </ul>
+                            <!--Table Head Start-->
+                            <div class="tbl-div-container">
+                                <table class="tbl-head">
+                                    <colgroup>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="100px"/>
+                                        <col width="200px"/>
+                                        <col v-show="selectColumn" width="15px"/>
+                                        <col width="12px"/>
+
+                                    </colgroup>
+                                    <tbody class="tbl-head-style">
+                                    <tr class="tbl-head-style-cell">
+                                        <th class="tbl-head-style-cell">شماره مبادله</th>
+                                        <th class="tbl-head-style-cell">تاریخ مبادله</th>
+                                        <th class="tbl-head-style-cell">شماره ابلاغ</th>
+                                        <th class="tbl-head-style-cell">تاریخ ابلاغ</th>
+                                        <th class="tbl-head-style-cell">اعتبار</th>
+                                        <th class="tbl-head-style-cell">شرح</th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input id="checkboxColumn" type="checkbox"></th>
+                                        <th class="tbl-head-style-cell"></th>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <!--Table Head End-->
+                                <!--Table Body Start-->
+                                <div class="tbl_body_style dynamic-height-level2">
+                                    <table class="tbl-body-contain">
+                                        <colgroup>
+                                            <col width="150px"/>
+                                            <col width="150px"/>
+                                            <col width="150px"/>
+                                            <col width="150px"/>
+                                            <col width="100px"/>
+                                            <col width="200px"/>
+                                            <col v-show="selectColumn" width="15px"/>
+                                        </colgroup>
+                                        <tbody class="tbl-head-style-cell">
+                                        <template  v-for="cAp in costAgreement_prov">
+                                        <tr>
+                                            <td>{{ cAp.caLetterNumber }}</td>
+                                            <td>{{ cAp.caLetterDate }}</td>
+                                            <td>{{ cAp.caExchangeDate }}</td>
+                                            <td>{{ cAp.caExchangeIdNumber }}</td>
+                                            <td><span @click="displayCreditSourceInfo_prov == cAp.id ? displayCreditSourceInfo_prov = '' : displayCreditSourceInfo_prov = cAp.id">{{ $parent.calcDispAmount(sumOfAmount(cAp.ca_credit_source) , false) }}</span></td>
+                                            <td>
+                                                <div class="grid-x">
+                                                    <div class="medium-11">
+                                                        {{ cAp.caDescription }}
+                                                    </div>
+                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costAgreement' + cAp.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'costAgreement' + cAp.id" data-dropdown data-auto-focus="true">
+                                                            <ul class="my-menu small-font text-right">
+                                                                <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                <li><a v-on:click.prevent="openCreditSourceInsertModal(cAp.id , 0)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="medium-12">
-                                            <div class="grid-x" v-show="displayCreditSourceInfo_prov == cAp.id">
-                                                <div class="medium-12 table-contain-border cell-vertical-center">
-                                                    <table class="unstriped tbl-secondary-mrg small-font">
-                                                        <thead class="my-thead">
-                                                        <tr style="background-color: #F1F1F1 !important;">
-                                                            <th>ردیف</th>
-                                                            <th>فصل</th>
-                                                            <th>عنوان فصل</th>
-                                                            <th>ریز فصل</th>
-                                                            <th>مبلغ</th>
-                                                            <th>توضیحات</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <tr v-for="creditSource in cAp.ca_credit_source">
-                                                            <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
-                                                            <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
-                                                            <td>{{ creditSource.tiny_season.season_title.cstSubject }}</td>
-                                                            <td>{{ creditSource.tiny_season.ctsSubject }}</td>
-                                                            <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
-                                                            <td>{{ creditSource.ccsDescription }}</td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                            </td>
+                                            <td  v-show="selectColumn">
+                                                <input class="auto-margin" id="checkboxProv" type="checkbox">
+                                            </td>
+                                        </tr>
+                                        <tr v-show="displayCreditSourceInfo_prov == cAp.id">
+                                            <td colspan="7">
+                                                <table class="unstriped tbl-secondary-mrg small-font">
+                                                    <thead class="my-thead">
+                                                    <tr style="background-color: #F1F1F1 !important;">
+                                                        <th>ردیف</th>
+                                                        <th>فصل</th>
+                                                        <th>عنوان فصل</th>
+                                                        <th>ریز فصل</th>
+                                                        <th>مبلغ</th>
+                                                        <th>توضیحات</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr v-for="creditSource in cAp.ca_credit_source">
+                                                        <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
+                                                        <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
+                                                        <td>{{ creditSource.tiny_season.season_title.cstSubject }}</td>
+                                                        <td>{{ creditSource.tiny_season.ctsSubject }}</td>
+                                                        <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
+                                                        <td>{{ creditSource.ccsDescription }}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        </template>
+                                        </tbody>
+                                    </table>
                                 </div>
+                                <!--Table Body End-->
                             </div>
+
                             <div class="grid-x">
                                 <div class="medium-12">
                                     <vue-pagination  v-bind:pagination="provincial_pagination"
@@ -164,7 +191,19 @@
                             <div class="clearfix border-btm-line bottom-mrg tool-bar">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openCostAgreementInsertModal(1)">جدید</a>
-                                    <a class="my-button toolbox-btn small" @click="">گزارش</a>
+                                    <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
+                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
+                                    </div>
+                                    <div v-if="selectColumn" class="input-group-button toggle-icon-change">
+                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
+                                    </div>
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
+                                        <ul class="my-menu small-font ltr-dir">
+                                            <li><a  href="#"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
+                                        </ul>
+                                    </div>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="nationalDropDown">تعداد نمایش<span> 20 </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="nationalDropDown" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
@@ -187,8 +226,107 @@
                                 </div>
                             </div>
                             <!--Table Start-->
-                            <div class="columns">
-                                <!--Header Start-->
+                            <!--Table Head Start-->
+                            <div class="tbl-div-container">
+                                <table class="tbl-head">
+                                    <colgroup>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="300px"/>
+                                        <col v-show="selectColumn" width="15px"/>
+                                        <col width="12px"/>
+
+                                    </colgroup>
+                                    <tbody class="tbl-head-style">
+                                    <tr class="tbl-head-style-cell">
+                                        <th class="tbl-head-style-cell">شماره ابلاغ</th>
+                                        <th class="tbl-head-style-cell">تاریخ ابلاغ</th>
+                                        <th class="tbl-head-style-cell">اعتبار</th>
+                                        <th class="tbl-head-style-cell">شرح</th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input id="checkboxColumnNational" type="checkbox"></th>
+                                        <th class="tbl-head-style-cell"></th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <!--Table Head End-->
+                                <!--Table Body Start-->
+                                <div class="tbl_body_style dynamic-height-level2">
+                                    <table class="tbl-body-contain">
+                                        <colgroup>
+                                            <col width="150px"/>
+                                            <col width="150px"/>
+                                            <col width="150px"/>
+                                            <col width="300px"/>
+                                            <col v-show="selectColumn" width="15px"/>
+                                        </colgroup>
+                                        <tbody class="tbl-head-style-cell">
+                                        <template  v-for="cAp in costAgreement_nat">
+                                            <tr>
+                                                <td>{{ cAp.caLetterNumber }}</td>
+                                                <td>{{ cAp.caLetterDate }}</td>
+                                                <td>{{ cAp.caExchangeDate }}</td>
+                                                <td>{{ cAp.caExchangeIdNumber }}</td>
+                                                <td><span @click="displayCreditSourceInfo_nat == cAp.id ? displayCreditSourceInfo_nat = '' : displayCreditSourceInfo_nat = cAp.id">{{ $parent.calcDispAmount(sumOfAmount(cAp.ca_credit_source) , false) }}</span></td>
+                                                <td>
+                                                    <div class="grid-x">
+                                                        <div class="medium-11">
+                                                            {{ cAp.caDescription }}
+                                                        </div>
+                                                        <div class="medium-1 cell-vertical-center text-left">
+                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costAgreement' + cAp.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'costAgreement' + cAp.id" data-dropdown data-auto-focus="true">
+                                                                <ul class="my-menu small-font text-right">
+                                                                    <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li><a v-on:click.prevent="openCreditSourceInsertModal(cAp.id , 0)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td  v-show="selectColumn">
+                                                    <input class="auto-margin" id="checkboxNational" type="checkbox">
+                                                </td>
+                                            </tr>
+                                            <tr v-show="displayCreditSourceInfo_prov == cAp.id">
+                                                <td colspan="7">
+                                                    <table class="unstriped tbl-secondary-mrg small-font">
+                                                        <thead class="my-thead">
+                                                        <tr style="background-color: #F1F1F1 !important;">
+                                                            <th>ردیف</th>
+                                                            <th>فصل</th>
+                                                            <th>عنوان فصل</th>
+                                                            <th>ریز فصل</th>
+                                                            <th>مبلغ</th>
+                                                            <th>توضیحات</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr v-for="creditSource in cAp.ca_credit_source">
+                                                            <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
+                                                            <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
+                                                            <td>{{ creditSource.tiny_season.season_title.cstSubject }}</td>
+                                                            <td>{{ creditSource.tiny_season.ctsSubject }}</td>
+                                                            <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
+                                                            <td>{{ creditSource.ccsDescription }}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--Table Body End-->
+                            </div>
+
+
+
+
+                            <!--<div class="columns">
+                                &lt;!&ndash;Header Start&ndash;&gt;
                                 <div class="grid-x table-header">
                                     <div class="medium-2 table-border">
                                         <strong>شماره ابلاغ</strong>
@@ -203,7 +341,7 @@
                                         <strong>شرح</strong>
                                     </div>
                                 </div>
-                                <!--Header End-->
+                                &lt;!&ndash;Header End&ndash;&gt;
                                 <div class="table-contain dynamic-height-level2">
                                     <div class="grid-x" v-for="cAp in costAgreement_nat">
                                         <div class="medium-2 table-contain-border cell-vertical-center">
@@ -262,7 +400,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                             <div class="grid-x">
                                 <div class="medium-12">
                                     <vue-pagination  v-bind:pagination="national_pagination"
@@ -527,6 +665,7 @@
                 showCaCsInsertModal: false,
                 showModalUpdate: false,
                 showModalDelete: false,
+                selectColumn:false,
                 costAgreementFill: {},
 
                 caCreditSourceInput: {},
@@ -818,6 +957,15 @@
                         console.log(error);
                         this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                     });*/
+            },
+            showSelectColumn: function () {
+                if (this.selectColumn)
+                {
+                    this.selectColumn=false;
+                }
+                else{
+                    this.selectColumn=true;
+                }
             },
 
             makePagination: function(data , type){

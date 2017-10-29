@@ -35,8 +35,11 @@
                             <div class="clearfix border-btm-line bottom-mrg tool-bar">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openApprovedPlanInsertModal(0)">جدید</a>
-                                    <div class="input-group-button toggle-icon-change">
+                                    <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
                                         <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
+                                    </div>
+                                    <div v-if="selectColumn" class="input-group-button toggle-icon-change">
+                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
                                     </div>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
@@ -87,7 +90,7 @@
                                         <th class="tbl-head-style-cell">شهرستان</th>
                                         <th class="tbl-head-style-cell">شرح</th>
                                         <th class="tbl-head-style-cell"></th>
-                                        <th v-show="selectColumn" class="tbl-head-style-cell"></th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input id="checkboxColumn" type="checkbox"></th>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -162,11 +165,14 @@
                             <div class="clearfix border-btm-line bottom-mrg tool-bar">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openApprovedPlanInsertModal(1)">جدید</a>
-                                    <div class="input-group-button toggle-icon-change">
-                                        <button type="button" class="my-button my-icon-brand tiny"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
+                                    <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
+                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
                                     </div>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown">گزارش</button>
-                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown" data-dropdown data-auto-focus="true">
+                                    <div v-if="selectColumn" class="input-group-button toggle-icon-change">
+                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
+                                    </div>
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
                                             <li><a  href="#"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
                                             <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
@@ -194,55 +200,75 @@
                                 </div>
                             </div>
                             <!--Table Start-->
-                            <div class="columns">
-                                <!--Header Start-->
-                                <div class="grid-x table-header">
-                                    <div class="medium-3  table-border">
-                                        <strong>طرح</strong>
-                                    </div>
-                                    <div class="medium-2  table-border">
-                                        <strong>مبادله شده</strong>
-                                    </div>
-                                    <div class="medium-2 table-border">
-                                        <strong>ابلاغی</strong>
-                                    </div>
-                                    <div class="medium-5  table-border">
-                                        <strong>شرح</strong>
-                                    </div>
-                                </div>
-                                <!--Header End-->
-                                <div class="table-contain dynamic-height-level2">
-                                    <div class="grid-x" v-for="plans in approvedPlan_nat">
-                                        <div class="medium-3 table-contain-border cell-vertical-center">
-                                            {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}
-                                        </div>
-                                        <div class="medium-2 table-contain-border cell-vertical-center text-center">
-                                            <div>{{ plans.capExchangeIdNumber }}</div>
-                                            <div>{{ plans.capExchangeDate }}</div>
-                                        </div>
-                                        <div class="medium-2 table-contain-border cell-vertical-center text-center">
-                                            <div>{{ plans.capLetterNumber }}</div>
-                                            <div>{{ plans.capLetterDate }}</div>
-                                        </div>
-                                        <div class="medium-5  table-contain-border cell-vertical-center">
-                                            <div class="grid-x">
-                                                <div class="medium-11">
-                                                    {{ plans.capDescription }}
-                                                </div>
-                                                <div class="medium-1 cell-vertical-center text-left">
-                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
-                                                        <ul class="my-menu small-font text-right">
-                                                            <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                            <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                            <li><a v-on:click.prevent="openApprovedAmendmentModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
-                                                        </ul>
+                            <!--Table Head Start-->
+                            <div class="tbl-div-container">
+                                <table class="tbl-head">
+                                    <colgroup>
+                                        <col width="300px"/>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="350px"/>
+                                        <col width="12px"/>
+                                        <col v-show="selectColumn" width="15px"/>
+                                    </colgroup>
+                                    <tbody class="tbl-head-style">
+                                    <tr class="tbl-head-style-cell">
+                                        <th class="tbl-head-style-cell">طرح</th>
+                                        <th class="tbl-head-style-cell">مبادله شده</th>
+                                        <th class="tbl-head-style-cell">ابلاغی</th>
+                                        <th class="tbl-head-style-cell">شرح</th>
+                                        <th class="tbl-head-style-cell"></th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input id="checkboxColumn" type="checkbox"></th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <!--Table Head End-->
+                                <!--Table Body Start-->
+                                <div class="tbl_body_style dynamic-height-level2">
+                                    <table class="tbl-body-contain">
+                                        <colgroup>
+                                            <col width="300px"/>
+                                            <col width="150px"/>
+                                            <col width="150px"/>
+                                            <col width="350px"/>
+                                            <col v-show="selectColumn" width="15px"/>
+                                        </colgroup>
+                                        <tbody class="tbl-head-style-cell">
+                                        <tr v-for="plans in approvedPlan_nat">
+                                            <td> {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
+                                            <td>
+                                                <div>{{ plans.capExchangeIdNumber }}</div>
+                                                <div>{{ plans.capExchangeDate }}</div>
+                                            </td>
+                                            <td>
+                                                <div>{{ plans.capLetterNumber }}</div>
+                                                <div>{{ plans.capLetterDate }}</div>
+                                            </td>
+                                            <td>
+                                                <div class="grid-x">
+                                                    <div class="medium-11">
+                                                        {{ plans.capDescription }}
+                                                    </div>
+                                                    <div class="medium-1 cell-vertical-center text-left auto-margin">
+                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
+                                                            <ul class="my-menu small-font text-right">
+                                                                <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                <li><a v-on:click.prevent="openApprovedAmendmentModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                            </td>
+                                            <td  v-show="selectColumn">
+                                                <input class="auto-margin" id="checkboxNational" type="checkbox">
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
+                                <!--Table Body End-->
                             </div>
                             <div class="grid-x">
                                 <div class="medium-12">
