@@ -113146,7 +113146,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       domProps: {
         "value": approvedPlan.id
       }
-    }, [_vm._v("@" + _vm._s(approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject))])
+    }, [_vm._v(_vm._s(approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject))])
   })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
@@ -115040,6 +115040,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -115051,6 +115053,7 @@ if (false) {(function () {
             approvedPlan_nat: [],
             approvedPlanInput: {},
             approvedAmendmentInput: {},
+            projectAmendmentInput: {},
             showInsertModal: false,
             showModalUpdate: false,
             showModalDelete: false,
@@ -115067,6 +115070,8 @@ if (false) {(function () {
             dateIsValid_delivery_amendment: true,
             dateIsValid_exchange: true,
             approvedAmendmentProjects: [],
+            approvedPlans: [],
+            displayCSInfo: '',
 
             provOrNat: '',
             apIdDelete: {},
@@ -115191,20 +115196,32 @@ if (false) {(function () {
             axios.get('/budget/approved_project/capital_assets/getAllProjectWithPlanId', { params: { pId: pId } }).then(function (response) {
                 _this4.approvedAmendmentProjects = response.data;
                 console.log(response);
+                console.log(JSON.stringify(_this4.approvedAmendmentProjects));
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        getAllApprovedPlan: function getAllApprovedPlan(pOrN) {
+            var _this5 = this;
+
+            axios.get('/budget/approved_plan/capital_assets/getAllItems', { params: { pOrN: pOrN } }).then(function (response) {
+                _this5.approvedPlans = response.data;
+                console.log(response);
             }, function (error) {
                 console.log(error);
             });
         },
 
         openAmendmentOfAgreementModal: function openAmendmentOfAgreementModal() {
-            var _this5 = this;
+            var _this6 = this;
 
             this.$validator.validateAll().then(function (result) {
                 if (result) {
-                    if (_this5.checkValidDate('delivery_amendment')) {
-                        _this5.showModalAmendment = false;
-                        _this5.getAllProjectWithPlanId(_this5.approvedAmendmentInput.id);
-                        _this5.showModalAmendmentOfAgreement = true;
+                    if (_this6.checkValidDate('delivery_amendment')) {
+                        _this6.showModalAmendment = false;
+                        _this6.getAllProjectWithPlanId(_this6.approvedAmendmentInput.id);
+                        _this6.showModalAmendmentOfAgreement = true;
                     }
                 }
             });
@@ -115217,29 +115234,29 @@ if (false) {(function () {
         },
 
         createApprovedPlan: function createApprovedPlan() {
-            var _this6 = this;
+            var _this7 = this;
 
             this.$validator.validateAll().then(function (result) {
                 if (result) {
-                    if (_this6.checkValidDate('delivery') && _this6.checkValidDate('exchange')) {
+                    if (_this7.checkValidDate('delivery') && _this7.checkValidDate('exchange')) {
                         axios.post('/budget/approved_plan/capital_assets/register', {
-                            cdtId: _this6.approvedPlanInput.cdtId,
-                            idNumber: _this6.approvedPlanInput.idNumber,
-                            date: _this6.approvedPlanInput.date,
-                            exIdNumber: _this6.approvedPlanInput.exIdNumber,
-                            exDate: _this6.approvedPlanInput.exDate,
-                            description: _this6.approvedPlanInput.apDescription,
-                            pOrN: _this6.provOrNat
+                            cdtId: _this7.approvedPlanInput.cdtId,
+                            idNumber: _this7.approvedPlanInput.idNumber,
+                            date: _this7.approvedPlanInput.date,
+                            exIdNumber: _this7.approvedPlanInput.exIdNumber,
+                            exDate: _this7.approvedPlanInput.exDate,
+                            description: _this7.approvedPlanInput.apDescription,
+                            pOrN: _this7.provOrNat
                         }).then(function (response) {
-                            if (_this6.provOrNat == 0) {
-                                _this6.approvedPlan_prov = response.data.data;
-                                _this6.makePagination(response.data, "provincial");
+                            if (_this7.provOrNat == 0) {
+                                _this7.approvedPlan_prov = response.data.data;
+                                _this7.makePagination(response.data, "provincial");
                             } else {
-                                _this6.approvedPlan_nat = response.data.data;
-                                _this6.makePagination(response.data, "national");
+                                _this7.approvedPlan_nat = response.data.data;
+                                _this7.makePagination(response.data, "national");
                             }
-                            _this6.showInsertModal = false;
-                            _this6.$parent.displayNotif(response.status);
+                            _this7.showInsertModal = false;
+                            _this7.$parent.displayNotif(response.status);
                             console.log(response);
                         }, function (error) {
                             console.log(error);
@@ -115251,7 +115268,7 @@ if (false) {(function () {
         },
 
         approvedProjectsUpdateDialog: function approvedProjectsUpdateDialog(item, planId) {
-            var _this7 = this;
+            var _this8 = this;
 
             this.selectedSeasons = item.tiny_season.tsSId;
             this.getTinySeasons();
@@ -115268,7 +115285,7 @@ if (false) {(function () {
             this.creditDistributionRows.forEach(function (cdr) {
                 "use strict";
 
-                Vue.set(_this7.creditDistributionRowInput, 'apCdr' + cdr.id, cdr.id);
+                Vue.set(_this8.creditDistributionRowInput, 'apCdr' + cdr.id, cdr.id);
             });
             this.errorMessage_update = '';
             this.showModalUpdate = true;
@@ -115330,30 +115347,30 @@ if (false) {(function () {
         },
 
         createApprovedAmendment: function createApprovedAmendment() {
-            var _this8 = this;
+            var _this9 = this;
 
             this.$validator.validateAll().then(function (result) {
                 if (result) {
-                    if (_this8.checkValidDate('delivery_amendment')) {
+                    if (_this9.checkValidDate('delivery_amendment')) {
                         axios.post('/budget/approved_plan/capital_assets/register', {
-                            cdtId: _this8.approvedAmendmentInput.cdtId,
-                            idNumber: _this8.approvedAmendmentInput.idNumber,
-                            date: _this8.approvedAmendmentInput.date,
-                            exIdNumber: _this8.approvedAmendmentInput.exIdNumber,
-                            exDate: _this8.approvedAmendmentInput.exDate,
-                            description: _this8.approvedAmendmentInput.apDescription,
-                            pOrN: _this8.provOrNat,
-                            capId: _this8.approvedAmendmentInput.parentId
+                            cdtId: _this9.approvedAmendmentInput.cdtId,
+                            idNumber: _this9.approvedAmendmentInput.idNumber,
+                            date: _this9.approvedAmendmentInput.date,
+                            exIdNumber: _this9.approvedAmendmentInput.exIdNumber,
+                            exDate: _this9.approvedAmendmentInput.exDate,
+                            description: _this9.approvedAmendmentInput.apDescription,
+                            pOrN: _this9.provOrNat,
+                            capId: _this9.approvedAmendmentInput.parentId
                         }).then(function (response) {
-                            if (_this8.provOrNat == 0) {
-                                _this8.approvedPlan_prov = response.data.data;
-                                _this8.makePagination(response.data, "provincial");
+                            if (_this9.provOrNat == 0) {
+                                _this9.approvedPlan_prov = response.data.data;
+                                _this9.makePagination(response.data, "provincial");
                             } else {
-                                _this8.approvedPlan_nat = response.data.data;
-                                _this8.makePagination(response.data, "national");
+                                _this9.approvedPlan_nat = response.data.data;
+                                _this9.makePagination(response.data, "national");
                             }
-                            _this8.showInsertModal = false;
-                            _this8.$parent.displayNotif(response.status);
+                            _this9.showInsertModal = false;
+                            _this9.$parent.displayNotif(response.status);
                             console.log(response);
                         }, function (error) {
                             console.log(error);
@@ -115369,6 +115386,8 @@ if (false) {(function () {
             this.$parent.myResize();
         },
         openInsertProjectModal: function openInsertProjectModal() {
+            this.getAllApprovedPlan(this.provOrNat);
+            this.projectAmendmentInput.capId = this.approvedAmendmentInput.parentId;
             this.showInsertModalProject = true;
         },
         openEditProjectModal: function openEditProjectModal() {
@@ -116404,7 +116423,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   })]), _vm._v(" "), _c('tbody', {
     staticClass: "tbl-head-style-cell"
   }, [_vm._l((_vm.approvedAmendmentProjects.capital_assets_project), function(project) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(project.cpCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(project.cpSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(project.county.coName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.sumOfAmount(project.credit_source), false)))]), _vm._v(" "), _c('td', [_c('div', {
+    return [_c('tr', [_c('td', [_vm._v(_vm._s(project.cpCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(project.cpSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(project.county.coName))]), _vm._v(" "), _c('td', {
+      on: {
+        "click": function($event) {
+          _vm.displayCSInfo == project.id ? _vm.displayCSInfo = '' : _vm.displayCSInfo = project.id
+        }
+      }
+    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.sumOfAmount(project.credit_source), false)))]), _vm._v(" "), _c('td', [_c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-11"
@@ -116458,72 +116483,83 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }, [_c('i', {
       staticClass: "fa fa-newspaper-o size-16"
-    }), _vm._v("  اصلاح")])])])])])])])])
-  }), _vm._v(" "), _c('tr', [_c('td', {
-    attrs: {
-      "colspan": "5"
-    }
-  }, [_c('table', {
-    staticClass: "unstriped tbl-secondary-mrg small-font"
-  }, [_c('thead', {
-    staticClass: "my-thead"
-  }, [_c('tr', {
-    staticStyle: {
-      "background-color": "#F1F1F1 !important"
-    }
-  }, [_c('th', [_vm._v("ردیف")]), _vm._v(" "), _c('th', [_vm._v("فصل")]), _vm._v(" "), _c('th', [_vm._v("عنوان فصل")]), _vm._v(" "), _c('th', [_vm._v("ریز فصل")]), _vm._v(" "), _c('th', [_vm._v("نحوه اجرا")]), _vm._v(" "), _c('th', [_vm._v("مبلغ")]), _vm._v(" "), _c('th', [_vm._v("توضیحات")]), _vm._v(" "), _c('th', [_vm._v("عملیات")])])]), _vm._v(" "), _c('tbody', [_c('tr', [_c('td', [_vm._v("متوازن")]), _vm._v(" "), _c('td', [_vm._v("اول")]), _vm._v(" "), _c('td', [_vm._v("جبران خدمت کارکنان")]), _vm._v(" "), _c('td', [_vm._v("مطالعه برای احداث ساختمان و مستحدثات")]), _vm._v(" "), _c('td', [_vm._v("پیمانی")]), _vm._v(" "), _c('td', [_vm._v("15")]), _vm._v(" "), _c('td'), _vm._v(" "), _c('td', [_c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-12 cell-vertical-center text-left"
-  }, [_c('a', {
-    staticClass: "dropdown small sm-btn-align",
-    attrs: {
-      "data-toggle": "tblRow",
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-ellipsis-v size-18"
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "dropdown-pane dropdown-pane-sm ",
-    attrs: {
-      "data-close-on-click": "true",
-      "data-hover": "true",
-      "data-hover-pane": "true",
-      "data-position": "bottom",
-      "data-alignment": "right",
-      "id": "tblRow",
-      "data-dropdown": "",
-      "data-auto-focus": "true"
-    }
-  }, [_c('ul', {
-    staticClass: "my-menu small-font text-right"
-  }, [_c('li', [_c('a', {
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
+    }), _vm._v("  اصلاح")])])])])])])])]), _vm._v(" "), _c('tr', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.displayCSInfo == project.id),
+        expression: "displayCSInfo == project.id"
+      }]
+    }, [_c('td', {
+      attrs: {
+        "colspan": "5"
       }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-trash-o size-16"
-  }), _vm._v("  حذف")])]), _vm._v(" "), _c('li', [_c('a', {
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.openAPCreditInsertModal($event)
+    }, [_c('table', {
+      staticClass: "unstriped tbl-secondary-mrg small-font"
+    }, [_c('thead', {
+      staticClass: "my-thead"
+    }, [_c('tr', {
+      staticStyle: {
+        "background-color": "#F1F1F1 !important"
       }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-money size-16"
-  }), _vm._v("  اعتبارات")])]), _vm._v(" "), _c('li', [_c('a', {
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.openEditProjectModal($event)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-newspaper-o size-16"
-  }), _vm._v("  اصلاح")])])])])])])])])])])])])], 2)])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showInsertModalProject) ? _c('modal-small', {
+    }, [_c('th', [_vm._v("ردیف")]), _vm._v(" "), _c('th', [_vm._v("فصل")]), _vm._v(" "), _c('th', [_vm._v("عنوان فصل")]), _vm._v(" "), _c('th', [_vm._v("ریز فصل")]), _vm._v(" "), _c('th', [_vm._v("نحوه اجرا")]), _vm._v(" "), _c('th', [_vm._v("مبلغ")]), _vm._v(" "), _c('th', [_vm._v("شرح")])])]), _vm._v(" "), _c('tbody', _vm._l((project.credit_source), function(credit_source) {
+      return _c('tr', [_c('td', [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.tiny_season.season_title.castSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.tiny_season.catsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.how_to_run.htrSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(credit_source.ccsAmount, false)))]), _vm._v(" "), _c('td', [_c('div', {
+        staticClass: "grid-x"
+      }, [_c('div', {
+        staticClass: "medium-11"
+      }, [_vm._v("\n                                                                " + _vm._s(credit_source.ccsDescription) + "\n                                                            ")]), _vm._v(" "), _c('div', {
+        staticClass: "medium-1 cell-vertical-center text-left"
+      }, [_c('a', {
+        staticClass: "dropdown small sm-btn-align",
+        attrs: {
+          "data-toggle": 'projectCs' + credit_source.id,
+          "type": "button"
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-ellipsis-v size-18"
+      })]), _vm._v(" "), _c('div', {
+        staticClass: "dropdown-pane dropdown-pane-sm ",
+        attrs: {
+          "data-close-on-click": "true",
+          "data-hover": "true",
+          "data-hover-pane": "true",
+          "data-position": "bottom",
+          "data-alignment": "right",
+          "id": 'projectCs' + credit_source.id,
+          "data-dropdown": "",
+          "data-auto-focus": "true"
+        }
+      }, [_c('ul', {
+        staticClass: "my-menu small-font text-right"
+      }, [_c('li', [_c('a', {
+        on: {
+          "click": function($event) {
+            $event.preventDefault();
+          }
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-trash-o size-16"
+      }), _vm._v("  حذف")])]), _vm._v(" "), _c('li', [_c('a', {
+        on: {
+          "click": function($event) {
+            $event.preventDefault();
+            _vm.openAPCreditInsertModal($event)
+          }
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-money size-16"
+      }), _vm._v("  اعتبارات")])]), _vm._v(" "), _c('li', [_c('a', {
+        on: {
+          "click": function($event) {
+            $event.preventDefault();
+            _vm.openEditProjectModal($event)
+          }
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-newspaper-o size-16"
+      }), _vm._v("  اصلاح")])])])])])])])])
+    }))])])])]
+  })], 2)])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showInsertModalProject) ? _c('modal-small', {
     on: {
       "close": function($event) {
         _vm.showInsertModalProject = false
@@ -116538,6 +116574,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
+        _vm.insertNewProject($event)
       }
     }
   }, [(_vm.errorMessage) ? _c('div', {
@@ -116555,20 +116592,48 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "medium-12 cell padding-lr"
   }, [_c('label', [_vm._v("طرح\n                                "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentInput.capId),
+      expression: "projectAmendmentInput.capId"
+    }],
     attrs: {
       "disabled": "true",
       "name": "plan"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.projectAmendmentInput.capId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
   }, [_c('option', {
     attrs: {
       "value": ""
     }
-  }), _vm._v(" "), _c('option')])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _vm._l((_vm.approvedPlans), function(approvedPlan) {
+    return _c('option', {
+      domProps: {
+        "value": approvedPlan.id
+      }
+    }, [_vm._v(_vm._s(approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject))])
+  })], 2)])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-8 cell padding-lr"
   }, [_c('label', [_vm._v("عنوان پروژه\n                                "), _c('input', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentInput.pSubject),
+      expression: "projectAmendmentInput.pSubject"
+    }, {
       name: "validate",
       rawName: "v-validate",
       value: ('required'),
@@ -116581,6 +116646,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "type": "text",
       "name": "projectTitle"
+    },
+    domProps: {
+      "value": (_vm.projectAmendmentInput.pSubject)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.projectAmendmentInput.pSubject = $event.target.value
+      }
     }
   })]), _vm._v(" "), _c('span', {
     directives: [{
@@ -116594,6 +116668,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-4 cell padding-lr"
   }, [_c('label', [_vm._v("کد پروژه\n                                "), _c('input', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentInput.pCode),
+      expression: "projectAmendmentInput.pCode"
+    }, {
       name: "validate",
       rawName: "v-validate",
       value: ('required|numeric'),
@@ -116606,6 +116685,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "type": "text",
       "name": "projectCode"
+    },
+    domProps: {
+      "value": (_vm.projectAmendmentInput.pCode)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.projectAmendmentInput.pCode = $event.target.value
+      }
     }
   })]), _vm._v(" "), _c('span', {
     directives: [{
@@ -116621,6 +116709,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-4 cell padding-lr"
   }, [_c('label', [_vm._v("سال شروع\n                                "), _c('input', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentInput.startYear),
+      expression: "projectAmendmentInput.startYear"
+    }, {
       name: "validate",
       rawName: "v-validate",
       value: ('required'),
@@ -116633,6 +116726,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "type": "text",
       "name": "startYear"
+    },
+    domProps: {
+      "value": (_vm.projectAmendmentInput.startYear)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.projectAmendmentInput.startYear = $event.target.value
+      }
     }
   })]), _vm._v(" "), _c('span', {
     directives: [{
@@ -116646,6 +116748,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-4 cell padding-lr"
   }, [_c('label', [_vm._v("سال خاتمه\n                                "), _c('input', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentInput.endYear),
+      expression: "projectAmendmentInput.endYear"
+    }, {
       name: "validate",
       rawName: "v-validate",
       value: ('required'),
@@ -116658,6 +116765,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "type": "text",
       "name": "endYear"
+    },
+    domProps: {
+      "value": (_vm.projectAmendmentInput.endYear)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.projectAmendmentInput.endYear = $event.target.value
+      }
     }
   })]), _vm._v(" "), _c('span', {
     directives: [{
@@ -116673,6 +116789,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "btn-red small-font"
   }, [_vm._v(" (درصد) ")]), _vm._v(" "), _c('input', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentInput.pProgress),
+      expression: "projectAmendmentInput.pProgress"
+    }, {
       name: "validate",
       rawName: "v-validate",
       value: ('required|numeric'),
@@ -116687,6 +116808,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "max": "100",
       "value": "0",
       "name": "physicalProgress"
+    },
+    domProps: {
+      "value": (_vm.projectAmendmentInput.pProgress)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.projectAmendmentInput.pProgress = $event.target.value
+      }
     }
   }), _vm._v(" "), _c('div', {
     staticClass: "alert progress form-element-margin-btm",
@@ -116711,6 +116841,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-4 cell padding-lr"
   }, [_c('label', [_vm._v("شهرستان\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentInput.county),
+      expression: "projectAmendmentInput.county"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -116721,6 +116856,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "name": "city",
       "data-vv-rules": "required"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.projectAmendmentInput.county = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
   }, [_c('option', {
     attrs: {
@@ -116739,11 +116885,26 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "small-12 columns padding-lr"
   }, [_c('label', [_vm._v("شرح\n                                "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentInput.description),
+      expression: "projectAmendmentInput.description"
+    }],
     staticStyle: {
       "min-height": "150px"
     },
     attrs: {
       "name": "apDescription"
+    },
+    domProps: {
+      "value": (_vm.projectAmendmentInput.description)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.projectAmendmentInput.description = $event.target.value
+      }
     }
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6 columns padding-lr padding-bottom-modal"

@@ -482,11 +482,12 @@
                                         <col width="240px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style-cell">
-                                        <tr v-for="project in approvedAmendmentProjects.capital_assets_project">
+                                    <template v-for="project in approvedAmendmentProjects.capital_assets_project">
+                                        <tr>
                                             <td>{{ project.cpCode }}</td>
                                             <td>{{ project.cpSubject }}</td>
                                             <td>{{ project.county.coName }}</td>
-                                            <td>{{ $parent.calcDispAmount(sumOfAmount(project.credit_source) , false) }}</td>
+                                            <td @click="displayCSInfo == project.id ? displayCSInfo = '' : displayCSInfo = project.id">{{ $parent.calcDispAmount(sumOfAmount(project.credit_source) , false) }}</td>
                                             <td>
                                                 <div class="grid-x">
                                                     <div class="medium-11">
@@ -505,7 +506,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr v-show="displayCSInfo == project.id">
                                             <td colspan="5">
                                                 <table class="unstriped tbl-secondary-mrg small-font">
                                                     <thead class="my-thead">
@@ -516,24 +517,25 @@
                                                         <th>ریز فصل</th>
                                                         <th>نحوه اجرا</th>
                                                         <th>مبلغ</th>
-                                                        <th>توضیحات</th>
-                                                        <th>عملیات</th>
+                                                        <th>شرح</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <tr>
-                                                        <td>متوازن</td>
-                                                        <td>اول</td>
-                                                        <td>جبران خدمت کارکنان</td>
-                                                        <td>مطالعه برای احداث ساختمان و مستحدثات</td>
-                                                        <td>پیمانی</td>
-                                                        <td>15</td>
-                                                        <td></td>
+                                                    <tr v-for="credit_source in project.credit_source">
+                                                        <td>{{ credit_source.credit_distribution_row.cdSubject }}</td>
+                                                        <td>{{ credit_source.tiny_season.season_title.season.sSubject }}</td>
+                                                        <td>{{ credit_source.tiny_season.season_title.castSubject }}</td>
+                                                        <td>{{ credit_source.tiny_season.catsSubject }}</td>
+                                                        <td>{{ credit_source.how_to_run.htrSubject }}</td>
+                                                        <td>{{ $parent.calcDispAmount(credit_source.ccsAmount , false) }}</td>
                                                         <td>
                                                             <div class="grid-x">
-                                                                <div class="medium-12 cell-vertical-center text-left">
-                                                                    <a class="dropdown small sm-btn-align" data-toggle="tblRow"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="tblRow" data-dropdown data-auto-focus="true">
+                                                                <div class="medium-11">
+                                                                    {{ credit_source.ccsDescription }}
+                                                                </div>
+                                                                <div class="medium-1 cell-vertical-center text-left">
+                                                                    <a class="dropdown small sm-btn-align" :data-toggle="'projectCs' + credit_source.id"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'projectCs' + credit_source.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
                                                                             <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                             <li><a v-on:click.prevent="openAPCreditInsertModal"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
@@ -548,7 +550,7 @@
                                                 </table>
                                             </td>
                                         </tr>
-
+                                    </template>
                                     </tbody>
                                 </table>
                             </div>
@@ -562,7 +564,7 @@
             <!--Insert Project Modal Start-->
             <modal-small v-if="showInsertModalProject" @close="showInsertModalProject = false">
                 <div slot="body">
-                    <form v-on:submit.prevent="">
+                    <form v-on:submit.prevent="insertNewProject">
                         <div class="grid-x" v-if="errorMessage">
                             <div class="medium-12 columns padding-lr">
                                 <div class="alert callout">
@@ -573,9 +575,9 @@
                         <div class="grid-x">
                             <div class="medium-12 cell padding-lr">
                                 <label>طرح
-                                    <select disabled="true"  name="plan">
+                                    <select disabled="true" name="plan" v-model="projectAmendmentInput.capId">
                                         <option value=""></option>
-                                        <option></option>
+                                        <option v-for="approvedPlan in approvedPlans" :value="approvedPlan.id">{{ approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject }}</option>
                                     </select>
                                 </label>
                             </div>
@@ -583,13 +585,13 @@
                         <div class="grid-x">
                             <div class="medium-8 cell padding-lr">
                                 <label>عنوان پروژه
-                                    <input class="form-element-margin-btm" type="text" name="projectTitle"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('projectTitle')}">
+                                    <input class="form-element-margin-btm" type="text" name="projectTitle" v-model="projectAmendmentInput.pSubject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('projectTitle')}">
                                 </label>
                                 <span v-show="errors.has('projectTitle')" class="error-font">لطفا عنوان پروژه انتخاب کنید!</span>
                             </div>
                             <div class="medium-4 cell padding-lr">
                                 <label>کد پروژه
-                                    <input class="form-element-margin-btm" type="text" name="projectCode" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('projectCode')}">
+                                    <input class="form-element-margin-btm" type="text" name="projectCode" v-model="projectAmendmentInput.pCode" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('projectCode')}">
                                 </label>
                                 <span v-show="errors.has('projectCode')" class="error-font">لطفا کد پروژه انتخاب کنید!</span>
                             </div>
@@ -597,19 +599,19 @@
                         <div class="grid-x">
                             <div class="medium-4 cell padding-lr">
                                 <label>سال شروع
-                                    <input class="form-element-margin-btm datePickerClass" type="text" name="startYear"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('startYear')}">
+                                    <input class="form-element-margin-btm datePickerClass" type="text" name="startYear" v-model="projectAmendmentInput.startYear"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('startYear')}">
                                 </label>
                                 <span v-show="errors.has('startYear')" class="error-font">لطفا سال شروع پروژه را وارد کنید!</span>
                             </div>
                             <div class="medium-4 cell padding-lr">
                                 <label>سال خاتمه
-                                    <input class="form-element-margin-btm datePickerClass" type="text" name="endYear"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('endYear')}">
+                                    <input class="form-element-margin-btm datePickerClass" type="text" name="endYear" v-model="projectAmendmentInput.endYear" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('endYear')}">
                                 </label>
                                 <span v-show="errors.has('endYear')" class="error-font">لطفا سال خاتمه پروژه را وارد کنید!</span>
                             </div>
                             <div class="medium-4 cell padding-lr">
                                 <label> پیشرفت فیزیکی<span class="btn-red small-font"> (درصد) </span>
-                                    <input  type="number" min="0" max="100" value="0" name="physicalProgress" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
+                                    <input  type="number" min="0" max="100" value="0" name="physicalProgress" v-model="projectAmendmentInput.pProgress" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
                                     <div style="margin-top: -16px;height:2px;" class="alert progress form-element-margin-btm">
                                         <div class="progress-meter" style="width: 100%"></div>
                                     </div>
@@ -618,7 +620,7 @@
                             </div>
                             <div class="medium-4 cell padding-lr">
                                 <label>شهرستان
-                                    <select class="form-element-margin-btm" name="city" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('city')}">
+                                    <select class="form-element-margin-btm" name="city" v-model="projectAmendmentInput.county" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('city')}">
                                         <option value=""></option>
                                         <option></option>
                                     </select>
@@ -629,7 +631,7 @@
                         <div class="grid-x">
                             <div class="small-12 columns padding-lr">
                                 <label>شرح
-                                    <textarea name="apDescription" style="min-height: 150px;" ></textarea>
+                                    <textarea name="apDescription" v-model="projectAmendmentInput.description" style="min-height: 150px;" ></textarea>
                                 </label>
                             </div>
                         </div>
@@ -910,6 +912,7 @@
                 approvedPlan_nat: [],
                 approvedPlanInput: {},
                 approvedAmendmentInput: {},
+                projectAmendmentInput: {},
                 showInsertModal: false,
                 showModalUpdate: false,
                 showModalDelete: false,
@@ -926,6 +929,8 @@
                 dateIsValid_delivery_amendment: true,
                 dateIsValid_exchange: true,
                 approvedAmendmentProjects: [],
+                approvedPlans: [],
+                displayCSInfo: '',
 
                 provOrNat: '',
                 apIdDelete: {},
@@ -1050,6 +1055,17 @@
                 axios.get('/budget/approved_project/capital_assets/getAllProjectWithPlanId' , {params:{pId: pId}})
                     .then((response) => {
                         this.approvedAmendmentProjects = response.data;
+                        console.log(response);
+                        console.log(JSON.stringify(this.approvedAmendmentProjects));
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            getAllApprovedPlan: function (pOrN) {
+                axios.get('/budget/approved_plan/capital_assets/getAllItems' , {params:{pOrN: pOrN}})
+                    .then((response) => {
+                        this.approvedPlans = response.data;
                         console.log(response);
                     },(error) => {
                         console.log(error);
@@ -1231,6 +1247,8 @@
                 this.$parent.myResize();
             },
             openInsertProjectModal: function () {
+                this.getAllApprovedPlan(this.provOrNat);
+                this.projectAmendmentInput.capId = this.approvedAmendmentInput.parentId;
                 this.showInsertModalProject= true;
             },
             openEditProjectModal: function () {
