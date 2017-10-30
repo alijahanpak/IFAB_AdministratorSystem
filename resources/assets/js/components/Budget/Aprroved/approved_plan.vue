@@ -44,8 +44,8 @@
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a  href="#"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
-                                            <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
+                                            <li><a><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                                         </ul>
                                     </div>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
@@ -468,11 +468,10 @@
                             </div>
                         </div>
                     <div style="margin-top: 17px;" class="grid-x">
-                        <div class="medium-2 button-group float-right">
-                            <a class="my-button toolbox-btn small" @click="openInsertProjectModal">پروژه جدید</a>
-                        </div>
-                        <div class="medium-2 button-group float-right">
-                            <a class="my-button toolbox-btn small" @click="cancelApprovedAmendment">لغو</a>
+                        <div class="medium-12 button-group float-right">
+                            <a class="medium-1 my-button toolbox-btn small" @click="openInsertProjectModal">پروژه جدید</a>
+                            <a class="medium-1 my-button toolbox-btn small" @click="cancelApprovedAmendment">لغو</a>
+                            <a class="medium-1 my-button toolbox-btn small" @click="">تایید</a>
                         </div>
                     </div>
                     <div class="grid-x">
@@ -527,7 +526,7 @@
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'project' + project.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
                                                                 <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                <li><a v-on:click.prevent="openAPCreditInsertModal"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
+                                                                <li><a v-on:click.prevent="openAPCreditInsertModal(project.id)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
                                                                 <li><a v-on:click.prevent="openEditProjectModal"><i class="fa fa-newspaper-o size-16"></i>  اصلاح</a></li>
                                                             </ul>
                                                         </div>
@@ -567,8 +566,7 @@
                                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'projectCs' + credit_source.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
                                                                             <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                            <li><a v-on:click.prevent="openAPCreditInsertModal"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
-                                                                            <li><a v-on:click.prevent="openEditProjectModal"><i class="fa fa-newspaper-o size-16"></i>  اصلاح</a></li>
+                                                                            <li><a v-on:click.prevent=""><i class="fa fa-newspaper-o size-16"></i>  اصلاح</a></li>
                                                                         </ul>
                                                                     </div>
                                                                 </div>
@@ -606,7 +604,7 @@
                                 <label>طرح
                                     <select disabled="true" name="plan" v-model="projectAmendmentInput.capId">
                                         <option value=""></option>
-                                        <option v-for="approvedPlan in approvedPlans" :value="approvedPlan.id">{{ approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject }}</option>
+                                        <option :value="approvedAmendmentProjects.id" @click="setCountyId(approvedAmendmentProjects.credit_distribution_title.county.id)">{{ approvedAmendmentProjects.credit_distribution_title.cdtIdNumber + approvedAmendmentProjects.credit_distribution_title.cdtSubject }}</option>
                                     </select>
                                 </label>
                             </div>
@@ -649,9 +647,9 @@
                             </div>
                             <div class="medium-4 cell padding-lr">
                                 <label>شهرستان
-                                    <select class="form-element-margin-btm" name="city" v-model="projectAmendmentInput.county" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('city')}">
+                                    <select class="form-element-margin-btm" :disabled="countyState" :selected="projectAmendmentInput.county" name="city" v-model="projectAmendmentInput.county" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('city')}">
                                         <option value=""></option>
-                                        <option></option>
+                                        <option v-for="county in counties" :value="county.id">{{ county.coName }}</option>
                                     </select>
                                     <span v-show="errors.has('city')" class="error-font">لطفا شهرستان را انتخاب کنید!</span>
                                 </label>
@@ -757,7 +755,7 @@
             <!--Project credit source Modal Start-->
             <modal-small v-if="showApCreditEditModal" @close="showApCreditEditModal = false">
                 <div  slot="body">
-                    <form v-on:submit.prevent="">
+                    <form v-on:submit.prevent="insertNewCreditSource">
                         <div class="grid-x" v-if="errorMessage">
                             <div class="medium-12 columns padding-lr">
                                 <div class="alert callout">
@@ -842,7 +840,7 @@
             <!--Project credit source Modal Insert Start-->
             <modal-small v-if="showApCreditInsertModal" @close="showApCreditInsertModal = false">
                 <div  slot="body">
-                    <form v-on:submit.prevent="">
+                    <form v-on:submit.prevent="insertNewCreditSource">
                         <div class="grid-x" v-if="errorMessage">
                             <div class="medium-12 columns padding-lr">
                                 <div class="alert callout">
@@ -853,7 +851,7 @@
                         <div class="grid-x">
                             <div class="medium-9 cell padding-lr">
                                 <label>ردیف توزیع اعتبار
-                                    <select  class="form-element-margin-btm"  name="row"  v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('row')}">
+                                    <select  class="form-element-margin-btm"  name="row" v-model="apCreditSourceInput.crId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('row')}">
                                         <option value=""></option>
                                         <option v-for="creditDistributionRow in creditDistributionRows" :value="creditDistributionRow.id">{{ creditDistributionRow.cdSubject }}</option>
                                     </select>
@@ -862,9 +860,9 @@
                             </div>
                             <div class="medium-3 cell padding-lr">
                                 <label>نحوه اجرا
-                                    <select class="form-element-margin-btm" name="howToRun"  v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('howToRun')}">
+                                    <select class="form-element-margin-btm" name="howToRun" v-model="apCreditSourceInput.htrId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('howToRun')}">
                                         <option value=""></option>
-                                        <option></option>
+                                        <option v-for="howToRun in howToRuns" :value="howToRun.id">{{ howToRun.htrSubject }}</option>
                                     </select>
                                     <span v-show="errors.has('howToRun')" class="error-font">لطفا نحوه اجرا را انتخاب کنید!</span>
                                 </label>
@@ -873,18 +871,18 @@
                         <div class="grid-x">
                             <div class="medium-4 column padding-lr">
                                 <label>فصل
-                                    <select class="form-element-margin-btm" @change=""  name="season" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('season')}">
+                                    <select class="form-element-margin-btm" v-model="selectedSeason" @change="getSeasonTitle"  name="season" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('season')}">
                                         <option value=""></option>
-                                        <option></option>
+                                        <option v-for="season in seasons" :value="season.id">{{ season.sSubject }}</option>
                                     </select>
                                     <span v-show="errors.has('season')" class="error-font">لطفا فصل را انتخاب کنید!</span>
                                 </label>
                             </div>
                             <div class="medium-8 column padding-lr">
                                 <label>عنوان فصل
-                                    <select class="form-element-margin-btm"  @change="" name="seasonTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('seasonTitle')}">
+                                    <select class="form-element-margin-btm" v-model="selectedSeasonTitle" @change="getTinySeasons" name="seasonTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('seasonTitle')}">
                                         <option value=""></option>
-                                        <option></option>
+                                        <option v-for="seasonTitle in seasonTitles" :value="seasonTitle.id">{{ seasonTitle.castSubject }}</option>
                                     </select>
                                     <span v-show="errors.has('seasonTitle')" class="error-font">لطفا عنوان فصل را انتخاب کنید!</span>
                                 </label>
@@ -893,9 +891,9 @@
                         <div class="grid-x">
                             <div class="medium-12 column padding-lr">
                                 <label>ریز فصل
-                                    <select class="form-element-margin-btm" name="subSeason" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('subSeason')}">
+                                    <select class="form-element-margin-btm" v-model="apCreditSourceInput.tsId" name="subSeason" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('subSeason')}">
                                         <option value=""></option>
-                                        <option></option>
+                                        <option v-for="tinySeason in tinySeasons" :value="tinySeason.id">{{ tinySeason.catsSubject }}</option>
                                     </select>
                                     <span v-show="errors.has('subSeason')" class="error-font">لطفا ریز فصل را انتخاب کنید!</span>
                                 </label>
@@ -904,7 +902,7 @@
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
                                 <label>مبلغ اعتبار <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                    <input class="form-element-margin-btm" type="text" name="amount"  v-validate="'required|decimal'" :class="{'input': true, 'error-border': errors.has('amount')}">
+                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="apCreditSourceInput.csAmount" v-validate="'required|decimal'" :class="{'input': true, 'error-border': errors.has('amount')}">
                                 </label>
                                 <span v-show="errors.has('amount')" class="error-font">لطفا مبلغ اعتبار پروژه را وارد کنید!</span>
                             </div>
@@ -912,7 +910,7 @@
                         <div class="grid-x">
                             <div class="small-12 columns padding-lr">
                                 <label>شرح
-                                    <textarea name="csDescription" style="min-height: 150px;"></textarea>
+                                    <textarea name="csDescription" style="min-height: 150px;" v-model="apCreditSourceInput.csDescription"></textarea>
                                 </label>
                             </div>
                         </div>
@@ -942,6 +940,7 @@
                 approvedPlanInput: {},
                 approvedAmendmentInput: {},
                 projectAmendmentInput: {},
+                apCreditSourceInput: {},
                 showInsertModal: false,
                 showModalUpdate: false,
                 showModalDelete: false,
@@ -960,9 +959,18 @@
                 approvedAmendmentProjects: [],
                 approvedPlans: [],
                 displayCSInfo: '',
-
+                counties: [],
+                countyState: false,
                 provOrNat: '',
                 apIdDelete: {},
+                seasons: {},
+                seasonTitles: {},
+                tinySeasons: {},
+                selectedSeasons: '',
+                selectedSeasonTitle: '',
+                creditDistributionRows: {},
+                howToRuns: {},
+                capIdForInsertCreditSource: '',
                 national_pagination: {
                     total: 0,
                     to: 0,
@@ -991,6 +999,11 @@
         mounted: function () {
             console.log("mounted approved project component");
             this.$parent.myResize();
+        },
+
+        beforeDestroy: function () {
+            console.log("destroy approved project component");
+            this.cleanApprovedAmendmentTemp(); //clean all remaining approved amendment plan record
         },
 
         components:{
@@ -1028,6 +1041,73 @@
                     },(error) => {
                         console.log(error);
                     });
+            },
+
+            getCounties: function () {
+                axios.get('/admin/get_all_counties' , {params:{}})
+                    .then((response) => {
+                        this.counties = response.data;
+                        console.log(response);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            getHowToRun: function () {
+                axios.get('/budget/admin/how_to_run/getAllItems')
+                    .then((response) => {
+                        this.howToRuns = response.data;
+                        console.log(response);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+
+            getSeasons: function () {
+                axios.get('/admin/get_all_seasons' , {params:{}})
+                    .then((response) => {
+                        this.seasons = response.data;
+                        console.log(response);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            getSeasonTitle: function () {
+                axios.get('/budget/admin/season_title/capital_assets/getWithSeasonId' , {params:{sId: this.selectedSeason}}).then((response) => {
+                    this.seasonTitles = response.data;
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+            },
+
+            getTinySeasons: function () {
+                axios.get('/budget/admin/sub_seasons/capital_assets/getAllItem' , {params:{castId: this.selectedSeasonTitle}})
+                    .then((response) => {
+                        this.tinySeasons = response.data;
+                        console.log(response);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            getCreditDistributionRow: function () {
+                axios.get('/budget/admin/credit_distribution_def/rows/getAllItems' , {params:{planOrCost: 0}})
+                    .then((response) => {
+                        this.creditDistributionRows = response.data;
+                        console.log(response);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            setCountyId: function (coId) {
+                if (this.provOrNat == 0)
+                {
+                    this.projectAmendmentInput.county = coId;
+                }
             },
 
             sumOfAmount: function (items) {
@@ -1078,16 +1158,6 @@
                           }
                           break;
                   }
-            },
-
-            getAllApprovedPlan: function (pOrN) {
-                axios.get('/budget/approved_plan/capital_assets/getAllItems' , {params:{pOrN: pOrN}})
-                    .then((response) => {
-                        this.approvedPlans = response.data;
-                        console.log(response);
-                    },(error) => {
-                        console.log(error);
-                });
             },
 
             openApprovedPlanInsertModal: function (type) {
@@ -1204,7 +1274,37 @@
                                 //this.approvedProjects_nat = response.data;
                             }
                             this.showInsertModalProject = false;
-                            this.$parent.displayNotif(response.status);
+                            console.log(response);
+                        },(error) => {
+                            console.log(error);
+                            //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                        });
+                    }
+                });
+            },
+
+            insertNewCreditSource: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/credit_source/register' , {
+                            pId: this.approvedAmendmentProjects.id,
+                            capId: this.capIdForInsertCreditSource,
+                            crId: this.apCreditSourceInput.crId,
+                            htrId: this.apCreditSourceInput.htrId,
+                            tsId: this.apCreditSourceInput.tsId,
+                            amount: this.apCreditSourceInput.csAmount,
+                            description: this.apCreditSourceInput.csDescription,
+                            pOrN: this.provOrNat
+                        }).then((response) => {
+                            if (this.provOrNat == 0)
+                            {
+                                this.approvedAmendmentProjects = response.data;
+                            }
+                            else
+                            {
+                                //this.approvedProjects_nat = response.data;
+                            }
+                            this.showApCreditInsertModal=false;
                             console.log(response);
                         },(error) => {
                             console.log(error);
@@ -1257,6 +1357,16 @@
                 });
             },
 
+            cleanApprovedAmendmentTemp: function () {
+                axios.post('/budget/approved_plan/capital_assets/amendment/temp/cancel')
+                .then((response) => {
+                    console.log('----------------------- clean cleanApprovedAmendmentTemp table ----------------------');
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+            },
+
             createApprovedAmendment: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
@@ -1286,14 +1396,27 @@
                 this.$parent.myResize();
             },
             openInsertProjectModal: function () {
-                this.getAllApprovedPlan(this.provOrNat);
-                this.projectAmendmentInput.capId = this.approvedAmendmentInput.parentId;
+                this.getCounties();
+                this.projectAmendmentInput.capId = this.approvedAmendmentProjects.id;
                 this.showInsertModalProject= true;
+                if (this.provOrNat == 0)
+                {
+                    this.countyState = true;
+                    this.setCountyId(this.approvedAmendmentProjects.credit_distribution_title.county.id);
+                }
+                else
+                {
+                    this.countyState = false;
+                }
             },
             openEditProjectModal: function () {
                 this.showEditModalProject= true;
             },
-            openAPCreditInsertModal: function () {
+            openAPCreditInsertModal: function (pId) {
+                this.capIdForInsertCreditSource = pId;
+                this.getHowToRun();
+                this.getSeasons();
+                this.getCreditDistributionRow();
                 this.showApCreditInsertModal=true;
             },
             openAPCreditEditModal: function () {
