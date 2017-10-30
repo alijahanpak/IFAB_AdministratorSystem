@@ -135,7 +135,49 @@ class PlanController extends Controller
             ->get());
     }
 
+    /////////////////////////////// amendment ////////////////////////////////////////////
+
+    public function acceptApprovedAmendment(Request $request)
+    {
+        $temp = CapitalAssetsApprovedPlanTemp::find($request->capId);
+        $cap = new CapitalAssetsApprovedPlan;
+        $cap->capUId = Auth::user()->id;
+        $cap->capCdtId = $temp->capCdtId;
+        $cap->capFyId = $temp->capFyId;
+        $cap->capLetterNumber = $temp->capLetterNumber;
+        $cap->capLetterDate = $temp->capLetterDate;
+        $cap->capExchangeIdNumber = $temp->capExchangeIdNumber;
+        $cap->capExchangeDate = $temp->capExchangeDate;
+        $cap->capProvinceOrNational = $temp->capProvinceOrNational;
+        $cap->capDescription = $temp->capDescription;
+        $cap->capCapId = $request->parentId;
+        $cap->save();
+
+        CapitalAssetsApprovedPlan::where('id' , '=' , $request->parentId)
+            ->orWhere('capCapId' , '=' , $request->parentId)
+            ->where('id' , '<>' , $cap->id)
+            ->update(['capActive' => 0]);
+
+        $pTemps = CapitalAssetsProjectTemp::where('cpCapId' , '=' , $temp->id)->get();
+        foreach ($pTemps as $pTemp)
+        {
+            $project = new CapitalAssetsProject;
+            $project->cpUId = $pTemp->cpUId;
+            $project->cpCapId = $cap->id;
+            $project->cpCoId = $pTemp->cpCoId;
+            $project->cpSubject = $pTemp->cpSubject;
+            $project->cpCode = $pTemp->cpCode;
+            $project->cpStartYear = $pTemp->cpStartYear;
+            $project->cpEndOfYear = $pTemp->cpEndOfYear;
+            $project->cpPhysicalProgress = $pTemp->cpPhysicalProgress;
+            $project->cpDescription = $pTemp->cpDescription;
+            $project->save();
+        }
+
+    }
+
     /////////////////////////////// temp ////////////////////////////////////////////
+
     public function registerApprovedAmendmentTemp(Request $request)
     {
         $old = CapitalAssetsApprovedPlan::find($request->capId);
@@ -183,14 +225,6 @@ class PlanController extends Controller
 
         }
 
-        /*        if (isset($request->capId))
-                {
-                    CapitalAssetsApprovedPlan::where('id' , '=' , $request->capId)
-                        ->orWhere('capCapId' , '=' , $request->capId)
-                        ->where('id' , '<>' , $cap->id)
-                        ->update(['capActive' => 0]);
-                }*/
-
         return \response()->json($this->getAllTempProjectWithPlanId($cap->id));
     }
 
@@ -213,9 +247,33 @@ class PlanController extends Controller
         );
     }
 
+    public function registerAmendmentProjectCreditSourceTemp(Request $request)
+    {
+        $apCs = new CapCreditSourceTemp;
+        $apCs->ccsUId = Auth::user()->id;
+        $apCs->ccsCapId = $request->capId;
+        $apCs->ccsCdrId = $request->crId;
+        $apCs->ccsTsId = $request->tsId;
+        $apCs->ccsHtrId = $request->htrId;
+        $apCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
+        $apCs->ccsDescription = $request->description;
+        $apCs->save();
+
+        return \response()->json(
+            $this->getAllTempProjectWithPlanId($request->pId)
+        );
+    }
+
     public function cancelApprovedAmendmentTemp(Request $request)
     {
-        return \response()->json(CapitalAssetsApprovedPlanTemp::find($request->capId)->delete());
+        if (isset($request->capId))
+        {
+            return \response()->json(CapitalAssetsApprovedPlanTemp::find($request->capId)->delete());
+        }else{
+            return \response()->json(
+                CapitalAssetsApprovedPlanTemp::where('capUId' , '=' , Auth::user()->id)->delete()
+            );
+        }
     }
 
     public function getAllTempProjectWithPlanId($pId)

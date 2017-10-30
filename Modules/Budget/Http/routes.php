@@ -191,6 +191,8 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('/temp/register', 'PlanController@registerApprovedAmendmentTemp');
         Route::post('/temp/cancel', 'PlanController@cancelApprovedAmendmentTemp');
         Route::post('/temp/project/register', 'PlanController@registerAmendmentProjectTemp');
+        Route::post('/temp/project/credit_source/register', 'PlanController@registerAmendmentProjectCreditSourceTemp');
+        Route::post('/accept', 'PlanController@acceptApprovedAmendment');
         //Route::post('/delete', 'PlanController@deleteCapitalAssetsApprovedPlan');
         //Route::post('/update', 'PlanController@updateCapitalAssetsApprovedPlan');
         //Route::get('/getAllItems', 'PlanController@getAllApprovedPlan');
