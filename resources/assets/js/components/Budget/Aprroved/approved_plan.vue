@@ -44,7 +44,7 @@
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a  href="#"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a target="_blank" href="http://localhost/IFAB_AdministratorSystem/public/budget/approved_plan/capital_assets/provincial/report"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
                                             <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                                         </ul>
                                     </div>
@@ -79,8 +79,9 @@
                                         <col width="150px"/>
                                         <col width="150px"/>
                                         <col width="250px"/>
-                                        <col width="12px"/>
                                         <col v-show="selectColumn" width="15px"/>
+                                        <col width="12px"/>
+
                                     </colgroup>
                                     <tbody class="tbl-head-style">
                                     <tr class="tbl-head-style-cell">
@@ -89,8 +90,8 @@
                                         <th class="tbl-head-style-cell">ابلاغی</th>
                                         <th class="tbl-head-style-cell">شهرستان</th>
                                         <th class="tbl-head-style-cell">شرح</th>
-                                        <th class="tbl-head-style-cell"></th>
                                         <th class="tbl-head-style-checkbox" v-show="selectColumn"><input id="checkboxColumn" type="checkbox"></th>
+                                        <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
                                 </table>

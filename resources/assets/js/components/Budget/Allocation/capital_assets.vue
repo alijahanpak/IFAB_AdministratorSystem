@@ -34,7 +34,19 @@
                             <div class="clearfix border-btm-line bottom-mrg tool-bar">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(0)">جدید</a>
-                                    <a class="my-button toolbox-btn small">گزارش</a>
+                                    <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
+                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
+                                    </div>
+                                    <div v-if="selectColumn" class="input-group-button toggle-icon-change">
+                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
+                                    </div>
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
+                                        <ul class="my-menu small-font ltr-dir">
+                                            <li><a  href="#"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
+                                        </ul>
+                                    </div>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
@@ -67,6 +79,7 @@
                                         <col width="150px"/>
                                         <col width="150px"/>
                                         <col width="150px"/>
+                                        <col v-show="selectColumn" width="15px"/>
                                         <col width="12px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style">
@@ -78,6 +91,7 @@
                                         <th class="tbl-head-style-cell">شماره</th>
                                         <th class="tbl-head-style-cell">تاریخ</th>
                                         <th class="tbl-head-style-cell">مبلغ</th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input id="checkboxColumn" type="checkbox"></th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
@@ -93,6 +107,7 @@
                                             <col width="150px"/>
                                             <col width="150px"/>
                                             <col width="150px"/>
+                                            <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
                                             <template v-for="plans in provCapitalAssetsAllocations">
@@ -104,6 +119,9 @@
                                                     <td>{{ plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterNumber }}</td>
                                                     <td>{{ plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterDate }}</td>
                                                     <td>{{ $parent.calcDispAmount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount , false) }}</td>
+                                                    <td  v-show="selectColumn">
+                                                        <input class="auto-margin" type="checkbox">
+                                                    </td>
                                                 </tr>
                                                <template v-for="(projects, proIndex) in plans.capital_assets_project_has_credit_source">
                                                    <tr class="tbl-head-style-cell" v-if="proIndex > 0">
@@ -120,6 +138,9 @@
                                                             <td>{{ credit_source.allocation[0].caaLetterNumber }}</td>
                                                             <td>{{ credit_source.allocation[0].caaLetterDate }}</td>
                                                             <td>{{ $parent.calcDispAmount(credit_source.allocation[0].caaAmount , false) }}</td>
+                                                            <td  v-show="selectColumn">
+                                                                <input class="auto-margin" type="checkbox">
+                                                            </td>
                                                         </tr>
                                                         <template v-for="(alloc , allocIndex) in credit_source.allocation">
                                                             <tr class="tbl-head-style-cell" v-if="allocIndex > 0">
@@ -253,7 +274,19 @@
                             <div class="clearfix border-btm-line bottom-mrg tool-bar">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
-                                    <a class="my-button toolbox-btn small">گزارش</a>
+                                    <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
+                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
+                                    </div>
+                                    <div v-if="selectColumn" class="input-group-button toggle-icon-change">
+                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
+                                    </div>
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
+                                        <ul class="my-menu small-font ltr-dir">
+                                            <li><a  href="#"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
+                                        </ul>
+                                    </div>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
@@ -286,6 +319,7 @@
                                         <col width="150px"/>
                                         <col width="150px"/>
                                         <col width="150px"/>
+                                        <col v-show="selectColumn" width="15px"/>
                                         <col width="12px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style">
@@ -297,6 +331,7 @@
                                         <th class="tbl-head-style-cell">شماره</th>
                                         <th class="tbl-head-style-cell">تاریخ</th>
                                         <th class="tbl-head-style-cell">مبلغ</th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input id="checkboxColumn" type="checkbox"></th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
@@ -312,6 +347,7 @@
                                             <col width="150px"/>
                                             <col width="150px"/>
                                             <col width="150px"/>
+                                            <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
                                         <template v-for="plans in natCapitalAssetsAllocations">
@@ -323,6 +359,9 @@
                                                 <td>{{ plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterNumber }}</td>
                                                 <td>{{ plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterDate }}</td>
                                                 <td>{{ $parent.calcDispAmount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount , false) }}</td>
+                                                <td  v-show="selectColumn">
+                                                    <input class="auto-margin" type="checkbox">
+                                                </td>
                                             </tr>
                                             <template v-for="(projects, proIndex) in plans.capital_assets_project_has_credit_source">
                                                 <tr class="tbl-head-style-cell" v-if="proIndex > 0">
@@ -345,6 +384,9 @@
                                                             <td>{{ alloc.caaLetterNumber }}</td>
                                                             <td>{{ alloc.caaLetterDate }}</td>
                                                             <td>{{ $parent.calcDispAmount(alloc.caaAmount , false) }}</td>
+                                                            <td  v-show="selectColumn">
+                                                                <input class="auto-margin" type="checkbox">
+                                                            </td>
                                                         </tr>
                                                     </template>
                                                 </template>
@@ -577,6 +619,7 @@
                 showModal: false,
                 showModalUpdate: false,
                 showModalDelete: false,
+                selectColumn:false,
                 registerOfCreditAllocationAssetsFill: {rocaPlan: '' ,rocaaProject:'',rocaaRow:'',roccaCost:'',rocaaNumber:'',rocaaDate:''},
                 creditSourceInfo: {},
                 rocaaIdDelete: {},
@@ -803,7 +846,15 @@
                         this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                     });*/
             },
-
+            showSelectColumn: function () {
+                if (this.selectColumn)
+                {
+                    this.selectColumn=false;
+                }
+                else{
+                    this.selectColumn=true;
+                }
+            },
             makePagination: function(data , type){
                 if (type == "national")
                 {

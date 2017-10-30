@@ -35,7 +35,19 @@
                             <div class="clearfix border-btm-line bottom-mrg tool-bar">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(0)">جدید</a>
-                                    <a class="my-button toolbox-btn small">گزارش</a>
+                                    <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
+                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
+                                    </div>
+                                    <div v-if="selectColumn" class="input-group-button toggle-icon-change">
+                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
+                                    </div>
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
+                                        <ul class="my-menu small-font ltr-dir">
+                                            <li><a  href="#"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
+                                        </ul>
+                                    </div>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="DropDown1">تعداد نمایش<span> 20 </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="DropDown1" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
@@ -69,6 +81,7 @@
                                         <col width="150px"/>
                                         <col width="150px"/>
                                         <col width="150px"/>
+                                        <col v-show="selectColumn" width="15px"/>
                                         <col width="12px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style">
@@ -80,6 +93,7 @@
                                         <th class="tbl-head-style-cell">شماره</th>
                                         <th class="tbl-head-style-cell">تاریخ</th>
                                         <th class="tbl-head-style-cell">مبلغ</th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input id="checkboxColumn" type="checkbox"></th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
@@ -96,6 +110,7 @@
                                             <col width="150px"/>
                                             <col width="150px"/>
                                             <col width="150px"/>
+                                            <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
                                         <template v-for="progs in provCostAllocations">
@@ -121,6 +136,9 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </td>
+                                                <td  v-show="selectColumn">
+                                                    <input class="auto-margin" id="checkbox1" type="checkbox">
                                                 </td>
                                             </tr>
                                             <template v-for="(credit_source , csIndex) in progs.ca_credit_source_has_allocation">
@@ -167,6 +185,9 @@
                                                                 </div>
                                                             </div>
                                                         </td>
+                                                        <td  v-show="selectColumn">
+                                                            <input class="auto-margin" id="checkbox1" type="checkbox">
+                                                        </td>
                                                     </tr>
                                                 </template>
                                             </template>
@@ -194,7 +215,19 @@
                             <div class="clearfix border-btm-line bottom-mrg tool-bar">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
-                                    <a class="my-button toolbox-btn small">گزارش</a>
+                                    <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
+                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
+                                    </div>
+                                    <div v-if="selectColumn" class="input-group-button toggle-icon-change">
+                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
+                                    </div>
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
+                                        <ul class="my-menu small-font ltr-dir">
+                                            <li><a  href="#"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
+                                        </ul>
+                                    </div>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="DropDown2">تعداد نمایش<span> 20 </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="DropDown2" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
@@ -228,6 +261,7 @@
                                         <col width="150px"/>
                                         <col width="150px"/>
                                         <col width="150px"/>
+                                        <col v-show="selectColumn" width="15px"/>
                                         <col width="12px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style ">
@@ -239,6 +273,7 @@
                                         <th class="tbl-head-style-cell">شماره</th>
                                         <th class="tbl-head-style-cell">تاریخ</th>
                                         <th class="tbl-head-style-cell">مبلغ</th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input id="checkboxColumn" type="checkbox"></th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
@@ -255,6 +290,7 @@
                                             <col width="150px"/>
                                             <col width="150px"/>
                                             <col width="150px"/>
+                                            <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
                                         <template v-for="progs in natCostAllocations">
@@ -280,6 +316,9 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </td>
+                                                <td  v-show="selectColumn">
+                                                    <input class="auto-margin" id="checkboxNational" type="checkbox">
                                                 </td>
                                             </tr>
                                             <template v-for="(credit_source , csIndex) in progs.ca_credit_source_has_allocation">
@@ -325,6 +364,9 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        </td>
+                                                        <td  v-show="selectColumn">
+                                                            <input class="auto-margin" id="checkboxNational" type="checkbox">
                                                         </td>
                                                     </tr>
                                                 </template>
@@ -554,6 +596,7 @@
                 showModal: false,
                 showModalUpdate: false,
                 showModalDelete: false,
+                selectColumn:false,
                 costAllocationFill: {},
                 creditSourceInfo: {},
                 caIdDelete: {},
@@ -787,7 +830,15 @@
                         this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                     });*/
             },
-
+            showSelectColumn: function () {
+                if (this.selectColumn)
+                {
+                    this.selectColumn=false;
+                }
+                else{
+                    this.selectColumn=true;
+                }
+            },
             makePagination: function(data , type){
                 if (type == "national")
                 {

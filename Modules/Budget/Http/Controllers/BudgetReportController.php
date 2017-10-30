@@ -13,7 +13,7 @@ class BudgetReportController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function test()
+    public function approvedPlanProv()
     {
         $pdf = App::make('snappy.pdf.wrapper');
         $pdf->setOption('encoding', 'UTF-8');
@@ -21,10 +21,12 @@ class BudgetReportController extends Controller
         $pdf->setOption('title', 'report');
         $pdf->setOption('footer-center', '[page]/[topage]');
         $pdf->setOption('margin-bottom', 20);
-        $pdf->setOption('margin-top', 20);
+        $pdf->setOrientation('landscape');
+        $pdf->setOption('margin-top',20);
         $pdf->setOption('lowquality', true);
         $pdf->setOption('zoom', 1.2);
-        $pdf->loadHTML('<p>morteza</p>');
+        $pdf->loadHTML(view('budget::reports.approved.plan_provincial'));
         return $pdf->inline();
+        /*return view('budget::reports.approved.plan_provincial');*/
     }
 }
