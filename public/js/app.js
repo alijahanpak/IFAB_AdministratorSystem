@@ -115229,6 +115229,95 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -115251,6 +115340,7 @@ if (false) {(function () {
             showEditModalProject: false,
             showApCreditInsertModal: false,
             showApCreditEditModal: false,
+            showModalReport: false,
             selectColumn: false,
             approvedPlanFill: {},
             creditDistributionTitles: [],
@@ -115722,6 +115812,9 @@ if (false) {(function () {
         openAPCreditEditModal: function openAPCreditEditModal() {
             this.showApCreditEditModal = true;
         },
+        openReportModal: function openReportModal() {
+            this.showModalReport = true;
+        },
         showSelectColumn: function showSelectColumn() {
             if (this.selectColumn) {
                 this.selectColumn = false;
@@ -115845,7 +115938,33 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "type": "button",
       "data-toggle": "reportDropDown1"
     }
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(2), _vm._v(" "), _vm._m(3), _vm._v(" "), _vm._m(4)]), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _c('div', {
+    staticClass: "dropdown-pane dropdown-pane-sm ",
+    staticStyle: {
+      "width": "113px"
+    },
+    attrs: {
+      "data-close-on-click": "true",
+      "data-hover": "true",
+      "data-hover-pane": "true",
+      "data-position": "bottom",
+      "data-alignment": "left",
+      "id": "reportDropDown1",
+      "data-dropdown": "",
+      "data-auto-focus": "true"
+    }
+  }, [_c('ul', {
+    staticClass: "my-menu small-font ltr-dir"
+  }, [_c('li', [_c('a', {
+    on: {
+      "click": _vm.openReportModal
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-file-pdf-o icon-margin-dropdown",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v("PDF")])]), _vm._v(" "), _vm._m(2)])]), _vm._v(" "), _vm._m(3), _vm._v(" "), _vm._m(4)]), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
   }, [_c('table', {
     staticClass: "tbl-head"
@@ -116021,7 +116140,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }))])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
-    staticClass: "medium-12"
+    staticClass: "medium-8"
   }, [_c('vue-pagination', {
     attrs: {
       "pagination": _vm.provincial_pagination,
@@ -116032,7 +116151,18 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchProvincialData(_vm.provincial_pagination.current_page)
       }
     }
-  })], 1)])])]), _vm._v(" "), _c('div', {
+  })], 1), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.selectColumn),
+      expression: "selectColumn"
+    }],
+    staticClass: "medium-4 small-font",
+    staticStyle: {
+      "color": "#575962"
+    }
+  }, [_vm._m(6)])])])]), _vm._v(" "), _c('div', {
     staticClass: "tabs-panel table-mrg-btm",
     attrs: {
       "id": "national_tab",
@@ -116088,9 +116218,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
     attrs: {
       "type": "button",
-      "data-toggle": "reportDropDown1"
+      "data-toggle": "reportDropDown2"
     }
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(6), _vm._v(" "), _vm._m(7), _vm._v(" "), _vm._m(8)]), _vm._v(" "), _vm._m(9)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(7), _vm._v(" "), _vm._m(8), _vm._v(" "), _vm._m(9)]), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
   }, [_c('table', {
     staticClass: "tbl-head"
@@ -118206,7 +118336,183 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
-  }, [_vm._v("ثبت")])])])])])]) : _vm._e()], 1)])
+  }, [_vm._v("ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showModalReport) ? _c('modal-tiny', {
+    on: {
+      "close": function($event) {
+        _vm.showModalReport = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('div', {
+    staticClass: "small-font"
+  }, [_c('div', {
+    staticClass: "grid-x padding-lr"
+  }, [_c('div', {
+    staticClass: "medium-12"
+  }, [_c('label', [_vm._v("عنوان\n                                "), _c('input', {
+    attrs: {
+      "type": "text",
+      "name": "title"
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-6 column padding-lr"
+  }, [_c('label', [_vm._v("نمایش مبلغ\n                                "), _c('select', {
+    attrs: {
+      "name": "money"
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "1"
+    }
+  }, [_vm._v("ریال")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "2"
+    }
+  }, [_vm._v("میلیون ریال")])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x padding-lr",
+    staticStyle: {
+      "margin-top": "10px"
+    }
+  }, [_c('div', {
+    staticClass: "medium-2"
+  }, [_c('div', {
+    staticClass: "switch tiny"
+  }, [_c('input', {
+    staticClass: "switch-input",
+    attrs: {
+      "checked": "true",
+      "id": "yes-no-1",
+      "type": "checkbox",
+      "name": "exampleSwitch1"
+    }
+  }), _vm._v(" "), _c('label', {
+    staticClass: "switch-paddle",
+    attrs: {
+      "for": "yes-no-1"
+    }
+  }, [_c('span', {
+    staticClass: "switch-active",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("بلی")]), _vm._v(" "), _c('span', {
+    staticClass: "switch-inactive",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("خیر")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-10"
+  }, [_c('p', [_vm._v("درج نام کاربر گزارش گیرنده")])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x padding-lr"
+  }, [_c('div', {
+    staticClass: "medium-2"
+  }, [_c('div', {
+    staticClass: "switch tiny"
+  }, [_c('input', {
+    staticClass: "switch-input",
+    attrs: {
+      "checked": "true",
+      "id": "yes-no-2",
+      "type": "checkbox",
+      "name": "exampleSwitch2"
+    }
+  }), _vm._v(" "), _c('label', {
+    staticClass: "switch-paddle",
+    attrs: {
+      "for": "yes-no-2"
+    }
+  }, [_c('span', {
+    staticClass: "switch-active",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("بلی")]), _vm._v(" "), _c('span', {
+    staticClass: "switch-inactive",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("خیر")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-10"
+  }, [_c('p', [_vm._v("درج سال مالی")])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x padding-lr"
+  }, [_c('div', {
+    staticClass: "medium-2"
+  }, [_c('div', {
+    staticClass: "switch tiny"
+  }, [_c('input', {
+    staticClass: "switch-input",
+    attrs: {
+      "checked": "true",
+      "id": "yes-no3",
+      "type": "checkbox",
+      "name": "exampleSwitch"
+    }
+  }), _vm._v(" "), _c('label', {
+    staticClass: "switch-paddle",
+    attrs: {
+      "for": "yes-no3"
+    }
+  }, [_c('span', {
+    staticClass: "switch-active",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("بلی")]), _vm._v(" "), _c('span', {
+    staticClass: "switch-inactive",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("خیر")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-10"
+  }, [_c('p', [_vm._v("درج تاریخ گزارش")])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x padding-lr"
+  }, [_c('div', {
+    staticClass: "medium-2"
+  }, [_c('div', {
+    staticClass: "switch tiny"
+  }, [_c('input', {
+    staticClass: "switch-input",
+    attrs: {
+      "checked": "true",
+      "id": "yes-no4",
+      "type": "checkbox",
+      "name": "exampleSwitch4"
+    }
+  }), _vm._v(" "), _c('label', {
+    staticClass: "switch-paddle",
+    attrs: {
+      "for": "yes-no4"
+    }
+  }, [_c('span', {
+    staticClass: "switch-active",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("افقی")]), _vm._v(" "), _c('span', {
+    staticClass: "switch-inactive",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("عمودی")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-10"
+  }, [_c('p', [_vm._v("جهت کاغذ")])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 columns padding-lr padding-bottom-modal input-margin-top"
+  }, [_c('a', {
+    staticClass: "my-button my-success float-left",
+    attrs: {
+      "target": "_blank",
+      "href": "http://localhost/IFAB_AdministratorSystem/public/budget/approved_plan/capital_assets/provincial/report"
+    },
+    on: {
+      "click": _vm.openReportModal
+    }
+  }, [_vm._v("مشاهده گزارش")])])])])]) : _vm._e()], 1)])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -118255,34 +118561,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }, [_vm._v("ملی")])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "dropdown-pane dropdown-pane-sm ",
-    staticStyle: {
-      "width": "113px"
-    },
-    attrs: {
-      "data-close-on-click": "true",
-      "data-hover": "true",
-      "data-hover-pane": "true",
-      "data-position": "bottom",
-      "data-alignment": "left",
-      "id": "reportDropDown1",
-      "data-dropdown": "",
-      "data-auto-focus": "true"
-    }
-  }, [_c('ul', {
-    staticClass: "my-menu small-font ltr-dir"
-  }, [_c('li', [_c('a', {
-    attrs: {
-      "target": "_blank",
-      "href": "http://localhost/IFAB_AdministratorSystem/public/budget/approved_plan/capital_assets/provincial/report"
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-file-pdf-o icon-margin-dropdown",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }), _vm._v("PDF")])]), _vm._v(" "), _c('li', [_c('a', {
+  return _c('li', [_c('a', {
     attrs: {
       "href": "#"
     }
@@ -118291,7 +118570,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     attrs: {
       "aria-hidden": "true"
     }
-  }), _vm._v("Excel")])])])])
+  }), _vm._v("Excel")])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
@@ -118367,6 +118646,10 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   })])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
+    staticClass: "float-left"
+  }, [_c('p', [_vm._v(" تعداد رکورد های انتخاب شده :"), _c('span', [_vm._v("30")])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "dropdown-pane dropdown-pane-sm ",
     staticStyle: {
       "width": "113px"
@@ -118377,7 +118660,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "data-hover-pane": "true",
       "data-position": "bottom",
       "data-alignment": "left",
-      "id": "reportDropDown1",
+      "id": "reportDropDown2",
       "data-dropdown": "",
       "data-auto-focus": "true"
     }

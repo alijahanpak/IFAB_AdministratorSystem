@@ -22,11 +22,11 @@ class BudgetReportController extends Controller
         $pdf->setOption('footer-center', '[page]/[topage]');
         $pdf->setOption('margin-bottom', 20);
         $pdf->setOrientation('landscape');
-        $pdf->setOption('margin-top',20);
+        $pdf->setOption('margin-top',5);
         $pdf->setOption('lowquality', true);
         $pdf->setOption('zoom', 1.2);
         $pdf->loadHTML(view('budget::reports.approved.plan_provincial'));
         return $pdf->inline();
-        /*return view('budget::reports.approved.plan_provincial');*/
+        //return view('budget::reports.approved.plan_provincial');
     }
 }

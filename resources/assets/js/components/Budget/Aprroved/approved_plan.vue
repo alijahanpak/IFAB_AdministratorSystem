@@ -44,7 +44,7 @@
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a target="_blank" href="http://localhost/IFAB_AdministratorSystem/public/budget/approved_plan/capital_assets/provincial/report"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a @click="openReportModal" ><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
                                             <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                                         </ul>
                                     </div>
@@ -149,12 +149,18 @@
                             </div>
 
                             <div class="grid-x">
-                                <div class="medium-12">
+                                <div class="medium-8">
                                     <vue-pagination  v-bind:pagination="provincial_pagination"
                                                      v-on:click.native="fetchProvincialData(provincial_pagination.current_page)"
                                                      :offset="4">
                                     </vue-pagination>
                                 </div>
+                                <div style="color: #575962;" v-show="selectColumn" class="medium-4 small-font">
+                                    <div class="float-left">
+                                        <p> تعداد رکورد های انتخاب شده :<span>30</span> </p>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -172,8 +178,8 @@
                                     <div v-if="selectColumn" class="input-group-button toggle-icon-change">
                                         <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
                                     </div>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
-                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown2">گزارش</button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown2" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
                                             <li><a  href="#"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
                                             <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
@@ -922,7 +928,90 @@
                 </div>
             </modal-small>
             <!--Project Credit Modal Edit End-->
-
+            <!--Report Modal Start-->
+            <modal-tiny v-if="showModalReport" @close="showModalReport= false">
+                <div  slot="body">
+                    <div class="small-font">
+                        <div class="grid-x padding-lr">
+                            <div class="medium-12">
+                                <label>عنوان
+                                    <input type="text" name="title">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-6 column padding-lr">
+                                <label>نمایش مبلغ
+                                    <select  name="money">
+                                        <option value="1">ریال</option>
+                                        <option value="2">میلیون ریال</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div style="margin-top: 10px;" class="grid-x padding-lr">
+                            <div class="medium-2">
+                                <div class="switch tiny">
+                                    <input checked="true" class="switch-input" id="yes-no-1" type="checkbox" name="exampleSwitch1">
+                                    <label class="switch-paddle" for="yes-no-1">
+                                        <span class="switch-active" aria-hidden="true">بلی</span>
+                                        <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="medium-10">
+                                <p>درج نام کاربر گزارش گیرنده</p>
+                            </div>
+                        </div>
+                        <div class="grid-x padding-lr">
+                            <div class="medium-2">
+                                <div class="switch tiny">
+                                    <input checked="true" class="switch-input" id="yes-no-2" type="checkbox" name="exampleSwitch2">
+                                    <label class="switch-paddle" for="yes-no-2">
+                                        <span class="switch-active" aria-hidden="true">بلی</span>
+                                        <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="medium-10">
+                                <p>درج سال مالی</p>
+                            </div>
+                        </div>
+                        <div class="grid-x padding-lr">
+                            <div class="medium-2">
+                                <div class="switch tiny">
+                                    <input checked="true" class="switch-input" id="yes-no3" type="checkbox" name="exampleSwitch">
+                                    <label class="switch-paddle" for="yes-no3">
+                                        <span class="switch-active" aria-hidden="true">بلی</span>
+                                        <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="medium-10">
+                                <p>درج تاریخ گزارش</p>
+                            </div>
+                        </div>
+                        <div class="grid-x padding-lr">
+                            <div class="medium-2">
+                                <div class="switch tiny">
+                                    <input checked="true" class="switch-input" id="yes-no4" type="checkbox" name="exampleSwitch4">
+                                    <label class="switch-paddle" for="yes-no4">
+                                        <span class="switch-active" aria-hidden="true">افقی</span>
+                                        <span class="switch-inactive" aria-hidden="true">عمودی</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="medium-10">
+                                <p>جهت کاغذ</p>
+                            </div>
+                        </div>
+                        <div class="medium-6 columns padding-lr padding-bottom-modal input-margin-top">
+                            <a class="my-button my-success float-left" target="_blank"  @click="openReportModal" href="http://localhost/IFAB_AdministratorSystem/public/budget/approved_plan/capital_assets/provincial/report">مشاهده گزارش</a>
+                        </div>
+                    </div>
+                </div>
+            </modal-tiny>
+            <!--Report Modal End-->
 
             <!--Forms End-->
         </div>
@@ -951,6 +1040,7 @@
                 showEditModalProject:false,
                 showApCreditInsertModal:false,
                 showApCreditEditModal:false,
+                showModalReport:false,
                 selectColumn:false,
                 approvedPlanFill: {},
                 creditDistributionTitles: [],
@@ -1422,6 +1512,9 @@
             },
             openAPCreditEditModal: function () {
                 this.showApCreditEditModal=true;
+            },
+            openReportModal: function () {
+                this.showModalReport=true;
             },
             showSelectColumn: function () {
               if (this.selectColumn)
