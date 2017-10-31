@@ -115228,12 +115228,7 @@ if (false) {(function () {
 //
 //
 //
-<<<<<<< HEAD
 //
-//
-//
-=======
->>>>>>> 4180f7bd0e50c257b87548840694db8a7b341ddf
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -118277,21 +118272,21 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }, [_c('ul', {
     staticClass: "my-menu small-font ltr-dir"
-<<<<<<< HEAD
   }, [_c('li', [_c('a', {
     attrs: {
       "target": "_blank",
       "href": "http://localhost/IFAB_AdministratorSystem/public/budget/approved_plan/capital_assets/provincial/report"
     }
   }, [_c('i', {
-=======
-  }, [_c('li', [_c('a', [_c('i', {
->>>>>>> 4180f7bd0e50c257b87548840694db8a7b341ddf
     staticClass: "fa fa-file-pdf-o icon-margin-dropdown",
     attrs: {
       "aria-hidden": "true"
     }
-  }), _vm._v("PDF")])]), _vm._v(" "), _c('li', [_c('a', [_c('i', {
+  }), _vm._v("PDF")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_c('i', {
     staticClass: "fa fa-file-excel-o icon-margin-dropdown",
     attrs: {
       "aria-hidden": "true"

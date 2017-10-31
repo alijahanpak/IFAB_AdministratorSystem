@@ -150,13 +150,11 @@ class PlanController extends Controller
         $cap->capExchangeDate = $temp->capExchangeDate;
         $cap->capProvinceOrNational = $temp->capProvinceOrNational;
         $cap->capDescription = $temp->capDescription;
-        $cap->capCapId = $request->parentId;
         $cap->save();
 
         CapitalAssetsApprovedPlan::where('id' , '=' , $request->parentId)
             ->orWhere('capCapId' , '=' , $request->parentId)
-            ->where('id' , '<>' , $cap->id)
-            ->update(['capActive' => 0]);
+            ->update(['capActive' => 0 , 'capCapId' => $cap->id]);
 
         $pTemps = CapitalAssetsProjectTemp::where('cpCapId' , '=' , $temp->id)->get();
         foreach ($pTemps as $pTemp)
@@ -191,7 +189,6 @@ class PlanController extends Controller
         $cap->capExchangeDate = $old->capExchangeDate;
         $cap->capProvinceOrNational = $old->capProvinceOrNational;
         $cap->capDescription = $request->description;
-        $cap->capCapId = $request->capId;
         $cap->save();
 
         $oldProject = CapitalAssetsProject::where('cpCapId' , '=' , $request->capId)->get();
