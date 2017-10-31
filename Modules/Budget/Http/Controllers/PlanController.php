@@ -14,6 +14,7 @@ use Modules\Admin\Entities\SystemLog;
 use Modules\Budget\Entities\CaCreditSource;
 use Modules\Budget\Entities\CapCreditSource;
 use Modules\Budget\Entities\CapCreditSourceTemp;
+use Modules\Budget\Entities\CapitalAssetsAllocation;
 use Modules\Budget\Entities\CapitalAssetsApprovedPlan;
 use Modules\Budget\Entities\CapitalAssetsApprovedPlanTemp;
 use Modules\Budget\Entities\CapitalAssetsProject;
@@ -57,6 +58,7 @@ class PlanController extends Controller
     public function getAllPlans($pOrN)
     {
         return CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
+            ->where('capActive' , '=' , true)
             ->where('capProvinceOrNational' , '=' , $pOrN)
             ->with('creditDistributionTitle')
             ->with('creditDistributionTitle.county')
@@ -129,6 +131,7 @@ class PlanController extends Controller
     public function getAllApprovedPlan(Request $request)
     {
         return \response()->json(CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
+            ->where('capActive' , '=' , true)
             ->where('capProvinceOrNational' , '=' , $request->pOrN)
             ->with('creditDistributionTitle')
             ->with('creditDistributionTitle.county')
@@ -170,7 +173,33 @@ class PlanController extends Controller
             $project->cpPhysicalProgress = $pTemp->cpPhysicalProgress;
             $project->cpDescription = $pTemp->cpDescription;
             $project->save();
+
+            if ($pTemp->cpCpId != null)
+            {
+                CapitalAssetsProject::where('id' , '=' , $pTemp->cpCpId)
+                    ->orWhere('cpCpId' , '=' , $pTemp->cpCpId)
+                    ->update(['cpActive' => 0 , 'cpCpId' => $project->id]);
+            }
+
+            $csTemps = CapCreditSourceTemp::where('ccsCapId' , '=' , $pTemp->id)->get();
+            foreach ($csTemps as $csTemp) {
+                $cs = new CapCreditSource;
+                $cs->ccsUId = $csTemp->ccsUId;
+                $cs->ccsCdrId = $csTemp->ccsCdrId;
+                $cs->ccsTsId = $csTemp->ccsTsId;
+                $cs->ccsHtrId = $csTemp->ccsHtrId;
+                $cs->ccsCapId = $project->id;
+                $cs->ccsAmount = $csTemp->ccsAmount;
+                $cs->ccsDescription = $csTemp->ccsDescription;
+                $cs->save();
+
+                CapitalAssetsAllocation::where('caaCcsId' , '=' , $csTemp->ccsCcsId)
+                    ->update(['caaCcsId' => $cs->id]);
+            }
         }
+
+        CapitalAssetsApprovedPlanTemp::find($request->capId)->delete();
+        return \response()->json($this->getAllPlans($temp->capProvinceOrNational));
 
     }
 
@@ -197,6 +226,7 @@ class PlanController extends Controller
             $capP = new CapitalAssetsProjectTemp;
             $capP->cpUId = $item->cpUId;
             $capP->cpCapId = $cap->id;
+            $capP->cpCpId = $item->id;
             $capP->cpCoId = $item->cpCoId;
             $capP->cpSubject = $item->cpSubject;
             $capP->cpCode = $item->cpCode;
@@ -211,6 +241,7 @@ class PlanController extends Controller
             {
                 $capCs = new CapCreditSourceTemp;
                 $capCs->ccsUId = $csItem->ccsUId;
+                $capCs->ccsCcsId = $csItem->id;
                 $capCs->ccsCdrId = $csItem->ccsCdrId;
                 $capCs->ccsTsId = $csItem->ccsTsId;
                 $capCs->ccsHtrId = $csItem->ccsHtrId;
@@ -244,11 +275,43 @@ class PlanController extends Controller
         );
     }
 
+    public function updateAmendmentProjectTemp(Request $request)
+    {
+        $project = CapitalAssetsProjectTemp::find($request->cpId);
+        $project->cpSubject = $request->subject;
+        $project->cpCode = $request->code;
+        $project->cpStartYear = $request->startYear;
+        $project->cpEndOfYear = $request->endYear;
+        $project->cpPhysicalProgress = $request->pProgress;
+        $project->cpDescription = $request->description;
+        $project->save();
+
+        return \response()->json(
+            $this->getAllTempProjectWithPlanId($request->pId)
+        );
+    }
+
     public function registerAmendmentProjectCreditSourceTemp(Request $request)
     {
         $apCs = new CapCreditSourceTemp;
         $apCs->ccsUId = Auth::user()->id;
         $apCs->ccsCapId = $request->capId;
+        $apCs->ccsCdrId = $request->crId;
+        $apCs->ccsTsId = $request->tsId;
+        $apCs->ccsHtrId = $request->htrId;
+        $apCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
+        $apCs->ccsDescription = $request->description;
+        $apCs->save();
+
+        return \response()->json(
+            $this->getAllTempProjectWithPlanId($request->pId)
+        );
+    }
+
+    public function updateAmendmentProjectCreditSourceTemp(Request $request)
+    {
+        $apCs = CapCreditSourceTemp::find($request->csId);
+        $apCs->ccsUId = Auth::user()->id;
         $apCs->ccsCdrId = $request->crId;
         $apCs->ccsTsId = $request->tsId;
         $apCs->ccsHtrId = $request->htrId;

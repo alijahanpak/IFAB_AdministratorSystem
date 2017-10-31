@@ -115253,6 +115253,8 @@ if (false) {(function () {
             showApCreditEditModal: false,
             selectColumn: false,
             approvedPlanFill: {},
+            projectAmendmentFill: {},
+            apCreditSourceFill: {},
             creditDistributionTitles: [],
             dateIsValid_delivery: true,
             dateIsValid_delivery_amendment: true,
@@ -115267,7 +115269,7 @@ if (false) {(function () {
             seasons: {},
             seasonTitles: {},
             tinySeasons: {},
-            selectedSeasons: '',
+            selectedSeason: '',
             selectedSeasonTitle: '',
             creditDistributionRows: {},
             howToRuns: {},
@@ -115507,7 +115509,7 @@ if (false) {(function () {
         approvedProjectsUpdateDialog: function approvedProjectsUpdateDialog(item, planId) {
             var _this11 = this;
 
-            this.selectedSeasons = item.tiny_season.tsSId;
+            this.selectedSeason = item.tiny_season.tsSId;
             this.getTinySeasons();
             this.approvedProjectsFill.apSubSeason = item.cpTsId;
             this.approvedProjectsFill.apPlan = planId;
@@ -115554,67 +115556,6 @@ if (false) {(function () {
             this.showModalDelete = true;
         },
 
-        insertNewProject: function insertNewProject() {
-            var _this12 = this;
-
-            this.$validator.validateAll().then(function (result) {
-                if (result) {
-                    axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/register', {
-                        pId: _this12.projectAmendmentInput.capId,
-                        subject: _this12.projectAmendmentInput.pSubject,
-                        code: _this12.projectAmendmentInput.pCode,
-                        startYear: _this12.projectAmendmentInput.startYear,
-                        endYear: _this12.projectAmendmentInput.endYear,
-                        pProgress: _this12.projectAmendmentInput.pProgress,
-                        coId: _this12.projectAmendmentInput.county,
-                        description: _this12.projectAmendmentInput.description,
-                        pOrN: _this12.provOrNat
-                    }).then(function (response) {
-                        if (_this12.provOrNat == 0) {
-                            _this12.approvedAmendmentProjects = response.data;
-                        } else {
-                            //this.approvedProjects_nat = response.data;
-                        }
-                        _this12.showInsertModalProject = false;
-                        console.log(response);
-                    }, function (error) {
-                        console.log(error);
-                        //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                    });
-                }
-            });
-        },
-
-        insertNewCreditSource: function insertNewCreditSource() {
-            var _this13 = this;
-
-            this.$validator.validateAll().then(function (result) {
-                if (result) {
-                    axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/credit_source/register', {
-                        pId: _this13.approvedAmendmentProjects.id,
-                        capId: _this13.capIdForInsertCreditSource,
-                        crId: _this13.apCreditSourceInput.crId,
-                        htrId: _this13.apCreditSourceInput.htrId,
-                        tsId: _this13.apCreditSourceInput.tsId,
-                        amount: _this13.apCreditSourceInput.csAmount,
-                        description: _this13.apCreditSourceInput.csDescription,
-                        pOrN: _this13.provOrNat
-                    }).then(function (response) {
-                        if (_this13.provOrNat == 0) {
-                            _this13.approvedAmendmentProjects = response.data;
-                        } else {
-                            //this.approvedProjects_nat = response.data;
-                        }
-                        _this13.showApCreditInsertModal = false;
-                        console.log(response);
-                    }, function (error) {
-                        console.log(error);
-                        //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                    });
-                }
-            });
-        },
-
         deleteApprovedProjects: function deleteApprovedProjects() {
             /*axios.post('/budget/admin/sub_seasons/delete' , this.tsIdDelete)
                 .then((response) => {
@@ -115631,97 +115572,28 @@ if (false) {(function () {
                 });*/
         },
 
-        openApprovedAmendmentModal: function openApprovedAmendmentModal(plan) {
-            this.provOrNat = plan.capProvinceOrNational;
-            this.getCreditDistributionTitle(this.provOrNat);
-            this.approvedAmendmentInput.id = plan.id;
-            this.approvedAmendmentInput.cdtId = plan.capCdtId;
-            this.approvedAmendmentInput.idNumber = '';
-            this.approvedAmendmentInput.date = '';
-            this.approvedAmendmentInput.exIdNumber = plan.capExchangeIdNumber;
-            this.approvedAmendmentInput.exDate = plan.capExchangeDate;
-            this.approvedAmendmentInput.apDescription = plan.capDescription;
-            this.approvedAmendmentInput.parentId = plan.capCapId == null ? plan.id : plan.capCapId;
-            this.showModalAmendment = true;
-        },
+        acceptApprovedAmendment: function acceptApprovedAmendment() {
+            var _this12 = this;
 
-        cancelApprovedAmendment: function cancelApprovedAmendment() {
-            var _this14 = this;
-
-            axios.post('/budget/approved_plan/capital_assets/amendment/temp/cancel', {
-                capId: this.approvedAmendmentProjects.id
+            axios.post('/budget/approved_plan/capital_assets/amendment/accept', {
+                capId: this.approvedAmendmentProjects.id,
+                parentId: this.approvedAmendmentInput.parentId
             }).then(function (response) {
-                _this14.showModalAmendment = false;
-                _this14.showModalAmendmentOfAgreement = false;
-                _this14.$parent.displayNotif(200);
-                console.log(response);
-            }, function (error) {
-                console.log(error);
-            });
-        },
-
-        cleanApprovedAmendmentTemp: function cleanApprovedAmendmentTemp() {
-            axios.post('/budget/approved_plan/capital_assets/amendment/temp/cancel').then(function (response) {
-                console.log('----------------------- clean cleanApprovedAmendmentTemp table ----------------------');
-                console.log(response);
-            }, function (error) {
-                console.log(error);
-            });
-        },
-
-        createApprovedAmendment: function createApprovedAmendment() {
-            var _this15 = this;
-
-            this.$validator.validateAll().then(function (result) {
-                if (result) {
-                    if (_this15.checkValidDate('delivery_amendment')) {
-                        axios.post('/budget/approved_plan/capital_assets/amendment/temp/register', {
-                            idNumber: _this15.approvedAmendmentInput.idNumber,
-                            date: _this15.approvedAmendmentInput.date,
-                            description: _this15.approvedAmendmentInput.apDescription,
-                            capId: _this15.approvedAmendmentInput.parentId
-                        }).then(function (response) {
-                            _this15.approvedAmendmentProjects = response.data;
-                            _this15.showModalAmendment = false;
-                            _this15.showModalAmendmentOfAgreement = true;
-                            console.log(response);
-                        }, function (error) {
-                            console.log(error);
-                            //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                        });
-                    }
+                if (_this12.provOrNat == 0) {
+                    _this12.approvedPlan_prov = response.data.data;
+                    _this12.makePagination(response.data, "provincial");
+                } else {
+                    _this12.approvedPlan_nat = response.data.data;
+                    _this12.makePagination(response.data, "national");
                 }
+                _this12.showModalAmendmentOfAgreement = false;
+                _this12.$parent.displayNotif(response.status);
+                console.log(response);
+            }, function (error) {
+                console.log(error);
             });
         },
 
-        openApprovedAmendmentOfAgreementModal: function openApprovedAmendmentOfAgreementModal() {
-            this.showModalAmendmentOfAgreement = true;
-            this.$parent.myResize();
-        },
-        openInsertProjectModal: function openInsertProjectModal() {
-            this.getCounties();
-            this.projectAmendmentInput.capId = this.approvedAmendmentProjects.id;
-            this.showInsertModalProject = true;
-            if (this.provOrNat == 0) {
-                this.countyState = true;
-                this.setCountyId(this.approvedAmendmentProjects.credit_distribution_title.county.id);
-            } else {
-                this.countyState = false;
-            }
-        },
-        openEditProjectModal: function openEditProjectModal() {
-            this.showEditModalProject = true;
-        },
-        openAPCreditInsertModal: function openAPCreditInsertModal(pId) {
-            this.capIdForInsertCreditSource = pId;
-            this.getHowToRun();
-            this.getSeasons();
-            this.getCreditDistributionRow();
-            this.showApCreditInsertModal = true;
-        },
-        openAPCreditEditModal: function openAPCreditEditModal() {
-            this.showApCreditEditModal = true;
-        },
         showSelectColumn: function showSelectColumn() {
             if (this.selectColumn) {
                 this.selectColumn = false;
@@ -115729,6 +115601,7 @@ if (false) {(function () {
                 this.selectColumn = true;
             }
         },
+
         myResizeModal: function myResizeModal() {
             /*console.log("......................res..........................");
             var tabHeight = $('.tabs').height();
@@ -115766,6 +115639,235 @@ if (false) {(function () {
                 this.provincial_pagination.to = data.to;
                 this.provincial_pagination.last_page = data.last_page;
             }
+        },
+
+        ////////////////////////////// amendment temp methods ////////////////////////////////
+        openApprovedAmendmentOfAgreementModal: function openApprovedAmendmentOfAgreementModal() {
+            this.showModalAmendmentOfAgreement = true;
+            this.$parent.myResize();
+        },
+
+        openInsertProjectModal: function openInsertProjectModal() {
+            this.getCounties();
+            this.projectAmendmentInput.capId = this.approvedAmendmentProjects.id;
+            this.showInsertModalProject = true;
+            if (this.provOrNat == 0) {
+                this.countyState = true;
+                this.setCountyId(this.approvedAmendmentProjects.credit_distribution_title.county.id);
+            } else {
+                this.countyState = false;
+            }
+        },
+
+        openEditTempProjectModal: function openEditTempProjectModal(project) {
+            this.getCounties();
+            this.projectAmendmentFill.cpId = project.id;
+            this.projectAmendmentFill.capId = project.cpCapId;
+            this.projectAmendmentFill.pSubject = project.cpSubject;
+            this.projectAmendmentFill.pCode = project.cpCode;
+            this.projectAmendmentFill.startYear = project.cpStartYear;
+            this.projectAmendmentFill.endYear = project.cpEndOfYear;
+            this.projectAmendmentFill.pProgress = project.cpPhysicalProgress;
+            this.projectAmendmentFill.county = project.cpCoId;
+            this.projectAmendmentFill.description = project.cpDescription;
+            this.showEditModalProject = true;
+            if (this.provOrNat == 0) {
+                this.countyState = true;
+                this.setCountyId(this.approvedAmendmentProjects.credit_distribution_title.county.id);
+            } else {
+                this.countyState = false;
+            }
+        },
+
+        openAPCreditInsertModal: function openAPCreditInsertModal(pId) {
+            this.capIdForInsertCreditSource = pId;
+            this.getHowToRun();
+            this.getSeasons();
+            this.getCreditDistributionRow();
+            this.showApCreditInsertModal = true;
+        },
+
+        openAPCreditEditModal: function openAPCreditEditModal(creditSource) {
+            this.getHowToRun();
+            this.getSeasons();
+            this.getCreditDistributionRow();
+            this.selectedSeason = creditSource.tiny_season.season_title.season.id;
+            this.getSeasonTitle();
+            this.selectedSeasonTitle = creditSource.tiny_season.season_title.id;
+            this.getTinySeasons();
+            this.apCreditSourceFill.csId = creditSource.id;
+            this.apCreditSourceFill.crId = creditSource.ccsCdrId;
+            this.apCreditSourceFill.tsId = creditSource.ccsTsId;
+            this.apCreditSourceFill.htrId = creditSource.ccsHtrId;
+            this.apCreditSourceFill.csAmount = this.$parent.calcDispAmount(creditSource.ccsAmount, false);
+            this.apCreditSourceFill.csDescription = creditSource.ccsDescription;
+            this.showApCreditEditModal = true;
+        },
+
+        openApprovedAmendmentTempModal: function openApprovedAmendmentTempModal(plan) {
+            this.provOrNat = plan.capProvinceOrNational;
+            this.getCreditDistributionTitle(this.provOrNat);
+            this.approvedAmendmentInput.id = plan.id;
+            this.approvedAmendmentInput.cdtId = plan.capCdtId;
+            this.approvedAmendmentInput.idNumber = '';
+            this.approvedAmendmentInput.date = '';
+            this.approvedAmendmentInput.exIdNumber = plan.capExchangeIdNumber;
+            this.approvedAmendmentInput.exDate = plan.capExchangeDate;
+            this.approvedAmendmentInput.apDescription = plan.capDescription;
+            this.approvedAmendmentInput.parentId = plan.capCapId == null ? plan.id : plan.capCapId;
+            this.showModalAmendment = true;
+        },
+
+        cancelApprovedAmendmentTemp: function cancelApprovedAmendmentTemp() {
+            var _this13 = this;
+
+            axios.post('/budget/approved_plan/capital_assets/amendment/temp/cancel', {
+                capId: this.approvedAmendmentProjects.id
+            }).then(function (response) {
+                _this13.showModalAmendment = false;
+                _this13.showModalAmendmentOfAgreement = false;
+                _this13.$parent.displayNotif(200);
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        cleanApprovedAmendmentTemp: function cleanApprovedAmendmentTemp() {
+            axios.post('/budget/approved_plan/capital_assets/amendment/temp/cancel').then(function (response) {
+                console.log('----------------------- clean cleanApprovedAmendmentTemp table ----------------------');
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        createApprovedAmendmentTemp: function createApprovedAmendmentTemp() {
+            var _this14 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    if (_this14.checkValidDate('delivery_amendment')) {
+                        axios.post('/budget/approved_plan/capital_assets/amendment/temp/register', {
+                            idNumber: _this14.approvedAmendmentInput.idNumber,
+                            date: _this14.approvedAmendmentInput.date,
+                            description: _this14.approvedAmendmentInput.apDescription,
+                            capId: _this14.approvedAmendmentInput.parentId
+                        }).then(function (response) {
+                            _this14.approvedAmendmentProjects = response.data;
+                            _this14.showModalAmendment = false;
+                            _this14.showModalAmendmentOfAgreement = true;
+                            console.log(response);
+                        }, function (error) {
+                            console.log(error);
+                            //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                        });
+                    }
+                }
+            });
+        },
+
+        insertNewTempProject: function insertNewTempProject() {
+            var _this15 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/register', {
+                        pId: _this15.projectAmendmentInput.capId,
+                        subject: _this15.projectAmendmentInput.pSubject,
+                        code: _this15.projectAmendmentInput.pCode,
+                        startYear: _this15.projectAmendmentInput.startYear,
+                        endYear: _this15.projectAmendmentInput.endYear,
+                        pProgress: _this15.projectAmendmentInput.pProgress,
+                        coId: _this15.projectAmendmentInput.county,
+                        description: _this15.projectAmendmentInput.description,
+                        pOrN: _this15.provOrNat
+                    }).then(function (response) {
+                        _this15.approvedAmendmentProjects = response.data;
+                        _this15.showInsertModalProject = false;
+                        console.log(response);
+                    }, function (error) {
+                        console.log(error);
+                        //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                    });
+                }
+            });
+        },
+
+        updateTempProject: function updateTempProject() {
+            var _this16 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/update', {
+                        cpId: _this16.projectAmendmentFill.cpId,
+                        pId: _this16.projectAmendmentFill.capId,
+                        subject: _this16.projectAmendmentFill.pSubject,
+                        code: _this16.projectAmendmentFill.pCode,
+                        startYear: _this16.projectAmendmentFill.startYear,
+                        endYear: _this16.projectAmendmentFill.endYear,
+                        pProgress: _this16.projectAmendmentFill.pProgress,
+                        coId: _this16.projectAmendmentFill.county,
+                        description: _this16.projectAmendmentFill.description
+                    }).then(function (response) {
+                        _this16.approvedAmendmentProjects = response.data;
+                        _this16.showEditModalProject = false;
+                        console.log(response);
+                    }, function (error) {
+                        console.log(error);
+                    });
+                }
+            });
+        },
+
+        insertNewTempCreditSource: function insertNewTempCreditSource() {
+            var _this17 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/credit_source/register', {
+                        pId: _this17.approvedAmendmentProjects.id,
+                        capId: _this17.capIdForInsertCreditSource,
+                        crId: _this17.apCreditSourceInput.crId,
+                        htrId: _this17.apCreditSourceInput.htrId,
+                        tsId: _this17.apCreditSourceInput.tsId,
+                        amount: _this17.apCreditSourceInput.csAmount,
+                        description: _this17.apCreditSourceInput.csDescription,
+                        pOrN: _this17.provOrNat
+                    }).then(function (response) {
+                        _this17.approvedAmendmentProjects = response.data;
+                        _this17.showApCreditInsertModal = false;
+                        console.log(response);
+                    }, function (error) {
+                        console.log(error);
+                        //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                    });
+                }
+            });
+        },
+
+        updateTempCreditSource: function updateTempCreditSource() {
+            var _this18 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/credit_source/update', {
+                        pId: _this18.approvedAmendmentProjects.id,
+                        csId: _this18.apCreditSourceFill.csId,
+                        crId: _this18.apCreditSourceFill.crId,
+                        htrId: _this18.apCreditSourceFill.htrId,
+                        tsId: _this18.apCreditSourceFill.tsId,
+                        amount: _this18.apCreditSourceFill.csAmount,
+                        description: _this18.apCreditSourceFill.csDescription
+                    }).then(function (response) {
+                        _this18.approvedAmendmentProjects = response.data;
+                        _this18.showApCreditEditModal = false;
+                        console.log(response);
+                    }, function (error) {
+                        console.log(error);
+                    });
+                }
+            });
         }
     }
 });
@@ -115999,7 +116101,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.openApprovedAmendmentModal(plans)
+          _vm.openApprovedAmendmentTempModal(plans)
         }
       }
     }, [_c('i', {
@@ -116234,7 +116336,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.openApprovedAmendmentModal(plans)
+          _vm.openApprovedAmendmentTempModal(plans)
         }
       }
     }, [_c('i', {
@@ -116544,7 +116646,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
-        _vm.createApprovedAmendment($event)
+        _vm.createApprovedAmendmentTemp($event)
       }
     }
   }, [(_vm.errorMessage) ? _c('div', {
@@ -116815,12 +116917,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("پروژه جدید")]), _vm._v(" "), _c('a', {
     staticClass: "medium-1 my-button toolbox-btn small",
     on: {
-      "click": _vm.cancelApprovedAmendment
+      "click": _vm.cancelApprovedAmendmentTemp
     }
   }, [_vm._v("لغو")]), _vm._v(" "), _c('a', {
     staticClass: "medium-1 my-button toolbox-btn small",
     on: {
-      "click": function($event) {}
+      "click": _vm.acceptApprovedAmendment
     }
   }, [_vm._v("تایید")])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
@@ -116950,7 +117052,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.openEditProjectModal($event)
+          _vm.openEditTempProjectModal(project)
         }
       }
     }, [_c('i', {
@@ -117015,6 +117117,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         on: {
           "click": function($event) {
             $event.preventDefault();
+            _vm.openAPCreditEditModal(credit_source)
           }
         }
       }, [_c('i', {
@@ -117036,7 +117139,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
-        _vm.insertNewProject($event)
+        _vm.insertNewTempProject($event)
       }
     }
   }, [(_vm.errorMessage) ? _c('div', {
@@ -117403,6 +117506,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
+        _vm.updateTempProject($event)
       }
     }
   }, [(_vm.errorMessage) ? _c('div', {
@@ -117420,20 +117524,51 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "medium-12 cell padding-lr"
   }, [_c('label', [_vm._v("طرح\n                                "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentFill.capId),
+      expression: "projectAmendmentFill.capId"
+    }],
     attrs: {
       "disabled": "true",
       "name": "plan"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.projectAmendmentFill.capId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
   }, [_c('option', {
     attrs: {
       "value": ""
     }
-  }), _vm._v(" "), _c('option')])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _c('option', {
+    domProps: {
+      "value": _vm.approvedAmendmentProjects.id
+    },
+    on: {
+      "click": function($event) {
+        _vm.setCountyId(_vm.approvedAmendmentProjects.credit_distribution_title.county.id)
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.approvedAmendmentProjects.credit_distribution_title.cdtIdNumber + _vm.approvedAmendmentProjects.credit_distribution_title.cdtSubject))])])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-8 cell padding-lr"
   }, [_c('label', [_vm._v("عنوان پروژه\n                                "), _c('input', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentFill.pSubject),
+      expression: "projectAmendmentFill.pSubject"
+    }, {
       name: "validate",
       rawName: "v-validate",
       value: ('required'),
@@ -117446,6 +117581,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "type": "text",
       "name": "projectTitle"
+    },
+    domProps: {
+      "value": (_vm.projectAmendmentFill.pSubject)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.projectAmendmentFill.pSubject = $event.target.value
+      }
     }
   })]), _vm._v(" "), _c('span', {
     directives: [{
@@ -117459,6 +117603,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-4 cell padding-lr"
   }, [_c('label', [_vm._v("کد پروژه\n                                "), _c('input', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentFill.pCode),
+      expression: "projectAmendmentFill.pCode"
+    }, {
       name: "validate",
       rawName: "v-validate",
       value: ('required|numeric'),
@@ -117471,6 +117620,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "type": "text",
       "name": "projectCode"
+    },
+    domProps: {
+      "value": (_vm.projectAmendmentFill.pCode)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.projectAmendmentFill.pCode = $event.target.value
+      }
     }
   })]), _vm._v(" "), _c('span', {
     directives: [{
@@ -117486,6 +117644,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-4 cell padding-lr"
   }, [_c('label', [_vm._v("سال شروع\n                                "), _c('input', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentFill.startYear),
+      expression: "projectAmendmentFill.startYear"
+    }, {
       name: "validate",
       rawName: "v-validate",
       value: ('required'),
@@ -117498,6 +117661,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "type": "text",
       "name": "startYear"
+    },
+    domProps: {
+      "value": (_vm.projectAmendmentFill.startYear)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.projectAmendmentFill.startYear = $event.target.value
+      }
     }
   })]), _vm._v(" "), _c('span', {
     directives: [{
@@ -117511,6 +117683,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-4 cell padding-lr"
   }, [_c('label', [_vm._v("سال خاتمه\n                                "), _c('input', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentFill.endYear),
+      expression: "projectAmendmentFill.endYear"
+    }, {
       name: "validate",
       rawName: "v-validate",
       value: ('required'),
@@ -117523,6 +117700,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "type": "text",
       "name": "endYear"
+    },
+    domProps: {
+      "value": (_vm.projectAmendmentFill.endYear)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.projectAmendmentFill.endYear = $event.target.value
+      }
     }
   })]), _vm._v(" "), _c('span', {
     directives: [{
@@ -117538,6 +117724,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "btn-red small-font"
   }, [_vm._v(" (درصد) ")]), _vm._v(" "), _c('input', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentFill.pProgress),
+      expression: "projectAmendmentFill.pProgress"
+    }, {
       name: "validate",
       rawName: "v-validate",
       value: ('required|numeric'),
@@ -117552,6 +117743,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "max": "100",
       "value": "0",
       "name": "physicalProgress"
+    },
+    domProps: {
+      "value": (_vm.projectAmendmentFill.pProgress)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.projectAmendmentFill.pProgress = $event.target.value
+      }
     }
   }), _vm._v(" "), _c('div', {
     staticClass: "alert progress form-element-margin-btm",
@@ -117576,6 +117776,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-4 cell padding-lr"
   }, [_c('label', [_vm._v("شهرستان\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentInput.county),
+      expression: "projectAmendmentInput.county"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -117584,14 +117789,33 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       'input': true, 'select-error': _vm.errors.has('city')
     },
     attrs: {
+      "disabled": _vm.countyState,
+      "selected": _vm.projectAmendmentFill.county,
       "name": "city",
       "data-vv-rules": "required"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.projectAmendmentInput.county = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
   }, [_c('option', {
     attrs: {
       "value": ""
     }
-  }), _vm._v(" "), _c('option')]), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _vm._l((_vm.counties), function(county) {
+    return _c('option', {
+      domProps: {
+        "value": county.id
+      }
+    }, [_vm._v(_vm._s(county.coName))])
+  })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -117604,11 +117828,26 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "small-12 columns padding-lr"
   }, [_c('label', [_vm._v("شرح\n                                "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentFill.description),
+      expression: "projectAmendmentFill.description"
+    }],
     staticStyle: {
       "min-height": "150px"
     },
     attrs: {
       "name": "apDescription"
+    },
+    domProps: {
+      "value": (_vm.projectAmendmentFill.description)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.projectAmendmentFill.description = $event.target.value
+      }
     }
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6 columns padding-lr padding-bottom-modal"
@@ -117634,7 +117873,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
-        _vm.insertNewCreditSource($event)
+        _vm.updateTempCreditSource($event)
       }
     }
   }, [(_vm.errorMessage) ? _c('div', {
@@ -117653,6 +117892,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-9 cell padding-lr"
   }, [_c('label', [_vm._v("ردیف توزیع اعتبار\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.apCreditSourceFill.crId),
+      expression: "apCreditSourceFill.crId"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -117663,6 +117907,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "name": "row",
       "data-vv-rules": "required"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.apCreditSourceFill.crId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
   }, [_c('option', {
     attrs: {
@@ -117686,6 +117941,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-3 cell padding-lr"
   }, [_c('label', [_vm._v("نحوه اجرا\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.apCreditSourceFill.htrId),
+      expression: "apCreditSourceFill.htrId"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -117696,12 +117956,29 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "name": "howToRun",
       "data-vv-rules": "required"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.apCreditSourceFill.htrId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
   }, [_c('option', {
     attrs: {
       "value": ""
     }
-  }), _vm._v(" "), _c('option')]), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _vm._l((_vm.howToRuns), function(howToRun) {
+    return _c('option', {
+      domProps: {
+        "value": howToRun.id
+      }
+    }, [_vm._v(_vm._s(howToRun.htrSubject))])
+  })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -117715,6 +117992,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-4 column padding-lr"
   }, [_c('label', [_vm._v("فصل\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectedSeason),
+      expression: "selectedSeason"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -117727,13 +118009,27 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "data-vv-rules": "required"
     },
     on: {
-      "change": function($event) {}
+      "change": [function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.selectedSeason = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }, _vm.getSeasonTitle]
     }
   }, [_c('option', {
     attrs: {
       "value": ""
     }
-  }), _vm._v(" "), _c('option')]), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _vm._l((_vm.seasons), function(season) {
+    return _c('option', {
+      domProps: {
+        "value": season.id
+      }
+    }, [_vm._v(_vm._s(season.sSubject))])
+  })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -117745,6 +118041,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-8 column padding-lr"
   }, [_c('label', [_vm._v("عنوان فصل\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectedSeasonTitle),
+      expression: "selectedSeasonTitle"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -117757,13 +118058,27 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "data-vv-rules": "required"
     },
     on: {
-      "change": function($event) {}
+      "change": [function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.selectedSeasonTitle = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }, _vm.getTinySeasons]
     }
   }, [_c('option', {
     attrs: {
       "value": ""
     }
-  }), _vm._v(" "), _c('option')]), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _vm._l((_vm.seasonTitles), function(seasonTitle) {
+    return _c('option', {
+      domProps: {
+        "value": seasonTitle.id
+      }
+    }, [_vm._v(_vm._s(seasonTitle.castSubject))])
+  })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -117777,6 +118092,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-12 column padding-lr"
   }, [_c('label', [_vm._v("ریز فصل\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.apCreditSourceFill.tsId),
+      expression: "apCreditSourceFill.tsId"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -117787,12 +118107,29 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "name": "subSeason",
       "data-vv-rules": "required"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.apCreditSourceFill.tsId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
   }, [_c('option', {
     attrs: {
       "value": ""
     }
-  }), _vm._v(" "), _c('option')]), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _vm._l((_vm.tinySeasons), function(tinySeason) {
+    return _c('option', {
+      domProps: {
+        "value": tinySeason.id
+      }
+    }, [_vm._v(_vm._s(tinySeason.catsSubject))])
+  })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -117808,6 +118145,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "btn-red"
   }, [_vm._v(_vm._s('(' + _vm.$parent.getAmountBaseLabel() + ')'))]), _vm._v(" "), _c('input', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.apCreditSourceFill.csAmount),
+      expression: "apCreditSourceFill.csAmount"
+    }, {
       name: "validate",
       rawName: "v-validate",
       value: ('required|decimal'),
@@ -117820,6 +118162,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "type": "text",
       "name": "amount"
+    },
+    domProps: {
+      "value": (_vm.apCreditSourceFill.csAmount)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.apCreditSourceFill.csAmount = $event.target.value
+      }
     }
   })]), _vm._v(" "), _c('span', {
     directives: [{
@@ -117834,11 +118185,26 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "small-12 columns padding-lr"
   }, [_c('label', [_vm._v("شرح\n                                "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.apCreditSourceFill.csDescription),
+      expression: "apCreditSourceFill.csDescription"
+    }],
     staticStyle: {
       "min-height": "150px"
     },
     attrs: {
       "name": "csDescription"
+    },
+    domProps: {
+      "value": (_vm.apCreditSourceFill.csDescription)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.apCreditSourceFill.csDescription = $event.target.value
+      }
     }
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6 columns padding-lr padding-bottom-modal input-margin-top"
@@ -117864,7 +118230,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
-        _vm.insertNewCreditSource($event)
+        _vm.insertNewTempCreditSource($event)
       }
     }
   }, [(_vm.errorMessage) ? _c('div', {

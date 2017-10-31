@@ -64,7 +64,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         //Route::get('how_to_run/getAllItems' , 'BudgetAdminController@getAllHowToRun');
     });
     //////////////////////////////////////////////////////////////////////////
-    Route::prefix('credit_distribution')->group(function () {
+/*    Route::prefix('credit_distribution')->group(function () {
         Route::get('capital_assets/provincial/plans', 'CreditDistributionController@creditDistributionPlan');
         Route::post('capital_assets/provincial/plans/register', 'CreditDistributionController@registerCreditDistributionPlan');
         Route::get('capital_assets/provincial/plans/delete/{cdtId}/{cdrId}', 'CreditDistributionController@deleteCreditDistributionPlan');
@@ -77,7 +77,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modul
         Route::get('capital_assets/provincial/proposal/delete/{pbpId}', 'CreditDistributionController@deleteProvincialBudgetProposal');
         Route::post('capital_assets/provincial/proposal/update', 'CreditDistributionController@updateProvincialBudgetProposal');
         Route::get('capital_assets/provincial/proposal/PBPIsExist/{pbpSubject}/{pbpCode}/{pbpId?}', 'CreditDistributionController@PBPIsExist');
-    });
+    });*/
     ///////////////////////////////////////////////////////////////////////////
 /*    Route::prefix('plan')->group(function () {
         Route::get('capital_assets/plans', 'PlanController@capitalAssetsApprovedPlan');
@@ -191,7 +191,9 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('/temp/register', 'PlanController@registerApprovedAmendmentTemp');
         Route::post('/temp/cancel', 'PlanController@cancelApprovedAmendmentTemp');
         Route::post('/temp/project/register', 'PlanController@registerAmendmentProjectTemp');
+        Route::post('/temp/project/update', 'PlanController@updateAmendmentProjectTemp');
         Route::post('/temp/project/credit_source/register', 'PlanController@registerAmendmentProjectCreditSourceTemp');
+        Route::post('/temp/project/credit_source/update', 'PlanController@updateAmendmentProjectCreditSourceTemp');
         Route::post('/accept', 'PlanController@acceptApprovedAmendment');
         //Route::post('/delete', 'PlanController@deleteCapitalAssetsApprovedPlan');
         //Route::post('/update', 'PlanController@updateCapitalAssetsApprovedPlan');

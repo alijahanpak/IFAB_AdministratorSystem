@@ -32,6 +32,7 @@ class ProjectController extends Controller
     public function getAllProject($pOrN)
     {
         return CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
+            ->where('capActive' , '=' , true)
             ->where('capProvinceOrNational' , '=' , $pOrN)
             ->with('capitalAssetsProject')
             ->whereHas('capitalAssetsProject')

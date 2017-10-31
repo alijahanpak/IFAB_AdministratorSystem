@@ -21,6 +21,7 @@ class CreateCapCreditSourceTemp extends Migration
                 $table->integer('ccsTsId')->length(10)->unsigned();
                 $table->integer('ccsHtrId')->length(10)->unsigned();
                 $table->integer('ccsCapId')->length(10)->unsigned();
+                $table->integer('ccsCcsId')->length(10)->unsigned()->nullable();
                 $table->bigInteger('ccsAmount');
                 $table->longText('ccsDescription')->nullable();
                 $table->timestamps();
