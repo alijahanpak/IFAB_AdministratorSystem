@@ -13,20 +13,47 @@
     <link rel="stylesheet" href="{{ asset('foundation-icons/foundation-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('css/key.css') }}">
 </head>
-<body class="body-color BYekan">
-    <div class="grid-x">
-        <div class="medium-2 small-font">
+<style>
+    table,td,th{
+        border:1px solid #333;
+        color: #000000;
+        font-size: x-small;
+    }
+    thead{
+        font-size: small;
+
+    }
+    .x-small-font{
+        font-size: x-small;
+    }
+    .left-details{
+        min-width: 100px;
+        margin-left: -15px;
+    }
+    .left-details-money{
+        min-width: 50px;
+        margin-left: 0px;
+    }
+</style>
+<body class="BNazanin">
+    <div class="row small-font">
+        <div class="float-right">
             <div class="text-center">
-                <img src="{{ asset('pic/ir-logo.png') }}" width="32px" height="32px">
-                <p>اداره کل میراث فرهنگی، صنایع دستی و گردشگری</p>
-                <p>استان همدان</p>
+                <img src="{{ asset('pic/ir-logo.jpg') }}" width="200px" height="100px">
             </div>
         </div>
-        <div class="medium-8">
+        <div style="width: 650px;padding-top:50px;">
+            <div class="text-center">
+                <p class="BTitrBold">موافقتنامه تملک دارایی های سرمایه ای - طرح ها</p>
+                <p>سال مالی - <span> 1396 </span></p>
+            </div>
         </div>
-        <div class="medium-2">
-
+        <div style="margin-top: -75px;" class="float-left">
+            <p class="left-details">تاریخ : <span> 1396/08/09 </span></p>
         </div>
+    </div>
+    <div class="float-left">
+        <p class="x-small-font left-details-money">مبلغ به <span> (میلیون ریال) </span></p>
     </div>
         @yield('content')
     <script src="{{ asset('js/vendor/jquery.js') }}"></script>
