@@ -112,9 +112,14 @@
                                         <tbody class="tbl-head-style-cell">
                                             <template v-for="plans in provCapitalAssetsAllocations">
                                                 <tr class="tbl-head-style-cell" >
-                                                    <td :rowspan="getPlanAllocCount(plans.capital_assets_project_has_credit_source)">{{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
-                                                    <td :rowspan="getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)">{{ plans.capital_assets_project_has_credit_source[0].cpCode }}</td>
-                                                    <td :rowspan="getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)" class="text-center">{{ $parent.calcDispAmount(getProjectAllocationSum(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation) , false) }}</td>
+                                                    <td :rowspan="getPlanAllocCount(plans.capital_assets_project_has_credit_source)">{{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}
+                                                        <div v-show="!plans.capActive" class="text-center" style="margin-top: 5px">
+                                                            <span class="new-badage">غیر فعال</span>
+                                                        </div>
+                                                    </td>
+                                                    <td :rowspan="getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)">{{ plans.capital_assets_project_has_credit_source[0].cpCode + ' - ' +plans.capital_assets_project_has_credit_source[0].cpSubject }}</td>
+                                                    <td v-if="plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].ccsDeleted" :rowspan="getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)" class="text-center"><span class="comlpleted-badage">حذف شده</span></td>
+                                                    <td v-if="!plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].ccsDeleted" :rowspan="getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)" class="text-center">{{ $parent.calcDispAmount(getProjectAllocationSum(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation) , false) }}</td>
                                                     <td :rowspan="plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation.length">{{ plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
                                                     <td>{{ plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterNumber }}</td>
                                                     <td>{{ plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterDate }}</td>
@@ -125,12 +130,18 @@
                                                 </tr>
                                                <template v-for="(projects, proIndex) in plans.capital_assets_project_has_credit_source">
                                                    <tr class="tbl-head-style-cell" v-if="proIndex > 0">
-                                                       <td :rowspan="getProjectAllocCount(projects.credit_source_has_allocation)">{{ projects.cpCode }}</td>
-                                                       <td :rowspan="getProjectAllocCount(projects.credit_source_has_allocation)">{{ $parent.calcDispAmount(getProjectAllocationSum(projects.credit_source_has_allocation) , false) }}</td>
+                                                       <td :rowspan="getProjectAllocCount(projects.credit_source_has_allocation)">{{ projects.cpCode + ' - ' + projects.cpSubject }}</td>
+                                                       <td v-if="!projects.credit_source_has_allocation[0].ccsDeleted" :rowspan="getProjectAllocCount(projects.credit_source_has_allocation)" class="text-center">{{ $parent.calcDispAmount(getProjectAllocationSum(projects.credit_source_has_allocation) , false) }}</td>
+                                                       <td v-if="projects.credit_source_has_allocation[0].ccsDeleted" :rowspan="getProjectAllocCount(projects.credit_source_has_allocation)" class="text-center">
+                                                           <span class="comlpleted-badage">حذف شده</span>
+                                                       </td>
                                                        <td :rowspan="projects.credit_source_has_allocation[0].allocation.length">{{ projects.credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
                                                        <td>{{ projects.credit_source_has_allocation[0].allocation[0].caaLetterNumber }}</td>
                                                        <td>{{ projects.credit_source_has_allocation[0].allocation[0].caaLetterDate }}</td>
                                                        <td>{{ $parent.calcDispAmount(projects.credit_source_has_allocation[0].allocation[0].caaAmount , false) }}</td>
+                                                       <td  v-show="selectColumn">
+                                                           <input class="auto-margin" type="checkbox">
+                                                       </td>
                                                    </tr>
                                                     <template v-for="(credit_source , csIndex) in projects.credit_source_has_allocation">
                                                         <tr class="tbl-head-style-cell" v-if="csIndex > 0">
@@ -147,6 +158,9 @@
                                                                 <td>{{ alloc.caaLetterNumber }}</td>
                                                                 <td>{{ alloc.caaLetterDate }}</td>
                                                                 <td>{{ $parent.calcDispAmount(alloc.caaAmount , false) }}</td>
+                                                                <td  v-show="selectColumn">
+                                                                    <input class="auto-margin" type="checkbox">
+                                                                </td>
                                                             </tr>
                                                         </template>
                                                     </template>
@@ -352,9 +366,14 @@
                                         <tbody class="tbl-head-style-cell">
                                         <template v-for="plans in natCapitalAssetsAllocations">
                                             <tr class="tbl-head-style-cell" >
-                                                <td :rowspan="getPlanAllocCount(plans.capital_assets_project_has_credit_source)">{{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
+                                                <td :rowspan="getPlanAllocCount(plans.capital_assets_project_has_credit_source)">{{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}
+                                                    <div v-show="!plans.capActive" class="text-center" style="margin-top: 5px">
+                                                        <span class="new-badage">غیر فعال</span>
+                                                    </div>
+                                                </td>
                                                 <td :rowspan="getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)">{{ plans.capital_assets_project_has_credit_source[0].cpCode }}</td>
-                                                <td :rowspan="getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)" class="text-center">{{ $parent.calcDispAmount(getProjectAllocationSum(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation) , false) }}</td>
+                                                <td v-if="plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].ccsDeleted" :rowspan="getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)" class="text-center"><span class="comlpleted-badage">حذف شده</span></td>
+                                                <td v-if="!plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].ccsDeleted" :rowspan="getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)" class="text-center">{{ $parent.calcDispAmount(getProjectAllocationSum(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation) , false) }}</td>
                                                 <td :rowspan="plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation.length">{{ plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
                                                 <td>{{ plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterNumber }}</td>
                                                 <td>{{ plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterDate }}</td>
@@ -366,11 +385,17 @@
                                             <template v-for="(projects, proIndex) in plans.capital_assets_project_has_credit_source">
                                                 <tr class="tbl-head-style-cell" v-if="proIndex > 0">
                                                     <td :rowspan="getProjectAllocCount(projects.credit_source_has_allocation)">{{ projects.cpCode }}</td>
-                                                    <td :rowspan="getProjectAllocCount(projects.credit_source_has_allocation)">{{ $parent.calcDispAmount(getProjectAllocationSum(projects.credit_source_has_allocation) , false) }}</td>
+                                                    <td v-if="!projects.credit_source_has_allocation[0].ccsDeleted" :rowspan="getProjectAllocCount(projects.credit_source_has_allocation)" class="text-center">{{ $parent.calcDispAmount(getProjectAllocationSum(projects.credit_source_has_allocation) , false) }}</td>
+                                                    <td v-if="projects.credit_source_has_allocation[0].ccsDeleted" :rowspan="getProjectAllocCount(projects.credit_source_has_allocation)" class="text-center">
+                                                        <span class="comlpleted-badage">حذف شده</span>
+                                                    </td>
                                                     <td :rowspan="projects.credit_source_has_allocation[0].allocation.length">{{ projects.credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
                                                     <td>{{ projects.credit_source_has_allocation[0].allocation[0].caaLetterNumber }}</td>
                                                     <td>{{ projects.credit_source_has_allocation[0].allocation[0].caaLetterDate }}</td>
                                                     <td>{{ $parent.calcDispAmount(projects.credit_source_has_allocation[0].allocation[0].caaAmount , false) }}</td>
+                                                    <td  v-show="selectColumn">
+                                                        <input class="auto-margin" type="checkbox">
+                                                    </td>
                                                 </tr>
                                                 <template v-for="(credit_source , csIndex) in projects.credit_source_has_allocation">
                                                     <tr class="tbl-head-style-cell" v-if="csIndex > 0">
@@ -378,6 +403,9 @@
                                                         <td>{{ credit_source.allocation[0].caaLetterNumber }}</td>
                                                         <td>{{ credit_source.allocation[0].caaLetterDate }}</td>
                                                         <td>{{ $parent.calcDispAmount(credit_source.allocation[0].caaAmount , false) }}</td>
+                                                        <td  v-show="selectColumn">
+                                                            <input class="auto-margin" type="checkbox">
+                                                        </td>
                                                     </tr>
                                                     <template v-for="(alloc , allocIndex) in credit_source.allocation">
                                                         <tr class="tbl-head-style-cell" v-if="allocIndex > 0">

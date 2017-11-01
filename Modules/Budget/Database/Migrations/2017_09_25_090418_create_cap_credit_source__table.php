@@ -23,6 +23,7 @@ class CreateCapCreditSourceTable extends Migration
                 $table->integer('ccsCapId')->length(10)->unsigned();
                 $table->bigInteger('ccsAmount');
                 $table->longText('ccsDescription')->nullable();
+                $table->tinyInteger('ccsDeleted')->default(0);
                 $table->timestamps();
 
                 $table->foreign('ccsCdrId')

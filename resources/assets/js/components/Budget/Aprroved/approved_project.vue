@@ -6,7 +6,7 @@
                 <div class="grid-x">
                     <nav aria-label="You are here:" role="navigation">
                         <ul class="breadcrumbs">
-                            <li><a href="">داشبورد</a></li>
+                            <li><router-link to="/budget">داشبورد</router-link></li>
                             <li>
                                 <a class="disabled">موافقتنامه</a>
                             </li>

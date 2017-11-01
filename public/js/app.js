@@ -112422,11 +112422,28 @@ if (false) {(function () {
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "medium-10 border-right-line inner-body-pad main-margin"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
+  }, [_c('div', {
+    staticClass: "grid-x padding-lr breadcrumbs-pos"
+  }, [_c('div', {
+    staticClass: "medium-12"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('nav', {
+    attrs: {
+      "aria-label": "You are here:",
+      "role": "navigation"
+    }
+  }, [_c('ul', {
+    staticClass: "breadcrumbs"
+  }, [_c('li', [_c('router-link', {
+    attrs: {
+      "to": "/budget"
+    }
+  }, [_vm._v("داشبورد")])], 1), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2)])])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x  my-callout-box container-mrg-top dynamic-height-level1"
   }, [_c('div', {
     staticClass: "medium-12 column"
-  }, [_vm._m(1), _vm._v(" "), _c('div', {
+  }, [_vm._m(3), _vm._v(" "), _c('div', {
     staticClass: "tabs-content",
     attrs: {
       "data-tabs-content": "approved_project_tab_view"
@@ -112489,9 +112506,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "type": "button",
       "data-toggle": "reportDropDown1"
     }
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(2), _vm._v(" "), _vm._m(3), _vm._v(" "), _vm._m(4)]), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(4), _vm._v(" "), _vm._m(5), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _vm._m(7)]), _vm._v(" "), _c('div', {
     staticClass: "columns"
-  }, [_vm._m(6), _vm._v(" "), _c('div', {
+  }, [_vm._m(8), _vm._v(" "), _c('div', {
     staticClass: "table-contain dynamic-height-level2"
   }, _vm._l((_vm.approvedProjects_prov), function(plans) {
     return _c('div', {
@@ -112588,7 +112605,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         staticClass: "medium-12 table-contain-border cell-vertical-center"
       }, [_c('table', {
         staticClass: "unstriped tbl-secondary-mrg small-font"
-      }, [_vm._m(7, true), _vm._v(" "), _c('tbody', _vm._l((projects.credit_source), function(creditSource) {
+      }, [_vm._m(9, true), _vm._v(" "), _c('tbody', _vm._l((projects.credit_source), function(creditSource) {
         return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.castSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.catsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.how_to_run.htrSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
       }))])])])])])
     }))])
@@ -112664,9 +112681,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "type": "button",
       "data-toggle": "reportDropDown1"
     }
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(8), _vm._v(" "), _vm._m(9), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _vm._m(11)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(10), _vm._v(" "), _vm._m(11), _vm._v(" "), _vm._m(12)]), _vm._v(" "), _vm._m(13)]), _vm._v(" "), _c('div', {
     staticClass: "columns"
-  }, [_vm._m(12), _vm._v(" "), _c('div', {
+  }, [_vm._m(14), _vm._v(" "), _c('div', {
     staticClass: "table-contain dynamic-height-level2"
   }, _vm._l((_vm.approvedProjects_nat), function(plans) {
     return _c('div', {
@@ -112763,7 +112780,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         staticClass: "medium-12 table-contain-border cell-vertical-center"
       }, [_c('table', {
         staticClass: "unstriped tbl-secondary-mrg small-font"
-      }, [_vm._m(13, true), _vm._v(" "), _c('tbody', _vm._l((projects.credit_source), function(creditSource) {
+      }, [_vm._m(15, true), _vm._v(" "), _c('tbody', _vm._l((projects.credit_source), function(creditSource) {
         return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.castSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.catsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.how_to_run.htrSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
       }))])])])])])
     }))])
@@ -113911,30 +113928,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("ثبت")])])])])])]) : _vm._e()], 1)])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "grid-x padding-lr breadcrumbs-pos"
-  }, [_c('div', {
-    staticClass: "medium-12"
-  }, [_c('div', {
-    staticClass: "grid-x"
-  }, [_c('nav', {
-    attrs: {
-      "aria-label": "You are here:",
-      "role": "navigation"
-    }
-  }, [_c('ul', {
-    staticClass: "breadcrumbs"
-  }, [_c('li', [_c('a', {
-    attrs: {
-      "href": ""
-    }
-  }, [_vm._v("داشبورد")])]), _vm._v(" "), _c('li', [_c('a', {
+  return _c('li', [_c('a', {
     staticClass: "disabled"
-  }, [_vm._v("موافقتنامه")])]), _vm._v(" "), _c('li', [_c('a', {
+  }, [_vm._v("موافقتنامه")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', [_c('a', {
     staticClass: "disabled"
-  }, [_vm._v("تملک دارایی سرمایه ای")])]), _vm._v(" "), _c('li', [_c('span', {
+  }, [_vm._v("تملک دارایی سرمایه ای")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', [_c('span', {
     staticClass: "show-for-sr"
-  }, [_vm._v("Current: ")]), _vm._v("پروژه ها\n                        ")])])])])])])
+  }, [_vm._v("Current: ")]), _vm._v("پروژه ها\n                        ")])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('ul', {
     staticClass: "tabs tab-color my-tab-style",
@@ -115318,6 +115322,33 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -115341,8 +115372,12 @@ if (false) {(function () {
             showApCreditInsertModal: false,
             showApCreditEditModal: false,
             showModalReport: false,
+            showDeleteTempProjectModal: false,
+            showDeleteTempCreditSourceModal: false,
             selectColumn: false,
             approvedPlanFill: {},
+            projectAmendmentFill: {},
+            apCreditSourceFill: {},
             creditDistributionTitles: [],
             dateIsValid_delivery: true,
             dateIsValid_delivery_amendment: true,
@@ -115358,11 +115393,13 @@ if (false) {(function () {
             seasons: {},
             seasonTitles: {},
             tinySeasons: {},
-            selectedSeasons: '',
+            selectedSeason: '',
             selectedSeasonTitle: '',
             creditDistributionRows: {},
             howToRuns: {},
             capIdForInsertCreditSource: '',
+            tempProjectSelectedId_delete: '',
+            tempCreditSourceSelectedId_delete: '',
             national_pagination: {
                 total: 0,
                 to: 0,
@@ -115614,7 +115651,7 @@ if (false) {(function () {
         approvedProjectsUpdateDialog: function approvedProjectsUpdateDialog(item, planId) {
             var _this11 = this;
 
-            this.selectedSeasons = item.tiny_season.tsSId;
+            this.selectedSeason = item.tiny_season.tsSId;
             this.getTinySeasons();
             this.approvedProjectsFill.apSubSeason = item.cpTsId;
             this.approvedProjectsFill.apPlan = planId;
@@ -115661,67 +115698,6 @@ if (false) {(function () {
             this.showModalDelete = true;
         },
 
-        insertNewProject: function insertNewProject() {
-            var _this12 = this;
-
-            this.$validator.validateAll().then(function (result) {
-                if (result) {
-                    axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/register', {
-                        pId: _this12.projectAmendmentInput.capId,
-                        subject: _this12.projectAmendmentInput.pSubject,
-                        code: _this12.projectAmendmentInput.pCode,
-                        startYear: _this12.projectAmendmentInput.startYear,
-                        endYear: _this12.projectAmendmentInput.endYear,
-                        pProgress: _this12.projectAmendmentInput.pProgress,
-                        coId: _this12.projectAmendmentInput.county,
-                        description: _this12.projectAmendmentInput.description,
-                        pOrN: _this12.provOrNat
-                    }).then(function (response) {
-                        if (_this12.provOrNat == 0) {
-                            _this12.approvedAmendmentProjects = response.data;
-                        } else {
-                            //this.approvedProjects_nat = response.data;
-                        }
-                        _this12.showInsertModalProject = false;
-                        console.log(response);
-                    }, function (error) {
-                        console.log(error);
-                        //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                    });
-                }
-            });
-        },
-
-        insertNewCreditSource: function insertNewCreditSource() {
-            var _this13 = this;
-
-            this.$validator.validateAll().then(function (result) {
-                if (result) {
-                    axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/credit_source/register', {
-                        pId: _this13.approvedAmendmentProjects.id,
-                        capId: _this13.capIdForInsertCreditSource,
-                        crId: _this13.apCreditSourceInput.crId,
-                        htrId: _this13.apCreditSourceInput.htrId,
-                        tsId: _this13.apCreditSourceInput.tsId,
-                        amount: _this13.apCreditSourceInput.csAmount,
-                        description: _this13.apCreditSourceInput.csDescription,
-                        pOrN: _this13.provOrNat
-                    }).then(function (response) {
-                        if (_this13.provOrNat == 0) {
-                            _this13.approvedAmendmentProjects = response.data;
-                        } else {
-                            //this.approvedProjects_nat = response.data;
-                        }
-                        _this13.showApCreditInsertModal = false;
-                        console.log(response);
-                    }, function (error) {
-                        console.log(error);
-                        //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                    });
-                }
-            });
-        },
-
         deleteApprovedProjects: function deleteApprovedProjects() {
             /*axios.post('/budget/admin/sub_seasons/delete' , this.tsIdDelete)
                 .then((response) => {
@@ -115738,100 +115714,28 @@ if (false) {(function () {
                 });*/
         },
 
-        openApprovedAmendmentModal: function openApprovedAmendmentModal(plan) {
-            this.provOrNat = plan.capProvinceOrNational;
-            this.getCreditDistributionTitle(this.provOrNat);
-            this.approvedAmendmentInput.id = plan.id;
-            this.approvedAmendmentInput.cdtId = plan.capCdtId;
-            this.approvedAmendmentInput.idNumber = '';
-            this.approvedAmendmentInput.date = '';
-            this.approvedAmendmentInput.exIdNumber = plan.capExchangeIdNumber;
-            this.approvedAmendmentInput.exDate = plan.capExchangeDate;
-            this.approvedAmendmentInput.apDescription = plan.capDescription;
-            this.approvedAmendmentInput.parentId = plan.capCapId == null ? plan.id : plan.capCapId;
-            this.showModalAmendment = true;
-        },
+        acceptApprovedAmendment: function acceptApprovedAmendment() {
+            var _this12 = this;
 
-        cancelApprovedAmendment: function cancelApprovedAmendment() {
-            var _this14 = this;
-
-            axios.post('/budget/approved_plan/capital_assets/amendment/temp/cancel', {
-                capId: this.approvedAmendmentProjects.id
+            axios.post('/budget/approved_plan/capital_assets/amendment/accept', {
+                capId: this.approvedAmendmentProjects.id,
+                parentId: this.approvedAmendmentInput.parentId
             }).then(function (response) {
-                _this14.showModalAmendment = false;
-                _this14.showModalAmendmentOfAgreement = false;
-                _this14.$parent.displayNotif(200);
-                console.log(response);
-            }, function (error) {
-                console.log(error);
-            });
-        },
-
-        cleanApprovedAmendmentTemp: function cleanApprovedAmendmentTemp() {
-            axios.post('/budget/approved_plan/capital_assets/amendment/temp/cancel').then(function (response) {
-                console.log('----------------------- clean cleanApprovedAmendmentTemp table ----------------------');
-                console.log(response);
-            }, function (error) {
-                console.log(error);
-            });
-        },
-
-        createApprovedAmendment: function createApprovedAmendment() {
-            var _this15 = this;
-
-            this.$validator.validateAll().then(function (result) {
-                if (result) {
-                    if (_this15.checkValidDate('delivery_amendment')) {
-                        axios.post('/budget/approved_plan/capital_assets/amendment/temp/register', {
-                            idNumber: _this15.approvedAmendmentInput.idNumber,
-                            date: _this15.approvedAmendmentInput.date,
-                            description: _this15.approvedAmendmentInput.apDescription,
-                            capId: _this15.approvedAmendmentInput.parentId
-                        }).then(function (response) {
-                            _this15.approvedAmendmentProjects = response.data;
-                            _this15.showModalAmendment = false;
-                            _this15.showModalAmendmentOfAgreement = true;
-                            console.log(response);
-                        }, function (error) {
-                            console.log(error);
-                            //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                        });
-                    }
+                if (_this12.provOrNat == 0) {
+                    _this12.approvedPlan_prov = response.data.data;
+                    _this12.makePagination(response.data, "provincial");
+                } else {
+                    _this12.approvedPlan_nat = response.data.data;
+                    _this12.makePagination(response.data, "national");
                 }
+                _this12.showModalAmendmentOfAgreement = false;
+                _this12.$parent.displayNotif(response.status);
+                console.log(response);
+            }, function (error) {
+                console.log(error);
             });
         },
 
-        openApprovedAmendmentOfAgreementModal: function openApprovedAmendmentOfAgreementModal() {
-            this.showModalAmendmentOfAgreement = true;
-            this.$parent.myResize();
-        },
-        openInsertProjectModal: function openInsertProjectModal() {
-            this.getCounties();
-            this.projectAmendmentInput.capId = this.approvedAmendmentProjects.id;
-            this.showInsertModalProject = true;
-            if (this.provOrNat == 0) {
-                this.countyState = true;
-                this.setCountyId(this.approvedAmendmentProjects.credit_distribution_title.county.id);
-            } else {
-                this.countyState = false;
-            }
-        },
-        openEditProjectModal: function openEditProjectModal() {
-            this.showEditModalProject = true;
-        },
-        openAPCreditInsertModal: function openAPCreditInsertModal(pId) {
-            this.capIdForInsertCreditSource = pId;
-            this.getHowToRun();
-            this.getSeasons();
-            this.getCreditDistributionRow();
-            this.showApCreditInsertModal = true;
-        },
-        openAPCreditEditModal: function openAPCreditEditModal() {
-            this.showApCreditEditModal = true;
-        },
-        openReportModal: function openReportModal() {
-            this.showModalReport = true;
-        },
         showSelectColumn: function showSelectColumn() {
             if (this.selectColumn) {
                 this.selectColumn = false;
@@ -115877,6 +115781,275 @@ if (false) {(function () {
                 this.provincial_pagination.to = data.to;
                 this.provincial_pagination.last_page = data.last_page;
             }
+        },
+
+        ////////////////////////////// amendment temp methods ////////////////////////////////
+        openApprovedAmendmentOfAgreementModal: function openApprovedAmendmentOfAgreementModal() {
+            this.showModalAmendmentOfAgreement = true;
+            this.$parent.myResize();
+        },
+
+        openInsertProjectModal: function openInsertProjectModal() {
+            this.getCounties();
+            this.projectAmendmentInput.capId = this.approvedAmendmentProjects.id;
+            this.showInsertModalProject = true;
+            if (this.provOrNat == 0) {
+                this.countyState = true;
+                this.setCountyId(this.approvedAmendmentProjects.credit_distribution_title.county.id);
+            } else {
+                this.countyState = false;
+            }
+        },
+
+        openEditTempProjectModal: function openEditTempProjectModal(project) {
+            this.getCounties();
+            this.projectAmendmentFill.cpId = project.id;
+            this.projectAmendmentFill.capId = project.cpCapId;
+            this.projectAmendmentFill.pSubject = project.cpSubject;
+            this.projectAmendmentFill.pCode = project.cpCode;
+            this.projectAmendmentFill.startYear = project.cpStartYear;
+            this.projectAmendmentFill.endYear = project.cpEndOfYear;
+            this.projectAmendmentFill.pProgress = project.cpPhysicalProgress;
+            this.projectAmendmentFill.county = project.cpCoId;
+            this.projectAmendmentFill.description = project.cpDescription;
+            this.showEditModalProject = true;
+            if (this.provOrNat == 0) {
+                this.countyState = true;
+                this.setCountyId(this.approvedAmendmentProjects.credit_distribution_title.county.id);
+            } else {
+                this.countyState = false;
+            }
+        },
+
+        openAPCreditInsertModal: function openAPCreditInsertModal(pId) {
+            this.capIdForInsertCreditSource = pId;
+            this.getHowToRun();
+            this.getSeasons();
+            this.getCreditDistributionRow();
+            this.showApCreditInsertModal = true;
+        },
+
+        openAPCreditEditModal: function openAPCreditEditModal(creditSource) {
+            this.getHowToRun();
+            this.getSeasons();
+            this.getCreditDistributionRow();
+            this.selectedSeason = creditSource.tiny_season.season_title.season.id;
+            this.getSeasonTitle();
+            this.selectedSeasonTitle = creditSource.tiny_season.season_title.id;
+            this.getTinySeasons();
+            this.apCreditSourceFill.csId = creditSource.id;
+            this.apCreditSourceFill.crId = creditSource.ccsCdrId;
+            this.apCreditSourceFill.tsId = creditSource.ccsTsId;
+            this.apCreditSourceFill.htrId = creditSource.ccsHtrId;
+            this.apCreditSourceFill.csAmount = this.$parent.calcDispAmount(creditSource.ccsAmount, false);
+            this.apCreditSourceFill.csDescription = creditSource.ccsDescription;
+            this.showApCreditEditModal = true;
+        },
+
+        openApprovedAmendmentTempModal: function openApprovedAmendmentTempModal(plan) {
+            this.provOrNat = plan.capProvinceOrNational;
+            this.getCreditDistributionTitle(this.provOrNat);
+            this.approvedAmendmentInput.id = plan.id;
+            this.approvedAmendmentInput.cdtId = plan.capCdtId;
+            this.approvedAmendmentInput.idNumber = '';
+            this.approvedAmendmentInput.date = '';
+            this.approvedAmendmentInput.exIdNumber = plan.capExchangeIdNumber;
+            this.approvedAmendmentInput.exDate = plan.capExchangeDate;
+            this.approvedAmendmentInput.apDescription = plan.capDescription;
+            this.approvedAmendmentInput.parentId = plan.capCapId == null ? plan.id : plan.capCapId;
+            this.showModalAmendment = true;
+        },
+
+        openDeleteTempProjectModal: function openDeleteTempProjectModal(pId) {
+            this.tempProjectSelectedId_delete = pId;
+            this.showDeleteTempProjectModal = true;
+        },
+
+        openDeleteTempCreditSourceModal: function openDeleteTempCreditSourceModal(csId) {
+            this.tempCreditSourceSelectedId_delete = csId;
+            this.showDeleteTempCreditSourceModal = true;
+        },
+
+        cancelApprovedAmendmentTemp: function cancelApprovedAmendmentTemp() {
+            var _this13 = this;
+
+            axios.post('/budget/approved_plan/capital_assets/amendment/temp/cancel', {
+                capId: this.approvedAmendmentProjects.id
+            }).then(function (response) {
+                _this13.showModalAmendment = false;
+                _this13.showModalAmendmentOfAgreement = false;
+                _this13.$parent.displayNotif(200);
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        cleanApprovedAmendmentTemp: function cleanApprovedAmendmentTemp() {
+            axios.post('/budget/approved_plan/capital_assets/amendment/temp/cancel').then(function (response) {
+                console.log('----------------------- clean cleanApprovedAmendmentTemp table ----------------------');
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        createApprovedAmendmentTemp: function createApprovedAmendmentTemp() {
+            var _this14 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    if (_this14.checkValidDate('delivery_amendment')) {
+                        axios.post('/budget/approved_plan/capital_assets/amendment/temp/register', {
+                            idNumber: _this14.approvedAmendmentInput.idNumber,
+                            date: _this14.approvedAmendmentInput.date,
+                            description: _this14.approvedAmendmentInput.apDescription,
+                            capId: _this14.approvedAmendmentInput.parentId
+                        }).then(function (response) {
+                            _this14.approvedAmendmentProjects = response.data;
+                            _this14.showModalAmendment = false;
+                            _this14.showModalAmendmentOfAgreement = true;
+                            console.log(response);
+                        }, function (error) {
+                            console.log(error);
+                            //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                        });
+                    }
+                }
+            });
+        },
+
+        insertNewTempProject: function insertNewTempProject() {
+            var _this15 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/register', {
+                        pId: _this15.projectAmendmentInput.capId,
+                        subject: _this15.projectAmendmentInput.pSubject,
+                        code: _this15.projectAmendmentInput.pCode,
+                        startYear: _this15.projectAmendmentInput.startYear,
+                        endYear: _this15.projectAmendmentInput.endYear,
+                        pProgress: _this15.projectAmendmentInput.pProgress,
+                        coId: _this15.projectAmendmentInput.county,
+                        description: _this15.projectAmendmentInput.description,
+                        pOrN: _this15.provOrNat
+                    }).then(function (response) {
+                        _this15.approvedAmendmentProjects = response.data;
+                        _this15.showInsertModalProject = false;
+                        console.log(response);
+                    }, function (error) {
+                        console.log(error);
+                        //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                    });
+                }
+            });
+        },
+
+        updateTempProject: function updateTempProject() {
+            var _this16 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/update', {
+                        cpId: _this16.projectAmendmentFill.cpId,
+                        pId: _this16.projectAmendmentFill.capId,
+                        subject: _this16.projectAmendmentFill.pSubject,
+                        code: _this16.projectAmendmentFill.pCode,
+                        startYear: _this16.projectAmendmentFill.startYear,
+                        endYear: _this16.projectAmendmentFill.endYear,
+                        pProgress: _this16.projectAmendmentFill.pProgress,
+                        coId: _this16.projectAmendmentFill.county,
+                        description: _this16.projectAmendmentFill.description
+                    }).then(function (response) {
+                        _this16.approvedAmendmentProjects = response.data;
+                        _this16.showEditModalProject = false;
+                        console.log(response);
+                    }, function (error) {
+                        console.log(error);
+                    });
+                }
+            });
+        },
+
+        deleteTempProject: function deleteTempProject() {
+            var _this17 = this;
+
+            axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/delete', {
+                capId: this.approvedAmendmentProjects.id,
+                pId: this.tempProjectSelectedId_delete
+            }).then(function (response) {
+                _this17.approvedAmendmentProjects = response.data;
+                _this17.showDeleteTempProjectModal = false;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        deleteTempCreditSource: function deleteTempCreditSource() {
+            var _this18 = this;
+
+            axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/credit_source/delete', {
+                capId: this.approvedAmendmentProjects.id,
+                csId: this.tempCreditSourceSelectedId_delete
+            }).then(function (response) {
+                _this18.approvedAmendmentProjects = response.data;
+                _this18.showDeleteTempCreditSourceModal = false;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        insertNewTempCreditSource: function insertNewTempCreditSource() {
+            var _this19 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/credit_source/register', {
+                        pId: _this19.approvedAmendmentProjects.id,
+                        capId: _this19.capIdForInsertCreditSource,
+                        crId: _this19.apCreditSourceInput.crId,
+                        htrId: _this19.apCreditSourceInput.htrId,
+                        tsId: _this19.apCreditSourceInput.tsId,
+                        amount: _this19.apCreditSourceInput.csAmount,
+                        description: _this19.apCreditSourceInput.csDescription,
+                        pOrN: _this19.provOrNat
+                    }).then(function (response) {
+                        _this19.approvedAmendmentProjects = response.data;
+                        _this19.showApCreditInsertModal = false;
+                        console.log(response);
+                    }, function (error) {
+                        console.log(error);
+                        //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                    });
+                }
+            });
+        },
+
+        updateTempCreditSource: function updateTempCreditSource() {
+            var _this20 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/credit_source/update', {
+                        pId: _this20.approvedAmendmentProjects.id,
+                        csId: _this20.apCreditSourceFill.csId,
+                        crId: _this20.apCreditSourceFill.crId,
+                        htrId: _this20.apCreditSourceFill.htrId,
+                        tsId: _this20.apCreditSourceFill.tsId,
+                        amount: _this20.apCreditSourceFill.csAmount,
+                        description: _this20.apCreditSourceFill.csDescription
+                    }).then(function (response) {
+                        _this20.approvedAmendmentProjects = response.data;
+                        _this20.showApCreditEditModal = false;
+                        console.log(response);
+                    }, function (error) {
+                        console.log(error);
+                    });
+                }
+            });
         }
     }
 });
@@ -115889,11 +116062,28 @@ if (false) {(function () {
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "medium-10 border-right-line inner-body-pad main-margin"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
+  }, [_c('div', {
+    staticClass: "grid-x padding-lr breadcrumbs-pos"
+  }, [_c('div', {
+    staticClass: "medium-12"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('nav', {
+    attrs: {
+      "aria-label": "You are here:",
+      "role": "navigation"
+    }
+  }, [_c('ul', {
+    staticClass: "breadcrumbs"
+  }, [_c('li', [_c('router-link', {
+    attrs: {
+      "to": "/budget"
+    }
+  }, [_vm._v("داشبورد")])], 1), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2)])])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x  my-callout-box container-mrg-top dynamic-height-level1"
   }, [_c('div', {
     staticClass: "medium-12 column"
-  }, [_vm._m(1), _vm._v(" "), _c('div', {
+  }, [_vm._m(3), _vm._v(" "), _c('div', {
     staticClass: "tabs-content",
     attrs: {
       "data-tabs-content": "approved_plan_tab_view"
@@ -115982,7 +116172,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "aria-hidden": "true"
     }
-  }), _vm._v("PDF")])]), _vm._v(" "), _vm._m(2)])]), _vm._v(" "), _vm._m(3), _vm._v(" "), _vm._m(4)]), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _c('div', {
+  }), _vm._v("PDF")])]), _vm._v(" "), _vm._m(4)])]), _vm._v(" "), _vm._m(5), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _vm._m(7)]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
   }, [_c('table', {
     staticClass: "tbl-head"
@@ -116162,7 +116352,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.openApprovedAmendmentModal(plans)
+          _vm.openApprovedAmendmentTempModal(plans)
         }
       }
     }, [_c('i', {
@@ -116293,7 +116483,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "type": "button",
       "data-toggle": "reportDropDown2"
     }
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(6), _vm._v(" "), _vm._m(7), _vm._v(" "), _vm._m(8)]), _vm._v(" "), _vm._m(9)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(8), _vm._v(" "), _vm._m(9), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _vm._m(11)]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
   }, [_c('table', {
     staticClass: "tbl-head"
@@ -116436,7 +116626,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.openApprovedAmendmentModal(plans)
+          _vm.openApprovedAmendmentTempModal(plans)
         }
       }
     }, [_c('i', {
@@ -116745,7 +116935,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
-        _vm.createApprovedAmendment($event)
+        _vm.createApprovedAmendmentTemp($event)
       }
     }
   }, [(_vm.errorMessage) ? _c('div', {
@@ -117016,12 +117206,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("پروژه جدید")]), _vm._v(" "), _c('a', {
     staticClass: "medium-1 my-button toolbox-btn small",
     on: {
-      "click": _vm.cancelApprovedAmendment
+      "click": _vm.cancelApprovedAmendmentTemp
     }
   }, [_vm._v("لغو")]), _vm._v(" "), _c('a', {
     staticClass: "medium-1 my-button toolbox-btn small",
     on: {
-      "click": function($event) {}
+      "click": _vm.acceptApprovedAmendment
     }
   }, [_vm._v("تایید")])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
@@ -117096,7 +117286,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   })]), _vm._v(" "), _c('tbody', {
     staticClass: "tbl-head-style-cell"
   }, [_vm._l((_vm.approvedAmendmentProjects.capital_assets_project), function(project) {
-    return [_c('tr', [_c('td', [_vm._v(_vm._s(project.cpCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(project.cpSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(project.county.coName))]), _vm._v(" "), _c('td', {
+    return [_c('tr', [_c('td', [_vm._v(_vm._s(project.cpCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(project.cpSubject) + "\n                                            "), _c('span', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (project.cpDeleted),
+        expression: "project.cpDeleted"
+      }],
+      staticClass: "comlpleted-badage float-left"
+    }, [_vm._v("حذف شده")])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(project.county.coName))]), _vm._v(" "), _c('td', {
       on: {
         "click": function($event) {
           _vm.displayCSInfo == project.id ? _vm.displayCSInfo = '' : _vm.displayCSInfo = project.id
@@ -117134,6 +117332,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
+          _vm.openDeleteTempProjectModal(project.id)
         }
       }
     }, [_c('i', {
@@ -117151,7 +117350,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.openEditProjectModal($event)
+          _vm.openEditTempProjectModal(project)
         }
       }
     }, [_c('i', {
@@ -117176,7 +117375,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "background-color": "#F1F1F1 !important"
       }
     }, [_c('th', [_vm._v("ردیف")]), _vm._v(" "), _c('th', [_vm._v("فصل")]), _vm._v(" "), _c('th', [_vm._v("عنوان فصل")]), _vm._v(" "), _c('th', [_vm._v("ریز فصل")]), _vm._v(" "), _c('th', [_vm._v("نحوه اجرا")]), _vm._v(" "), _c('th', [_vm._v("مبلغ")]), _vm._v(" "), _c('th', [_vm._v("شرح")])])]), _vm._v(" "), _c('tbody', _vm._l((project.credit_source), function(credit_source) {
-      return _c('tr', [_c('td', [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.tiny_season.season_title.castSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.tiny_season.catsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.how_to_run.htrSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(credit_source.ccsAmount, false)))]), _vm._v(" "), _c('td', [_c('div', {
+      return _c('tr', [_c('td', [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject) + "\n                                                        "), _c('span', {
+        directives: [{
+          name: "show",
+          rawName: "v-show",
+          value: (credit_source.ccsDeleted),
+          expression: "credit_source.ccsDeleted"
+        }],
+        staticClass: "comlpleted-badage float-left"
+      }, [_vm._v("حذف شده")])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.tiny_season.season_title.castSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.tiny_season.catsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.how_to_run.htrSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(credit_source.ccsAmount, false)))]), _vm._v(" "), _c('td', [_c('div', {
         staticClass: "grid-x"
       }, [_c('div', {
         staticClass: "medium-11"
@@ -117208,6 +117415,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         on: {
           "click": function($event) {
             $event.preventDefault();
+            _vm.openDeleteTempCreditSourceModal(credit_source.id)
           }
         }
       }, [_c('i', {
@@ -117216,6 +117424,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         on: {
           "click": function($event) {
             $event.preventDefault();
+            _vm.openAPCreditEditModal(credit_source)
           }
         }
       }, [_c('i', {
@@ -117237,7 +117446,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
-        _vm.insertNewProject($event)
+        _vm.insertNewTempProject($event)
       }
     }
   }, [(_vm.errorMessage) ? _c('div', {
@@ -117589,7 +117798,31 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
-  }, [_vm._v("ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showEditModalProject) ? _c('modal-small', {
+  }, [_vm._v("ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showDeleteTempProjectModal) ? _c('modal-tiny', {
+    on: {
+      "close": function($event) {
+        _vm.showDeleteTempProjectModal = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('div', {
+    staticClass: "small-font"
+  }, [_c('p', [_vm._v("کاربر گرامی")]), _vm._v(" "), _c('p', {
+    staticClass: "large-offset-1 modal-text"
+  }, [_vm._v("با حذف پروژه انتخاب شده، تخصیص های اعتبار این پروژه صفر می گردد و لازم است محل های هزینه کرد اصلاح شود.")]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 column text-center"
+  }, [_c('button', {
+    staticClass: "button primary btn-large-w",
+    on: {
+      "click": _vm.deleteTempProject
+    }
+  }, [_vm._v("تایید")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showEditModalProject) ? _c('modal-small', {
     on: {
       "close": function($event) {
         _vm.showEditModalProject = false
@@ -117604,6 +117837,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
+        _vm.updateTempProject($event)
       }
     }
   }, [(_vm.errorMessage) ? _c('div', {
@@ -117621,20 +117855,51 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "medium-12 cell padding-lr"
   }, [_c('label', [_vm._v("طرح\n                                "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentFill.capId),
+      expression: "projectAmendmentFill.capId"
+    }],
     attrs: {
       "disabled": "true",
       "name": "plan"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.projectAmendmentFill.capId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
   }, [_c('option', {
     attrs: {
       "value": ""
     }
-  }), _vm._v(" "), _c('option')])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _c('option', {
+    domProps: {
+      "value": _vm.approvedAmendmentProjects.id
+    },
+    on: {
+      "click": function($event) {
+        _vm.setCountyId(_vm.approvedAmendmentProjects.credit_distribution_title.county.id)
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.approvedAmendmentProjects.credit_distribution_title.cdtIdNumber + _vm.approvedAmendmentProjects.credit_distribution_title.cdtSubject))])])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-8 cell padding-lr"
   }, [_c('label', [_vm._v("عنوان پروژه\n                                "), _c('input', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentFill.pSubject),
+      expression: "projectAmendmentFill.pSubject"
+    }, {
       name: "validate",
       rawName: "v-validate",
       value: ('required'),
@@ -117647,6 +117912,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "type": "text",
       "name": "projectTitle"
+    },
+    domProps: {
+      "value": (_vm.projectAmendmentFill.pSubject)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.projectAmendmentFill.pSubject = $event.target.value
+      }
     }
   })]), _vm._v(" "), _c('span', {
     directives: [{
@@ -117660,6 +117934,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-4 cell padding-lr"
   }, [_c('label', [_vm._v("کد پروژه\n                                "), _c('input', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentFill.pCode),
+      expression: "projectAmendmentFill.pCode"
+    }, {
       name: "validate",
       rawName: "v-validate",
       value: ('required|numeric'),
@@ -117672,6 +117951,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "type": "text",
       "name": "projectCode"
+    },
+    domProps: {
+      "value": (_vm.projectAmendmentFill.pCode)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.projectAmendmentFill.pCode = $event.target.value
+      }
     }
   })]), _vm._v(" "), _c('span', {
     directives: [{
@@ -117687,6 +117975,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-4 cell padding-lr"
   }, [_c('label', [_vm._v("سال شروع\n                                "), _c('input', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentFill.startYear),
+      expression: "projectAmendmentFill.startYear"
+    }, {
       name: "validate",
       rawName: "v-validate",
       value: ('required'),
@@ -117699,6 +117992,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "type": "text",
       "name": "startYear"
+    },
+    domProps: {
+      "value": (_vm.projectAmendmentFill.startYear)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.projectAmendmentFill.startYear = $event.target.value
+      }
     }
   })]), _vm._v(" "), _c('span', {
     directives: [{
@@ -117712,6 +118014,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-4 cell padding-lr"
   }, [_c('label', [_vm._v("سال خاتمه\n                                "), _c('input', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentFill.endYear),
+      expression: "projectAmendmentFill.endYear"
+    }, {
       name: "validate",
       rawName: "v-validate",
       value: ('required'),
@@ -117724,6 +118031,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "type": "text",
       "name": "endYear"
+    },
+    domProps: {
+      "value": (_vm.projectAmendmentFill.endYear)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.projectAmendmentFill.endYear = $event.target.value
+      }
     }
   })]), _vm._v(" "), _c('span', {
     directives: [{
@@ -117739,6 +118055,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "btn-red small-font"
   }, [_vm._v(" (درصد) ")]), _vm._v(" "), _c('input', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentFill.pProgress),
+      expression: "projectAmendmentFill.pProgress"
+    }, {
       name: "validate",
       rawName: "v-validate",
       value: ('required|numeric'),
@@ -117753,6 +118074,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "max": "100",
       "value": "0",
       "name": "physicalProgress"
+    },
+    domProps: {
+      "value": (_vm.projectAmendmentFill.pProgress)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.projectAmendmentFill.pProgress = $event.target.value
+      }
     }
   }), _vm._v(" "), _c('div', {
     staticClass: "alert progress form-element-margin-btm",
@@ -117777,6 +118107,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-4 cell padding-lr"
   }, [_c('label', [_vm._v("شهرستان\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentInput.county),
+      expression: "projectAmendmentInput.county"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -117785,14 +118120,33 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       'input': true, 'select-error': _vm.errors.has('city')
     },
     attrs: {
+      "disabled": _vm.countyState,
+      "selected": _vm.projectAmendmentFill.county,
       "name": "city",
       "data-vv-rules": "required"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.projectAmendmentInput.county = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
   }, [_c('option', {
     attrs: {
       "value": ""
     }
-  }), _vm._v(" "), _c('option')]), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _vm._l((_vm.counties), function(county) {
+    return _c('option', {
+      domProps: {
+        "value": county.id
+      }
+    }, [_vm._v(_vm._s(county.coName))])
+  })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -117805,11 +118159,26 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "small-12 columns padding-lr"
   }, [_c('label', [_vm._v("شرح\n                                "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.projectAmendmentFill.description),
+      expression: "projectAmendmentFill.description"
+    }],
     staticStyle: {
       "min-height": "150px"
     },
     attrs: {
       "name": "apDescription"
+    },
+    domProps: {
+      "value": (_vm.projectAmendmentFill.description)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.projectAmendmentFill.description = $event.target.value
+      }
     }
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6 columns padding-lr padding-bottom-modal"
@@ -117835,7 +118204,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
-        _vm.insertNewCreditSource($event)
+        _vm.updateTempCreditSource($event)
       }
     }
   }, [(_vm.errorMessage) ? _c('div', {
@@ -117854,6 +118223,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-9 cell padding-lr"
   }, [_c('label', [_vm._v("ردیف توزیع اعتبار\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.apCreditSourceFill.crId),
+      expression: "apCreditSourceFill.crId"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -117864,6 +118238,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "name": "row",
       "data-vv-rules": "required"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.apCreditSourceFill.crId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
   }, [_c('option', {
     attrs: {
@@ -117887,6 +118272,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-3 cell padding-lr"
   }, [_c('label', [_vm._v("نحوه اجرا\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.apCreditSourceFill.htrId),
+      expression: "apCreditSourceFill.htrId"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -117897,12 +118287,29 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "name": "howToRun",
       "data-vv-rules": "required"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.apCreditSourceFill.htrId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
   }, [_c('option', {
     attrs: {
       "value": ""
     }
-  }), _vm._v(" "), _c('option')]), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _vm._l((_vm.howToRuns), function(howToRun) {
+    return _c('option', {
+      domProps: {
+        "value": howToRun.id
+      }
+    }, [_vm._v(_vm._s(howToRun.htrSubject))])
+  })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -117916,6 +118323,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-4 column padding-lr"
   }, [_c('label', [_vm._v("فصل\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectedSeason),
+      expression: "selectedSeason"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -117928,13 +118340,27 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "data-vv-rules": "required"
     },
     on: {
-      "change": function($event) {}
+      "change": [function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.selectedSeason = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }, _vm.getSeasonTitle]
     }
   }, [_c('option', {
     attrs: {
       "value": ""
     }
-  }), _vm._v(" "), _c('option')]), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _vm._l((_vm.seasons), function(season) {
+    return _c('option', {
+      domProps: {
+        "value": season.id
+      }
+    }, [_vm._v(_vm._s(season.sSubject))])
+  })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -117946,6 +118372,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-8 column padding-lr"
   }, [_c('label', [_vm._v("عنوان فصل\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectedSeasonTitle),
+      expression: "selectedSeasonTitle"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -117958,13 +118389,27 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "data-vv-rules": "required"
     },
     on: {
-      "change": function($event) {}
+      "change": [function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.selectedSeasonTitle = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }, _vm.getTinySeasons]
     }
   }, [_c('option', {
     attrs: {
       "value": ""
     }
-  }), _vm._v(" "), _c('option')]), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _vm._l((_vm.seasonTitles), function(seasonTitle) {
+    return _c('option', {
+      domProps: {
+        "value": seasonTitle.id
+      }
+    }, [_vm._v(_vm._s(seasonTitle.castSubject))])
+  })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -117978,6 +118423,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-12 column padding-lr"
   }, [_c('label', [_vm._v("ریز فصل\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.apCreditSourceFill.tsId),
+      expression: "apCreditSourceFill.tsId"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -117988,12 +118438,29 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "name": "subSeason",
       "data-vv-rules": "required"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.apCreditSourceFill.tsId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
   }, [_c('option', {
     attrs: {
       "value": ""
     }
-  }), _vm._v(" "), _c('option')]), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _vm._l((_vm.tinySeasons), function(tinySeason) {
+    return _c('option', {
+      domProps: {
+        "value": tinySeason.id
+      }
+    }, [_vm._v(_vm._s(tinySeason.catsSubject))])
+  })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -118009,6 +118476,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "btn-red"
   }, [_vm._v(_vm._s('(' + _vm.$parent.getAmountBaseLabel() + ')'))]), _vm._v(" "), _c('input', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.apCreditSourceFill.csAmount),
+      expression: "apCreditSourceFill.csAmount"
+    }, {
       name: "validate",
       rawName: "v-validate",
       value: ('required|decimal'),
@@ -118021,6 +118493,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "type": "text",
       "name": "amount"
+    },
+    domProps: {
+      "value": (_vm.apCreditSourceFill.csAmount)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.apCreditSourceFill.csAmount = $event.target.value
+      }
     }
   })]), _vm._v(" "), _c('span', {
     directives: [{
@@ -118035,11 +118516,26 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "small-12 columns padding-lr"
   }, [_c('label', [_vm._v("شرح\n                                "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.apCreditSourceFill.csDescription),
+      expression: "apCreditSourceFill.csDescription"
+    }],
     staticStyle: {
       "min-height": "150px"
     },
     attrs: {
       "name": "csDescription"
+    },
+    domProps: {
+      "value": (_vm.apCreditSourceFill.csDescription)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.apCreditSourceFill.csDescription = $event.target.value
+      }
     }
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6 columns padding-lr padding-bottom-modal input-margin-top"
@@ -118065,7 +118561,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
-        _vm.insertNewCreditSource($event)
+        _vm.insertNewTempCreditSource($event)
       }
     }
   }, [(_vm.errorMessage) ? _c('div', {
@@ -118583,33 +119079,44 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": _vm.openReportModal
     }
-  }, [_vm._v("مشاهده گزارش")])])])])]) : _vm._e()], 1)])
+  }, [_vm._v("مشاهده گزارش")])])])])]) : _vm._e(), _vm._v(" "), (_vm.showDeleteTempCreditSourceModal) ? _c('modal-tiny', {
+    on: {
+      "close": function($event) {
+        _vm.showDeleteTempCreditSourceModal = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('div', {
+    staticClass: "small-font"
+  }, [_c('p', [_vm._v("کاربر گرامی")]), _vm._v(" "), _c('p', {
+    staticClass: "large-offset-1 modal-text"
+  }, [_vm._v("با حذف منبع اعتبار انتخاب شده، تخصیص های اعتبار صفر می گردد و لازم است محل های هزینه کرد اصلاح شود.")]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 column text-center"
+  }, [_c('button', {
+    staticClass: "button primary btn-large-w",
+    on: {
+      "click": _vm.deleteTempCreditSource
+    }
+  }, [_vm._v("تایید")])])])])])]) : _vm._e()], 1)])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "grid-x padding-lr breadcrumbs-pos"
-  }, [_c('div', {
-    staticClass: "medium-12"
-  }, [_c('div', {
-    staticClass: "grid-x"
-  }, [_c('nav', {
-    attrs: {
-      "aria-label": "You are here:",
-      "role": "navigation"
-    }
-  }, [_c('ul', {
-    staticClass: "breadcrumbs"
-  }, [_c('li', [_c('a', {
-    attrs: {
-      "href": ""
-    }
-  }, [_vm._v("داشبورد")])]), _vm._v(" "), _c('li', [_c('a', {
+  return _c('li', [_c('a', {
     staticClass: "disabled"
-  }, [_vm._v("موافقتنامه")])]), _vm._v(" "), _c('li', [_c('a', {
+  }, [_vm._v("موافقتنامه")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', [_c('a', {
     staticClass: "disabled"
-  }, [_vm._v("تملک دارایی سرمایه ای")])]), _vm._v(" "), _c('li', [_c('span', {
+  }, [_vm._v("تملک دارایی سرمایه ای")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', [_c('span', {
     staticClass: "show-for-sr"
-  }, [_vm._v("Current: ")]), _vm._v("طرح ها\n                        ")])])])])])])
+  }, [_vm._v("Current: ")]), _vm._v("طرح ها\n                        ")])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('ul', {
     staticClass: "tabs tab-color my-tab-style",
@@ -122346,6 +122853,34 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -122837,16 +123372,36 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       attrs: {
         "rowspan": _vm.getPlanAllocCount(plans.capital_assets_project_has_credit_source)
       }
-    }, [_vm._v(_vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
+    }, [_vm._v(_vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject) + "\n                                                        "), _c('div', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (!plans.capActive),
+        expression: "!plans.capActive"
+      }],
+      staticClass: "text-center",
+      staticStyle: {
+        "margin-top": "5px"
+      }
+    }, [_c('span', {
+      staticClass: "new-badage"
+    }, [_vm._v("غیر فعال")])])]), _vm._v(" "), _c('td', {
       attrs: {
         "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)
       }
-    }, [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].cpCode))]), _vm._v(" "), _c('td', {
+    }, [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].cpCode + ' - ' + plans.capital_assets_project_has_credit_source[0].cpSubject))]), _vm._v(" "), (plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].ccsDeleted) ? _c('td', {
       staticClass: "text-center",
       attrs: {
         "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)
       }
-    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getProjectAllocationSum(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation), false)))]), _vm._v(" "), _c('td', {
+    }, [_c('span', {
+      staticClass: "comlpleted-badage"
+    }, [_vm._v("حذف شده")])]) : _vm._e(), _vm._v(" "), (!plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].ccsDeleted) ? _c('td', {
+      staticClass: "text-center",
+      attrs: {
+        "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)
+      }
+    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getProjectAllocationSum(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation), false)))]) : _vm._e(), _vm._v(" "), _c('td', {
       attrs: {
         "rowspan": plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation.length
       }
@@ -122869,15 +123424,35 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         attrs: {
           "rowspan": _vm.getProjectAllocCount(projects.credit_source_has_allocation)
         }
-      }, [_vm._v(_vm._s(projects.cpCode))]), _vm._v(" "), _c('td', {
+      }, [_vm._v(_vm._s(projects.cpCode + ' - ' + projects.cpSubject))]), _vm._v(" "), (!projects.credit_source_has_allocation[0].ccsDeleted) ? _c('td', {
+        staticClass: "text-center",
         attrs: {
           "rowspan": _vm.getProjectAllocCount(projects.credit_source_has_allocation)
         }
-      }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getProjectAllocationSum(projects.credit_source_has_allocation), false)))]), _vm._v(" "), _c('td', {
+      }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getProjectAllocationSum(projects.credit_source_has_allocation), false)))]) : _vm._e(), _vm._v(" "), (projects.credit_source_has_allocation[0].ccsDeleted) ? _c('td', {
+        staticClass: "text-center",
+        attrs: {
+          "rowspan": _vm.getProjectAllocCount(projects.credit_source_has_allocation)
+        }
+      }, [_c('span', {
+        staticClass: "comlpleted-badage"
+      }, [_vm._v("حذف شده")])]) : _vm._e(), _vm._v(" "), _c('td', {
         attrs: {
           "rowspan": projects.credit_source_has_allocation[0].allocation.length
         }
-      }, [_vm._v(_vm._s(projects.credit_source_has_allocation[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source_has_allocation[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source_has_allocation[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(projects.credit_source_has_allocation[0].allocation[0].caaAmount, false)))])]) : _vm._e(), _vm._v(" "), _vm._l((projects.credit_source_has_allocation), function(credit_source, csIndex) {
+      }, [_vm._v(_vm._s(projects.credit_source_has_allocation[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source_has_allocation[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source_has_allocation[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(projects.credit_source_has_allocation[0].allocation[0].caaAmount, false)))]), _vm._v(" "), _c('td', {
+        directives: [{
+          name: "show",
+          rawName: "v-show",
+          value: (_vm.selectColumn),
+          expression: "selectColumn"
+        }]
+      }, [_c('input', {
+        staticClass: "auto-margin",
+        attrs: {
+          "type": "checkbox"
+        }
+      })])]) : _vm._e(), _vm._v(" "), _vm._l((projects.credit_source_has_allocation), function(credit_source, csIndex) {
         return [(csIndex > 0) ? _c('tr', {
           staticClass: "tbl-head-style-cell"
         }, [_c('td', {
@@ -122899,7 +123474,19 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         })])]) : _vm._e(), _vm._v(" "), _vm._l((credit_source.allocation), function(alloc, allocIndex) {
           return [(allocIndex > 0) ? _c('tr', {
             staticClass: "tbl-head-style-cell"
-          }, [_c('td', [_vm._v(_vm._s(alloc.caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(alloc.caaAmount, false)))])]) : _vm._e()]
+          }, [_c('td', [_vm._v(_vm._s(alloc.caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(alloc.caaAmount, false)))]), _vm._v(" "), _c('td', {
+            directives: [{
+              name: "show",
+              rawName: "v-show",
+              value: (_vm.selectColumn),
+              expression: "selectColumn"
+            }]
+          }, [_c('input', {
+            staticClass: "auto-margin",
+            attrs: {
+              "type": "checkbox"
+            }
+          })])]) : _vm._e()]
         })]
       })]
     })]
@@ -123105,16 +123692,36 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       attrs: {
         "rowspan": _vm.getPlanAllocCount(plans.capital_assets_project_has_credit_source)
       }
-    }, [_vm._v(_vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
+    }, [_vm._v(_vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject) + "\n                                                    "), _c('div', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (!plans.capActive),
+        expression: "!plans.capActive"
+      }],
+      staticClass: "text-center",
+      staticStyle: {
+        "margin-top": "5px"
+      }
+    }, [_c('span', {
+      staticClass: "new-badage"
+    }, [_vm._v("غیر فعال")])])]), _vm._v(" "), _c('td', {
       attrs: {
         "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)
       }
-    }, [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].cpCode))]), _vm._v(" "), _c('td', {
+    }, [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].cpCode))]), _vm._v(" "), (plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].ccsDeleted) ? _c('td', {
       staticClass: "text-center",
       attrs: {
         "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)
       }
-    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getProjectAllocationSum(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation), false)))]), _vm._v(" "), _c('td', {
+    }, [_c('span', {
+      staticClass: "comlpleted-badage"
+    }, [_vm._v("حذف شده")])]) : _vm._e(), _vm._v(" "), (!plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].ccsDeleted) ? _c('td', {
+      staticClass: "text-center",
+      attrs: {
+        "rowspan": _vm.getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)
+      }
+    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getProjectAllocationSum(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation), false)))]) : _vm._e(), _vm._v(" "), _c('td', {
       attrs: {
         "rowspan": plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation.length
       }
@@ -123137,22 +123744,54 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         attrs: {
           "rowspan": _vm.getProjectAllocCount(projects.credit_source_has_allocation)
         }
-      }, [_vm._v(_vm._s(projects.cpCode))]), _vm._v(" "), _c('td', {
+      }, [_vm._v(_vm._s(projects.cpCode))]), _vm._v(" "), (!projects.credit_source_has_allocation[0].ccsDeleted) ? _c('td', {
+        staticClass: "text-center",
         attrs: {
           "rowspan": _vm.getProjectAllocCount(projects.credit_source_has_allocation)
         }
-      }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getProjectAllocationSum(projects.credit_source_has_allocation), false)))]), _vm._v(" "), _c('td', {
+      }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getProjectAllocationSum(projects.credit_source_has_allocation), false)))]) : _vm._e(), _vm._v(" "), (projects.credit_source_has_allocation[0].ccsDeleted) ? _c('td', {
+        staticClass: "text-center",
+        attrs: {
+          "rowspan": _vm.getProjectAllocCount(projects.credit_source_has_allocation)
+        }
+      }, [_c('span', {
+        staticClass: "comlpleted-badage"
+      }, [_vm._v("حذف شده")])]) : _vm._e(), _vm._v(" "), _c('td', {
         attrs: {
           "rowspan": projects.credit_source_has_allocation[0].allocation.length
         }
-      }, [_vm._v(_vm._s(projects.credit_source_has_allocation[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source_has_allocation[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source_has_allocation[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(projects.credit_source_has_allocation[0].allocation[0].caaAmount, false)))])]) : _vm._e(), _vm._v(" "), _vm._l((projects.credit_source_has_allocation), function(credit_source, csIndex) {
+      }, [_vm._v(_vm._s(projects.credit_source_has_allocation[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source_has_allocation[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(projects.credit_source_has_allocation[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(projects.credit_source_has_allocation[0].allocation[0].caaAmount, false)))]), _vm._v(" "), _c('td', {
+        directives: [{
+          name: "show",
+          rawName: "v-show",
+          value: (_vm.selectColumn),
+          expression: "selectColumn"
+        }]
+      }, [_c('input', {
+        staticClass: "auto-margin",
+        attrs: {
+          "type": "checkbox"
+        }
+      })])]) : _vm._e(), _vm._v(" "), _vm._l((projects.credit_source_has_allocation), function(credit_source, csIndex) {
         return [(csIndex > 0) ? _c('tr', {
           staticClass: "tbl-head-style-cell"
         }, [_c('td', {
           attrs: {
             "rowspan": credit_source.allocation.length
           }
-        }, [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(credit_source.allocation[0].caaAmount, false)))])]) : _vm._e(), _vm._v(" "), _vm._l((credit_source.allocation), function(alloc, allocIndex) {
+        }, [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(credit_source.allocation[0].caaAmount, false)))]), _vm._v(" "), _c('td', {
+          directives: [{
+            name: "show",
+            rawName: "v-show",
+            value: (_vm.selectColumn),
+            expression: "selectColumn"
+          }]
+        }, [_c('input', {
+          staticClass: "auto-margin",
+          attrs: {
+            "type": "checkbox"
+          }
+        })])]) : _vm._e(), _vm._v(" "), _vm._l((credit_source.allocation), function(alloc, allocIndex) {
           return [(allocIndex > 0) ? _c('tr', {
             staticClass: "tbl-head-style-cell"
           }, [_c('td', [_vm._v(_vm._s(alloc.caaLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caaLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(alloc.caaAmount, false)))]), _vm._v(" "), _c('td', {

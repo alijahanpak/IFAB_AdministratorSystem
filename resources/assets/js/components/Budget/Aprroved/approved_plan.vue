@@ -6,7 +6,7 @@
                 <div class="grid-x">
                     <nav aria-label="You are here:" role="navigation">
                         <ul class="breadcrumbs">
-                            <li><a href="">داشبورد</a></li>
+                            <li><router-link to="/budget">داشبورد</router-link></li>
                             <li>
                                 <a class="disabled">موافقتنامه</a>
                             </li>
@@ -132,7 +132,7 @@
                                                                 <ul class="my-menu small-font text-right">
                                                                     <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                                     <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                    <li><a v-on:click.prevent="openApprovedAmendmentModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
+                                                                    <li><a v-on:click.prevent="openApprovedAmendmentTempModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -262,7 +262,7 @@
                                                             <ul class="my-menu small-font text-right">
                                                                 <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                                 <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                <li><a v-on:click.prevent="openApprovedAmendmentModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
+                                                                <li><a v-on:click.prevent="openApprovedAmendmentTempModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -353,10 +353,6 @@
                     </div>
             </modal-small>
             <!--Insert Modal End-->
-
-            <!--Update Modal Start-->
-            <!--update Modal End-->
-
             <!-- Delete Modal Start -->
             <modal-tiny v-if="showModalDelete" @close="showModalDelete = false">
                 <div  slot="body">
@@ -375,7 +371,7 @@
             <!--Amendment Modal Start-->
             <modal-small v-if="showModalAmendment" @close="showModalAmendment = false">
                 <div slot="body">
-                    <form v-on:submit.prevent="createApprovedAmendment">
+                    <form v-on:submit.prevent="createApprovedAmendmentTemp">
                         <div class="grid-x" v-if="errorMessage">
                             <div class="medium-12 columns padding-lr">
                                 <div class="alert callout">
@@ -477,8 +473,8 @@
                     <div style="margin-top: 17px;" class="grid-x">
                         <div class="medium-12 button-group float-right">
                             <a class="medium-1 my-button toolbox-btn small" @click="openInsertProjectModal">پروژه جدید</a>
-                            <a class="medium-1 my-button toolbox-btn small" @click="cancelApprovedAmendment">لغو</a>
-                            <a class="medium-1 my-button toolbox-btn small" @click="">تایید</a>
+                            <a class="medium-1 my-button toolbox-btn small" @click="cancelApprovedAmendmentTemp">لغو</a>
+                            <a class="medium-1 my-button toolbox-btn small" @click="acceptApprovedAmendment">تایید</a>
                         </div>
                     </div>
                     <div class="grid-x">
@@ -520,7 +516,9 @@
                                     <template v-for="project in approvedAmendmentProjects.capital_assets_project">
                                         <tr>
                                             <td>{{ project.cpCode }}</td>
-                                            <td>{{ project.cpSubject }}</td>
+                                            <td>{{ project.cpSubject }}
+                                                <span v-show="project.cpDeleted" class="comlpleted-badage float-left">حذف شده</span>
+                                            </td>
                                             <td>{{ project.county.coName }}</td>
                                             <td @click="displayCSInfo == project.id ? displayCSInfo = '' : displayCSInfo = project.id">{{ $parent.calcDispAmount(sumOfAmount(project.credit_source) , false) }}</td>
                                             <td>
@@ -532,9 +530,9 @@
                                                         <a class="dropdown small sm-btn-align" :data-toggle="'project' + project.id"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'project' + project.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
-                                                                <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                <li><a v-on:click.prevent="openDeleteTempProjectModal(project.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                 <li><a v-on:click.prevent="openAPCreditInsertModal(project.id)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
-                                                                <li><a v-on:click.prevent="openEditProjectModal"><i class="fa fa-newspaper-o size-16"></i>  اصلاح</a></li>
+                                                                <li><a v-on:click.prevent="openEditTempProjectModal(project)"><i class="fa fa-newspaper-o size-16"></i>  اصلاح</a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -557,7 +555,9 @@
                                                     </thead>
                                                     <tbody>
                                                     <tr v-for="credit_source in project.credit_source">
-                                                        <td>{{ credit_source.credit_distribution_row.cdSubject }}</td>
+                                                        <td>{{ credit_source.credit_distribution_row.cdSubject }}
+                                                            <span v-show="credit_source.ccsDeleted" class="comlpleted-badage float-left">حذف شده</span>
+                                                        </td>
                                                         <td>{{ credit_source.tiny_season.season_title.season.sSubject }}</td>
                                                         <td>{{ credit_source.tiny_season.season_title.castSubject }}</td>
                                                         <td>{{ credit_source.tiny_season.catsSubject }}</td>
@@ -572,8 +572,8 @@
                                                                     <a class="dropdown small sm-btn-align" :data-toggle="'projectCs' + credit_source.id"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'projectCs' + credit_source.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
-                                                                            <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                            <li><a v-on:click.prevent=""><i class="fa fa-newspaper-o size-16"></i>  اصلاح</a></li>
+                                                                            <li><a v-on:click.prevent="openDeleteTempCreditSourceModal(credit_source.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                            <li><a v-on:click.prevent="openAPCreditEditModal(credit_source)"><i class="fa fa-newspaper-o size-16"></i>  اصلاح</a></li>
                                                                         </ul>
                                                                     </div>
                                                                 </div>
@@ -594,11 +594,10 @@
                 </div>
             </modal-full-screen>
             <!--Amendment Of The Agreement Modal End-->
-
             <!--Insert Project Modal Start-->
             <modal-small v-if="showInsertModalProject" @close="showInsertModalProject = false">
                 <div slot="body">
-                    <form v-on:submit.prevent="insertNewProject">
+                    <form v-on:submit.prevent="insertNewTempProject">
                         <div class="grid-x" v-if="errorMessage">
                             <div class="medium-12 columns padding-lr">
                                 <div class="alert callout">
@@ -676,11 +675,25 @@
                 </div>
             </modal-small>
             <!--Insert Project Modal End-->
-
+            <!-- Delete Modal Start -->
+            <modal-tiny v-if="showDeleteTempProjectModal" @close="showDeleteTempProjectModal = false">
+                <div  slot="body">
+                    <div class="small-font">
+                        <p>کاربر گرامی</p>
+                        <p class="large-offset-1 modal-text">با حذف پروژه انتخاب شده، تخصیص های اعتبار این پروژه صفر می گردد و لازم است محل های هزینه کرد اصلاح شود.</p>
+                        <div class="grid-x">
+                            <div class="medium-12 column text-center">
+                                <button  class="button primary btn-large-w" v-on:click="deleteTempProject">تایید</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </modal-tiny>
+            <!-- Delete Modal End -->
             <!--Edit Project Modal Start-->
             <modal-small v-if="showEditModalProject" @close="showEditModalProject = false">
                 <div slot="body">
-                    <form v-on:submit.prevent="">
+                    <form v-on:submit.prevent="updateTempProject">
                         <div class="grid-x" v-if="errorMessage">
                             <div class="medium-12 columns padding-lr">
                                 <div class="alert callout">
@@ -691,9 +704,9 @@
                         <div class="grid-x">
                             <div class="medium-12 cell padding-lr">
                                 <label>طرح
-                                    <select disabled="true"  name="plan">
+                                    <select disabled="true" name="plan" v-model="projectAmendmentFill.capId">
                                         <option value=""></option>
-                                        <option></option>
+                                        <option :value="approvedAmendmentProjects.id" @click="setCountyId(approvedAmendmentProjects.credit_distribution_title.county.id)">{{ approvedAmendmentProjects.credit_distribution_title.cdtIdNumber + approvedAmendmentProjects.credit_distribution_title.cdtSubject }}</option>
                                     </select>
                                 </label>
                             </div>
@@ -701,13 +714,13 @@
                         <div class="grid-x">
                             <div class="medium-8 cell padding-lr">
                                 <label>عنوان پروژه
-                                    <input class="form-element-margin-btm" type="text" name="projectTitle"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('projectTitle')}">
+                                    <input class="form-element-margin-btm" type="text" name="projectTitle" v-model="projectAmendmentFill.pSubject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('projectTitle')}">
                                 </label>
                                 <span v-show="errors.has('projectTitle')" class="error-font">لطفا عنوان پروژه انتخاب کنید!</span>
                             </div>
                             <div class="medium-4 cell padding-lr">
                                 <label>کد پروژه
-                                    <input class="form-element-margin-btm" type="text" name="projectCode" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('projectCode')}">
+                                    <input class="form-element-margin-btm" type="text" name="projectCode" v-model="projectAmendmentFill.pCode" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('projectCode')}">
                                 </label>
                                 <span v-show="errors.has('projectCode')" class="error-font">لطفا کد پروژه انتخاب کنید!</span>
                             </div>
@@ -715,19 +728,19 @@
                         <div class="grid-x">
                             <div class="medium-4 cell padding-lr">
                                 <label>سال شروع
-                                    <input class="form-element-margin-btm datePickerClass" type="text" name="startYear"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('startYear')}">
+                                    <input class="form-element-margin-btm datePickerClass" type="text" name="startYear" v-model="projectAmendmentFill.startYear"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('startYear')}">
                                 </label>
                                 <span v-show="errors.has('startYear')" class="error-font">لطفا سال شروع پروژه را وارد کنید!</span>
                             </div>
                             <div class="medium-4 cell padding-lr">
                                 <label>سال خاتمه
-                                    <input class="form-element-margin-btm datePickerClass" type="text" name="endYear"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('endYear')}">
+                                    <input class="form-element-margin-btm datePickerClass" type="text" name="endYear" v-model="projectAmendmentFill.endYear" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('endYear')}">
                                 </label>
                                 <span v-show="errors.has('endYear')" class="error-font">لطفا سال خاتمه پروژه را وارد کنید!</span>
                             </div>
                             <div class="medium-4 cell padding-lr">
                                 <label> پیشرفت فیزیکی<span class="btn-red small-font"> (درصد) </span>
-                                    <input  type="number" min="0" max="100" value="0" name="physicalProgress" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
+                                    <input  type="number" min="0" max="100" value="0" name="physicalProgress" v-model="projectAmendmentFill.pProgress" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
                                     <div style="margin-top: -16px;height:2px;" class="alert progress form-element-margin-btm">
                                         <div class="progress-meter" style="width: 100%"></div>
                                     </div>
@@ -736,9 +749,9 @@
                             </div>
                             <div class="medium-4 cell padding-lr">
                                 <label>شهرستان
-                                    <select class="form-element-margin-btm" name="city" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('city')}">
+                                    <select class="form-element-margin-btm" :disabled="countyState" :selected="projectAmendmentFill.county" name="city" v-model="projectAmendmentInput.county" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('city')}">
                                         <option value=""></option>
-                                        <option></option>
+                                        <option v-for="county in counties" :value="county.id">{{ county.coName }}</option>
                                     </select>
                                     <span v-show="errors.has('city')" class="error-font">لطفا شهرستان را انتخاب کنید!</span>
                                 </label>
@@ -747,7 +760,7 @@
                         <div class="grid-x">
                             <div class="small-12 columns padding-lr">
                                 <label>شرح
-                                    <textarea name="apDescription" style="min-height: 150px;" ></textarea>
+                                    <textarea name="apDescription" v-model="projectAmendmentFill.description" style="min-height: 150px;" ></textarea>
                                 </label>
                             </div>
                         </div>
@@ -762,7 +775,7 @@
             <!--Project credit source Modal Start-->
             <modal-small v-if="showApCreditEditModal" @close="showApCreditEditModal = false">
                 <div  slot="body">
-                    <form v-on:submit.prevent="insertNewCreditSource">
+                    <form v-on:submit.prevent="updateTempCreditSource">
                         <div class="grid-x" v-if="errorMessage">
                             <div class="medium-12 columns padding-lr">
                                 <div class="alert callout">
@@ -773,7 +786,7 @@
                         <div class="grid-x">
                             <div class="medium-9 cell padding-lr">
                                 <label>ردیف توزیع اعتبار
-                                    <select  class="form-element-margin-btm"  name="row"  v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('row')}">
+                                    <select  class="form-element-margin-btm"  name="row" v-model="apCreditSourceFill.crId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('row')}">
                                         <option value=""></option>
                                         <option v-for="creditDistributionRow in creditDistributionRows" :value="creditDistributionRow.id">{{ creditDistributionRow.cdSubject }}</option>
                                     </select>
@@ -782,9 +795,9 @@
                             </div>
                             <div class="medium-3 cell padding-lr">
                                 <label>نحوه اجرا
-                                    <select class="form-element-margin-btm" name="howToRun"  v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('howToRun')}">
+                                    <select class="form-element-margin-btm" name="howToRun" v-model="apCreditSourceFill.htrId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('howToRun')}">
                                         <option value=""></option>
-                                        <option></option>
+                                        <option v-for="howToRun in howToRuns" :value="howToRun.id">{{ howToRun.htrSubject }}</option>
                                     </select>
                                     <span v-show="errors.has('howToRun')" class="error-font">لطفا نحوه اجرا را انتخاب کنید!</span>
                                 </label>
@@ -793,18 +806,18 @@
                         <div class="grid-x">
                             <div class="medium-4 column padding-lr">
                                 <label>فصل
-                                    <select class="form-element-margin-btm" @change=""  name="season" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('season')}">
+                                    <select class="form-element-margin-btm" v-model="selectedSeason" @change="getSeasonTitle"  name="season" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('season')}">
                                         <option value=""></option>
-                                        <option></option>
+                                        <option v-for="season in seasons" :value="season.id">{{ season.sSubject }}</option>
                                     </select>
                                     <span v-show="errors.has('season')" class="error-font">لطفا فصل را انتخاب کنید!</span>
                                 </label>
                             </div>
                             <div class="medium-8 column padding-lr">
                                 <label>عنوان فصل
-                                    <select class="form-element-margin-btm"  @change="" name="seasonTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('seasonTitle')}">
+                                    <select class="form-element-margin-btm" v-model="selectedSeasonTitle" @change="getTinySeasons" name="seasonTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('seasonTitle')}">
                                         <option value=""></option>
-                                        <option></option>
+                                        <option v-for="seasonTitle in seasonTitles" :value="seasonTitle.id">{{ seasonTitle.castSubject }}</option>
                                     </select>
                                     <span v-show="errors.has('seasonTitle')" class="error-font">لطفا عنوان فصل را انتخاب کنید!</span>
                                 </label>
@@ -813,9 +826,9 @@
                         <div class="grid-x">
                             <div class="medium-12 column padding-lr">
                                 <label>ریز فصل
-                                    <select class="form-element-margin-btm" name="subSeason" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('subSeason')}">
+                                    <select class="form-element-margin-btm" v-model="apCreditSourceFill.tsId" name="subSeason" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('subSeason')}">
                                         <option value=""></option>
-                                        <option></option>
+                                        <option v-for="tinySeason in tinySeasons" :value="tinySeason.id">{{ tinySeason.catsSubject }}</option>
                                     </select>
                                     <span v-show="errors.has('subSeason')" class="error-font">لطفا ریز فصل را انتخاب کنید!</span>
                                 </label>
@@ -824,7 +837,7 @@
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
                                 <label>مبلغ اعتبار <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                    <input class="form-element-margin-btm" type="text" name="amount"  v-validate="'required|decimal'" :class="{'input': true, 'error-border': errors.has('amount')}">
+                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="apCreditSourceFill.csAmount" v-validate="'required|decimal'" :class="{'input': true, 'error-border': errors.has('amount')}">
                                 </label>
                                 <span v-show="errors.has('amount')" class="error-font">لطفا مبلغ اعتبار پروژه را وارد کنید!</span>
                             </div>
@@ -832,7 +845,7 @@
                         <div class="grid-x">
                             <div class="small-12 columns padding-lr">
                                 <label>شرح
-                                    <textarea name="csDescription" style="min-height: 150px;"></textarea>
+                                    <textarea name="csDescription" style="min-height: 150px;" v-model="apCreditSourceFill.csDescription"></textarea>
                                 </label>
                             </div>
                         </div>
@@ -847,7 +860,7 @@
             <!--Project credit source Modal Insert Start-->
             <modal-small v-if="showApCreditInsertModal" @close="showApCreditInsertModal = false">
                 <div  slot="body">
-                    <form v-on:submit.prevent="insertNewCreditSource">
+                    <form v-on:submit.prevent="insertNewTempCreditSource">
                         <div class="grid-x" v-if="errorMessage">
                             <div class="medium-12 columns padding-lr">
                                 <div class="alert callout">
@@ -1012,7 +1025,21 @@
                 </div>
             </modal-tiny>
             <!--Report Modal End-->
-
+            <!-- Delete Modal Start -->
+            <modal-tiny v-if="showDeleteTempCreditSourceModal" @close="showDeleteTempCreditSourceModal = false">
+                <div  slot="body">
+                    <div class="small-font">
+                        <p>کاربر گرامی</p>
+                        <p class="large-offset-1 modal-text">با حذف منبع اعتبار انتخاب شده، تخصیص های اعتبار صفر می گردد و لازم است محل های هزینه کرد اصلاح شود.</p>
+                        <div class="grid-x">
+                            <div class="medium-12 column text-center">
+                                <button  class="button primary btn-large-w" v-on:click="deleteTempCreditSource">تایید</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </modal-tiny>
+            <!-- Delete Modal End -->
             <!--Forms End-->
         </div>
     </div>
@@ -1041,8 +1068,12 @@
                 showApCreditInsertModal:false,
                 showApCreditEditModal:false,
                 showModalReport:false,
+                showDeleteTempProjectModal: false,
+                showDeleteTempCreditSourceModal: false,
                 selectColumn:false,
                 approvedPlanFill: {},
+                projectAmendmentFill: {},
+                apCreditSourceFill: {},
                 creditDistributionTitles: [],
                 dateIsValid_delivery: true,
                 dateIsValid_delivery_amendment: true,
@@ -1058,11 +1089,13 @@
                 seasons: {},
                 seasonTitles: {},
                 tinySeasons: {},
-                selectedSeasons: '',
+                selectedSeason: '',
                 selectedSeasonTitle: '',
                 creditDistributionRows: {},
                 howToRuns: {},
                 capIdForInsertCreditSource: '',
+                tempProjectSelectedId_delete: '',
+                tempCreditSourceSelectedId_delete: '',
                 national_pagination: {
                     total: 0,
                     to: 0,
@@ -1170,7 +1203,6 @@
                         console.log(error);
                     });
             },
-
 
             getSeasons: function () {
                 axios.get('/admin/get_all_seasons' , {params:{}})
@@ -1311,7 +1343,7 @@
             },
 
             approvedProjectsUpdateDialog: function (item , planId) {
-                this.selectedSeasons = item.tiny_season.tsSId;
+                this.selectedSeason = item.tiny_season.tsSId;
                 this.getTinySeasons();
                 this.approvedProjectsFill.apSubSeason = item.cpTsId;
                 this.approvedProjectsFill.apPlan = planId;
@@ -1359,69 +1391,6 @@
                 this.showModalDelete = true;
             },
 
-            insertNewProject: function () {
-                this.$validator.validateAll().then((result) => {
-                    if (result) {
-                        axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/register' , {
-                            pId: this.projectAmendmentInput.capId,
-                            subject: this.projectAmendmentInput.pSubject,
-                            code: this.projectAmendmentInput.pCode,
-                            startYear: this.projectAmendmentInput.startYear,
-                            endYear: this.projectAmendmentInput.endYear,
-                            pProgress: this.projectAmendmentInput.pProgress,
-                            coId: this.projectAmendmentInput.county,
-                            description: this.projectAmendmentInput.description,
-                            pOrN: this.provOrNat
-                        }).then((response) => {
-                            if (this.provOrNat == 0)
-                            {
-                                this.approvedAmendmentProjects = response.data;
-                            }
-                            else
-                            {
-                                //this.approvedProjects_nat = response.data;
-                            }
-                            this.showInsertModalProject = false;
-                            console.log(response);
-                        },(error) => {
-                            console.log(error);
-                            //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                        });
-                    }
-                });
-            },
-
-            insertNewCreditSource: function () {
-                this.$validator.validateAll().then((result) => {
-                    if (result) {
-                        axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/credit_source/register' , {
-                            pId: this.approvedAmendmentProjects.id,
-                            capId: this.capIdForInsertCreditSource,
-                            crId: this.apCreditSourceInput.crId,
-                            htrId: this.apCreditSourceInput.htrId,
-                            tsId: this.apCreditSourceInput.tsId,
-                            amount: this.apCreditSourceInput.csAmount,
-                            description: this.apCreditSourceInput.csDescription,
-                            pOrN: this.provOrNat
-                        }).then((response) => {
-                            if (this.provOrNat == 0)
-                            {
-                                this.approvedAmendmentProjects = response.data;
-                            }
-                            else
-                            {
-                                //this.approvedProjects_nat = response.data;
-                            }
-                            this.showApCreditInsertModal=false;
-                            console.log(response);
-                        },(error) => {
-                            console.log(error);
-                            //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                        });
-                    }
-                });
-            },
-
             deleteApprovedProjects: function () {
                 /*axios.post('/budget/admin/sub_seasons/delete' , this.tsIdDelete)
                     .then((response) => {
@@ -1438,101 +1407,27 @@
                     });*/
             },
 
-            openApprovedAmendmentModal: function (plan) {
-                this.provOrNat = plan.capProvinceOrNational;
-                this.getCreditDistributionTitle(this.provOrNat);
-                this.approvedAmendmentInput.id = plan.id;
-                this.approvedAmendmentInput.cdtId = plan.capCdtId;
-                this.approvedAmendmentInput.idNumber = '';
-                this.approvedAmendmentInput.date = '';
-                this.approvedAmendmentInput.exIdNumber = plan.capExchangeIdNumber;
-                this.approvedAmendmentInput.exDate = plan.capExchangeDate;
-                this.approvedAmendmentInput.apDescription = plan.capDescription;
-                this.approvedAmendmentInput.parentId = (plan.capCapId == null ? plan.id : plan.capCapId);
-                this.showModalAmendment = true;
-            },
-
-            cancelApprovedAmendment: function () {
-                axios.post('/budget/approved_plan/capital_assets/amendment/temp/cancel' , {
-                    capId: this.approvedAmendmentProjects.id
+            acceptApprovedAmendment: function () {
+                axios.post('/budget/approved_plan/capital_assets/amendment/accept' , {
+                    capId: this.approvedAmendmentProjects.id,
+                    parentId: this.approvedAmendmentInput.parentId
                 }).then((response) => {
-                    this.showModalAmendment = false;
-                    this.showModalAmendmentOfAgreement = false;
-                    this.$parent.displayNotif(200);
-                    console.log(response);
-                },(error) => {
-                    console.log(error);
-                });
-            },
-
-            cleanApprovedAmendmentTemp: function () {
-                axios.post('/budget/approved_plan/capital_assets/amendment/temp/cancel')
-                .then((response) => {
-                    console.log('----------------------- clean cleanApprovedAmendmentTemp table ----------------------');
-                    console.log(response);
-                },(error) => {
-                    console.log(error);
-                });
-            },
-
-            createApprovedAmendment: function () {
-                this.$validator.validateAll().then((result) => {
-                    if (result) {
-                        if (this.checkValidDate('delivery_amendment'))
-                        {
-                            axios.post('/budget/approved_plan/capital_assets/amendment/temp/register' , {
-                                idNumber: this.approvedAmendmentInput.idNumber,
-                                date: this.approvedAmendmentInput.date,
-                                description: this.approvedAmendmentInput.apDescription,
-                                capId: this.approvedAmendmentInput.parentId
-                            }).then((response) => {
-                                this.approvedAmendmentProjects = response.data;
-                                this.showModalAmendment = false;
-                                this.showModalAmendmentOfAgreement = true;
-                                console.log(response);
-                            },(error) => {
-                                console.log(error);
-                                //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                            });
-                        }
+                    if (this.provOrNat == 0)
+                    {
+                        this.approvedPlan_prov = response.data.data;
+                        this.makePagination(response.data , "provincial");
+                    }else{
+                        this.approvedPlan_nat = response.data.data;
+                        this.makePagination(response.data , "national");
                     }
+                    this.showModalAmendmentOfAgreement = false;
+                    this.$parent.displayNotif(response.status);
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
                 });
             },
 
-            openApprovedAmendmentOfAgreementModal: function () {
-                this.showModalAmendmentOfAgreement= true;
-                this.$parent.myResize();
-            },
-            openInsertProjectModal: function () {
-                this.getCounties();
-                this.projectAmendmentInput.capId = this.approvedAmendmentProjects.id;
-                this.showInsertModalProject= true;
-                if (this.provOrNat == 0)
-                {
-                    this.countyState = true;
-                    this.setCountyId(this.approvedAmendmentProjects.credit_distribution_title.county.id);
-                }
-                else
-                {
-                    this.countyState = false;
-                }
-            },
-            openEditProjectModal: function () {
-                this.showEditModalProject= true;
-            },
-            openAPCreditInsertModal: function (pId) {
-                this.capIdForInsertCreditSource = pId;
-                this.getHowToRun();
-                this.getSeasons();
-                this.getCreditDistributionRow();
-                this.showApCreditInsertModal=true;
-            },
-            openAPCreditEditModal: function () {
-                this.showApCreditEditModal=true;
-            },
-            openReportModal: function () {
-                this.showModalReport=true;
-            },
             showSelectColumn: function () {
               if (this.selectColumn)
               {
@@ -1576,7 +1471,6 @@
                 $('.dynamic-height-level2').css('height', (x - 100 - (tabHeight  + toolBarHeight + paginationHeight)) + 'px');*/
             },
 
-
             makePagination: function(data , type){
                 if (type == "national")
                 {
@@ -1589,6 +1483,267 @@
                     this.provincial_pagination.to = data.to;
                     this.provincial_pagination.last_page = data.last_page;
                 }
+            },
+
+            ////////////////////////////// amendment temp methods ////////////////////////////////
+            openApprovedAmendmentOfAgreementModal: function () {
+                this.showModalAmendmentOfAgreement= true;
+                this.$parent.myResize();
+            },
+
+            openInsertProjectModal: function () {
+                this.getCounties();
+                this.projectAmendmentInput.capId = this.approvedAmendmentProjects.id;
+                this.showInsertModalProject= true;
+                if (this.provOrNat == 0)
+                {
+                    this.countyState = true;
+                    this.setCountyId(this.approvedAmendmentProjects.credit_distribution_title.county.id);
+                }
+                else
+                {
+                    this.countyState = false;
+                }
+            },
+
+            openEditTempProjectModal: function (project) {
+                this.getCounties();
+                this.projectAmendmentFill.cpId = project.id;
+                this.projectAmendmentFill.capId = project.cpCapId;
+                this.projectAmendmentFill.pSubject = project.cpSubject;
+                this.projectAmendmentFill.pCode = project.cpCode;
+                this.projectAmendmentFill.startYear = project.cpStartYear;
+                this.projectAmendmentFill.endYear = project.cpEndOfYear;
+                this.projectAmendmentFill.pProgress = project.cpPhysicalProgress;
+                this.projectAmendmentFill.county = project.cpCoId;
+                this.projectAmendmentFill.description = project.cpDescription;
+                this.showEditModalProject= true;
+                if (this.provOrNat == 0)
+                {
+                    this.countyState = true;
+                    this.setCountyId(this.approvedAmendmentProjects.credit_distribution_title.county.id);
+                }
+                else
+                {
+                    this.countyState = false;
+                }
+            },
+
+            openAPCreditInsertModal: function (pId) {
+                this.capIdForInsertCreditSource = pId;
+                this.getHowToRun();
+                this.getSeasons();
+                this.getCreditDistributionRow();
+                this.showApCreditInsertModal=true;
+            },
+
+            openAPCreditEditModal: function (creditSource) {
+                this.getHowToRun();
+                this.getSeasons();
+                this.getCreditDistributionRow();
+                this.selectedSeason = creditSource.tiny_season.season_title.season.id;
+                this.getSeasonTitle();
+                this.selectedSeasonTitle = creditSource.tiny_season.season_title.id;
+                this.getTinySeasons();
+                this.apCreditSourceFill.csId = creditSource.id;
+                this.apCreditSourceFill.crId = creditSource.ccsCdrId;
+                this.apCreditSourceFill.tsId = creditSource.ccsTsId;
+                this.apCreditSourceFill.htrId = creditSource.ccsHtrId;
+                this.apCreditSourceFill.csAmount = this.$parent.calcDispAmount(creditSource.ccsAmount , false);
+                this.apCreditSourceFill.csDescription = creditSource.ccsDescription;
+                this.showApCreditEditModal=true;
+            },
+
+            openApprovedAmendmentTempModal: function (plan) {
+                this.provOrNat = plan.capProvinceOrNational;
+                this.getCreditDistributionTitle(this.provOrNat);
+                this.approvedAmendmentInput.id = plan.id;
+                this.approvedAmendmentInput.cdtId = plan.capCdtId;
+                this.approvedAmendmentInput.idNumber = '';
+                this.approvedAmendmentInput.date = '';
+                this.approvedAmendmentInput.exIdNumber = plan.capExchangeIdNumber;
+                this.approvedAmendmentInput.exDate = plan.capExchangeDate;
+                this.approvedAmendmentInput.apDescription = plan.capDescription;
+                this.approvedAmendmentInput.parentId = (plan.capCapId == null ? plan.id : plan.capCapId);
+                this.showModalAmendment = true;
+            },
+
+            openDeleteTempProjectModal: function (pId) {
+                this.tempProjectSelectedId_delete = pId;
+                this.showDeleteTempProjectModal = true;
+            },
+
+            openDeleteTempCreditSourceModal: function (csId) {
+                this.tempCreditSourceSelectedId_delete = csId;
+                this.showDeleteTempCreditSourceModal = true;
+            },
+
+            cancelApprovedAmendmentTemp: function () {
+                axios.post('/budget/approved_plan/capital_assets/amendment/temp/cancel' , {
+                    capId: this.approvedAmendmentProjects.id
+                }).then((response) => {
+                    this.showModalAmendment = false;
+                    this.showModalAmendmentOfAgreement = false;
+                    this.$parent.displayNotif(200);
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+            },
+
+            cleanApprovedAmendmentTemp: function () {
+                axios.post('/budget/approved_plan/capital_assets/amendment/temp/cancel')
+                    .then((response) => {
+                        console.log('----------------------- clean cleanApprovedAmendmentTemp table ----------------------');
+                        console.log(response);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            createApprovedAmendmentTemp: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        if (this.checkValidDate('delivery_amendment'))
+                        {
+                            axios.post('/budget/approved_plan/capital_assets/amendment/temp/register' , {
+                                idNumber: this.approvedAmendmentInput.idNumber,
+                                date: this.approvedAmendmentInput.date,
+                                description: this.approvedAmendmentInput.apDescription,
+                                capId: this.approvedAmendmentInput.parentId
+                            }).then((response) => {
+                                this.approvedAmendmentProjects = response.data;
+                                this.showModalAmendment = false;
+                                this.showModalAmendmentOfAgreement = true;
+                                console.log(response);
+                            },(error) => {
+                                console.log(error);
+                                //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                            });
+                        }
+                    }
+                });
+            },
+
+            insertNewTempProject: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/register' , {
+                            pId: this.projectAmendmentInput.capId,
+                            subject: this.projectAmendmentInput.pSubject,
+                            code: this.projectAmendmentInput.pCode,
+                            startYear: this.projectAmendmentInput.startYear,
+                            endYear: this.projectAmendmentInput.endYear,
+                            pProgress: this.projectAmendmentInput.pProgress,
+                            coId: this.projectAmendmentInput.county,
+                            description: this.projectAmendmentInput.description,
+                            pOrN: this.provOrNat
+                        }).then((response) => {
+                            this.approvedAmendmentProjects = response.data;
+                            this.showInsertModalProject = false;
+                            console.log(response);
+                        },(error) => {
+                            console.log(error);
+                            //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                        });
+                    }
+                });
+            },
+
+            updateTempProject: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/update' , {
+                            cpId: this.projectAmendmentFill.cpId,
+                            pId: this.projectAmendmentFill.capId,
+                            subject: this.projectAmendmentFill.pSubject,
+                            code: this.projectAmendmentFill.pCode,
+                            startYear: this.projectAmendmentFill.startYear,
+                            endYear: this.projectAmendmentFill.endYear,
+                            pProgress: this.projectAmendmentFill.pProgress,
+                            coId: this.projectAmendmentFill.county,
+                            description: this.projectAmendmentFill.description,
+                        }).then((response) => {
+                            this.approvedAmendmentProjects = response.data;
+                            this.showEditModalProject = false;
+                            console.log(response);
+                        },(error) => {
+                            console.log(error);
+                        });
+                    }
+                });
+            },
+
+            deleteTempProject: function () {
+                axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/delete' , {
+                    capId: this.approvedAmendmentProjects.id,
+                    pId: this.tempProjectSelectedId_delete,
+                }).then((response) => {
+                    this.approvedAmendmentProjects = response.data;
+                    this.showDeleteTempProjectModal = false;
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+            },
+
+            deleteTempCreditSource: function () {
+                axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/credit_source/delete' , {
+                    capId: this.approvedAmendmentProjects.id,
+                    csId: this.tempCreditSourceSelectedId_delete,
+                }).then((response) => {
+                    this.approvedAmendmentProjects = response.data;
+                    this.showDeleteTempCreditSourceModal = false;
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+            },
+
+            insertNewTempCreditSource: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/credit_source/register' , {
+                            pId: this.approvedAmendmentProjects.id,
+                            capId: this.capIdForInsertCreditSource,
+                            crId: this.apCreditSourceInput.crId,
+                            htrId: this.apCreditSourceInput.htrId,
+                            tsId: this.apCreditSourceInput.tsId,
+                            amount: this.apCreditSourceInput.csAmount,
+                            description: this.apCreditSourceInput.csDescription,
+                            pOrN: this.provOrNat
+                        }).then((response) => {
+                            this.approvedAmendmentProjects = response.data;
+                            this.showApCreditInsertModal=false;
+                            console.log(response);
+                        },(error) => {
+                            console.log(error);
+                            //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                        });
+                    }
+                });
+            },
+
+            updateTempCreditSource: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/credit_source/update' , {
+                            pId: this.approvedAmendmentProjects.id,
+                            csId: this.apCreditSourceFill.csId,
+                            crId: this.apCreditSourceFill.crId,
+                            htrId: this.apCreditSourceFill.htrId,
+                            tsId: this.apCreditSourceFill.tsId,
+                            amount: this.apCreditSourceFill.csAmount,
+                            description: this.apCreditSourceFill.csDescription,
+                        }).then((response) => {
+                            this.approvedAmendmentProjects = response.data;
+                            this.showApCreditEditModal=false;
+                            console.log(response);
+                        },(error) => {
+                            console.log(error);
+                        });
+                    }
+                });
             },
         }
     }

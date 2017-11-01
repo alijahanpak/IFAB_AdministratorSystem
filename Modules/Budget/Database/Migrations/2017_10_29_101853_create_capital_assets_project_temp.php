@@ -19,11 +19,13 @@ class CreateCapitalAssetsProjectTemp extends Migration
                 $table->integer('cpUId')->length(10)->unsigned();
                 $table->integer('cpCapId')->length(10)->unsigned();
                 $table->integer('cpCoId')->length(10)->unsigned()->nullable();
+                $table->integer('cpCpId')->length(10)->unsigned()->nullable();
                 $table->string('cpSubject');
                 $table->string('cpCode');
                 $table->string('cpStartYear');
                 $table->string('cpEndOfYear');
                 $table->tinyInteger('cpPhysicalProgress')->default(0);
+                $table->tinyInteger('cpDeleted')->default(0);
                 $table->longText('cpDescription')->nullable();
                 $table->timestamps();
 
