@@ -162,39 +162,52 @@ class PlanController extends Controller
         $pTemps = CapitalAssetsProjectTemp::where('cpCapId' , '=' , $temp->id)->get();
         foreach ($pTemps as $pTemp)
         {
-            $project = new CapitalAssetsProject;
-            $project->cpUId = $pTemp->cpUId;
-            $project->cpCapId = $cap->id;
-            $project->cpCoId = $pTemp->cpCoId;
-            $project->cpSubject = $pTemp->cpSubject;
-            $project->cpCode = $pTemp->cpCode;
-            $project->cpStartYear = $pTemp->cpStartYear;
-            $project->cpEndOfYear = $pTemp->cpEndOfYear;
-            $project->cpPhysicalProgress = $pTemp->cpPhysicalProgress;
-            $project->cpDescription = $pTemp->cpDescription;
-            $project->save();
-
-            if ($pTemp->cpCpId != null)
+            if ($pTemp->cpDeleted == 0)
             {
-                CapitalAssetsProject::where('id' , '=' , $pTemp->cpCpId)
-                    ->orWhere('cpCpId' , '=' , $pTemp->cpCpId)
-                    ->update(['cpActive' => 0 , 'cpCpId' => $project->id]);
-            }
+                $project = new CapitalAssetsProject;
+                $project->cpUId = $pTemp->cpUId;
+                $project->cpCapId = $cap->id;
+                $project->cpCoId = $pTemp->cpCoId;
+                $project->cpSubject = $pTemp->cpSubject;
+                $project->cpCode = $pTemp->cpCode;
+                $project->cpStartYear = $pTemp->cpStartYear;
+                $project->cpEndOfYear = $pTemp->cpEndOfYear;
+                $project->cpPhysicalProgress = $pTemp->cpPhysicalProgress;
+                $project->cpDescription = $pTemp->cpDescription;
+                $project->save();
 
-            $csTemps = CapCreditSourceTemp::where('ccsCapId' , '=' , $pTemp->id)->get();
-            foreach ($csTemps as $csTemp) {
-                $cs = new CapCreditSource;
-                $cs->ccsUId = $csTemp->ccsUId;
-                $cs->ccsCdrId = $csTemp->ccsCdrId;
-                $cs->ccsTsId = $csTemp->ccsTsId;
-                $cs->ccsHtrId = $csTemp->ccsHtrId;
-                $cs->ccsCapId = $project->id;
-                $cs->ccsAmount = $csTemp->ccsAmount;
-                $cs->ccsDescription = $csTemp->ccsDescription;
-                $cs->save();
+                if ($pTemp->cpCpId != null)
+                {
+                    CapitalAssetsProject::where('id' , '=' , $pTemp->cpCpId)
+                        ->orWhere('cpCpId' , '=' , $pTemp->cpCpId)
+                        ->update(['cpActive' => 0 , 'cpCpId' => $project->id]);
+                }
 
-                CapitalAssetsAllocation::where('caaCcsId' , '=' , $csTemp->ccsCcsId)
-                    ->update(['caaCcsId' => $cs->id]);
+                $csTemps = CapCreditSourceTemp::where('ccsCapId' , '=' , $pTemp->id)->get();
+                foreach ($csTemps as $csTemp) {
+                    if ($csTemp->ccsDeleted == 0)
+                    {
+                        $cs = new CapCreditSource;
+                        $cs->ccsUId = $csTemp->ccsUId;
+                        $cs->ccsCdrId = $csTemp->ccsCdrId;
+                        $cs->ccsTsId = $csTemp->ccsTsId;
+                        $cs->ccsHtrId = $csTemp->ccsHtrId;
+                        $cs->ccsCapId = $project->id;
+                        $cs->ccsAmount = $csTemp->ccsAmount;
+                        $cs->ccsDescription = $csTemp->ccsDescription;
+                        $cs->save();
+
+                        CapitalAssetsAllocation::where('caaCcsId' , '=' , $csTemp->ccsCcsId)
+                            ->update(['caaCcsId' => $cs->id]);
+                    }elseif ($csTemp->ccsCcsId != null){
+                        CapCreditSource::where('id' , '=' , $csTemp->ccsCcsId)->update(['ccsDeleted' => 1]);
+                        CapitalAssetsAllocation::where('caaCcsId' , $csTemp->ccsCcsId)->update(['caaAmount' => 0]);
+                    }
+                }
+            }elseif ($pTemp->cpCpId != null){
+                CapitalAssetsProject::where('id' , '=' , $pTemp->cpCpId)->update(['cpDeleted' => 1 , 'cpActive' => 0]);
+                CapCreditSource::where('ccsCapId' , '=' , $pTemp->cpCpId)->update(['ccsDeleted' => 1]);
+                CapitalAssetsAllocation::whereIn('caaCcsId' , CapCreditSource::where('ccsCapId' , '=' , $pTemp->cpCpId)->pluck('id'))->update(['caaAmount' => 0]);
             }
         }
 
@@ -288,6 +301,26 @@ class PlanController extends Controller
 
         return \response()->json(
             $this->getAllTempProjectWithPlanId($request->pId)
+        );
+    }
+
+    public function deleteAmendmentProjectTemp(Request $request)
+    {
+        CapCreditSourceTemp::where('ccsCapId' , '=' , $request->pId)
+            ->update(['ccsDeleted' => 1]);
+        CapitalAssetsProjectTemp::where('id' , '=' , $request->pId)
+            ->update(['cpDeleted' => 1]);
+        return \response()->json(
+            $this->getAllTempProjectWithPlanId($request->capId)
+        );
+    }
+
+    public function deleteAmendmentProjectCreditSourceTemp(Request $request)
+    {
+        CapCreditSourceTemp::where('id' , '=' , $request->csId)
+            ->update(['ccsDeleted' => 1]);
+        return \response()->json(
+            $this->getAllTempProjectWithPlanId($request->capId)
         );
     }
 

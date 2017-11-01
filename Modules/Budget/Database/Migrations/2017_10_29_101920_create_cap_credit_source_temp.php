@@ -24,6 +24,7 @@ class CreateCapCreditSourceTemp extends Migration
                 $table->integer('ccsCcsId')->length(10)->unsigned()->nullable();
                 $table->bigInteger('ccsAmount');
                 $table->longText('ccsDescription')->nullable();
+                $table->tinyInteger('ccsDeleted')->default(0);
                 $table->timestamps();
 
                 $table->foreign('ccsCdrId')

@@ -25,6 +25,7 @@ class CreateCapitalAssetsProjectTemp extends Migration
                 $table->string('cpStartYear');
                 $table->string('cpEndOfYear');
                 $table->tinyInteger('cpPhysicalProgress')->default(0);
+                $table->tinyInteger('cpDeleted')->default(0);
                 $table->longText('cpDescription')->nullable();
                 $table->timestamps();
 

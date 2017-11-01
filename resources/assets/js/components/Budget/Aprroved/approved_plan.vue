@@ -6,7 +6,7 @@
                 <div class="grid-x">
                     <nav aria-label="You are here:" role="navigation">
                         <ul class="breadcrumbs">
-                            <li><a href="">داشبورد</a></li>
+                            <li><router-link to="/budget">داشبورد</router-link></li>
                             <li>
                                 <a class="disabled">موافقتنامه</a>
                             </li>
@@ -353,10 +353,6 @@
                     </div>
             </modal-small>
             <!--Insert Modal End-->
-
-            <!--Update Modal Start-->
-            <!--update Modal End-->
-
             <!-- Delete Modal Start -->
             <modal-tiny v-if="showModalDelete" @close="showModalDelete = false">
                 <div  slot="body">
@@ -520,7 +516,9 @@
                                     <template v-for="project in approvedAmendmentProjects.capital_assets_project">
                                         <tr>
                                             <td>{{ project.cpCode }}</td>
-                                            <td>{{ project.cpSubject }}</td>
+                                            <td>{{ project.cpSubject }}
+                                                <span v-show="project.cpDeleted" class="comlpleted-badage float-left">حذف شده</span>
+                                            </td>
                                             <td>{{ project.county.coName }}</td>
                                             <td @click="displayCSInfo == project.id ? displayCSInfo = '' : displayCSInfo = project.id">{{ $parent.calcDispAmount(sumOfAmount(project.credit_source) , false) }}</td>
                                             <td>
@@ -532,7 +530,7 @@
                                                         <a class="dropdown small sm-btn-align" :data-toggle="'project' + project.id"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'project' + project.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
-                                                                <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                <li><a v-on:click.prevent="openDeleteTempProjectModal(project.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                 <li><a v-on:click.prevent="openAPCreditInsertModal(project.id)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
                                                                 <li><a v-on:click.prevent="openEditTempProjectModal(project)"><i class="fa fa-newspaper-o size-16"></i>  اصلاح</a></li>
                                                             </ul>
@@ -557,7 +555,9 @@
                                                     </thead>
                                                     <tbody>
                                                     <tr v-for="credit_source in project.credit_source">
-                                                        <td>{{ credit_source.credit_distribution_row.cdSubject }}</td>
+                                                        <td>{{ credit_source.credit_distribution_row.cdSubject }}
+                                                            <span v-show="credit_source.ccsDeleted" class="comlpleted-badage float-left">حذف شده</span>
+                                                        </td>
                                                         <td>{{ credit_source.tiny_season.season_title.season.sSubject }}</td>
                                                         <td>{{ credit_source.tiny_season.season_title.castSubject }}</td>
                                                         <td>{{ credit_source.tiny_season.catsSubject }}</td>
@@ -572,7 +572,7 @@
                                                                     <a class="dropdown small sm-btn-align" :data-toggle="'projectCs' + credit_source.id"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'projectCs' + credit_source.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
-                                                                            <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                            <li><a v-on:click.prevent="openDeleteTempCreditSourceModal(credit_source.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                             <li><a v-on:click.prevent="openAPCreditEditModal(credit_source)"><i class="fa fa-newspaper-o size-16"></i>  اصلاح</a></li>
                                                                         </ul>
                                                                     </div>
@@ -594,7 +594,6 @@
                 </div>
             </modal-full-screen>
             <!--Amendment Of The Agreement Modal End-->
-
             <!--Insert Project Modal Start-->
             <modal-small v-if="showInsertModalProject" @close="showInsertModalProject = false">
                 <div slot="body">
@@ -676,7 +675,21 @@
                 </div>
             </modal-small>
             <!--Insert Project Modal End-->
-
+            <!-- Delete Modal Start -->
+            <modal-tiny v-if="showDeleteTempProjectModal" @close="showDeleteTempProjectModal = false">
+                <div  slot="body">
+                    <div class="small-font">
+                        <p>کاربر گرامی</p>
+                        <p class="large-offset-1 modal-text">با حذف پروژه انتخاب شده، تخصیص های اعتبار این پروژه صفر می گردد و لازم است محل های هزینه کرد اصلاح شود.</p>
+                        <div class="grid-x">
+                            <div class="medium-12 column text-center">
+                                <button  class="button primary btn-large-w" v-on:click="deleteTempProject">تایید</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </modal-tiny>
+            <!-- Delete Modal End -->
             <!--Edit Project Modal Start-->
             <modal-small v-if="showEditModalProject" @close="showEditModalProject = false">
                 <div slot="body">
@@ -1012,7 +1025,21 @@
                 </div>
             </modal-tiny>
             <!--Report Modal End-->
-
+            <!-- Delete Modal Start -->
+            <modal-tiny v-if="showDeleteTempCreditSourceModal" @close="showDeleteTempCreditSourceModal = false">
+                <div  slot="body">
+                    <div class="small-font">
+                        <p>کاربر گرامی</p>
+                        <p class="large-offset-1 modal-text">با حذف منبع اعتبار انتخاب شده، تخصیص های اعتبار صفر می گردد و لازم است محل های هزینه کرد اصلاح شود.</p>
+                        <div class="grid-x">
+                            <div class="medium-12 column text-center">
+                                <button  class="button primary btn-large-w" v-on:click="deleteTempCreditSource">تایید</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </modal-tiny>
+            <!-- Delete Modal End -->
             <!--Forms End-->
         </div>
     </div>
@@ -1041,6 +1068,8 @@
                 showApCreditInsertModal:false,
                 showApCreditEditModal:false,
                 showModalReport:false,
+                showDeleteTempProjectModal: false,
+                showDeleteTempCreditSourceModal: false,
                 selectColumn:false,
                 approvedPlanFill: {},
                 projectAmendmentFill: {},
@@ -1064,6 +1093,8 @@
                 creditDistributionRows: {},
                 howToRuns: {},
                 capIdForInsertCreditSource: '',
+                tempProjectSelectedId_delete: '',
+                tempCreditSourceSelectedId_delete: '',
                 national_pagination: {
                     total: 0,
                     to: 0,
@@ -1520,6 +1551,16 @@
                 this.showModalAmendment = true;
             },
 
+            openDeleteTempProjectModal: function (pId) {
+                this.tempProjectSelectedId_delete = pId;
+                this.showDeleteTempProjectModal = true;
+            },
+
+            openDeleteTempCreditSourceModal: function (csId) {
+                this.tempCreditSourceSelectedId_delete = csId;
+                this.showDeleteTempCreditSourceModal = true;
+            },
+
             cancelApprovedAmendmentTemp: function () {
                 axios.post('/budget/approved_plan/capital_assets/amendment/temp/cancel' , {
                     capId: this.approvedAmendmentProjects.id
@@ -1613,6 +1654,32 @@
                             console.log(error);
                         });
                     }
+                });
+            },
+
+            deleteTempProject: function () {
+                axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/delete' , {
+                    capId: this.approvedAmendmentProjects.id,
+                    pId: this.tempProjectSelectedId_delete,
+                }).then((response) => {
+                    this.approvedAmendmentProjects = response.data;
+                    this.showDeleteTempProjectModal = false;
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+            },
+
+            deleteTempCreditSource: function () {
+                axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/credit_source/delete' , {
+                    capId: this.approvedAmendmentProjects.id,
+                    csId: this.tempCreditSourceSelectedId_delete,
+                }).then((response) => {
+                    this.approvedAmendmentProjects = response.data;
+                    this.showDeleteTempCreditSourceModal = false;
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
                 });
             },
 
