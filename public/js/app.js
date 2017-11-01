@@ -115351,6 +115351,7 @@ if (false) {(function () {
             approvedPlans: [],
             displayCSInfo: '',
             counties: [],
+            selected: [],
             countyState: false,
             provOrNat: '',
             apIdDelete: {},
@@ -115401,7 +115402,23 @@ if (false) {(function () {
     components: {
         'vue-pagination': __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__["a" /* default */]
     },
+    computed: {
+        selectAll: {
+            get: function get() {
+                return this.approvedPlan_prov ? this.selected.length == this.approvedPlan_prov.length : false;
+            },
+            set: function set(value) {
+                var selected = [];
 
+                if (value) {
+                    this.approvedPlan_prov.forEach(function (plans) {
+                        selected.push(plans.id);
+                    });
+                }
+                this.selected = selected;
+            }
+        }
+    },
     methods: {
         fetchProvincialData: function fetchProvincialData() {
             var _this = this;
@@ -115822,6 +115839,7 @@ if (false) {(function () {
                 this.selectColumn = true;
             }
         },
+
         myResizeModal: function myResizeModal() {
             /*console.log("......................res..........................");
             var tabHeight = $('.tabs').height();
@@ -116025,9 +116043,35 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }],
     staticClass: "tbl-head-style-checkbox"
   }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectAll),
+      expression: "selectAll"
+    }],
     attrs: {
-      "id": "checkboxColumn",
       "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.selectAll) ? _vm._i(_vm.selectAll, null) > -1 : (_vm.selectAll)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.selectAll,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.selectAll = $$a.concat([$$v]))
+          } else {
+            $$i > -1 && (_vm.selectAll = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.selectAll = $$c
+        }
+      }
     }
   })]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
@@ -116131,10 +116175,37 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         expression: "selectColumn"
       }]
     }, [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.selected),
+        expression: "selected"
+      }],
       staticClass: "auto-margin",
       attrs: {
-        "id": "checkbox1",
         "type": "checkbox"
+      },
+      domProps: {
+        "value": plans.id,
+        "checked": Array.isArray(_vm.selected) ? _vm._i(_vm.selected, plans.id) > -1 : (_vm.selected)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = _vm.selected,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = plans.id,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (_vm.selected = $$a.concat([$$v]))
+            } else {
+              $$i > -1 && (_vm.selected = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            _vm.selected = $$c
+          }
+        }
       }
     })])])
   }))])])]), _vm._v(" "), _c('div', {
@@ -116162,7 +116233,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticStyle: {
       "color": "#575962"
     }
-  }, [_vm._m(6)])])])]), _vm._v(" "), _c('div', {
+  }, [_c('div', {
+    staticClass: "float-left"
+  }, [_c('p', [_vm._v(" تعداد رکورد های انتخاب شده :"), _c('span', [_vm._v(_vm._s(_vm.len))])])])])])])]), _vm._v(" "), _c('div', {
     staticClass: "tabs-panel table-mrg-btm",
     attrs: {
       "id": "national_tab",
@@ -116220,7 +116293,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "type": "button",
       "data-toggle": "reportDropDown2"
     }
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(7), _vm._v(" "), _vm._m(8), _vm._v(" "), _vm._m(9)]), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(6), _vm._v(" "), _vm._m(7), _vm._v(" "), _vm._m(8)]), _vm._v(" "), _vm._m(9)]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
   }, [_c('table', {
     staticClass: "tbl-head"
@@ -116278,7 +116351,6 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "tbl-head-style-checkbox"
   }, [_c('input', {
     attrs: {
-      "id": "checkboxColumn",
       "type": "checkbox"
     }
   })])])])]), _vm._v(" "), _c('div', {
@@ -116379,7 +116451,6 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_c('input', {
       staticClass: "auto-margin",
       attrs: {
-        "id": "checkboxNational",
         "type": "checkbox"
       }
     })])])
@@ -118644,10 +118715,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }, [_c('i', {
     staticClass: "fi-magnifying-glass"
   })])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "float-left"
-  }, [_c('p', [_vm._v(" تعداد رکورد های انتخاب شده :"), _c('span', [_vm._v("30")])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "dropdown-pane dropdown-pane-sm ",

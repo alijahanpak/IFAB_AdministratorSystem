@@ -90,7 +90,7 @@
                                         <th class="tbl-head-style-cell">ابلاغی</th>
                                         <th class="tbl-head-style-cell">شهرستان</th>
                                         <th class="tbl-head-style-cell">شرح</th>
-                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input id="checkboxColumn" type="checkbox"></th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox" v-model="selectAll"></th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
@@ -139,7 +139,7 @@
                                                     </div>
                                                 </td>
                                                 <td  v-show="selectColumn">
-                                                    <input class="auto-margin" id="checkbox1" type="checkbox">
+                                                    <input class="auto-margin" v-model="selected" :value="plans.id" type="checkbox">
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -157,7 +157,7 @@
                                 </div>
                                 <div style="color: #575962;" v-show="selectColumn" class="medium-4 small-font">
                                     <div class="float-left">
-                                        <p> تعداد رکورد های انتخاب شده :<span>30</span> </p>
+                                        <p> تعداد رکورد های انتخاب شده :<span>{{len}}</span> </p>
                                     </div>
                                 </div>
 
@@ -225,7 +225,7 @@
                                         <th class="tbl-head-style-cell">ابلاغی</th>
                                         <th class="tbl-head-style-cell">شرح</th>
                                         <th class="tbl-head-style-cell"></th>
-                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input id="checkboxColumn" type="checkbox"></th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox"></th>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -269,7 +269,7 @@
                                                 </div>
                                             </td>
                                             <td  v-show="selectColumn">
-                                                <input class="auto-margin" id="checkboxNational" type="checkbox">
+                                                <input class="auto-margin" type="checkbox">
                                             </td>
                                         </tr>
                                         </tbody>
@@ -1051,6 +1051,7 @@
                 approvedPlans: [],
                 displayCSInfo: '',
                 counties: [],
+                selected: [],
                 countyState: false,
                 provOrNat: '',
                 apIdDelete: {},
@@ -1100,7 +1101,23 @@
         components:{
             'vue-pagination' : VuePagination
         },
+        computed: {
+        selectAll: {
+            get: function () {
+                return this.approvedPlan_prov ? this.selected.length == this.approvedPlan_prov.length : false;
+            },
+            set: function (value) {
+                var selected = [];
 
+                if (value) {
+                    this.approvedPlan_prov.forEach(function (plans) {
+                        selected.push(plans.id);
+                    });
+                }
+                this.selected = selected;
+            }
+        }
+        },
         methods:{
             fetchProvincialData: function (page = 1) {
                 axios.get('/budget/approved_plan/capital_assets/fetchData?page=' + page , {params:{pOrN: 0}})
@@ -1521,10 +1538,11 @@
               {
                   this.selectColumn=false;
               }
-              else{
-                  this.selectColumn=true;
+              else {
+                  this.selectColumn = true;
               }
             },
+
             myResizeModal: function() {
                 /*console.log("......................res..........................");
                 var tabHeight = $('.tabs').height();
