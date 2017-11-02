@@ -115444,22 +115444,26 @@ if (false) {(function () {
         'vue-pagination': __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__["a" /* default */]
     },
     computed: {
-        selectAll: {
-            get: function get() {
+        /*selectAll: {
+            get: function () {
                 return this.approvedPlan_prov ? this.selected.length == this.approvedPlan_prov.length : false;
             },
-            set: function set(value) {
+            set: function (value) {
                 //var selected = [];
-
-                if (value) {
+                 if (value) {
                     this.approvedPlan_prov.forEach(function (plans) {
                         //selected.push(plans.id);
-                        plans.selected = true;
+                        plans.selected = plans.id;
                     });
                 }
                 //this.selected = selected;
-            }
+            }*/
+        selectAll: function selectAll() {
+            return this.approvedPlan_prov.every(function (plans) {
+                return plans.checked;
+            });
         }
+
     },
     methods: {
         fetchProvincialData: function fetchProvincialData() {
@@ -115469,16 +115473,23 @@ if (false) {(function () {
 
             axios.get('/budget/approved_plan/capital_assets/fetchData?page=' + page, { params: { pOrN: 0 } }).then(function (response) {
                 _this.approvedPlan_prov = response.data.data;
-                _this.approvedPlan_prov.forEach(function (plans) {
-                    plans.selected = true;
-                });
+                /*                        this.approvedPlan_prov.forEach(function (plans) {
+                                            plans.selected = true;
+                                        });*/
                 _this.makePagination(response.data, "provincial");
                 console.log(JSON.stringify(_this.approvedPlan_prov));
             }, function (error) {
                 console.log(error);
             });
         },
-
+        toggleSelect: function toggleSelect() {
+            var select = this.selectAll;
+            this.approvedPlan_prov.forEach(function (plans) {
+                plans.checked = !select;
+            });
+            this.selectAll = !select;
+            console.log(JSON.stringify(this.approvedPlan_prov));
+        },
         fetchNationalData: function fetchNationalData() {
             var _this2 = this;
 
@@ -116150,6 +116161,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     },
     on: {
       "click": _vm.showSelectColumn
+    },
+    model: {
+      value: (_vm.selectAll),
+      callback: function($$v) {
+        _vm.selectAll = $$v
+      },
+      expression: "selectAll"
     }
   }, [_c('i', {
     staticClass: "fa fa-check-square-o size-14",
@@ -116266,35 +116284,14 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }],
     staticClass: "tbl-head-style-checkbox"
   }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.selectAll),
-      expression: "selectAll"
-    }],
     attrs: {
       "type": "checkbox"
     },
     domProps: {
-      "checked": Array.isArray(_vm.selectAll) ? _vm._i(_vm.selectAll, null) > -1 : (_vm.selectAll)
+      "checked": _vm.selected
     },
     on: {
-      "__c": function($event) {
-        var $$a = _vm.selectAll,
-          $$el = $event.target,
-          $$c = $$el.checked ? (true) : (false);
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$el.checked) {
-            $$i < 0 && (_vm.selectAll = $$a.concat([$$v]))
-          } else {
-            $$i > -1 && (_vm.selectAll = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-          }
-        } else {
-          _vm.selectAll = $$c
-        }
-      }
+      "click": _vm.toggleSelect
     }
   })]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
@@ -116335,7 +116332,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   })]), _vm._v(" "), _c('tbody', {
     staticClass: "tbl-head-style-cell"
   }, _vm._l((_vm.approvedPlan_prov), function(plans) {
-    return _c('tr', [_c('td', [_vm._v(" " + _vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', [_c('div', [_vm._v(_vm._s(plans.capExchangeIdNumber))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(plans.capExchangeDate))])]), _vm._v(" "), _c('td', [_c('div', [_vm._v(_vm._s(plans.capLetterNumber))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(plans.capLetterDate))])]), _vm._v(" "), _c('td', [_vm._v("\n                                                " + _vm._s(plans.credit_distribution_title.county.coName) + "\n                                            ")]), _vm._v(" "), _c('td', [_c('div', {
+    return _c('tr', [_c('td', [_vm._v(" " + _vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
+      staticClass: "text-center"
+    }, [_c('div', [_vm._v(_vm._s(plans.capExchangeIdNumber))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(plans.capExchangeDate))])]), _vm._v(" "), _c('td', {
+      staticClass: "text-center"
+    }, [_c('div', [_vm._v(_vm._s(plans.capLetterNumber))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(plans.capLetterDate))])]), _vm._v(" "), _c('td', [_vm._v("\n                                                " + _vm._s(plans.credit_distribution_title.county.coName) + "\n                                            ")]), _vm._v(" "), _c('td', [_c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-11"
@@ -116401,32 +116402,32 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: (plans.selected),
-        expression: "plans.selected"
+        value: (plans.checked),
+        expression: "plans.checked"
       }],
       staticClass: "auto-margin",
       attrs: {
         "type": "checkbox"
       },
       domProps: {
-        "value": plans.id,
-        "checked": Array.isArray(plans.selected) ? _vm._i(plans.selected, plans.id) > -1 : (plans.selected)
+        "value": plans.checked,
+        "checked": Array.isArray(plans.checked) ? _vm._i(plans.checked, plans.checked) > -1 : (plans.checked)
       },
       on: {
         "__c": function($event) {
-          var $$a = plans.selected,
+          var $$a = plans.checked,
             $$el = $event.target,
             $$c = $$el.checked ? (true) : (false);
           if (Array.isArray($$a)) {
-            var $$v = plans.id,
+            var $$v = plans.checked,
               $$i = _vm._i($$a, $$v);
             if ($$el.checked) {
-              $$i < 0 && (plans.selected = $$a.concat([$$v]))
+              $$i < 0 && (plans.checked = $$a.concat([$$v]))
             } else {
-              $$i > -1 && (plans.selected = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+              $$i > -1 && (plans.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
             }
           } else {
-            plans.selected = $$c
+            plans.checked = $$c
           }
         }
       }
