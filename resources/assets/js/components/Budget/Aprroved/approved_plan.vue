@@ -1144,7 +1144,8 @@
 
                 if (value) {
                     this.approvedPlan_prov.forEach(function (plans) {
-                        selected.push(plans.id);
+                        //selected.push(plans.id);
+                        plans
                     });
                 }
                 this.selected = selected;
