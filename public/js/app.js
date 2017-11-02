@@ -115445,14 +115445,15 @@ if (false) {(function () {
                 return this.approvedPlan_prov ? this.selected.length == this.approvedPlan_prov.length : false;
             },
             set: function set(value) {
-                var selected = [];
+                //var selected = [];
 
                 if (value) {
                     this.approvedPlan_prov.forEach(function (plans) {
-                        selected.push(plans.id);
+                        //selected.push(plans.id);
+                        plans.selected = true;
                     });
                 }
-                this.selected = selected;
+                //this.selected = selected;
             }
         }
     },
@@ -115464,8 +115465,11 @@ if (false) {(function () {
 
             axios.get('/budget/approved_plan/capital_assets/fetchData?page=' + page, { params: { pOrN: 0 } }).then(function (response) {
                 _this.approvedPlan_prov = response.data.data;
+                _this.approvedPlan_prov.forEach(function (plans) {
+                    plans.selected = false;
+                });
                 _this.makePagination(response.data, "provincial");
-                console.log(response);
+                console.log(JSON.stringify(_this.approvedPlan_prov));
             }, function (error) {
                 console.log(error);
             });
@@ -116368,8 +116372,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: (_vm.selected),
-        expression: "selected"
+        value: (plans.selected),
+        expression: "plans.selected"
       }],
       staticClass: "auto-margin",
       attrs: {
@@ -116377,23 +116381,23 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       },
       domProps: {
         "value": plans.id,
-        "checked": Array.isArray(_vm.selected) ? _vm._i(_vm.selected, plans.id) > -1 : (_vm.selected)
+        "checked": Array.isArray(plans.selected) ? _vm._i(plans.selected, plans.id) > -1 : (plans.selected)
       },
       on: {
         "__c": function($event) {
-          var $$a = _vm.selected,
+          var $$a = plans.selected,
             $$el = $event.target,
             $$c = $$el.checked ? (true) : (false);
           if (Array.isArray($$a)) {
             var $$v = plans.id,
               $$i = _vm._i($$a, $$v);
             if ($$el.checked) {
-              $$i < 0 && (_vm.selected = $$a.concat([$$v]))
+              $$i < 0 && (plans.selected = $$a.concat([$$v]))
             } else {
-              $$i > -1 && (_vm.selected = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+              $$i > -1 && (plans.selected = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
             }
           } else {
-            _vm.selected = $$c
+            plans.selected = $$c
           }
         }
       }
