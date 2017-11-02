@@ -139,7 +139,7 @@
                                                     </div>
                                                 </td>
                                                 <td  v-show="selectColumn">
-                                                    <input class="auto-margin" v-model="selected" :value="plans.id" type="checkbox">
+                                                    <input class="auto-margin" v-model="plans.selected" :value="plans.id" type="checkbox">
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -1140,15 +1140,15 @@
                 return this.approvedPlan_prov ? this.selected.length == this.approvedPlan_prov.length : false;
             },
             set: function (value) {
-                var selected = [];
+                //var selected = [];
 
                 if (value) {
                     this.approvedPlan_prov.forEach(function (plans) {
                         //selected.push(plans.id);
-                        plans
+                        plans.selected = true;
                     });
                 }
-                this.selected = selected;
+                //this.selected = selected;
             }
         }
         },
@@ -1157,8 +1157,11 @@
                 axios.get('/budget/approved_plan/capital_assets/fetchData?page=' + page , {params:{pOrN: 0}})
                     .then((response) => {
                         this.approvedPlan_prov = response.data.data;
+                        this.approvedPlan_prov.forEach(function (plans) {
+                            plans.selected = false;
+                        });
                         this.makePagination(response.data , "provincial");
-                        console.log(response);
+                        console.log(JSON.stringify(this.approvedPlan_prov));
                     },(error) => {
                         console.log(error);
                     });
