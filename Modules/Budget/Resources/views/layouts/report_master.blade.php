@@ -44,7 +44,7 @@
         </div>
         <div style="width: 650px;padding-top:50px;">
             <div class="text-center">
-                <p class="BTitrBold">موافقتنامه تملک دارایی های سرمایه ای - طرح ها</p>
+                <p class="BTitrBold">{{ $options->title }}</p>
                 <p>سال مالی - <span> 1396 </span></p>
             </div>
         </div>

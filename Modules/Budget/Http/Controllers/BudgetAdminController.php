@@ -38,13 +38,13 @@ class BudgetAdminController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function deprivedArea()
+/*    public function deprivedArea()
     {
         $dAreas = DeprivedArea::all();
         return view('budget::pages.deprived_area.main' , ['pageTitle' => 'مناطق محروم' ,
             'dAreas' => $dAreas,
             'requireJsFile' => 'deprived_area']);
-    }
+    }*/
 
 /*    public function registerDeprivedArea(Request $request)
     {
@@ -62,11 +62,11 @@ class BudgetAdminController extends Controller
         return Redirect::to(URL::previous());
     }*/
 
-    public function fiscalYear()
+/*    public function fiscalYear()
     {
         return view('budget::pages.fiscal_year', ['pageTitle' => 'سال مالی',
             'requireJsFile' => 'fiscal_year']);
-    }
+    }*/
 
 /*    public function creditDistributionDef()
     {

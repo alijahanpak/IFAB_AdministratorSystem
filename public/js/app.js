@@ -115349,6 +115349,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -115400,6 +115402,8 @@ if (false) {(function () {
             capIdForInsertCreditSource: '',
             tempProjectSelectedId_delete: '',
             tempCreditSourceSelectedId_delete: '',
+            selectedItems: [],
+            reportOptions: { title: '', amountUnit: '', withReporterName: true, withFiscalYear: true, withReportDate: true, orientation: true },
             national_pagination: {
                 total: 0,
                 to: 0,
@@ -115466,7 +115470,7 @@ if (false) {(function () {
             axios.get('/budget/approved_plan/capital_assets/fetchData?page=' + page, { params: { pOrN: 0 } }).then(function (response) {
                 _this.approvedPlan_prov = response.data.data;
                 _this.approvedPlan_prov.forEach(function (plans) {
-                    plans.selected = false;
+                    plans.selected = true;
                 });
                 _this.makePagination(response.data, "provincial");
                 console.log(JSON.stringify(_this.approvedPlan_prov));
@@ -115787,6 +115791,29 @@ if (false) {(function () {
             }
         },
 
+        openReportModal: function openReportModal(proOrNat) {
+            var _this13 = this;
+
+            this.showModalReport = true;
+            if (proOrNat == 0) {
+                this.approvedPlan_prov.forEach(function (plan) {
+                    if (plan.selected == true) _this13.selectedItems.push(plan);
+                });
+            }
+
+            console.log(JSON.stringify(this.selectedItems));
+        },
+
+        openPdfFile: function openPdfFile() {
+            axios.get('/budget/approved_plan/capital_assets/provincial/report', { params: { options: this.reportOptions, selectedItems: this.selectedItems } }).then(function (response) {
+                console.log(response.data);
+                window.open(response.data);
+            }, function (error) {
+                console.log(error);
+            });
+            console.log(JSON.stringify(this.reportOptions));
+        },
+
         ////////////////////////////// amendment temp methods ////////////////////////////////
         openApprovedAmendmentOfAgreementModal: function openApprovedAmendmentOfAgreementModal() {
             this.showModalAmendmentOfAgreement = true;
@@ -115875,14 +115902,14 @@ if (false) {(function () {
         },
 
         cancelApprovedAmendmentTemp: function cancelApprovedAmendmentTemp() {
-            var _this13 = this;
+            var _this14 = this;
 
             axios.post('/budget/approved_plan/capital_assets/amendment/temp/cancel', {
                 capId: this.approvedAmendmentProjects.id
             }).then(function (response) {
-                _this13.showModalAmendment = false;
-                _this13.showModalAmendmentOfAgreement = false;
-                _this13.$parent.displayNotif(200);
+                _this14.showModalAmendment = false;
+                _this14.showModalAmendmentOfAgreement = false;
+                _this14.$parent.displayNotif(200);
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -115899,20 +115926,20 @@ if (false) {(function () {
         },
 
         createApprovedAmendmentTemp: function createApprovedAmendmentTemp() {
-            var _this14 = this;
+            var _this15 = this;
 
             this.$validator.validateAll().then(function (result) {
                 if (result) {
-                    if (_this14.checkValidDate('delivery_amendment')) {
+                    if (_this15.checkValidDate('delivery_amendment')) {
                         axios.post('/budget/approved_plan/capital_assets/amendment/temp/register', {
-                            idNumber: _this14.approvedAmendmentInput.idNumber,
-                            date: _this14.approvedAmendmentInput.date,
-                            description: _this14.approvedAmendmentInput.apDescription,
-                            capId: _this14.approvedAmendmentInput.parentId
+                            idNumber: _this15.approvedAmendmentInput.idNumber,
+                            date: _this15.approvedAmendmentInput.date,
+                            description: _this15.approvedAmendmentInput.apDescription,
+                            capId: _this15.approvedAmendmentInput.parentId
                         }).then(function (response) {
-                            _this14.approvedAmendmentProjects = response.data;
-                            _this14.showModalAmendment = false;
-                            _this14.showModalAmendmentOfAgreement = true;
+                            _this15.approvedAmendmentProjects = response.data;
+                            _this15.showModalAmendment = false;
+                            _this15.showModalAmendmentOfAgreement = true;
                             console.log(response);
                         }, function (error) {
                             console.log(error);
@@ -115924,23 +115951,23 @@ if (false) {(function () {
         },
 
         insertNewTempProject: function insertNewTempProject() {
-            var _this15 = this;
+            var _this16 = this;
 
             this.$validator.validateAll().then(function (result) {
                 if (result) {
                     axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/register', {
-                        pId: _this15.projectAmendmentInput.capId,
-                        subject: _this15.projectAmendmentInput.pSubject,
-                        code: _this15.projectAmendmentInput.pCode,
-                        startYear: _this15.projectAmendmentInput.startYear,
-                        endYear: _this15.projectAmendmentInput.endYear,
-                        pProgress: _this15.projectAmendmentInput.pProgress,
-                        coId: _this15.projectAmendmentInput.county,
-                        description: _this15.projectAmendmentInput.description,
-                        pOrN: _this15.provOrNat
+                        pId: _this16.projectAmendmentInput.capId,
+                        subject: _this16.projectAmendmentInput.pSubject,
+                        code: _this16.projectAmendmentInput.pCode,
+                        startYear: _this16.projectAmendmentInput.startYear,
+                        endYear: _this16.projectAmendmentInput.endYear,
+                        pProgress: _this16.projectAmendmentInput.pProgress,
+                        coId: _this16.projectAmendmentInput.county,
+                        description: _this16.projectAmendmentInput.description,
+                        pOrN: _this16.provOrNat
                     }).then(function (response) {
-                        _this15.approvedAmendmentProjects = response.data;
-                        _this15.showInsertModalProject = false;
+                        _this16.approvedAmendmentProjects = response.data;
+                        _this16.showInsertModalProject = false;
                         console.log(response);
                     }, function (error) {
                         console.log(error);
@@ -115951,23 +115978,23 @@ if (false) {(function () {
         },
 
         updateTempProject: function updateTempProject() {
-            var _this16 = this;
+            var _this17 = this;
 
             this.$validator.validateAll().then(function (result) {
                 if (result) {
                     axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/update', {
-                        cpId: _this16.projectAmendmentFill.cpId,
-                        pId: _this16.projectAmendmentFill.capId,
-                        subject: _this16.projectAmendmentFill.pSubject,
-                        code: _this16.projectAmendmentFill.pCode,
-                        startYear: _this16.projectAmendmentFill.startYear,
-                        endYear: _this16.projectAmendmentFill.endYear,
-                        pProgress: _this16.projectAmendmentFill.pProgress,
-                        coId: _this16.projectAmendmentFill.county,
-                        description: _this16.projectAmendmentFill.description
+                        cpId: _this17.projectAmendmentFill.cpId,
+                        pId: _this17.projectAmendmentFill.capId,
+                        subject: _this17.projectAmendmentFill.pSubject,
+                        code: _this17.projectAmendmentFill.pCode,
+                        startYear: _this17.projectAmendmentFill.startYear,
+                        endYear: _this17.projectAmendmentFill.endYear,
+                        pProgress: _this17.projectAmendmentFill.pProgress,
+                        coId: _this17.projectAmendmentFill.county,
+                        description: _this17.projectAmendmentFill.description
                     }).then(function (response) {
-                        _this16.approvedAmendmentProjects = response.data;
-                        _this16.showEditModalProject = false;
+                        _this17.approvedAmendmentProjects = response.data;
+                        _this17.showEditModalProject = false;
                         console.log(response);
                     }, function (error) {
                         console.log(error);
@@ -115977,14 +116004,14 @@ if (false) {(function () {
         },
 
         deleteTempProject: function deleteTempProject() {
-            var _this17 = this;
+            var _this18 = this;
 
             axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/delete', {
                 capId: this.approvedAmendmentProjects.id,
                 pId: this.tempProjectSelectedId_delete
             }).then(function (response) {
-                _this17.approvedAmendmentProjects = response.data;
-                _this17.showDeleteTempProjectModal = false;
+                _this18.approvedAmendmentProjects = response.data;
+                _this18.showDeleteTempProjectModal = false;
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -115992,14 +116019,14 @@ if (false) {(function () {
         },
 
         deleteTempCreditSource: function deleteTempCreditSource() {
-            var _this18 = this;
+            var _this19 = this;
 
             axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/credit_source/delete', {
                 capId: this.approvedAmendmentProjects.id,
                 csId: this.tempCreditSourceSelectedId_delete
             }).then(function (response) {
-                _this18.approvedAmendmentProjects = response.data;
-                _this18.showDeleteTempCreditSourceModal = false;
+                _this19.approvedAmendmentProjects = response.data;
+                _this19.showDeleteTempCreditSourceModal = false;
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -116007,22 +116034,22 @@ if (false) {(function () {
         },
 
         insertNewTempCreditSource: function insertNewTempCreditSource() {
-            var _this19 = this;
+            var _this20 = this;
 
             this.$validator.validateAll().then(function (result) {
                 if (result) {
                     axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/credit_source/register', {
-                        pId: _this19.approvedAmendmentProjects.id,
-                        capId: _this19.capIdForInsertCreditSource,
-                        crId: _this19.apCreditSourceInput.crId,
-                        htrId: _this19.apCreditSourceInput.htrId,
-                        tsId: _this19.apCreditSourceInput.tsId,
-                        amount: _this19.apCreditSourceInput.csAmount,
-                        description: _this19.apCreditSourceInput.csDescription,
-                        pOrN: _this19.provOrNat
+                        pId: _this20.approvedAmendmentProjects.id,
+                        capId: _this20.capIdForInsertCreditSource,
+                        crId: _this20.apCreditSourceInput.crId,
+                        htrId: _this20.apCreditSourceInput.htrId,
+                        tsId: _this20.apCreditSourceInput.tsId,
+                        amount: _this20.apCreditSourceInput.csAmount,
+                        description: _this20.apCreditSourceInput.csDescription,
+                        pOrN: _this20.provOrNat
                     }).then(function (response) {
-                        _this19.approvedAmendmentProjects = response.data;
-                        _this19.showApCreditInsertModal = false;
+                        _this20.approvedAmendmentProjects = response.data;
+                        _this20.showApCreditInsertModal = false;
                         console.log(response);
                     }, function (error) {
                         console.log(error);
@@ -116033,21 +116060,21 @@ if (false) {(function () {
         },
 
         updateTempCreditSource: function updateTempCreditSource() {
-            var _this20 = this;
+            var _this21 = this;
 
             this.$validator.validateAll().then(function (result) {
                 if (result) {
                     axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/credit_source/update', {
-                        pId: _this20.approvedAmendmentProjects.id,
-                        csId: _this20.apCreditSourceFill.csId,
-                        crId: _this20.apCreditSourceFill.crId,
-                        htrId: _this20.apCreditSourceFill.htrId,
-                        tsId: _this20.apCreditSourceFill.tsId,
-                        amount: _this20.apCreditSourceFill.csAmount,
-                        description: _this20.apCreditSourceFill.csDescription
+                        pId: _this21.approvedAmendmentProjects.id,
+                        csId: _this21.apCreditSourceFill.csId,
+                        crId: _this21.apCreditSourceFill.crId,
+                        htrId: _this21.apCreditSourceFill.htrId,
+                        tsId: _this21.apCreditSourceFill.tsId,
+                        amount: _this21.apCreditSourceFill.csAmount,
+                        description: _this21.apCreditSourceFill.csDescription
                     }).then(function (response) {
-                        _this20.approvedAmendmentProjects = response.data;
-                        _this20.showApCreditEditModal = false;
+                        _this21.approvedAmendmentProjects = response.data;
+                        _this21.showApCreditEditModal = false;
                         console.log(response);
                     }, function (error) {
                         console.log(error);
@@ -116169,7 +116196,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "my-menu small-font ltr-dir"
   }, [_c('li', [_c('a', {
     on: {
-      "click": _vm.openReportModal
+      "click": function($event) {
+        _vm.openReportModal(0)
+      }
     }
   }, [_c('i', {
     staticClass: "fa fa-file-pdf-o icon-margin-dropdown",
@@ -116487,7 +116516,35 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "type": "button",
       "data-toggle": "reportDropDown2"
     }
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(8), _vm._v(" "), _vm._m(9), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _vm._m(11)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _c('div', {
+    staticClass: "dropdown-pane dropdown-pane-sm ",
+    staticStyle: {
+      "width": "113px"
+    },
+    attrs: {
+      "data-close-on-click": "true",
+      "data-hover": "true",
+      "data-hover-pane": "true",
+      "data-position": "bottom",
+      "data-alignment": "left",
+      "id": "reportDropDown2",
+      "data-dropdown": "",
+      "data-auto-focus": "true"
+    }
+  }, [_c('ul', {
+    staticClass: "my-menu small-font ltr-dir"
+  }, [_c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.openReportModal(1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-file-pdf-o icon-margin-dropdown",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v("PDF")])]), _vm._v(" "), _vm._m(8)])]), _vm._v(" "), _vm._m(9), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _vm._m(11)]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
   }, [_c('table', {
     staticClass: "tbl-head"
@@ -118920,22 +118977,60 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     slot: "body"
   }, [_c('div', {
     staticClass: "small-font"
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.openPdfFile($event)
+      }
+    }
   }, [_c('div', {
     staticClass: "grid-x padding-lr"
   }, [_c('div', {
     staticClass: "medium-12"
-  }, [_c('label', [_vm._v("عنوان\n                                "), _c('input', {
+  }, [_c('label', [_vm._v("عنوان\n                                    "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.reportOptions.title),
+      expression: "reportOptions.title"
+    }],
     attrs: {
-      "type": "text",
-      "name": "title"
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.reportOptions.title)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.reportOptions.title = $event.target.value
+      }
     }
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-6 column padding-lr"
-  }, [_c('label', [_vm._v("نمایش مبلغ\n                                "), _c('select', {
+  }, [_c('label', [_vm._v("نمایش مبلغ\n                                    "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.reportOptions.amountUnit),
+      expression: "reportOptions.amountUnit"
+    }],
     attrs: {
       "name": "money"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.reportOptions.amountUnit = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
   }, [_c('option', {
     attrs: {
@@ -118955,12 +119050,38 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "switch tiny"
   }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.reportOptions.withReporterName),
+      expression: "reportOptions.withReporterName"
+    }],
     staticClass: "switch-input",
     attrs: {
       "checked": "true",
       "id": "yes-no-1",
-      "type": "checkbox",
-      "name": "exampleSwitch1"
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.reportOptions.withReporterName) ? _vm._i(_vm.reportOptions.withReporterName, null) > -1 : (_vm.reportOptions.withReporterName)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.reportOptions.withReporterName,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.reportOptions.withReporterName = $$a.concat([$$v]))
+          } else {
+            $$i > -1 && (_vm.reportOptions.withReporterName = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.reportOptions.withReporterName = $$c
+        }
+      }
     }
   }), _vm._v(" "), _c('label', {
     staticClass: "switch-paddle",
@@ -118986,12 +119107,38 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "switch tiny"
   }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.reportOptions.withFiscalYear),
+      expression: "reportOptions.withFiscalYear"
+    }],
     staticClass: "switch-input",
     attrs: {
       "checked": "true",
       "id": "yes-no-2",
-      "type": "checkbox",
-      "name": "exampleSwitch2"
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.reportOptions.withFiscalYear) ? _vm._i(_vm.reportOptions.withFiscalYear, null) > -1 : (_vm.reportOptions.withFiscalYear)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.reportOptions.withFiscalYear,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.reportOptions.withFiscalYear = $$a.concat([$$v]))
+          } else {
+            $$i > -1 && (_vm.reportOptions.withFiscalYear = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.reportOptions.withFiscalYear = $$c
+        }
+      }
     }
   }), _vm._v(" "), _c('label', {
     staticClass: "switch-paddle",
@@ -119017,12 +119164,38 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "switch tiny"
   }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.reportOptions.withReportDate),
+      expression: "reportOptions.withReportDate"
+    }],
     staticClass: "switch-input",
     attrs: {
       "checked": "true",
       "id": "yes-no3",
-      "type": "checkbox",
-      "name": "exampleSwitch"
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.reportOptions.withReportDate) ? _vm._i(_vm.reportOptions.withReportDate, null) > -1 : (_vm.reportOptions.withReportDate)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.reportOptions.withReportDate,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.reportOptions.withReportDate = $$a.concat([$$v]))
+          } else {
+            $$i > -1 && (_vm.reportOptions.withReportDate = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.reportOptions.withReportDate = $$c
+        }
+      }
     }
   }), _vm._v(" "), _c('label', {
     staticClass: "switch-paddle",
@@ -119048,12 +119221,38 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "switch tiny"
   }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.reportOptions.orientation),
+      expression: "reportOptions.orientation"
+    }],
     staticClass: "switch-input",
     attrs: {
       "checked": "true",
       "id": "yes-no4",
-      "type": "checkbox",
-      "name": "exampleSwitch4"
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.reportOptions.orientation) ? _vm._i(_vm.reportOptions.orientation, null) > -1 : (_vm.reportOptions.orientation)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.reportOptions.orientation,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.reportOptions.orientation = $$a.concat([$$v]))
+          } else {
+            $$i > -1 && (_vm.reportOptions.orientation = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.reportOptions.orientation = $$c
+        }
+      }
     }
   }), _vm._v(" "), _c('label', {
     staticClass: "switch-paddle",
@@ -119073,17 +119272,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("عمودی")])])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-10"
   }, [_c('p', [_vm._v("جهت کاغذ")])])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-6 columns padding-lr padding-bottom-modal input-margin-top"
-  }, [_c('a', {
-    staticClass: "my-button my-success float-left",
+    staticClass: "medium-12 columns padding-lr padding-bottom-modal input-margin-top"
+  }, [_c('button', {
+    staticClass: "my-button my-success float-left btn-for-load",
     attrs: {
-      "target": "_blank",
-      "href": "http://localhost/IFAB_AdministratorSystem/public/budget/approved_plan/capital_assets/provincial/report"
-    },
-    on: {
-      "click": _vm.openReportModal
+      "name": "Submit"
     }
-  }, [_vm._v("مشاهده گزارش")])])])])]) : _vm._e(), _vm._v(" "), (_vm.showDeleteTempCreditSourceModal) ? _c('modal-tiny', {
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("مشاهده گزارش")])])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showDeleteTempCreditSourceModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showDeleteTempCreditSourceModal = false
@@ -119227,33 +119424,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "fi-magnifying-glass"
   })])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "dropdown-pane dropdown-pane-sm ",
-    staticStyle: {
-      "width": "113px"
-    },
-    attrs: {
-      "data-close-on-click": "true",
-      "data-hover": "true",
-      "data-hover-pane": "true",
-      "data-position": "bottom",
-      "data-alignment": "left",
-      "id": "reportDropDown2",
-      "data-dropdown": "",
-      "data-auto-focus": "true"
-    }
-  }, [_c('ul', {
-    staticClass: "my-menu small-font ltr-dir"
-  }, [_c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-file-pdf-o icon-margin-dropdown",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }), _vm._v("PDF")])]), _vm._v(" "), _c('li', [_c('a', {
+  return _c('li', [_c('a', {
     attrs: {
       "href": "#"
     }
@@ -119262,7 +119433,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     attrs: {
       "aria-hidden": "true"
     }
-  }), _vm._v("Excel")])])])])
+  }), _vm._v("Excel")])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
