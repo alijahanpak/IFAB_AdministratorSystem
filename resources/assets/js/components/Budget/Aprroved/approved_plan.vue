@@ -36,7 +36,7 @@
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openApprovedPlanInsertModal(0)">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
-                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
+                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn" v-model="selectAll"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
                                     </div>
                                     <div v-if="selectColumn" class="input-group-button toggle-icon-change">
                                         <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
@@ -90,7 +90,7 @@
                                         <th class="tbl-head-style-cell">ابلاغی</th>
                                         <th class="tbl-head-style-cell">شهرستان</th>
                                         <th class="tbl-head-style-cell">شرح</th>
-                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox" v-model="selectAll"></th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox" @click="toggleSelect" :checked="selected"></th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
@@ -110,11 +110,11 @@
                                         <tbody class="tbl-head-style-cell">
                                             <tr v-for="plans in approvedPlan_prov">
                                                 <td> {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
-                                                <td>
+                                                <td  class="text-center">
                                                     <div>{{ plans.capExchangeIdNumber }}</div>
                                                     <div>{{ plans.capExchangeDate }}</div>
                                                 </td>
-                                                <td>
+                                                <td  class="text-center">
                                                     <div>{{ plans.capLetterNumber }}</div>
                                                     <div>{{ plans.capLetterDate }}</div>
                                                 </td>
@@ -139,7 +139,7 @@
                                                     </div>
                                                 </td>
                                                 <td  v-show="selectColumn">
-                                                    <input class="auto-margin" v-model="plans.selected" :value="plans.id" type="checkbox">
+                                                    <input class="auto-margin" v-model="plans.checked"  :value="plans.checked" type="checkbox">
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -1135,7 +1135,7 @@
             'vue-pagination' : VuePagination
         },
         computed: {
-        selectAll: {
+        /*selectAll: {
             get: function () {
                 return this.approvedPlan_prov ? this.selected.length == this.approvedPlan_prov.length : false;
             },
@@ -1145,28 +1145,37 @@
                 if (value) {
                     this.approvedPlan_prov.forEach(function (plans) {
                         //selected.push(plans.id);
-                        plans.selected = true;
+                        plans.selected = plans.id;
                     });
                 }
                 //this.selected = selected;
+            }*/
+            selectAll: function() {
+                return this.approvedPlan_prov.every(function(plans){
+                    return plans.checked;
+                });
             }
-        }
+
         },
         methods:{
             fetchProvincialData: function (page = 1) {
                 axios.get('/budget/approved_plan/capital_assets/fetchData?page=' + page , {params:{pOrN: 0}})
                     .then((response) => {
                         this.approvedPlan_prov = response.data.data;
-                        this.approvedPlan_prov.forEach(function (plans) {
-                            plans.selected = false;
-                        });
                         this.makePagination(response.data , "provincial");
                         console.log(JSON.stringify(this.approvedPlan_prov));
                     },(error) => {
                         console.log(error);
                     });
             },
-
+            toggleSelect: function() {
+                var select = this.selectAll;
+                this.approvedPlan_prov.forEach(function(plans) {
+                    plans.checked = !select;
+                });
+                this.selectAll = !select;
+                console.log(JSON.stringify(this.approvedPlan_prov));
+            },
             fetchNationalData: function (page = 1) {
                 axios.get('/budget/approved_plan/capital_assets/fetchData?page=' + page , {params:{pOrN: 1}})
                     .then((response) => {
