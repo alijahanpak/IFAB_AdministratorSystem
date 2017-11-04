@@ -42,18 +42,22 @@
                 <img src="{{ asset('pic/ir-logo.jpg') }}" width="200px" height="100px">
             </div>
         </div>
+        @if ($options->withFiscalYear)
         <div style="width: 650px;padding-top:50px;">
             <div class="text-center">
                 <p class="BTitrBold">{{ $options->title }}</p>
                 <p>سال مالی - <span> 1396 </span></p>
             </div>
         </div>
+        @endif
+        @if ($options->withReportDate)
         <div style="margin-top: -75px;" class="float-left">
             <p class="left-details">تاریخ : <span> 1396/08/09 </span></p>
         </div>
+        @endif
     </div>
     <div class="float-left">
-        <p class="x-small-font left-details-money">مبلغ به <span> (میلیون ریال) </span></p>
+        <p class="x-small-font left-details-money">مبلغ به <span> ({{ \Modules\Admin\Entities\User::find(Auth::user()->id)->first()->inPutAmountUnit->auSubject }}) </span></p>
     </div>
         @yield('content')
     <script src="{{ asset('js/vendor/jquery.js') }}"></script>

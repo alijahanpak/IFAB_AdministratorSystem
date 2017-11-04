@@ -13,49 +13,31 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>171ه1704002 - اکتشافات و باستان شناختی</td>
-                    <td class="text-center">
-                        <div>25146854</div>
-                        <div>1396</div>
-                    </td>
-                    <td class="text-center">
-                        <div>25146854</div>
-                        <div>1396</div>
-                    </td>
-                    <td>همدان</td>
-                    <td>مبادله موافقت نامه</td>
-                </tr>
-                <tr>
-                    <td>171ه1704002 - اکتشافات و باستان شناختی</td>
-                    <td class="text-center">
-                        <div>25146854</div>
-                        <div>1396</div>
-                    </td>
-                    <td class="text-center">
-                        <div>25146854</div>
-                        <div>1396</div>
-                    </td>
-                    <td>همدان</td>
-                    <td>مبادله موافقت نامه</td>
-                </tr>
-                <tr>
-                    <td>171ه1704002 - اکتشافات و باستان شناختی</td>
-                    <td class="text-center">
-                        <div>25146854</div>
-                        <div>1396</div>
-                    <td class="text-center">
-                        <div>25146854</div>
-                        <div>1396</div>
-                    </td>
-                    <td>همدان</td>
-                    <td>مبادله موافقت نامه</td>
-                </tr>
+                @foreach($items as $tempItem)
+                    <?php
+                        $item = json_decode($tempItem);
+                    ?>
+                    <tr>
+                        <td>{{ $item->credit_distribution_title->cdtIdNumber . ' - ' . $item->credit_distribution_title->cdtSubject }}</td>
+                        <td class="text-center">
+                            <div>{{ $item->capExchangeIdNumber }}</div>
+                            <div>{{ $item->capExchangeDate }}</div>
+                        </td>
+                        <td class="text-center">
+                            <div>{{ $item->capLetterNumber }}</div>
+                            <div>{{ $item->capLetterDate }}</div>
+                        </td>
+                        <td>{{ $item->credit_distribution_title->county->coName }}</td>
+                        <td>{{ $item->capDescription }}</td>
+                    </tr>
+                @endforeach
                 </tbody>
             </table>
+            @if ($options->withReporterName)
             <div class="text-left">
                 <p style="margin-top: 50px;margin-left: 50px;" class="BTitrBold x-small-font">علی جهان پاک</p>
             </div>
+            @endif
         </div>
     </div>
     @stop

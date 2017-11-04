@@ -14,29 +14,30 @@ class BudgetReportController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function approvedPlanProv(Request $request)
+    private function initPdf($options)
     {
-        $options = json_decode($request->get('options'));
-
         $pdf = App::make('snappy.pdf.wrapper');
         $pdf->setOption('encoding', 'UTF-8');
         $pdf->setOption('page-size', 'a4');
         $pdf->setOption('title', 'report');
         $pdf->setOption('footer-center', '[page]/[topage]');
         $pdf->setOption('margin-bottom', 20);
-        $pdf->setOrientation('landscape');
+        $pdf->setOrientation($options->orientation == true ? 'landscape' : 'portrait');
         $pdf->setOption('margin-top',5);
         $pdf->setOption('lowquality', true);
         $pdf->setOption('zoom', 1.2);
-        $pdf->loadHTML(view('budget::reports.approved.plan_provincial' , ['options' => $options]));
+        return $pdf;
+    }
+
+    public function approvedPlan(Request $request)
+    {
+        $options = json_decode($request->get('options'));
+        $pdf = $this->initPdf($options);
+        if ($request->pOrN == 0)
+            $pdf->loadHTML(view('budget::reports.approved.plan_provincial' , ['options' => $options , 'items' => $request->get('selectedItems')]));
+        else
+            $pdf->loadHTML(view('budget::reports.approved.plan_national' , ['options' => $options , 'items' => $request->get('selectedItems')]));
         $pdf->save('pdfFiles/temp' . Auth::user()->id .'.pdf' , true);
         return url('pdfFiles/temp' . Auth::user()->id .'.pdf');
-
-/*        foreach ($request->get('selectedItems') as $item)
-        {
-            $myItem = json_decode($item);
-            echo $myItem->credit_distribution_title->cdtSubject;
-        }*/
-
     }
 }

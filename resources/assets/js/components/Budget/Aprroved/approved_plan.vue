@@ -36,10 +36,10 @@
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openApprovedPlanInsertModal(0)">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
-                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn" v-model="selectAll"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
+                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(approvedPlan_prov)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
                                     </div>
                                     <div v-if="selectColumn" class="input-group-button toggle-icon-change">
-                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
+                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn(approvedPlan_prov)"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
                                     </div>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
@@ -90,7 +90,7 @@
                                         <th class="tbl-head-style-cell">ابلاغی</th>
                                         <th class="tbl-head-style-cell">شهرستان</th>
                                         <th class="tbl-head-style-cell">شرح</th>
-                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox" @click="toggleSelect" :checked="selected"></th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox" @click="toggleSelect(approvedPlan_prov)" :checked="allSelected(approvedPlan_prov)"></th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
@@ -139,7 +139,7 @@
                                                     </div>
                                                 </td>
                                                 <td  v-show="selectColumn">
-                                                    <input class="auto-margin" v-model="plans.checked"  :value="plans.checked" type="checkbox">
+                                                    <input class="auto-margin" v-model="plans.checked" type="checkbox">
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -157,10 +157,9 @@
                                 </div>
                                 <div style="color: #575962;" v-show="selectColumn" class="medium-4 small-font">
                                     <div class="float-left">
-                                        <p> تعداد رکورد های انتخاب شده :<span>{{len}}</span> </p>
+                                        <p> تعداد رکورد های انتخاب شده :<span>{{ selectedLength(approvedPlan_prov) }}</span></p>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -173,10 +172,10 @@
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openApprovedPlanInsertModal(1)">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
-                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
+                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(approvedPlan_nat)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
                                     </div>
                                     <div v-if="selectColumn" class="input-group-button toggle-icon-change">
-                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
+                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn(approvedPlan_nat)"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
                                     </div>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown2">گزارش</button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown2" data-dropdown data-auto-focus="true">
@@ -217,6 +216,7 @@
                                         <col width="350px"/>
                                         <col width="12px"/>
                                         <col v-show="selectColumn" width="15px"/>
+                                        <col width="12px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style">
                                     <tr class="tbl-head-style-cell">
@@ -225,7 +225,8 @@
                                         <th class="tbl-head-style-cell">ابلاغی</th>
                                         <th class="tbl-head-style-cell">شرح</th>
                                         <th class="tbl-head-style-cell"></th>
-                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox"></th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox" @click="toggleSelect(approvedPlan_nat)" :checked="allSelected(approvedPlan_nat)"></th>
+                                        <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -269,7 +270,7 @@
                                                 </div>
                                             </td>
                                             <td  v-show="selectColumn">
-                                                <input class="auto-margin" type="checkbox">
+                                                <input class="auto-margin" v-model="plans.checked" type="checkbox">
                                             </td>
                                         </tr>
                                         </tbody>
@@ -278,11 +279,16 @@
                                 <!--Table Body End-->
                             </div>
                             <div class="grid-x">
-                                <div class="medium-12">
+                                <div class="medium-8">
                                     <vue-pagination  v-bind:pagination="national_pagination"
                                                      v-on:click.native="fetchNationalData(national_pagination.current_page)"
                                                      :offset="4">
                                     </vue-pagination>
+                                </div>
+                                <div style="color: #575962;" v-show="selectColumn" class="medium-4 small-font">
+                                    <div class="float-left">
+                                        <p> تعداد رکورد های انتخاب شده :<span>{{ selectedLength(approvedPlan_nat) }}</span></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -953,16 +959,6 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="grid-x">
-                                <div class="medium-6 column padding-lr">
-                                    <label>نمایش مبلغ
-                                        <select  name="money" v-model="reportOptions.amountUnit">
-                                            <option value="1">ریال</option>
-                                            <option value="2">میلیون ریال</option>
-                                        </select>
-                                    </label>
-                                </div>
-                            </div>
                             <div style="margin-top: 10px;" class="grid-x padding-lr">
                                 <div class="medium-2">
                                     <div class="switch tiny">
@@ -974,7 +970,7 @@
                                     </div>
                                 </div>
                                 <div class="medium-10">
-                                    <p>درج نام کاربر گزارش گیرنده</p>
+                                    <p>درج نام کاربر تهیه کننده گزارش</p>
                                 </div>
                             </div>
                             <div class="grid-x padding-lr">
@@ -1020,7 +1016,7 @@
                                 </div>
                             </div>
                             <div class="medium-12 columns padding-lr padding-bottom-modal input-margin-top">
-                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">مشاهده گزارش</span></button>
+                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">مشاهده</span></button>
                             </div>
                         </form>
                     </div>
@@ -1084,7 +1080,6 @@
                 approvedPlans: [],
                 displayCSInfo: '',
                 counties: [],
-                selected: [],
                 countyState: false,
                 provOrNat: '',
                 apIdDelete: {},
@@ -1099,6 +1094,7 @@
                 tempProjectSelectedId_delete: '',
                 tempCreditSourceSelectedId_delete: '',
                 selectedItems: [],
+                selectedCount: 0,
                 reportOptions: {title:'' , amountUnit: '' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true},
                 national_pagination: {
                     total: 0,
@@ -1138,55 +1134,25 @@
         components:{
             'vue-pagination' : VuePagination
         },
-        computed: {
-        /*selectAll: {
-            get: function () {
-                return this.approvedPlan_prov ? this.selected.length == this.approvedPlan_prov.length : false;
-            },
-            set: function (value) {
-                //var selected = [];
 
-                if (value) {
-                    this.approvedPlan_prov.forEach(function (plans) {
-                        //selected.push(plans.id);
-                        plans.selected = plans.id;
-                    });
-                }
-                //this.selected = selected;
-            }*/
-            selectAll: function() {
-                return this.approvedPlan_prov.every(function(plans){
-                    return plans.checked;
-                });
-            }
-
-        },
         methods:{
             fetchProvincialData: function (page = 1) {
                 axios.get('/budget/approved_plan/capital_assets/fetchData?page=' + page , {params:{pOrN: 0}})
                     .then((response) => {
                         this.approvedPlan_prov = response.data.data;
-/*                        this.approvedPlan_prov.forEach(function (plans) {
-                            plans.selected = true;
-                        });*/
+                        this.selectAll(this.approvedPlan_prov);
                         this.makePagination(response.data , "provincial");
                         console.log(JSON.stringify(this.approvedPlan_prov));
                     },(error) => {
                         console.log(error);
                     });
             },
-            toggleSelect: function() {
-                var select = this.selectAll;
-                this.approvedPlan_prov.forEach(function(plans) {
-                    plans.checked = !select;
-                });
-                this.selectAll = !select;
-                console.log(JSON.stringify(this.approvedPlan_prov));
-            },
+
             fetchNationalData: function (page = 1) {
                 axios.get('/budget/approved_plan/capital_assets/fetchData?page=' + page , {params:{pOrN: 1}})
                     .then((response) => {
                         this.approvedPlan_nat = response.data.data;
+                        this.selectAll(this.approvedPlan_nat);
                         this.makePagination(response.data , "national");
                         console.log(response);
                     },(error) => {
@@ -1448,14 +1414,15 @@
                 });
             },
 
-            showSelectColumn: function () {
-              if (this.selectColumn)
-              {
-                  this.selectColumn=false;
-              }
-              else {
-                  this.selectColumn = true;
-              }
+            showSelectColumn: function (plans) {
+                this.selectAll(plans);
+                  if (this.selectColumn)
+                  {
+                      this.selectColumn=false;
+                  }
+                  else {
+                      this.selectColumn = true;
+                  }
             },
 
             myResizeModal: function() {
@@ -1506,29 +1473,77 @@
             },
 
             openReportModal: function (proOrNat) {
-                this.showModalReport = true;
+                this.provOrNat = proOrNat;
+                this.selectedItems = [];
                 if (proOrNat == 0)
                 {
-                    this.approvedPlan_prov.forEach(plan => {
-                        if (plan.selected == true)
-                            this.selectedItems.push(plan);
-                    });
+                    if (this.selectedLength(this.approvedPlan_prov) != 0)
+                    {
+                        this.showModalReport = true;
+                        this.approvedPlan_prov.forEach(plan => {
+                            if (plan.checked == true)
+                                this.selectedItems.push(plan);
+                        });
+                        this.reportOptions.title = 'طرح های مصوب تملک داریی های سرمایه ای استانی';
+                    }
+                    else{
+                        this.$parent.displayNotif(800);
+                    }
+                }
+                else {
+                    if (this.selectedLength(this.approvedPlan_nat) != 0)
+                    {
+                        this.showModalReport = true;
+                        this.approvedPlan_nat.forEach(plan => {
+                            if (plan.checked == true)
+                                this.selectedItems.push(plan);
+                        });
+                        this.reportOptions.title = 'طرح های مصوب تملک داریی های سرمایه ای ملی';
+                    }
+                    else{
+                        this.$parent.displayNotif(800);
+                    }
                 }
 
                 console.log(JSON.stringify(this.selectedItems));
             },
 
             openPdfFile: function () {
-                axios.get('/budget/approved_plan/capital_assets/provincial/report' , {params:{options: this.reportOptions , selectedItems: this.selectedItems}})
+                axios.get('/budget/approved_plan/capital_assets/report' , {params:{pOrN: this.provOrNat ,options: this.reportOptions , selectedItems: this.selectedItems}})
                 .then((response) => {
                     console.log(response.data);
                     window.open(response.data);
                 },(error) => {
                     console.log(error);
                 });
-                console.log(JSON.stringify(this.reportOptions));
             },
 
+            toggleSelect: function(plans) {
+                if(plans.find(plan => plan.checked)){
+                    plans.forEach(plan => plan.checked = false)
+                } else {
+                    plans.forEach(plan => plan.checked = true)
+                }
+                console.log(JSON.stringify(this.approvedPlan_prov));
+            },
+
+            allSelected: function(plans) {
+                return plans.every(function(plan){
+                    return plan.checked;
+                });
+            },
+
+            selectAll: function (plans) {
+                plans.forEach(plan => {
+                    this.$set(plan , 'checked' , true);
+                });
+            },
+
+            selectedLength: function (plans) {
+                return plans.filter(function (value) {
+                    return value.checked === true;
+                }).length;
+            },
             ////////////////////////////// amendment temp methods ////////////////////////////////
             openApprovedAmendmentOfAgreementModal: function () {
                 this.showModalAmendmentOfAgreement= true;
