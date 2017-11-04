@@ -184,7 +184,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         //Route::post('/delete', 'PlanController@deleteCapitalAssetsApprovedPlan');
         //Route::post('/update', 'PlanController@updateCapitalAssetsApprovedPlan');
         Route::get('/getAllItems', 'PlanController@getAllApprovedPlan');
-        Route::get('/provincial/report', 'BudgetReportController@approvedPlanProv');
+        Route::get('/report', 'BudgetReportController@approvedPlan');
     });
 
     Route::prefix('approved_plan/capital_assets/amendment')->group(function () {
