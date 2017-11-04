@@ -131,6 +131,7 @@
                                                                 <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                                 <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                 <li><a v-on:click.prevent="openCreditSourceInsertModal(cAp.id , 0)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
+                                                                <li><a v-on:click.prevent="openAmendmentModal"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -646,6 +647,353 @@
             </modal-small>
             <!--Project Cost Modal End-->
 
+            <!--Amendment Modal Start-->
+            <modal-small v-if="showAmendmentModal" @close="showAmendmentModal= false">
+                <div slot="body">
+                    <form v-on:submit.prevent="">
+                        <div class="grid-x" v-if="errorMessage">
+                            <div class="medium-12 columns padding-lr">
+                                <div class="alert callout">
+                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-6 columns padding-lr">
+                                <label>شماره ابلاغ
+                                    <input class="form-element-margin-btm" type="text" name="caLetterNumber" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('caLetterNumber')}">
+                                </label>
+                                <span v-show="errors.has('caLetterNumber')" class="error-font">شماره فراموش شده است!</span>
+                            </div>
+                            <div class="medium-4 columns padding-lr">
+                                <p class="date-picker-lbl">تاریخ مبادله
+                                    <pdatepicker  v-on:closed="checkValidDate('exchange')" errMessage="تاریخ مبادله فراموش شده است!" :isValid="dateIsValid_exchange" open-transition-animation="left-slide-fade"></pdatepicker>
+                                </p>
+
+                            </div>
+                            <div class="medium-6 columns padding-lr">
+                                <label>شماره مبادله
+                                    <input disabled type="text" name="caExLetterNumber">
+                                </label>
+                            </div>
+                            <div style="width: 217px;" class="medium-4 columns padding-lr">
+                                <label>تاریخ مبادله
+                                    <input disabled type="text" name="caExLetterDate">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="small-12 columns padding-lr">
+                                <label>شرح
+                                    <textarea name="apDescription" style="min-height: 150px;"></textarea>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="medium-6 columns padding-lr padding-bottom-modal">
+                            <div class="button-group float-left report-mrg">
+                                <button class="my-button my-danger float-left btn-for-load"> <span class="btn-txt-mrg">لغو</span></button>
+                                <button @click="openAmendmentCostModal" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">تایید</span></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </modal-small>
+            <!--Amendment Modal End-->
+
+            <!--Amendment Of The Agreement Modal Start-->
+            <modal-full-screen v-if="showModalAmendmentCost" @close="showModalAmendmentCost= false">
+                <div slot="body">
+                    <div class="dynamic-height-level-modal1">
+                    <div class="grid-x" v-if="errorMessage">
+                        <div class="medium-12 columns padding-lr">
+                            <div class="alert callout">
+                                <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding:0px;" class="grid-x border-btm-line">
+                        <div class="medium-12 cell padding-lr">
+                            <div class="grid-x">
+                                <div class="medium-7">
+                                    <strong>طرح: </strong><span>تست</span>
+                                </div>
+                                <div class="medium-1">
+                                    <p>شماره ابلاغ : </p>
+                                </div>
+                                <div class="medium-2">
+                                    <strong class="btn-red">12313</strong>
+                                </div>
+                                <div class="medium-1">
+                                    <p>تاریخ ابلاغ : </p>
+                                </div>
+                                <div class="medium-1">
+                                    <strong class="btn-red">14545</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="medium-12 cell padding-lr">
+                            <div class="grid-x">
+                                <div class="medium-12 padding-bottom-modal">
+                                    <strong>شرح: </strong><span style="display: inline"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 17px;" class="grid-x">
+                        <div class="medium-12 button-group float-right">
+                            <a class="medium-1 my-button toolbox-btn small" @click="openACaCsCostInsertModal">اعتبار جدید</a>
+                        </div>
+                    </div>
+                    <div class="grid-x">
+                        <!--Table Start-->
+                        <!--Table Head Start-->
+                        <div class="tbl-div-container">
+                            <table class="tbl-head">
+                                <colgroup>
+                                    <col width="150px"/>
+                                    <col width="70px"/>
+                                    <col width="250px"/>
+                                    <col width="250"/>
+                                    <col width="100px"/>
+                                    <col width="160px"/>
+                                    <col width="12px"/>
+                                </colgroup>
+                                <tbody class="tbl-head-style ">
+                                <tr class="tbl-head-style-cell">
+                                    <th class="tbl-head-style-cell">ردیف</th>
+                                    <th class="tbl-head-style-cell">فصل</th>
+                                    <th class="tbl-head-style-cell">عنوان فصل</th>
+                                    <th class="tbl-head-style-cell">ریز فصل</th>
+                                    <th class="tbl-head-style-cell">مبلغ</th>
+                                    <th class="tbl-head-style-cell">شرح</th>
+                                    <th class="tbl-head-style-cell"></th>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--Table Head End-->
+                            <!--Table Body Start-->
+                            <div class="tbl_body_style dynamic-height-level-modal2">
+                                <table class="tbl-body-contain">
+                                    <colgroup>
+                                        <col width="150px"/>
+                                        <col width="70px"/>
+                                        <col width="250px"/>
+                                        <col width="250"/>
+                                        <col width="100px"/>
+                                        <col width="160px"/>
+                                    </colgroup>
+                                    <tbody class="tbl-head-style-cell">
+                                        <template>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <div class="grid-x">
+                                                        <div class="medium-11">
+
+                                                        </div>
+                                                        <div class="medium-1 cell-vertical-center text-left">
+                                                            <a class="dropdown small sm-btn-align" data-toggle="test"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="test" data-dropdown data-auto-focus="true">
+                                                                <ul class="my-menu small-font text-right">
+                                                                    <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li><a v-on:click.prevent="openACaCsCostInsertModal"><i class="fa fa-newspaper-o size-16"></i>  اصلاح</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!--Table Body End-->
+                    </div>
+                    </div>
+                    <div class="grid-x">
+                        <div class="medium-12 columns padding-bottom-modal">
+                            <div class="button-group float-left report-mrg">
+                                <button class="my-button my-danger float-left btn-for-load"> <span class="btn-txt-mrg">لغو</span></button>
+                                <button @click="openAmendmentCostModal" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">تایید</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </modal-full-screen>
+            <!--Amendment Of The Agreement Modal End-->
+
+            <!--Amendment Project credit source Modal Insert Start-->
+            <modal-small v-if="showACaCsInsertModal" @close="showACaCsInsertModal = false">
+                <div  slot="body">
+                    <form v-on:submit.prevent="">
+                        <div class="grid-x" v-if="errorMessage">
+                            <div class="medium-12 columns padding-lr">
+                                <div class="alert callout">
+                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-6 cell padding-lr">
+                                <label>برنامه
+                                    <select disabled class="form-element-margin-btm" name="cdTitle">
+                                        <option value="1">1</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="medium-6 cell padding-lr">
+                                <label>ردیف توزیع اعتبار
+                                    <select  class="form-element-margin-btm"  name="row" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('row')}">
+                                        <option value=""></option>
+                                        <option v-for="creditDistributionRow in creditDistributionRows" :value="creditDistributionRow.id">{{ creditDistributionRow.cdSubject }}</option>
+                                    </select>
+                                    <span v-show="errors.has('row')" class="error-font">لطفا ردیف توزیع را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-4 column padding-lr">
+                                <label>فصل
+                                    <select class="form-element-margin-btm" name="season" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('season')}">
+                                        <option value=""></option>
+                                        <option v-for="season in seasons" :value="season.id"></option>
+                                    </select>
+                                    <span v-show="errors.has('season')" class="error-font">لطفا فصل را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                            <div class="medium-8 column padding-lr">
+                                <label>عنوان فصل
+                                    <select class="form-element-margin-btm"  name="seasonTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('seasonTitle')}">
+                                        <option value=""></option>
+                                        <option></option>
+                                    </select>
+                                    <span v-show="errors.has('seasonTitle')" class="error-font">لطفا عنوان فصل را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-12 column padding-lr">
+                                <label>ریز فصل
+                                    <select class="form-element-margin-btm" name="subSeason" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('subSeason')}">
+                                        <option value=""></option>
+                                        <option v-for="tinySeason in tinySeasons" :value="tinySeason.id"></option>
+                                    </select>
+                                    <span v-show="errors.has('subSeason')" class="error-font">لطفا ریز فصل را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-6 cell padding-lr">
+                                <label>مبلغ اعتبار <span class="btn-red"></span>
+                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="caCreditSourceInput.amount" v-validate="'required|decimal'" :class="{'input': true, 'error-border': errors.has('amount')}">
+                                </label>
+                                <span v-show="errors.has('amount')" class="error-font">لطفا مبلغ اعتبار را وارد کنید!</span>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="small-12 columns padding-lr">
+                                <label>شرح
+                                    <textarea name="csDescription" style="min-height: 150px;"></textarea>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="medium-6 columns padding-lr padding-bottom-modal input-margin-top">
+                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                        </div>
+                    </form>
+                </div>
+            </modal-small>
+            <!--Amendment Project Cost Modal Insert End-->
+
+            <!--Amendment Project credit source Modal Edit Start-->
+            <modal-small v-if="showACaCsEditModal" @close="showACaCseditModal = false">
+                <div  slot="body">
+                    <form v-on:submit.prevent="">
+                        <div class="grid-x" v-if="errorMessage">
+                            <div class="medium-12 columns padding-lr">
+                                <div class="alert callout">
+                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-6 cell padding-lr">
+                                <label>برنامه
+                                    <select disabled class="form-element-margin-btm" name="cdTitle">
+                                        <option value="1">1</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="medium-6 cell padding-lr">
+                                <label>ردیف توزیع اعتبار
+                                    <select  class="form-element-margin-btm"  name="row" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('row')}">
+                                        <option value=""></option>
+                                        <option v-for="creditDistributionRow in creditDistributionRows" :value="creditDistributionRow.id">{{ creditDistributionRow.cdSubject }}</option>
+                                    </select>
+                                    <span v-show="errors.has('row')" class="error-font">لطفا ردیف توزیع را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-4 column padding-lr">
+                                <label>فصل
+                                    <select class="form-element-margin-btm" name="season" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('season')}">
+                                        <option value=""></option>
+                                        <option v-for="season in seasons" :value="season.id"></option>
+                                    </select>
+                                    <span v-show="errors.has('season')" class="error-font">لطفا فصل را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                            <div class="medium-8 column padding-lr">
+                                <label>عنوان فصل
+                                    <select class="form-element-margin-btm"  name="seasonTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('seasonTitle')}">
+                                        <option value=""></option>
+                                        <option></option>
+                                    </select>
+                                    <span v-show="errors.has('seasonTitle')" class="error-font">لطفا عنوان فصل را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-12 column padding-lr">
+                                <label>ریز فصل
+                                    <select class="form-element-margin-btm" name="subSeason" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('subSeason')}">
+                                        <option value=""></option>
+                                        <option v-for="tinySeason in tinySeasons" :value="tinySeason.id"></option>
+                                    </select>
+                                    <span v-show="errors.has('subSeason')" class="error-font">لطفا ریز فصل را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-6 cell padding-lr">
+                                <label>مبلغ اعتبار <span class="btn-red"></span>
+                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="caCreditSourceInput.amount" v-validate="'required|decimal'" :class="{'input': true, 'error-border': errors.has('amount')}">
+                                </label>
+                                <span v-show="errors.has('amount')" class="error-font">لطفا مبلغ اعتبار را وارد کنید!</span>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="small-12 columns padding-lr">
+                                <label>شرح
+                                    <textarea name="csDescription" style="min-height: 150px;"></textarea>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="medium-6 columns padding-lr padding-bottom-modal input-margin-top">
+                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                        </div>
+                    </form>
+                </div>
+            </modal-small>
+            <!--Amendment Project Cost Modal Edit End-->
+
+
             <!--Forms End-->
         </div>
     </div>
@@ -665,6 +1013,9 @@
                 showCaCsInsertModal: false,
                 showModalUpdate: false,
                 showModalDelete: false,
+                showAmendmentModal:false,
+                showModalAmendmentCost:false,
+                showACaCsInsertModal:false,
                 selectColumn:false,
                 costAgreementFill: {},
 
@@ -707,6 +1058,7 @@
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
+            this.myResizeModal();
         },
 
         mounted: function () {
@@ -958,6 +1310,7 @@
                         this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                     });*/
             },
+
             showSelectColumn: function () {
                 if (this.selectColumn)
                 {
@@ -966,6 +1319,29 @@
                 else{
                     this.selectColumn=true;
                 }
+            },
+
+            openAmendmentModal:function () {
+                this.showAmendmentModal=true;
+            },
+
+            openAmendmentCostModal:function () {
+                this.showModalAmendmentCost=true;
+
+            },
+
+            openACaCsCostInsertModal:function () {
+                this.showACaCsInsertModal=true;
+
+            },
+
+            myResizeModal: function() {
+                console.log("......................res..........................");
+
+                $('.dynamic-height-level-modal1').css('height', ($.w.outerHeight() - 110) + 'px');
+
+                var x = $(".dynamic-height-level-modal1").height();
+                $('.dynamic-height-level-modal2').css('height', (x-215) + 'px');
             },
 
             makePagination: function(data , type){
