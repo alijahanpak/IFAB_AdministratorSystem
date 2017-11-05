@@ -48,8 +48,8 @@
                                             <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                                         </ul>
                                     </div>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
-                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="countDropDown1">تعداد نمایش<span> 20 </span></button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="countDropDown1" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
                                             <li><a  href="#">10</a></li>
                                             <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
@@ -157,7 +157,7 @@
                                 </div>
                                 <div style="color: #575962;" v-show="selectColumn" class="medium-4 small-font">
                                     <div class="float-left">
-                                        <p> تعداد رکورد های انتخاب شده :<span>{{ selectedLength(approvedPlan_prov) }}</span></p>
+                                        <p> تعداد رکورد های انتخاب شده :<span class="selected-row-style">{{ selectedLength(approvedPlan_prov) }}</span></p>
                                     </div>
                                 </div>
                             </div>
@@ -287,7 +287,7 @@
                                 </div>
                                 <div style="color: #575962;" v-show="selectColumn" class="medium-4 small-font">
                                     <div class="float-left">
-                                        <p> تعداد رکورد های انتخاب شده :<span>{{ selectedLength(approvedPlan_nat) }}</span></p>
+                                        <p> تعداد رکورد های انتخاب شده :<span class="selected-row-style">{{ selectedLength(approvedPlan_nat) }}</span></p>
                                     </div>
                                 </div>
                             </div>
@@ -1095,7 +1095,7 @@
                 tempCreditSourceSelectedId_delete: '',
                 selectedItems: [],
                 selectedCount: 0,
-                reportOptions: {title:'' , amountUnit: '' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true},
+                reportOptions: {title:'' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true},
                 national_pagination: {
                     total: 0,
                     to: 0,

@@ -1496,6 +1496,17 @@ button.purple-btn {
 .icon-margin-dropdown{
     margin-right: 8px;
 }
+.selected-row-style{
+    color:#716aca;
+    font-weight: bold;
+}
+.version-software{
+    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif  ;
+    margin-right: 100px;
+    position: fixed;bottom:0px;
+    color: #FFFFFF;
+    text-align: center;
+}
 
 
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {

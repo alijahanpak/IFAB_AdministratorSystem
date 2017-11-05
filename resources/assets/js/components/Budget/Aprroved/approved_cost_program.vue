@@ -1338,7 +1338,7 @@
             myResizeModal: function() {
                 console.log("......................res..........................");
 
-                $('.dynamic-height-level-modal1').css('height', ($.w.outerHeight() - 110) + 'px');
+                $('.dynamic-height-level-modal1').css('height', ($.w.outerHeight() - 180) + 'px');
 
                 var x = $(".dynamic-height-level-modal1").height();
                 $('.dynamic-height-level-modal2').css('height', (x-215) + 'px');
