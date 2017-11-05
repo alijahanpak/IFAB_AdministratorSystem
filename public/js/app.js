@@ -43206,7 +43206,8 @@ window.Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_notification___default.a, { veloc
 window.Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue_progressbar___default.a, {
     color: 'rgb(113, 106, 202)',
     failedColor: 'red',
-    height: '8px'
+    height: '50'
+
 });
 
 Vue.component('pdatepicker', __WEBPACK_IMPORTED_MODULE_4_vue2_persian_datepicker__["a" /* default */]);
