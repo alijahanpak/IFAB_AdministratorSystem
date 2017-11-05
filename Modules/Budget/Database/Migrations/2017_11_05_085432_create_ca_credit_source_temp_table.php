@@ -22,6 +22,7 @@ class CreateCaCreditSourceTempTable extends Migration
                 $table->integer('ccsCaId')->length(10)->unsigned();
                 $table->integer('ccsCdtId')->length(10)->unsigned();
                 $table->bigInteger('ccsAmount');
+                $table->tinyInteger('ccsDeleted')->default(0);
                 $table->longText('ccsDescription')->nullable();
                 $table->timestamps();
 
@@ -47,7 +48,7 @@ class CreateCaCreditSourceTempTable extends Migration
 
                 $table->foreign('ccsCaId')
                     ->references('id')->on('tbl_cost_agreement_temp')
-                    ->onDelete('restrict')
+                    ->onDelete('cascade')
                     ->onUpdate('cascade');
             });
         }

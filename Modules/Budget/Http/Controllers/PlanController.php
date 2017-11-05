@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\URL;
 use Modules\Admin\Entities\AmountUnit;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Budget\Entities\CaCreditSource;
+use Modules\Budget\Entities\CaCreditSourceTemp;
 use Modules\Budget\Entities\CapCreditSource;
 use Modules\Budget\Entities\CapCreditSourceTemp;
 use Modules\Budget\Entities\CapitalAssetsAllocation;
@@ -21,6 +22,7 @@ use Modules\Budget\Entities\CapitalAssetsProject;
 use Modules\Budget\Entities\CapitalAssetsProjectTemp;
 use Modules\Budget\Entities\CdrCap;
 use Modules\Budget\Entities\CostAgreement;
+use Modules\Budget\Entities\CostAgreementTemp;
 use Modules\Budget\Entities\CreditDistributionRow;
 
 class PlanController extends Controller
@@ -216,7 +218,7 @@ class PlanController extends Controller
 
     }
 
-    /////////////////////////////// temp ////////////////////////////////////////////
+    /////////////////////////////// capital assets temp ////////////////////////////////////////////
 
     public function registerApprovedAmendmentTemp(Request $request)
     {
@@ -457,4 +459,86 @@ class PlanController extends Controller
                 ->get()
         );
     }
+
+    /////////////////////////////// cost temp /////////////////////////////
+    public function registerCostAmendmentTemp(Request $request)
+    {
+        $old = CostAgreement::find($request->caId);
+        $ca = new CostAgreementTemp;
+        $ca->caUId = Auth::user()->id;
+        $ca->caFyId = $old->caFyId;
+        $ca->caProvinceOrNational = $old->caProvinceOrNational;
+        $ca->caLetterNumber = $request->idNumber;
+        $ca->caLetterDate = $request->date;
+        $ca->caExchangeIdNumber = $old->caExchangeIdNumber;
+        $ca->caExchangeDate = $old->caExchangeDate;
+        $ca->caDescription = $request->description;
+        $ca->save();
+
+        $caCreditSources = CaCreditSource::where('ccsCaId' , '=' , $request->caId)->get();
+        foreach ($caCreditSources as $item)
+        {
+            $newCa = new CaCreditSourceTemp;
+            $newCa->ccsUId = Auth::user()->id;
+            $newCa->ccsCdrId = $item->ccsCdrId;
+            $newCa->ccsTsId = $item->ccsTsId;
+            $newCa->ccsCaId = $ca->id;
+            $newCa->ccsCdtId = $item->ccsCdtId;
+            $newCa->ccsAmount = $item->ccsAmount;
+            $newCa->ccsDescription = $item->ccsDescription;
+            $newCa->save();
+        }
+
+        return \response()->json($this->getAllCaTempItems($ca->id));
+    }
+
+    public function cancelCostAmendmentTemp(Request $request)
+    {
+        if (isset($request->caId))
+        {
+            return \response()->json(CostAgreementTemp::find($request->caId)->delete());
+        }else{
+            return \response()->json(
+                CostAgreementTemp::where('caUId' , '=' , Auth::user()->id)->delete()
+            );
+        }
+    }
+
+    public function getAllCaTempItems($caId)
+    {
+        return CostAgreementTemp::where('id' , '=' , $caId)
+                ->with('caCreditSource')
+                ->with('caCreditSource.creditDistributionTitle')
+                ->with('caCreditSource.creditDistributionRow')
+                ->with('caCreditSource.tinySeason')
+                ->with('caCreditSource.tinySeason.seasonTitle')
+                ->with('caCreditSource.tinySeason.seasonTitle.season')
+                ->first();
+    }
+
+    public function registerCostAmendmentCreditSourceTemp(Request $request)
+    {
+        $caCs = new CaCreditSourceTemp();
+        $caCs->ccsUId = Auth::user()->id;
+        $caCs->ccsCaId = $request->caId;
+        $caCs->ccsCdrId = $request->crId;
+        $caCs->ccsTsId = $request->tsId;
+        $caCs->ccsCdtId = $request->cdtId;
+        $caCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
+        $caCs->ccsDescription = $request->description;
+        $caCs->save();
+
+        return \response()->json($this->getAllCaTempItems($request->caId));
+    }
+
+    public function deleteCostAmendmentCreditSourceTemp(Request $request)
+    {
+        CaCreditSourceTemp::where('id' , '=' , $request->csId)
+            ->update(['ccsDeleted' => 1]);
+        return \response()->json(
+            $this->getAllCaTempItems($request->caId)
+        );
+    }
+
+
 }

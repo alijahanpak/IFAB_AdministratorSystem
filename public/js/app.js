@@ -115350,7 +115350,6 @@ if (false) {(function () {
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -115848,11 +115847,6 @@ if (false) {(function () {
             }).length;
         },
         ////////////////////////////// amendment temp methods ////////////////////////////////
-        openApprovedAmendmentOfAgreementModal: function openApprovedAmendmentOfAgreementModal() {
-            this.showModalAmendmentOfAgreement = true;
-            this.$parent.myResize();
-        },
-
         openInsertProjectModal: function openInsertProjectModal() {
             this.getCounties();
             this.projectAmendmentInput.capId = this.approvedAmendmentProjects.id;
@@ -115951,7 +115945,7 @@ if (false) {(function () {
 
         cleanApprovedAmendmentTemp: function cleanApprovedAmendmentTemp() {
             axios.post('/budget/approved_plan/capital_assets/amendment/temp/cancel').then(function (response) {
-                console.log('----------------------- clean cleanApprovedAmendmentTemp table ----------------------');
+                console.log('pallas: clean cleanApprovedAmendmentTemp table');
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -117265,15 +117259,6 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "button-group float-left report-mrg"
   }, [_c('button', {
-    staticClass: "my-button my-danger float-left btn-for-load",
-    on: {
-      "click": function($event) {
-        _vm.showModalAmendment = false
-      }
-    }
-  }, [_c('span', {
-    staticClass: "btn-txt-mrg"
-  }, [_vm._v("لغو")])]), _vm._v(" "), _c('button', {
     staticClass: "my-button my-success float-left btn-for-load"
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
@@ -120548,78 +120533,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -120630,6 +120543,8 @@ if (false) {(function () {
             costAgreement_prov: [],
             costAgreement_nat: [],
             costAgreementInput: {},
+            acaCreditSourceInput: {},
+            caAmendmentInput: {},
             showInsertModal: false,
             showCaCsInsertModal: false,
             showModalUpdate: false,
@@ -120637,7 +120552,11 @@ if (false) {(function () {
             showAmendmentModal: false,
             showModalAmendmentCost: false,
             showACaCsInsertModal: false,
+            showDeleteTempCreditSourceModal: false,
+            dateIsValid_delivery_amendment: true,
+            costAmendmentCreditSource: [],
             selectColumn: false,
+            tempCreditSourceSelectedId_delete: '',
             costAgreementFill: {},
 
             caCreditSourceInput: {},
@@ -120686,6 +120605,11 @@ if (false) {(function () {
     mounted: function mounted() {
         console.log("mounted approved cost_program component");
         this.$parent.myResize();
+    },
+
+    beforeDestroy: function beforeDestroy() {
+        console.log("destroy approved cost_program component");
+        this.cleanCostAmendmentTemp(); //clean all remaining cost amendment record
     },
 
     components: {
@@ -120951,23 +120875,8 @@ if (false) {(function () {
             }
         },
 
-        openAmendmentModal: function openAmendmentModal() {
-            this.showAmendmentModal = true;
-        },
-
-        openAmendmentCostModal: function openAmendmentCostModal() {
-            this.showModalAmendmentCost = true;
-        },
-
-        openACaCsCostInsertModal: function openACaCsCostInsertModal() {
-            this.showACaCsInsertModal = true;
-        },
-
         myResizeModal: function myResizeModal() {
-            console.log("......................res..........................");
-
             $('.dynamic-height-level-modal1').css('height', $.w.outerHeight() - 110 + 'px');
-
             var x = $(".dynamic-height-level-modal1").height();
             $('.dynamic-height-level-modal2').css('height', x - 215 + 'px');
         },
@@ -120982,6 +120891,154 @@ if (false) {(function () {
                 this.provincial_pagination.to = data.to;
                 this.provincial_pagination.last_page = data.last_page;
             }
+        },
+
+        checkValidDate: function checkValidDate(type) {
+            switch (type) {
+                /*                    case 'delivery':
+                                        if (this.approvedPlanInput.date == null || this.approvedPlanInput.date == '')
+                                        {
+                                            this.dateIsValid_delivery = false;
+                                            return false;
+                                        }
+                                        else
+                                        {
+                                            this.dateIsValid_delivery = true;
+                                            return true;
+                                        }
+                                        break;
+                                    case 'exchange':
+                                        if (this.approvedPlanInput.exDate == null || this.approvedPlanInput.exDate == '')
+                                        {
+                                            this.dateIsValid_exchange = false;
+                                            return false;
+                                        }
+                                        else
+                                        {
+                                            this.dateIsValid_exchange = true;
+                                            return true;
+                                        }
+                                        break;*/
+                case 'delivery_amendment':
+                    if (this.caAmendmentInput.date == null || this.caAmendmentInput.date == '') {
+                        this.dateIsValid_delivery_amendment = false;
+                        return false;
+                    } else {
+                        this.dateIsValid_delivery_amendment = true;
+                        return true;
+                    }
+                    break;
+            }
+        },
+
+        /////////////////////////// temp ///////////////////////////////////////////
+        openACaCsCostInsertModal: function openACaCsCostInsertModal() {
+            this.showACaCsInsertModal = true;
+            this.getCreditDistributionTitle(1); //all item should be national type => county = null
+            this.getSeasons();
+            this.getCreditDistributionRow();
+        },
+
+        openAmendmentTempModal: function openAmendmentTempModal(ca) {
+            this.caAmendmentInput.parentId = ca.id;
+            this.caAmendmentInput.pOrN = ca.caProvinceOrNational;
+            this.caAmendmentInput.exIdNumber = ca.caExchangeIdNumber;
+            this.caAmendmentInput.exDate = ca.caExchangeDate;
+            this.caAmendmentInput.description = ca.caDescription;
+            this.showAmendmentModal = true;
+        },
+
+        openDeleteTempCreditSourceModal: function openDeleteTempCreditSourceModal(csId) {
+            this.tempCreditSourceSelectedId_delete = csId;
+            this.showDeleteTempCreditSourceModal = true;
+        },
+
+        createCaAmendmentTemp: function createCaAmendmentTemp() {
+            var _this11 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    if (_this11.checkValidDate('delivery_amendment')) {
+                        axios.post('/budget/approved_plan/cost/amendment/temp/register', {
+                            idNumber: _this11.caAmendmentInput.idNumber,
+                            date: _this11.caAmendmentInput.date,
+                            description: _this11.caAmendmentInput.description,
+                            caId: _this11.caAmendmentInput.parentId
+                        }).then(function (response) {
+                            _this11.costAmendmentCreditSource = response.data;
+                            _this11.showAmendmentModal = false;
+                            _this11.showModalAmendmentCost = true;
+                            console.log(response);
+                        }, function (error) {
+                            console.log(error);
+                            //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                        });
+                    }
+                }
+            });
+        },
+
+        cancelCostAmendmentTemp: function cancelCostAmendmentTemp() {
+            var _this12 = this;
+
+            axios.post('/budget/approved_plan/cost/amendment/temp/cancel', {
+                caId: this.costAmendmentCreditSource.id
+            }).then(function (response) {
+                _this12.showModalAmendmentCost = false;
+                _this12.$parent.displayNotif(200);
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        cleanCostAmendmentTemp: function cleanCostAmendmentTemp() {
+            axios.post('/budget/approved_plan/cost/amendment/temp/cancel').then(function (response) {
+                console.log('pallas: clean cleanCostAmendmentTemp table');
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        insertNewTempCreditSource: function insertNewTempCreditSource() {
+            var _this13 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    axios.post('/budget/approved_plan/cost/amendment/temp/credit_source/register', {
+                        caId: _this13.costAmendmentCreditSource.id,
+                        crId: _this13.acaCreditSourceInput.crId,
+                        cdtId: _this13.acaCreditSourceInput.cdtId,
+                        tsId: _this13.acaCreditSourceInput.tsId,
+                        amount: _this13.acaCreditSourceInput.amount,
+                        description: _this13.acaCreditSourceInput.description,
+                        pOrN: _this13.provOrNat
+                    }).then(function (response) {
+                        _this13.costAmendmentCreditSource = response.data;
+                        _this13.showACaCsInsertModal = false;
+                        console.log(response);
+                    }, function (error) {
+                        console.log(error);
+                        //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                    });
+                }
+            });
+        },
+
+        deleteTempCreditSource: function deleteTempCreditSource() {
+            var _this14 = this;
+
+            axios.post('/budget/approved_plan/cost/amendment/temp/credit_source/delete', {
+                caId: this.costAmendmentCreditSource.id,
+                csId: this.tempCreditSourceSelectedId_delete
+            }).then(function (response) {
+                _this14.costAmendmentCreditSource = response.data;
+                _this14.showDeleteTempCreditSourceModal = false;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
         }
     }
 });
@@ -121238,7 +121295,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.openAmendmentModal($event)
+          _vm.openAmendmentTempModal(cAp)
         }
       }
     }, [_c('i', {
@@ -122515,6 +122572,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
+        _vm.createCaAmendmentTemp($event)
       }
     }
   }, [(_vm.errorMessage) ? _c('div', {
@@ -122533,6 +122591,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-6 columns padding-lr"
   }, [_c('label', [_vm._v("شماره ابلاغ\n                                "), _c('input', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.caAmendmentInput.idNumber),
+      expression: "caAmendmentInput.idNumber"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -122544,6 +122607,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "type": "text",
       "name": "caLetterNumber",
       "data-vv-rules": "required"
+    },
+    domProps: {
+      "value": (_vm.caAmendmentInput.idNumber)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.caAmendmentInput.idNumber = $event.target.value
+      }
     }
   })]), _vm._v(" "), _c('span', {
     directives: [{
@@ -122559,22 +122631,44 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "date-picker-lbl"
   }, [_vm._v("تاریخ مبادله\n                                "), _c('pdatepicker', {
     attrs: {
-      "errMessage": "تاریخ مبادله فراموش شده است!",
-      "isValid": _vm.dateIsValid_exchange,
+      "errMessage": "تاریخ ابلاغ فراموش شده است!",
+      "isValid": _vm.dateIsValid_delivery_amendment,
       "open-transition-animation": "left-slide-fade"
     },
     on: {
       "closed": function($event) {
-        _vm.checkValidDate('exchange')
+        _vm.checkValidDate('delivery_amendment')
       }
+    },
+    model: {
+      value: (_vm.caAmendmentInput.date),
+      callback: function($$v) {
+        _vm.caAmendmentInput.date = $$v
+      },
+      expression: "caAmendmentInput.date"
     }
   })], 1)]), _vm._v(" "), _c('div', {
     staticClass: "medium-6 columns padding-lr"
   }, [_c('label', [_vm._v("شماره مبادله\n                                "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.caAmendmentInput.exIdNumber),
+      expression: "caAmendmentInput.exIdNumber"
+    }],
     attrs: {
       "disabled": "",
       "type": "text",
       "name": "caExLetterNumber"
+    },
+    domProps: {
+      "value": (_vm.caAmendmentInput.exIdNumber)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.caAmendmentInput.exIdNumber = $event.target.value
+      }
     }
   })])]), _vm._v(" "), _c('div', {
     staticClass: "medium-4 columns padding-lr",
@@ -122582,35 +122676,58 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "width": "217px"
     }
   }, [_c('label', [_vm._v("تاریخ مبادله\n                                "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.caAmendmentInput.exDate),
+      expression: "caAmendmentInput.exDate"
+    }],
     attrs: {
       "disabled": "",
       "type": "text",
       "name": "caExLetterDate"
+    },
+    domProps: {
+      "value": (_vm.caAmendmentInput.exDate)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.caAmendmentInput.exDate = $event.target.value
+      }
     }
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "small-12 columns padding-lr"
   }, [_c('label', [_vm._v("شرح\n                                "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.caAmendmentInput.description),
+      expression: "caAmendmentInput.description"
+    }],
     staticStyle: {
       "min-height": "150px"
     },
     attrs: {
       "name": "apDescription"
+    },
+    domProps: {
+      "value": (_vm.caAmendmentInput.description)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.caAmendmentInput.description = $event.target.value
+      }
     }
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6 columns padding-lr padding-bottom-modal"
   }, [_c('div', {
     staticClass: "button-group float-left report-mrg"
   }, [_c('button', {
-    staticClass: "my-button my-danger float-left btn-for-load"
-  }, [_c('span', {
-    staticClass: "btn-txt-mrg"
-  }, [_vm._v("لغو")])]), _vm._v(" "), _c('button', {
-    staticClass: "my-button my-success float-left btn-for-load",
-    on: {
-      "click": _vm.openAmendmentCostModal
-    }
+    staticClass: "my-button my-success float-left btn-for-load"
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
   }, [_vm._v("تایید")])])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showModalAmendmentCost) ? _c('modal-full-screen', {
@@ -122646,20 +122763,18 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
-    staticClass: "medium-7"
-  }, [_c('strong', [_vm._v("طرح: ")]), _c('span', [_vm._v("تست")])]), _vm._v(" "), _c('div', {
     staticClass: "medium-1"
   }, [_c('p', [_vm._v("شماره ابلاغ : ")])]), _vm._v(" "), _c('div', {
     staticClass: "medium-2"
   }, [_c('strong', {
     staticClass: "btn-red"
-  }, [_vm._v("12313")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.costAmendmentCreditSource.caLetterNumber))])]), _vm._v(" "), _c('div', {
     staticClass: "medium-1"
   }, [_c('p', [_vm._v("تاریخ ابلاغ : ")])]), _vm._v(" "), _c('div', {
     staticClass: "medium-1"
   }, [_c('strong', {
     staticClass: "btn-red"
-  }, [_vm._v("14545")])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.costAmendmentCreditSource.caLetterDate))])])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-12 cell padding-lr"
   }, [_c('div', {
     staticClass: "grid-x"
@@ -122669,7 +122784,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticStyle: {
       "display": "inline"
     }
-  })])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.costAmendmentCreditSource.caDescription))])])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x",
     staticStyle: {
       "margin-top": "17px"
@@ -122763,17 +122878,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   })]), _vm._v(" "), _c('tbody', {
     staticClass: "tbl-head-style-cell"
-  }, [
-    [_c('tr', [_c('td'), _vm._v(" "), _c('td'), _vm._v(" "), _c('td'), _vm._v(" "), _c('td'), _vm._v(" "), _c('td'), _vm._v(" "), _c('td', [_c('div', {
+  }, _vm._l((_vm.costAmendmentCreditSource.ca_credit_source), function(creditSource) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.cstSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.ctsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-11"
-    }), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                                    " + _vm._s(creditSource.ccsDescription) + "\n                                                ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-1 cell-vertical-center text-left"
     }, [_c('a', {
       staticClass: "dropdown small sm-btn-align",
       attrs: {
-        "data-toggle": "test",
+        "data-toggle": 'creditSource' + creditSource.id,
         "type": "button"
       }
     }, [_c('i', {
@@ -122786,7 +122901,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "data-hover-pane": "true",
         "data-position": "bottom",
         "data-alignment": "right",
-        "id": "test",
+        "id": 'creditSource' + creditSource.id,
         "data-dropdown": "",
         "data-auto-focus": "true"
       }
@@ -122796,6 +122911,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
+          _vm.openDeleteTempCreditSourceModal(creditSource.id)
         }
       }
     }, [_c('i', {
@@ -122804,27 +122920,26 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.openACaCsCostInsertModal($event)
         }
       }
     }, [_c('i', {
       staticClass: "fa fa-newspaper-o size-16"
-    }), _vm._v("  اصلاح")])])])])])])])])]
-  ], 2)])])])])]), _vm._v(" "), _c('div', {
+    }), _vm._v("  اصلاح")])])])])])])])])
+  }))])])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12 columns padding-bottom-modal"
   }, [_c('div', {
     staticClass: "button-group float-left report-mrg"
-  }, [_c('button', {
-    staticClass: "my-button my-danger float-left btn-for-load"
+  }, [_c('a', {
+    staticClass: "my-button my-danger float-left btn-for-load",
+    on: {
+      "click": _vm.cancelCostAmendmentTemp
+    }
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
   }, [_vm._v("لغو")])]), _vm._v(" "), _c('button', {
-    staticClass: "my-button my-success float-left btn-for-load",
-    on: {
-      "click": _vm.openAmendmentCostModal
-    }
+    staticClass: "my-button my-success float-left btn-for-load"
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
   }, [_vm._v("تایید")])])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showACaCsInsertModal) ? _c('modal-small', {
@@ -122842,6 +122957,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
+        _vm.insertNewTempCreditSource($event)
       }
     }
   }, [(_vm.errorMessage) ? _c('div', {
@@ -122859,19 +122975,61 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "medium-6 cell padding-lr"
   }, [_c('label', [_vm._v("برنامه\n                                "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.acaCreditSourceInput.cdtId),
+      expression: "acaCreditSourceInput.cdtId"
+    }, {
+      name: "validate",
+      rawName: "v-validate"
+    }],
     staticClass: "form-element-margin-btm",
+    class: {
+      'input': true, 'select-error': _vm.errors.has('howToRun')
+    },
     attrs: {
-      "disabled": "",
-      "name": "cdTitle"
+      "name": "cdTitle",
+      "data-vv-rules": "required"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.acaCreditSourceInput.cdtId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
   }, [_c('option', {
     attrs: {
-      "value": "1"
+      "value": ""
     }
-  }, [_vm._v("1")])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _vm._l((_vm.creditDistributionTitles), function(creditDistributionTitle) {
+    return _c('option', {
+      domProps: {
+        "value": creditDistributionTitle.id
+      }
+    }, [_vm._v(_vm._s(creditDistributionTitle.cdtIdNumber + ' - ' + creditDistributionTitle.cdtSubject + (creditDistributionTitle.county == null ? '' : ' - ' + creditDistributionTitle.county.coName)))])
+  })], 2), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('howToRun')),
+      expression: "errors.has('howToRun')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("لطفا عنوان برنامه را انتخاب کنید!")])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6 cell padding-lr"
   }, [_c('label', [_vm._v("ردیف توزیع اعتبار\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.acaCreditSourceInput.crId),
+      expression: "acaCreditSourceInput.crId"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -122882,6 +123040,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "name": "row",
       "data-vv-rules": "required"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.acaCreditSourceInput.crId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
   }, [_c('option', {
     attrs: {
@@ -122907,6 +123076,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-4 column padding-lr"
   }, [_c('label', [_vm._v("فصل\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectedSeason),
+      expression: "selectedSeason"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -122917,6 +123091,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "name": "season",
       "data-vv-rules": "required"
+    },
+    on: {
+      "change": [function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.selectedSeason = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }, _vm.getSeasonTitle]
     }
   }, [_c('option', {
     attrs: {
@@ -122927,7 +123112,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       domProps: {
         "value": season.id
       }
-    })
+    }, [_vm._v(_vm._s(season.sSubject))])
   })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
@@ -122940,6 +123125,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-8 column padding-lr"
   }, [_c('label', [_vm._v("عنوان فصل\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectedSeasonTitle),
+      expression: "selectedSeasonTitle"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -122950,12 +123140,29 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "name": "seasonTitle",
       "data-vv-rules": "required"
+    },
+    on: {
+      "change": [function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.selectedSeasonTitle = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }, _vm.getTinySeasons]
     }
   }, [_c('option', {
     attrs: {
       "value": ""
     }
-  }), _vm._v(" "), _c('option')]), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _vm._l((_vm.seasonTitles), function(seasonTitle) {
+    return _c('option', {
+      domProps: {
+        "value": seasonTitle.id
+      }
+    }, [_vm._v(_vm._s(seasonTitle.cstSubject))])
+  })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -122969,6 +123176,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-12 column padding-lr"
   }, [_c('label', [_vm._v("ریز فصل\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.acaCreditSourceInput.tsId),
+      expression: "acaCreditSourceInput.tsId"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -122979,6 +123191,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "name": "subSeason",
       "data-vv-rules": "required"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.acaCreditSourceInput.tsId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
   }, [_c('option', {
     attrs: {
@@ -122989,7 +123212,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       domProps: {
         "value": tinySeason.id
       }
-    })
+    }, [_vm._v(_vm._s(tinySeason.ctsSubject))])
   })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
@@ -123004,12 +123227,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-6 cell padding-lr"
   }, [_c('label', [_vm._v("مبلغ اعتبار "), _c('span', {
     staticClass: "btn-red"
-  }), _vm._v(" "), _c('input', {
+  }, [_vm._v(_vm._s('(' + _vm.$parent.getAmountBaseLabel() + ')'))]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.caCreditSourceInput.amount),
-      expression: "caCreditSourceInput.amount"
+      value: (_vm.acaCreditSourceInput.amount),
+      expression: "acaCreditSourceInput.amount"
     }, {
       name: "validate",
       rawName: "v-validate",
@@ -123025,12 +123248,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "name": "amount"
     },
     domProps: {
-      "value": (_vm.caCreditSourceInput.amount)
+      "value": (_vm.acaCreditSourceInput.amount)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.caCreditSourceInput.amount = $event.target.value
+        _vm.acaCreditSourceInput.amount = $event.target.value
       }
     }
   })]), _vm._v(" "), _c('span', {
@@ -123046,11 +123269,26 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "small-12 columns padding-lr"
   }, [_c('label', [_vm._v("شرح\n                                "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.acaCreditSourceInput.description),
+      expression: "acaCreditSourceInput.description"
+    }],
     staticStyle: {
       "min-height": "150px"
     },
     attrs: {
       "name": "csDescription"
+    },
+    domProps: {
+      "value": (_vm.acaCreditSourceInput.description)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.acaCreditSourceInput.description = $event.target.value
+      }
     }
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6 columns padding-lr padding-bottom-modal input-margin-top"
@@ -123295,7 +123533,31 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
-  }, [_vm._v("ثبت")])])])])])]) : _vm._e()], 1)])
+  }, [_vm._v("ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showDeleteTempCreditSourceModal) ? _c('modal-tiny', {
+    on: {
+      "close": function($event) {
+        _vm.showDeleteTempCreditSourceModal = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('div', {
+    staticClass: "small-font"
+  }, [_c('p', [_vm._v("کاربر گرامی")]), _vm._v(" "), _c('p', {
+    staticClass: "large-offset-1 modal-text"
+  }, [_vm._v("با حذف منبع اعتبار انتخاب شده، تخصیص های اعتبار صفر می گردد و لازم است محل های هزینه کرد اصلاح شود.")]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 column text-center"
+  }, [_c('button', {
+    staticClass: "button primary btn-large-w",
+    on: {
+      "click": _vm.deleteTempCreditSource
+    }
+  }, [_vm._v("تایید")])])])])])]) : _vm._e()], 1)])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
