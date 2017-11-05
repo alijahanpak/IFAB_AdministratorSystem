@@ -429,7 +429,6 @@
                         </div>
                         <div class="medium-6 columns padding-lr padding-bottom-modal">
                             <div class="button-group float-left report-mrg">
-                                <button @click="showModalAmendment = false" class="my-button my-danger float-left btn-for-load"> <span class="btn-txt-mrg">لغو</span></button>
                                 <button class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">تایید</span></button>
                             </div>
                         </div>
@@ -1545,11 +1544,6 @@
                 }).length;
             },
             ////////////////////////////// amendment temp methods ////////////////////////////////
-            openApprovedAmendmentOfAgreementModal: function () {
-                this.showModalAmendmentOfAgreement= true;
-                this.$parent.myResize();
-            },
-
             openInsertProjectModal: function () {
                 this.getCounties();
                 this.projectAmendmentInput.capId = this.approvedAmendmentProjects.id;
@@ -1653,7 +1647,7 @@
             cleanApprovedAmendmentTemp: function () {
                 axios.post('/budget/approved_plan/capital_assets/amendment/temp/cancel')
                     .then((response) => {
-                        console.log('----------------------- clean cleanApprovedAmendmentTemp table ----------------------');
+                        console.log('pallas: clean cleanApprovedAmendmentTemp table');
                         console.log(response);
                     },(error) => {
                         console.log(error);

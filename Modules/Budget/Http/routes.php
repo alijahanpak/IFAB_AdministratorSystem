@@ -213,6 +213,13 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::get('/credit_source/getAllItem', 'PlanController@getAllcaCreditSourceItems');
     });
 
+    Route::prefix('approved_plan/cost/amendment')->group(function () {
+        Route::post('/temp/register', 'PlanController@registerCostAmendmentTemp');
+        Route::post('/temp/cancel', 'PlanController@cancelCostAmendmentTemp');
+        Route::post('/temp/credit_source/register', 'PlanController@registerCostAmendmentCreditSourceTemp');
+        Route::post('/temp/credit_source/delete', 'PlanController@deleteCostAmendmentCreditSourceTemp');
+    });
+
     Route::prefix('approved_project/capital_assets')->group(function () {
         Route::get('/fetchData', 'ProjectController@fetchApprovedProjectData');
         //Route::get('capital_assets/projects/fetchData', 'ProjectController@FetchApprovedProjects');

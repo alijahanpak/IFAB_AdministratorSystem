@@ -19,7 +19,8 @@ window.Vue.use(Notifications , {velocity});
 window.Vue.use(VueProgressBar, {
     color: 'rgb(113, 106, 202)',
     failedColor: 'red',
-    height: '8px'
+    height: '50',
+
 });
 
 Vue.component('pdatepicker', PDatePicker);

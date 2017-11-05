@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCostAgreementTable extends Migration
+class CreateCostAgreementTempTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,16 @@ class CreateCostAgreementTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('tbl_cost_agreement')) {
-            Schema::create('tbl_cost_agreement', function (Blueprint $table) {
+        if (!Schema::hasTable('tbl_cost_agreement_temp')) {
+            Schema::create('tbl_cost_agreement_temp', function (Blueprint $table) {
                 $table->increments('id');
                 $table->integer('caUId')->length(10)->unsigned();
                 $table->integer('caFyId')->length(10)->unsigned();
-                $table->integer('caCaId')->length(10)->unsigned()->nullable()->default(null);
                 $table->string('caLetterNumber');
                 $table->string('caLetterDate');
                 $table->string('caExchangeDate')->nullable();
                 $table->string('caExchangeIdNumber')->nullable();
                 $table->boolean('caProvinceOrNational');
-                $table->boolean('caActive')->default(true);
                 $table->longText('caDescription')->nullable();
                 $table->timestamps();
 
@@ -48,6 +46,6 @@ class CreateCostAgreementTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_cost_agreement');
+        Schema::dropIfExists('tbl_cost_agreement_temp');
     }
 }

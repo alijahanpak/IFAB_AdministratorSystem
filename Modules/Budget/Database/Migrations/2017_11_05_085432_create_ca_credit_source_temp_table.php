@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCaCreditSourceTable extends Migration
+class CreateCaCreditSourceTempTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class CreateCaCreditSourceTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('tbl_ca_credit_source')) {
-            Schema::create('tbl_ca_credit_source', function (Blueprint $table) {
+        if (!Schema::hasTable('tbl_ca_credit_source_temp')) {
+            Schema::create('tbl_ca_credit_source_temp', function (Blueprint $table) {
                 $table->increments('id');
                 $table->integer('ccsUId')->length(10)->unsigned();
                 $table->integer('ccsCdrId')->length(10)->unsigned();
@@ -47,8 +47,8 @@ class CreateCaCreditSourceTable extends Migration
                     ->onUpdate('cascade');
 
                 $table->foreign('ccsCaId')
-                    ->references('id')->on('tbl_cost_agreement')
-                    ->onDelete('restrict')
+                    ->references('id')->on('tbl_cost_agreement_temp')
+                    ->onDelete('cascade')
                     ->onUpdate('cascade');
             });
         }
@@ -61,6 +61,6 @@ class CreateCaCreditSourceTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_ca_credit_source');
+        Schema::dropIfExists('tbl_ca_credit_source_temp');
     }
 }

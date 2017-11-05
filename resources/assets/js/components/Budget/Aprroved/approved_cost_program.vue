@@ -131,7 +131,7 @@
                                                                 <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                                 <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                 <li><a v-on:click.prevent="openCreditSourceInsertModal(cAp.id , 0)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
-                                                                <li><a v-on:click.prevent="openAmendmentModal"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
+                                                                <li><a v-on:click.prevent="openAmendmentTempModal(cAp)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -322,86 +322,6 @@
                                 </div>
                                 <!--Table Body End-->
                             </div>
-
-
-
-
-                            <!--<div class="columns">
-                                &lt;!&ndash;Header Start&ndash;&gt;
-                                <div class="grid-x table-header">
-                                    <div class="medium-2 table-border">
-                                        <strong>شماره ابلاغ</strong>
-                                    </div>
-                                    <div class="medium-2 table-border">
-                                        <strong>تاریخ ابلاغ</strong>
-                                    </div>
-                                    <div class="medium-2 table-border">
-                                        <strong>اعتبار</strong>
-                                    </div>
-                                    <div class="medium-6  table-border">
-                                        <strong>شرح</strong>
-                                    </div>
-                                </div>
-                                &lt;!&ndash;Header End&ndash;&gt;
-                                <div class="table-contain dynamic-height-level2">
-                                    <div class="grid-x" v-for="cAp in costAgreement_nat">
-                                        <div class="medium-2 table-contain-border cell-vertical-center">
-                                            {{ cAp.caLetterNumber }}
-                                        </div>
-                                        <div class="medium-2 table-contain-border cell-vertical-center">
-                                            {{ cAp.caLetterDate }}
-                                        </div>
-                                        <div class="medium-2 table-contain-border cell-vertical-center">
-                                            <span @click="displayCreditSourceInfo_nat == cAp.id ? displayCreditSourceInfo_nat = '' : displayCreditSourceInfo_nat = cAp.id">{{ $parent.calcDispAmount(sumOfAmount(cAp.ca_credit_source) , false) }}</span>
-                                        </div>
-                                        <div class="medium-6  table-contain-border cell-vertical-center">
-                                            <div class="grid-x">
-                                                <div class="medium-11">
-                                                    {{ cAp.caDescription }}
-                                                </div>
-                                                <div class="medium-1 cell-vertical-center text-left">
-                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costAgreement' + cAp.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'costAgreement' + cAp.id" data-dropdown data-auto-focus="true">
-                                                        <ul class="my-menu small-font text-right">
-                                                            <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                            <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                            <li><a v-on:click.prevent="openCreditSourceInsertModal(cAp.id , 1)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="medium-12">
-                                            <div class="grid-x" v-show="displayCreditSourceInfo_nat == cAp.id">
-                                                <div class="medium-12 table-contain-border cell-vertical-center">
-                                                    <table class="unstriped tbl-secondary-mrg small-font">
-                                                        <thead class="my-thead">
-                                                        <tr style="background-color: #F1F1F1 !important;">
-                                                            <th>ردیف</th>
-                                                            <th>فصل</th>
-                                                            <th>عنوان فصل</th>
-                                                            <th>ریز فصل</th>
-                                                            <th>مبلغ</th>
-                                                            <th>توضیحات</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <tr v-for="creditSource in cAp.ca_credit_source">
-                                                            <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
-                                                            <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
-                                                            <td>{{ creditSource.tiny_season.season_title.cstSubject }}</td>
-                                                            <td>{{ creditSource.tiny_season.ctsSubject }}</td>
-                                                            <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
-                                                            <td>{{ creditSource.ccsDescription }}</td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>-->
                             <div class="grid-x">
                                 <div class="medium-12">
                                     <vue-pagination  v-bind:pagination="national_pagination"
@@ -650,7 +570,7 @@
             <!--Amendment Modal Start-->
             <modal-small v-if="showAmendmentModal" @close="showAmendmentModal= false">
                 <div slot="body">
-                    <form v-on:submit.prevent="">
+                    <form v-on:submit.prevent="createCaAmendmentTemp">
                         <div class="grid-x" v-if="errorMessage">
                             <div class="medium-12 columns padding-lr">
                                 <div class="alert callout">
@@ -661,38 +581,36 @@
                         <div class="grid-x">
                             <div class="medium-6 columns padding-lr">
                                 <label>شماره ابلاغ
-                                    <input class="form-element-margin-btm" type="text" name="caLetterNumber" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('caLetterNumber')}">
+                                    <input class="form-element-margin-btm" v-model="caAmendmentInput.idNumber" type="text" name="caLetterNumber" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('caLetterNumber')}">
                                 </label>
                                 <span v-show="errors.has('caLetterNumber')" class="error-font">شماره فراموش شده است!</span>
                             </div>
                             <div class="medium-4 columns padding-lr">
                                 <p class="date-picker-lbl">تاریخ مبادله
-                                    <pdatepicker  v-on:closed="checkValidDate('exchange')" errMessage="تاریخ مبادله فراموش شده است!" :isValid="dateIsValid_exchange" open-transition-animation="left-slide-fade"></pdatepicker>
+                                    <pdatepicker  v-on:closed="checkValidDate('delivery_amendment')" v-model="caAmendmentInput.date" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery_amendment" open-transition-animation="left-slide-fade"></pdatepicker>
                                 </p>
-
                             </div>
                             <div class="medium-6 columns padding-lr">
                                 <label>شماره مبادله
-                                    <input disabled type="text" name="caExLetterNumber">
+                                    <input disabled type="text" v-model="caAmendmentInput.exIdNumber" name="caExLetterNumber">
                                 </label>
                             </div>
                             <div style="width: 217px;" class="medium-4 columns padding-lr">
                                 <label>تاریخ مبادله
-                                    <input disabled type="text" name="caExLetterDate">
+                                    <input disabled type="text" v-model="caAmendmentInput.exDate" name="caExLetterDate">
                                 </label>
                             </div>
                         </div>
                         <div class="grid-x">
                             <div class="small-12 columns padding-lr">
                                 <label>شرح
-                                    <textarea name="apDescription" style="min-height: 150px;"></textarea>
+                                    <textarea name="apDescription" v-model="caAmendmentInput.description" style="min-height: 150px;"></textarea>
                                 </label>
                             </div>
                         </div>
                         <div class="medium-6 columns padding-lr padding-bottom-modal">
                             <div class="button-group float-left report-mrg">
-                                <button class="my-button my-danger float-left btn-for-load"> <span class="btn-txt-mrg">لغو</span></button>
-                                <button @click="openAmendmentCostModal" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">تایید</span></button>
+                                <button class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">تایید</span></button>
                             </div>
                         </div>
                     </form>
@@ -714,27 +632,24 @@
                     <div style="padding:0px;" class="grid-x border-btm-line">
                         <div class="medium-12 cell padding-lr">
                             <div class="grid-x">
-                                <div class="medium-7">
-                                    <strong>طرح: </strong><span>تست</span>
-                                </div>
                                 <div class="medium-1">
                                     <p>شماره ابلاغ : </p>
                                 </div>
                                 <div class="medium-2">
-                                    <strong class="btn-red">12313</strong>
+                                    <strong class="btn-red">{{ costAmendmentCreditSource.caLetterNumber }}</strong>
                                 </div>
                                 <div class="medium-1">
                                     <p>تاریخ ابلاغ : </p>
                                 </div>
                                 <div class="medium-1">
-                                    <strong class="btn-red">14545</strong>
+                                    <strong class="btn-red">{{ costAmendmentCreditSource.caLetterDate }}</strong>
                                 </div>
                             </div>
                         </div>
                         <div class="medium-12 cell padding-lr">
                             <div class="grid-x">
                                 <div class="medium-12 padding-bottom-modal">
-                                    <strong>شرح: </strong><span style="display: inline"></span>
+                                    <strong>شرح: </strong><span style="display: inline">{{ costAmendmentCreditSource.caDescription }}</span>
                                 </div>
                             </div>
                         </div>
@@ -783,31 +698,29 @@
                                         <col width="160px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style-cell">
-                                        <template>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <div class="grid-x">
-                                                        <div class="medium-11">
-
-                                                        </div>
-                                                        <div class="medium-1 cell-vertical-center text-left">
-                                                            <a class="dropdown small sm-btn-align" data-toggle="test"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="test" data-dropdown data-auto-focus="true">
-                                                                <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                    <li><a v-on:click.prevent="openACaCsCostInsertModal"><i class="fa fa-newspaper-o size-16"></i>  اصلاح</a></li>
-                                                                </ul>
-                                                            </div>
+                                        <tr v-for="creditSource in costAmendmentCreditSource.ca_credit_source">
+                                            <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
+                                            <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
+                                            <td>{{ creditSource.tiny_season.season_title.cstSubject }}</td>
+                                            <td>{{ creditSource.tiny_season.ctsSubject }}</td>
+                                            <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
+                                            <td>
+                                                <div class="grid-x">
+                                                    <div class="medium-11">
+                                                        {{ creditSource.ccsDescription }}
+                                                    </div>
+                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                        <a class="dropdown small sm-btn-align" :data-toggle="'creditSource' + creditSource.id"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'creditSource' + creditSource.id" data-dropdown data-auto-focus="true">
+                                                            <ul class="my-menu small-font text-right">
+                                                                <li><a v-on:click.prevent="openDeleteTempCreditSourceModal(creditSource.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                <li><a v-on:click.prevent=""><i class="fa fa-newspaper-o size-16"></i>  اصلاح</a></li>
+                                                            </ul>
                                                         </div>
                                                     </div>
-                                                </td>
-                                            </tr>
-                                        </template>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -818,8 +731,8 @@
                     <div class="grid-x">
                         <div class="medium-12 columns padding-bottom-modal">
                             <div class="button-group float-left report-mrg">
-                                <button class="my-button my-danger float-left btn-for-load"> <span class="btn-txt-mrg">لغو</span></button>
-                                <button @click="openAmendmentCostModal" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">تایید</span></button>
+                                <a class="my-button my-danger float-left btn-for-load" @click="cancelCostAmendmentTemp"> <span class="btn-txt-mrg">لغو</span></a>
+                                <button class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">تایید</span></button>
                             </div>
                         </div>
                     </div>
@@ -830,7 +743,7 @@
             <!--Amendment Project credit source Modal Insert Start-->
             <modal-small v-if="showACaCsInsertModal" @close="showACaCsInsertModal = false">
                 <div  slot="body">
-                    <form v-on:submit.prevent="">
+                    <form v-on:submit.prevent="insertNewTempCreditSource">
                         <div class="grid-x" v-if="errorMessage">
                             <div class="medium-12 columns padding-lr">
                                 <div class="alert callout">
@@ -841,14 +754,16 @@
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
                                 <label>برنامه
-                                    <select disabled class="form-element-margin-btm" name="cdTitle">
-                                        <option value="1">1</option>
+                                    <select class="form-element-margin-btm" name="cdTitle" v-model="acaCreditSourceInput.cdtId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('howToRun')}">
+                                        <option value=""></option>
+                                        <option v-for="creditDistributionTitle in creditDistributionTitles" :value="creditDistributionTitle.id">{{ creditDistributionTitle.cdtIdNumber + ' - ' + creditDistributionTitle.cdtSubject + (creditDistributionTitle.county == null ? '' : ' - ' + creditDistributionTitle.county.coName)}}</option>
                                     </select>
+                                    <span v-show="errors.has('howToRun')" class="error-font">لطفا عنوان برنامه را انتخاب کنید!</span>
                                 </label>
                             </div>
                             <div class="medium-6 cell padding-lr">
                                 <label>ردیف توزیع اعتبار
-                                    <select  class="form-element-margin-btm"  name="row" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('row')}">
+                                    <select  class="form-element-margin-btm"  name="row" v-model="acaCreditSourceInput.crId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('row')}">
                                         <option value=""></option>
                                         <option v-for="creditDistributionRow in creditDistributionRows" :value="creditDistributionRow.id">{{ creditDistributionRow.cdSubject }}</option>
                                     </select>
@@ -859,18 +774,18 @@
                         <div class="grid-x">
                             <div class="medium-4 column padding-lr">
                                 <label>فصل
-                                    <select class="form-element-margin-btm" name="season" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('season')}">
+                                    <select class="form-element-margin-btm" v-model="selectedSeason" @change="getSeasonTitle"  name="season" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('season')}">
                                         <option value=""></option>
-                                        <option v-for="season in seasons" :value="season.id"></option>
+                                        <option v-for="season in seasons" :value="season.id">{{ season.sSubject }}</option>
                                     </select>
                                     <span v-show="errors.has('season')" class="error-font">لطفا فصل را انتخاب کنید!</span>
                                 </label>
                             </div>
                             <div class="medium-8 column padding-lr">
                                 <label>عنوان فصل
-                                    <select class="form-element-margin-btm"  name="seasonTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('seasonTitle')}">
+                                    <select class="form-element-margin-btm" v-model="selectedSeasonTitle" @change="getTinySeasons" name="seasonTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('seasonTitle')}">
                                         <option value=""></option>
-                                        <option></option>
+                                        <option v-for="seasonTitle in seasonTitles" :value="seasonTitle.id">{{ seasonTitle.cstSubject }}</option>
                                     </select>
                                     <span v-show="errors.has('seasonTitle')" class="error-font">لطفا عنوان فصل را انتخاب کنید!</span>
                                 </label>
@@ -879,9 +794,9 @@
                         <div class="grid-x">
                             <div class="medium-12 column padding-lr">
                                 <label>ریز فصل
-                                    <select class="form-element-margin-btm" name="subSeason" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('subSeason')}">
+                                    <select class="form-element-margin-btm" v-model="acaCreditSourceInput.tsId" name="subSeason" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('subSeason')}">
                                         <option value=""></option>
-                                        <option v-for="tinySeason in tinySeasons" :value="tinySeason.id"></option>
+                                        <option v-for="tinySeason in tinySeasons" :value="tinySeason.id">{{ tinySeason.ctsSubject }}</option>
                                     </select>
                                     <span v-show="errors.has('subSeason')" class="error-font">لطفا ریز فصل را انتخاب کنید!</span>
                                 </label>
@@ -889,8 +804,8 @@
                         </div>
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
-                                <label>مبلغ اعتبار <span class="btn-red"></span>
-                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="caCreditSourceInput.amount" v-validate="'required|decimal'" :class="{'input': true, 'error-border': errors.has('amount')}">
+                                <label>مبلغ اعتبار <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
+                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="acaCreditSourceInput.amount" v-validate="'required|decimal'" :class="{'input': true, 'error-border': errors.has('amount')}">
                                 </label>
                                 <span v-show="errors.has('amount')" class="error-font">لطفا مبلغ اعتبار را وارد کنید!</span>
                             </div>
@@ -898,7 +813,7 @@
                         <div class="grid-x">
                             <div class="small-12 columns padding-lr">
                                 <label>شرح
-                                    <textarea name="csDescription" style="min-height: 150px;"></textarea>
+                                    <textarea name="csDescription" style="min-height: 150px;" v-model="acaCreditSourceInput.description"></textarea>
                                 </label>
                             </div>
                         </div>
@@ -992,8 +907,21 @@
                 </div>
             </modal-small>
             <!--Amendment Project Cost Modal Edit End-->
-
-
+            <!-- Delete Modal Start -->
+            <modal-tiny v-if="showDeleteTempCreditSourceModal" @close="showDeleteTempCreditSourceModal = false">
+                <div  slot="body">
+                    <div class="small-font">
+                        <p>کاربر گرامی</p>
+                        <p class="large-offset-1 modal-text">با حذف منبع اعتبار انتخاب شده، تخصیص های اعتبار صفر می گردد و لازم است محل های هزینه کرد اصلاح شود.</p>
+                        <div class="grid-x">
+                            <div class="medium-12 column text-center">
+                                <button  class="button primary btn-large-w" v-on:click="deleteTempCreditSource">تایید</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </modal-tiny>
+            <!-- Delete Modal End -->
             <!--Forms End-->
         </div>
     </div>
@@ -1009,6 +937,8 @@
                 costAgreement_prov: [],
                 costAgreement_nat: [],
                 costAgreementInput: {},
+                acaCreditSourceInput: {},
+                caAmendmentInput: {},
                 showInsertModal: false,
                 showCaCsInsertModal: false,
                 showModalUpdate: false,
@@ -1016,7 +946,11 @@
                 showAmendmentModal:false,
                 showModalAmendmentCost:false,
                 showACaCsInsertModal:false,
+                showDeleteTempCreditSourceModal: false,
+                dateIsValid_delivery_amendment: true,
+                costAmendmentCreditSource: [],
                 selectColumn:false,
+                tempCreditSourceSelectedId_delete: '',
                 costAgreementFill: {},
 
                 caCreditSourceInput: {},
@@ -1064,6 +998,11 @@
         mounted: function () {
             console.log("mounted approved cost_program component");
             this.$parent.myResize();
+        },
+
+        beforeDestroy: function () {
+            console.log("destroy approved cost_program component");
+            this.cleanCostAmendmentTemp(); //clean all remaining cost amendment record
         },
 
         components:{
@@ -1321,25 +1260,12 @@
                 }
             },
 
-            openAmendmentModal:function () {
-                this.showAmendmentModal=true;
-            },
-
-            openAmendmentCostModal:function () {
-                this.showModalAmendmentCost=true;
-
-            },
-
-            openACaCsCostInsertModal:function () {
-                this.showACaCsInsertModal=true;
-
-            },
-
             myResizeModal: function() {
                 console.log("......................res..........................");
 
-                $('.dynamic-height-level-modal1').css('height', ($.w.outerHeight() - 180) + 'px');
 
+
+                $('.dynamic-height-level-modal1').css('height', ($.w.outerHeight() - 110) + 'px');
                 var x = $(".dynamic-height-level-modal1").height();
                 $('.dynamic-height-level-modal2').css('height', (x-215) + 'px');
             },
@@ -1356,6 +1282,154 @@
                     this.provincial_pagination.to = data.to;
                     this.provincial_pagination.last_page = data.last_page;
                 }
+            },
+
+            checkValidDate: function (type) {
+                switch (type)
+                {
+/*                    case 'delivery':
+                        if (this.approvedPlanInput.date == null || this.approvedPlanInput.date == '')
+                        {
+                            this.dateIsValid_delivery = false;
+                            return false;
+                        }
+                        else
+                        {
+                            this.dateIsValid_delivery = true;
+                            return true;
+                        }
+                        break;
+                    case 'exchange':
+                        if (this.approvedPlanInput.exDate == null || this.approvedPlanInput.exDate == '')
+                        {
+                            this.dateIsValid_exchange = false;
+                            return false;
+                        }
+                        else
+                        {
+                            this.dateIsValid_exchange = true;
+                            return true;
+                        }
+                        break;*/
+                    case 'delivery_amendment':
+                        if (this.caAmendmentInput.date == null || this.caAmendmentInput.date == '')
+                        {
+                            this.dateIsValid_delivery_amendment = false;
+                            return false;
+                        }
+                        else
+                        {
+                            this.dateIsValid_delivery_amendment = true;
+                            return true;
+                        }
+                        break;
+                }
+            },
+
+            /////////////////////////// temp ///////////////////////////////////////////
+            openACaCsCostInsertModal:function () {
+                this.showACaCsInsertModal=true;
+                this.getCreditDistributionTitle(1); //all item should be national type => county = null
+                this.getSeasons();
+                this.getCreditDistributionRow();
+
+            },
+
+            openAmendmentTempModal:function (ca) {
+                this.caAmendmentInput.parentId = ca.id;
+                this.caAmendmentInput.pOrN = ca.caProvinceOrNational;
+                this.caAmendmentInput.exIdNumber = ca.caExchangeIdNumber;
+                this.caAmendmentInput.exDate = ca.caExchangeDate;
+                this.caAmendmentInput.description = ca.caDescription;
+                this.showAmendmentModal=true;
+
+            },
+
+            openDeleteTempCreditSourceModal: function (csId) {
+                this.tempCreditSourceSelectedId_delete = csId;
+                this.showDeleteTempCreditSourceModal = true;
+            },
+
+            createCaAmendmentTemp: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        if (this.checkValidDate('delivery_amendment'))
+                        {
+                            axios.post('/budget/approved_plan/cost/amendment/temp/register' , {
+                                idNumber: this.caAmendmentInput.idNumber,
+                                date: this.caAmendmentInput.date,
+                                description: this.caAmendmentInput.description,
+                                caId: this.caAmendmentInput.parentId
+                            }).then((response) => {
+                                this.costAmendmentCreditSource = response.data;
+                                this.showAmendmentModal = false;
+                                this.showModalAmendmentCost = true;
+                                console.log(response);
+                            },(error) => {
+                                console.log(error);
+                                //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                            });
+                        }
+                    }
+                });
+            },
+
+            cancelCostAmendmentTemp: function () {
+                axios.post('/budget/approved_plan/cost/amendment/temp/cancel' , {
+                    caId: this.costAmendmentCreditSource.id
+                }).then((response) => {
+                    this.showModalAmendmentCost = false;
+                    this.$parent.displayNotif(200);
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+            },
+
+            cleanCostAmendmentTemp: function () {
+                axios.post('/budget/approved_plan/cost/amendment/temp/cancel')
+                    .then((response) => {
+                        console.log('pallas: clean cleanCostAmendmentTemp table');
+                        console.log(response);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            insertNewTempCreditSource: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/budget/approved_plan/cost/amendment/temp/credit_source/register' , {
+                            caId: this.costAmendmentCreditSource.id,
+                            crId: this.acaCreditSourceInput.crId,
+                            cdtId: this.acaCreditSourceInput.cdtId,
+                            tsId: this.acaCreditSourceInput.tsId,
+                            amount: this.acaCreditSourceInput.amount,
+                            description: this.acaCreditSourceInput.description,
+                            pOrN: this.provOrNat
+                        }).then((response) => {
+                            this.costAmendmentCreditSource = response.data;
+                            this.showACaCsInsertModal=false;
+                            console.log(response);
+                        },(error) => {
+                            console.log(error);
+                            //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                        });
+                    }
+                });
+            },
+
+            deleteTempCreditSource: function () {
+                axios.post('/budget/approved_plan/cost/amendment/temp/credit_source/delete' , {
+                    caId: this.costAmendmentCreditSource.id,
+                    csId: this.tempCreditSourceSelectedId_delete,
+                }).then((response) => {
+                    this.costAmendmentCreditSource = response.data;
+                    this.showDeleteTempCreditSourceModal = false;
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
             },
         }
     }
