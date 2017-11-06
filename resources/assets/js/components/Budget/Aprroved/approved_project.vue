@@ -75,10 +75,10 @@
                                 <table class="tbl-head">
                                     <colgroup>
                                         <col width="250px"/>
-                                        <col width="50px"/>
+                                        <col width="100px"/>
                                         <col width="250"/>
                                         <col width="150px"/>
-                                        <col width="150px"/>
+                                        <col width="100px"/>
                                         <col width="250px"/>
                                         <col v-show="selectColumn" width="15px"/>
                                         <col width="12px"/>
@@ -99,74 +99,45 @@
                                 </table>
                                 <!--Table Head End-->
                                 <!--Table Body Start-->
-                                <div class="tbl_body_style dynamic-height-level2">
-                                    <table class="tbl-body-contain">
-                                        <colgroup>
-                                            <col width="250px"/>
-                                            <col width="50px"/>
-                                            <col width="250"/>
-                                            <col width="150px"/>
-                                            <col width="150px"/>
-                                            <col width="250px"/>
-                                            <col v-show="selectColumn" width="15px"/>
-                                        </colgroup>
-                                        <tbody class="tbl-head-style-cell">
-                                        <template  v-for="plans in approvedProjects_prov">
-                                            <tr>
-                                                <td rowspan="plans.capital_assets_project.length"> {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' - ' + plans.credit_distribution_title.county.coName }}</td>
-                                                <td  class="text-center">
-                                                    {{ plans.capital_assets_project[0].cpCode }}
-                                                </td>
-                                                <td  class="text-center">
-                                                    {{ plans.capital_assets_project[0].cpSubject }}
-                                                </td>
-                                                <td>
-                                                    {{ plans.capital_assets_project[0].county.coName }}
-                                                </td>
-                                                <td>
-                                                    <div class="grid-x">
-                                                        <div class="medium-11">
-                                                            {{ plans.capDescription }}
-                                                        </div>
-                                                        <div class="medium-1 cell-vertical-center text-left auto-margin">
-                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
-                                                                <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                    <li><a v-on:click.prevent="openApprovedAmendmentTempModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td  v-show="selectColumn">
-                                                    <input class="auto-margin" v-model="plans.checked" type="checkbox">
-                                                </td>
-                                            </tr>
-                                            <template>
-                                                <tr  v-for="project in capital_assets_project">
+                                    <div class="tbl_body_style dynamic-height-level2">
+                                        <table class="tbl-body-contain">
+                                            <colgroup>
+                                                <col width="250px"/>
+                                                <col width="100px"/>
+                                                <col width="250"/>
+                                                <col width="150px"/>
+                                                <col width="100px"/>
+                                                <col width="250px"/>
+                                                <col v-show="selectColumn" width="15px"/>
+                                            </colgroup>
+                                            <tbody class="tbl-head-style-cell">
+                                            <template  v-for="plans in approvedProjects_prov">
+                                                <tr>
+                                                    <td :rowspan="plans.capital_assets_project.length + (displayParentId_prov == plans.id ? 1 : 0)"> {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' - ' + plans.credit_distribution_title.county.coName }}</td>
                                                     <td  class="text-center">
-                                                        {{ project.cpCode }}
+                                                        {{ plans.capital_assets_project[0].cpCode }}
                                                     </td>
                                                     <td  class="text-center">
-                                                        {{ project.cpSubject }}
+                                                        {{ plans.capital_assets_project[0].cpSubject }}
                                                     </td>
                                                     <td>
-                                                        {{ project.county.coName }}
+                                                        {{ plans.capital_assets_project[0].county.coName }}
+                                                    </td>
+                                                    <td>
+                                                        <span @click="openAccordion(0 , plans.capital_assets_project[0].id , plans.id)">{{ $parent.calcDispAmount(sumOfAmount(plans.capital_assets_project[0].credit_source) , false) }}</span>
                                                     </td>
                                                     <td>
                                                         <div class="grid-x">
                                                             <div class="medium-11">
-                                                                {{ project.capDescription }}
+                                                                {{ plans.capDescription }}
                                                             </div>
                                                             <div class="medium-1 cell-vertical-center text-left auto-margin">
-                                                                <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id + project.id" data-dropdown data-auto-focus="true">
-                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id + project.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
-                                                                        <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                        <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                        <li><a v-on:click.prevent="openApprovedAmendmentTempModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
+                                                                        <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        <li><a v-on:click.prevent="openApCreditSourceInsertModal(plans.capital_assets_project[0].id ,0)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -176,16 +147,71 @@
                                                         <input class="auto-margin" v-model="plans.checked" type="checkbox">
                                                     </td>
                                                 </tr>
-                                            </template>
-                                        </template>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                                <!--<div class="medium-12">
-                                                    <div class="grid-x" v-show="displayCreditSourceInfo_prov == projects.id">
-                                                        <div class="medium-12 table-contain-border cell-vertical-center">
+                                                <tr v-show="displayCreditSourceInfo_prov == plans.capital_assets_project[0].id">
+                                                    <td colspan="5">
+                                                        <table class="unstriped tbl-secondary-mrg small-font">
+                                                            <thead class="my-thead">
+                                                            <tr style="background-color: #F1F1F1 !important;">
+                                                                <th>ردیف</th>
+                                                                <th>فصل</th>
+                                                                <th>عنوان فصل</th>
+                                                                <th>ریز فصل</th>
+                                                                <th>نحوه اجرا</th>
+                                                                <th>مبلغ</th>
+                                                                <th>توضیحات</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr v-for="creditSource in plans.capital_assets_project[0].credit_source">
+                                                                <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
+                                                                <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
+                                                                <td>{{ creditSource.tiny_season.season_title.castSubject }}</td>
+                                                                <td>{{ creditSource.tiny_season.catsSubject }}</td>
+                                                                <td>{{ creditSource.how_to_run.htrSubject }}</td>
+                                                                <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
+                                                                <td>{{ creditSource.ccsDescription }}</td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <template v-for="(project,pIndex) in capital_assets_project">
+                                                    <tr v-if="pIndex>0">
+                                                        <td>
+                                                            {{ project.cpCode }}
+                                                        </td>
+                                                        <td>
+                                                            {{ project.cpSubject }}
+                                                        </td>
+                                                        <td>
+                                                            {{ project.county.coName }}
+                                                        </td>
+                                                        <td>
+                                                            <span @click="displayCreditSourceInfo_prov == project.id ? displayCreditSourceInfo_prov = '' : displayCreditSourceInfo_prov = project.id">{{ $parent.calcDispAmount(sumOfAmount(project.credit_source) , false) }}</span>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-x">
+                                                                <div class="medium-11">
+                                                                    {{ project.capDescription }}
+                                                                </div>
+                                                                <div class="medium-1 cell-vertical-center text-left auto-margin">
+                                                                    <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id + project.id" data-dropdown data-auto-focus="true">
+                                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id + project.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                        <ul class="my-menu small-font text-right">
+                                                                            <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                            <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                            <li><a v-on:click.prevent="openApCreditSourceInsertModal(project.id ,0)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td  v-show="selectColumn">
+                                                            <input class="auto-margin" v-model="plans.checked" type="checkbox">
+                                                        </td>
+                                                    </tr>
+                                                    <tr v-show="displayCreditSourceInfo_prov == project.id">
+                                                        <td colspan="5">
                                                             <table class="unstriped tbl-secondary-mrg small-font">
                                                                 <thead class="my-thead">
                                                                 <tr style="background-color: #F1F1F1 !important;">
@@ -199,7 +225,7 @@
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                <tr v-for="creditSource in projects.credit_source">
+                                                                <tr v-for="creditSource in project.credit_source">
                                                                     <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
                                                                     <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
                                                                     <td>{{ creditSource.tiny_season.season_title.castSubject }}</td>
@@ -210,10 +236,15 @@
                                                                 </tr>
                                                                 </tbody>
                                                             </table>
-                                                        </div>
-                                                    </div>
-                                                </div>-->
-                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </template>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                             <div class="grid-x">
                                 <div class="medium-8">
@@ -224,25 +255,24 @@
                                 </div>
                                 <div style="color: #575962;" v-show="selectColumn" class="medium-4 small-font">
                                     <div class="float-left">
-                                        <p> تعداد رکورد های انتخاب شده :<span class="selected-row-style">{{ selectedLength(approvedProject_Prov) }}</span></p>
+                                        <p> تعداد رکورد های انتخاب شده :<span class="selected-row-style">{{ selectedLength(approvedProjects_prov) }}</span></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+
                     <!-- national tab -->
-                    <div class="tabs-panel table-mrg-btm" id="national_tab"
-                         xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <div class="tabs-panel table-mrg-btm" id="national_tab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                         <div class="medium-12 bottom-mrg">
-                            <!--Tab 1-->
+                            <!--Tab 2-->
                             <div class="clearfix border-btm-line bottom-mrg tool-bar">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openApprovedProjectInsertModal(1)">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
-                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
+                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(approvedProjects_nat)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
                                     </div>
                                     <div v-if="selectColumn" class="input-group-button toggle-icon-change">
-                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
+                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn(approvedProjects_nat)"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
                                     </div>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
@@ -273,8 +303,189 @@
                                 </div>
                             </div>
                             <!--Table Start-->
-                            <div class="columns">
-                                <!--Header Start-->
+                            <div class="tbl-div-container">
+                                <table class="tbl-head">
+                                    <colgroup>
+                                        <col width="250px"/>
+                                        <col width="100px"/>
+                                        <col width="250"/>
+                                        <col width="150px"/>
+                                        <col width="100px"/>
+                                        <col width="250px"/>
+                                        <col v-show="selectColumn" width="15px"/>
+                                        <col width="12px"/>
+
+                                    </colgroup>
+                                    <tbody class="tbl-head-style">
+                                    <tr class="tbl-head-style-cell">
+                                        <th class="tbl-head-style-cell">کد طرح</th>
+                                        <th class="tbl-head-style-cell">کد</th>
+                                        <th class="tbl-head-style-cell">عنوان</th>
+                                        <th class="tbl-head-style-cell">شهرستان</th>
+                                        <th class="tbl-head-style-cell">اعتبار</th>
+                                        <th class="tbl-head-style-cell">شرح</th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox" @click="toggleSelect(approvedProjects_nat)" :checked="allSelected(approvedProjects_nat)"></th>
+                                        <th class="tbl-head-style-cell"></th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <!--Table Head End-->
+                                <!--Table Body Start-->
+                                <div class="tbl_body_style dynamic-height-level2">
+                                    <table class="tbl-body-contain">
+                                        <colgroup>
+                                            <col width="250px"/>
+                                            <col width="100px"/>
+                                            <col width="250"/>
+                                            <col width="150px"/>
+                                            <col width="100px"/>
+                                            <col width="250px"/>
+                                            <col v-show="selectColumn" width="15px"/>
+                                        </colgroup>
+                                        <tbody class="tbl-head-style-cell">
+                                        <template  v-for="plans in approvedProjects_nat">
+                                            <tr>
+                                                <td :rowspan="plans.capital_assets_project.length + (displayParentId_nat == plans.id ? 1 : 0)">  {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
+                                                <td  class="text-center">
+                                                    {{ plans.capital_assets_project[0].cpCode }}
+                                                </td>
+                                                <td  class="text-center">
+                                                    {{ plans.capital_assets_project[0].cpSubject }}
+                                                </td>
+                                                <td>
+                                                    {{ plans.capital_assets_project[0].county.coName }}
+                                                </td>
+                                                <td>
+                                                    <span @click="openAccordion(1 , plans.capital_assets_project[0].id , plans.id)">{{ $parent.calcDispAmount(sumOfAmount(plans.capital_assets_project[0].credit_source) , false) }}</span>
+                                                </td>
+                                                <td>
+                                                    <div class="grid-x">
+                                                        <div class="medium-11">
+                                                            {{ plans.capDescription }}
+                                                        </div>
+                                                        <div class="medium-1 cell-vertical-center text-left auto-margin">
+                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
+                                                                <ul class="my-menu small-font text-right">
+                                                                    <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li><a v-on:click.prevent="openApCreditSourceInsertModal(plans.capital_assets_project[0].id ,1)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td  v-show="selectColumn">
+                                                    <input class="auto-margin" v-model="plans.checked" type="checkbox">
+                                                </td>
+                                            </tr>
+                                            <tr v-show="displayCreditSourceInfo_nat == plans.capital_assets_project[0].id">
+                                                <td colspan="5">
+                                                    <table class="unstriped tbl-secondary-mrg small-font">
+                                                        <thead class="my-thead">
+                                                        <tr style="background-color: #F1F1F1 !important;">
+                                                            <th>ردیف</th>
+                                                            <th>فصل</th>
+                                                            <th>عنوان فصل</th>
+                                                            <th>ریز فصل</th>
+                                                            <th>نحوه اجرا</th>
+                                                            <th>مبلغ</th>
+                                                            <th>توضیحات</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr v-for="creditSource in plans.capital_assets_project[0].credit_source">
+                                                            <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
+                                                            <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
+                                                            <td>{{ creditSource.tiny_season.season_title.castSubject }}</td>
+                                                            <td>{{ creditSource.tiny_season.catsSubject }}</td>
+                                                            <td>{{ creditSource.how_to_run.htrSubject }}</td>
+                                                            <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
+                                                            <td>{{ creditSource.ccsDescription }}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <template v-for="(project,pIndex) in plans.capital_assets_project">
+                                                <tr v-if="pIndex>0">
+                                                    <td>
+                                                        {{ project.cpCode }}
+                                                    </td>
+                                                    <td>
+                                                        {{ project.cpSubject }}
+                                                    </td>
+                                                    <td>
+                                                        {{ project.county.coName }}
+                                                    </td>
+                                                    <td>
+
+                                                        <span @click="openAccordion(1 , project.id , plans.id)">{{ $parent.calcDispAmount(sumOfAmount(project.credit_source) , false) }}</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="grid-x">
+                                                            <div class="medium-11">
+                                                                {{ project.capDescription }}
+                                                            </div>
+                                                            <div class="medium-1 cell-vertical-center text-left auto-margin">
+                                                                <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id + project.id" data-dropdown data-auto-focus="true">
+                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id + project.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                    <ul class="my-menu small-font text-right">
+                                                                        <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        <li><a v-on:click.prevent="openApCreditSourceInsertModal(project.id ,1)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td  v-show="selectColumn">
+                                                        <input class="auto-margin" v-model="plans.checked" type="checkbox">
+                                                    </td>
+                                                </tr>
+                                                <tr v-if="pIndex>0" v-show="displayCreditSourceInfo_nat == project.id">
+                                                    <td colspan="5">
+                                                        <table class="unstriped tbl-secondary-mrg small-font">
+                                                            <thead class="my-thead">
+                                                            <tr style="background-color: #F1F1F1 !important;">
+                                                                <th>ردیف</th>
+                                                                <th>فصل</th>
+                                                                <th>عنوان فصل</th>
+                                                                <th>ریز فصل</th>
+                                                                <th>نحوه اجرا</th>
+                                                                <th>مبلغ</th>
+                                                                <th>توضیحات</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr v-for="creditSource in project.credit_source">
+                                                                <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
+                                                                <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
+                                                                <td>{{ creditSource.tiny_season.season_title.castSubject }}</td>
+                                                                <td>{{ creditSource.tiny_season.catsSubject }}</td>
+                                                                <td>{{ creditSource.how_to_run.htrSubject }}</td>
+                                                                <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
+                                                                <td>{{ creditSource.ccsDescription }}</td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </template>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+
+
+
+
+                            <!--<div class="columns">
+                               &lt;!&ndash;Header Start&ndash;&gt;
                                 <div class="grid-x table-header">
                                     <div class="medium-2 table-border">
                                         <strong>کد طرح</strong>
@@ -299,8 +510,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--Header End-->
-                                <!--<div class="table-contain dynamic-height-level2">
+                                &lt;!&ndash;Header End&ndash;&gt;
+                                <div class="table-contain dynamic-height-level2">
                                     <div class="grid-x" v-for="plans in approvedProjects_nat">
                                         <div class="medium-2 table-contain-border cell-vertical-center">
                                             {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}
@@ -369,19 +580,25 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>-->
-                            </div>
+                                </div>
+                            </div>-->
                             <div class="grid-x">
-                                <div class="medium-12">
+                                <div class="medium-8">
                                     <vue-pagination  v-bind:pagination="national_pagination"
                                                      v-on:click.native="fetchNationalData(national_pagination.current_page)"
                                                      :offset="4">
                                     </vue-pagination>
                                 </div>
+                                <div style="color: #575962;" v-show="selectColumn" class="medium-4 small-font">
+                                    <div class="float-left">
+                                        <p> تعداد رکورد های انتخاب شده :<span class="selected-row-style">{{ selectedLength(approvedProjects_nat) }}</span></p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </div><!--Tab nat End-->
                     </div>
                 </div>
+            </div>
             </div>
             <!--Forms Start-->
             <!--Insert Modal Start-->
@@ -674,7 +891,9 @@
                 apCreditSourceInput: {},
                 capIdForInsertCreditSource: '',
                 displayCreditSourceInfo_prov: '',
+                displayParentId_prov: '',
                 displayCreditSourceInfo_nat: '',
+                displayParentId_nat: '',
                 provOrNat: '',
                 apIdDelete: {},
                 approvedPlans: {},
@@ -1096,6 +1315,36 @@
                     this.provincial_pagination.last_page = data.last_page;
                 }
             },
+
+            openAccordion:function (type,id,pId) {
+                if(type == 0)
+                {
+                    if(this.displayCreditSourceInfo_prov == id)
+                    {
+                        this.displayCreditSourceInfo_prov = '';
+                        this.displayParentId_prov = '';
+                    }
+                    else
+                    {
+                        this.displayCreditSourceInfo_prov = id;
+                        this.displayParentId_prov = pId;
+                    }
+
+                }
+                else if (type==1)
+                {
+                    if(this.displayCreditSourceInfo_nat == id)
+                    {
+                        this.displayCreditSourceInfo_nat= '';
+                        this.displayParentId_nat = '';
+                    }
+                    else
+                    {
+                        this.displayCreditSourceInfo_nat = id;
+                        this.displayParentId_nat = pId;
+                    }
+                }
+            }
         }
     }
 
