@@ -23,6 +23,7 @@ use Modules\Budget\Entities\CapitalAssetsProjectTemp;
 use Modules\Budget\Entities\CdrCap;
 use Modules\Budget\Entities\CostAgreement;
 use Modules\Budget\Entities\CostAgreementTemp;
+use Modules\Budget\Entities\CostAllocation;
 use Modules\Budget\Entities\CreditDistributionRow;
 
 class PlanController extends Controller
@@ -391,6 +392,7 @@ class PlanController extends Controller
     public function getAllCostAgreemrent($pOrN)
     {
         return CostAgreement::where('caFyId' , '=' , Auth::user()->seFiscalYear)
+            ->where('caActive' , '=' , true)
             ->where('caProvinceOrNational' , '=' , $pOrN)
             ->with('caCreditSource')
             ->with('caCreditSource.tinySeason.seasonTitle.season')
@@ -445,6 +447,7 @@ class PlanController extends Controller
     {
         return \response()->json(
             CostAgreement::where('caFyId' , '=' , Auth::user()->seFiscalYear)
+                ->where('caActive' , '=' , true)
                 ->where('caProvinceOrNational' , '=' , $request->pOrN)
                 ->get()
         );
@@ -457,6 +460,52 @@ class PlanController extends Controller
                 ->with('creditDistributionTitle')
                 ->with('tinySeason.seasonTitle.season')
                 ->get()
+        );
+    }
+
+    public function acceptCostAmendment(Request $request)
+    {
+        $newCa = new CostAgreement;
+        $temp = CostAgreementTemp::find($request->caId);
+        $newCa->caUId = Auth::user()->id;
+        $newCa->caFyId = $temp->caFyId;
+        $newCa->caProvinceOrNational = $temp->caProvinceOrNational;
+        $newCa->caLetterNumber = $temp->caLetterNumber;
+        $newCa->caLetterDate = $temp->caLetterDate;
+        $newCa->caExchangeIdNumber = $temp->caExchangeIdNumber;
+        $newCa->caExchangeDate = $temp->caExchangeDate;
+        $newCa->caDescription = $temp->caDescription;
+        $newCa->save();
+
+        CostAgreement::where('id' , '=' , $request->parentId)
+            ->orWhere('caCaId' , '=' , $request->parentId)
+            ->update(['caActive' => 0 , 'caCaId' => $newCa->id]);
+
+        $csTemps = CaCreditSourceTemp::where('ccsCaId' , '=' , $temp->id)->get();
+        foreach ($csTemps as $csTemp) {
+            if ($csTemp->ccsDeleted == 0)
+            {
+                $cs = new CaCreditSource;
+                $cs->ccsUId = $csTemp->ccsUId;
+                $cs->ccsCdrId = $csTemp->ccsCdrId;
+                $cs->ccsTsId = $csTemp->ccsTsId;
+                $cs->ccsCdtId = $csTemp->ccsCdtId;
+                $cs->ccsCaId = $newCa->id;
+                $cs->ccsAmount = $csTemp->ccsAmount;
+                $cs->ccsDescription = $csTemp->ccsDescription;
+                $cs->save();
+
+                CostAllocation::where('caCcsId' , '=' , $csTemp->ccsCcsId)
+                    ->update(['caCcsId' => $cs->id]);
+            }elseif ($csTemp->ccsCcsId != null){
+                CaCreditSource::where('id' , '=' , $csTemp->ccsCcsId)->update(['ccsDeleted' => 1]);
+                CostAllocation::where('caCcsId' , $csTemp->ccsCcsId)->update(['caAmount' => 0]);
+            }
+        }
+
+        CostAgreementTemp::find($request->caId)->delete();
+        return \response()->json(
+            $this->getAllCostAgreemrent($temp->caProvinceOrNational)
         );
     }
 
@@ -481,6 +530,7 @@ class PlanController extends Controller
             $newCa = new CaCreditSourceTemp;
             $newCa->ccsUId = Auth::user()->id;
             $newCa->ccsCdrId = $item->ccsCdrId;
+            $newCa->ccsCcsId = $item->id;
             $newCa->ccsTsId = $item->ccsTsId;
             $newCa->ccsCaId = $ca->id;
             $newCa->ccsCdtId = $item->ccsCdtId;
@@ -518,7 +568,7 @@ class PlanController extends Controller
 
     public function registerCostAmendmentCreditSourceTemp(Request $request)
     {
-        $caCs = new CaCreditSourceTemp();
+        $caCs = new CaCreditSourceTemp;
         $caCs->ccsUId = Auth::user()->id;
         $caCs->ccsCaId = $request->caId;
         $caCs->ccsCdrId = $request->crId;
@@ -540,5 +590,18 @@ class PlanController extends Controller
         );
     }
 
+    public function updateCostAmendmentCreditSourceTemp(Request $request)
+    {
+        $caCs = CaCreditSourceTemp::find($request->csId);
+        $caCs->ccsUId = Auth::user()->id;
+        $caCs->ccsCdrId = $request->crId;
+        $caCs->ccsTsId = $request->tsId;
+        $caCs->ccsCdtId = $request->cdtId;
+        $caCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
+        $caCs->ccsDescription = $request->description;
+        $caCs->save();
+
+        return \response()->json($this->getAllCaTempItems($request->caId));
+    }
 
 }

@@ -146,6 +146,7 @@
                                                 <table class="unstriped tbl-secondary-mrg small-font">
                                                     <thead class="my-thead">
                                                     <tr style="background-color: #F1F1F1 !important;">
+                                                        <th>برنامه</th>
                                                         <th>ردیف</th>
                                                         <th>فصل</th>
                                                         <th>عنوان فصل</th>
@@ -156,6 +157,7 @@
                                                     </thead>
                                                     <tbody>
                                                     <tr v-for="creditSource in cAp.ca_credit_source">
+                                                        <td>{{ creditSource.credit_distribution_title.cdtIdNumber + ' - ' + creditSource.credit_distribution_title.cdtSubject }}</td>
                                                         <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
                                                         <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
                                                         <td>{{ creditSource.tiny_season.season_title.cstSubject }}</td>
@@ -266,8 +268,6 @@
                                             <tr>
                                                 <td>{{ cAp.caLetterNumber }}</td>
                                                 <td>{{ cAp.caLetterDate }}</td>
-                                                <td>{{ cAp.caExchangeDate }}</td>
-                                                <td>{{ cAp.caExchangeIdNumber }}</td>
                                                 <td><span @click="displayCreditSourceInfo_nat == cAp.id ? displayCreditSourceInfo_nat = '' : displayCreditSourceInfo_nat = cAp.id">{{ $parent.calcDispAmount(sumOfAmount(cAp.ca_credit_source) , false) }}</span></td>
                                                 <td>
                                                     <div class="grid-x">
@@ -280,7 +280,8 @@
                                                                 <ul class="my-menu small-font text-right">
                                                                     <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                                     <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                    <li><a v-on:click.prevent="openCreditSourceInsertModal(cAp.id , 0)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
+                                                                    <li><a v-on:click.prevent="openCreditSourceInsertModal(cAp.id , 1)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
+                                                                    <li><a v-on:click.prevent="openAmendmentTempModal(cAp)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -290,11 +291,12 @@
                                                     <input class="auto-margin" id="checkboxNational" type="checkbox">
                                                 </td>
                                             </tr>
-                                            <tr v-show="displayCreditSourceInfo_prov == cAp.id">
+                                            <tr v-show="displayCreditSourceInfo_nat == cAp.id">
                                                 <td colspan="7">
                                                     <table class="unstriped tbl-secondary-mrg small-font">
                                                         <thead class="my-thead">
                                                         <tr style="background-color: #F1F1F1 !important;">
+                                                            <th>برنامه</th>
                                                             <th>ردیف</th>
                                                             <th>فصل</th>
                                                             <th>عنوان فصل</th>
@@ -305,6 +307,7 @@
                                                         </thead>
                                                         <tbody>
                                                         <tr v-for="creditSource in cAp.ca_credit_source">
+                                                            <td>{{ creditSource.credit_distribution_title.cdtIdNumber + ' - ' + creditSource.credit_distribution_title.cdtSubject }}</td>
                                                             <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
                                                             <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
                                                             <td>{{ creditSource.tiny_season.season_title.cstSubject }}</td>
@@ -618,6 +621,47 @@
             </modal-small>
             <!--Amendment Modal End-->
 
+            <!--Amendment Modal Start-->
+            <modal-small v-if="showNatAmendmentModal" @close="showNatAmendmentModal= false">
+                <div slot="body">
+                    <form v-on:submit.prevent="createCaAmendmentTemp">
+                        <div class="grid-x" v-if="errorMessage">
+                            <div class="medium-12 columns padding-lr">
+                                <div class="alert callout">
+                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-6 columns padding-lr">
+                                <label>شماره ابلاغ
+                                    <input class="form-element-margin-btm" v-model="caAmendmentInput.idNumber" type="text" name="caLetterNumber" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('caLetterNumber')}">
+                                </label>
+                                <span v-show="errors.has('caLetterNumber')" class="error-font">شماره فراموش شده است!</span>
+                            </div>
+                            <div class="medium-4 columns padding-lr">
+                                <p class="date-picker-lbl">تاریخ مبادله
+                                    <pdatepicker  v-on:closed="checkValidDate('delivery_amendment')" v-model="caAmendmentInput.date" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery_amendment" open-transition-animation="left-slide-fade"></pdatepicker>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="small-12 columns padding-lr">
+                                <label>شرح
+                                    <textarea name="apDescription" v-model="caAmendmentInput.description" style="min-height: 150px;"></textarea>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="medium-6 columns padding-lr padding-bottom-modal">
+                            <div class="button-group float-left report-mrg">
+                                <button class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">تایید</span></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </modal-small>
+            <!--Amendment Modal End-->
+
             <!--Amendment Of The Agreement Modal Start-->
             <modal-full-screen v-if="showModalAmendmentCost" @close="showModalAmendmentCost= false">
                 <div slot="body">
@@ -666,15 +710,17 @@
                             <table class="tbl-head">
                                 <colgroup>
                                     <col width="150px"/>
+                                    <col width="100px"/>
                                     <col width="70px"/>
-                                    <col width="250px"/>
-                                    <col width="250"/>
+                                    <col width="200px"/>
+                                    <col width="200"/>
                                     <col width="100px"/>
                                     <col width="160px"/>
                                     <col width="12px"/>
                                 </colgroup>
                                 <tbody class="tbl-head-style ">
                                 <tr class="tbl-head-style-cell">
+                                    <th class="tbl-head-style-cell">برنامه</th>
                                     <th class="tbl-head-style-cell">ردیف</th>
                                     <th class="tbl-head-style-cell">فصل</th>
                                     <th class="tbl-head-style-cell">عنوان فصل</th>
@@ -691,14 +737,18 @@
                                 <table class="tbl-body-contain">
                                     <colgroup>
                                         <col width="150px"/>
+                                        <col width="100px"/>
                                         <col width="70px"/>
-                                        <col width="250px"/>
-                                        <col width="250"/>
+                                        <col width="200px"/>
+                                        <col width="200"/>
                                         <col width="100px"/>
                                         <col width="160px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style-cell">
                                         <tr v-for="creditSource in costAmendmentCreditSource.ca_credit_source">
+                                            <td>{{ creditSource.credit_distribution_title.cdtIdNumber + ' - ' + creditSource.credit_distribution_title.cdtSubject }}
+                                                <span v-show="creditSource.ccsDeleted" class="comlpleted-badage float-left">حذف شده</span>
+                                            </td>
                                             <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
                                             <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
                                             <td>{{ creditSource.tiny_season.season_title.cstSubject }}</td>
@@ -714,7 +764,7 @@
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'creditSource' + creditSource.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
                                                                 <li><a v-on:click.prevent="openDeleteTempCreditSourceModal(creditSource.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                <li><a v-on:click.prevent=""><i class="fa fa-newspaper-o size-16"></i>  اصلاح</a></li>
+                                                                <li><a v-on:click.prevent="openACaCsCostCreditEditModal(creditSource)"><i class="fa fa-newspaper-o size-16"></i>  اصلاح</a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -732,7 +782,7 @@
                         <div class="medium-12 columns padding-bottom-modal">
                             <div class="button-group float-left report-mrg">
                                 <a class="my-button my-danger float-left btn-for-load" @click="cancelCostAmendmentTemp"> <span class="btn-txt-mrg">لغو</span></a>
-                                <button class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">تایید</span></button>
+                                <a class="my-button my-success float-left btn-for-load" @click="acceptCostAmendment"> <span class="btn-txt-mrg">تایید</span></a>
                             </div>
                         </div>
                     </div>
@@ -826,9 +876,9 @@
             <!--Amendment Project Cost Modal Insert End-->
 
             <!--Amendment Project credit source Modal Edit Start-->
-            <modal-small v-if="showACaCsEditModal" @close="showACaCseditModal = false">
+            <modal-small v-if="showACaCsEditModal" @close="showACaCsEditModal = false">
                 <div  slot="body">
-                    <form v-on:submit.prevent="">
+                    <form v-on:submit.prevent="updateTempCreditSource">
                         <div class="grid-x" v-if="errorMessage">
                             <div class="medium-12 columns padding-lr">
                                 <div class="alert callout">
@@ -839,14 +889,16 @@
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
                                 <label>برنامه
-                                    <select disabled class="form-element-margin-btm" name="cdTitle">
-                                        <option value="1">1</option>
+                                    <select class="form-element-margin-btm" name="cdTitle" v-model="acaCreditSourceFill.cdtId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('howToRun')}">
+                                        <option value=""></option>
+                                        <option v-for="creditDistributionTitle in creditDistributionTitles" :value="creditDistributionTitle.id">{{ creditDistributionTitle.cdtIdNumber + ' - ' + creditDistributionTitle.cdtSubject + (creditDistributionTitle.county == null ? '' : ' - ' + creditDistributionTitle.county.coName)}}</option>
                                     </select>
+                                    <span v-show="errors.has('howToRun')" class="error-font">لطفا عنوان برنامه را انتخاب کنید!</span>
                                 </label>
                             </div>
                             <div class="medium-6 cell padding-lr">
                                 <label>ردیف توزیع اعتبار
-                                    <select  class="form-element-margin-btm"  name="row" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('row')}">
+                                    <select  class="form-element-margin-btm"  name="row" v-model="acaCreditSourceFill.crId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('row')}">
                                         <option value=""></option>
                                         <option v-for="creditDistributionRow in creditDistributionRows" :value="creditDistributionRow.id">{{ creditDistributionRow.cdSubject }}</option>
                                     </select>
@@ -857,18 +909,18 @@
                         <div class="grid-x">
                             <div class="medium-4 column padding-lr">
                                 <label>فصل
-                                    <select class="form-element-margin-btm" name="season" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('season')}">
+                                    <select class="form-element-margin-btm" v-model="selectedSeason" @change="getSeasonTitle"  name="season" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('season')}">
                                         <option value=""></option>
-                                        <option v-for="season in seasons" :value="season.id"></option>
+                                        <option v-for="season in seasons" :value="season.id">{{ season.sSubject }}</option>
                                     </select>
                                     <span v-show="errors.has('season')" class="error-font">لطفا فصل را انتخاب کنید!</span>
                                 </label>
                             </div>
                             <div class="medium-8 column padding-lr">
                                 <label>عنوان فصل
-                                    <select class="form-element-margin-btm"  name="seasonTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('seasonTitle')}">
+                                    <select class="form-element-margin-btm" v-model="selectedSeasonTitle" @change="getTinySeasons" name="seasonTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('seasonTitle')}">
                                         <option value=""></option>
-                                        <option></option>
+                                        <option v-for="seasonTitle in seasonTitles" :value="seasonTitle.id">{{ seasonTitle.cstSubject }}</option>
                                     </select>
                                     <span v-show="errors.has('seasonTitle')" class="error-font">لطفا عنوان فصل را انتخاب کنید!</span>
                                 </label>
@@ -877,9 +929,9 @@
                         <div class="grid-x">
                             <div class="medium-12 column padding-lr">
                                 <label>ریز فصل
-                                    <select class="form-element-margin-btm" name="subSeason" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('subSeason')}">
+                                    <select class="form-element-margin-btm" v-model="acaCreditSourceFill.tsId" name="subSeason" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('subSeason')}">
                                         <option value=""></option>
-                                        <option v-for="tinySeason in tinySeasons" :value="tinySeason.id"></option>
+                                        <option v-for="tinySeason in tinySeasons" :value="tinySeason.id">{{ tinySeason.ctsSubject }}</option>
                                     </select>
                                     <span v-show="errors.has('subSeason')" class="error-font">لطفا ریز فصل را انتخاب کنید!</span>
                                 </label>
@@ -887,8 +939,8 @@
                         </div>
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
-                                <label>مبلغ اعتبار <span class="btn-red"></span>
-                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="caCreditSourceInput.amount" v-validate="'required|decimal'" :class="{'input': true, 'error-border': errors.has('amount')}">
+                                <label>مبلغ اعتبار <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
+                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="acaCreditSourceFill.amount" v-validate="'required|decimal'" :class="{'input': true, 'error-border': errors.has('amount')}">
                                 </label>
                                 <span v-show="errors.has('amount')" class="error-font">لطفا مبلغ اعتبار را وارد کنید!</span>
                             </div>
@@ -896,7 +948,7 @@
                         <div class="grid-x">
                             <div class="small-12 columns padding-lr">
                                 <label>شرح
-                                    <textarea name="csDescription" style="min-height: 150px;"></textarea>
+                                    <textarea name="csDescription" style="min-height: 150px;" v-model="acaCreditSourceFill.description"></textarea>
                                 </label>
                             </div>
                         </div>
@@ -944,14 +996,17 @@
                 showModalUpdate: false,
                 showModalDelete: false,
                 showAmendmentModal:false,
+                showNatAmendmentModal: false,
                 showModalAmendmentCost:false,
                 showACaCsInsertModal:false,
                 showDeleteTempCreditSourceModal: false,
+                showACaCsEditModal: false,
                 dateIsValid_delivery_amendment: true,
                 costAmendmentCreditSource: [],
                 selectColumn:false,
                 tempCreditSourceSelectedId_delete: '',
                 costAgreementFill: {},
+                acaCreditSourceFill: {},
 
                 caCreditSourceInput: {},
                 caIdForInsertCreditSource: '',
@@ -1336,18 +1391,41 @@
             },
 
             openAmendmentTempModal:function (ca) {
+                this.provOrNat = ca.caProvinceOrNational
                 this.caAmendmentInput.parentId = ca.id;
                 this.caAmendmentInput.pOrN = ca.caProvinceOrNational;
-                this.caAmendmentInput.exIdNumber = ca.caExchangeIdNumber;
-                this.caAmendmentInput.exDate = ca.caExchangeDate;
                 this.caAmendmentInput.description = ca.caDescription;
-                this.showAmendmentModal=true;
+                if (this.provOrNat == 0)
+                {
+                    this.caAmendmentInput.exIdNumber = ca.caExchangeIdNumber;
+                    this.caAmendmentInput.exDate = ca.caExchangeDate;
+                    this.showAmendmentModal=true;
+                }
+                else
+                    this.showNatAmendmentModal = true;
 
             },
 
             openDeleteTempCreditSourceModal: function (csId) {
                 this.tempCreditSourceSelectedId_delete = csId;
                 this.showDeleteTempCreditSourceModal = true;
+            },
+
+            openACaCsCostCreditEditModal: function (creditSource) {
+                this.getCreditDistributionTitle(1); //all item should be national type => county = null
+                this.getSeasons();
+                this.getCreditDistributionRow();
+                this.selectedSeason = creditSource.tiny_season.season_title.season.id;
+                this.getSeasonTitle();
+                this.selectedSeasonTitle = creditSource.tiny_season.season_title.id;
+                this.getTinySeasons();
+                this.acaCreditSourceFill.csId = creditSource.id;
+                this.acaCreditSourceFill.crId = creditSource.ccsCdrId;
+                this.acaCreditSourceFill.tsId = creditSource.ccsTsId;
+                this.acaCreditSourceFill.cdtId = creditSource.ccsCdtId;
+                this.acaCreditSourceFill.amount = this.$parent.calcDispAmount(creditSource.ccsAmount , false);
+                this.acaCreditSourceFill.description = creditSource.ccsDescription;
+                this.showACaCsEditModal=true;
             },
 
             createCaAmendmentTemp: function () {
@@ -1362,7 +1440,10 @@
                                 caId: this.caAmendmentInput.parentId
                             }).then((response) => {
                                 this.costAmendmentCreditSource = response.data;
-                                this.showAmendmentModal = false;
+                                if (this.provOrNat == 0)
+                                    this.showAmendmentModal = false;
+                                else
+                                    this.showNatAmendmentModal = false;
                                 this.showModalAmendmentCost = true;
                                 console.log(response);
                             },(error) => {
@@ -1426,6 +1507,49 @@
                 }).then((response) => {
                     this.costAmendmentCreditSource = response.data;
                     this.showDeleteTempCreditSourceModal = false;
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+            },
+
+            updateTempCreditSource: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/budget/approved_plan/cost/amendment/temp/credit_source/update' , {
+                            caId: this.costAmendmentCreditSource.id,
+                            csId: this.acaCreditSourceFill.csId,
+                            crId: this.acaCreditSourceFill.crId,
+                            cdtId: this.acaCreditSourceFill.cdtId,
+                            tsId: this.acaCreditSourceFill.tsId,
+                            amount: this.acaCreditSourceFill.amount,
+                            description: this.acaCreditSourceFill.description,
+                        }).then((response) => {
+                            this.costAmendmentCreditSource = response.data;
+                            this.showACaCsEditModal=false;
+                            console.log(response);
+                        },(error) => {
+                            console.log(error);
+                        });
+                    }
+                });
+            },
+
+            acceptCostAmendment: function () {
+                axios.post('/budget/approved_plan/cost/amendment/accept' , {
+                    caId: this.costAmendmentCreditSource.id,
+                    parentId: this.caAmendmentInput.parentId
+                }).then((response) => {
+                    if (this.provOrNat == 0)
+                    {
+                        this.costAgreement_prov = response.data.data;
+                        this.makePagination(response.data , "provincial");
+                    }else{
+                        this.costAgreement_nat = response.data.data;
+                        this.makePagination(response.data , "national");
+                    }
+                    this.showModalAmendmentCost = false;
+                    this.$parent.displayNotif(response.status);
                     console.log(response);
                 },(error) => {
                     console.log(error);

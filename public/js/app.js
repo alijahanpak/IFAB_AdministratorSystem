@@ -121441,6 +121441,58 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -121458,14 +121510,17 @@ if (false) {(function () {
             showModalUpdate: false,
             showModalDelete: false,
             showAmendmentModal: false,
+            showNatAmendmentModal: false,
             showModalAmendmentCost: false,
             showACaCsInsertModal: false,
             showDeleteTempCreditSourceModal: false,
+            showACaCsEditModal: false,
             dateIsValid_delivery_amendment: true,
             costAmendmentCreditSource: [],
             selectColumn: false,
             tempCreditSourceSelectedId_delete: '',
             costAgreementFill: {},
+            acaCreditSourceFill: {},
 
             caCreditSourceInput: {},
             caIdForInsertCreditSource: '',
@@ -121850,17 +121905,37 @@ if (false) {(function () {
         },
 
         openAmendmentTempModal: function openAmendmentTempModal(ca) {
+            this.provOrNat = ca.caProvinceOrNational;
             this.caAmendmentInput.parentId = ca.id;
             this.caAmendmentInput.pOrN = ca.caProvinceOrNational;
-            this.caAmendmentInput.exIdNumber = ca.caExchangeIdNumber;
-            this.caAmendmentInput.exDate = ca.caExchangeDate;
             this.caAmendmentInput.description = ca.caDescription;
-            this.showAmendmentModal = true;
+            if (this.provOrNat == 0) {
+                this.caAmendmentInput.exIdNumber = ca.caExchangeIdNumber;
+                this.caAmendmentInput.exDate = ca.caExchangeDate;
+                this.showAmendmentModal = true;
+            } else this.showNatAmendmentModal = true;
         },
 
         openDeleteTempCreditSourceModal: function openDeleteTempCreditSourceModal(csId) {
             this.tempCreditSourceSelectedId_delete = csId;
             this.showDeleteTempCreditSourceModal = true;
+        },
+
+        openACaCsCostCreditEditModal: function openACaCsCostCreditEditModal(creditSource) {
+            this.getCreditDistributionTitle(1); //all item should be national type => county = null
+            this.getSeasons();
+            this.getCreditDistributionRow();
+            this.selectedSeason = creditSource.tiny_season.season_title.season.id;
+            this.getSeasonTitle();
+            this.selectedSeasonTitle = creditSource.tiny_season.season_title.id;
+            this.getTinySeasons();
+            this.acaCreditSourceFill.csId = creditSource.id;
+            this.acaCreditSourceFill.crId = creditSource.ccsCdrId;
+            this.acaCreditSourceFill.tsId = creditSource.ccsTsId;
+            this.acaCreditSourceFill.cdtId = creditSource.ccsCdtId;
+            this.acaCreditSourceFill.amount = this.$parent.calcDispAmount(creditSource.ccsAmount, false);
+            this.acaCreditSourceFill.description = creditSource.ccsDescription;
+            this.showACaCsEditModal = true;
         },
 
         createCaAmendmentTemp: function createCaAmendmentTemp() {
@@ -121876,7 +121951,7 @@ if (false) {(function () {
                             caId: _this11.caAmendmentInput.parentId
                         }).then(function (response) {
                             _this11.costAmendmentCreditSource = response.data;
-                            _this11.showAmendmentModal = false;
+                            if (_this11.provOrNat == 0) _this11.showAmendmentModal = false;else _this11.showNatAmendmentModal = false;
                             _this11.showModalAmendmentCost = true;
                             console.log(response);
                         }, function (error) {
@@ -121945,6 +122020,52 @@ if (false) {(function () {
             }).then(function (response) {
                 _this14.costAmendmentCreditSource = response.data;
                 _this14.showDeleteTempCreditSourceModal = false;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        updateTempCreditSource: function updateTempCreditSource() {
+            var _this15 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    axios.post('/budget/approved_plan/cost/amendment/temp/credit_source/update', {
+                        caId: _this15.costAmendmentCreditSource.id,
+                        csId: _this15.acaCreditSourceFill.csId,
+                        crId: _this15.acaCreditSourceFill.crId,
+                        cdtId: _this15.acaCreditSourceFill.cdtId,
+                        tsId: _this15.acaCreditSourceFill.tsId,
+                        amount: _this15.acaCreditSourceFill.amount,
+                        description: _this15.acaCreditSourceFill.description
+                    }).then(function (response) {
+                        _this15.costAmendmentCreditSource = response.data;
+                        _this15.showACaCsEditModal = false;
+                        console.log(response);
+                    }, function (error) {
+                        console.log(error);
+                    });
+                }
+            });
+        },
+
+        acceptCostAmendment: function acceptCostAmendment() {
+            var _this16 = this;
+
+            axios.post('/budget/approved_plan/cost/amendment/accept', {
+                caId: this.costAmendmentCreditSource.id,
+                parentId: this.caAmendmentInput.parentId
+            }).then(function (response) {
+                if (_this16.provOrNat == 0) {
+                    _this16.costAgreement_prov = response.data.data;
+                    _this16.makePagination(response.data, "provincial");
+                } else {
+                    _this16.costAgreement_nat = response.data.data;
+                    _this16.makePagination(response.data, "national");
+                }
+                _this16.showModalAmendmentCost = false;
+                _this16.$parent.displayNotif(response.status);
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -122237,7 +122358,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_c('table', {
       staticClass: "unstriped tbl-secondary-mrg small-font"
     }, [_vm._m(6, true), _vm._v(" "), _c('tbody', _vm._l((cAp.ca_credit_source), function(creditSource) {
-      return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.cstSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.ctsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
+      return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_title.cdtIdNumber + ' - ' + creditSource.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.cstSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.ctsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
     }))])])])]
   })], 2)])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
@@ -122405,7 +122526,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   })]), _vm._v(" "), _c('tbody', {
     staticClass: "tbl-head-style-cell"
   }, [_vm._l((_vm.costAgreement_nat), function(cAp) {
-    return [_c('tr', [_c('td', [_vm._v(_vm._s(cAp.caLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(cAp.caLetterDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(cAp.caExchangeDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(cAp.caExchangeIdNumber))]), _vm._v(" "), _c('td', [_c('span', {
+    return [_c('tr', [_c('td', [_vm._v(_vm._s(cAp.caLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(cAp.caLetterDate))]), _vm._v(" "), _c('td', [_c('span', {
       on: {
         "click": function($event) {
           _vm.displayCreditSourceInfo_nat == cAp.id ? _vm.displayCreditSourceInfo_nat = '' : _vm.displayCreditSourceInfo_nat = cAp.id
@@ -122459,12 +122580,21 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.openCreditSourceInsertModal(cAp.id, 0)
+          _vm.openCreditSourceInsertModal(cAp.id, 1)
         }
       }
     }, [_c('i', {
       staticClass: "fa fa-money size-16"
-    }), _vm._v("  اعتبارات")])])])])])])]), _vm._v(" "), _c('td', {
+    }), _vm._v("  اعتبارات")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.openAmendmentTempModal(cAp)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-newspaper-o size-16"
+    }), _vm._v("  اصلاحیه")])])])])])])]), _vm._v(" "), _c('td', {
       directives: [{
         name: "show",
         rawName: "v-show",
@@ -122481,8 +122611,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       directives: [{
         name: "show",
         rawName: "v-show",
-        value: (_vm.displayCreditSourceInfo_prov == cAp.id),
-        expression: "displayCreditSourceInfo_prov == cAp.id"
+        value: (_vm.displayCreditSourceInfo_nat == cAp.id),
+        expression: "displayCreditSourceInfo_nat == cAp.id"
       }]
     }, [_c('td', {
       attrs: {
@@ -122491,7 +122621,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_c('table', {
       staticClass: "unstriped tbl-secondary-mrg small-font"
     }, [_vm._m(11, true), _vm._v(" "), _c('tbody', _vm._l((cAp.ca_credit_source), function(creditSource) {
-      return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.cstSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.ctsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
+      return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_title.cdtIdNumber + ' - ' + creditSource.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.cstSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.ctsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
     }))])])])]
   })], 2)])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
@@ -123640,6 +123770,130 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "my-button my-success float-left btn-for-load"
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
+  }, [_vm._v("تایید")])])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showNatAmendmentModal) ? _c('modal-small', {
+    on: {
+      "close": function($event) {
+        _vm.showNatAmendmentModal = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.createCaAmendmentTemp($event)
+      }
+    }
+  }, [(_vm.errorMessage) ? _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 columns padding-lr"
+  }, [_c('div', {
+    staticClass: "alert callout"
+  }, [_c('p', {
+    staticClass: "BYekan login-alert"
+  }, [_c('i', {
+    staticClass: "fi-alert"
+  }), _vm._v(_vm._s(_vm.errorMessage))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-6 columns padding-lr"
+  }, [_c('label', [_vm._v("شماره ابلاغ\n                                "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.caAmendmentInput.idNumber),
+      expression: "caAmendmentInput.idNumber"
+    }, {
+      name: "validate",
+      rawName: "v-validate"
+    }],
+    staticClass: "form-element-margin-btm",
+    class: {
+      'input': true, 'select-error': _vm.errors.has('caLetterNumber')
+    },
+    attrs: {
+      "type": "text",
+      "name": "caLetterNumber",
+      "data-vv-rules": "required"
+    },
+    domProps: {
+      "value": (_vm.caAmendmentInput.idNumber)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.caAmendmentInput.idNumber = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('caLetterNumber')),
+      expression: "errors.has('caLetterNumber')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("شماره فراموش شده است!")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-4 columns padding-lr"
+  }, [_c('p', {
+    staticClass: "date-picker-lbl"
+  }, [_vm._v("تاریخ مبادله\n                                "), _c('pdatepicker', {
+    attrs: {
+      "errMessage": "تاریخ ابلاغ فراموش شده است!",
+      "isValid": _vm.dateIsValid_delivery_amendment,
+      "open-transition-animation": "left-slide-fade"
+    },
+    on: {
+      "closed": function($event) {
+        _vm.checkValidDate('delivery_amendment')
+      }
+    },
+    model: {
+      value: (_vm.caAmendmentInput.date),
+      callback: function($$v) {
+        _vm.caAmendmentInput.date = $$v
+      },
+      expression: "caAmendmentInput.date"
+    }
+  })], 1)])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "small-12 columns padding-lr"
+  }, [_c('label', [_vm._v("شرح\n                                "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.caAmendmentInput.description),
+      expression: "caAmendmentInput.description"
+    }],
+    staticStyle: {
+      "min-height": "150px"
+    },
+    attrs: {
+      "name": "apDescription"
+    },
+    domProps: {
+      "value": (_vm.caAmendmentInput.description)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.caAmendmentInput.description = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 columns padding-lr padding-bottom-modal"
+  }, [_c('div', {
+    staticClass: "button-group float-left report-mrg"
+  }, [_c('button', {
+    staticClass: "my-button my-success float-left btn-for-load"
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
   }, [_vm._v("تایید")])])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showModalAmendmentCost) ? _c('modal-full-screen', {
     on: {
       "close": function($event) {
@@ -123718,15 +123972,19 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
       "width": "70px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "250px"
+      "width": "200px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "250"
+      "width": "200"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
@@ -123745,6 +124003,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('tr', {
     staticClass: "tbl-head-style-cell"
   }, [_c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("برنامه")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
   }, [_vm._v("ردیف")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
@@ -123768,15 +124028,19 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
       "width": "70px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "250px"
+      "width": "200px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "250"
+      "width": "200"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
@@ -123789,7 +124053,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   })]), _vm._v(" "), _c('tbody', {
     staticClass: "tbl-head-style-cell"
   }, _vm._l((_vm.costAmendmentCreditSource.ca_credit_source), function(creditSource) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.cstSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.ctsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_c('div', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_title.cdtIdNumber + ' - ' + creditSource.credit_distribution_title.cdtSubject) + "\n                                            "), _c('span', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (creditSource.ccsDeleted),
+        expression: "creditSource.ccsDeleted"
+      }],
+      staticClass: "comlpleted-badage float-left"
+    }, [_vm._v("حذف شده")])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.cstSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.ctsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-11"
@@ -123830,6 +124102,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
+          _vm.openACaCsCostCreditEditModal(creditSource)
         }
       }
     }, [_c('i', {
@@ -123848,8 +124121,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
-  }, [_vm._v("لغو")])]), _vm._v(" "), _c('button', {
-    staticClass: "my-button my-success float-left btn-for-load"
+  }, [_vm._v("لغو")])]), _vm._v(" "), _c('a', {
+    staticClass: "my-button my-success float-left btn-for-load",
+    on: {
+      "click": _vm.acceptCostAmendment
+    }
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
   }, [_vm._v("تایید")])])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showACaCsInsertModal) ? _c('modal-small', {
@@ -124212,7 +124488,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showACaCsEditModal) ? _c('modal-small', {
     on: {
       "close": function($event) {
-        _vm.showACaCseditModal = false
+        _vm.showACaCsEditModal = false
       }
     }
   }, [_c('div', {
@@ -124224,6 +124500,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
+        _vm.updateTempCreditSource($event)
       }
     }
   }, [(_vm.errorMessage) ? _c('div', {
@@ -124241,19 +124518,61 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "medium-6 cell padding-lr"
   }, [_c('label', [_vm._v("برنامه\n                                "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.acaCreditSourceFill.cdtId),
+      expression: "acaCreditSourceFill.cdtId"
+    }, {
+      name: "validate",
+      rawName: "v-validate"
+    }],
     staticClass: "form-element-margin-btm",
+    class: {
+      'input': true, 'select-error': _vm.errors.has('howToRun')
+    },
     attrs: {
-      "disabled": "",
-      "name": "cdTitle"
+      "name": "cdTitle",
+      "data-vv-rules": "required"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.acaCreditSourceFill.cdtId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
   }, [_c('option', {
     attrs: {
-      "value": "1"
+      "value": ""
     }
-  }, [_vm._v("1")])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _vm._l((_vm.creditDistributionTitles), function(creditDistributionTitle) {
+    return _c('option', {
+      domProps: {
+        "value": creditDistributionTitle.id
+      }
+    }, [_vm._v(_vm._s(creditDistributionTitle.cdtIdNumber + ' - ' + creditDistributionTitle.cdtSubject + (creditDistributionTitle.county == null ? '' : ' - ' + creditDistributionTitle.county.coName)))])
+  })], 2), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('howToRun')),
+      expression: "errors.has('howToRun')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("لطفا عنوان برنامه را انتخاب کنید!")])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6 cell padding-lr"
   }, [_c('label', [_vm._v("ردیف توزیع اعتبار\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.acaCreditSourceFill.crId),
+      expression: "acaCreditSourceFill.crId"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -124264,6 +124583,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "name": "row",
       "data-vv-rules": "required"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.acaCreditSourceFill.crId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
   }, [_c('option', {
     attrs: {
@@ -124289,6 +124619,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-4 column padding-lr"
   }, [_c('label', [_vm._v("فصل\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectedSeason),
+      expression: "selectedSeason"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -124299,6 +124634,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "name": "season",
       "data-vv-rules": "required"
+    },
+    on: {
+      "change": [function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.selectedSeason = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }, _vm.getSeasonTitle]
     }
   }, [_c('option', {
     attrs: {
@@ -124309,7 +124655,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       domProps: {
         "value": season.id
       }
-    })
+    }, [_vm._v(_vm._s(season.sSubject))])
   })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
@@ -124322,6 +124668,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-8 column padding-lr"
   }, [_c('label', [_vm._v("عنوان فصل\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectedSeasonTitle),
+      expression: "selectedSeasonTitle"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -124332,12 +124683,29 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "name": "seasonTitle",
       "data-vv-rules": "required"
+    },
+    on: {
+      "change": [function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.selectedSeasonTitle = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }, _vm.getTinySeasons]
     }
   }, [_c('option', {
     attrs: {
       "value": ""
     }
-  }), _vm._v(" "), _c('option')]), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _vm._l((_vm.seasonTitles), function(seasonTitle) {
+    return _c('option', {
+      domProps: {
+        "value": seasonTitle.id
+      }
+    }, [_vm._v(_vm._s(seasonTitle.cstSubject))])
+  })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -124351,6 +124719,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-12 column padding-lr"
   }, [_c('label', [_vm._v("ریز فصل\n                                "), _c('select', {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.acaCreditSourceFill.tsId),
+      expression: "acaCreditSourceFill.tsId"
+    }, {
       name: "validate",
       rawName: "v-validate"
     }],
@@ -124361,6 +124734,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "name": "subSeason",
       "data-vv-rules": "required"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.acaCreditSourceFill.tsId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
   }, [_c('option', {
     attrs: {
@@ -124371,7 +124755,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       domProps: {
         "value": tinySeason.id
       }
-    })
+    }, [_vm._v(_vm._s(tinySeason.ctsSubject))])
   })], 2), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
@@ -124386,12 +124770,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-6 cell padding-lr"
   }, [_c('label', [_vm._v("مبلغ اعتبار "), _c('span', {
     staticClass: "btn-red"
-  }), _vm._v(" "), _c('input', {
+  }, [_vm._v(_vm._s('(' + _vm.$parent.getAmountBaseLabel() + ')'))]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.caCreditSourceInput.amount),
-      expression: "caCreditSourceInput.amount"
+      value: (_vm.acaCreditSourceFill.amount),
+      expression: "acaCreditSourceFill.amount"
     }, {
       name: "validate",
       rawName: "v-validate",
@@ -124407,12 +124791,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "name": "amount"
     },
     domProps: {
-      "value": (_vm.caCreditSourceInput.amount)
+      "value": (_vm.acaCreditSourceFill.amount)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.caCreditSourceInput.amount = $event.target.value
+        _vm.acaCreditSourceFill.amount = $event.target.value
       }
     }
   })]), _vm._v(" "), _c('span', {
@@ -124428,11 +124812,26 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "small-12 columns padding-lr"
   }, [_c('label', [_vm._v("شرح\n                                "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.acaCreditSourceFill.description),
+      expression: "acaCreditSourceFill.description"
+    }],
     staticStyle: {
       "min-height": "150px"
     },
     attrs: {
       "name": "csDescription"
+    },
+    domProps: {
+      "value": (_vm.acaCreditSourceFill.description)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.acaCreditSourceFill.description = $event.target.value
+      }
     }
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6 columns padding-lr padding-bottom-modal input-margin-top"
@@ -124632,7 +125031,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticStyle: {
       "background-color": "#F1F1F1 !important"
     }
-  }, [_c('th', [_vm._v("ردیف")]), _vm._v(" "), _c('th', [_vm._v("فصل")]), _vm._v(" "), _c('th', [_vm._v("عنوان فصل")]), _vm._v(" "), _c('th', [_vm._v("ریز فصل")]), _vm._v(" "), _c('th', [_vm._v("مبلغ")]), _vm._v(" "), _c('th', [_vm._v("توضیحات")])])])
+  }, [_c('th', [_vm._v("برنامه")]), _vm._v(" "), _c('th', [_vm._v("ردیف")]), _vm._v(" "), _c('th', [_vm._v("فصل")]), _vm._v(" "), _c('th', [_vm._v("عنوان فصل")]), _vm._v(" "), _c('th', [_vm._v("ریز فصل")]), _vm._v(" "), _c('th', [_vm._v("مبلغ")]), _vm._v(" "), _c('th', [_vm._v("توضیحات")])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "dropdown-pane dropdown-pane-sm ",
@@ -124750,7 +125149,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticStyle: {
       "background-color": "#F1F1F1 !important"
     }
-  }, [_c('th', [_vm._v("ردیف")]), _vm._v(" "), _c('th', [_vm._v("فصل")]), _vm._v(" "), _c('th', [_vm._v("عنوان فصل")]), _vm._v(" "), _c('th', [_vm._v("ریز فصل")]), _vm._v(" "), _c('th', [_vm._v("مبلغ")]), _vm._v(" "), _c('th', [_vm._v("توضیحات")])])])
+  }, [_c('th', [_vm._v("برنامه")]), _vm._v(" "), _c('th', [_vm._v("ردیف")]), _vm._v(" "), _c('th', [_vm._v("فصل")]), _vm._v(" "), _c('th', [_vm._v("عنوان فصل")]), _vm._v(" "), _c('th', [_vm._v("ریز فصل")]), _vm._v(" "), _c('th', [_vm._v("مبلغ")]), _vm._v(" "), _c('th', [_vm._v("توضیحات")])])])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
@@ -127618,6 +128017,11 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -128113,16 +128517,36 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       attrs: {
         "rowspan": _vm.getProjectAllocCount(progs.ca_credit_source_has_allocation)
       }
-    }, [_vm._v(_vm._s(progs.caLetterNumber))]), _vm._v(" "), _c('td', {
+    }, [_vm._v(_vm._s(progs.caLetterNumber) + "\n                                                "), _c('div', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (!progs.caActive),
+        expression: "!progs.caActive"
+      }],
+      staticClass: "text-center",
+      staticStyle: {
+        "margin-top": "5px"
+      }
+    }, [_c('span', {
+      staticClass: "new-badage"
+    }, [_vm._v("غیر فعال")])])]), _vm._v(" "), _c('td', {
       attrs: {
         "rowspan": progs.ca_credit_source_has_allocation[0].allocation.length
       }
-    }, [_vm._v(_vm._s(progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtIdNumber + ' - ' + progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
+    }, [_vm._v(_vm._s(progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtIdNumber + ' - ' + progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtSubject))]), _vm._v(" "), (progs.ca_credit_source_has_allocation[0].ccsDeleted) ? _c('td', {
       staticClass: "text-center",
       attrs: {
         "rowspan": progs.ca_credit_source_has_allocation[0].allocation.length
       }
-    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getProgAllocationSum(progs.ca_credit_source_has_allocation), false)))]), _vm._v(" "), _c('td', {
+    }, [_c('span', {
+      staticClass: "comlpleted-badage"
+    }, [_vm._v("حذف شده")])]) : _vm._e(), _vm._v(" "), (!progs.ca_credit_source_has_allocation[0].ccsDeleted) ? _c('td', {
+      staticClass: "text-center",
+      attrs: {
+        "rowspan": progs.ca_credit_source_has_allocation[0].allocation.length
+      }
+    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.getProgAllocationSum(progs.ca_credit_source_has_allocation), false)))]) : _vm._e(), _vm._v(" "), _c('td', {
       attrs: {
         "rowspan": progs.ca_credit_source_has_allocation[0].allocation.length
       }
