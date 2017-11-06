@@ -21,6 +21,7 @@ class CreateCaCreditSourceTempTable extends Migration
                 $table->integer('ccsTsId')->length(10)->unsigned();
                 $table->integer('ccsCaId')->length(10)->unsigned();
                 $table->integer('ccsCdtId')->length(10)->unsigned();
+                $table->integer('ccsCcsId')->length(10)->unsigned()->nullable();
                 $table->bigInteger('ccsAmount');
                 $table->tinyInteger('ccsDeleted')->default(0);
                 $table->longText('ccsDescription')->nullable();

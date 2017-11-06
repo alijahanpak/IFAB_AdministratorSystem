@@ -115,9 +115,14 @@
                                         <tbody class="tbl-head-style-cell">
                                         <template v-for="progs in provCostAllocations">
                                             <tr class="tbl-head-style-cell" >
-                                                <td :rowspan="getProjectAllocCount(progs.ca_credit_source_has_allocation)">{{ progs.caLetterNumber }}</td>
+                                                <td :rowspan="getProjectAllocCount(progs.ca_credit_source_has_allocation)">{{ progs.caLetterNumber }}
+                                                    <div v-show="!progs.caActive" class="text-center" style="margin-top: 5px">
+                                                        <span class="new-badage">غیر فعال</span>
+                                                    </div>
+                                                </td>
                                                 <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length">{{ progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtIdNumber + ' - ' + progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtSubject }}</td>
-                                                <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length" class="text-center">{{ $parent.calcDispAmount(getProgAllocationSum(progs.ca_credit_source_has_allocation) , false) }}</td>
+                                                <td v-if="progs.ca_credit_source_has_allocation[0].ccsDeleted" :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length" class="text-center"><span class="comlpleted-badage">حذف شده</span></td>
+                                                <td v-if="!progs.ca_credit_source_has_allocation[0].ccsDeleted" :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length" class="text-center">{{ $parent.calcDispAmount(getProgAllocationSum(progs.ca_credit_source_has_allocation) , false) }}</td>
                                                 <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length">{{ progs.ca_credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
                                                 <td>{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterNumber }}</td>
                                                 <td>{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterDate }}</td>
