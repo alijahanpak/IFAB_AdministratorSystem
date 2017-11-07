@@ -57,7 +57,7 @@
         @endif
     </div>
     <div class="float-left">
-        <p class="x-small-font left-details-money">مبلغ به <span> ({{ \Modules\Admin\Entities\User::find(Auth::user()->id)->first()->inPutAmountUnit->auSubject }}) </span></p>
+        <p class="x-small-font left-details-money">مبلغ به <span class="btn-red"> ({{ \Modules\Admin\Entities\User::find(Auth::user()->id)->first()->inPutAmountUnit->auSubject }}) </span></p>
     </div>
         @yield('content')
     <script src="{{ asset('js/vendor/jquery.js') }}"></script>

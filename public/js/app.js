@@ -116254,6 +116254,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -116293,6 +116295,7 @@ if (false) {(function () {
             counties: [],
             countyState: false,
             provOrNat: '',
+            reportType: 'pdf',
             apIdDelete: {},
             seasons: {},
             seasonTitles: {},
@@ -116354,10 +116357,8 @@ if (false) {(function () {
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             axios.get('/budget/approved_plan/capital_assets/fetchData?page=' + page, { params: { pOrN: 0 } }).then(function (response) {
-                _this.approvedPlan_prov = response.data.data;
-                _this.selectAll(_this.approvedPlan_prov);
+                _this.setData(0, response.data.data);
                 _this.makePagination(response.data, "provincial");
-                console.log(JSON.stringify(_this.approvedPlan_prov));
             }, function (error) {
                 console.log(error);
             });
@@ -116369,13 +116370,23 @@ if (false) {(function () {
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             axios.get('/budget/approved_plan/capital_assets/fetchData?page=' + page, { params: { pOrN: 1 } }).then(function (response) {
-                _this2.approvedPlan_nat = response.data.data;
-                _this2.selectAll(_this2.approvedPlan_nat);
+                _this2.setData(1, response.data.data);
                 _this2.makePagination(response.data, "national");
                 console.log(response);
             }, function (error) {
                 console.log(error);
             });
+        },
+
+        setData: function setData(type, data) {
+            if (type == 0) {
+                this.approvedPlan_prov = data;
+                this.selectAll(this.approvedPlan_prov);
+                console.log(JSON.stringify(this.approvedPlan_prov));
+            } else {
+                this.approvedPlan_nat = data;
+                this.selectAll(this.approvedPlan_nat);
+            }
         },
 
         getCreditDistributionTitle: function getCreditDistributionTitle(pOrN) {
@@ -116523,10 +116534,10 @@ if (false) {(function () {
                             pOrN: _this10.provOrNat
                         }).then(function (response) {
                             if (_this10.provOrNat == 0) {
-                                _this10.approvedPlan_prov = response.data.data;
+                                _this10.setData(0, response.data.data);
                                 _this10.makePagination(response.data, "provincial");
                             } else {
-                                _this10.approvedPlan_nat = response.data.data;
+                                _this10.setData(1, response.data.data);
                                 _this10.makePagination(response.data, "national");
                             }
                             _this10.showInsertModal = false;
@@ -116615,10 +116626,10 @@ if (false) {(function () {
                 parentId: this.approvedAmendmentInput.parentId
             }).then(function (response) {
                 if (_this12.provOrNat == 0) {
-                    _this12.approvedPlan_prov = response.data.data;
+                    _this12.setData(0, response.data.data);
                     _this12.makePagination(response.data, "provincial");
                 } else {
-                    _this12.approvedPlan_nat = response.data.data;
+                    _this12.setData(1, response.data.data);
                     _this12.makePagination(response.data, "national");
                 }
                 _this12.showModalAmendmentOfAgreement = false;
@@ -116677,10 +116688,11 @@ if (false) {(function () {
             }
         },
 
-        openReportModal: function openReportModal(proOrNat) {
+        openReportModal: function openReportModal(proOrNat, type) {
             var _this13 = this;
 
             this.provOrNat = proOrNat;
+            this.reportType = type;
             this.selectedItems = [];
             if (proOrNat == 0) {
                 if (this.selectedLength(this.approvedPlan_prov) != 0) {
@@ -116707,8 +116719,8 @@ if (false) {(function () {
             console.log(JSON.stringify(this.selectedItems));
         },
 
-        openPdfFile: function openPdfFile() {
-            axios.get('/budget/approved_plan/capital_assets/report', { params: { pOrN: this.provOrNat, options: this.reportOptions, selectedItems: this.selectedItems } }).then(function (response) {
+        openReportFile: function openReportFile() {
+            axios.get('/budget/approved_plan/capital_assets/report', { params: { pOrN: this.provOrNat, type: this.reportType, options: this.reportOptions, selectedItems: this.selectedItems } }).then(function (response) {
                 console.log(response.data);
                 window.open(response.data);
             }, function (error) {
@@ -116728,7 +116740,6 @@ if (false) {(function () {
                     return plan.checked = true;
                 });
             }
-            console.log(JSON.stringify(this.approvedPlan_prov));
         },
 
         allSelected: function allSelected(plans) {
@@ -117132,7 +117143,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('li', [_c('a', {
     on: {
       "click": function($event) {
-        _vm.openReportModal(0)
+        _vm.openReportModal(0, 'pdf')
       }
     }
   }, [_c('i', {
@@ -117140,7 +117151,18 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "aria-hidden": "true"
     }
-  }), _vm._v("PDF")])]), _vm._v(" "), _vm._m(4)])]), _vm._v(" "), _vm._m(5), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _vm._m(7)]), _vm._v(" "), _c('div', {
+  }), _vm._v("PDF")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.openReportModal(0, 'excel')
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-file-excel-o icon-margin-dropdown",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v("Excel")])])])]), _vm._v(" "), _vm._m(4), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
   }, [_c('table', {
     staticClass: "tbl-head"
@@ -117461,7 +117483,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('li', [_c('a', {
     on: {
       "click": function($event) {
-        _vm.openReportModal(1)
+        _vm.openReportModal(1, 'pdf')
       }
     }
   }, [_c('i', {
@@ -117469,7 +117491,18 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "aria-hidden": "true"
     }
-  }), _vm._v("PDF")])]), _vm._v(" "), _vm._m(8)])]), _vm._v(" "), _vm._m(9), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _vm._m(11)]), _vm._v(" "), _c('div', {
+  }), _vm._v("PDF")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.openReportModal(1, 'excel')
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-file-excel-o icon-margin-dropdown",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v("Excel")])])])]), _vm._v(" "), _vm._m(7), _vm._v(" "), _vm._m(8)]), _vm._v(" "), _vm._m(9)]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
   }, [_c('table', {
     staticClass: "tbl-head"
@@ -119953,7 +119986,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "submit": function($event) {
         $event.preventDefault();
-        _vm.openPdfFile($event)
+        _vm.openReportFile($event)
       }
     }
   }, [_c('div', {
@@ -119980,6 +120013,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }
   })])])]), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.reportType == 'pdf'),
+      expression: "reportType == 'pdf'"
+    }]
+  }, [_c('div', {
     staticClass: "grid-x padding-lr",
     staticStyle: {
       "margin-top": "10px"
@@ -120210,7 +120250,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("عمودی")])])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-10"
-  }, [_c('p', [_vm._v("جهت کاغذ")])])]), _vm._v(" "), _c('div', {
+  }, [_c('p', [_vm._v("جهت کاغذ")])])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-12 columns padding-lr padding-bottom-modal input-margin-top"
   }, [_c('button', {
     staticClass: "my-button my-success float-left btn-for-load",
@@ -120278,17 +120318,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "href": "#national_tab"
     }
   }, [_vm._v("ملی")])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-file-excel-o icon-margin-dropdown",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }), _vm._v("Excel")])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
@@ -120362,17 +120391,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }, [_c('i', {
     staticClass: "fi-magnifying-glass"
   })])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-file-excel-o icon-margin-dropdown",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }), _vm._v("Excel")])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",

@@ -44,8 +44,8 @@
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a @click="openReportModal(0)" ><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
-                                            <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
+                                            <li><a @click="openReportModal(0 , 'pdf')"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a @click="openReportModal(0 , 'excel')"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                                         </ul>
                                     </div>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="countDropDown1">تعداد نمایش<span> 20 </span></button>
@@ -180,8 +180,8 @@
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown2">گزارش</button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown2" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a  @click="openReportModal(1)"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
-                                            <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
+                                            <li><a  @click="openReportModal(1 , 'pdf')"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a  @click="openReportModal(1 , 'excel')"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                                         </ul>
                                     </div>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
@@ -950,7 +950,7 @@
             <modal-tiny v-if="showModalReport" @close="showModalReport= false">
                 <div  slot="body">
                     <div class="small-font">
-                        <form v-on:submit.prevent="openPdfFile">
+                        <form v-on:submit.prevent="openReportFile">
                             <div class="grid-x padding-lr">
                                 <div class="medium-12">
                                     <label>عنوان
@@ -958,60 +958,62 @@
                                     </label>
                                 </div>
                             </div>
-                            <div style="margin-top: 10px;" class="grid-x padding-lr">
-                                <div class="medium-2">
-                                    <div class="switch tiny">
-                                        <input checked="true" class="switch-input" id="yes-no-1" v-model="reportOptions.withReporterName" type="checkbox">
-                                        <label class="switch-paddle" for="yes-no-1">
-                                            <span class="switch-active" aria-hidden="true">بلی</span>
-                                            <span class="switch-inactive" aria-hidden="true">خیر</span>
-                                        </label>
+                            <div v-show="reportType == 'pdf'">
+                                <div style="margin-top: 10px;" class="grid-x padding-lr">
+                                    <div class="medium-2">
+                                        <div class="switch tiny">
+                                            <input checked="true" class="switch-input" id="yes-no-1" v-model="reportOptions.withReporterName" type="checkbox">
+                                            <label class="switch-paddle" for="yes-no-1">
+                                                <span class="switch-active" aria-hidden="true">بلی</span>
+                                                <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="medium-10">
+                                        <p>درج نام کاربر تهیه کننده گزارش</p>
                                     </div>
                                 </div>
-                                <div class="medium-10">
-                                    <p>درج نام کاربر تهیه کننده گزارش</p>
-                                </div>
-                            </div>
-                            <div class="grid-x padding-lr">
-                                <div class="medium-2">
-                                    <div class="switch tiny">
-                                        <input checked="true" class="switch-input" id="yes-no-2" type="checkbox" v-model="reportOptions.withFiscalYear">
-                                        <label class="switch-paddle" for="yes-no-2">
-                                            <span class="switch-active" aria-hidden="true">بلی</span>
-                                            <span class="switch-inactive" aria-hidden="true">خیر</span>
-                                        </label>
+                                <div class="grid-x padding-lr">
+                                    <div class="medium-2">
+                                        <div class="switch tiny">
+                                            <input checked="true" class="switch-input" id="yes-no-2" type="checkbox" v-model="reportOptions.withFiscalYear">
+                                            <label class="switch-paddle" for="yes-no-2">
+                                                <span class="switch-active" aria-hidden="true">بلی</span>
+                                                <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="medium-10">
+                                        <p>درج سال مالی</p>
                                     </div>
                                 </div>
-                                <div class="medium-10">
-                                    <p>درج سال مالی</p>
-                                </div>
-                            </div>
-                            <div class="grid-x padding-lr">
-                                <div class="medium-2">
-                                    <div class="switch tiny">
-                                        <input checked="true" class="switch-input" id="yes-no3" type="checkbox" v-model="reportOptions.withReportDate">
-                                        <label class="switch-paddle" for="yes-no3">
-                                            <span class="switch-active" aria-hidden="true">بلی</span>
-                                            <span class="switch-inactive" aria-hidden="true">خیر</span>
-                                        </label>
+                                <div class="grid-x padding-lr">
+                                    <div class="medium-2">
+                                        <div class="switch tiny">
+                                            <input checked="true" class="switch-input" id="yes-no3" type="checkbox" v-model="reportOptions.withReportDate">
+                                            <label class="switch-paddle" for="yes-no3">
+                                                <span class="switch-active" aria-hidden="true">بلی</span>
+                                                <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="medium-10">
+                                        <p>درج تاریخ گزارش</p>
                                     </div>
                                 </div>
-                                <div class="medium-10">
-                                    <p>درج تاریخ گزارش</p>
-                                </div>
-                            </div>
-                            <div class="grid-x padding-lr">
-                                <div class="medium-2">
-                                    <div class="switch tiny">
-                                        <input checked="true" class="switch-input" id="yes-no4" type="checkbox" v-model="reportOptions.orientation">
-                                        <label class="switch-paddle" for="yes-no4">
-                                            <span class="switch-active" aria-hidden="true">افقی</span>
-                                            <span class="switch-inactive" aria-hidden="true">عمودی</span>
-                                        </label>
+                                <div class="grid-x padding-lr">
+                                    <div class="medium-2">
+                                        <div class="switch tiny">
+                                            <input checked="true" class="switch-input" id="yes-no4" type="checkbox" v-model="reportOptions.orientation">
+                                            <label class="switch-paddle" for="yes-no4">
+                                                <span class="switch-active" aria-hidden="true">افقی</span>
+                                                <span class="switch-inactive" aria-hidden="true">عمودی</span>
+                                            </label>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="medium-10">
-                                    <p>جهت کاغذ</p>
+                                    <div class="medium-10">
+                                        <p>جهت کاغذ</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="medium-12 columns padding-lr padding-bottom-modal input-margin-top">
@@ -1081,6 +1083,7 @@
                 counties: [],
                 countyState: false,
                 provOrNat: '',
+                reportType: 'pdf',
                 apIdDelete: {},
                 seasons: {},
                 seasonTitles: {},
@@ -1138,10 +1141,8 @@
             fetchProvincialData: function (page = 1) {
                 axios.get('/budget/approved_plan/capital_assets/fetchData?page=' + page , {params:{pOrN: 0}})
                     .then((response) => {
-                        this.approvedPlan_prov = response.data.data;
-                        this.selectAll(this.approvedPlan_prov);
+                        this.setData(0 , response.data.data);
                         this.makePagination(response.data , "provincial");
-                        console.log(JSON.stringify(this.approvedPlan_prov));
                     },(error) => {
                         console.log(error);
                     });
@@ -1150,13 +1151,24 @@
             fetchNationalData: function (page = 1) {
                 axios.get('/budget/approved_plan/capital_assets/fetchData?page=' + page , {params:{pOrN: 1}})
                     .then((response) => {
-                        this.approvedPlan_nat = response.data.data;
-                        this.selectAll(this.approvedPlan_nat);
+                        this.setData(1 , response.data.data);
                         this.makePagination(response.data , "national");
                         console.log(response);
                     },(error) => {
                         console.log(error);
                     });
+            },
+
+            setData: function (type , data) {
+                if (type == 0)
+                {
+                    this.approvedPlan_prov = data;
+                    this.selectAll(this.approvedPlan_prov);
+                    console.log(JSON.stringify(this.approvedPlan_prov));
+                }else {
+                    this.approvedPlan_nat = data;
+                    this.selectAll(this.approvedPlan_nat);
+                }
             },
 
             getCreditDistributionTitle: function (pOrN) {
@@ -1307,12 +1319,12 @@
                             }).then((response) => {
                                 if (this.provOrNat == 0)
                                 {
-                                    this.approvedPlan_prov = response.data.data;
+                                    this.setData(0 , response.data.data);
                                     this.makePagination(response.data , "provincial");
                                 }
                                 else
                                 {
-                                    this.approvedPlan_nat= response.data.data;
+                                    this.setData(1 , response.data.data);
                                     this.makePagination(response.data , "national");
                                 }
                                 this.showInsertModal = false;
@@ -1399,10 +1411,10 @@
                 }).then((response) => {
                     if (this.provOrNat == 0)
                     {
-                        this.approvedPlan_prov = response.data.data;
+                        this.setData(0 , response.data.data);
                         this.makePagination(response.data , "provincial");
                     }else{
-                        this.approvedPlan_nat = response.data.data;
+                        this.setData(1 , response.data.data);
                         this.makePagination(response.data , "national");
                     }
                     this.showModalAmendmentOfAgreement = false;
@@ -1471,8 +1483,9 @@
                 }
             },
 
-            openReportModal: function (proOrNat) {
+            openReportModal: function (proOrNat , type) {
                 this.provOrNat = proOrNat;
+                this.reportType = type;
                 this.selectedItems = [];
                 if (proOrNat == 0)
                 {
@@ -1507,8 +1520,8 @@
                 console.log(JSON.stringify(this.selectedItems));
             },
 
-            openPdfFile: function () {
-                axios.get('/budget/approved_plan/capital_assets/report' , {params:{pOrN: this.provOrNat ,options: this.reportOptions , selectedItems: this.selectedItems}})
+            openReportFile: function () {
+                axios.get('/budget/approved_plan/capital_assets/report' , {params:{pOrN: this.provOrNat , type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems}})
                 .then((response) => {
                     console.log(response.data);
                     window.open(response.data);
@@ -1523,7 +1536,6 @@
                 } else {
                     plans.forEach(plan => plan.checked = true)
                 }
-                console.log(JSON.stringify(this.approvedPlan_prov));
             },
 
             allSelected: function(plans) {
