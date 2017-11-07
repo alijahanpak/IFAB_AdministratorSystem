@@ -52,7 +52,7 @@
         @endif
         @if ($options->withReportDate)
         <div style="margin-top: 50px;width: 20%;float: right;text-align: left;">
-            <p class="left-details">تاریخ : <span> 1396/08/09 </span></p>
+            <p class="left-details">تاریخ : <span> {{ \Morilog\Jalali\Facades\jDate::forge()->format('%Y/%m/%d') }} </span></p>
         </div>
         @endif
     </div>
