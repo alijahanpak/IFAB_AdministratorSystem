@@ -23,7 +23,7 @@ class BudgetReportController extends Controller
         $pdf->setOption('title', 'report');
         $pdf->setOption('footer-center', '[page]/[topage]');
         $pdf->setOption('margin-bottom', 20);
-        $pdf->setOrientation($options->orientation == true ? 'landscape' : 'portrait');
+        $pdf->setOrientation($options['orientation'] == true ? 'landscape' : 'portrait');
         $pdf->setOption('margin-top',5);
         $pdf->setOption('lowquality', true);
         $pdf->setOption('zoom', 1.2);
@@ -34,7 +34,7 @@ class BudgetReportController extends Controller
     {
         if ($request->type == 'pdf')
         {
-            $options = json_decode($request->get('options'));
+            $options = $request->get('options');
             $pdf = $this->initPdf($options);
             if ($request->pOrN == 0)
                 $pdf->loadHTML(view('budget::reports.approved.plan_provincial' , ['options' => $options , 'items' => $request->get('selectedItems')]));
@@ -49,11 +49,11 @@ class BudgetReportController extends Controller
                     ->getAlignment()
                     ->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
                 $excel->sheet('sheet1', function($sheet) use($request) {
-                    $options = json_decode($request->get('options'));
+                    $options = $request->get('options');
                     $sheet->setRightToLeft(true);
                     if ($request->pOrN == 0)
                     {
-                        $sheet->appendRow(array($options->title));
+                        $sheet->appendRow(array($options['title']));
                         $sheet->mergeCells('A1:G1');
                         $sheet->getStyle('A1:G1')->getAlignment()->applyFromArray(
                             array('horizontal' => 'center')
@@ -72,19 +72,18 @@ class BudgetReportController extends Controller
                         });
                         foreach ($request->get('selectedItems') as $tempItem)
                         {
-                            $item = json_decode($tempItem);
                             $sheet->appendRow(array(
-                                $item->credit_distribution_title->cdtIdNumber . ' - ' . $item->credit_distribution_title->cdtSubject,
-                                $item->capExchangeIdNumber,
-                                $item->capLetterDate,
-                                $item->capLetterNumber,
-                                $item->capLetterDate,
-                                $item->credit_distribution_title->county->coName,
-                                $item->capDescription
+                                $tempItem['credit_distribution_title']['cdtIdNumber'] . ' - ' . $tempItem['credit_distribution_title']['cdtSubject'],
+                                $tempItem['capExchangeIdNumber'],
+                                $tempItem['capLetterDate'],
+                                $tempItem['capLetterNumber'],
+                                $tempItem['capLetterDate'],
+                                $tempItem['credit_distribution_title']['county']['coName'],
+                                $tempItem['capDescription']
                             ));
                         }
                     }else{
-                        $sheet->appendRow(array($options->title));
+                        $sheet->appendRow(array($options['title']));
                         $sheet->mergeCells('A1:F1');
                         $sheet->getStyle('A1:F1')->getAlignment()->applyFromArray(
                             array('horizontal' => 'center')
@@ -102,14 +101,13 @@ class BudgetReportController extends Controller
                         });
                         foreach ($request->get('selectedItems') as $tempItem)
                         {
-                            $item = json_decode($tempItem);
                             $sheet->appendRow(array(
-                                $item->credit_distribution_title->cdtIdNumber . ' - ' . $item->credit_distribution_title->cdtSubject,
-                                $item->capExchangeIdNumber,
-                                $item->capLetterDate,
-                                $item->capLetterNumber,
-                                $item->capLetterDate,
-                                $item->capDescription
+                                $tempItem['credit_distribution_title']['cdtIdNumber'] . ' - ' . $tempItem['credit_distribution_title']['cdtSubject'],
+                                $tempItem['capExchangeIdNumber'],
+                                $tempItem['capLetterDate'],
+                                $tempItem['capLetterNumber'],
+                                $tempItem['capLetterDate'],
+                                $tempItem['capDescription']
                             ));
                         }
                     }

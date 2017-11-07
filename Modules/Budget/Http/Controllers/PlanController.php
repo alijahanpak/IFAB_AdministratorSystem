@@ -65,6 +65,9 @@ class PlanController extends Controller
             ->where('capProvinceOrNational' , '=' , $pOrN)
             ->with('creditDistributionTitle')
             ->with('creditDistributionTitle.county')
+            ->with('amendments')
+            ->with('amendments.creditDistributionTitle')
+            ->with('amendments.creditDistributionTitle.county')
             ->paginate(5);
     }
 
@@ -375,7 +378,6 @@ class PlanController extends Controller
     public function getAllTempProjectWithPlanId($pId)
     {
         return CapitalAssetsApprovedPlanTemp::where('id' , '=' , $pId)
-            ->has('capitalAssetsProject')
             ->with('capitalAssetsProject')
             ->with('creditDistributionTitle')
             ->with('creditDistributionTitle.county')

@@ -43204,7 +43204,7 @@ window.Vue = __webpack_require__(46);
 window.Vue.use(__WEBPACK_IMPORTED_MODULE_2_vee_validate__["a" /* default */]);
 window.Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_notification___default.a, { velocity: __WEBPACK_IMPORTED_MODULE_1_velocity_animate___default.a });
 window.Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue_progressbar___default.a, {
-    color: 'rgb(113, 106, 202)',
+    color: '#F0AD4E',
     failedColor: 'red',
     height: '50'
 
@@ -116256,6 +116256,94 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -116281,6 +116369,8 @@ if (false) {(function () {
             showModalReport: false,
             showDeleteTempProjectModal: false,
             showDeleteTempCreditSourceModal: false,
+            displayAmendmentInfo_nat: '',
+            displayAmendmentInfo_prov: '',
             selectColumn: false,
             approvedPlanFill: {},
             projectAmendmentFill: {},
@@ -116720,7 +116810,7 @@ if (false) {(function () {
         },
 
         openReportFile: function openReportFile() {
-            axios.get('/budget/approved_plan/capital_assets/report', { params: { pOrN: this.provOrNat, type: this.reportType, options: this.reportOptions, selectedItems: this.selectedItems } }).then(function (response) {
+            axios.post('/budget/approved_plan/capital_assets/report', { pOrN: this.provOrNat, type: this.reportType, options: this.reportOptions, selectedItems: this.selectedItems }).then(function (response) {
                 console.log(response.data);
                 window.open(response.data);
             }, function (error) {
@@ -117180,11 +117270,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "150px"
+      "width": "100px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "250px"
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "200px"
     }
   }), _vm._v(" "), _c('col', {
     directives: [{
@@ -117213,6 +117307,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("ابلاغی")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
   }, [_vm._v("شهرستان")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("اصلاحیه")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
   }, [_vm._v("شرح")]), _vm._v(" "), _c('th', {
     directives: [{
@@ -117254,11 +117350,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "150px"
+      "width": "100px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "250px"
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "200px"
     }
   }), _vm._v(" "), _c('col', {
     directives: [{
@@ -117272,16 +117372,31 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   })]), _vm._v(" "), _c('tbody', {
     staticClass: "tbl-head-style-cell"
-  }, _vm._l((_vm.approvedPlan_prov), function(plans) {
-    return _c('tr', [_c('td', [_vm._v(" " + _vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
+  }, [_vm._l((_vm.approvedPlan_prov), function(plans) {
+    return [_c('tr', [_c('td', [_vm._v(" " + _vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
       staticClass: "text-center"
     }, [_c('div', [_vm._v(_vm._s(plans.capExchangeIdNumber))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(plans.capExchangeDate))])]), _vm._v(" "), _c('td', {
       staticClass: "text-center"
-    }, [_c('div', [_vm._v(_vm._s(plans.capLetterNumber))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(plans.capLetterDate))])]), _vm._v(" "), _c('td', [_vm._v("\n                                                " + _vm._s(plans.credit_distribution_title.county.coName) + "\n                                            ")]), _vm._v(" "), _c('td', [_c('div', {
+    }, [_c('div', [_vm._v(_vm._s(plans.capLetterNumber))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(plans.capLetterDate))])]), _vm._v(" "), _c('td', [_vm._v("\n                                                    " + _vm._s(plans.credit_distribution_title.county.coName) + "\n                                                ")]), _vm._v(" "), _c('td', {
+      staticClass: "text-center"
+    }, [_c('span', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (plans.amendments.length > 0),
+        expression: "plans.amendments.length > 0"
+      }],
+      staticClass: "info-badage change-pointer",
+      on: {
+        "click": function($event) {
+          _vm.displayAmendmentInfo_prov == plans.id ? (_vm.displayAmendmentInfo_prov = '') : (_vm.displayAmendmentInfo_prov = plans.id)
+        }
+      }
+    }, [_vm._v("تاریخچه")])]), _vm._v(" "), _c('td', [_c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-11"
-    }, [_vm._v("\n                                                        " + _vm._s(plans.capDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                                            " + _vm._s(plans.capDescription) + "\n                                                        ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-1 cell-vertical-center text-left auto-margin"
     }, [_c('a', {
       staticClass: "dropdown small sm-btn-align",
@@ -117371,8 +117486,27 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           }
         }
       }
-    })])])
-  }))])])]), _vm._v(" "), _c('div', {
+    })])]), _vm._v(" "), (plans.amendments.length > 0) ? _c('tr', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.displayAmendmentInfo_prov == plans.id),
+        expression: "displayAmendmentInfo_prov == plans.id"
+      }]
+    }, [_c('td', {
+      attrs: {
+        "colspan": "6"
+      }
+    }, [_c('table', {
+      staticClass: "unstriped tbl-secondary-mrg small-font"
+    }, [_vm._m(7, true), _vm._v(" "), _c('tbody', _vm._l((plans.amendments), function(amendment) {
+      return _c('tr', [_c('td', [_vm._v(" " + _vm._s(amendment.credit_distribution_title.cdtIdNumber + ' - ' + amendment.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
+        staticClass: "text-center"
+      }, [_c('div', [_vm._v(_vm._s(amendment.capExchangeIdNumber))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(amendment.capExchangeDate))])]), _vm._v(" "), _c('td', {
+        staticClass: "text-center"
+      }, [_c('div', [_vm._v(_vm._s(amendment.capLetterNumber))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(amendment.capLetterDate))])]), _vm._v(" "), _c('td', [_vm._v("\n                                                                " + _vm._s(amendment.credit_distribution_title.county.coName) + "\n                                                            ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                                " + _vm._s(amendment.capDescription) + "\n                                                            ")]), _vm._v(" "), _vm._m(8, true)])
+    }))])])]) : _vm._e()]
+  })], 2)])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-8"
@@ -117502,7 +117636,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "aria-hidden": "true"
     }
-  }), _vm._v("Excel")])])])]), _vm._v(" "), _vm._m(7), _vm._v(" "), _vm._m(8)]), _vm._v(" "), _vm._m(9)]), _vm._v(" "), _c('div', {
+  }), _vm._v("Excel")])])])]), _vm._v(" "), _vm._m(9), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _vm._m(11)]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
   }, [_c('table', {
     staticClass: "tbl-head"
@@ -117520,7 +117654,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "350px"
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "250px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
@@ -117551,6 +117689,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("مبادله شده")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
   }, [_vm._v("ابلاغی")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("اصلاحیه")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
   }, [_vm._v("شرح")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
@@ -117594,7 +117734,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "350px"
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "250px"
     }
   }), _vm._v(" "), _c('col', {
     directives: [{
@@ -117608,12 +117752,27 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   })]), _vm._v(" "), _c('tbody', {
     staticClass: "tbl-head-style-cell"
-  }, _vm._l((_vm.approvedPlan_nat), function(plans) {
-    return _c('tr', [_c('td', [_vm._v(" " + _vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', [_c('div', [_vm._v(_vm._s(plans.capExchangeIdNumber))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(plans.capExchangeDate))])]), _vm._v(" "), _c('td', [_c('div', [_vm._v(_vm._s(plans.capLetterNumber))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(plans.capLetterDate))])]), _vm._v(" "), _c('td', [_c('div', {
+  }, [_vm._l((_vm.approvedPlan_nat), function(plans) {
+    return [_c('tr', [_c('td', [_vm._v(" " + _vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', [_c('div', [_vm._v(_vm._s(plans.capExchangeIdNumber))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(plans.capExchangeDate))])]), _vm._v(" "), _c('td', [_c('div', [_vm._v(_vm._s(plans.capLetterNumber))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(plans.capLetterDate))])]), _vm._v(" "), _c('td', {
+      staticClass: "text-center"
+    }, [_c('span', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (plans.amendments.length > 0),
+        expression: "plans.amendments.length > 0"
+      }],
+      staticClass: "info-badage change-pointer",
+      on: {
+        "click": function($event) {
+          _vm.displayAmendmentInfo_nat == plans.id ? (_vm.displayAmendmentInfo_nat = '') : (_vm.displayAmendmentInfo_nat = plans.id)
+        }
+      }
+    }, [_vm._v("تاریخچه")])]), _vm._v(" "), _c('td', [_c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-11"
-    }, [_vm._v("\n                                                    " + _vm._s(plans.capDescription) + "\n                                                ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                                        " + _vm._s(plans.capDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-1 cell-vertical-center text-left auto-margin"
     }, [_c('a', {
       staticClass: "dropdown small sm-btn-align",
@@ -117703,8 +117862,27 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           }
         }
       }
-    })])])
-  }))])])]), _vm._v(" "), _c('div', {
+    })])]), _vm._v(" "), (plans.amendments.length > 0) ? _c('tr', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.displayAmendmentInfo_nat == plans.id),
+        expression: "displayAmendmentInfo_nat == plans.id"
+      }]
+    }, [_c('td', {
+      attrs: {
+        "colspan": "5"
+      }
+    }, [_c('table', {
+      staticClass: "unstriped tbl-secondary-mrg small-font"
+    }, [_vm._m(12, true), _vm._v(" "), _c('tbody', _vm._l((plans.amendments), function(amendment) {
+      return _c('tr', [_c('td', [_vm._v(" " + _vm._s(amendment.credit_distribution_title.cdtIdNumber + ' - ' + amendment.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
+        staticClass: "text-center"
+      }, [_c('div', [_vm._v(_vm._s(amendment.capExchangeIdNumber))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(amendment.capExchangeDate))])]), _vm._v(" "), _c('td', {
+        staticClass: "text-center"
+      }, [_c('div', [_vm._v(_vm._s(amendment.capLetterNumber))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(amendment.capLetterDate))])]), _vm._v(" "), _c('td', [_vm._v("\n                                                            " + _vm._s(amendment.capDescription) + "\n                                                        ")]), _vm._v(" "), _vm._m(13, true)])
+    }))])])]) : _vm._e()]
+  })], 2)])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-8"
@@ -120392,6 +120570,18 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "fi-magnifying-glass"
   })])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', {
+    staticClass: "my-thead"
+  }, [_c('tr', {
+    staticStyle: {
+      "background-color": "#F1F1F1 !important"
+    }
+  }, [_c('th', [_vm._v("طرح")]), _vm._v(" "), _c('th', [_vm._v("مبادله شده")]), _vm._v(" "), _c('th', [_vm._v("ابلاغی")]), _vm._v(" "), _c('th', [_vm._v("شهرستان")]), _vm._v(" "), _c('th', [_vm._v("شرح")]), _vm._v(" "), _c('th')])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('td', {
+    staticClass: "text-center"
+  }, [_c('a', [_vm._v("جزئیات")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
     attrs: {
@@ -120464,6 +120654,18 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }, [_c('i', {
     staticClass: "fi-magnifying-glass"
   })])])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', {
+    staticClass: "my-thead"
+  }, [_c('tr', {
+    staticStyle: {
+      "background-color": "#F1F1F1 !important"
+    }
+  }, [_c('th', [_vm._v("طرح")]), _vm._v(" "), _c('th', [_vm._v("مبادله شده")]), _vm._v(" "), _c('th', [_vm._v("ابلاغی")]), _vm._v(" "), _c('th', [_vm._v("شرح")]), _vm._v(" "), _c('th')])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('td', {
+    staticClass: "text-center"
+  }, [_c('a', [_vm._v("جزئیات")])])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }

@@ -3,11 +3,6 @@
 Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modules\Budget\Http\Controllers'], function()
 {
     Route::get('/', 'BudgetController@dashboard');
-
-    /////////////////////// Report //////////////////////////////
-    Route::prefix('approved_plan/capital_assets')->group(function () {
-        Route::get('/provincial/report', 'BudgetReportController@approvedPlanProv');
-    });
     /////////////////////// Report //////////////////////////////
     Route::prefix('admin')->group(function () {
 /*        Route::get('deprived_area', 'BudgetAdminController@deprivedArea');
@@ -184,7 +179,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         //Route::post('/delete', 'PlanController@deleteCapitalAssetsApprovedPlan');
         //Route::post('/update', 'PlanController@updateCapitalAssetsApprovedPlan');
         Route::get('/getAllItems', 'PlanController@getAllApprovedPlan');
-        Route::get('/report', 'BudgetReportController@approvedPlan');
+        Route::post('/report', 'BudgetReportController@approvedPlan');
     });
 
     Route::prefix('approved_plan/capital_assets/amendment')->group(function () {

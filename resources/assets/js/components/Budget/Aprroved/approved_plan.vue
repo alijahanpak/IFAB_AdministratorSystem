@@ -77,8 +77,9 @@
                                         <col width="250px"/>
                                         <col width="150px"/>
                                         <col width="150px"/>
-                                        <col width="150px"/>
-                                        <col width="250px"/>
+                                        <col width="100px"/>
+                                        <col width="100px"/>
+                                        <col width="200px"/>
                                         <col v-show="selectColumn" width="15px"/>
                                         <col width="12px"/>
 
@@ -89,6 +90,7 @@
                                         <th class="tbl-head-style-cell">مبادله شده</th>
                                         <th class="tbl-head-style-cell">ابلاغی</th>
                                         <th class="tbl-head-style-cell">شهرستان</th>
+                                        <th class="tbl-head-style-cell">اصلاحیه</th>
                                         <th class="tbl-head-style-cell">شرح</th>
                                         <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox" @click="toggleSelect(approvedPlan_prov)" :checked="allSelected(approvedPlan_prov)"></th>
                                         <th class="tbl-head-style-cell"></th>
@@ -103,45 +105,89 @@
                                             <col width="250px"/>
                                             <col width="150px"/>
                                             <col width="150px"/>
-                                            <col width="150px"/>
-                                            <col width="250px"/>
+                                            <col width="100px"/>
+                                            <col width="100px"/>
+                                            <col width="200px"/>
                                             <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                            <tr v-for="plans in approvedPlan_prov">
-                                                <td> {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
-                                                <td  class="text-center">
-                                                    <div>{{ plans.capExchangeIdNumber }}</div>
-                                                    <div>{{ plans.capExchangeDate }}</div>
-                                                </td>
-                                                <td  class="text-center">
-                                                    <div>{{ plans.capLetterNumber }}</div>
-                                                    <div>{{ plans.capLetterDate }}</div>
-                                                </td>
-                                                <td>
-                                                    {{ plans.credit_distribution_title.county.coName }}
-                                                </td>
-                                                <td>
-                                                    <div class="grid-x">
-                                                        <div class="medium-11">
-                                                            {{ plans.capDescription }}
-                                                        </div>
-                                                        <div class="medium-1 cell-vertical-center text-left auto-margin">
-                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
-                                                                <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                    <li><a v-on:click.prevent="openApprovedAmendmentTempModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
-                                                                </ul>
+                                            <template v-for="plans in approvedPlan_prov">
+                                                <tr>
+                                                    <td> {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
+                                                    <td  class="text-center">
+                                                        <div>{{ plans.capExchangeIdNumber }}</div>
+                                                        <div>{{ plans.capExchangeDate }}</div>
+                                                    </td>
+                                                    <td  class="text-center">
+                                                        <div>{{ plans.capLetterNumber }}</div>
+                                                        <div>{{ plans.capLetterDate }}</div>
+                                                    </td>
+                                                    <td>
+                                                        {{ plans.credit_distribution_title.county.coName }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span @click="displayAmendmentInfo_prov == plans.id ? (displayAmendmentInfo_prov = '') : (displayAmendmentInfo_prov = plans.id)" v-show="plans.amendments.length > 0" class="info-badage change-pointer">تاریخچه</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="grid-x">
+                                                            <div class="medium-11">
+                                                                {{ plans.capDescription }}
+                                                            </div>
+                                                            <div class="medium-1 cell-vertical-center text-left auto-margin">
+                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font text-right">
+                                                                        <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        <li><a v-on:click.prevent="openApprovedAmendmentTempModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
+                                                                    </ul>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                                <td  v-show="selectColumn">
-                                                    <input class="auto-margin" v-model="plans.checked" type="checkbox">
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                    <td  v-show="selectColumn">
+                                                        <input class="auto-margin" v-model="plans.checked" type="checkbox">
+                                                    </td>
+                                                </tr>
+                                                <tr v-if="plans.amendments.length > 0" v-show="displayAmendmentInfo_prov == plans.id">
+                                                    <td colspan="6">
+                                                        <table class="unstriped tbl-secondary-mrg small-font">
+                                                            <thead class="my-thead">
+                                                            <tr style="background-color: #F1F1F1 !important;">
+                                                                <th>طرح</th>
+                                                                <th>مبادله شده</th>
+                                                                <th>ابلاغی</th>
+                                                                <th>شهرستان</th>
+                                                                <th>شرح</th>
+                                                                <th></th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr v-for="amendment in plans.amendments">
+                                                                <td> {{ amendment.credit_distribution_title.cdtIdNumber + ' - ' + amendment.credit_distribution_title.cdtSubject }}</td>
+                                                                <td class="text-center">
+                                                                    <div>{{ amendment.capExchangeIdNumber }}</div>
+                                                                    <div>{{ amendment.capExchangeDate }}</div>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <div>{{ amendment.capLetterNumber }}</div>
+                                                                    <div>{{ amendment.capLetterDate }}</div>
+                                                                </td>
+                                                                <td>
+                                                                    {{ amendment.credit_distribution_title.county.coName }}
+                                                                </td>
+                                                                <td>
+                                                                    {{ amendment.capDescription }}
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <a >جزئیات</a>
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </template>
                                         </tbody>
                                     </table>
                                 </div>
@@ -213,7 +259,8 @@
                                         <col width="300px"/>
                                         <col width="150px"/>
                                         <col width="150px"/>
-                                        <col width="350px"/>
+                                        <col width="100px"/>
+                                        <col width="250px"/>
                                         <col width="12px"/>
                                         <col v-show="selectColumn" width="15px"/>
                                         <col width="12px"/>
@@ -223,6 +270,7 @@
                                         <th class="tbl-head-style-cell">طرح</th>
                                         <th class="tbl-head-style-cell">مبادله شده</th>
                                         <th class="tbl-head-style-cell">ابلاغی</th>
+                                        <th class="tbl-head-style-cell">اصلاحیه</th>
                                         <th class="tbl-head-style-cell">شرح</th>
                                         <th class="tbl-head-style-cell"></th>
                                         <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox" @click="toggleSelect(approvedPlan_nat)" :checked="allSelected(approvedPlan_nat)"></th>
@@ -238,41 +286,81 @@
                                             <col width="300px"/>
                                             <col width="150px"/>
                                             <col width="150px"/>
-                                            <col width="350px"/>
+                                            <col width="100px"/>
+                                            <col width="250px"/>
                                             <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                        <tr v-for="plans in approvedPlan_nat">
-                                            <td> {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
-                                            <td>
-                                                <div>{{ plans.capExchangeIdNumber }}</div>
-                                                <div>{{ plans.capExchangeDate }}</div>
-                                            </td>
-                                            <td>
-                                                <div>{{ plans.capLetterNumber }}</div>
-                                                <div>{{ plans.capLetterDate }}</div>
-                                            </td>
-                                            <td>
-                                                <div class="grid-x">
-                                                    <div class="medium-11">
-                                                        {{ plans.capDescription }}
-                                                    </div>
-                                                    <div class="medium-1 cell-vertical-center text-left auto-margin">
-                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                        <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
-                                                            <ul class="my-menu small-font text-right">
-                                                                <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                <li><a v-on:click.prevent="openApprovedAmendmentTempModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
-                                                            </ul>
+                                        <template v-for="plans in approvedPlan_nat">
+                                            <tr>
+                                                <td> {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
+                                                <td>
+                                                    <div>{{ plans.capExchangeIdNumber }}</div>
+                                                    <div>{{ plans.capExchangeDate }}</div>
+                                                </td>
+                                                <td>
+                                                    <div>{{ plans.capLetterNumber }}</div>
+                                                    <div>{{ plans.capLetterDate }}</div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <span @click="displayAmendmentInfo_nat == plans.id ? (displayAmendmentInfo_nat = '') : (displayAmendmentInfo_nat = plans.id)" v-show="plans.amendments.length > 0" class="info-badage change-pointer">تاریخچه</span>
+                                                </td>
+                                                <td>
+                                                    <div class="grid-x">
+                                                        <div class="medium-11">
+                                                            {{ plans.capDescription }}
+                                                        </div>
+                                                        <div class="medium-1 cell-vertical-center text-left auto-margin">
+                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
+                                                                <ul class="my-menu small-font text-right">
+                                                                    <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li><a v-on:click.prevent="openApprovedAmendmentTempModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
+                                                                </ul>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td  v-show="selectColumn">
-                                                <input class="auto-margin" v-model="plans.checked" type="checkbox">
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td  v-show="selectColumn">
+                                                    <input class="auto-margin" v-model="plans.checked" type="checkbox">
+                                                </td>
+                                            </tr>
+                                            <tr v-if="plans.amendments.length > 0" v-show="displayAmendmentInfo_nat == plans.id">
+                                                <td colspan="5">
+                                                    <table class="unstriped tbl-secondary-mrg small-font">
+                                                        <thead class="my-thead">
+                                                        <tr style="background-color: #F1F1F1 !important;">
+                                                            <th>طرح</th>
+                                                            <th>مبادله شده</th>
+                                                            <th>ابلاغی</th>
+                                                            <th>شرح</th>
+                                                            <th></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr v-for="amendment in plans.amendments">
+                                                            <td> {{ amendment.credit_distribution_title.cdtIdNumber + ' - ' + amendment.credit_distribution_title.cdtSubject }}</td>
+                                                            <td class="text-center">
+                                                                <div>{{ amendment.capExchangeIdNumber }}</div>
+                                                                <div>{{ amendment.capExchangeDate }}</div>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <div>{{ amendment.capLetterNumber }}</div>
+                                                                <div>{{ amendment.capLetterDate }}</div>
+                                                            </td>
+                                                            <td>
+                                                                {{ amendment.capDescription }}
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <a >جزئیات</a>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </template>
                                         </tbody>
                                     </table>
                                 </div>
@@ -1069,6 +1157,8 @@
                 showModalReport:false,
                 showDeleteTempProjectModal: false,
                 showDeleteTempCreditSourceModal: false,
+                displayAmendmentInfo_nat: '',
+                displayAmendmentInfo_prov: '',
                 selectColumn:false,
                 approvedPlanFill: {},
                 projectAmendmentFill: {},
@@ -1521,7 +1611,7 @@
             },
 
             openReportFile: function () {
-                axios.get('/budget/approved_plan/capital_assets/report' , {params:{pOrN: this.provOrNat , type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems}})
+                axios.post('/budget/approved_plan/capital_assets/report' , {pOrN: this.provOrNat , type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
                 .then((response) => {
                     console.log(response.data);
                     window.open(response.data);

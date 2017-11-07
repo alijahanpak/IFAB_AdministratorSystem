@@ -1323,6 +1323,16 @@ button.purple-btn {
     margin-right: 3px;
     color: #ffffff;
 }
+
+.info-badage{
+    background-color: #36A3F7;
+    border-radius: 15px;
+    padding: 3px 8px;
+    margin-left:     3px;
+    margin-right: 3px;
+    color: #ffffff;
+}
+
 .modal-bottom{
     position:inherit;
     right: 0;

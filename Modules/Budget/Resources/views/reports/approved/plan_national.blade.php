@@ -13,25 +13,22 @@
                 </thead>
                 <tbody>
                 @foreach($items as $tempItem)
-                    <?php
-                        $item = json_decode($tempItem);
-                    ?>
                     <tr>
-                        <td>{{ $item->credit_distribution_title->cdtIdNumber . ' - ' . $item->credit_distribution_title->cdtSubject }}</td>
+                        <td>{{ $tempItem['credit_distribution_title']['cdtIdNumber'] . ' - ' . $tempItem['credit_distribution_title']['cdtSubject'] }}</td>
                         <td class="text-center">
-                            <div>{{ $item->capExchangeIdNumber }}</div>
-                            <div>{{ $item->capExchangeDate }}</div>
+                            <div>{{ $tempItem['capExchangeIdNumber'] }}</div>
+                            <div>{{ $tempItem['capExchangeDate'] }}</div>
                         </td>
                         <td class="text-center">
-                            <div>{{ $item->capLetterNumber }}</div>
-                            <div>{{ $item->capLetterDate }}</div>
+                            <div>{{ $tempItem['capLetterNumber'] }}</div>
+                            <div>{{ $tempItem['capLetterDate'] }}</div>
                         </td>
-                        <td>{{ $item->capDescription }}</td>
+                        <td>{{ $tempItem['capDescription'] }}</td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
-            @if ($options->withReporterName)
+            @if ($options['withReporterName'])
             <div class="text-left">
                 <p style="margin-top: 50px;margin-left: 50px;" class="BTitrBold x-small-font">علی جهان پاک</p>
             </div>
