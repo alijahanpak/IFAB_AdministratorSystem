@@ -105711,13 +105711,22 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     data: function data() {
         return {
             fiscalYears: [],
-            fyPermissionInBudget: {},
+            fyPermissionInBudget: [],
             showFyActiveModal: false,
             showChangePermissionDialog: false,
             allPermissionSelectedSection: { budget: '' },
@@ -105798,7 +105807,6 @@ if (false) {(function () {
                 _this2.makePagination(response.data);
                 _this2.showFyActiveModal = false;
                 console.log(response.data);
-                _this2.$parent.displayNotif(response.status);
             }, function (error) {
                 console.log(error);
             });
@@ -105814,26 +105822,28 @@ if (false) {(function () {
             var _this3 = this;
 
             axios.get('/budget/admin/fiscal_year/getFyPermissionInBudget', { params: { fyId: this.fyActiveId } }).then(function (response) {
-                var BPA_state = false;
+                //var BPA_state = false;
                 _this3.fyPermissionInBudget = response.data;
-                _this3.fyPermissionInBudget.forEach(function (item) {
-                    Vue.set(_this3.budgetPermissionState, item.id, item.pbStatus);
-                    if (item.pbStatus == 0) {
-                        _this3.allPermissionSelectedSection.budget = false;
-                        BPA_state = true;
-                    }
-                });
-
-                if (BPA_state == false) {
-                    _this3.allPermissionSelectedSection.budget = true;
-                }
+                /*                        this.fyPermissionInBudget.forEach(item => {
+                                            Vue.set(this.budgetPermissionState , item.id , item.pbStatus);
+                                            if (item.pbStatus == 0)
+                                            {
+                                                this.allPermissionSelectedSection.budget = false;
+                                                BPA_state = true;
+                                            }
+                                        });
+                
+                                        if (BPA_state == false)
+                                        {
+                                            this.allPermissionSelectedSection.budget = true;
+                                        }*/
                 console.log(response.data);
             }, function (error) {
                 console.log(error);
             });
         },
 
-        changeFySectionPermissionState: function changeFySectionPermissionState(section, fyId) {
+        changeFySectionPermissionState: function changeFySectionPermissionState(section) {
             var _this4 = this;
 
             switch (section) {
@@ -105841,11 +105851,10 @@ if (false) {(function () {
                     axios.post('/budget/admin/fiscal_year/changeSectionPermissionState', {
                         fyId: this.fyActiveId,
                         section: section,
-                        state: this.allPermissionSelectedSection.budget
+                        state: this.allSelected(this.fyPermissionInBudget)
                     }).then(function (response) {
                         _this4.fyPermissionInBudget = response.data;
                         console.log(response.data);
-                        _this4.$parent.displayNotif(response.status);
                     }, function (error) {
                         console.log(error);
                     });
@@ -105853,20 +105862,42 @@ if (false) {(function () {
             }
         },
 
-        changeBudgetItemPermissionState: function changeBudgetItemPermissionState(pbId) {
+        changeBudgetItemPermissionState: function changeBudgetItemPermissionState(pb) {
             var _this5 = this;
 
             axios.post('/budget/admin/fiscal_year/changeBudgetItemPermissionState', {
-                pbId: pbId,
-                state: this.budgetPermissionState[pbId]
+                pbId: pb.id,
+                state: pb.pbStatus
             }).then(function (response) {
                 _this5.fyPermissionInBudget = response.data;
                 console.log(response.data);
-                _this5.$parent.displayNotif(response.status);
             }, function (error) {
                 console.log(error);
             });
+        },
+
+        allSelected: function allSelected(permissions) {
+            return permissions.every(function (perm) {
+                return perm.pbStatus;
+            });
+        },
+
+        toggleSelect: function toggleSelect(permissions, section) {
+            if (permissions.find(function (perm) {
+                return perm.pbStatus;
+            })) {
+                permissions.forEach(function (perm) {
+                    return perm.pbStatus = false;
+                });
+            } else {
+                permissions.forEach(function (perm) {
+                    return perm.pbStatus = true;
+                });
+            }
+            this.changeFySectionPermissionState(section);
+            console.log(JSON.stringify(this.fyPermissionInBudget));
         }
+
     }
 });
 
@@ -105898,30 +105929,27 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("داشبورد")])], 1), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1)])])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x my-callout-box container-mrg-top dynamic-height-level1"
   }, [_c('div', {
-    staticClass: "medium-12 column"
+    staticClass: "medium-12 column padding-lr table-mrg-top"
   }, [_c('div', {
-    staticClass: "columns padding-lr table-mrg-top"
+    staticClass: "tbl-div-container"
   }, [_vm._m(2), _vm._v(" "), _c('div', {
-    staticClass: "table-contain dynamic-height-level2"
+    staticClass: "tbl_body_style dynamic-height-level2"
+  }, [_c('table', {
+    staticClass: "tbl-body-contain"
+  }, [_vm._m(3), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style-cell"
   }, _vm._l((_vm.fiscalYears), function(fiscalYear) {
-    return _c('div', {
-      staticClass: "grid-x"
-    }, [_c('div', {
-      staticClass: "medium-2 table-contain-border cell-vertical-center"
-    }, [_vm._v(_vm._s(fiscalYear.fyLabel))]), _vm._v(" "), _c('div', {
-      staticClass: "medium-4 table-contain-border cell-vertical-center"
-    }, [_vm._v(_vm._s(fiscalYear.fyDescription))]), _vm._v(" "), _c('div', {
-      staticClass: "medium-2 table-contain-border cell-vertical-center"
-    }, [_vm._v(_vm._s(_vm.getFiscalYearStatus(fiscalYear.fyStatus)))]), _vm._v(" "), _c('div', {
-      staticClass: "medium-2 table-contain-border cell-vertical-center text-center"
-    }, [_c('div', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(fiscalYear.fyLabel))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(fiscalYear.fyDescription))]), _vm._v(" "), _c('td', {
+      staticClass: "text-center"
+    }, [_vm._v(_vm._s(_vm.getFiscalYearStatus(fiscalYear.fyStatus)))]), _vm._v(" "), _c('td', {
+      staticClass: "text-center"
+    }, [_c('a', {
       directives: [{
         name: "show",
         rawName: "v-show",
-        value: (fiscalYear.fyStatus != 0),
-        expression: "fiscalYear.fyStatus != 0"
-      }]
-    }, [_c('a', {
+        value: (fiscalYear.fyStatus == 1),
+        expression: "fiscalYear.fyStatus == 1"
+      }],
       on: {
         "click": function($event) {
           _vm.openChangePermissionDialog(fiscalYear.id)
@@ -105929,16 +105957,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }, [_c('i', {
       staticClass: "fi-clipboard-pencil size-21 blue-color"
-    })])])]), _vm._v(" "), _c('div', {
-      staticClass: "medium-2 table-contain-border cell-vertical-center text-center"
-    }, [_c('div', {
+    })])]), _vm._v(" "), _c('td', {
+      staticClass: "text-center"
+    }, [_c('a', {
       directives: [{
         name: "show",
         rawName: "v-show",
         value: (fiscalYear.fyStatus == 0),
         expression: "fiscalYear.fyStatus == 0"
-      }]
-    }, [_c('a', {
+      }],
       on: {
         "click": function($event) {
           _vm.openFyActiveRequestDialog(fiscalYear.fyLabel, fiscalYear.id)
@@ -105946,8 +105973,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }, [_c('i', {
       staticClass: "fi-checkbox size-21 edit-pencil"
-    })])])])])
-  })), _vm._v(" "), _c('div', {
+    })])])])
+  }))])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12"
@@ -105961,7 +105988,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchData(_vm.pagination.current_page)
       }
     }
-  })], 1)])])])]), _vm._v(" "), (_vm.showFyActiveModal) ? _c('modal-tiny', {
+  })], 1)])])]), _vm._v(" "), (_vm.showFyActiveModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showFyActiveModal = false
@@ -106048,12 +106075,6 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "switch tiny"
   }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.allPermissionSelectedSection.budget),
-      expression: "allPermissionSelectedSection.budget"
-    }],
     staticClass: "switch-input",
     attrs: {
       "id": "budgetPermissionAllId",
@@ -106061,27 +106082,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "autocomplete": "off"
     },
     domProps: {
-      "checked": Array.isArray(_vm.allPermissionSelectedSection.budget) ? _vm._i(_vm.allPermissionSelectedSection.budget, null) > -1 : (_vm.allPermissionSelectedSection.budget)
+      "checked": _vm.allSelected(_vm.fyPermissionInBudget)
     },
     on: {
-      "change": function($event) {
-        _vm.changeFySectionPermissionState('budget')
-      },
-      "__c": function($event) {
-        var $$a = _vm.allPermissionSelectedSection.budget,
-          $$el = $event.target,
-          $$c = $$el.checked ? (true) : (false);
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$el.checked) {
-            $$i < 0 && (_vm.allPermissionSelectedSection.budget = $$a.concat([$$v]))
-          } else {
-            $$i > -1 && (_vm.allPermissionSelectedSection.budget = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-          }
-        } else {
-          _vm.allPermissionSelectedSection.budget = $$c
-        }
+      "click": function($event) {
+        _vm.toggleSelect(_vm.fyPermissionInBudget, 'budget')
       }
     }
   }), _vm._v(" "), _c('label', {
@@ -106116,8 +106121,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: (_vm.budgetPermissionState[fyPIB.id]),
-        expression: "budgetPermissionState[fyPIB.id]"
+        value: (fyPIB.pbStatus),
+        expression: "fyPIB.pbStatus"
       }],
       staticClass: "switch-input",
       attrs: {
@@ -106125,26 +106130,26 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "id": 'budgetPermission' + fyPIB.id
       },
       domProps: {
-        "checked": Array.isArray(_vm.budgetPermissionState[fyPIB.id]) ? _vm._i(_vm.budgetPermissionState[fyPIB.id], null) > -1 : (_vm.budgetPermissionState[fyPIB.id])
+        "checked": Array.isArray(fyPIB.pbStatus) ? _vm._i(fyPIB.pbStatus, null) > -1 : (fyPIB.pbStatus)
       },
       on: {
         "change": function($event) {
-          _vm.changeBudgetItemPermissionState(fyPIB.id)
+          _vm.changeBudgetItemPermissionState(fyPIB)
         },
         "__c": function($event) {
-          var $$a = _vm.budgetPermissionState[fyPIB.id],
+          var $$a = fyPIB.pbStatus,
             $$el = $event.target,
             $$c = $$el.checked ? (true) : (false);
           if (Array.isArray($$a)) {
             var $$v = null,
               $$i = _vm._i($$a, $$v);
             if ($$el.checked) {
-              $$i < 0 && (_vm.budgetPermissionState[fyPIB.id] = $$a.concat([$$v]))
+              $$i < 0 && (fyPIB.pbStatus = $$a.concat([$$v]))
             } else {
-              $$i > -1 && (_vm.budgetPermissionState[fyPIB.id] = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+              $$i > -1 && (fyPIB.pbStatus = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
             }
           } else {
-            _vm.$set(_vm.budgetPermissionState, fyPIB.id, $$c)
+            fyPIB.pbStatus = $$c
           }
         }
       }
@@ -106177,19 +106182,71 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "show-for-sr"
   }, [_vm._v("Current: ")]), _vm._v("سال مالی\n                        ")])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "grid-x table-header"
-  }, [_c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("سال مالی")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-4 table-border"
-  }, [_c('strong', [_vm._v("شرح")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("وضعیت")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("مجوزها")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("فعالسازی")])])])
+  return _c('table', {
+    staticClass: "tbl-head"
+  }, [_c('colgroup', [_c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "300px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "12px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style"
+  }, [_c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("سال مالی")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شرح")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("وضعیت")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("مجوزها")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("فعالسازی")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  })])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('colgroup', [_c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "300px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  })])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
