@@ -175,8 +175,8 @@
                                                         </table>
                                                     </td>
                                                 </tr>
-                                                <template v-for="(project,pIndex) in capital_assets_project">
-                                                    <tr v-if="pIndex>0">
+                                                <template v-for="(project , pIndex) in plans.capital_assets_project">
+                                                    <tr v-if="pIndex > 0">
                                                         <td>
                                                             {{ project.cpCode }}
                                                         </td>
@@ -407,8 +407,8 @@
                                                     </table>
                                                 </td>
                                             </tr>
-                                            <template v-for="(project,pIndex) in plans.capital_assets_project">
-                                                <tr v-if="pIndex>0">
+                                            <template v-for="(project , pIndex) in plans.capital_assets_project">
+                                                <tr v-if="pIndex > 0">
                                                     <td>
                                                         {{ project.cpCode }}
                                                     </td>
@@ -443,7 +443,7 @@
                                                         <input class="auto-margin" v-model="plans.checked" type="checkbox">
                                                     </td>
                                                 </tr>
-                                                <tr v-if="pIndex>0" v-show="displayCreditSourceInfo_nat == project.id">
+                                                <tr v-if="pIndex > 0" v-show="displayCreditSourceInfo_nat == project.id">
                                                     <td colspan="5">
                                                         <table class="unstriped tbl-secondary-mrg small-font">
                                                             <thead class="my-thead">

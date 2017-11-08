@@ -40,8 +40,6 @@ class ProjectController extends Controller
             ->with('creditDistributionTitle.county')
             ->with('capitalAssetsProject.creditSource')
             ->with('capitalAssetsProject.creditSource.creditDistributionRow')
-            ->with('capitalAssetsProject.creditSource.tinySeason')
-            ->with('capitalAssetsProject.creditSource.tinySeason.seasonTitle')
             ->with('capitalAssetsProject.creditSource.tinySeason.seasonTitle.season')
             ->with('capitalAssetsProject.creditSource.howToRun')
             ->with('capitalAssetsProject.county')->paginate(5);

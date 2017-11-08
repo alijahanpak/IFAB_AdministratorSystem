@@ -65,9 +65,12 @@ class PlanController extends Controller
             ->where('capProvinceOrNational' , '=' , $pOrN)
             ->with('creditDistributionTitle')
             ->with('creditDistributionTitle.county')
-            ->with('amendments')
             ->with('amendments.creditDistributionTitle')
             ->with('amendments.creditDistributionTitle.county')
+            ->with('amendments.capitalAssetsProject.creditSource.creditDistributionRow')
+            ->with('amendments.capitalAssetsProject.creditSource.tinySeason.seasonTitle.season')
+            ->with('amendments.capitalAssetsProject.creditSource.howToRun')
+            ->with('amendments.capitalAssetsProject.county')
             ->paginate(5);
     }
 
@@ -400,6 +403,10 @@ class PlanController extends Controller
             ->with('caCreditSource.tinySeason.seasonTitle.season')
             ->with('caCreditSource.creditDistributionRow')
             ->with('caCreditSource.creditDistributionTitle')
+            ->with('amendments')
+            ->with('amendments.caCreditSource.tinySeason.seasonTitle.season')
+            ->with('amendments.caCreditSource.creditDistributionRow')
+            ->with('amendments.caCreditSource.creditDistributionTitle')
             ->paginate(20);
     }
 

@@ -180,7 +180,7 @@
                                                                     {{ amendment.capDescription }}
                                                                 </td>
                                                                 <td class="text-center">
-                                                                    <a >جزئیات</a>
+                                                                    <a @click="openAmendmentPlanInfoModal(amendment)">جزئیات</a>
                                                                 </td>
                                                             </tr>
                                                             </tbody>
@@ -353,7 +353,7 @@
                                                                 {{ amendment.capDescription }}
                                                             </td>
                                                             <td class="text-center">
-                                                                <a >جزئیات</a>
+                                                                <a @click="openAmendmentPlanInfoModal(amendment)">جزئیات</a>
                                                             </td>
                                                         </tr>
                                                         </tbody>
@@ -596,7 +596,7 @@
                             </table>
                             <!--Table Head End-->
                             <!--Table Body Start-->
-                            <div class="tbl_body_style dynamic-height-level1">
+                            <div class="tbl_body_style dynamic-height-level-modal1">
                                 <table class="tbl-body-contain">
                                     <colgroup>
                                         <col width="100px"/>
@@ -1128,6 +1128,139 @@
             </modal-tiny>
             <!-- Delete Modal End -->
             <!--Forms End-->
+            <!--amendment plan info-->
+            <modal-large v-if="showAmendmentPlanInfoModal" @close="showAmendmentPlanInfoModal = false">
+                <div  slot="body">
+                    <div style="padding:0px;" class="grid-x border-btm-line">
+                        <div class="medium-12 cell padding-lr">
+                            <div class="grid-x">
+                                <div class="medium-12" style="margin-bottom: 1rem">
+                                    <strong>طرح: </strong><span>{{ amendmentPlanInfo.credit_distribution_title.cdtIdNumber + amendmentPlanInfo.credit_distribution_title.cdtSubject + (amendmentPlanInfo.capProvinceOrNational == 0 ? ' - ' + amendmentPlanInfo.credit_distribution_title.county.coName : '')}}</span>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-1">
+                                    <p>شماره ابلاغ : </p>
+                                </div>
+                                <div class="medium-3">
+                                    <strong class="btn-red">{{ amendmentPlanInfo.capLetterNumber }} </strong>
+                                </div>
+                                <div class="medium-1">
+                                    <p>تاریخ ابلاغ : </p>
+                                </div>
+                                <div class="medium-3">
+                                    <strong class="btn-red">{{ amendmentPlanInfo.capLetterDate }} </strong>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-1">
+                                    <p>شماره مبادله : </p>
+                                </div>
+                                <div class="medium-3">
+                                    <strong class="btn-red">{{ amendmentPlanInfo.capExchangeIdNumber }} </strong>
+                                </div>
+                                <div class="medium-1">
+                                    <p>تاریخ مبادله : </p>
+                                </div>
+                                <div class="medium-3">
+                                    <strong class="btn-red">{{ amendmentPlanInfo.capExchangeDate }} </strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="medium-12 cell padding-lr">
+                            <div class="grid-x">
+                                <div class="medium-12 padding-bottom-modal">
+                                    <strong>شرح: </strong><span style="display: inline">{{ amendmentPlanInfo.capDescription }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-x">
+                        <!--Table Start-->
+                        <!--Table Head Start-->
+                        <div class="tbl-div-container">
+                            <table class="tbl-head">
+                                <colgroup>
+                                    <col width="100px"/>
+                                    <col width="290px"/>
+                                    <col width="150px"/>
+                                    <col width="150px"/>
+                                    <col width="240px"/>
+                                    <col width="12px"/>
+                                </colgroup>
+                                <tbody class="tbl-head-style ">
+                                <tr class="tbl-head-style-cell">
+                                    <th class="tbl-head-style-cell">کد پروژه</th>
+                                    <th class="tbl-head-style-cell">عنوان پروژه</th>
+                                    <th class="tbl-head-style-cell">شهرستان </th>
+                                    <th class="tbl-head-style-cell">اعتبار</th>
+                                    <th class="tbl-head-style-cell">شرح</th>
+                                    <th class="tbl-head-style-cell"></th>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--Table Head End-->
+                            <!--Table Body Start-->
+                            <div class="tbl_body_style dynamic-height-level-modal1">
+                                <table class="tbl-body-contain">
+                                    <colgroup>
+                                        <col width="100px"/>
+                                        <col width="290px"/>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="240px"/>
+                                    </colgroup>
+                                    <tbody class="tbl-head-style-cell">
+                                    <template v-for="project in amendmentPlanInfo.capital_assets_project">
+                                        <tr>
+                                            <td>{{ project.cpCode }}</td>
+                                            <td>{{ project.cpSubject }}
+                                                <span v-show="project.cpDeleted" class="comlpleted-badage float-left">حذف شده</span>
+                                            </td>
+                                            <td>{{ project.county.coName }}</td>
+                                            <td @click="displayCSInfo == project.id ? displayCSInfo = '' : displayCSInfo = project.id">{{ $parent.calcDispAmount(sumOfAmount(project.credit_source) , false) }}</td>
+                                            <td>{{ project.cpDescription }}</td>
+                                        </tr>
+                                        <tr v-show="displayCSInfo == project.id">
+                                            <td colspan="5">
+                                                <table class="unstriped tbl-secondary-mrg small-font">
+                                                    <thead class="my-thead">
+                                                    <tr style="background-color: #F1F1F1 !important;">
+                                                        <th>ردیف</th>
+                                                        <th>فصل</th>
+                                                        <th>عنوان فصل</th>
+                                                        <th>ریز فصل</th>
+                                                        <th>نحوه اجرا</th>
+                                                        <th>مبلغ</th>
+                                                        <th>شرح</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr v-for="credit_source in project.credit_source">
+                                                        <td>{{ credit_source.credit_distribution_row.cdSubject }}
+                                                            <span v-show="credit_source.ccsDeleted" class="comlpleted-badage float-left">حذف شده</span>
+                                                        </td>
+                                                        <td>{{ credit_source.tiny_season.season_title.season.sSubject }}</td>
+                                                        <td>{{ credit_source.tiny_season.season_title.castSubject }}</td>
+                                                        <td>{{ credit_source.tiny_season.catsSubject }}</td>
+                                                        <td>{{ credit_source.how_to_run.htrSubject }}</td>
+                                                        <td>{{ $parent.calcDispAmount(credit_source.ccsAmount , false) }}</td>
+                                                        <td>{{ credit_source.ccsDescription }}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!--Table Body End-->
+                    </div>
+                </div>
+            </modal-large>
+            <!--amendment plan info-->
         </div>
     </div>
 </template>
@@ -1145,6 +1278,7 @@
                 approvedAmendmentInput: {},
                 projectAmendmentInput: {},
                 apCreditSourceInput: {},
+                amendmentPlanInfo: {},
                 showInsertModal: false,
                 showModalUpdate: false,
                 showModalDelete: false,
@@ -1157,6 +1291,7 @@
                 showModalReport:false,
                 showDeleteTempProjectModal: false,
                 showDeleteTempCreditSourceModal: false,
+                showAmendmentPlanInfoModal: false,
                 displayAmendmentInfo_nat: '',
                 displayAmendmentInfo_prov: '',
                 selectColumn:false,
@@ -1211,6 +1346,7 @@
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
+            this.myResizeModal();
         },
 
         mounted: function () {
@@ -1527,39 +1663,12 @@
             },
 
             myResizeModal: function() {
-                /*console.log("......................res..........................");
-                var tabHeight = $('.tabs').height();
-
-                if (toolBarHeight === undefined)
-                {
-                    toolBarHeight = -8;
-                }
-
-                if (paginationHeight === undefined)
-                {
-                    paginationHeight = -8;
-                }
-
-                if (tabHeight===undefined) {
-                    if (toolBarHeight > 0)
-                        tabHeight = -28;
-                    else
-                        tabHeight = -8;
-                    notifHeight=0;
-                }
-
-                if ($('.vertical-tab').length > 0)
-                {
-                    tabHeight = 10;
-                }
-
-                $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 180) + 'px');
-
-                var x = $(".dynamic-height-level1").height();
-                $('.dynamic-height-level2').css('height', (x - 100 - (tabHeight  + toolBarHeight + paginationHeight)) + 'px');*/
+                var x = $.w.outerHeight();
+                $('.dynamic-height-level-modal1').css('height', (x-360) + 'px');
             },
 
             makePagination: function(data , type){
+                console.log(JSON.stringify(data));
                 if (type == "national")
                 {
                     this.national_pagination.current_page = data.current_page;
@@ -1731,6 +1840,11 @@
             openDeleteTempCreditSourceModal: function (csId) {
                 this.tempCreditSourceSelectedId_delete = csId;
                 this.showDeleteTempCreditSourceModal = true;
+            },
+
+            openAmendmentPlanInfoModal: function (amendment) {
+                this.amendmentPlanInfo = amendment;
+                this.showAmendmentPlanInfoModal = true;
             },
 
             cancelApprovedAmendmentTemp: function () {

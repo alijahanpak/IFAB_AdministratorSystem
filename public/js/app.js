@@ -113162,7 +113162,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "unstriped tbl-secondary-mrg small-font"
     }, [_vm._m(8, true), _vm._v(" "), _c('tbody', _vm._l((plans.capital_assets_project[0].credit_source), function(creditSource) {
       return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.castSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.catsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.how_to_run.htrSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
-    }))])])]), _vm._v(" "), _vm._l((_vm.capital_assets_project), function(project, pIndex) {
+    }))])])]), _vm._v(" "), _vm._l((plans.capital_assets_project), function(project, pIndex) {
       return [(pIndex > 0) ? _c('tr', [_c('td', [_vm._v("\n                                                        " + _vm._s(project.cpCode) + "\n                                                    ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                        " + _vm._s(project.cpSubject) + "\n                                                    ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                        " + _vm._s(project.county.coName) + "\n                                                    ")]), _vm._v(" "), _c('td', [_c('span', {
         on: {
           "click": function($event) {
@@ -116344,6 +116344,139 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -116357,6 +116490,7 @@ if (false) {(function () {
             approvedAmendmentInput: {},
             projectAmendmentInput: {},
             apCreditSourceInput: {},
+            amendmentPlanInfo: {},
             showInsertModal: false,
             showModalUpdate: false,
             showModalDelete: false,
@@ -116369,6 +116503,7 @@ if (false) {(function () {
             showModalReport: false,
             showDeleteTempProjectModal: false,
             showDeleteTempCreditSourceModal: false,
+            showAmendmentPlanInfoModal: false,
             displayAmendmentInfo_nat: '',
             displayAmendmentInfo_prov: '',
             selectColumn: false,
@@ -116424,6 +116559,7 @@ if (false) {(function () {
 
     updated: function updated() {
         $(this.$el).foundation(); //WORKS!
+        this.myResizeModal();
     },
 
     mounted: function mounted() {
@@ -116740,33 +116876,12 @@ if (false) {(function () {
         },
 
         myResizeModal: function myResizeModal() {
-            /*console.log("......................res..........................");
-            var tabHeight = $('.tabs').height();
-             if (toolBarHeight === undefined)
-            {
-                toolBarHeight = -8;
-            }
-             if (paginationHeight === undefined)
-            {
-                paginationHeight = -8;
-            }
-             if (tabHeight===undefined) {
-                if (toolBarHeight > 0)
-                    tabHeight = -28;
-                else
-                    tabHeight = -8;
-                notifHeight=0;
-            }
-             if ($('.vertical-tab').length > 0)
-            {
-                tabHeight = 10;
-            }
-             $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 180) + 'px');
-             var x = $(".dynamic-height-level1").height();
-            $('.dynamic-height-level2').css('height', (x - 100 - (tabHeight  + toolBarHeight + paginationHeight)) + 'px');*/
+            var x = $.w.outerHeight();
+            $('.dynamic-height-level-modal1').css('height', x - 360 + 'px');
         },
 
         makePagination: function makePagination(data, type) {
+            console.log(JSON.stringify(data));
             if (type == "national") {
                 this.national_pagination.current_page = data.current_page;
                 this.national_pagination.to = data.to;
@@ -116931,6 +117046,11 @@ if (false) {(function () {
         openDeleteTempCreditSourceModal: function openDeleteTempCreditSourceModal(csId) {
             this.tempCreditSourceSelectedId_delete = csId;
             this.showDeleteTempCreditSourceModal = true;
+        },
+
+        openAmendmentPlanInfoModal: function openAmendmentPlanInfoModal(amendment) {
+            this.amendmentPlanInfo = amendment;
+            this.showAmendmentPlanInfoModal = true;
         },
 
         cancelApprovedAmendmentTemp: function cancelApprovedAmendmentTemp() {
@@ -117504,7 +117624,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         staticClass: "text-center"
       }, [_c('div', [_vm._v(_vm._s(amendment.capExchangeIdNumber))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(amendment.capExchangeDate))])]), _vm._v(" "), _c('td', {
         staticClass: "text-center"
-      }, [_c('div', [_vm._v(_vm._s(amendment.capLetterNumber))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(amendment.capLetterDate))])]), _vm._v(" "), _c('td', [_vm._v("\n                                                                " + _vm._s(amendment.credit_distribution_title.county.coName) + "\n                                                            ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                                " + _vm._s(amendment.capDescription) + "\n                                                            ")]), _vm._v(" "), _vm._m(8, true)])
+      }, [_c('div', [_vm._v(_vm._s(amendment.capLetterNumber))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(amendment.capLetterDate))])]), _vm._v(" "), _c('td', [_vm._v("\n                                                                " + _vm._s(amendment.credit_distribution_title.county.coName) + "\n                                                            ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                                " + _vm._s(amendment.capDescription) + "\n                                                            ")]), _vm._v(" "), _c('td', {
+        staticClass: "text-center"
+      }, [_c('a', {
+        on: {
+          "click": function($event) {
+            _vm.openAmendmentPlanInfoModal(amendment)
+          }
+        }
+      }, [_vm._v("جزئیات")])])])
     }))])])]) : _vm._e()]
   })], 2)])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
@@ -117636,7 +117764,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "aria-hidden": "true"
     }
-  }), _vm._v("Excel")])])])]), _vm._v(" "), _vm._m(9), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _vm._m(11)]), _vm._v(" "), _c('div', {
+  }), _vm._v("Excel")])])])]), _vm._v(" "), _vm._m(8), _vm._v(" "), _vm._m(9)]), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
   }, [_c('table', {
     staticClass: "tbl-head"
@@ -117875,12 +118003,20 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }, [_c('table', {
       staticClass: "unstriped tbl-secondary-mrg small-font"
-    }, [_vm._m(12, true), _vm._v(" "), _c('tbody', _vm._l((plans.amendments), function(amendment) {
+    }, [_vm._m(11, true), _vm._v(" "), _c('tbody', _vm._l((plans.amendments), function(amendment) {
       return _c('tr', [_c('td', [_vm._v(" " + _vm._s(amendment.credit_distribution_title.cdtIdNumber + ' - ' + amendment.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
         staticClass: "text-center"
       }, [_c('div', [_vm._v(_vm._s(amendment.capExchangeIdNumber))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(amendment.capExchangeDate))])]), _vm._v(" "), _c('td', {
         staticClass: "text-center"
-      }, [_c('div', [_vm._v(_vm._s(amendment.capLetterNumber))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(amendment.capLetterDate))])]), _vm._v(" "), _c('td', [_vm._v("\n                                                            " + _vm._s(amendment.capDescription) + "\n                                                        ")]), _vm._v(" "), _vm._m(13, true)])
+      }, [_c('div', [_vm._v(_vm._s(amendment.capLetterNumber))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(amendment.capLetterDate))])]), _vm._v(" "), _c('td', [_vm._v("\n                                                            " + _vm._s(amendment.capDescription) + "\n                                                        ")]), _vm._v(" "), _c('td', {
+        staticClass: "text-center"
+      }, [_c('a', {
+        on: {
+          "click": function($event) {
+            _vm.openAmendmentPlanInfoModal(amendment)
+          }
+        }
+      }, [_vm._v("جزئیات")])])])
     }))])])]) : _vm._e()]
   })], 2)])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
@@ -118504,7 +118640,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("شرح")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
   })])])]), _vm._v(" "), _c('div', {
-    staticClass: "tbl_body_style dynamic-height-level1"
+    staticClass: "tbl_body_style dynamic-height-level-modal1"
   }, [_c('table', {
     staticClass: "tbl-body-contain"
   }, [_c('colgroup', [_c('col', {
@@ -120461,7 +120597,187 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": _vm.deleteTempCreditSource
     }
-  }, [_vm._v("تایید")])])])])])]) : _vm._e()], 1)])
+  }, [_vm._v("تایید")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showAmendmentPlanInfoModal) ? _c('modal-large', {
+    on: {
+      "close": function($event) {
+        _vm.showAmendmentPlanInfoModal = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('div', {
+    staticClass: "grid-x border-btm-line",
+    staticStyle: {
+      "padding": "0px"
+    }
+  }, [_c('div', {
+    staticClass: "medium-12 cell padding-lr"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12",
+    staticStyle: {
+      "margin-bottom": "1rem"
+    }
+  }, [_c('strong', [_vm._v("طرح: ")]), _c('span', [_vm._v(_vm._s(_vm.amendmentPlanInfo.credit_distribution_title.cdtIdNumber + _vm.amendmentPlanInfo.credit_distribution_title.cdtSubject + (_vm.amendmentPlanInfo.capProvinceOrNational == 0 ? ' - ' + _vm.amendmentPlanInfo.credit_distribution_title.county.coName : '')))])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-1"
+  }, [_c('p', [_vm._v("شماره ابلاغ : ")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-3"
+  }, [_c('strong', {
+    staticClass: "btn-red"
+  }, [_vm._v(_vm._s(_vm.amendmentPlanInfo.capLetterNumber) + " ")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-1"
+  }, [_c('p', [_vm._v("تاریخ ابلاغ : ")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-3"
+  }, [_c('strong', {
+    staticClass: "btn-red"
+  }, [_vm._v(_vm._s(_vm.amendmentPlanInfo.capLetterDate) + " ")])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-1"
+  }, [_c('p', [_vm._v("شماره مبادله : ")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-3"
+  }, [_c('strong', {
+    staticClass: "btn-red"
+  }, [_vm._v(_vm._s(_vm.amendmentPlanInfo.capExchangeIdNumber) + " ")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-1"
+  }, [_c('p', [_vm._v("تاریخ مبادله : ")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-3"
+  }, [_c('strong', {
+    staticClass: "btn-red"
+  }, [_vm._v(_vm._s(_vm.amendmentPlanInfo.capExchangeDate) + " ")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-12 cell padding-lr"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 padding-bottom-modal"
+  }, [_c('strong', [_vm._v("شرح: ")]), _c('span', {
+    staticStyle: {
+      "display": "inline"
+    }
+  }, [_vm._v(_vm._s(_vm.amendmentPlanInfo.capDescription))])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "tbl-div-container"
+  }, [_c('table', {
+    staticClass: "tbl-head"
+  }, [_c('colgroup', [_c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "290px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "240px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "12px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style "
+  }, [_c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("کد پروژه")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("عنوان پروژه")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شهرستان ")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("اعتبار")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شرح")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "tbl_body_style dynamic-height-level-modal1"
+  }, [_c('table', {
+    staticClass: "tbl-body-contain"
+  }, [_c('colgroup', [_c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "290px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "240px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._l((_vm.amendmentPlanInfo.capital_assets_project), function(project) {
+    return [_c('tr', [_c('td', [_vm._v(_vm._s(project.cpCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(project.cpSubject) + "\n                                            "), _c('span', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (project.cpDeleted),
+        expression: "project.cpDeleted"
+      }],
+      staticClass: "comlpleted-badage float-left"
+    }, [_vm._v("حذف شده")])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(project.county.coName))]), _vm._v(" "), _c('td', {
+      on: {
+        "click": function($event) {
+          _vm.displayCSInfo == project.id ? _vm.displayCSInfo = '' : _vm.displayCSInfo = project.id
+        }
+      }
+    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.sumOfAmount(project.credit_source), false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(project.cpDescription))])]), _vm._v(" "), _c('tr', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.displayCSInfo == project.id),
+        expression: "displayCSInfo == project.id"
+      }]
+    }, [_c('td', {
+      attrs: {
+        "colspan": "5"
+      }
+    }, [_c('table', {
+      staticClass: "unstriped tbl-secondary-mrg small-font"
+    }, [_c('thead', {
+      staticClass: "my-thead"
+    }, [_c('tr', {
+      staticStyle: {
+        "background-color": "#F1F1F1 !important"
+      }
+    }, [_c('th', [_vm._v("ردیف")]), _vm._v(" "), _c('th', [_vm._v("فصل")]), _vm._v(" "), _c('th', [_vm._v("عنوان فصل")]), _vm._v(" "), _c('th', [_vm._v("ریز فصل")]), _vm._v(" "), _c('th', [_vm._v("نحوه اجرا")]), _vm._v(" "), _c('th', [_vm._v("مبلغ")]), _vm._v(" "), _c('th', [_vm._v("شرح")])])]), _vm._v(" "), _c('tbody', _vm._l((project.credit_source), function(credit_source) {
+      return _c('tr', [_c('td', [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject) + "\n                                                        "), _c('span', {
+        directives: [{
+          name: "show",
+          rawName: "v-show",
+          value: (credit_source.ccsDeleted),
+          expression: "credit_source.ccsDeleted"
+        }],
+        staticClass: "comlpleted-badage float-left"
+      }, [_vm._v("حذف شده")])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.tiny_season.season_title.castSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.tiny_season.catsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.how_to_run.htrSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(credit_source.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.ccsDescription))])])
+    }))])])])]
+  })], 2)])])])])])]) : _vm._e()], 1)])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', [_c('a', {
@@ -120578,10 +120894,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }, [_c('th', [_vm._v("طرح")]), _vm._v(" "), _c('th', [_vm._v("مبادله شده")]), _vm._v(" "), _c('th', [_vm._v("ابلاغی")]), _vm._v(" "), _c('th', [_vm._v("شهرستان")]), _vm._v(" "), _c('th', [_vm._v("شرح")]), _vm._v(" "), _c('th')])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('td', {
-    staticClass: "text-center"
-  }, [_c('a', [_vm._v("جزئیات")])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
     attrs: {
@@ -120662,10 +120974,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "background-color": "#F1F1F1 !important"
     }
   }, [_c('th', [_vm._v("طرح")]), _vm._v(" "), _c('th', [_vm._v("مبادله شده")]), _vm._v(" "), _c('th', [_vm._v("ابلاغی")]), _vm._v(" "), _c('th', [_vm._v("شرح")]), _vm._v(" "), _c('th')])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('td', {
-    staticClass: "text-center"
-  }, [_c('a', [_vm._v("جزئیات")])])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
@@ -121713,6 +122021,182 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -121725,6 +122209,7 @@ if (false) {(function () {
             costAgreementInput: {},
             acaCreditSourceInput: {},
             caAmendmentInput: {},
+            amendmentProgInfo: {},
             showInsertModal: false,
             showCaCsInsertModal: false,
             showModalUpdate: false,
@@ -121735,6 +122220,7 @@ if (false) {(function () {
             showACaCsInsertModal: false,
             showDeleteTempCreditSourceModal: false,
             showACaCsEditModal: false,
+            showAmendmentProgInfoModal: false,
             dateIsValid_delivery_amendment: true,
             costAmendmentCreditSource: [],
             selectColumn: false,
@@ -121746,6 +122232,8 @@ if (false) {(function () {
             caIdForInsertCreditSource: '',
             displayCreditSourceInfo_prov: '',
             displayCreditSourceInfo_nat: '',
+            displayAmendmentInfo_prov: '',
+            displayAmendmentInfo_nat: '',
             provOrNat: '',
             apIdDelete: {},
             approvedPlans: {},
@@ -122059,11 +122547,8 @@ if (false) {(function () {
         },
 
         myResizeModal: function myResizeModal() {
-            console.log("......................res..........................");
-
-            $('.dynamic-height-level-modal1').css('height', $.w.outerHeight() - 110 + 'px');
-            var x = $(".dynamic-height-level-modal1").height();
-            $('.dynamic-height-level-modal2').css('height', x - 215 + 'px');
+            var x = $.w.outerHeight();
+            $('.dynamic-height-level-modal1').css('height', x - 350 + 'px');
         },
 
         makePagination: function makePagination(data, type) {
@@ -122156,6 +122641,11 @@ if (false) {(function () {
             this.acaCreditSourceFill.amount = this.$parent.calcDispAmount(creditSource.ccsAmount, false);
             this.acaCreditSourceFill.description = creditSource.ccsDescription;
             this.showACaCsEditModal = true;
+        },
+
+        openAmendmentProgInfoModal: function openAmendmentProgInfoModal(amendment) {
+            this.amendmentProgInfo = amendment;
+            this.showAmendmentProgInfoModal = true;
         },
 
         createCaAmendmentTemp: function createCaAmendmentTemp() {
@@ -122387,7 +122877,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "150px"
+      "width": "100px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
@@ -122395,7 +122885,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "200px"
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
     }
   }), _vm._v(" "), _c('col', {
     directives: [{
@@ -122426,6 +122920,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("تاریخ ابلاغ")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
   }, [_vm._v("اعتبار")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("اصلاحیه")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
   }, [_vm._v("شرح")]), _vm._v(" "), _c('th', {
     directives: [{
@@ -122460,7 +122956,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "150px"
+      "width": "100px"
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
@@ -122468,7 +122964,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "200px"
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
     }
   }), _vm._v(" "), _c('col', {
     directives: [{
@@ -122489,11 +122989,26 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           _vm.displayCreditSourceInfo_prov == cAp.id ? _vm.displayCreditSourceInfo_prov = '' : _vm.displayCreditSourceInfo_prov = cAp.id
         }
       }
-    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.sumOfAmount(cAp.ca_credit_source), false)))])]), _vm._v(" "), _c('td', [_c('div', {
+    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.sumOfAmount(cAp.ca_credit_source), false)))])]), _vm._v(" "), _c('td', {
+      staticClass: "text-center"
+    }, [_c('span', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (cAp.amendments.length > 0),
+        expression: "cAp.amendments.length > 0"
+      }],
+      staticClass: "info-badage change-pointer",
+      on: {
+        "click": function($event) {
+          _vm.displayAmendmentInfo_prov == cAp.id ? (_vm.displayAmendmentInfo_prov = '') : (_vm.displayAmendmentInfo_prov = cAp.id)
+        }
+      }
+    }, [_vm._v("تاریخچه")])]), _vm._v(" "), _c('td', [_c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-11"
-    }, [_vm._v("\n                                                    " + _vm._s(cAp.caDescription) + "\n                                                ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                                        " + _vm._s(cAp.caDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-1 cell-vertical-center text-left"
     }, [_c('a', {
       staticClass: "dropdown small sm-btn-align",
@@ -122579,7 +123094,40 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "unstriped tbl-secondary-mrg small-font"
     }, [_vm._m(6, true), _vm._v(" "), _c('tbody', _vm._l((cAp.ca_credit_source), function(creditSource) {
       return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_title.cdtIdNumber + ' - ' + creditSource.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.cstSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.ctsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
-    }))])])])]
+    }))])])]), _vm._v(" "), (cAp.amendments.length > 0) ? _c('tr', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.displayAmendmentInfo_prov == cAp.id),
+        expression: "displayAmendmentInfo_prov == cAp.id"
+      }]
+    }, [_c('td', {
+      attrs: {
+        "colspan": "7"
+      }
+    }, [_c('table', {
+      staticClass: "unstriped tbl-secondary-mrg small-font"
+    }, [_vm._m(7, true), _vm._v(" "), _c('tbody', _vm._l((cAp.amendments), function(amendment) {
+      return _c('tr', [_c('td', {
+        staticClass: "text-center"
+      }, [_vm._v(_vm._s(amendment.caExchangeIdNumber))]), _vm._v(" "), _c('td', {
+        staticClass: "text-center"
+      }, [_vm._v(_vm._s(amendment.caExchangeDate))]), _vm._v(" "), _c('td', {
+        staticClass: "text-center"
+      }, [_vm._v(_vm._s(amendment.caLetterNumber))]), _vm._v(" "), _c('td', {
+        staticClass: "text-center"
+      }, [_vm._v(_vm._s(amendment.caLetterDate))]), _vm._v(" "), _c('td', {
+        staticClass: "text-center"
+      }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.sumOfAmount(amendment.ca_credit_source), false)))]), _vm._v(" "), _c('td', [_vm._v("\n                                                            " + _vm._s(amendment.caDescription) + "\n                                                        ")]), _vm._v(" "), _c('td', {
+        staticClass: "text-center"
+      }, [_c('a', {
+        on: {
+          "click": function($event) {
+            _vm.openAmendmentProgInfoModal(amendment)
+          }
+        }
+      }, [_vm._v("جزئیات")])])])
+    }))])])]) : _vm._e()]
   })], 2)])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
@@ -122652,7 +123200,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "type": "button",
       "data-toggle": "reportDropDown1"
     }
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(7), _vm._v(" "), _vm._m(8), _vm._v(" "), _vm._m(9)]), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(8), _vm._v(" "), _vm._m(9), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _vm._m(11)]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
   }, [_c('table', {
     staticClass: "tbl-head"
@@ -122670,7 +123218,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "300px"
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "200px"
     }
   }), _vm._v(" "), _c('col', {
     directives: [{
@@ -122697,6 +123249,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("تاریخ ابلاغ")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
   }, [_vm._v("اعتبار")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("اصلاحیه")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
   }, [_vm._v("شرح")]), _vm._v(" "), _c('th', {
     directives: [{
@@ -122731,7 +123285,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }), _vm._v(" "), _c('col', {
     attrs: {
-      "width": "300px"
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "200px"
     }
   }), _vm._v(" "), _c('col', {
     directives: [{
@@ -122752,7 +123310,22 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           _vm.displayCreditSourceInfo_nat == cAp.id ? _vm.displayCreditSourceInfo_nat = '' : _vm.displayCreditSourceInfo_nat = cAp.id
         }
       }
-    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.sumOfAmount(cAp.ca_credit_source), false)))])]), _vm._v(" "), _c('td', [_c('div', {
+    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.sumOfAmount(cAp.ca_credit_source), false)))])]), _vm._v(" "), _c('td', {
+      staticClass: "text-center"
+    }, [_c('span', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (cAp.amendments.length > 0),
+        expression: "cAp.amendments.length > 0"
+      }],
+      staticClass: "info-badage change-pointer",
+      on: {
+        "click": function($event) {
+          _vm.displayAmendmentInfo_nat == cAp.id ? (_vm.displayAmendmentInfo_nat = '') : (_vm.displayAmendmentInfo_nat = cAp.id)
+        }
+      }
+    }, [_vm._v("تاریخچه")])]), _vm._v(" "), _c('td', [_c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-11"
@@ -122840,9 +123413,38 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }, [_c('table', {
       staticClass: "unstriped tbl-secondary-mrg small-font"
-    }, [_vm._m(11, true), _vm._v(" "), _c('tbody', _vm._l((cAp.ca_credit_source), function(creditSource) {
+    }, [_vm._m(12, true), _vm._v(" "), _c('tbody', _vm._l((cAp.ca_credit_source), function(creditSource) {
       return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_title.cdtIdNumber + ' - ' + creditSource.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.cstSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.ctsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
-    }))])])])]
+    }))])])]), _vm._v(" "), (cAp.amendments.length > 0) ? _c('tr', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.displayAmendmentInfo_nat == cAp.id),
+        expression: "displayAmendmentInfo_nat == cAp.id"
+      }]
+    }, [_c('td', {
+      attrs: {
+        "colspan": "5"
+      }
+    }, [_c('table', {
+      staticClass: "unstriped tbl-secondary-mrg small-font"
+    }, [_vm._m(13, true), _vm._v(" "), _c('tbody', _vm._l((cAp.amendments), function(amendment) {
+      return _c('tr', [_c('td', {
+        staticClass: "text-center"
+      }, [_vm._v(_vm._s(amendment.caLetterNumber))]), _vm._v(" "), _c('td', {
+        staticClass: "text-center"
+      }, [_vm._v(_vm._s(amendment.caLetterDate))]), _vm._v(" "), _c('td', {
+        staticClass: "text-center"
+      }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.sumOfAmount(amendment.ca_credit_source), false)))]), _vm._v(" "), _c('td', [_vm._v("\n                                                            " + _vm._s(amendment.caDescription) + "\n                                                        ")]), _vm._v(" "), _c('td', {
+        staticClass: "text-center"
+      }, [_c('a', {
+        on: {
+          "click": function($event) {
+            _vm.openAmendmentProgInfoModal(amendment)
+          }
+        }
+      }, [_vm._v("جزئیات")])])])
+    }))])])]) : _vm._e()]
   })], 2)])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
@@ -124125,8 +124727,6 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "slot": "body"
     },
     slot: "body"
-  }, [_c('div', {
-    staticClass: "dynamic-height-level-modal1"
   }, [(_vm.errorMessage) ? _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
@@ -124149,13 +124749,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "medium-1"
   }, [_c('p', [_vm._v("شماره ابلاغ : ")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2"
+    staticClass: "medium-3"
   }, [_c('strong', {
     staticClass: "btn-red"
   }, [_vm._v(_vm._s(_vm.costAmendmentCreditSource.caLetterNumber))])]), _vm._v(" "), _c('div', {
     staticClass: "medium-1"
   }, [_c('p', [_vm._v("تاریخ ابلاغ : ")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-1"
+    staticClass: "medium-3"
   }, [_c('strong', {
     staticClass: "btn-red"
   }, [_vm._v(_vm._s(_vm.costAmendmentCreditSource.caLetterDate))])])])]), _vm._v(" "), _c('div', {
@@ -124239,7 +124839,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("شرح")]), _vm._v(" "), _c('th', {
     staticClass: "tbl-head-style-cell"
   })])])]), _vm._v(" "), _c('div', {
-    staticClass: "tbl_body_style dynamic-height-level-modal2"
+    staticClass: "tbl_body_style dynamic-height-level-modal1"
   }, [_c('table', {
     staticClass: "tbl-body-contain"
   }, [_c('colgroup', [_c('col', {
@@ -124328,7 +124928,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_c('i', {
       staticClass: "fa fa-newspaper-o size-16"
     }), _vm._v("  اصلاح")])])])])])])])])
-  }))])])])])]), _vm._v(" "), _c('div', {
+  }))])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12 columns padding-bottom-modal"
@@ -125086,7 +125686,171 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": _vm.deleteTempCreditSource
     }
-  }, [_vm._v("تایید")])])])])])]) : _vm._e()], 1)])
+  }, [_vm._v("تایید")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showAmendmentProgInfoModal) ? _c('modal-large', {
+    on: {
+      "close": function($event) {
+        _vm.showAmendmentProgInfoModal = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('div', {
+    staticClass: "grid-x border-btm-line",
+    staticStyle: {
+      "padding": "0px"
+    }
+  }, [_c('div', {
+    staticClass: "medium-12 cell padding-lr"
+  }, [_c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.amendmentProgInfo.caProvinceOrNational == 0),
+      expression: "amendmentProgInfo.caProvinceOrNational == 0"
+    }],
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-1"
+  }, [_c('p', [_vm._v("شماره مبادله : ")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-3"
+  }, [_c('strong', {
+    staticClass: "btn-red"
+  }, [_vm._v(_vm._s(_vm.amendmentProgInfo.caExchangeIdNumber))])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-1"
+  }, [_c('p', [_vm._v("تاریخ مبادله : ")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-3"
+  }, [_c('strong', {
+    staticClass: "btn-red"
+  }, [_vm._v(_vm._s(_vm.amendmentProgInfo.caExchangeDate))])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-1"
+  }, [_c('p', [_vm._v("شماره ابلاغ : ")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-3"
+  }, [_c('strong', {
+    staticClass: "btn-red"
+  }, [_vm._v(_vm._s(_vm.amendmentProgInfo.caLetterNumber))])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-1"
+  }, [_c('p', [_vm._v("تاریخ ابلاغ : ")])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-3"
+  }, [_c('strong', {
+    staticClass: "btn-red"
+  }, [_vm._v(_vm._s(_vm.amendmentProgInfo.caLetterDate))])])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-12 cell padding-lr"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 padding-bottom-modal"
+  }, [_c('strong', [_vm._v("شرح: ")]), _c('span', {
+    staticStyle: {
+      "display": "inline"
+    }
+  }, [_vm._v(_vm._s(_vm.amendmentProgInfo.caDescription))])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "tbl-div-container"
+  }, [_c('table', {
+    staticClass: "tbl-head"
+  }, [_c('colgroup', [_c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "70px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "200px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "200"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "160px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "12px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style "
+  }, [_c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("برنامه")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("ردیف")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("فصل")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("عنوان فصل")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("ریز فصل")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("مبلغ")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شرح")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "tbl_body_style dynamic-height-level-modal1"
+  }, [_c('table', {
+    staticClass: "tbl-body-contain"
+  }, [_c('colgroup', [_c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "70px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "200px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "200"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "160px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style-cell"
+  }, _vm._l((_vm.amendmentProgInfo.ca_credit_source), function(creditSource) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_title.cdtIdNumber + ' - ' + creditSource.credit_distribution_title.cdtSubject) + "\n                                        "), _c('span', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (creditSource.ccsDeleted),
+        expression: "creditSource.ccsDeleted"
+      }],
+      staticClass: "comlpleted-badage float-left"
+    }, [_vm._v("حذف شده")])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.cstSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.ctsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v("\n                                        " + _vm._s(creditSource.ccsDescription) + "\n                                    ")])])
+  }))])])])])])]) : _vm._e()], 1)])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -125253,6 +126017,14 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }, [_c('th', [_vm._v("برنامه")]), _vm._v(" "), _c('th', [_vm._v("ردیف")]), _vm._v(" "), _c('th', [_vm._v("فصل")]), _vm._v(" "), _c('th', [_vm._v("عنوان فصل")]), _vm._v(" "), _c('th', [_vm._v("ریز فصل")]), _vm._v(" "), _c('th', [_vm._v("مبلغ")]), _vm._v(" "), _c('th', [_vm._v("توضیحات")])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', {
+    staticClass: "my-thead"
+  }, [_c('tr', {
+    staticStyle: {
+      "background-color": "#F1F1F1 !important"
+    }
+  }, [_c('th', [_vm._v("شماره مبادله")]), _vm._v(" "), _c('th', [_vm._v("تاریخ مبادله")]), _vm._v(" "), _c('th', [_vm._v("شماره ابلاغ")]), _vm._v(" "), _c('th', [_vm._v("تاریخ ابلاغ")]), _vm._v(" "), _c('th', [_vm._v("اعتبار")]), _vm._v(" "), _c('th', [_vm._v("شرح")]), _vm._v(" "), _c('th')])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "dropdown-pane dropdown-pane-sm ",
     staticStyle: {
@@ -125370,6 +126142,14 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "background-color": "#F1F1F1 !important"
     }
   }, [_c('th', [_vm._v("برنامه")]), _vm._v(" "), _c('th', [_vm._v("ردیف")]), _vm._v(" "), _c('th', [_vm._v("فصل")]), _vm._v(" "), _c('th', [_vm._v("عنوان فصل")]), _vm._v(" "), _c('th', [_vm._v("ریز فصل")]), _vm._v(" "), _c('th', [_vm._v("مبلغ")]), _vm._v(" "), _c('th', [_vm._v("توضیحات")])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', {
+    staticClass: "my-thead"
+  }, [_c('tr', {
+    staticStyle: {
+      "background-color": "#F1F1F1 !important"
+    }
+  }, [_c('th', [_vm._v("شماره ابلاغ")]), _vm._v(" "), _c('th', [_vm._v("تاریخ ابلاغ")]), _vm._v(" "), _c('th', [_vm._v("اعتبار")]), _vm._v(" "), _c('th', [_vm._v("شرح")]), _vm._v(" "), _c('th')])])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
