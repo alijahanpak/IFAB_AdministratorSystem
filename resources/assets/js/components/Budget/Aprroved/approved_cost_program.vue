@@ -77,9 +77,10 @@
                                         <col width="150px"/>
                                         <col width="150px"/>
                                         <col width="150px"/>
-                                        <col width="150px"/>
                                         <col width="100px"/>
-                                        <col width="200px"/>
+                                        <col width="100px"/>
+                                        <col width="100px"/>
+                                        <col width="150px"/>
                                         <col v-show="selectColumn" width="15px"/>
                                         <col width="12px"/>
 
@@ -91,6 +92,7 @@
                                         <th class="tbl-head-style-cell">شماره ابلاغ</th>
                                         <th class="tbl-head-style-cell">تاریخ ابلاغ</th>
                                         <th class="tbl-head-style-cell">اعتبار</th>
+                                        <th class="tbl-head-style-cell">اصلاحیه</th>
                                         <th class="tbl-head-style-cell">شرح</th>
                                         <th class="tbl-head-style-checkbox" v-show="selectColumn"><input id="checkboxColumn" type="checkbox"></th>
                                         <th class="tbl-head-style-cell"></th>
@@ -106,69 +108,105 @@
                                             <col width="150px"/>
                                             <col width="150px"/>
                                             <col width="150px"/>
-                                            <col width="150px"/>
                                             <col width="100px"/>
-                                            <col width="200px"/>
+                                            <col width="100px"/>
+                                            <col width="100px"/>
+                                            <col width="150px"/>
                                             <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
                                         <template  v-for="cAp in costAgreement_prov">
-                                        <tr>
-                                            <td>{{ cAp.caLetterNumber }}</td>
-                                            <td>{{ cAp.caLetterDate }}</td>
-                                            <td>{{ cAp.caExchangeDate }}</td>
-                                            <td>{{ cAp.caExchangeIdNumber }}</td>
-                                            <td><span @click="displayCreditSourceInfo_prov == cAp.id ? displayCreditSourceInfo_prov = '' : displayCreditSourceInfo_prov = cAp.id">{{ $parent.calcDispAmount(sumOfAmount(cAp.ca_credit_source) , false) }}</span></td>
-                                            <td>
-                                                <div class="grid-x">
-                                                    <div class="medium-11">
-                                                        {{ cAp.caDescription }}
-                                                    </div>
-                                                    <div class="medium-1 cell-vertical-center text-left">
-                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costAgreement' + cAp.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'costAgreement' + cAp.id" data-dropdown data-auto-focus="true">
-                                                            <ul class="my-menu small-font text-right">
-                                                                <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                <li><a v-on:click.prevent="openCreditSourceInsertModal(cAp.id , 0)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
-                                                                <li><a v-on:click.prevent="openAmendmentTempModal(cAp)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
-                                                            </ul>
+                                            <tr>
+                                                <td>{{ cAp.caLetterNumber }}</td>
+                                                <td>{{ cAp.caLetterDate }}</td>
+                                                <td>{{ cAp.caExchangeDate }}</td>
+                                                <td>{{ cAp.caExchangeIdNumber }}</td>
+                                                <td><span @click="displayCreditSourceInfo_prov == cAp.id ? displayCreditSourceInfo_prov = '' : displayCreditSourceInfo_prov = cAp.id">{{ $parent.calcDispAmount(sumOfAmount(cAp.ca_credit_source) , false) }}</span></td>
+                                                <td class="text-center">
+                                                    <span @click="displayAmendmentInfo_prov == cAp.id ? (displayAmendmentInfo_prov = '') : (displayAmendmentInfo_prov = cAp.id)" v-show="cAp.amendments.length > 0" class="info-badage change-pointer">تاریخچه</span>
+                                                </td>
+                                                <td>
+                                                    <div class="grid-x">
+                                                        <div class="medium-11">
+                                                            {{ cAp.caDescription }}
+                                                        </div>
+                                                        <div class="medium-1 cell-vertical-center text-left">
+                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costAgreement' + cAp.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'costAgreement' + cAp.id" data-dropdown data-auto-focus="true">
+                                                                <ul class="my-menu small-font text-right">
+                                                                    <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li><a v-on:click.prevent="openCreditSourceInsertModal(cAp.id , 0)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
+                                                                    <li><a v-on:click.prevent="openAmendmentTempModal(cAp)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
+                                                                </ul>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td  v-show="selectColumn">
-                                                <input class="auto-margin" id="checkboxProv" type="checkbox">
-                                            </td>
-                                        </tr>
-                                        <tr v-show="displayCreditSourceInfo_prov == cAp.id">
-                                            <td colspan="7">
-                                                <table class="unstriped tbl-secondary-mrg small-font">
-                                                    <thead class="my-thead">
-                                                    <tr style="background-color: #F1F1F1 !important;">
-                                                        <th>برنامه</th>
-                                                        <th>ردیف</th>
-                                                        <th>فصل</th>
-                                                        <th>عنوان فصل</th>
-                                                        <th>ریز فصل</th>
-                                                        <th>مبلغ</th>
-                                                        <th>توضیحات</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr v-for="creditSource in cAp.ca_credit_source">
-                                                        <td>{{ creditSource.credit_distribution_title.cdtIdNumber + ' - ' + creditSource.credit_distribution_title.cdtSubject }}</td>
-                                                        <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
-                                                        <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
-                                                        <td>{{ creditSource.tiny_season.season_title.cstSubject }}</td>
-                                                        <td>{{ creditSource.tiny_season.ctsSubject }}</td>
-                                                        <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
-                                                        <td>{{ creditSource.ccsDescription }}</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td  v-show="selectColumn">
+                                                    <input class="auto-margin" id="checkboxProv" type="checkbox">
+                                                </td>
+                                            </tr>
+                                            <tr v-show="displayCreditSourceInfo_prov == cAp.id">
+                                                <td colspan="7">
+                                                    <table class="unstriped tbl-secondary-mrg small-font">
+                                                        <thead class="my-thead">
+                                                        <tr style="background-color: #F1F1F1 !important;">
+                                                            <th>برنامه</th>
+                                                            <th>ردیف</th>
+                                                            <th>فصل</th>
+                                                            <th>عنوان فصل</th>
+                                                            <th>ریز فصل</th>
+                                                            <th>مبلغ</th>
+                                                            <th>توضیحات</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr v-for="creditSource in cAp.ca_credit_source">
+                                                            <td>{{ creditSource.credit_distribution_title.cdtIdNumber + ' - ' + creditSource.credit_distribution_title.cdtSubject }}</td>
+                                                            <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
+                                                            <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
+                                                            <td>{{ creditSource.tiny_season.season_title.cstSubject }}</td>
+                                                            <td>{{ creditSource.tiny_season.ctsSubject }}</td>
+                                                            <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
+                                                            <td>{{ creditSource.ccsDescription }}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr v-if="cAp.amendments.length > 0" v-show="displayAmendmentInfo_prov == cAp.id">
+                                                <td colspan="7">
+                                                    <table class="unstriped tbl-secondary-mrg small-font">
+                                                        <thead class="my-thead">
+                                                        <tr style="background-color: #F1F1F1 !important;">
+                                                            <th>شماره مبادله</th>
+                                                            <th>تاریخ مبادله</th>
+                                                            <th>شماره ابلاغ</th>
+                                                            <th>تاریخ ابلاغ</th>
+                                                            <th>اعتبار</th>
+                                                            <th>شرح</th>
+                                                            <th></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr v-for="amendment in cAp.amendments">
+                                                            <td class="text-center">{{ amendment.caExchangeIdNumber }}</td>
+                                                            <td class="text-center">{{ amendment.caExchangeDate }}</td>
+                                                            <td class="text-center">{{ amendment.caLetterNumber }}</td>
+                                                            <td class="text-center">{{ amendment.caLetterDate }}</td>
+                                                            <td class="text-center">{{ $parent.calcDispAmount(sumOfAmount(amendment.ca_credit_source) , false) }}</td>
+                                                            <td>
+                                                                {{ amendment.caDescription }}
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <a @click="openAmendmentProgInfoModal(amendment)">جزئیات</a>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
                                         </template>
                                         </tbody>
                                     </table>
@@ -236,7 +274,8 @@
                                         <col width="150px"/>
                                         <col width="150px"/>
                                         <col width="150px"/>
-                                        <col width="300px"/>
+                                        <col width="100px"/>
+                                        <col width="200px"/>
                                         <col v-show="selectColumn" width="15px"/>
                                         <col width="12px"/>
 
@@ -246,6 +285,7 @@
                                         <th class="tbl-head-style-cell">شماره ابلاغ</th>
                                         <th class="tbl-head-style-cell">تاریخ ابلاغ</th>
                                         <th class="tbl-head-style-cell">اعتبار</th>
+                                        <th class="tbl-head-style-cell">اصلاحیه</th>
                                         <th class="tbl-head-style-cell">شرح</th>
                                         <th class="tbl-head-style-checkbox" v-show="selectColumn"><input id="checkboxColumnNational" type="checkbox"></th>
                                         <th class="tbl-head-style-cell"></th>
@@ -260,7 +300,8 @@
                                             <col width="150px"/>
                                             <col width="150px"/>
                                             <col width="150px"/>
-                                            <col width="300px"/>
+                                            <col width="100px"/>
+                                            <col width="200px"/>
                                             <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
@@ -269,6 +310,9 @@
                                                 <td>{{ cAp.caLetterNumber }}</td>
                                                 <td>{{ cAp.caLetterDate }}</td>
                                                 <td><span @click="displayCreditSourceInfo_nat == cAp.id ? displayCreditSourceInfo_nat = '' : displayCreditSourceInfo_nat = cAp.id">{{ $parent.calcDispAmount(sumOfAmount(cAp.ca_credit_source) , false) }}</span></td>
+                                                <td class="text-center">
+                                                    <span @click="displayAmendmentInfo_nat == cAp.id ? (displayAmendmentInfo_nat = '') : (displayAmendmentInfo_nat = cAp.id)" v-show="cAp.amendments.length > 0" class="info-badage change-pointer">تاریخچه</span>
+                                                </td>
                                                 <td>
                                                     <div class="grid-x">
                                                         <div class="medium-11">
@@ -314,6 +358,34 @@
                                                             <td>{{ creditSource.tiny_season.ctsSubject }}</td>
                                                             <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
                                                             <td>{{ creditSource.ccsDescription }}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr v-if="cAp.amendments.length > 0" v-show="displayAmendmentInfo_nat == cAp.id">
+                                                <td colspan="5">
+                                                    <table class="unstriped tbl-secondary-mrg small-font">
+                                                        <thead class="my-thead">
+                                                        <tr style="background-color: #F1F1F1 !important;">
+                                                            <th>شماره ابلاغ</th>
+                                                            <th>تاریخ ابلاغ</th>
+                                                            <th>اعتبار</th>
+                                                            <th>شرح</th>
+                                                            <th></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr v-for="amendment in cAp.amendments">
+                                                            <td class="text-center">{{ amendment.caLetterNumber }}</td>
+                                                            <td class="text-center">{{ amendment.caLetterDate }}</td>
+                                                            <td class="text-center">{{ $parent.calcDispAmount(sumOfAmount(amendment.ca_credit_source) , false) }}</td>
+                                                            <td>
+                                                                {{ amendment.caDescription }}
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <a @click="openAmendmentProgInfoModal(amendment)">جزئیات</a>
+                                                            </td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
@@ -665,7 +737,6 @@
             <!--Amendment Of The Agreement Modal Start-->
             <modal-full-screen v-if="showModalAmendmentCost" @close="showModalAmendmentCost= false">
                 <div slot="body">
-                    <div class="dynamic-height-level-modal1">
                     <div class="grid-x" v-if="errorMessage">
                         <div class="medium-12 columns padding-lr">
                             <div class="alert callout">
@@ -679,13 +750,13 @@
                                 <div class="medium-1">
                                     <p>شماره ابلاغ : </p>
                                 </div>
-                                <div class="medium-2">
+                                <div class="medium-3">
                                     <strong class="btn-red">{{ costAmendmentCreditSource.caLetterNumber }}</strong>
                                 </div>
                                 <div class="medium-1">
                                     <p>تاریخ ابلاغ : </p>
                                 </div>
-                                <div class="medium-1">
+                                <div class="medium-3">
                                     <strong class="btn-red">{{ costAmendmentCreditSource.caLetterDate }}</strong>
                                 </div>
                             </div>
@@ -733,7 +804,7 @@
                             </table>
                             <!--Table Head End-->
                             <!--Table Body Start-->
-                            <div class="tbl_body_style dynamic-height-level-modal2">
+                            <div class="tbl_body_style dynamic-height-level-modal1">
                                 <table class="tbl-body-contain">
                                     <colgroup>
                                         <col width="150px"/>
@@ -776,7 +847,6 @@
                             </div>
                         </div>
                         <!--Table Body End-->
-                    </div>
                     </div>
                     <div class="grid-x">
                         <div class="medium-12 columns padding-bottom-modal">
@@ -975,6 +1045,112 @@
             </modal-tiny>
             <!-- Delete Modal End -->
             <!--Forms End-->
+            <!--amendment plan info-->
+            <modal-large v-if="showAmendmentProgInfoModal" @close="showAmendmentProgInfoModal = false">
+                <div  slot="body">
+                    <div style="padding:0px;" class="grid-x border-btm-line">
+                        <div class="medium-12 cell padding-lr">
+                            <div class="grid-x" v-show="amendmentProgInfo.caProvinceOrNational == 0">
+                                <div class="medium-1">
+                                    <p>شماره مبادله : </p>
+                                </div>
+                                <div class="medium-3">
+                                    <strong class="btn-red">{{ amendmentProgInfo.caExchangeIdNumber }}</strong>
+                                </div>
+                                <div class="medium-1">
+                                    <p>تاریخ مبادله : </p>
+                                </div>
+                                <div class="medium-3">
+                                    <strong class="btn-red">{{ amendmentProgInfo.caExchangeDate }}</strong>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-1">
+                                    <p>شماره ابلاغ : </p>
+                                </div>
+                                <div class="medium-3">
+                                    <strong class="btn-red">{{ amendmentProgInfo.caLetterNumber }}</strong>
+                                </div>
+                                <div class="medium-1">
+                                    <p>تاریخ ابلاغ : </p>
+                                </div>
+                                <div class="medium-3">
+                                    <strong class="btn-red">{{ amendmentProgInfo.caLetterDate }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="medium-12 cell padding-lr">
+                            <div class="grid-x">
+                                <div class="medium-12 padding-bottom-modal">
+                                    <strong>شرح: </strong><span style="display: inline">{{ amendmentProgInfo.caDescription }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-x">
+                        <!--Table Start-->
+                        <!--Table Head Start-->
+                        <div class="tbl-div-container">
+                            <table class="tbl-head">
+                                <colgroup>
+                                    <col width="150px"/>
+                                    <col width="100px"/>
+                                    <col width="70px"/>
+                                    <col width="200px"/>
+                                    <col width="200"/>
+                                    <col width="100px"/>
+                                    <col width="160px"/>
+                                    <col width="12px"/>
+                                </colgroup>
+                                <tbody class="tbl-head-style ">
+                                <tr class="tbl-head-style-cell">
+                                    <th class="tbl-head-style-cell">برنامه</th>
+                                    <th class="tbl-head-style-cell">ردیف</th>
+                                    <th class="tbl-head-style-cell">فصل</th>
+                                    <th class="tbl-head-style-cell">عنوان فصل</th>
+                                    <th class="tbl-head-style-cell">ریز فصل</th>
+                                    <th class="tbl-head-style-cell">مبلغ</th>
+                                    <th class="tbl-head-style-cell">شرح</th>
+                                    <th class="tbl-head-style-cell"></th>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--Table Head End-->
+                            <!--Table Body Start-->
+                            <div class="tbl_body_style dynamic-height-level-modal1">
+                                <table class="tbl-body-contain">
+                                    <colgroup>
+                                        <col width="150px"/>
+                                        <col width="100px"/>
+                                        <col width="70px"/>
+                                        <col width="200px"/>
+                                        <col width="200"/>
+                                        <col width="100px"/>
+                                        <col width="160px"/>
+                                    </colgroup>
+                                    <tbody class="tbl-head-style-cell">
+                                    <tr v-for="creditSource in amendmentProgInfo.ca_credit_source">
+                                        <td>{{ creditSource.credit_distribution_title.cdtIdNumber + ' - ' + creditSource.credit_distribution_title.cdtSubject }}
+                                            <span v-show="creditSource.ccsDeleted" class="comlpleted-badage float-left">حذف شده</span>
+                                        </td>
+                                        <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
+                                        <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
+                                        <td>{{ creditSource.tiny_season.season_title.cstSubject }}</td>
+                                        <td>{{ creditSource.tiny_season.ctsSubject }}</td>
+                                        <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
+                                        <td>
+                                            {{ creditSource.ccsDescription }}
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!--Table Body End-->
+                    </div>
+                </div>
+            </modal-large>
+            <!--amendment plan info-->
         </div>
     </div>
 </template>
@@ -991,6 +1167,7 @@
                 costAgreementInput: {},
                 acaCreditSourceInput: {},
                 caAmendmentInput: {},
+                amendmentProgInfo: {},
                 showInsertModal: false,
                 showCaCsInsertModal: false,
                 showModalUpdate: false,
@@ -1001,6 +1178,7 @@
                 showACaCsInsertModal:false,
                 showDeleteTempCreditSourceModal: false,
                 showACaCsEditModal: false,
+                showAmendmentProgInfoModal: false,
                 dateIsValid_delivery_amendment: true,
                 costAmendmentCreditSource: [],
                 selectColumn:false,
@@ -1012,6 +1190,8 @@
                 caIdForInsertCreditSource: '',
                 displayCreditSourceInfo_prov: '',
                 displayCreditSourceInfo_nat: '',
+                displayAmendmentInfo_prov: '',
+                displayAmendmentInfo_nat: '',
                 provOrNat: '',
                 apIdDelete: {},
                 approvedPlans: {},
@@ -1316,13 +1496,8 @@
             },
 
             myResizeModal: function() {
-                console.log("......................res..........................");
-
-
-
-                $('.dynamic-height-level-modal1').css('height', ($.w.outerHeight() - 110) + 'px');
-                var x = $(".dynamic-height-level-modal1").height();
-                $('.dynamic-height-level-modal2').css('height', (x-215) + 'px');
+                var x = $.w.outerHeight();
+                $('.dynamic-height-level-modal1').css('height', (x-350) + 'px');
             },
 
             makePagination: function(data , type){
@@ -1426,6 +1601,11 @@
                 this.acaCreditSourceFill.amount = this.$parent.calcDispAmount(creditSource.ccsAmount , false);
                 this.acaCreditSourceFill.description = creditSource.ccsDescription;
                 this.showACaCsEditModal=true;
+            },
+
+            openAmendmentProgInfoModal: function (amendment) {
+                this.amendmentProgInfo = amendment;
+                this.showAmendmentProgInfoModal = true;
             },
 
             createCaAmendmentTemp: function () {

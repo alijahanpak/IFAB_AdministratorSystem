@@ -175,7 +175,7 @@
                                                         </table>
                                                     </td>
                                                 </tr>
-                                                <template v-for="(project,pIndex) in plans.capital_assets_project">
+                                                <template v-for="(project , pIndex) in plans.capital_assets_project">
                                                     <tr v-if="pIndex > 0">
                                                         <td>
                                                             {{ project.cpCode }}
@@ -407,7 +407,7 @@
                                                     </table>
                                                 </td>
                                             </tr>
-                                            <template v-for="(project,pIndex) in plans.capital_assets_project">
+                                            <template v-for="(project , pIndex) in plans.capital_assets_project">
                                                 <tr v-if="pIndex > 0">
                                                     <td>
                                                         {{ project.cpCode }}
@@ -442,7 +442,7 @@
                                                         <input class="auto-margin" v-model="project.checked" type="checkbox">
                                                     </td>
                                                 </tr>
-                                                <tr v-if="pIndex>0" v-show="displayCreditSourceInfo_nat == project.id">
+                                                <tr v-if="pIndex > 0" v-show="displayCreditSourceInfo_nat == project.id">
                                                     <td colspan="5">
                                                         <table class="unstriped tbl-secondary-mrg small-font">
                                                             <thead class="my-thead">

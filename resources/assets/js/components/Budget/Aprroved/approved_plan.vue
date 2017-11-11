@@ -44,8 +44,8 @@
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a @click="openReportModal(0)" ><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
-                                            <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
+                                            <li><a @click="openReportModal(0 , 'pdf')"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a @click="openReportModal(0 , 'excel')"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                                         </ul>
                                     </div>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="countDropDown1">تعداد نمایش<span> 20 </span></button>
@@ -77,8 +77,9 @@
                                         <col width="250px"/>
                                         <col width="150px"/>
                                         <col width="150px"/>
-                                        <col width="150px"/>
-                                        <col width="250px"/>
+                                        <col width="100px"/>
+                                        <col width="100px"/>
+                                        <col width="200px"/>
                                         <col v-show="selectColumn" width="15px"/>
                                         <col width="12px"/>
 
@@ -89,6 +90,7 @@
                                         <th class="tbl-head-style-cell">مبادله شده</th>
                                         <th class="tbl-head-style-cell">ابلاغی</th>
                                         <th class="tbl-head-style-cell">شهرستان</th>
+                                        <th class="tbl-head-style-cell">اصلاحیه</th>
                                         <th class="tbl-head-style-cell">شرح</th>
                                         <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox" @click="toggleSelect(approvedPlan_prov)" :checked="allSelected(approvedPlan_prov)"></th>
                                         <th class="tbl-head-style-cell"></th>
@@ -103,45 +105,89 @@
                                             <col width="250px"/>
                                             <col width="150px"/>
                                             <col width="150px"/>
-                                            <col width="150px"/>
-                                            <col width="250px"/>
+                                            <col width="100px"/>
+                                            <col width="100px"/>
+                                            <col width="200px"/>
                                             <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                            <tr v-for="plans in approvedPlan_prov">
-                                                <td> {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
-                                                <td  class="text-center">
-                                                    <div>{{ plans.capExchangeIdNumber }}</div>
-                                                    <div>{{ plans.capExchangeDate }}</div>
-                                                </td>
-                                                <td  class="text-center">
-                                                    <div>{{ plans.capLetterNumber }}</div>
-                                                    <div>{{ plans.capLetterDate }}</div>
-                                                </td>
-                                                <td>
-                                                    {{ plans.credit_distribution_title.county.coName }}
-                                                </td>
-                                                <td>
-                                                    <div class="grid-x">
-                                                        <div class="medium-11">
-                                                            {{ plans.capDescription }}
-                                                        </div>
-                                                        <div class="medium-1 cell-vertical-center text-left auto-margin">
-                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
-                                                                <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                    <li><a v-on:click.prevent="openApprovedAmendmentTempModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
-                                                                </ul>
+                                            <template v-for="plans in approvedPlan_prov">
+                                                <tr>
+                                                    <td> {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
+                                                    <td  class="text-center">
+                                                        <div>{{ plans.capExchangeIdNumber }}</div>
+                                                        <div>{{ plans.capExchangeDate }}</div>
+                                                    </td>
+                                                    <td  class="text-center">
+                                                        <div>{{ plans.capLetterNumber }}</div>
+                                                        <div>{{ plans.capLetterDate }}</div>
+                                                    </td>
+                                                    <td>
+                                                        {{ plans.credit_distribution_title.county.coName }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span @click="displayAmendmentInfo_prov == plans.id ? (displayAmendmentInfo_prov = '') : (displayAmendmentInfo_prov = plans.id)" v-show="plans.amendments.length > 0" class="info-badage change-pointer">تاریخچه</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="grid-x">
+                                                            <div class="medium-11">
+                                                                {{ plans.capDescription }}
+                                                            </div>
+                                                            <div class="medium-1 cell-vertical-center text-left auto-margin">
+                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font text-right">
+                                                                        <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        <li><a v-on:click.prevent="openApprovedAmendmentTempModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
+                                                                    </ul>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                                <td  v-show="selectColumn">
-                                                    <input class="auto-margin" v-model="plans.checked" type="checkbox">
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                    <td  v-show="selectColumn">
+                                                        <input class="auto-margin" v-model="plans.checked" type="checkbox">
+                                                    </td>
+                                                </tr>
+                                                <tr v-if="plans.amendments.length > 0" v-show="displayAmendmentInfo_prov == plans.id">
+                                                    <td colspan="6">
+                                                        <table class="unstriped tbl-secondary-mrg small-font">
+                                                            <thead class="my-thead">
+                                                            <tr style="background-color: #F1F1F1 !important;">
+                                                                <th>طرح</th>
+                                                                <th>مبادله شده</th>
+                                                                <th>ابلاغی</th>
+                                                                <th>شهرستان</th>
+                                                                <th>شرح</th>
+                                                                <th></th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr v-for="amendment in plans.amendments">
+                                                                <td> {{ amendment.credit_distribution_title.cdtIdNumber + ' - ' + amendment.credit_distribution_title.cdtSubject }}</td>
+                                                                <td class="text-center">
+                                                                    <div>{{ amendment.capExchangeIdNumber }}</div>
+                                                                    <div>{{ amendment.capExchangeDate }}</div>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <div>{{ amendment.capLetterNumber }}</div>
+                                                                    <div>{{ amendment.capLetterDate }}</div>
+                                                                </td>
+                                                                <td>
+                                                                    {{ amendment.credit_distribution_title.county.coName }}
+                                                                </td>
+                                                                <td>
+                                                                    {{ amendment.capDescription }}
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <a @click="openAmendmentPlanInfoModal(amendment)">جزئیات</a>
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </template>
                                         </tbody>
                                     </table>
                                 </div>
@@ -180,8 +226,8 @@
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown2">گزارش</button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown2" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a  @click="openReportModal(1)"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
-                                            <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
+                                            <li><a  @click="openReportModal(1 , 'pdf')"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a  @click="openReportModal(1 , 'excel')"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                                         </ul>
                                     </div>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
@@ -213,7 +259,8 @@
                                         <col width="300px"/>
                                         <col width="150px"/>
                                         <col width="150px"/>
-                                        <col width="350px"/>
+                                        <col width="100px"/>
+                                        <col width="250px"/>
                                         <col width="12px"/>
                                         <col v-show="selectColumn" width="15px"/>
                                         <col width="12px"/>
@@ -223,6 +270,7 @@
                                         <th class="tbl-head-style-cell">طرح</th>
                                         <th class="tbl-head-style-cell">مبادله شده</th>
                                         <th class="tbl-head-style-cell">ابلاغی</th>
+                                        <th class="tbl-head-style-cell">اصلاحیه</th>
                                         <th class="tbl-head-style-cell">شرح</th>
                                         <th class="tbl-head-style-cell"></th>
                                         <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox" @click="toggleSelect(approvedPlan_nat)" :checked="allSelected(approvedPlan_nat)"></th>
@@ -238,41 +286,81 @@
                                             <col width="300px"/>
                                             <col width="150px"/>
                                             <col width="150px"/>
-                                            <col width="350px"/>
+                                            <col width="100px"/>
+                                            <col width="250px"/>
                                             <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                        <tr v-for="plans in approvedPlan_nat">
-                                            <td> {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
-                                            <td>
-                                                <div>{{ plans.capExchangeIdNumber }}</div>
-                                                <div>{{ plans.capExchangeDate }}</div>
-                                            </td>
-                                            <td>
-                                                <div>{{ plans.capLetterNumber }}</div>
-                                                <div>{{ plans.capLetterDate }}</div>
-                                            </td>
-                                            <td>
-                                                <div class="grid-x">
-                                                    <div class="medium-11">
-                                                        {{ plans.capDescription }}
-                                                    </div>
-                                                    <div class="medium-1 cell-vertical-center text-left auto-margin">
-                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                        <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
-                                                            <ul class="my-menu small-font text-right">
-                                                                <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                <li><a v-on:click.prevent="openApprovedAmendmentTempModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
-                                                            </ul>
+                                        <template v-for="plans in approvedPlan_nat">
+                                            <tr>
+                                                <td> {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
+                                                <td>
+                                                    <div>{{ plans.capExchangeIdNumber }}</div>
+                                                    <div>{{ plans.capExchangeDate }}</div>
+                                                </td>
+                                                <td>
+                                                    <div>{{ plans.capLetterNumber }}</div>
+                                                    <div>{{ plans.capLetterDate }}</div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <span @click="displayAmendmentInfo_nat == plans.id ? (displayAmendmentInfo_nat = '') : (displayAmendmentInfo_nat = plans.id)" v-show="plans.amendments.length > 0" class="info-badage change-pointer">تاریخچه</span>
+                                                </td>
+                                                <td>
+                                                    <div class="grid-x">
+                                                        <div class="medium-11">
+                                                            {{ plans.capDescription }}
+                                                        </div>
+                                                        <div class="medium-1 cell-vertical-center text-left auto-margin">
+                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
+                                                                <ul class="my-menu small-font text-right">
+                                                                    <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li><a v-on:click.prevent="openApprovedAmendmentTempModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
+                                                                </ul>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td  v-show="selectColumn">
-                                                <input class="auto-margin" v-model="plans.checked" type="checkbox">
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td  v-show="selectColumn">
+                                                    <input class="auto-margin" v-model="plans.checked" type="checkbox">
+                                                </td>
+                                            </tr>
+                                            <tr v-if="plans.amendments.length > 0" v-show="displayAmendmentInfo_nat == plans.id">
+                                                <td colspan="5">
+                                                    <table class="unstriped tbl-secondary-mrg small-font">
+                                                        <thead class="my-thead">
+                                                        <tr style="background-color: #F1F1F1 !important;">
+                                                            <th>طرح</th>
+                                                            <th>مبادله شده</th>
+                                                            <th>ابلاغی</th>
+                                                            <th>شرح</th>
+                                                            <th></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr v-for="amendment in plans.amendments">
+                                                            <td> {{ amendment.credit_distribution_title.cdtIdNumber + ' - ' + amendment.credit_distribution_title.cdtSubject }}</td>
+                                                            <td class="text-center">
+                                                                <div>{{ amendment.capExchangeIdNumber }}</div>
+                                                                <div>{{ amendment.capExchangeDate }}</div>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <div>{{ amendment.capLetterNumber }}</div>
+                                                                <div>{{ amendment.capLetterDate }}</div>
+                                                            </td>
+                                                            <td>
+                                                                {{ amendment.capDescription }}
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <a @click="openAmendmentPlanInfoModal(amendment)">جزئیات</a>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </template>
                                         </tbody>
                                     </table>
                                 </div>
@@ -508,7 +596,7 @@
                             </table>
                             <!--Table Head End-->
                             <!--Table Body Start-->
-                            <div class="tbl_body_style dynamic-height-level1">
+                            <div class="tbl_body_style dynamic-height-level-modal1">
                                 <table class="tbl-body-contain">
                                     <colgroup>
                                         <col width="100px"/>
@@ -950,7 +1038,7 @@
             <modal-tiny v-if="showModalReport" @close="showModalReport= false">
                 <div  slot="body">
                     <div class="small-font">
-                        <form v-on:submit.prevent="openPdfFile">
+                        <form v-on:submit.prevent="openReportFile">
                             <div class="grid-x padding-lr">
                                 <div class="medium-12">
                                     <label>عنوان
@@ -958,60 +1046,62 @@
                                     </label>
                                 </div>
                             </div>
-                            <div style="margin-top: 10px;" class="grid-x padding-lr">
-                                <div class="medium-2">
-                                    <div class="switch tiny">
-                                        <input checked="true" class="switch-input" id="yes-no-1" v-model="reportOptions.withReporterName" type="checkbox">
-                                        <label class="switch-paddle" for="yes-no-1">
-                                            <span class="switch-active" aria-hidden="true">بلی</span>
-                                            <span class="switch-inactive" aria-hidden="true">خیر</span>
-                                        </label>
+                            <div v-show="reportType == 'pdf'">
+                                <div style="margin-top: 10px;" class="grid-x padding-lr">
+                                    <div class="medium-2">
+                                        <div class="switch tiny">
+                                            <input checked="true" class="switch-input" id="yes-no-1" v-model="reportOptions.withReporterName" type="checkbox">
+                                            <label class="switch-paddle" for="yes-no-1">
+                                                <span class="switch-active" aria-hidden="true">بلی</span>
+                                                <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="medium-10">
+                                        <p>درج نام کاربر تهیه کننده گزارش</p>
                                     </div>
                                 </div>
-                                <div class="medium-10">
-                                    <p>درج نام کاربر تهیه کننده گزارش</p>
-                                </div>
-                            </div>
-                            <div class="grid-x padding-lr">
-                                <div class="medium-2">
-                                    <div class="switch tiny">
-                                        <input checked="true" class="switch-input" id="yes-no-2" type="checkbox" v-model="reportOptions.withFiscalYear">
-                                        <label class="switch-paddle" for="yes-no-2">
-                                            <span class="switch-active" aria-hidden="true">بلی</span>
-                                            <span class="switch-inactive" aria-hidden="true">خیر</span>
-                                        </label>
+                                <div class="grid-x padding-lr">
+                                    <div class="medium-2">
+                                        <div class="switch tiny">
+                                            <input checked="true" class="switch-input" id="yes-no-2" type="checkbox" v-model="reportOptions.withFiscalYear">
+                                            <label class="switch-paddle" for="yes-no-2">
+                                                <span class="switch-active" aria-hidden="true">بلی</span>
+                                                <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="medium-10">
+                                        <p>درج سال مالی</p>
                                     </div>
                                 </div>
-                                <div class="medium-10">
-                                    <p>درج سال مالی</p>
-                                </div>
-                            </div>
-                            <div class="grid-x padding-lr">
-                                <div class="medium-2">
-                                    <div class="switch tiny">
-                                        <input checked="true" class="switch-input" id="yes-no3" type="checkbox" v-model="reportOptions.withReportDate">
-                                        <label class="switch-paddle" for="yes-no3">
-                                            <span class="switch-active" aria-hidden="true">بلی</span>
-                                            <span class="switch-inactive" aria-hidden="true">خیر</span>
-                                        </label>
+                                <div class="grid-x padding-lr">
+                                    <div class="medium-2">
+                                        <div class="switch tiny">
+                                            <input checked="true" class="switch-input" id="yes-no3" type="checkbox" v-model="reportOptions.withReportDate">
+                                            <label class="switch-paddle" for="yes-no3">
+                                                <span class="switch-active" aria-hidden="true">بلی</span>
+                                                <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="medium-10">
+                                        <p>درج تاریخ گزارش</p>
                                     </div>
                                 </div>
-                                <div class="medium-10">
-                                    <p>درج تاریخ گزارش</p>
-                                </div>
-                            </div>
-                            <div class="grid-x padding-lr">
-                                <div class="medium-2">
-                                    <div class="switch tiny">
-                                        <input checked="true" class="switch-input" id="yes-no4" type="checkbox" v-model="reportOptions.orientation">
-                                        <label class="switch-paddle" for="yes-no4">
-                                            <span class="switch-active" aria-hidden="true">افقی</span>
-                                            <span class="switch-inactive" aria-hidden="true">عمودی</span>
-                                        </label>
+                                <div class="grid-x padding-lr">
+                                    <div class="medium-2">
+                                        <div class="switch tiny">
+                                            <input checked="true" class="switch-input" id="yes-no4" type="checkbox" v-model="reportOptions.orientation">
+                                            <label class="switch-paddle" for="yes-no4">
+                                                <span class="switch-active" aria-hidden="true">افقی</span>
+                                                <span class="switch-inactive" aria-hidden="true">عمودی</span>
+                                            </label>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="medium-10">
-                                    <p>جهت کاغذ</p>
+                                    <div class="medium-10">
+                                        <p>جهت کاغذ</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="medium-12 columns padding-lr padding-bottom-modal input-margin-top">
@@ -1038,6 +1128,139 @@
             </modal-tiny>
             <!-- Delete Modal End -->
             <!--Forms End-->
+            <!--amendment plan info-->
+            <modal-large v-if="showAmendmentPlanInfoModal" @close="showAmendmentPlanInfoModal = false">
+                <div  slot="body">
+                    <div style="padding:0px;" class="grid-x border-btm-line">
+                        <div class="medium-12 cell padding-lr">
+                            <div class="grid-x">
+                                <div class="medium-12" style="margin-bottom: 1rem">
+                                    <strong>طرح: </strong><span>{{ amendmentPlanInfo.credit_distribution_title.cdtIdNumber + amendmentPlanInfo.credit_distribution_title.cdtSubject + (amendmentPlanInfo.capProvinceOrNational == 0 ? ' - ' + amendmentPlanInfo.credit_distribution_title.county.coName : '')}}</span>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-1">
+                                    <p>شماره ابلاغ : </p>
+                                </div>
+                                <div class="medium-3">
+                                    <strong class="btn-red">{{ amendmentPlanInfo.capLetterNumber }} </strong>
+                                </div>
+                                <div class="medium-1">
+                                    <p>تاریخ ابلاغ : </p>
+                                </div>
+                                <div class="medium-3">
+                                    <strong class="btn-red">{{ amendmentPlanInfo.capLetterDate }} </strong>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-1">
+                                    <p>شماره مبادله : </p>
+                                </div>
+                                <div class="medium-3">
+                                    <strong class="btn-red">{{ amendmentPlanInfo.capExchangeIdNumber }} </strong>
+                                </div>
+                                <div class="medium-1">
+                                    <p>تاریخ مبادله : </p>
+                                </div>
+                                <div class="medium-3">
+                                    <strong class="btn-red">{{ amendmentPlanInfo.capExchangeDate }} </strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="medium-12 cell padding-lr">
+                            <div class="grid-x">
+                                <div class="medium-12 padding-bottom-modal">
+                                    <strong>شرح: </strong><span style="display: inline">{{ amendmentPlanInfo.capDescription }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-x">
+                        <!--Table Start-->
+                        <!--Table Head Start-->
+                        <div class="tbl-div-container">
+                            <table class="tbl-head">
+                                <colgroup>
+                                    <col width="100px"/>
+                                    <col width="290px"/>
+                                    <col width="150px"/>
+                                    <col width="150px"/>
+                                    <col width="240px"/>
+                                    <col width="12px"/>
+                                </colgroup>
+                                <tbody class="tbl-head-style ">
+                                <tr class="tbl-head-style-cell">
+                                    <th class="tbl-head-style-cell">کد پروژه</th>
+                                    <th class="tbl-head-style-cell">عنوان پروژه</th>
+                                    <th class="tbl-head-style-cell">شهرستان </th>
+                                    <th class="tbl-head-style-cell">اعتبار</th>
+                                    <th class="tbl-head-style-cell">شرح</th>
+                                    <th class="tbl-head-style-cell"></th>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--Table Head End-->
+                            <!--Table Body Start-->
+                            <div class="tbl_body_style dynamic-height-level-modal1">
+                                <table class="tbl-body-contain">
+                                    <colgroup>
+                                        <col width="100px"/>
+                                        <col width="290px"/>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="240px"/>
+                                    </colgroup>
+                                    <tbody class="tbl-head-style-cell">
+                                    <template v-for="project in amendmentPlanInfo.capital_assets_project">
+                                        <tr>
+                                            <td>{{ project.cpCode }}</td>
+                                            <td>{{ project.cpSubject }}
+                                                <span v-show="project.cpDeleted" class="comlpleted-badage float-left">حذف شده</span>
+                                            </td>
+                                            <td>{{ project.county.coName }}</td>
+                                            <td @click="displayCSInfo == project.id ? displayCSInfo = '' : displayCSInfo = project.id">{{ $parent.calcDispAmount(sumOfAmount(project.credit_source) , false) }}</td>
+                                            <td>{{ project.cpDescription }}</td>
+                                        </tr>
+                                        <tr v-show="displayCSInfo == project.id">
+                                            <td colspan="5">
+                                                <table class="unstriped tbl-secondary-mrg small-font">
+                                                    <thead class="my-thead">
+                                                    <tr style="background-color: #F1F1F1 !important;">
+                                                        <th>ردیف</th>
+                                                        <th>فصل</th>
+                                                        <th>عنوان فصل</th>
+                                                        <th>ریز فصل</th>
+                                                        <th>نحوه اجرا</th>
+                                                        <th>مبلغ</th>
+                                                        <th>شرح</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr v-for="credit_source in project.credit_source">
+                                                        <td>{{ credit_source.credit_distribution_row.cdSubject }}
+                                                            <span v-show="credit_source.ccsDeleted" class="comlpleted-badage float-left">حذف شده</span>
+                                                        </td>
+                                                        <td>{{ credit_source.tiny_season.season_title.season.sSubject }}</td>
+                                                        <td>{{ credit_source.tiny_season.season_title.castSubject }}</td>
+                                                        <td>{{ credit_source.tiny_season.catsSubject }}</td>
+                                                        <td>{{ credit_source.how_to_run.htrSubject }}</td>
+                                                        <td>{{ $parent.calcDispAmount(credit_source.ccsAmount , false) }}</td>
+                                                        <td>{{ credit_source.ccsDescription }}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!--Table Body End-->
+                    </div>
+                </div>
+            </modal-large>
+            <!--amendment plan info-->
         </div>
     </div>
 </template>
@@ -1055,6 +1278,7 @@
                 approvedAmendmentInput: {},
                 projectAmendmentInput: {},
                 apCreditSourceInput: {},
+                amendmentPlanInfo: {},
                 showInsertModal: false,
                 showModalUpdate: false,
                 showModalDelete: false,
@@ -1067,6 +1291,9 @@
                 showModalReport:false,
                 showDeleteTempProjectModal: false,
                 showDeleteTempCreditSourceModal: false,
+                showAmendmentPlanInfoModal: false,
+                displayAmendmentInfo_nat: '',
+                displayAmendmentInfo_prov: '',
                 selectColumn:false,
                 approvedPlanFill: {},
                 projectAmendmentFill: {},
@@ -1081,6 +1308,7 @@
                 counties: [],
                 countyState: false,
                 provOrNat: '',
+                reportType: 'pdf',
                 apIdDelete: {},
                 seasons: {},
                 seasonTitles: {},
@@ -1118,6 +1346,7 @@
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
+            this.myResizeModal();
         },
 
         mounted: function () {
@@ -1138,10 +1367,8 @@
             fetchProvincialData: function (page = 1) {
                 axios.get('/budget/approved_plan/capital_assets/fetchData?page=' + page , {params:{pOrN: 0}})
                     .then((response) => {
-                        this.approvedPlan_prov = response.data.data;
-                        this.selectAll(this.approvedPlan_prov);
+                        this.setData(0 , response.data.data);
                         this.makePagination(response.data , "provincial");
-                        console.log(JSON.stringify(this.approvedPlan_prov));
                     },(error) => {
                         console.log(error);
                     });
@@ -1150,13 +1377,24 @@
             fetchNationalData: function (page = 1) {
                 axios.get('/budget/approved_plan/capital_assets/fetchData?page=' + page , {params:{pOrN: 1}})
                     .then((response) => {
-                        this.approvedPlan_nat = response.data.data;
-                        this.selectAll(this.approvedPlan_nat);
+                        this.setData(1 , response.data.data);
                         this.makePagination(response.data , "national");
                         console.log(response);
                     },(error) => {
                         console.log(error);
                     });
+            },
+
+            setData: function (type , data) {
+                if (type == 0)
+                {
+                    this.approvedPlan_prov = data;
+                    this.selectAll(this.approvedPlan_prov);
+                    console.log(JSON.stringify(this.approvedPlan_prov));
+                }else {
+                    this.approvedPlan_nat = data;
+                    this.selectAll(this.approvedPlan_nat);
+                }
             },
 
             getCreditDistributionTitle: function (pOrN) {
@@ -1307,12 +1545,12 @@
                             }).then((response) => {
                                 if (this.provOrNat == 0)
                                 {
-                                    this.approvedPlan_prov = response.data.data;
+                                    this.setData(0 , response.data.data);
                                     this.makePagination(response.data , "provincial");
                                 }
                                 else
                                 {
-                                    this.approvedPlan_nat= response.data.data;
+                                    this.setData(1 , response.data.data);
                                     this.makePagination(response.data , "national");
                                 }
                                 this.showInsertModal = false;
@@ -1399,10 +1637,10 @@
                 }).then((response) => {
                     if (this.provOrNat == 0)
                     {
-                        this.approvedPlan_prov = response.data.data;
+                        this.setData(0 , response.data.data);
                         this.makePagination(response.data , "provincial");
                     }else{
-                        this.approvedPlan_nat = response.data.data;
+                        this.setData(1 , response.data.data);
                         this.makePagination(response.data , "national");
                     }
                     this.showModalAmendmentOfAgreement = false;
@@ -1425,39 +1663,12 @@
             },
 
             myResizeModal: function() {
-                /*console.log("......................res..........................");
-                var tabHeight = $('.tabs').height();
-
-                if (toolBarHeight === undefined)
-                {
-                    toolBarHeight = -8;
-                }
-
-                if (paginationHeight === undefined)
-                {
-                    paginationHeight = -8;
-                }
-
-                if (tabHeight===undefined) {
-                    if (toolBarHeight > 0)
-                        tabHeight = -28;
-                    else
-                        tabHeight = -8;
-                    notifHeight=0;
-                }
-
-                if ($('.vertical-tab').length > 0)
-                {
-                    tabHeight = 10;
-                }
-
-                $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 180) + 'px');
-
-                var x = $(".dynamic-height-level1").height();
-                $('.dynamic-height-level2').css('height', (x - 100 - (tabHeight  + toolBarHeight + paginationHeight)) + 'px');*/
+                var x = $.w.outerHeight();
+                $('.dynamic-height-level-modal1').css('height', (x-360) + 'px');
             },
 
             makePagination: function(data , type){
+                console.log(JSON.stringify(data));
                 if (type == "national")
                 {
                     this.national_pagination.current_page = data.current_page;
@@ -1471,8 +1682,9 @@
                 }
             },
 
-            openReportModal: function (proOrNat) {
+            openReportModal: function (proOrNat , type) {
                 this.provOrNat = proOrNat;
+                this.reportType = type;
                 this.selectedItems = [];
                 if (proOrNat == 0)
                 {
@@ -1507,8 +1719,8 @@
                 console.log(JSON.stringify(this.selectedItems));
             },
 
-            openPdfFile: function () {
-                axios.get('/budget/approved_plan/capital_assets/report' , {params:{pOrN: this.provOrNat ,options: this.reportOptions , selectedItems: this.selectedItems}})
+            openReportFile: function () {
+                axios.post('/budget/approved_plan/capital_assets/report' , {pOrN: this.provOrNat , type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
                 .then((response) => {
                     console.log(response.data);
                     window.open(response.data);
@@ -1523,7 +1735,6 @@
                 } else {
                     plans.forEach(plan => plan.checked = true)
                 }
-                console.log(JSON.stringify(this.approvedPlan_prov));
             },
 
             allSelected: function(plans) {
@@ -1629,6 +1840,11 @@
             openDeleteTempCreditSourceModal: function (csId) {
                 this.tempCreditSourceSelectedId_delete = csId;
                 this.showDeleteTempCreditSourceModal = true;
+            },
+
+            openAmendmentPlanInfoModal: function (amendment) {
+                this.amendmentPlanInfo = amendment;
+                this.showAmendmentPlanInfoModal = true;
             },
 
             cancelApprovedAmendmentTemp: function () {

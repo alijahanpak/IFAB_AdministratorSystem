@@ -28,4 +28,9 @@ class CapitalAssetsApprovedPlan extends Model
     {
         return 0;
     }
+
+    public function amendments()
+    {
+        return $this->hasMany(CapitalAssetsApprovedPlan::class , 'capCapId' , 'id');
+    }
 }

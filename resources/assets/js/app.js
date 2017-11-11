@@ -17,7 +17,7 @@ import PDatePicker from 'vue2-persian-datepicker'
 window.Vue.use(VeeValidate);
 window.Vue.use(Notifications , {velocity});
 window.Vue.use(VueProgressBar, {
-    color: 'rgb(113, 106, 202)',
+    color: '#F0AD4E',
     failedColor: 'red',
     height: '50',
 

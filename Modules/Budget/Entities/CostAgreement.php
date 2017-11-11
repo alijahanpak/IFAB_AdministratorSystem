@@ -18,4 +18,9 @@ class CostAgreement extends Model
     {
         return $this->hasMany(CaCreditSource::class , 'ccsCaId' , 'id')->has('allocation');
     }
+
+    public function amendments()
+    {
+        return $this->hasMany(CostAgreement::class , 'caCaId' , 'id');
+    }
 }

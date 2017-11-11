@@ -149,8 +149,8 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
     Route::prefix('admin/deprived_area')->group(function () {
         Route::get('fetchData', 'BudgetAdminController@fetchDeprivedAreaData');
         Route::post('/register', 'BudgetAdminController@registerDeprivedArea');
-        //Route::post('deprived_area/update', 'BudgetAdminController@updateDeprivedArea');
-        //Route::get('deprived_area/delete/{dId}', 'BudgetAdminController@deleteDeprivedArea');
+        Route::post('/update', 'BudgetAdminController@updateDeprivedArea');
+        Route::post('/delete', 'BudgetAdminController@deleteDeprivedArea');
         //Route::get('deprived_area/DAIsExist/{coId}/{reId?}/{rdId?}/{viId?}', 'BudgetAdminController@DAIsExist');
         //Route::get('deprived_area/DAIsExistForUpdate/{daId}/{coId}/{reId?}/{rdId?}/{viId?}', 'BudgetAdminController@DAIsExistForUpdate');
     });
@@ -180,7 +180,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         //Route::post('/delete', 'PlanController@deleteCapitalAssetsApprovedPlan');
         //Route::post('/update', 'PlanController@updateCapitalAssetsApprovedPlan');
         Route::get('/getAllItems', 'PlanController@getAllApprovedPlan');
-        Route::get('/report', 'BudgetReportController@approvedPlan');
+        Route::post('/report', 'BudgetReportController@approvedPlan');
     });
 
     Route::prefix('approved_plan/capital_assets/amendment')->group(function () {

@@ -19,55 +19,65 @@
             </div>
         </div>
         <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
-            <div class="medium-12 column">
-                    <!--Tab 1 Start-->
-                    <div class="columns padding-lr table-mrg-top">
-                        <!--Header Start-->
-                        <div class="grid-x table-header">
-                            <div class="medium-2 table-border">
-                                <strong>سال مالی</strong>
-                            </div>
-                            <div class="medium-4 table-border">
-                                <strong>شرح</strong>
-                            </div>
-                            <div class="medium-2 table-border">
-                                <strong>وضعیت</strong>
-                            </div>
-                            <div class="medium-2 table-border">
-                                <strong>مجوزها</strong>
-                            </div>
-                            <div class="medium-2 table-border">
-                                <strong>فعالسازی</strong>
-                            </div>
-                        </div>
-                        <!--Header End-->
-                        <div class="table-contain dynamic-height-level2">
-                            <div class="grid-x" v-for="fiscalYear in fiscalYears">
-                                <div class="medium-2 table-contain-border cell-vertical-center">{{ fiscalYear.fyLabel }}</div>
-                                <div class="medium-4 table-contain-border cell-vertical-center">{{ fiscalYear.fyDescription }}</div>
-                                <div class="medium-2 table-contain-border cell-vertical-center">{{ getFiscalYearStatus(fiscalYear.fyStatus) }}</div>
-                                <div class="medium-2 table-contain-border cell-vertical-center text-center">
-                                    <div v-show="fiscalYear.fyStatus != 0">
-                                        <a @click="openChangePermissionDialog(fiscalYear.id)"><i class="fi-clipboard-pencil size-21 blue-color"></i> </a>
-                                    </div>
-                                </div>
-                                <div class="medium-2 table-contain-border cell-vertical-center text-center">
-                                    <div v-show="fiscalYear.fyStatus == 0">
-                                        <a @click="openFyActiveRequestDialog(fiscalYear.fyLabel , fiscalYear.id)"><i class="fi-checkbox size-21 edit-pencil"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="grid-x">
-                            <div class="medium-12">
-                                <vue-pagination  v-bind:pagination="pagination"
-                                                 v-on:click.native="fetchData(pagination.current_page)"
-                                                 :offset="4">
-                                </vue-pagination>
-                            </div>
-                        </div>
+            <div class="medium-12 column padding-lr table-mrg-top">
+                <!--Table Head Start-->
+                <div class="tbl-div-container">
+                    <table class="tbl-head">
+                        <colgroup>
+                            <col width="100px"/>
+                            <col width="300px"/>
+                            <col width="100px"/>
+                            <col width="100px"/>
+                            <col width="100px"/>
+                            <col width="12px"/>
+                        </colgroup>
+                        <tbody class="tbl-head-style">
+                        <tr class="tbl-head-style-cell">
+                            <th class="tbl-head-style-cell">سال مالی</th>
+                            <th class="tbl-head-style-cell">شرح</th>
+                            <th class="tbl-head-style-cell">وضعیت</th>
+                            <th class="tbl-head-style-cell">مجوزها</th>
+                            <th class="tbl-head-style-cell">فعالسازی</th>
+                            <th class="tbl-head-style-cell"></th>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!--Table Head End-->
+                    <!--Table Body Start-->
+                    <div class="tbl_body_style dynamic-height-level2">
+                        <table class="tbl-body-contain">
+                            <colgroup>
+                                <col width="100px"/>
+                                <col width="300px"/>
+                                <col width="100px"/>
+                                <col width="100px"/>
+                                <col width="100px"/>
+                            </colgroup>
+                            <tbody class="tbl-head-style-cell">
+                                <tr v-for="fiscalYear in fiscalYears">
+                                    <td>{{ fiscalYear.fyLabel }}</td>
+                                    <td>{{ fiscalYear.fyDescription }}</td>
+                                    <td class="text-center">{{ getFiscalYearStatus(fiscalYear.fyStatus) }}</td>
+                                    <td class="text-center">
+                                        <a v-show="fiscalYear.fyStatus == 1" @click="openChangePermissionDialog(fiscalYear.id)"><i class="fi-clipboard-pencil size-21 blue-color"></i></a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a v-show="fiscalYear.fyStatus == 0" @click="openFyActiveRequestDialog(fiscalYear.fyLabel , fiscalYear.id)"><i class="fi-checkbox size-21 edit-pencil"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <!--Tab 1 End-->
+                    <!--Table Body End-->
+                </div>
+                <div class="grid-x">
+                    <div class="medium-12">
+                        <vue-pagination  v-bind:pagination="pagination"
+                                         v-on:click.native="fetchData(pagination.current_page)"
+                                         :offset="4">
+                        </vue-pagination>
+                    </div>
+                </div>
             </div>
         </div>
         <!--modalFYActivate Start-->
@@ -88,7 +98,6 @@
             </div>
         </modal-tiny>
         <!--modalFyActivate end-->
-
         <!--Modal Permission Start-->
         <modal-large v-if="showChangePermissionDialog" @close="showChangePermissionDialog = false">
             <div  slot="body">
@@ -104,7 +113,7 @@
                                             <div class="grid-x padding-lr">
                                                 <div class="medium-1">
                                                     <div class="switch tiny">
-                                                        <input class="switch-input" id="budgetPermissionAllId" type="checkbox" autocomplete="off"  v-model="allPermissionSelectedSection.budget" @change="changeFySectionPermissionState('budget')">
+                                                        <input class="switch-input" id="budgetPermissionAllId" type="checkbox" autocomplete="off" :checked="allSelected(fyPermissionInBudget)"  @click="toggleSelect(fyPermissionInBudget , 'budget')">
                                                         <label class="switch-paddle" for="budgetPermissionAllId">
                                                             <span class="switch-active" aria-hidden="true">بلی</span>
                                                             <span class="switch-inactive" aria-hidden="true">خیر</span>
@@ -122,7 +131,7 @@
                                             <div class="grid-x padding-lr">
                                                 <div class="medium-2">
                                                     <div class="switch tiny">
-                                                        <input class="switch-input" type="checkbox" v-model="budgetPermissionState[fyPIB.id]" :id="'budgetPermission' + fyPIB.id" @change="changeBudgetItemPermissionState(fyPIB.id)">
+                                                        <input class="switch-input" type="checkbox" v-model="fyPIB.pbStatus" :id="'budgetPermission' + fyPIB.id" @change="changeBudgetItemPermissionState(fyPIB)">
                                                         <label class="switch-paddle" :for="'budgetPermission' + fyPIB.id">
                                                             <span class="switch-active" aria-hidden="true">بلی</span>
                                                             <span class="switch-inactive" aria-hidden="true">خیر</span>
@@ -152,7 +161,7 @@
         data(){
             return {
                 fiscalYears: [],
-                fyPermissionInBudget: {},
+                fyPermissionInBudget: [],
                 showFyActiveModal: false,
                 showChangePermissionDialog: false,
                 allPermissionSelectedSection: {budget: ''},
@@ -233,7 +242,6 @@
                         this.makePagination(response.data);
                         this.showFyActiveModal = false;
                         console.log(response.data);
-                        this.$parent.displayNotif(response.status);
                     },(error) => {
                         console.log(error);
                     });
@@ -248,9 +256,9 @@
             getFyPermissionInBudget: function () {
                 axios.get('/budget/admin/fiscal_year/getFyPermissionInBudget' , {params:{fyId: this.fyActiveId}})
                     .then((response) => {
-                        var BPA_state = false;
+                        //var BPA_state = false;
                         this.fyPermissionInBudget = response.data;
-                        this.fyPermissionInBudget.forEach(item => {
+/*                        this.fyPermissionInBudget.forEach(item => {
                             Vue.set(this.budgetPermissionState , item.id , item.pbStatus);
                             if (item.pbStatus == 0)
                             {
@@ -262,24 +270,23 @@
                         if (BPA_state == false)
                         {
                             this.allPermissionSelectedSection.budget = true;
-                        }
+                        }*/
                         console.log(response.data);
                     },(error) => {
                         console.log(error);
                     });
             },
 
-            changeFySectionPermissionState: function (section , fyId) {
+            changeFySectionPermissionState: function (section) {
                 switch (section){
                     case "budget":
                         axios.post('/budget/admin/fiscal_year/changeSectionPermissionState',{
                             fyId: this.fyActiveId,
                             section: section,
-                            state: this.allPermissionSelectedSection.budget
+                            state: this.allSelected(this.fyPermissionInBudget)
                         }).then((response) => {
                                 this.fyPermissionInBudget = response.data;
                                 console.log(response.data);
-                                this.$parent.displayNotif(response.status);
                             },(error) => {
                                 console.log(error);
                             });
@@ -287,18 +294,34 @@
                 }
             },
 
-            changeBudgetItemPermissionState: function (pbId) {
+            changeBudgetItemPermissionState: function (pb) {
                 axios.post('/budget/admin/fiscal_year/changeBudgetItemPermissionState',{
-                    pbId: pbId,
-                    state: this.budgetPermissionState[pbId]
+                    pbId: pb.id,
+                    state: pb.pbStatus
                 }).then((response) => {
                     this.fyPermissionInBudget = response.data;
                     console.log(response.data);
-                    this.$parent.displayNotif(response.status);
                 },(error) => {
                     console.log(error);
                 });
-            }
+            },
+
+            allSelected: function(permissions) {
+                return permissions.every(function(perm){
+                    return perm.pbStatus;
+                });
+            },
+
+            toggleSelect: function(permissions , section) {
+                if(permissions.find(perm => perm.pbStatus)){
+                    permissions.forEach(perm => perm.pbStatus = false)
+                } else {
+                    permissions.forEach(perm => perm.pbStatus = true)
+                }
+                this.changeFySectionPermissionState(section);
+                console.log(JSON.stringify(this.fyPermissionInBudget));
+            },
+
         }
     }
 </script>

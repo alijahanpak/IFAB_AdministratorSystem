@@ -36,6 +36,7 @@ return array(
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
     'Nwidart\\Modules\\' => array($vendorDir . '/nwidart/laravel-modules/src'),
+    'Morilog\\Jalali\\' => array($vendorDir . '/morilog/jalali/src'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Modules\\' => array($baseDir . '/Modules'),
     'League\\OAuth2\\Server\\' => array($vendorDir . '/league/oauth2-server/src'),

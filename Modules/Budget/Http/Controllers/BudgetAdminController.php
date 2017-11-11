@@ -139,40 +139,7 @@ class BudgetAdminController extends Controller
         return Redirect::to(URL::previous());
     }*/
 
-    public function deleteDeprivedArea($dId)
-    {
-        $deprivedArea = DeprivedArea::find($dId);
-        try {
-            $logTemp = DeprivedArea::getDeprivedAreaLabel($dId);
-            $deprivedArea->delete();
-            SystemLog::setBudgetSubSystemAdminLog('حذف منطقه محروم ' . $logTemp);
-            return Redirect::to(URL::previous());
-        }
-        catch (\Illuminate\Database\QueryException $e) {
-
-            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return Redirect::to(URL::previous())->with('messageDialogPm', 'با توجه به وابستگی اطلاعات، حذف رکورد مورد نظر ممکن نیست!');
-            }
-        }
-    }
-
-    public function updateDeprivedArea(Request $request)
-    {
-        $old = DeprivedArea::getDeprivedAreaLabel(Input::get('daId'));
-        $deprivedArea = DeprivedArea::find(Input::get('daId'));
-        $deprivedArea->daCoId = Input::get('daCounty');
-        $deprivedArea->daReId = Input::get('daRegion');
-        $deprivedArea->daRdId = Input::get('daRuralDistrict');
-        $deprivedArea->daViId = Input::get('daVillage');
-        $deprivedArea->daDescription = Input::get('daDescription');
-        $deprivedArea->save();
-
-        SystemLog::setBudgetSubSystemAdminLog('تغییر در منطقه محروم (' . $old . ') به (' . DeprivedArea::getDeprivedAreaLabel($deprivedArea->id) . ')');
-        return Redirect::to(URL::previous());
-    }
-
-
-    public function DAIsExist($coId , $reId = null , $rdId = null , $viId = null)
+/*    public function DAIsExist($coId , $reId = null , $rdId = null , $viId = null)
     {
         if (\Illuminate\Support\Facades\Request::ajax())
         {
@@ -185,9 +152,9 @@ class BudgetAdminController extends Controller
                 return \Illuminate\Support\Facades\Response::json(['exist' => false]);
             }
         }
-    }
+    }*/
 
-    public function DAIsExistForUpdate($daId , $coId , $reId = null , $rdId = null , $viId = null)
+/*    public function DAIsExistForUpdate($daId , $coId , $reId = null , $rdId = null , $viId = null)
     {
         if (\Illuminate\Support\Facades\Request::ajax())
         {
@@ -200,7 +167,7 @@ class BudgetAdminController extends Controller
                 return \Illuminate\Support\Facades\Response::json(['exist' => false]);
             }
         }
-    }
+    }*/
 
     public function CDRIsExist($cdSubject , $cdId = null)
     {
@@ -983,18 +950,63 @@ class BudgetAdminController extends Controller
 
     public function registerDeprivedArea(Request $request)
     {
+        if (DeprivedArea::where('daCoId' , '=' , $request->county)->where('daReId' , '=' , $request->region)->where('daRdId' , '=' , $request->ruralDistrict)->where('daViId' , '=' , $request->village)->exists())
+        {
+            return \response()->json($this->getAllDeprivedArea() , 409);
+        }
+        else
+        {
+            $deprivedArea = new DeprivedArea;
+            $deprivedArea->daUId = Auth::user()->id;
+            $deprivedArea->daCoId = $request->county;
+            $deprivedArea->daReId = $request->region;
+            $deprivedArea->daRdId = $request->ruralDistrict;
+            $deprivedArea->daViId = $request->village;
+            $deprivedArea->daDescription = $request->description;
+            $deprivedArea->save();
 
-        $deprivedArea = new DeprivedArea;
-        $deprivedArea->daUId = Auth::user()->id;
-        $deprivedArea->daCoId = $request->county;
-        $deprivedArea->daReId = $request->region;
-        $deprivedArea->daRdId = $request->ruralDistrict;
-        $deprivedArea->daViId = $request->village;
-        $deprivedArea->daDescription = $request->description;
-        $deprivedArea->save();
+            SystemLog::setBudgetSubSystemAdminLog('تعریف منطقه محروم ' . DeprivedArea::getDeprivedAreaLabel($deprivedArea->id));
+            return \response()->json($this->getAllDeprivedArea());
+        }
 
-        SystemLog::setBudgetSubSystemAdminLog('تعریف منطقه محروم ' . DeprivedArea::getDeprivedAreaLabel($deprivedArea->id));
-        return \response()->json($this->getAllDeprivedArea());
+    }
+
+    public function updateDeprivedArea(Request $request)
+    {
+        if (DeprivedArea::where('id' , '<>' , $request->id)->where('daCoId' , '=' , $request->county)->where('daReId' , '=' , $request->region)->where('daRdId' , '=' , $request->ruralDistrict)->where('daViId' , '=' , $request->village)->exists())
+        {
+            return \response()->json($this->getAllDeprivedArea() , 409);
+        }
+        else
+        {
+            $old = DeprivedArea::getDeprivedAreaLabel($request->id);
+            $deprivedArea = DeprivedArea::find($request->id);
+            $deprivedArea->daCoId = $request->county;
+            $deprivedArea->daReId = $request->region;
+            $deprivedArea->daRdId = $request->ruralDistrict;
+            $deprivedArea->daViId = $request->village;
+            $deprivedArea->daDescription = $request->description;
+            $deprivedArea->save();
+
+            SystemLog::setBudgetSubSystemAdminLog('تغییر در منطقه محروم (' . $old . ') به (' . DeprivedArea::getDeprivedAreaLabel($deprivedArea->id) . ')');
+            return \response()->json($this->getAllDeprivedArea());
+        }
+    }
+
+    public function deleteDeprivedArea(Request $request)
+    {
+        $deprivedArea = DeprivedArea::find($request->id);
+        try {
+            $logTemp = DeprivedArea::getDeprivedAreaLabel($request->id);
+            $deprivedArea->delete();
+            SystemLog::setBudgetSubSystemAdminLog('حذف منطقه محروم ' . $logTemp);
+            return \response()->json($this->getAllDeprivedArea());
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                return \response()->json($this->getAllDeprivedArea() , 204);
+            }
+        }
     }
 
     /////////////////////////////// budget season /////////////////////////////////////////

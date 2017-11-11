@@ -241,6 +241,9 @@ var app = new Vue({
                 case 200:
                     this.$notify({title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.' , type: 'success'});
                     break;
+                case 409:
+                    this.$notify({title: 'پیام سیستم', text: 'رکورد تکراری است!' , type: 'error'});
+                    break;
                 case 800: //doesn`t select records
                     this.$notify({title: 'پیام سیستم', text: 'لطفا رکوردهای مورد نظر انتخاب کنید!' , type: 'error'})
             }

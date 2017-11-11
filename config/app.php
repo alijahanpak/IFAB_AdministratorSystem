@@ -166,6 +166,7 @@ return [
         Laravel\Passport\PassportServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Morilog\Jalali\JalaliServiceProvider::class,
 
 
         /*
@@ -237,6 +238,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'jDate' => Morilog\Jalali\Facades\jDate::class
 
     ],
 
