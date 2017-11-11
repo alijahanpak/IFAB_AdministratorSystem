@@ -566,8 +566,6 @@
                     <div style="margin-top: 17px;" class="grid-x">
                         <div class="medium-12 button-group float-right">
                             <a class="medium-1 my-button toolbox-btn small" @click="openInsertProjectModal">پروژه جدید</a>
-                            <a class="medium-1 my-button toolbox-btn small" @click="cancelApprovedAmendmentTemp">لغو</a>
-                            <a class="medium-1 my-button toolbox-btn small" @click="acceptApprovedAmendment">تایید</a>
                         </div>
                     </div>
                     <div class="grid-x">
@@ -683,6 +681,14 @@
                             </div>
                         </div>
                             <!--Table Body End-->
+                    </div>
+                    <div class="grid-x">
+                        <div class="medium-12 columns padding-bottom-modal">
+                            <div class="button-group float-left report-mrg">
+                                <a class="my-button my-danger float-left btn-for-load" @click="cancelApprovedAmendmentTemp"> <span class="btn-txt-mrg">لغو</span></a>
+                                <a class="my-button my-success float-left btn-for-load" @click="acceptApprovedAmendment"> <span class="btn-txt-mrg">تایید</span></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </modal-full-screen>

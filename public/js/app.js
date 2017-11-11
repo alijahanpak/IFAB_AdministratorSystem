@@ -117517,6 +117517,12 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -119623,17 +119629,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": _vm.openInsertProjectModal
     }
-  }, [_vm._v("پروژه جدید")]), _vm._v(" "), _c('a', {
-    staticClass: "medium-1 my-button toolbox-btn small",
-    on: {
-      "click": _vm.cancelApprovedAmendmentTemp
-    }
-  }, [_vm._v("لغو")]), _vm._v(" "), _c('a', {
-    staticClass: "medium-1 my-button toolbox-btn small",
-    on: {
-      "click": _vm.acceptApprovedAmendment
-    }
-  }, [_vm._v("تایید")])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("پروژه جدید")])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "tbl-div-container"
@@ -119851,7 +119847,27 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         staticClass: "fa fa-newspaper-o size-16"
       }), _vm._v("  اصلاح")])])])])])])])])
     }))])])])]
-  })], 2)])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showInsertModalProject) ? _c('modal-small', {
+  })], 2)])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 columns padding-bottom-modal"
+  }, [_c('div', {
+    staticClass: "button-group float-left report-mrg"
+  }, [_c('a', {
+    staticClass: "my-button my-danger float-left btn-for-load",
+    on: {
+      "click": _vm.cancelApprovedAmendmentTemp
+    }
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("لغو")])]), _vm._v(" "), _c('a', {
+    staticClass: "my-button my-success float-left btn-for-load",
+    on: {
+      "click": _vm.acceptApprovedAmendment
+    }
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("تایید")])])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showInsertModalProject) ? _c('modal-small', {
     on: {
       "close": function($event) {
         _vm.showInsertModalProject = false
