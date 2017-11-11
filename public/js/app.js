@@ -83118,7 +83118,7 @@ var app = new Vue({
             }
 
             if (tabHeight === undefined) {
-                if (toolBarHeight > 0) tabHeight = -28;else tabHeight = -8;
+                if (toolBarHeight > 0) tabHeight = -5;else tabHeight = -8;
                 notifHeight = 0;
             }
 
@@ -107005,7 +107005,7 @@ if (false) {(function () {
 
             axios.post('/budget/admin/deprived_area/delete', {
                 id: this.daIdForDelete }).then(function (response) {
-                _this8.deprivedArea = response.data;
+                if (response.status != 204) _this8.deprivedArea = response.data;
                 _this8.showDeleteModal = false;
                 _this8.$parent.displayNotif(response.status);
                 console.log(response);
@@ -107845,11 +107845,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "medium-12 column text-center"
   }, [_c('button', {
-    staticClass: "button primary btn-large-w",
+    staticClass: "my-button my-success",
     on: {
       "click": _vm.deleteDeprivedArea
     }
-  }, [_vm._v("تایید")])])])])])]) : _vm._e()], 1)
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v(" تایید ")])])])])])])]) : _vm._e()], 1)
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', [_c('a', {
@@ -108353,13 +108355,63 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     data: function data() {
         return {
             budgetSeasons: [],
             budgetSeasonInput: { subject: '', description: '' },
-            showInsertModal: false
+            budgetSeasonFill: {},
+            bsIdForDelete: '',
+            showInsertModal: false,
+            showUpdateModal: false,
+            showDeleteModal: false
         };
     },
 
@@ -108389,6 +108441,11 @@ if (false) {(function () {
             });
         },
 
+        openInsertModal: function openInsertModal() {
+            this.budgetSeasonInput = [];
+            this.showInsertModal = true;
+        },
+
         createBudgetSeason: function createBudgetSeason() {
             var _this2 = this;
 
@@ -108400,13 +108457,59 @@ if (false) {(function () {
                         _this2.budgetSeasons = response.data;
                         _this2.showInsertModal = false;
                         _this2.$parent.displayNotif(response.status);
-                        _this2.budgetSeasonInput = [];
                         console.log(response);
                     }, function (error) {
                         console.log(error);
-                        _this2.errorMessage = 'فصل بودجه با این مشخصات قبلا ثبت شده است!';
+                        _this2.$parent.displayNotif(error.response.status);
                     });
                 }
+            });
+        },
+
+        openUpdateModal: function openUpdateModal(bs) {
+            this.budgetSeasonFill.id = bs.id;
+            this.budgetSeasonFill.subject = bs.bsSubject;
+            this.budgetSeasonFill.description = bs.bsDescription;
+            this.showUpdateModal = true;
+        },
+
+        updateBudgetSeason: function updateBudgetSeason() {
+            var _this3 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    axios.post('/budget/admin/credit_distribution_def/budget_season/update', {
+                        id: _this3.budgetSeasonFill.id,
+                        subject: _this3.budgetSeasonFill.subject,
+                        description: _this3.budgetSeasonFill.description }).then(function (response) {
+                        _this3.budgetSeasons = response.data;
+                        _this3.showUpdateModal = false;
+                        _this3.$parent.displayNotif(response.status);
+                        console.log(response);
+                    }, function (error) {
+                        console.log(error);
+                        _this3.$parent.displayNotif(error.response.status);
+                    });
+                }
+            });
+        },
+
+        openDeleteModal: function openDeleteModal(bsId) {
+            this.bsIdForDelete = bsId;
+            this.showDeleteModal = true;
+        },
+
+        deleteBudgetSeason: function deleteBudgetSeason() {
+            var _this4 = this;
+
+            axios.post('/budget/admin/credit_distribution_def/budget_season/delete', { id: this.bsIdForDelete }).then(function (response) {
+                if (response.status != 204) _this4.budgetSeasons = response.data;
+                _this4.showDeleteModal = false;
+                _this4.$parent.displayNotif(response.status);
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+                _this4.showDeleteModal = false;
             });
         }
     }
@@ -108447,37 +108550,33 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "clearfix border-btm-line tool-bar"
   }, [_c('div', {
-    staticClass: "button-group float-right report-mrg",
+    staticClass: "button-group float-right",
     staticStyle: {
       "margin-top": "2px"
     }
   }, [_c('a', {
     staticClass: "my-button toolbox-btn small",
     on: {
-      "click": function($event) {
-        _vm.showInsertModal = true;
-      }
+      "click": _vm.openInsertModal
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")])]), _vm._v(" "), _vm._m(2)])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-12 column"
+  }, [_vm._v("گزارش")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-12 column padding-lr table-mrg-top"
   }, [_c('div', {
-    staticClass: "columns padding-lr table-mrg-top"
-  }, [_vm._m(3), _vm._v(" "), _c('div', {
-    staticClass: "table-contain dynamic-height-level2"
+    staticClass: "tbl-div-container"
+  }, [_vm._m(2), _vm._v(" "), _c('div', {
+    staticClass: "tbl_body_style dynamic-height-level2"
+  }, [_c('table', {
+    staticClass: "tbl-body-contain"
+  }, [_vm._m(3), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style-cell"
   }, _vm._l((_vm.budgetSeasons), function(budgetSeason) {
-    return _c('div', {
-      staticClass: "grid-x"
-    }, [_c('div', {
-      staticClass: "medium-4 table-contain-border cell-vertical-center"
-    }, [_vm._v(_vm._s(budgetSeason.bsSubject))]), _vm._v(" "), _c('div', {
-      staticClass: "medium-8 table-contain-border cell-vertical-center"
-    }, [_c('div', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(budgetSeason.bsSubject))]), _vm._v(" "), _c('td', [_c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-11"
-    }, [_vm._v("\n                                        " + _vm._s(budgetSeason.bsDescription) + "\n                                    ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                            " + _vm._s(budgetSeason.bsDescription) + "\n                                        ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-1 cell-vertical-center text-left"
     }, [_c('a', {
       staticClass: "dropdown small sm-btn-align",
@@ -108485,12 +108584,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "type": "button",
         "data-toggle": 'budgetSeason' + budgetSeason.id
       }
-    }, [_c('img', {
-      attrs: {
-        "width": "15px",
-        "height": "15px",
-        "src": "/IFAB_AdministratorSystem/public/pic/menu.svg"
-      }
+    }, [_c('i', {
+      staticClass: "fa fa-ellipsis-v size-18"
     })]), _vm._v(" "), _c('div', {
       staticClass: "dropdown-pane dropdown-pane-sm ",
       attrs: {
@@ -108503,19 +108598,26 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "data-dropdown": "",
         "data-auto-focus": "true"
       }
-    }, [_vm._m(4, true)])])])])])
-  }))])])]), _vm._v(" "), (_vm.showFyActiveModal) ? _c('modal-tiny', {
-    on: {
-      "close": function($event) {
-        _vm.showFyActiveModal = false
+    }, [_c('ul', {
+      staticClass: "my-menu small-font text-right"
+    }, [_c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          _vm.openUpdateModal(budgetSeason)
+        }
       }
-    }
-  }, [_c('div', {
-    attrs: {
-      "slot": "body"
-    },
-    slot: "body"
-  })]) : _vm._e(), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-tiny', {
+    }, [_c('i', {
+      staticClass: "fi-pencil size-16"
+    }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          _vm.openDeleteModal(budgetSeason.id)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fi-trash size-16"
+    }), _vm._v("  حذف")])])])])])])])])
+  }))])])])])]), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showInsertModal = false
@@ -108564,6 +108666,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       value: ('required'),
       expression: "'required'"
     }],
+    staticClass: "form-element-margin-btm",
     class: {
       'input': true, 'error-border': _vm.errors.has('bsSubject')
     },
@@ -108617,12 +108720,150 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6 columns"
   }, [_c('button', {
-    staticClass: "my-secondary button float-left btn-for-load",
+    staticClass: "my-button my-success float-left btn-for-load",
     attrs: {
-      "name": "Submit",
+      "name": "daFormSubmit",
       "type": "submit"
     }
-  }, [_c('span', [_vm._v("  ثبت")])])])])])])]) : _vm._e()], 1)
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("  ثبت")])])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showUpdateModal) ? _c('modal-tiny', {
+    on: {
+      "close": function($event) {
+        _vm.showUpdateModal = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('div', {
+    staticClass: "padding-lr"
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.updateBudgetSeason($event)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "grid-x",
+    staticStyle: {
+      "display": "none"
+    }
+  }, [_c('div', {
+    staticClass: "medium-12 columns"
+  }, [_c('div', {
+    staticClass: "alert callout"
+  }, [_c('p', {
+    staticClass: "BYekan login-alert"
+  }, [_c('i', {
+    staticClass: "fi-alert"
+  }), _vm._v("این عنوان فصل بودجه قبلا ثبت شده است!")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "small-12 columns"
+  }, [_c('label', [_vm._v("عنوان فصل بودجه\n                                "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.budgetSeasonFill.subject),
+      expression: "budgetSeasonFill.subject"
+    }, {
+      name: "validate",
+      rawName: "v-validate",
+      value: ('required'),
+      expression: "'required'"
+    }],
+    staticClass: "form-element-margin-btm",
+    class: {
+      'input': true, 'error-border': _vm.errors.has('bsSubject')
+    },
+    attrs: {
+      "type": "text",
+      "name": "bsSubject"
+    },
+    domProps: {
+      "value": (_vm.budgetSeasonFill.subject)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.budgetSeasonFill.subject = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('bsSubject')),
+      expression: "errors.has('bsSubject')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("لطفا عنوان فصل بودجه را وارد نمایید!")])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "small-12 columns"
+  }, [_c('label', [_vm._v("شرح\n                                "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.budgetSeasonFill.description),
+      expression: "budgetSeasonFill.description"
+    }],
+    staticStyle: {
+      "min-height": "150px"
+    },
+    attrs: {
+      "name": "bsDescription"
+    },
+    domProps: {
+      "value": (_vm.budgetSeasonFill.description)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.budgetSeasonFill.description = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 columns"
+  }, [_c('button', {
+    staticClass: "my-button my-success float-left btn-for-load",
+    attrs: {
+      "name": "daFormSubmit",
+      "type": "submit"
+    }
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("  ثبت")])])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showDeleteModal) ? _c('modal-tiny', {
+    on: {
+      "close": function($event) {
+        _vm.showDeleteModal = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('div', {
+    staticClass: "small-font"
+  }, [_c('p', [_vm._v("کاربر گرامی")]), _vm._v(" "), _c('p', {
+    staticClass: "large-offset-1 modal-text"
+  }, [_vm._v("آیا برای حذف این رکورد اطمینان دارید؟")]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 column text-center"
+  }, [_c('button', {
+    staticClass: "my-button my-success",
+    on: {
+      "click": _vm.deleteBudgetSeason
+    }
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v(" تایید ")])])])])])])]) : _vm._e()], 1)
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', [_c('a', {
@@ -108633,49 +108874,41 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "show-for-sr"
   }, [_vm._v("Current: ")]), _vm._v("فصل بودجه\n                        ")])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "float-left"
-  }, [_c('div', {
-    staticClass: "input-group float-left"
-  }, [_c('input', {
-    staticClass: "input-group-field small-font",
+  return _c('table', {
+    staticClass: "tbl-head"
+  }, [_c('colgroup', [_c('col', {
     attrs: {
-      "type": "text"
+      "width": "450px"
     }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "input-group-button"
-  }, [_c('button', {
-    staticClass: "my-button my-brand",
+  }), _vm._v(" "), _c('col', {
     attrs: {
-      "type": "button"
+      "width": "390px"
     }
-  }, [_c('i', {
-    staticClass: "fi-magnifying-glass"
-  })])])])])
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "12px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style"
+  }, [_c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("عنوان")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شرح")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  })])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "grid-x table-header"
-  }, [_c('div', {
-    staticClass: "medium-4 table-border"
-  }, [_c('strong', [_vm._v("عنوان")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-8 table-border"
-  }, [_c('strong', [_vm._v("شرح")])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('ul', {
-    staticClass: "my-menu small-font text-right"
-  }, [_c('li', [_c('a', {
+  return _c('colgroup', [_c('col', {
     attrs: {
-      "data-open": "preloaderModal"
+      "width": "450px"
     }
-  }, [_c('i', {
-    staticClass: "fi-pencil size-16"
-  }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+  }), _vm._v(" "), _c('col', {
     attrs: {
-      "data-open": "modalDelete"
+      "width": "390px"
     }
-  }, [_c('i', {
-    staticClass: "fi-trash size-16"
-  }), _vm._v("  حذف")])])])
+  })])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
@@ -110284,10 +110517,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   return _c('div', {
     staticClass: "medium-10 border-right-line inner-body-pad main-margin"
   }, [_c('div', {
-    staticClass: "grid-x padding-lr breadcrumbs-pos",
-    staticStyle: {
-      "padding-top": "15px"
-    }
+    staticClass: "grid-x padding-lr breadcrumbs-pos"
   }, [_c('div', {
     staticClass: "medium-12"
   }, [_c('div', {
