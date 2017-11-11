@@ -113233,6 +113233,81 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -113248,6 +113323,7 @@ if (false) {(function () {
             showApCsInsertModal: false,
             showModalUpdate: false,
             showModalDelete: false,
+            showModalReport: false,
             approvedProjectsFill: { apPlan: '', apProjectTitle: '', apProjectCode: '', apStartYear: '', apEndYear: '',
                 apHowToRun: '', apPhysicalProgress: '', aCity: '', apSubSeason: '',
                 apLocation: '', apDescription: '', apCredit: '' },
@@ -113632,7 +113708,7 @@ if (false) {(function () {
         },
 
         openPdfFile: function openPdfFile() {
-            axios.get('/budget/approved_plan/capital_assets/report', { params: { pOrN: this.provOrNat, options: this.reportOptions, selectedItems: this.selectedItems } }).then(function (response) {
+            axios.get('/budget/approved_project/capital_assets/report', { params: { pOrN: this.provOrNat, options: this.reportOptions, selectedItems: this.selectedItems } }).then(function (response) {
                 console.log(response.data);
                 window.open(response.data);
             }, function (error) {
@@ -113645,11 +113721,15 @@ if (false) {(function () {
                 return plan.checked;
             })) {
                 plans.forEach(function (plan) {
-                    return plan.checked = false;
+                    plan.capital_assets_project.forEach(function (project) {
+                        project.checked = false;
+                    });
                 });
             } else {
                 plans.forEach(function (plan) {
-                    return plan.checked = true;
+                    plan.capital_assets_project.forEach(function (project) {
+                        project.checked = true;
+                    });
                 });
             }
             console.log(JSON.stringify(this.approvedProjects_prov));
@@ -113665,7 +113745,9 @@ if (false) {(function () {
             var _this14 = this;
 
             plans.forEach(function (plan) {
-                _this14.$set(plan, 'checked', true);
+                plan.capital_assets_project.forEach(function (project) {
+                    _this14.$set(project, 'checked', true);
+                });
             });
         },
 
@@ -113958,11 +114040,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       attrs: {
         "rowspan": plans.capital_assets_project.length + (_vm.displayParentId_prov == plans.id ? 1 : 0)
       }
-    }, [_vm._v(" " + _vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' - ' + plans.credit_distribution_title.county.coName))]), _vm._v(" "), _c('td', {
-      staticClass: "text-center"
-    }, [_vm._v("\n                                                    " + _vm._s(plans.capital_assets_project[0].cpCode) + "\n                                                ")]), _vm._v(" "), _c('td', {
-      staticClass: "text-center"
-    }, [_vm._v("\n                                                    " + _vm._s(plans.capital_assets_project[0].cpSubject) + "\n                                                ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                    " + _vm._s(plans.capital_assets_project[0].county.coName) + "\n                                                ")]), _vm._v(" "), _c('td', [_c('span', {
+    }, [_vm._v(" " + _vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' - ' + plans.credit_distribution_title.county.coName))]), _vm._v(" "), _c('td', [_vm._v("\n                                                    " + _vm._s(plans.capital_assets_project[0].cpCode) + "\n                                                ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                    " + _vm._s(plans.capital_assets_project[0].cpSubject) + "\n                                                ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                    " + _vm._s(plans.capital_assets_project[0].county.coName) + "\n                                                ")]), _vm._v(" "), _c('td', [_c('span', {
       on: {
         "click": function($event) {
           _vm.openAccordion(0, plans.capital_assets_project[0].id, plans.id)
@@ -113972,7 +114050,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-11"
-    }, [_vm._v("\n                                                            " + _vm._s(plans.capDescription) + "\n                                                        ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                                            " + _vm._s(plans.capital_assets_project[0].capDescription) + "\n                                                        ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-1 cell-vertical-center text-left auto-margin"
     }, [_c('a', {
       staticClass: "dropdown small sm-btn-align",
@@ -114032,31 +114110,31 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: (plans.checked),
-        expression: "plans.checked"
+        value: (plans.capital_assets_project[0].checked),
+        expression: "plans.capital_assets_project[0].checked"
       }],
       staticClass: "auto-margin",
       attrs: {
         "type": "checkbox"
       },
       domProps: {
-        "checked": Array.isArray(plans.checked) ? _vm._i(plans.checked, null) > -1 : (plans.checked)
+        "checked": Array.isArray(plans.capital_assets_project[0].checked) ? _vm._i(plans.capital_assets_project[0].checked, null) > -1 : (plans.capital_assets_project[0].checked)
       },
       on: {
         "__c": function($event) {
-          var $$a = plans.checked,
+          var $$a = plans.capital_assets_project[0].checked,
             $$el = $event.target,
             $$c = $$el.checked ? (true) : (false);
           if (Array.isArray($$a)) {
             var $$v = null,
               $$i = _vm._i($$a, $$v);
             if ($$el.checked) {
-              $$i < 0 && (plans.checked = $$a.concat([$$v]))
+              $$i < 0 && (plans.capital_assets_project[0].checked = $$a.concat([$$v]))
             } else {
-              $$i > -1 && (plans.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+              $$i > -1 && (plans.capital_assets_project[0].checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
             }
           } else {
-            plans.checked = $$c
+            plans.capital_assets_project[0].checked = $$c
           }
         }
       }
@@ -114079,7 +114157,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       return [(pIndex > 0) ? _c('tr', [_c('td', [_vm._v("\n                                                        " + _vm._s(project.cpCode) + "\n                                                    ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                        " + _vm._s(project.cpSubject) + "\n                                                    ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                        " + _vm._s(project.county.coName) + "\n                                                    ")]), _vm._v(" "), _c('td', [_c('span', {
         on: {
           "click": function($event) {
-            _vm.displayCreditSourceInfo_prov == project.id ? _vm.displayCreditSourceInfo_prov = '' : _vm.displayCreditSourceInfo_prov = project.id
+            _vm.openAccordion(0, project.id, plans.id)
           }
         }
       }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.sumOfAmount(project.credit_source), false)))])]), _vm._v(" "), _c('td', [_c('div', {
@@ -114088,7 +114166,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         staticClass: "medium-11"
       }, [_vm._v("\n                                                                " + _vm._s(project.capDescription) + "\n                                                            ")]), _vm._v(" "), _c('div', {
         staticClass: "medium-1 cell-vertical-center text-left auto-margin"
-      }, [_c('div', {
+      }, [_c('a', {
+        staticClass: "dropdown small sm-btn-align",
+        attrs: {
+          "type": "button",
+          "data-toggle": 'approvedPlans' + plans.id + project.id
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-ellipsis-v size-18"
+      })]), _vm._v(" "), _c('div', {
         staticClass: "dropdown-pane dropdown-pane-sm auto-margin",
         attrs: {
           "data-close-on-click": "true",
@@ -114100,15 +114186,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           "data-dropdown": "",
           "data-auto-focus": "true"
         }
-      }, [_c('a', {
-        staticClass: "dropdown small sm-btn-align",
-        attrs: {
-          "type": "button",
-          "data-toggle": 'approvedPlans' + plans.id + project.id
-        }
-      }, [_c('i', {
-        staticClass: "fa fa-ellipsis-v size-18"
-      })]), _vm._v(" "), _c('ul', {
+      }, [_c('ul', {
         staticClass: "my-menu small-font text-right"
       }, [_c('li', [_c('a', {
         on: {
@@ -114146,35 +114224,35 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         directives: [{
           name: "model",
           rawName: "v-model",
-          value: (plans.checked),
-          expression: "plans.checked"
+          value: (project.checked),
+          expression: "project.checked"
         }],
         staticClass: "auto-margin",
         attrs: {
           "type": "checkbox"
         },
         domProps: {
-          "checked": Array.isArray(plans.checked) ? _vm._i(plans.checked, null) > -1 : (plans.checked)
+          "checked": Array.isArray(project.checked) ? _vm._i(project.checked, null) > -1 : (project.checked)
         },
         on: {
           "__c": function($event) {
-            var $$a = plans.checked,
+            var $$a = project.checked,
               $$el = $event.target,
               $$c = $$el.checked ? (true) : (false);
             if (Array.isArray($$a)) {
               var $$v = null,
                 $$i = _vm._i($$a, $$v);
               if ($$el.checked) {
-                $$i < 0 && (plans.checked = $$a.concat([$$v]))
+                $$i < 0 && (project.checked = $$a.concat([$$v]))
               } else {
-                $$i > -1 && (plans.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+                $$i > -1 && (project.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
               }
             } else {
-              plans.checked = $$c
+              project.checked = $$c
             }
           }
         }
-      })])]) : _vm._e(), _vm._v(" "), _c('tr', {
+      })])]) : _vm._e(), _vm._v(" "), (pIndex > 0) ? _c('tr', {
         directives: [{
           name: "show",
           rawName: "v-show",
@@ -114189,7 +114267,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         staticClass: "unstriped tbl-secondary-mrg small-font"
       }, [_vm._m(9, true), _vm._v(" "), _c('tbody', _vm._l((project.credit_source), function(creditSource) {
         return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.castSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.catsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.how_to_run.htrSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
-      }))])])])]
+      }))])])]) : _vm._e()]
     })]
   })], 2)])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
@@ -114280,7 +114358,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
     attrs: {
       "type": "button",
-      "data-toggle": "reportDropDown1"
+      "data-toggle": "reportDropDown2"
     }
   }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(10), _vm._v(" "), _vm._m(11), _vm._v(" "), _vm._m(12)]), _vm._v(" "), _vm._m(13)]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
@@ -114407,11 +114485,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       attrs: {
         "rowspan": plans.capital_assets_project.length + (_vm.displayParentId_nat == plans.id ? 1 : 0)
       }
-    }, [_vm._v("  " + _vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
-      staticClass: "text-center"
-    }, [_vm._v("\n                                                " + _vm._s(plans.capital_assets_project[0].cpCode) + "\n                                            ")]), _vm._v(" "), _c('td', {
-      staticClass: "text-center"
-    }, [_vm._v("\n                                                " + _vm._s(plans.capital_assets_project[0].cpSubject) + "\n                                            ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                " + _vm._s(plans.capital_assets_project[0].county.coName) + "\n                                            ")]), _vm._v(" "), _c('td', [_c('span', {
+    }, [_vm._v("  " + _vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', [_vm._v("\n                                                " + _vm._s(plans.capital_assets_project[0].cpCode) + "\n                                            ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                " + _vm._s(plans.capital_assets_project[0].cpSubject) + "\n                                            ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                " + _vm._s(plans.capital_assets_project[0].county.coName) + "\n                                            ")]), _vm._v(" "), _c('td', [_c('span', {
       on: {
         "click": function($event) {
           _vm.openAccordion(1, plans.capital_assets_project[0].id, plans.id)
@@ -114421,7 +114495,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-11"
-    }, [_vm._v("\n                                                        " + _vm._s(plans.capDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                                        " + _vm._s(plans.capital_assets_project[0].capDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-1 cell-vertical-center text-left auto-margin"
     }, [_c('a', {
       staticClass: "dropdown small sm-btn-align",
@@ -114537,7 +114611,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         staticClass: "medium-11"
       }, [_vm._v("\n                                                            " + _vm._s(project.capDescription) + "\n                                                        ")]), _vm._v(" "), _c('div', {
         staticClass: "medium-1 cell-vertical-center text-left auto-margin"
-      }, [_c('div', {
+      }, [_c('a', {
+        staticClass: "dropdown small sm-btn-align",
+        attrs: {
+          "type": "button",
+          "data-toggle": 'approvedPlans' + plans.id + project.id
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-ellipsis-v size-18"
+      })]), _vm._v(" "), _c('div', {
         staticClass: "dropdown-pane dropdown-pane-sm auto-margin",
         attrs: {
           "data-close-on-click": "true",
@@ -114549,15 +114631,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           "data-dropdown": "",
           "data-auto-focus": "true"
         }
-      }, [_c('a', {
-        staticClass: "dropdown small sm-btn-align",
-        attrs: {
-          "type": "button",
-          "data-toggle": 'approvedPlans' + plans.id + project.id
-        }
-      }, [_c('i', {
-        staticClass: "fa fa-ellipsis-v size-18"
-      })]), _vm._v(" "), _c('ul', {
+      }, [_c('ul', {
         staticClass: "my-menu small-font text-right"
       }, [_c('li', [_c('a', {
         on: {
@@ -114595,31 +114669,31 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         directives: [{
           name: "model",
           rawName: "v-model",
-          value: (plans.checked),
-          expression: "plans.checked"
+          value: (project.checked),
+          expression: "project.checked"
         }],
         staticClass: "auto-margin",
         attrs: {
           "type": "checkbox"
         },
         domProps: {
-          "checked": Array.isArray(plans.checked) ? _vm._i(plans.checked, null) > -1 : (plans.checked)
+          "checked": Array.isArray(project.checked) ? _vm._i(project.checked, null) > -1 : (project.checked)
         },
         on: {
           "__c": function($event) {
-            var $$a = plans.checked,
+            var $$a = project.checked,
               $$el = $event.target,
               $$c = $$el.checked ? (true) : (false);
             if (Array.isArray($$a)) {
               var $$v = null,
                 $$i = _vm._i($$a, $$v);
               if ($$el.checked) {
-                $$i < 0 && (plans.checked = $$a.concat([$$v]))
+                $$i < 0 && (project.checked = $$a.concat([$$v]))
               } else {
-                $$i > -1 && (plans.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+                $$i > -1 && (project.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
               }
             } else {
-              plans.checked = $$c
+              project.checked = $$c
             }
           }
         }
@@ -115796,7 +115870,290 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
-  }, [_vm._v("ثبت")])])])])])]) : _vm._e()], 1)
+  }, [_vm._v("ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showModalReport) ? _c('modal-tiny', {
+    on: {
+      "close": function($event) {
+        _vm.showModalReport = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('div', {
+    staticClass: "small-font"
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.openPdfFile($event)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "grid-x padding-lr"
+  }, [_c('div', {
+    staticClass: "medium-12"
+  }, [_c('label', [_vm._v("عنوان\n                                    "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.reportOptions.title),
+      expression: "reportOptions.title"
+    }],
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.reportOptions.title)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.reportOptions.title = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x padding-lr",
+    staticStyle: {
+      "margin-top": "10px"
+    }
+  }, [_c('div', {
+    staticClass: "medium-2"
+  }, [_c('div', {
+    staticClass: "switch tiny"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.reportOptions.withReporterName),
+      expression: "reportOptions.withReporterName"
+    }],
+    staticClass: "switch-input",
+    attrs: {
+      "checked": "true",
+      "id": "yes-no-1",
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.reportOptions.withReporterName) ? _vm._i(_vm.reportOptions.withReporterName, null) > -1 : (_vm.reportOptions.withReporterName)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.reportOptions.withReporterName,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.reportOptions.withReporterName = $$a.concat([$$v]))
+          } else {
+            $$i > -1 && (_vm.reportOptions.withReporterName = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.reportOptions.withReporterName = $$c
+        }
+      }
+    }
+  }), _vm._v(" "), _c('label', {
+    staticClass: "switch-paddle",
+    attrs: {
+      "for": "yes-no-1"
+    }
+  }, [_c('span', {
+    staticClass: "switch-active",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("بلی")]), _vm._v(" "), _c('span', {
+    staticClass: "switch-inactive",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("خیر")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-10"
+  }, [_c('p', [_vm._v("درج نام کاربر تهیه کننده گزارش")])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x padding-lr"
+  }, [_c('div', {
+    staticClass: "medium-2"
+  }, [_c('div', {
+    staticClass: "switch tiny"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.reportOptions.withFiscalYear),
+      expression: "reportOptions.withFiscalYear"
+    }],
+    staticClass: "switch-input",
+    attrs: {
+      "checked": "true",
+      "id": "yes-no-2",
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.reportOptions.withFiscalYear) ? _vm._i(_vm.reportOptions.withFiscalYear, null) > -1 : (_vm.reportOptions.withFiscalYear)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.reportOptions.withFiscalYear,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.reportOptions.withFiscalYear = $$a.concat([$$v]))
+          } else {
+            $$i > -1 && (_vm.reportOptions.withFiscalYear = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.reportOptions.withFiscalYear = $$c
+        }
+      }
+    }
+  }), _vm._v(" "), _c('label', {
+    staticClass: "switch-paddle",
+    attrs: {
+      "for": "yes-no-2"
+    }
+  }, [_c('span', {
+    staticClass: "switch-active",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("بلی")]), _vm._v(" "), _c('span', {
+    staticClass: "switch-inactive",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("خیر")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-10"
+  }, [_c('p', [_vm._v("درج سال مالی")])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x padding-lr"
+  }, [_c('div', {
+    staticClass: "medium-2"
+  }, [_c('div', {
+    staticClass: "switch tiny"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.reportOptions.withReportDate),
+      expression: "reportOptions.withReportDate"
+    }],
+    staticClass: "switch-input",
+    attrs: {
+      "checked": "true",
+      "id": "yes-no3",
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.reportOptions.withReportDate) ? _vm._i(_vm.reportOptions.withReportDate, null) > -1 : (_vm.reportOptions.withReportDate)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.reportOptions.withReportDate,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.reportOptions.withReportDate = $$a.concat([$$v]))
+          } else {
+            $$i > -1 && (_vm.reportOptions.withReportDate = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.reportOptions.withReportDate = $$c
+        }
+      }
+    }
+  }), _vm._v(" "), _c('label', {
+    staticClass: "switch-paddle",
+    attrs: {
+      "for": "yes-no3"
+    }
+  }, [_c('span', {
+    staticClass: "switch-active",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("بلی")]), _vm._v(" "), _c('span', {
+    staticClass: "switch-inactive",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("خیر")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-10"
+  }, [_c('p', [_vm._v("درج تاریخ گزارش")])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x padding-lr"
+  }, [_c('div', {
+    staticClass: "medium-2"
+  }, [_c('div', {
+    staticClass: "switch tiny"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.reportOptions.orientation),
+      expression: "reportOptions.orientation"
+    }],
+    staticClass: "switch-input",
+    attrs: {
+      "checked": "true",
+      "id": "yes-no4",
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.reportOptions.orientation) ? _vm._i(_vm.reportOptions.orientation, null) > -1 : (_vm.reportOptions.orientation)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.reportOptions.orientation,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.reportOptions.orientation = $$a.concat([$$v]))
+          } else {
+            $$i > -1 && (_vm.reportOptions.orientation = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.reportOptions.orientation = $$c
+        }
+      }
+    }
+  }), _vm._v(" "), _c('label', {
+    staticClass: "switch-paddle",
+    attrs: {
+      "for": "yes-no4"
+    }
+  }, [_c('span', {
+    staticClass: "switch-active",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("افقی")]), _vm._v(" "), _c('span', {
+    staticClass: "switch-inactive",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("عمودی")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-10"
+  }, [_c('p', [_vm._v("جهت کاغذ")])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-12 columns padding-lr padding-bottom-modal input-margin-top"
+  }, [_c('button', {
+    staticClass: "my-button my-success float-left btn-for-load",
+    attrs: {
+      "name": "Submit"
+    }
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("مشاهده")])])])])])])]) : _vm._e()], 1)
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', [_c('a', {
@@ -115943,7 +116300,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "data-hover-pane": "true",
       "data-position": "bottom",
       "data-alignment": "left",
-      "id": "reportDropDown1",
+      "id": "reportDropDown2",
       "data-dropdown": "",
       "data-auto-focus": "true"
     }
@@ -116123,6 +116480,12 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__ = __webpack_require__(7);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -119496,17 +119859,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": _vm.openInsertProjectModal
     }
-  }, [_vm._v("پروژه جدید")]), _vm._v(" "), _c('a', {
-    staticClass: "medium-1 my-button toolbox-btn small",
-    on: {
-      "click": _vm.cancelApprovedAmendmentTemp
-    }
-  }, [_vm._v("لغو")]), _vm._v(" "), _c('a', {
-    staticClass: "medium-1 my-button toolbox-btn small",
-    on: {
-      "click": _vm.acceptApprovedAmendment
-    }
-  }, [_vm._v("تایید")])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("پروژه جدید")])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "tbl-div-container"
@@ -119724,7 +120077,27 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         staticClass: "fa fa-newspaper-o size-16"
       }), _vm._v("  اصلاح")])])])])])])])])
     }))])])])]
-  })], 2)])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showInsertModalProject) ? _c('modal-small', {
+  })], 2)])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 columns padding-bottom-modal"
+  }, [_c('div', {
+    staticClass: "button-group float-left report-mrg"
+  }, [_c('a', {
+    staticClass: "my-button my-danger float-left btn-for-load",
+    on: {
+      "click": _vm.cancelApprovedAmendmentTemp
+    }
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("لغو")])]), _vm._v(" "), _c('a', {
+    staticClass: "my-button my-success float-left btn-for-load",
+    on: {
+      "click": _vm.acceptApprovedAmendment
+    }
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("تایید")])])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showInsertModalProject) ? _c('modal-small', {
     on: {
       "close": function($event) {
         _vm.showInsertModalProject = false

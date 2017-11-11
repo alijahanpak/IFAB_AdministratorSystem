@@ -3,7 +3,8 @@
 Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modules\Budget\Http\Controllers'], function()
 {
     Route::get('/', 'BudgetController@dashboard');
-    /////////////////////// Report //////////////////////////////
+
+
     Route::prefix('admin')->group(function () {
 /*        Route::get('deprived_area', 'BudgetAdminController@deprivedArea');
         Route::post('deprived_area/register', 'BudgetAdminController@registerDeprivedArea');
@@ -224,6 +225,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::get('/getAllItems', 'ProjectController@getAllApprovedProjects');
         Route::post('/credit_source/register', 'ProjectController@registerApCreditSource');
         Route::get('/credit_source/getAllItem', 'ProjectController@getAllApCreditSourceItems');
+        Route::get('/report', 'BudgetReportController@approvedProject');
 
         //Route::get('/getAllProjectWithPlanId', 'ProjectController@getAllProjectWithPlanId');
     });
