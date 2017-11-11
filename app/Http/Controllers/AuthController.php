@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
+use Modules\Admin\Entities\Season;
 use Modules\Admin\Entities\User;
+use Modules\Budget\Entities\CreditDistributionTitle;
 
 class AuthController extends Controller
 {
