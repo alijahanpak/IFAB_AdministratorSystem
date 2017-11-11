@@ -27,242 +27,304 @@
                 </ul>
                 <div class="medium-12 padding-lr" style="margin-top: 15px;">
                     <div class="clearfix border-btm-line tool-bar">
-                        <div style="margin-top: 2px;" class="button-group float-right report-mrg">
-                            <a class="my-button toolbox-btn small" @click="showInsertModal = true;">جدید</a>
+                        <div style="margin-top: 2px;" class="button-group float-right">
+                            <a class="my-button toolbox-btn small" @click="openInsertModal">جدید</a>
                             <a class="my-button toolbox-btn small">گزارش</a>
-                        </div>
-                        <div class="float-left">
-                            <div class="input-group float-left">
-                                <input class="input-group-field small-font" type="text">
-                                <div class="input-group-button">
-                                    <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="tabs-content" data-tabs-content="deprived_area">
                     <!-- province tab content-->
                     <div class="tabs-panel is-active table-mrg-btm" id="province">
-                        <div class="columns">
-                            <!--Header Start-->
-                            <div class="grid-x table-header">
-                                <div class="medium-2 table-border">
-                                    <strong>شهرستان</strong>
-                                </div>
-                                <div class="medium-2 table-border">
-                                    <strong>بخش</strong>
-                                </div>
-                                <div class="medium-2 table-border">
-                                    <strong>دهستان</strong>
-                                </div>
-                                <div class="medium-2 table-border">
-                                    <strong>روستا</strong>
-                                </div>
-                                <div class="medium-4 table-border">
-                                    <strong>شرح</strong>
-                                </div>
-                            </div>
-                            <!--Header End-->
-                            <div class="table-contain dynamic-height-level2">
-                                <div class="grid-x"  v-for="da in deprivedArea">
-                                    <div class="medium-2 table-contain-border cell-vertical-center">{{ da.county.coName }}</div>
-                                    <div class="medium-2 table-contain-border cell-vertical-center">{{ da.region == null ? '--' : da.region.reName }}</div>
-                                    <div class="medium-2 table-contain-border cell-vertical-center">{{ da.rural_district == null ? '--' : da.rural_district.rdName }}</div>
-                                    <div class="medium-2 table-contain-border cell-vertical-center">{{ da.village == null ? '--' : da.village.viName }}</div>
-                                    <div class="medium-4 table-contain-border cell-vertical-center">
-                                        <div class="grid-x">
-                                            <div class="medium-11">
-                                                {{ da.daDescription }}
-                                            </div>
-                                            <div class="medium-1 cell-vertical-center text-left">
-                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown' + da.id"><img width="15px" height="15px"  src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
-                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown' + da.id" data-dropdown data-auto-focus="true">
-                                                    <ul class="my-menu small-font text-right">
-                                                        <li><a data-open="preloaderModal"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                        <li><a data-open="modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                    </ul>
+                        <div class="tbl-div-container">
+                            <table class="tbl-head">
+                                <colgroup>
+                                    <col width="150px"/>
+                                    <col width="150px"/>
+                                    <col width="150px"/>
+                                    <col width="150px"/>
+                                    <col width="240px"/>
+                                    <col width="12px"/>
+                                </colgroup>
+                                <tbody class="tbl-head-style">
+                                    <tr class="tbl-head-style-cell">
+                                        <th class="tbl-head-style-cell">شهرستان</th>
+                                        <th class="tbl-head-style-cell">بخش</th>
+                                        <th class="tbl-head-style-cell">دهستان</th>
+                                        <th class="tbl-head-style-cell">روستا</th>
+                                        <th class="tbl-head-style-cell">شرح</th>
+                                        <th class="tbl-head-style-cell"></th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!--Table Head End-->
+                            <!--Table Body Start-->
+                            <div class="tbl_body_style dynamic-height-level2">
+                                <table class="tbl-body-contain">
+                                    <colgroup>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="240px"/>
+                                    </colgroup>
+                                    <tbody class="tbl-head-style-cell">
+                                        <tr v-for="da in deprivedArea">
+                                            <td>{{ da.county.coName }}</td>
+                                            <td>{{ da.region == null ? '&#45;&#45;' : da.region.reName }}</td>
+                                            <td>{{ da.rural_district == null ? '&#45;&#45;' : da.rural_district.rdName }}</td>
+                                            <td>{{ da.village == null ? '&#45;&#45;' : da.village.viName }}</td>
+                                            <td>
+                                                <div class="grid-x">
+                                                    <div class="medium-11">
+                                                        {{ da.daDescription }}
+                                                    </div>
+                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown' + da.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown' + da.id" data-dropdown data-auto-focus="true">
+                                                            <ul class="my-menu small-font text-right">
+                                                                <li><a @click="openUpdateModal(da)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                <li><a @click="openDeleteModal(da.id)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                     <!-- county tab-->
                     <div class="tabs-panel table-mrg-btm" id="county">
-                        <div class="columns">
-                            <!--Header Start-->
-                            <div class="grid-x table-header">
-                                <div class="medium-4 table-border">
-                                    <strong>نام</strong>
-                                </div>
-                                <div class="medium-8 table-border">
-                                    <strong>شرح</strong>
-                                </div>
-                            </div>
-                            <!--Header End-->
-                            <div class="table-contain dynamic-height-level2">
-                                <div v-for="da in deprivedArea">
-                                    <div class="grid-x" v-if="da.daReId == null">
-                                        <div class="medium-4 table-contain-border cell-vertical-center">{{ da.county.coName }}</div>
-                                        <div class="medium-8 table-contain-border cell-vertical-center">
-                                            <div class="grid-x">
-                                                <div class="medium-11">
-                                                    {{ da.daDescription }}
-                                                </div>
-                                                <div class="medium-1 cell-vertical-center text-left">
-                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown_county' + da.id"><img width="15px" height="15px"  src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
-                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown_county' + da.id" data-dropdown data-auto-focus="true">
-                                                        <ul class="my-menu small-font text-right">
-                                                            <li><a data-open="preloaderModal"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                            <li><a data-open="modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                        </ul>
+                        <div class="tbl-div-container">
+                            <table class="tbl-head">
+                                <colgroup>
+                                    <col width="450px"/>
+                                    <col width="390px"/>
+                                    <col width="12px"/>
+                                </colgroup>
+                                <tbody class="tbl-head-style">
+                                <tr class="tbl-head-style-cell">
+                                    <th class="tbl-head-style-cell">نام</th>
+                                    <th class="tbl-head-style-cell">شرح</th>
+                                    <th class="tbl-head-style-cell"></th>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--Table Head End-->
+                            <!--Table Body Start-->
+                            <div class="tbl_body_style dynamic-height-level2">
+                                <table class="tbl-body-contain">
+                                    <colgroup>
+                                        <col width="450px"/>
+                                        <col width="390px"/>
+                                    </colgroup>
+                                    <tbody class="tbl-head-style-cell">
+                                    <template v-for="da in deprivedArea">
+                                        <tr v-if="da.daReId == null">
+                                            <td>{{ da.county.coName }}</td>
+                                            <td>
+                                                <div class="grid-x">
+                                                    <div class="medium-11">
+                                                        {{ da.daDescription }}
+                                                    </div>
+                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown_county' + da.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown_county' + da.id" data-dropdown data-auto-focus="true">
+                                                            <ul class="my-menu small-font text-right">
+                                                                <li><a @click="openUpdateModal(da)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                <li><a @click="openDeleteModal(da.id)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                     <!-- region tab-->
                     <div class="tabs-panel table-mrg-btm" id="region">
-                        <div class="columns">
-                            <!--Header Start-->
-                            <div class="grid-x table-header">
-                                <div class="medium-3 table-border">
-                                    <strong>نام</strong>
-                                </div>
-                                <div class="medium-3 table-border">
-                                    <strong>شهرستان</strong>
-                                </div>
-                                <div class="medium-6 table-border">
-                                    <strong>شرح</strong>
-                                </div>
-                            </div>
-                            <!--Header End-->
-                            <div class="table-contain dynamic-height-level2">
-                                <div v-for="da in deprivedArea">
-                                    <div class="grid-x" v-if="da.daReId != null && da.daRdId == null">
-                                        <div class="medium-3 table-contain-border cell-vertical-center">{{ da.region.reName }}</div>
-                                        <div class="medium-3 table-contain-border cell-vertical-center">{{ da.county.coName }}</div>
-                                        <div class="medium-6 table-contain-border cell-vertical-center">
-                                            <div class="grid-x">
-                                                <div class="medium-11">
-                                                    {{ da.daDescription }}
-                                                </div>
-                                                <div class="medium-1 cell-vertical-center text-left">
-                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown_region' + da.id"><img width="15px" height="15px"  src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
-                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown_region' + da.id" data-dropdown data-auto-focus="true">
-                                                        <ul class="my-menu small-font text-right">
-                                                            <li><a data-open="preloaderModal"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                            <li><a data-open="modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                        </ul>
+                        <div class="tbl-div-container">
+                            <table class="tbl-head">
+                                <colgroup>
+                                    <col width="250px"/>
+                                    <col width="250px"/>
+                                    <col width="340px"/>
+                                    <col width="12px"/>
+                                </colgroup>
+                                <tbody class="tbl-head-style">
+                                <tr class="tbl-head-style-cell">
+                                    <th class="tbl-head-style-cell">نام</th>
+                                    <th class="tbl-head-style-cell">شهرستان</th>
+                                    <th class="tbl-head-style-cell">شرح</th>
+                                    <th class="tbl-head-style-cell"></th>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--Table Head End-->
+                            <!--Table Body Start-->
+                            <div class="tbl_body_style dynamic-height-level2">
+                                <table class="tbl-body-contain">
+                                    <colgroup>
+                                        <col width="250px"/>
+                                        <col width="250px"/>
+                                        <col width="340px"/>
+                                    </colgroup>
+                                    <tbody class="tbl-head-style-cell">
+                                    <template v-for="da in deprivedArea">
+                                        <tr v-if="da.daReId != null && da.daRdId == null">
+                                            <td>{{ da.region.reName }}</td>
+                                            <td>{{ da.county.coName }}</td>
+                                            <td>
+                                                <div class="grid-x">
+                                                    <div class="medium-11">
+                                                        {{ da.daDescription }}
+                                                    </div>
+                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown_region' + da.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown_region' + da.id" data-dropdown data-auto-focus="true">
+                                                            <ul class="my-menu small-font text-right">
+                                                                <li><a @click="openUpdateModal(da)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                <li><a @click="openDeleteModal(da.id)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                     <!-- rural district tab -->
                     <div class="tabs-panel table-mrg-btm" id="rural_district">
-                        <div class="columns">
-                            <!--Header Start-->
-                            <div class="grid-x table-header">
-                                <div class="medium-2 table-border">
-                                    <strong>نام</strong>
-                                </div>
-                                <div class="medium-2 table-border">
-                                    <strong>شهرستان</strong>
-                                </div>
-                                <div class="medium-2 table-border">
-                                    <strong>بخش</strong>
-                                </div>
-                                <div class="medium-6 table-border">
-                                    <strong>شرح</strong>
-                                </div>
-                            </div>
-                            <!--Header End-->
-                            <div class="table-contain dynamic-height-level2">
-                                <div v-for="da in deprivedArea">
-                                    <div class="grid-x" v-if="da.daRdId != null && da.daViId == null">
-                                        <div class="medium-2 table-contain-border cell-vertical-center">{{ da.rural_district.rdName }}</div>
-                                        <div class="medium-2 table-contain-border cell-vertical-center">{{ da.county.coName }}</div>
-                                        <div class="medium-2 table-contain-border cell-vertical-center">{{ da.region.reName }}</div>
-                                        <div class="medium-6 table-contain-border cell-vertical-center">
-                                            <div class="grid-x">
-                                                <div class="medium-11">
-                                                    {{ da.daDescription }}
-                                                </div>
-                                                <div class="medium-1 cell-vertical-center text-left">
-                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown_ruralDistrict' + da.id"><img width="15px" height="15px"  src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
-                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown_ruralDistrict' + da.id" data-dropdown data-auto-focus="true">
-                                                        <ul class="my-menu small-font text-right">
-                                                            <li><a data-open="preloaderModal"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                            <li><a data-open="modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                        </ul>
+                        <div class="tbl-div-container">
+                            <table class="tbl-head">
+                                <colgroup>
+                                    <col width="200px"/>
+                                    <col width="200px"/>
+                                    <col width="200px"/>
+                                    <col width="240px"/>
+                                    <col width="12px"/>
+                                </colgroup>
+                                <tbody class="tbl-head-style">
+                                <tr class="tbl-head-style-cell">
+                                    <th class="tbl-head-style-cell">نام</th>
+                                    <th class="tbl-head-style-cell">شهرستان</th>
+                                    <th class="tbl-head-style-cell">بخش</th>
+                                    <th class="tbl-head-style-cell">شرح</th>
+                                    <th class="tbl-head-style-cell"></th>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--Table Head End-->
+                            <!--Table Body Start-->
+                            <div class="tbl_body_style dynamic-height-level2">
+                                <table class="tbl-body-contain">
+                                    <colgroup>
+                                        <col width="200px"/>
+                                        <col width="200px"/>
+                                        <col width="200px"/>
+                                        <col width="240px"/>
+                                    </colgroup>
+                                    <tbody class="tbl-head-style-cell">
+                                    <template v-for="da in deprivedArea">
+                                        <tr v-if="da.daRdId != null && da.daViId == null">
+                                            <td>{{ da.rural_district.rdName }}</td>
+                                            <td>{{ da.county.coName }}</td>
+                                            <td>{{ da.region.reName }}</td>
+                                            <td>
+                                                <div class="grid-x">
+                                                    <div class="medium-11">
+                                                        {{ da.daDescription }}
+                                                    </div>
+                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown_ruralDistrict' + da.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown_ruralDistrict' + da.id" data-dropdown data-auto-focus="true">
+                                                            <ul class="my-menu small-font text-right">
+                                                                <li><a @click="openUpdateModal(da)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                <li><a @click="openDeleteModal(da.id)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                     <!-- village district tab -->
                     <div class="tabs-panel table-mrg-btm" id="village">
-                        <div class="columns">
-                            <!--Header Start-->
-                            <div class="grid-x table-header">
-                                <div class="medium-2 table-border">
-                                    <strong>نام</strong>
-                                </div>
-                                <div class="medium-2 table-border">
-                                    <strong>شهرستان</strong>
-                                </div>
-                                <div class="medium-2 table-border">
-                                    <strong>بخش</strong>
-                                </div>
-                                <div class="medium-2 table-border">
-                                    <strong>دهستان</strong>
-                                </div>
-                                <div class="medium-4 table-border">
-                                    <strong>شرح</strong>
-                                </div>
-                            </div>
-                            <!--Header End-->
-                            <div class="table-contain dynamic-height-level2">
-                                <div v-for="da in deprivedArea">
-                                    <div class="grid-x" v-if="da.daViId != null">
-                                        <div class="medium-2 table-contain-border cell-vertical-center">{{ da.village.viName }}</div>
-                                        <div class="medium-2 table-contain-border cell-vertical-center">{{ da.county.coName }}</div>
-                                        <div class="medium-2 table-contain-border cell-vertical-center">{{ da.region.reName }}</div>
-                                        <div class="medium-2 table-contain-border cell-vertical-center">{{ da.rural_district.rdName }}</div>
-                                        <div class="medium-4 table-contain-border cell-vertical-center">
-                                            <div class="grid-x">
-                                                <div class="medium-11">
-                                                    {{ da.daDescription }}
-                                                </div>
-                                                <div class="medium-1 cell-vertical-center text-left">
-                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown_village' + da.id"><img width="15px" height="15px"  src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
-                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown_village' + da.id" data-dropdown data-auto-focus="true">
-                                                        <ul class="my-menu small-font text-right">
-                                                            <li><a data-open="preloaderModal"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                            <li><a data-open="modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                        </ul>
+                        <div class="tbl-div-container">
+                            <table class="tbl-head">
+                                <colgroup>
+                                    <col width="150px"/>
+                                    <col width="150px"/>
+                                    <col width="150px"/>
+                                    <col width="150px"/>
+                                    <col width="240px"/>
+                                    <col width="12px"/>
+                                </colgroup>
+                                <tbody class="tbl-head-style">
+                                <tr class="tbl-head-style-cell">
+                                    <th class="tbl-head-style-cell">نام</th>
+                                    <th class="tbl-head-style-cell">شهرستان</th>
+                                    <th class="tbl-head-style-cell">بخش</th>
+                                    <th class="tbl-head-style-cell">دهستان</th>
+                                    <th class="tbl-head-style-cell">شرح</th>
+                                    <th class="tbl-head-style-cell"></th>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--Table Head End-->
+                            <!--Table Body Start-->
+                            <div class="tbl_body_style dynamic-height-level2">
+                                <table class="tbl-body-contain">
+                                    <colgroup>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="240px"/>
+                                    </colgroup>
+                                    <tbody class="tbl-head-style-cell">
+                                    <template v-for="da in deprivedArea">
+                                        <tr v-if="da.daViId != null">
+                                            <td>{{ da.village.viName }}</td>
+                                            <td>{{ da.county.coName }}</td>
+                                            <td>{{ da.region.reName }}</td>
+                                            <td>{{ da.rural_district.rdName }}</td>
+                                            <td>
+                                                <div class="grid-x">
+                                                    <div class="medium-11">
+                                                        {{ da.daDescription }}
+                                                    </div>
+                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown_village' + da.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown_village' + da.id" data-dropdown data-auto-focus="true">
+                                                            <ul class="my-menu small-font text-right">
+                                                                <li><a @click="openUpdateModal(da)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                <li><a @click="openDeleteModal(da.id)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -270,11 +332,11 @@
             </div>
             <!----------------->
         </div>
-        <!-- modalFYActivate Start -->
+        <!-- modal insert Start -->
         <modal-tiny v-if="showInsertModal" @close="showInsertModal = false">
             <div  slot="body">
                 <form v-on:submit.prevent="createDeprivedArea">
-                    <div class="grid-x" id="existErrorInRegForm" style="display: none">
+                    <div class="grid-x" style="display: none">
                         <div class="medium-12 columns padding-lr">
                             <div class="alert callout">
                                 <p class="BYekan login-alert"><i class="fi-alert"></i> این منطقه محروم قبلا ثبت شده است!</p>
@@ -284,7 +346,7 @@
                     <div class="grid-x">
                         <div class="medium-6 cell padding-lr">
                             <label>شهرستان
-                                <select class="form-element-margin-btm" v-model="deprivedAreaInput.county" @change="getRegions" name="daCounty" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('daCounty')}">
+                                <select class="form-element-margin-btm" v-model="deprivedAreaInput.county" @change="getRegions(deprivedAreaInput.county)" autocomplete="off" name="daCounty" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('daCounty')}">
                                     <option value=""></option>
                                     <option v-for="county in counties" :value="county.id">{{ county.coName }}</option>
                                 </select>
@@ -293,7 +355,7 @@
                         </div>
                         <div class="medium-6 cell padding-lr">
                             <label>بخش
-                                <select class="form-element-margin-btm" v-model="deprivedAreaInput.region" @change="getRuralDistricts" :disabled="regionDisable">
+                                <select class="form-element-margin-btm" v-model="deprivedAreaInput.region" @change="getRuralDistricts(deprivedAreaInput.region)" autocomplete="off" :disabled="regionDisable">
                                     <option value=""></option>
                                     <option v-for="region in regions" :value="region.id">{{ region.reName }}</option>
                                 </select>
@@ -303,7 +365,7 @@
                     <div class="grid-x">
                         <div class="medium-6 cell padding-lr">
                             <label>دهستان
-                                <select class="form-element-margin-btm" v-model="deprivedAreaInput.ruralDistrict" @change="getVillages" :disabled="ruralDistrictDisable">
+                                <select class="form-element-margin-btm" v-model="deprivedAreaInput.ruralDistrict" @change="getVillages(deprivedAreaInput.ruralDistrict)" autocomplete="off" :disabled="ruralDistrictDisable">
                                     <option value=""></option>
                                     <option v-for="ruralDistrict in ruralDistricts" :value="ruralDistrict.id">{{ ruralDistrict.rdName }}</option>
                                 </select>
@@ -311,7 +373,7 @@
                         </div>
                         <div class="medium-6 cell padding-lr">
                             <label>روستا
-                                <select class="form-element-margin-btm" v-model="deprivedAreaInput.village" :disabled="villageDisable">
+                                <select class="form-element-margin-btm" v-model="deprivedAreaInput.village" autocomplete="off" :disabled="villageDisable">
                                     <option value=""></option>
                                     <option v-for="village in villages" :value="village.id">{{ village.viName }}</option>
                                 </select>
@@ -330,15 +392,81 @@
                 </form>
             </div>
         </modal-tiny>
-        <!-- modalFyActivate end -->
-
-        <!-- Modal Permission Start -->
-        <modal-large v-if="showChangePermissionDialog" @close="showChangePermissionDialog = false">
+        <!-- modalF insert end -->
+        <modal-tiny v-if="showUpdateModal" @close="showUpdateModal = false">
             <div  slot="body">
-
+                <form v-on:submit.prevent="updateDeprivedArea">
+                    <div class="grid-x" style="display: none">
+                        <div class="medium-12 columns padding-lr">
+                            <div class="alert callout">
+                                <p class="BYekan login-alert"><i class="fi-alert"></i> این منطقه محروم قبلا ثبت شده است!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-x">
+                        <div class="medium-6 cell padding-lr">
+                            <label>شهرستان
+                                <select class="form-element-margin-btm" v-model="deprivedAreaFill.county" @change="getRegions(deprivedAreaFill.county)" autocomplete="off" name="daCounty" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('daCounty')}">
+                                    <option value=""></option>
+                                    <option v-for="county in counties" :value="county.id">{{ county.coName }}</option>
+                                </select>
+                                <span v-show="errors.has('daCounty')" class="error-font">شهرستان را انتخاب کنید!</span>
+                            </label>
+                        </div>
+                        <div class="medium-6 cell padding-lr">
+                            <label>بخش
+                                <select class="form-element-margin-btm" v-model="deprivedAreaFill.region" @change="getRuralDistricts(deprivedAreaFill.region)" autocomplete="off" :disabled="regionDisable">
+                                    <option value=""></option>
+                                    <option v-for="region in regions" :value="region.id">{{ region.reName }}</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="grid-x">
+                        <div class="medium-6 cell padding-lr">
+                            <label>دهستان
+                                <select class="form-element-margin-btm" v-model="deprivedAreaFill.ruralDistrict" @change="getVillages(deprivedAreaFill.ruralDistrict)" autocomplete="off" :disabled="ruralDistrictDisable">
+                                    <option value=""></option>
+                                    <option v-for="ruralDistrict in ruralDistricts" :value="ruralDistrict.id">{{ ruralDistrict.rdName }}</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="medium-6 cell padding-lr">
+                            <label>روستا
+                                <select class="form-element-margin-btm" v-model="deprivedAreaFill.village" autocomplete="off" :disabled="villageDisable">
+                                    <option value=""></option>
+                                    <option v-for="village in villages" :value="village.id">{{ village.viName }}</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="medium-6 columns padding-lr">
+                        <label>شرح
+                            <textarea name="daDescription" v-model="deprivedAreaFill.description" style="min-height: 150px;"></textarea>
+                        </label>
+                    </div>
+                    <div class="medium-6 columns padding-lr">
+                        <button name="daFormSubmit" type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                    </div>
+                </form>
             </div>
-        </modal-large>
-        <!-- Modal Permission End-->
+        </modal-tiny>
+        <!-- Modal update Start -->
+        <!-- Delete Modal Start -->
+        <modal-tiny v-if="showDeleteModal" @close="showDeleteModal = false">
+            <div  slot="body">
+                <div class="small-font">
+                    <p>کاربر گرامی</p>
+                    <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
+                    <div class="grid-x">
+                        <div class="medium-12 column text-center">
+                            <button  class="button primary btn-large-w" v-on:click="deleteDeprivedArea">تایید</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-tiny>
+        <!-- Delete Modal End -->
     </div>
 </template>
 <script>
@@ -347,7 +475,10 @@
         data(){
             return {
                 showInsertModal: false,
+                showUpdateModal: false,
+                showDeleteModal: false,
                 deprivedArea: [],
+                deprivedAreaFill: {},
                 deprivedAreaInput: {county: '' , region: '' , ruralDistrict: '' , village: '' , description: ''},
                 counties: [],
                 regions: [],
@@ -356,7 +487,7 @@
                 regionDisable: true,
                 ruralDistrictDisable: true,
                 villageDisable: true,
-
+                daIdForDelete: '',
             }
         },
 
@@ -406,7 +537,7 @@
                                 console.log(response);
                             },(error) => {
                                 console.log(error);
-                                this.errorMessage = 'منطقه محروم با این مشخصات قبلا ثبت شده است!';
+                                this.$parent.displayNotif(error.response.status);
                         });
                     }
                 });
@@ -422,10 +553,10 @@
                     });
             },
 
-            getRegions: function () {
-                if (this.deprivedAreaInput.county != "")
+            getRegions: function (coId) {
+                if (coId != "" && coId != null)
                 {
-                    axios.get('/admin/getCountyRegions' , {params:{coId: this.deprivedAreaInput.county}})
+                    axios.get('/admin/getCountyRegions' , {params:{coId: coId}})
                         .then((response) => {
                             this.regions = response.data;
                             this.regionDisable = false;
@@ -436,13 +567,22 @@
                 }
                 else{
                     this.regionDisable = true;
+                    this.ruralDistrictDisable = true;
+                    this.villageDisable = true;
+                    this.deprivedAreaInput.region = '';
+                    this.deprivedAreaInput.ruralDistrict = '';
+                    this.deprivedAreaInput.village = '';
+
+                    this.deprivedAreaFill.region = '';
+                    this.deprivedAreaFill.ruralDistrict = '';
+                    this.deprivedAreaFill.village = '';
                 }
             },
 
-            getRuralDistricts: function () {
-                if (this.deprivedAreaInput.region != "")
+            getRuralDistricts: function (reId) {
+                if (reId != "" && reId != null)
                 {
-                    axios.get('/admin/getRuralDistrictByRegionId' , {params:{reId: this.deprivedAreaInput.region}})
+                    axios.get('/admin/getRuralDistrictByRegionId' , {params:{reId: reId}})
                         .then((response) => {
                             this.ruralDistricts = response.data;
                             this.ruralDistrictDisable = false;
@@ -453,13 +593,19 @@
                 }
                 else{
                     this.ruralDistrictDisable = true;
+                    this.villageDisable = true;
+                    this.deprivedAreaInput.ruralDistrict = '';
+                    this.deprivedAreaInput.village = '';
+
+                    this.deprivedAreaFill.ruralDistrict = '';
+                    this.deprivedAreaFill.village = '';
                 }
             },
 
-            getVillages: function () {
-                if (this.deprivedAreaInput.ruralDistrict != "")
+            getVillages: function (rdId) {
+                if (rdId != "" && rdId != null)
                 {
-                    axios.get('/admin/getVillagesByRuralDistrictId' , {params:{rdId: this.deprivedAreaInput.ruralDistrict}})
+                    axios.get('/admin/getVillagesByRuralDistrictId' , {params:{rdId: rdId}})
                         .then((response) => {
                             this.villages = response.data;
                             this.villageDisable = false;
@@ -470,7 +616,80 @@
                 }
                 else{
                     this.villageDisable = true;
+                    this.deprivedAreaInput.village = '';
+
+                    this.deprivedAreaFill.village = '';
                 }
+            },
+
+            openInsertModal: function () {
+                this.deprivedAreaInput = [];
+                this.regionDisable = true;
+                this.ruralDistrictDisable = true;
+                this.villageDisable = true;
+                this.getCounties();
+                this.showInsertModal = true;
+            },
+
+            openUpdateModal: function (depArea) {
+                this.deprivedAreaFill = [];
+                this.regionDisable = true;
+                this.ruralDistrictDisable = true;
+                this.villageDisable = true;
+                this.showUpdateModal = true;
+                this.getCounties();
+                this.deprivedAreaFill.id = depArea.id;
+                this.deprivedAreaFill.county = depArea.daCoId;
+                this.getRegions(depArea.daCoId);
+                this.deprivedAreaFill.region = depArea.daReId;
+                this.getRuralDistricts(depArea.daReId);
+                this.deprivedAreaFill.ruralDistrict = depArea.daRdId;
+                this.getVillages(depArea.daRdId);
+                this.deprivedAreaFill.village = depArea.daViId;
+                this.deprivedAreaFill.description = depArea.daDescription;
+            },
+
+            openDeleteModal: function (daId) {
+                this.showDeleteModal = true;
+                this.daIdForDelete = daId;
+            },
+
+            updateDeprivedArea: function(){
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/budget/admin/deprived_area/update' , {
+                            id: this.deprivedAreaFill.id,
+                            county: this.deprivedAreaFill.county ,
+                            region: this.deprivedAreaFill.region ,
+                            ruralDistrict: this.deprivedAreaFill.ruralDistrict ,
+                            village: this.deprivedAreaFill.village ,
+                            description: this.deprivedAreaFill.description})
+                        .then((response) => {
+                        this.deprivedArea = response.data;
+                        this.showUpdateModal = false;
+                        this.$parent.displayNotif(response.status);
+                        this.deprivedAreaFill = [];
+                        console.log(response);
+                    },(error) => {
+                            console.log(error);
+                            this.$parent.displayNotif(error.response.status);
+                        });
+                    }
+                });
+            },
+
+            deleteDeprivedArea: function () {
+                axios.post('/budget/admin/deprived_area/delete' , {
+                            id: this.daIdForDelete})
+                    .then((response) => {
+                    this.deprivedArea = response.data;
+                    this.showDeleteModal = false;
+                    this.$parent.displayNotif(response.status);
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                    this.showDeleteModal = false;
+                });
             }
         }
     }

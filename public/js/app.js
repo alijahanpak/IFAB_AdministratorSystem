@@ -83094,6 +83094,9 @@ var app = new Vue({
                 case 200:
                     this.$notify({ title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.', type: 'success' });
                     break;
+                case 409:
+                    this.$notify({ title: 'پیام سیستم', text: 'رکورد تکراری است!', type: 'error' });
+                    break;
                 case 800:
                     //doesn`t select records
                     this.$notify({ title: 'پیام سیستم', text: 'لطفا رکوردهای مورد نظر انتخاب کنید!', type: 'error' });
@@ -106656,13 +106659,144 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     data: function data() {
         return {
             showInsertModal: false,
+            showUpdateModal: false,
+            showDeleteModal: false,
             deprivedArea: [],
+            deprivedAreaFill: {},
             deprivedAreaInput: { county: '', region: '', ruralDistrict: '', village: '', description: '' },
             counties: [],
             regions: [],
@@ -106670,8 +106804,8 @@ if (false) {(function () {
             villages: [],
             regionDisable: true,
             ruralDistrictDisable: true,
-            villageDisable: true
-
+            villageDisable: true,
+            daIdForDelete: ''
         };
     },
 
@@ -106726,7 +106860,7 @@ if (false) {(function () {
                         console.log(response);
                     }, function (error) {
                         console.log(error);
-                        _this2.errorMessage = 'منطقه محروم با این مشخصات قبلا ثبت شده است!';
+                        _this2.$parent.displayNotif(error.response.status);
                     });
                 }
             });
@@ -106743,11 +106877,11 @@ if (false) {(function () {
             });
         },
 
-        getRegions: function getRegions() {
+        getRegions: function getRegions(coId) {
             var _this4 = this;
 
-            if (this.deprivedAreaInput.county != "") {
-                axios.get('/admin/getCountyRegions', { params: { coId: this.deprivedAreaInput.county } }).then(function (response) {
+            if (coId != "" && coId != null) {
+                axios.get('/admin/getCountyRegions', { params: { coId: coId } }).then(function (response) {
                     _this4.regions = response.data;
                     _this4.regionDisable = false;
                     console.log(response);
@@ -106756,14 +106890,23 @@ if (false) {(function () {
                 });
             } else {
                 this.regionDisable = true;
+                this.ruralDistrictDisable = true;
+                this.villageDisable = true;
+                this.deprivedAreaInput.region = '';
+                this.deprivedAreaInput.ruralDistrict = '';
+                this.deprivedAreaInput.village = '';
+
+                this.deprivedAreaFill.region = '';
+                this.deprivedAreaFill.ruralDistrict = '';
+                this.deprivedAreaFill.village = '';
             }
         },
 
-        getRuralDistricts: function getRuralDistricts() {
+        getRuralDistricts: function getRuralDistricts(reId) {
             var _this5 = this;
 
-            if (this.deprivedAreaInput.region != "") {
-                axios.get('/admin/getRuralDistrictByRegionId', { params: { reId: this.deprivedAreaInput.region } }).then(function (response) {
+            if (reId != "" && reId != null) {
+                axios.get('/admin/getRuralDistrictByRegionId', { params: { reId: reId } }).then(function (response) {
                     _this5.ruralDistricts = response.data;
                     _this5.ruralDistrictDisable = false;
                     console.log(response);
@@ -106772,14 +106915,20 @@ if (false) {(function () {
                 });
             } else {
                 this.ruralDistrictDisable = true;
+                this.villageDisable = true;
+                this.deprivedAreaInput.ruralDistrict = '';
+                this.deprivedAreaInput.village = '';
+
+                this.deprivedAreaFill.ruralDistrict = '';
+                this.deprivedAreaFill.village = '';
             }
         },
 
-        getVillages: function getVillages() {
+        getVillages: function getVillages(rdId) {
             var _this6 = this;
 
-            if (this.deprivedAreaInput.ruralDistrict != "") {
-                axios.get('/admin/getVillagesByRuralDistrictId', { params: { rdId: this.deprivedAreaInput.ruralDistrict } }).then(function (response) {
+            if (rdId != "" && rdId != null) {
+                axios.get('/admin/getVillagesByRuralDistrictId', { params: { rdId: rdId } }).then(function (response) {
                     _this6.villages = response.data;
                     _this6.villageDisable = false;
                     console.log(response);
@@ -106788,7 +106937,82 @@ if (false) {(function () {
                 });
             } else {
                 this.villageDisable = true;
+                this.deprivedAreaInput.village = '';
+
+                this.deprivedAreaFill.village = '';
             }
+        },
+
+        openInsertModal: function openInsertModal() {
+            this.deprivedAreaInput = [];
+            this.regionDisable = true;
+            this.ruralDistrictDisable = true;
+            this.villageDisable = true;
+            this.getCounties();
+            this.showInsertModal = true;
+        },
+
+        openUpdateModal: function openUpdateModal(depArea) {
+            this.deprivedAreaFill = [];
+            this.regionDisable = true;
+            this.ruralDistrictDisable = true;
+            this.villageDisable = true;
+            this.showUpdateModal = true;
+            this.getCounties();
+            this.deprivedAreaFill.id = depArea.id;
+            this.deprivedAreaFill.county = depArea.daCoId;
+            this.getRegions(depArea.daCoId);
+            this.deprivedAreaFill.region = depArea.daReId;
+            this.getRuralDistricts(depArea.daReId);
+            this.deprivedAreaFill.ruralDistrict = depArea.daRdId;
+            this.getVillages(depArea.daRdId);
+            this.deprivedAreaFill.village = depArea.daViId;
+            this.deprivedAreaFill.description = depArea.daDescription;
+        },
+
+        openDeleteModal: function openDeleteModal(daId) {
+            this.showDeleteModal = true;
+            this.daIdForDelete = daId;
+        },
+
+        updateDeprivedArea: function updateDeprivedArea() {
+            var _this7 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    axios.post('/budget/admin/deprived_area/update', {
+                        id: _this7.deprivedAreaFill.id,
+                        county: _this7.deprivedAreaFill.county,
+                        region: _this7.deprivedAreaFill.region,
+                        ruralDistrict: _this7.deprivedAreaFill.ruralDistrict,
+                        village: _this7.deprivedAreaFill.village,
+                        description: _this7.deprivedAreaFill.description }).then(function (response) {
+                        _this7.deprivedArea = response.data;
+                        _this7.showUpdateModal = false;
+                        _this7.$parent.displayNotif(response.status);
+                        _this7.deprivedAreaFill = [];
+                        console.log(response);
+                    }, function (error) {
+                        console.log(error);
+                        _this7.$parent.displayNotif(error.response.status);
+                    });
+                }
+            });
+        },
+
+        deleteDeprivedArea: function deleteDeprivedArea() {
+            var _this8 = this;
+
+            axios.post('/budget/admin/deprived_area/delete', {
+                id: this.daIdForDelete }).then(function (response) {
+                _this8.deprivedArea = response.data;
+                _this8.showDeleteModal = false;
+                _this8.$parent.displayNotif(response.status);
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+                _this8.showDeleteModal = false;
+            });
         }
     }
 });
@@ -106830,20 +107054,18 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "clearfix border-btm-line tool-bar"
   }, [_c('div', {
-    staticClass: "button-group float-right report-mrg",
+    staticClass: "button-group float-right",
     staticStyle: {
       "margin-top": "2px"
     }
   }, [_c('a', {
     staticClass: "my-button toolbox-btn small",
     on: {
-      "click": function($event) {
-        _vm.showInsertModal = true;
-      }
+      "click": _vm.openInsertModal
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")])]), _vm._v(" "), _vm._m(3)])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")])])])]), _vm._v(" "), _c('div', {
     staticClass: "tabs-content",
     attrs: {
       "data-tabs-content": "deprived_area"
@@ -106854,27 +107076,19 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "id": "province"
     }
   }, [_c('div', {
-    staticClass: "columns"
-  }, [_vm._m(4), _vm._v(" "), _c('div', {
-    staticClass: "table-contain dynamic-height-level2"
+    staticClass: "tbl-div-container"
+  }, [_vm._m(3), _vm._v(" "), _c('div', {
+    staticClass: "tbl_body_style dynamic-height-level2"
+  }, [_c('table', {
+    staticClass: "tbl-body-contain"
+  }, [_vm._m(4), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style-cell"
   }, _vm._l((_vm.deprivedArea), function(da) {
-    return _c('div', {
-      staticClass: "grid-x"
-    }, [_c('div', {
-      staticClass: "medium-2 table-contain-border cell-vertical-center"
-    }, [_vm._v(_vm._s(da.county.coName))]), _vm._v(" "), _c('div', {
-      staticClass: "medium-2 table-contain-border cell-vertical-center"
-    }, [_vm._v(_vm._s(da.region == null ? '--' : da.region.reName))]), _vm._v(" "), _c('div', {
-      staticClass: "medium-2 table-contain-border cell-vertical-center"
-    }, [_vm._v(_vm._s(da.rural_district == null ? '--' : da.rural_district.rdName))]), _vm._v(" "), _c('div', {
-      staticClass: "medium-2 table-contain-border cell-vertical-center"
-    }, [_vm._v(_vm._s(da.village == null ? '--' : da.village.viName))]), _vm._v(" "), _c('div', {
-      staticClass: "medium-4 table-contain-border cell-vertical-center"
-    }, [_c('div', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(da.county.coName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(da.region == null ? '--' : da.region.reName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(da.rural_district == null ? '--' : da.rural_district.rdName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(da.village == null ? '--' : da.village.viName))]), _vm._v(" "), _c('td', [_c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-11"
-    }, [_vm._v("\n                                            " + _vm._s(da.daDescription) + "\n                                        ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                                    " + _vm._s(da.daDescription) + "\n                                                ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-1 cell-vertical-center text-left"
     }, [_c('a', {
       staticClass: "dropdown small sm-btn-align",
@@ -106882,12 +107096,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "type": "button",
         "data-toggle": 'daActionDropdown' + da.id
       }
-    }, [_c('img', {
-      attrs: {
-        "width": "15px",
-        "height": "15px",
-        "src": "/IFAB_AdministratorSystem/public/pic/menu.svg"
-      }
+    }, [_c('i', {
+      staticClass: "fa fa-ellipsis-v size-18"
     })]), _vm._v(" "), _c('div', {
       staticClass: "dropdown-pane dropdown-pane-sm ",
       attrs: {
@@ -106900,28 +107110,44 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "data-dropdown": "",
         "data-auto-focus": "true"
       }
-    }, [_vm._m(5, true)])])])])])
-  }))])]), _vm._v(" "), _c('div', {
+    }, [_c('ul', {
+      staticClass: "my-menu small-font text-right"
+    }, [_c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          _vm.openUpdateModal(da)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fi-pencil size-16"
+    }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          _vm.openDeleteModal(da.id)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fi-trash size-16"
+    }), _vm._v("  حذف")])])])])])])])])
+  }))])])])]), _vm._v(" "), _c('div', {
     staticClass: "tabs-panel table-mrg-btm",
     attrs: {
       "id": "county"
     }
   }, [_c('div', {
-    staticClass: "columns"
-  }, [_vm._m(6), _vm._v(" "), _c('div', {
-    staticClass: "table-contain dynamic-height-level2"
-  }, _vm._l((_vm.deprivedArea), function(da) {
-    return _c('div', [(da.daReId == null) ? _c('div', {
-      staticClass: "grid-x"
-    }, [_c('div', {
-      staticClass: "medium-4 table-contain-border cell-vertical-center"
-    }, [_vm._v(_vm._s(da.county.coName))]), _vm._v(" "), _c('div', {
-      staticClass: "medium-8 table-contain-border cell-vertical-center"
-    }, [_c('div', {
+    staticClass: "tbl-div-container"
+  }, [_vm._m(5), _vm._v(" "), _c('div', {
+    staticClass: "tbl_body_style dynamic-height-level2"
+  }, [_c('table', {
+    staticClass: "tbl-body-contain"
+  }, [_vm._m(6), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._l((_vm.deprivedArea), function(da) {
+    return [(da.daReId == null) ? _c('tr', [_c('td', [_vm._v(_vm._s(da.county.coName))]), _vm._v(" "), _c('td', [_c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-11"
-    }, [_vm._v("\n                                                " + _vm._s(da.daDescription) + "\n                                            ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                                    " + _vm._s(da.daDescription) + "\n                                                ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-1 cell-vertical-center text-left"
     }, [_c('a', {
       staticClass: "dropdown small sm-btn-align",
@@ -106929,12 +107155,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "type": "button",
         "data-toggle": 'daActionDropdown_county' + da.id
       }
-    }, [_c('img', {
-      attrs: {
-        "width": "15px",
-        "height": "15px",
-        "src": "/IFAB_AdministratorSystem/public/pic/menu.svg"
-      }
+    }, [_c('i', {
+      staticClass: "fa fa-ellipsis-v size-18"
     })]), _vm._v(" "), _c('div', {
       staticClass: "dropdown-pane dropdown-pane-sm ",
       attrs: {
@@ -106947,30 +107169,44 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "data-dropdown": "",
         "data-auto-focus": "true"
       }
-    }, [_vm._m(7, true)])])])])]) : _vm._e()])
-  }))])]), _vm._v(" "), _c('div', {
+    }, [_c('ul', {
+      staticClass: "my-menu small-font text-right"
+    }, [_c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          _vm.openUpdateModal(da)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fi-pencil size-16"
+    }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          _vm.openDeleteModal(da.id)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fi-trash size-16"
+    }), _vm._v("  حذف")])])])])])])])]) : _vm._e()]
+  })], 2)])])])]), _vm._v(" "), _c('div', {
     staticClass: "tabs-panel table-mrg-btm",
     attrs: {
       "id": "region"
     }
   }, [_c('div', {
-    staticClass: "columns"
-  }, [_vm._m(8), _vm._v(" "), _c('div', {
-    staticClass: "table-contain dynamic-height-level2"
-  }, _vm._l((_vm.deprivedArea), function(da) {
-    return _c('div', [(da.daReId != null && da.daRdId == null) ? _c('div', {
-      staticClass: "grid-x"
-    }, [_c('div', {
-      staticClass: "medium-3 table-contain-border cell-vertical-center"
-    }, [_vm._v(_vm._s(da.region.reName))]), _vm._v(" "), _c('div', {
-      staticClass: "medium-3 table-contain-border cell-vertical-center"
-    }, [_vm._v(_vm._s(da.county.coName))]), _vm._v(" "), _c('div', {
-      staticClass: "medium-6 table-contain-border cell-vertical-center"
-    }, [_c('div', {
+    staticClass: "tbl-div-container"
+  }, [_vm._m(7), _vm._v(" "), _c('div', {
+    staticClass: "tbl_body_style dynamic-height-level2"
+  }, [_c('table', {
+    staticClass: "tbl-body-contain"
+  }, [_vm._m(8), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._l((_vm.deprivedArea), function(da) {
+    return [(da.daReId != null && da.daRdId == null) ? _c('tr', [_c('td', [_vm._v(_vm._s(da.region.reName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(da.county.coName))]), _vm._v(" "), _c('td', [_c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-11"
-    }, [_vm._v("\n                                                " + _vm._s(da.daDescription) + "\n                                            ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                                    " + _vm._s(da.daDescription) + "\n                                                ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-1 cell-vertical-center text-left"
     }, [_c('a', {
       staticClass: "dropdown small sm-btn-align",
@@ -106978,12 +107214,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "type": "button",
         "data-toggle": 'daActionDropdown_region' + da.id
       }
-    }, [_c('img', {
-      attrs: {
-        "width": "15px",
-        "height": "15px",
-        "src": "/IFAB_AdministratorSystem/public/pic/menu.svg"
-      }
+    }, [_c('i', {
+      staticClass: "fa fa-ellipsis-v size-18"
     })]), _vm._v(" "), _c('div', {
       staticClass: "dropdown-pane dropdown-pane-sm ",
       attrs: {
@@ -106996,32 +107228,44 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "data-dropdown": "",
         "data-auto-focus": "true"
       }
-    }, [_vm._m(9, true)])])])])]) : _vm._e()])
-  }))])]), _vm._v(" "), _c('div', {
+    }, [_c('ul', {
+      staticClass: "my-menu small-font text-right"
+    }, [_c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          _vm.openUpdateModal(da)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fi-pencil size-16"
+    }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          _vm.openDeleteModal(da.id)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fi-trash size-16"
+    }), _vm._v("  حذف")])])])])])])])]) : _vm._e()]
+  })], 2)])])])]), _vm._v(" "), _c('div', {
     staticClass: "tabs-panel table-mrg-btm",
     attrs: {
       "id": "rural_district"
     }
   }, [_c('div', {
-    staticClass: "columns"
-  }, [_vm._m(10), _vm._v(" "), _c('div', {
-    staticClass: "table-contain dynamic-height-level2"
-  }, _vm._l((_vm.deprivedArea), function(da) {
-    return _c('div', [(da.daRdId != null && da.daViId == null) ? _c('div', {
-      staticClass: "grid-x"
-    }, [_c('div', {
-      staticClass: "medium-2 table-contain-border cell-vertical-center"
-    }, [_vm._v(_vm._s(da.rural_district.rdName))]), _vm._v(" "), _c('div', {
-      staticClass: "medium-2 table-contain-border cell-vertical-center"
-    }, [_vm._v(_vm._s(da.county.coName))]), _vm._v(" "), _c('div', {
-      staticClass: "medium-2 table-contain-border cell-vertical-center"
-    }, [_vm._v(_vm._s(da.region.reName))]), _vm._v(" "), _c('div', {
-      staticClass: "medium-6 table-contain-border cell-vertical-center"
-    }, [_c('div', {
+    staticClass: "tbl-div-container"
+  }, [_vm._m(9), _vm._v(" "), _c('div', {
+    staticClass: "tbl_body_style dynamic-height-level2"
+  }, [_c('table', {
+    staticClass: "tbl-body-contain"
+  }, [_vm._m(10), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._l((_vm.deprivedArea), function(da) {
+    return [(da.daRdId != null && da.daViId == null) ? _c('tr', [_c('td', [_vm._v(_vm._s(da.rural_district.rdName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(da.county.coName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(da.region.reName))]), _vm._v(" "), _c('td', [_c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-11"
-    }, [_vm._v("\n                                                " + _vm._s(da.daDescription) + "\n                                            ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                                    " + _vm._s(da.daDescription) + "\n                                                ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-1 cell-vertical-center text-left"
     }, [_c('a', {
       staticClass: "dropdown small sm-btn-align",
@@ -107029,12 +107273,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "type": "button",
         "data-toggle": 'daActionDropdown_ruralDistrict' + da.id
       }
-    }, [_c('img', {
-      attrs: {
-        "width": "15px",
-        "height": "15px",
-        "src": "/IFAB_AdministratorSystem/public/pic/menu.svg"
-      }
+    }, [_c('i', {
+      staticClass: "fa fa-ellipsis-v size-18"
     })]), _vm._v(" "), _c('div', {
       staticClass: "dropdown-pane dropdown-pane-sm ",
       attrs: {
@@ -107047,34 +107287,44 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "data-dropdown": "",
         "data-auto-focus": "true"
       }
-    }, [_vm._m(11, true)])])])])]) : _vm._e()])
-  }))])]), _vm._v(" "), _c('div', {
+    }, [_c('ul', {
+      staticClass: "my-menu small-font text-right"
+    }, [_c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          _vm.openUpdateModal(da)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fi-pencil size-16"
+    }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          _vm.openDeleteModal(da.id)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fi-trash size-16"
+    }), _vm._v("  حذف")])])])])])])])]) : _vm._e()]
+  })], 2)])])])]), _vm._v(" "), _c('div', {
     staticClass: "tabs-panel table-mrg-btm",
     attrs: {
       "id": "village"
     }
   }, [_c('div', {
-    staticClass: "columns"
-  }, [_vm._m(12), _vm._v(" "), _c('div', {
-    staticClass: "table-contain dynamic-height-level2"
-  }, _vm._l((_vm.deprivedArea), function(da) {
-    return _c('div', [(da.daViId != null) ? _c('div', {
-      staticClass: "grid-x"
-    }, [_c('div', {
-      staticClass: "medium-2 table-contain-border cell-vertical-center"
-    }, [_vm._v(_vm._s(da.village.viName))]), _vm._v(" "), _c('div', {
-      staticClass: "medium-2 table-contain-border cell-vertical-center"
-    }, [_vm._v(_vm._s(da.county.coName))]), _vm._v(" "), _c('div', {
-      staticClass: "medium-2 table-contain-border cell-vertical-center"
-    }, [_vm._v(_vm._s(da.region.reName))]), _vm._v(" "), _c('div', {
-      staticClass: "medium-2 table-contain-border cell-vertical-center"
-    }, [_vm._v(_vm._s(da.rural_district.rdName))]), _vm._v(" "), _c('div', {
-      staticClass: "medium-4 table-contain-border cell-vertical-center"
-    }, [_c('div', {
+    staticClass: "tbl-div-container"
+  }, [_vm._m(11), _vm._v(" "), _c('div', {
+    staticClass: "tbl_body_style dynamic-height-level2"
+  }, [_c('table', {
+    staticClass: "tbl-body-contain"
+  }, [_vm._m(12), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._l((_vm.deprivedArea), function(da) {
+    return [(da.daViId != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(da.village.viName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(da.county.coName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(da.region.reName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(da.rural_district.rdName))]), _vm._v(" "), _c('td', [_c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-11"
-    }, [_vm._v("\n                                                " + _vm._s(da.daDescription) + "\n                                            ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                                    " + _vm._s(da.daDescription) + "\n                                                ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-1 cell-vertical-center text-left"
     }, [_c('a', {
       staticClass: "dropdown small sm-btn-align",
@@ -107082,12 +107332,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "type": "button",
         "data-toggle": 'daActionDropdown_village' + da.id
       }
-    }, [_c('img', {
-      attrs: {
-        "width": "15px",
-        "height": "15px",
-        "src": "/IFAB_AdministratorSystem/public/pic/menu.svg"
-      }
+    }, [_c('i', {
+      staticClass: "fa fa-ellipsis-v size-18"
     })]), _vm._v(" "), _c('div', {
       staticClass: "dropdown-pane dropdown-pane-sm ",
       attrs: {
@@ -107100,8 +107346,26 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "data-dropdown": "",
         "data-auto-focus": "true"
       }
-    }, [_vm._m(13, true)])])])])]) : _vm._e()])
-  }))])])])])]), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-tiny', {
+    }, [_c('ul', {
+      staticClass: "my-menu small-font text-right"
+    }, [_c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          _vm.openUpdateModal(da)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fi-pencil size-16"
+    }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          _vm.openDeleteModal(da.id)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fi-trash size-16"
+    }), _vm._v("  حذف")])])])])])])])]) : _vm._e()]
+  })], 2)])])])])])])]), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showInsertModal = false
@@ -107123,9 +107387,6 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "grid-x",
     staticStyle: {
       "display": "none"
-    },
-    attrs: {
-      "id": "existErrorInRegForm"
     }
   }, [_c('div', {
     staticClass: "medium-12 columns padding-lr"
@@ -107154,6 +107415,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       'input': true, 'select-error': _vm.errors.has('daCounty')
     },
     attrs: {
+      "autocomplete": "off",
       "name": "daCounty",
       "data-vv-rules": "required"
     },
@@ -107166,7 +107428,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           return val
         });
         _vm.deprivedAreaInput.county = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }, _vm.getRegions]
+      }, function($event) {
+        _vm.getRegions(_vm.deprivedAreaInput.county)
+      }]
     }
   }, [_c('option', {
     attrs: {
@@ -107197,6 +107461,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }],
     staticClass: "form-element-margin-btm",
     attrs: {
+      "autocomplete": "off",
       "disabled": _vm.regionDisable
     },
     on: {
@@ -107208,7 +107473,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           return val
         });
         _vm.deprivedAreaInput.region = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }, _vm.getRuralDistricts]
+      }, function($event) {
+        _vm.getRuralDistricts(_vm.deprivedAreaInput.region)
+      }]
     }
   }, [_c('option', {
     attrs: {
@@ -107233,6 +107500,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }],
     staticClass: "form-element-margin-btm",
     attrs: {
+      "autocomplete": "off",
       "disabled": _vm.ruralDistrictDisable
     },
     on: {
@@ -107244,7 +107512,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           return val
         });
         _vm.deprivedAreaInput.ruralDistrict = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }, _vm.getVillages]
+      }, function($event) {
+        _vm.getVillages(_vm.deprivedAreaInput.ruralDistrict)
+      }]
     }
   }, [_c('option', {
     attrs: {
@@ -107267,6 +107537,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }],
     staticClass: "form-element-margin-btm",
     attrs: {
+      "autocomplete": "off",
       "disabled": _vm.villageDisable
     },
     on: {
@@ -107324,10 +107595,10 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
-  }, [_vm._v("  ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showChangePermissionDialog) ? _c('modal-large', {
+  }, [_vm._v("  ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showUpdateModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
-        _vm.showChangePermissionDialog = false
+        _vm.showUpdateModal = false
       }
     }
   }, [_c('div', {
@@ -107335,7 +107606,250 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "slot": "body"
     },
     slot: "body"
-  })]) : _vm._e()], 1)
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.updateDeprivedArea($event)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "grid-x",
+    staticStyle: {
+      "display": "none"
+    }
+  }, [_c('div', {
+    staticClass: "medium-12 columns padding-lr"
+  }, [_c('div', {
+    staticClass: "alert callout"
+  }, [_c('p', {
+    staticClass: "BYekan login-alert"
+  }, [_c('i', {
+    staticClass: "fi-alert"
+  }), _vm._v(" این منطقه محروم قبلا ثبت شده است!")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-6 cell padding-lr"
+  }, [_c('label', [_vm._v("شهرستان\n                            "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.deprivedAreaFill.county),
+      expression: "deprivedAreaFill.county"
+    }, {
+      name: "validate",
+      rawName: "v-validate"
+    }],
+    staticClass: "form-element-margin-btm",
+    class: {
+      'input': true, 'select-error': _vm.errors.has('daCounty')
+    },
+    attrs: {
+      "autocomplete": "off",
+      "name": "daCounty",
+      "data-vv-rules": "required"
+    },
+    on: {
+      "change": [function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.deprivedAreaFill.county = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }, function($event) {
+        _vm.getRegions(_vm.deprivedAreaFill.county)
+      }]
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.counties), function(county) {
+    return _c('option', {
+      domProps: {
+        "value": county.id
+      }
+    }, [_vm._v(_vm._s(county.coName))])
+  })], 2), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('daCounty')),
+      expression: "errors.has('daCounty')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("شهرستان را انتخاب کنید!")])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 cell padding-lr"
+  }, [_c('label', [_vm._v("بخش\n                            "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.deprivedAreaFill.region),
+      expression: "deprivedAreaFill.region"
+    }],
+    staticClass: "form-element-margin-btm",
+    attrs: {
+      "autocomplete": "off",
+      "disabled": _vm.regionDisable
+    },
+    on: {
+      "change": [function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.deprivedAreaFill.region = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }, function($event) {
+        _vm.getRuralDistricts(_vm.deprivedAreaFill.region)
+      }]
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.regions), function(region) {
+    return _c('option', {
+      domProps: {
+        "value": region.id
+      }
+    }, [_vm._v(_vm._s(region.reName))])
+  })], 2)])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-6 cell padding-lr"
+  }, [_c('label', [_vm._v("دهستان\n                            "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.deprivedAreaFill.ruralDistrict),
+      expression: "deprivedAreaFill.ruralDistrict"
+    }],
+    staticClass: "form-element-margin-btm",
+    attrs: {
+      "autocomplete": "off",
+      "disabled": _vm.ruralDistrictDisable
+    },
+    on: {
+      "change": [function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.deprivedAreaFill.ruralDistrict = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }, function($event) {
+        _vm.getVillages(_vm.deprivedAreaFill.ruralDistrict)
+      }]
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.ruralDistricts), function(ruralDistrict) {
+    return _c('option', {
+      domProps: {
+        "value": ruralDistrict.id
+      }
+    }, [_vm._v(_vm._s(ruralDistrict.rdName))])
+  })], 2)])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 cell padding-lr"
+  }, [_c('label', [_vm._v("روستا\n                            "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.deprivedAreaFill.village),
+      expression: "deprivedAreaFill.village"
+    }],
+    staticClass: "form-element-margin-btm",
+    attrs: {
+      "autocomplete": "off",
+      "disabled": _vm.villageDisable
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.deprivedAreaFill.village = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.villages), function(village) {
+    return _c('option', {
+      domProps: {
+        "value": village.id
+      }
+    }, [_vm._v(_vm._s(village.viName))])
+  })], 2)])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 columns padding-lr"
+  }, [_c('label', [_vm._v("شرح\n                        "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.deprivedAreaFill.description),
+      expression: "deprivedAreaFill.description"
+    }],
+    staticStyle: {
+      "min-height": "150px"
+    },
+    attrs: {
+      "name": "daDescription"
+    },
+    domProps: {
+      "value": (_vm.deprivedAreaFill.description)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.deprivedAreaFill.description = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 columns padding-lr"
+  }, [_c('button', {
+    staticClass: "my-button my-success float-left btn-for-load",
+    attrs: {
+      "name": "daFormSubmit",
+      "type": "submit"
+    }
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("  ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showDeleteModal) ? _c('modal-tiny', {
+    on: {
+      "close": function($event) {
+        _vm.showDeleteModal = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('div', {
+    staticClass: "small-font"
+  }, [_c('p', [_vm._v("کاربر گرامی")]), _vm._v(" "), _c('p', {
+    staticClass: "large-offset-1 modal-text"
+  }, [_vm._v("آیا برای حذف این رکورد اطمینان دارید؟")]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 column text-center"
+  }, [_c('button', {
+    staticClass: "button primary btn-large-w",
+    on: {
+      "click": _vm.deleteDeprivedArea
+    }
+  }, [_vm._v("تایید")])])])])])]) : _vm._e()], 1)
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', [_c('a', {
@@ -107385,163 +107899,275 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }, [_vm._v("روستا")])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "float-left"
-  }, [_c('div', {
-    staticClass: "input-group float-left"
-  }, [_c('input', {
-    staticClass: "input-group-field small-font",
+  return _c('table', {
+    staticClass: "tbl-head"
+  }, [_c('colgroup', [_c('col', {
     attrs: {
-      "type": "text"
+      "width": "150px"
     }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "input-group-button"
-  }, [_c('button', {
-    staticClass: "my-button my-brand",
+  }), _vm._v(" "), _c('col', {
     attrs: {
-      "type": "button"
+      "width": "150px"
     }
-  }, [_c('i', {
-    staticClass: "fi-magnifying-glass"
-  })])])])])
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "240px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "12px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style"
+  }, [_c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شهرستان")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("بخش")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("دهستان")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("روستا")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شرح")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  })])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "grid-x table-header"
-  }, [_c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("شهرستان")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("بخش")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("دهستان")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("روستا")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-4 table-border"
-  }, [_c('strong', [_vm._v("شرح")])])])
+  return _c('colgroup', [_c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "240px"
+    }
+  })])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('ul', {
-    staticClass: "my-menu small-font text-right"
-  }, [_c('li', [_c('a', {
+  return _c('table', {
+    staticClass: "tbl-head"
+  }, [_c('colgroup', [_c('col', {
     attrs: {
-      "data-open": "preloaderModal"
+      "width": "450px"
     }
-  }, [_c('i', {
-    staticClass: "fi-pencil size-16"
-  }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+  }), _vm._v(" "), _c('col', {
     attrs: {
-      "data-open": "modalDelete"
+      "width": "390px"
     }
-  }, [_c('i', {
-    staticClass: "fi-trash size-16"
-  }), _vm._v("  حذف")])])])
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "12px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style"
+  }, [_c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("نام")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شرح")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  })])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "grid-x table-header"
-  }, [_c('div', {
-    staticClass: "medium-4 table-border"
-  }, [_c('strong', [_vm._v("نام")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-8 table-border"
-  }, [_c('strong', [_vm._v("شرح")])])])
+  return _c('colgroup', [_c('col', {
+    attrs: {
+      "width": "450px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "390px"
+    }
+  })])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('ul', {
-    staticClass: "my-menu small-font text-right"
-  }, [_c('li', [_c('a', {
+  return _c('table', {
+    staticClass: "tbl-head"
+  }, [_c('colgroup', [_c('col', {
     attrs: {
-      "data-open": "preloaderModal"
+      "width": "250px"
     }
-  }, [_c('i', {
-    staticClass: "fi-pencil size-16"
-  }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+  }), _vm._v(" "), _c('col', {
     attrs: {
-      "data-open": "modalDelete"
+      "width": "250px"
     }
-  }, [_c('i', {
-    staticClass: "fi-trash size-16"
-  }), _vm._v("  حذف")])])])
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "340px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "12px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style"
+  }, [_c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("نام")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شهرستان")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شرح")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  })])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "grid-x table-header"
-  }, [_c('div', {
-    staticClass: "medium-3 table-border"
-  }, [_c('strong', [_vm._v("نام")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-3 table-border"
-  }, [_c('strong', [_vm._v("شهرستان")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-6 table-border"
-  }, [_c('strong', [_vm._v("شرح")])])])
+  return _c('colgroup', [_c('col', {
+    attrs: {
+      "width": "250px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "250px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "340px"
+    }
+  })])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('ul', {
-    staticClass: "my-menu small-font text-right"
-  }, [_c('li', [_c('a', {
+  return _c('table', {
+    staticClass: "tbl-head"
+  }, [_c('colgroup', [_c('col', {
     attrs: {
-      "data-open": "preloaderModal"
+      "width": "200px"
     }
-  }, [_c('i', {
-    staticClass: "fi-pencil size-16"
-  }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+  }), _vm._v(" "), _c('col', {
     attrs: {
-      "data-open": "modalDelete"
+      "width": "200px"
     }
-  }, [_c('i', {
-    staticClass: "fi-trash size-16"
-  }), _vm._v("  حذف")])])])
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "200px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "240px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "12px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style"
+  }, [_c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("نام")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شهرستان")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("بخش")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شرح")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  })])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "grid-x table-header"
-  }, [_c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("نام")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("شهرستان")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("بخش")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-6 table-border"
-  }, [_c('strong', [_vm._v("شرح")])])])
+  return _c('colgroup', [_c('col', {
+    attrs: {
+      "width": "200px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "200px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "200px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "240px"
+    }
+  })])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('ul', {
-    staticClass: "my-menu small-font text-right"
-  }, [_c('li', [_c('a', {
+  return _c('table', {
+    staticClass: "tbl-head"
+  }, [_c('colgroup', [_c('col', {
     attrs: {
-      "data-open": "preloaderModal"
+      "width": "150px"
     }
-  }, [_c('i', {
-    staticClass: "fi-pencil size-16"
-  }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+  }), _vm._v(" "), _c('col', {
     attrs: {
-      "data-open": "modalDelete"
+      "width": "150px"
     }
-  }, [_c('i', {
-    staticClass: "fi-trash size-16"
-  }), _vm._v("  حذف")])])])
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "240px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "12px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style"
+  }, [_c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("نام")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شهرستان")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("بخش")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("دهستان")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شرح")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  })])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "grid-x table-header"
-  }, [_c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("نام")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("شهرستان")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("بخش")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-2 table-border"
-  }, [_c('strong', [_vm._v("دهستان")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-4 table-border"
-  }, [_c('strong', [_vm._v("شرح")])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('ul', {
-    staticClass: "my-menu small-font text-right"
-  }, [_c('li', [_c('a', {
+  return _c('colgroup', [_c('col', {
     attrs: {
-      "data-open": "preloaderModal"
+      "width": "150px"
     }
-  }, [_c('i', {
-    staticClass: "fi-pencil size-16"
-  }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+  }), _vm._v(" "), _c('col', {
     attrs: {
-      "data-open": "modalDelete"
+      "width": "150px"
     }
-  }, [_c('i', {
-    staticClass: "fi-trash size-16"
-  }), _vm._v("  حذف")])])])
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "240px"
+    }
+  })])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
