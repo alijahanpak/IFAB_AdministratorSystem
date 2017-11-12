@@ -114,10 +114,10 @@
                                             <template  v-for="plans in approvedProjects_prov">
                                                 <tr>
                                                     <td :rowspan="plans.capital_assets_project.length + (displayParentId_prov == plans.id ? 1 : 0)"> {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' - ' + plans.credit_distribution_title.county.coName }}</td>
-                                                    <td  class="text-center">
+                                                    <td>
                                                         {{ plans.capital_assets_project[0].cpCode }}
                                                     </td>
-                                                    <td  class="text-center">
+                                                    <td>
                                                         {{ plans.capital_assets_project[0].cpSubject }}
                                                     </td>
                                                     <td>
@@ -129,7 +129,7 @@
                                                     <td>
                                                         <div class="grid-x">
                                                             <div class="medium-11">
-                                                                {{ plans.capDescription }}
+                                                                {{ plans.capital_assets_project[0].capDescription }}
                                                             </div>
                                                             <div class="medium-1 cell-vertical-center text-left auto-margin">
                                                                 <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
@@ -144,7 +144,7 @@
                                                         </div>
                                                     </td>
                                                     <td  v-show="selectColumn">
-                                                        <input class="auto-margin" v-model="plans.checked" type="checkbox">
+                                                        <input class="auto-margin" v-model="plans.capital_assets_project[0].checked" type="checkbox">
                                                     </td>
                                                 </tr>
                                                 <tr v-show="displayCreditSourceInfo_prov == plans.capital_assets_project[0].id">
@@ -187,7 +187,7 @@
                                                             {{ project.county.coName }}
                                                         </td>
                                                         <td>
-                                                            <span @click="displayCreditSourceInfo_prov == project.id ? displayCreditSourceInfo_prov = '' : displayCreditSourceInfo_prov = project.id">{{ $parent.calcDispAmount(sumOfAmount(project.credit_source) , false) }}</span>
+                                                            <span @click="openAccordion(0 , project.id , plans.id)">{{ $parent.calcDispAmount(sumOfAmount(project.credit_source) , false) }}</span>
                                                         </td>
                                                         <td>
                                                             <div class="grid-x">
@@ -195,8 +195,8 @@
                                                                     {{ project.capDescription }}
                                                                 </div>
                                                                 <div class="medium-1 cell-vertical-center text-left auto-margin">
+                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id + project.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                     <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id + project.id" data-dropdown data-auto-focus="true">
-                                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id + project.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                         <ul class="my-menu small-font text-right">
                                                                             <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                                             <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
@@ -207,10 +207,10 @@
                                                             </div>
                                                         </td>
                                                         <td  v-show="selectColumn">
-                                                            <input class="auto-margin" v-model="plans.checked" type="checkbox">
+                                                            <input class="auto-margin" v-model="project.checked" type="checkbox">
                                                         </td>
                                                     </tr>
-                                                    <tr v-show="displayCreditSourceInfo_prov == project.id">
+                                                    <tr v-if="pIndex>0" v-show="displayCreditSourceInfo_prov == project.id">
                                                         <td colspan="5">
                                                             <table class="unstriped tbl-secondary-mrg small-font">
                                                                 <thead class="my-thead">
@@ -274,8 +274,8 @@
                                     <div v-if="selectColumn" class="input-group-button toggle-icon-change">
                                         <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn(approvedProjects_nat)"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
                                     </div>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
-                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown2">گزارش</button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown2" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
                                             <li><a  href="#"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
                                             <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
@@ -346,10 +346,10 @@
                                         <template  v-for="plans in approvedProjects_nat">
                                             <tr>
                                                 <td :rowspan="plans.capital_assets_project.length + (displayParentId_nat == plans.id ? 1 : 0)">  {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
-                                                <td  class="text-center">
+                                                <td>
                                                     {{ plans.capital_assets_project[0].cpCode }}
                                                 </td>
-                                                <td  class="text-center">
+                                                <td>
                                                     {{ plans.capital_assets_project[0].cpSubject }}
                                                 </td>
                                                 <td>
@@ -361,7 +361,7 @@
                                                 <td>
                                                     <div class="grid-x">
                                                         <div class="medium-11">
-                                                            {{ plans.capDescription }}
+                                                            {{ plans.capital_assets_project[0].capDescription }}
                                                         </div>
                                                         <div class="medium-1 cell-vertical-center text-left auto-margin">
                                                             <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
@@ -419,7 +419,6 @@
                                                         {{ project.county.coName }}
                                                     </td>
                                                     <td>
-
                                                         <span @click="openAccordion(1 , project.id , plans.id)">{{ $parent.calcDispAmount(sumOfAmount(project.credit_source) , false) }}</span>
                                                     </td>
                                                     <td>
@@ -428,8 +427,8 @@
                                                                 {{ project.capDescription }}
                                                             </div>
                                                             <div class="medium-1 cell-vertical-center text-left auto-margin">
+                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id + project.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id + project.id" data-dropdown data-auto-focus="true">
-                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id + project.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                     <ul class="my-menu small-font text-right">
                                                                         <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                                         <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
@@ -440,7 +439,7 @@
                                                         </div>
                                                     </td>
                                                     <td  v-show="selectColumn">
-                                                        <input class="auto-margin" v-model="plans.checked" type="checkbox">
+                                                        <input class="auto-margin" v-model="project.checked" type="checkbox">
                                                     </td>
                                                 </tr>
                                                 <tr v-if="pIndex > 0" v-show="displayCreditSourceInfo_nat == project.id">
@@ -863,6 +862,82 @@
                 </div>
             </modal-small>
             <!--Project Cost Modal End-->
+            <!--Report Modal Start-->
+            <modal-tiny v-if="showModalReport" @close="showModalReport= false">
+                <div  slot="body">
+                    <div class="small-font">
+                        <form v-on:submit.prevent="openPdfFile">
+                            <div class="grid-x padding-lr">
+                                <div class="medium-12">
+                                    <label>عنوان
+                                        <input type="text" v-model="reportOptions.title">
+                                    </label>
+                                </div>
+                            </div>
+                            <div style="margin-top: 10px;" class="grid-x padding-lr">
+                                <div class="medium-2">
+                                    <div class="switch tiny">
+                                        <input checked="true" class="switch-input" id="yes-no-1" v-model="reportOptions.withReporterName" type="checkbox">
+                                        <label class="switch-paddle" for="yes-no-1">
+                                            <span class="switch-active" aria-hidden="true">بلی</span>
+                                            <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="medium-10">
+                                    <p>درج نام کاربر تهیه کننده گزارش</p>
+                                </div>
+                            </div>
+                            <div class="grid-x padding-lr">
+                                <div class="medium-2">
+                                    <div class="switch tiny">
+                                        <input checked="true" class="switch-input" id="yes-no-2" type="checkbox" v-model="reportOptions.withFiscalYear">
+                                        <label class="switch-paddle" for="yes-no-2">
+                                            <span class="switch-active" aria-hidden="true">بلی</span>
+                                            <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="medium-10">
+                                    <p>درج سال مالی</p>
+                                </div>
+                            </div>
+                            <div class="grid-x padding-lr">
+                                <div class="medium-2">
+                                    <div class="switch tiny">
+                                        <input checked="true" class="switch-input" id="yes-no3" type="checkbox" v-model="reportOptions.withReportDate">
+                                        <label class="switch-paddle" for="yes-no3">
+                                            <span class="switch-active" aria-hidden="true">بلی</span>
+                                            <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="medium-10">
+                                    <p>درج تاریخ گزارش</p>
+                                </div>
+                            </div>
+                            <div class="grid-x padding-lr">
+                                <div class="medium-2">
+                                    <div class="switch tiny">
+                                        <input checked="true" class="switch-input" id="yes-no4" type="checkbox" v-model="reportOptions.orientation">
+                                        <label class="switch-paddle" for="yes-no4">
+                                            <span class="switch-active" aria-hidden="true">افقی</span>
+                                            <span class="switch-inactive" aria-hidden="true">عمودی</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="medium-10">
+                                    <p>جهت کاغذ</p>
+                                </div>
+                            </div>
+                            <div class="medium-12 columns padding-lr padding-bottom-modal input-margin-top">
+                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">مشاهده</span></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </modal-tiny>
+            <!--Report Modal End-->
 
             <!--Forms End-->
         </div>
@@ -884,6 +959,7 @@
                 showApCsInsertModal: false,
                 showModalUpdate: false,
                 showModalDelete: false,
+                showModalReport:false,
                 approvedProjectsFill: {apPlan: '' , apProjectTitle: '' , apProjectCode: '' , apStartYear: '', apEndYear: '',
                     apHowToRun: '', apPhysicalProgress: '', aCity: '', apSubSeason: ''
                     , apLocation: '', apDescription: '',apCredit:''},
@@ -1266,7 +1342,7 @@
             },
 
             openPdfFile: function () {
-                axios.get('/budget/approved_plan/capital_assets/report' , {params:{pOrN: this.provOrNat ,options: this.reportOptions , selectedItems: this.selectedItems}})
+                axios.get('/budget/approved_project/capital_assets/report' , {params:{pOrN: this.provOrNat ,options: this.reportOptions , selectedItems: this.selectedItems}})
                     .then((response) => {
                         console.log(response.data);
                         window.open(response.data);
@@ -1277,9 +1353,17 @@
 
             toggleSelect: function(plans) {
                 if(plans.find(plan => plan.checked)){
-                    plans.forEach(plan => plan.checked = false)
+                    plans.forEach(plan => {
+                        plan.capital_assets_project.forEach(project => {
+                            project.checked = false
+                        });
+                    });
                 } else {
-                    plans.forEach(plan => plan.checked = true)
+                    plans.forEach(plan => {
+                        plan.capital_assets_project.forEach(project => {
+                            project.checked = true
+                        });
+                    });
                 }
                 console.log(JSON.stringify(this.approvedProjects_prov));
             },
@@ -1292,7 +1376,9 @@
 
             selectAll: function (plans) {
                 plans.forEach(plan => {
-                    this.$set(plan , 'checked' , true);
+                    plan.capital_assets_project.forEach(project => {
+                        this.$set(project, 'checked' , true);
+                    });
                 });
             },
 

@@ -83118,7 +83118,7 @@ var app = new Vue({
             }
 
             if (tabHeight === undefined) {
-                if (toolBarHeight > 0) tabHeight = -28;else tabHeight = -8;
+                if (toolBarHeight > 0) tabHeight = -5;else tabHeight = -8;
                 notifHeight = 0;
             }
 
@@ -107005,7 +107005,7 @@ if (false) {(function () {
 
             axios.post('/budget/admin/deprived_area/delete', {
                 id: this.daIdForDelete }).then(function (response) {
-                _this8.deprivedArea = response.data;
+                if (response.status != 204) _this8.deprivedArea = response.data;
                 _this8.showDeleteModal = false;
                 _this8.$parent.displayNotif(response.status);
                 console.log(response);
@@ -107845,11 +107845,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "medium-12 column text-center"
   }, [_c('button', {
-    staticClass: "button primary btn-large-w",
+    staticClass: "my-button my-success",
     on: {
       "click": _vm.deleteDeprivedArea
     }
-  }, [_vm._v("تایید")])])])])])]) : _vm._e()], 1)
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v(" تایید ")])])])])])])]) : _vm._e()], 1)
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', [_c('a', {
@@ -108353,13 +108355,63 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     data: function data() {
         return {
             budgetSeasons: [],
             budgetSeasonInput: { subject: '', description: '' },
-            showInsertModal: false
+            budgetSeasonFill: {},
+            bsIdForDelete: '',
+            showInsertModal: false,
+            showUpdateModal: false,
+            showDeleteModal: false
         };
     },
 
@@ -108389,6 +108441,11 @@ if (false) {(function () {
             });
         },
 
+        openInsertModal: function openInsertModal() {
+            this.budgetSeasonInput = [];
+            this.showInsertModal = true;
+        },
+
         createBudgetSeason: function createBudgetSeason() {
             var _this2 = this;
 
@@ -108400,13 +108457,59 @@ if (false) {(function () {
                         _this2.budgetSeasons = response.data;
                         _this2.showInsertModal = false;
                         _this2.$parent.displayNotif(response.status);
-                        _this2.budgetSeasonInput = [];
                         console.log(response);
                     }, function (error) {
                         console.log(error);
-                        _this2.errorMessage = 'فصل بودجه با این مشخصات قبلا ثبت شده است!';
+                        _this2.$parent.displayNotif(error.response.status);
                     });
                 }
+            });
+        },
+
+        openUpdateModal: function openUpdateModal(bs) {
+            this.budgetSeasonFill.id = bs.id;
+            this.budgetSeasonFill.subject = bs.bsSubject;
+            this.budgetSeasonFill.description = bs.bsDescription;
+            this.showUpdateModal = true;
+        },
+
+        updateBudgetSeason: function updateBudgetSeason() {
+            var _this3 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    axios.post('/budget/admin/credit_distribution_def/budget_season/update', {
+                        id: _this3.budgetSeasonFill.id,
+                        subject: _this3.budgetSeasonFill.subject,
+                        description: _this3.budgetSeasonFill.description }).then(function (response) {
+                        _this3.budgetSeasons = response.data;
+                        _this3.showUpdateModal = false;
+                        _this3.$parent.displayNotif(response.status);
+                        console.log(response);
+                    }, function (error) {
+                        console.log(error);
+                        _this3.$parent.displayNotif(error.response.status);
+                    });
+                }
+            });
+        },
+
+        openDeleteModal: function openDeleteModal(bsId) {
+            this.bsIdForDelete = bsId;
+            this.showDeleteModal = true;
+        },
+
+        deleteBudgetSeason: function deleteBudgetSeason() {
+            var _this4 = this;
+
+            axios.post('/budget/admin/credit_distribution_def/budget_season/delete', { id: this.bsIdForDelete }).then(function (response) {
+                if (response.status != 204) _this4.budgetSeasons = response.data;
+                _this4.showDeleteModal = false;
+                _this4.$parent.displayNotif(response.status);
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+                _this4.showDeleteModal = false;
             });
         }
     }
@@ -108445,39 +108548,35 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "margin-top": "15px"
     }
   }, [_c('div', {
-    staticClass: "clearfix border-btm-line tool-bar"
+    staticClass: "clearfix sudo border-btm-line tool-bar"
   }, [_c('div', {
-    staticClass: "button-group float-right report-mrg",
+    staticClass: "button-group float-right",
     staticStyle: {
       "margin-top": "2px"
     }
   }, [_c('a', {
     staticClass: "my-button toolbox-btn small",
     on: {
-      "click": function($event) {
-        _vm.showInsertModal = true;
-      }
+      "click": _vm.openInsertModal
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")])]), _vm._v(" "), _vm._m(2)])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-12 column"
+  }, [_vm._v("گزارش")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-12 column padding-lr table-mrg-top"
   }, [_c('div', {
-    staticClass: "columns padding-lr table-mrg-top"
-  }, [_vm._m(3), _vm._v(" "), _c('div', {
-    staticClass: "table-contain dynamic-height-level2"
+    staticClass: "tbl-div-container"
+  }, [_vm._m(2), _vm._v(" "), _c('div', {
+    staticClass: "tbl_body_style dynamic-height-level2"
+  }, [_c('table', {
+    staticClass: "tbl-body-contain"
+  }, [_vm._m(3), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style-cell"
   }, _vm._l((_vm.budgetSeasons), function(budgetSeason) {
-    return _c('div', {
-      staticClass: "grid-x"
-    }, [_c('div', {
-      staticClass: "medium-4 table-contain-border cell-vertical-center"
-    }, [_vm._v(_vm._s(budgetSeason.bsSubject))]), _vm._v(" "), _c('div', {
-      staticClass: "medium-8 table-contain-border cell-vertical-center"
-    }, [_c('div', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(budgetSeason.bsSubject))]), _vm._v(" "), _c('td', [_c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-11"
-    }, [_vm._v("\n                                        " + _vm._s(budgetSeason.bsDescription) + "\n                                    ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                            " + _vm._s(budgetSeason.bsDescription) + "\n                                        ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-1 cell-vertical-center text-left"
     }, [_c('a', {
       staticClass: "dropdown small sm-btn-align",
@@ -108485,12 +108584,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "type": "button",
         "data-toggle": 'budgetSeason' + budgetSeason.id
       }
-    }, [_c('img', {
-      attrs: {
-        "width": "15px",
-        "height": "15px",
-        "src": "/IFAB_AdministratorSystem/public/pic/menu.svg"
-      }
+    }, [_c('i', {
+      staticClass: "fa fa-ellipsis-v size-18"
     })]), _vm._v(" "), _c('div', {
       staticClass: "dropdown-pane dropdown-pane-sm ",
       attrs: {
@@ -108503,19 +108598,26 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "data-dropdown": "",
         "data-auto-focus": "true"
       }
-    }, [_vm._m(4, true)])])])])])
-  }))])])]), _vm._v(" "), (_vm.showFyActiveModal) ? _c('modal-tiny', {
-    on: {
-      "close": function($event) {
-        _vm.showFyActiveModal = false
+    }, [_c('ul', {
+      staticClass: "my-menu small-font text-right"
+    }, [_c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          _vm.openUpdateModal(budgetSeason)
+        }
       }
-    }
-  }, [_c('div', {
-    attrs: {
-      "slot": "body"
-    },
-    slot: "body"
-  })]) : _vm._e(), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-tiny', {
+    }, [_c('i', {
+      staticClass: "fi-pencil size-16"
+    }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          _vm.openDeleteModal(budgetSeason.id)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fi-trash size-16"
+    }), _vm._v("  حذف")])])])])])])])])
+  }))])])])])]), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showInsertModal = false
@@ -108564,6 +108666,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       value: ('required'),
       expression: "'required'"
     }],
+    staticClass: "form-element-margin-btm",
     class: {
       'input': true, 'error-border': _vm.errors.has('bsSubject')
     },
@@ -108617,12 +108720,150 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6 columns"
   }, [_c('button', {
-    staticClass: "my-secondary button float-left btn-for-load",
+    staticClass: "my-button my-success float-left btn-for-load",
     attrs: {
-      "name": "Submit",
+      "name": "daFormSubmit",
       "type": "submit"
     }
-  }, [_c('span', [_vm._v("  ثبت")])])])])])])]) : _vm._e()], 1)
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("  ثبت")])])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showUpdateModal) ? _c('modal-tiny', {
+    on: {
+      "close": function($event) {
+        _vm.showUpdateModal = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('div', {
+    staticClass: "padding-lr"
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.updateBudgetSeason($event)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "grid-x",
+    staticStyle: {
+      "display": "none"
+    }
+  }, [_c('div', {
+    staticClass: "medium-12 columns"
+  }, [_c('div', {
+    staticClass: "alert callout"
+  }, [_c('p', {
+    staticClass: "BYekan login-alert"
+  }, [_c('i', {
+    staticClass: "fi-alert"
+  }), _vm._v("این عنوان فصل بودجه قبلا ثبت شده است!")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "small-12 columns"
+  }, [_c('label', [_vm._v("عنوان فصل بودجه\n                                "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.budgetSeasonFill.subject),
+      expression: "budgetSeasonFill.subject"
+    }, {
+      name: "validate",
+      rawName: "v-validate",
+      value: ('required'),
+      expression: "'required'"
+    }],
+    staticClass: "form-element-margin-btm",
+    class: {
+      'input': true, 'error-border': _vm.errors.has('bsSubject')
+    },
+    attrs: {
+      "type": "text",
+      "name": "bsSubject"
+    },
+    domProps: {
+      "value": (_vm.budgetSeasonFill.subject)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.budgetSeasonFill.subject = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('bsSubject')),
+      expression: "errors.has('bsSubject')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("لطفا عنوان فصل بودجه را وارد نمایید!")])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "small-12 columns"
+  }, [_c('label', [_vm._v("شرح\n                                "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.budgetSeasonFill.description),
+      expression: "budgetSeasonFill.description"
+    }],
+    staticStyle: {
+      "min-height": "150px"
+    },
+    attrs: {
+      "name": "bsDescription"
+    },
+    domProps: {
+      "value": (_vm.budgetSeasonFill.description)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.budgetSeasonFill.description = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 columns"
+  }, [_c('button', {
+    staticClass: "my-button my-success float-left btn-for-load",
+    attrs: {
+      "name": "daFormSubmit",
+      "type": "submit"
+    }
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("  ثبت")])])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showDeleteModal) ? _c('modal-tiny', {
+    on: {
+      "close": function($event) {
+        _vm.showDeleteModal = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('div', {
+    staticClass: "small-font"
+  }, [_c('p', [_vm._v("کاربر گرامی")]), _vm._v(" "), _c('p', {
+    staticClass: "large-offset-1 modal-text"
+  }, [_vm._v("آیا برای حذف این رکورد اطمینان دارید؟")]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 column text-center"
+  }, [_c('button', {
+    staticClass: "my-button my-success",
+    on: {
+      "click": _vm.deleteBudgetSeason
+    }
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v(" تایید ")])])])])])])]) : _vm._e()], 1)
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', [_c('a', {
@@ -108633,49 +108874,41 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "show-for-sr"
   }, [_vm._v("Current: ")]), _vm._v("فصل بودجه\n                        ")])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "float-left"
-  }, [_c('div', {
-    staticClass: "input-group float-left"
-  }, [_c('input', {
-    staticClass: "input-group-field small-font",
+  return _c('table', {
+    staticClass: "tbl-head"
+  }, [_c('colgroup', [_c('col', {
     attrs: {
-      "type": "text"
+      "width": "450px"
     }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "input-group-button"
-  }, [_c('button', {
-    staticClass: "my-button my-brand",
+  }), _vm._v(" "), _c('col', {
     attrs: {
-      "type": "button"
+      "width": "390px"
     }
-  }, [_c('i', {
-    staticClass: "fi-magnifying-glass"
-  })])])])])
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "12px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style"
+  }, [_c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("عنوان")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شرح")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  })])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "grid-x table-header"
-  }, [_c('div', {
-    staticClass: "medium-4 table-border"
-  }, [_c('strong', [_vm._v("عنوان")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-8 table-border"
-  }, [_c('strong', [_vm._v("شرح")])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('ul', {
-    staticClass: "my-menu small-font text-right"
-  }, [_c('li', [_c('a', {
+  return _c('colgroup', [_c('col', {
     attrs: {
-      "data-open": "preloaderModal"
+      "width": "450px"
     }
-  }, [_c('i', {
-    staticClass: "fi-pencil size-16"
-  }), _vm._v("  ویرایش")])]), _vm._v(" "), _c('li', [_c('a', {
+  }), _vm._v(" "), _c('col', {
     attrs: {
-      "data-open": "modalDelete"
+      "width": "390px"
     }
-  }, [_c('i', {
-    staticClass: "fi-trash size-16"
-  }), _vm._v("  حذف")])])])
+  })])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
@@ -108973,6 +109206,28 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -108983,7 +109238,7 @@ if (false) {(function () {
             rowDistributionCredit: [],
             rowDistributionCredit_cost: [],
             rowDistributionCreditInput: { rdcSubject: '', rdcDescription: '' },
-            showModal: false,
+            showInsertModal: false,
             showModalUpdate: false,
             showModalDelete: false,
             rowDistributionCreditFill: { rdcSubject: '', rdcDescription: '', id: '' },
@@ -109068,7 +109323,7 @@ if (false) {(function () {
                     _this3.makePagination(response.data, "cost");
                 }
 
-                _this3.showModal = false;
+                _this3.showInsertModal = false;
                 _this3.$parent.displayNotif(response.status);
                 _this3.rowDistributionCreditInput = [];
                 console.log(response.status);
@@ -109108,6 +109363,12 @@ if (false) {(function () {
         openDeleteRowDistributionCreditConfirm: function openDeleteRowDistributionCreditConfirm(rdc) {
             this.rdcIdDelete = rdc;
             this.showModalDelete = true;
+        },
+
+        openInsertModal: function openInsertModal() {
+            this.planOrCostRequestType = 0;
+            this.showInsertModal = true;
+            this.errorMessage = '';
         },
 
         deleteRowDistributionCredit: function deleteRowDistributionCredit() {
@@ -109190,30 +109451,24 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('a', {
     staticClass: "my-button toolbox-btn small",
     on: {
-      "click": function($event) {
-        _vm.planOrCostRequestType = 0;
-        _vm.showModal = true;
-        _vm.errorMessage = ''
-      }
+      "click": _vm.openInsertModal
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
   }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(3), _vm._v(" "), _vm._m(4)]), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _c('div', {
-    staticClass: "columns"
+    staticClass: "tbl-div-container"
   }, [_vm._m(6), _vm._v(" "), _c('div', {
-    staticClass: "table-contain dynamic-height-level2"
+    staticClass: "tbl_body_style dynamic-height-level2"
+  }, [_c('table', {
+    staticClass: "tbl-body-contain"
+  }, [_vm._m(7), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style-cell"
   }, _vm._l((_vm.rowDistributionCredit), function(plan) {
-    return _c('div', {
-      staticClass: "grid-x"
-    }, [_c('div', {
-      staticClass: "medium-4 table-contain-border cell-vertical-center"
-    }, [_vm._v("\n                                        " + _vm._s(plan.cdSubject) + "\n                                    ")]), _vm._v(" "), _c('div', {
-      staticClass: "medium-8 table-contain-border cell-vertical-center"
-    }, [_c('div', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(plan.cdSubject))]), _vm._v(" "), _c('td', [_c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-11"
-    }, [_vm._v("\n                                                " + _vm._s(plan.cdDescription) + "\n                                            ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                                    " + _vm._s(plan.cdDescription) + "\n                                                ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-1 cell-vertical-center text-left"
     }, [_c('a', {
       staticClass: "dropdown small sm-btn-align",
@@ -109221,12 +109476,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "type": "button",
         "data-toggle": 'rdcRowDistributionCredit' + plan.id
       }
-    }, [_c('img', {
-      attrs: {
-        "width": "15px",
-        "height": "15px",
-        "src": "/IFAB_AdministratorSystem/public/pic/menu.svg"
-      }
+    }, [_c('i', {
+      staticClass: "fa fa-ellipsis-v size-18"
     })]), _vm._v(" "), _c('div', {
       staticClass: "dropdown-pane dropdown-pane-sm ",
       attrs: {
@@ -109260,7 +109511,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_c('i', {
       staticClass: "fi-trash size-16"
     }), _vm._v("  حذف")])])])])])])])])
-  })), _vm._v(" "), _c('div', {
+  }))])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12"
@@ -109274,7 +109525,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchCapitalAssetsData(_vm.plan_pagination.current_page)
       }
     }
-  })], 1)])])])]), _vm._v(" "), _c('div', {
+  })], 1)])])]), _vm._v(" "), _c('div', {
     staticClass: "tabs-panel table-mrg-btm",
     attrs: {
       "id": "cost",
@@ -109300,20 +109551,20 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(7), _vm._v(" "), _vm._m(8)]), _vm._v(" "), _vm._m(9)]), _vm._v(" "), _vm._m(10), _vm._v(" "), _c('div', {
-    staticClass: "table-contain dynamic-height-level2"
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(8), _vm._v(" "), _vm._m(9)]), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _c('div', {
+    staticClass: "tbl-div-container"
+  }, [_vm._m(11), _vm._v(" "), _c('div', {
+    staticClass: "tbl_body_style dynamic-height-level2"
+  }, [_c('table', {
+    staticClass: "tbl-body-contain"
+  }, [_vm._m(12), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style-cell"
   }, _vm._l((_vm.rowDistributionCredit_cost), function(cost) {
-    return _c('div', {
-      staticClass: "grid-x"
-    }, [_c('div', {
-      staticClass: "medium-4 table-contain-border cell-vertical-center"
-    }, [_vm._v("\n                                        " + _vm._s(cost.cdSubject) + "\n                                    ")]), _vm._v(" "), _c('div', {
-      staticClass: "medium-8 table-contain-border cell-vertical-center"
-    }, [_c('div', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(cost.cdSubject))]), _vm._v(" "), _c('td', [_c('div', {
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-11"
-    }, [_vm._v("\n                                                " + _vm._s(cost.cdDescription) + "\n                                            ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                                        " + _vm._s(cost.cdDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-1 cell-vertical-center text-left"
     }, [_c('a', {
       staticClass: "dropdown small sm-btn-align",
@@ -109321,12 +109572,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "type": "button",
         "data-toggle": 'rdcRowDistributionCredit_cost' + cost.id
       }
-    }, [_c('img', {
-      attrs: {
-        "width": "15px",
-        "height": "15px",
-        "src": "/IFAB_AdministratorSystem/public/pic/menu.svg"
-      }
+    }, [_c('i', {
+      staticClass: "fa fa-ellipsis-v size-18"
     })]), _vm._v(" "), _c('div', {
       staticClass: "dropdown-pane dropdown-pane-sm ",
       attrs: {
@@ -109360,7 +109607,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_c('i', {
       staticClass: "fi-trash size-16"
     }), _vm._v("  حذف")])])])])])])])])
-  })), _vm._v(" "), _c('div', {
+  }))])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "medium-12"
@@ -109374,10 +109621,10 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchCostData(_vm.cost_pagination.current_page)
       }
     }
-  })], 1)])])])])])]), _vm._v(" "), (_vm.showModal) ? _c('modal-tiny', {
+  })], 1)])])])])])]), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
-        _vm.showModal = false
+        _vm.showInsertModal = false
       }
     }
   }, [_c('div', {
@@ -109593,13 +109840,41 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "fi-magnifying-glass"
   })])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "grid-x table-header"
-  }, [_c('div', {
-    staticClass: "medium-4 table-border"
-  }, [_c('strong', [_vm._v("عنوان")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-8 table-border"
-  }, [_c('strong', [_vm._v("شرح")])])])
+  return _c('table', {
+    staticClass: "tbl-head"
+  }, [_c('colgroup', [_c('col', {
+    attrs: {
+      "width": "450px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "390px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "12px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style"
+  }, [_c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("عنوان")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شرح")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  })])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('colgroup', [_c('col', {
+    attrs: {
+      "width": "450px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "390px"
+    }
+  })])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
@@ -109674,15 +109949,41 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "fi-magnifying-glass"
   })])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "columns"
-  }, [_c('div', {
-    staticClass: "grid-x table-header"
-  }, [_c('div', {
-    staticClass: "medium-4 table-border"
-  }, [_c('strong', [_vm._v("عنوان")])]), _vm._v(" "), _c('div', {
-    staticClass: "medium-8 table-border"
-  }, [_c('strong', [_vm._v("شرح")])])])])
+  return _c('table', {
+    staticClass: "tbl-head"
+  }, [_c('colgroup', [_c('col', {
+    attrs: {
+      "width": "450px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "390px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "12px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style"
+  }, [_c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("عنوان")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شرح")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  })])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('colgroup', [_c('col', {
+    attrs: {
+      "width": "450px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "390px"
+    }
+  })])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
@@ -110284,10 +110585,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   return _c('div', {
     staticClass: "medium-10 border-right-line inner-body-pad main-margin"
   }, [_c('div', {
-    staticClass: "grid-x padding-lr breadcrumbs-pos",
-    staticStyle: {
-      "padding-top": "15px"
-    }
+    staticClass: "grid-x padding-lr breadcrumbs-pos"
   }, [_c('div', {
     staticClass: "medium-12"
   }, [_c('div', {
@@ -113003,6 +113301,81 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -113018,6 +113391,7 @@ if (false) {(function () {
             showApCsInsertModal: false,
             showModalUpdate: false,
             showModalDelete: false,
+            showModalReport: false,
             approvedProjectsFill: { apPlan: '', apProjectTitle: '', apProjectCode: '', apStartYear: '', apEndYear: '',
                 apHowToRun: '', apPhysicalProgress: '', aCity: '', apSubSeason: '',
                 apLocation: '', apDescription: '', apCredit: '' },
@@ -113402,7 +113776,7 @@ if (false) {(function () {
         },
 
         openPdfFile: function openPdfFile() {
-            axios.get('/budget/approved_plan/capital_assets/report', { params: { pOrN: this.provOrNat, options: this.reportOptions, selectedItems: this.selectedItems } }).then(function (response) {
+            axios.get('/budget/approved_project/capital_assets/report', { params: { pOrN: this.provOrNat, options: this.reportOptions, selectedItems: this.selectedItems } }).then(function (response) {
                 console.log(response.data);
                 window.open(response.data);
             }, function (error) {
@@ -113415,11 +113789,15 @@ if (false) {(function () {
                 return plan.checked;
             })) {
                 plans.forEach(function (plan) {
-                    return plan.checked = false;
+                    plan.capital_assets_project.forEach(function (project) {
+                        project.checked = false;
+                    });
                 });
             } else {
                 plans.forEach(function (plan) {
-                    return plan.checked = true;
+                    plan.capital_assets_project.forEach(function (project) {
+                        project.checked = true;
+                    });
                 });
             }
             console.log(JSON.stringify(this.approvedProjects_prov));
@@ -113435,7 +113813,9 @@ if (false) {(function () {
             var _this14 = this;
 
             plans.forEach(function (plan) {
-                _this14.$set(plan, 'checked', true);
+                plan.capital_assets_project.forEach(function (project) {
+                    _this14.$set(project, 'checked', true);
+                });
             });
         },
 
@@ -113728,11 +114108,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       attrs: {
         "rowspan": plans.capital_assets_project.length + (_vm.displayParentId_prov == plans.id ? 1 : 0)
       }
-    }, [_vm._v(" " + _vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' - ' + plans.credit_distribution_title.county.coName))]), _vm._v(" "), _c('td', {
-      staticClass: "text-center"
-    }, [_vm._v("\n                                                    " + _vm._s(plans.capital_assets_project[0].cpCode) + "\n                                                ")]), _vm._v(" "), _c('td', {
-      staticClass: "text-center"
-    }, [_vm._v("\n                                                    " + _vm._s(plans.capital_assets_project[0].cpSubject) + "\n                                                ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                    " + _vm._s(plans.capital_assets_project[0].county.coName) + "\n                                                ")]), _vm._v(" "), _c('td', [_c('span', {
+    }, [_vm._v(" " + _vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' - ' + plans.credit_distribution_title.county.coName))]), _vm._v(" "), _c('td', [_vm._v("\n                                                    " + _vm._s(plans.capital_assets_project[0].cpCode) + "\n                                                ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                    " + _vm._s(plans.capital_assets_project[0].cpSubject) + "\n                                                ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                    " + _vm._s(plans.capital_assets_project[0].county.coName) + "\n                                                ")]), _vm._v(" "), _c('td', [_c('span', {
       on: {
         "click": function($event) {
           _vm.openAccordion(0, plans.capital_assets_project[0].id, plans.id)
@@ -113742,7 +114118,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-11"
-    }, [_vm._v("\n                                                            " + _vm._s(plans.capDescription) + "\n                                                        ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                                            " + _vm._s(plans.capital_assets_project[0].capDescription) + "\n                                                        ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-1 cell-vertical-center text-left auto-margin"
     }, [_c('a', {
       staticClass: "dropdown small sm-btn-align",
@@ -113802,31 +114178,31 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: (plans.checked),
-        expression: "plans.checked"
+        value: (plans.capital_assets_project[0].checked),
+        expression: "plans.capital_assets_project[0].checked"
       }],
       staticClass: "auto-margin",
       attrs: {
         "type": "checkbox"
       },
       domProps: {
-        "checked": Array.isArray(plans.checked) ? _vm._i(plans.checked, null) > -1 : (plans.checked)
+        "checked": Array.isArray(plans.capital_assets_project[0].checked) ? _vm._i(plans.capital_assets_project[0].checked, null) > -1 : (plans.capital_assets_project[0].checked)
       },
       on: {
         "__c": function($event) {
-          var $$a = plans.checked,
+          var $$a = plans.capital_assets_project[0].checked,
             $$el = $event.target,
             $$c = $$el.checked ? (true) : (false);
           if (Array.isArray($$a)) {
             var $$v = null,
               $$i = _vm._i($$a, $$v);
             if ($$el.checked) {
-              $$i < 0 && (plans.checked = $$a.concat([$$v]))
+              $$i < 0 && (plans.capital_assets_project[0].checked = $$a.concat([$$v]))
             } else {
-              $$i > -1 && (plans.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+              $$i > -1 && (plans.capital_assets_project[0].checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
             }
           } else {
-            plans.checked = $$c
+            plans.capital_assets_project[0].checked = $$c
           }
         }
       }
@@ -113849,7 +114225,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       return [(pIndex > 0) ? _c('tr', [_c('td', [_vm._v("\n                                                        " + _vm._s(project.cpCode) + "\n                                                    ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                        " + _vm._s(project.cpSubject) + "\n                                                    ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                        " + _vm._s(project.county.coName) + "\n                                                    ")]), _vm._v(" "), _c('td', [_c('span', {
         on: {
           "click": function($event) {
-            _vm.displayCreditSourceInfo_prov == project.id ? _vm.displayCreditSourceInfo_prov = '' : _vm.displayCreditSourceInfo_prov = project.id
+            _vm.openAccordion(0, project.id, plans.id)
           }
         }
       }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(_vm.sumOfAmount(project.credit_source), false)))])]), _vm._v(" "), _c('td', [_c('div', {
@@ -113858,7 +114234,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         staticClass: "medium-11"
       }, [_vm._v("\n                                                                " + _vm._s(project.capDescription) + "\n                                                            ")]), _vm._v(" "), _c('div', {
         staticClass: "medium-1 cell-vertical-center text-left auto-margin"
-      }, [_c('div', {
+      }, [_c('a', {
+        staticClass: "dropdown small sm-btn-align",
+        attrs: {
+          "type": "button",
+          "data-toggle": 'approvedPlans' + plans.id + project.id
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-ellipsis-v size-18"
+      })]), _vm._v(" "), _c('div', {
         staticClass: "dropdown-pane dropdown-pane-sm auto-margin",
         attrs: {
           "data-close-on-click": "true",
@@ -113870,15 +114254,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           "data-dropdown": "",
           "data-auto-focus": "true"
         }
-      }, [_c('a', {
-        staticClass: "dropdown small sm-btn-align",
-        attrs: {
-          "type": "button",
-          "data-toggle": 'approvedPlans' + plans.id + project.id
-        }
-      }, [_c('i', {
-        staticClass: "fa fa-ellipsis-v size-18"
-      })]), _vm._v(" "), _c('ul', {
+      }, [_c('ul', {
         staticClass: "my-menu small-font text-right"
       }, [_c('li', [_c('a', {
         on: {
@@ -113916,35 +114292,35 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         directives: [{
           name: "model",
           rawName: "v-model",
-          value: (plans.checked),
-          expression: "plans.checked"
+          value: (project.checked),
+          expression: "project.checked"
         }],
         staticClass: "auto-margin",
         attrs: {
           "type": "checkbox"
         },
         domProps: {
-          "checked": Array.isArray(plans.checked) ? _vm._i(plans.checked, null) > -1 : (plans.checked)
+          "checked": Array.isArray(project.checked) ? _vm._i(project.checked, null) > -1 : (project.checked)
         },
         on: {
           "__c": function($event) {
-            var $$a = plans.checked,
+            var $$a = project.checked,
               $$el = $event.target,
               $$c = $$el.checked ? (true) : (false);
             if (Array.isArray($$a)) {
               var $$v = null,
                 $$i = _vm._i($$a, $$v);
               if ($$el.checked) {
-                $$i < 0 && (plans.checked = $$a.concat([$$v]))
+                $$i < 0 && (project.checked = $$a.concat([$$v]))
               } else {
-                $$i > -1 && (plans.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+                $$i > -1 && (project.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
               }
             } else {
-              plans.checked = $$c
+              project.checked = $$c
             }
           }
         }
-      })])]) : _vm._e(), _vm._v(" "), _c('tr', {
+      })])]) : _vm._e(), _vm._v(" "), (pIndex > 0) ? _c('tr', {
         directives: [{
           name: "show",
           rawName: "v-show",
@@ -113959,7 +114335,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         staticClass: "unstriped tbl-secondary-mrg small-font"
       }, [_vm._m(9, true), _vm._v(" "), _c('tbody', _vm._l((project.credit_source), function(creditSource) {
         return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.castSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.catsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.how_to_run.htrSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
-      }))])])])]
+      }))])])]) : _vm._e()]
     })]
   })], 2)])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
@@ -114050,7 +114426,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
     attrs: {
       "type": "button",
-      "data-toggle": "reportDropDown1"
+      "data-toggle": "reportDropDown2"
     }
   }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(10), _vm._v(" "), _vm._m(11), _vm._v(" "), _vm._m(12)]), _vm._v(" "), _vm._m(13)]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
@@ -114177,11 +114553,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       attrs: {
         "rowspan": plans.capital_assets_project.length + (_vm.displayParentId_nat == plans.id ? 1 : 0)
       }
-    }, [_vm._v("  " + _vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', {
-      staticClass: "text-center"
-    }, [_vm._v("\n                                                " + _vm._s(plans.capital_assets_project[0].cpCode) + "\n                                            ")]), _vm._v(" "), _c('td', {
-      staticClass: "text-center"
-    }, [_vm._v("\n                                                " + _vm._s(plans.capital_assets_project[0].cpSubject) + "\n                                            ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                " + _vm._s(plans.capital_assets_project[0].county.coName) + "\n                                            ")]), _vm._v(" "), _c('td', [_c('span', {
+    }, [_vm._v("  " + _vm._s(plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', [_vm._v("\n                                                " + _vm._s(plans.capital_assets_project[0].cpCode) + "\n                                            ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                " + _vm._s(plans.capital_assets_project[0].cpSubject) + "\n                                            ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                " + _vm._s(plans.capital_assets_project[0].county.coName) + "\n                                            ")]), _vm._v(" "), _c('td', [_c('span', {
       on: {
         "click": function($event) {
           _vm.openAccordion(1, plans.capital_assets_project[0].id, plans.id)
@@ -114191,7 +114563,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "grid-x"
     }, [_c('div', {
       staticClass: "medium-11"
-    }, [_vm._v("\n                                                        " + _vm._s(plans.capDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n                                                        " + _vm._s(plans.capital_assets_project[0].capDescription) + "\n                                                    ")]), _vm._v(" "), _c('div', {
       staticClass: "medium-1 cell-vertical-center text-left auto-margin"
     }, [_c('a', {
       staticClass: "dropdown small sm-btn-align",
@@ -114307,7 +114679,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         staticClass: "medium-11"
       }, [_vm._v("\n                                                            " + _vm._s(project.capDescription) + "\n                                                        ")]), _vm._v(" "), _c('div', {
         staticClass: "medium-1 cell-vertical-center text-left auto-margin"
-      }, [_c('div', {
+      }, [_c('a', {
+        staticClass: "dropdown small sm-btn-align",
+        attrs: {
+          "type": "button",
+          "data-toggle": 'approvedPlans' + plans.id + project.id
+        }
+      }, [_c('i', {
+        staticClass: "fa fa-ellipsis-v size-18"
+      })]), _vm._v(" "), _c('div', {
         staticClass: "dropdown-pane dropdown-pane-sm auto-margin",
         attrs: {
           "data-close-on-click": "true",
@@ -114319,15 +114699,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           "data-dropdown": "",
           "data-auto-focus": "true"
         }
-      }, [_c('a', {
-        staticClass: "dropdown small sm-btn-align",
-        attrs: {
-          "type": "button",
-          "data-toggle": 'approvedPlans' + plans.id + project.id
-        }
-      }, [_c('i', {
-        staticClass: "fa fa-ellipsis-v size-18"
-      })]), _vm._v(" "), _c('ul', {
+      }, [_c('ul', {
         staticClass: "my-menu small-font text-right"
       }, [_c('li', [_c('a', {
         on: {
@@ -114365,31 +114737,31 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         directives: [{
           name: "model",
           rawName: "v-model",
-          value: (plans.checked),
-          expression: "plans.checked"
+          value: (project.checked),
+          expression: "project.checked"
         }],
         staticClass: "auto-margin",
         attrs: {
           "type": "checkbox"
         },
         domProps: {
-          "checked": Array.isArray(plans.checked) ? _vm._i(plans.checked, null) > -1 : (plans.checked)
+          "checked": Array.isArray(project.checked) ? _vm._i(project.checked, null) > -1 : (project.checked)
         },
         on: {
           "__c": function($event) {
-            var $$a = plans.checked,
+            var $$a = project.checked,
               $$el = $event.target,
               $$c = $$el.checked ? (true) : (false);
             if (Array.isArray($$a)) {
               var $$v = null,
                 $$i = _vm._i($$a, $$v);
               if ($$el.checked) {
-                $$i < 0 && (plans.checked = $$a.concat([$$v]))
+                $$i < 0 && (project.checked = $$a.concat([$$v]))
               } else {
-                $$i > -1 && (plans.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+                $$i > -1 && (project.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
               }
             } else {
-              plans.checked = $$c
+              project.checked = $$c
             }
           }
         }
@@ -115566,7 +115938,290 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
-  }, [_vm._v("ثبت")])])])])])]) : _vm._e()], 1)
+  }, [_vm._v("ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showModalReport) ? _c('modal-tiny', {
+    on: {
+      "close": function($event) {
+        _vm.showModalReport = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('div', {
+    staticClass: "small-font"
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.openPdfFile($event)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "grid-x padding-lr"
+  }, [_c('div', {
+    staticClass: "medium-12"
+  }, [_c('label', [_vm._v("عنوان\n                                    "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.reportOptions.title),
+      expression: "reportOptions.title"
+    }],
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.reportOptions.title)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.reportOptions.title = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x padding-lr",
+    staticStyle: {
+      "margin-top": "10px"
+    }
+  }, [_c('div', {
+    staticClass: "medium-2"
+  }, [_c('div', {
+    staticClass: "switch tiny"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.reportOptions.withReporterName),
+      expression: "reportOptions.withReporterName"
+    }],
+    staticClass: "switch-input",
+    attrs: {
+      "checked": "true",
+      "id": "yes-no-1",
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.reportOptions.withReporterName) ? _vm._i(_vm.reportOptions.withReporterName, null) > -1 : (_vm.reportOptions.withReporterName)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.reportOptions.withReporterName,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.reportOptions.withReporterName = $$a.concat([$$v]))
+          } else {
+            $$i > -1 && (_vm.reportOptions.withReporterName = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.reportOptions.withReporterName = $$c
+        }
+      }
+    }
+  }), _vm._v(" "), _c('label', {
+    staticClass: "switch-paddle",
+    attrs: {
+      "for": "yes-no-1"
+    }
+  }, [_c('span', {
+    staticClass: "switch-active",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("بلی")]), _vm._v(" "), _c('span', {
+    staticClass: "switch-inactive",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("خیر")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-10"
+  }, [_c('p', [_vm._v("درج نام کاربر تهیه کننده گزارش")])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x padding-lr"
+  }, [_c('div', {
+    staticClass: "medium-2"
+  }, [_c('div', {
+    staticClass: "switch tiny"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.reportOptions.withFiscalYear),
+      expression: "reportOptions.withFiscalYear"
+    }],
+    staticClass: "switch-input",
+    attrs: {
+      "checked": "true",
+      "id": "yes-no-2",
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.reportOptions.withFiscalYear) ? _vm._i(_vm.reportOptions.withFiscalYear, null) > -1 : (_vm.reportOptions.withFiscalYear)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.reportOptions.withFiscalYear,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.reportOptions.withFiscalYear = $$a.concat([$$v]))
+          } else {
+            $$i > -1 && (_vm.reportOptions.withFiscalYear = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.reportOptions.withFiscalYear = $$c
+        }
+      }
+    }
+  }), _vm._v(" "), _c('label', {
+    staticClass: "switch-paddle",
+    attrs: {
+      "for": "yes-no-2"
+    }
+  }, [_c('span', {
+    staticClass: "switch-active",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("بلی")]), _vm._v(" "), _c('span', {
+    staticClass: "switch-inactive",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("خیر")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-10"
+  }, [_c('p', [_vm._v("درج سال مالی")])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x padding-lr"
+  }, [_c('div', {
+    staticClass: "medium-2"
+  }, [_c('div', {
+    staticClass: "switch tiny"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.reportOptions.withReportDate),
+      expression: "reportOptions.withReportDate"
+    }],
+    staticClass: "switch-input",
+    attrs: {
+      "checked": "true",
+      "id": "yes-no3",
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.reportOptions.withReportDate) ? _vm._i(_vm.reportOptions.withReportDate, null) > -1 : (_vm.reportOptions.withReportDate)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.reportOptions.withReportDate,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.reportOptions.withReportDate = $$a.concat([$$v]))
+          } else {
+            $$i > -1 && (_vm.reportOptions.withReportDate = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.reportOptions.withReportDate = $$c
+        }
+      }
+    }
+  }), _vm._v(" "), _c('label', {
+    staticClass: "switch-paddle",
+    attrs: {
+      "for": "yes-no3"
+    }
+  }, [_c('span', {
+    staticClass: "switch-active",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("بلی")]), _vm._v(" "), _c('span', {
+    staticClass: "switch-inactive",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("خیر")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-10"
+  }, [_c('p', [_vm._v("درج تاریخ گزارش")])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x padding-lr"
+  }, [_c('div', {
+    staticClass: "medium-2"
+  }, [_c('div', {
+    staticClass: "switch tiny"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.reportOptions.orientation),
+      expression: "reportOptions.orientation"
+    }],
+    staticClass: "switch-input",
+    attrs: {
+      "checked": "true",
+      "id": "yes-no4",
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.reportOptions.orientation) ? _vm._i(_vm.reportOptions.orientation, null) > -1 : (_vm.reportOptions.orientation)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.reportOptions.orientation,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.reportOptions.orientation = $$a.concat([$$v]))
+          } else {
+            $$i > -1 && (_vm.reportOptions.orientation = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.reportOptions.orientation = $$c
+        }
+      }
+    }
+  }), _vm._v(" "), _c('label', {
+    staticClass: "switch-paddle",
+    attrs: {
+      "for": "yes-no4"
+    }
+  }, [_c('span', {
+    staticClass: "switch-active",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("افقی")]), _vm._v(" "), _c('span', {
+    staticClass: "switch-inactive",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("عمودی")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-10"
+  }, [_c('p', [_vm._v("جهت کاغذ")])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-12 columns padding-lr padding-bottom-modal input-margin-top"
+  }, [_c('button', {
+    staticClass: "my-button my-success float-left btn-for-load",
+    attrs: {
+      "name": "Submit"
+    }
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("مشاهده")])])])])])])]) : _vm._e()], 1)
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', [_c('a', {
@@ -115713,7 +116368,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "data-hover-pane": "true",
       "data-position": "bottom",
       "data-alignment": "left",
-      "id": "reportDropDown1",
+      "id": "reportDropDown2",
       "data-dropdown": "",
       "data-auto-focus": "true"
     }
@@ -115893,6 +116548,12 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_component_pagination_vue__ = __webpack_require__(7);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -119266,17 +119927,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": _vm.openInsertProjectModal
     }
-  }, [_vm._v("پروژه جدید")]), _vm._v(" "), _c('a', {
-    staticClass: "medium-1 my-button toolbox-btn small",
-    on: {
-      "click": _vm.cancelApprovedAmendmentTemp
-    }
-  }, [_vm._v("لغو")]), _vm._v(" "), _c('a', {
-    staticClass: "medium-1 my-button toolbox-btn small",
-    on: {
-      "click": _vm.acceptApprovedAmendment
-    }
-  }, [_vm._v("تایید")])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("پروژه جدید")])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "tbl-div-container"
@@ -119494,7 +120145,27 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         staticClass: "fa fa-newspaper-o size-16"
       }), _vm._v("  اصلاح")])])])])])])])])
     }))])])])]
-  })], 2)])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showInsertModalProject) ? _c('modal-small', {
+  })], 2)])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 columns padding-bottom-modal"
+  }, [_c('div', {
+    staticClass: "button-group float-left report-mrg"
+  }, [_c('a', {
+    staticClass: "my-button my-danger float-left btn-for-load",
+    on: {
+      "click": _vm.cancelApprovedAmendmentTemp
+    }
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("لغو")])]), _vm._v(" "), _c('a', {
+    staticClass: "my-button my-success float-left btn-for-load",
+    on: {
+      "click": _vm.acceptApprovedAmendment
+    }
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("تایید")])])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showInsertModalProject) ? _c('modal-small', {
     on: {
       "close": function($event) {
         _vm.showInsertModalProject = false
@@ -127534,6 +128205,125 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -127542,13 +128332,17 @@ if (false) {(function () {
             errorMessage: '',
             errorMessage_update: '',
             provCapitalAssetsAllocations: [],
+            provCapitalAssetsFounds: [],
             natCapitalAssetsAllocations: [],
             AllocationInput: {},
+            foundInput: {},
             provOrNat: '',
             showModal: false,
+            showInsertFoundModal: false,
             showModalUpdate: false,
             showModalDelete: false,
             selectColumn: false,
+            dateIsValid_found: true,
             registerOfCreditAllocationAssetsFill: { rocaPlan: '', rocaaProject: '', rocaaRow: '', roccaCost: '', rocaaNumber: '', rocaaDate: '' },
             creditSourceInfo: {},
             rocaaIdDelete: {},
@@ -127577,7 +128371,8 @@ if (false) {(function () {
     created: function created() {
         this.fetchProvincialData();
         this.fetchNationalData();
-        this.getAllApprovedPlan(0); // 0 = provincial
+        this.fetchProvincialFoundData();
+        //this.getAllApprovedPlan(0); // 0 = provincial
     },
 
     updated: function updated() {
@@ -127608,14 +128403,25 @@ if (false) {(function () {
             });
         },
 
-        fetchNationalData: function fetchNationalData() {
+        fetchProvincialFoundData: function fetchProvincialFoundData() {
             var _this2 = this;
+
+            axios.get('/budget/allocation/capital_assets/found/fetchData').then(function (response) {
+                _this2.provCapitalAssetsFounds = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        fetchNationalData: function fetchNationalData() {
+            var _this3 = this;
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             axios.get('/budget/allocation/capital_assets/fetchData?page=' + page, { params: { pOrN: 1 } }).then(function (response) {
-                _this2.natCapitalAssetsAllocations = response.data.data;
-                _this2.makePagination(response.data, "national");
+                _this3.natCapitalAssetsAllocations = response.data.data;
+                _this3.makePagination(response.data, "national");
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -127623,10 +128429,10 @@ if (false) {(function () {
         },
 
         getAllApprovedPlan: function getAllApprovedPlan(pOrN) {
-            var _this3 = this;
+            var _this4 = this;
 
             axios.get('/budget/approved_plan/capital_assets/getAllItems', { params: { pOrN: pOrN } }).then(function (response) {
-                _this3.approvedPlans = response.data;
+                _this4.approvedPlans = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -127634,10 +128440,10 @@ if (false) {(function () {
         },
 
         getProjects: function getProjects() {
-            var _this4 = this;
+            var _this5 = this;
 
             axios.get('/budget/approved_project/capital_assets/getAllItems', { params: { pId: this.selectedPlan, planOrCost: 0 } }).then(function (response) {
-                _this4.approvedProjects = response.data;
+                _this5.approvedProjects = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -127645,10 +128451,10 @@ if (false) {(function () {
         },
 
         getProjectsCreditSource: function getProjectsCreditSource() {
-            var _this5 = this;
+            var _this6 = this;
 
             axios.get('/budget/approved_project/capital_assets/credit_source/getAllItem', { params: { pId: this.selectedProject } }).then(function (response) {
-                _this5.projectCreditSources = response.data;
+                _this6.projectCreditSources = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -127656,10 +128462,10 @@ if (false) {(function () {
         },
 
         displayCreditResourceInfo: function displayCreditResourceInfo() {
-            var _this6 = this;
+            var _this7 = this;
 
             axios.get('/budget/allocation/capital_assets/getCapitalAssetsCreditSourceInfo', { params: { pcsId: this.AllocationInput.pcsId } }).then(function (response) {
-                _this6.creditSourceInfo = response.data;
+                _this7.creditSourceInfo = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -127702,31 +128508,31 @@ if (false) {(function () {
         },
 
         createCapitalAssetsAllocation: function createCapitalAssetsAllocation() {
-            var _this7 = this;
+            var _this8 = this;
 
             this.$validator.validateAll().then(function (result) {
                 if (result) {
                     axios.post('/budget/allocation/capital_assets/register', {
-                        idNumber: _this7.AllocationInput.idNumber,
-                        date: _this7.AllocationInput.date,
-                        pcsId: _this7.AllocationInput.pcsId,
-                        amount: _this7.AllocationInput.amount,
-                        description: _this7.AllocationInput.description,
-                        pOrN: _this7.provOrNat
+                        idNumber: _this8.AllocationInput.idNumber,
+                        date: _this8.AllocationInput.date,
+                        pcsId: _this8.AllocationInput.pcsId,
+                        amount: _this8.AllocationInput.amount,
+                        description: _this8.AllocationInput.description,
+                        pOrN: _this8.provOrNat
                     }).then(function (response) {
-                        if (_this7.provOrNat == 0) {
-                            _this7.provCapitalAssetsAllocations = response.data.data;
-                            _this7.makePagination(response.data, "provincial");
+                        if (_this8.provOrNat == 0) {
+                            _this8.provCapitalAssetsAllocations = response.data.data;
+                            _this8.makePagination(response.data, "provincial");
                         } else {
-                            _this7.natCapitalAssetsAllocations = response.data.data;
-                            _this7.makePagination(response.data, "national");
+                            _this8.natCapitalAssetsAllocations = response.data.data;
+                            _this8.makePagination(response.data, "national");
                         }
-                        _this7.showModal = false;
-                        _this7.$parent.displayNotif(response.status);
+                        _this8.showModal = false;
+                        _this8.$parent.displayNotif(response.status);
                         console.log(response);
                     }, function (error) {
                         console.log(error);
-                        _this7.errorMessage = 'تخصیص با این مشخصات قبلا ثبت شده است!';
+                        _this8.errorMessage = 'تخصیص با این مشخصات قبلا ثبت شده است!';
                     });
                 }
             });
@@ -127782,6 +128588,35 @@ if (false) {(function () {
                     this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                 });*/
         },
+
+        openInsertFoundModal: function openInsertFoundModal() {
+            this.showInsertFoundModal = true;
+        },
+
+        createProvincialFound: function createProvincialFound() {
+            var _this9 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    if (_this9.checkValidDate()) {
+                        axios.post('/budget/allocation/capital_assets/found/register', {
+                            date: _this9.foundInput.date,
+                            amount: _this9.foundInput.amount,
+                            description: _this9.foundInput.description,
+                            pOrN: 0
+                        }).then(function (response) {
+                            _this9.provCapitalAssetsFounds = response.data;
+                            _this9.showInsertFoundModal = false;
+                            _this9.$parent.displayNotif(response.status);
+                            console.log(response);
+                        }, function (error) {
+                            console.log(error);
+                        });
+                    }
+                }
+            });
+        },
+
         showSelectColumn: function showSelectColumn() {
             if (this.selectColumn) {
                 this.selectColumn = false;
@@ -127789,6 +128624,7 @@ if (false) {(function () {
                 this.selectColumn = true;
             }
         },
+
         makePagination: function makePagination(data, type) {
             if (type == "national") {
                 this.national_pagination.current_page = data.current_page;
@@ -127798,6 +128634,16 @@ if (false) {(function () {
                 this.provincial_pagination.current_page = data.current_page;
                 this.provincial_pagination.to = data.to;
                 this.provincial_pagination.last_page = data.last_page;
+            }
+        },
+
+        checkValidDate: function checkValidDate() {
+            if (this.foundInput.date == null || this.foundInput.date == '') {
+                this.dateIsValid_found = false;
+                return false;
+            } else {
+                this.dateIsValid_found = true;
+                return true;
             }
         }
     }
@@ -127969,7 +128815,6 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "tbl-head-style-checkbox"
   }, [_c('input', {
     attrs: {
-      "id": "checkboxColumn",
       "type": "checkbox"
     }
   })]), _vm._v(" "), _c('th', {
@@ -128289,7 +129134,6 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "tbl-head-style-checkbox"
   }, [_c('input', {
     attrs: {
-      "id": "checkboxColumn",
       "type": "checkbox"
     }
   })]), _vm._v(" "), _c('th', {
@@ -128477,7 +129321,197 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchNationalData(_vm.national_pagination.current_page)
       }
     }
-  })], 1)])])])]), _vm._v(" "), (_vm.showModal) ? _c('modal-small', {
+  })], 1)])])]), _vm._v(" "), _c('div', {
+    staticClass: "tabs-panel table-mrg-btm",
+    attrs: {
+      "id": "provincialFound",
+      "xmlns:v-on": "http://www.w3.org/1999/xhtml"
+    }
+  }, [_c('div', {
+    staticClass: "medium-12 bottom-mrg"
+  }, [_c('div', {
+    staticClass: "clearfix border-btm-line bottom-mrg tool-bar"
+  }, [_c('div', {
+    staticClass: "button-group float-right",
+    staticStyle: {
+      "margin-top": "2px"
+    }
+  }, [_c('a', {
+    staticClass: "my-button toolbox-btn small",
+    on: {
+      "click": _vm.openInsertFoundModal
+    }
+  }, [_vm._v("جدید")]), _vm._v(" "), (!_vm.selectColumn) ? _c('div', {
+    staticClass: "input-group-button toggle-icon-change"
+  }, [_c('button', {
+    staticClass: "my-button my-icon-brand tiny",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.showSelectColumn
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-check-square-o size-14",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  })])]) : _vm._e(), _vm._v(" "), (_vm.selectColumn) ? _c('div', {
+    staticClass: "input-group-button toggle-icon-change"
+  }, [_c('button', {
+    staticClass: "my-button my-icon-danger tiny",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.showSelectColumn
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-times size-14",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  })])]) : _vm._e(), _vm._v(" "), _c('button', {
+    staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
+    attrs: {
+      "type": "button",
+      "data-toggle": "reportDropDown1"
+    }
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(12)])]), _vm._v(" "), _c('div', {
+    staticClass: "tbl-div-container"
+  }, [_c('table', {
+    staticClass: "tbl-head"
+  }, [_c('colgroup', [_c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "600px"
+    }
+  }), _vm._v(" "), _c('col', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.selectColumn),
+      expression: "selectColumn"
+    }],
+    attrs: {
+      "width": "15px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "12px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style"
+  }, [_c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("تاریخ")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("مبلغ")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شرح")]), _vm._v(" "), _c('th', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.selectColumn),
+      expression: "selectColumn"
+    }],
+    staticClass: "tbl-head-style-checkbox"
+  }, [_c('input', {
+    attrs: {
+      "type": "checkbox"
+    }
+  })]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "tbl_body_style dynamic-height-level2"
+  }, [_c('table', {
+    staticClass: "tbl-body-contain"
+  }, [_c('colgroup', [_c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "600px"
+    }
+  }), _vm._v(" "), _c('col', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.selectColumn),
+      expression: "selectColumn"
+    }],
+    attrs: {
+      "width": "15px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style-cell"
+  }, _vm._l((_vm.provCapitalAssetsFounds), function(found) {
+    return _c('tr', {
+      staticClass: "tbl-head-style-cell"
+    }, [_c('td', {
+      staticClass: "text-center"
+    }, [_vm._v(_vm._s(found.caaLetterDate))]), _vm._v(" "), _c('td', {
+      staticClass: "text-center"
+    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(found.caaAmount, false)))]), _vm._v(" "), _c('td', [_c('div', {
+      staticClass: "grid-x"
+    }, [_c('div', {
+      staticClass: "medium-11"
+    }, [_vm._v("\n                                                            " + _vm._s(found.caaDescription) + "\n                                                        ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-1 cell-vertical-center text-left"
+    }, [_c('a', {
+      staticClass: "dropdown small sm-btn-align",
+      attrs: {
+        "data-toggle": 'capitalAssetsFound' + found.id,
+        "type": "button"
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-ellipsis-v size-18"
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "dropdown-pane dropdown-pane-sm ",
+      attrs: {
+        "data-close-on-click": "true",
+        "data-hover": "true",
+        "data-hover-pane": "true",
+        "data-position": "bottom",
+        "data-alignment": "right",
+        "id": 'capitalAssetsFound' + found.id,
+        "data-dropdown": "",
+        "data-auto-focus": "true"
+      }
+    }, [_c('ul', {
+      staticClass: "my-menu small-font text-right"
+    }, [_c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-newspaper-o size-16"
+    }), _vm._v("  ویراش")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-trash-o size-16"
+    }), _vm._v("  حذف")])])])])])])])])
+  }))])])])])])]), _vm._v(" "), (_vm.showModal) ? _c('modal-small', {
     attrs: {
       "xmlns:v-on": "http://www.w3.org/1999/xhtml"
     },
@@ -128740,7 +129774,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       expression: "errors.has('creditCost')"
     }],
     staticClass: "error-font"
-  }, [_vm._v("لطفا مبلغ تخصیص انتخاب کنید!")])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("لطفا مبلغ تخصیص را وارد کنید!")])])]), _vm._v(" "), _c('div', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -128795,6 +129829,136 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
+  }, [_vm._v("ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showInsertFoundModal) ? _c('modal-tiny', {
+    attrs: {
+      "xmlns:v-on": "http://www.w3.org/1999/xhtml"
+    },
+    on: {
+      "close": function($event) {
+        _vm.showInsertFoundModal = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.createProvincialFound($event)
+      }
+    }
+  }, [(_vm.errorMessage) ? _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 columns padding-lr"
+  }, [_c('div', {
+    staticClass: "alert callout"
+  }, [_c('p', {
+    staticClass: "BYekan login-alert"
+  }, [_c('i', {
+    staticClass: "fi-alert"
+  }), _vm._v(_vm._s(_vm.errorMessage))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-6 padding-lr"
+  }, [_c('p', {
+    staticClass: "date-picker-lbl"
+  }, [_vm._v("تاریخ\n                                        "), _c('pdatepicker', {
+    attrs: {
+      "errMessage": "تاریخ دریافت تنخواه فراموش شده است!",
+      "isValid": _vm.dateIsValid_found,
+      "open-transition-animation": "left-slide-fade"
+    },
+    on: {
+      "closed": _vm.checkValidDate
+    },
+    model: {
+      value: (_vm.foundInput.date),
+      callback: function($$v) {
+        _vm.foundInput.date = $$v
+      },
+      expression: "foundInput.date"
+    }
+  })], 1)])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 cell padding-lr"
+  }, [_c('label', [_vm._v("مبلغ تنخواه "), _c('span', {
+    staticClass: "btn-red"
+  }, [_vm._v("(میلیون ریال)")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.foundInput.amount),
+      expression: "foundInput.amount"
+    }, {
+      name: "validate",
+      rawName: "v-validate"
+    }],
+    staticClass: "form-element-margin-btm",
+    class: {
+      'input': true, 'select-error': _vm.errors.has('foundAmount')
+    },
+    attrs: {
+      "type": "text",
+      "name": "foundAmount",
+      "data-vv-rules": "required"
+    },
+    domProps: {
+      "value": (_vm.foundInput.amount)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.foundInput.amount = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('foundAmount')),
+      expression: "errors.has('foundAmount')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("لطفا مبلغ تنخواه را وارد کنید!")])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "small-12 columns padding-lr"
+  }, [_c('label', [_vm._v("شرح\n                                        "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.foundInput.description),
+      expression: "foundInput.description"
+    }],
+    staticStyle: {
+      "min-height": "150px"
+    },
+    attrs: {
+      "name": "csDescription"
+    },
+    domProps: {
+      "value": (_vm.foundInput.description)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.foundInput.description = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 columns padding-lr padding-bottom-modal"
+  }, [_c('button', {
+    staticClass: "my-button my-success float-left btn-for-load",
+    attrs: {
+      "name": "Submit"
+    }
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
   }, [_vm._v("ثبت")])])])])])]) : _vm._e()], 1)])])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -128829,7 +129993,13 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     attrs: {
       "href": "#provincial"
     }
-  }, [_vm._v("ملی")])])])
+  }, [_vm._v("ملی")])]), _vm._v(" "), _c('li', {
+    staticClass: "tabs-title"
+  }, [_c('a', {
+    attrs: {
+      "href": "#provincialFound"
+    }
+  }, [_vm._v("تنخواه - استانی")])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "dropdown-pane dropdown-pane-sm ",
@@ -129050,6 +130220,43 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }, [_c('i', {
     staticClass: "fi-magnifying-glass"
   })])])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "dropdown-pane dropdown-pane-sm ",
+    staticStyle: {
+      "width": "113px"
+    },
+    attrs: {
+      "data-close-on-click": "true",
+      "data-hover": "true",
+      "data-hover-pane": "true",
+      "data-position": "bottom",
+      "data-alignment": "left",
+      "id": "reportDropDown1",
+      "data-dropdown": "",
+      "data-auto-focus": "true"
+    }
+  }, [_c('ul', {
+    staticClass: "my-menu small-font ltr-dir"
+  }, [_c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-file-pdf-o icon-margin-dropdown",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v("PDF")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-file-excel-o icon-margin-dropdown",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v("Excel")])])])])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }

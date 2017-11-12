@@ -26,6 +26,7 @@
                 <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="Register_of_credit_allocation_assets_tab_view">
                     <li class="tabs-title is-active"><a href="#national" aria-selected="true">استانی</a></li>
                     <li class="tabs-title"><a href="#provincial">ملی</a></li>
+                    <li class="tabs-title"><a href="#provincialFound">تنخواه - استانی</a></li>
                 </ul>
                 <div class="tabs-content" data-tabs-content="Register_of_credit_allocation_assets_tab_view">
                     <!--Tab 1-->
@@ -91,7 +92,7 @@
                                         <th class="tbl-head-style-cell">شماره</th>
                                         <th class="tbl-head-style-cell">تاریخ</th>
                                         <th class="tbl-head-style-cell">مبلغ</th>
-                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input id="checkboxColumn" type="checkbox"></th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox"></th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
@@ -345,7 +346,7 @@
                                         <th class="tbl-head-style-cell">شماره</th>
                                         <th class="tbl-head-style-cell">تاریخ</th>
                                         <th class="tbl-head-style-cell">مبلغ</th>
-                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input id="checkboxColumn" type="checkbox"></th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox"></th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
@@ -435,6 +436,83 @@
                         </div>
                     </div>
                     <!--Tab 2-->
+                    <!--Tab 3-->
+                    <div class="tabs-panel table-mrg-btm" id="provincialFound" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                        <div class="medium-12 bottom-mrg">
+                            <div class="clearfix border-btm-line bottom-mrg tool-bar">
+                                <div style="margin-top: 2px;" class="button-group float-right">
+                                    <a class="my-button toolbox-btn small" @click="openInsertFoundModal">جدید</a>
+                                    <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
+                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
+                                    </div>
+                                    <div v-if="selectColumn" class="input-group-button toggle-icon-change">
+                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
+                                    </div>
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
+                                        <ul class="my-menu small-font ltr-dir">
+                                            <li><a  href="#"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Table Start-->
+                            <div class="tbl-div-container">
+                                <table class="tbl-head">
+                                    <colgroup>
+                                        <col width="150px"/>
+                                        <col width="150px"/>
+                                        <col width="600px"/>
+                                        <col v-show="selectColumn" width="15px"/>
+                                        <col width="12px"/>
+                                    </colgroup>
+                                    <tbody class="tbl-head-style">
+                                    <tr class="tbl-head-style-cell">
+                                        <th class="tbl-head-style-cell">تاریخ</th>
+                                        <th class="tbl-head-style-cell">مبلغ</th>
+                                        <th class="tbl-head-style-cell">شرح</th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox"></th>
+                                        <th class="tbl-head-style-cell"></th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="tbl_body_style dynamic-height-level2">
+                                    <table class="tbl-body-contain">
+                                        <colgroup>
+                                            <col width="150px"/>
+                                            <col width="150px"/>
+                                            <col width="600px"/>
+                                            <col v-show="selectColumn" width="15px"/>
+                                        </colgroup>
+                                        <tbody class="tbl-head-style-cell">
+                                            <tr class="tbl-head-style-cell" v-for="found in provCapitalAssetsFounds">
+                                                <td class="text-center">{{ found.caaLetterDate }}</td>
+                                                <td class="text-center">{{ $parent.calcDispAmount(found.caaAmount , false) }}</td>
+                                                <td>
+                                                    <div class="grid-x">
+                                                        <div class="medium-11">
+                                                            {{ found.caaDescription }}
+                                                        </div>
+                                                        <div class="medium-1 cell-vertical-center text-left">
+                                                            <a class="dropdown small sm-btn-align" :data-toggle="'capitalAssetsFound' + found.id"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'capitalAssetsFound' + found.id" data-dropdown data-auto-focus="true">
+                                                                <ul class="my-menu small-font text-right">
+                                                                    <li><a v-on:click.prevent=""><i class="fa fa-newspaper-o size-16"></i>  ویراش</a></li>
+                                                                    <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Tab 3-->
                 </div>
                 <!--Forms Start-->
                 <!--Insert Modal Start-->
@@ -495,7 +573,7 @@
                                     <label>مبلغ تخصیص <span class="btn-red">(میلیون ریال)</span>
                                         <input class="form-element-margin-btm" type="text"  v-model="AllocationInput.amount" name="creditCost" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('creditCost')}"/>
                                     </label>
-                                    <span v-show="errors.has('creditCost')" class="error-font">لطفا مبلغ تخصیص انتخاب کنید!</span>
+                                    <span v-show="errors.has('creditCost')" class="error-font">لطفا مبلغ تخصیص را وارد کنید!</span>
                                 </div>
                             </div>
                             <div class="grid-x my-callout-bg-color" v-show="creditSourceInfo.approvedAmount">
@@ -628,7 +706,48 @@
                     </div>
                 </modal-tiny>-->
                 <!-- Delete Modal End-->
+                <!--Insert found Modal Start-->
+                <modal-tiny v-if="showInsertFoundModal" @close="showInsertFoundModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <div  slot="body">
+                        <form v-on:submit.prevent="createProvincialFound">
+                            <div class="grid-x" v-if="errorMessage">
+                                <div class="medium-12 columns padding-lr">
+                                    <div class="alert callout">
+                                        <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-6 padding-lr">
+                                    <p class="date-picker-lbl">تاریخ
+                                        <pdatepicker v-model="foundInput.date" v-on:closed="checkValidDate" errMessage="تاریخ دریافت تنخواه فراموش شده است!" :isValid="dateIsValid_found"  open-transition-animation="left-slide-fade"></pdatepicker>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-12 cell padding-lr">
+                                    <label>مبلغ تنخواه <span class="btn-red">(میلیون ریال)</span>
+                                        <input class="form-element-margin-btm" type="text"  v-model="foundInput.amount" name="foundAmount" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('foundAmount')}"/>
+                                    </label>
+                                    <span v-show="errors.has('foundAmount')" class="error-font">لطفا مبلغ تنخواه را وارد کنید!</span>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="small-12 columns padding-lr">
+                                    <label>شرح
+                                        <textarea name="csDescription" style="min-height: 150px;" v-model="foundInput.description"></textarea>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="medium-6 columns padding-lr padding-bottom-modal">
+                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                            </div>
+                        </form>
+                    </div>
+                </modal-tiny>
+                <!--Insert found Modal End-->
                 <!--Forms End-->
+
             </div>
         </div>
     </div>
@@ -641,13 +760,17 @@
                 errorMessage: '',
                 errorMessage_update: '',
                 provCapitalAssetsAllocations: [],
+                provCapitalAssetsFounds: [],
                 natCapitalAssetsAllocations: [],
                 AllocationInput: {},
+                foundInput: {},
                 provOrNat: '',
                 showModal: false,
+                showInsertFoundModal: false,
                 showModalUpdate: false,
                 showModalDelete: false,
                 selectColumn:false,
+                dateIsValid_found: true,
                 registerOfCreditAllocationAssetsFill: {rocaPlan: '' ,rocaaProject:'',rocaaRow:'',roccaCost:'',rocaaNumber:'',rocaaDate:''},
                 creditSourceInfo: {},
                 rocaaIdDelete: {},
@@ -675,7 +798,8 @@
         created: function () {
             this.fetchProvincialData();
             this.fetchNationalData();
-            this.getAllApprovedPlan(0); // 0 = provincial
+            this.fetchProvincialFoundData();
+            //this.getAllApprovedPlan(0); // 0 = provincial
         },
 
         updated: function () {
@@ -697,6 +821,16 @@
                     .then((response) => {
                         this.provCapitalAssetsAllocations = response.data.data;
                         this.makePagination(response.data , "provincial");
+                        console.log(response);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            fetchProvincialFoundData: function () {
+                axios.get('/budget/allocation/capital_assets/found/fetchData')
+                    .then((response) => {
+                        this.provCapitalAssetsFounds = response.data;
                         console.log(response);
                     },(error) => {
                         console.log(error);
@@ -874,6 +1008,34 @@
                         this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                     });*/
             },
+
+            openInsertFoundModal:function () {
+                this.showInsertFoundModal = true;
+            },
+
+            createProvincialFound: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        if (this.checkValidDate()) {
+                            axios.post('/budget/allocation/capital_assets/found/register' , {
+                                date: this.foundInput.date,
+                                amount: this.foundInput.amount,
+                                description: this.foundInput.description,
+                                pOrN: 0
+                            })
+                                .then((response) => {
+                                    this.provCapitalAssetsFounds = response.data;
+                                    this.showInsertFoundModal = false;
+                                    this.$parent.displayNotif(response.status);
+                                    console.log(response);
+                                },(error) => {
+                                    console.log(error);
+                                });
+                        }
+                    }
+                });
+            },
+
             showSelectColumn: function () {
                 if (this.selectColumn)
                 {
@@ -883,6 +1045,7 @@
                     this.selectColumn=true;
                 }
             },
+
             makePagination: function(data , type){
                 if (type == "national")
                 {
@@ -894,6 +1057,19 @@
                     this.provincial_pagination.current_page = data.current_page;
                     this.provincial_pagination.to = data.to;
                     this.provincial_pagination.last_page = data.last_page;
+                }
+            },
+
+            checkValidDate: function () {
+                if (this.foundInput.date == null || this.foundInput.date == '')
+                {
+                    this.dateIsValid_found = false;
+                    return false;
+                }
+                else
+                {
+                    this.dateIsValid_found = true;
+                    return true;
                 }
             },
         }

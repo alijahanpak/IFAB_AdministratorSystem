@@ -152,7 +152,7 @@
                     </nav>
                 </div>
                 <div class="grid-x">
-                    <p class="version-software">V 1.1.0</p>
+                    <p class="version-software">V:2576.1</p>
                 </div>
             </div>
             <div class="medium-10 main-margin my-callout-box">

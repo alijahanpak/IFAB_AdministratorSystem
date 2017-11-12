@@ -21,7 +21,9 @@ class AllocationOfCapitalAssetsController extends Controller
 {
     public function fetchAllocation(Request $request)
     {
-        return \response()->json($this->getAllCapitalAssetsAllocates($request->pOrN));
+        return \response()->json(
+            $this->getAllCapitalAssetsAllocates($request->pOrN)
+        );
     }
 
     public function getAllCapitalAssetsAllocates($pOrN)
@@ -36,6 +38,13 @@ class AllocationOfCapitalAssetsController extends Controller
             ->with('creditDistributionTitle')
             ->with('creditDistributionTitle.county')
             ->paginate(5);
+    }
+
+    public function getAllCapitalAssetsFound()
+    {
+        return CapitalAssetsAllocation::where('caaFound' , '=' , true)
+            ->where('caaFyId' , '=' , Auth::user()->seFiscalYear)
+            ->get();
     }
 
     public function registerCapitalAssetsAllocation(Request $request)
@@ -60,6 +69,32 @@ class AllocationOfCapitalAssetsController extends Controller
         $info['approvedAmount'] = CapCreditSource::where('id' , '=' , $request->pcsId)->value('ccsAmount');
         $info['sumAllocation'] = CapitalAssetsAllocation::where('caaCcsId' , '=' , $request->pcsId)->sum('caaAmount');
         return \response()->json($info);
+    }
+
+
+
+    public function fetchFound(Request $request)
+    {
+        return \response()->json(
+            $this->getAllCapitalAssetsFound()
+        );
+    }
+
+    public function registerCapitalAssetsFound(Request $request)
+    {
+        $alloc = new CapitalAssetsAllocation;
+        $alloc->caaUId = Auth::user()->id;
+        $alloc->caaFyId = Auth::user()->seFiscalYear;
+        $alloc->caaFound = true;
+        $alloc->caaLetterDate = $request->date;
+        $alloc->caaDescription = $request->description;
+        $alloc->caaAmount = AmountUnit::convertInputAmount($request->amount);
+        $alloc->save();
+
+        SystemLog::setBudgetSubSystemLog('ثبت تنخواه تملک داریی های سرمایه ای');
+        return \response()->json(
+            $this->getAllCapitalAssetsFound()
+        );
     }
 
     ////////////////////////// cost ////////////////////////////////

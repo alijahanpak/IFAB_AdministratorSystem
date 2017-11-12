@@ -566,8 +566,6 @@
                     <div style="margin-top: 17px;" class="grid-x">
                         <div class="medium-12 button-group float-right">
                             <a class="medium-1 my-button toolbox-btn small" @click="openInsertProjectModal">پروژه جدید</a>
-                            <a class="medium-1 my-button toolbox-btn small" @click="cancelApprovedAmendmentTemp">لغو</a>
-                            <a class="medium-1 my-button toolbox-btn small" @click="acceptApprovedAmendment">تایید</a>
                         </div>
                     </div>
                     <div class="grid-x">
@@ -683,6 +681,14 @@
                             </div>
                         </div>
                             <!--Table Body End-->
+                    </div>
+                    <div class="grid-x">
+                        <div class="medium-12 columns padding-bottom-modal">
+                            <div class="button-group float-left report-mrg">
+                                <a class="my-button my-danger float-left btn-for-load" @click="cancelApprovedAmendmentTemp"> <span class="btn-txt-mrg">لغو</span></a>
+                                <a class="my-button my-success float-left btn-for-load" @click="acceptApprovedAmendment"> <span class="btn-txt-mrg">تایید</span></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </modal-full-screen>
@@ -1483,44 +1489,44 @@
 
             checkValidDate: function (type) {
                   switch (type)
-                  {
-                      case 'delivery':
-                          if (this.approvedPlanInput.date == null || this.approvedPlanInput.date == '')
-                          {
-                              this.dateIsValid_delivery = false;
-                              return false;
-                          }
-                          else
-                          {
-                              this.dateIsValid_delivery = true;
-                              return true;
-                          }
-                          break;
-                      case 'exchange':
-                          if (this.approvedPlanInput.exDate == null || this.approvedPlanInput.exDate == '')
-                          {
-                              this.dateIsValid_exchange = false;
-                              return false;
-                          }
-                          else
-                          {
-                              this.dateIsValid_exchange = true;
-                              return true;
-                          }
-                          break;
-                      case 'delivery_amendment':
-                          if (this.approvedAmendmentInput.date == null || this.approvedAmendmentInput.date == '')
-                          {
-                              this.dateIsValid_delivery_amendment = false;
-                              return false;
-                          }
-                          else
-                          {
-                              this.dateIsValid_delivery_amendment = true;
-                              return true;
-                          }
-                          break;
-                  }
+                      {
+                          case 'delivery':
+                              if (this.approvedPlanInput.date == null || this.approvedPlanInput.date == '')
+                              {
+                                  this.dateIsValid_delivery = false;
+                                  return false;
+                              }
+                              else
+                              {
+                                  this.dateIsValid_delivery = true;
+                                  return true;
+                              }
+                              break;
+                          case 'exchange':
+                              if (this.approvedPlanInput.exDate == null || this.approvedPlanInput.exDate == '')
+                              {
+                                  this.dateIsValid_exchange = false;
+                                  return false;
+                              }
+                              else
+                              {
+                                  this.dateIsValid_exchange = true;
+                                  return true;
+                              }
+                              break;
+                          case 'delivery_amendment':
+                              if (this.approvedAmendmentInput.date == null || this.approvedAmendmentInput.date == '')
+                              {
+                                  this.dateIsValid_delivery_amendment = false;
+                                  return false;
+                              }
+                              else
+                              {
+                                  this.dateIsValid_delivery_amendment = true;
+                                  return true;
+                              }
+                              break;
+                      }
             },
 
             openApprovedPlanInsertModal: function (type) {
