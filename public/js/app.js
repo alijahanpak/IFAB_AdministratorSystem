@@ -113487,28 +113487,35 @@ if (false) {(function () {
         },
 
         toggleSelect: function toggleSelect(plans) {
-            if (plans.find(function (plan) {
-                return plan.checked;
-            })) {
-                plans.forEach(function (plan) {
+            var temp = false;
+            plans.forEach(function (plan) {
+                plan.capital_assets_project.forEach(function (project) {
+                    if (project.checked) temp = true;
+                });
+            });
+            plans.forEach(function (plan) {
+                if (temp) {
                     plan.capital_assets_project.forEach(function (project) {
                         project.checked = false;
                     });
-                });
-            } else {
-                plans.forEach(function (plan) {
+                } else {
                     plan.capital_assets_project.forEach(function (project) {
                         project.checked = true;
                     });
-                });
-            }
+                }
+            });
             console.log(JSON.stringify(this.approvedProjects_prov));
         },
 
         allSelected: function allSelected(plans) {
-            return plans.every(function (plan) {
-                return plan.checked;
+            var temp = true;
+            console.log(JSON.stringify(this.approvedProjects_prov));
+            plans.forEach(function (plan) {
+                plan.capital_assets_project.forEach(function (project) {
+                    if (project.checked == false) temp = false;
+                });
             });
+            return temp;
         },
 
         selectAll: function selectAll(plans) {

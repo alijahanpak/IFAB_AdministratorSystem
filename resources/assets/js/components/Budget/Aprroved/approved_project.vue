@@ -1352,26 +1352,39 @@
             },
 
             toggleSelect: function(plans) {
-                if(plans.find(plan => plan.checked)){
-                    plans.forEach(plan => {
-                        plan.capital_assets_project.forEach(project => {
-                            project.checked = false
-                        });
+                var temp = false;
+                plans.forEach(plan => {
+                    plan.capital_assets_project.forEach(project => {
+                        if (project.checked)
+                            temp = true;
+
                     });
-                } else {
-                    plans.forEach(plan => {
+                });
+                plans.forEach(plan => {
+                    if(temp){
                         plan.capital_assets_project.forEach(project => {
-                            project.checked = true
+                            project.checked = false;
+
                         });
-                    });
-                }
+                    } else {
+                        plan.capital_assets_project.forEach(project => {
+                            project.checked = true;
+                        });
+                    }
+                });
                 console.log(JSON.stringify(this.approvedProjects_prov));
             },
 
             allSelected: function(plans) {
-                return plans.every(function(plan){
-                    return plan.checked;
+                var temp = true;
+                console.log(JSON.stringify(this.approvedProjects_prov));
+                plans.forEach(plan => {
+                    plan.capital_assets_project.forEach(project => {
+                        if (project.checked == false)
+                            temp = false;
+                    });
                 });
+                return temp;
             },
 
             selectAll: function (plans) {
