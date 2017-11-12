@@ -1022,14 +1022,56 @@ class BudgetAdminController extends Controller
 
     public function registerBudgetSeason(Request $request)
     {
-        $bs = new BudgetSeason;
-        $bs->bsUId = Auth::user()->id;
-        $bs->bsSubject = $request->subject;
-        $bs->bsDescription = $request->description;
-        $bs->save();
+        if (BudgetSeason::where('bsSubject' , '=' , $request->subject)->exists())
+        {
+            return \response()->json($this->getAllBudgetSeasons() , 409);
+        }
+        else
+        {
+            $bs = new BudgetSeason;
+            $bs->bsUId = Auth::user()->id;
+            $bs->bsSubject = $request->subject;
+            $bs->bsDescription = $request->description;
+            $bs->save();
 
-        SystemLog::setBudgetSubSystemAdminLog('تعریف فصل بودجه ' . $request->subject);
-        return \response()->json($this->getAllBudgetSeasons());
+            SystemLog::setBudgetSubSystemAdminLog('تعریف فصل بودجه ' . $request->subject);
+            return \response()->json($this->getAllBudgetSeasons());
+        }
+
+    }
+
+    public function updateBudgetSeason(Request $request)
+    {
+        if (BudgetSeason::where('id' , '<>' , $request->id)->where('bsSubject' , '=' , $request->subject)->exists())
+        {
+            return \response()->json($this->getAllBudgetSeasons() , 409);
+        }
+        else
+        {
+            $old = BudgetSeason::find($request->id);
+            $bs = BudgetSeason::find($request->id);
+            $bs->bsSubject = $request->subject;
+            $bs->bsDescription = $request->description;
+            $bs->save();
+
+            SystemLog::setBudgetSubSystemAdminLog('تغییر در فصل بودجه (' . $old->bsSubject . ') به (' . $bs->bsSubject . ')');
+            return \response()->json($this->getAllBudgetSeasons());
+        }
+    }
+
+    public function deleteBudgetSeason(Request $request)
+    {
+        $bs = BudgetSeason::find($request->id);
+        try {
+            $logTemp = BudgetSeason::find($request->id);
+            $bs->delete();
+            SystemLog::setBudgetSubSystemAdminLog('حذف فصل بودجه ' . $logTemp->bsSubject);
+            return \response()->json($this->getAllBudgetSeasons());
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == "23000") { //23000 is sql code for integrity constraint violation
+                return \response()->json($this->getAllBudgetSeasons() , 204);
+            }
+        }
     }
 
     //////////////////////////////// credit distribution rows //////////////////////////////

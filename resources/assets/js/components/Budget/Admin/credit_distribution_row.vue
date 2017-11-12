@@ -31,7 +31,7 @@
                         <div class="medium-12 bottom-mrg">
                             <div class="clearfix border-btm-line bottom-mrg tool-bar">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
-                                    <a class="my-button toolbox-btn small" @click="planOrCostRequestType = 0; showModal = true; errorMessage = ''">جدید</a>
+                                    <a class="my-button toolbox-btn small" @click="openInsertModal">جدید</a>
                                     <a class="my-button toolbox-btn small">گزارش</a>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
@@ -54,48 +54,59 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--Table Start-->
-                            <div class="columns">
-                                <!--Header Start-->
-                                <div class="grid-x table-header">
-                                    <div class="medium-4 table-border">
-                                        <strong>عنوان</strong>
-                                    </div>
-                                    <div class="medium-8 table-border">
-                                        <strong>شرح</strong>
-                                    </div>
-                                </div>
-                                <!--Header End-->
-                                <div class="table-contain dynamic-height-level2">
-                                    <div class="grid-x" v-for="plan in rowDistributionCredit">
-                                        <div class="medium-4 table-contain-border cell-vertical-center">
-                                            {{ plan.cdSubject }}
-                                        </div>
-                                        <div class="medium-8 table-contain-border cell-vertical-center">
-                                            <div class="grid-x">
-                                                <div class="medium-11">
-                                                    {{ plan.cdDescription }}
-                                                </div>
-                                                <div class="medium-1 cell-vertical-center text-left">
-                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'rdcRowDistributionCredit' + plan.id"><img width="15px" height="15px" src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
-                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'rdcRowDistributionCredit' + plan.id" data-dropdown data-auto-focus="true">
-                                                        <ul class="my-menu small-font text-right">
-                                                            <li><a v-on:click.prevent="rowDistributionCreditUpdateDialog(plan , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                            <li><a v-on:click.prevent="openDeleteRowDistributionCreditConfirm(plan)"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                        </ul>
+                            <div class="tbl-div-container">
+                                <table class="tbl-head">
+                                    <colgroup>
+                                        <col width="450px"/>
+                                        <col width="390px"/>
+                                        <col width="12px"/>
+                                    </colgroup>
+                                    <tbody class="tbl-head-style">
+                                    <tr class="tbl-head-style-cell">
+                                        <th class="tbl-head-style-cell">عنوان</th>
+                                        <th class="tbl-head-style-cell">شرح</th>
+                                        <th class="tbl-head-style-cell"></th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <!--Table Head End-->
+                                <!--Table Body Start-->
+                                <div class="tbl_body_style dynamic-height-level2">
+                                    <table class="tbl-body-contain">
+                                        <colgroup>
+                                            <col width="450px"/>
+                                            <col width="390px"/>
+                                        </colgroup>
+                                        <tbody class="tbl-head-style-cell">
+                                        <tr v-for="plan in rowDistributionCredit">
+                                            <td>{{ plan.cdSubject }}</td>
+                                            <td>
+                                                <div class="grid-x">
+                                                    <div class="medium-11">
+                                                        {{ plan.cdDescription }}
+                                                    </div>
+                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'rdcRowDistributionCredit' + plan.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'rdcRowDistributionCredit' + plan.id" data-dropdown data-auto-focus="true">
+                                                            <ul class="my-menu small-font text-right">
+                                                                <li><a v-on:click.prevent="rowDistributionCreditUpdateDialog(plan , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                <li><a v-on:click.prevent="openDeleteRowDistributionCreditConfirm(plan)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="grid-x">
-                                    <div class="medium-12">
-                                        <vue-pagination  v-bind:pagination="plan_pagination"
-                                                         v-on:click.native="fetchCapitalAssetsData(plan_pagination.current_page)"
-                                                         :offset="4">
-                                        </vue-pagination>
-                                    </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-12">
+                                    <vue-pagination  v-bind:pagination="plan_pagination"
+                                                     v-on:click.native="fetchCapitalAssetsData(plan_pagination.current_page)"
+                                                     :offset="4">
+                                    </vue-pagination>
                                 </div>
                             </div>
                         </div>
@@ -130,40 +141,51 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--Table Start-->
-                                <div class="columns">
-                                    <!--Header Start-->
-                                    <div class="grid-x table-header">
-                                        <div class="medium-4 table-border">
-                                            <strong>عنوان</strong>
-                                        </div>
-                                        <div class="medium-8 table-border">
-                                            <strong>شرح</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--Header End-->
-                                <div class="table-contain dynamic-height-level2">
-                                    <div class="grid-x" v-for="cost in rowDistributionCredit_cost">
-                                        <div class="medium-4 table-contain-border cell-vertical-center">
-                                            {{ cost.cdSubject }}
-                                        </div>
-                                        <div class="medium-8 table-contain-border cell-vertical-center">
-                                            <div class="grid-x">
-                                                <div class="medium-11">
-                                                    {{ cost.cdDescription }}
-                                                </div>
-                                                <div class="medium-1 cell-vertical-center text-left">
-                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'rdcRowDistributionCredit_cost' + cost.id"><img width="15px" height="15px" src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
-                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'rdcRowDistributionCredit_cost' + cost.id" data-dropdown data-auto-focus="true">
-                                                        <ul class="my-menu small-font text-right">
-                                                            <li><a v-on:click.prevent="rowDistributionCreditUpdateDialog(cost , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                            <li><a v-on:click.prevent="openDeleteRowDistributionCreditConfirm(cost)"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                        </ul>
+                                <div class="tbl-div-container">
+                                    <table class="tbl-head">
+                                        <colgroup>
+                                            <col width="450px"/>
+                                            <col width="390px"/>
+                                            <col width="12px"/>
+                                        </colgroup>
+                                        <tbody class="tbl-head-style">
+                                        <tr class="tbl-head-style-cell">
+                                            <th class="tbl-head-style-cell">عنوان</th>
+                                            <th class="tbl-head-style-cell">شرح</th>
+                                            <th class="tbl-head-style-cell"></th>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <!--Table Head End-->
+                                    <!--Table Body Start-->
+                                    <div class="tbl_body_style dynamic-height-level2">
+                                        <table class="tbl-body-contain">
+                                            <colgroup>
+                                                <col width="450px"/>
+                                                <col width="390px"/>
+                                            </colgroup>
+                                            <tbody class="tbl-head-style-cell">
+                                            <tr v-for="cost in rowDistributionCredit_cost">
+                                                <td>{{ cost.cdSubject }}</td>
+                                                <td>
+                                                    <div class="grid-x">
+                                                        <div class="medium-11">
+                                                            {{ cost.cdDescription }}
+                                                        </div>
+                                                        <div class="medium-1 cell-vertical-center text-left">
+                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'rdcRowDistributionCredit_cost' + cost.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'rdcRowDistributionCredit_cost' + cost.id" data-dropdown data-auto-focus="true">
+                                                                <ul class="my-menu small-font text-right">
+                                                                    <li><a v-on:click.prevent="rowDistributionCreditUpdateDialog(cost , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent="openDeleteRowDistributionCreditConfirm(cost)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                                 <div class="grid-x">
@@ -180,7 +202,7 @@
                     </div>
                     <!--Tab 2-->
                 </div>
-                <modal-tiny v-if="showModal" @close="showModal = false">
+                <modal-tiny v-if="showInsertModal" @close="showInsertModal = false">
                     <div  slot="body">
                         <form v-on:submit.prevent="createRowDistributionCredit">
                             <div class="grid-x" v-if="errorMessage">
@@ -239,7 +261,7 @@
                 rowDistributionCredit: [],
                 rowDistributionCredit_cost: [],
                 rowDistributionCreditInput: {rdcSubject: '' , rdcDescription: ''},
-                showModal: false,
+                showInsertModal: false,
                 showModalUpdate: false,
                 showModalDelete: false,
                 rowDistributionCreditFill: {rdcSubject: '' , rdcDescription: '', id: ''},
@@ -318,7 +340,7 @@
                         this.makePagination(response.data , "cost");
                     }
 
-                    this.showModal = false;
+                    this.showInsertModal = false;
                     this.$parent.displayNotif(response.status);
                     this.rowDistributionCreditInput = [];
                     console.log(response.status);
@@ -359,6 +381,12 @@
             openDeleteRowDistributionCreditConfirm: function (rdc) {
                 this.rdcIdDelete = rdc;
                 this.showModalDelete = true;
+            },
+
+            openInsertModal: function () {
+                this.planOrCostRequestType = 0;
+                this.showInsertModal = true;
+                this.errorMessage = '';
             },
 
             deleteRowDistributionCredit: function () {
