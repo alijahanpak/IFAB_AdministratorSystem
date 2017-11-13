@@ -11,11 +11,13 @@ use Modules\Admin\Entities\SystemLog;
 use Modules\Budget\Entities\CapCreditSource;
 use Modules\Budget\Entities\CapitalAssetsAllocation;
 use Modules\Budget\Entities\CapitalAssetsApprovedPlan;
+use Modules\Budget\Entities\CapitalAssetsCost;
 use Modules\Budget\Entities\CapitalAssetsProject;
 use Modules\Budget\Entities\CdrCaa;
 use Modules\Budget\Entities\CostAgreement;
 use Modules\Budget\Entities\CostAllocation;
 use Modules\Budget\Entities\CreditDistributionRow;
+use Morilog\Jalali\Facades\jDate;
 
 class AllocationOfCapitalAssetsController extends Controller
 {
@@ -95,6 +97,40 @@ class AllocationOfCapitalAssetsController extends Controller
         return \response()->json(
             $this->getAllCapitalAssetsFound()
         );
+    }
+
+    public function getAllCapitalAssetsCosts(Request $request) // for test convert found to allocation
+    {
+        return \response()->json(
+            CapitalAssetsCost::where('cacCaaId' , '=' , $request->fId)->get()
+        );
+    }
+
+    public function convertCapitalAssetsFoundToAllocation(Request $request)
+    {
+        $sumOfCost = 0;
+        $costsId = array();
+        $i = 0;
+        foreach ($request['selectedCosts'] as $cost)
+        {
+            $sumOfCost += $cost['cacAmount'];
+            $costsId[$i++] = $cost['id'];
+        }
+
+        $alloc = new CapitalAssetsAllocation;
+        $alloc->caaUId = Auth::user()->id;
+        $alloc->caaCcsId = $request->pcsId;
+        $alloc->caaLetterDate = jDate::forge()->format('%Y/%m/%d');
+        $alloc->caaDescription = $request->description;
+        $alloc->caaAmount = $sumOfCost;
+        $alloc->caaFoundId = $request->id;
+        $alloc->save();
+
+        CapitalAssetsCost::whereIn('id' , $costsId)->update(['cacCaaId' => $alloc->id]);
+        return \response()->json([
+            'found' => $this->getAllCapitalAssetsFound(),
+            'allocation_prov' => $this->getAllCapitalAssetsAllocates(0)
+        ]);
     }
 
     ////////////////////////// cost ////////////////////////////////
