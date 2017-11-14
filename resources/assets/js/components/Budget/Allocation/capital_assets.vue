@@ -122,7 +122,8 @@
                                                     <td v-if="plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].ccsDeleted" :rowspan="getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)" class="text-center"><span class="comlpleted-badage">حذف شده</span></td>
                                                     <td v-if="!plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].ccsDeleted" :rowspan="getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)" class="text-center">{{ $parent.calcDispAmount(getProjectAllocationSum(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation) , false) }}</td>
                                                     <td :rowspan="plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation.length">{{ plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
-                                                    <td class="text-center">{{ plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterNumber }}</td>
+                                                    <td v-if="plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaFoundId == null">{{ plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterNumber }}</td>
+                                                    <td class="text-center" v-if="plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaFoundId != null"><i class="fa fa-exchange btn-red has-tip top" data-tooltip aria-haspopup="true" data-disable-hover="false" title="تبدیل شده از تنخواه"></i></td>
                                                     <td class="text-center">{{ plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterDate }}</td>
                                                     <td class="text-center">{{ $parent.calcDispAmount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount , false) }}</td>
                                                     <td  v-show="selectColumn">
@@ -137,6 +138,8 @@
                                                            <span class="comlpleted-badage">حذف شده</span>
                                                        </td>
                                                        <td :rowspan="projects.credit_source_has_allocation[0].allocation.length">{{ projects.credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
+                                                       <td v-if="projects.credit_source_has_allocation[0].allocation[0].caaFoundId == null">{{ projects.credit_source_has_allocation[0].allocation[0].caaLetterNumber }}</td>
+                                                       <td class="text-center" v-if="projects.credit_source_has_allocation[0].allocation[0].caaFoundId != null"><i class="fa fa-exchange btn-red has-tip top" data-tooltip aria-haspopup="true" data-disable-hover="false" title="تبدیل شده از تنخواه"></i></td>
                                                        <td class="text-center">{{ projects.credit_source_has_allocation[0].allocation[0].caaLetterNumber }}</td>
                                                        <td class="text-center">{{ projects.credit_source_has_allocation[0].allocation[0].caaLetterDate }}</td>
                                                        <td class="text-center">{{ $parent.calcDispAmount(projects.credit_source_has_allocation[0].allocation[0].caaAmount , false) }}</td>
@@ -147,7 +150,8 @@
                                                     <template v-for="(credit_source , csIndex) in projects.credit_source_has_allocation">
                                                         <tr class="tbl-head-style-cell" v-if="csIndex > 0">
                                                             <td :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_row.cdSubject }}</td>
-                                                            <td class="text-center">{{ credit_source.allocation[0].caaLetterNumber }}</td>
+                                                            <td v-if="credit_source.allocation[0].caaFoundId == null">{{ credit_source.allocation[0].caaLetterNumber }}</td>
+                                                            <td class="text-center" v-if="credit_source.allocation[0].caaFoundId != null"><i class="fa fa-exchange btn-red has-tip top" data-tooltip aria-haspopup="true" data-disable-hover="false" title="تبدیل شده از تنخواه"></i></td>
                                                             <td class="text-center">{{ credit_source.allocation[0].caaLetterDate }}</td>
                                                             <td class="text-center">{{ $parent.calcDispAmount(credit_source.allocation[0].caaAmount , false) }}</td>
                                                             <td  v-show="selectColumn">

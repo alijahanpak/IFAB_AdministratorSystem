@@ -128448,6 +128448,10 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -129101,9 +129105,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       attrs: {
         "rowspan": plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation.length
       }
-    }, [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', {
+    }, [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].credit_distribution_row.cdSubject))]), _vm._v(" "), (plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaFoundId == null) ? _c('td', [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterNumber))]) : _vm._e(), _vm._v(" "), (plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaFoundId != null) ? _c('td', {
       staticClass: "text-center"
-    }, [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', {
+    }, [_c('i', {
+      staticClass: "fa fa-exchange btn-red has-tip top",
+      attrs: {
+        "data-tooltip": "",
+        "aria-haspopup": "true",
+        "data-disable-hover": "false",
+        "title": "تبدیل شده از تنخواه"
+      }
+    })]) : _vm._e(), _vm._v(" "), _c('td', {
       staticClass: "text-center"
     }, [_vm._v(_vm._s(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', {
       staticClass: "text-center"
@@ -129142,7 +129154,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         attrs: {
           "rowspan": projects.credit_source_has_allocation[0].allocation.length
         }
-      }, [_vm._v(_vm._s(projects.credit_source_has_allocation[0].credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', {
+      }, [_vm._v(_vm._s(projects.credit_source_has_allocation[0].credit_distribution_row.cdSubject))]), _vm._v(" "), (projects.credit_source_has_allocation[0].allocation[0].caaFoundId == null) ? _c('td', [_vm._v(_vm._s(projects.credit_source_has_allocation[0].allocation[0].caaLetterNumber))]) : _vm._e(), _vm._v(" "), (projects.credit_source_has_allocation[0].allocation[0].caaFoundId != null) ? _c('td', {
+        staticClass: "text-center"
+      }, [_c('i', {
+        staticClass: "fa fa-exchange btn-red has-tip top",
+        attrs: {
+          "data-tooltip": "",
+          "aria-haspopup": "true",
+          "data-disable-hover": "false",
+          "title": "تبدیل شده از تنخواه"
+        }
+      })]) : _vm._e(), _vm._v(" "), _c('td', {
         staticClass: "text-center"
       }, [_vm._v(_vm._s(projects.credit_source_has_allocation[0].allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', {
         staticClass: "text-center"
@@ -129167,9 +129189,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           attrs: {
             "rowspan": credit_source.allocation.length
           }
-        }, [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', {
+        }, [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), (credit_source.allocation[0].caaFoundId == null) ? _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caaLetterNumber))]) : _vm._e(), _vm._v(" "), (credit_source.allocation[0].caaFoundId != null) ? _c('td', {
           staticClass: "text-center"
-        }, [_vm._v(_vm._s(credit_source.allocation[0].caaLetterNumber))]), _vm._v(" "), _c('td', {
+        }, [_c('i', {
+          staticClass: "fa fa-exchange btn-red has-tip top",
+          attrs: {
+            "data-tooltip": "",
+            "aria-haspopup": "true",
+            "data-disable-hover": "false",
+            "title": "تبدیل شده از تنخواه"
+          }
+        })]) : _vm._e(), _vm._v(" "), _c('td', {
           staticClass: "text-center"
         }, [_vm._v(_vm._s(credit_source.allocation[0].caaLetterDate))]), _vm._v(" "), _c('td', {
           staticClass: "text-center"
@@ -131549,6 +131579,242 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -131558,12 +131824,18 @@ if (false) {(function () {
             errorMessage_update: '',
             provCostAllocations: [],
             natCostAllocations: [],
+            provCostFounds: [],
+            expenseCosts: [],
+            selectedCosts: [],
             AllocationInput: {},
+            foundInput: {},
             provOrNat: '',
             showModal: false,
             showModalUpdate: false,
             showModalDelete: false,
             selectColumn: false,
+            showInsertFoundModal: false,
+            showConvertToModal: false,
             costAllocationFill: {},
             creditSourceInfo: {},
             caIdDelete: {},
@@ -131571,6 +131843,9 @@ if (false) {(function () {
             selectedCostAgreement: '',
             costAgreements: {},
             caCreditSources: {},
+            dateIsValid_found: true,
+            unSelectedCost: false,
+            foundIdForConvertTo: '',
 
             national_pagination: {
                 total: 0,
@@ -131590,6 +131865,7 @@ if (false) {(function () {
 
     created: function created() {
         this.fetchProvincialData();
+        this.fetchProvincialFoundData();
         this.fetchNationalData();
     },
 
@@ -131621,14 +131897,25 @@ if (false) {(function () {
             });
         },
 
-        fetchNationalData: function fetchNationalData() {
+        fetchProvincialFoundData: function fetchProvincialFoundData() {
             var _this2 = this;
+
+            axios.get('/budget/allocation/cost/found/fetchData').then(function (response) {
+                _this2.provCostFounds = response.data;
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        fetchNationalData: function fetchNationalData() {
+            var _this3 = this;
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             axios.get('/budget/allocation/cost/fetchData?page=' + page, { params: { pOrN: 1 } }).then(function (response) {
-                _this2.natCostAllocations = response.data.data;
-                _this2.makePagination(response.data, "national");
+                _this3.natCostAllocations = response.data.data;
+                _this3.makePagination(response.data, "national");
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -131636,10 +131923,10 @@ if (false) {(function () {
         },
 
         getAllCostAgreements: function getAllCostAgreements(pOrN) {
-            var _this3 = this;
+            var _this4 = this;
 
             axios.get('/budget/approved_plan/cost/getAllItems', { params: { pOrN: pOrN } }).then(function (response) {
-                _this3.costAgreements = response.data;
+                _this4.costAgreements = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -131647,10 +131934,10 @@ if (false) {(function () {
         },
 
         getCreditSource: function getCreditSource() {
-            var _this4 = this;
+            var _this5 = this;
 
             axios.get('/budget/approved_plan/cost/credit_source/getAllItem', { params: { caId: this.selectedCostAgreement } }).then(function (response) {
-                _this4.caCreditSources = response.data;
+                _this5.caCreditSources = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -131658,10 +131945,10 @@ if (false) {(function () {
         },
 
         displayCreditResourceInfo: function displayCreditResourceInfo() {
-            var _this5 = this;
+            var _this6 = this;
 
-            axios.get('/budget/allocation/capital_assets/getCapitalAssetsCreditSourceInfo', { params: { pcsId: this.AllocationInput.pcsId } }).then(function (response) {
-                _this5.creditSourceInfo = response.data;
+            axios.get('/budget/allocation/cost/getCostCreditSourceInfo', { params: { caCsId: this.AllocationInput.caCsId } }).then(function (response) {
+                _this6.creditSourceInfo = response.data;
                 console.log(response);
             }, function (error) {
                 console.log(error);
@@ -131713,41 +132000,41 @@ if (false) {(function () {
         },
 
         createCostAllocation: function createCostAllocation() {
-            var _this6 = this;
+            var _this7 = this;
 
             if ($('#datePicker').val() == '') this.AllocationInput.date = '';
             this.$validator.validateAll().then(function (result) {
                 if (result) {
                     axios.post('/budget/allocation/cost/register', {
-                        idNumber: _this6.AllocationInput.idNumber,
-                        date: _this6.AllocationInput.date,
-                        ccsId: _this6.AllocationInput.caCsId,
-                        amount: _this6.AllocationInput.amount,
-                        description: _this6.AllocationInput.description,
-                        pOrN: _this6.provOrNat
+                        idNumber: _this7.AllocationInput.idNumber,
+                        date: _this7.AllocationInput.date,
+                        caCsId: _this7.AllocationInput.caCsId,
+                        amount: _this7.AllocationInput.amount,
+                        description: _this7.AllocationInput.description,
+                        pOrN: _this7.provOrNat
                     }).then(function (response) {
-                        if (_this6.provOrNat == 0) {
-                            _this6.provCostAllocations = response.data.data;
-                            _this6.makePagination(response.data, "provincial");
+                        if (_this7.provOrNat == 0) {
+                            _this7.provCostAllocations = response.data.data;
+                            _this7.makePagination(response.data, "provincial");
                         } else {
-                            _this6.natCostAllocations = response.data.data;
-                            _this6.makePagination(response.data, "national");
+                            _this7.natCostAllocations = response.data.data;
+                            _this7.makePagination(response.data, "national");
                         }
-                        _this6.showModal = false;
-                        _this6.$parent.displayNotif(response.status);
-                        _this6.clearInsertForm();
+                        _this7.showModal = false;
+                        _this7.$parent.displayNotif(response.status);
+                        _this7.clearInsertForm();
                         console.log(response);
                     }, function (error) {
                         console.log(error);
-                        _this6.errorMessage = 'تخصیص با این مشخصات قبلا ثبت شده است!';
-                        _this6.clearInsertForm();
+                        _this7.errorMessage = 'تخصیص با این مشخصات قبلا ثبت شده است!';
+                        _this7.clearInsertForm();
                     });
                 }
             });
         },
 
         clearInsertForm: function clearInsertForm() {
-            this.AllocationInput = {};
+            this.AllocationInput = [];
             this.selectedCostAgreement = '';
         },
 
@@ -131801,6 +132088,113 @@ if (false) {(function () {
                     this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                 });*/
         },
+
+        ////////////// this method created for test convert found to allocation ///////////////////
+        getExpenseCosts: function getExpenseCosts() {
+            var _this8 = this;
+
+            axios.get('/budget/allocation/cost/found/getAllExpenseCosts', { params: { fId: this.foundIdForConvertTo } }).then(function (response) {
+                _this8.expenseCosts = response.data;
+                _this8.expenseCosts.forEach(function (cost) {
+                    _this8.$set(cost, 'checked', true);
+                });
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+
+        openInsertFoundModal: function openInsertFoundModal() {
+            this.showInsertFoundModal = true;
+        },
+
+        createProvincialFound: function createProvincialFound() {
+            var _this9 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    if (_this9.checkValidDate()) {
+                        axios.post('/budget/allocation/cost/found/register', {
+                            date: _this9.foundInput.date,
+                            amount: _this9.foundInput.amount,
+                            description: _this9.foundInput.description,
+                            pOrN: 0
+                        }).then(function (response) {
+                            _this9.provCostFounds = response.data;
+                            _this9.showInsertFoundModal = false;
+                            _this9.$parent.displayNotif(response.status);
+                            console.log(response);
+                        }, function (error) {
+                            console.log(error);
+                        });
+                    }
+                }
+            });
+        },
+
+        convertToAllocation: function convertToAllocation() {
+            var _this10 = this;
+
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    if (_this10.checkSelectedCosts(_this10.expenseCosts)) {
+                        _this10.selectedCosts = [];
+                        _this10.expenseCosts.forEach(function (cost) {
+                            if (cost.checked) _this10.selectedCosts.push(cost);
+                        });
+                        axios.post('/budget/allocation/cost/found/convert_to_allocation', {
+                            id: _this10.foundIdForConvertTo,
+                            caCsId: _this10.AllocationInput.caCsId,
+                            amount: _this10.AllocationInput.amount,
+                            description: _this10.AllocationInput.description,
+                            selectedCosts: _this10.selectedCosts
+                        }).then(function (response) {
+                            _this10.provCostFounds = response.data.found;
+                            _this10.provCostAllocations = response.data.allocation_prov.data;
+                            _this10.showConvertToModal = false;
+                            _this10.$parent.displayNotif(response.status);
+                            console.log(response);
+                        }, function (error) {
+                            console.log(error);
+                        });
+                        console.log(JSON.stringify(_this10.selectedCosts));
+                    } else {
+                        _this10.unSelectedCost = true;
+                    }
+                }
+            });
+        },
+
+        checkSelectedCosts: function checkSelectedCosts(costs) {
+            var state = false;
+            this.unSelectedCost = false;
+            costs.forEach(function (cost) {
+                if (cost.checked) state = true;
+            });
+            return state;
+        },
+
+        openConvertToModal: function openConvertToModal(fId) {
+            this.unSelectedCost = false;
+            this.selectedCostAgreement = '';
+            this.AllocationInput = [];
+            this.creditSourceInfo = [];
+            this.showConvertToModal = true;
+            this.foundIdForConvertTo = fId;
+            this.getExpenseCosts();
+            this.getAllCostAgreements(0);
+        },
+
+        checkValidDate: function checkValidDate() {
+            if (this.foundInput.date == null || this.foundInput.date == '') {
+                this.dateIsValid_found = false;
+                return false;
+            } else {
+                this.dateIsValid_found = true;
+                return true;
+            }
+        },
+
         showSelectColumn: function showSelectColumn() {
             if (this.selectColumn) {
                 this.selectColumn = false;
@@ -132131,7 +132525,6 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_c('input', {
       staticClass: "auto-margin",
       attrs: {
-        "id": "checkbox1",
         "type": "checkbox"
       }
     })])]), _vm._v(" "), _vm._l((progs.ca_credit_source_has_allocation), function(credit_source, csIndex) {
@@ -132150,7 +132543,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         attrs: {
           "rowspan": credit_source.allocation.length
         }
-      }, [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caLetterDate))]), _vm._v(" "), _c('td', [_c('div', {
+      }, [_vm._v(_vm._s(credit_source.credit_distribution_row.cdSubject))]), _vm._v(" "), (credit_source.allocation[0].caFoundId == null) ? _c('td', [_vm._v(_vm._s(_vm.alloc.caLetterNumber))]) : _vm._e(), _vm._v(" "), (credit_source.allocation[0].caFoundId != null) ? _c('td', {
+        staticClass: "text-center"
+      }, [_c('i', {
+        staticClass: "fa fa-exchange btn-red has-tip top",
+        attrs: {
+          "data-tooltip": "",
+          "aria-haspopup": "true",
+          "data-disable-hover": "false",
+          "title": "تبدیل شده از تنخواه"
+        }
+      })]) : _vm._e(), _vm._v(" "), _c('td', [_vm._v(_vm._s(credit_source.allocation[0].caLetterDate))]), _vm._v(" "), _c('td', [_c('div', {
         staticClass: "grid-x"
       }, [_c('div', {
         staticClass: "medium-11"
@@ -132197,7 +132600,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }), _vm._v("  حذف")])])])])])])])]) : _vm._e(), _vm._v(" "), _vm._l((credit_source.allocation), function(alloc, allocIndex) {
         return [(allocIndex > 0) ? _c('tr', {
           staticClass: "tbl-head-style-cell"
-        }, [_c('td', [_vm._v(_vm._s(alloc.caLetterNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caLetterDate))]), _vm._v(" "), _c('td', [_c('div', {
+        }, [(alloc.caFoundId == null) ? _c('td', [_vm._v(_vm._s(alloc.caLetterNumber))]) : _vm._e(), _vm._v(" "), (alloc.caFoundId != null) ? _c('td', {
+          staticClass: "text-center"
+        }, [_c('i', {
+          staticClass: "fa fa-exchange btn-red has-tip top",
+          attrs: {
+            "data-tooltip": "",
+            "aria-haspopup": "true",
+            "data-disable-hover": "false",
+            "title": "تبدیل شده از تنخواه"
+          }
+        })]) : _vm._e(), _vm._v(" "), _c('td', [_vm._v(_vm._s(alloc.caLetterDate))]), _vm._v(" "), _c('td', [_c('div', {
           staticClass: "grid-x"
         }, [_c('div', {
           staticClass: "medium-11"
@@ -132251,7 +132664,6 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         }, [_c('input', {
           staticClass: "auto-margin",
           attrs: {
-            "id": "checkbox1",
             "type": "checkbox"
           }
         })])]) : _vm._e()]
@@ -132666,7 +133078,230 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchNationalData(_vm.national_pagination.current_page)
       }
     }
-  })], 1)])])])]), _vm._v(" "), (_vm.showModal) ? _c('modal-small', {
+  })], 1)])])]), _vm._v(" "), _c('div', {
+    staticClass: "tabs-panel table-mrg-btm",
+    attrs: {
+      "id": "provincialFound",
+      "xmlns:v-on": "http://www.w3.org/1999/xhtml"
+    }
+  }, [_c('div', {
+    staticClass: "medium-12 bottom-mrg"
+  }, [_c('div', {
+    staticClass: "clearfix border-btm-line bottom-mrg tool-bar"
+  }, [_c('div', {
+    staticClass: "button-group float-right",
+    staticStyle: {
+      "margin-top": "2px"
+    }
+  }, [_c('a', {
+    staticClass: "my-button toolbox-btn small",
+    on: {
+      "click": _vm.openInsertFoundModal
+    }
+  }, [_vm._v("جدید")]), _vm._v(" "), (!_vm.selectColumn) ? _c('div', {
+    staticClass: "input-group-button toggle-icon-change"
+  }, [_c('button', {
+    staticClass: "my-button my-icon-brand tiny",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.showSelectColumn
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-check-square-o size-14",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  })])]) : _vm._e(), _vm._v(" "), (_vm.selectColumn) ? _c('div', {
+    staticClass: "input-group-button toggle-icon-change"
+  }, [_c('button', {
+    staticClass: "my-button my-icon-danger tiny",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.showSelectColumn
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-times size-14",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  })])]) : _vm._e(), _vm._v(" "), _c('button', {
+    staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
+    attrs: {
+      "type": "button",
+      "data-toggle": "foundReportDropDown"
+    }
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(12)])]), _vm._v(" "), _c('div', {
+    staticClass: "tbl-div-container"
+  }, [_c('table', {
+    staticClass: "tbl-head"
+  }, [_c('colgroup', [_c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "200px"
+    }
+  }), _vm._v(" "), _c('col', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.selectColumn),
+      expression: "selectColumn"
+    }],
+    attrs: {
+      "width": "15px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "12px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style"
+  }, [_c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("تاریخ")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("مبلغ")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("هزینه")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("تبدیل شده به تخصیص")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شرح")]), _vm._v(" "), _c('th', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.selectColumn),
+      expression: "selectColumn"
+    }],
+    staticClass: "tbl-head-style-checkbox"
+  }, [_c('input', {
+    attrs: {
+      "type": "checkbox"
+    }
+  })]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "tbl_body_style dynamic-height-level2"
+  }, [_c('table', {
+    staticClass: "tbl-body-contain"
+  }, [_c('colgroup', [_c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "200px"
+    }
+  }), _vm._v(" "), _c('col', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.selectColumn),
+      expression: "selectColumn"
+    }],
+    attrs: {
+      "width": "15px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style-cell"
+  }, _vm._l((_vm.provCostFounds), function(found) {
+    return _c('tr', {
+      staticClass: "tbl-head-style-cell"
+    }, [_c('td', {
+      staticClass: "text-center"
+    }, [_vm._v(_vm._s(found.caLetterDate))]), _vm._v(" "), _c('td', {
+      staticClass: "text-center"
+    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(found.caAmount, false)))]), _vm._v(" "), _c('td', {
+      staticClass: "text-center"
+    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(found.caSumOfCost, false)))]), _vm._v(" "), _c('td', {
+      staticClass: "text-center"
+    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(found.caConvertedAllocAmount, false)))]), _vm._v(" "), _c('td', [_c('div', {
+      staticClass: "grid-x"
+    }, [_c('div', {
+      staticClass: "medium-11"
+    }, [_vm._v("\n                                                    " + _vm._s(found.caDescription) + "\n                                                ")]), _vm._v(" "), _c('div', {
+      staticClass: "medium-1 cell-vertical-center text-left"
+    }, [_c('a', {
+      staticClass: "dropdown small sm-btn-align",
+      attrs: {
+        "data-toggle": 'costFound' + found.id,
+        "type": "button"
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-ellipsis-v size-18"
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "dropdown-pane dropdown-pane-sm ",
+      attrs: {
+        "data-close-on-click": "true",
+        "data-hover": "true",
+        "data-hover-pane": "true",
+        "data-position": "bottom",
+        "data-alignment": "right",
+        "id": 'costFound' + found.id,
+        "data-dropdown": "",
+        "data-auto-focus": "true"
+      }
+    }, [_c('ul', {
+      staticClass: "my-menu small-font text-right"
+    }, [_c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-newspaper-o size-16"
+    }), _vm._v("  ویراش")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-trash-o size-16"
+    }), _vm._v("  حذف")])]), _vm._v(" "), _c('li', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.openConvertToModal(found.id)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-trash-o size-16"
+    }), _vm._v("  تبدیل به تخصیص")])])])])])])])])
+  }))])])])])])]), _vm._v(" "), (_vm.showModal) ? _c('modal-small', {
     attrs: {
       "xmlns:v-on": "http://www.w3.org/1999/xhtml"
     },
@@ -132820,7 +133455,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           return val
         });
         _vm.AllocationInput.caCsId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }, function($event) {}]
+      }, _vm.displayCreditResourceInfo]
     }
   }, [_c('option', {
     attrs: {
@@ -132889,6 +133524,329 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }],
     staticClass: "grid-x",
     staticStyle: {
+      "margin-top": "5px"
+    }
+  }, [_c('div', {
+    staticClass: "medium-12 my-callout-bg-color"
+  }, [_c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12"
+  }, [_c('span', {
+    staticClass: "btn-red"
+  }, [_vm._v("اعتبار مصوب:")]), _c('span', [_vm._v(_vm._s(' ' + _vm.$parent.calcDispAmount(_vm.creditSourceInfo.approvedAmount)))])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-12"
+  }, [_c('span', {
+    staticClass: "btn-red"
+  }, [_vm._v("آخرین تخصیص:")]), _c('span', [_vm._v(_vm._s(' ' + _vm.$parent.calcDispAmount(_vm.creditSourceInfo.sumAllocation)))])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-12"
+  }, [_c('span', {
+    staticClass: "btn-red"
+  }, [_vm._v("درصدآخرین تخصیص:")]), _c('span', [_vm._v(_vm._s(' ' + _vm.$parent.calcPrecent(_vm.creditSourceInfo.approvedAmount, _vm.creditSourceInfo.sumAllocation)))])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "small-12 columns padding-lr"
+  }, [_c('label', [_vm._v("شرح\n                                    "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.AllocationInput.description),
+      expression: "AllocationInput.description"
+    }],
+    staticStyle: {
+      "min-height": "150px"
+    },
+    attrs: {
+      "name": "csDescription"
+    },
+    domProps: {
+      "value": (_vm.AllocationInput.description)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.AllocationInput.description = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 columns padding-lr padding-bottom-modal"
+  }, [_c('button', {
+    staticClass: "my-button my-success float-left btn-for-load",
+    attrs: {
+      "name": "Submit"
+    }
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showInsertFoundModal) ? _c('modal-tiny', {
+    attrs: {
+      "xmlns:v-on": "http://www.w3.org/1999/xhtml"
+    },
+    on: {
+      "close": function($event) {
+        _vm.showInsertFoundModal = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.createProvincialFound($event)
+      }
+    }
+  }, [(_vm.errorMessage) ? _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 columns padding-lr"
+  }, [_c('div', {
+    staticClass: "alert callout"
+  }, [_c('p', {
+    staticClass: "BYekan login-alert"
+  }, [_c('i', {
+    staticClass: "fi-alert"
+  }), _vm._v(_vm._s(_vm.errorMessage))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-6 padding-lr"
+  }, [_c('p', {
+    staticClass: "date-picker-lbl"
+  }, [_vm._v("تاریخ\n                                    "), _c('pdatepicker', {
+    attrs: {
+      "errMessage": "تاریخ دریافت تنخواه فراموش شده است!",
+      "isValid": _vm.dateIsValid_found,
+      "open-transition-animation": "left-slide-fade"
+    },
+    on: {
+      "closed": _vm.checkValidDate
+    },
+    model: {
+      value: (_vm.foundInput.date),
+      callback: function($$v) {
+        _vm.foundInput.date = $$v
+      },
+      expression: "foundInput.date"
+    }
+  })], 1)])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 cell padding-lr"
+  }, [_c('label', [_vm._v("مبلغ تنخواه "), _c('span', {
+    staticClass: "btn-red"
+  }, [_vm._v(_vm._s('(' + _vm.$parent.getAmountBaseLabel() + ')'))]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.foundInput.amount),
+      expression: "foundInput.amount"
+    }, {
+      name: "validate",
+      rawName: "v-validate"
+    }],
+    staticClass: "form-element-margin-btm",
+    class: {
+      'input': true, 'select-error': _vm.errors.has('foundAmount')
+    },
+    attrs: {
+      "type": "text",
+      "name": "foundAmount",
+      "data-vv-rules": "required"
+    },
+    domProps: {
+      "value": (_vm.foundInput.amount)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.foundInput.amount = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('foundAmount')),
+      expression: "errors.has('foundAmount')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("لطفا مبلغ تنخواه را وارد کنید!")])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "small-12 columns padding-lr"
+  }, [_c('label', [_vm._v("شرح\n                                    "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.foundInput.description),
+      expression: "foundInput.description"
+    }],
+    staticStyle: {
+      "min-height": "150px"
+    },
+    attrs: {
+      "name": "csDescription"
+    },
+    domProps: {
+      "value": (_vm.foundInput.description)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.foundInput.description = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 columns padding-lr padding-bottom-modal"
+  }, [_c('button', {
+    staticClass: "my-button my-success float-left btn-for-load",
+    attrs: {
+      "name": "Submit"
+    }
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showConvertToModal) ? _c('modal-large', {
+    attrs: {
+      "xmlns:v-on": "http://www.w3.org/1999/xhtml"
+    },
+    on: {
+      "close": function($event) {
+        _vm.showConvertToModal = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.convertToAllocation($event)
+      }
+    }
+  }, [(_vm.errorMessage) ? _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 columns padding-lr"
+  }, [_c('div', {
+    staticClass: "alert callout"
+  }, [_c('p', {
+    staticClass: "BYekan login-alert"
+  }, [_c('i', {
+    staticClass: "fi-alert"
+  }), _vm._v(_vm._s(_vm.errorMessage))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-6 cell padding-lr"
+  }, [_c('label', [_vm._v("موافقت نامه\n                                    "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectedCostAgreement),
+      expression: "selectedCostAgreement"
+    }, {
+      name: "validate",
+      rawName: "v-validate"
+    }],
+    staticClass: "form-element-margin-btm",
+    class: {
+      'input': true, 'select-error': _vm.errors.has('approved')
+    },
+    attrs: {
+      "name": "approved",
+      "data-vv-rules": "required"
+    },
+    on: {
+      "change": [function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.selectedCostAgreement = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }, _vm.getCreditSource]
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.costAgreements), function(costAgreement) {
+    return _c('option', {
+      domProps: {
+        "value": costAgreement.id
+      }
+    }, [_vm._v(_vm._s('موافقتنامه شماره ' + costAgreement.caLetterNumber + '  ابلاغ شده در تاریخ  ' + costAgreement.caLetterDate))])
+  })], 2), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('approved')),
+      expression: "errors.has('approved')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("لطفا موافقت نامه را انتخاب کنید!")])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 cell padding-lr"
+  }, [_c('label', [_vm._v("اعتبار مصوب\n                                    "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.AllocationInput.caCsId),
+      expression: "AllocationInput.caCsId"
+    }, {
+      name: "validate",
+      rawName: "v-validate"
+    }],
+    staticClass: "form-element-margin-btm",
+    class: {
+      'input': true, 'select-error': _vm.errors.has('credit')
+    },
+    attrs: {
+      "name": "credit",
+      "data-vv-rules": "required"
+    },
+    on: {
+      "change": [function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.AllocationInput.caCsId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }, _vm.displayCreditResourceInfo]
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.caCreditSources), function(caCreditSource) {
+    return _c('option', {
+      domProps: {
+        "value": caCreditSource.id
+      }
+    }, [_vm._v(_vm._s(caCreditSource.credit_distribution_title.cdtSubject + ' - ' + caCreditSource.credit_distribution_row.cdSubject + ' - ' + caCreditSource.tiny_season.season_title.season.sSubject + ' - ' + caCreditSource.tiny_season.season_title.cstSubject + ' - ' + caCreditSource.tiny_season.ctsSubject + ' - ' + _vm.$parent.calcDispAmount(caCreditSource.ccsAmount)))])
+  })], 2), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('credit')),
+      expression: "errors.has('credit')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("لطفا اعتبار مصوب را انتخاب کنید!")])])])]), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.creditSourceInfo.approvedAmount),
+      expression: "creditSourceInfo.approvedAmount"
+    }],
+    staticClass: "grid-x",
+    staticStyle: {
       "margin-top": "5px",
       "margin-bottom": "10px"
     }
@@ -132900,15 +133858,152 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "medium-12"
   }, [_c('span', {
     staticClass: "btn-red"
-  }, [_vm._v("اعتبار مصوب:")]), _c('span')]), _vm._v(" "), _c('div', {
+  }, [_vm._v("اعتبار مصوب:")]), _c('span', [_vm._v(_vm._s(' ' + _vm.$parent.calcDispAmount(_vm.creditSourceInfo.approvedAmount)))])]), _vm._v(" "), _c('div', {
     staticClass: "medium-12"
   }, [_c('span', {
     staticClass: "btn-red"
-  }, [_vm._v("آخرین تخصیص:")]), _c('span')]), _vm._v(" "), _c('div', {
+  }, [_vm._v("آخرین تخصیص:")]), _c('span', [_vm._v(_vm._s(' ' + _vm.$parent.calcDispAmount(_vm.creditSourceInfo.sumAllocation)))])]), _vm._v(" "), _c('div', {
     staticClass: "medium-12"
   }, [_c('span', {
     staticClass: "btn-red"
-  }, [_vm._v("درصدآخرین تخصیص:")]), _c('span')])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("درصدآخرین تخصیص:")]), _c('span', [_vm._v(_vm._s(' ' + _vm.$parent.calcPrecent(_vm.creditSourceInfo.approvedAmount, _vm.creditSourceInfo.sumAllocation)))])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x",
+    staticStyle: {
+      "margin-top": "10px"
+    }
+  }, [_c('div', {
+    staticClass: "medium-12 cell padding-lr"
+  }, [_c('label', [_vm._v("هزینه "), _c('span', {
+    staticClass: "btn-red"
+  }, [_vm._v(_vm._s('(' + _vm.$parent.getAmountBaseLabel() + ')'))]), _vm._v(" "), _c('div', {
+    staticClass: "tbl-div-container form-element-margin-btm"
+  }, [_c('table', {
+    staticClass: "tbl-head"
+  }, [_c('colgroup', [_c('col', {
+    attrs: {
+      "width": "250px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "600px"
+    }
+  }), _vm._v(" "), _c('col', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.selectColumn),
+      expression: "selectColumn"
+    }],
+    attrs: {
+      "width": "15px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "12px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style"
+  }, [_c('tr', {
+    staticClass: "tbl-head-style-cell"
+  }, [_c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("عنوان")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("مبلغ")]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  }, [_vm._v("شرح")]), _vm._v(" "), _c('th', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.selectColumn),
+      expression: "selectColumn"
+    }],
+    staticClass: "tbl-head-style-checkbox"
+  }, [_c('input', {
+    attrs: {
+      "type": "checkbox"
+    }
+  })]), _vm._v(" "), _c('th', {
+    staticClass: "tbl-head-style-cell"
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "tbl_body_style"
+  }, [_c('table', {
+    staticClass: "tbl-body-contain"
+  }, [_c('colgroup', [_c('col', {
+    attrs: {
+      "width": "250px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('col', {
+    attrs: {
+      "width": "600px"
+    }
+  }), _vm._v(" "), _c('col', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.selectColumn),
+      expression: "selectColumn"
+    }],
+    attrs: {
+      "width": "15px"
+    }
+  })]), _vm._v(" "), _c('tbody', {
+    staticClass: "tbl-head-style-cell"
+  }, _vm._l((_vm.expenseCosts), function(exCost) {
+    return _c('tr', {
+      staticClass: "tbl-head-style-cell"
+    }, [_c('td', [_vm._v(_vm._s(exCost.ecSubject))]), _vm._v(" "), _c('td', {
+      staticClass: "text-center"
+    }, [_vm._v(_vm._s(_vm.$parent.calcDispAmount(exCost.ecAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(exCost.ecDescription))]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (exCost.checked),
+        expression: "exCost.checked"
+      }],
+      staticClass: "auto-margin",
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "checked": Array.isArray(exCost.checked) ? _vm._i(exCost.checked, null) > -1 : (exCost.checked)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = exCost.checked,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = null,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (exCost.checked = $$a.concat([$$v]))
+            } else {
+              $$i > -1 && (exCost.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            exCost.checked = $$c
+          }
+        }
+      }
+    })])])
+  }))])])]), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.unSelectedCost),
+      expression: "unSelectedCost"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("حداقل یک مورد را از لیست هزینه انتخاب کنید!")])])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "small-12 columns padding-lr"
@@ -132977,7 +134072,13 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     attrs: {
       "href": "#provincial"
     }
-  }, [_vm._v("ملی")])])])
+  }, [_vm._v("ملی")])]), _vm._v(" "), _c('li', {
+    staticClass: "tabs-title"
+  }, [_c('a', {
+    attrs: {
+      "href": "#provincialFound"
+    }
+  }, [_vm._v("تنخواه - استانی")])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "dropdown-pane dropdown-pane-sm ",
@@ -133198,6 +134299,43 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }, [_c('i', {
     staticClass: "fi-magnifying-glass"
   })])])])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "dropdown-pane dropdown-pane-sm ",
+    staticStyle: {
+      "width": "113px"
+    },
+    attrs: {
+      "data-close-on-click": "true",
+      "data-hover": "true",
+      "data-hover-pane": "true",
+      "data-position": "bottom",
+      "data-alignment": "left",
+      "id": "foundReportDropDown",
+      "data-dropdown": "",
+      "data-auto-focus": "true"
+    }
+  }, [_c('ul', {
+    staticClass: "my-menu small-font ltr-dir"
+  }, [_c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-file-pdf-o icon-margin-dropdown",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v("PDF")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-file-excel-o icon-margin-dropdown",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v("Excel")])])])])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
