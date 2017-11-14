@@ -162,8 +162,8 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('/budget_season/update', 'BudgetAdminController@updateBudgetSeason');
         Route::get('/rows/fetchData', 'BudgetAdminController@fetchCreditDistributionRowsData');
         Route::post('/rows/register', 'BudgetAdminController@registerCreditDistributionRow');
-        //Route::get('/rows/delete/{cdId}', 'BudgetAdminController@deleteCreditDistributionRow');
-        //Route::post('/rows/update', 'BudgetAdminController@updateCreditDistributionRow');
+        Route::post('/rows/delete', 'BudgetAdminController@deleteCreditDistributionRow');
+        Route::post('/rows/update', 'BudgetAdminController@updateCreditDistributionRow');
         Route::get('/rows/getAllItems', 'BudgetAdminController@getAllCDRItems');
 
         Route::get('/plan_cost_title/fetchData', 'BudgetAdminController@fetchPlanOrCostTitleData');

@@ -104,7 +104,7 @@ class BudgetAdminController extends Controller
             'pageTitle' => 'ریز فصول']);
     }*/
     
-    public function updateCreditDistributionRow(Request $request)
+/*    public function updateCreditDistributionRow(Request $request)
     {
         $old = CreditDistributionRow::find(Input::get('cdrId'));
         $cdr = CreditDistributionRow::find(Input::get('cdrId'));
@@ -114,9 +114,9 @@ class BudgetAdminController extends Controller
 
         SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان ردیف توزیع اعتبار (' . $old->cdSubject . ') به (' . Input::get('cdrSubject') . ')');
         return Redirect::to(URL::previous());
-    }
+    }*/
 
-    public function deleteCreditDistributionRow($cdId)
+/*    public function deleteCreditDistributionRow($cdId)
     {
         $cdr = CreditDistributionRow::find($cdId);
         try {
@@ -130,7 +130,7 @@ class BudgetAdminController extends Controller
                 return Redirect::to(URL::previous())->with('messageDialogPm', 'با توجه به وابستگی اطلاعات، حذف رکورد مورد نظر ممکن نیست!');
             }
         }
-    }
+    }*/
 
 /*    public function fiscalYearActivation(Request $request)
     {
@@ -1069,7 +1069,7 @@ class BudgetAdminController extends Controller
             return \response()->json($this->getAllBudgetSeasons());
         } catch (\Illuminate\Database\QueryException $e) {
             if ($e->getCode() == "23000") { //23000 is sql code for integrity constraint violation
-                return \response()->json($this->getAllBudgetSeasons() , 204);
+                return \response()->json([] , 204);
             }
         }
     }
@@ -1102,6 +1102,34 @@ class BudgetAdminController extends Controller
 
         SystemLog::setBudgetSubSystemAdminLog('تعریف ردیف توزیع اعتبار ' . $request->subject);
         return \response()->json($this->getAllCreditDistributionRows($request->planOrCost));
+    }
+
+    public function updateCreditDistributionRow(Request $request)
+    {
+        $old = CreditDistributionRow::find($request->id);
+        $cdr = CreditDistributionRow::find($request->id);
+        $cdr->cdSubject = $request->subject;
+        $cdr->cdDescription = $request->description;
+        $cdr->save();
+
+        SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان ردیف توزیع اعتبار (' . $old->cdSubject . ') به (' . $request->subject . ')');
+        return \response()->json($this->getAllCreditDistributionRows($request->planOrCost));
+    }
+
+    public function deleteCreditDistributionRow(Request $request)
+    {
+        $cdr = CreditDistributionRow::find($request->crId);
+        try {
+            $logTemp = $cdr->cdSubject;
+            $cdr->delete();
+            SystemLog::setBudgetSubSystemAdminLog('حذف ردیف توزیع اعتبار ' . $logTemp);
+            return \response()->json($this->getAllCreditDistributionRows($request->planOrCost));
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                return \response()->json([] , 204);
+            }
+        }
     }
     ////////////////////////////// credit distribution plan or cost title ////////////////////
     public function registerPlanOrCostTitle(Request $request)

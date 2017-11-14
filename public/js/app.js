@@ -108863,7 +108863,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
-  }, [_vm._v(" تایید ")])])])])])])]) : _vm._e()], 1)
+  }, [_vm._v("   بله   ")])])])])])])]) : _vm._e()], 1)
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', [_c('a', {
@@ -109228,20 +109228,54 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     data: function data() {
         return {
             errorMessage: '',
-            errorMessage_update: '',
             rowDistributionCredit: [],
             rowDistributionCredit_cost: [],
-            rowDistributionCreditInput: { rdcSubject: '', rdcDescription: '' },
+            rowDistributionCreditInput: {},
             showInsertModal: false,
-            showModalUpdate: false,
-            showModalDelete: false,
-            rowDistributionCreditFill: { rdcSubject: '', rdcDescription: '', id: '' },
+            showUpdateModal: false,
+            showDeleteModal: false,
+            rowDistributionCreditFill: {},
             rdcIdDelete: {},
             planOrCostRequestType: 0,
             cost_pagination: {
@@ -109311,77 +109345,103 @@ if (false) {(function () {
         createRowDistributionCredit: function createRowDistributionCredit() {
             var _this3 = this;
 
-            axios.post('/budget/admin/credit_distribution_def/rows/register', {
-                subject: this.rowDistributionCreditInput.rdcSubject,
-                description: this.rowDistributionCreditInput.rdcDescription,
-                planOrCost: this.planOrCostRequestType }).then(function (response) {
-                if (_this3.planOrCostRequestType == 0) {
-                    _this3.rowDistributionCredit = response.data.data;
-                    _this3.makePagination(response.data, "plan");
-                } else if (_this3.planOrCostRequestType == 1) {
-                    _this3.rowDistributionCredit_cost = response.data.data;
-                    _this3.makePagination(response.data, "cost");
-                }
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    axios.post('/budget/admin/credit_distribution_def/rows/register', {
+                        subject: _this3.rowDistributionCreditInput.rdcSubject,
+                        description: _this3.rowDistributionCreditInput.rdcDescription,
+                        planOrCost: _this3.planOrCostRequestType
+                    }).then(function (response) {
+                        if (_this3.planOrCostRequestType == 0) {
+                            _this3.rowDistributionCredit = response.data.data;
+                            _this3.makePagination(response.data, "plan");
+                        } else if (_this3.planOrCostRequestType == 1) {
+                            _this3.rowDistributionCredit_cost = response.data.data;
+                            _this3.makePagination(response.data, "cost");
+                        }
 
-                _this3.showInsertModal = false;
-                _this3.$parent.displayNotif(response.status);
-                _this3.rowDistributionCreditInput = [];
-                console.log(response.status);
-            }, function (error) {
-                console.log(error);
-                _this3.errorMessage = 'ردیف توزیع اعتبار با این مشخصات قبلا ثبت شده است!';
+                        _this3.showInsertModal = false;
+                        _this3.$parent.displayNotif(response.status);
+                        _this3.rowDistributionCreditInput = [];
+                        console.log(response.status);
+                    }, function (error) {
+                        console.log(error);
+                        _this3.$parent.displayNotif(error.response.status);
+                    });
+                }
             });
         },
 
-        rowDistributionCreditUpdateDialog: function rowDistributionCreditUpdateDialog(item, type) {
+        openUpdateCreditDistributionRow: function openUpdateCreditDistributionRow(item, type) {
             this.rowDistributionCreditFill.rdcSubject = item.cdSubject;
             this.rowDistributionCreditFill.rdcDescription = item.cdDescription;
             this.rowDistributionCreditFill.id = item.id;
-            this.rowDistributionCreditFill.planOrCost = type;
-            this.errorMessage_update = '';
-            this.showModalUpdate = true;
+            this.planOrCostRequestType = type;
+            this.errorMessage = '';
+            this.showUpdateModal = true;
         },
 
-        updateRowDistributionCredit: function updateRowDistributionCredit() {
+        updateCreditDistributionRow: function updateCreditDistributionRow() {
             var _this4 = this;
 
-            if (this.rowDistributionCreditFill.rdcSubject != '') {
-                axios.post('/budget/admin/row_distribution_credit/update', this.rowDistributionCreditFill).then(function (response) {
-                    _this4.rowDistributionCredit = response.data;
-                    _this4.showModalUpdate = false;
-                    _this4.$notify({ group: 'rowDistributionCreditPm', title: 'پیام سیستم', text: 'بروزرسانی با موفقیت انجام شد.', type: 'success' });
-                    console.log(response);
-                }, function (error) {
-                    console.log(error);
-                    _this4.errorMessage_update = 'ردیف توزیع اعتبار با این مشخصات قبلا ثبت شده است!';
-                });
-            } else {
-                this.errorMessage_update = ' لطفا در وارد کردن اطلاعات دقت کنید!';
-            }
+            this.$validator.validateAll().then(function (result) {
+                if (result) {
+                    axios.post('/budget/admin/credit_distribution_def/rows/update', {
+                        id: _this4.rowDistributionCreditFill.id,
+                        subject: _this4.rowDistributionCreditFill.rdcSubject,
+                        description: _this4.rowDistributionCreditFill.rdcDescription,
+                        planOrCost: _this4.planOrCostRequestType
+                    }).then(function (response) {
+                        if (_this4.planOrCostRequestType == 0) {
+                            _this4.rowDistributionCredit = response.data.data;
+                            _this4.makePagination(response.data, "plan");
+                        } else if (_this4.planOrCostRequestType == 1) {
+                            _this4.rowDistributionCredit_cost = response.data.data;
+                            _this4.makePagination(response.data, "cost");
+                        }
+                        _this4.showUpdateModal = false;
+                        _this4.$parent.displayNotif(response.status);
+                        console.log(response);
+                    }, function (error) {
+                        console.log(error);
+                        _this4.$parent.displayNotif(error.response.status);
+                    });
+                }
+            });
         },
 
-        openDeleteRowDistributionCreditConfirm: function openDeleteRowDistributionCreditConfirm(rdc) {
+        openDeleteRowDistributionCreditConfirm: function openDeleteRowDistributionCreditConfirm(rdc, type) {
             this.rdcIdDelete = rdc;
-            this.showModalDelete = true;
+            this.planOrCostRequestType = type;
+            this.showDeleteModal = true;
         },
 
-        openInsertModal: function openInsertModal() {
-            this.planOrCostRequestType = 0;
+        openInsertModal: function openInsertModal(type) {
+            this.planOrCostRequestType = type;
             this.showInsertModal = true;
             this.errorMessage = '';
         },
 
-        deleteRowDistributionCredit: function deleteRowDistributionCredit() {
+        deleteCreditDistributionRow: function deleteCreditDistributionRow() {
             var _this5 = this;
 
-            axios.post('/budget/admin/row_distribution_credit/delete', this.rdcIdDelete).then(function (response) {
-                _this5.tinySeasons = response.data;
-                _this5.showModalDelete = false;
-                _this5.$notify({ group: 'rowDistributionCreditPm', title: 'پیام سیستم', text: 'حذف رکورد با موفقیت انجام شد.', type: 'success' });
+            axios.post('/budget/admin/credit_distribution_def/rows/delete', {
+                crId: this.rdcIdDelete,
+                planOrCost: this.planOrCostRequestType
+            }).then(function (response) {
+                if (_this5.planOrCostRequestType == 0 && response.status != 204) {
+                    _this5.rowDistributionCredit = response.data.data;
+                    _this5.makePagination(response.data, "plan");
+                } else if (_this5.planOrCostRequestType == 1 && response.status != 204) {
+                    _this5.rowDistributionCredit_cost = response.data.data;
+                    _this5.makePagination(response.data, "cost");
+                }
+                _this5.showDeleteModal = false;
+                _this5.$parent.displayNotif(response.status);
                 console.log(response);
             }, function (error) {
                 console.log(error);
-                _this5.$notify({ group: 'rowDistributionCreditPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.', type: 'error' });
+                _this5.showDeleteModal = false;
             });
         },
 
@@ -109451,7 +109511,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('a', {
     staticClass: "my-button toolbox-btn small",
     on: {
-      "click": _vm.openInsertModal
+      "click": function($event) {
+        _vm.openInsertModal(0)
+      }
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
@@ -109496,7 +109558,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.rowDistributionCreditUpdateDialog(plan, 1)
+          _vm.openUpdateCreditDistributionRow(plan, 0)
         }
       }
     }, [_c('i', {
@@ -109505,7 +109567,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.openDeleteRowDistributionCreditConfirm(plan)
+          _vm.openDeleteRowDistributionCreditConfirm(plan.id, 0)
         }
       }
     }, [_c('i', {
@@ -109544,9 +109606,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "my-button toolbox-btn small",
     on: {
       "click": function($event) {
-        _vm.planOrCostRequestType = 1;
-        _vm.showModal = true;
-        _vm.errorMessage = ''
+        _vm.openInsertModal(1)
       }
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
@@ -109592,7 +109652,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.rowDistributionCreditUpdateDialog(cost, 1)
+          _vm.openUpdateCreditDistributionRow(cost, 1)
         }
       }
     }, [_c('i', {
@@ -109601,7 +109661,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.openDeleteRowDistributionCreditConfirm(cost)
+          _vm.openDeleteRowDistributionCreditConfirm(cost.id, 1)
         }
       }
     }, [_c('i', {
@@ -109659,7 +109719,16 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       rawName: "v-model",
       value: (_vm.rowDistributionCreditInput.rdcSubject),
       expression: "rowDistributionCreditInput.rdcSubject"
+    }, {
+      name: "validate",
+      rawName: "v-validate",
+      value: ('required'),
+      expression: "'required'"
     }],
+    staticClass: "form-element-margin-btm",
+    class: {
+      'input': true, 'error-border': _vm.errors.has('rdcSubject')
+    },
     attrs: {
       "type": "text",
       "name": "rdcSubject"
@@ -109673,7 +109742,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.rowDistributionCreditInput.rdcSubject = $event.target.value
       }
     }
-  })])])]), _vm._v(" "), _c('div', {
+  })]), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('rdcSubject')),
+      expression: "errors.has('rdcSubject')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("لطفا عنوان ردیف را وارد نمایید!")])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "small-12 columns padding-lr"
@@ -109702,16 +109779,120 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6 columns padding-lr padding-bottom-modal"
   }, [_c('button', {
-    staticClass: "my-secondary button float-left btn-for-load",
+    staticClass: "my-button my-success float-left btn-for-load",
     attrs: {
-      "name": "Submit"
+      "type": "submit"
     }
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
-  }, [_vm._v("ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showModalDelete) ? _c('modal-tiny', {
+  }, [_vm._v("ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showUpdateModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
-        _vm.showModalDelete = false
+        _vm.showUpdateModal = false
+      }
+    }
+  }, [_c('div', {
+    attrs: {
+      "slot": "body"
+    },
+    slot: "body"
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.updateCreditDistributionRow($event)
+      }
+    }
+  }, [(_vm.errorMessage) ? _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 columns padding-lr"
+  }, [_c('div', {
+    staticClass: "alert callout"
+  }, [_c('p', {
+    staticClass: "BYekan login-alert"
+  }, [_c('i', {
+    staticClass: "fi-alert"
+  }), _vm._v(_vm._s(_vm.errorMessage))])])])]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "medium-12 columns padding-lr"
+  }, [_c('label', [_vm._v("عنوان\n                                    "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.rowDistributionCreditFill.rdcSubject),
+      expression: "rowDistributionCreditFill.rdcSubject"
+    }, {
+      name: "validate",
+      rawName: "v-validate",
+      value: ('required'),
+      expression: "'required'"
+    }],
+    staticClass: "form-element-margin-btm",
+    class: {
+      'input': true, 'error-border': _vm.errors.has('rdcSubject')
+    },
+    attrs: {
+      "type": "text",
+      "name": "rdcSubject"
+    },
+    domProps: {
+      "value": (_vm.rowDistributionCreditFill.rdcSubject)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.rowDistributionCreditFill.rdcSubject = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errors.has('rdcSubject')),
+      expression: "errors.has('rdcSubject')"
+    }],
+    staticClass: "error-font"
+  }, [_vm._v("لطفا عنوان ردیف را وارد نمایید!")])])]), _vm._v(" "), _c('div', {
+    staticClass: "grid-x"
+  }, [_c('div', {
+    staticClass: "small-12 columns padding-lr"
+  }, [_c('label', [_vm._v("شرح\n                                    "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.rowDistributionCreditFill.rdcDescription),
+      expression: "rowDistributionCreditFill.rdcDescription"
+    }],
+    staticStyle: {
+      "min-height": "150px"
+    },
+    attrs: {
+      "name": "rdcDescription"
+    },
+    domProps: {
+      "value": (_vm.rowDistributionCreditFill.rdcDescription)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.rowDistributionCreditFill.rdcDescription = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "medium-6 columns padding-lr padding-bottom-modal"
+  }, [_c('button', {
+    staticClass: "my-button my-success float-left btn-for-load",
+    attrs: {
+      "type": "submit"
+    }
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("ثبت")])])])])])]) : _vm._e(), _vm._v(" "), (_vm.showDeleteModal) ? _c('modal-tiny', {
+    on: {
+      "close": function($event) {
+        _vm.showDeleteModal = false
       }
     }
   }, [_c('div', {
@@ -109731,11 +109912,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "medium-12 column text-center"
   }, [_c('button', {
-    staticClass: "button primary btn-large-w",
+    staticClass: "my-button my-success",
     on: {
-      "click": _vm.deleteTinySeason
+      "click": _vm.deleteCreditDistributionRow
     }
-  }, [_vm._v("بله")])])])])])]) : _vm._e()], 1)])
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("بله")])])])])])])]) : _vm._e()], 1)])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', [_c('a', {
