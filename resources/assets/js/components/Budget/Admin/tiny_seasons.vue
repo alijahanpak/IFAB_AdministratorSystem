@@ -55,8 +55,124 @@
                                 </div>
                             </div>
                             <!--Table Start-->
-                            <div class="columns">
-                                <!--Header Start-->
+                            <div class="medium-12 column table-mrg-top">
+                                <div class="tbl-div-container">
+                                    <table class="tbl-head">
+                                        <colgroup>
+                                            <col width="150px"/>
+                                            <col width="250px"/>
+                                            <col width="350px"/>
+                                            <col width="200px"/>
+                                            <col width="12px"/>
+                                        </colgroup>
+                                        <tbody class="tbl-head-style">
+                                        <tr class="tbl-head-style-cell">
+                                            <th class="tbl-head-style-cell">فصل</th>
+                                            <th class="tbl-head-style-cell">عنوان فصل</th>
+                                            <th class="tbl-head-style-cell">ریز فصل</th>
+                                            <th class="tbl-head-style-cell">شرح</th>
+                                            <th class="tbl-head-style-cell"></th>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <!--Table Head End-->
+                                    <!--Table Body Start-->
+                                    <div class="tbl_body_style dynamic-height-level2">
+                                        <table class="tbl-body-contain">
+                                            <colgroup>
+                                                <col width="150px"/>
+                                                <col width="250px"/>
+                                                <col width="350px"/>
+                                                <col width="200px"/>
+                                            </colgroup>
+                                            <tbody class="tbl-head-style-cell">
+                                            <template v-for="season in tinySeasons">
+                                                <tr class="tbl-head-style-cell">
+                                                    <td :rowspan="getSeasonCount(season.capital_assets_season_title)"> {{ season.sSubject }}</td>
+                                                    <td :rowspan="season.capital_assets_season_title[0].capital_assets_tiny_season.length">  {{ season.capital_assets_season_title[0].castSubject }}</td>
+                                                    <td> {{ season.capital_assets_season_title[0].capital_assets_tiny_season[0].catsSubject }}</td>
+                                                    <td>
+                                                        <div class="grid-x">
+                                                            <div class="medium-11">
+                                                                {{ season.capital_assets_season_title[0].capital_assets_tiny_season[0].catsDescription }}
+                                                            </div>
+                                                            <div class="medium-1 cell-vertical-center text-left">
+                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + season.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + season.id" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font text-right">
+                                                                        <li><a v-on:click.prevent="tinySeasonUpdateDialog(season.id , capitalAssetsTinySeason , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                        <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(capitalAssetsTinySeason , 0)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <template v-for="(seasonTitle , sIndex) in season.capital_assets_season_title">
+                                                    <tr class="tbl-head-style-cell" v-if="sIndex > 0">
+                                                        <td :rowspan="season.seasonTitle.length">{{seasonTitle.castSubject}}</td>
+                                                        <td>{{seasonTitle.capital_assets_tiny_season[0].catsSubject}}</td>
+                                                        <td>
+                                                            <div class="grid-x">
+                                                                <div class="medium-11">
+                                                                    {{seasonTitle.capital_assets_tiny_season[0].catsDescription}}
+                                                                </div>
+                                                                <div class="medium-1 cell-vertical-center text-left">
+                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + season.id + seasonTitle.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + season.id + seasonTitle.id" data-dropdown data-auto-focus="true">
+                                                                        <ul class="my-menu small-font text-right">
+                                                                            <li><a v-on:click.prevent="tinySeasonUpdateDialog(season.id , capitalAssetsTinySeason , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                            <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(capitalAssetsTinySeason , 0)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <template v-for="(seasonTiny, ssIndex) in seasonTitle.capital_assets_tiny_season">
+                                                        <tr class="tbl-head-style-cell" v-if="ssIndex > 0">
+                                                            <td>{{seasonTiny.catsSubject}}</td>
+                                                            <td>
+                                                                <div class="grid-x">
+                                                                    <div class="medium-11">
+                                                                        {{seasonTiny.catsDescription}}
+                                                                    </div>
+                                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + season.id + seasonTitle.id + seasonTiny.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + season.id + seasonTitle.id + seasonTiny.id" data-dropdown data-auto-focus="true">
+                                                                            <ul class="my-menu small-font text-right">
+                                                                                <li><a v-on:click.prevent="tinySeasonUpdateDialog(season.id , capitalAssetsTinySeason , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                                <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(capitalAssetsTinySeason , 0)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </template>
+                                                </template>
+                                            </template>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-12">
+                                    <vue-pagination  v-bind:pagination="plan_pagination"
+                                                     v-on:click.native="fetchCapitalAssetsData(plan_pagination.current_page)"
+                                                     :offset="4">
+                                    </vue-pagination>
+                                </div>
+                            </div>
+
+
+
+
+
+
+                           <!-- <div class="columns">
+                                &lt;!&ndash;Header Start&ndash;&gt;
                                 <div class="grid-x table-header">
                                     <div class="medium-2 table-border">
                                         <strong>فصل</strong>
@@ -79,7 +195,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--Header End-->
+                                &lt;!&ndash;Header End&ndash;&gt;
                                 <div class="table-contain dynamic-height-level2">
                                     <div class="grid-x" v-for="season in tinySeasons">
                                         <div class="medium-2 table-contain-border cell-vertical-center">
@@ -117,15 +233,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="grid-x">
-                                    <div class="medium-12">
-                                        <vue-pagination  v-bind:pagination="plan_pagination"
-                                                         v-on:click.native="fetchCapitalAssetsData(plan_pagination.current_page)"
-                                                         :offset="4">
-                                        </vue-pagination>
-                                    </div>
-                                </div>
-                            </div>
+
+                            </div>-->
                         </div>
                     </div>
                     <!--Tab 1-->
@@ -136,7 +245,6 @@
                                 <div class="clearfix border-btm-line bottom-mrg">
                                     <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                         <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
-                                        <a class="my-button toolbox-btn small">گزارش</a>
                                         <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="costDropDown">تعداد نمایش<span> 20 </span></button>
                                         <div style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="costDropDown" data-dropdown data-auto-focus="true">
                                             <ul class="my-menu small-font ltr-dir">
@@ -482,6 +590,13 @@
                 this.showModal = true;
             },
 
+            getSeasonCount: function (season) {
+                var count = 0;
+                season.forEach(seasonTitle => {
+                    count += seasonTitle.capital_assets_tiny_season.length;
+                });
+                return count;
+            },
             createTinySeason: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
