@@ -241,6 +241,13 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::get('/getCapitalAssetsCreditSourceInfo', 'AllocationOfCapitalAssetsController@getCapitalAssetsCreditSourceInfo');
     });
 
+    Route::prefix('allocation/capital_assets/found')->group(function () {
+        Route::post('/register', 'AllocationOfCapitalAssetsController@registerCapitalAssetsFound');
+        Route::get('/fetchData', 'AllocationOfCapitalAssetsController@fetchFound');
+        Route::get('/getAllCapitalAssetsCosts', 'AllocationOfCapitalAssetsController@getAllCapitalAssetsCosts'); // for test convert found to allocation
+        Route::post('/convert_to_allocation', 'AllocationOfCapitalAssetsController@convertCapitalAssetsFoundToAllocation'); // for test convert found to allocation
+    });
+
     Route::prefix('allocation/cost')->group(function () {
         //Route::get('register_of_credit_allocation_assets/Allocation', 'AllocationOfCapitalAssetsController@register_of_credit_allocation_assets');
         Route::get('/fetchData', 'AllocationOfCapitalAssetsController@fetchCostAllocationData');
