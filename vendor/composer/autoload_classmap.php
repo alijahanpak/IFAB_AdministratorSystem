@@ -1730,6 +1730,7 @@ return array(
     'Modules\\Budget\\Entities\\CapitalAssetsAllocation' => $baseDir . '/Modules/Budget/Entities/CapitalAssetsAllocation.php',
     'Modules\\Budget\\Entities\\CapitalAssetsApprovedPlan' => $baseDir . '/Modules/Budget/Entities/CapitalAssetsApprovedPlan.php',
     'Modules\\Budget\\Entities\\CapitalAssetsApprovedPlanTemp' => $baseDir . '/Modules/Budget/Entities/CapitalAssetsApprovedPlanTemp.php',
+    'Modules\\Budget\\Entities\\CapitalAssetsCost' => $baseDir . '/Modules/Budget/Entities/CapitalAssetsCost.php',
     'Modules\\Budget\\Entities\\CapitalAssetsProject' => $baseDir . '/Modules/Budget/Entities/CapitalAssetsProject.php',
     'Modules\\Budget\\Entities\\CapitalAssetsProjectTemp' => $baseDir . '/Modules/Budget/Entities/CapitalAssetsProjectTemp.php',
     'Modules\\Budget\\Entities\\CapitalAssetsSeasonTitle' => $baseDir . '/Modules/Budget/Entities/CapitalAssetsSeasonTitle.php',
