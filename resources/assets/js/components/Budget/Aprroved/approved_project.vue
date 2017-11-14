@@ -44,8 +44,8 @@
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a @click="openReportModal(0)"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
-                                            <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
+                                            <li><a @click="openReportModal(0,'pdf')"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a @click="openReportModal(0 , 'excel')"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                                         </ul>
                                     </div>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="countDropDown1">تعداد نمایش<span> 20 </span></button>
@@ -277,8 +277,8 @@
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown2">گزارش</button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown2" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a  href="#"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
-                                            <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
+                                            <li><a  @click="openReportModal(1, 'pdf')"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a  @click="openReportModal(1, 'excel')"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                                         </ul>
                                     </div>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
@@ -376,7 +376,7 @@
                                                     </div>
                                                 </td>
                                                 <td  v-show="selectColumn">
-                                                    <input class="auto-margin" v-model="plans.checked" type="checkbox">
+                                                    <input class="auto-margin" v-model="plans.capital_assets_project[0].checked" type="checkbox">
                                                 </td>
                                             </tr>
                                             <tr v-show="displayCreditSourceInfo_nat == plans.capital_assets_project[0].id">
@@ -863,17 +863,18 @@
             </modal-small>
             <!--Project Cost Modal End-->
             <!--Report Modal Start-->
-            <modal-tiny v-if="showModalReport" @close="showModalReport= false">
-                <div  slot="body">
-                    <div class="small-font">
-                        <form v-on:submit.prevent="openPdfFile">
-                            <div class="grid-x padding-lr">
-                                <div class="medium-12">
-                                    <label>عنوان
-                                        <input type="text" v-model="reportOptions.title">
-                                    </label>
-                                </div>
+        <modal-tiny v-if="showModalReport" @close="showModalReport= false">
+            <div  slot="body">
+                <div class="small-font">
+                    <form v-on:submit.prevent="openReportFile">
+                        <div class="grid-x padding-lr">
+                            <div class="medium-12">
+                                <label>عنوان
+                                    <input type="text" v-model="reportOptions.title">
+                                </label>
                             </div>
+                        </div>
+                        <div v-show="reportType == 'pdf'">
                             <div style="margin-top: 10px;" class="grid-x padding-lr">
                                 <div class="medium-2">
                                     <div class="switch tiny">
@@ -930,14 +931,16 @@
                                     <p>جهت کاغذ</p>
                                 </div>
                             </div>
-                            <div class="medium-12 columns padding-lr padding-bottom-modal input-margin-top">
-                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">مشاهده</span></button>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="medium-12 columns padding-lr padding-bottom-modal input-margin-top">
+                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">مشاهده</span></button>
+                        </div>
+                    </form>
                 </div>
-            </modal-tiny>
-            <!--Report Modal End-->
+            </div>
+        </modal-tiny>
+
+        <!--Report Modal End-->
 
             <!--Forms End-->
         </div>
@@ -1026,6 +1029,7 @@
                 axios.get('/budget/approved_project/capital_assets/fetchData?page=' + page , {params:{pOrN: 0}})
                     .then((response) => {
                         this.approvedProjects_prov = response.data.data;
+                        this.setData(0 , response.data.data);
                         this.selectAll(this.approvedProjects_prov);
                         this.makePagination(response.data , "provincial");
                         console.log(response);
@@ -1038,12 +1042,25 @@
                 axios.get('/budget/approved_project/capital_assets/fetchData?page=' + page , {params:{pOrN: 1}})
                     .then((response) => {
                         this.approvedProjects_nat = response.data.data;
+                        this.setData(1 , response.data.data);
                         this.selectAll(this.approvedProjects_nat);
                         this.makePagination(response.data , "national");
                         console.log(response);
                     },(error) => {
                         console.log(error);
                     });
+            },
+
+            setData: function (type , data) {
+                if (type == 0)
+                {
+                    this.approvedPlan_prov = data;
+                    this.selectAll(this.approvedProjects_prov);
+                    console.log(JSON.stringify(this.approvedProjects_prov));
+                }else {
+                    this.approvedProjects_nat = data;
+                    this.selectAll(this.approvedProjects_nat);
+                }
             },
 
             getAllApprovedPlan: function (pOrN) {
@@ -1163,11 +1180,13 @@
                         }).then((response) => {
                                 if (this.provOrNat == 0)
                                 {
+                                    this.setData(0 , response.data.data);
                                     this.approvedProjects_prov = response.data.data;
                                     this.makePagination(response.data , "provincial");
                                 }
                                 else
                                 {
+                                    this.setData(1 , response.data.data);
                                     this.approvedProjects_nat = response.data.data;
                                     this.makePagination(response.data , "national");
                                 }
@@ -1196,11 +1215,13 @@
                         }).then((response) => {
                             if (this.provOrNat == 0)
                             {
+                                this.setData(0 , response.data.data);
                                 this.approvedProjects_prov = response.data.data;
                                 this.makePagination(response.data , "provincial");
                             }
                             else
                             {
+                                this.setData(1 , response.data.data);
                                 this.approvedProjects_nat = response.data.data;
                                 this.makePagination(response.data , "national");
                             }
@@ -1305,8 +1326,10 @@
                     this.selectColumn = true;
                 }
             },
-            openReportModal: function (proOrNat) {
+
+            openReportModal: function (proOrNat , type) {
                 this.provOrNat = proOrNat;
+                this.reportType = type;
                 this.selectedItems = [];
                 if (proOrNat == 0)
                 {
@@ -1314,7 +1337,7 @@
                     {
                         this.showModalReport = true;
                         this.approvedProjects_prov.forEach(plan => {
-                            if (plan.checked == true)
+                            if(plan.capital_assets_project.every(function(project){return project.checked;}))
                                 this.selectedItems.push(plan);
                         });
                         this.reportOptions.title = 'پروژه های مصوب تملک داریی های سرمایه ای استانی';
@@ -1328,7 +1351,7 @@
                     {
                         this.showModalReport = true;
                         this.approvedProjects_nat.forEach(plan => {
-                            if (plan.checked == true)
+                            if(plan.capital_assets_project.every(function(project){return project.checked;}))
                                 this.selectedItems.push(plan);
                         });
                         this.reportOptions.title = 'پروژه های مصوب تملک داریی های سرمایه ای ملی';
@@ -1341,8 +1364,8 @@
                 console.log(JSON.stringify(this.selectedItems));
             },
 
-            openPdfFile: function () {
-                axios.get('/budget/approved_project/capital_assets/report' , {params:{pOrN: this.provOrNat ,options: this.reportOptions , selectedItems: this.selectedItems}})
+            openReportFile: function () {
+                axios.post('/budget/approved_project/capital_assets/report' , {pOrN: this.provOrNat , type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
                     .then((response) => {
                         console.log(response.data);
                         window.open(response.data);
@@ -1396,9 +1419,13 @@
             },
 
             selectedLength: function (plans) {
-                return plans.filter(function (value) {
-                    return value.checked === true;
-                }).length;
+                var counter=0;
+                plans.forEach(plan => {
+                    plan.capital_assets_project.forEach(project => {
+                        counter+=project.checked;
+                    });
+                });
+                return counter;
             },
 
             makePagination: function(data , type){
