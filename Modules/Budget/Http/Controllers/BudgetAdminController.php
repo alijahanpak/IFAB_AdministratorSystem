@@ -169,7 +169,7 @@ class BudgetAdminController extends Controller
         }
     }*/
 
-    public function CDRIsExist($cdSubject , $cdId = null)
+/*    public function CDRIsExist($cdSubject , $cdId = null)
     {
         if (\Illuminate\Support\Facades\Request::ajax())
         {
@@ -195,7 +195,7 @@ class BudgetAdminController extends Controller
                 }
             }
         }
-    }
+    }*/
 
 /*    function changeBudgetItemPermissionState($pbId , $state)
     {
@@ -1024,7 +1024,7 @@ class BudgetAdminController extends Controller
     {
         if (BudgetSeason::where('bsSubject' , '=' , $request->subject)->exists())
         {
-            return \response()->json($this->getAllBudgetSeasons() , 409);
+            return \response()->json([] , 409);
         }
         else
         {
@@ -1044,7 +1044,7 @@ class BudgetAdminController extends Controller
     {
         if (BudgetSeason::where('id' , '<>' , $request->id)->where('bsSubject' , '=' , $request->subject)->exists())
         {
-            return \response()->json($this->getAllBudgetSeasons() , 409);
+            return \response()->json([] , 409);
         }
         else
         {
@@ -1082,7 +1082,7 @@ class BudgetAdminController extends Controller
 
     public function getAllCreditDistributionRows($planOrCost)
     {
-        return CreditDistributionRow::where('cdPlanOrCost' , $planOrCost)->paginate(5);
+        return CreditDistributionRow::where('cdPlanOrCost' , $planOrCost)->get();
 
     }
 
@@ -1093,27 +1093,44 @@ class BudgetAdminController extends Controller
 
     public function registerCreditDistributionRow(Request $request)
     {
-        $cdr = new CreditDistributionRow;
-        $cdr->cdUId = Auth::user()->id;
-        $cdr->cdPlanOrCost = $request->planOrCost;
-        $cdr->cdSubject = $request->subject;
-        $cdr->cdDescription = $request->description;
-        $cdr->save();
+        if (CreditDistributionRow::where('cdSubject' , '=' , $request->subject)
+            ->where('cdPlanOrCost' , '=' , $request->planOrCost)->exists())
+        {
+            return \response()->json([] , 409);
+        }
+        else
+        {
+            $cdr = new CreditDistributionRow;
+            $cdr->cdUId = Auth::user()->id;
+            $cdr->cdPlanOrCost = $request->planOrCost;
+            $cdr->cdSubject = $request->subject;
+            $cdr->cdDescription = $request->description;
+            $cdr->save();
 
-        SystemLog::setBudgetSubSystemAdminLog('تعریف ردیف توزیع اعتبار ' . $request->subject);
-        return \response()->json($this->getAllCreditDistributionRows($request->planOrCost));
+            SystemLog::setBudgetSubSystemAdminLog('تعریف ردیف توزیع اعتبار ' . $request->subject);
+            return \response()->json($this->getAllCreditDistributionRows($request->planOrCost));
+        }
     }
 
     public function updateCreditDistributionRow(Request $request)
     {
-        $old = CreditDistributionRow::find($request->id);
-        $cdr = CreditDistributionRow::find($request->id);
-        $cdr->cdSubject = $request->subject;
-        $cdr->cdDescription = $request->description;
-        $cdr->save();
+        if (CreditDistributionRow::where('id' , '<>' , $request->id)
+            ->where('cdSubject' , '=' , $request->subject)
+            ->where('cdPlanOrCost' , '=' , $request->planOrCost)->exists())
+        {
+            return \response()->json([] , 409);
+        }
+        else
+        {
+            $old = CreditDistributionRow::find($request->id);
+            $cdr = CreditDistributionRow::find($request->id);
+            $cdr->cdSubject = $request->subject;
+            $cdr->cdDescription = $request->description;
+            $cdr->save();
 
-        SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان ردیف توزیع اعتبار (' . $old->cdSubject . ') به (' . $request->subject . ')');
-        return \response()->json($this->getAllCreditDistributionRows($request->planOrCost));
+            SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان ردیف توزیع اعتبار (' . $old->cdSubject . ') به (' . $request->subject . ')');
+            return \response()->json($this->getAllCreditDistributionRows($request->planOrCost));
+        }
     }
 
     public function deleteCreditDistributionRow(Request $request)

@@ -109207,62 +109207,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -109277,20 +109221,7 @@ if (false) {(function () {
             showDeleteModal: false,
             rowDistributionCreditFill: {},
             rdcIdDelete: {},
-            planOrCostRequestType: 0,
-            cost_pagination: {
-                total: 0,
-                to: 0,
-                current_page: 1,
-                last_page: ''
-            },
-
-            plan_pagination: {
-                total: 0,
-                to: 0,
-                current_page: 1,
-                last_page: ''
-            }
+            planOrCostRequestType: 0
         };
     },
 
@@ -109320,8 +109251,7 @@ if (false) {(function () {
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             axios.get('/budget/admin/credit_distribution_def/rows/fetchData?page=' + page, { params: { planOrCost: 0 } }).then(function (response) {
-                _this.rowDistributionCredit = response.data.data;
-                _this.makePagination(response.data, "plan");
+                _this.rowDistributionCredit = response.data;
                 console.log(response.data);
             }, function (error) {
                 console.log(error);
@@ -109334,8 +109264,7 @@ if (false) {(function () {
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             axios.get('/budget/admin/credit_distribution_def/rows/fetchData?page=' + page, { params: { planOrCost: 1 } }).then(function (response) {
-                _this2.rowDistributionCredit_cost = response.data.data;
-                _this2.makePagination(response.data, "cost");
+                _this2.rowDistributionCredit_cost = response.data;
                 console.log(response.data);
             }, function (error) {
                 console.log(error);
@@ -109353,11 +109282,9 @@ if (false) {(function () {
                         planOrCost: _this3.planOrCostRequestType
                     }).then(function (response) {
                         if (_this3.planOrCostRequestType == 0) {
-                            _this3.rowDistributionCredit = response.data.data;
-                            _this3.makePagination(response.data, "plan");
+                            _this3.rowDistributionCredit = response.data;
                         } else if (_this3.planOrCostRequestType == 1) {
-                            _this3.rowDistributionCredit_cost = response.data.data;
-                            _this3.makePagination(response.data, "cost");
+                            _this3.rowDistributionCredit_cost = response.data;
                         }
 
                         _this3.showInsertModal = false;
@@ -109393,11 +109320,9 @@ if (false) {(function () {
                         planOrCost: _this4.planOrCostRequestType
                     }).then(function (response) {
                         if (_this4.planOrCostRequestType == 0) {
-                            _this4.rowDistributionCredit = response.data.data;
-                            _this4.makePagination(response.data, "plan");
+                            _this4.rowDistributionCredit = response.data;
                         } else if (_this4.planOrCostRequestType == 1) {
-                            _this4.rowDistributionCredit_cost = response.data.data;
-                            _this4.makePagination(response.data, "cost");
+                            _this4.rowDistributionCredit_cost = response.data;
                         }
                         _this4.showUpdateModal = false;
                         _this4.$parent.displayNotif(response.status);
@@ -109430,11 +109355,9 @@ if (false) {(function () {
                 planOrCost: this.planOrCostRequestType
             }).then(function (response) {
                 if (_this5.planOrCostRequestType == 0 && response.status != 204) {
-                    _this5.rowDistributionCredit = response.data.data;
-                    _this5.makePagination(response.data, "plan");
+                    _this5.rowDistributionCredit = response.data;
                 } else if (_this5.planOrCostRequestType == 1 && response.status != 204) {
-                    _this5.rowDistributionCredit_cost = response.data.data;
-                    _this5.makePagination(response.data, "cost");
+                    _this5.rowDistributionCredit_cost = response.data;
                 }
                 _this5.showDeleteModal = false;
                 _this5.$parent.displayNotif(response.status);
@@ -109443,18 +109366,6 @@ if (false) {(function () {
                 console.log(error);
                 _this5.showDeleteModal = false;
             });
-        },
-
-        makePagination: function makePagination(data, type) {
-            if (type == "cost") {
-                this.cost_pagination.current_page = data.current_page;
-                this.cost_pagination.to = data.to;
-                this.cost_pagination.last_page = data.last_page;
-            } else if (type == "plan") {
-                this.plan_pagination.current_page = data.current_page;
-                this.plan_pagination.to = data.to;
-                this.plan_pagination.last_page = data.last_page;
-            }
         }
     }
 });
@@ -109504,7 +109415,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "clearfix border-btm-line bottom-mrg tool-bar"
   }, [_c('div', {
-    staticClass: "button-group float-right report-mrg",
+    staticClass: "button-group float-right",
     staticStyle: {
       "margin-top": "2px"
     }
@@ -109515,15 +109426,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.openInsertModal(0)
       }
     }
-  }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
-    staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(3), _vm._v(" "), _vm._m(4)]), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("جدید")])])]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
-  }, [_vm._m(6), _vm._v(" "), _c('div', {
+  }, [_vm._m(3), _vm._v(" "), _c('div', {
     staticClass: "tbl_body_style dynamic-height-level2"
   }, [_c('table', {
     staticClass: "tbl-body-contain"
-  }, [_vm._m(7), _vm._v(" "), _c('tbody', {
+  }, [_vm._m(4), _vm._v(" "), _c('tbody', {
     staticClass: "tbl-head-style-cell"
   }, _vm._l((_vm.rowDistributionCredit), function(plan) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(plan.cdSubject))]), _vm._v(" "), _c('td', [_c('div', {
@@ -109573,21 +109482,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_c('i', {
       staticClass: "fi-trash size-16"
     }), _vm._v("  حذف")])])])])])])])])
-  }))])])]), _vm._v(" "), _c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-12"
-  }, [_c('vue-pagination', {
-    attrs: {
-      "pagination": _vm.plan_pagination,
-      "offset": 4
-    },
-    nativeOn: {
-      "click": function($event) {
-        _vm.fetchCapitalAssetsData(_vm.plan_pagination.current_page)
-      }
-    }
-  })], 1)])])]), _vm._v(" "), _c('div', {
+  }))])])])])]), _vm._v(" "), _c('div', {
     staticClass: "tabs-panel table-mrg-btm",
     attrs: {
       "id": "cost",
@@ -109598,7 +109493,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "clearfix border-btm-line bottom-mrg"
   }, [_c('div', {
-    staticClass: "button-group float-right report-mrg",
+    staticClass: "button-group float-right",
     staticStyle: {
       "margin-top": "2px"
     }
@@ -109609,15 +109504,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.openInsertModal(1)
       }
     }
-  }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
-    staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(8), _vm._v(" "), _vm._m(9)]), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("جدید")])])]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
-  }, [_vm._m(11), _vm._v(" "), _c('div', {
+  }, [_vm._m(5), _vm._v(" "), _c('div', {
     staticClass: "tbl_body_style dynamic-height-level2"
   }, [_c('table', {
     staticClass: "tbl-body-contain"
-  }, [_vm._m(12), _vm._v(" "), _c('tbody', {
+  }, [_vm._m(6), _vm._v(" "), _c('tbody', {
     staticClass: "tbl-head-style-cell"
   }, _vm._l((_vm.rowDistributionCredit_cost), function(cost) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(cost.cdSubject))]), _vm._v(" "), _c('td', [_c('div', {
@@ -109667,21 +109560,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_c('i', {
       staticClass: "fi-trash size-16"
     }), _vm._v("  حذف")])])])])])])])])
-  }))])])]), _vm._v(" "), _c('div', {
-    staticClass: "grid-x"
-  }, [_c('div', {
-    staticClass: "medium-12"
-  }, [_c('vue-pagination', {
-    attrs: {
-      "pagination": _vm.cost_pagination,
-      "offset": 4
-    },
-    nativeOn: {
-      "click": function($event) {
-        _vm.fetchCostData(_vm.cost_pagination.current_page)
-      }
-    }
-  })], 1)])])])])])]), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-tiny', {
+  }))])])])])])])])]), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-tiny', {
     on: {
       "close": function($event) {
         _vm.showInsertModal = false
@@ -109950,79 +109829,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }, [_vm._v("هزینه ای")])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
-    attrs: {
-      "type": "button",
-      "data-toggle": "assetsDropDown"
-    }
-  }, [_vm._v("تعداد نمایش"), _c('span', [_vm._v(" 20 ")])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "dropdown-pane dropdown-pane-sm ",
-    staticStyle: {
-      "width": "113px"
-    },
-    attrs: {
-      "data-close-on-click": "true",
-      "data-hover": "true",
-      "data-hover-pane": "true",
-      "data-position": "bottom",
-      "data-alignment": "left",
-      "id": "assetsDropDown",
-      "data-dropdown": "",
-      "data-auto-focus": "true"
-    }
-  }, [_c('ul', {
-    staticClass: "my-menu small-font ltr-dir"
-  }, [_c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_vm._v("10")])]), _vm._v(" "), _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_vm._v("20"), _c('span', {
-    staticClass: "fi-check checked-color size-14"
-  })])]), _vm._v(" "), _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_vm._v("30")])]), _vm._v(" "), _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_vm._v("50")])]), _vm._v(" "), _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_vm._v("100")])]), _vm._v(" "), _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_vm._v("200")])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "float-left"
-  }, [_c('div', {
-    staticClass: "input-group float-left"
-  }, [_c('input', {
-    staticClass: "input-group-field small-font",
-    attrs: {
-      "type": "text"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "input-group-button"
-  }, [_c('button', {
-    staticClass: "my-button my-brand",
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fi-magnifying-glass"
-  })])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('table', {
     staticClass: "tbl-head"
   }, [_c('colgroup', [_c('col', {
@@ -110058,79 +109864,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "width": "390px"
     }
   })])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "my-button toolbox-btn small dropdown small sm-btn-align",
-    attrs: {
-      "type": "button",
-      "data-toggle": "costDropDown"
-    }
-  }, [_vm._v("تعداد نمایش"), _c('span', [_vm._v(" 20 ")])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "dropdown-pane dropdown-pane-sm ",
-    staticStyle: {
-      "width": "113px"
-    },
-    attrs: {
-      "data-close-on-click": "true",
-      "data-hover": "true",
-      "data-hover-pane": "true",
-      "data-position": "bottom",
-      "data-alignment": "left",
-      "id": "costDropDown",
-      "data-dropdown": "",
-      "data-auto-focus": "true"
-    }
-  }, [_c('ul', {
-    staticClass: "my-menu small-font ltr-dir"
-  }, [_c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_vm._v("10")])]), _vm._v(" "), _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_vm._v("20"), _c('span', {
-    staticClass: "fi-check checked-color size-14"
-  })])]), _vm._v(" "), _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_vm._v("30")])]), _vm._v(" "), _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_vm._v("50")])]), _vm._v(" "), _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_vm._v("100")])]), _vm._v(" "), _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_vm._v("200")])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "float-left"
-  }, [_c('div', {
-    staticClass: "input-group float-left"
-  }, [_c('input', {
-    staticClass: "input-group-field small-font",
-    attrs: {
-      "type": "text"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "input-group-button"
-  }, [_c('button', {
-    staticClass: "my-button my-brand",
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fi-magnifying-glass"
-  })])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('table', {
     staticClass: "tbl-head"
@@ -111833,14 +111566,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -111853,6 +111578,7 @@ if (false) {(function () {
             counties: [],
             displayCountyInfo: '',
             provincePlanLabel: '',
+            CDPT_duplicateError: false,
             pagination: {
                 total: 0,
                 to: 0,
@@ -111932,6 +111658,7 @@ if (false) {(function () {
         openInsertModal: function openInsertModal() {
             this.getCounties();
             this.getProvincePlaLabel();
+            this.CDPT_duplicateError = false;
             this.showInsertModal = true;
         },
 
@@ -111940,28 +111667,42 @@ if (false) {(function () {
 
             this.$validator.validateAll().then(function (result) {
                 if (result) {
-                    var jsonString = '{';
-                    jsonString += '"bsId":"' + _this5.planOrCostInput.bsId + '",';
-                    jsonString += '"code":"' + _this5.planOrCostInput.code + '",';
-                    jsonString += '"subject":"' + _this5.planOrCostInput.subject + '",';
-                    jsonString += '"description":"' + _this5.planOrCostInput.description + '",';
-                    _this5.counties.forEach(function (county) {
-                        if (_this5.planOrCostInput['county' + county.id]) jsonString += '"county' + county.id + '":"' + _this5.planOrCostInput['county' + county.id] + '",';
-                        if (_this5.planOrCostInput['countyDesc' + county.id]) jsonString += '"countyDesc' + county.id + '":"' + _this5.planOrCostInput['countyDesc' + county.id] + '",';
-                    });
-                    jsonString += '"":""}';
-                    axios.post('/budget/admin/credit_distribution_def/plan_cost_title/register', JSON.parse(jsonString)).then(function (response) {
-                        _this5.planOrCosts = response.data.data;
-                        _this5.makePagination(response.data);
-                        _this5.showInsertModal = false;
-                        _this5.$parent.displayNotif(response.status);
-                        _this5.planOrCostInput = [];
-                        console.log(response);
-                    }, function (error) {
-                        console.log(error);
-                        _this5.errorMessage = 'عنوان طرح / برنامه با این مشخصات قبلا ثبت شده است!';
-                    });
+                    if (!_this5.duplicateCountyCode(_this5.planOrCostInput)) {
+                        var jsonString = '{';
+                        jsonString += '"bsId":"' + _this5.planOrCostInput.bsId + '",';
+                        jsonString += '"code":"' + _this5.planOrCostInput.code + '",';
+                        jsonString += '"subject":"' + _this5.planOrCostInput.subject + '",';
+                        jsonString += '"description":"' + _this5.planOrCostInput.description + '",';
+                        _this5.counties.forEach(function (county) {
+                            if (_this5.planOrCostInput['county' + county.id]) jsonString += '"county' + county.id + '":"' + _this5.planOrCostInput['county' + county.id] + '",';
+                            if (_this5.planOrCostInput['countyDesc' + county.id]) jsonString += '"countyDesc' + county.id + '":"' + _this5.planOrCostInput['countyDesc' + county.id] + '",';
+                        });
+                        jsonString += '"":""}';
+                        axios.post('/budget/admin/credit_distribution_def/plan_cost_title/register', JSON.parse(jsonString)).then(function (response) {
+                            _this5.planOrCosts = response.data.data;
+                            _this5.makePagination(response.data);
+                            _this5.showInsertModal = false;
+                            _this5.$parent.displayNotif(response.status);
+                            _this5.planOrCostInput = [];
+                            console.log(response);
+                        }, function (error) {
+                            console.log(error);
+                            _this5.errorMessage = 'عنوان طرح / برنامه با این مشخصات قبلا ثبت شده است!';
+                        });
+                    } else {
+                        _this5.CDPT_duplicateError = true;
+                    }
                 }
+            });
+        },
+
+        duplicateCountyCode: function duplicateCountyCode(plan) {
+            var temp = [];
+            this.counties.forEach(function (county) {
+                if (plan['county' + county.id]) temp.push(plan['county' + county.id]);
+            });
+            return temp.some(function (val, i) {
+                return temp.indexOf(val) != i;
             });
         },
 
@@ -112107,18 +111848,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.fetchData(_vm.pagination.current_page)
       }
     }
-  })], 1)])])]), _vm._v(" "), (_vm.showFyActiveModal) ? _c('modal-tiny', {
-    on: {
-      "close": function($event) {
-        _vm.showFyActiveModal = false
-      }
-    }
-  }, [_c('div', {
-    attrs: {
-      "slot": "body"
-    },
-    slot: "body"
-  })]) : _vm._e(), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-small', {
+  })], 1)])])]), _vm._v(" "), (_vm.showInsertModal) ? _c('modal-small', {
     on: {
       "close": function($event) {
         _vm.showInsertModal = false
@@ -112290,7 +112020,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "medium-12 column padding-lr"
   }, [_c('ul', {
-    staticClass: "accordion",
+    staticClass: "accordion form-element-margin-btm",
     attrs: {
       "data-accordion": "",
       "data-allow-all-closed": "true"
@@ -112384,14 +112114,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     })])])])
   }))])])])])])]), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.CDPT_duplicateError),
+      expression: "CDPT_duplicateError"
+    }],
     staticClass: "grid-x"
   }, [_c('div', {
     staticClass: "small-12 columns padding-lr"
   }, [_c('span', {
-    staticClass: "form-error font-wei",
-    attrs: {
-      "id": "CDPT_duplicateErro"
-    }
+    staticClass: "error-font"
   }, [_vm._v("لطفا در وارد کردن کد طرح دقت کنید - کد تکراری!")])])]), _vm._v(" "), _c('div', {
     staticClass: "grid-x"
   }, [_c('div', {
@@ -112421,12 +112154,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-6 columns padding-lr"
   }, [_c('button', {
-    staticClass: "my-secondary button float-left btn-for-load",
+    staticClass: "my-button my-success float-left btn-for-load",
     attrs: {
-      "name": "Submit",
       "type": "submit"
     }
-  }, [_c('span', [_vm._v("  ثبت")])])])])])])]) : _vm._e()], 1)
+  }, [_c('span', {
+    staticClass: "btn-txt-mrg"
+  }, [_vm._v("ثبت")])])])])])])]) : _vm._e()], 1)
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', [_c('a', {

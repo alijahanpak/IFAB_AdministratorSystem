@@ -127,14 +127,6 @@
                     </div>
             </div>
         </div>
-        <!--modalDelete Start-->
-        <modal-tiny v-if="showFyActiveModal" @close="showFyActiveModal = false">
-            <div  slot="body">
-
-            </div>
-        </modal-tiny>
-        <!--modalDelete end-->
-
         <!--ModalInsert Start-->
         <modal-small v-if="showInsertModal" @close="showInsertModal = false">
             <div  slot="body">
@@ -174,7 +166,7 @@
                         </div>
                         <div class="grid-x" style="margin-top: 20px">
                             <div class="medium-12 column padding-lr">
-                                <ul class="accordion" data-accordion data-allow-all-closed="true">
+                                <ul class="accordion form-element-margin-btm" data-accordion data-allow-all-closed="true">
                                     <li class="accordion-item" data-accordion-item>
                                         <a href="#" class="accordion-title acurdion-focus">کد طرح در سطح شهرستان</a>
                                         <!-- Accordion tab content: it would start in the open state due to using the `is-active` state class. -->
@@ -204,9 +196,9 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="grid-x">
+                        <div class="grid-x" v-show="CDPT_duplicateError">
                             <div class="small-12 columns padding-lr">
-                                <span class="form-error font-wei" id="CDPT_duplicateErro">لطفا در وارد کردن کد طرح دقت کنید - کد تکراری!</span>
+                                <span class="error-font">لطفا در وارد کردن کد طرح دقت کنید - کد تکراری!</span>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -217,7 +209,7 @@
                             </div>
                         </div>
                         <div class="medium-6 columns padding-lr">
-                            <button name="Submit" type="submit" class="my-secondary button float-left btn-for-load"> <span>  ثبت</span></button>
+                            <button type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">ثبت</span></button>
                         </div>
                     </form>
                 </div>
@@ -238,6 +230,7 @@
                 counties: [],
                 displayCountyInfo: '',
                 provincePlanLabel: '',
+                CDPT_duplicateError: false,
                 pagination: {
                     total: 0,
                     to: 0,
@@ -310,37 +303,55 @@
             openInsertModal: function () {
                 this.getCounties();
                 this.getProvincePlaLabel();
+                this.CDPT_duplicateError = false;
                 this.showInsertModal = true;
             },
 
             createPlanOrCostTitle: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        var jsonString = '{';
-                        jsonString += '"bsId":"' + this.planOrCostInput.bsId + '",';
-                        jsonString += '"code":"' + this.planOrCostInput.code + '",';
-                        jsonString += '"subject":"' + this.planOrCostInput.subject + '",';
-                        jsonString += '"description":"' + this.planOrCostInput.description + '",';
-                        this.counties.forEach(county => {
-                            if (this.planOrCostInput['county' + county.id])
-                                jsonString += '"county' + county.id + '":"' + this.planOrCostInput['county' + county.id] + '",';
-                            if (this.planOrCostInput['countyDesc' + county.id])
-                                jsonString += '"countyDesc' + county.id + '":"' + this.planOrCostInput['countyDesc' + county.id] + '",'
-                        });
-                        jsonString += '"":""}';
-                        axios.post('/budget/admin/credit_distribution_def/plan_cost_title/register' , JSON.parse(jsonString))
-                            .then((response) => {
-                                this.planOrCosts = response.data.data;
-                                this.makePagination(response.data);
-                                this.showInsertModal = false;
-                                this.$parent.displayNotif(response.status);
-                                this.planOrCostInput = [];
-                                console.log(response);
-                            },(error) => {
-                                console.log(error);
-                                this.errorMessage = 'عنوان طرح / برنامه با این مشخصات قبلا ثبت شده است!';
+                        if (!this.duplicateCountyCode(this.planOrCostInput))
+                        {
+                            var jsonString = '{';
+                            jsonString += '"bsId":"' + this.planOrCostInput.bsId + '",';
+                            jsonString += '"code":"' + this.planOrCostInput.code + '",';
+                            jsonString += '"subject":"' + this.planOrCostInput.subject + '",';
+                            jsonString += '"description":"' + this.planOrCostInput.description + '",';
+                            this.counties.forEach(county => {
+                                if (this.planOrCostInput['county' + county.id])
+                                    jsonString += '"county' + county.id + '":"' + this.planOrCostInput['county' + county.id] + '",';
+                                if (this.planOrCostInput['countyDesc' + county.id])
+                                    jsonString += '"countyDesc' + county.id + '":"' + this.planOrCostInput['countyDesc' + county.id] + '",';
                             });
+                            jsonString += '"":""}';
+                            axios.post('/budget/admin/credit_distribution_def/plan_cost_title/register' , JSON.parse(jsonString))
+                                .then((response) => {
+                                    this.planOrCosts = response.data.data;
+                                    this.makePagination(response.data);
+                                    this.showInsertModal = false;
+                                    this.$parent.displayNotif(response.status);
+                                    this.planOrCostInput = [];
+                                    console.log(response);
+                                },(error) => {
+                                    console.log(error);
+                                    this.errorMessage = 'عنوان طرح / برنامه با این مشخصات قبلا ثبت شده است!';
+                            });
+                        }
+                        else{
+                            this.CDPT_duplicateError = true;
+                        }
                     }
+                });
+            },
+
+            duplicateCountyCode: function (plan) {
+                var temp = [];
+                this.counties.forEach(county => {
+                    if (plan['county' + county.id])
+                        temp.push(plan['county' + county.id]);
+                });
+                return temp.some((val,i)=>{
+                    return temp.indexOf(val)!=i;
                 });
             },
 

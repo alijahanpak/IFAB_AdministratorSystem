@@ -30,28 +30,8 @@
                          xmlns:v-on="http://www.w3.org/1999/xhtml">
                         <div class="medium-12 bottom-mrg">
                             <div class="clearfix border-btm-line bottom-mrg tool-bar">
-                                <div style="margin-top: 2px;" class="button-group float-right report-mrg">
+                                <div style="margin-top: 2px;" class="button-group float-right">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(0)">جدید</a>
-                                    <a class="my-button toolbox-btn small">گزارش</a>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
-                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
-                                        <ul class="my-menu small-font ltr-dir">
-                                            <li><a  href="#">10</a></li>
-                                            <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
-                                            <li><a  href="#">30</a></li>
-                                            <li><a  href="#">50</a></li>
-                                            <li><a  href="#">100</a></li>
-                                            <li><a  href="#">200</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="float-left">
-                                    <div class="input-group float-left">
-                                        <input class="input-group-field small-font" type="text">
-                                        <div class="input-group-button">
-                                            <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="tbl-div-container">
@@ -101,14 +81,6 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="grid-x">
-                                <div class="medium-12">
-                                    <vue-pagination  v-bind:pagination="plan_pagination"
-                                                     v-on:click.native="fetchCapitalAssetsData(plan_pagination.current_page)"
-                                                     :offset="4">
-                                    </vue-pagination>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <!--Tab 1-->
@@ -117,28 +89,8 @@
                         <div class="">
                             <div class="medium-12 bottom-mrg">
                                 <div class="clearfix border-btm-line bottom-mrg">
-                                    <div style="margin-top: 2px;" class="button-group float-right report-mrg">
+                                    <div style="margin-top: 2px;" class="button-group float-right">
                                         <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
-                                        <a class="my-button toolbox-btn small">گزارش</a>
-                                        <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="costDropDown">تعداد نمایش<span> 20 </span></button>
-                                        <div style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="costDropDown" data-dropdown data-auto-focus="true">
-                                            <ul class="my-menu small-font ltr-dir">
-                                                <li><a  href="#">10</a></li>
-                                                <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
-                                                <li><a  href="#">30</a></li>
-                                                <li><a  href="#">50</a></li>
-                                                <li><a  href="#">100</a></li>
-                                                <li><a  href="#">200</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="float-left">
-                                        <div class="input-group float-left">
-                                            <input class="input-group-field small-font" type="text">
-                                            <div class="input-group-button">
-                                                <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="tbl-div-container">
@@ -186,14 +138,6 @@
                                             </tr>
                                             </tbody>
                                         </table>
-                                    </div>
-                                </div>
-                                <div class="grid-x">
-                                    <div class="medium-12">
-                                        <vue-pagination  v-bind:pagination="cost_pagination"
-                                                         v-on:click.native="fetchCostData(cost_pagination.current_page)"
-                                                         :offset="4">
-                                        </vue-pagination>
                                     </div>
                                 </div>
                             </div>
@@ -301,19 +245,6 @@
                 rowDistributionCreditFill: {},
                 rdcIdDelete: {},
                 planOrCostRequestType: 0,
-                cost_pagination: {
-                    total: 0,
-                    to: 0,
-                    current_page: 1,
-                    last_page: ''
-                },
-
-                plan_pagination: {
-                    total: 0,
-                    to: 0,
-                    current_page: 1,
-                    last_page: ''
-                },
             }
         },
 
@@ -339,8 +270,7 @@
             fetchCapitalAssetsData: function (page = 1) {
                 axios.get('/budget/admin/credit_distribution_def/rows/fetchData?page=' + page , {params:{planOrCost: 0}})
                     .then((response) => {
-                        this.rowDistributionCredit = response.data.data;
-                        this.makePagination(response.data , "plan");
+                        this.rowDistributionCredit = response.data;
                         console.log(response.data);
                     },(error) => {
                         console.log(error);
@@ -350,8 +280,7 @@
             fetchCostData: function (page = 1) {
                 axios.get('/budget/admin/credit_distribution_def/rows/fetchData?page=' + page , {params:{planOrCost: 1}})
                     .then((response) => {
-                        this.rowDistributionCredit_cost = response.data.data;
-                        this.makePagination(response.data , "cost");
+                        this.rowDistributionCredit_cost = response.data;
                         console.log(response.data);
                     },(error) => {
                         console.log(error);
@@ -368,12 +297,10 @@
                         })
                             .then((response) => {
                                 if (this.planOrCostRequestType == 0) {
-                                    this.rowDistributionCredit = response.data.data;
-                                    this.makePagination(response.data, "plan");
+                                    this.rowDistributionCredit = response.data;
                                 }
                                 else if (this.planOrCostRequestType == 1) {
-                                    this.rowDistributionCredit_cost = response.data.data;
-                                    this.makePagination(response.data, "cost");
+                                    this.rowDistributionCredit_cost = response.data;
                                 }
 
                                 this.showInsertModal = false;
@@ -408,12 +335,10 @@
                         })
                             .then((response) => {
                                 if (this.planOrCostRequestType == 0) {
-                                    this.rowDistributionCredit = response.data.data;
-                                    this.makePagination(response.data, "plan");
+                                    this.rowDistributionCredit = response.data;
                                 }
                                 else if (this.planOrCostRequestType == 1) {
-                                    this.rowDistributionCredit_cost = response.data.data;
-                                    this.makePagination(response.data, "cost");
+                                    this.rowDistributionCredit_cost = response.data;
                                 }
                                 this.showUpdateModal = false;
                                 this.$parent.displayNotif(response.status);
@@ -445,12 +370,10 @@
                     })
                     .then((response) => {
                         if (this.planOrCostRequestType == 0 && response.status != 204) {
-                            this.rowDistributionCredit = response.data.data;
-                            this.makePagination(response.data, "plan");
+                            this.rowDistributionCredit = response.data;
                         }
                         else if (this.planOrCostRequestType == 1 && response.status != 204) {
-                            this.rowDistributionCredit_cost = response.data.data;
-                            this.makePagination(response.data, "cost");
+                            this.rowDistributionCredit_cost = response.data;
                         }
                         this.showDeleteModal = false;
                         this.$parent.displayNotif(response.status);
@@ -459,20 +382,6 @@
                         console.log(error);
                         this.showDeleteModal = false;
                     });
-            },
-
-            makePagination: function(data , type){
-                if (type == "cost")
-                {
-                    this.cost_pagination.current_page = data.current_page;
-                    this.cost_pagination.to = data.to;
-                    this.cost_pagination.last_page = data.last_page;
-                }else if (type == "plan")
-                {
-                    this.plan_pagination.current_page = data.current_page;
-                    this.plan_pagination.to = data.to;
-                    this.plan_pagination.last_page = data.last_page;
-                }
             },
         }
     }
