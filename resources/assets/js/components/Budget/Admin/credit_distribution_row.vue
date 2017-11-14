@@ -358,6 +358,7 @@
             },
 
             openInsertModal: function (type) {
+                this.rowDistributionCreditInput = [];
                 this.planOrCostRequestType = type;
                 this.showInsertModal = true;
                 this.errorMessage = '';

@@ -109585,6 +109585,7 @@ if (false) {(function () {
         },
 
         openInsertModal: function openInsertModal(type) {
+            this.rowDistributionCreditInput = [];
             this.planOrCostRequestType = type;
             this.showInsertModal = true;
             this.errorMessage = '';
