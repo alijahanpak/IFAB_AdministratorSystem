@@ -39,8 +39,9 @@
                     <div class="float-left">
                         <div class="input-group float-left">
                             <div class="inner-addon right-addon">
-                                <i class="fa fa-search purple-color"  aria-hidden="true"></i>
-                                <input class="search" type="text" placeholder="جستوجو">
+                                <i v-if="searchPlanValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                <i v-if="searchPlanValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                <input v-model="searchPlanValue" class="search" type="text" placeholder="جستوجو">
                             </div>
                         </div>
                     </div>
@@ -345,6 +346,7 @@
                 planOrCostInput: {},
                 planOrCostFill: {},
                 planCodeTemp: '',
+                searchPlanValue:'',
                 showInsertModal: false,
                 showUpdateModal: false,
                 showDeleteModal: false,

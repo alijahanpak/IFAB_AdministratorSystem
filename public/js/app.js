@@ -112106,6 +112106,7 @@ if (false) {(function () {
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -112115,6 +112116,7 @@ if (false) {(function () {
             planOrCostInput: {},
             planOrCostFill: {},
             planCodeTemp: '',
+            searchPlanValue: '',
             showInsertModal: false,
             showUpdateModal: false,
             showDeleteModal: false,
@@ -112382,15 +112384,52 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(2), _vm._v(" "), _vm._m(3)]), _vm._v(" "), _vm._m(4)])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(2), _vm._v(" "), _vm._m(3)]), _vm._v(" "), _c('div', {
+    staticClass: "float-left"
+  }, [_c('div', {
+    staticClass: "input-group float-left"
+  }, [_c('div', {
+    staticClass: "inner-addon right-addon"
+  }, [(_vm.searchPlanValue == '') ? _c('i', {
+    staticClass: "fa fa-search purple-color",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.searchPlanValue != '') ? _c('i', {
+    staticClass: "fa fa-close btn-red",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.searchPlanValue),
+      expression: "searchPlanValue"
+    }],
+    staticClass: "search",
+    attrs: {
+      "type": "text",
+      "placeholder": "جستوجو"
+    },
+    domProps: {
+      "value": (_vm.searchPlanValue)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.searchPlanValue = $event.target.value
+      }
+    }
+  })])])])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-12 column padding-lr table-mrg-top"
   }, [_c('div', {
     staticClass: "tbl-div-container"
-  }, [_vm._m(5), _vm._v(" "), _c('div', {
+  }, [_vm._m(4), _vm._v(" "), _c('div', {
     staticClass: "tbl_body_style dynamic-height-level2"
   }, [_c('table', {
     staticClass: "tbl-body-contain"
-  }, [_vm._m(6), _vm._v(" "), _c('tbody', {
+  }, [_vm._m(5), _vm._v(" "), _c('tbody', {
     staticClass: "tbl-head-style-cell"
   }, [_vm._l((_vm.planOrCosts), function(planOrCost) {
     return [_c('tr', [_c('td', {
@@ -112464,7 +112503,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }, [_c('table', {
       staticClass: "unstriped tbl-secondary-mrg small-font"
-    }, [_vm._m(7, true), _vm._v(" "), _c('tbody', _vm._l((planOrCost.c_d_t_in_county), function(cdtInCounty) {
+    }, [_vm._m(6, true), _vm._v(" "), _c('tbody', _vm._l((planOrCost.c_d_t_in_county), function(cdtInCounty) {
       return _c('tr', [_c('td', [_vm._v(_vm._s(cdtInCounty.county.coName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(cdtInCounty.cdtIdNumber))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(cdtInCounty.cdtDescription))])])
     }))])])])]
   })], 2)])])]), _vm._v(" "), _c('div', {
@@ -113185,25 +113224,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "href": "#"
     }
   }, [_vm._v("200")])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "float-left"
-  }, [_c('div', {
-    staticClass: "input-group float-left"
-  }, [_c('div', {
-    staticClass: "inner-addon right-addon"
-  }, [_c('i', {
-    staticClass: "fa fa-search purple-color",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }), _vm._v(" "), _c('input', {
-    staticClass: "search",
-    attrs: {
-      "type": "text",
-      "placeholder": "جستوجو"
-    }
-  })])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('table', {
     staticClass: "tbl-head"
@@ -114191,108 +114211,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -114319,6 +114237,8 @@ if (false) {(function () {
             displayParentId_prov: '',
             displayCreditSourceInfo_nat: '',
             displayParentId_nat: '',
+            searchProvValue: '',
+            searchNatValue: '',
             provOrNat: '',
             apIdDelete: {},
             approvedPlans: {},
@@ -114945,7 +114865,44 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "aria-hidden": "true"
     }
-  }), _vm._v("Excel")])])])]), _vm._v(" "), _vm._m(4), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _c('div', {
+  }), _vm._v("Excel")])])])]), _vm._v(" "), _vm._m(4), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _c('div', {
+    staticClass: "float-left"
+  }, [_c('div', {
+    staticClass: "input-group float-left"
+  }, [_c('div', {
+    staticClass: "inner-addon right-addon"
+  }, [(_vm.searchProvValue == '') ? _c('i', {
+    staticClass: "fa fa-search purple-color",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.searchProvValue != '') ? _c('i', {
+    staticClass: "fa fa-close btn-red",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.searchProvValue),
+      expression: "searchProvValue"
+    }],
+    staticClass: "search",
+    attrs: {
+      "type": "text",
+      "placeholder": "جستوجو"
+    },
+    domProps: {
+      "value": (_vm.searchProvValue)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.searchProvValue = $event.target.value
+      }
+    }
+  })])])])]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
   }, [_c('table', {
     staticClass: "tbl-head"
@@ -115181,7 +115138,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }, [_c('table', {
       staticClass: "unstriped tbl-secondary-mrg small-font"
-    }, [_vm._m(7, true), _vm._v(" "), _c('tbody', _vm._l((plans.capital_assets_project[0].credit_source), function(creditSource) {
+    }, [_vm._m(6, true), _vm._v(" "), _c('tbody', _vm._l((plans.capital_assets_project[0].credit_source), function(creditSource) {
       return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.castSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.catsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.how_to_run.htrSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
     }))])])]), _vm._v(" "), _vm._l((plans.capital_assets_project), function(project, pIndex) {
       return [(pIndex > 0) ? _c('tr', [_c('td', [_vm._v("\n                                                        " + _vm._s(project.cpCode) + "\n                                                    ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                        " + _vm._s(project.cpSubject) + "\n                                                    ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                        " + _vm._s(project.county.coName) + "\n                                                    ")]), _vm._v(" "), _c('td', [_c('span', {
@@ -115295,7 +115252,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         }
       }, [_c('table', {
         staticClass: "unstriped tbl-secondary-mrg small-font"
-      }, [_vm._m(8, true), _vm._v(" "), _c('tbody', _vm._l((project.credit_source), function(creditSource) {
+      }, [_vm._m(7, true), _vm._v(" "), _c('tbody', _vm._l((project.credit_source), function(creditSource) {
         return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.castSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.catsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.how_to_run.htrSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
       }))])])]) : _vm._e()]
     })]
@@ -115429,7 +115386,44 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "aria-hidden": "true"
     }
-  }), _vm._v("Excel")])])])]), _vm._v(" "), _vm._m(9), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _vm._m(11)]), _vm._v(" "), _c('div', {
+  }), _vm._v("Excel")])])])]), _vm._v(" "), _vm._m(8), _vm._v(" "), _vm._m(9)]), _vm._v(" "), _c('div', {
+    staticClass: "float-left"
+  }, [_c('div', {
+    staticClass: "input-group float-left"
+  }, [_c('div', {
+    staticClass: "inner-addon right-addon"
+  }, [(_vm.searchNatValue == '') ? _c('i', {
+    staticClass: "fa fa-search purple-color",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.searchNatValue != '') ? _c('i', {
+    staticClass: "fa fa-close btn-red",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.searchNatValue),
+      expression: "searchNatValue"
+    }],
+    staticClass: "search",
+    attrs: {
+      "type": "text",
+      "placeholder": "جستوجو"
+    },
+    domProps: {
+      "value": (_vm.searchNatValue)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.searchNatValue = $event.target.value
+      }
+    }
+  })])])])]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
   }, [_c('table', {
     staticClass: "tbl-head"
@@ -115665,7 +115659,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }, [_c('table', {
       staticClass: "unstriped tbl-secondary-mrg small-font"
-    }, [_vm._m(12, true), _vm._v(" "), _c('tbody', _vm._l((plans.capital_assets_project[0].credit_source), function(creditSource) {
+    }, [_vm._m(10, true), _vm._v(" "), _c('tbody', _vm._l((plans.capital_assets_project[0].credit_source), function(creditSource) {
       return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.castSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.catsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.how_to_run.htrSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
     }))])])]), _vm._v(" "), _vm._l((plans.capital_assets_project), function(project, pIndex) {
       return [(pIndex > 0) ? _c('tr', [_c('td', [_vm._v("\n                                                    " + _vm._s(project.cpCode) + "\n                                                ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                    " + _vm._s(project.cpSubject) + "\n                                                ")]), _vm._v(" "), _c('td', [_vm._v("\n                                                    " + _vm._s(project.county.coName) + "\n                                                ")]), _vm._v(" "), _c('td', [_c('span', {
@@ -115779,7 +115773,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         }
       }, [_c('table', {
         staticClass: "unstriped tbl-secondary-mrg small-font"
-      }, [_vm._m(13, true), _vm._v(" "), _c('tbody', _vm._l((project.credit_source), function(creditSource) {
+      }, [_vm._m(11, true), _vm._v(" "), _c('tbody', _vm._l((project.credit_source), function(creditSource) {
         return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.castSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.catsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.how_to_run.htrSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
       }))])])]) : _vm._e()]
     })]
@@ -117318,26 +117312,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }, [_vm._v("200")])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "float-left"
-  }, [_c('div', {
-    staticClass: "input-group float-left"
-  }, [_c('input', {
-    staticClass: "input-group-field small-font",
-    attrs: {
-      "type": "text"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "input-group-button"
-  }, [_c('button', {
-    staticClass: "my-button my-brand",
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fi-magnifying-glass"
-  })])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('thead', {
     staticClass: "my-thead"
   }, [_c('tr', {
@@ -117406,26 +117380,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "href": "#"
     }
   }, [_vm._v("200")])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "float-left"
-  }, [_c('div', {
-    staticClass: "input-group float-left"
-  }, [_c('input', {
-    staticClass: "input-group-field small-font",
-    attrs: {
-      "type": "text"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "input-group-button"
-  }, [_c('button', {
-    staticClass: "my-button my-brand",
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fi-magnifying-glass"
-  })])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('thead', {
     staticClass: "my-thead"
@@ -124511,6 +124465,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -124518,6 +124474,8 @@ if (false) {(function () {
         return {
             errorMessage: '',
             errorMessage_update: '',
+            searchProvValue: '',
+            searchNatValue: '',
             costAgreement_prov: [],
             costAgreement_nat: [],
             costAgreementInput: {},
@@ -125173,7 +125131,44 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "type": "button",
       "data-toggle": "reportDropDown1"
     }
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(2), _vm._v(" "), _vm._m(3), _vm._v(" "), _vm._m(4)]), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(2), _vm._v(" "), _vm._m(3), _vm._v(" "), _vm._m(4)]), _vm._v(" "), _c('div', {
+    staticClass: "float-left"
+  }, [_c('div', {
+    staticClass: "input-group float-left"
+  }, [_c('div', {
+    staticClass: "inner-addon right-addon"
+  }, [(_vm.searchProvValue == '') ? _c('i', {
+    staticClass: "fa fa-search purple-color",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.searchProvValue != '') ? _c('i', {
+    staticClass: "fa fa-close btn-red",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.searchProvValue),
+      expression: "searchProvValue"
+    }],
+    staticClass: "search",
+    attrs: {
+      "type": "text",
+      "placeholder": "جستوجو"
+    },
+    domProps: {
+      "value": (_vm.searchProvValue)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.searchProvValue = $event.target.value
+      }
+    }
+  })])])])]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
   }, [_c('table', {
     staticClass: "tbl-head"
@@ -125406,7 +125401,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }, [_c('table', {
       staticClass: "unstriped tbl-secondary-mrg small-font"
-    }, [_vm._m(6, true), _vm._v(" "), _c('tbody', _vm._l((cAp.ca_credit_source), function(creditSource) {
+    }, [_vm._m(5, true), _vm._v(" "), _c('tbody', _vm._l((cAp.ca_credit_source), function(creditSource) {
       return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_title.cdtIdNumber + ' - ' + creditSource.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.cstSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.ctsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
     }))])])]), _vm._v(" "), (cAp.amendments.length > 0) ? _c('tr', {
       directives: [{
@@ -125421,7 +125416,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }, [_c('table', {
       staticClass: "unstriped tbl-secondary-mrg small-font"
-    }, [_vm._m(7, true), _vm._v(" "), _c('tbody', _vm._l((cAp.amendments), function(amendment) {
+    }, [_vm._m(6, true), _vm._v(" "), _c('tbody', _vm._l((cAp.amendments), function(amendment) {
       return _c('tr', [_c('td', {
         staticClass: "text-center"
       }, [_vm._v(_vm._s(amendment.caExchangeIdNumber))]), _vm._v(" "), _c('td', {
@@ -125514,7 +125509,44 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "type": "button",
       "data-toggle": "reportDropDown1"
     }
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(8), _vm._v(" "), _vm._m(9), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _vm._m(11)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(7), _vm._v(" "), _vm._m(8), _vm._v(" "), _vm._m(9)]), _vm._v(" "), _c('div', {
+    staticClass: "float-left"
+  }, [_c('div', {
+    staticClass: "input-group float-left"
+  }, [_c('div', {
+    staticClass: "inner-addon right-addon"
+  }, [(_vm.searchNatValue == '') ? _c('i', {
+    staticClass: "fa fa-search purple-color",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.searchNatValue != '') ? _c('i', {
+    staticClass: "fa fa-close btn-red",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.searchProvValue),
+      expression: "searchProvValue"
+    }],
+    staticClass: "search",
+    attrs: {
+      "type": "text",
+      "placeholder": "جستوجو"
+    },
+    domProps: {
+      "value": (_vm.searchProvValue)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.searchProvValue = $event.target.value
+      }
+    }
+  })])])])]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
   }, [_c('table', {
     staticClass: "tbl-head"
@@ -125727,7 +125759,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }, [_c('table', {
       staticClass: "unstriped tbl-secondary-mrg small-font"
-    }, [_vm._m(12, true), _vm._v(" "), _c('tbody', _vm._l((cAp.ca_credit_source), function(creditSource) {
+    }, [_vm._m(10, true), _vm._v(" "), _c('tbody', _vm._l((cAp.ca_credit_source), function(creditSource) {
       return _c('tr', [_c('td', [_vm._v(_vm._s(creditSource.credit_distribution_title.cdtIdNumber + ' - ' + creditSource.credit_distribution_title.cdtSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.credit_distribution_row.cdSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.season.sSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.season_title.cstSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.tiny_season.ctsSubject))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.$parent.calcDispAmount(creditSource.ccsAmount, false)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(creditSource.ccsDescription))])])
     }))])])]), _vm._v(" "), (cAp.amendments.length > 0) ? _c('tr', {
       directives: [{
@@ -125742,7 +125774,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }, [_c('table', {
       staticClass: "unstriped tbl-secondary-mrg small-font"
-    }, [_vm._m(13, true), _vm._v(" "), _c('tbody', _vm._l((cAp.amendments), function(amendment) {
+    }, [_vm._m(11, true), _vm._v(" "), _c('tbody', _vm._l((cAp.amendments), function(amendment) {
       return _c('tr', [_c('td', {
         staticClass: "text-center"
       }, [_vm._v(_vm._s(amendment.caLetterNumber))]), _vm._v(" "), _c('td', {
@@ -128303,26 +128335,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }, [_vm._v("200")])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "float-left"
-  }, [_c('div', {
-    staticClass: "input-group float-left"
-  }, [_c('input', {
-    staticClass: "input-group-field small-font",
-    attrs: {
-      "type": "text"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "input-group-button"
-  }, [_c('button', {
-    staticClass: "my-button my-brand",
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fi-magnifying-glass"
-  })])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('thead', {
     staticClass: "my-thead"
   }, [_c('tr', {
@@ -128428,26 +128440,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "href": "#"
     }
   }, [_vm._v("200")])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "float-left"
-  }, [_c('div', {
-    staticClass: "input-group float-left"
-  }, [_c('input', {
-    staticClass: "input-group-field small-font",
-    attrs: {
-      "type": "text"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "input-group-button"
-  }, [_c('button', {
-    staticClass: "my-button my-brand",
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fi-magnifying-glass"
-  })])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('thead', {
     staticClass: "my-thead"
@@ -129412,6 +129404,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -129427,6 +129421,8 @@ if (false) {(function () {
             AllocationInput: {},
             foundInput: {},
             provOrNat: '',
+            searchProvValue: '',
+            searchNatValue: '',
             showModal: false,
             showInsertFoundModal: false,
             showModalUpdate: false,
@@ -129903,7 +129899,44 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "type": "button",
       "data-toggle": "reportDropDown1"
     }
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(4), _vm._v(" "), _vm._m(5), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _vm._m(7)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(4), _vm._v(" "), _vm._m(5), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _c('div', {
+    staticClass: "float-left"
+  }, [_c('div', {
+    staticClass: "input-group float-left"
+  }, [_c('div', {
+    staticClass: "inner-addon right-addon"
+  }, [(_vm.searchProvValue == '') ? _c('i', {
+    staticClass: "fa fa-search purple-color",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.searchProvValue != '') ? _c('i', {
+    staticClass: "fa fa-close btn-red",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.searchProvValue),
+      expression: "searchProvValue"
+    }],
+    staticClass: "search",
+    attrs: {
+      "type": "text",
+      "placeholder": "جستوجو"
+    },
+    domProps: {
+      "value": (_vm.searchProvValue)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.searchProvValue = $event.target.value
+      }
+    }
+  })])])])]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
   }, [_c('table', {
     staticClass: "tbl-head"
@@ -130280,7 +130313,44 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "type": "button",
       "data-toggle": "reportDropDown1"
     }
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(8), _vm._v(" "), _vm._m(9), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _vm._m(11)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(7), _vm._v(" "), _vm._m(8), _vm._v(" "), _vm._m(9)]), _vm._v(" "), _c('div', {
+    staticClass: "float-left"
+  }, [_c('div', {
+    staticClass: "input-group float-left"
+  }, [_c('div', {
+    staticClass: "inner-addon right-addon"
+  }, [(_vm.searchNatValue == '') ? _c('i', {
+    staticClass: "fa fa-search purple-color",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.searchNatValue != '') ? _c('i', {
+    staticClass: "fa fa-close btn-red",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.searchNatValue),
+      expression: "searchNatValue"
+    }],
+    staticClass: "search",
+    attrs: {
+      "type": "text",
+      "placeholder": "جستوجو"
+    },
+    domProps: {
+      "value": (_vm.searchNatValue)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.searchNatValue = $event.target.value
+      }
+    }
+  })])])])]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
   }, [_c('table', {
     staticClass: "tbl-head"
@@ -130597,7 +130667,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "type": "button",
       "data-toggle": "reportDropDown1"
     }
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(12)])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(10)])]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
   }, [_c('table', {
     staticClass: "tbl-head"
@@ -131719,26 +131789,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }, [_vm._v("200")])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "float-left"
-  }, [_c('div', {
-    staticClass: "input-group float-left"
-  }, [_c('input', {
-    staticClass: "input-group-field small-font",
-    attrs: {
-      "type": "text"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "input-group-button"
-  }, [_c('button', {
-    staticClass: "my-button my-brand",
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fi-magnifying-glass"
-  })])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
     staticClass: "dropdown-pane dropdown-pane-sm ",
     staticStyle: {
       "width": "113px"
@@ -131827,26 +131877,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "href": "#"
     }
   }, [_vm._v("200")])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "float-left"
-  }, [_c('div', {
-    staticClass: "input-group float-left"
-  }, [_c('input', {
-    staticClass: "input-group-field small-font",
-    attrs: {
-      "type": "text"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "input-group-button"
-  }, [_c('button', {
-    staticClass: "my-button my-brand",
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fi-magnifying-glass"
-  })])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "dropdown-pane dropdown-pane-sm ",
@@ -132775,6 +132805,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -132790,6 +132822,8 @@ if (false) {(function () {
             AllocationInput: {},
             foundInput: {},
             provOrNat: '',
+            searchProvValue: '',
+            searchNatValue: '',
             showModal: false,
             showModalUpdate: false,
             showModalDelete: false,
@@ -133268,7 +133302,44 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "type": "button",
       "data-toggle": "reportDropDown1"
     }
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(4), _vm._v(" "), _vm._m(5), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _vm._m(7)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(4), _vm._v(" "), _vm._m(5), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _c('div', {
+    staticClass: "float-left"
+  }, [_c('div', {
+    staticClass: "input-group float-left"
+  }, [_c('div', {
+    staticClass: "inner-addon right-addon"
+  }, [(_vm.searchProvValue == '') ? _c('i', {
+    staticClass: "fa fa-search purple-color",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.searchProvValue != '') ? _c('i', {
+    staticClass: "fa fa-close btn-red",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.searchProvValue),
+      expression: "searchProvValue"
+    }],
+    staticClass: "search",
+    attrs: {
+      "type": "text",
+      "placeholder": "جستوجو"
+    },
+    domProps: {
+      "value": (_vm.searchProvValue)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.searchProvValue = $event.target.value
+      }
+    }
+  })])])])]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
   }, [_c('table', {
     staticClass: "tbl-head"
@@ -133701,7 +133772,44 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "type": "button",
       "data-toggle": "reportDropDown1"
     }
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(8), _vm._v(" "), _vm._m(9), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _vm._m(11)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(7), _vm._v(" "), _vm._m(8), _vm._v(" "), _vm._m(9)]), _vm._v(" "), _c('div', {
+    staticClass: "float-left"
+  }, [_c('div', {
+    staticClass: "input-group float-left"
+  }, [_c('div', {
+    staticClass: "inner-addon right-addon"
+  }, [(_vm.searchNatValue == '') ? _c('i', {
+    staticClass: "fa fa-search purple-color",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.searchNatValue != '') ? _c('i', {
+    staticClass: "fa fa-close btn-red",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.searchNatValue),
+      expression: "searchNatValue"
+    }],
+    staticClass: "search",
+    attrs: {
+      "type": "text",
+      "placeholder": "جستوجو"
+    },
+    domProps: {
+      "value": (_vm.searchNatValue)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.searchNatValue = $event.target.value
+      }
+    }
+  })])])])]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
   }, [_c('table', {
     staticClass: "tbl-head"
@@ -134094,7 +134202,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "type": "button",
       "data-toggle": "foundReportDropDown"
     }
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(12)])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(10)])]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
   }, [_c('table', {
     staticClass: "tbl-head"
@@ -135131,26 +135239,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
   }, [_vm._v("200")])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "float-left"
-  }, [_c('div', {
-    staticClass: "input-group float-left"
-  }, [_c('input', {
-    staticClass: "input-group-field small-font",
-    attrs: {
-      "type": "text"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "input-group-button"
-  }, [_c('button', {
-    staticClass: "my-button my-brand",
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fi-magnifying-glass"
-  })])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
     staticClass: "dropdown-pane dropdown-pane-sm ",
     staticStyle: {
       "width": "113px"
@@ -135239,26 +135327,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "href": "#"
     }
   }, [_vm._v("200")])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "float-left"
-  }, [_c('div', {
-    staticClass: "input-group float-left"
-  }, [_c('input', {
-    staticClass: "input-group-field small-font",
-    attrs: {
-      "type": "text"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "input-group-button"
-  }, [_c('button', {
-    staticClass: "my-button my-brand",
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fi-magnifying-glass"
-  })])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "dropdown-pane dropdown-pane-sm ",
@@ -136087,12 +136155,20 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     data: function data() {
         return {
             errorMessage: '',
+            searchPlanValue: '',
+            searchRowValue: '',
+            searchSeasonValue: '',
+            searchCityValue: '',
             cdPlans: [],
             cdPlansOrderByRow: [],
             cdPlansOrderByBudget: [],
@@ -136427,13 +136503,50 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(5), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _vm._m(7)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(5), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _c('div', {
+    staticClass: "float-left"
+  }, [_c('div', {
+    staticClass: "input-group float-left"
+  }, [_c('div', {
+    staticClass: "inner-addon right-addon"
+  }, [(_vm.searchPlanValue == '') ? _c('i', {
+    staticClass: "fa fa-search purple-color",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.searchPlanValue != '') ? _c('i', {
+    staticClass: "fa fa-close btn-red",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.searchPlanValue),
+      expression: "searchPlanValue"
+    }],
+    staticClass: "search",
+    attrs: {
+      "type": "text",
+      "placeholder": "جستوجو"
+    },
+    domProps: {
+      "value": (_vm.searchPlanValue)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.searchPlanValue = $event.target.value
+      }
+    }
+  })])])])]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
-  }, [_vm._m(8), _vm._v(" "), _c('div', {
+  }, [_vm._m(7), _vm._v(" "), _c('div', {
     staticClass: "tbl_body_style dynamic-height-level2"
   }, [_c('table', {
     staticClass: "tbl-body-contain"
-  }, [_vm._m(9), _vm._v(" "), _c('tbody', {
+  }, [_vm._m(8), _vm._v(" "), _c('tbody', {
     staticClass: "tbl-head-style-cell"
   }, [_vm._l((_vm.cdPlans), function(plans) {
     return [_c('tr', {
@@ -136577,13 +136690,50 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(10), _vm._v(" "), _vm._m(11)]), _vm._v(" "), _vm._m(12)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(9), _vm._v(" "), _vm._m(10)]), _vm._v(" "), _c('div', {
+    staticClass: "float-left"
+  }, [_c('div', {
+    staticClass: "input-group float-left"
+  }, [_c('div', {
+    staticClass: "inner-addon right-addon"
+  }, [(_vm.searchRowValue == '') ? _c('i', {
+    staticClass: "fa fa-search purple-color",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.searchRowValue != '') ? _c('i', {
+    staticClass: "fa fa-close btn-red",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.searchRowValue),
+      expression: "searchRowValue"
+    }],
+    staticClass: "search",
+    attrs: {
+      "type": "text",
+      "placeholder": "جستوجو"
+    },
+    domProps: {
+      "value": (_vm.searchRowValue)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.searchRowValue = $event.target.value
+      }
+    }
+  })])])])]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
-  }, [_vm._m(13), _vm._v(" "), _c('div', {
+  }, [_vm._m(11), _vm._v(" "), _c('div', {
     staticClass: "tbl_body_style dynamic-height-level2"
   }, [_c('table', {
     staticClass: "tbl-body-contain"
-  }, [_vm._m(14), _vm._v(" "), _c('tbody', {
+  }, [_vm._m(12), _vm._v(" "), _c('tbody', {
     staticClass: "tbl-head-style-cell"
   }, [_vm._l((_vm.cdPlansOrderByRow), function(rows) {
     return [_c('tr', {
@@ -136727,13 +136877,50 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(15), _vm._v(" "), _vm._m(16)]), _vm._v(" "), _vm._m(17)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(13), _vm._v(" "), _vm._m(14)]), _vm._v(" "), _c('div', {
+    staticClass: "float-left"
+  }, [_c('div', {
+    staticClass: "input-group float-left"
+  }, [_c('div', {
+    staticClass: "inner-addon right-addon"
+  }, [(_vm.searchSeasonValue == '') ? _c('i', {
+    staticClass: "fa fa-search purple-color",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.searchSeasonValue != '') ? _c('i', {
+    staticClass: "fa fa-close btn-red",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.searchSeasonValue),
+      expression: "searchSeasonValue"
+    }],
+    staticClass: "search",
+    attrs: {
+      "type": "text",
+      "placeholder": "جستوجو"
+    },
+    domProps: {
+      "value": (_vm.searchSeasonValue)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.searchSeasonValue = $event.target.value
+      }
+    }
+  })])])])]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
-  }, [_vm._m(18), _vm._v(" "), _c('div', {
+  }, [_vm._m(15), _vm._v(" "), _c('div', {
     staticClass: "tbl_body_style dynamic-height-level2"
   }, [_c('table', {
     staticClass: "tbl-body-contain"
-  }, [_vm._m(19), _vm._v(" "), _c('tbody', {
+  }, [_vm._m(16), _vm._v(" "), _c('tbody', {
     staticClass: "tbl-head-style-cell"
   }, [_vm._l((_vm.cdPlansOrderByBudget), function(bs) {
     return [_c('tr', {
@@ -136935,13 +137122,50 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(20), _vm._v(" "), _vm._m(21)]), _vm._v(" "), _vm._m(22)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(17), _vm._v(" "), _vm._m(18)]), _vm._v(" "), _c('div', {
+    staticClass: "float-left"
+  }, [_c('div', {
+    staticClass: "input-group float-left"
+  }, [_c('div', {
+    staticClass: "inner-addon right-addon"
+  }, [(_vm.searchCityValue == '') ? _c('i', {
+    staticClass: "fa fa-search purple-color",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.searchCityValue != '') ? _c('i', {
+    staticClass: "fa fa-close btn-red",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.searchCityValue),
+      expression: "searchCityValue"
+    }],
+    staticClass: "search",
+    attrs: {
+      "type": "text",
+      "placeholder": "جستوجو"
+    },
+    domProps: {
+      "value": (_vm.searchCityValue)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.searchCityValue = $event.target.value
+      }
+    }
+  })])])])]), _vm._v(" "), _c('div', {
     staticClass: "tbl-div-container"
-  }, [_vm._m(23), _vm._v(" "), _c('div', {
+  }, [_vm._m(19), _vm._v(" "), _c('div', {
     staticClass: "tbl_body_style dynamic-height-level2"
   }, [_c('table', {
     staticClass: "tbl-body-contain"
-  }, [_vm._m(24), _vm._v(" "), _c('tbody', {
+  }, [_vm._m(20), _vm._v(" "), _c('tbody', {
     staticClass: "tbl-head-style-cell"
   }, [_vm._l((_vm.cdPlansOrderByCounty), function(county) {
     return [_c('tr', {
@@ -137826,26 +138050,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }, [_vm._v("200")])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "float-left"
-  }, [_c('div', {
-    staticClass: "input-group float-left"
-  }, [_c('input', {
-    staticClass: "input-group-field small-font",
-    attrs: {
-      "type": "text"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "input-group-button"
-  }, [_c('button', {
-    staticClass: "my-button my-brand",
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fi-magnifying-glass"
-  })])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('table', {
     staticClass: "tbl-head"
   }, [_c('colgroup', [_c('col', {
@@ -137965,26 +138169,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     }
   }, [_vm._v("200")])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "float-left"
-  }, [_c('div', {
-    staticClass: "input-group float-left"
-  }, [_c('input', {
-    staticClass: "input-group-field small-font",
-    attrs: {
-      "type": "text"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "input-group-button"
-  }, [_c('button', {
-    staticClass: "my-button my-brand",
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fi-magnifying-glass"
-  })])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('table', {
     staticClass: "tbl-head"
   }, [_c('colgroup', [_c('col', {
@@ -138103,26 +138287,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "href": "#"
     }
   }, [_vm._v("200")])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "float-left"
-  }, [_c('div', {
-    staticClass: "input-group float-left"
-  }, [_c('input', {
-    staticClass: "input-group-field small-font",
-    attrs: {
-      "type": "text"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "input-group-button"
-  }, [_c('button', {
-    staticClass: "my-button my-brand",
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fi-magnifying-glass"
-  })])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('table', {
     staticClass: "tbl-head"
@@ -138252,26 +138416,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "href": "#"
     }
   }, [_vm._v("200")])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "float-left"
-  }, [_c('div', {
-    staticClass: "input-group float-left"
-  }, [_c('input', {
-    staticClass: "input-group-field small-font",
-    attrs: {
-      "type": "text"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "input-group-button"
-  }, [_c('button', {
-    staticClass: "my-button my-brand",
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fi-magnifying-glass"
-  })])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('table', {
     staticClass: "tbl-head"
@@ -138663,6 +138807,7 @@ if (false) {(function () {
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -138670,6 +138815,7 @@ if (false) {(function () {
         return {
             errorMessage: '',
             errorMessage_update: '',
+            searchOfferValue: '',
             proposals: [],
             cdpProposalInput: {},
             showModal: false,
@@ -138905,15 +139051,52 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
-  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(4), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _vm._m(6)])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(4), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _c('div', {
+    staticClass: "float-left"
+  }, [_c('div', {
+    staticClass: "input-group float-left"
+  }, [_c('div', {
+    staticClass: "inner-addon right-addon"
+  }, [(_vm.searchOfferValue == '') ? _c('i', {
+    staticClass: "fa fa-search purple-color",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.searchOfferValue != '') ? _c('i', {
+    staticClass: "fa fa-close btn-red",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }) : _vm._e(), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.searchOfferValue),
+      expression: "searchOfferValue"
+    }],
+    staticClass: "search",
+    attrs: {
+      "type": "text",
+      "placeholder": "جستوجو"
+    },
+    domProps: {
+      "value": (_vm.searchOfferValue)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.searchOfferValue = $event.target.value
+      }
+    }
+  })])])])])]), _vm._v(" "), _c('div', {
     staticClass: "medium-12 column padding-lr table-mrg-top"
   }, [_c('div', {
     staticClass: "tbl-div-container"
-  }, [_vm._m(7), _vm._v(" "), _c('div', {
+  }, [_vm._m(6), _vm._v(" "), _c('div', {
     staticClass: "tbl_body_style dynamic-height-level2"
   }, [_c('table', {
     staticClass: "tbl-body-contain"
-  }, [_vm._m(8), _vm._v(" "), _c('tbody', {
+  }, [_vm._m(7), _vm._v(" "), _c('tbody', {
     staticClass: "tbl-head-style-cell"
   }, [_vm._l((_vm.proposals), function(county) {
     return [_c('tr', {
@@ -139471,26 +139654,6 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
       "href": "#"
     }
   }, [_vm._v("200")])])])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "float-left"
-  }, [_c('div', {
-    staticClass: "input-group float-left"
-  }, [_c('input', {
-    staticClass: "input-group-field small-font",
-    attrs: {
-      "type": "text"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "input-group-button"
-  }, [_c('button', {
-    staticClass: "my-button my-brand",
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fi-magnifying-glass"
-  })])])])])
 },function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('table', {
     staticClass: "tbl-head"
