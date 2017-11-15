@@ -38,9 +38,9 @@
                     </div>
                     <div class="float-left">
                         <div class="input-group float-left">
-                            <input class="input-group-field small-font" type="text">
-                            <div class="input-group-button">
-                                <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
+                            <div class="inner-addon right-addon">
+                                <i class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                <input class="search" type="text" placeholder="جستوجو">
                             </div>
                         </div>
                     </div>

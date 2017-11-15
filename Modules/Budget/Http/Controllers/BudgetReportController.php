@@ -133,8 +133,8 @@ class BudgetReportController extends Controller
                     $sheet->setRightToLeft(true);
                     if ($request->pOrN == 0) {
                         $sheet->appendRow(array($options['title']));
-                        $sheet->mergeCells('A1:Q1');
-                        $sheet->getStyle('A1:Q1')->getAlignment()->applyFromArray(
+                        $sheet->mergeCells('A1:P1');
+                        $sheet->getStyle('A1:P1')->getAlignment()->applyFromArray(
                             array('horizontal' => 'center')
                         );
                         $sheet->appendRow(array('طرح',
@@ -153,7 +153,7 @@ class BudgetReportController extends Controller
                             'مبلغ',
                             'توضیحات',
                             'شرح'));
-                        $sheet->cells('A2:Q2', function ($cells) {
+                        $sheet->cells('A2:P2', function ($cells) {
                             $cells->setBackground('#34B7A3');
                             $cells->setFontColor('#FFFFFF');
                             $cells->setAlignment('center');
@@ -186,8 +186,8 @@ class BudgetReportController extends Controller
                         }
                     } else {
                         $sheet->appendRow(array($options['title']));
-                        $sheet->mergeCells('A1:Q1');
-                        $sheet->getStyle('A1:Q1')->getAlignment()->applyFromArray(
+                        $sheet->mergeCells('A1:P1');
+                        $sheet->getStyle('A1:P1')->getAlignment()->applyFromArray(
                             array('horizontal' => 'center')
                         );
                         $sheet->appendRow(array('طرح',
@@ -206,7 +206,7 @@ class BudgetReportController extends Controller
                             'مبلغ',
                             'توضیحات',
                             'شرح'));
-                        $sheet->cells('A2:Q2', function ($cells) {
+                        $sheet->cells('A2:P2', function ($cells) {
                             $cells->setBackground('#34B7A3');
                             $cells->setFontColor('#FFFFFF');
                             $cells->setAlignment('center');
