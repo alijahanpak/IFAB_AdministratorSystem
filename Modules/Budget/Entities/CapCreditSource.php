@@ -33,4 +33,8 @@ class CapCreditSource extends Model
     {
         return $this->hasMany(CapitalAssetsAllocation::class , 'caaCcsId' , 'id');
     }
+
+    public static function sumOfCreditSource($pId){
+        return CapCreditSource::where('ccsCapId','=',$pId)->sum('ccsAmount');
+    }
 }

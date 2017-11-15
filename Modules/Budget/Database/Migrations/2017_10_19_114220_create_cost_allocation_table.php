@@ -17,9 +17,12 @@ class CreateCostAllocationTable extends Migration
             Schema::create('tbl_cost_allocation', function (Blueprint $table) {
                 $table->increments('id');
                 $table->integer('caUId')->length(10)->unsigned();
-                $table->integer('caCcsId')->length(10)->unsigned();
+                $table->integer('caCcsId')->length(10)->unsigned()->nullable();
+                $table->integer('caFyId')->length(10)->unsigned()->nullable();
+                $table->integer('caFoundId')->length(10)->unsigned()->nullable();
                 $table->string('caLetterNumber')->nullable();
                 $table->string('caLetterDate')->nullable();
+                $table->boolean('caFound')->default(false);
                 $table->bigInteger('caAmount');
                 $table->longText('caDescription')->nullable();
                 $table->timestamps();

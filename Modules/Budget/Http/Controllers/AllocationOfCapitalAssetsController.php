@@ -8,20 +8,26 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Modules\Admin\Entities\AmountUnit;
 use Modules\Admin\Entities\SystemLog;
+use Modules\Budget\Entities\CaCreditSource;
 use Modules\Budget\Entities\CapCreditSource;
 use Modules\Budget\Entities\CapitalAssetsAllocation;
 use Modules\Budget\Entities\CapitalAssetsApprovedPlan;
+use Modules\Budget\Entities\CapitalAssetsCost;
 use Modules\Budget\Entities\CapitalAssetsProject;
 use Modules\Budget\Entities\CdrCaa;
 use Modules\Budget\Entities\CostAgreement;
 use Modules\Budget\Entities\CostAllocation;
 use Modules\Budget\Entities\CreditDistributionRow;
+use Modules\Budget\Entities\ExpenseCosts;
+use Morilog\Jalali\Facades\jDate;
 
 class AllocationOfCapitalAssetsController extends Controller
 {
     public function fetchAllocation(Request $request)
     {
-        return \response()->json($this->getAllCapitalAssetsAllocates($request->pOrN));
+        return \response()->json(
+            $this->getAllCapitalAssetsAllocates($request->pOrN)
+        );
     }
 
     public function getAllCapitalAssetsAllocates($pOrN)
@@ -36,6 +42,13 @@ class AllocationOfCapitalAssetsController extends Controller
             ->with('creditDistributionTitle')
             ->with('creditDistributionTitle.county')
             ->paginate(5);
+    }
+
+    public function getAllCapitalAssetsFound()
+    {
+        return CapitalAssetsAllocation::where('caaFound' , '=' , true)
+            ->where('caaFyId' , '=' , Auth::user()->seFiscalYear)
+            ->get();
     }
 
     public function registerCapitalAssetsAllocation(Request $request)
@@ -62,12 +75,73 @@ class AllocationOfCapitalAssetsController extends Controller
         return \response()->json($info);
     }
 
+
+
+    public function fetchFound(Request $request)
+    {
+        return \response()->json(
+            $this->getAllCapitalAssetsFound()
+        );
+    }
+
+    public function registerCapitalAssetsFound(Request $request)
+    {
+        $alloc = new CapitalAssetsAllocation;
+        $alloc->caaUId = Auth::user()->id;
+        $alloc->caaFyId = Auth::user()->seFiscalYear;
+        $alloc->caaFound = true;
+        $alloc->caaLetterDate = $request->date;
+        $alloc->caaDescription = $request->description;
+        $alloc->caaAmount = AmountUnit::convertInputAmount($request->amount);
+        $alloc->save();
+
+        SystemLog::setBudgetSubSystemLog('ثبت تنخواه تملک داریی های سرمایه ای');
+        return \response()->json(
+            $this->getAllCapitalAssetsFound()
+        );
+    }
+
+    public function getAllCapitalAssetsCosts(Request $request) // for test convert found to allocation
+    {
+        return \response()->json(
+            CapitalAssetsCost::where('cacCaaId' , '=' , $request->fId)->get()
+        );
+    }
+
+    public function convertCapitalAssetsFoundToAllocation(Request $request)
+    {
+        $sumOfCost = 0;
+        $costsId = array();
+        $i = 0;
+        foreach ($request['selectedCosts'] as $cost)
+        {
+            $sumOfCost += $cost['cacAmount'];
+            $costsId[$i++] = $cost['id'];
+        }
+
+        $alloc = new CapitalAssetsAllocation;
+        $alloc->caaUId = Auth::user()->id;
+        $alloc->caaCcsId = $request->pcsId;
+        $alloc->caaLetterDate = jDate::forge()->format('%Y/%m/%d');
+        $alloc->caaDescription = $request->description;
+        $alloc->caaAmount = $sumOfCost;
+        $alloc->caaFoundId = $request->id;
+        $alloc->save();
+
+        CapitalAssetsCost::whereIn('id' , $costsId)->update(['cacCaaId' => $alloc->id]);
+        SystemLog::setBudgetSubSystemLog('تبدیل تنخواه تملک دارایی های سرمایه ای به تخصیص');
+        return \response()->json([
+            'found' => $this->getAllCapitalAssetsFound(),
+            'allocation_prov' => $this->getAllCapitalAssetsAllocates(0)
+        ]);
+    }
+
     ////////////////////////// cost ////////////////////////////////
     public function registerCostAllocation(Request $request)
     {
         $caAlloc = new CostAllocation;
         $caAlloc->caUId = Auth::user()->id;
-        $caAlloc->caCcsId = $request->ccsId;
+        $caAlloc->caCcsId = $request->caCsId;
         $caAlloc->caLetterNumber = $request->idNumber;
         $caAlloc->caLetterDate = $request->date;
         $caAlloc->caAmount = AmountUnit::convertInputAmount($request->amount);
@@ -78,6 +152,13 @@ class AllocationOfCapitalAssetsController extends Controller
         return \response()->json(
             $this->getAllCostAllocates($request->pOrN)
         );
+    }
+
+    public function getCostCreditSourceInfo(Request $request)
+    {
+        $info['approvedAmount'] = CaCreditSource::where('id' , '=' , $request->caCsId)->value('ccsAmount');
+        $info['sumAllocation'] = CostAllocation::where('caCcsId' , '=' , $request->caCsId)->sum('caAmount');
+        return \response()->json($info);
     }
 
     public function getAllCostAllocates($pOrN)
@@ -98,5 +179,71 @@ class AllocationOfCapitalAssetsController extends Controller
         return \response()->json(
             $this->getAllCostAllocates($request->pOrN)
         );
+    }
+
+    public function fetchCostFound(Request $request)
+    {
+        return \response()->json(
+            $this->getAllCostFound()
+        );
+    }
+
+    public function getAllExpenseCosts(Request $request) // for test convert found to allocation
+    {
+        return \response()->json(
+            ExpenseCosts::where('ecCaId' , '=' , $request->fId)->get()
+        );
+    }
+
+    public function getAllCostFound()
+    {
+        return CostAllocation::where('caFound' , '=' , true)
+            ->where('caFyId' , '=' , Auth::user()->seFiscalYear)
+            ->get();
+    }
+
+    public function registerCostFound(Request $request)
+    {
+        $alloc = new CostAllocation;
+        $alloc->caUId = Auth::user()->id;
+        $alloc->caFyId = Auth::user()->seFiscalYear;
+        $alloc->caFound = true;
+        $alloc->caLetterDate = $request->date;
+        $alloc->caDescription = $request->description;
+        $alloc->caAmount = AmountUnit::convertInputAmount($request->amount);
+        $alloc->save();
+
+        SystemLog::setBudgetSubSystemLog('ثبت تنخواه هزینه ای');
+        return \response()->json(
+            $this->getAllCostFound()
+        );
+    }
+
+    public function convertCostFoundToAllocation(Request $request)
+    {
+        $sumOfCost = 0;
+        $costsId = array();
+        $i = 0;
+        foreach ($request['selectedCosts'] as $cost)
+        {
+            $sumOfCost += $cost['ecAmount'];
+            $costsId[$i++] = $cost['id'];
+        }
+
+        $alloc = new CostAllocation;
+        $alloc->caUId = Auth::user()->id;
+        $alloc->caCcsId = $request->caCsId;
+        $alloc->caLetterDate = jDate::forge()->format('%Y/%m/%d');
+        $alloc->caDescription = $request->description;
+        $alloc->caAmount = $sumOfCost;
+        $alloc->caFoundId = $request->id;
+        $alloc->save();
+
+        ExpenseCosts::whereIn('id' , $costsId)->update(['ecCaId' => $alloc->id]);
+        SystemLog::setBudgetSubSystemLog('تبدیل تنخواه هزینه ای به تخصیص');
+        return \response()->json([
+            'found' => $this->getAllCostFound(),
+            'allocation_prov' => $this->getAllCostAllocates(0)
+        ]);
     }
 }

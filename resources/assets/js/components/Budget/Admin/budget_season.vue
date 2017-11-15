@@ -20,7 +20,7 @@
         </div>
         <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
             <div class="medium-12 padding-lr" style="margin-top: 15px;">
-                <div class="clearfix border-btm-line tool-bar">
+                <div class="clearfix sudo border-btm-line tool-bar">
                     <div style="margin-top: 2px;" class="button-group float-right">
                         <a class="my-button toolbox-btn small" @click="openInsertModal">جدید</a>
                         <a class="my-button toolbox-btn small">گزارش</a>
@@ -155,7 +155,7 @@
                     <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="deleteBudgetSeason" class="my-button my-success"><span class="btn-txt-mrg"> تایید </span></button>
+                            <button v-on:click="deleteBudgetSeason" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
                         </div>
                     </div>
                 </div>

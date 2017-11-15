@@ -609,7 +609,8 @@ a:focus,button:focus {
 }
 
 .btn-txt-mrg{
-    margin-left: 3px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 .my-table-scroll{
     height: 320px;

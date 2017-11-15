@@ -162,14 +162,14 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('/budget_season/update', 'BudgetAdminController@updateBudgetSeason');
         Route::get('/rows/fetchData', 'BudgetAdminController@fetchCreditDistributionRowsData');
         Route::post('/rows/register', 'BudgetAdminController@registerCreditDistributionRow');
-        //Route::get('/rows/delete/{cdId}', 'BudgetAdminController@deleteCreditDistributionRow');
-        //Route::post('/rows/update', 'BudgetAdminController@updateCreditDistributionRow');
+        Route::post('/rows/delete', 'BudgetAdminController@deleteCreditDistributionRow');
+        Route::post('/rows/update', 'BudgetAdminController@updateCreditDistributionRow');
         Route::get('/rows/getAllItems', 'BudgetAdminController@getAllCDRItems');
 
         Route::get('/plan_cost_title/fetchData', 'BudgetAdminController@fetchPlanOrCostTitleData');
         Route::post('/plan_cost_title/register', 'BudgetAdminController@registerPlanOrCostTitle');
-        //Route::post('credit_distribution_def/plan_title/update', 'BudgetAdminController@updatePlanTitle');
-        //Route::get('credit_distribution_def/plan_title/delete/{cdptId}', 'BudgetAdminController@deletePlanTitle');
+        Route::post('/plan_cost_title/update', 'BudgetAdminController@updatePlanTitle');
+        Route::post('/plan_cost_title/delete', 'BudgetAdminController@deletePlanTitle');
         Route::get('/plan_cost_title/getAllItem', 'BudgetAdminController@getAllPlanOrCostTitleItem');
 
     });
@@ -225,7 +225,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::get('/getAllItems', 'ProjectController@getAllApprovedProjects');
         Route::post('/credit_source/register', 'ProjectController@registerApCreditSource');
         Route::get('/credit_source/getAllItem', 'ProjectController@getAllApCreditSourceItems');
-        Route::get('/report', 'BudgetReportController@approvedProject');
+        Route::post('/report', 'BudgetReportController@approvedProject');
 
         //Route::get('/getAllProjectWithPlanId', 'ProjectController@getAllProjectWithPlanId');
     });
@@ -241,11 +241,25 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::get('/getCapitalAssetsCreditSourceInfo', 'AllocationOfCapitalAssetsController@getCapitalAssetsCreditSourceInfo');
     });
 
+    Route::prefix('allocation/capital_assets/found')->group(function () {
+        Route::post('/register', 'AllocationOfCapitalAssetsController@registerCapitalAssetsFound');
+        Route::get('/fetchData', 'AllocationOfCapitalAssetsController@fetchFound');
+        Route::get('/getAllCapitalAssetsCosts', 'AllocationOfCapitalAssetsController@getAllCapitalAssetsCosts'); // for test convert found to allocation
+        Route::post('/convert_to_allocation', 'AllocationOfCapitalAssetsController@convertCapitalAssetsFoundToAllocation'); // for test convert found to allocation
+    });
+
     Route::prefix('allocation/cost')->group(function () {
         //Route::get('register_of_credit_allocation_assets/Allocation', 'AllocationOfCapitalAssetsController@register_of_credit_allocation_assets');
         Route::get('/fetchData', 'AllocationOfCapitalAssetsController@fetchCostAllocationData');
         Route::post('/register', 'AllocationOfCapitalAssetsController@registerCostAllocation');
-        Route::get('/getCapitalAssetsCreditSourceInfo', 'AllocationOfCapitalAssetsController@getCapitalAssetsCreditSourceInfo');
+        Route::get('/getCostCreditSourceInfo', 'AllocationOfCapitalAssetsController@getCostCreditSourceInfo');
+    });
+
+    Route::prefix('allocation/cost/found')->group(function () {
+        Route::post('/register', 'AllocationOfCapitalAssetsController@registerCostFound');
+        Route::get('/fetchData', 'AllocationOfCapitalAssetsController@fetchCostFound');
+        Route::get('/getAllExpenseCosts', 'AllocationOfCapitalAssetsController@getAllExpenseCosts'); // for test convert found to allocation
+        Route::post('/convert_to_allocation', 'AllocationOfCapitalAssetsController@convertCostFoundToAllocation'); // for test convert found to allocation
     });
 
     Route::prefix('credit_distribution')->group(function () {
@@ -253,9 +267,8 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('capital_assets/provincial/plans/register', 'CreditDistributionController@registerCreditDistributionPlan');
         Route::get('capital_assets/provincial/plans/getAllWithCountyId', 'CreditDistributionController@getPlansWithCountyId');
         Route::get('capital_assets/provincial/plans/getPlanRemainingAmount', 'CreditDistributionController@getPlanRemainingAmount');
-//        Route::get('capital_assets/provincial/plans/delete/{cdtId}/{cdrId}', 'CreditDistributionController@deleteCreditDistributionPlan');
-//        Route::get('capital_assets/provincial/plans/CDPIsExist/{cdtId}/{cdrId}', 'CreditDistributionController@CDPIsExist');
-//        Route::post('capital_assets/provincial/plans/update', 'CreditDistributionController@updateCreditDistributionPlan');
+        Route::post('capital_assets/provincial/plans/delete', 'CreditDistributionController@deleteCreditDistributionPlan');
+        Route::post('capital_assets/provincial/plans/update', 'CreditDistributionController@updateCreditDistributionPlan');
         Route::get('capital_assets/provincial/proposal/fetchData', 'CreditDistributionController@fetchProvincialBudgetProposalData');
         Route::post('capital_assets/provincial/proposal/register', 'CreditDistributionController@registerProvincialBudgetProposal');
 

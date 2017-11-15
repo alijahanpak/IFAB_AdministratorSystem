@@ -17,9 +17,12 @@ class CreateCapitalAssetsAllocationTable extends Migration
             Schema::create('tbl_capital_assets_allocation', function (Blueprint $table) {
                 $table->increments('id');
                 $table->integer('caaUId')->length(10)->unsigned();
-                $table->integer('caaCcsId')->length(10)->unsigned();
+                $table->integer('caaCcsId')->length(10)->unsigned()->nullable();
+                $table->integer('caaFyId')->length(10)->unsigned()->nullable();
+                $table->integer('caaFoundId')->length(10)->unsigned()->nullable();
                 $table->string('caaLetterNumber')->nullable();
                 $table->string('caaLetterDate')->nullable();
+                $table->boolean('caaFound')->default(false);
                 $table->bigInteger('caaAmount');
                 $table->longText('caaDescription')->nullable();
                 $table->timestamps();
@@ -29,10 +32,10 @@ class CreateCapitalAssetsAllocationTable extends Migration
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
 
-                $table->foreign('caaCcsId')
+/*                $table->foreign('caaCcsId')
                     ->references('id')->on('tbl_cap_credit_source')
                     ->onDelete('restrict')
-                    ->onUpdate('cascade');
+                    ->onUpdate('cascade');*/
             });
         }
     }
