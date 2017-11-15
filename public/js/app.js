@@ -136601,7 +136601,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       on: {
         "click": function($event) {
           $event.preventDefault();
-          _vm.openUpdateModal(bs.cdp_title_has_credit_distribution_plan[0], bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_title.cdtBsId)
+          _vm.openUpdateModal(bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0], bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_title.cdtBsId)
         }
       }
     }, [_c('i', {
@@ -138486,7 +138486,6 @@ if (false) {(function () {
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -138707,16 +138706,14 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "to": "/budget"
     }
   }, [_vm._v("داشبورد")])], 1), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), _vm._m(3)])])])])]), _vm._v(" "), _c('div', {
-    staticClass: "grid-x my-callout-box container-mrg-top dynamic-height-level1",
+    staticClass: "grid-x my-callout-box container-mrg-top dynamic-height-level1"
+  }, [_c('div', {
+    staticClass: "medium-12 padding-lr",
     staticStyle: {
-      "padding": "15px"
+      "margin-top": "15px"
     }
   }, [_c('div', {
-    staticClass: "medium-12 column"
-  }, [_c('div', {
-    staticClass: "medium-12 bottom-mrg"
-  }, [_c('div', {
-    staticClass: "clearfix border-btm-line bottom-mrg tool-bar"
+    staticClass: "clearfix border-btm-line tool-bar"
   }, [_c('div', {
     staticClass: "button-group float-right report-mrg",
     staticStyle: {
@@ -138732,7 +138729,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("جدید")]), _vm._v(" "), _c('a', {
     staticClass: "my-button toolbox-btn small"
   }, [_vm._v("گزارش")]), _vm._v(" "), _vm._m(4), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _vm._m(6)])]), _vm._v(" "), _c('div', {
-    staticClass: "grid-x"
+    staticClass: "medium-12 column padding-lr table-mrg-top"
   }, [_c('div', {
     staticClass: "tbl-div-container"
   }, [_vm._m(7), _vm._v(" "), _c('div', {
@@ -139226,7 +139223,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('span', {
     staticClass: "btn-txt-mrg"
-  }, [_vm._v("ثبت")])])])])])]) : _vm._e()], 1)])])
+  }, [_vm._v("ثبت")])])])])])]) : _vm._e()], 1)])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', [_c('a', {

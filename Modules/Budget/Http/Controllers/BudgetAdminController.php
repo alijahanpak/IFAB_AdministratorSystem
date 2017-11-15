@@ -343,7 +343,7 @@ class BudgetAdminController extends Controller
         return Redirect::to(URL::previous() . '#plan_title_tab');
     }*/
 
-    public function CDPTIsExist($cdptIdNumber , $cdptSubject , $cdptId = null)
+/*    public function CDPTIsExist($cdptIdNumber , $cdptSubject , $cdptId = null)
     {
         if (\Illuminate\Support\Facades\Request::ajax())
         {
@@ -369,7 +369,7 @@ class BudgetAdminController extends Controller
                 }
             }
         }
-    }
+    }*/
 
 /*    public function updatePlanTitle(Request $request)
     {
@@ -683,13 +683,6 @@ class BudgetAdminController extends Controller
             'requireJsFile' => 'row_distribution_credit' ]);
     }
 
-/*    public function titleOfPlans()
-    {
-        return view('budget::pages.title_of_plans.main', ['pageTitle' => 'عنوان طرح / برنامه',
-            'bSeasons' => $bSeasons = BudgetSeason::all(),
-            'requireJsFile' => 'title_of_plans' ]);
-    }*/
-
     public function FetchRowDC(Request $request)
     {
         $cdr = CreditDistributionRow::where('cdPlanOrCost' , $request->planOrCost)->get();
@@ -762,13 +755,6 @@ class BudgetAdminController extends Controller
             HowToRun::all()
         );
     }
-
-/*    public function getAllCreditDistributionRows(Request $request)
-    {
-        return \response()->json(
-            CreditDistributionRow::where('cdPlanOrCost' , $request->planOrCost)->get()
-        );
-    }*/
 
     ///////////////////////////////// capital assets season title ////////////////////
     public function registerCapitalAssetsSeasonTitle(Request $request)
@@ -1151,78 +1137,94 @@ class BudgetAdminController extends Controller
     ////////////////////////////// credit distribution plan or cost title ////////////////////
     public function registerPlanOrCostTitle(Request $request)
     {
-        $cdpt = new CreditDistributionTitle;
-        $cdpt->cdtUId = Auth::user()->id;
-        $cdpt->cdtBsId = $request->bsId;
-        $cdpt->cdtIdNumber = $request->code;
-        $cdpt->cdtSubject = $request->subject;
-        $cdpt->cdtDescription = $request->description;
-        $cdpt->save();
-
-        $counties = County::all();
-        foreach ($counties as $county)
+        if (CreditDistributionTitle::where('cdtIdNumber' , '=' , $request->code)->exists())
         {
-            if (isset($request['county' . $county->id]))
-            {
-                $cdpt_co = new CreditDistributionTitle;
-                $cdpt_co->cdtUId = Auth::user()->id;
-                $cdpt_co->cdtBsId = $request->bsId;
-                $cdpt_co->cdtIdNumber = $request['county' . $county->id] . PublicSetting::getProvincePlanLebel() . $request->code;
-                $cdpt_co->cdtSubject = $request->subject;
-                if (isset($request['countyDesc' . $county->id]))
-                    $cdpt_co->cdtDescription = $request['countyDesc' . $county->id];
-                $cdpt_co->cdtCoId = $county->id;
-                $cdpt_co->cdtCdtId = $cdpt->id;
-                $cdpt_co->save();
-                SystemLog::setBudgetSubSystemAdminLog('تعریف عنوان طرح توزیع اعتبار در سطح شهرستان ' . $county->coName);
-            }
+            return \response()->json([] , 409);
         }
+        else
+        {
+            $cdpt = new CreditDistributionTitle;
+            $cdpt->cdtUId = Auth::user()->id;
+            $cdpt->cdtBsId = $request->bsId;
+            $cdpt->cdtIdNumber = $request->code;
+            $cdpt->cdtSubject = $request->subject;
+            $cdpt->cdtDescription = $request->description;
+            $cdpt->save();
 
-        SystemLog::setBudgetSubSystemAdminLog('تعریف طرح / برنامه توزیع اعتبار با عنوان ' . $request->subject);
-        return \response()->json($this->getAllPlanOrCostTitle());
+            $counties = County::all();
+            foreach ($counties as $county)
+            {
+                if (isset($request['county' . $county->id]))
+                {
+                    $cdpt_co = new CreditDistributionTitle;
+                    $cdpt_co->cdtUId = Auth::user()->id;
+                    $cdpt_co->cdtBsId = $request->bsId;
+                    $cdpt_co->cdtIdNumber = $request['county' . $county->id] . PublicSetting::getProvincePlanLebel() . $request->code;
+                    $cdpt_co->cdtSubject = $request->subject;
+                    if (isset($request['countyDesc' . $county->id]))
+                        $cdpt_co->cdtDescription = $request['countyDesc' . $county->id];
+                    $cdpt_co->cdtCoId = $county->id;
+                    $cdpt_co->cdtCdtId = $cdpt->id;
+                    $cdpt_co->save();
+                    SystemLog::setBudgetSubSystemAdminLog('تعریف عنوان طرح توزیع اعتبار در سطح شهرستان ' . $county->coName);
+                }
+            }
+
+            SystemLog::setBudgetSubSystemAdminLog('تعریف طرح / برنامه توزیع اعتبار با عنوان ' . $request->subject);
+            return \response()->json($this->getAllPlanOrCostTitle());
+        }
     }
 
     public function updatePlanTitle(Request $request)
     {
-        $old = CreditDistributionTitle::find($request->id);
-        $cdpt = CreditDistributionTitle::find($request->id);
-        $cdpt->cdtUId = Auth::user()->id;
-        $cdpt->cdtBsId = $request->bsId;
-        $cdpt->cdtIdNumber = $request->code;
-        $cdpt->cdtSubject = $request->subject;
-        $cdpt->cdtDescription = $request->description;
-        $cdpt->save();
 
-        $counties = County::all();
-        foreach ($counties as $county)
+        if (CreditDistributionTitle::where('id' , '<>' , $request->id)
+            ->where('cdtIdNumber' , '=' , $request->code)->exists())
         {
-            $cdtP = CreditDistributionTitle::where('cdtCdtId' , $cdpt->id);
-            if ($request['county' . $county->id] != '')
-            {
-                if ($cdtP->where('cdtIdNumber' , '=' , $request['county' . $county->id] . PublicSetting::getProvincePlanLebel() . $cdpt->cdtIdNumber)->exists())
-                {
-                    $cdtP->where('cdtIdNumber' , '=' , $request['county' . $county->id] . PublicSetting::getProvincePlanLebel() . $cdpt->cdtIdNumber)->update(['cdtIdNumber' => Uuid::uuid4() . Auth::user()->id]);
-                }
-                CreditDistributionTitle::updateOrCreate(['cdtCdtId' => $request->id , 'cdtCoId' => $county->id] , ['cdtUId' => Auth::user()->id,
-                    'cdtBsId' => $request->bsId,
-                    'cdtIdNumber' => $request['county' . $county->id] . PublicSetting::getProvincePlanLebel() . $request->code,
-                    'cdtSubject' => $request->subject,
-                    'cdtDescription' => isset($request['countyDesc' . $county->id]) ? $request['countyDesc' . $county->id] : '',
-                    'cdtCoId' => $county->id,
-                    'cdtCdtId' => $cdpt->id]);
-                SystemLog::setBudgetSubSystemAdminLog('تغییر عنوان طرح توزیع اعتبار در سطح شهرستان ' . $county->coName);
-            }
-            else if($cdtP->where('cdtCoId' , $county->id)->exists()){
-                try {
-                    $cdtP->where('cdtCoId' , $county->id)->delete();
-                    SystemLog::setBudgetSubSystemAdminLog('حذف عنوان طرح توزیع اعتبار ' . $county->coName);
-                }
-                catch (\Illuminate\Database\QueryException $e) {
-                }
-            }
+            return \response()->json([] , 409);
         }
-        SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان طرح توزیع اعتبار (' . $old->cdtSubject . ') به (' . $cdpt->cdtSubject . ')');
-        return \response()->json($this->getAllPlanOrCostTitle());
+        else
+        {
+            $old = CreditDistributionTitle::find($request->id);
+            $cdpt = CreditDistributionTitle::find($request->id);
+            $cdpt->cdtUId = Auth::user()->id;
+            $cdpt->cdtBsId = $request->bsId;
+            $cdpt->cdtIdNumber = $request->code;
+            $cdpt->cdtSubject = $request->subject;
+            $cdpt->cdtDescription = $request->description;
+            $cdpt->save();
+
+            $counties = County::all();
+            foreach ($counties as $county)
+            {
+                $cdtP = CreditDistributionTitle::where('cdtCdtId' , $cdpt->id);
+                if ($request['county' . $county->id] != '')
+                {
+                    if ($cdtP->where('cdtIdNumber' , '=' , $request['county' . $county->id] . PublicSetting::getProvincePlanLebel() . $cdpt->cdtIdNumber)->exists())
+                    {
+                        $cdtP->where('cdtIdNumber' , '=' , $request['county' . $county->id] . PublicSetting::getProvincePlanLebel() . $cdpt->cdtIdNumber)->update(['cdtIdNumber' => Uuid::uuid4() . Auth::user()->id]);
+                    }
+                    CreditDistributionTitle::updateOrCreate(['cdtCdtId' => $request->id , 'cdtCoId' => $county->id] , ['cdtUId' => Auth::user()->id,
+                        'cdtBsId' => $request->bsId,
+                        'cdtIdNumber' => $request['county' . $county->id] . PublicSetting::getProvincePlanLebel() . $request->code,
+                        'cdtSubject' => $request->subject,
+                        'cdtDescription' => isset($request['countyDesc' . $county->id]) ? $request['countyDesc' . $county->id] : '',
+                        'cdtCoId' => $county->id,
+                        'cdtCdtId' => $cdpt->id]);
+                    SystemLog::setBudgetSubSystemAdminLog('تغییر عنوان طرح توزیع اعتبار در سطح شهرستان ' . $county->coName);
+                }
+                else if($cdtP->where('cdtCoId' , $county->id)->exists()){
+                    try {
+                        $cdtP->where('cdtCoId' , $county->id)->delete();
+                        SystemLog::setBudgetSubSystemAdminLog('حذف عنوان طرح توزیع اعتبار ' . $county->coName);
+                    }
+                    catch (\Illuminate\Database\QueryException $e) {
+                    }
+                }
+            }
+            SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان طرح توزیع اعتبار (' . $old->cdtSubject . ') به (' . $cdpt->cdtSubject . ')');
+            return \response()->json($this->getAllPlanOrCostTitle());
+        }
     }
 
     public function deletePlanTitle(Request $request)
