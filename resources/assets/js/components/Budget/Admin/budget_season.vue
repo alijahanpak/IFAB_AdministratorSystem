@@ -21,66 +21,62 @@
         <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
             <div class="medium-12 padding-lr" style="margin-top: 15px;">
                 <div class="clearfix border-btm-line tool-bar">
-                    <div style="margin-top: 2px;" class="button-group float-right report-mrg">
-                        <a class="my-button toolbox-btn small" @click="showInsertModal = true;">جدید</a>
+                    <div style="margin-top: 2px;" class="button-group float-right">
+                        <a class="my-button toolbox-btn small" @click="openInsertModal">جدید</a>
                         <a class="my-button toolbox-btn small">گزارش</a>
-                    </div>
-                    <div class="float-left">
-                        <div class="input-group float-left">
-                            <input class="input-group-field small-font" type="text">
-                            <div class="input-group-button">
-                                <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
-            <div class="medium-12 column">
-                    <!--Tab 1 Start-->
-                    <div class="columns padding-lr table-mrg-top">
-                        <!--Header Start-->
-                        <div class="grid-x table-header">
-                            <div class="medium-4 table-border">
-                                <strong>عنوان</strong>
-                            </div>
-                            <div class="medium-8 table-border">
-                                <strong>شرح</strong>
-                            </div>
-                        </div>
-                        <!--Header End-->
-                        <div class="table-contain dynamic-height-level2">
-                            <div class="grid-x" v-for="budgetSeason in budgetSeasons">
-                                <div class="medium-4 table-contain-border cell-vertical-center">{{ budgetSeason.bsSubject }}</div>
-                                <div class="medium-8 table-contain-border cell-vertical-center">
-                                    <div class="grid-x">
-                                        <div class="medium-11">
-                                            {{ budgetSeason.bsDescription }}
-                                        </div>
-                                        <div class="medium-1 cell-vertical-center text-left">
-                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'budgetSeason' + budgetSeason.id"><img width="15px" height="15px"  src="/IFAB_AdministratorSystem/public/pic/menu.svg"></a>
-                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'budgetSeason' + budgetSeason.id" data-dropdown data-auto-focus="true">
-                                                <ul class="my-menu small-font text-right">
-                                                    <li><a data-open="preloaderModal"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                    <li><a data-open="modalDelete"><i class="fi-trash size-16"></i>  حذف</a></li>
-                                                </ul>
+            <div class="medium-12 column padding-lr table-mrg-top">
+                <div class="tbl-div-container">
+                    <table class="tbl-head">
+                        <colgroup>
+                            <col width="450px"/>
+                            <col width="390px"/>
+                            <col width="12px"/>
+                        </colgroup>
+                        <tbody class="tbl-head-style">
+                        <tr class="tbl-head-style-cell">
+                            <th class="tbl-head-style-cell">عنوان</th>
+                            <th class="tbl-head-style-cell">شرح</th>
+                            <th class="tbl-head-style-cell"></th>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!--Table Head End-->
+                    <!--Table Body Start-->
+                    <div class="tbl_body_style dynamic-height-level2">
+                        <table class="tbl-body-contain">
+                            <colgroup>
+                                <col width="450px"/>
+                                <col width="390px"/>
+                            </colgroup>
+                            <tbody class="tbl-head-style-cell">
+                                <tr v-for="budgetSeason in budgetSeasons">
+                                    <td>{{ budgetSeason.bsSubject }}</td>
+                                    <td>
+                                        <div class="grid-x">
+                                            <div class="medium-11">
+                                                {{ budgetSeason.bsDescription }}
+                                            </div>
+                                            <div class="medium-1 cell-vertical-center text-left">
+                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'budgetSeason' + budgetSeason.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'budgetSeason' + budgetSeason.id" data-dropdown data-auto-focus="true">
+                                                    <ul class="my-menu small-font text-right">
+                                                        <li><a @click="openUpdateModal(budgetSeason)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                        <li><a @click="openDeleteModal(budgetSeason.id)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <!--Tab 1 End-->
+                </div>
             </div>
         </div>
-        <!--modalDelete Start-->
-        <modal-tiny v-if="showFyActiveModal" @close="showFyActiveModal = false">
-            <div  slot="body">
-
-            </div>
-        </modal-tiny>
-        <!--modalDelete end-->
-
         <!--ModalInsert Start-->
         <modal-tiny v-if="showInsertModal" @close="showInsertModal = false">
             <div  slot="body">
@@ -96,7 +92,7 @@
                         <div class="grid-x">
                             <div class="small-12 columns">
                                 <label>عنوان فصل بودجه
-                                    <input type="text" name="bsSubject" v-model="budgetSeasonInput.subject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('bsSubject')}">
+                                    <input class="form-element-margin-btm" type="text" name="bsSubject" v-model="budgetSeasonInput.subject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('bsSubject')}">
                                 </label>
                                 <span v-show="errors.has('bsSubject')" class="error-font">لطفا عنوان فصل بودجه را وارد نمایید!</span>
                             </div>
@@ -109,13 +105,63 @@
                             </div>
                         </div>
                         <div class="medium-6 columns">
-                            <button name="Submit" type="submit" class="my-secondary button float-left btn-for-load"> <span>  ثبت</span></button>
+                            <button name="daFormSubmit" type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
                         </div>
                     </form>
                 </div>
             </div>
         </modal-tiny>
         <!--ModalInsert End-->
+        <!--ModalUpdate Start-->
+        <modal-tiny v-if="showUpdateModal" @close="showUpdateModal = false">
+            <div  slot="body">
+                <div class="padding-lr">
+                    <form v-on:submit.prevent="updateBudgetSeason">
+                        <div class="grid-x" style="display: none">
+                            <div class="medium-12 columns">
+                                <div class="alert callout">
+                                    <p class="BYekan login-alert"><i class="fi-alert"></i>این عنوان فصل بودجه قبلا ثبت شده است!</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="small-12 columns">
+                                <label>عنوان فصل بودجه
+                                    <input class="form-element-margin-btm" type="text" name="bsSubject" v-model="budgetSeasonFill.subject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('bsSubject')}">
+                                </label>
+                                <span v-show="errors.has('bsSubject')" class="error-font">لطفا عنوان فصل بودجه را وارد نمایید!</span>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="small-12 columns">
+                                <label>شرح
+                                    <textarea name="bsDescription" v-model="budgetSeasonFill.description" style="min-height: 150px;"></textarea>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="medium-6 columns">
+                            <button name="daFormSubmit" type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </modal-tiny>
+        <!--ModalUpdate End-->
+        <!-- Delete Modal Start -->
+        <modal-tiny v-if="showDeleteModal" @close="showDeleteModal = false">
+            <div  slot="body">
+                <div class="small-font">
+                    <p>کاربر گرامی</p>
+                    <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
+                    <div class="grid-x">
+                        <div class="medium-12 column text-center">
+                            <button v-on:click="deleteBudgetSeason" class="my-button my-success"><span class="btn-txt-mrg"> تایید </span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-tiny>
+        <!-- Delete Modal End -->
     </div>
 </template>
 <script>
@@ -124,7 +170,11 @@
             return {
                 budgetSeasons: [],
                 budgetSeasonInput: {subject: '' , description: ''},
+                budgetSeasonFill: {},
+                bsIdForDelete: '',
                 showInsertModal: false,
+                showUpdateModal: false,
+                showDeleteModal: false,
             }
         },
 
@@ -152,6 +202,11 @@
                     });
             },
 
+            openInsertModal: function () {
+                this.budgetSeasonInput = [];
+                this.showInsertModal = true;
+            },
+
             createBudgetSeason: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
@@ -162,15 +217,60 @@
                                 this.budgetSeasons = response.data;
                                 this.showInsertModal = false;
                                 this.$parent.displayNotif(response.status);
-                                this.budgetSeasonInput = [];
                                 console.log(response);
                             },(error) => {
                                 console.log(error);
-                                this.errorMessage = 'فصل بودجه با این مشخصات قبلا ثبت شده است!';
+                                this.$parent.displayNotif(error.response.status);
                             });
                     }
                 });
             },
+
+            openUpdateModal: function (bs) {
+                this.budgetSeasonFill.id = bs.id;
+                this.budgetSeasonFill.subject = bs.bsSubject;
+                this.budgetSeasonFill.description = bs.bsDescription;
+                this.showUpdateModal = true;
+            },
+
+            updateBudgetSeason: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/budget/admin/credit_distribution_def/budget_season/update' , {
+                            id: this.budgetSeasonFill.id,
+                            subject: this.budgetSeasonFill.subject,
+                            description: this.budgetSeasonFill.description})
+                            .then((response) => {
+                                this.budgetSeasons = response.data;
+                                this.showUpdateModal = false;
+                                this.$parent.displayNotif(response.status);
+                                console.log(response);
+                            },(error) => {
+                                console.log(error);
+                                this.$parent.displayNotif(error.response.status);
+                            });
+                    }
+                });
+            },
+
+            openDeleteModal: function (bsId) {
+                this.bsIdForDelete = bsId;
+                this.showDeleteModal = true;
+            },
+
+            deleteBudgetSeason: function () {
+                axios.post('/budget/admin/credit_distribution_def/budget_season/delete' , {id: this.bsIdForDelete})
+                    .then((response) => {
+                        if (response.status != 204)
+                            this.budgetSeasons = response.data;
+                        this.showDeleteModal = false;
+                        this.$parent.displayNotif(response.status);
+                        console.log(response);
+                    },(error) => {
+                        console.log(error);
+                        this.showDeleteModal = false;
+                });
+            }
         }
     }
 </script>

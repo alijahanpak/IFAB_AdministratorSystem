@@ -116,4 +116,16 @@ class BudgetReportController extends Controller
             return url('xlsFiles/temp' . Auth::user()->id .'.xls');
         }
     }
+
+    public function approvedProject(Request $request)
+    {
+        $options = json_decode($request->get('options'));
+        $pdf = $this->initPdf($options);
+        if ($request->pOrN == 0)
+            $pdf->loadHTML(view('budget::reports.approved.project_provincial' , ['options' => $options , 'items' => $request->get('selectedItems')]));
+        else
+            $pdf->loadHTML(view('budget::reports.approved.project_national' , ['options' => $options , 'items' => $request->get('selectedItems')]));
+        $pdf->save('pdfFiles/temp' . Auth::user()->id .'.pdf' , true);
+        return url('pdfFiles/temp' . Auth::user()->id .'.pdf');
+    }
 }

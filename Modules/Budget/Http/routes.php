@@ -3,7 +3,8 @@
 Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modules\Budget\Http\Controllers'], function()
 {
     Route::get('/', 'BudgetController@dashboard');
-    /////////////////////// Report //////////////////////////////
+
+
     Route::prefix('admin')->group(function () {
 /*        Route::get('deprived_area', 'BudgetAdminController@deprivedArea');
         Route::post('deprived_area/register', 'BudgetAdminController@registerDeprivedArea');
@@ -157,8 +158,8 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
     Route::prefix('admin/credit_distribution_def')->group(function () {
         Route::get('/budget_season/fetchData', 'BudgetAdminController@fetchBudgetSeasonData');
         Route::post('/budget_season/register', 'BudgetAdminController@registerBudgetSeason');
-/*        Route::get('/budget_season/delete/{bsId}', 'BudgetAdminController@deleteBudgetSeason');
-        Route::post('/budget_season/update', 'BudgetAdminController@updateBudgetSeason');*/
+        Route::post('/budget_season/delete', 'BudgetAdminController@deleteBudgetSeason');
+        Route::post('/budget_season/update', 'BudgetAdminController@updateBudgetSeason');
         Route::get('/rows/fetchData', 'BudgetAdminController@fetchCreditDistributionRowsData');
         Route::post('/rows/register', 'BudgetAdminController@registerCreditDistributionRow');
         //Route::get('/rows/delete/{cdId}', 'BudgetAdminController@deleteCreditDistributionRow');
@@ -224,6 +225,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::get('/getAllItems', 'ProjectController@getAllApprovedProjects');
         Route::post('/credit_source/register', 'ProjectController@registerApCreditSource');
         Route::get('/credit_source/getAllItem', 'ProjectController@getAllApCreditSourceItems');
+        Route::get('/report', 'BudgetReportController@approvedProject');
 
         //Route::get('/getAllProjectWithPlanId', 'ProjectController@getAllProjectWithPlanId');
     });

@@ -267,7 +267,7 @@ var app = new Vue({
 
             if (tabHeight===undefined) {
                 if (toolBarHeight > 0)
-                    tabHeight = -28;
+                    tabHeight = -5;
                 else
                     tabHeight = -8;
                 notifHeight=0;

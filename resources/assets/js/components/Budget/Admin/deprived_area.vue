@@ -460,7 +460,7 @@
                     <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button  class="button primary btn-large-w" v-on:click="deleteDeprivedArea">تایید</button>
+                            <button v-on:click="deleteDeprivedArea" class="my-button my-success"><span class="btn-txt-mrg"> تایید </span></button>
                         </div>
                     </div>
                 </div>
@@ -682,7 +682,8 @@
                 axios.post('/budget/admin/deprived_area/delete' , {
                             id: this.daIdForDelete})
                     .then((response) => {
-                    this.deprivedArea = response.data;
+                    if (response.status != 204)
+                        this.deprivedArea = response.data;
                     this.showDeleteModal = false;
                     this.$parent.displayNotif(response.status);
                     console.log(response);
