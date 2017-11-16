@@ -56,61 +56,88 @@
                                 </div>
                             </div>
                             <!--Table Start-->
-                            <div class="columns">
-                                <!--Header Start-->
-                                <div class="grid-x table-header">
-                                    <div class="medium-2 table-border">
-                                        <strong>فصل</strong>
-                                    </div>
-                                    <div class="medium-10">
-                                        <div class="grid-x">
-                                            <div class="medium-8 table-border">
-                                                <strong>عنوان فصل</strong>
-                                            </div>
-                                            <div class="medium-4  table-border">
-                                                <strong>شرح</strong>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--Header End-->
-                                <div class="table-contain dynamic-height-level2">
-                                    <div class="grid-x" v-for="season in seasonTitles">
-                                        <div class="medium-2 table-contain-border cell-vertical-center">
-                                            {{ season.sSubject }}
-                                        </div>
-                                        <div class="medium-10">
-                                            <div class="grid-x" v-for="seasonTitle in season.capital_assets_season_title">
-                                                <div class="medium-8 table-contain-border cell-vertical-center">
-                                                    {{ seasonTitle.castSubject }}
-                                                </div>
-                                                <div class="medium-4 table-contain-border cell-vertical-center">
-                                                    <div class="grid-x">
-                                                        <div class="medium-11">
-                                                            {{ seasonTitle.castDescription }}
-                                                        </div>
-                                                        <div class="medium-1 cell-vertical-center text-left">
-                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'stSeasonTitle' + seasonTitle.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'stSeasonTitle' + seasonTitle.id" data-dropdown data-auto-focus="true">
-                                                                <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent="seasonTitleUpdateDialog(seasonTitle , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent="openDeleteSeasonTitleConfirm(seasonTitle , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                </ul>
+                            <!--Table Head Start-->
+                            <div class="tbl-div-container">
+                                <table class="tbl-head">
+                                    <colgroup>
+                                        <col width="150px"/>
+                                        <col width="400px"/>
+                                        <col width="400px"/>
+                                        <col width="12px"/>
+
+                                    </colgroup>
+                                    <tbody class="tbl-head-style">
+                                    <tr class="tbl-head-style-cell">
+                                        <th class="tbl-head-style-cell">فصل</th>
+                                        <th class="tbl-head-style-cell">عنوان فصل</th>
+                                        <th class="tbl-head-style-cell">شرح</th>
+                                        <th class="tbl-head-style-cell"></th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <!--Table Head End-->
+                                <!--Table Body Start-->
+                                <div class="tbl_body_style dynamic-height-level2">
+                                    <table class="tbl-body-contain">
+                                        <colgroup>
+                                            <col width="150px"/>
+                                            <col width="500px"/>
+                                            <col width="300px"/>
+                                        </colgroup>
+                                        <tbody class="tbl-head-style-cell">
+                                            <template v-for="season in seasonTitles">
+                                                <tr>
+                                                    <td :rowspan="season.capital_assets_season_title.length">{{season.sSubject}}</td>
+                                                    <td>{{season.capital_assets_season_title[0].castSubject}}</td>
+                                                    <td>
+                                                        <div class="grid-x">
+                                                            <div class="medium-11">
+                                                                {{season.capital_assets_season_title[0].castDescription}}
+                                                            </div>
+                                                            <div class="medium-1 cell-vertical-center text-left">
+                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'stSeasonTitle' + season.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'stSeasonTitle' + season.id" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font text-right">
+                                                                        <li><a v-on:click.prevent="seasonTitleUpdateDialog(season.id , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li><a v-on:click.prevent="openDeleteSeasonTitleConfirm(season.id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    </ul>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                                    </td>
+                                                </tr>
+                                                <template v-for="(seasonTitle,sIndex) in season.capital_assets_season_title">
+                                                    <tr v-if="sIndex > 0">
+                                                        <td>{{seasonTitle.castSubject}}</td>
+                                                        <td>
+                                                            <div class="grid-x">
+                                                                <div class="medium-11">
+                                                                    {{seasonTitle.castDescription}}
+                                                                </div>
+                                                                <div class="medium-1 cell-vertical-center text-left">
+                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'stSeasonTitle' + season.id + seasonTitle.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'stSeasonTitle' + season.id + seasonTitle.id" data-dropdown data-auto-focus="true">
+                                                                        <ul class="my-menu small-font text-right">
+                                                                            <li><a v-on:click.prevent="seasonTitleUpdateDialog(season.id , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                            <li><a v-on:click.prevent="openDeleteSeasonTitleConfirm(season.id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </template>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="grid-x">
-                                    <div class="medium-12">
-                                        <vue-pagination  v-bind:pagination="plan_pagination"
-                                                         v-on:click.native="fetchCapitalAssetsData(plan_pagination.current_page)"
-                                                         :offset="4">
-                                        </vue-pagination>
-                                    </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-12">
+                                    <vue-pagination  v-bind:pagination="plan_pagination"
+                                                     v-on:click.native="fetchCapitalAssetsData(plan_pagination.current_page)"
+                                                     :offset="4">
+                                    </vue-pagination>
                                 </div>
                             </div>
                         </div>
@@ -146,8 +173,95 @@
                                 </div>
                             </div>
                             <!--Table Start-->
-                            <div class="columns">
-                                <!--Header Start-->
+                            <!--Table Head Start-->
+                            <div class="tbl-div-container">
+                                <table class="tbl-head">
+                                    <colgroup>
+                                        <col width="150px"/>
+                                        <col width="400px"/>
+                                        <col width="400px"/>
+                                        <col width="12px"/>
+
+                                    </colgroup>
+                                    <tbody class="tbl-head-style">
+                                    <tr class="tbl-head-style-cell">
+                                        <th class="tbl-head-style-cell">فصل</th>
+                                        <th class="tbl-head-style-cell">عنوان فصل</th>
+                                        <th class="tbl-head-style-cell">شرح</th>
+                                        <th class="tbl-head-style-cell"></th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <!--Table Head End-->
+                                <!--Table Body Start-->
+                                <div class="tbl_body_style dynamic-height-level2">
+                                    <table class="tbl-body-contain">
+                                        <colgroup>
+                                            <col width="150px"/>
+                                            <col width="500px"/>
+                                            <col width="300px"/>
+                                        </colgroup>
+                                        <tbody class="tbl-head-style-cell">
+                                        <template v-for="season in seasonTitleCosts">
+                                            <tr>
+                                                <td :rowspan="season.cost_season_title.length">{{season.sSubject}}</td>
+                                                <td>{{season.cost_season_title[0].cstSubject}}</td>
+                                                <td>
+                                                    <div class="grid-x">
+                                                        <div class="medium-11">
+                                                            {{season.cost_season_title[0].cstDescription}}
+                                                        </div>
+                                                        <div class="medium-1 cell-vertical-center text-left">
+                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'stSeasonTitle_cost' + season.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'stSeasonTitle_cost' + season.id" data-dropdown data-auto-focus="true">
+                                                                <ul class="my-menu small-font text-right">
+                                                                    <li><a v-on:click.prevent="seasonTitleUpdateDialog(season.id , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent="openDeleteSeasonTitleConfirm(season.id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <template v-for="(seasonTitle,sIndex) in season.cost_season_title">
+                                                <tr v-if="sIndex > 0">
+                                                    <td>{{seasonTitle.cstSubject}}</td>
+                                                    <td>
+                                                        <div class="grid-x">
+                                                            <div class="medium-11">
+                                                                {{seasonTitle.cstDescription}}
+                                                            </div>
+                                                            <div class="medium-1 cell-vertical-center text-left">
+                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'stSeasonTitle_cost' + season.id + seasonTitle.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'stSeasonTitle_cost' + season.id + seasonTitle.id" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font text-right">
+                                                                        <li><a v-on:click.prevent="seasonTitleUpdateDialog(season.id , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li><a v-on:click.prevent="openDeleteSeasonTitleConfirm(season.id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-12">
+                                    <vue-pagination  v-bind:pagination="cost_pagination"
+                                                     v-on:click.native="fetchCostData(cost_pagination.current_page)"
+                                                     :offset="4">
+                                    </vue-pagination>
+                                </div>
+                            </div>
+
+
+                            <!--Table Start-->
+                            <!--<div class="columns">
+                                &lt;!&ndash;Header Start&ndash;&gt;
                                 <div class="grid-x table-header">
                                     <div class="medium-2 table-border">
                                         <strong>فصل</strong>
@@ -163,7 +277,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--Header End-->
+                                &lt;!&ndash;Header End&ndash;&gt;
                                 <div class="table-contain dynamic-height-level2">
                                     <div class="grid-x" v-for="season1 in seasonTitleCosts">
                                         <div class="medium-2 table-contain-border cell-vertical-center">
@@ -202,7 +316,7 @@
                                         </vue-pagination>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                        </div>
                     </div>
                     <!--Tab 2-->

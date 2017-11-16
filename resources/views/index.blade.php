@@ -343,7 +343,7 @@
         <transition name="modal-login">
             <div class="modal-mask-login">
                 <div class="modal-wrapper">
-                    <div style="padding: 0;" class="my-full-screen">
+                    <div style="padding: 0;" class="my-full-screen-login">
                         <div class="modal-header">
                             <slot name="header">
 
