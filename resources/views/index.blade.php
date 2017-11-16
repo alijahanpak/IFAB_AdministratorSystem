@@ -31,42 +31,45 @@
                     <img class="login-logo-mrg" src="{{ asset('pic\logom.jpg') }}" width="74px" height="74px">
                 </div>
             </div>
-            <div class="grid-x">
+            <div style="margin-bottom: 20px;" class="grid-x">
                 <div class="medium-12">
                     <h5 class="BYekan text-center  login-txt">سامانه یکپارچه اداری، مالی و بودجه</h5>
                 </div>
             </div>
             <div class="grid-x">
-                <div style="margin-top: 20px;" class="large-4 large-offset-4 cell callout ">
-                    <form v-on:submit.prevent="login">
-                        <div class="grid-x" v-show="errorMessage">
-                            <div class="medium-12 columns padding-lr">
-                                <div class="alert callout">
-                                    <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
+                <div class="medium-12">
+                    <div class="grid-x">
+                        <div style="margin:0 auto;" class="medium-3 cell callout ">
+                            <form v-on:submit.prevent="login">
+                                <div class="grid-x" v-show="errorMessage">
+                                    <div class="medium-12 columns padding-lr">
+                                        <div class="alert callout">
+                                            <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="medium-12 columns padding-lr">
+                                    <label>نام کاربری
+                                        <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="text" placeholder="&#xf2c0;" autofocus name="user" v-model="authInfo.email" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('user')}">
+                                    </label>
+                                    <span v-show="errors.has('user')" class="error-font">لطفا نام کاربری را وارد کنید!</span>
+                                </div>
+                                <div style="margin-top: 20px;" class="medium-12 columns padding-lr">
+                                    <label>رمز عبور
+                                        <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="password" placeholder="&#xf09c;" name="pass" v-model="authInfo.password"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('pass')}">
+                                    </label>
+                                    <span v-show="errors.has('pass')" class="error-font">لطفا رمز عبور را وارد کنید!</span>
+                                </div>
+                                <div class="medium-12 padding-lr top-margin-element">
+                                    <button style="margin-top: 20px;"  name="submit" class="my-button my-success expanded">ورود</button>
+                                </div>
+                            </form>
                         </div>
-                        <div class="columns padding-lr">
-
-                            <label>نام کاربری
-                                <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="text" placeholder="&#xf2c0;" autofocus name="user" v-model="authInfo.email" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('user')}">
-                            </label>
-                            <span v-show="errors.has('user')" class="error-font">لطفا نام کاربری را وارد کنید!</span>
-                        </div>
-                        <div style="margin-top: 20px;" class="medium-12 columns padding-lr">
-                            <label>رمز عبور
-                                <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="password" placeholder="&#xf09c;" name="pass" v-model="authInfo.password"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('pass')}">
-                            </label>
-                            <span v-show="errors.has('pass')" class="error-font">لطفا رمز عبور را وارد کنید!</span>
-                        </div>
-                        <div class="medium-12 padding-lr top-margin-element">
-                            <button style="margin-top: 20px;"  name="submit" class="my-button my-success expanded">ورود</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
             <div class="grid-x">
-                <div class="large-12">
+                <div class="medium-12">
                     <ul class="menu small-font align-center ul-margin">
                         <li><a class="footer-menu" href="#">راهنمای سامانه</a></li>
                         <li><a class="footer-menu" href="#">درباره ما</a></li>
@@ -344,7 +347,7 @@
         <transition name="modal-login">
             <div class="modal-mask-login">
                 <div class="modal-wrapper">
-                    <div style="padding: 0;" class="my-full-screen">
+                    <div style="padding: 0;" class="my-full-screen-login">
                         <div class="modal-header">
                             <slot name="header">
 

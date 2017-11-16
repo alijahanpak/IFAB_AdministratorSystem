@@ -171,6 +171,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('/plan_cost_title/update', 'BudgetAdminController@updatePlanTitle');
         Route::post('/plan_cost_title/delete', 'BudgetAdminController@deletePlanTitle');
         Route::get('/plan_cost_title/getAllItem', 'BudgetAdminController@getAllPlanOrCostTitleItem');
+        Route::post('/report', 'BudgetReportController@planOrCostTitle');
 
     });
 
