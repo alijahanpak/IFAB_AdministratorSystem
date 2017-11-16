@@ -28,7 +28,7 @@
                 <div class="medium-12 padding-lr" style="margin-top: 15px;">
                     <div class="clearfix border-btm-line tool-bar">
                         <div style="margin-top: 2px;" class="button-group float-right report-mrg">
-                            <a class="my-button toolbox-btn small" @click="openInsertModal(0)">جدید</a>
+                            <a class="my-button toolbox-btn small" @click="openInsertModal">جدید</a>
                             <a class="my-button toolbox-btn small">گزارش</a>
                             <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
                             <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
@@ -105,8 +105,8 @@
                                                     <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'pProposal' + county.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'pProposal' + county.id" data-dropdown data-auto-focus="true">
                                                         <ul class="my-menu small-font text-right">
-                                                            <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                            <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                            <li><a v-on:click.prevent="openUpdateModal(county.credit_distribution_plan_has_proposal[0].proposal[0] , county.credit_distribution_plan_has_proposal[0].cdpCoId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                            <li><a v-on:click.prevent="openDeleteModal(county.credit_distribution_plan_has_proposal[0].proposal[0].id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -128,8 +128,8 @@
                                                         <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'ppProposal' + county.id + plan.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'ppProposal' + county.id + plan.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
-                                                                <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                <li><a v-on:click.prevent="openUpdateModal(plan.proposal[0] , plan.cdpCoId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                <li><a v-on:click.prevent="openDeleteModal(plan.proposal[0].id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -150,8 +150,8 @@
                                                             <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'proposal' + county.id + plan.id + proposal.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'proposal' + county.id + plan.id + proposal.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li><a v-on:click.prevent="openUpdateModal(proposal , plan.cdpCoId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent="openDeleteModal(proposal.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -176,7 +176,7 @@
                 </div>
                 <!--Forms Start-->
                 <!--Insert Modal Start-->
-                <modal-small v-if="showModal" @close="showModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                <modal-small v-if="showInsertModal" @close="showInsertModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div  slot="body">
                         <form v-on:submit.prevent="createCdpProposal">
                             <div class="grid-x" v-if="errorMessage">
@@ -198,7 +198,7 @@
                                 </div>
                                 <div class="medium-8 cell padding-lr">
                                     <label>طرح
-                                        <select class="form-element-margin-btm" name="planCode" v-model="cdpProposalInput.cdpId" @change="getRemianingAmount" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('planCode')}">
+                                        <select class="form-element-margin-btm" name="planCode" v-model="cdpProposalInput.cdpId" @change="getRemianingAmount(cdpProposalInput.cdpId)" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('planCode')}">
                                             <option value=""></option>
                                             <option v-for="cdp in creditDistributionPlans" :value="cdp.id">{{ cdp.credit_distribution_title.cdtIdNumber + ' - ' + cdp.credit_distribution_title.cdtSubject + ' - ' + ' فصل ' + cdp.credit_distribution_title.budget_season.bsSubject + ' - ' + ' ردیف ' + cdp.credit_distribution_row.cdSubject + ' - ' + ' با اعتبار ' + $parent.calcDispAmount(cdp.cdpCredit) }}</option>
                                         </select>
@@ -206,16 +206,9 @@
                                     <span v-show="errors.has('planCode')" class="error-font">کد طرح مورد نظر را انتخاب کنید!</span>
                                 </div>
                             </div>
-                            <div class="grid-x" style="margin-top: 10px;margin-bottom: 10px" v-show="cdpProposalInput.cdpId != null && cdpProposalInput.cdpId != ''">
-                                <div class="medium-12 column padding-lr">
-                                    <div class="grid-x my-callout-bg-color">
-                                        <div class="medium-2">
-                                            <p>اعتبار باقیمانده:</p>
-                                        </div>
-                                        <div class="medium-10 btn-red">
-                                            <strong id="pbpPlanAmount" style="margin-bottom: 0;">{{ remainingAmount }} </strong><span>{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                        </div>
-                                    </div>
+                            <div class="grid-x my-callout-bg-color" style="margin-top: 10px;margin-bottom: 10px" v-show="cdpProposalInput.cdpId != null && cdpProposalInput.cdpId != ''">
+                                <div class="medium-12">
+                                    <span>اعتبار باقیمانده: </span><span class="btn-red" id="pbpPlanAmount" style="margin-bottom: 0;">{{ remainingAmount }} </span><span>{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
                                 </div>
                             </div>
                             <div class="grid-x">
@@ -254,6 +247,93 @@
                     </div>
                 </modal-small>
                 <!--Insert Modal End-->
+            <!--update Modal Start-->
+            <modal-small v-if="showUpdateModal" @close="showUpdateModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                <div  slot="body">
+                    <form v-on:submit.prevent="updateCdpProposal">
+                        <div class="grid-x" v-if="errorMessage">
+                            <div class="medium-12 columns padding-lr">
+                                <div class="alert callout">
+                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-4 cell padding-lr">
+                                <label>شهرستان
+                                    <select class="form-element-margin-btm" name="pCounty" v-model="selectedCounty" @change="getCDPWithCoId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('pCounty')}">
+                                        <option value=""></option>
+                                        <option v-for="county in counties" :value="county.id">{{ county.coName }}</option>
+                                    </select>
+                                    <span v-show="errors.has('pCounty')" class="error-font">شهرستان را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                            <div class="medium-8 cell padding-lr">
+                                <label>طرح
+                                    <select class="form-element-margin-btm" name="planCode" v-model="cdpProposalFill.cdpId" @change="getRemianingAmount(cdpProposalFill.cdpId)" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('planCode')}">
+                                        <option value=""></option>
+                                        <option v-for="cdp in creditDistributionPlans" :value="cdp.id">{{ cdp.credit_distribution_title.cdtIdNumber + ' - ' + cdp.credit_distribution_title.cdtSubject + ' - ' + ' فصل ' + cdp.credit_distribution_title.budget_season.bsSubject + ' - ' + ' ردیف ' + cdp.credit_distribution_row.cdSubject + ' - ' + ' با اعتبار ' + $parent.calcDispAmount(cdp.cdpCredit) }}</option>
+                                    </select>
+                                </label>
+                                <span v-show="errors.has('planCode')" class="error-font">کد طرح مورد نظر را انتخاب کنید!</span>
+                            </div>
+                        </div>
+                        <div class="grid-x my-callout-bg-color" style="margin-top: 10px;margin-bottom: 10px" v-show="cdpProposalFill.cdpId != null && cdpProposalFill.cdpId != ''">
+                            <div class="medium-12">
+                                <span>اعتبار باقیمانده: </span><span class="btn-red" style="margin-bottom: 0;">{{ remainingAmount }} </span><span>{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-12 columns padding-lr">
+                                <label>عنوان پروژه
+                                    <input class="form-element-margin-btm" type="text" name="projectTitle" v-model="cdpProposalFill.pSubject" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('projectTitle')}">
+                                </label>
+                                <span v-show="errors.has('projectTitle')" class="error-font">عنوان پروژه فراموش شده است!</span>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-6 columns padding-lr">
+                                <label>کد پروژه
+                                    <input class="form-element-margin-btm" type="text" name="projectCode" v-model="cdpProposalFill.pCode" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('projectCode')}">
+                                </label>
+                                <span v-show="errors.has('projectCode')" class="error-font">کد پروژه فراموش شده است!</span>
+                            </div>
+                            <div class="medium-6 columns padding-lr">
+                                <label><span>مبلغ اعتبار</span><span style="color: #D9534F;"></span>
+                                    <input class="form-element-margin-btm" type="text" name="pAmount" v-model="cdpProposalFill.pAmount" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('pAmount')}">
+                                </label>
+                                <span v-show="errors.has('pAmount')" class="error-font">مبلغ اعتبار فراموش شده است!</span>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="small-12 columns padding-lr">
+                                <label>شرح
+                                    <textarea name="pDescription" style="min-height: 150px;" v-model="cdpProposalFill.pDescription"></textarea>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="medium-6 columns padding-lr padding-bottom-modal">
+                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                        </div>
+                    </form>
+                </div>
+            </modal-small>
+            <!--update Modal End-->
+            <!-- Delete Modal Start -->
+            <modal-tiny v-if="showDeleteModal" @close="showDeleteModal = false">
+                <div  slot="body">
+                    <div class="small-font">
+                        <p>کاربر گرامی</p>
+                        <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
+                        <div class="grid-x">
+                            <div class="medium-12 column text-center">
+                                <button v-on:click="deleteSelectedProposal" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </modal-tiny>
+            <!-- Delete Modal End -->
             </div>
         </div>
     </div>
@@ -268,12 +348,14 @@
                 searchOfferValue:'',
                 proposals: [],
                 cdpProposalInput: {},
-                showModal: false,
-                showModalUpdate: false,
-                showModalDelete: false,
+                cdpProposalFill: {},
+                showInsertModal: false,
+                showUpdateModal: false,
+                showDeleteModal: false,
                 creditDistributionPlans: {},
                 counties: {},
                 selectCounty: '',
+                selectedProposalIdForDelete: '',
                 remainingAmount: 0,
 
                 pagination: {
@@ -315,10 +397,10 @@
                     });
             },
 
-            getRemianingAmount: function () {
-                if (this.cdpProposalInput.cdpId != '')
+            getRemianingAmount: function (cdpId) {
+                if (cdpId != '')
                 {
-                    axios.get('/budget/credit_distribution/capital_assets/provincial/plans/getPlanRemainingAmount' , {params:{cdpId: this.cdpProposalInput.cdpId}})
+                    axios.get('/budget/credit_distribution/capital_assets/provincial/plans/getPlanRemainingAmount' , {params:{cdpId: cdpId}})
                         .then((response) => {
                             this.remainingAmount = response.data.remainingAmount;
                             console.log(response);
@@ -363,9 +445,11 @@
                 return count;
             },
 
-            openInsertModal: function (type) {
+            openInsertModal: function () {
+                this.selectedCounty = '';
+                this.cdpProposalInput = [];
                 this.getCounties();
-                this.showModal = true;
+                this.showInsertModal = true;
             },
 
             createCdpProposal: function () {
@@ -381,67 +465,78 @@
                             .then((response) => {
                                 this.proposals = response.data.data;
                                 this.makePagination(response.data);
-                                this.showModal = false;
+                                this.showInsertModal = false;
                                 this.$parent.displayNotif(response.status);
                                 console.log(response);
                             },(error) => {
                                 console.log(error);
-                                this.errorMessage = 'تخصیص با این مشخصات قبلا ثبت شده است!';
+                                this.$parent.displayNotif(error.response.status);
                             });
                     }
                 });
             },
 
-            registerOfCreditAllocationAssetsUpdateDialog: function (item) {
-                this.registerOfCreditAllocationAssetsFill.rocaPlan = item.rocaPlan;
-                this.registerOfCreditAllocationAssetsFill.rocaaProject = item.rocaaProject;
-                this.registerOfCreditAllocationAssetsFill.rocaaRow = item.rocaaRow;
-                this.registerOfCreditAllocationAssetsFill.roccaCost = item.roccaCost;
-                this.registerOfCreditAllocationAssetsFill.rocaaNumber = item.rocaaNumber;
-                this.registerOfCreditAllocationAssetsFill.rocaaDate = item.rocaaDate;
+            openUpdateModal: function (proposal , coId) {
+                this.selectedCounty = '';
+                this.cdpProposalFill = [];
+                this.getCounties();
+                this.cdpProposalFill.id = proposal.id;
+                this.cdpProposalFill.cdpId = proposal.pbpCdpId;
+                this.getRemianingAmount(this.cdpProposalFill.cdpId);
+                this.cdpProposalFill.pSubject = proposal.pbpSubject;
+                this.cdpProposalFill.pCode = proposal.pbpCode;
+                this.cdpProposalFill.pAmount = this.$parent.calcDispAmount(proposal.pbpAmount , false);
+                this.cdpProposalFill.pDescription = proposal.pbpDescription;
+                this.selectedCounty = coId;
+                this.getCDPWithCoId();
 
-                this.errorMessage_update = '';
-                this.showModalUpdate = true;
+                this.errorMessage = '';
+                this.showUpdateModal = true;
             },
 
-            updateRegisterOfCreditAllocationAssets: function () {
+            updateCdpProposal: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/budget/credit_distribution/capital_assets/provincial/proposal/update' , {
+                            id: this.cdpProposalFill.id,
+                            cdpId: this.cdpProposalFill.cdpId,
+                            pSubject: this.cdpProposalFill.pSubject,
+                            pCode: this.cdpProposalFill.pCode,
+                            pAmount: this.cdpProposalFill.pAmount,
+                            pDescription: this.cdpProposalFill.pDescription
+                        })
+                            .then((response) => {
+                                this.proposals = response.data.data;
+                                this.makePagination(response.data);
+                                this.showUpdateModal = false;
+                                this.$parent.displayNotif(response.status);
+                                console.log(response);
+                            },(error) => {
+                                console.log(error);
+                                this.$parent.displayNotif(error.response.status);
+                            });
+                    }
+                });
 
-                /*axios.post('/budget/admin/sub_seasons/update' , this.tinySeasonsFill)
+            },
+
+            openDeleteModal: function (pId) {
+                this.selectedProposalIdForDelete = pId;
+                this.showDeleteModal = true;
+            },
+
+            deleteSelectedProposal: function () {
+                axios.post('/budget/credit_distribution/capital_assets/provincial/proposal/delete' , {id: this.selectedProposalIdForDelete})
                     .then((response) => {
-                        if(this.planOrCost == 1)
-                            this.tinySeasonsCost = response.data;
-                        else
-                            this.tinySeasons = response.data;
-                        this.showModalUpdate = false;
-                        this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'بروزرسانی با موفقیت انجام شد.' , type: 'success'});
+                        if (response.status != 204)
+                            this.proposals = response.data.data;
+                        this.showDeleteModal = false;
+                        this.$parent.displayNotif(response.status);
                         console.log(response);
                     },(error) => {
                         console.log(error);
-                        this.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                    });*/
-                alert('ویرایش انجام شد');
-
-            },
-
-            openDeleteRegisterOfCreditAllocationAssetsConfirm: function (rocaa) {
-                this.apIdDelete = rocaa;
-                this.showModalDelete = true;
-            },
-
-            deleteRegisterOfCreditAllocationAssets: function () {
-                /*axios.post('/budget/admin/sub_seasons/delete' , this.tsIdDelete)
-                    .then((response) => {
-                        if(response.data.tsPlanOrCost == 1)
-                            this.tinySeasonsCost = response.data;
-                        else
-                            this.tinySeasons = response.data;
-                        this.showModalDelete = false;
-                        this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'حذف رکورد با موفقیت انجام شد.' , type: 'success'});
-                        console.log(response);
-                    },(error) => {
-                        console.log(error);
-                        this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
-                    });*/
+                        this.showDeleteModal = false;
+                    });
             },
 
             makePagination: function(data){
