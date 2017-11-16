@@ -434,6 +434,36 @@ class PlanController extends Controller
         return \response()->json($this->getAllCostAgreemrent($request->pOrN));
     }
 
+    public function updateCostAgreement(Request $request)
+    {
+        $ca = CostAgreement::find($request->id);
+        $ca->caUId = Auth::user()->id;
+        $ca->caLetterNumber = $request->idNumber;
+        $ca->caLetterDate = $request->date;
+        $ca->caExchangeIdNumber = $request->exIdNumber;
+        $ca->caExchangeDate = $request->exDate;
+        $ca->caDescription = $request->description;
+        $ca->save();
+
+        SystemLog::setBudgetSubSystemLog('تغییر موافقت نامه هزینه ای ');
+        return \response()->json($this->getAllCostAgreemrent($request->pOrN));
+    }
+
+    public function deleteCostAgreement(Request $request)
+    {
+        $ca = CostAgreement::find($request->id);
+        try {
+            $ca->delete();
+            SystemLog::setBudgetSubSystemAdminLog('حذف موافقت نامه هزینه ای');
+            return \response()->json($this->getAllCostAgreemrent($request->pOrN));
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                return \response()->json([] , 204);
+            }
+        }
+    }
+
     public function registerCaCreditSource(Request $request)
     {
         $caCs = new CaCreditSource;
@@ -446,10 +476,42 @@ class PlanController extends Controller
         $caCs->ccsDescription = $request->description;
         $caCs->save();
 
-        SystemLog::setBudgetSubSystemLog('ثبت تامین اعتبار هزینه ای ' . $request->subject);
+        SystemLog::setBudgetSubSystemLog('ثبت تامین اعتبار هزینه ای');
         return \response()->json(
             $this->getAllCostAgreemrent($request->pOrN)
         );
+    }
+
+    public function updateCaCreditSource(Request $request)
+    {
+        $caCs = CaCreditSource::find($request->id);
+        $caCs->ccsUId = Auth::user()->id;
+        $caCs->ccsCdrId = $request->crId;
+        $caCs->ccsTsId = $request->tsId;
+        $caCs->ccsCdtId = $request->cdtId;
+        $caCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
+        $caCs->ccsDescription = $request->description;
+        $caCs->save();
+
+        SystemLog::setBudgetSubSystemLog('تغییر تامین اعتبار هزینه ای');
+        return \response()->json(
+            $this->getAllCostAgreemrent($request->pOrN)
+        );
+    }
+
+    public function deleteCostCaCreditSource(Request $request)
+    {
+        $cs = CaCreditSource::find($request->id);
+        try {
+            $cs->delete();
+            SystemLog::setBudgetSubSystemAdminLog('حذف تامین اعتبار هزینه ای');
+            return \response()->json($this->getAllCostAgreemrent($request->pOrN));
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                return \response()->json([] , 204);
+            }
+        }
     }
 
     public function getAllCaItems(Request $request)

@@ -143,10 +143,12 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
     Route::prefix('approved_plan/cost')->group(function () {
         Route::get('/fetchData', 'PlanController@fetchCostAgreementData');
         Route::post('/register', 'PlanController@registerCostAgreement');
-        //Route::post('/delete', 'PlanController@deleteCapitalAssetsApprovedPlan');
-        //Route::post('/update', 'PlanController@updateCapitalAssetsApprovedPlan');
+        Route::post('/delete', 'PlanController@deleteCostAgreement');
+        Route::post('/update', 'PlanController@updateCostAgreement');
         Route::get('/getAllItems', 'PlanController@getAllCaItems');
         Route::post('/credit_source/register', 'PlanController@registerCaCreditSource');
+        Route::post('/credit_source/update', 'PlanController@updateCaCreditSource');
+        Route::post('/credit_source/delete', 'PlanController@deleteCostCaCreditSource');
         Route::get('/credit_source/getAllItem', 'PlanController@getAllcaCreditSourceItems');
     });
 
