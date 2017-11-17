@@ -22,53 +22,6 @@ use Modules\Budget\Entities\ProvincialBudgetProposal;
 
 class CreditDistributionController extends Controller
 {
-    public function deleteProvincialBudgetProposal($pbpId)
-    {
-        try {
-            $cdp = ProvincialBudgetProposal::find($pbpId);
-            $cdp->delete();
-
-            SystemLog::setBudgetSubSystemLog('حذف پیشنهاد بودجه تملک داریی های سرمایه ای استانی');
-            return Redirect::to(URL::previous());
-        }
-        catch (\Illuminate\Database\QueryException $e) {
-
-            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return Redirect::to(URL::previous())->with('messageDialogPm', 'با توجه به وابستگی اطلاعات، حذف رکورد مورد نظر ممکن نیست!');
-            }
-        }
-    }
-
-    public function updateProvincialBudgetProposal(Request $request)
-    {
-        $pbp = ProvincialBudgetProposal::find(Input::get('pbpId'));
-        $pbp->pbpCdpId = Input::get('pbpPlanCode');
-        $pbp->pbpAmount = AmountUnit::convertInputAmount(Input::get('pbpAmount'));
-        $pbp->pbpSubject = Input::get('pbpProjectTitle');
-        $pbp->pbpCode = Input::get('pbpProjectCode');
-        $pbp->pbpDescription = Input::get('pbpDescription');
-        $pbp->save();
-
-        SystemLog::setBudgetSubSystemLog('تغییر در طرح عمرانی مصوب');
-        return Redirect::to(URL::previous());
-    }
-
-    public function PBPIsExist($pbpSubject , $pbpCode , $pbpId = null)
-    {
-        if (\Illuminate\Support\Facades\Request::ajax())
-        {
-            if ($pbpId == null){
-                $pbp = ProvincialBudgetProposal::where('pbpFyId' , '=' , Auth::user()->seFiscalYear);
-            }
-            else{
-                $pbp = ProvincialBudgetProposal::where('pbpFyId' , '=' , Auth::user()->seFiscalYear)->where('id' , '<>' , $pbpId);
-            }
-            if (($pbp->where('pbpCode' , '=' , $pbpCode)->exists()))
-                return \Illuminate\Support\Facades\Response::json(['exist' => true]);
-            else
-                return \Illuminate\Support\Facades\Response::json(['exist' => false]);
-        }
-    }
 
     ///////////////////////// plans /////////////////////////////////
     public function fetchCreditDistributionPlan(Request $request)
@@ -244,17 +197,63 @@ class CreditDistributionController extends Controller
 
     public function registerProvincialBudgetProposal(Request $request)
     {
-        $pbp = new ProvincialBudgetProposal;
-        $pbp->pbpUId = Auth::user()->id;
-        $pbp->pbpCdpId = $request->cdpId;
-        $pbp->pbpFyId = Auth::user()->seFiscalYear;
-        $pbp->pbpAmount = AmountUnit::convertInputAmount($request->pAmount);
-        $pbp->pbpSubject = $request->pSubject;
-        $pbp->pbpCode = $request->pCode;
-        $pbp->pbpDescription = $request->pDescription;
-        $pbp->save();
+        if (ProvincialBudgetProposal::where('pbpCode' , '=' , $request->pCode)->exists()){
+            return \response()->json([] , 409);
+        }
+        else{
+            $pbp = new ProvincialBudgetProposal;
+            $pbp->pbpUId = Auth::user()->id;
+            $pbp->pbpCdpId = $request->cdpId;
+            $pbp->pbpFyId = Auth::user()->seFiscalYear;
+            $pbp->pbpAmount = AmountUnit::convertInputAmount($request->pAmount);
+            $pbp->pbpSubject = $request->pSubject;
+            $pbp->pbpCode = $request->pCode;
+            $pbp->pbpDescription = $request->pDescription;
+            $pbp->save();
 
-        SystemLog::setBudgetSubSystemLog('ثبت پیشنهاد بودجه تملک داریی های سرمایه ای استانی برای پروژه ' . $pbp->pbpSubject);
-        return \response()->json($this->getAllProvincialBudgetProposal());
+            SystemLog::setBudgetSubSystemLog('ثبت پیشنهاد بودجه تملک داریی های سرمایه ای استانی برای پروژه ' . $pbp->pbpSubject);
+            return \response()->json($this->getAllProvincialBudgetProposal());
+        }
+
+    }
+
+    public function updateProvincialBudgetProposal(Request $request)
+    {
+        if (ProvincialBudgetProposal::where('id' , '<>' , $request->id)
+            ->where('pbpCode' , '=' , $request->pCode)->exists())
+        {
+            return \response()->json([] , 409);
+        }
+        else
+        {
+            $old = ProvincialBudgetProposal::find($request->id);
+            $pbp = ProvincialBudgetProposal::find($request->id);
+            $pbp->pbpUId = Auth::user()->id;
+            $pbp->pbpCdpId = $request->cdpId;
+            $pbp->pbpAmount = AmountUnit::convertInputAmount($request->pAmount);
+            $pbp->pbpSubject = $request->pSubject;
+            $pbp->pbpCode = $request->pCode;
+            $pbp->pbpDescription = $request->pDescription;
+            $pbp->save();
+
+            SystemLog::setBudgetSubSystemLog('تغییر در پیشنهاد بودجه تملک داریی های سرمایه ای استانی برای پروژه ' . $old->pbpSubject);
+            return \response()->json($this->getAllProvincialBudgetProposal());
+        }
+    }
+
+    public function deleteProvincialBudgetProposal(Request $request)
+    {
+        try {
+            $cdp = ProvincialBudgetProposal::find($request->id);
+            $cdp->delete();
+
+            SystemLog::setBudgetSubSystemLog('حذف پیشنهاد بودجه تملک داریی های سرمایه ای استانی');
+            return \response()->json($this->getAllProvincialBudgetProposal());
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                return \response()->json([] , 204);
+            }
+        }
     }
 }

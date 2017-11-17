@@ -133,8 +133,8 @@ class BudgetReportController extends Controller
                     $sheet->setRightToLeft(true);
                     if ($request->pOrN == 0) {
                         $sheet->appendRow(array($options['title']));
-                        $sheet->mergeCells('A1:Q1');
-                        $sheet->getStyle('A1:Q1')->getAlignment()->applyFromArray(
+                        $sheet->mergeCells('A1:P1');
+                        $sheet->getStyle('A1:P1')->getAlignment()->applyFromArray(
                             array('horizontal' => 'center')
                         );
                         $sheet->appendRow(array('طرح',
@@ -153,7 +153,7 @@ class BudgetReportController extends Controller
                             'مبلغ',
                             'توضیحات',
                             'شرح'));
-                        $sheet->cells('A2:Q2', function ($cells) {
+                        $sheet->cells('A2:P2', function ($cells) {
                             $cells->setBackground('#34B7A3');
                             $cells->setFontColor('#FFFFFF');
                             $cells->setAlignment('center');
@@ -186,8 +186,8 @@ class BudgetReportController extends Controller
                         }
                     } else {
                         $sheet->appendRow(array($options['title']));
-                        $sheet->mergeCells('A1:Q1');
-                        $sheet->getStyle('A1:Q1')->getAlignment()->applyFromArray(
+                        $sheet->mergeCells('A1:P1');
+                        $sheet->getStyle('A1:P1')->getAlignment()->applyFromArray(
                             array('horizontal' => 'center')
                         );
                         $sheet->appendRow(array('طرح',
@@ -206,7 +206,7 @@ class BudgetReportController extends Controller
                             'مبلغ',
                             'توضیحات',
                             'شرح'));
-                        $sheet->cells('A2:Q2', function ($cells) {
+                        $sheet->cells('A2:P2', function ($cells) {
                             $cells->setBackground('#34B7A3');
                             $cells->setFontColor('#FFFFFF');
                             $cells->setAlignment('center');
@@ -244,4 +244,70 @@ class BudgetReportController extends Controller
             return url('xlsFiles/temp' . Auth::user()->id . '.xls');
         }
     }
+
+    public function planOrCostTitle(Request $request)
+    {
+        if ($request->type == 'pdf') {
+            $options = $request->get('options');
+            $pdf = $this->initPdf($options);
+            $pdf->loadHTML(view('budget::reports.admin.plan_cost_title', ['options' => $options, 'items' => $request->get('selectedItems')]));
+            $pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
+            return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
+        } else if ($request->type == 'excel') {
+            Excel::create('temp' . Auth::user()->id, function ($excel) use ($request) {
+                $excel->getDefaultStyle()
+                    ->getAlignment()
+                    ->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+                $excel->sheet('sheet1', function ($sheet) use ($request) {
+                    $options = $request->get('options');
+                    $sheet->setRightToLeft(true);
+                        $sheet->appendRow(array($options['title']));
+                        $sheet->mergeCells('A1:G1');
+                        $sheet->getStyle('A1:H1')->getAlignment()->applyFromArray(
+                            array('horizontal' => 'center')
+                        );
+                        $sheet->appendRow(array('شماره',
+                            'عنوان',
+                            'فصل بودجه',
+                            'شرح',
+                            'شهرستان',
+                            'کد',
+                            'شرح'));
+                        $sheet->cells('A2:G2', function ($cells) {
+                            $cells->setBackground('#34B7A3');
+                            $cells->setFontColor('#FFFFFF');
+                            $cells->setAlignment('center');
+                        });
+                        foreach($request->get('selectedItems') as $plan) {
+                            foreach ($plan['capital_assets_project'] as $project) {
+                                foreach ($project['credit_source'] as $creditSource) {
+                                    if ($project['checked'] == true) {
+                                        $sheet->appendRow(array(
+                                            $plan['credit_distribution_title']['cdtIdNumber'] . ' - ' . $plan['credit_distribution_title']['cdtSubject'],
+                                            $project['cpCode'],
+                                            $project['cpSubject'],
+                                            $project['county']['coName'],
+                                            $project['cpStartYear'],
+                                            $project['cpEndOfYear'],
+                                            $project['cpPhysicalProgress'],
+
+                                            $project['cpDescription'],
+                                            $creditSource['credit_distribution_row']['cdSubject'],
+                                            $creditSource['tiny_season']['season_title']['season']['sSubject'],
+                                            $creditSource['tiny_season']['season_title']['castSubject'],
+                                            $creditSource['tiny_season']['catsSubject'],
+                                            $creditSource['how_to_run']['htrSubject'],
+                                            $creditSource['ccsAmount'],
+                                            $creditSource['ccsDescription']
+                                        ));
+                                    }
+                                }
+                            }
+                        }
+                });
+            })->store('xls', public_path('xlsFiles'));
+            return url('xlsFiles/temp' . Auth::user()->id . '.xls');
+        }
+    }
+
 }

@@ -54,9 +54,10 @@
                                 </div>
                                 <div class="float-left">
                                     <div class="input-group float-left">
-                                        <input class="input-group-field small-font" type="text">
-                                        <div class="input-group-button">
-                                            <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
+                                        <div class="inner-addon right-addon">
+                                            <i v-if="searchPlanValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                            <i v-if="searchPlanValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                            <input v-model="searchPlanValue" class="search" type="text" placeholder="جستوجو">
                                         </div>
                                     </div>
                                 </div>
@@ -178,9 +179,10 @@
                                 </div>
                                 <div class="float-left">
                                     <div class="input-group float-left">
-                                        <input class="input-group-field small-font" type="text">
-                                        <div class="input-group-button">
-                                            <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
+                                        <div class="inner-addon right-addon">
+                                            <i v-if="searchRowValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                            <i v-if="searchRowValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                            <input v-model="searchRowValue" class="search" type="text" placeholder="جستوجو">
                                         </div>
                                     </div>
                                 </div>
@@ -301,9 +303,10 @@
                                 </div>
                                 <div class="float-left">
                                     <div class="input-group float-left">
-                                        <input class="input-group-field small-font" type="text">
-                                        <div class="input-group-button">
-                                            <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
+                                        <div class="inner-addon right-addon">
+                                            <i v-if="searchSeasonValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                            <i v-if="searchSeasonValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                            <input v-model="searchSeasonValue" class="search" type="text" placeholder="جستوجو">
                                         </div>
                                     </div>
                                 </div>
@@ -360,7 +363,7 @@
                                                             <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlanBudget' + bs.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanBudget' + bs.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent="openUpdateModal(bs.cdp_title_has_credit_distribution_plan[0] , bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent="openUpdateModal(bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0] , bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                                     <li><a v-on:click.prevent="openDeleteModal(bs.cdp_title_has_credit_distribution_plan[0].id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                 </ul>
                                                             </div>
@@ -452,9 +455,10 @@
                                 </div>
                                 <div class="float-left">
                                     <div class="input-group float-left">
-                                        <input class="input-group-field small-font" type="text">
-                                        <div class="input-group-button">
-                                            <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
+                                        <div class="inner-addon right-addon">
+                                            <i v-if="searchCityValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                            <i v-if="searchCityValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                            <input v-model="searchCityValue" class="search" type="text" placeholder="جستوجو">
                                         </div>
                                     </div>
                                 </div>
@@ -729,6 +733,10 @@
         data(){
             return {
                 errorMessage: '',
+                searchPlanValue:'',
+                searchRowValue:'',
+                searchSeasonValue:'',
+                searchCityValue:'',
                 cdPlans: [],
                 cdPlansOrderByRow: [],
                 cdPlansOrderByBudget: [],

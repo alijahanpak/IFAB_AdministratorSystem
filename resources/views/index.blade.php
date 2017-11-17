@@ -25,60 +25,59 @@
     <div id="container">
         <!--Modal Login Start-->
         <modal-login v-if="showModalLogin" @close="showModalLogin = false">
-        <div slot="body">
-            <div class="grid-x">
-                <div style="background-color:#716aca;color: #FFFFFF;" class="medium-4">
-                    <div class="grid-x">
-                        <div class="medium-12">
-                            <img  class="text-center large-offset-4" src="{{ asset('pic\logom1.png') }}" width="74px" height="74px">
-                        </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="medium-12">
-                            <h6 class="BYekan  text-center">سامانه یکپارچه اداری-مالی و بودجه</h6>
-                        </div>
-                    </div>
-                    <div class="grid-x modal-bottom">
-                        <div class="medium-12 ">
-                            <div class="small button-group float-left">
-                                <a class="clear button primary-login">راهنمای سامانه</a>
-                                <a class="clear button primary-login">درباره ما</a>
-                                <a class="clear button primary-login">ارتباط با ما</a>
-                            </div>
-                        </div>
+            <div slot="body">
+                <div class="grid-x">
+                    <div style="margin-top: 40px;margin-bottom: 20px;" class="medium-6 large-offset-1">
+                        <img class="login-logo-mrg" src="{{ asset('pic\logom.jpg') }}" width="74px" height="74px">
                     </div>
                 </div>
-                <div style="margin: auto;padding: 20px 50px 20px 50px"  class="medium-8">
-                    <form v-on:submit.prevent="login">
-                        <div class="grid-x" v-show="errorMessage">
-                            <div class="medium-12 columns padding-lr">
-                                <div class="alert callout">
-                                    <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
+                <div class="grid-x">
+                    <div class="medium-12">
+                        <h5 class="BYekan text-center  login-txt">سامانه یکپارچه اداری، مالی و بودجه</h5>
+                    </div>
+                </div>
+                <div class="grid-x">
+                    <div style="margin-top: 20px;" class="large-4 large-offset-4 cell callout ">
+                        <form v-on:submit.prevent="login">
+                            <div class="grid-x" v-show="errorMessage">
+                                <div class="medium-12 columns padding-lr">
+                                    <div class="alert callout">
+                                        <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="grid-x">
-                            <div class="medium-12 columns padding-lr">
+                            <div class="columns padding-lr">
 
                                 <label>نام کاربری
                                     <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="text" placeholder="&#xf2c0;" autofocus name="user" v-model="authInfo.email" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('user')}">
                                 </label>
                                 <span v-show="errors.has('user')" class="error-font">لطفا نام کاربری را وارد کنید!</span>
                             </div>
-                            <div class="medium-12 columns padding-lr">
+                            <div style="margin-top: 20px;" class="medium-12 columns padding-lr">
                                 <label>رمز عبور
                                     <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="password" placeholder="&#xf09c;" name="pass" v-model="authInfo.password"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('pass')}">
                                 </label>
                                 <span v-show="errors.has('pass')" class="error-font">لطفا رمز عبور را وارد کنید!</span>
                             </div>
                             <div class="medium-12 padding-lr top-margin-element">
-                                <button name="submit" class="my-button my-success expanded">ورود</button>
+                                <button style="margin-top: 20px;"  name="submit" class="my-button my-success expanded">ورود</button>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
+                </div>
+                <div class="grid-x">
+                    <div class="large-12">
+                        <ul class="menu small-font align-center ul-margin">
+                            <li><a class="footer-menu" href="#">راهنمای سامانه</a></li>
+                            <li><a class="footer-menu" href="#">درباره ما</a></li>
+                            <li><a class="footer-menu" href="#">دیدگاه</a></li>
+                        </ul>
+                    </div>
+                    <div class="large-12">
+                        <p class="small-font footer-txt-size">تمامی حقوق این وب سایت متعلق یه اداره کل میراث فرهنگی صنایع دستی و گردشگری استان همدان می باشد</p>
+                    </div>
                 </div>
             </div>
-        </div>
         </modal-login>
         <!--Modal Login End-->
         <!--Body system-->
@@ -160,27 +159,17 @@
                 <div style="z-index: 999;" data-sticky-container>
                     <div style="background-color: #FFFFFF;" class="top-bar top-menu-color" data-sticky data-margin-top="0">
                         <div class="top-bar-left">
+                            <button style="margin-bottom: 0;font-size: 0.9em;" class="my-button my-drop-down-btn-clear dropdown small sm-btn-align"  type="button" data-toggle="example-dropdown-bottom-left">سال مالی<span class="comlpleted-badage">1396</span></button>
+                            <div style="width: 120px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="example-dropdown-bottom-left" data-dropdown data-auto-focus="true">
+                                <ul class="my-menu small-font ltr-dir">
+                                    <li><a  href="#">1395</a></li>
+                                    <li><a  href="#">1394</a></li>
+                                    <li><a  href="#">1393</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="top-bar-right">
                             <ul style="background-color: #FFFFFF;" data-dropdown-menu class="dropdown  menu user-menu" >
-                                <li>
-                                    <a><span style="font-size: 14px;color: #666;"> علی جهان پاک </span></a>
-                                    <ul style="background-color: #ffffff;" class="top-menu-style menu menu vertical small-font white-color">
-                                        <li>
-                                            <div class="top-menu-bg">
-                                                <div class="grid-x cover-color">
-                                                    <div class="medium-12">
-                                                        <h5 class="text-center BYekan">علی جهان پاک</h5>
-                                                    </div>
-                                                    <div class="medium-12">
-                                                        <p class="text-center">کارشناس بودجه</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="menu-top"><a href="#"><i class="tbl-menu fi-torso-business"></i> <span>کارشناس اداری مالی</span></a></li>
-                                        <li class="menu-top"><a href="#"><i class="tbl-menu fi-widget"></i> <span>تنظیمات</span></a></li>
-                                        <li class="menu-top"><a v-on:click="logout"><i class="fi-power"></i> <span>خروج</span></a></li>
-                                    </ul>
-                                </li>
                                 <li>
                                     <a style="margin-top: -1px;"><i class="fa fa-bell-o size-21 icon-gradient" aria-hidden="true"></i></a>
                                     <ul style="background-color:#FFFFFF;" class="top-menu-style menu vertical">
@@ -220,18 +209,27 @@
                                         </li>
                                     </ul>
                                 </li>
-
+                                <li>
+                                    <a><span style="font-size: 14px;color: #666;"> علی جهان پاک </span></a>
+                                    <ul style="background-color: #ffffff;" class="top-menu-style menu menu vertical small-font white-color">
+                                        <li>
+                                            <div class="top-menu-bg">
+                                                <div class="grid-x cover-color">
+                                                    <div class="medium-12">
+                                                        <h5 class="text-center BYekan">علی جهان پاک</h5>
+                                                    </div>
+                                                    <div class="medium-12">
+                                                        <p class="text-center">کارشناس بودجه</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="menu-top"><a href="#"><i class="tbl-menu fi-torso-business"></i> <span>کارشناس اداری مالی</span></a></li>
+                                        <li class="menu-top"><a href="#"><i class="tbl-menu fi-widget"></i> <span>تنظیمات</span></a></li>
+                                        <li class="menu-top"><a v-on:click="logout"><i class="fi-power"></i> <span>خروج</span></a></li>
+                                    </ul>
+                                </li>
                             </ul>
-                        </div>
-                        <div class="top-bar-right">
-                            <button style="margin-bottom: 0;font-size: 0.9em;" class="my-button my-drop-down-btn-clear dropdown small sm-btn-align"  type="button" data-toggle="example-dropdown-bottom-left">سال مالی<span class="comlpleted-badage">1396</span></button>
-                            <div style="width: 120px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="example-dropdown-bottom-left" data-dropdown data-auto-focus="true">
-                                <ul class="my-menu small-font ltr-dir">
-                                    <li><a  href="#">1395</a></li>
-                                    <li><a  href="#">1394</a></li>
-                                    <li><a  href="#">1393</a></li>
-                                </ul>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -343,9 +341,9 @@
     </script>
     <script type="text/x-template" id="modal-login-template">
         <transition name="modal-login">
-            <div class="modal-mask">
+            <div class="modal-mask-login">
                 <div class="modal-wrapper">
-                    <div style="padding: 0;" class="my-small">
+                    <div style="padding: 0;" class="my-full-screen-login">
                         <div class="modal-header">
                             <slot name="header">
 

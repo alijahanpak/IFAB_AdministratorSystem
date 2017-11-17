@@ -63,9 +63,10 @@
                                 </div>
                                 <div class="float-left">
                                     <div class="input-group float-left">
-                                        <input class="input-group-field small-font" type="text">
-                                        <div class="input-group-button">
-                                            <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
+                                        <div class="inner-addon right-addon">
+                                            <i v-if="searchProvValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                            <i v-if="searchProvValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                            <input v-model="searchProvValue" class="search" type="text" placeholder="جستوجو">
                                         </div>
                                     </div>
                                 </div>
@@ -250,9 +251,10 @@
                                 </div>
                                 <div class="float-left">
                                     <div class="input-group float-left">
-                                        <input class="input-group-field small-font" type="text">
-                                        <div class="input-group-button">
-                                            <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
+                                        <div class="inner-addon right-addon">
+                                            <i v-if="searchNatValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                            <i v-if="searchNatValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                            <input v-model="searchNatValue" class="search" type="text" placeholder="جستوجو">
                                         </div>
                                     </div>
                                 </div>
@@ -838,6 +840,8 @@
                 AllocationInput: {},
                 foundInput: {},
                 provOrNat: '',
+                searchProvValue:'',
+                searchNatValue:'',
                 showModal: false,
                 showModalUpdate: false,
                 showModalDelete: false,
