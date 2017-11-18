@@ -447,13 +447,6 @@
             <modal-small v-if="showInsertModal" @close="showInsertModal = false">
                 <div slot="body">
                     <form v-on:submit.prevent="createCostAgreement">
-                        <div class="grid-x" v-if="errorMessage">
-                            <div class="medium-12 columns padding-lr">
-                                <div class="alert callout">
-                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="grid-x">
                             <div class="medium-6 columns padding-lr">
                                 <label>شماره ابلاغ
@@ -497,13 +490,6 @@
             <modal-small v-if="showUpdateModal" @close="showUpdateModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
                 <div  slot="body">
                     <form v-on:submit.prevent="updateCostAgreement">
-                        <div class="grid-x" v-if="errorMessage">
-                            <div class="medium-12 columns padding-lr">
-                                <div class="alert callout">
-                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="grid-x">
                             <div class="medium-6 columns padding-lr">
                                 <label>شماره ابلاغ
@@ -563,13 +549,6 @@
             <modal-small v-if="showCaCsInsertModal" @close="showCaCsInsertModal = false">
                 <div  slot="body">
                     <form v-on:submit.prevent="createCaCreditSource">
-                        <div class="grid-x" v-if="errorMessage">
-                            <div class="medium-12 columns padding-lr">
-                                <div class="alert callout">
-                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
                                 <label>برنامه
@@ -648,13 +627,6 @@
             <modal-small v-if="showCaCsUpdateModal" @close="showCaCsUpdateModal = false">
                 <div  slot="body">
                     <form v-on:submit.prevent="updateCaCreditSource">
-                        <div class="grid-x" v-if="errorMessage">
-                            <div class="medium-12 columns padding-lr">
-                                <div class="alert callout">
-                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
                                 <label>برنامه
@@ -749,13 +721,6 @@
             <modal-small v-if="showAmendmentModal" @close="showAmendmentModal= false">
                 <div slot="body">
                     <form v-on:submit.prevent="createCaAmendmentTemp">
-                        <div class="grid-x" v-if="errorMessage">
-                            <div class="medium-12 columns padding-lr">
-                                <div class="alert callout">
-                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="grid-x">
                             <div class="medium-6 columns padding-lr">
                                 <label>شماره ابلاغ
@@ -768,15 +733,16 @@
                                     <pdatepicker  v-on:closed="checkValidDate('delivery_amendment' , caAmendmentInput)" v-model="caAmendmentInput.date" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery_amendment" open-transition-animation="left-slide-fade"></pdatepicker>
                                 </p>
                             </div>
-                            <div class="medium-6 columns padding-lr">
+                            <div class="medium-6 columns padding-lr" v-if="provOrNat == 0">
                                 <label>شماره مبادله
-                                    <input disabled type="text" v-model="caAmendmentInput.exIdNumber" name="caExLetterNumber">
+                                    <input class="form-element-margin-btm" type="text" name="caExLetterNumber" v-model="caAmendmentInput.exIdNumber" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('caExLetterNumber')}">
                                 </label>
+                                <span v-show="errors.has('caExLetterNumber')" class="error-font">شماره مبادله فراموش شده است!</span>
                             </div>
-                            <div style="width: 217px;" class="medium-4 columns padding-lr">
-                                <label>تاریخ مبادله
-                                    <input disabled type="text" v-model="caAmendmentInput.exDate" name="caExLetterDate">
-                                </label>
+                            <div class="medium-4 padding-lr">
+                                <p class="date-picker-lbl">تاریخ مبادله
+                                    <pdatepicker v-model="caAmendmentInput.exDate" v-on:closed="checkValidDate('exchange_amendment' , caAmendmentInput)" errMessage="تاریخ مبادله فراموش شده است!" :isValid="dateIsValid_exchange_amendment" open-transition-animation="left-slide-fade"></pdatepicker>
+                                </p>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -800,13 +766,6 @@
             <modal-small v-if="showNatAmendmentModal" @close="showNatAmendmentModal= false">
                 <div slot="body">
                     <form v-on:submit.prevent="createCaAmendmentTemp">
-                        <div class="grid-x" v-if="errorMessage">
-                            <div class="medium-12 columns padding-lr">
-                                <div class="alert callout">
-                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="grid-x">
                             <div class="medium-6 columns padding-lr">
                                 <label>شماره ابلاغ
@@ -840,13 +799,6 @@
             <!--Amendment Of The Agreement Modal Start-->
             <modal-full-screen v-if="showModalAmendmentCost" @close="showModalAmendmentCost= false">
                 <div slot="body">
-                    <div class="grid-x" v-if="errorMessage">
-                        <div class="medium-12 columns padding-lr">
-                            <div class="alert callout">
-                                <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                            </div>
-                        </div>
-                    </div>
                     <div style="padding:0px;" class="grid-x border-btm-line">
                         <div class="medium-12 cell padding-lr">
                             <div class="grid-x">
@@ -967,13 +919,6 @@
             <modal-small v-if="showACaCsInsertModal" @close="showACaCsInsertModal = false">
                 <div  slot="body">
                     <form v-on:submit.prevent="insertNewTempCreditSource">
-                        <div class="grid-x" v-if="errorMessage">
-                            <div class="medium-12 columns padding-lr">
-                                <div class="alert callout">
-                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
                                 <label>برنامه
@@ -1052,13 +997,6 @@
             <modal-small v-if="showACaCsEditModal" @close="showACaCsEditModal = false">
                 <div  slot="body">
                     <form v-on:submit.prevent="updateTempCreditSource">
-                        <div class="grid-x" v-if="errorMessage">
-                            <div class="medium-12 columns padding-lr">
-                                <div class="alert callout">
-                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
                                 <label>برنامه
@@ -1140,7 +1078,7 @@
                         <p class="large-offset-1 modal-text">با حذف منبع اعتبار انتخاب شده، تخصیص های اعتبار صفر می گردد و لازم است محل های هزینه کرد اصلاح شود.</p>
                         <div class="grid-x">
                             <div class="medium-12 column text-center">
-                                <button  class="button primary btn-large-w" v-on:click="deleteTempCreditSource">تایید</button>
+                                <button v-on:click="deleteTempCreditSource" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
                             </div>
                         </div>
                     </div>
@@ -1263,7 +1201,6 @@
     export default {
         data(){
             return {
-                errorMessage: '',
                 searchProvValue:'',
                 searchNatValue:'',
                 costAgreement_prov: [],
@@ -1289,6 +1226,7 @@
                 dateIsValid_delivery: true,
                 dateIsValid_exchange: true,
                 dateIsValid_delivery_amendment: true,
+                dateIsValid_exchange_amendment: true,
                 costAmendmentCreditSource: [],
                 selectColumn:false,
                 tempCreditSourceSelectedId_delete: '',
@@ -1726,14 +1664,13 @@
             },
 
             openAmendmentTempModal:function (ca) {
+                this.caAmendmentInput = [];
                 this.provOrNat = ca.caProvinceOrNational
                 this.caAmendmentInput.parentId = ca.id;
                 this.caAmendmentInput.pOrN = ca.caProvinceOrNational;
                 this.caAmendmentInput.description = ca.caDescription;
                 if (this.provOrNat == 0)
                 {
-                    this.caAmendmentInput.exIdNumber = ca.caExchangeIdNumber;
-                    this.caAmendmentInput.exDate = ca.caExchangeDate;
                     this.showAmendmentModal=true;
                 }
                 else
@@ -1788,7 +1725,7 @@
                                 console.log(response);
                             },(error) => {
                                 console.log(error);
-                                //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                                this.$parent.displayNotif(error.response.status);
                             });
                         }
                     }
@@ -1834,7 +1771,7 @@
                             console.log(response);
                         },(error) => {
                             console.log(error);
-                            //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                            this.$parent.displayNotif(error.response.status);
                         });
                     }
                 });
@@ -1870,6 +1807,7 @@
                             console.log(response);
                         },(error) => {
                             console.log(error);
+                            this.$parent.displayNotif(error.response.status);
                         });
                     }
                 });
@@ -1938,6 +1876,18 @@
                         else
                         {
                             this.dateIsValid_delivery_amendment = true;
+                            return true;
+                        }
+                        break;
+                    case 'exchange_amendment':
+                        if (input.date == null || input.date == '')
+                        {
+                            this.dateIsValid_exchange_amendment = false;
+                            return false;
+                        }
+                        else
+                        {
+                            this.dateIsValid_exchange_amendment = true;
                             return true;
                         }
                         break;

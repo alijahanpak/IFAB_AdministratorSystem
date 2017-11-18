@@ -808,14 +808,15 @@ class BudgetAdminController extends Controller
     public function deleteCapitalAssetsSeasonTitle(Request $request)
     {
         $st = CapitalAssetsSeasonTitle::find($request->id);
+        $subject = $st->castSubject;
         try {
             $st->delete();
-            SystemLog::setBudgetSubSystemAdminLog('حذف عنوان فصل ' . $request->subject);
-            return \response()->json($this->getAllSeasonTitle("plan") , 200);
+            SystemLog::setBudgetSubSystemAdminLog('حذف عنوان فصل ' . $subject);
+            return \response()->json($this->getAllSeasonTitle("plan"));
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return \response()->json($this->getAllSeasonTitle("plan") , 204);
+                return \response()->json([] , 204);
             }
         }
     }

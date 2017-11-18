@@ -28,34 +28,38 @@ use Modules\Budget\Entities\CreditDistributionRow;
 
 class PlanController extends Controller
 {
-    public function __construct() {
-        //$this->middleware('auth');
-    }
-
     public function fetchCapitalAssetsApprovedPlan(Request $request){
         return \response()->json($this->getAllPlans($request->pOrN));
     }
 
     public function registerCapitalAssetsApprovedPlan(Request $request)
     {
-        $cap = new CapitalAssetsApprovedPlan;
-        $cap->capUId = Auth::user()->id;
-        $cap->capCdtId = $request->cdtId;
-        $cap->capFyId = Auth::user()->seFiscalYear;
-        $cap->capLetterNumber = $request->idNumber;
-        $cap->capLetterDate = $request->date;
-        $cap->capExchangeIdNumber = $request->exIdNumber;
-        $cap->capExchangeDate = $request->exDate;
-        $cap->capProvinceOrNational = $request->pOrN;
-        $cap->capDescription = $request->description;
-        if (isset($request->capId))
-            $cap->capCapId = $request->capId;
-        $cap->save();
+        if ((CapitalAssetsApprovedPlan::Where('capCdtId' , '=' , $request->cdtId)
+                ->where('capProvinceOrNational' , '=' , $request->pOrN)->exists()) ||
+            (CapitalAssetsApprovedPlan::where('capProvinceOrNational' , '=' , $request->pOrN)
+                ->where('capLetterNumber' , '=' , $request->idNumber)->exists()))
+        {
+            return \response()->json([] , 409);
+        }else{
+            $cap = new CapitalAssetsApprovedPlan;
+            $cap->capUId = Auth::user()->id;
+            $cap->capCdtId = $request->cdtId;
+            $cap->capFyId = Auth::user()->seFiscalYear;
+            $cap->capLetterNumber = $request->idNumber;
+            $cap->capLetterDate = $request->date;
+            $cap->capExchangeIdNumber = $request->exIdNumber;
+            $cap->capExchangeDate = $request->exDate;
+            $cap->capProvinceOrNational = $request->pOrN;
+            $cap->capDescription = $request->description;
+            if (isset($request->capId))
+                $cap->capCapId = $request->capId;
+            $cap->save();
 
 
 
-        SystemLog::setBudgetSubSystemLog('ثبت طرح تملک داریی های سرمایه ای استانی');
-        return \response()->json($this->getAllPlans($request->pOrN));
+            SystemLog::setBudgetSubSystemLog('ثبت طرح تملک داریی های سرمایه ای استانی');
+            return \response()->json($this->getAllPlans($request->pOrN));
+        }
     }
 
     public function getAllPlans($pOrN)
@@ -74,67 +78,46 @@ class PlanController extends Controller
             ->paginate(5);
     }
 
-    public function deleteCapitalAssetsApprovedPlan($capId)
+    public function deleteCapitalAssetsApprovedPlan(Request $request)
     {
-        $cap = CapitalAssetsApprovedPlan::find($capId);
+        $cap = CapitalAssetsApprovedPlan::find($request->id);
         try {
             $logTemp = $cap->creditDistributionTitle->cdtSubject;
             $cap->delete();
             SystemLog::setBudgetSubSystemLog('حذف طرح مصوب تملک داریی های سرمایه ای ' . $logTemp);
-            return Redirect::to(URL::previous() . '#provincial');
+            return \response()->json($this->getAllPlans($request->pOrN));
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return Redirect::to(URL::previous() . '#provincial')->with('messageDialogPm', 'با توجه به وابستگی اطلاعات، حذف رکورد مورد نظر ممکن نیست!');
+                return \response()->json([] , 204);
             }
-        }
-    }
-
-    public function CAPIsExist(Request $request)
-    {
-        if (\Illuminate\Support\Facades\Request::ajax())
-        {
-            if (!isset($request->capId)){
-                if ((CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
-                        ->where('capProvinceOrNational' , '=' , $request->pORn)
-                        ->where('capCdtId' , '=' , $request->cdtId)->exists()) ||
-                    (CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
-                        ->where('capProvinceOrNational' , '=' , $request->pORn)
-                        ->Where('capLetterNumber' , '=' , $request->letterNumber)->exists()))
-                    return \Illuminate\Support\Facades\Response::json(['exist' => true]);
-                else
-                    return \Illuminate\Support\Facades\Response::json(['exist' => false]);
-            }
-            else{
-                if ((CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
-                        ->where('capProvinceOrNational' , '=' , $request->pORn)
-                        ->where('id' , '<>' , $request->capId)
-                        ->where('capCdtId' , '=' , $request->cdtId)->exists()) ||
-                    (CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
-                        ->where('capProvinceOrNational' , '=' , $request->pORn)
-                        ->where('id' , '<>' , $request->capId)
-                        ->Where('capLetterNumber' , '=' , $request->letterNumber)->exists()))
-                    return \Illuminate\Support\Facades\Response::json(['exist' => true]);
-                else
-                    return \Illuminate\Support\Facades\Response::json(['exist' => false]);
-            }
-
         }
     }
 
     public function updateCapitalAssetsApprovedPlan(Request $request)
     {
-        $cap = CapitalAssetsApprovedPlan::find(Input::get('capId'));
-        $cap->capUId = Auth::user()->id;
-        $cap->capCdtId = Input::get('capPtitle');
-        $cap->capLetterNumber = Input::get('capLetterNumber');
-        $cap->capLetterDate = Input::get('capLetterDate');
-        $cap->capExchangeDate = Input::get('capExchangeDate');
-        $cap->capDescription = Input::get('capDescription');
-        $cap->save();
+        if ((CapitalAssetsApprovedPlan::where('id' , '<>' , $request->id)
+                ->Where('capCdtId' , '=' , $request->cdtId)
+                ->where('capProvinceOrNational' , '=' , $request->pOrN)->exists()) ||
+            (CapitalAssetsApprovedPlan::where('id' , '<>' , $request->id)
+                ->where('capProvinceOrNational' , '=' , $request->pOrN)
+                ->where('capLetterNumber' , '=' , $request->idNumber)->exists()))
+        {
+            return \response()->json([] , 409);
+        }else {
+            $cap = CapitalAssetsApprovedPlan::find($request->id);
+            $cap->capUId = Auth::user()->id;
+            $cap->capCdtId = $request->cdtId;
+            $cap->capLetterNumber = $request->idNumber;
+            $cap->capLetterDate = $request->date;
+            $cap->capExchangeIdNumber = $request->exIdNumber;
+            $cap->capExchangeDate = $request->exDate;
+            $cap->capDescription = $request->description;
+            $cap->save();
 
-        SystemLog::setBudgetSubSystemLog('تغییر در طرح تملک داریی های سرمایه ای ');
-        return Redirect::to(URL::previous() . '#provincial');
+            SystemLog::setBudgetSubSystemLog('تغییر در طرح تملک داریی های سرمایه ای ');
+            return \response()->json($this->getAllPlans($request->pOrN));
+        }
     }
 
     public function getAllApprovedPlan(Request $request)
@@ -148,7 +131,6 @@ class PlanController extends Controller
     }
 
     /////////////////////////////// amendment ////////////////////////////////////////////
-
     public function acceptApprovedAmendment(Request $request)
     {
         $temp = CapitalAssetsApprovedPlanTemp::find($request->capId);
@@ -226,91 +208,103 @@ class PlanController extends Controller
     }
 
     /////////////////////////////// capital assets temp ////////////////////////////////////////////
-
     public function registerApprovedAmendmentTemp(Request $request)
     {
         $old = CapitalAssetsApprovedPlan::find($request->capId);
-        $cap = new CapitalAssetsApprovedPlanTemp;
-        $cap->capUId = Auth::user()->id;
-        $cap->capCdtId = $old->capCdtId;
-        $cap->capFyId = $old->capFyId;
-        $cap->capLetterNumber = $request->idNumber;
-        $cap->capLetterDate = $request->date;
-        $cap->capExchangeIdNumber = $old->capExchangeIdNumber;
-        $cap->capExchangeDate = $old->capExchangeDate;
-        $cap->capProvinceOrNational = $old->capProvinceOrNational;
-        $cap->capDescription = $request->description;
-        $cap->save();
-
-        $oldProject = CapitalAssetsProject::where('cpCapId' , '=' , $request->capId)->get();
-        foreach ($oldProject as $item)
+        if (CapitalAssetsApprovedPlan::where('capProvinceOrNational' , '=' , $old->capProvinceOrNational)
+                ->where('capLetterNumber' , '=' , $request->idNumber)->exists())
         {
-            $capP = new CapitalAssetsProjectTemp;
-            $capP->cpUId = $item->cpUId;
-            $capP->cpCapId = $cap->id;
-            $capP->cpCpId = $item->id;
-            $capP->cpCoId = $item->cpCoId;
-            $capP->cpSubject = $item->cpSubject;
-            $capP->cpCode = $item->cpCode;
-            $capP->cpStartYear = $item->cpStartYear;
-            $capP->cpEndOfYear = $item->cpEndOfYear;
-            $capP->cpPhysicalProgress = $item->cpPhysicalProgress;
-            $capP->cpDescription = $item->cpDescription;
-            $capP->save();
+            return \response()->json([] , 409);
+        }else {
+            $cap = new CapitalAssetsApprovedPlanTemp;
+            $cap->capUId = Auth::user()->id;
+            $cap->capCdtId = $old->capCdtId;
+            $cap->capFyId = $old->capFyId;
+            $cap->capLetterNumber = $request->idNumber;
+            $cap->capLetterDate = $request->date;
+            $cap->capExchangeIdNumber = $old->capExchangeIdNumber;
+            $cap->capExchangeDate = $old->capExchangeDate;
+            $cap->capProvinceOrNational = $old->capProvinceOrNational;
+            $cap->capDescription = $request->description;
+            $cap->save();
 
-            $oldCreditSource = CapCreditSource::where('ccsCapId' , '=' , $item->id)->get();
-            foreach ($oldCreditSource as $csItem)
-            {
-                $capCs = new CapCreditSourceTemp;
-                $capCs->ccsUId = $csItem->ccsUId;
-                $capCs->ccsCcsId = $csItem->id;
-                $capCs->ccsCdrId = $csItem->ccsCdrId;
-                $capCs->ccsTsId = $csItem->ccsTsId;
-                $capCs->ccsHtrId = $csItem->ccsHtrId;
-                $capCs->ccsCapId = $capP->id;
-                $capCs->ccsAmount = $csItem->ccsAmount;
-                $capCs->ccsDescription = $csItem->ccsDescription;
-                $capCs->save();
+            $oldProject = CapitalAssetsProject::where('cpCapId', '=', $request->capId)->get();
+            foreach ($oldProject as $item) {
+                $capP = new CapitalAssetsProjectTemp;
+                $capP->cpUId = $item->cpUId;
+                $capP->cpCapId = $cap->id;
+                $capP->cpCpId = $item->id;
+                $capP->cpCoId = $item->cpCoId;
+                $capP->cpSubject = $item->cpSubject;
+                $capP->cpCode = $item->cpCode;
+                $capP->cpStartYear = $item->cpStartYear;
+                $capP->cpEndOfYear = $item->cpEndOfYear;
+                $capP->cpPhysicalProgress = $item->cpPhysicalProgress;
+                $capP->cpDescription = $item->cpDescription;
+                $capP->save();
+
+                $oldCreditSource = CapCreditSource::where('ccsCapId', '=', $item->id)->get();
+                foreach ($oldCreditSource as $csItem) {
+                    $capCs = new CapCreditSourceTemp;
+                    $capCs->ccsUId = $csItem->ccsUId;
+                    $capCs->ccsCcsId = $csItem->id;
+                    $capCs->ccsCdrId = $csItem->ccsCdrId;
+                    $capCs->ccsTsId = $csItem->ccsTsId;
+                    $capCs->ccsHtrId = $csItem->ccsHtrId;
+                    $capCs->ccsCapId = $capP->id;
+                    $capCs->ccsAmount = $csItem->ccsAmount;
+                    $capCs->ccsDescription = $csItem->ccsDescription;
+                    $capCs->save();
+                }
+
             }
-
+            return \response()->json($this->getAllTempProjectWithPlanId($cap->id));
         }
-
-        return \response()->json($this->getAllTempProjectWithPlanId($cap->id));
     }
 
     public function registerAmendmentProjectTemp(Request $request)
     {
-        $project = new CapitalAssetsProjectTemp;
-        $project->cpUId = Auth::user()->id;
-        $project->cpCapId = $request->pId;
-        $project->cpCoId = $request->coId;
-        $project->cpSubject = $request->subject;
-        $project->cpCode = $request->code;
-        $project->cpStartYear = $request->startYear;
-        $project->cpEndOfYear = $request->endYear;
-        $project->cpPhysicalProgress = $request->pProgress;
-        $project->cpDescription = $request->description;
-        $project->save();
-
-        return \response()->json(
-            $this->getAllTempProjectWithPlanId($request->pId)
-        );
+        if (CapitalAssetsProjectTemp::where('cpCode' , '=' , $request->code)->exists())
+        {
+            return \response()->json([] , 409);
+        }else{
+            $project = new CapitalAssetsProjectTemp;
+            $project->cpUId = Auth::user()->id;
+            $project->cpCapId = $request->pId;
+            $project->cpCoId = $request->coId;
+            $project->cpSubject = $request->subject;
+            $project->cpCode = $request->code;
+            $project->cpStartYear = $request->startYear;
+            $project->cpEndOfYear = $request->endYear;
+            $project->cpPhysicalProgress = $request->pProgress;
+            $project->cpDescription = $request->description;
+            $project->save();
+            return \response()->json(
+                $this->getAllTempProjectWithPlanId($request->pId)
+            );
+        }
     }
 
     public function updateAmendmentProjectTemp(Request $request)
     {
-        $project = CapitalAssetsProjectTemp::find($request->cpId);
-        $project->cpSubject = $request->subject;
-        $project->cpCode = $request->code;
-        $project->cpStartYear = $request->startYear;
-        $project->cpEndOfYear = $request->endYear;
-        $project->cpPhysicalProgress = $request->pProgress;
-        $project->cpDescription = $request->description;
-        $project->save();
+        if (CapitalAssetsProjectTemp::where('id' , '<>' , $request->cpId)
+            ->where('cpCode' , '=' , $request->code)->exists())
+        {
+            return \response()->json([] , 409);
+        }else{
+            $project = CapitalAssetsProjectTemp::find($request->cpId);
+            $project->cpSubject = $request->subject;
+            $project->cpCode = $request->code;
+            $project->cpStartYear = $request->startYear;
+            $project->cpEndOfYear = $request->endYear;
+            $project->cpPhysicalProgress = $request->pProgress;
+            $project->cpDescription = $request->description;
+            $project->save();
 
-        return \response()->json(
-            $this->getAllTempProjectWithPlanId($request->pId)
-        );
+            return \response()->json(
+                $this->getAllTempProjectWithPlanId($request->pId)
+            );
+        }
     }
 
     public function deleteAmendmentProjectTemp(Request $request)
@@ -335,35 +329,51 @@ class PlanController extends Controller
 
     public function registerAmendmentProjectCreditSourceTemp(Request $request)
     {
-        $apCs = new CapCreditSourceTemp;
-        $apCs->ccsUId = Auth::user()->id;
-        $apCs->ccsCapId = $request->capId;
-        $apCs->ccsCdrId = $request->crId;
-        $apCs->ccsTsId = $request->tsId;
-        $apCs->ccsHtrId = $request->htrId;
-        $apCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
-        $apCs->ccsDescription = $request->description;
-        $apCs->save();
+        if (CapCreditSourceTemp::where('ccsCapId' , '=' , $request->capId)
+                ->where('ccsHtrId' , '=' , $request->htrId)
+                ->where('ccsTsId' , '=' , $request->tsId)
+                ->where('ccsCdrId' , '=' , $request->crId)->exists())
+        {
+            return \response()->json([] , 409);
+        }else{
+            $apCs = new CapCreditSourceTemp;
+            $apCs->ccsUId = Auth::user()->id;
+            $apCs->ccsCapId = $request->capId;
+            $apCs->ccsCdrId = $request->crId;
+            $apCs->ccsTsId = $request->tsId;
+            $apCs->ccsHtrId = $request->htrId;
+            $apCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
+            $apCs->ccsDescription = $request->description;
+            $apCs->save();
 
-        return \response()->json(
-            $this->getAllTempProjectWithPlanId($request->pId)
-        );
+            return \response()->json(
+                $this->getAllTempProjectWithPlanId($request->pId)
+            );
+        }
     }
 
     public function updateAmendmentProjectCreditSourceTemp(Request $request)
     {
-        $apCs = CapCreditSourceTemp::find($request->csId);
-        $apCs->ccsUId = Auth::user()->id;
-        $apCs->ccsCdrId = $request->crId;
-        $apCs->ccsTsId = $request->tsId;
-        $apCs->ccsHtrId = $request->htrId;
-        $apCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
-        $apCs->ccsDescription = $request->description;
-        $apCs->save();
+        if (CapCreditSourceTemp::where('id' , '<>' , $request->csId)
+            ->where('ccsHtrId' , '=' , $request->htrId)
+            ->where('ccsTsId' , '=' , $request->tsId)
+            ->where('ccsCdrId' , '=' , $request->crId)->exists())
+        {
+            return \response()->json([] , 409);
+        }else {
+            $apCs = CapCreditSourceTemp::find($request->csId);
+            $apCs->ccsUId = Auth::user()->id;
+            $apCs->ccsCdrId = $request->crId;
+            $apCs->ccsTsId = $request->tsId;
+            $apCs->ccsHtrId = $request->htrId;
+            $apCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
+            $apCs->ccsDescription = $request->description;
+            $apCs->save();
 
-        return \response()->json(
-            $this->getAllTempProjectWithPlanId($request->pId)
-        );
+            return \response()->json(
+                $this->getAllTempProjectWithPlanId($request->pId)
+            );
+        }
     }
 
     public function cancelApprovedAmendmentTemp(Request $request)
@@ -419,7 +429,8 @@ class PlanController extends Controller
 
     public function registerCostAgreement(Request $request)
     {
-        if (CostAgreement::where('caLetterNumber' , '=' , $request->idNumber)->exists())
+        if (CostAgreement::where('caProvinceOrNational' , '=' , $request->pOrN)
+            ->where('caLetterNumber' , '=' , $request->idNumber)->exists())
         {
             return \response()->json([] , 409);
         }else{
@@ -442,6 +453,7 @@ class PlanController extends Controller
     public function updateCostAgreement(Request $request)
     {
         if (CostAgreement::where('id' , '<>' , $request->id)
+            ->where('caProvinceOrNational' , '=' , $request->pOrN)
             ->where('caLetterNumber' , '=' , $request->idNumber)->exists())
         {
             return \response()->json([] , 409);
@@ -611,33 +623,40 @@ class PlanController extends Controller
     public function registerCostAmendmentTemp(Request $request)
     {
         $old = CostAgreement::find($request->caId);
-        $ca = new CostAgreementTemp;
-        $ca->caUId = Auth::user()->id;
-        $ca->caFyId = $old->caFyId;
-        $ca->caProvinceOrNational = $old->caProvinceOrNational;
-        $ca->caLetterNumber = $request->idNumber;
-        $ca->caLetterDate = $request->date;
-        $ca->caExchangeIdNumber = $old->caExchangeIdNumber;
-        $ca->caExchangeDate = $old->caExchangeDate;
-        $ca->caDescription = $request->description;
-        $ca->save();
-
-        $caCreditSources = CaCreditSource::where('ccsCaId' , '=' , $request->caId)->get();
-        foreach ($caCreditSources as $item)
+        if (CostAgreement::where('caFyId' , '=' , $old->caFyId)
+            ->where('caProvinceOrNational' , '=' , $old->caProvinceOrNational)
+            ->where('caLetterNumber' , '=' , $request->idNumber)->exists())
         {
-            $newCa = new CaCreditSourceTemp;
-            $newCa->ccsUId = Auth::user()->id;
-            $newCa->ccsCdrId = $item->ccsCdrId;
-            $newCa->ccsCcsId = $item->id;
-            $newCa->ccsTsId = $item->ccsTsId;
-            $newCa->ccsCaId = $ca->id;
-            $newCa->ccsCdtId = $item->ccsCdtId;
-            $newCa->ccsAmount = $item->ccsAmount;
-            $newCa->ccsDescription = $item->ccsDescription;
-            $newCa->save();
-        }
+            return \response()->json([] , 409);
+        }else{
+            $ca = new CostAgreementTemp;
+            $ca->caUId = Auth::user()->id;
+            $ca->caFyId = $old->caFyId;
+            $ca->caProvinceOrNational = $old->caProvinceOrNational;
+            $ca->caLetterNumber = $request->idNumber;
+            $ca->caLetterDate = $request->date;
+            $ca->caExchangeIdNumber = $old->caExchangeIdNumber;
+            $ca->caExchangeDate = $old->caExchangeDate;
+            $ca->caDescription = $request->description;
+            $ca->save();
 
-        return \response()->json($this->getAllCaTempItems($ca->id));
+            $caCreditSources = CaCreditSource::where('ccsCaId' , '=' , $request->caId)->get();
+            foreach ($caCreditSources as $item)
+            {
+                $newCa = new CaCreditSourceTemp;
+                $newCa->ccsUId = Auth::user()->id;
+                $newCa->ccsCdrId = $item->ccsCdrId;
+                $newCa->ccsCcsId = $item->id;
+                $newCa->ccsTsId = $item->ccsTsId;
+                $newCa->ccsCaId = $ca->id;
+                $newCa->ccsCdtId = $item->ccsCdtId;
+                $newCa->ccsAmount = $item->ccsAmount;
+                $newCa->ccsDescription = $item->ccsDescription;
+                $newCa->save();
+            }
+
+            return \response()->json($this->getAllCaTempItems($ca->id));
+        }
     }
 
     public function cancelCostAmendmentTemp(Request $request)
@@ -666,17 +685,25 @@ class PlanController extends Controller
 
     public function registerCostAmendmentCreditSourceTemp(Request $request)
     {
-        $caCs = new CaCreditSourceTemp;
-        $caCs->ccsUId = Auth::user()->id;
-        $caCs->ccsCaId = $request->caId;
-        $caCs->ccsCdrId = $request->crId;
-        $caCs->ccsTsId = $request->tsId;
-        $caCs->ccsCdtId = $request->cdtId;
-        $caCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
-        $caCs->ccsDescription = $request->description;
-        $caCs->save();
+        if (CaCreditSourceTemp::where('ccsCdrId' , '=' , $request->crId)
+            ->where('ccsCaId' , '=' , $request->caId)
+            ->where('ccsTsId' , '=' , $request->tsId)
+            ->where('ccsCdtId' , '=' , $request->cdtId)->exists())
+        {
+            return \response()->json([] , 409);
+        }else {
+            $caCs = new CaCreditSourceTemp;
+            $caCs->ccsUId = Auth::user()->id;
+            $caCs->ccsCaId = $request->caId;
+            $caCs->ccsCdrId = $request->crId;
+            $caCs->ccsTsId = $request->tsId;
+            $caCs->ccsCdtId = $request->cdtId;
+            $caCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
+            $caCs->ccsDescription = $request->description;
+            $caCs->save();
 
-        return \response()->json($this->getAllCaTempItems($request->caId));
+            return \response()->json($this->getAllCaTempItems($request->caId));
+        }
     }
 
     public function deleteCostAmendmentCreditSourceTemp(Request $request)
@@ -690,16 +717,25 @@ class PlanController extends Controller
 
     public function updateCostAmendmentCreditSourceTemp(Request $request)
     {
-        $caCs = CaCreditSourceTemp::find($request->csId);
-        $caCs->ccsUId = Auth::user()->id;
-        $caCs->ccsCdrId = $request->crId;
-        $caCs->ccsTsId = $request->tsId;
-        $caCs->ccsCdtId = $request->cdtId;
-        $caCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
-        $caCs->ccsDescription = $request->description;
-        $caCs->save();
+        if (CaCreditSourceTemp::where('id' , '<>' , $request->csId)
+            ->where('ccsCdrId' , '=' , $request->crId)
+            ->where('ccsCaId' , '=' , $request->caId)
+            ->where('ccsTsId' , '=' , $request->tsId)
+            ->where('ccsCdtId' , '=' , $request->cdtId)->exists())
+        {
+            return \response()->json([] , 409);
+        }else {
+            $caCs = CaCreditSourceTemp::find($request->csId);
+            $caCs->ccsUId = Auth::user()->id;
+            $caCs->ccsCdrId = $request->crId;
+            $caCs->ccsTsId = $request->tsId;
+            $caCs->ccsCdtId = $request->cdtId;
+            $caCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
+            $caCs->ccsDescription = $request->description;
+            $caCs->save();
 
-        return \response()->json($this->getAllCaTempItems($request->caId));
+            return \response()->json($this->getAllCaTempItems($request->caId));
+        }
     }
 
 }
