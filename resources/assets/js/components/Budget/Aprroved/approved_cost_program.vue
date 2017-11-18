@@ -176,8 +176,8 @@
                                                                         {{ creditSource.ccsDescription }}
                                                                     </div>
                                                                     <div class="medium-1 cell-vertical-center text-left">
-                                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costAgreement_cs' + cAp.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'costAgreement_cs' + cAp.id" data-dropdown data-auto-focus="true">
+                                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costAgreement_cs' + cAp.id + creditSource.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'costAgreement_cs' + cAp.id + creditSource.id" data-dropdown data-auto-focus="true">
                                                                             <ul class="my-menu small-font text-right">
                                                                                 <li><a v-on:click.prevent="openCaCsUpdateModal(creditSource , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                                                 <li><a v-on:click.prevent="openCaCsDeleteModal(creditSource.id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
@@ -380,8 +380,8 @@
                                                                         {{ creditSource.ccsDescription }}
                                                                     </div>
                                                                     <div class="medium-1 cell-vertical-center text-left">
-                                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costAgreement_cs' + cAp.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'costAgreement_cs' + cAp.id" data-dropdown data-auto-focus="true">
+                                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costAgreement_cs' + cAp.id + creditSource.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'costAgreement_cs' + cAp.id + creditSource.id" data-dropdown data-auto-focus="true">
                                                                             <ul class="my-menu small-font text-right">
                                                                                 <li><a v-on:click.prevent="openCaCsUpdateModal(creditSource , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                                                 <li><a v-on:click.prevent="openCaCsDeleteModal(creditSource.id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
@@ -1311,7 +1311,7 @@
                 seasons: {},
                 seasonTitles: {},
                 tinySeasons: {},
-                selectedSeasons: '',
+                selectedSeason: '',
                 selectedSeasonTitle: '',
                 creditDistributionRows: {},
                 creditDistributionTitles: {},
@@ -1443,6 +1443,9 @@
             },
 
             openCreditSourceInsertModal: function (caId , type) {
+                this.caCreditSourceInput = [];
+                this.selectedSeasonTitle = '';
+                this.selectedSeason = '';
                 this.showCaCsInsertModal = true;
                 this.caIdForInsertCreditSource = caId;
                 this.provOrNat = type;
@@ -1743,20 +1746,20 @@
                 this.showDeleteTempCreditSourceModal = true;
             },
 
-            openACaCsCostCreditEditModal: function (creditSource) {
+            openACaCsCostCreditEditModal: function (cs) {
                 this.getCreditDistributionTitle(1); //all item should be national type => county = null
                 this.getSeasons();
                 this.getCreditDistributionRow();
-                this.selectedSeason = creditSource.tiny_season.season_title.season.id;
+                this.selectedSeason = cs.tiny_season.season_title.season.id;
                 this.getSeasonTitle();
-                this.selectedSeasonTitle = creditSource.tiny_season.season_title.id;
+                this.selectedSeasonTitle = cs.tiny_season.season_title.id;
                 this.getTinySeasons();
-                this.acaCreditSourceFill.csId = creditSource.id;
-                this.acaCreditSourceFill.crId = creditSource.ccsCdrId;
-                this.acaCreditSourceFill.tsId = creditSource.ccsTsId;
-                this.acaCreditSourceFill.cdtId = creditSource.ccsCdtId;
-                this.acaCreditSourceFill.amount = this.$parent.calcDispAmount(creditSource.ccsAmount , false);
-                this.acaCreditSourceFill.description = creditSource.ccsDescription;
+                this.acaCreditSourceFill.csId = cs.id;
+                this.acaCreditSourceFill.crId = cs.ccsCdrId;
+                this.acaCreditSourceFill.tsId = cs.ccsTsId;
+                this.acaCreditSourceFill.cdtId = cs.ccsCdtId;
+                this.acaCreditSourceFill.amount = this.$parent.calcDispAmount(cs.ccsAmount , false);
+                this.acaCreditSourceFill.description = cs.ccsDescription;
                 this.showACaCsEditModal=true;
             },
 

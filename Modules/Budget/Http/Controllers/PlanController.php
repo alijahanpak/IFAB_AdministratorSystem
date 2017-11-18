@@ -419,34 +419,45 @@ class PlanController extends Controller
 
     public function registerCostAgreement(Request $request)
     {
-        $ca = new CostAgreement;
-        $ca->caUId = Auth::user()->id;
-        $ca->caFyId = Auth::user()->seFiscalYear;
-        $ca->caProvinceOrNational = $request->pOrN;
-        $ca->caLetterNumber = $request->idNumber;
-        $ca->caLetterDate = $request->date;
-        $ca->caExchangeIdNumber = $request->exIdNumber;
-        $ca->caExchangeDate = $request->exDate;
-        $ca->caDescription = $request->description;
-        $ca->save();
+        if (CostAgreement::where('caLetterNumber' , '=' , $request->idNumber)->exists())
+        {
+            return \response()->json([] , 409);
+        }else{
+            $ca = new CostAgreement;
+            $ca->caUId = Auth::user()->id;
+            $ca->caFyId = Auth::user()->seFiscalYear;
+            $ca->caProvinceOrNational = $request->pOrN;
+            $ca->caLetterNumber = $request->idNumber;
+            $ca->caLetterDate = $request->date;
+            $ca->caExchangeIdNumber = $request->exIdNumber;
+            $ca->caExchangeDate = $request->exDate;
+            $ca->caDescription = $request->description;
+            $ca->save();
 
-        SystemLog::setBudgetSubSystemLog('ثبت موافقت نامه هزینه ای ');
-        return \response()->json($this->getAllCostAgreemrent($request->pOrN));
+            SystemLog::setBudgetSubSystemLog('ثبت موافقت نامه هزینه ای ');
+            return \response()->json($this->getAllCostAgreemrent($request->pOrN));
+        }
     }
 
     public function updateCostAgreement(Request $request)
     {
-        $ca = CostAgreement::find($request->id);
-        $ca->caUId = Auth::user()->id;
-        $ca->caLetterNumber = $request->idNumber;
-        $ca->caLetterDate = $request->date;
-        $ca->caExchangeIdNumber = $request->exIdNumber;
-        $ca->caExchangeDate = $request->exDate;
-        $ca->caDescription = $request->description;
-        $ca->save();
+        if (CostAgreement::where('id' , '<>' , $request->id)
+            ->where('caLetterNumber' , '=' , $request->idNumber)->exists())
+        {
+            return \response()->json([] , 409);
+        }else{
+            $ca = CostAgreement::find($request->id);
+            $ca->caUId = Auth::user()->id;
+            $ca->caLetterNumber = $request->idNumber;
+            $ca->caLetterDate = $request->date;
+            $ca->caExchangeIdNumber = $request->exIdNumber;
+            $ca->caExchangeDate = $request->exDate;
+            $ca->caDescription = $request->description;
+            $ca->save();
 
-        SystemLog::setBudgetSubSystemLog('تغییر موافقت نامه هزینه ای ');
-        return \response()->json($this->getAllCostAgreemrent($request->pOrN));
+            SystemLog::setBudgetSubSystemLog('تغییر موافقت نامه هزینه ای ');
+            return \response()->json($this->getAllCostAgreemrent($request->pOrN));
+        }
     }
 
     public function deleteCostAgreement(Request $request)
@@ -466,37 +477,53 @@ class PlanController extends Controller
 
     public function registerCaCreditSource(Request $request)
     {
-        $caCs = new CaCreditSource;
-        $caCs->ccsUId = Auth::user()->id;
-        $caCs->ccsCaId = $request->caId;
-        $caCs->ccsCdrId = $request->crId;
-        $caCs->ccsTsId = $request->tsId;
-        $caCs->ccsCdtId = $request->cdtId;
-        $caCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
-        $caCs->ccsDescription = $request->description;
-        $caCs->save();
+        if (CaCreditSource::where('ccsCdrId' , '=' , $request->crId)
+            ->where('ccsCaId' , '=' , $request->caId)
+            ->where('ccsTsId' , '=' , $request->tsId)
+            ->where('ccsCdtId' , '=' , $request->cdtId)->exists())
+        {
+            return \response()->json([] , 409);
+        }else{
+            $caCs = new CaCreditSource;
+            $caCs->ccsUId = Auth::user()->id;
+            $caCs->ccsCaId = $request->caId;
+            $caCs->ccsCdrId = $request->crId;
+            $caCs->ccsTsId = $request->tsId;
+            $caCs->ccsCdtId = $request->cdtId;
+            $caCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
+            $caCs->ccsDescription = $request->description;
+            $caCs->save();
 
-        SystemLog::setBudgetSubSystemLog('ثبت تامین اعتبار هزینه ای');
-        return \response()->json(
-            $this->getAllCostAgreemrent($request->pOrN)
-        );
+            SystemLog::setBudgetSubSystemLog('ثبت تامین اعتبار هزینه ای');
+            return \response()->json(
+                $this->getAllCostAgreemrent($request->pOrN)
+            );
+        }
     }
 
     public function updateCaCreditSource(Request $request)
     {
-        $caCs = CaCreditSource::find($request->id);
-        $caCs->ccsUId = Auth::user()->id;
-        $caCs->ccsCdrId = $request->crId;
-        $caCs->ccsTsId = $request->tsId;
-        $caCs->ccsCdtId = $request->cdtId;
-        $caCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
-        $caCs->ccsDescription = $request->description;
-        $caCs->save();
+        if (CaCreditSource::where('id' , '<>' , $request->id)
+                ->where('ccsCdrId' , '=' , $request->crId)
+                ->where('ccsTsId' , '=' , $request->tsId)
+                ->where('ccsCdtId' , '=' , $request->cdtId)->exists())
+        {
+            return \response()->json([] , 409);
+        }else{
+            $caCs = CaCreditSource::find($request->id);
+            $caCs->ccsUId = Auth::user()->id;
+            $caCs->ccsCdrId = $request->crId;
+            $caCs->ccsTsId = $request->tsId;
+            $caCs->ccsCdtId = $request->cdtId;
+            $caCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
+            $caCs->ccsDescription = $request->description;
+            $caCs->save();
 
-        SystemLog::setBudgetSubSystemLog('تغییر تامین اعتبار هزینه ای');
-        return \response()->json(
-            $this->getAllCostAgreemrent($request->pOrN)
-        );
+            SystemLog::setBudgetSubSystemLog('تغییر تامین اعتبار هزینه ای');
+            return \response()->json(
+                $this->getAllCostAgreemrent($request->pOrN)
+            );
+        }
     }
 
     public function deleteCostCaCreditSource(Request $request)
