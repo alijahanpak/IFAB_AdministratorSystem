@@ -36,10 +36,10 @@
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(0)">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
-                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
+                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(provCapitalAssetsAllocations)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
                                     </div>
                                     <div v-if="selectColumn" class="input-group-button toggle-icon-change">
-                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
+                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn(provCapitalAssetsAllocations)"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
                                     </div>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
@@ -93,7 +93,7 @@
                                         <th class="tbl-head-style-cell">شماره</th>
                                         <th class="tbl-head-style-cell">تاریخ</th>
                                         <th class="tbl-head-style-cell">مبلغ</th>
-                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox"></th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox" @click="toggleSelect(provCapitalAssetsAllocations)" :checked="allSelected(provCapitalAssetsAllocations)"></th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
@@ -113,7 +113,7 @@
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
                                             <template v-for="plans in provCapitalAssetsAllocations">
-                                                <tr class="tbl-head-style-cell" >
+                                                <tr class="tbl-head-style-cell">
                                                     <td :rowspan="getPlanAllocCount(plans.capital_assets_project_has_credit_source)">{{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}
                                                         <div v-show="!plans.capActive" class="text-center" style="margin-top: 5px">
                                                             <span class="new-badage">غیر فعال</span>
@@ -128,7 +128,7 @@
                                                     <td class="text-center">{{ plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterDate }}</td>
                                                     <td class="text-center">{{ $parent.calcDispAmount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount , false) }}</td>
                                                     <td  v-show="selectColumn">
-                                                        <input class="auto-margin" type="checkbox">
+                                                        <input class="auto-margin" v-model="plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].checked" type="checkbox">
                                                     </td>
                                                 </tr>
                                                <template v-for="(projects, proIndex) in plans.capital_assets_project_has_credit_source">
@@ -141,11 +141,10 @@
                                                        <td :rowspan="projects.credit_source_has_allocation[0].allocation.length">{{ projects.credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
                                                        <td v-if="projects.credit_source_has_allocation[0].allocation[0].caaFoundId == null">{{ projects.credit_source_has_allocation[0].allocation[0].caaLetterNumber }}</td>
                                                        <td class="text-center" v-if="projects.credit_source_has_allocation[0].allocation[0].caaFoundId != null"><i class="fa fa-exchange btn-red has-tip top" data-tooltip aria-haspopup="true" data-disable-hover="false" title="تبدیل شده از تنخواه"></i></td>
-                                                       <td class="text-center">{{ projects.credit_source_has_allocation[0].allocation[0].caaLetterNumber }}</td>
                                                        <td class="text-center">{{ projects.credit_source_has_allocation[0].allocation[0].caaLetterDate }}</td>
                                                        <td class="text-center">{{ $parent.calcDispAmount(projects.credit_source_has_allocation[0].allocation[0].caaAmount , false) }}</td>
                                                        <td  v-show="selectColumn">
-                                                           <input class="auto-margin" type="checkbox">
+                                                           <input class="auto-margin" v-model="projects.credit_source_has_allocation[0].allocation[0].checked" type="checkbox">
                                                        </td>
                                                    </tr>
                                                     <template v-for="(credit_source , csIndex) in projects.credit_source_has_allocation">
@@ -156,7 +155,7 @@
                                                             <td class="text-center">{{ credit_source.allocation[0].caaLetterDate }}</td>
                                                             <td class="text-center">{{ $parent.calcDispAmount(credit_source.allocation[0].caaAmount , false) }}</td>
                                                             <td  v-show="selectColumn">
-                                                                <input class="auto-margin" type="checkbox">
+                                                                <input class="auto-margin" v-model="credit_source.allocation[0].checked" type="checkbox">
                                                             </td>
                                                         </tr>
                                                         <template v-for="(alloc , allocIndex) in credit_source.allocation">
@@ -166,7 +165,7 @@
                                                                 <td class="text-center">{{ alloc.caaLetterDate }}</td>
                                                                 <td class="text-center">{{ $parent.calcDispAmount(alloc.caaAmount , false) }}</td>
                                                                 <td  v-show="selectColumn">
-                                                                    <input class="auto-margin" type="checkbox">
+                                                                    <input class="auto-margin" v-model="alloc.checked" type="checkbox">
                                                                 </td>
                                                             </tr>
                                                         </template>
@@ -178,11 +177,16 @@
                                 </div>
                             </div>
                             <div class="grid-x">
-                                <div class="medium-12">
+                                <div class="medium-8">
                                     <vue-pagination  v-bind:pagination="provincial_pagination"
                                                      v-on:click.native="fetchProvincialData(provincial_pagination.current_page)"
                                                      :offset="4">
                                     </vue-pagination>
+                                </div>
+                                <div style="color: #575962;" v-show="selectColumn" class="medium-4 small-font">
+                                    <div class="float-left">
+                                        <p> تعداد رکورد های انتخاب شده :<span class="selected-row-style">{{ selectedLength(provCapitalAssetsAllocations) }}</span></p>
+                                    </div>
                                 </div>
                             </div>
                             <!--Table Start-->
@@ -876,6 +880,84 @@
                     </div>
                 </modal-large>
                 <!--Insert Modal End-->
+                <!--Report Modal Start-->
+                <modal-tiny v-if="showModalReport" @close="showModalReport= false">
+                    <div  slot="body">
+                        <div class="small-font">
+                            <form v-on:submit.prevent="openReportFile">
+                                <div class="grid-x padding-lr">
+                                    <div class="medium-12">
+                                        <label>عنوان
+                                            <input type="text" v-model="reportOptions.title">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div v-show="reportType == 'pdf'">
+                                    <div style="margin-top: 10px;" class="grid-x padding-lr">
+                                        <div class="medium-2">
+                                            <div class="switch tiny">
+                                                <input checked="true" class="switch-input" id="yes-no-1" v-model="reportOptions.withReporterName" type="checkbox">
+                                                <label class="switch-paddle" for="yes-no-1">
+                                                    <span class="switch-active" aria-hidden="true">بلی</span>
+                                                    <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="medium-10">
+                                            <p>درج نام کاربر تهیه کننده گزارش</p>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x padding-lr">
+                                        <div class="medium-2">
+                                            <div class="switch tiny">
+                                                <input checked="true" class="switch-input" id="yes-no-2" type="checkbox" v-model="reportOptions.withFiscalYear">
+                                                <label class="switch-paddle" for="yes-no-2">
+                                                    <span class="switch-active" aria-hidden="true">بلی</span>
+                                                    <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="medium-10">
+                                            <p>درج سال مالی</p>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x padding-lr">
+                                        <div class="medium-2">
+                                            <div class="switch tiny">
+                                                <input checked="true" class="switch-input" id="yes-no3" type="checkbox" v-model="reportOptions.withReportDate">
+                                                <label class="switch-paddle" for="yes-no3">
+                                                    <span class="switch-active" aria-hidden="true">بلی</span>
+                                                    <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="medium-10">
+                                            <p>درج تاریخ گزارش</p>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x padding-lr">
+                                        <div class="medium-2">
+                                            <div class="switch tiny">
+                                                <input checked="true" class="switch-input" id="yes-no4" type="checkbox" v-model="reportOptions.orientation">
+                                                <label class="switch-paddle" for="yes-no4">
+                                                    <span class="switch-active" aria-hidden="true">افقی</span>
+                                                    <span class="switch-inactive" aria-hidden="true">عمودی</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="medium-10">
+                                            <p>جهت کاغذ</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="medium-12 columns padding-lr padding-bottom-modal input-margin-top">
+                                    <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">مشاهده</span></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </modal-tiny>
+                <!--Report Modal End-->
                 <!--Forms End-->
 
             </div>
@@ -915,6 +997,9 @@
                 selectedProject: '',
                 approvedProjects: {},
                 projectCreditSources: {},
+                selectedItems: [],
+                selectedCount: 0,
+                reportOptions: {title:'' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true},
                 foundIdForConvertTo: '',
 
                 national_pagination: {
@@ -957,6 +1042,7 @@
                 axios.get('/budget/allocation/capital_assets/fetchData?page=' + page , {params:{pOrN: 0}})
                     .then((response) => {
                         this.provCapitalAssetsAllocations = response.data.data;
+                        this.selectAll(this.provCapitalAssetsAllocations);
                         this.makePagination(response.data , "provincial");
                         console.log(response);
                     },(error) => {
@@ -968,6 +1054,7 @@
                 axios.get('/budget/allocation/capital_assets/found/fetchData')
                     .then((response) => {
                         this.provCapitalAssetsFounds = response.data;
+                        this.selectAll(this.provCapitalAssetsFounds);
                         console.log(response);
                     },(error) => {
                         console.log(error);
@@ -978,6 +1065,7 @@
                 axios.get('/budget/allocation/capital_assets/fetchData?page=' + page , {params:{pOrN: 1}})
                     .then((response) => {
                         this.natCapitalAssetsAllocations = response.data.data;
+                        this.selectAll(this.natCapitalAssetsAllocations);
                         this.makePagination(response.data , "national");
                         console.log(response);
                     },(error) => {
@@ -1280,6 +1368,157 @@
                     return true;
                 }
             },
+
+            openReportModal: function (proOrNat , type) {
+                this.provOrNat = proOrNat;
+                this.reportType = type;
+                this.selectedItems = [];
+                if (proOrNat == 0)
+                {
+                    if (this.selectedLength(this.provCapitalAssetsAllocations) != 0)
+                    {
+                        this.showModalReport = true;
+                        this.provCapitalAssetsAllocations.forEach(plan => {
+                            if(plans.capital_assets_project_has_credit_source.every(function(project){return project.checked;}))
+                                this.selectedItems.push(plan);
+                        });
+                        this.reportOptions.title = 'تخصیص اعتبار تملک داریی های سرمایه ای استانی';
+                    }
+                    else{
+                        this.$parent.displayNotif(800);
+                    }
+                }
+                else if(proOrNat == 1) {
+                    if (this.selectedLength(this.natCapitalAssetsAllocations) != 0)
+                    {
+                        this.showModalReport = true;
+                        this.natCapitalAssetsAllocations.forEach(plan => {
+                            if(plans.capital_assets_project_has_credit_source.every(function(project){return project.checked;}))
+                                this.selectedItems.push(plan);
+                        });
+                        this.reportOptions.title = 'تخصیص اعتبار تملک داریی های سرمایه ای ملی';
+                    }
+                    else{
+                        this.$parent.displayNotif(800);
+                    }
+                }
+                else {
+                    if (this.selectedLength(this.provCapitalAssetsFounds) != 0)
+                    {
+                        this.showModalReport = true;
+                        this.provCapitalAssetsFounds.forEach(plan => {
+                            if(found.provCapitalAssetsFounds.every(function(project){return project.checked;}))
+                                this.selectedItems.push(plan);
+                        });
+                        this.reportOptions.title = 'تخصیص اعتبار تنخواه- استانی';
+                    }
+                    else{
+                        this.$parent.displayNotif(800);
+                    }
+                }
+
+                console.log(JSON.stringify(this.selectedItems));
+            },
+
+            openReportFile: function () {
+                axios.post('/budget/approved_project/capital_assets/report' , {pOrN: this.provOrNat , type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
+                    .then((response) => {
+                        console.log(response.data);
+                        window.open(response.data);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            showSelectColumn: function (plans) {
+                this.selectAll(plans);
+                if (this.selectColumn)
+                {
+                    this.selectColumn=false;
+                }
+                else {
+                    this.selectColumn = true;
+                }
+            },
+
+
+            toggleSelect: function(plans) {
+                var temp = false;
+                plans.forEach(plan => {
+                    plan.capital_assets_project_has_credit_source.forEach(projects => {
+                            projects.credit_source_has_allocation.forEach(credit_source =>{
+                                credit_source.allocation.forEach(alloc =>{
+                                    if (alloc.checked)
+                                    temp = true;
+                                });
+                            });
+                    });
+                });
+                plans.forEach(plan => {
+                    if(temp){
+                        plan.capital_assets_project_has_credit_source.forEach(projects => {
+                            projects.credit_source_has_allocation.forEach(credit_source =>{
+                                credit_source.allocation.forEach(alloc =>{
+                                    alloc.checked = false;
+
+                                 });
+                             });
+                        });
+                    } else {
+                        plan.capital_assets_project_has_credit_source.forEach(projects => {
+                            projects.credit_source_has_allocation.forEach(credit_source =>{
+                                credit_source.allocation.forEach(alloc =>{
+                                    alloc.checked = true;
+                                 });
+                            });
+                        });
+                    }
+                });
+                console.log(JSON.stringify(this.provCapitalAssetsAllocations));
+            },
+
+            allSelected: function(plans) {
+                var temp = true;
+                console.log(JSON.stringify(this.provCapitalAssetsAllocations));
+                plans.forEach(plan => {
+                    plan.capital_assets_project_has_credit_source.forEach(projects => {
+                            projects.credit_source_has_allocation.forEach(credit_source =>{
+                                credit_source.allocation.forEach(alloc =>{
+                                if (alloc.checked == false)
+                            temp = false;
+                            });
+                        });
+                    });
+                });
+                return temp;
+            },
+
+            selectAll: function (plans) {
+                plans.forEach(plan => {
+                    plan.capital_assets_project_has_credit_source.forEach(projects => {
+                        projects.credit_source_has_allocation.forEach(credit_source =>{
+                            credit_source.allocation.forEach(alloc =>{
+                                this.$set(alloc, 'checked' , true);
+                            });
+                        });
+                    });
+                });
+            },
+
+            selectedLength: function (plans) {
+                var counter=0;
+                plans.forEach(plan => {
+                    plan.capital_assets_project_has_credit_source.forEach(projects => {
+                        projects.credit_source_has_allocation.forEach(credit_source =>{
+                            credit_source.allocation.forEach(alloc =>{
+                                counter+=alloc.checked;
+                            });
+                        });
+                    });
+                });
+                return counter;
+            },
+
         }
     }
 </script>

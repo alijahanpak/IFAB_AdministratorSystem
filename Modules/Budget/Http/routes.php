@@ -94,6 +94,8 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('/register', 'BudgetAdminController@registerDeprivedArea');
         Route::post('/update', 'BudgetAdminController@updateDeprivedArea');
         Route::post('/delete', 'BudgetAdminController@deleteDeprivedArea');
+        Route::post('/report', 'BudgetReportController@deprivedAreaProv');
+
     });
 
     Route::prefix('admin/credit_distribution_def')->group(function () {

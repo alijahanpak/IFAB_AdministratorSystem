@@ -494,7 +494,6 @@
                 axios.get('/budget/admin/credit_distribution_def/plan_cost_title/fetchData?page=' + page)
                     .then((response) => {
                         this.planOrCosts = response.data.data;
-
                         this.makePagination(response.data);
                         console.log(response.status);
                     },(error) => {

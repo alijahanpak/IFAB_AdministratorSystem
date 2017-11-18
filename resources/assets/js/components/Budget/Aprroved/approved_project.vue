@@ -149,7 +149,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr v-show="displayCreditSourceInfo_prov == plans.capital_assets_project[0].id">
-                                                    <td colspan="5">
+                                                    <td colspan="6">
                                                         <table class="unstriped tbl-secondary-mrg small-font">
                                                             <thead class="my-thead">
                                                             <tr style="background-color: #F1F1F1 !important;">

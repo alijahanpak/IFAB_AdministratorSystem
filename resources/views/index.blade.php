@@ -27,8 +27,8 @@
         <modal-login v-if="showModalLogin" @close="showModalLogin = false">
             <div slot="body">
                 <div class="grid-x">
-                    <div style="margin-top: 40px;margin-bottom: 20px;" class="medium-6 large-offset-1">
-                        <img class="login-logo-mrg" src="{{ asset('pic\logom.jpg') }}" width="74px" height="74px">
+                    <div style="margin-top: 40px;margin-bottom: 20px;" class="medium-12">
+                        <img class="float-center" src="{{ asset('pic\logom.jpg') }}" width="74px" height="74px">
                     </div>
                 </div>
                 <div class="grid-x">
@@ -36,8 +36,8 @@
                         <h5 class="BYekan text-center  login-txt">سامانه یکپارچه اداری، مالی و بودجه</h5>
                     </div>
                 </div>
-                <div class="grid-x">
-                    <div style="margin-top: 20px;" class="large-4 large-offset-4 cell callout ">
+                <div style="margin-top:20px;" class="grid-x">
+                    <div style="margin:0 auto;" class="large-3 cell callout ">
                         <form v-on:submit.prevent="login">
                             <div class="grid-x" v-show="errorMessage">
                                 <div class="medium-12 columns padding-lr">
