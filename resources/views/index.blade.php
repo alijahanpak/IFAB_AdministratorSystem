@@ -47,7 +47,6 @@
                                 </div>
                             </div>
                             <div class="columns padding-lr">
-
                                 <label>نام کاربری
                                     <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="text" placeholder="&#xf2c0;" autofocus name="user" v-model="authInfo.email" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('user')}">
                                 </label>
