@@ -12,7 +12,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                    @foreach($item as $plan)
+                    @foreach($items as $plan)
                         <tr>
                             <td>{{$plan['cdtIdNumber']}}</td>
                             <td>{{$plan['cdtSubject']}}</td>
@@ -22,7 +22,7 @@
 
                         @if(count($plan['c_d_t_in_county']) >0)
                         <tr>
-                            <td colspan="3">
+                            <td colspan="4">
                                 <table class="unstriped tbl-secondary-mrg small-font">
                                     <thead class="my-thead">
                                     <tr style="background-color: #F1F1F1 !important;">

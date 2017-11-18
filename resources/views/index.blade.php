@@ -73,7 +73,7 @@
                         </ul>
                     </div>
                     <div class="large-12">
-                        <p class="small-font footer-txt-size">تمامی حقوق این وب سایت متعلق یه اداره کل میراث فرهنگی صنایع دستی و گردشگری استان همدان می باشد</p>
+                        <p class="small-font footer-txt-size">تمامی حقوق این وب سایت متعلق یه اداره کل میراث فرهنگی، صنایع دستی و گردشگری استان همدان می باشد</p>
                     </div>
                 </div>
             </div>
@@ -223,9 +223,9 @@
                                                 </div>
                                             </div>
                                         </li>
-                                        <li class="menu-top"><a href="#"><i class="tbl-menu fi-torso-business"></i> <span>کارشناس اداری مالی</span></a></li>
-                                        <li class="menu-top"><a href="#"><i class="tbl-menu fi-widget"></i> <span>تنظیمات</span></a></li>
-                                        <li class="menu-top"><a v-on:click="logout"><i class="fi-power"></i> <span>خروج</span></a></li>
+                                        <li class="menu-top"><a href="#"><i class="tbl-menu fa fa-user-circle"></i> <span>کارشناس اداری مالی</span></a></li>
+                                        <li class="menu-top"><a href="#"><i class="tbl-menu fa fa-sliders"></i> <span>تنظیمات</span></a></li>
+                                        <li class="menu-top"><a v-on:click="logout"><i class="tbl-menu fa fa-sign-out"></i> <span>خروج</span></a></li>
                                     </ul>
                                 </li>
                             </ul>

@@ -279,29 +279,17 @@ class BudgetReportController extends Controller
                             $cells->setAlignment('center');
                         });
                         foreach($request->get('selectedItems') as $plan) {
-                            foreach ($plan['capital_assets_project'] as $project) {
-                                foreach ($project['credit_source'] as $creditSource) {
-                                    if ($project['checked'] == true) {
-                                        $sheet->appendRow(array(
-                                            $plan['credit_distribution_title']['cdtIdNumber'] . ' - ' . $plan['credit_distribution_title']['cdtSubject'],
-                                            $project['cpCode'],
-                                            $project['cpSubject'],
-                                            $project['county']['coName'],
-                                            $project['cpStartYear'],
-                                            $project['cpEndOfYear'],
-                                            $project['cpPhysicalProgress'],
+                            foreach ($plan['c_d_t_in_county'] as $cdtInCounty) {
 
-                                            $project['cpDescription'],
-                                            $creditSource['credit_distribution_row']['cdSubject'],
-                                            $creditSource['tiny_season']['season_title']['season']['sSubject'],
-                                            $creditSource['tiny_season']['season_title']['castSubject'],
-                                            $creditSource['tiny_season']['catsSubject'],
-                                            $creditSource['how_to_run']['htrSubject'],
-                                            $creditSource['ccsAmount'],
-                                            $creditSource['ccsDescription']
-                                        ));
-                                    }
-                                }
+                                $sheet->appendRow(array(
+                                    $plan['cdtIdNumber'],
+                                    $plan['cdtSubject'],
+                                    $plan['budget_season']['bsSubject'],
+                                    $plan['cdtDescription'],
+                                    $cdtInCounty['county']['coName'],
+                                    $cdtInCounty['cdtIdNumber'],
+                                    $cdtInCounty['cdtDescription']
+                                ));
                             }
                         }
                 });
