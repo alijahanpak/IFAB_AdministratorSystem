@@ -56,13 +56,27 @@ axios.interceptors.response.use(response => {
     app.finish();
     return response;
 },function (error) {
-    console.log(error);
+    const originalRequest = error.config;
+    if (error.response.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true
+        axios.post('/api/refresh_token' , {
+            refresh_token: JSON.parse(localStorage.getItem("ifab_token_info")).refreshToken
+        }).then((response) => {
+            app.registerTokenInfo(response.data);
+            return axios(originalRequest);
+        }, (error) => {
+            app.showModalLogin = true;
+            app.fail();
+        });
+    }
+    return Promise.reject(error);
+/*    console.log(error);
     if (error.response.status == 401)
     {
         app.showModalLogin = true;
     }
     app.fail();
-    return Promise.reject(error);
+    return Promise.reject(error);*/
 });
 
 axios.interceptors.request.use(function (config) {
@@ -130,7 +144,6 @@ var app = new Vue({
     },
     updated: function () {
         $(this.$el).foundation(); //WORKS!
-
     },
 
     created: function () {
@@ -187,14 +200,19 @@ var app = new Vue({
         login: function () {
             axios.post('/api/login' , this.authInfo)
                 .then((response) => {
-                    console.log(response);
-                    this.tokenInfo.Authorization = 'Bearer ' + response.data.access_token;
-                    this.$store.dispatch("login" , this.tokenInfo);
+                    console.log(response.data.refresh_token);
+                    this.registerTokenInfo(response.data);
                     this.showModalLogin = false;
-                    this.$router.go(this.$router.currentRoute.path); //for reload page data
+                    this.$router.go(this.$router.currentRoute.path); //reload page data
                 },(error) => {
                     console.log(error);
                 });
+        },
+
+        registerTokenInfo: function (data) {
+            this.tokenInfo.Authorization = 'Bearer ' + data.access_token;
+            this.tokenInfo.refreshToken = data.refresh_token;
+            this.$store.dispatch("login" , this.tokenInfo);
         },
 
         getPublicParams: function () {
