@@ -19,3 +19,4 @@ use Illuminate\Http\Request;
 
 Route::post('/login' , 'AuthController@login_api');
 Route::post('/userIsAuthorize' , 'AuthController@userIsAuthorize')->middleware('auth_api:api');
+Route::post('/test' , 'AuthController@test');
