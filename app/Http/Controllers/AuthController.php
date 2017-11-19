@@ -68,9 +68,4 @@ class AuthController extends Controller
     {
         return \response()->json([] , 200);
     }
-
-    public function test()
-    {
-        return "morteza";
-    }
 }

@@ -100,8 +100,8 @@
                                                                 <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + season.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + season.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
-                                                                        <li><a v-on:click.prevent="tinySeasonUpdateDialog(season.id , capitalAssetsTinySeason , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                        <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(capitalAssetsTinySeason , 0)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                        <li><a v-on:click.prevent="openUpdateModal(season.capital_assets_season_title[0].capital_assets_tiny_season[0] , season.id , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                        <li><a v-on:click.prevent="openDeleteModal(season.capital_assets_season_title[0].capital_assets_tiny_season[0].id , 0)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -121,8 +121,8 @@
                                                                     <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + season.id + seasonTitle.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + season.id + seasonTitle.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
-                                                                            <li><a v-on:click.prevent="tinySeasonUpdateDialog(season.id , capitalAssetsTinySeason , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                            <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(capitalAssetsTinySeason , 0)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                            <li><a v-on:click.prevent="openUpdateModal(seasonTitle.capital_assets_tiny_season[0] , season.id , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                            <li><a v-on:click.prevent="openDeleteModal(seasonTitle.capital_assets_tiny_season[0].id , 0)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                                         </ul>
                                                                     </div>
                                                                 </div>
@@ -141,8 +141,8 @@
                                                                         <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + season.id + seasonTitle.id + seasonTiny.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + season.id + seasonTitle.id + seasonTiny.id" data-dropdown data-auto-focus="true">
                                                                             <ul class="my-menu small-font text-right">
-                                                                                <li><a v-on:click.prevent="tinySeasonUpdateDialog(season.id , capitalAssetsTinySeason , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                                <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(capitalAssetsTinySeason , 0)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                                <li><a v-on:click.prevent="openUpdateModal(seasonTiny , season.id  , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                                <li><a v-on:click.prevent="openDeleteModal(seasonTiny.id , 0)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                                             </ul>
                                                                         </div>
                                                                     </div>
@@ -243,8 +243,8 @@
                                                                     <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'ctsTinySeason' + cSeason.id "><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'ctsTinySeason' + cSeason.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
-                                                                            <li><a v-on:click.prevent="tinySeasonUpdateDialog(cSeason.id , costTinySeason , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                            <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(costTinySeason , 1)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                            <li><a v-on:click.prevent="openUpdateModal(cSeason.cost_season_title[0].cost_tiny_season[0] , cSeason.id , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                            <li><a v-on:click.prevent="openDeleteModal(cSeason.cost_season_title[0].cost_tiny_season[0].id , 1)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                                         </ul>
                                                                     </div>
                                                                 </div>
@@ -264,8 +264,8 @@
                                                                         <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'ctsTinySeason' + cSeason.id + cSeasonTitle.id "><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'ctsTinySeason' + cSeason.id + cSeasonTitle.id" data-dropdown data-auto-focus="true">
                                                                             <ul class="my-menu small-font text-right">
-                                                                                <li><a v-on:click.prevent="tinySeasonUpdateDialog(cSeason.id , costTinySeason , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                                <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(costTinySeason , 1)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                                <li><a v-on:click.prevent="openUpdateModal(cSeasonTitle.cost_tiny_season[0] , cSeason.id , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                                <li><a v-on:click.prevent="openDeleteModal(cSeasonTitle.cost_tiny_season[0].id , 1)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                                             </ul>
                                                                         </div>
                                                                     </div>
@@ -284,8 +284,8 @@
                                                                             <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + cSeason.id + cSeasonTitle.id + cSeasonTiny.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + cSeason.id + cSeasonTitle.id + cSeasonTiny.id" data-dropdown data-auto-focus="true">
                                                                                 <ul class="my-menu small-font text-right">
-                                                                                    <li><a v-on:click.prevent="tinySeasonUpdateDialog(cSeason.id , capitalAssetsTinySeason , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                                    <li><a v-on:click.prevent="openDeleteTinySeasonConfirm(capitalAssetsTinySeason , 0)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                                    <li><a v-on:click.prevent="openUpdateModal(cSeasonTiny , cSeason.id , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                                    <li><a v-on:click.prevent="openDeleteModal(cSeasonTiny.id , 1)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </div>
@@ -313,7 +313,7 @@
                     </div>
                     <!--Tab 2-->
                 </div>
-                <modal-tiny v-if="showModal" @close="showModal = false">
+                <modal-tiny v-if="showInsertModal" @close="showInsertModal = false">
                     <div  slot="body">
                         <form v-on:submit.prevent="createTinySeason">
                             <div class="grid-x" v-if="errorMessage">
@@ -361,22 +361,15 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <button type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
                             </div>
                         </form>
                     </div>
                 </modal-tiny>
                 <!-- update modal -->
-                <modal-tiny v-if="showModalUpdate" @close="showModalUpdate = false">
+                <modal-tiny v-if="showUpdateModal" @close="showUpdateModal = false">
                     <div  slot="body">
                         <form v-on:submit.prevent="updateTinySeason">
-                            <div class="grid-x" v-if="errorMessage_update">
-                                <div class="medium-12 columns padding-lr">
-                                    <div class="alert callout">
-                                        <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage_update }}</p>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="grid-x">
                                 <div class="medium-12 cell padding-lr">
                                     <label>فصل
@@ -415,20 +408,20 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button name="Submit" class="my-secondary button float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <button type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
                             </div>
                         </form>
                     </div>
                 </modal-tiny>
                 <!-- delete modal -->
-                <modal-tiny v-if="showModalDelete" @close="showModalDelete = false">
+                <modal-tiny v-if="showDeleteModal" @close="showDeleteModal = false">
                     <div  slot="body">
                         <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
                             <p>کاربر گرامی</p>
                             <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
                             <div class="grid-x">
                                 <div class="medium-12 column text-center">
-                                    <button  class="button primary btn-large-w" v-on:click="deleteTinySeason">بله</button>
+                                    <button v-on:click="deleteTinySeason" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
                                 </div>
                             </div>
                         </div>
@@ -451,13 +444,13 @@
                 searchCostValue:'',
                 tinySeasons: [],
                 tinySeasonsCost: [],
-                tinySeasonsInput: {tsStId: '' , tsSubject: '' , tsDescription: ''},
-                showModal: false,
-                showModalUpdate: false,
-                showModalDelete: false,
+                tinySeasonsInput: {},
+                showInsertModal: false,
+                showUpdateModal: false,
+                showDeleteModal: false,
                 showIcon:false,
-                tinySeasonsFill: {tsStId: '' , tsSubject: '' , tsDescription: '' , id: ''},
-                tsIdDelete: {},
+                tinySeasonsFill: {},
+                tsIdDelete: '',
                 seasons: {},
                 searchValue:'',
                 seasonTitles: {},
@@ -480,7 +473,6 @@
         created: function () {
             this.fetchCostData();
             this.fetchCapitalAssetsData();
-            this.getSeasons();
         },
 
         updated: function () {
@@ -554,11 +546,11 @@
             },
 
             openInsertModal: function (pOrC) {
-                this.selectedSeason = -1;
+                this.getSeasons();
+                this.selectedSeason = '';
                 this.tinySeasonsInput = [];
                 this.planOrCost = pOrC;
-                this.errorMessage = '';
-                this.showModal = true;
+                this.showInsertModal = true;
             },
 
             getSeasonCount: function (season) {
@@ -595,20 +587,21 @@
                                     this.tinySeasons = response.data.data;
                                     this.makePagination(response.data , "plan");
                                 }
-                                this.showModal = false;
+                                this.showInsertModal = false;
                                 this.$parent.displayNotif(response.status);
                                 this.tinySeasonsInput = [];
                                 console.log(response);
                             },(error) => {
                                 console.log(error);
-                                this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                                this.$parent.displayNotif(error.response.status);
                             });
                     }});
             },
 
-            tinySeasonUpdateDialog: function (sId , item , planOrCost) {
-                this.planOrCost = planOrCost;
+            openUpdateModal: function (item , sId , planOrCost) {
+                this.getSeasons();
                 this.selectedSeason = sId;
+                this.planOrCost = planOrCost;
                 this.getSeasonTitle();
                 if (this.planOrCost == 0)
                 {
@@ -624,8 +617,7 @@
                     this.tinySeasonsFill.tsDescription = item.ctsDescription;
                     this.tinySeasonsFill.id = item.id;
                 }
-                this.errorMessage_update = '';
-                this.showModalUpdate = true;
+                this.showUpdateModal = true;
             },
 
             updateTinySeason: function () {
@@ -646,27 +638,26 @@
                                     this.tinySeasons = response.data.data;
                                     this.makePagination(response.data , "plan");
                                 }
-                                this.showModalUpdate = false;
+                                this.showUpdateModal = false;
                                 this.$parent.displayNotif(response.status);
                                 console.log(response);
                             },(error) => {
                                 console.log(error);
-                                this.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                                this.$parent.displayNotif(error.response.status);
                             });
                         }
                 });
             },
 
-            openDeleteTinySeasonConfirm: function (ts , type) {
+            openDeleteModal: function (ts , type) {
                 this.tsIdDelete = ts;
                 this.planOrCost = type;
-                this.showModalDelete = true;
+                this.showDeleteModal = true;
             },
 
             deleteTinySeason: function () {
                 axios.post(this.planOrCost == 0 ? '/budget/admin/sub_seasons/capital_assets/delete' : '/budget/admin/sub_seasons/cost/delete' , {
-                    id: this.tsIdDelete.id,
-                    subject: this.planOrCost == 0 ? this.tsIdDelete.catsSubject : this.tsIdDelete.ctsSubject,
+                    id: this.tsIdDelete
                 }).then((response) => {
                         if (response.status != 204) //http status code for error in delete (no content)
                         {
@@ -675,7 +666,7 @@
                             else
                                 this.tinySeasons = response.data.data;
                         }
-                        this.showModalDelete = false;
+                        this.showDeleteModal = false;
                         console.log(response);
                         this.$parent.displayNotif(response.status);
                     },(error) => {
