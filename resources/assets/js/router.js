@@ -254,6 +254,7 @@ var app = new Vue({
             var tabHeight = $('.tabs').height();
             var toolBarHeight = $('.tool-bar').height();
             var paginationHeight = $('.pagination').height();
+            var rowSelected=$('.row-select').height();
             var notifHeight=25;
             if (toolBarHeight === undefined)
             {
@@ -263,6 +264,11 @@ var app = new Vue({
             if (paginationHeight === undefined)
             {
                 paginationHeight = -8;
+            }
+
+            if (rowSelected === undefined)
+            {
+                rowSelected = -8;
             }
 
             if (tabHeight===undefined) {
@@ -281,7 +287,7 @@ var app = new Vue({
             $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 180) + 'px');
 
             var x = $(".dynamic-height-level1").height();
-            $('.dynamic-height-level2').css('height', (x - 100 - (tabHeight  + toolBarHeight + paginationHeight)) + 'px');
+            $('.dynamic-height-level2').css('height', (x - 100 - (tabHeight  + toolBarHeight + paginationHeight + rowSelected)) + 'px');
         },
 
         logout: function () {

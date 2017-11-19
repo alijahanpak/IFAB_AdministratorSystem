@@ -104,7 +104,7 @@ class BudgetAdminController extends Controller
             'pageTitle' => 'ریز فصول']);
     }*/
     
-    public function updateCreditDistributionRow(Request $request)
+/*    public function updateCreditDistributionRow(Request $request)
     {
         $old = CreditDistributionRow::find(Input::get('cdrId'));
         $cdr = CreditDistributionRow::find(Input::get('cdrId'));
@@ -114,9 +114,9 @@ class BudgetAdminController extends Controller
 
         SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان ردیف توزیع اعتبار (' . $old->cdSubject . ') به (' . Input::get('cdrSubject') . ')');
         return Redirect::to(URL::previous());
-    }
+    }*/
 
-    public function deleteCreditDistributionRow($cdId)
+/*    public function deleteCreditDistributionRow($cdId)
     {
         $cdr = CreditDistributionRow::find($cdId);
         try {
@@ -130,7 +130,7 @@ class BudgetAdminController extends Controller
                 return Redirect::to(URL::previous())->with('messageDialogPm', 'با توجه به وابستگی اطلاعات، حذف رکورد مورد نظر ممکن نیست!');
             }
         }
-    }
+    }*/
 
 /*    public function fiscalYearActivation(Request $request)
     {
@@ -169,7 +169,7 @@ class BudgetAdminController extends Controller
         }
     }*/
 
-    public function CDRIsExist($cdSubject , $cdId = null)
+/*    public function CDRIsExist($cdSubject , $cdId = null)
     {
         if (\Illuminate\Support\Facades\Request::ajax())
         {
@@ -195,7 +195,7 @@ class BudgetAdminController extends Controller
                 }
             }
         }
-    }
+    }*/
 
 /*    function changeBudgetItemPermissionState($pbId , $state)
     {
@@ -343,7 +343,7 @@ class BudgetAdminController extends Controller
         return Redirect::to(URL::previous() . '#plan_title_tab');
     }*/
 
-    public function CDPTIsExist($cdptIdNumber , $cdptSubject , $cdptId = null)
+/*    public function CDPTIsExist($cdptIdNumber , $cdptSubject , $cdptId = null)
     {
         if (\Illuminate\Support\Facades\Request::ajax())
         {
@@ -369,9 +369,9 @@ class BudgetAdminController extends Controller
                 }
             }
         }
-    }
+    }*/
 
-    public function updatePlanTitle(Request $request)
+/*    public function updatePlanTitle(Request $request)
     {
         $old = CreditDistributionTitle::find(Input::get('cdptId'));
         $cdpt = CreditDistributionTitle::find(Input::get('cdptId'));
@@ -412,9 +412,9 @@ class BudgetAdminController extends Controller
         }
         SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان طرح توزیع اعتبار (' . $old->cdtSubject . ') به (' . $cdpt->cdtSubject . ')');
         return Redirect::to(URL::previous() . '#plan_title_tab');
-    }
+    }*/
 
-    public function deletePlanTitle($cdptId)
+/*    public function deletePlanTitle($cdptId)
     {
         try {
             $logTemp = CreditDistributionTitle::find($cdptId);
@@ -431,7 +431,7 @@ class BudgetAdminController extends Controller
                 return Redirect::to(URL::previous() . '#budget_season_tab')->with('messageDialogPm', 'با توجه به وابستگی اطلاعات، حذف رکورد مورد نظر ممکن نیست!');
             }
         }
-    }
+    }*/
 
 /*    public function registerSubSeason(Request $request)
     {
@@ -683,13 +683,6 @@ class BudgetAdminController extends Controller
             'requireJsFile' => 'row_distribution_credit' ]);
     }
 
-/*    public function titleOfPlans()
-    {
-        return view('budget::pages.title_of_plans.main', ['pageTitle' => 'عنوان طرح / برنامه',
-            'bSeasons' => $bSeasons = BudgetSeason::all(),
-            'requireJsFile' => 'title_of_plans' ]);
-    }*/
-
     public function FetchRowDC(Request $request)
     {
         $cdr = CreditDistributionRow::where('cdPlanOrCost' , $request->planOrCost)->get();
@@ -763,13 +756,6 @@ class BudgetAdminController extends Controller
         );
     }
 
-/*    public function getAllCreditDistributionRows(Request $request)
-    {
-        return \response()->json(
-            CreditDistributionRow::where('cdPlanOrCost' , $request->planOrCost)->get()
-        );
-    }*/
-
     ///////////////////////////////// capital assets season title ////////////////////
     public function registerCapitalAssetsSeasonTitle(Request $request)
     {
@@ -822,14 +808,15 @@ class BudgetAdminController extends Controller
     public function deleteCapitalAssetsSeasonTitle(Request $request)
     {
         $st = CapitalAssetsSeasonTitle::find($request->id);
+        $subject = $st->castSubject;
         try {
             $st->delete();
-            SystemLog::setBudgetSubSystemAdminLog('حذف عنوان فصل ' . $request->subject);
-            return \response()->json($this->getAllSeasonTitle("plan") , 200);
+            SystemLog::setBudgetSubSystemAdminLog('حذف عنوان فصل ' . $subject);
+            return \response()->json($this->getAllSeasonTitle("plan"));
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return \response()->json($this->getAllSeasonTitle("plan") , 204);
+                return \response()->json([] , 204);
             }
         }
     }
@@ -1024,7 +1011,7 @@ class BudgetAdminController extends Controller
     {
         if (BudgetSeason::where('bsSubject' , '=' , $request->subject)->exists())
         {
-            return \response()->json($this->getAllBudgetSeasons() , 409);
+            return \response()->json([] , 409);
         }
         else
         {
@@ -1044,7 +1031,7 @@ class BudgetAdminController extends Controller
     {
         if (BudgetSeason::where('id' , '<>' , $request->id)->where('bsSubject' , '=' , $request->subject)->exists())
         {
-            return \response()->json($this->getAllBudgetSeasons() , 409);
+            return \response()->json([] , 409);
         }
         else
         {
@@ -1069,7 +1056,7 @@ class BudgetAdminController extends Controller
             return \response()->json($this->getAllBudgetSeasons());
         } catch (\Illuminate\Database\QueryException $e) {
             if ($e->getCode() == "23000") { //23000 is sql code for integrity constraint violation
-                return \response()->json($this->getAllBudgetSeasons() , 204);
+                return \response()->json([] , 204);
             }
         }
     }
@@ -1082,7 +1069,7 @@ class BudgetAdminController extends Controller
 
     public function getAllCreditDistributionRows($planOrCost)
     {
-        return CreditDistributionRow::where('cdPlanOrCost' , $planOrCost)->paginate(5);
+        return CreditDistributionRow::where('cdPlanOrCost' , $planOrCost)->get();
 
     }
 
@@ -1093,48 +1080,171 @@ class BudgetAdminController extends Controller
 
     public function registerCreditDistributionRow(Request $request)
     {
-        $cdr = new CreditDistributionRow;
-        $cdr->cdUId = Auth::user()->id;
-        $cdr->cdPlanOrCost = $request->planOrCost;
-        $cdr->cdSubject = $request->subject;
-        $cdr->cdDescription = $request->description;
-        $cdr->save();
+        if (CreditDistributionRow::where('cdSubject' , '=' , $request->subject)
+            ->where('cdPlanOrCost' , '=' , $request->planOrCost)->exists())
+        {
+            return \response()->json([] , 409);
+        }
+        else
+        {
+            $cdr = new CreditDistributionRow;
+            $cdr->cdUId = Auth::user()->id;
+            $cdr->cdPlanOrCost = $request->planOrCost;
+            $cdr->cdSubject = $request->subject;
+            $cdr->cdDescription = $request->description;
+            $cdr->save();
 
-        SystemLog::setBudgetSubSystemAdminLog('تعریف ردیف توزیع اعتبار ' . $request->subject);
-        return \response()->json($this->getAllCreditDistributionRows($request->planOrCost));
+            SystemLog::setBudgetSubSystemAdminLog('تعریف ردیف توزیع اعتبار ' . $request->subject);
+            return \response()->json($this->getAllCreditDistributionRows($request->planOrCost));
+        }
+    }
+
+    public function updateCreditDistributionRow(Request $request)
+    {
+        if (CreditDistributionRow::where('id' , '<>' , $request->id)
+            ->where('cdSubject' , '=' , $request->subject)
+            ->where('cdPlanOrCost' , '=' , $request->planOrCost)->exists())
+        {
+            return \response()->json([] , 409);
+        }
+        else
+        {
+            $old = CreditDistributionRow::find($request->id);
+            $cdr = CreditDistributionRow::find($request->id);
+            $cdr->cdSubject = $request->subject;
+            $cdr->cdDescription = $request->description;
+            $cdr->save();
+
+            SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان ردیف توزیع اعتبار (' . $old->cdSubject . ') به (' . $request->subject . ')');
+            return \response()->json($this->getAllCreditDistributionRows($request->planOrCost));
+        }
+    }
+
+    public function deleteCreditDistributionRow(Request $request)
+    {
+        $cdr = CreditDistributionRow::find($request->crId);
+        try {
+            $logTemp = $cdr->cdSubject;
+            $cdr->delete();
+            SystemLog::setBudgetSubSystemAdminLog('حذف ردیف توزیع اعتبار ' . $logTemp);
+            return \response()->json($this->getAllCreditDistributionRows($request->planOrCost));
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                return \response()->json([] , 204);
+            }
+        }
     }
     ////////////////////////////// credit distribution plan or cost title ////////////////////
     public function registerPlanOrCostTitle(Request $request)
     {
-        $cdpt = new CreditDistributionTitle;
-        $cdpt->cdtUId = Auth::user()->id;
-        $cdpt->cdtBsId = $request->bsId;
-        $cdpt->cdtIdNumber = $request->code;
-        $cdpt->cdtSubject = $request->subject;
-        $cdpt->cdtDescription = $request->description;
-        $cdpt->save();
-
-        $counties = County::all();
-        foreach ($counties as $county)
+        if (CreditDistributionTitle::where('cdtIdNumber' , '=' , $request->code)->exists())
         {
-            if (isset($request['county' . $county->id]))
+            return \response()->json([] , 409);
+        }
+        else
+        {
+            $cdpt = new CreditDistributionTitle;
+            $cdpt->cdtUId = Auth::user()->id;
+            $cdpt->cdtBsId = $request->bsId;
+            $cdpt->cdtIdNumber = $request->code;
+            $cdpt->cdtSubject = $request->subject;
+            $cdpt->cdtDescription = $request->description;
+            $cdpt->save();
+
+            $counties = County::all();
+            foreach ($counties as $county)
             {
-                $cdpt_co = new CreditDistributionTitle;
-                $cdpt_co->cdtUId = Auth::user()->id;
-                $cdpt_co->cdtBsId = $request->bsId;
-                $cdpt_co->cdtIdNumber = $request['county' . $county->id] . PublicSetting::getProvincePlanLebel() . $request->code;
-                $cdpt_co->cdtSubject = $request->subject;
-                if (isset($request['countyDesc' . $county->id]))
-                    $cdpt_co->cdtDescription = $request['countyDesc' . $county->id];
-                $cdpt_co->cdtCoId = $county->id;
-                $cdpt_co->cdtCdtId = $cdpt->id;
-                $cdpt_co->save();
-                SystemLog::setBudgetSubSystemAdminLog('تعریف عنوان طرح توزیع اعتبار در سطح شهرستان ' . $county->coName);
+                if (isset($request['county' . $county->id]))
+                {
+                    $cdpt_co = new CreditDistributionTitle;
+                    $cdpt_co->cdtUId = Auth::user()->id;
+                    $cdpt_co->cdtBsId = $request->bsId;
+                    $cdpt_co->cdtIdNumber = $request['county' . $county->id] . PublicSetting::getProvincePlanLebel() . $request->code;
+                    $cdpt_co->cdtSubject = $request->subject;
+                    if (isset($request['countyDesc' . $county->id]))
+                        $cdpt_co->cdtDescription = $request['countyDesc' . $county->id];
+                    $cdpt_co->cdtCoId = $county->id;
+                    $cdpt_co->cdtCdtId = $cdpt->id;
+                    $cdpt_co->save();
+                    SystemLog::setBudgetSubSystemAdminLog('تعریف عنوان طرح توزیع اعتبار در سطح شهرستان ' . $county->coName);
+                }
+            }
+
+            SystemLog::setBudgetSubSystemAdminLog('تعریف طرح / برنامه توزیع اعتبار با عنوان ' . $request->subject);
+            return \response()->json($this->getAllPlanOrCostTitle());
+        }
+    }
+
+    public function updatePlanTitle(Request $request)
+    {
+
+        if (CreditDistributionTitle::where('id' , '<>' , $request->id)
+            ->where('cdtIdNumber' , '=' , $request->code)->exists())
+        {
+            return \response()->json([] , 409);
+        }
+        else
+        {
+            $old = CreditDistributionTitle::find($request->id);
+            $cdpt = CreditDistributionTitle::find($request->id);
+            $cdpt->cdtUId = Auth::user()->id;
+            $cdpt->cdtBsId = $request->bsId;
+            $cdpt->cdtIdNumber = $request->code;
+            $cdpt->cdtSubject = $request->subject;
+            $cdpt->cdtDescription = $request->description;
+            $cdpt->save();
+
+            $counties = County::all();
+            foreach ($counties as $county)
+            {
+                $cdtP = CreditDistributionTitle::where('cdtCdtId' , $cdpt->id);
+                if ($request['county' . $county->id] != '')
+                {
+                    if ($cdtP->where('cdtIdNumber' , '=' , $request['county' . $county->id] . PublicSetting::getProvincePlanLebel() . $cdpt->cdtIdNumber)->exists())
+                    {
+                        $cdtP->where('cdtIdNumber' , '=' , $request['county' . $county->id] . PublicSetting::getProvincePlanLebel() . $cdpt->cdtIdNumber)->update(['cdtIdNumber' => Uuid::uuid4() . Auth::user()->id]);
+                    }
+                    CreditDistributionTitle::updateOrCreate(['cdtCdtId' => $request->id , 'cdtCoId' => $county->id] , ['cdtUId' => Auth::user()->id,
+                        'cdtBsId' => $request->bsId,
+                        'cdtIdNumber' => $request['county' . $county->id] . PublicSetting::getProvincePlanLebel() . $request->code,
+                        'cdtSubject' => $request->subject,
+                        'cdtDescription' => isset($request['countyDesc' . $county->id]) ? $request['countyDesc' . $county->id] : '',
+                        'cdtCoId' => $county->id,
+                        'cdtCdtId' => $cdpt->id]);
+                    SystemLog::setBudgetSubSystemAdminLog('تغییر عنوان طرح توزیع اعتبار در سطح شهرستان ' . $county->coName);
+                }
+                else if($cdtP->where('cdtCoId' , $county->id)->exists()){
+                    try {
+                        $cdtP->where('cdtCoId' , $county->id)->delete();
+                        SystemLog::setBudgetSubSystemAdminLog('حذف عنوان طرح توزیع اعتبار ' . $county->coName);
+                    }
+                    catch (\Illuminate\Database\QueryException $e) {
+                    }
+                }
+            }
+            SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان طرح توزیع اعتبار (' . $old->cdtSubject . ') به (' . $cdpt->cdtSubject . ')');
+            return \response()->json($this->getAllPlanOrCostTitle());
+        }
+    }
+
+    public function deletePlanTitle(Request $request)
+    {
+        try {
+            $logTemp = CreditDistributionTitle::find($request->id);
+            CreditDistributionTitle::where('cdtCdtId' , '=' , $request->id)->delete();
+            SystemLog::setBudgetSubSystemAdminLog('حذف عنوان طرح توزیع اعتبار در سطح شهرستان با عنوان ' . $logTemp->cdptSubject);
+
+            $cdpt = CreditDistributionTitle::find($request->id);
+            $cdpt->delete();
+            SystemLog::setBudgetSubSystemAdminLog('حذف عنوان طرح توزیع اعتبار ' . $logTemp->cdptSubject);
+            return \response()->json($this->getAllPlanOrCostTitle());
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                return \response()->json([] , 204);
             }
         }
-
-        SystemLog::setBudgetSubSystemAdminLog('تعریف طرح / برنامه توزیع اعتبار با عنوان ' . $request->subject);
-        return \response()->json($this->getAllPlanOrCostTitle());
     }
 
     public function getAllPlanOrCostTitle()

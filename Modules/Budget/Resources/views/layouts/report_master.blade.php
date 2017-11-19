@@ -56,9 +56,11 @@
         </div>
         @endif
     </div>
+    @if ($options['costLabel'])
     <div class="float-left">
         <p class="x-small-font left-details-money">مبلغ به <span class="btn-red"> ({{ \Modules\Admin\Entities\User::find(Auth::user()->id)->first()->inPutAmountUnit->auSubject }}) </span></p>
     </div>
+    @endif
         @yield('content')
     <script src="{{ asset('js/vendor/jquery.js') }}"></script>
     <script src="{{ asset('js/vendor/foundation.js') }}"></script>

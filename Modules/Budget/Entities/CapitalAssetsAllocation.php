@@ -8,6 +8,7 @@ class CapitalAssetsAllocation extends Model
 {
     protected $table = 'tbl_capital_assets_allocation';
     protected $fillable = [];
+    protected $appends = ['caaSumOfCost' , 'caaConvertedAllocAmount'];
 
     public function cdrCaa()
     {
@@ -17,5 +18,20 @@ class CapitalAssetsAllocation extends Model
     public function capitalAssetsProject()
     {
         return $this->belongsTo(CapitalAssetsProject::class , 'caaCpId' , 'id');
+    }
+
+    public function getCaaSumOfCostAttribute()
+    {
+        return $this->sumOfCost()->sum('cacAmount');
+    }
+
+    public function sumOfCost()
+    {
+        return $this->hasMany(CapitalAssetsCost::class , 'cacCaaId' , 'id');
+    }
+
+    public function getCaaConvertedAllocAmountAttribute()
+    {
+        return $this->hasMany(CapitalAssetsAllocation::class , 'caaFoundId' , 'id')->sum('caaAmount');
     }
 }

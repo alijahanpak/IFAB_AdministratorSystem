@@ -609,7 +609,8 @@ a:focus,button:focus {
 }
 
 .btn-txt-mrg{
-    margin-left: 3px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 .my-table-scroll{
     height: 320px;
@@ -858,6 +859,17 @@ html, body {
     display: table;
     transition: opacity .3s ease;
 }
+.modal-mask-login {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #FFFFFF;
+    display: table;
+    transition: opacity .3s ease;
+}
 
 .modal-wrapper {
     display: table-cell;
@@ -950,6 +962,21 @@ html, body {
     transition: all .3s ease;
     height:98%;
     min-height: 99vh;
+    overflow-y: auto;
+
+}
+.my-full-screen-login {
+    z-index: 100000000;
+    width: 100%;
+    max-width: none;
+    margin: 0px auto;
+    padding: 20px 20px 5px 20px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+    transition: all .3s ease;
+    height:98%;
+    min-height: 100vh;
     overflow-y: auto;
 
 }
@@ -1517,8 +1544,54 @@ button.purple-btn {
     color: #F2F3F8;
     text-align: center;
 }
+.inner-addon {
+    position: relative;
+    margin-bottom: -15px;
+}
 
+/* style glyph */
+.inner-addon .fa {
+    position: absolute;
+    padding: 10px;
+    pointer-events: none;
+}
+.right-addon .fa  { right:  0px;margin-top: 2px;}
+.right-addon input  { padding-right:  30px;padding-top: 10px; }
 
+.left-addon .fa  { left:  0px;margin-top: 2px;}
+.left-addon input  { padding-right:  30px;padding-top: 10px; }
+
+.left-inside {
+    position:absolute;
+    text-indent:5px;
+    float: left;
+    margin-top:8px;
+    color:green;
+}
+.right-inside {
+    position:absolute;
+    float: right;
+    text-indent:5px;
+    margin-top:8px;
+    color:green;
+}
+
+.search {
+    width: 200px;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+}
+.search:focus {
+    width: 350px;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+}
+
+.purple-color{
+    color: #716aca;
+}
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
     display: block;
     width: 0;
