@@ -136,7 +136,7 @@
                                                                 <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
-                                                                        <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li><a v-on:click.prevent="openUpdateModal(plans.capital_assets_project[0] , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                                         <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                         <li><a v-on:click.prevent="openApCreditSourceInsertModal(plans.capital_assets_project[0].id ,0)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
                                                                     </ul>
@@ -199,7 +199,7 @@
                                                                     <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id + project.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                     <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id + project.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
-                                                                            <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                            <li><a v-on:click.prevent="openUpdateModal(project , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                                             <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                             <li><a v-on:click.prevent="openApCreditSourceInsertModal(project.id ,0)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
                                                                         </ul>
@@ -369,7 +369,7 @@
                                                             <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent="openUpdateModal(plans.capital_assets_project[0] , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                                     <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                     <li><a v-on:click.prevent="openApCreditSourceInsertModal(plans.capital_assets_project[0].id ,1)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
                                                                 </ul>
@@ -432,7 +432,7 @@
                                                                 <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id + project.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id + project.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
-                                                                        <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li><a v-on:click.prevent="openUpdateModal(project , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                                         <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                         <li><a v-on:click.prevent="openApCreditSourceInsertModal(project.id ,1)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
                                                                     </ul>
@@ -503,13 +503,6 @@
             <modal-small v-if="showInsertModal" @close="showInsertModal = false">
                     <div slot="body">
                         <form v-on:submit.prevent="createApprovedProjects">
-                            <div class="grid-x" v-if="errorMessage">
-                                <div class="medium-12 columns padding-lr">
-                                    <div class="alert callout">
-                                        <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="grid-x">
                                 <div class="medium-12 cell padding-lr">
                                     <label>طرح
@@ -583,15 +576,8 @@
             <!--Insert Modal End-->
 
             <!--Update Modal Start-->
-            <modal-small v-if="showModalUpdate" @close="showModalUpdate = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
+            <modal-small v-if="showUpdateModal" @close="showUpdateModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
                 <div  slot="body">
-                    <div class="grid-x" v-if="errorMessage">
-                        <div class="medium-12 columns padding-lr">
-                            <div class="alert callout">
-                                <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
-                            </div>
-                        </div>
-                    </div>
                     <div class="grid-x">
                         <div class="medium-12 cell padding-lr">
                             <label>طرح
@@ -638,9 +624,9 @@
                         </div>
                         <div class="medium-4 cell padding-lr">
                             <label>شهرستان
-                                <select class="form-element-margin-btm" v-model="approvedProjectsFill.apCity" name="city" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('city')}">
+                                <select class="form-element-margin-btm" :disabled="countyState" v-model="approvedProjectsFill.apCity" name="city" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('city')}">
                                     <option value=""></option>
-                                    <option v-for="county in counties" :value="county.id">@{{ county.coName }}</option>
+                                    <option v-for="county in counties" :value="county.id">{{ county.coName }}</option>
                                 </select>
                                 <span v-show="errors.has('city')" class="error-font">لطفا شهرستان را انتخاب کنید!</span>
                             </label>
@@ -761,84 +747,84 @@
             </modal-small>
             <!--Project Cost Modal End-->
             <!--Report Modal Start-->
-        <modal-tiny v-if="showModalReport" @close="showModalReport= false">
-            <div  slot="body">
-                <div class="small-font">
-                    <form v-on:submit.prevent="openReportFile">
-                        <div class="grid-x padding-lr">
-                            <div class="medium-12">
-                                <label>عنوان
-                                    <input type="text" v-model="reportOptions.title">
-                                </label>
-                            </div>
-                        </div>
-                        <div v-show="reportType == 'pdf'">
-                            <div style="margin-top: 10px;" class="grid-x padding-lr">
-                                <div class="medium-2">
-                                    <div class="switch tiny">
-                                        <input checked="true" class="switch-input" id="yes-no-1" v-model="reportOptions.withReporterName" type="checkbox">
-                                        <label class="switch-paddle" for="yes-no-1">
-                                            <span class="switch-active" aria-hidden="true">بلی</span>
-                                            <span class="switch-inactive" aria-hidden="true">خیر</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="medium-10">
-                                    <p>درج نام کاربر تهیه کننده گزارش</p>
-                                </div>
-                            </div>
+            <modal-tiny v-if="showModalReport" @close="showModalReport= false">
+                <div  slot="body">
+                    <div class="small-font">
+                        <form v-on:submit.prevent="openReportFile">
                             <div class="grid-x padding-lr">
-                                <div class="medium-2">
-                                    <div class="switch tiny">
-                                        <input checked="true" class="switch-input" id="yes-no-2" type="checkbox" v-model="reportOptions.withFiscalYear">
-                                        <label class="switch-paddle" for="yes-no-2">
-                                            <span class="switch-active" aria-hidden="true">بلی</span>
-                                            <span class="switch-inactive" aria-hidden="true">خیر</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="medium-10">
-                                    <p>درج سال مالی</p>
+                                <div class="medium-12">
+                                    <label>عنوان
+                                        <input type="text" v-model="reportOptions.title">
+                                    </label>
                                 </div>
                             </div>
-                            <div class="grid-x padding-lr">
-                                <div class="medium-2">
-                                    <div class="switch tiny">
-                                        <input checked="true" class="switch-input" id="yes-no3" type="checkbox" v-model="reportOptions.withReportDate">
-                                        <label class="switch-paddle" for="yes-no3">
-                                            <span class="switch-active" aria-hidden="true">بلی</span>
-                                            <span class="switch-inactive" aria-hidden="true">خیر</span>
-                                        </label>
+                            <div v-show="reportType == 'pdf'">
+                                <div style="margin-top: 10px;" class="grid-x padding-lr">
+                                    <div class="medium-2">
+                                        <div class="switch tiny">
+                                            <input checked="true" class="switch-input" id="yes-no-1" v-model="reportOptions.withReporterName" type="checkbox">
+                                            <label class="switch-paddle" for="yes-no-1">
+                                                <span class="switch-active" aria-hidden="true">بلی</span>
+                                                <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="medium-10">
+                                        <p>درج نام کاربر تهیه کننده گزارش</p>
                                     </div>
                                 </div>
-                                <div class="medium-10">
-                                    <p>درج تاریخ گزارش</p>
-                                </div>
-                            </div>
-                            <div class="grid-x padding-lr">
-                                <div class="medium-2">
-                                    <div class="switch tiny">
-                                        <input checked="true" class="switch-input" id="yes-no4" type="checkbox" v-model="reportOptions.orientation">
-                                        <label class="switch-paddle" for="yes-no4">
-                                            <span class="switch-active" aria-hidden="true">افقی</span>
-                                            <span class="switch-inactive" aria-hidden="true">عمودی</span>
-                                        </label>
+                                <div class="grid-x padding-lr">
+                                    <div class="medium-2">
+                                        <div class="switch tiny">
+                                            <input checked="true" class="switch-input" id="yes-no-2" type="checkbox" v-model="reportOptions.withFiscalYear">
+                                            <label class="switch-paddle" for="yes-no-2">
+                                                <span class="switch-active" aria-hidden="true">بلی</span>
+                                                <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="medium-10">
+                                        <p>درج سال مالی</p>
                                     </div>
                                 </div>
-                                <div class="medium-10">
-                                    <p>جهت کاغذ</p>
+                                <div class="grid-x padding-lr">
+                                    <div class="medium-2">
+                                        <div class="switch tiny">
+                                            <input checked="true" class="switch-input" id="yes-no3" type="checkbox" v-model="reportOptions.withReportDate">
+                                            <label class="switch-paddle" for="yes-no3">
+                                                <span class="switch-active" aria-hidden="true">بلی</span>
+                                                <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="medium-10">
+                                        <p>درج تاریخ گزارش</p>
+                                    </div>
+                                </div>
+                                <div class="grid-x padding-lr">
+                                    <div class="medium-2">
+                                        <div class="switch tiny">
+                                            <input checked="true" class="switch-input" id="yes-no4" type="checkbox" v-model="reportOptions.orientation">
+                                            <label class="switch-paddle" for="yes-no4">
+                                                <span class="switch-active" aria-hidden="true">افقی</span>
+                                                <span class="switch-inactive" aria-hidden="true">عمودی</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="medium-10">
+                                        <p>جهت کاغذ</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="medium-12 columns padding-lr padding-bottom-modal input-margin-top">
-                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">مشاهده</span></button>
-                        </div>
-                    </form>
+                            <div class="medium-12 columns padding-lr padding-bottom-modal input-margin-top">
+                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">مشاهده</span></button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </modal-tiny>
+            </modal-tiny>
 
-        <!--Report Modal End-->
+            <!--Report Modal End-->
 
             <!--Forms End-->
         </div>
@@ -858,7 +844,7 @@
                                         apPhysicalProgress: '', apCity: '' , apDescription: ''},
                 showInsertModal: false,
                 showApCsInsertModal: false,
-                showModalUpdate: false,
+                showUpdateModal: false,
                 showModalDelete: false,
                 showModalReport:false,
                 approvedProjectsFill: {apPlan: '' , apProjectTitle: '' , apProjectCode: '' , apStartYear: '', apEndYear: '',
@@ -882,7 +868,7 @@
                 seasons: {},
                 seasonTitles: {},
                 tinySeasons: {},
-                selectedSeasons: '',
+                selectedSeason: '',
                 selectedSeasonTitle: '',
                 creditDistributionRows: {},
                 selectedItems: [],
@@ -1153,25 +1139,26 @@
                 return sum;
             },
 
-            approvedProjectsUpdateDialog: function (item , planId) {
-                this.selectedSeasons = item.tiny_season.tsSId;
-                this.getTinySeasons();
-                this.approvedProjectsFill.apSubSeason = item.cpTsId;
-                this.approvedProjectsFill.apPlan = planId;
+            openUpdateModal: function (item , type) {
+                this.getAllApprovedPlan(type);
+                this.getCounties();
+                this.approvedProjectsFill.apPlan = item.cpCapId;
                 this.approvedProjectsFill.apProjectTitle = item.cpSubject;
                 this.approvedProjectsFill.apProjectCode = item.cpCode;
                 this.approvedProjectsFill.apStartYear = item.cpStartYear;
                 this.approvedProjectsFill.apEndYear = item.cpEndOfYear;
-                this.approvedProjectsFill.apHowToRun = item.cpHtrId;
                 this.approvedProjectsFill.apPhysicalProgress = item.cpPhysicalProgress;
                 this.approvedProjectsFill.apCity = item.cpCoId;
                 this.approvedProjectsFill.apDescription = item.cpDescription;
-                this.creditDistributionRows.forEach(cdr => {
-                    "use strict";
-                    Vue.set(this.creditDistributionRowInput , 'apCdr' + cdr.id , cdr.id);
-                });
-                this.errorMessage_update = '';
-                this.showModalUpdate = true;
+                if (type == 0)
+                {
+                    this.countyState = true;
+                }
+                else
+                {
+                    this.countyState = false;
+                }
+                this.showUpdateModal = true;
             },
 
             updateApprovedProjects: function () {
@@ -1183,7 +1170,7 @@
                                 this.tinySeasonsCost = response.data;
                             else
                                 this.tinySeasons = response.data;
-                            this.showModalUpdate = false;
+                            this.showUpdateModal = false;
                             this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'بروزرسانی با موفقیت انجام شد.' , type: 'success'});
                             console.log(response);
                         },(error) => {
