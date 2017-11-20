@@ -19,6 +19,9 @@
         color: #000000;
         font-size: x-small;
     }
+    tr{
+        page-break-inside: avoid;
+    }
     thead{
         font-size: small;
 
