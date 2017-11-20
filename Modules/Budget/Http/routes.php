@@ -166,7 +166,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
 
     Route::prefix('approved_project/capital_assets')->group(function () {
         Route::get('/fetchData', 'ProjectController@fetchApprovedProjectData');
-        //Route::get('capital_assets/projects/fetchData', 'ProjectController@FetchApprovedProjects');
+        Route::get('/update', 'ProjectController@updateApprovedProject');
         Route::post('/register', 'ProjectController@registerApprovedProject');
         Route::get('/getAllItems', 'ProjectController@getAllApprovedProjects');
         Route::post('/credit_source/register', 'ProjectController@registerApCreditSource');

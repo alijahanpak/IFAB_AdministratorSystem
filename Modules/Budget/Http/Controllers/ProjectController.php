@@ -65,6 +65,26 @@ class ProjectController extends Controller
         );
     }
 
+    public function updateApprovedProject(Request $request)
+    {
+        $project = CapitalAssetsProject::find($request->id);
+        $project->cpUId = Auth::user()->id;
+        $project->cpCapId = $request->pId;
+        $project->cpCoId = $request->coId;
+        $project->cpSubject = $request->subject;
+        $project->cpCode = $request->code;
+        $project->cpStartYear = $request->startYear;
+        $project->cpEndOfYear = $request->endYear;
+        $project->cpPhysicalProgress = $request->pProgress;
+        $project->cpDescription = $request->description;
+        $project->save();
+
+        SystemLog::setBudgetSubSystemLog('ثبت پروژه تملک داریی های سرمایه ای ' . $request->subject);
+        return \response()->json(
+            $this->getAllProject($request->pOrN)
+        );
+    }
+
     public function getAllApprovedProjects(Request $request)
     {
         return \response()->json(CapitalAssetsProject::where('cpCapId' , '=' , $request->pId)->whereHas('capitalAssetsApprovedPlan' , function ($query){

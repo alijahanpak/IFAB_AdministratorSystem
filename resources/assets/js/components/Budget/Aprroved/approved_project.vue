@@ -34,7 +34,7 @@
                             <!--Tab 1-->
                             <div class="clearfix border-btm-line bottom-mrg tool-bar">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
-                                    <a class="my-button toolbox-btn small" @click="openApprovedProjectInsertModal(0)">جدید</a>
+                                    <a class="my-button toolbox-btn small" @click="openInsertModal(0)">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
                                         <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(approvedProjects_prov)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
                                     </div>
@@ -268,7 +268,7 @@
                             <!--Tab 2-->
                             <div class="clearfix border-btm-line bottom-mrg tool-bar">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
-                                    <a class="my-button toolbox-btn small" @click="openApprovedProjectInsertModal(1)">جدید</a>
+                                    <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
                                         <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(approvedProjects_nat)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
                                     </div>
@@ -578,70 +578,72 @@
             <!--Update Modal Start-->
             <modal-small v-if="showUpdateModal" @close="showUpdateModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
                 <div  slot="body">
-                    <div class="grid-x">
-                        <div class="medium-12 cell padding-lr">
-                            <label>طرح
-                                <select class="form-element-margin-btm"  v-model="approvedProjectsFill.apPlan" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
-                                    <option value=""></option>
-                                    <option v-for="approvedPlan in approvedPlans" :value="approvedPlan.id">{{ approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject }}</option>
-                                </select>
-                                <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
-                            </label>
+                    <form v-on:submit.prevent="updateApprovedProjects">
+                        <div class="grid-x">
+                            <div class="medium-12 cell padding-lr">
+                                <label>طرح
+                                    <select class="form-element-margin-btm"  v-model="approvedProjectsFill.apPlan" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
+                                        <option value=""></option>
+                                        <option v-for="approvedPlan in approvedPlans" :value="approvedPlan.id">{{ approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject }}</option>
+                                    </select>
+                                    <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="medium-8 cell padding-lr">
-                            <label>عنوان پروژه
-                                <input class="form-element-margin-btm" type="text" name="projectTitle" v-model="approvedProjectsFill.apProjectTitle" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('projectTitle')}">
-                            </label>
-                            <span v-show="errors.has('projectTitle')" class="error-font">لطفا عنوان پروژه انتخاب کنید!</span>
+                        <div class="grid-x">
+                            <div class="medium-8 cell padding-lr">
+                                <label>عنوان پروژه
+                                    <input class="form-element-margin-btm" type="text" name="projectTitle" v-model="approvedProjectsFill.apProjectTitle" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('projectTitle')}">
+                                </label>
+                                <span v-show="errors.has('projectTitle')" class="error-font">لطفا عنوان پروژه انتخاب کنید!</span>
+                            </div>
+                            <div class="medium-4 cell padding-lr">
+                                <label>کد پروژه
+                                    <input class="form-element-margin-btm" type="text" name="projectCode" v-model="approvedProjectsFill.apProjectCode" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('projectCode')}">
+                                </label>
+                                <span v-show="errors.has('projectTitle')" class="error-font">لطفا کد پروژه انتخاب کنید!</span>
+                            </div>
                         </div>
-                        <div class="medium-4 cell padding-lr">
-                            <label>کد پروژه
-                                <input class="form-element-margin-btm" type="text" name="projectCode" v-model="approvedProjectsFill.apProjectCode" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('projectCode')}">
-                            </label>
-                            <span v-show="errors.has('projectTitle')" class="error-font">لطفا کد پروژه انتخاب کنید!</span>
+                        <div class="grid-x">
+                            <div class="medium-4 cell padding-lr">
+                                <label>سال شروع
+                                    <input class="form-element-margin-btm" type="text" name="startYear" v-model="approvedProjectsFill.apStartYear" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('startYear')}">
+                                </label>
+                                <span v-show="errors.has('startYear')" class="error-font">لطفا سال شروع پروژه را وارد کنید!</span>
+                            </div>
+                            <div class="medium-4 cell padding-lr">
+                                <label>سال خاتمه
+                                    <input class="form-element-margin-btm" type="text" name="endYear" v-model="approvedProjectsFill.apEndYear" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('endYear')}">
+                                </label>
+                                <span v-show="errors.has('endYear')" class="error-font">لطفا سال خاتمه پروژه را وارد کنید!</span>
+                            </div>
+                            <div class="medium-4 cell padding-lr">
+                                <label> پیشرفت فیزیکی<span class="btn-red small-font"> (درصد) </span>
+                                    <input  type="number" min="0" max="100" value="0"  name="physicalProgress" v-model="approvedProjectsFill.apPhysicalProgress" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
+                                </label>
+                                <span v-show="errors.has('physicalProgress')" class="error-font">لطفا پیشرفت فیزیکی را وارد کنید!</span>
+                            </div>
+                            <div class="medium-4 cell padding-lr">
+                                <label>شهرستان
+                                    <select class="form-element-margin-btm" :disabled="countyState" v-model="approvedProjectsFill.apCity" name="city" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('city')}">
+                                        <option value=""></option>
+                                        <option v-for="county in counties" :value="county.id">{{ county.coName }}</option>
+                                    </select>
+                                    <span v-show="errors.has('city')" class="error-font">لطفا شهرستان را انتخاب کنید!</span>
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="medium-4 cell padding-lr">
-                            <label>سال شروع
-                                <input class="form-element-margin-btm" type="text" name="startYear" v-model="approvedProjectsFill.apStartYear" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('startYear')}">
-                            </label>
-                            <span v-show="errors.has('startYear')" class="error-font">لطفا سال شروع پروژه را وارد کنید!</span>
+                        <div class="grid-x">
+                            <div class="small-12 columns padding-lr">
+                                <label>شرح
+                                    <textarea name="apDescription" style="min-height: 150px;" v-model="approvedProjectsFill.apDescription"></textarea>
+                                </label>
+                            </div>
                         </div>
-                        <div class="medium-4 cell padding-lr">
-                            <label>سال خاتمه
-                                <input class="form-element-margin-btm" type="text" name="endYear" v-model="approvedProjectsFill.apEndYear" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('endYear')}">
-                            </label>
-                            <span v-show="errors.has('endYear')" class="error-font">لطفا سال خاتمه پروژه را وارد کنید!</span>
+                        <div class="medium-6 columns padding-lr padding-bottom-modal">
+                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
                         </div>
-                        <div class="medium-4 cell padding-lr">
-                            <label> پیشرفت فیزیکی<span class="btn-red small-font"> (درصد) </span>
-                                <input  type="number" min="0" max="100" value="0"  name="physicalProgress" v-model="approvedProjectsFill.apPhysicalProgress" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
-                            </label>
-                            <span v-show="errors.has('physicalProgress')" class="error-font">لطفا پیشرفت فیزیکی را وارد کنید!</span>
-                        </div>
-                        <div class="medium-4 cell padding-lr">
-                            <label>شهرستان
-                                <select class="form-element-margin-btm" :disabled="countyState" v-model="approvedProjectsFill.apCity" name="city" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('city')}">
-                                    <option value=""></option>
-                                    <option v-for="county in counties" :value="county.id">{{ county.coName }}</option>
-                                </select>
-                                <span v-show="errors.has('city')" class="error-font">لطفا شهرستان را انتخاب کنید!</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="small-12 columns padding-lr">
-                            <label>شرح
-                                <textarea name="apDescription" style="min-height: 150px;" v-model="approvedProjectsFill.apDescription"></textarea>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="medium-6 columns padding-lr padding-bottom-modal">
-                        <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
-                    </div>
+                    </form>
                 </div>
             </modal-small>
             <!--update Modal End-->
@@ -666,13 +668,6 @@
             <modal-small v-if="showApCsInsertModal" @close="showApCsInsertModal = false">
                 <div  slot="body">
                     <form v-on:submit.prevent="createApprovedProjectCreditSource">
-                        <div class="grid-x" v-if="errorMessage">
-                            <div class="medium-12 columns padding-lr">
-                                <div class="alert callout">
-                                    <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="grid-x">
                             <div class="medium-9 cell padding-lr">
                                 <label>ردیف توزیع اعتبار
@@ -836,20 +831,15 @@
     export default {
         data(){
             return {
-                errorMessage: '',
-                errorMessage_update: '',
                 approvedProjects_prov: [],
                 approvedProjects_nat: [],
-                approvedProjectsInput: {apPlan: '' , apProjectTitle: '' , apProjectCode: '' , apStartYear: '', apEndYear: '',
-                                        apPhysicalProgress: '', apCity: '' , apDescription: ''},
+                approvedProjectsInput: {},
                 showInsertModal: false,
                 showApCsInsertModal: false,
                 showUpdateModal: false,
                 showModalDelete: false,
                 showModalReport:false,
-                approvedProjectsFill: {apPlan: '' , apProjectTitle: '' , apProjectCode: '' , apStartYear: '', apEndYear: '',
-                    apHowToRun: '', apPhysicalProgress: '', aCity: '', apSubSeason: ''
-                    , apLocation: '', apDescription: '',apCredit:''},
+                approvedProjectsFill: {},
 
                 apCreditSourceInput: {},
                 capIdForInsertCreditSource: '',
@@ -1027,7 +1017,7 @@
                 return sum;
             },
 
-            openApprovedProjectInsertModal: function (type) {
+            openInsertModal: function (type) {
                 this.getAllApprovedPlan(type);
                 this.getCounties();
                 this.showInsertModal= true;
@@ -1142,6 +1132,8 @@
             openUpdateModal: function (item , type) {
                 this.getAllApprovedPlan(type);
                 this.getCounties();
+                this.provOrNat = type;
+                this.approvedProjectsFill.id = item.id;
                 this.approvedProjectsFill.apPlan = item.cpCapId;
                 this.approvedProjectsFill.apProjectTitle = item.cpSubject;
                 this.approvedProjectsFill.apProjectCode = item.cpCode;
@@ -1162,26 +1154,41 @@
             },
 
             updateApprovedProjects: function () {
-                if (this.approvedProjectsFill.apPlan != '' && this.approvedProjectsFill.apProjectTitle != '' && this.approvedProjectsFill.apProjectCode != '' && this.approvedProjectsFill.apStartYear != '' && this.approvedProjectsFill.apEndYear != ''&& this.approvedProjectsFill.apHowToRun != ''&& this.approvedProjectsFill.apPhysicalProgress != ''&& this.approvedProjectsFill.apCity != ''&& this.approvedProjectsFill.apSeason!= ''&& this.approvedProjectsFill.apSubSeason != '')
-                {
-                    /*axios.post('/budget/admin/sub_seasons/update' , this.tinySeasonsFill)
-                        .then((response) => {
-                            if(this.planOrCost == 1)
-                                this.tinySeasonsCost = response.data;
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/budget/approved_project/capital_assets/update' , {
+                            id: this.approvedProjectsFill.id,
+                            pId: this.approvedProjectsFill.apPlan,
+                            subject: this.approvedProjectsFill.apProjectTitle,
+                            code: this.approvedProjectsFill.apProjectCode,
+                            startYear: this.approvedProjectsFill.apStartYear,
+                            endYear: this.approvedProjectsFill.apEndYear,
+                            pProgress: this.approvedProjectsFill.apPhysicalProgress,
+                            coId: this.approvedProjectsFill.apCity,
+                            description: this.approvedProjectsFill.apDescription,
+                            pOrN: this.provOrNat
+                        }).then((response) => {
+                            if (this.provOrNat == 0)
+                            {
+                                this.setData(0 , response.data.data);
+                                this.approvedProjects_prov = response.data.data;
+                                this.makePagination(response.data , "provincial");
+                            }
                             else
-                                this.tinySeasons = response.data;
+                            {
+                                this.setData(1 , response.data.data);
+                                this.approvedProjects_nat = response.data.data;
+                                this.makePagination(response.data , "national");
+                            }
                             this.showUpdateModal = false;
-                            this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'بروزرسانی با موفقیت انجام شد.' , type: 'success'});
+                            this.$parent.displayNotif(response.status);
                             console.log(response);
                         },(error) => {
                             console.log(error);
-                            this.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                        });*/
-                    alert('ویرایش انجام شد');
-                }
-                else {
-                    this.errorMessage_update = ' لطفا در وارد کردن اطلاعات دقت کنید!';
-                }
+                            //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                        });
+                    }
+                });
             },
 
             openDeleteApprovedProjectsConfirm: function (ap) {
