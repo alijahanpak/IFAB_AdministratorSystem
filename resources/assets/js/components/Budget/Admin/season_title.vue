@@ -31,7 +31,7 @@
                         <div class="medium-12 bottom-mrg">
                             <div class="clearfix border-btm-line bottom-mrg tool-bar">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
-                                    <a class="my-button toolbox-btn small" @click="planOrCost = 0; showModal = true; errorMessage = ''">جدید</a>
+                                    <a class="my-button toolbox-btn small" @click="openInsertModal(0)">جدید</a>
                                     <a class="my-button toolbox-btn small">گزارش</a>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
@@ -47,69 +47,97 @@
                                 </div>
                                 <div class="float-left">
                                     <div class="input-group float-left">
-                                        <input class="input-group-field small-font" type="text">
-                                        <div class="input-group-button">
-                                            <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
+                                        <div class="inner-addon right-addon">
+                                            <i v-if="searchPlanValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                            <i v-if="searchPlanValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                            <input v-model="searchPlanValue" class="search" type="text" placeholder="جستوجو">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!--Table Start-->
-                            <div class="columns">
-                                <!--Header Start-->
-                                <div class="grid-x table-header">
-                                    <div class="medium-2 table-border">
-                                        <strong>فصل</strong>
-                                    </div>
-                                    <div class="medium-10">
-                                        <div class="grid-x">
-                                            <div class="medium-8 table-border">
-                                                <strong>عنوان فصل</strong>
-                                            </div>
-                                            <div class="medium-4  table-border">
-                                                <strong>شرح</strong>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--Header End-->
-                                <div class="table-contain dynamic-height-level2">
-                                    <div class="grid-x" v-for="season in seasonTitles">
-                                        <div class="medium-2 table-contain-border cell-vertical-center">
-                                            {{ season.sSubject }}
-                                        </div>
-                                        <div class="medium-10">
-                                            <div class="grid-x" v-for="seasonTitle in season.capital_assets_season_title">
-                                                <div class="medium-8 table-contain-border cell-vertical-center">
-                                                    {{ seasonTitle.castSubject }}
-                                                </div>
-                                                <div class="medium-4 table-contain-border cell-vertical-center">
-                                                    <div class="grid-x">
-                                                        <div class="medium-11">
-                                                            {{ seasonTitle.castDescription }}
-                                                        </div>
-                                                        <div class="medium-1 cell-vertical-center text-left">
-                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'stSeasonTitle' + seasonTitle.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'stSeasonTitle' + seasonTitle.id" data-dropdown data-auto-focus="true">
-                                                                <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent="seasonTitleUpdateDialog(seasonTitle , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent="openDeleteSeasonTitleConfirm(seasonTitle , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                </ul>
+                            <!--Table Head Start-->
+                            <div class="tbl-div-container">
+                                <table class="tbl-head">
+                                    <colgroup>
+                                        <col width="150px"/>
+                                        <col width="400px"/>
+                                        <col width="400px"/>
+                                        <col width="12px"/>
+
+                                    </colgroup>
+                                    <tbody class="tbl-head-style">
+                                    <tr class="tbl-head-style-cell">
+                                        <th class="tbl-head-style-cell">فصل</th>
+                                        <th class="tbl-head-style-cell">عنوان فصل</th>
+                                        <th class="tbl-head-style-cell">شرح</th>
+                                        <th class="tbl-head-style-cell"></th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <!--Table Head End-->
+                                <!--Table Body Start-->
+                                <div class="tbl_body_style dynamic-height-level2">
+                                    <table class="tbl-body-contain">
+                                        <colgroup>
+                                            <col width="150px"/>
+                                            <col width="500px"/>
+                                            <col width="300px"/>
+                                        </colgroup>
+                                        <tbody class="tbl-head-style-cell">
+                                            <template v-for="season in seasonTitles">
+                                                <tr>
+                                                    <td :rowspan="season.capital_assets_season_title.length">{{season.sSubject}}</td>
+                                                    <td>{{season.capital_assets_season_title[0].castSubject}}</td>
+                                                    <td>
+                                                        <div class="grid-x">
+                                                            <div class="medium-11">
+                                                                {{season.capital_assets_season_title[0].castDescription}}
+                                                            </div>
+                                                            <div class="medium-1 cell-vertical-center text-left">
+                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'stSeasonTitle' + season.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'stSeasonTitle' + season.id" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font text-right">
+                                                                        <li><a v-on:click.prevent="openUpdateModal(season.capital_assets_season_title[0] , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li><a v-on:click.prevent="openDeleteModal(season.capital_assets_season_title[0].id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    </ul>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                                    </td>
+                                                </tr>
+                                                <template v-for="(seasonTitle,sIndex) in season.capital_assets_season_title">
+                                                    <tr v-if="sIndex > 0">
+                                                        <td>{{seasonTitle.castSubject}}</td>
+                                                        <td>
+                                                            <div class="grid-x">
+                                                                <div class="medium-11">
+                                                                    {{seasonTitle.castDescription}}
+                                                                </div>
+                                                                <div class="medium-1 cell-vertical-center text-left">
+                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'stSeasonTitle' + season.id + seasonTitle.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'stSeasonTitle' + season.id + seasonTitle.id" data-dropdown data-auto-focus="true">
+                                                                        <ul class="my-menu small-font text-right">
+                                                                            <li><a v-on:click.prevent="openUpdateModal(seasonTitle , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                            <li><a v-on:click.prevent="openDeleteModal(seasonTitle.id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </template>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="grid-x">
-                                    <div class="medium-12">
-                                        <vue-pagination  v-bind:pagination="plan_pagination"
-                                                         v-on:click.native="fetchCapitalAssetsData(plan_pagination.current_page)"
-                                                         :offset="4">
-                                        </vue-pagination>
-                                    </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-12">
+                                    <vue-pagination  v-bind:pagination="plan_pagination"
+                                                     v-on:click.native="fetchCapitalAssetsData(plan_pagination.current_page)"
+                                                     :offset="4">
+                                    </vue-pagination>
                                 </div>
                             </div>
                         </div>
@@ -120,7 +148,7 @@
                         <div class="medium-12 bottom-mrg">
                             <div class="clearfix border-btm-line bottom-mrg">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
-                                    <a class="my-button toolbox-btn small" @click="planOrCost = 1; showModal = true; errorMessage = ''">جدید</a>
+                                    <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
                                     <a class="my-button toolbox-btn small">گزارش</a>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="costDropDown">تعداد نمایش<span> 20 </span></button>
                                     <div style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="costDropDown" data-dropdown data-auto-focus="true">
@@ -136,76 +164,105 @@
                                 </div>
                                 <div class="float-left">
                                     <div class="input-group float-left">
-                                        <input class="input-group-field small-font" type="text">
-                                        <div class="input-group-button">
-                                            <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
+                                        <div class="inner-addon right-addon">
+                                            <i v-if="searchCostValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                            <i v-if="searchCostValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                            <input v-model="searchCostValue" class="search" type="text" placeholder="جستوجو">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!--Table Start-->
-                            <div class="columns">
-                                <!--Header Start-->
-                                <div class="grid-x table-header">
-                                    <div class="medium-2 table-border">
-                                        <strong>فصل</strong>
-                                    </div>
-                                    <div class="medium-10">
-                                        <div class="grid-x">
-                                            <div class="medium-8 table-border">
-                                                <strong>عنوان فصل</strong>
-                                            </div>
-                                            <div class="medium-4  table-border">
-                                                <strong>شرح</strong>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--Header End-->
-                                <div class="table-contain dynamic-height-level2">
-                                    <div class="grid-x" v-for="season1 in seasonTitleCosts">
-                                        <div class="medium-2 table-contain-border cell-vertical-center">
-                                            {{ season1.sSubject }}
-                                        </div>
-                                        <div class="medium-10">
-                                            <div class="grid-x" v-for="sTCost in season1.cost_season_title">
-                                                <div class="medium-8 table-contain-border cell-vertical-center">
-                                                    {{ sTCost.cstSubject }}
-                                                </div>
-                                                <div class="medium-4 table-contain-border cell-vertical-center">
+                            <!--Table Head Start-->
+                            <div class="tbl-div-container">
+                                <table class="tbl-head">
+                                    <colgroup>
+                                        <col width="150px"/>
+                                        <col width="400px"/>
+                                        <col width="400px"/>
+                                        <col width="12px"/>
+
+                                    </colgroup>
+                                    <tbody class="tbl-head-style">
+                                    <tr class="tbl-head-style-cell">
+                                        <th class="tbl-head-style-cell">فصل</th>
+                                        <th class="tbl-head-style-cell">عنوان فصل</th>
+                                        <th class="tbl-head-style-cell">شرح</th>
+                                        <th class="tbl-head-style-cell"></th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <!--Table Head End-->
+                                <!--Table Body Start-->
+                                <div class="tbl_body_style dynamic-height-level2">
+                                    <table class="tbl-body-contain">
+                                        <colgroup>
+                                            <col width="150px"/>
+                                            <col width="500px"/>
+                                            <col width="300px"/>
+                                        </colgroup>
+                                        <tbody class="tbl-head-style-cell">
+                                        <template v-for="season in seasonTitleCosts">
+                                            <tr>
+                                                <td :rowspan="season.cost_season_title.length">{{season.sSubject}}</td>
+                                                <td>{{season.cost_season_title[0].cstSubject}}</td>
+                                                <td>
                                                     <div class="grid-x">
                                                         <div class="medium-11">
-                                                            {{ sTCost.cstDescription }}
+                                                            {{season.cost_season_title[0].cstDescription}}
                                                         </div>
                                                         <div class="medium-1 cell-vertical-center text-left">
-                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'stSeasonTitle_cost' + sTCost.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'stSeasonTitle_cost' + sTCost.id" data-dropdown data-auto-focus="true">
+                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'stSeasonTitle_cost' + season.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'stSeasonTitle_cost' + season.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent="seasonTitleUpdateDialog(sTCost , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent="openDeleteSeasonTitleConfirm(sTCost , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li><a v-on:click.prevent="openUpdateModal(season.cost_season_title[0] , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent="openDeleteModal(season.cost_season_title[0].id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                                </td>
+                                            </tr>
+                                            <template v-for="(seasonTitle,sIndex) in season.cost_season_title">
+                                                <tr v-if="sIndex > 0">
+                                                    <td>{{seasonTitle.cstSubject}}</td>
+                                                    <td>
+                                                        <div class="grid-x">
+                                                            <div class="medium-11">
+                                                                {{seasonTitle.cstDescription}}
+                                                            </div>
+                                                            <div class="medium-1 cell-vertical-center text-left">
+                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'stSeasonTitle_cost' + season.id + seasonTitle.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'stSeasonTitle_cost' + season.id + seasonTitle.id" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font text-right">
+                                                                        <li><a v-on:click.prevent="openUpdateModal(seasonTitle , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li><a v-on:click.prevent="openDeleteModal(seasonTitle.id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </template>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="grid-x">
-                                    <div class="medium-12">
-                                        <vue-pagination  v-bind:pagination="cost_pagination"
-                                                         v-on:click.native="fetchCostData(cost_pagination.current_page)"
-                                                         :offset="4">
-                                        </vue-pagination>
-                                    </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-12">
+                                    <vue-pagination  v-bind:pagination="cost_pagination"
+                                                     v-on:click.native="fetchCostData(cost_pagination.current_page)"
+                                                     :offset="4">
+                                    </vue-pagination>
                                 </div>
                             </div>
                        </div>
                     </div>
                     <!--Tab 2-->
                 </div>
-                <modal-tiny v-if="showModal" @close="showModal = false">
+                <!-- insert modal -->
+                <modal-tiny v-if="showInsertModal" @close="showInsertModal = false">
                     <div  slot="body">
                         <form v-on:submit.prevent="createSeasonTitle">
                             <div class="grid-x" v-if="errorMessage">
@@ -244,22 +301,16 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <button type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
                             </div>
                         </form>
                     </div>
                 </modal-tiny>
+                <!-- insert modal end -->
                 <!-- update modal -->
-                <modal-tiny v-if="showModalUpdate" @close="showModalUpdate = false">
+                <modal-tiny v-if="showUpdateModal" @close="showUpdateModal = false">
                     <div  slot="body">
                         <form v-on:submit.prevent="updateSeasonTitle">
-                            <div class="grid-x" v-if="errorMessage_update">
-                                <div class="medium-12 columns padding-lr">
-                                    <div class="alert callout">
-                                        <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage_update }}</p>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="grid-x">
                                 <div class="medium-12 cell padding-lr">
                                     <label>فصل
@@ -289,20 +340,20 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button name="Submit" class="my-secondary button float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <button type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
                             </div>
                         </form>
                     </div>
                 </modal-tiny>
                 <!-- delete modal -->
-                <modal-tiny v-if="showModalDelete" @close="showModalDelete = false">
+                <modal-tiny v-if="showDeleteModal" @close="showDeleteModal = false">
                     <div  slot="body">
                         <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
                             <p>کاربر گرامی</p>
                             <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
                             <div class="grid-x">
                                 <div class="medium-12 column text-center">
-                                    <button  class="button primary btn-large-w" v-on:click="deleteSeasonTitle">بله</button>
+                                    <button v-on:click="deleteSeasonTitle" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
                                 </div>
                             </div>
                         </div>
@@ -321,11 +372,13 @@
                 errorMessage_update: '',
                 seasonTitles: [],
                 seasonTitleCosts: [],
-                seasonTitleInput: {stSeason: '' , stSubject: '' , stDescription: ''},
-                showModal: false,
-                showModalUpdate: false,
-                showModalDelete: false,
-                seasonTitleFill: {stSId: '' , stSubject: '' , stDescription: '' , id: ''},
+                seasonTitleInput: {},
+                showInsertModal: false,
+                showUpdateModal: false,
+                showDeleteModal: false,
+                searchPlanValue:'',
+                searchCostValue:'',
+                seasonTitleFill: {},
                 stIdDelete: {},
                 seasons: {},
                 planOrCost: 0,
@@ -348,11 +401,11 @@
         created: function () {
             this.fetchCostData();
             this.fetchCapitalAssetsData();
-            this.getSeasons();
         },
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
+            this.$parent.userIsActive();
         },
 
         mounted: function () {
@@ -409,6 +462,13 @@
                     });
             },
 
+            openInsertModal: function (type) {
+                this.seasonTitleInput = [];
+                this.getSeasons();
+                this.planOrCost = type;
+                this.showInsertModal = true;
+            },
+
             createSeasonTitle: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
@@ -427,36 +487,33 @@
                                     this.seasonTitles = response.data.data;
                                     this.makePagination(response.data , "plan");
                                 }
-                                this.showModal = false;
+                                this.showInsertModal = false;
                                 this.$parent.displayNotif(response.status);
-                                this.seasonTitleInput = [];
                                 console.log(response);
                             }, (error) => {
                                 console.log(error);
-                                this.errorMessage = 'عنوان فصل با این مشخصات قبلا ثبت شده است!';
+                                this.$parent.displayNotif(error.response.status);
                         });
                     }
                 });
             },
 
-            seasonTitleUpdateDialog: function (item, planOrCost) {
+            openUpdateModal: function (item, planOrCost) {
+                this.getSeasons();
                 if (planOrCost == 0)
                 {
                     this.seasonTitleFill.stSId = item.castSId;
                     this.seasonTitleFill.stSubject = item.castSubject;
                     this.seasonTitleFill.stDescription = item.castDescription;
-
-                }
-                else if (planOrCost == 1)
-                {
+                }else {
                     this.seasonTitleFill.stSId = item.cstSId;
                     this.seasonTitleFill.stSubject = item.cstSubject;
                     this.seasonTitleFill.stDescription = item.cstDescription;
                 }
+
                 this.seasonTitleFill.id = item.id;
                 this.planOrCost = planOrCost;
-                this.errorMessage_update = '';
-                this.showModalUpdate = true;
+                this.showUpdateModal = true;
             },
 
             updateSeasonTitle: function () {
@@ -469,36 +526,35 @@
                             description: this.seasonTitleFill.stDescription
                         }).then((response) => {
                             if (this.planOrCost == 1)
-                        {
-                            this.seasonTitleCosts = response.data.data;
-                            this.makePagination(response.data , "cost");
+                            {
+                                this.seasonTitleCosts = response.data.data;
+                                this.makePagination(response.data , "cost");
+                            }
+                            else
+                            {
+                                this.seasonTitles = response.data.data;
+                                this.makePagination(response.data , "plan");
+                            }
+                            this.showUpdateModal = false;
+                            this.$parent.displayNotif(response.status);
+                            console.log(response);
+                        }, (error) => {
+                                console.log(error);
+                                this.$parent.displayNotif(error.response.status);
+                            });
                         }
-                        else
-                        {
-                            this.seasonTitles = response.data.data;
-                            this.makePagination(response.data , "plan");
-                        }
-                        this.showModalUpdate = false;
-                        this.$parent.displayNotif(response.status);
-                        console.log(response);
-                    }, (error) => {
-                            console.log(error);
-                            this.errorMessage = 'عنوان فصل با این مشخصات قبلا ثبت شده است!';
-                        });
-                    }
                 });
             },
 
-            openDeleteSeasonTitleConfirm: function (st , type) {
+            openDeleteModal: function (st , type) {
                 this.planOrCost = type;
                 this.stIdDelete = st;
-                this.showModalDelete = true;
+                this.showDeleteModal = true;
             },
 
             deleteSeasonTitle: function () {
                 axios.post(this.planOrCost == 0 ? '/budget/admin/season_title/capital_assets/delete' : '/budget/admin/season_title/cost/delete', {
-                    id: this.stIdDelete.id,
-                    subject: this.planOrCost == 0 ? this.stIdDelete.castSubject : this.stIdDelete.cstSubject
+                    id: this.stIdDelete
                 }).then((response) => {
                         if (response.status != 204) //http status code for error in delete (no content)
                         {
@@ -513,12 +569,12 @@
                                 this.makePagination(response.data , "plan");
                             }
                         }
-                        this.showModalDelete = false;
+                        this.showDeleteModal = false;
                         console.log(response);
                         this.$parent.displayNotif(response.status);
                     }, (error) => {
                         console.log(error);
-                    });
+                 });
             }
         }
     }

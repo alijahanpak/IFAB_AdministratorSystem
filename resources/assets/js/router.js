@@ -76,10 +76,13 @@ axios.interceptors.request.use(function (config) {
 const LOGIN = "LOGIN";
 const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 const LOGOUT = "LOGOUT";
+const USER_IS_ACTIVE = "USER_IS_ACTIVE";
+const USER_ISNOT_ACTIVE = "USER_ISNOT_ACTIVE";
 
 const store = new Vuex.Store({
     state: {
-        isLoggedIn: !!localStorage.getItem("ifab_token_info")
+        isLoggedIn: !!localStorage.getItem("ifab_token_info"),
+        refreshTokenMode: false
     },
     mutations: {
         [LOGIN] (state) {
@@ -91,7 +94,14 @@ const store = new Vuex.Store({
         },
         [LOGOUT](state) {
             state.isLoggedIn = false;
+        },
+        [USER_IS_ACTIVE](state) {
+            state.refreshTokenMode = true;
+        },
+        [USER_ISNOT_ACTIVE](state) {
+            state.refreshTokenMode = false;
         }
+
     },
 
     actions: {
@@ -107,12 +117,24 @@ const store = new Vuex.Store({
         logout({ commit }) {
             localStorage.removeItem("ifab_token_info");
             commit(LOGOUT);
+        },
+
+        userActive({commit}){
+            commit(USER_IS_ACTIVE);
+        },
+
+        userNotActive({commit}){
+            commit(USER_ISNOT_ACTIVE);
         }
     },
 
     getters: {
         isLoggedIn: state => {
-            return state.isLoggedIn
+            return state.isLoggedIn;
+        },
+
+        userIsActive: state => {
+            return state.refreshTokenMode;
         }
     }
 });
@@ -126,11 +148,12 @@ var app = new Vue({
         publicParams: {},
         showModalLogin: false,
         authInfo: {email: '' , password: ''},
-        tokenInfo: {"Authorization": '' , "Accept": 'application/json; charset=utf-8' , "Content-type" : 'application/json; charset=utf-8'}
+        tokenInfo: {"Authorization": '' , "Accept": 'application/json; charset=utf-8' , "Content-type" : 'application/json; charset=utf-8'},
+        axiosRequestList: [],
+        prevNowPlaying: null
     },
     updated: function () {
         $(this.$el).foundation(); //WORKS!
-
     },
 
     created: function () {
@@ -181,20 +204,29 @@ var app = new Vue({
             $('.dynamic-height-level2').css('height', (x - 100 - (tabHeight  + toolBarHeight + paginationHeight)) + 'px');
         });
         this.myResize();
+        this.setExpireTokenThread();
+        console.log("mounted router js");
     },
 
     methods:{
         login: function () {
             axios.post('/api/login' , this.authInfo)
                 .then((response) => {
-                    console.log(response);
-                    this.tokenInfo.Authorization = 'Bearer ' + response.data.access_token;
-                    this.$store.dispatch("login" , this.tokenInfo);
+                    console.log(response.data.refresh_token);
+                    this.registerTokenInfo(response.data);
                     this.showModalLogin = false;
-                    this.$router.go(this.$router.currentRoute.path); //for reload page data
+                    this.$router.go(this.$router.currentRoute.path); //reload page data
                 },(error) => {
                     console.log(error);
                 });
+        },
+
+        registerTokenInfo: function (data) {
+            this.tokenInfo.Authorization = 'Bearer ' + data.access_token;
+            this.tokenInfo.refreshToken = data.refresh_token;
+            localStorage.setItem('ifab_token_expires_in' , data.expires_in);
+            this.setExpireTokenThread();
+            this.$store.dispatch("login" , this.tokenInfo);
         },
 
         getPublicParams: function () {
@@ -254,6 +286,7 @@ var app = new Vue({
             var tabHeight = $('.tabs').height();
             var toolBarHeight = $('.tool-bar').height();
             var paginationHeight = $('.pagination').height();
+            var rowSelected=$('.row-select').height();
             var notifHeight=25;
             if (toolBarHeight === undefined)
             {
@@ -263,6 +296,11 @@ var app = new Vue({
             if (paginationHeight === undefined)
             {
                 paginationHeight = -8;
+            }
+
+            if (rowSelected === undefined)
+            {
+                rowSelected = -8;
             }
 
             if (tabHeight===undefined) {
@@ -281,12 +319,42 @@ var app = new Vue({
             $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 180) + 'px');
 
             var x = $(".dynamic-height-level1").height();
-            $('.dynamic-height-level2').css('height', (x - 100 - (tabHeight  + toolBarHeight + paginationHeight)) + 'px');
+            $('.dynamic-height-level2').css('height', (x - 100 - (tabHeight  + toolBarHeight + paginationHeight + rowSelected)) + 'px');
         },
 
         logout: function () {
             this.$store.dispatch("logout");
             this.$router.go(this.$router.currentRoute.path);
+        },
+
+        setExpireTokenThread: function () {
+            console.log("......................................................" + localStorage.getItem('ifab_token_expires_in'));
+            if (this.prevNowPlaying)
+                clearInterval(this.prevNowPlaying);
+            this.prevNowPlaying = setInterval(this.expireTokenThread, (localStorage.getItem('ifab_token_expires_in') - 60) * 1000);
+        },
+
+        userIsActive: function () {
+            store.dispatch("userActive");
+        },
+
+        expireTokenThread: function () {
+            console.log("......................................................" + store.getters.userIsActive);
+            if (store.getters.userIsActive)
+            {
+                axios.post('/api/refresh_token' , {
+                    refresh_token: JSON.parse(localStorage.getItem("ifab_token_info")).refreshToken
+                }).then((response) => {
+                    store.dispatch("userNotActive");
+                    this.registerTokenInfo(response.data);
+                }, (error) => {
+                    this.showModalLogin = true;
+                    this.fail();
+                });
+            }else{
+                clearInterval(this.prevNowPlaying);
+                this.showModalLogin = true;
+            }
         },
 
         start () {

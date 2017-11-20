@@ -64,6 +64,21 @@ class AuthController extends Controller
         }
     }
 
+    public function refreshToken(Request $request)
+    {
+        $http = new \GuzzleHttp\Client;
+        $response = $http->post(url('/oauth/token'), [
+            'form_params' => [
+                'grant_type' => 'refresh_token',
+                'client_id' => env('PASSWORD_CLIENT_ID'),
+                'client_secret' => env('PASSWORD_CLIENT_SECRET'),
+                'refresh_token' => $request->refresh_token,
+                'scope' => '',
+            ],
+        ]);
+        return json_decode((string) $response->getBody(), true);
+    }
+
     public function userIsAuthorize(Request $request)
     {
         return \response()->json([] , 200);

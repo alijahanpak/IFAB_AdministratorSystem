@@ -137,8 +137,8 @@
                                                                 <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
-                                                                        <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                        <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        <li><a v-on:click.prevent="openUpdateModal(plans , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li><a v-on:click.prevent="openDeleteModal(plans.id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                         <li><a v-on:click.prevent="openApprovedAmendmentTempModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
                                                                     </ul>
                                                                 </div>
@@ -173,7 +173,7 @@
                                                                     <div>{{ amendment.capLetterNumber }}</div>
                                                                     <div>{{ amendment.capLetterDate }}</div>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     {{ amendment.credit_distribution_title.county.coName }}
                                                                 </td>
                                                                 <td>
@@ -294,11 +294,11 @@
                                         <template v-for="plans in approvedPlan_nat">
                                             <tr>
                                                 <td> {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
-                                                <td>
+                                                <td class="text-center">
                                                     <div>{{ plans.capExchangeIdNumber }}</div>
                                                     <div>{{ plans.capExchangeDate }}</div>
                                                 </td>
-                                                <td>
+                                                <td class="text-center">
                                                     <div>{{ plans.capLetterNumber }}</div>
                                                     <div>{{ plans.capLetterDate }}</div>
                                                 </td>
@@ -314,8 +314,8 @@
                                                             <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent="approvedPlanUpdateDialog(plans)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent="openDeleteApprovedPlanConfirm(plans)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li><a v-on:click.prevent="openUpdateModal(plans , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent="openDeleteModal(plans.id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                     <li><a v-on:click.prevent="openApprovedAmendmentTempModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
                                                                 </ul>
                                                             </div>
@@ -416,7 +416,7 @@
                                 </div>
                                 <div class="medium-4 padding-lr">
                                     <p class="date-picker-lbl">تاریخ ابلاغ
-                                        <pdatepicker v-model="approvedPlanInput.date" v-on:closed="checkValidDate('delivery')" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery" open-transition-animation="left-slide-fade"></pdatepicker>
+                                        <pdatepicker v-model="approvedPlanInput.date" v-on:closed="checkValidDate('delivery' , approvedPlanInput)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery" open-transition-animation="left-slide-fade"></pdatepicker>
                                     </p>
                                 </div>
                             </div>
@@ -429,7 +429,7 @@
                                 </div>
                                 <div class="medium-4 padding-lr">
                                     <p class="date-picker-lbl">تاریخ مبادله
-                                        <pdatepicker v-model="approvedPlanInput.exDate" v-on:closed="checkValidDate('exchange')" errMessage="تاریخ مبادله فراموش شده است!" :isValid="dateIsValid_exchange" open-transition-animation="left-slide-fade"></pdatepicker>
+                                        <pdatepicker v-model="approvedPlanInput.exDate" v-on:closed="checkValidDate('exchange' , approvedPlanInput)" errMessage="تاریخ مبادله فراموش شده است!" :isValid="dateIsValid_exchange" open-transition-animation="left-slide-fade"></pdatepicker>
                                     </p>
                                 </div>
                             </div>
@@ -447,15 +447,70 @@
                     </div>
             </modal-small>
             <!--Insert Modal End-->
+            <!-- update modal -->
+            <modal-small v-if="showUpdateModal" @close="showUpdateModal = false">
+                <div slot="body">
+                    <form v-on:submit.prevent="updateApprovedPlan">
+                        <div class="grid-x">
+                            <div class="medium-12 padding-lr">
+                                <label>طرح
+                                    <select class="form-element-margin-btm"  v-model="approvedPlanFill.cdtId" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
+                                        <option value=""></option>
+                                        <option v-for="creditDistributionTitle in creditDistributionTitles" :value="creditDistributionTitle.id">{{ creditDistributionTitle.cdtIdNumber + ' - ' + creditDistributionTitle.cdtSubject + (creditDistributionTitle.county == null ? '' : ' - ' + creditDistributionTitle.county.coName)}}</option>
+                                    </select>
+                                    <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-6 padding-lr">
+                                <label>شماره ابلاغ
+                                    <input class="form-element-margin-btm" type="text" name="capLetterNumber" v-model="approvedPlanFill.idNumber" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('capLetterNumber')}">
+                                </label>
+                                <span v-show="errors.has('capLetterNumber')" class="error-font">شماره فراموش شده است!</span>
+                            </div>
+                            <div class="medium-4 padding-lr">
+                                <p class="date-picker-lbl">تاریخ ابلاغ
+                                    <pdatepicker v-model="approvedPlanFill.date" v-on:closed="checkValidDate('delivery' , approvedPlanFill)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery" open-transition-animation="left-slide-fade"></pdatepicker>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-6 padding-lr">
+                                <label>شماره مبادله
+                                    <input class="form-element-margin-btm" type="text" name="capExLetterNumber" v-model="approvedPlanFill.exIdNumber" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('capExLetterNumber')}">
+                                </label>
+                                <span v-show="errors.has('capExLetterNumber')" class="error-font">شماره فراموش شده است!</span>
+                            </div>
+                            <div class="medium-4 padding-lr">
+                                <p class="date-picker-lbl">تاریخ مبادله
+                                    <pdatepicker v-model="approvedPlanFill.exDate" v-on:closed="checkValidDate('exchange' , approvedPlanFill)" errMessage="تاریخ مبادله فراموش شده است!" :isValid="dateIsValid_exchange" open-transition-animation="left-slide-fade"></pdatepicker>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="small-12 padding-lr">
+                                <label>شرح
+                                    <textarea name="apDescription" style="min-height: 150px;" v-model="approvedPlanFill.apDescription"></textarea>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="medium-6 padding-lr padding-bottom-modal">
+                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                        </div>
+                    </form>
+                </div>
+            </modal-small>
+            <!--update Modal End-->
             <!-- Delete Modal Start -->
-            <modal-tiny v-if="showModalDelete" @close="showModalDelete = false">
+            <modal-tiny v-if="showDeleteModal" @close="showDeleteModal = false">
                 <div  slot="body">
                     <div class="small-font">
                         <p>کاربر گرامی</p>
-                        <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
+                        <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
                         <div class="grid-x">
                             <div class="medium-12 column text-center">
-                                <button  class="button primary btn-large-w" v-on:click="deleteTinySeason">بله</button>
+                                <button v-on:click="deleteApprovedPlan" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
                             </div>
                         </div>
                     </div>
@@ -466,13 +521,6 @@
             <modal-small v-if="showModalAmendment" @close="showModalAmendment = false">
                 <div slot="body">
                     <form v-on:submit.prevent="createApprovedAmendmentTemp">
-                        <div class="grid-x" v-if="errorMessage">
-                            <div class="medium-12 columns padding-lr">
-                                <div class="alert callout">
-                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="grid-x">
                             <div class="medium-12 cell padding-lr">
                                 <label>طرح
@@ -492,20 +540,21 @@
                             </div>
                             <div class="medium-4 padding-lr">
                                 <p class="date-picker-lbl">تاریخ ابلاغ
-                                    <pdatepicker v-model="approvedAmendmentInput.date" v-on:closed="checkValidDate('delivery_amendment')" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery_amendment" open-transition-animation="left-slide-fade"></pdatepicker>
+                                    <pdatepicker v-model="approvedAmendmentInput.date" v-on:closed="checkValidDate('delivery_amendment' , approvedAmendmentInput)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery_amendment" open-transition-animation="left-slide-fade"></pdatepicker>
                                 </p>
                             </div>
                         </div>
                         <div class="grid-x">
-                            <div class="medium-6 columns padding-lr">
+                            <div class="medium-6 padding-lr">
                                 <label>شماره مبادله
-                                    <input disabled="true" type="text" name="capExLetterNumber" v-model="approvedAmendmentInput.exIdNumber">
+                                    <input class="form-element-margin-btm" type="text" name="capExLetterNumber" v-model="approvedAmendmentInput.exIdNumber" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('capExLetterNumber')}">
                                 </label>
+                                <span v-show="errors.has('capExLetterNumber')" class="error-font">شماره فراموش شده است!</span>
                             </div>
-                            <div class="medium-4 columns padding-lr">
-                                <label>تاریخ مبادله
-                                    <input disabled="true" type="text" name="capExLetterDate"  v-model="approvedAmendmentInput.exDate">
-                                </label>
+                            <div class="medium-4 padding-lr">
+                                <p class="date-picker-lbl">تاریخ مبادله
+                                    <pdatepicker v-model="approvedAmendmentInput.exDate" v-on:closed="checkValidDate('exchange_amendment' , approvedAmendmentInput)" errMessage="تاریخ مبادله فراموش شده است!" :isValid="dateIsValid_exchange_amendment" open-transition-animation="left-slide-fade"></pdatepicker>
+                                </p>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -697,13 +746,6 @@
             <modal-small v-if="showInsertModalProject" @close="showInsertModalProject = false">
                 <div slot="body">
                     <form v-on:submit.prevent="insertNewTempProject">
-                        <div class="grid-x" v-if="errorMessage">
-                            <div class="medium-12 columns padding-lr">
-                                <div class="alert callout">
-                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="grid-x">
                             <div class="medium-12 cell padding-lr">
                                 <label>طرح
@@ -782,7 +824,7 @@
                         <p class="large-offset-1 modal-text">با حذف پروژه انتخاب شده، تخصیص های اعتبار این پروژه صفر می گردد و لازم است محل های هزینه کرد اصلاح شود.</p>
                         <div class="grid-x">
                             <div class="medium-12 column text-center">
-                                <button  class="button primary btn-large-w" v-on:click="deleteTempProject">تایید</button>
+                                <button v-on:click="deleteTempProject" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
                             </div>
                         </div>
                     </div>
@@ -793,13 +835,6 @@
             <modal-small v-if="showEditModalProject" @close="showEditModalProject = false">
                 <div slot="body">
                     <form v-on:submit.prevent="updateTempProject">
-                        <div class="grid-x" v-if="errorMessage">
-                            <div class="medium-12 columns padding-lr">
-                                <div class="alert callout">
-                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="grid-x">
                             <div class="medium-12 cell padding-lr">
                                 <label>طرح
@@ -960,13 +995,6 @@
             <modal-small v-if="showApCreditInsertModal" @close="showApCreditInsertModal = false">
                 <div  slot="body">
                     <form v-on:submit.prevent="insertNewTempCreditSource">
-                        <div class="grid-x" v-if="errorMessage">
-                            <div class="medium-12 columns padding-lr">
-                                <div class="alert callout">
-                                    <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="grid-x">
                             <div class="medium-9 cell padding-lr">
                                 <label>ردیف توزیع اعتبار
@@ -1126,7 +1154,7 @@
                         <p class="large-offset-1 modal-text">با حذف منبع اعتبار انتخاب شده، تخصیص های اعتبار صفر می گردد و لازم است محل های هزینه کرد اصلاح شود.</p>
                         <div class="grid-x">
                             <div class="medium-12 column text-center">
-                                <button  class="button primary btn-large-w" v-on:click="deleteTempCreditSource">تایید</button>
+                                <button v-on:click="deleteTempCreditSource" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
                             </div>
                         </div>
                     </div>
@@ -1281,13 +1309,14 @@
                 approvedPlan_prov: [],
                 approvedPlan_nat: [],
                 approvedPlanInput: {},
+                approvedPlanFill: {},
                 approvedAmendmentInput: {},
                 projectAmendmentInput: {},
                 apCreditSourceInput: {},
                 amendmentPlanInfo: {},
                 showInsertModal: false,
-                showModalUpdate: false,
-                showModalDelete: false,
+                showUpdateModal: false,
+                showDeleteModal: false,
                 showModalAmendment:false,
                 showModalAmendmentOfAgreement:false,
                 showInsertModalProject:false,
@@ -1307,6 +1336,7 @@
                 creditDistributionTitles: [],
                 dateIsValid_delivery: true,
                 dateIsValid_delivery_amendment: true,
+                dateIsValid_exchange_amendment: true,
                 dateIsValid_exchange: true,
                 approvedAmendmentProjects: [],
                 approvedPlans: [],
@@ -1315,7 +1345,7 @@
                 countyState: false,
                 provOrNat: '',
                 reportType: 'pdf',
-                apIdDelete: {},
+                apIdForDelete: '',
                 seasons: {},
                 seasonTitles: {},
                 tinySeasons: {},
@@ -1352,6 +1382,7 @@
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
+            this.$parent.userIsActive();
             this.myResizeModal();
         },
 
@@ -1487,11 +1518,11 @@
                 return sum;
             },
 
-            checkValidDate: function (type) {
+            checkValidDate: function (type , item) {
                   switch (type)
                       {
                           case 'delivery':
-                              if (this.approvedPlanInput.date == null || this.approvedPlanInput.date == '')
+                              if (item.date == null || item.date == '')
                               {
                                   this.dateIsValid_delivery = false;
                                   return false;
@@ -1503,7 +1534,7 @@
                               }
                               break;
                           case 'exchange':
-                              if (this.approvedPlanInput.exDate == null || this.approvedPlanInput.exDate == '')
+                              if (item.exDate == null || item.exDate == '')
                               {
                                   this.dateIsValid_exchange = false;
                                   return false;
@@ -1515,7 +1546,19 @@
                               }
                               break;
                           case 'delivery_amendment':
-                              if (this.approvedAmendmentInput.date == null || this.approvedAmendmentInput.date == '')
+                              if (item.date == null || item.date == '')
+                              {
+                                  this.dateIsValid_delivery_amendment = false;
+                                  return false;
+                              }
+                              else
+                              {
+                                  this.dateIsValid_delivery_amendment = true;
+                                  return true;
+                              }
+                              break;
+                          case 'exchange_amendment':
+                              if (item.exDate == null || item.exDate == '')
                               {
                                   this.dateIsValid_delivery_amendment = false;
                                   return false;
@@ -1538,7 +1581,7 @@
             createApprovedPlan: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        if (this.checkValidDate('delivery') && this.checkValidDate('exchange'))
+                        if (this.checkValidDate('delivery' , this.approvedPlanInput) && this.checkValidDate('exchange' , this.approvedPlanInput))
                         {
                             axios.post('/budget/approved_plan/capital_assets/register' , {
                                 cdtId: this.approvedPlanInput.cdtId,
@@ -1564,76 +1607,90 @@
                                 console.log(response);
                             },(error) => {
                                 console.log(error);
-                                //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                                this.$parent.displayNotif(error.response.status);
                             });
                         }
                     }
                 });
             },
 
-            approvedProjectsUpdateDialog: function (item , planId) {
-                this.selectedSeason = item.tiny_season.tsSId;
-                this.getTinySeasons();
-                this.approvedProjectsFill.apSubSeason = item.cpTsId;
-                this.approvedProjectsFill.apPlan = planId;
-                this.approvedProjectsFill.apProjectTitle = item.cpSubject;
-                this.approvedProjectsFill.apProjectCode = item.cpCode;
-                this.approvedProjectsFill.apStartYear = item.cpStartYear;
-                this.approvedProjectsFill.apEndYear = item.cpEndOfYear;
-                this.approvedProjectsFill.apHowToRun = item.cpHtrId;
-                this.approvedProjectsFill.apPhysicalProgress = item.cpPhysicalProgress;
-                this.approvedProjectsFill.apCity = item.cpCoId;
-                this.approvedProjectsFill.apDescription = item.cpDescription;
-                this.creditDistributionRows.forEach(cdr => {
-                    "use strict";
-                    Vue.set(this.creditDistributionRowInput , 'apCdr' + cdr.id , cdr.id);
+            openUpdateModal: function (item , type) {
+                this.getCreditDistributionTitle(type);
+                this.approvedPlanFill.id = item.id;
+                this.approvedPlanFill.cdtId = item.capCdtId;
+                this.approvedPlanFill.idNumber = item.capLetterNumber;
+                this.approvedPlanFill.date = item.capLetterDate;
+                this.approvedPlanFill.exIdNumber = item.capExchangeIdNumber;
+                this.approvedPlanFill.exDate = item.capExchangeDate;
+                this.approvedPlanFill.apDescription = item.capDescription;
+                this.provOrNat = type;
+                this.showUpdateModal = true;
+            },
+
+            updateApprovedPlan: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        if (this.checkValidDate('delivery' , this.approvedPlanFill) && this.checkValidDate('exchange' , this.approvedPlanFill))
+                        {
+                            axios.post('/budget/approved_plan/capital_assets/update' , {
+                                id: this.approvedPlanFill.id,
+                                cdtId: this.approvedPlanFill.cdtId,
+                                idNumber: this.approvedPlanFill.idNumber,
+                                date: this.approvedPlanFill.date,
+                                exIdNumber: this.approvedPlanFill.exIdNumber,
+                                exDate: this.approvedPlanFill.exDate,
+                                description: this.approvedPlanFill.apDescription,
+                                pOrN: this.provOrNat
+                            }).then((response) => {
+                                if (this.provOrNat == 0)
+                                {
+                                    this.setData(0 , response.data.data);
+                                    this.makePagination(response.data , "provincial");
+                                }
+                                else
+                                {
+                                    this.setData(1 , response.data.data);
+                                    this.makePagination(response.data , "national");
+                                }
+                                this.showUpdateModal = false;
+                                this.$parent.displayNotif(response.status);
+                                console.log(response);
+                            },(error) => {
+                                console.log(error);
+                                this.$parent.displayNotif(error.response.status);
+                            });
+                        }
+                    }
                 });
-                this.errorMessage_update = '';
-                this.showModalUpdate = true;
             },
 
-            updateApprovedProjects: function () {
-                if (this.approvedProjectsFill.apPlan != '' && this.approvedProjectsFill.apProjectTitle != '' && this.approvedProjectsFill.apProjectCode != '' && this.approvedProjectsFill.apStartYear != '' && this.approvedProjectsFill.apEndYear != ''&& this.approvedProjectsFill.apHowToRun != ''&& this.approvedProjectsFill.apPhysicalProgress != ''&& this.approvedProjectsFill.apCity != ''&& this.approvedProjectsFill.apSeason!= ''&& this.approvedProjectsFill.apSubSeason != '')
-                {
-                    /*axios.post('/budget/admin/sub_seasons/update' , this.tinySeasonsFill)
-                        .then((response) => {
-                            if(this.planOrCost == 1)
-                                this.tinySeasonsCost = response.data;
-                            else
-                                this.tinySeasons = response.data;
-                            this.showModalUpdate = false;
-                            this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'بروزرسانی با موفقیت انجام شد.' , type: 'success'});
-                            console.log(response);
-                        },(error) => {
-                            console.log(error);
-                            this.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                        });*/
-                    alert('ویرایش انجام شد');
-                }
-                else {
-                    this.errorMessage_update = ' لطفا در وارد کردن اطلاعات دقت کنید!';
-                }
+            openDeleteModal: function (ap , type) {
+                this.provOrNat = type;
+                this.apIdForDelete = ap;
+                this.showDeleteModal = true;
             },
 
-            openDeleteApprovedProjectsConfirm: function (ap) {
-                this.apIdDelete = ap;
-                this.showModalDelete = true;
-            },
-
-            deleteApprovedProjects: function () {
-                /*axios.post('/budget/admin/sub_seasons/delete' , this.tsIdDelete)
-                    .then((response) => {
-                        if(response.data.tsPlanOrCost == 1)
-                            this.tinySeasonsCost = response.data;
-                        else
-                            this.tinySeasons = response.data;
-                        this.showModalDelete = false;
-                        this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'حذف رکورد با موفقیت انجام شد.' , type: 'success'});
-                        console.log(response);
-                    },(error) => {
-                        console.log(error);
-                        this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
-                    });*/
+            deleteApprovedPlan: function () {
+                axios.post('/budget/approved_plan/capital_assets/delete' , {
+                    id: this.apIdForDelete,
+                    pOrN: this.provOrNat
+                }).then((response) => {
+                    if (this.provOrNat == 0 && response.status != 204)
+                    {
+                        this.setData(0 , response.data.data);
+                        this.makePagination(response.data , "provincial");
+                    }
+                    else if (this.provOrNat == 1 && response.status != 204)
+                    {
+                        this.setData(1 , response.data.data);
+                        this.makePagination(response.data , "national");
+                    }
+                    this.showDeleteModal = false;
+                    this.$parent.displayNotif(response.status);
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
             },
 
             acceptApprovedAmendment: function () {
@@ -1762,6 +1819,7 @@
             },
             ////////////////////////////// amendment temp methods ////////////////////////////////
             openInsertProjectModal: function () {
+                this.projectAmendmentInput = [];
                 this.getCounties();
                 this.projectAmendmentInput.capId = this.approvedAmendmentProjects.id;
                 this.showInsertModalProject= true;
@@ -1800,6 +1858,9 @@
             },
 
             openAPCreditInsertModal: function (pId) {
+                this.apCreditSourceInput = [];
+                this.selectedSeason = '';
+                this.selectedSeasonTitle = '';
                 this.capIdForInsertCreditSource = pId;
                 this.getHowToRun();
                 this.getSeasons();
@@ -1825,14 +1886,13 @@
             },
 
             openApprovedAmendmentTempModal: function (plan) {
+                this.approvedAmendmentInput = [];
                 this.provOrNat = plan.capProvinceOrNational;
                 this.getCreditDistributionTitle(this.provOrNat);
                 this.approvedAmendmentInput.id = plan.id;
                 this.approvedAmendmentInput.cdtId = plan.capCdtId;
                 this.approvedAmendmentInput.idNumber = '';
                 this.approvedAmendmentInput.date = '';
-                this.approvedAmendmentInput.exIdNumber = plan.capExchangeIdNumber;
-                this.approvedAmendmentInput.exDate = plan.capExchangeDate;
                 this.approvedAmendmentInput.apDescription = plan.capDescription;
                 this.approvedAmendmentInput.parentId = (plan.capCapId == null ? plan.id : plan.capCapId);
                 this.showModalAmendment = true;
@@ -1879,7 +1939,7 @@
             createApprovedAmendmentTemp: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        if (this.checkValidDate('delivery_amendment'))
+                        if (this.checkValidDate('delivery_amendment' , this.approvedAmendmentInput))
                         {
                             axios.post('/budget/approved_plan/capital_assets/amendment/temp/register' , {
                                 idNumber: this.approvedAmendmentInput.idNumber,
@@ -1893,7 +1953,7 @@
                                 console.log(response);
                             },(error) => {
                                 console.log(error);
-                                //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                                this.$parent.displayNotif(error.response.status);
                             });
                         }
                     }
@@ -1919,7 +1979,7 @@
                             console.log(response);
                         },(error) => {
                             console.log(error);
-                            //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                            this.$parent.displayNotif(error.response.status);
                         });
                     }
                 });
@@ -1944,6 +2004,7 @@
                             console.log(response);
                         },(error) => {
                             console.log(error);
+                            this.$parent.displayNotif(error.response.status);
                         });
                     }
                 });
@@ -1993,7 +2054,7 @@
                             console.log(response);
                         },(error) => {
                             console.log(error);
-                            //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                            this.$parent.displayNotif(error.response.status);
                         });
                     }
                 });
@@ -2016,6 +2077,7 @@
                             console.log(response);
                         },(error) => {
                             console.log(error);
+                            this.$parent.displayNotif(error.response.status);
                         });
                     }
                 });

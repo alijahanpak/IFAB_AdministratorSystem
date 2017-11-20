@@ -62,9 +62,10 @@
                                 </div>
                                 <div class="float-left">
                                     <div class="input-group float-left">
-                                        <input class="input-group-field small-font" type="text">
-                                        <div class="input-group-button">
-                                            <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
+                                        <div class="inner-addon right-addon">
+                                            <i v-if="searchProvValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                            <i v-if="searchProvValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                            <input v-model="searchProvValue" class="search" type="text" placeholder="جستوجو">
                                         </div>
                                     </div>
                                 </div>
@@ -117,11 +118,11 @@
                                         <tbody class="tbl-head-style-cell">
                                         <template  v-for="cAp in costAgreement_prov">
                                             <tr>
-                                                <td>{{ cAp.caLetterNumber }}</td>
-                                                <td>{{ cAp.caLetterDate }}</td>
-                                                <td>{{ cAp.caExchangeDate }}</td>
-                                                <td>{{ cAp.caExchangeIdNumber }}</td>
-                                                <td><span @click="displayCreditSourceInfo_prov == cAp.id ? displayCreditSourceInfo_prov = '' : displayCreditSourceInfo_prov = cAp.id">{{ $parent.calcDispAmount(sumOfAmount(cAp.ca_credit_source) , false) }}</span></td>
+                                                <td class="text-center">{{ cAp.caLetterNumber }}</td>
+                                                <td class="text-center">{{ cAp.caLetterDate }}</td>
+                                                <td class="text-center">{{ cAp.caExchangeIdNumber }}</td>
+                                                <td class="text-center">{{ cAp.caExchangeDate }}</td>
+                                                <td class="text-center"><span @click="displayCreditSourceInfo_prov == cAp.id ? displayCreditSourceInfo_prov = '' : displayCreditSourceInfo_prov = cAp.id">{{ $parent.calcDispAmount(sumOfAmount(cAp.ca_credit_source) , false) }}</span></td>
                                                 <td class="text-center">
                                                     <span @click="displayAmendmentInfo_prov == cAp.id ? (displayAmendmentInfo_prov = '') : (displayAmendmentInfo_prov = cAp.id)" v-show="cAp.amendments.length > 0" class="info-badage change-pointer">تاریخچه</span>
                                                 </td>
@@ -134,8 +135,8 @@
                                                             <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costAgreement' + cAp.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'costAgreement' + cAp.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li><a v-on:click.prevent="openUpdateModal(cAp)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent="openDeleteModal(cAp.id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                     <li><a v-on:click.prevent="openCreditSourceInsertModal(cAp.id , 0)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
                                                                     <li><a v-on:click.prevent="openAmendmentTempModal(cAp)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
                                                                 </ul>
@@ -165,11 +166,26 @@
                                                         <tr v-for="creditSource in cAp.ca_credit_source">
                                                             <td>{{ creditSource.credit_distribution_title.cdtIdNumber + ' - ' + creditSource.credit_distribution_title.cdtSubject }}</td>
                                                             <td>{{ creditSource.credit_distribution_row.cdSubject }}</td>
-                                                            <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
+                                                            <td class="text-center">{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
                                                             <td>{{ creditSource.tiny_season.season_title.cstSubject }}</td>
                                                             <td>{{ creditSource.tiny_season.ctsSubject }}</td>
-                                                            <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
-                                                            <td>{{ creditSource.ccsDescription }}</td>
+                                                            <td class="text-center">{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
+                                                            <td>
+                                                                <div class="grid-x">
+                                                                    <div class="medium-11">
+                                                                        {{ creditSource.ccsDescription }}
+                                                                    </div>
+                                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costAgreement_cs' + cAp.id + creditSource.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'costAgreement_cs' + cAp.id + creditSource.id" data-dropdown data-auto-focus="true">
+                                                                            <ul class="my-menu small-font text-right">
+                                                                                <li><a v-on:click.prevent="openCaCsUpdateModal(creditSource , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                                <li><a v-on:click.prevent="openCaCsDeleteModal(creditSource.id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
@@ -259,9 +275,10 @@
                                 </div>
                                 <div class="float-left">
                                     <div class="input-group float-left">
-                                        <input class="input-group-field small-font" type="text">
-                                        <div class="input-group-button">
-                                            <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
+                                        <div class="inner-addon right-addon">
+                                            <i v-if="searchNatValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                            <i v-if="searchNatValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                            <input v-model="searchProvValue" class="search" type="text" placeholder="جستوجو">
                                         </div>
                                     </div>
                                 </div>
@@ -307,9 +324,9 @@
                                         <tbody class="tbl-head-style-cell">
                                         <template  v-for="cAp in costAgreement_nat">
                                             <tr>
-                                                <td>{{ cAp.caLetterNumber }}</td>
-                                                <td>{{ cAp.caLetterDate }}</td>
-                                                <td><span @click="displayCreditSourceInfo_nat == cAp.id ? displayCreditSourceInfo_nat = '' : displayCreditSourceInfo_nat = cAp.id">{{ $parent.calcDispAmount(sumOfAmount(cAp.ca_credit_source) , false) }}</span></td>
+                                                <td class="text-center">{{ cAp.caLetterNumber }}</td>
+                                                <td class="text-center">{{ cAp.caLetterDate }}</td>
+                                                <td class="text-center"><span @click="displayCreditSourceInfo_nat == cAp.id ? displayCreditSourceInfo_nat = '' : displayCreditSourceInfo_nat = cAp.id">{{ $parent.calcDispAmount(sumOfAmount(cAp.ca_credit_source) , false) }}</span></td>
                                                 <td class="text-center">
                                                     <span @click="displayAmendmentInfo_nat == cAp.id ? (displayAmendmentInfo_nat = '') : (displayAmendmentInfo_nat = cAp.id)" v-show="cAp.amendments.length > 0" class="info-badage change-pointer">تاریخچه</span>
                                                 </td>
@@ -322,8 +339,8 @@
                                                             <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costAgreement' + cAp.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'costAgreement' + cAp.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li><a v-on:click.prevent="openUpdateModal(cAp)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent="openDeleteModal(cAp.id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                     <li><a v-on:click.prevent="openCreditSourceInsertModal(cAp.id , 1)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
                                                                     <li><a v-on:click.prevent="openAmendmentTempModal(cAp)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
                                                                 </ul>
@@ -356,8 +373,23 @@
                                                             <td>{{ creditSource.tiny_season.season_title.season.sSubject }}</td>
                                                             <td>{{ creditSource.tiny_season.season_title.cstSubject }}</td>
                                                             <td>{{ creditSource.tiny_season.ctsSubject }}</td>
-                                                            <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
-                                                            <td>{{ creditSource.ccsDescription }}</td>
+                                                            <td class="text-center">{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
+                                                            <td>
+                                                                <div class="grid-x">
+                                                                    <div class="medium-11">
+                                                                        {{ creditSource.ccsDescription }}
+                                                                    </div>
+                                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costAgreement_cs' + cAp.id + creditSource.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'costAgreement_cs' + cAp.id + creditSource.id" data-dropdown data-auto-focus="true">
+                                                                            <ul class="my-menu small-font text-right">
+                                                                                <li><a v-on:click.prevent="openCaCsUpdateModal(creditSource , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                                <li><a v-on:click.prevent="openCaCsDeleteModal(creditSource.id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
@@ -415,13 +447,6 @@
             <modal-small v-if="showInsertModal" @close="showInsertModal = false">
                 <div slot="body">
                     <form v-on:submit.prevent="createCostAgreement">
-                        <div class="grid-x" v-if="errorMessage">
-                            <div class="medium-12 columns padding-lr">
-                                <div class="alert callout">
-                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="grid-x">
                             <div class="medium-6 columns padding-lr">
                                 <label>شماره ابلاغ
@@ -429,11 +454,10 @@
                                 </label>
                                 <span v-show="errors.has('caLetterNumber')" class="error-font">شماره فراموش شده است!</span>
                             </div>
-                            <div class="medium-6 columns padding-lr">
-                                <label>تاریخ ابلاغ
-                                    <input class="form-element-margin-btm" type="text" name="caLetterDate"  v-model="costAgreementInput.date" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('caLetterDate')}">
-                                </label>
-                                <span v-show="errors.has('caLetterDate')" class="error-font">تاریخ فراموش شده است!</span>
+                            <div class="medium-4 padding-lr">
+                                <p class="date-picker-lbl">تاریخ ابلاغ
+                                    <pdatepicker v-model="costAgreementInput.date" v-on:closed="checkValidDate('delivery' , costAgreementInput)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery" open-transition-animation="left-slide-fade"></pdatepicker>
+                                </p>
                             </div>
                             <div class="medium-6 columns padding-lr" v-if="provOrNat == 0">
                                 <label>شماره مبادله
@@ -441,11 +465,10 @@
                                 </label>
                                 <span v-show="errors.has('caExLetterNumber')" class="error-font">شماره فراموش شده است!</span>
                             </div>
-                            <div class="medium-6 columns padding-lr" v-if="provOrNat == 0">
-                                <label>تاریخ مبادله
-                                    <input class="form-element-margin-btm" type="text" name="caExLetterDate"  v-model="costAgreementInput.exDate" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('caExLetterDate')}">
-                                </label>
-                                <span v-show="errors.has('caExLetterDate')" class="error-font">تاریخ فراموش شده است!</span>
+                            <div class="medium-4 padding-lr" v-if="provOrNat == 0">
+                                <p class="date-picker-lbl">تاریخ مبادله
+                                    <pdatepicker v-model="costAgreementInput.exDate" v-on:closed="provOrNat == 0 ? checkValidDate('exchange' , costAgreementInput) : null" errMessage="تاریخ مبادله فراموش شده است!" :isValid="provOrNat == 0 ? dateIsValid_exchange : true" open-transition-animation="left-slide-fade"></pdatepicker>
+                                </p>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -464,92 +487,57 @@
             <!--Insert Modal End-->
 
             <!--Update Modal Start-->
-            <modal-small v-if="showModalUpdate" @close="showModalUpdate = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
+            <modal-small v-if="showUpdateModal" @close="showUpdateModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
                 <div  slot="body">
-                    <div class="grid-x" v-if="errorMessage">
-                        <div class="medium-12 columns padding-lr">
-                            <div class="alert callout">
-                                <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
+                    <form v-on:submit.prevent="updateCostAgreement">
+                        <div class="grid-x">
+                            <div class="medium-6 columns padding-lr">
+                                <label>شماره ابلاغ
+                                    <input class="form-element-margin-btm" type="text" name="caLetterNumber" v-model="costAgreementFill.idNumber" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('caLetterNumber')}">
+                                </label>
+                                <span v-show="errors.has('caLetterNumber')" class="error-font">شماره فراموش شده است!</span>
+                            </div>
+                            <div class="medium-4 padding-lr">
+                                <p class="date-picker-lbl">تاریخ ابلاغ
+                                    <pdatepicker v-model="costAgreementFill.date" v-on:closed="checkValidDate('delivery' , costAgreementFill)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery" open-transition-animation="left-slide-fade"></pdatepicker>
+                                </p>
+                            </div>
+                            <div class="medium-6 columns padding-lr" v-if="provOrNat == 0">
+                                <label>شماره مبادله
+                                    <input class="form-element-margin-btm" type="text" name="caExLetterNumber" v-model="costAgreementFill.exIdNumber" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('caExLetterNumber')}">
+                                </label>
+                                <span v-show="errors.has('caExLetterNumber')" class="error-font">شماره فراموش شده است!</span>
+                            </div>
+                            <div class="medium-4 padding-lr" v-if="provOrNat == 0">
+                                <p class="date-picker-lbl">تاریخ مبادله
+                                    <pdatepicker v-model="costAgreementFill.exDate" v-on:closed="provOrNat == 0 ? checkValidDate('exchange' , costAgreementFill) : null" errMessage="تاریخ مبادله فراموش شده است!" :isValid="provOrNat == 0 ? dateIsValid_exchange : true" open-transition-animation="left-slide-fade"></pdatepicker>
+                                </p>
                             </div>
                         </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="medium-12 cell padding-lr">
-                            <label>طرح
-                                <select class="form-element-margin-btm"  v-model="approvedProjectsFill.apPlan" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
-                                    <option value=""></option>
-                                    <option v-for="approvedPlan in approvedPlans" :value="approvedPlan.id">@{{ approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject }}</option>
-                                </select>
-                                <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
-                            </label>
+                        <div class="grid-x">
+                            <div class="small-12 columns padding-lr">
+                                <label>شرح
+                                    <textarea name="apDescription" style="min-height: 150px;" v-model="costAgreementFill.description"></textarea>
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="medium-8 cell padding-lr">
-                            <label>عنوان پروژه
-                                <input class="form-element-margin-btm" type="text" name="projectTitle" v-model="approvedProjectsFill.apProjectTitle" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('projectTitle')}">
-                            </label>
-                            <span v-show="errors.has('projectTitle')" class="error-font">لطفا عنوان پروژه انتخاب کنید!</span>
+                        <div class="medium-6 columns padding-lr padding-bottom-modal">
+                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
                         </div>
-                        <div class="medium-4 cell padding-lr">
-                            <label>کد پروژه
-                                <input class="form-element-margin-btm" type="text" name="projectCode" v-model="approvedProjectsFill.apProjectCode" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('projectCode')}">
-                            </label>
-                            <span v-show="errors.has('projectTitle')" class="error-font">لطفا کد پروژه انتخاب کنید!</span>
-                        </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="medium-4 cell padding-lr">
-                            <label>سال شروع
-                                <input class="form-element-margin-btm" type="text" name="startYear" v-model="approvedProjectsFill.apStartYear" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('startYear')}">
-                            </label>
-                            <span v-show="errors.has('startYear')" class="error-font">لطفا سال شروع پروژه را وارد کنید!</span>
-                        </div>
-                        <div class="medium-4 cell padding-lr">
-                            <label>سال خاتمه
-                                <input class="form-element-margin-btm" type="text" name="endYear" v-model="approvedProjectsFill.apEndYear" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('endYear')}">
-                            </label>
-                            <span v-show="errors.has('endYear')" class="error-font">لطفا سال خاتمه پروژه را وارد کنید!</span>
-                        </div>
-                        <div class="medium-4 cell padding-lr">
-                            <label> پیشرفت فیزیکی<span class="btn-red small-font"> (درصد) </span>
-                                <input  type="number" min="0" max="100" value="0"  name="physicalProgress" v-model="approvedProjectsFill.apPhysicalProgress" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
-                            </label>
-                            <span v-show="errors.has('physicalProgress')" class="error-font">لطفا پیشرفت فیزیکی را وارد کنید!</span>
-                        </div>
-                        <div class="medium-4 cell padding-lr">
-                            <label>شهرستان
-                                <select class="form-element-margin-btm" v-model="approvedProjectsFill.apCity" name="city" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('city')}">
-                                    <option value=""></option>
-                                    <option v-for="county in counties" :value="county.id">@{{ county.coName }}</option>
-                                </select>
-                                <span v-show="errors.has('city')" class="error-font">لطفا شهرستان را انتخاب کنید!</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="small-12 columns padding-lr">
-                            <label>شرح
-                                <textarea name="apDescription" style="min-height: 150px;" v-model="approvedProjectsFill.apDescription"></textarea>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="medium-6 columns padding-lr padding-bottom-modal">
-                        <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
-                    </div>
+                    </form>
                 </div>
             </modal-small>
             <!--update Modal End-->
 
             <!-- Delete Modal Start -->
-            <modal-tiny v-if="showModalDelete" @close="showModalDelete = false">
+            <modal-tiny v-if="showDeleteModal" @close="showDeleteModal = false">
                 <div  slot="body">
                     <div class="small-font">
                         <p>کاربر گرامی</p>
-                        <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
+                        <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
                         <div class="grid-x">
                             <div class="medium-12 column text-center">
-                                <button  class="button primary btn-large-w" v-on:click="deleteTinySeason">بله</button>
+                                <button v-on:click="deleteCostAgreement" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
                             </div>
                         </div>
                     </div>
@@ -557,17 +545,10 @@
             </modal-tiny>
             <!-- Delete Modal End -->
 
-            <!--Project credit source Modal Start-->
+            <!-- credit source Modal Start-->
             <modal-small v-if="showCaCsInsertModal" @close="showCaCsInsertModal = false">
                 <div  slot="body">
                     <form v-on:submit.prevent="createCaCreditSource">
-                        <div class="grid-x" v-if="errorMessage">
-                            <div class="medium-12 columns padding-lr">
-                                <div class="alert callout">
-                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
                                 <label>برنامه
@@ -642,17 +623,104 @@
             </modal-small>
             <!--Project Cost Modal End-->
 
+            <!-- credit source Modal Start-->
+            <modal-small v-if="showCaCsUpdateModal" @close="showCaCsUpdateModal = false">
+                <div  slot="body">
+                    <form v-on:submit.prevent="updateCaCreditSource">
+                        <div class="grid-x">
+                            <div class="medium-6 cell padding-lr">
+                                <label>برنامه
+                                    <select class="form-element-margin-btm" name="cdTitle" v-model="caCreditSourceFill.cdtId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('howToRun')}">
+                                        <option value=""></option>
+                                        <option v-for="creditDistributionTitle in creditDistributionTitles" :value="creditDistributionTitle.id">{{ creditDistributionTitle.cdtIdNumber + ' - ' + creditDistributionTitle.cdtSubject + (creditDistributionTitle.county == null ? '' : ' - ' + creditDistributionTitle.county.coName)}}</option>
+                                    </select>
+                                    <span v-show="errors.has('howToRun')" class="error-font">لطفا عنوان برنامه را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                            <div class="medium-6 cell padding-lr">
+                                <label>ردیف توزیع اعتبار
+                                    <select  class="form-element-margin-btm"  name="row" v-model="caCreditSourceFill.crId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('row')}">
+                                        <option value=""></option>
+                                        <option v-for="creditDistributionRow in creditDistributionRows" :value="creditDistributionRow.id">{{ creditDistributionRow.cdSubject }}</option>
+                                    </select>
+                                    <span v-show="errors.has('row')" class="error-font">لطفا ردیف توزیع را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-4 column padding-lr">
+                                <label>فصل
+                                    <select class="form-element-margin-btm" v-model="selectedSeason" @change="getSeasonTitle"  name="season" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('season')}">
+                                        <option value=""></option>
+                                        <option v-for="season in seasons" :value="season.id">{{ season.sSubject }}</option>
+                                    </select>
+                                    <span v-show="errors.has('season')" class="error-font">لطفا فصل را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                            <div class="medium-8 column padding-lr">
+                                <label>عنوان فصل
+                                    <select class="form-element-margin-btm" v-model="selectedSeasonTitle" @change="getTinySeasons" name="seasonTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('seasonTitle')}">
+                                        <option value=""></option>
+                                        <option v-for="seasonTitle in seasonTitles" :value="seasonTitle.id">{{ seasonTitle.cstSubject }}</option>
+                                    </select>
+                                    <span v-show="errors.has('seasonTitle')" class="error-font">لطفا عنوان فصل را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-12 column padding-lr">
+                                <label>ریز فصل
+                                    <select class="form-element-margin-btm" v-model="caCreditSourceFill.tsId" name="subSeason" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('subSeason')}">
+                                        <option value=""></option>
+                                        <option v-for="tinySeason in tinySeasons" :value="tinySeason.id">{{ tinySeason.ctsSubject }}</option>
+                                    </select>
+                                    <span v-show="errors.has('subSeason')" class="error-font">لطفا ریز فصل را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="medium-6 cell padding-lr">
+                                <label>مبلغ اعتبار <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
+                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="caCreditSourceFill.amount" v-validate="'required|decimal'" :class="{'input': true, 'error-border': errors.has('amount')}">
+                                </label>
+                                <span v-show="errors.has('amount')" class="error-font">لطفا مبلغ اعتبار را وارد کنید!</span>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="small-12 columns padding-lr">
+                                <label>شرح
+                                    <textarea name="csDescription" style="min-height: 150px;" v-model="caCreditSourceFill.description"></textarea>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="medium-6 columns padding-lr padding-bottom-modal input-margin-top">
+                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                        </div>
+                    </form>
+                </div>
+            </modal-small>
+            <!--Project Cost Modal End-->
+
+            <!-- Delete Modal Start -->
+            <modal-tiny v-if="showCaCsDeleteModal" @close="showCaCsDeleteModal = false">
+                <div  slot="body">
+                    <div class="small-font">
+                        <p>کاربر گرامی</p>
+                        <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
+                        <div class="grid-x">
+                            <div class="medium-12 column text-center">
+                                <button v-on:click="deleteCaCsCostAgreement" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </modal-tiny>
+            <!-- Delete Modal End -->
+
             <!--Amendment Modal Start-->
             <modal-small v-if="showAmendmentModal" @close="showAmendmentModal= false">
                 <div slot="body">
                     <form v-on:submit.prevent="createCaAmendmentTemp">
-                        <div class="grid-x" v-if="errorMessage">
-                            <div class="medium-12 columns padding-lr">
-                                <div class="alert callout">
-                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="grid-x">
                             <div class="medium-6 columns padding-lr">
                                 <label>شماره ابلاغ
@@ -662,18 +730,19 @@
                             </div>
                             <div class="medium-4 columns padding-lr">
                                 <p class="date-picker-lbl">تاریخ مبادله
-                                    <pdatepicker  v-on:closed="checkValidDate('delivery_amendment')" v-model="caAmendmentInput.date" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery_amendment" open-transition-animation="left-slide-fade"></pdatepicker>
+                                    <pdatepicker  v-on:closed="checkValidDate('delivery_amendment' , caAmendmentInput)" v-model="caAmendmentInput.date" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery_amendment" open-transition-animation="left-slide-fade"></pdatepicker>
                                 </p>
                             </div>
-                            <div class="medium-6 columns padding-lr">
+                            <div class="medium-6 columns padding-lr" v-if="provOrNat == 0">
                                 <label>شماره مبادله
-                                    <input disabled type="text" v-model="caAmendmentInput.exIdNumber" name="caExLetterNumber">
+                                    <input class="form-element-margin-btm" type="text" name="caExLetterNumber" v-model="caAmendmentInput.exIdNumber" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('caExLetterNumber')}">
                                 </label>
+                                <span v-show="errors.has('caExLetterNumber')" class="error-font">شماره مبادله فراموش شده است!</span>
                             </div>
-                            <div style="width: 217px;" class="medium-4 columns padding-lr">
-                                <label>تاریخ مبادله
-                                    <input disabled type="text" v-model="caAmendmentInput.exDate" name="caExLetterDate">
-                                </label>
+                            <div class="medium-4 padding-lr">
+                                <p class="date-picker-lbl">تاریخ مبادله
+                                    <pdatepicker v-model="caAmendmentInput.exDate" v-on:closed="checkValidDate('exchange_amendment' , caAmendmentInput)" errMessage="تاریخ مبادله فراموش شده است!" :isValid="dateIsValid_exchange_amendment" open-transition-animation="left-slide-fade"></pdatepicker>
+                                </p>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -697,13 +766,6 @@
             <modal-small v-if="showNatAmendmentModal" @close="showNatAmendmentModal= false">
                 <div slot="body">
                     <form v-on:submit.prevent="createCaAmendmentTemp">
-                        <div class="grid-x" v-if="errorMessage">
-                            <div class="medium-12 columns padding-lr">
-                                <div class="alert callout">
-                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="grid-x">
                             <div class="medium-6 columns padding-lr">
                                 <label>شماره ابلاغ
@@ -713,7 +775,7 @@
                             </div>
                             <div class="medium-4 columns padding-lr">
                                 <p class="date-picker-lbl">تاریخ مبادله
-                                    <pdatepicker  v-on:closed="checkValidDate('delivery_amendment')" v-model="caAmendmentInput.date" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery_amendment" open-transition-animation="left-slide-fade"></pdatepicker>
+                                    <pdatepicker  v-on:closed="checkValidDate('delivery_amendment' , caAmendmentInput)" v-model="caAmendmentInput.date" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery_amendment" open-transition-animation="left-slide-fade"></pdatepicker>
                                 </p>
                             </div>
                         </div>
@@ -737,13 +799,6 @@
             <!--Amendment Of The Agreement Modal Start-->
             <modal-full-screen v-if="showModalAmendmentCost" @close="showModalAmendmentCost= false">
                 <div slot="body">
-                    <div class="grid-x" v-if="errorMessage">
-                        <div class="medium-12 columns padding-lr">
-                            <div class="alert callout">
-                                <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                            </div>
-                        </div>
-                    </div>
                     <div style="padding:0px;" class="grid-x border-btm-line">
                         <div class="medium-12 cell padding-lr">
                             <div class="grid-x">
@@ -864,13 +919,6 @@
             <modal-small v-if="showACaCsInsertModal" @close="showACaCsInsertModal = false">
                 <div  slot="body">
                     <form v-on:submit.prevent="insertNewTempCreditSource">
-                        <div class="grid-x" v-if="errorMessage">
-                            <div class="medium-12 columns padding-lr">
-                                <div class="alert callout">
-                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
                                 <label>برنامه
@@ -949,13 +997,6 @@
             <modal-small v-if="showACaCsEditModal" @close="showACaCsEditModal = false">
                 <div  slot="body">
                     <form v-on:submit.prevent="updateTempCreditSource">
-                        <div class="grid-x" v-if="errorMessage">
-                            <div class="medium-12 columns padding-lr">
-                                <div class="alert callout">
-                                    <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
                                 <label>برنامه
@@ -1037,7 +1078,7 @@
                         <p class="large-offset-1 modal-text">با حذف منبع اعتبار انتخاب شده، تخصیص های اعتبار صفر می گردد و لازم است محل های هزینه کرد اصلاح شود.</p>
                         <div class="grid-x">
                             <div class="medium-12 column text-center">
-                                <button  class="button primary btn-large-w" v-on:click="deleteTempCreditSource">تایید</button>
+                                <button v-on:click="deleteTempCreditSource" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
                             </div>
                         </div>
                     </div>
@@ -1160,18 +1201,21 @@
     export default {
         data(){
             return {
-                errorMessage: '',
-                errorMessage_update: '',
+                searchProvValue:'',
+                searchNatValue:'',
                 costAgreement_prov: [],
                 costAgreement_nat: [],
                 costAgreementInput: {},
+                costAgreementFill: {},
                 acaCreditSourceInput: {},
                 caAmendmentInput: {},
                 amendmentProgInfo: {},
                 showInsertModal: false,
                 showCaCsInsertModal: false,
-                showModalUpdate: false,
-                showModalDelete: false,
+                showCaCsUpdateModal: false,
+                showCaCsDeleteModal: false,
+                showUpdateModal: false,
+                showDeleteModal: false,
                 showAmendmentModal:false,
                 showNatAmendmentModal: false,
                 showModalAmendmentCost:false,
@@ -1179,7 +1223,10 @@
                 showDeleteTempCreditSourceModal: false,
                 showACaCsEditModal: false,
                 showAmendmentProgInfoModal: false,
+                dateIsValid_delivery: true,
+                dateIsValid_exchange: true,
                 dateIsValid_delivery_amendment: true,
+                dateIsValid_exchange_amendment: true,
                 costAmendmentCreditSource: [],
                 selectColumn:false,
                 tempCreditSourceSelectedId_delete: '',
@@ -1187,20 +1234,22 @@
                 acaCreditSourceFill: {},
 
                 caCreditSourceInput: {},
+                caCreditSourceFill: {},
                 caIdForInsertCreditSource: '',
                 displayCreditSourceInfo_prov: '',
                 displayCreditSourceInfo_nat: '',
                 displayAmendmentInfo_prov: '',
                 displayAmendmentInfo_nat: '',
                 provOrNat: '',
-                apIdDelete: {},
+                caIdForDelete: '',
+                selectedCaCsIdForDelete: '',
                 approvedPlans: {},
                 counties: {},
                 countyState: false,
                 seasons: {},
                 seasonTitles: {},
                 tinySeasons: {},
-                selectedSeasons: '',
+                selectedSeason: '',
                 selectedSeasonTitle: '',
                 creditDistributionRows: {},
                 creditDistributionTitles: {},
@@ -1227,6 +1276,7 @@
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
+            this.$parent.userIsActive();
             this.myResizeModal();
         },
 
@@ -1325,12 +1375,16 @@
             },
 
             openCostAgreementInsertModal: function (type) {
+                this.costAgreementInput = [];
                 this.provOrNat = type;
                 this.showInsertModal= true;
 
             },
 
             openCreditSourceInsertModal: function (caId , type) {
+                this.caCreditSourceInput = [];
+                this.selectedSeasonTitle = '';
+                this.selectedSeason = '';
                 this.showCaCsInsertModal = true;
                 this.caIdForInsertCreditSource = caId;
                 this.provOrNat = type;
@@ -1342,31 +1396,31 @@
             createCostAgreement: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        axios.post('/budget/approved_plan/cost/register' , {
-                            idNumber: this.costAgreementInput.idNumber,
-                            date: this.costAgreementInput.date,
-                            exIdNumber: this.costAgreementInput.exIdNumber,
-                            exDate: this.costAgreementInput.exDate,
-                            description: this.costAgreementInput.description,
-                            pOrN: this.provOrNat
-                        }).then((response) => {
-                                if (this.provOrNat == 0)
-                                {
+                        if (this.checkValidDate('delivery' , this.costAgreementInput) && this.checkValidDate('exchange' , this.costAgreementInput)) {
+                            axios.post('/budget/approved_plan/cost/register', {
+                                idNumber: this.costAgreementInput.idNumber,
+                                date: this.costAgreementInput.date,
+                                exIdNumber: this.costAgreementInput.exIdNumber,
+                                exDate: this.costAgreementInput.exDate,
+                                description: this.costAgreementInput.description,
+                                pOrN: this.provOrNat
+                            }).then((response) => {
+                                if (this.provOrNat == 0) {
                                     this.costAgreement_prov = response.data.data;
-                                    this.makePagination(response.data , "provincial");
+                                    this.makePagination(response.data, "provincial");
                                 }
-                                else
-                                {
+                                else {
                                     this.costAgreement_nat = response.data.data;
-                                    this.makePagination(response.data , "national");
+                                    this.makePagination(response.data, "national");
                                 }
                                 this.showInsertModal = false;
                                 this.$parent.displayNotif(response.status);
                                 console.log(response);
-                            },(error) => {
+                            }, (error) => {
                                 console.log(error);
-                                //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                                this.$parent.displayNotif(error.response.status);
                             });
+                        }
                     }
                 });
             },
@@ -1398,9 +1452,90 @@
                             console.log(response);
                         },(error) => {
                             console.log(error);
-                            //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                            this.$parent.displayNotif(error.response.status);
                         });
                     }
+                });
+            },
+
+            openCaCsUpdateModal: function (cs , type) {
+                this.getCreditDistributionTitle(1); //all item should be national type => county = null
+                this.getSeasons();
+                this.getCreditDistributionRow();
+                this.caCreditSourceFill.id = cs.id;
+                this.caCreditSourceFill.crId = cs.ccsCdrId;
+                this.selectedSeason = cs.tiny_season.season_title.cstSId;
+                this.getSeasonTitle();
+                this.selectedSeasonTitle = cs.tiny_season.ctsCstId;
+                this.getTinySeasons();
+                this.caCreditSourceFill.tsId = cs.ccsTsId;
+                this.caCreditSourceFill.cdtId = cs.ccsCdtId;
+                this.caCreditSourceFill.amount = this.$parent.calcDispAmount(cs.ccsAmount , false);
+                this.caCreditSourceFill.description = cs.ccsDescription;
+                this.provOrNat = type;
+                this.showCaCsUpdateModal = true;
+            },
+
+            updateCaCreditSource: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/budget/approved_plan/cost/credit_source/update' , {
+                            id: this.caCreditSourceFill.id,
+                            crId: this.caCreditSourceFill.crId,
+                            cdtId: this.caCreditSourceFill.cdtId,
+                            tsId: this.caCreditSourceFill.tsId,
+                            amount: this.caCreditSourceFill.amount,
+                            description: this.caCreditSourceFill.description,
+                            pOrN: this.provOrNat
+                        }).then((response) => {
+                            if (this.provOrNat == 0)
+                            {
+                                this.costAgreement_prov = response.data.data;
+                                this.makePagination(response.data , "provincial");
+                            }
+                            else
+                            {
+                                this.costAgreement_nat = response.data.data;
+                                this.makePagination(response.data , "national");
+                            }
+                            this.showCaCsUpdateModal = false;
+                            this.$parent.displayNotif(response.status);
+                            console.log(response);
+                        },(error) => {
+                            console.log(error);
+                            this.$parent.displayNotif(error.response.status);
+                        });
+                    }
+                });
+            },
+
+            openCaCsDeleteModal: function (csId , type) {
+                this.selectedCaCsIdForDelete = csId;
+                this.provOrNat = type;
+                this.showCaCsDeleteModal = true;
+            },
+
+            deleteCaCsCostAgreement: function () {
+                axios.post('/budget/approved_plan/cost/credit_source/delete' , {
+                    id: this.selectedCaCsIdForDelete,
+                    pOrN: this.provOrNat
+                }).then((response) => {
+                    if (this.provOrNat == 0 && response.status != 204)
+                    {
+                        this.costAgreement_prov = response.data.data;
+                        this.makePagination(response.data , "provincial");
+                    }
+                    else if (this.provOrNat == 1 && response.status != 204)
+                    {
+                        this.costAgreement_nat = response.data.data;
+                        this.makePagination(response.data , "national");
+                    }
+                    this.showCaCsDeleteModal = false;
+                    this.$parent.displayNotif(response.status);
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                    this.$parent.displayNotif(error.response.status);
                 });
             },
 
@@ -1420,69 +1555,76 @@
                 return sum;
             },
 
-            approvedProjectsUpdateDialog: function (item , planId) {
-                this.selectedSeasons = item.tiny_season.tsSId;
-                this.getTinySeasons();
-                this.approvedProjectsFill.apSubSeason = item.cpTsId;
-                this.approvedProjectsFill.apPlan = planId;
-                this.approvedProjectsFill.apProjectTitle = item.cpSubject;
-                this.approvedProjectsFill.apProjectCode = item.cpCode;
-                this.approvedProjectsFill.apStartYear = item.cpStartYear;
-                this.approvedProjectsFill.apEndYear = item.cpEndOfYear;
-                this.approvedProjectsFill.apHowToRun = item.cpHtrId;
-                this.approvedProjectsFill.apPhysicalProgress = item.cpPhysicalProgress;
-                this.approvedProjectsFill.apCity = item.cpCoId;
-                this.approvedProjectsFill.apDescription = item.cpDescription;
-                this.creditDistributionRows.forEach(cdr => {
-                    "use strict";
-                    Vue.set(this.creditDistributionRowInput , 'apCdr' + cdr.id , cdr.id);
+            openUpdateModal: function (item) {
+                this.costAgreementFill.id = item.id;
+                this.costAgreementFill.idNumber = item.caLetterNumber;
+                this.costAgreementFill.date = item.caLetterDate;
+                this.costAgreementFill.exDate = item.caExchangeDate;
+                this.costAgreementFill.exIdNumber = item.caExchangeIdNumber;
+                this.costAgreementFill.description = item.caDescription;
+                this.provOrNat = item.caProvinceOrNational;
+                this.showUpdateModal = true;
+            },
+
+            updateCostAgreement: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        if (this.checkValidDate('delivery' , this.costAgreementFill) && this.checkValidDate('exchange' , this.costAgreementFill)) {
+                            axios.post('/budget/approved_plan/cost/update', {
+                                id: this.costAgreementFill.id,
+                                idNumber: this.costAgreementFill.idNumber,
+                                date: this.costAgreementFill.date,
+                                exIdNumber: this.costAgreementFill.exIdNumber,
+                                exDate: this.costAgreementFill.exDate,
+                                description: this.costAgreementFill.description,
+                                pOrN: this.provOrNat
+                            }).then((response) => {
+                                if (this.provOrNat == 0) {
+                                    this.costAgreement_prov = response.data.data;
+                                    this.makePagination(response.data, "provincial");
+                                }
+                                else {
+                                    this.costAgreement_nat = response.data.data;
+                                    this.makePagination(response.data, "national");
+                                }
+                                this.showUpdateModal = false;
+                                this.$parent.displayNotif(response.status);
+                                console.log(response);
+                            }, (error) => {
+                                console.log(error);
+                                this.$parent.displayNotif(error.response.status);
+                            });
+                        }
+                    }
                 });
-                this.errorMessage_update = '';
-                this.showModalUpdate = true;
             },
 
-            updateApprovedProjects: function () {
-                if (this.approvedProjectsFill.apPlan != '' && this.approvedProjectsFill.apProjectTitle != '' && this.approvedProjectsFill.apProjectCode != '' && this.approvedProjectsFill.apStartYear != '' && this.approvedProjectsFill.apEndYear != ''&& this.approvedProjectsFill.apHowToRun != ''&& this.approvedProjectsFill.apPhysicalProgress != ''&& this.approvedProjectsFill.apCity != ''&& this.approvedProjectsFill.apSeason!= ''&& this.approvedProjectsFill.apSubSeason != '')
-                {
-                    /*axios.post('/budget/admin/sub_seasons/update' , this.tinySeasonsFill)
-                        .then((response) => {
-                            if(this.planOrCost == 1)
-                                this.tinySeasonsCost = response.data;
-                            else
-                                this.tinySeasons = response.data;
-                            this.showModalUpdate = false;
-                            this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'بروزرسانی با موفقیت انجام شد.' , type: 'success'});
-                            console.log(response);
-                        },(error) => {
-                            console.log(error);
-                            this.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                        });*/
-                    alert('ویرایش انجام شد');
-                }
-                else {
-                    this.errorMessage_update = ' لطفا در وارد کردن اطلاعات دقت کنید!';
-                }
+            openDeleteModal: function (caId , type) {
+                this.caIdForDelete = caId;
+                this.provOrNat = type;
+                this.showDeleteModal = true;
             },
 
-            openDeleteApprovedProjectsConfirm: function (ap) {
-                this.apIdDelete = ap;
-                this.showModalDelete = true;
-            },
-
-            deleteApprovedProjects: function () {
-                /*axios.post('/budget/admin/sub_seasons/delete' , this.tsIdDelete)
-                    .then((response) => {
-                        if(response.data.tsPlanOrCost == 1)
-                            this.tinySeasonsCost = response.data;
-                        else
-                            this.tinySeasons = response.data;
-                        this.showModalDelete = false;
-                        this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'حذف رکورد با موفقیت انجام شد.' , type: 'success'});
-                        console.log(response);
-                    },(error) => {
-                        console.log(error);
-                        this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
-                    });*/
+            deleteCostAgreement: function () {
+                axios.post('/budget/approved_plan/cost/delete', {
+                    id: this.caIdForDelete,
+                    pOrN: this.provOrNat
+                }).then((response) => {
+                    if (this.provOrNat == 0 && response.status != 204) {
+                        this.costAgreement_prov = response.data.data;
+                        this.makePagination(response.data, "provincial");
+                    }
+                    else if (this.provOrNat == 1 && response.status != 204){
+                        this.costAgreement_nat = response.data.data;
+                        this.makePagination(response.data, "national");
+                    }
+                    this.showDeleteModal = false;
+                    this.$parent.displayNotif(response.status);
+                    console.log(response);
+                }, (error) => {
+                    console.log(error);
+                    this.showDeleteModal = false;
+                });
             },
 
             showSelectColumn: function () {
@@ -1513,49 +1655,6 @@
                     this.provincial_pagination.last_page = data.last_page;
                 }
             },
-
-            checkValidDate: function (type) {
-                switch (type)
-                {
-/*                    case 'delivery':
-                        if (this.approvedPlanInput.date == null || this.approvedPlanInput.date == '')
-                        {
-                            this.dateIsValid_delivery = false;
-                            return false;
-                        }
-                        else
-                        {
-                            this.dateIsValid_delivery = true;
-                            return true;
-                        }
-                        break;
-                    case 'exchange':
-                        if (this.approvedPlanInput.exDate == null || this.approvedPlanInput.exDate == '')
-                        {
-                            this.dateIsValid_exchange = false;
-                            return false;
-                        }
-                        else
-                        {
-                            this.dateIsValid_exchange = true;
-                            return true;
-                        }
-                        break;*/
-                    case 'delivery_amendment':
-                        if (this.caAmendmentInput.date == null || this.caAmendmentInput.date == '')
-                        {
-                            this.dateIsValid_delivery_amendment = false;
-                            return false;
-                        }
-                        else
-                        {
-                            this.dateIsValid_delivery_amendment = true;
-                            return true;
-                        }
-                        break;
-                }
-            },
-
             /////////////////////////// temp ///////////////////////////////////////////
             openACaCsCostInsertModal:function () {
                 this.showACaCsInsertModal=true;
@@ -1566,14 +1665,13 @@
             },
 
             openAmendmentTempModal:function (ca) {
+                this.caAmendmentInput = [];
                 this.provOrNat = ca.caProvinceOrNational
                 this.caAmendmentInput.parentId = ca.id;
                 this.caAmendmentInput.pOrN = ca.caProvinceOrNational;
                 this.caAmendmentInput.description = ca.caDescription;
                 if (this.provOrNat == 0)
                 {
-                    this.caAmendmentInput.exIdNumber = ca.caExchangeIdNumber;
-                    this.caAmendmentInput.exDate = ca.caExchangeDate;
                     this.showAmendmentModal=true;
                 }
                 else
@@ -1586,20 +1684,20 @@
                 this.showDeleteTempCreditSourceModal = true;
             },
 
-            openACaCsCostCreditEditModal: function (creditSource) {
+            openACaCsCostCreditEditModal: function (cs) {
                 this.getCreditDistributionTitle(1); //all item should be national type => county = null
                 this.getSeasons();
                 this.getCreditDistributionRow();
-                this.selectedSeason = creditSource.tiny_season.season_title.season.id;
+                this.selectedSeason = cs.tiny_season.season_title.season.id;
                 this.getSeasonTitle();
-                this.selectedSeasonTitle = creditSource.tiny_season.season_title.id;
+                this.selectedSeasonTitle = cs.tiny_season.season_title.id;
                 this.getTinySeasons();
-                this.acaCreditSourceFill.csId = creditSource.id;
-                this.acaCreditSourceFill.crId = creditSource.ccsCdrId;
-                this.acaCreditSourceFill.tsId = creditSource.ccsTsId;
-                this.acaCreditSourceFill.cdtId = creditSource.ccsCdtId;
-                this.acaCreditSourceFill.amount = this.$parent.calcDispAmount(creditSource.ccsAmount , false);
-                this.acaCreditSourceFill.description = creditSource.ccsDescription;
+                this.acaCreditSourceFill.csId = cs.id;
+                this.acaCreditSourceFill.crId = cs.ccsCdrId;
+                this.acaCreditSourceFill.tsId = cs.ccsTsId;
+                this.acaCreditSourceFill.cdtId = cs.ccsCdtId;
+                this.acaCreditSourceFill.amount = this.$parent.calcDispAmount(cs.ccsAmount , false);
+                this.acaCreditSourceFill.description = cs.ccsDescription;
                 this.showACaCsEditModal=true;
             },
 
@@ -1611,7 +1709,7 @@
             createCaAmendmentTemp: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        if (this.checkValidDate('delivery_amendment'))
+                        if (this.checkValidDate('delivery_amendment' , this.caAmendmentInput))
                         {
                             axios.post('/budget/approved_plan/cost/amendment/temp/register' , {
                                 idNumber: this.caAmendmentInput.idNumber,
@@ -1628,7 +1726,7 @@
                                 console.log(response);
                             },(error) => {
                                 console.log(error);
-                                //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                                this.$parent.displayNotif(error.response.status);
                             });
                         }
                     }
@@ -1674,7 +1772,7 @@
                             console.log(response);
                         },(error) => {
                             console.log(error);
-                            //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                            this.$parent.displayNotif(error.response.status);
                         });
                     }
                 });
@@ -1710,6 +1808,7 @@
                             console.log(response);
                         },(error) => {
                             console.log(error);
+                            this.$parent.displayNotif(error.response.status);
                         });
                     }
                 });
@@ -1734,6 +1833,66 @@
                 },(error) => {
                     console.log(error);
                 });
+            },
+
+            checkValidDate: function (type , input) {
+                switch (type)
+                {
+                    case 'delivery':
+                        if (input.date == null || input.date == '')
+                        {
+                            this.dateIsValid_delivery = false;
+                            return false;
+                        }
+                        else
+                        {
+                            this.dateIsValid_delivery = true;
+                            return true;
+                        }
+                        break;
+                    case 'exchange':
+                        if (this.provOrNat == 0)
+                        {
+                            if (input.exDate == null || input.exDate == '')
+                            {
+                                this.dateIsValid_exchange = false;
+                                return false;
+                            }
+                            else
+                            {
+                                this.dateIsValid_exchange = true;
+                                return true;
+                            }
+                        }else{
+                            return true;
+                        }
+
+                        break;
+                    case 'delivery_amendment':
+                        if (input.date == null || input.date == '')
+                        {
+                            this.dateIsValid_delivery_amendment = false;
+                            return false;
+                        }
+                        else
+                        {
+                            this.dateIsValid_delivery_amendment = true;
+                            return true;
+                        }
+                        break;
+                    case 'exchange_amendment':
+                        if (input.date == null || input.date == '')
+                        {
+                            this.dateIsValid_exchange_amendment = false;
+                            return false;
+                        }
+                        else
+                        {
+                            this.dateIsValid_exchange_amendment = true;
+                            return true;
+                        }
+                        break;
+                }
             },
         }
     }

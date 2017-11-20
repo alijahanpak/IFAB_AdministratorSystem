@@ -155,7 +155,7 @@
                     <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="deleteBudgetSeason" class="my-button my-success"><span class="btn-txt-mrg"> تایید </span></button>
+                            <button v-on:click="deleteBudgetSeason" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
                         </div>
                     </div>
                 </div>
@@ -184,6 +184,7 @@
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
+            this.$parent.userIsActive();
         },
 
         mounted: function () {
