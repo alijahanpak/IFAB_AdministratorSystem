@@ -186,6 +186,10 @@
 
         mounted() {
             console.log('dashboard Component mounted.')
+        },
+
+        updated: function () {
+            this.$parent.userIsActive();
         }
     }
 </script>

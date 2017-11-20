@@ -56,27 +56,13 @@ axios.interceptors.response.use(response => {
     app.finish();
     return response;
 },function (error) {
-    const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true
-        axios.post('/api/refresh_token' , {
-            refresh_token: JSON.parse(localStorage.getItem("ifab_token_info")).refreshToken
-        }).then((response) => {
-            app.registerTokenInfo(response.data);
-            return axios(originalRequest);
-        }, (error) => {
-            app.showModalLogin = true;
-            app.fail();
-        });
-    }
-    return Promise.reject(error);
-/*    console.log(error);
+    console.log(error);
     if (error.response.status == 401)
     {
         app.showModalLogin = true;
     }
     app.fail();
-    return Promise.reject(error);*/
+    return Promise.reject(error);
 });
 
 axios.interceptors.request.use(function (config) {
@@ -90,10 +76,13 @@ axios.interceptors.request.use(function (config) {
 const LOGIN = "LOGIN";
 const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 const LOGOUT = "LOGOUT";
+const USER_IS_ACTIVE = "USER_IS_ACTIVE";
+const USER_ISNOT_ACTIVE = "USER_ISNOT_ACTIVE";
 
 const store = new Vuex.Store({
     state: {
-        isLoggedIn: !!localStorage.getItem("ifab_token_info")
+        isLoggedIn: !!localStorage.getItem("ifab_token_info"),
+        refreshTokenMode: false
     },
     mutations: {
         [LOGIN] (state) {
@@ -105,7 +94,14 @@ const store = new Vuex.Store({
         },
         [LOGOUT](state) {
             state.isLoggedIn = false;
+        },
+        [USER_IS_ACTIVE](state) {
+            state.refreshTokenMode = true;
+        },
+        [USER_ISNOT_ACTIVE](state) {
+            state.refreshTokenMode = false;
         }
+
     },
 
     actions: {
@@ -121,12 +117,24 @@ const store = new Vuex.Store({
         logout({ commit }) {
             localStorage.removeItem("ifab_token_info");
             commit(LOGOUT);
+        },
+
+        userActive({commit}){
+            commit(USER_IS_ACTIVE);
+        },
+
+        userNotActive({commit}){
+            commit(USER_ISNOT_ACTIVE);
         }
     },
 
     getters: {
         isLoggedIn: state => {
-            return state.isLoggedIn
+            return state.isLoggedIn;
+        },
+
+        userIsActive: state => {
+            return state.refreshTokenMode;
         }
     }
 });
@@ -140,7 +148,9 @@ var app = new Vue({
         publicParams: {},
         showModalLogin: false,
         authInfo: {email: '' , password: ''},
-        tokenInfo: {"Authorization": '' , "Accept": 'application/json; charset=utf-8' , "Content-type" : 'application/json; charset=utf-8'}
+        tokenInfo: {"Authorization": '' , "Accept": 'application/json; charset=utf-8' , "Content-type" : 'application/json; charset=utf-8'},
+        axiosRequestList: [],
+        prevNowPlaying: null
     },
     updated: function () {
         $(this.$el).foundation(); //WORKS!
@@ -194,6 +204,8 @@ var app = new Vue({
             $('.dynamic-height-level2').css('height', (x - 100 - (tabHeight  + toolBarHeight + paginationHeight)) + 'px');
         });
         this.myResize();
+        this.setExpireTokenThread();
+        console.log("mounted router js");
     },
 
     methods:{
@@ -212,6 +224,8 @@ var app = new Vue({
         registerTokenInfo: function (data) {
             this.tokenInfo.Authorization = 'Bearer ' + data.access_token;
             this.tokenInfo.refreshToken = data.refresh_token;
+            localStorage.setItem('ifab_token_expires_in' , data.expires_in);
+            this.setExpireTokenThread();
             this.$store.dispatch("login" , this.tokenInfo);
         },
 
@@ -311,6 +325,36 @@ var app = new Vue({
         logout: function () {
             this.$store.dispatch("logout");
             this.$router.go(this.$router.currentRoute.path);
+        },
+
+        setExpireTokenThread: function () {
+            console.log("......................................................" + localStorage.getItem('ifab_token_expires_in'));
+            if (this.prevNowPlaying)
+                clearInterval(this.prevNowPlaying);
+            this.prevNowPlaying = setInterval(this.expireTokenThread, (localStorage.getItem('ifab_token_expires_in') - 60) * 1000);
+        },
+
+        userIsActive: function () {
+            store.dispatch("userActive");
+        },
+
+        expireTokenThread: function () {
+            console.log("......................................................" + store.getters.userIsActive);
+            if (store.getters.userIsActive)
+            {
+                axios.post('/api/refresh_token' , {
+                    refresh_token: JSON.parse(localStorage.getItem("ifab_token_info")).refreshToken
+                }).then((response) => {
+                    store.dispatch("userNotActive");
+                    this.registerTokenInfo(response.data);
+                }, (error) => {
+                    this.showModalLogin = true;
+                    this.fail();
+                });
+            }else{
+                clearInterval(this.prevNowPlaying);
+                this.showModalLogin = true;
+            }
         },
 
         start () {
