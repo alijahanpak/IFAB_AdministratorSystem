@@ -22,9 +22,9 @@ class BudgetReportController extends Controller
         $pdf->setOption('page-size', 'a4');
         $pdf->setOption('title', 'report');
         $pdf->setOption('footer-center', '[page]/[topage]');
-        $pdf->setOption('margin-bottom', 20);
+        $pdf->setOption('margin-bottom', 25);
         $pdf->setOrientation($options['orientation'] == true ? 'landscape' : 'portrait');
-        $pdf->setOption('margin-top', 5);
+        $pdf->setOption('margin-top', 20);
         $pdf->setOption('lowquality', true);
         $pdf->setOption('zoom', 1.2);
         return $pdf;
@@ -339,6 +339,66 @@ class BudgetReportController extends Controller
                         $deprived_area['daDescription'],
 
                             ));
+                    }
+                });
+            })->store('xls', public_path('xlsFiles'));
+            return url('xlsFiles/temp' . Auth::user()->id . '.xls');
+        }
+    }
+
+    public function capitalAssets(Request $request)
+    {
+        if ($request->type == 'pdf') {
+            $options = $request->get('options');
+            $pdf = $this->initPdf($options);
+            $pdf->loadHTML(view('budget::reports.allocation.capital_assets_provincial', ['options' => $options, 'items' => $request->get('selectedItems')]));
+            $pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
+            return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
+        } else if ($request->type == 'excel') {
+            Excel::create('temp' . Auth::user()->id, function ($excel) use ($request) {
+                $excel->getDefaultStyle()
+                    ->getAlignment()
+                    ->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+                $excel->sheet('sheet1', function ($sheet) use ($request) {
+                    $options = $request->get('options');
+                    $sheet->setRightToLeft(true);
+                    $sheet->appendRow(array($options['title']));
+                    $sheet->mergeCells('A1:G1');
+                    $sheet->getStyle('A1:G1')->getAlignment()->applyFromArray(
+                        array('horizontal' => 'center')
+                    );
+                    $sheet->appendRow(array('طرح',
+                        'پروژه',
+                        'ردیف اعتبار',
+                        'شماره',
+                        'تاریخ',
+                        'مبلغ'));
+                    $sheet->cells('A2:G2', function ($cells) {
+                        $cells->setBackground('#34B7A3');
+                        $cells->setFontColor('#FFFFFF');
+                        $cells->setAlignment('center');
+                    });
+                    foreach($request->get('selectedItems') as $plan){
+                        foreach($plan['capital_assets_project_has_credit_source'] as $project){
+                            foreach($project['credit_source_has_allocation'] as $credit_source){
+                                foreach($credit_source['allocation'] as $alloc){
+                                    if($alloc['checked']==true){
+                                        $sheet->appendRow(array(
+
+                                              $plan['credit_distribution_title']['cdtIdNumber'] .' - '. $plan['credit_distribution_title']['cdtSubject'],
+                                              $project['cpCode']  . ' - ' .$project['cpSubject'],
+                                              $credit_source['credit_distribution_row']['cdSubject'],
+                                              $alloc['caaLetterNumber'] ,
+                                              $alloc['caaLetterDate'],
+                                              $alloc['caaAmount'] ,
+
+
+
+                                        ));
+                                    }
+                                }
+                            }
+                        }
                     }
                 });
             })->store('xls', public_path('xlsFiles'));

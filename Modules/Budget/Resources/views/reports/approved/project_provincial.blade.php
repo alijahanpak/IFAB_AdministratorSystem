@@ -26,9 +26,9 @@
                                  <td>{{$project['cpCode']}}</td>
                                  <td>{{$project['cpSubject']}}</td>
                                  <td>{{$project['county']['coName']}}</td>
-                                 <td>{{ $project['cpStartYear'] }}</td>
-                                 <td>{{ $project['cpEndOfYear'] }}</td>
-                                 <td>{{ $project['cpPhysicalProgress'] }}</td>
+                                 <td>{{$project['cpStartYear'] }}</td>
+                                 <td>{{$project['cpEndOfYear'] }}</td>
+                                 <td>{{$project['cpPhysicalProgress'] }}</td>
                                  <td>{{\Modules\Budget\Entities\CapCreditSource::sumOfCreditSource($project['id'])}}</td>
                                  <td>{{$project['cpDescription']}}</td>
                              </tr>

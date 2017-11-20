@@ -41,15 +41,15 @@
                                     <div v-if="selectColumn" class="input-group-button toggle-icon-change">
                                         <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn(provCapitalAssetsAllocations)"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
                                     </div>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
-                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDownProv">گزارش</button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDownProv" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a  href="#"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
-                                            <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
+                                            <li><a  @click="openReportModal(0,'pdf')"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a  @click="openReportModal(0,'excel')"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                                         </ul>
                                     </div>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
-                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDownProv">تعداد نمایش<span> 20 </span></button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDownProv" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
                                             <li><a  href="#">10</a></li>
                                             <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
@@ -305,15 +305,15 @@
                                     <div v-if="selectColumn" class="input-group-button toggle-icon-change">
                                         <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
                                     </div>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
-                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDownNat">گزارش</button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDownNat" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
                                             <li><a  href="#"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
                                             <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                                         </ul>
                                     </div>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
-                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDownNat">تعداد نمایش<span> 20 </span></button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDownNat" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
                                             <li><a  href="#">10</a></li>
                                             <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
@@ -951,7 +951,7 @@
                                     </div>
                                 </div>
                                 <div class="medium-12 columns padding-lr padding-bottom-modal input-margin-top">
-                                    <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">مشاهده</span></button>
+                                    <button name="Submit" class="my-button my-success float-left"> <span class="btn-txt-mrg">مشاهده</span></button>
                                 </div>
                             </form>
                         </div>
@@ -986,6 +986,7 @@
                 showModalUpdate: false,
                 showModalDelete: false,
                 showConvertToModal: false,
+                showModalReport:false,
                 selectColumn:false,
                 unSelectedCost: false,
                 dateIsValid_found: true,
@@ -999,7 +1000,7 @@
                 projectCreditSources: {},
                 selectedItems: [],
                 selectedCount: 0,
-                reportOptions: {title:'' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true},
+                reportOptions: {title:'' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true , costLabel:false},
                 foundIdForConvertTo: '',
 
                 national_pagination: {
@@ -1374,14 +1375,26 @@
                 this.provOrNat = proOrNat;
                 this.reportType = type;
                 this.selectedItems = [];
+                var isSelected=false;
                 if (proOrNat == 0)
                 {
                     if (this.selectedLength(this.provCapitalAssetsAllocations) != 0)
                     {
                         this.showModalReport = true;
                         this.provCapitalAssetsAllocations.forEach(plan => {
-                            if(plans.capital_assets_project_has_credit_source.every(function(project){return project.checked;}))
+                            plan.capital_assets_project_has_credit_source.forEach(projects => {
+                                projects.credit_source_has_allocation.forEach(credit_source =>{
+                                    credit_source.allocation.forEach(alloc =>{
+                                        if (alloc.checked == true)
+                                            isSelected=true;
+                                    });
+                                });
+                            });
+                            if (isSelected){
                                 this.selectedItems.push(plan);
+                                isSelected=false;
+                            }
+
                         });
                         this.reportOptions.title = 'تخصیص اعتبار تملک داریی های سرمایه ای استانی';
                     }
@@ -1394,8 +1407,14 @@
                     {
                         this.showModalReport = true;
                         this.natCapitalAssetsAllocations.forEach(plan => {
-                            if(plans.capital_assets_project_has_credit_source.every(function(project){return project.checked;}))
-                                this.selectedItems.push(plan);
+                            plan.capital_assets_project_has_credit_source.forEach(projects => {
+                                projects.credit_source_has_allocation.forEach(credit_source =>{
+                                    credit_source.allocation.forEach(alloc =>{
+                                        if (alloc.checked == true)
+                                            this.selectedItems.push(plan);
+                                    });
+                                });
+                            });
                         });
                         this.reportOptions.title = 'تخصیص اعتبار تملک داریی های سرمایه ای ملی';
                     }
@@ -1422,7 +1441,7 @@
             },
 
             openReportFile: function () {
-                axios.post('/budget/approved_project/capital_assets/report' , {pOrN: this.provOrNat , type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
+                axios.post('/budget/allocation/capital_assets/report' , {pOrN: this.provOrNat , type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
                     .then((response) => {
                         console.log(response.data);
                         window.open(response.data);

@@ -185,6 +185,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::get('/fetchData', 'AllocationOfCapitalAssetsController@fetchAllocation');
         Route::post('/register', 'AllocationOfCapitalAssetsController@registerCapitalAssetsAllocation');
         Route::get('/getCapitalAssetsCreditSourceInfo', 'AllocationOfCapitalAssetsController@getCapitalAssetsCreditSourceInfo');
+        Route::post('/report', 'BudgetReportController@capitalAssets');
     });
 
     Route::prefix('allocation/capital_assets/found')->group(function () {
