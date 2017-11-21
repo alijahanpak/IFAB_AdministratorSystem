@@ -66,7 +66,7 @@
                                         <div class="inner-addon right-addon">
                                             <i v-if="searchProvValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
                                             <i v-if="searchProvValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
-                                            <input v-model="searchProvValue" class="search" type="text" placeholder="جستوجو">
+                                            <input v-model="searchProvValue" class="search" type="text" placeholder="جستجو">
                                         </div>
                                     </div>
                                 </div>
@@ -124,7 +124,7 @@
                                                 </td>
                                                 <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length">{{ progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtIdNumber + ' - ' + progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtSubject }}</td>
                                                 <td v-if="progs.ca_credit_source_has_allocation[0].ccsDeleted" :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length" class="text-center"><span class="comlpleted-badage">حذف شده</span></td>
-                                                <td v-if="!progs.ca_credit_source_has_allocation[0].ccsDeleted" :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length" class="text-center">{{ $parent.calcDispAmount(getProgAllocationSum(progs.ca_credit_source_has_allocation) , false) }}</td>
+                                                <td v-if="!progs.ca_credit_source_has_allocation[0].ccsDeleted" :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length" class="text-center">{{ $parent.calcDispAmount(getProgAllocationSum(progs.ca_credit_source_has_allocation[0].allocation) , false) }}</td>
                                                 <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length">{{ progs.ca_credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
                                                 <td v-if="progs.ca_credit_source_has_allocation[0].allocation[0].caFoundId == null">{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterNumber }}</td>
                                                 <td class="text-center" v-if="progs.ca_credit_source_has_allocation[0].allocation[0].caFoundId != null"><i class="fa fa-exchange btn-red has-tip top" data-tooltip aria-haspopup="true" data-disable-hover="false" title="تبدیل شده از تنخواه"></i></td>
@@ -255,7 +255,7 @@
                                         <div class="inner-addon right-addon">
                                             <i v-if="searchNatValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
                                             <i v-if="searchNatValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
-                                            <input v-model="searchNatValue" class="search" type="text" placeholder="جستوجو">
+                                            <input v-model="searchNatValue" class="search" type="text" placeholder="جستجو">
                                         </div>
                                     </div>
                                 </div>
@@ -308,7 +308,7 @@
                                             <tr class="tbl-head-style-cell" >
                                                 <td :rowspan="getProjectAllocCount(progs.ca_credit_source_has_allocation)">{{ progs.caLetterNumber }}</td>
                                                 <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length">{{ progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtIdNumber + ' - ' + progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtSubject }}</td>
-                                                <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length" class="text-center">{{ $parent.calcDispAmount(getProgAllocationSum(progs.ca_credit_source_has_allocation) , false) }}</td>
+                                                <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length" class="text-center">{{ $parent.calcDispAmount(getProgAllocationSum(progs.ca_credit_source_has_allocation[0].allocation) , false) }}</td>
                                                 <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length">{{ progs.ca_credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
                                                 <td>{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterNumber }}</td>
                                                 <td>{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterDate }}</td>
@@ -470,8 +470,8 @@
                                                         <a class="dropdown small sm-btn-align" :data-toggle="'costFound' + found.id"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                         <div style="width: 170px" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'costFound' + found.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
-                                                                <li><a v-on:click.prevent=""><i class="fa fa-newspaper-o size-16"></i>  ویراش</a></li>
-                                                                <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                <li><a v-on:click.prevent="openUpdateFoundModal(found)"><i class="fa fa-newspaper-o size-16"></i>  ویراش</a></li>
+                                                                <li><a v-on:click.prevent="openDeleteFoundModal(found.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                 <li><a v-on:click.prevent="openConvertToModal(found.id)"><i class="fa fa-trash-o size-16"></i>  تبدیل به تخصیص</a></li>
                                                             </ul>
                                                         </div>
@@ -519,7 +519,7 @@
                             <div class="grid-x">
                                 <div class="medium-6 cell padding-lr">
                                     <label>اعتبار مصوب
-                                        <select class="form-element-margin-btm" @change="displayCreditResourceInfo"  v-model="AllocationInput.caCsId" name="credit" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('credit')}">
+                                        <select class="form-element-margin-btm" @change="displayCreditResourceInfo(AllocationInput.caCsId)"  v-model="AllocationInput.caCsId" name="credit" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('credit')}">
                                             <option value=""></option>
                                             <option v-for="caCreditSource in caCreditSources" :value="caCreditSource.id">{{ caCreditSource.credit_distribution_title.cdtSubject + ' - ' + caCreditSource.credit_distribution_row.cdSubject + ' - ' + caCreditSource.tiny_season.season_title.season.sSubject + ' - ' + caCreditSource.tiny_season.season_title.cstSubject + ' - ' + caCreditSource.tiny_season.ctsSubject + ' - ' + $parent.calcDispAmount(caCreditSource.ccsAmount) }}</option>
                                         </select>
@@ -592,7 +592,7 @@
                             <div class="grid-x">
                                 <div class="medium-6 cell padding-lr">
                                     <label>اعتبار مصوب
-                                        <select class="form-element-margin-btm" @change="displayCreditResourceInfo"  v-model="AllocationFill.caCsId" name="credit" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('credit')}">
+                                        <select class="form-element-margin-btm" @change="displayCreditResourceInfo(AllocationFill.caCsId)"  v-model="AllocationFill.caCsId" name="credit" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('credit')}">
                                             <option value=""></option>
                                             <option v-for="caCreditSource in caCreditSources" :value="caCreditSource.id">{{ caCreditSource.credit_distribution_title.cdtSubject + ' - ' + caCreditSource.credit_distribution_row.cdSubject + ' - ' + caCreditSource.tiny_season.season_title.season.sSubject + ' - ' + caCreditSource.tiny_season.season_title.cstSubject + ' - ' + caCreditSource.tiny_season.ctsSubject + ' - ' + $parent.calcDispAmount(caCreditSource.ccsAmount) }}</option>
                                         </select>
@@ -654,17 +654,10 @@
                 <modal-tiny v-if="showInsertFoundModal" @close="showInsertFoundModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div  slot="body">
                         <form v-on:submit.prevent="createProvincialFound">
-                            <div class="grid-x" v-if="errorMessage">
-                                <div class="medium-12 columns padding-lr">
-                                    <div class="alert callout">
-                                        <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="grid-x">
                                 <div class="medium-6 padding-lr">
                                     <p class="date-picker-lbl">تاریخ
-                                        <pdatepicker v-model="foundInput.date" v-on:closed="checkValidDate" errMessage="تاریخ دریافت تنخواه فراموش شده است!" :isValid="dateIsValid_found"  open-transition-animation="left-slide-fade"></pdatepicker>
+                                        <pdatepicker v-model="foundInput.date" v-on:closed="checkValidDate(foundInput)" errMessage="تاریخ دریافت تنخواه فراموش شده است!" :isValid="dateIsValid_found"  open-transition-animation="left-slide-fade"></pdatepicker>
                                     </p>
                                 </div>
                             </div>
@@ -690,17 +683,58 @@
                     </div>
                 </modal-tiny>
                 <!--Insert found Modal End-->
+                <!--update found Modal Start-->
+                <modal-tiny v-if="showUpdateFoundModal" @close="showUpdateFoundModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <div  slot="body">
+                        <form v-on:submit.prevent="updateProvincialFound">
+                            <div class="grid-x">
+                                <div class="medium-6 padding-lr">
+                                    <p class="date-picker-lbl">تاریخ
+                                        <pdatepicker v-model="foundFill.date" v-on:closed="checkValidDate(foundFill)" errMessage="تاریخ دریافت تنخواه فراموش شده است!" :isValid="dateIsValid_found"  open-transition-animation="left-slide-fade"></pdatepicker>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-12 cell padding-lr">
+                                    <label>مبلغ تنخواه <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
+                                        <input class="form-element-margin-btm" type="text"  v-model="foundFill.amount" name="foundAmount" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('foundAmount')}"/>
+                                    </label>
+                                    <span v-show="errors.has('foundAmount')" class="error-font">لطفا مبلغ تنخواه را وارد کنید!</span>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="small-12 columns padding-lr">
+                                    <label>شرح
+                                        <textarea name="csDescription" style="min-height: 150px;" v-model="foundFill.description"></textarea>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="medium-6 columns padding-lr padding-bottom-modal">
+                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                            </div>
+                        </form>
+                    </div>
+                </modal-tiny>
+                <!--update found Modal End-->
+                <!-- Delete Modal Start -->
+                <modal-tiny v-if="showDeleteFoundModal" @close="showDeleteFoundModal = false">
+                    <div  slot="body">
+                        <div class="small-font">
+                            <p>کاربر گرامی</p>
+                            <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
+                            <div class="grid-x">
+                                <div class="medium-12 column text-center">
+                                    <button v-on:click="deleteFound" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </modal-tiny>
+                <!-- Delete Modal End -->
                 <!--Insert Modal Start-->
                 <modal-large v-if="showConvertToModal" @close="showConvertToModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div  slot="body">
                         <form v-on:submit.prevent="convertToAllocation">
-                            <div class="grid-x" v-if="errorMessage">
-                                <div class="medium-12 columns padding-lr">
-                                    <div class="alert callout">
-                                        <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="grid-x">
                                 <div class="medium-6 cell padding-lr">
                                     <label>موافقت نامه
@@ -713,7 +747,7 @@
                                 </div>
                                 <div class="medium-6 cell padding-lr">
                                     <label>اعتبار مصوب
-                                        <select class="form-element-margin-btm" @change="displayCreditResourceInfo"  v-model="AllocationInput.caCsId" name="credit" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('credit')}">
+                                        <select class="form-element-margin-btm" @change="displayCreditResourceInfo(AllocationInput.caCsId)"  v-model="AllocationInput.caCsId" name="credit" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('credit')}">
                                             <option value=""></option>
                                             <option v-for="caCreditSource in caCreditSources" :value="caCreditSource.id">{{ caCreditSource.credit_distribution_title.cdtSubject + ' - ' + caCreditSource.credit_distribution_row.cdSubject + ' - ' + caCreditSource.tiny_season.season_title.season.sSubject + ' - ' + caCreditSource.tiny_season.season_title.cstSubject + ' - ' + caCreditSource.tiny_season.ctsSubject + ' - ' + $parent.calcDispAmount(caCreditSource.ccsAmount) }}</option>
                                         </select>
@@ -807,8 +841,6 @@
     export default {
         data(){
             return {
-                errorMessage: '',
-                errorMessage_update: '',
                 provCostAllocations: [],
                 natCostAllocations: [],
                 provCostFounds: [],
@@ -816,6 +848,7 @@
                 selectedCosts: [],
                 AllocationInput: {},
                 foundInput: {},
+                foundFill: {},
                 provOrNat: '',
                 searchProvValue:'',
                 searchNatValue:'',
@@ -824,10 +857,13 @@
                 showDeleteModal: false,
                 selectColumn:false,
                 showInsertFoundModal: false,
+                showUpdateFoundModal: false,
+                showDeleteFoundModal: false,
                 showConvertToModal: false,
                 AllocationFill: {},
                 creditSourceInfo: {},
                 caIdForDelete: '',
+                foundIdForDelete: '',
                 approvedPlans: {},
                 selectedCostAgreement: '',
                 costAgreements: {},
@@ -925,23 +961,20 @@
                     });
             },
 
-            displayCreditResourceInfo: function () {
-                axios.get('/budget/allocation/cost/getCostCreditSourceInfo' , {params:{caCsId: this.AllocationInput.caCsId}})
+            displayCreditResourceInfo: function (caCsId) {
+                axios.get('/budget/allocation/cost/getCostCreditSourceInfo' , {params:{caCsId: caCsId}})
                     .then((response) => {
                         this.creditSourceInfo = response.data;
                         console.log(response);
                     },(error) => {
                         console.log(error);
                     });
-
             },
 
-            getProgAllocationSum: function (creditSource) {
+            getProgAllocationSum: function (allocation) {
                 var sum = 0;
-                creditSource.forEach(cs => {
-                    cs.allocation.forEach(alloc => {
-                        sum += alloc.caAmount;
-                    });
+                allocation.forEach(alloc => {
+                    sum += alloc.caAmount;
                 });
                 return sum;
             },
@@ -973,6 +1006,7 @@
             },
 
             openInsertModal: function (type) {
+                this.creditSourceInfo = [];
                 this.AllocationInput = [];
                 this.selectedCostAgreement = '';
                 this.provOrNat = type;
@@ -1031,6 +1065,7 @@
                 this.AllocationFill.description = item.caDescription;
                 this.selectedCostAgreement = progId;
                 this.showUpdateModal = true;
+                this.displayCreditResourceInfo(this.AllocationFill.caCsId);
                 this.getCreditSource();
                 this.provOrNat = type;
                 this.getAllCostAgreements(type);
@@ -1066,7 +1101,6 @@
                                 console.log(response);
                             },(error) => {
                                 console.log(error);
-                                this.errorMessage = 'تخصیص با این مشخصات قبلا ثبت شده است!';
                             });
                     }
                 });
@@ -1121,13 +1155,14 @@
             },
 
             openInsertFoundModal:function () {
+                this.foundInput = [];
                 this.showInsertFoundModal = true;
             },
 
             createProvincialFound: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        if (this.checkValidDate()) {
+                        if (this.checkValidDate(this.foundInput)) {
                             axios.post('/budget/allocation/cost/found/register' , {
                                 date: this.foundInput.date,
                                 amount: this.foundInput.amount,
@@ -1145,6 +1180,59 @@
                         }
                     }
                 });
+            },
+
+            openUpdateFoundModal: function (item) {
+                this.foundFill.id = item.id;
+                this.foundFill.date = item.caLetterDate;
+                this.foundFill.amount = this.$parent.calcDispAmount(item.caAmount , false);
+                this.foundFill.description = item.caDescription;
+                this.showUpdateFoundModal = true;
+            },
+
+            updateProvincialFound: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        if (this.checkValidDate(this.foundFill)) {
+                            axios.post('/budget/allocation/cost/found/update' , {
+                                        id: this.foundFill.id,
+                                        date: this.foundFill.date,
+                                        amount: this.foundFill.amount,
+                                        description: this.foundFill.description,
+                                        pOrN: 0
+                                    })
+                                    .then((response) => {
+                                this.provCostFounds = response.data;
+                            this.showUpdateFoundModal = false;
+                            this.$parent.displayNotif(response.status);
+                            console.log(response);
+                        },(error) => {
+                                console.log(error);
+                            });
+                        }
+                    }
+                });
+            },
+
+            openDeleteFoundModal: function (fId) {
+                this.foundIdForDelete = fId;
+                this.showDeleteFoundModal = true;
+            },
+
+            deleteFound: function () {
+                axios.post('/budget/allocation/cost/found/delete' , {
+                            id: this.foundIdForDelete,
+                            pOrN: 0
+                        }).then((response) => {
+                        if (response.status != 204)
+                            this.provCostFounds = response.data;
+                        this.showDeleteFoundModal = false;
+                        this.$parent.displayNotif(response.status);
+                        console.log(response);
+                    },(error) => {
+                        console.log(error);
+                        this.showDeleteFoundModal = false;
+                    });
             },
 
             convertToAllocation: function () {
@@ -1203,8 +1291,8 @@
                 this.getAllCostAgreements(0);
             },
 
-            checkValidDate: function () {
-                if (this.foundInput.date == null || this.foundInput.date == '')
+            checkValidDate: function (data) {
+                if (data.date == null || data.date == '')
                 {
                     this.dateIsValid_found = false;
                     return false;

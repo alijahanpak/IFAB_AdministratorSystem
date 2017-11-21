@@ -251,6 +251,34 @@ class AllocationOfCapitalAssetsController extends Controller
         );
     }
 
+    public function updateCostFound(Request $request)
+    {
+        $alloc = CostAllocation::find($request->id);
+        $alloc->caUId = Auth::user()->id;
+        $alloc->caLetterDate = $request->date;
+        $alloc->caDescription = $request->description;
+        $alloc->caAmount = AmountUnit::convertInputAmount($request->amount);
+        $alloc->save();
+
+        SystemLog::setBudgetSubSystemLog('تغییر تنخواه هزینه ای');
+        return \response()->json(
+            $this->getAllCostFound()
+        );
+    }
+
+    public function deleteCostFound(Request $request)
+    {
+        if (CostAllocation::where('caFoundId' , '=' , $request->id)->exists())
+        {
+            return \response()->json([] , 204);
+        }else{
+            CostAllocation::where('id' , '=' , $request->id)->delete();
+            return \response()->json(
+                $this->getAllCostFound()
+            );
+        }
+    }
+
     public function convertCostFoundToAllocation(Request $request)
     {
         $sumOfCost = 0;

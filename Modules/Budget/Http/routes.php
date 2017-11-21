@@ -209,6 +209,8 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
 
     Route::prefix('allocation/cost/found')->group(function () {
         Route::post('/register', 'AllocationOfCapitalAssetsController@registerCostFound');
+        Route::post('/update', 'AllocationOfCapitalAssetsController@updateCostFound');
+        Route::post('/delete', 'AllocationOfCapitalAssetsController@deleteCostFound');
         Route::get('/fetchData', 'AllocationOfCapitalAssetsController@fetchCostFound');
         Route::get('/getAllExpenseCosts', 'AllocationOfCapitalAssetsController@getAllExpenseCosts'); // for test convert found to allocation
         Route::post('/convert_to_allocation', 'AllocationOfCapitalAssetsController@convertCostFoundToAllocation'); // for test convert found to allocation

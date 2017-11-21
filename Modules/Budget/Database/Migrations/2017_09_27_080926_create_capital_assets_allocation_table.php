@@ -47,6 +47,8 @@ class CreateCapitalAssetsAllocationTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_capital_assets_allocation');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }
