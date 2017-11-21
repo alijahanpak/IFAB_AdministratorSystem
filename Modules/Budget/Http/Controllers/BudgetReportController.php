@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
+use Modules\Admin\Entities\AmountUnit;
 
 class BudgetReportController extends Controller
 {
@@ -390,7 +391,7 @@ class BudgetReportController extends Controller
                                               $credit_source['credit_distribution_row']['cdSubject'],
                                               $alloc['caaLetterNumber'] ,
                                               $alloc['caaLetterDate'],
-                                              $alloc['caaAmount'] ,
+                                              AmountUnit::convertDispAmount($alloc[ 'caaAmount'])  ,
 
 
 

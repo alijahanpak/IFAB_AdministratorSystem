@@ -246,17 +246,17 @@
                                         </table>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="grid-x">
-                                <div class="medium-8">
-                                    <vue-pagination  v-bind:pagination="provincial_pagination"
-                                                     v-on:click.native="fetchProvincialData(provincial_pagination.current_page)"
-                                                     :offset="4">
-                                    </vue-pagination>
-                                </div>
-                                <div style="color: #575962;" v-show="selectColumn" class="medium-4 small-font">
-                                    <div class="float-left">
-                                        <p> تعداد رکورد های انتخاب شده :<span class="selected-row-style">{{ selectedLength(approvedProjects_prov) }}</span></p>
+                                <div class="grid-x">
+                                    <div class="medium-8">
+                                        <vue-pagination  v-bind:pagination="provincial_pagination"
+                                                         v-on:click.native="fetchProvincialData(provincial_pagination.current_page)"
+                                                         :offset="4">
+                                        </vue-pagination>
+                                    </div>
+                                    <div style="color: #575962;" v-show="selectColumn" class="medium-4 small-font">
+                                        <div class="float-left">
+                                            <p> تعداد رکورد های انتخاب شده :<span class="selected-row-style">{{ selectedLength(approvedProjects_prov) }}</span></p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -933,6 +933,7 @@
                 {
                     this.approvedPlan_prov = data;
                     this.selectAll(this.approvedProjects_prov);
+                    alert('shhhhhhhhhhhhhhhhoni');
                     console.log(JSON.stringify(this.approvedProjects_prov));
                 }else {
                     this.approvedProjects_nat = data;

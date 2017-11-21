@@ -1044,6 +1044,7 @@
                 axios.get('/budget/allocation/capital_assets/fetchData?page=' + page , {params:{pOrN: 0}})
                     .then((response) => {
                         this.provCapitalAssetsAllocations = response.data.data;
+                        this.setData(0 , response.data.data);
                         this.selectAll(this.provCapitalAssetsAllocations);
                         this.makePagination(response.data , "provincial");
                         console.log(response);
@@ -1056,6 +1057,7 @@
                 axios.get('/budget/allocation/capital_assets/found/fetchData')
                     .then((response) => {
                         this.provCapitalAssetsFounds = response.data;
+                        this.setData(2 , response.data.data);
                         this.selectAll(this.provCapitalAssetsFounds);
                         console.log(response);
                     },(error) => {
@@ -1067,6 +1069,7 @@
                 axios.get('/budget/allocation/capital_assets/fetchData?page=' + page , {params:{pOrN: 1}})
                     .then((response) => {
                         this.natCapitalAssetsAllocations = response.data.data;
+                        this.setData(1 , response.data.data);
                         this.selectAll(this.natCapitalAssetsAllocations);
                         this.makePagination(response.data , "national");
                         console.log(response);
@@ -1074,6 +1077,23 @@
                         console.log(error);
                     });
             },
+
+            setData: function (type , data) {
+                if (type == 0)
+                {
+                    this.provCapitalAssetsAllocations = data;
+                    this.selectAll(this.provCapitalAssetsAllocations);
+                    console.log(JSON.stringify(this.provCapitalAssetsAllocations));
+                }else if(type==1) {
+                    this.approvedProjects_nat = data;
+                    this.selectAll(this.approvedProjects_nat);
+                }
+                else{
+                    this.provCapitalAssetsFounds = data;
+                    this.selectAll(this.provCapitalAssetsFounds);
+                }
+            },
+
 
             getAllApprovedPlan: function (pOrN) {
                 axios.get('/budget/approved_plan/capital_assets/getAllItems' , {params:{pOrN: pOrN}})
