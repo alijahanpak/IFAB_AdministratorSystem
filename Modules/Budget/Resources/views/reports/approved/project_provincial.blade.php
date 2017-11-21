@@ -19,7 +19,7 @@
                  <tbody>
 
                  @foreach($items as $plan)
-                     @foreach($plan['capital_assets_project'] as $project)
+                     @foreach($plan['credit_distribution_plan'] as $project)
                          @if($project['checked']==true)
                              <tr>
                                  <td>{{ $plan['credit_distribution_title']['cdtIdNumber'] . ' - ' . $plan['credit_distribution_title']['cdtSubject'] }}</td>

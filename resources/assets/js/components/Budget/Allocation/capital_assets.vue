@@ -1043,9 +1043,7 @@
             fetchProvincialData: function (page = 1) {
                 axios.get('/budget/allocation/capital_assets/fetchData?page=' + page , {params:{pOrN: 0}})
                     .then((response) => {
-                        this.provCapitalAssetsAllocations = response.data.data;
                         this.setData(0 , response.data.data);
-                        this.selectAll(this.provCapitalAssetsAllocations);
                         this.makePagination(response.data , "provincial");
                         console.log(response);
                     },(error) => {
@@ -1056,7 +1054,6 @@
             fetchProvincialFoundData: function () {
                 axios.get('/budget/allocation/capital_assets/found/fetchData')
                     .then((response) => {
-                        this.provCapitalAssetsFounds = response.data;
                         this.setData(2 , response.data.data);
                         this.selectAll(this.provCapitalAssetsFounds);
                         console.log(response);
@@ -1068,9 +1065,7 @@
             fetchNationalData: function (page = 1) {
                 axios.get('/budget/allocation/capital_assets/fetchData?page=' + page , {params:{pOrN: 1}})
                     .then((response) => {
-                        this.natCapitalAssetsAllocations = response.data.data;
                         this.setData(1 , response.data.data);
-                        this.selectAll(this.natCapitalAssetsAllocations);
                         this.makePagination(response.data , "national");
                         console.log(response);
                     },(error) => {
@@ -1085,8 +1080,8 @@
                     this.selectAll(this.provCapitalAssetsAllocations);
                     console.log(JSON.stringify(this.provCapitalAssetsAllocations));
                 }else if(type==1) {
-                    this.approvedProjects_nat = data;
-                    this.selectAll(this.approvedProjects_nat);
+                    this.natCapitalAssetsAllocations = data;
+                    this.selectAll(this.natCapitalAssetsAllocations);
                 }
                 else{
                     this.provCapitalAssetsFounds = data;
@@ -1185,12 +1180,12 @@
                             .then((response) => {
                                 if (this.provOrNat == 0)
                                 {
-                                    this.provCapitalAssetsAllocations = response.data.data;
+                                    this.setData(0 , response.data.data);
                                     this.makePagination(response.data , "provincial");
                                 }
                                 else
                                 {
-                                    this.natCapitalAssetsAllocations = response.data.data;
+                                    this.setData(1 , response.data.data);
                                     this.makePagination(response.data , "national");
                                 }
                                 this.showModal = false;

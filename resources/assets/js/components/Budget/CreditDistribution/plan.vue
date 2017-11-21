@@ -39,9 +39,21 @@
                             <div class="clearfix border-btm-line bottom-mrg tool-bar">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(0)">جدید</a>
-                                    <a class="my-button toolbox-btn small">گزارش</a>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
-                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
+                                    <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
+                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(cdPlans)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
+                                    </div>
+                                    <div v-if="selectColumn" class="input-group-button toggle-icon-change">
+                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn(cdPlans)"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
+                                    </div>
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDownPlan">گزارش</button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDownPlan" data-dropdown data-auto-focus="true">
+                                        <ul class="my-menu small-font ltr-dir">
+                                            <li><a @click="openReportModal('pdf')"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a @click="openReportModal('excel')"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
+                                        </ul>
+                                    </div>
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDownPlan">تعداد نمایش<span> 20 </span></button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDownPlan" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
                                             <li><a  href="#">10</a></li>
                                             <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
@@ -71,6 +83,7 @@
                                         <col width="150px"/>
                                         <col width="100px"/>
                                         <col width="200px"/>
+                                        <col v-show="selectColumn" width="15px"/>
                                         <col width="12px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style">
@@ -79,7 +92,8 @@
                                         <th class="tbl-head-style-cell">ردیف</th>
                                         <th class="tbl-head-style-cell">شهرستان</th>
                                         <th class="tbl-head-style-cell">مبلغ اعتبار</th>
-                                        <th class="tbl-head-style-cell">توضیحات</th>
+                                        <th class="tbl-head-style-cell">شرح</th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox" @click="toggleSelect(cdPlans)" :checked="allSelected(cdPlans)"></th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
@@ -93,6 +107,7 @@
                                             <col width="150px"/>
                                             <col width="100px"/>
                                             <col width="200px"/>
+                                            <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
                                             <template v-for="plans in cdPlans">
@@ -117,6 +132,9 @@
                                                             </div>
                                                         </div>
                                                     </td>
+                                                    <td  v-show="selectColumn">
+                                                        <input class="auto-margin" v-model="plans.credit_distribution_plan[0].checked" type="checkbox">
+                                                    </td>
                                                 </tr>
                                                 <template v-for="(cdPlan , cdIndex) in plans.credit_distribution_plan">
                                                     <tr class="tbl-head-style-cell" v-if="cdIndex > 0">
@@ -139,6 +157,9 @@
                                                                 </div>
                                                             </div>
                                                         </td>
+                                                        <td  v-show="selectColumn">
+                                                            <input class="auto-margin" v-model="cdPlan.checked" type="checkbox">
+                                                        </td>
                                                     </tr>
                                                 </template>
                                             </template>
@@ -147,11 +168,16 @@
                                 </div>
                             </div>
                             <div class="grid-x">
-                                <div class="medium-12">
+                                <div class="medium-8">
                                     <vue-pagination  v-bind:pagination="plan_pagination"
                                                      v-on:click.native="fetchData(plan_pagination.current_page)"
                                                      :offset="4">
                                     </vue-pagination>
+                                </div>
+                                <div style="color: #575962;" v-show="selectColumn" class="medium-4 small-font">
+                                    <div class="float-left">
+                                        <p> تعداد رکورد های انتخاب شده :<span class="selected-row-style">{{ selectedLength(cdPlans) }}</span></p>
+                                    </div>
                                 </div>
                             </div>
                             <!--Table Start-->
@@ -164,7 +190,6 @@
                             <div class="clearfix border-btm-line bottom-mrg tool-bar">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
-                                    <a class="my-button toolbox-btn small">گزارش</a>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
@@ -204,7 +229,7 @@
                                         <th class="tbl-head-style-cell">طرح</th>
                                         <th class="tbl-head-style-cell">شهرستان</th>
                                         <th class="tbl-head-style-cell">مبلغ اعتبار</th>
-                                        <th class="tbl-head-style-cell">توضیحات</th>
+                                        <th class="tbl-head-style-cell">شرح</th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
@@ -288,7 +313,6 @@
                             <div class="clearfix border-btm-line bottom-mrg tool-bar">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
-                                    <a class="my-button toolbox-btn small">گزارش</a>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
@@ -330,7 +354,7 @@
                                         <th class="tbl-head-style-cell">ردیف</th>
                                         <th class="tbl-head-style-cell">شهرستان</th>
                                         <th class="tbl-head-style-cell">مبلغ اعتبار</th>
-                                        <th class="tbl-head-style-cell">توضیحات</th>
+                                        <th class="tbl-head-style-cell">شرح</th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
@@ -440,7 +464,6 @@
                             <div class="clearfix border-btm-line bottom-mrg tool-bar">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
-                                    <a class="my-button toolbox-btn small">گزارش</a>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
@@ -480,7 +503,7 @@
                                         <th class="tbl-head-style-cell">طرح</th>
                                         <th class="tbl-head-style-cell">ردیف</th>
                                         <th class="tbl-head-style-cell">مبلغ اعتبار</th>
-                                        <th class="tbl-head-style-cell">توضیحات</th>
+                                        <th class="tbl-head-style-cell">شرح</th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
@@ -723,6 +746,85 @@
                     </div>
                 </modal-tiny>
                 <!-- Delete Modal End -->
+                <!--Report Modal Start-->
+                <modal-tiny v-if="showModalReport" @close="showModalReport= false">
+                    <div  slot="body">
+                        <div class="small-font">
+                            <form v-on:submit.prevent="openReportFile">
+                                <div class="grid-x padding-lr">
+                                    <div class="medium-12">
+                                        <label>عنوان
+                                            <input type="text" v-model="reportOptions.title">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div v-show="reportType == 'pdf'">
+                                    <div style="margin-top: 10px;" class="grid-x padding-lr">
+                                        <div class="medium-2">
+                                            <div class="switch tiny">
+                                                <input checked="true" class="switch-input" id="yes-no-1" v-model="reportOptions.withReporterName" type="checkbox">
+                                                <label class="switch-paddle" for="yes-no-1">
+                                                    <span class="switch-active" aria-hidden="true">بلی</span>
+                                                    <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="medium-10">
+                                            <p>درج نام کاربر تهیه کننده گزارش</p>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x padding-lr">
+                                        <div class="medium-2">
+                                            <div class="switch tiny">
+                                                <input checked="true" class="switch-input" id="yes-no-2" type="checkbox" v-model="reportOptions.withFiscalYear">
+                                                <label class="switch-paddle" for="yes-no-2">
+                                                    <span class="switch-active" aria-hidden="true">بلی</span>
+                                                    <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="medium-10">
+                                            <p>درج سال مالی</p>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x padding-lr">
+                                        <div class="medium-2">
+                                            <div class="switch tiny">
+                                                <input checked="true" class="switch-input" id="yes-no3" type="checkbox" v-model="reportOptions.withReportDate">
+                                                <label class="switch-paddle" for="yes-no3">
+                                                    <span class="switch-active" aria-hidden="true">بلی</span>
+                                                    <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="medium-10">
+                                            <p>درج تاریخ گزارش</p>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x padding-lr">
+                                        <div class="medium-2">
+                                            <div class="switch tiny">
+                                                <input checked="true" class="switch-input" id="yes-no4" type="checkbox" v-model="reportOptions.orientation">
+                                                <label class="switch-paddle" for="yes-no4">
+                                                    <span class="switch-active" aria-hidden="true">افقی</span>
+                                                    <span class="switch-inactive" aria-hidden="true">عمودی</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="medium-10">
+                                            <p>جهت کاغذ</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="medium-12 columns padding-lr padding-bottom-modal input-margin-top">
+                                    <button name="Submit" class="my-button my-success float-left"> <span class="btn-txt-mrg">مشاهده</span></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </modal-tiny>
+
+                <!--Report Modal End-->
             </div>
         </div>
     </div>
@@ -746,11 +848,16 @@
                 showInsertModal: false,
                 showUpdateModal: false,
                 showDeleteModal: false,
+                showModalReport:false,
+                selectColumn:false,
                 creditDistributionTitles: {},
                 creditDistributionRows: {},
                 counties: {},
                 bSeasons: {},
                 selectedBs: '',
+                selectedItems: [],
+                selectedCount: 0,
+                reportOptions: {title:'' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true ,costLabel: true},
                 selectedPlanIdForDelete: '',
 
                 plan_pagination: {
@@ -816,6 +923,12 @@
                     },(error) => {
                         console.log(error);
                     });
+            },
+
+            setData: function (data) {
+                    this.cdPlans = response.data.byPlan.data;
+                    this.selectAll(this.cdPlans);
+                    //console.log(JSON.stringify(this.cdPlans));
             },
 
             getBudgetSeason: function () {
@@ -985,6 +1098,108 @@
                         this.showDeleteModal = false;
                     });
             },
+
+            showSelectColumn: function (plans) {
+                this.selectAll(plans);
+                if (this.selectColumn)
+                {
+                    this.selectColumn=false;
+                }
+                else {
+                    this.selectColumn = true;
+                }
+            },
+
+            openReportModal: function (type) {
+                this.reportType = type;
+                this.selectedItems = [];
+                var isSelected=false;
+                if (this.selectedLength(this.cdPlans) != 0)
+                {
+                    this.showModalReport = true;
+                    this.cdPlans.forEach(plan => {
+                        plan.credit_distribution_plan.forEach(cdPlan => {
+                            if (cdPlan.checked == true)
+                                isSelected=true;
+                        });
+                        if (isSelected) {
+                            this.selectedItems.push(plan);
+                            isSelected = false;
+                        }
+                    });
+                    this.reportOptions.title = 'پیشنهاد طرح های توزیع اعتبار تملک دارایی های سرمایه ای استانی';
+                }
+                else{
+                    this.$parent.displayNotif(800);
+                }
+
+                //console.log(JSON.stringify(this.selectedItems));
+            },
+
+            openReportFile: function () {
+                axios.post('/budget/credit_distribution/report' , {pOrN: this.provOrNat , type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
+                    .then((response) => {
+                        console.log(response.data);
+                        window.open(response.data);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            toggleSelect: function(plans) {
+                var temp = false;
+                plans.forEach(plan => {
+                    plan.credit_distribution_plan.forEach(cdPlan => {
+                        if (cdPlan.checked)
+                            temp = true;
+
+                    });
+                });
+                plans.forEach(plan => {
+                    if(temp){
+                        plan.credit_distribution_plan.forEach(cdPlan => {
+                            cdPlan.checked = false;
+
+                        });
+                    } else {
+                        plan.credit_distribution_plan.forEach(cdPlan => {
+                            cdPlan.checked = true;
+                        });
+                    }
+                });
+                //console.log(JSON.stringify(this.approvedProjects_prov));
+            },
+
+            allSelected: function(plans) {
+                var temp = true;
+                //console.log(JSON.stringify(this.approvedProjects_prov));
+                plans.forEach(plan => {
+                    plan.credit_distribution_plan.forEach(cdPlan => {
+                        if (cdPlan.checked == false)
+                            temp = false;
+                    });
+                });
+                return temp;
+            },
+
+            selectAll: function (plans) {
+                plans.forEach(plan => {
+                    plan.credit_distribution_plan.forEach(cdPlan => {
+                        this.$set(cdPlan, 'checked' , true);
+                    });
+                });
+                console.log(JSON.stringify(this.approvedProjects_prov));
+            },
+
+            selectedLength: function (plans) {
+                var counter=0;
+                plans.forEach(plan => {
+                    plan.credit_distribution_plan.forEach(cdPlan => {
+                        counter+=cdPlan.checked;
+                    });
+                });
+                return counter;
+                },
 
             makePagination: function(data , type){
                 if (type == "plan")

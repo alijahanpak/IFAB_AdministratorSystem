@@ -406,4 +406,55 @@ class BudgetReportController extends Controller
             return url('xlsFiles/temp' . Auth::user()->id . '.xls');
         }
     }
+
+    public function planProvincial(Request $request)
+    {
+        if ($request->type == 'pdf') {
+            $options = $request->get('options');
+            $pdf = $this->initPdf($options);
+            $pdf->loadHTML(view('budget::reports.creditDistribution.plan', ['options' => $options, 'items' => $request->get('selectedItems')]));
+            $pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
+            return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
+        } else if ($request->type == 'excel') {
+            Excel::create('temp' . Auth::user()->id, function ($excel) use ($request) {
+                $excel->getDefaultStyle()
+                    ->getAlignment()
+                    ->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+                $excel->sheet('sheet1', function ($sheet) use ($request) {
+                    $options = $request->get('options');
+                    $sheet->setRightToLeft(true);
+                    $sheet->appendRow(array($options['title']));
+                    $sheet->mergeCells('A1:E1');
+                    $sheet->getStyle('A1:E1')->getAlignment()->applyFromArray(
+                        array('horizontal' => 'center')
+                    );
+                    $sheet->appendRow(array('طرح',
+                        'ردیف',
+                        'شهرستان',
+                        'مبلغ اعتبار',
+                        'شرح'));
+                    $sheet->cells('A2:E2', function ($cells) {
+                        $cells->setBackground('#34B7A3');
+                        $cells->setFontColor('#FFFFFF');
+                        $cells->setAlignment('center');
+                    });
+                        foreach($request->get('selectedItems') as $plan){
+                            foreach($plan['credit_distribution_plan'] as $cdPlan){
+                                if($cdPlan['checked']==true)
+                                {
+                                    $sheet->appendRow(array(
+                                        $plan['cdtIdNumber'] .'-'. $plan['cdtSubject'],
+                                        $cdPlan['credit_distribution_row']['cdSubject'],
+                                        $cdPlan['county']['coName'],
+                                        AmountUnit::convertDispAmount($cdPlan['cdpCredit']),
+                                        $cdPlan['cdpDescription']
+                                    ));
+                                }
+                            }
+                        }
+                    });
+            })->store('xls', public_path('xlsFiles'));
+            return url('xlsFiles/temp' . Auth::user()->id . '.xls');
+        }
+    }
 }
