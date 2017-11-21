@@ -938,8 +938,7 @@
             fetchProvincialData: function (page = 1) {
                 axios.get('/budget/allocation/capital_assets/fetchData?page=' + page , {params:{pOrN: 0}})
                     .then((response) => {
-                        this.provCapitalAssetsAllocations = response.data.data;
-                        this.selectAll(this.provCapitalAssetsAllocations);
+                        this.setData(0 , response.data.data);
                         this.makePagination(response.data , "provincial");
                         console.log(response);
                     },(error) => {
@@ -950,7 +949,7 @@
             fetchProvincialFoundData: function () {
                 axios.get('/budget/allocation/capital_assets/found/fetchData')
                     .then((response) => {
-                        this.provCapitalAssetsFounds = response.data;
+                        this.setData(2 , response.data.data);
                         this.selectAll(this.provCapitalAssetsFounds);
                         console.log(response);
                     },(error) => {
@@ -961,14 +960,30 @@
             fetchNationalData: function (page = 1) {
                 axios.get('/budget/allocation/capital_assets/fetchData?page=' + page , {params:{pOrN: 1}})
                     .then((response) => {
-                        this.natCapitalAssetsAllocations = response.data.data;
-                        this.selectAll(this.natCapitalAssetsAllocations);
+                        this.setData(1 , response.data.data);
                         this.makePagination(response.data , "national");
                         console.log(response);
                     },(error) => {
                         console.log(error);
                     });
             },
+
+            setData: function (type , data) {
+                if (type == 0)
+                {
+                    this.provCapitalAssetsAllocations = data;
+                    this.selectAll(this.provCapitalAssetsAllocations);
+                    console.log(JSON.stringify(this.provCapitalAssetsAllocations));
+                }else if(type==1) {
+                    this.natCapitalAssetsAllocations = data;
+                    this.selectAll(this.natCapitalAssetsAllocations);
+                }
+                else{
+                    this.provCapitalAssetsFounds = data;
+                    this.selectAll(this.provCapitalAssetsFounds);
+                }
+            },
+
 
             getAllApprovedPlan: function (pOrN) {
                 axios.get('/budget/approved_plan/capital_assets/getAllItems' , {params:{pOrN: pOrN}})
@@ -1060,12 +1075,12 @@
                             .then((response) => {
                                 if (this.provOrNat == 0)
                                 {
-                                    this.provCapitalAssetsAllocations = response.data.data;
+                                    this.setData(0 , response.data.data);
                                     this.makePagination(response.data , "provincial");
                                 }
                                 else
                                 {
-                                    this.natCapitalAssetsAllocations = response.data.data;
+                                    this.setData(1 , response.data.data);
                                     this.makePagination(response.data , "national");
                                 }
                                 this.showModal = false;

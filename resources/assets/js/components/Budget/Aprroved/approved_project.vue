@@ -276,17 +276,17 @@
                                         </table>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="grid-x">
-                                <div class="medium-8">
-                                    <vue-pagination  v-bind:pagination="provincial_pagination"
-                                                     v-on:click.native="fetchProvincialData(provincial_pagination.current_page)"
-                                                     :offset="4">
-                                    </vue-pagination>
-                                </div>
-                                <div style="color: #575962;" v-show="selectColumn" class="medium-4 small-font">
-                                    <div class="float-left">
-                                        <p> تعداد رکورد های انتخاب شده :<span class="selected-row-style">{{ selectedLength(approvedProjects_prov) }}</span></p>
+                                <div class="grid-x">
+                                    <div class="medium-8">
+                                        <vue-pagination  v-bind:pagination="provincial_pagination"
+                                                         v-on:click.native="fetchProvincialData(provincial_pagination.current_page)"
+                                                         :offset="4">
+                                        </vue-pagination>
+                                    </div>
+                                    <div style="color: #575962;" v-show="selectColumn" class="medium-4 small-font">
+                                        <div class="float-left">
+                                            <p> تعداد رکورد های انتخاب شده :<span class="selected-row-style">{{ selectedLength(approvedProjects_prov) }}</span></p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1063,9 +1063,7 @@
             fetchProvincialData: function (page = 1) {
                 axios.get('/budget/approved_project/capital_assets/fetchData?page=' + page , {params:{pOrN: 0}})
                     .then((response) => {
-                        this.approvedProjects_prov = response.data.data;
                         this.setData(0 , response.data.data);
-                        this.selectAll(this.approvedProjects_prov);
                         this.makePagination(response.data , "provincial");
                         console.log(response);
                     },(error) => {
@@ -1076,9 +1074,7 @@
             fetchNationalData: function (page = 1) {
                 axios.get('/budget/approved_project/capital_assets/fetchData?page=' + page , {params:{pOrN: 1}})
                     .then((response) => {
-                        this.approvedProjects_nat = response.data.data;
                         this.setData(1 , response.data.data);
-                        this.selectAll(this.approvedProjects_nat);
                         this.makePagination(response.data , "national");
                         console.log(response);
                     },(error) => {
@@ -1089,8 +1085,9 @@
             setData: function (type , data) {
                 if (type == 0)
                 {
-                    this.approvedPlan_prov = data;
+                    this.approvedProjects_prov = data;
                     this.selectAll(this.approvedProjects_prov);
+                    console.log(JSON.stringify(this.approvedProjects_prov));
                 }else {
                     this.approvedProjects_nat = data;
                     this.selectAll(this.approvedProjects_nat);
@@ -1207,13 +1204,11 @@
                                 if (this.provOrNat == 0)
                                 {
                                     this.setData(0 , response.data.data);
-                                    this.approvedProjects_prov = response.data.data;
                                     this.makePagination(response.data , "provincial");
                                 }
                                 else
                                 {
                                     this.setData(1 , response.data.data);
-                                    this.approvedProjects_nat = response.data.data;
                                     this.makePagination(response.data , "national");
                                 }
                                 this.showInsertModal = false;
@@ -1254,13 +1249,11 @@
                             if (this.provOrNat == 0)
                             {
                                 this.setData(0 , response.data.data);
-                                this.approvedProjects_prov = response.data.data;
                                 this.makePagination(response.data , "provincial");
                             }
                             else
                             {
                                 this.setData(1 , response.data.data);
-                                this.approvedProjects_nat = response.data.data;
                                 this.makePagination(response.data , "national");
                             }
                             this.showApCsInsertModal = false;
@@ -1307,13 +1300,11 @@
                             if (this.provOrNat == 0)
                             {
                                 this.setData(0 , response.data.data);
-                                this.approvedProjects_prov = response.data.data;
                                 this.makePagination(response.data , "provincial");
                             }
                             else
                             {
                                 this.setData(1 , response.data.data);
-                                this.approvedProjects_nat = response.data.data;
                                 this.makePagination(response.data , "national");
                             }
                             this.showApCsUpdateModal = false;
@@ -1385,13 +1376,11 @@
                             if (this.provOrNat == 0)
                             {
                                 this.setData(0 , response.data.data);
-                                this.approvedProjects_prov = response.data.data;
                                 this.makePagination(response.data , "provincial");
                             }
                             else
                             {
                                 this.setData(1 , response.data.data);
-                                this.approvedProjects_nat = response.data.data;
                                 this.makePagination(response.data , "national");
                             }
                             this.showUpdateModal = false;
@@ -1421,13 +1410,11 @@
                         if (this.provOrNat == 0)
                         {
                             this.setData(0 , response.data.data);
-                            this.approvedProjects_prov = response.data.data;
                             this.makePagination(response.data , "provincial");
                         }
                         else
                         {
                             this.setData(1 , response.data.data);
-                            this.approvedProjects_nat = response.data.data;
                             this.makePagination(response.data , "national");
                         }
                     }

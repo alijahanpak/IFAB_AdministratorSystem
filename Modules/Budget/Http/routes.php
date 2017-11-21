@@ -44,6 +44,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('capital_assets/provincial/proposal/register', 'CreditDistributionController@registerProvincialBudgetProposal');
         Route::post('capital_assets/provincial/proposal/delete', 'CreditDistributionController@deleteProvincialBudgetProposal');
         Route::post('capital_assets/provincial/proposal/update', 'CreditDistributionController@updateProvincialBudgetProposal');
+        Route::post('/report', 'BudgetReportController@planProvincial');
     });
 
     Route::prefix('admin/sub_seasons/cost')->group(function () {

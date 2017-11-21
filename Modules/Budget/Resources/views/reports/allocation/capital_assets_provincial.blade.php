@@ -25,7 +25,7 @@
                                              <td>{{ $credit_source['credit_distribution_row']['cdSubject'] }}</td>
                                              <td>{{ $alloc['caaLetterNumber'] }}</td>
                                              <td>{{ $alloc['caaLetterDate'] }}</td>
-                                             <td>{{ $alloc['caaAmount'] }}</td>
+                                             <td>{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount($alloc['caaAmount'])}}</td>
                                          </tr>
                                      @endif
                                  @endforeach
