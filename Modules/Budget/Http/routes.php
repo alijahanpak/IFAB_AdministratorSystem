@@ -172,6 +172,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::get('/getAllItems', 'ProjectController@getAllApprovedProjects');
         Route::post('/credit_source/register', 'ProjectController@registerApCreditSource');
         Route::post('/credit_source/update', 'ProjectController@updateApCreditSource');
+        Route::post('/credit_source/delete', 'ProjectController@deleteApCreditSource');
         Route::get('/credit_source/getAllItem', 'ProjectController@getAllApCreditSourceItems');
         Route::post('/report', 'BudgetReportController@approvedProject');
 

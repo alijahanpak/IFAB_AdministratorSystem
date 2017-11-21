@@ -70,7 +70,7 @@ class ProjectController extends Controller
         $cap = CapitalAssetsProject::find($request->id);
         try {
             $cap->delete();
-            SystemLog::setBudgetSubSystemAdminLog('حذف پروژه تملک داریی های سرمایه ای');
+            SystemLog::setBudgetSubSystemLog('حذف پروژه تملک داریی های سرمایه ای');
             return \response()->json($this->getAllProject($request->pOrN));
         }
         catch (\Illuminate\Database\QueryException $e) {
@@ -141,6 +141,21 @@ class ProjectController extends Controller
         return \response()->json(
             $this->getAllProject($request->pOrN)
         );
+    }
+
+    public function deleteApCreditSource(Request $request)
+    {
+        $cs = CapCreditSource::find($request->id);
+        try {
+            $cs->delete();
+            SystemLog::setBudgetSubSystemLog('حذف تامین اعتبار پروژه تملک داریی های سرمایه ای');
+            return \response()->json($this->getAllProject($request->pOrN));
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                return \response()->json([] , 204);
+            }
+        }
     }
 
     public function getAllApCreditSourceItems(Request $request)

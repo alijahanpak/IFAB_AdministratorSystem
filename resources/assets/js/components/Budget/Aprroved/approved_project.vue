@@ -180,7 +180,7 @@
                                                                             <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedProjectCs' + plans.id + creditSource.id" data-dropdown data-auto-focus="true">
                                                                                 <ul class="my-menu small-font text-right">
                                                                                     <li><a v-on:click.prevent="openApCsUpdateModal(creditSource , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                                    <li><a v-on:click.prevent="openDeleteModal(project.id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                                    <li><a v-on:click.prevent="openApCsDeleteModal(creditSource.id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </div>
@@ -227,7 +227,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr v-if="pIndex>0" v-show="displayCreditSourceInfo_prov == project.id">
-                                                        <td colspan="5">
+                                                        <td colspan="6">
                                                             <table class="unstriped tbl-secondary-mrg small-font">
                                                                 <thead class="my-thead">
                                                                 <tr style="background-color: #F1F1F1 !important;">
@@ -258,7 +258,7 @@
                                                                                 <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedProjectCs' + plans.id + creditSource.id" data-dropdown data-auto-focus="true">
                                                                                     <ul class="my-menu small-font text-right">
                                                                                         <li><a v-on:click.prevent="openApCsUpdateModal(creditSource , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                                        <li><a v-on:click.prevent="openDeleteModal(project.id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                                        <li><a v-on:click.prevent="openApCsDeleteModal(creditSource.id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                                     </ul>
                                                                                 </div>
                                                                             </div>
@@ -411,7 +411,7 @@
                                                 </td>
                                             </tr>
                                             <tr v-show="displayCreditSourceInfo_nat == plans.capital_assets_project[0].id">
-                                                <td colspan="5">
+                                                <td colspan="6">
                                                     <table class="unstriped tbl-secondary-mrg small-font">
                                                         <thead class="my-thead">
                                                         <tr style="background-color: #F1F1F1 !important;">
@@ -442,7 +442,7 @@
                                                                         <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedProjectCs' + plans.id + creditSource.id" data-dropdown data-auto-focus="true">
                                                                             <ul class="my-menu small-font text-right">
                                                                                 <li><a v-on:click.prevent="openApCsUpdateModal(creditSource , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                                <li><a v-on:click.prevent="openDeleteModal(project.id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                                <li><a v-on:click.prevent="openApCsDeleteModal(creditSource.id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                             </ul>
                                                                         </div>
                                                                     </div>
@@ -489,7 +489,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr v-if="pIndex > 0" v-show="displayCreditSourceInfo_nat == project.id">
-                                                    <td colspan="5">
+                                                    <td colspan="6">
                                                         <table class="unstriped tbl-secondary-mrg small-font">
                                                             <thead class="my-thead">
                                                             <tr style="background-color: #F1F1F1 !important;">
@@ -520,7 +520,7 @@
                                                                             <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedProjectCs' + plans.id + creditSource.id" data-dropdown data-auto-focus="true">
                                                                                 <ul class="my-menu small-font text-right">
                                                                                     <li><a v-on:click.prevent="openApCsUpdateModal(creditSource , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                                    <li><a v-on:click.prevent="openDeleteModal(project.id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                                    <li><a v-on:click.prevent="openApCsDeleteModal(creditSource.id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </div>
@@ -800,6 +800,7 @@
                 </div>
             </modal-small>
             <!--Project Cost Modal End-->
+
             <!--update credit source Modal Start-->
             <modal-small v-if="showApCsUpdateModal" @close="showApCsUpdateModal = false">
                 <div  slot="body">
@@ -877,6 +878,23 @@
                 </div>
             </modal-small>
             <!--update Modal End-->
+
+            <!-- credit source Delete Modal Start -->
+            <modal-tiny v-if="showApCsDeleteModal" @close="showApCsDeleteModal = false">
+                <div  slot="body">
+                    <div class="small-font">
+                        <p>کاربر گرامی</p>
+                        <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
+                        <div class="grid-x">
+                            <div class="medium-12 column text-center">
+                                <button v-on:click="deleteApprovedProjectCreditSource" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </modal-tiny>
+            <!-- credit source Delete Modal End -->
+
             <!--Report Modal Start-->
             <modal-tiny v-if="showModalReport" @close="showModalReport= false">
                 <div  slot="body">
@@ -973,6 +991,7 @@
                 showInsertModal: false,
                 showApCsInsertModal: false,
                 showApCsUpdateModal: false,
+                showApCsDeleteModal: false,
                 showUpdateModal: false,
                 showDeleteModal: false,
                 showModalReport:false,
@@ -989,6 +1008,7 @@
                 searchNatValue:'',
                 provOrNat: '',
                 apIdForDelete: '',
+                csIdForDelete: '',
                 approvedPlans: {},
                 counties: {},
                 countyState: false,
@@ -1208,6 +1228,7 @@
             },
 
             openApCreditSourceInsertModal: function (capId , type) {
+                this.apCreditSourceInput = [];
                 this.selectedSeason = '';
                 this.selectedSeasonTitle = '';
                 this.showApCsInsertModal = true;
@@ -1417,6 +1438,43 @@
                     console.log(error);
                     this.showDeleteModal = false;
                 });
+            },
+
+            openApCsDeleteModal: function (csId , type) {
+                this.csIdForDelete = csId;
+                this.provOrNat = type;
+                this.showApCsDeleteModal = true;
+            },
+
+            deleteApprovedProjectCreditSource: function () {
+                axios.post('/budget/approved_project/capital_assets/credit_source/delete' , {
+                    id: this.csIdForDelete,
+                    pOrN: this.provOrNat
+                }).then((response) => {
+                    if (response.status != 204)
+                    {
+                        if (this.provOrNat == 0)
+                        {
+                            this.approvedProjects_prov = response.data.data;
+                            this.setData(0 , response.data.data);
+                            this.makePagination(response.data , "provincial");
+                        }
+                        else
+                        {
+                            this.approvedProjects_nat = response.data.data;
+                            this.setData(1 , response.data.data);
+                            this.makePagination(response.data , "national");
+                        }
+                    }
+
+                    this.showApCsDeleteModal = false;
+                    this.$parent.displayNotif(response.status);
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                    this.showApCsDeleteModal = false;
+                });
+
             },
 
             showSelectColumn: function (plans) {
