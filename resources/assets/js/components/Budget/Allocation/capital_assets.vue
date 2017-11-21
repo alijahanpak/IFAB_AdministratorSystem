@@ -862,7 +862,7 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <span class="error-font" v-show="unSelectedCost">حداقل یک مورد را از لیست هزینه انتخاب کنید!</span>
+                                        <span class="error-font" v-show="unSelectedCost">حداقل یک مورد از لیست هزینه انتخاب کنید!</span>
                                     </label>
                                 </div>
                             </div>
@@ -1027,6 +1027,7 @@
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
+            this.$parent.userIsActive();
         },
 
         mounted: function () {

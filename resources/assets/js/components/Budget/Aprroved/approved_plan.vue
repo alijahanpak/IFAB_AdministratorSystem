@@ -1382,6 +1382,7 @@
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
+            this.$parent.userIsActive();
             this.myResizeModal();
         },
 
