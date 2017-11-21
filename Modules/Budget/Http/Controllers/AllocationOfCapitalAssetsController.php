@@ -154,6 +154,38 @@ class AllocationOfCapitalAssetsController extends Controller
         );
     }
 
+    public function updateCostAllocation(Request $request)
+    {
+        $caAlloc = CostAllocation::find($request->id);
+        $caAlloc->caUId = Auth::user()->id;
+        $caAlloc->caCcsId = $request->caCsId;
+        $caAlloc->caLetterNumber = $request->idNumber;
+        $caAlloc->caLetterDate = $request->date;
+        $caAlloc->caAmount = AmountUnit::convertInputAmount($request->amount);
+        $caAlloc->caDescription = $request->description;
+        $caAlloc->save();
+
+        SystemLog::setBudgetSubSystemLog('تغییر تخصیص اعتبار هزینه ای');
+        return \response()->json(
+            $this->getAllCostAllocates($request->pOrN)
+        );
+    }
+
+    public function deleteCostAllocation(Request $request)
+    {
+        $ca = CostAllocation::find($request->id);
+        try {
+            $ca->delete();
+            SystemLog::setBudgetSubSystemLog('حذف تخصیص اعتبار هزینه ای');
+            return \response()->json($this->getAllCostAllocates($request->pOrN));
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                return \response()->json([] , 204);
+            }
+        }
+    }
+
     public function getCostCreditSourceInfo(Request $request)
     {
         $info['approvedAmount'] = CaCreditSource::where('id' , '=' , $request->caCsId)->value('ccsAmount');

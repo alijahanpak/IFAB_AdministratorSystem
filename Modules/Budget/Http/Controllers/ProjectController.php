@@ -47,22 +47,27 @@ class ProjectController extends Controller
 
     public function registerApprovedProject(Request $request)
     {
-        $project = new CapitalAssetsProject;
-        $project->cpUId = Auth::user()->id;
-        $project->cpCapId = $request->pId;
-        $project->cpCoId = $request->coId;
-        $project->cpSubject = $request->subject;
-        $project->cpCode = $request->code;
-        $project->cpStartYear = $request->startYear;
-        $project->cpEndOfYear = $request->endYear;
-        $project->cpPhysicalProgress = $request->pProgress;
-        $project->cpDescription = $request->description;
-        $project->save();
+        if (CapitalAssetsProject::where('cpCode' , '=' , $request->code)->exists())
+        {
+            return \response()->json([] , 409);
+        }else{
+            $project = new CapitalAssetsProject;
+            $project->cpUId = Auth::user()->id;
+            $project->cpCapId = $request->pId;
+            $project->cpCoId = $request->coId;
+            $project->cpSubject = $request->subject;
+            $project->cpCode = $request->code;
+            $project->cpStartYear = $request->startYear;
+            $project->cpEndOfYear = $request->endYear;
+            $project->cpPhysicalProgress = $request->pProgress;
+            $project->cpDescription = $request->description;
+            $project->save();
 
-        SystemLog::setBudgetSubSystemLog('ثبت پروژه تملک داریی های سرمایه ای ' . $request->subject);
-        return \response()->json(
-            $this->getAllProject($request->pOrN)
-        );
+            SystemLog::setBudgetSubSystemLog('ثبت پروژه تملک داریی های سرمایه ای ' . $request->subject);
+            return \response()->json(
+                $this->getAllProject($request->pOrN)
+            );
+        }
     }
 
     public function deleteApprovedProject(Request $request)
@@ -82,23 +87,29 @@ class ProjectController extends Controller
 
     public function updateApprovedProject(Request $request)
     {
-        $old = CapitalAssetsProject::find($request->id);
-        $project = CapitalAssetsProject::find($request->id);
-        $project->cpUId = Auth::user()->id;
-        $project->cpCapId = $request->pId;
-        $project->cpCoId = $request->coId;
-        $project->cpSubject = $request->subject;
-        $project->cpCode = $request->code;
-        $project->cpStartYear = $request->startYear;
-        $project->cpEndOfYear = $request->endYear;
-        $project->cpPhysicalProgress = $request->pProgress;
-        $project->cpDescription = $request->description;
-        $project->save();
+        if (CapitalAssetsProject::where('id' , '<>' , $request->id)
+            ->where('cpCode' , '=' , $request->code)->exists())
+        {
+            return \response()->json([] , 409);
+        }else {
+            $old = CapitalAssetsProject::find($request->id);
+            $project = CapitalAssetsProject::find($request->id);
+            $project->cpUId = Auth::user()->id;
+            $project->cpCapId = $request->pId;
+            $project->cpCoId = $request->coId;
+            $project->cpSubject = $request->subject;
+            $project->cpCode = $request->code;
+            $project->cpStartYear = $request->startYear;
+            $project->cpEndOfYear = $request->endYear;
+            $project->cpPhysicalProgress = $request->pProgress;
+            $project->cpDescription = $request->description;
+            $project->save();
 
-        SystemLog::setBudgetSubSystemLog('تغییر در پروژه تملک داریی های سرمایه ای ' . $old->cpSubject);
-        return \response()->json(
-            $this->getAllProject($request->pOrN)
-        );
+            SystemLog::setBudgetSubSystemLog('تغییر در پروژه تملک داریی های سرمایه ای ' . $old->cpSubject);
+            return \response()->json(
+                $this->getAllProject($request->pOrN)
+            );
+        }
     }
 
     public function getAllApprovedProjects(Request $request)
@@ -110,37 +121,54 @@ class ProjectController extends Controller
 
     public function registerApCreditSource(Request $request)
     {
-        $apCs = new CapCreditSource;
-        $apCs->ccsUId = Auth::user()->id;
-        $apCs->ccsCapId = $request->capId;
-        $apCs->ccsCdrId = $request->crId;
-        $apCs->ccsTsId = $request->tsId;
-        $apCs->ccsHtrId = $request->htrId;
-        $apCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
-        $apCs->ccsDescription = $request->description;
-        $apCs->save();
+        if (CapCreditSource::where('ccsCapId' , '=' , $request->capId)
+            ->where('ccsCdrId' , '=' , $request->crId)
+            ->where('ccsTsId' , '=' , $request->tsId)
+            ->where('ccsHtrId' , '=' , $request->htrId)->exists())
+        {
+            return \response()->json([] , 409);
+        }else{
+            $apCs = new CapCreditSource;
+            $apCs->ccsUId = Auth::user()->id;
+            $apCs->ccsCapId = $request->capId;
+            $apCs->ccsCdrId = $request->crId;
+            $apCs->ccsTsId = $request->tsId;
+            $apCs->ccsHtrId = $request->htrId;
+            $apCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
+            $apCs->ccsDescription = $request->description;
+            $apCs->save();
 
-        SystemLog::setBudgetSubSystemLog('ثبت تامین اعتبار پروژه تملک داریی های سرمایه ای ' . $request->subject);
-        return \response()->json(
-            $this->getAllProject($request->pOrN)
-        );
+            SystemLog::setBudgetSubSystemLog('ثبت تامین اعتبار پروژه تملک داریی های سرمایه ای ' . $request->subject);
+            return \response()->json(
+                $this->getAllProject($request->pOrN)
+            );
+        }
     }
 
     public function updateApCreditSource(Request $request)
     {
-        $apCs = CapCreditSource::find($request->id);
-        $apCs->ccsUId = Auth::user()->id;
-        $apCs->ccsCdrId = $request->crId;
-        $apCs->ccsTsId = $request->tsId;
-        $apCs->ccsHtrId = $request->htrId;
-        $apCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
-        $apCs->ccsDescription = $request->description;
-        $apCs->save();
+        if (CapCreditSource::where('id' , '=' , $request->id)
+            ->where('ccsCapId' , '=' , $request->capId)
+            ->where('ccsCdrId' , '=' , $request->crId)
+            ->where('ccsTsId' , '=' , $request->tsId)
+            ->where('ccsHtrId' , '=' , $request->htrId)->exists())
+        {
+            return \response()->json([] , 409);
+        }else {
+            $apCs = CapCreditSource::find($request->id);
+            $apCs->ccsUId = Auth::user()->id;
+            $apCs->ccsCdrId = $request->crId;
+            $apCs->ccsTsId = $request->tsId;
+            $apCs->ccsHtrId = $request->htrId;
+            $apCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
+            $apCs->ccsDescription = $request->description;
+            $apCs->save();
 
-        SystemLog::setBudgetSubSystemLog('تغییر در تامین اعتبار پروژه تملک داریی های سرمایه ای ');
-        return \response()->json(
-            $this->getAllProject($request->pOrN)
-        );
+            SystemLog::setBudgetSubSystemLog('تغییر در تامین اعتبار پروژه تملک داریی های سرمایه ای ');
+            return \response()->json(
+                $this->getAllProject($request->pOrN)
+            );
+        }
     }
 
     public function deleteApCreditSource(Request $request)

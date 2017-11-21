@@ -331,7 +331,8 @@ var app = new Vue({
             console.log("......................................................" + localStorage.getItem('ifab_token_expires_in'));
             if (this.prevNowPlaying)
                 clearInterval(this.prevNowPlaying);
-            this.prevNowPlaying = setInterval(this.expireTokenThread, (localStorage.getItem('ifab_token_expires_in') - 60) * 1000);
+            //this.prevNowPlaying = setInterval(this.expireTokenThread, (localStorage.getItem('ifab_token_expires_in') - 60) * 1000);
+            this.prevNowPlaying = setInterval(this.expireTokenThread, 300000);
         },
 
         userIsActive: function () {

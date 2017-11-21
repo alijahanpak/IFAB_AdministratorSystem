@@ -1221,7 +1221,7 @@
                                 console.log(response);
                             },(error) => {
                                 console.log(error);
-                                //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                                this.$parent.displayNotif(error.response.status);
                         });
                     }
                 });
@@ -1399,7 +1399,7 @@
                             console.log(response);
                         },(error) => {
                             console.log(error);
-                            //this.errorMessage = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
+                            this.$parent.displayNotif(error.response.status);
                         });
                     }
                 });

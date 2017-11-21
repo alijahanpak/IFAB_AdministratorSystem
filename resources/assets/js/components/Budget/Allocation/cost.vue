@@ -126,7 +126,8 @@
                                                 <td v-if="progs.ca_credit_source_has_allocation[0].ccsDeleted" :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length" class="text-center"><span class="comlpleted-badage">حذف شده</span></td>
                                                 <td v-if="!progs.ca_credit_source_has_allocation[0].ccsDeleted" :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length" class="text-center">{{ $parent.calcDispAmount(getProgAllocationSum(progs.ca_credit_source_has_allocation) , false) }}</td>
                                                 <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length">{{ progs.ca_credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
-                                                <td>{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterNumber }}</td>
+                                                <td v-if="progs.ca_credit_source_has_allocation[0].allocation[0].caFoundId == null">{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterNumber }}</td>
+                                                <td class="text-center" v-if="progs.ca_credit_source_has_allocation[0].allocation[0].caFoundId != null"><i class="fa fa-exchange btn-red has-tip top" data-tooltip aria-haspopup="true" data-disable-hover="false" title="تبدیل شده از تنخواه"></i></td>
                                                 <td>{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterDate }}</td>
                                                 <td>
                                                     <div class="grid-x">
@@ -134,11 +135,11 @@
                                                             {{ $parent.calcDispAmount(progs.ca_credit_source_has_allocation[0].allocation[0].caAmount , false) }}
                                                         </div>
                                                         <div class="medium-1 cell-vertical-center text-left">
-                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'provCostAllocation' + progs.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCostAllocation' + progs.id" data-dropdown data-auto-focus="true">
+                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'provCostAllocation' + progs.ca_credit_source_has_allocation[0].allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCostAllocation' + progs.ca_credit_source_has_allocation[0].allocation[0].id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li><a v-on:click.prevent="openUpdateModal(progs.ca_credit_source_has_allocation[0].allocation[0] , progs.id , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent="openDeleteModal(progs.ca_credit_source_has_allocation[0].allocation[0].id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -153,7 +154,7 @@
                                                     <td :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_title.cdtIdNumber + ' - ' + credit_source.credit_distribution_title.cdtSubject }}</td>
                                                     <td :rowspan="credit_source.allocation.length" class="text-center">{{ $parent.calcDispAmount(getCsAllocationSum(credit_source.allocation) , false) }}</td>
                                                     <td :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_row.cdSubject }}</td>
-                                                    <td v-if="credit_source.allocation[0].caFoundId == null">{{ alloc.caLetterNumber }}</td>
+                                                    <td v-if="credit_source.allocation[0].caFoundId == null">{{ credit_source.allocation[0].caLetterNumber }}</td>
                                                     <td class="text-center" v-if="credit_source.allocation[0].caFoundId != null"><i class="fa fa-exchange btn-red has-tip top" data-tooltip aria-haspopup="true" data-disable-hover="false" title="تبدیل شده از تنخواه"></i></td>
                                                     <td>{{ credit_source.allocation[0].caLetterDate }}</td>
                                                     <td>
@@ -162,11 +163,11 @@
                                                                 {{ $parent.calcDispAmount(credit_source.allocation[0].caAmount , false) }}
                                                             </div>
                                                             <div class="medium-1 cell-vertical-center text-left">
-                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'provCostAllocation' + progs.id + credit_source.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCostAllocation' + progs.id + credit_source.id" data-dropdown data-auto-focus="true">
+                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'provCostAllocation' + credit_source.allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCostAllocation' + credit_source.allocation[0].id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
-                                                                        <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                        <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        <li><a v-on:click.prevent="openUpdateModal(credit_source.allocation[0] , progs.id , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li><a v-on:click.prevent="openDeleteModal(credit_source.allocation[0].id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -184,11 +185,11 @@
                                                                     {{ $parent.calcDispAmount(alloc.caAmount , false) }}
                                                                 </div>
                                                                 <div class="medium-1 cell-vertical-center text-left">
-                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'provCostAllocation' + progs.id + credit_source.id + alloc.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCostAllocation' + progs.id + credit_source.id + alloc.id" data-dropdown data-auto-focus="true">
+                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'provCostAllocation' + alloc.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCostAllocation' + alloc.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
-                                                                            <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                            <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                            <li><a v-on:click.prevent="openUpdateModal(alloc , progs.id , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                            <li><a v-on:click.prevent="openDeleteModal(alloc.id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                         </ul>
                                                                     </div>
                                                                 </div>
@@ -283,7 +284,7 @@
                                         <th class="tbl-head-style-cell">شماره</th>
                                         <th class="tbl-head-style-cell">تاریخ</th>
                                         <th class="tbl-head-style-cell">مبلغ</th>
-                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input id="checkboxColumn" type="checkbox"></th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox"></th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
@@ -317,11 +318,11 @@
                                                             {{ $parent.calcDispAmount(progs.ca_credit_source_has_allocation[0].allocation[0].caAmount , false) }}
                                                         </div>
                                                         <div class="medium-1 cell-vertical-center text-left">
-                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'provCostAllocation' + progs.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCostAllocation' + progs.id" data-dropdown data-auto-focus="true">
+                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'natCostAllocation' + progs.ca_credit_source_has_allocation[0].allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'natCostAllocation' + progs.ca_credit_source_has_allocation[0].allocation[0].id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li><a v-on:click.prevent="openUpdateModal(progs.ca_credit_source_has_allocation[0].allocation[0] , progs.id , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li><a v-on:click.prevent="openDeleteModal(progs.ca_credit_source_has_allocation[0].allocation[0].id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -344,11 +345,11 @@
                                                                 {{ $parent.calcDispAmount(credit_source.allocation[0].caAmount , false) }}
                                                             </div>
                                                             <div class="medium-1 cell-vertical-center text-left">
-                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'provCostAllocation' + progs.id + credit_source.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCostAllocation' + progs.id + credit_source.id" data-dropdown data-auto-focus="true">
+                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'natCostAllocation' + credit_source.allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'natCostAllocation' + credit_source.allocation[0].id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
-                                                                        <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                        <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        <li><a v-on:click.prevent="openUpdateModal(credit_source.allocation[0] , progs.id , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li><a v-on:click.prevent="openDeleteModal(credit_source.allocation[0].id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -365,18 +366,18 @@
                                                                     {{ $parent.calcDispAmount(alloc.caAmount , false) }}
                                                                 </div>
                                                                 <div class="medium-1 cell-vertical-center text-left">
-                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'provCostAllocation' + progs.id + credit_source.id + alloc.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCostAllocation' + progs.id + credit_source.id + alloc.id" data-dropdown data-auto-focus="true">
+                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'natCostAllocation' + alloc.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'natCostAllocation' + alloc.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
-                                                                            <li><a v-on:click.prevent=""><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                            <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                            <li><a v-on:click.prevent="openUpdateModal(alloc , progs.id , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                            <li><a v-on:click.prevent="openDeleteModal(alloc.id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                         </ul>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </td>
                                                         <td  v-show="selectColumn">
-                                                            <input class="auto-margin" id="checkboxNational" type="checkbox">
+                                                            <input class="auto-margin" type="checkbox">
                                                         </td>
                                                     </tr>
                                                 </template>
@@ -467,7 +468,7 @@
                                                     </div>
                                                     <div class="medium-1 cell-vertical-center text-left">
                                                         <a class="dropdown small sm-btn-align" :data-toggle="'costFound' + found.id"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'costFound' + found.id" data-dropdown data-auto-focus="true">
+                                                        <div style="width: 170px" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'costFound' + found.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
                                                                 <li><a v-on:click.prevent=""><i class="fa fa-newspaper-o size-16"></i>  ویراش</a></li>
                                                                 <li><a v-on:click.prevent=""><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
@@ -488,16 +489,9 @@
                 </div>
                 <!--Forms Start-->
                 <!--Insert Modal Start-->
-                <modal-small v-if="showModal" @close="showModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                <modal-small v-if="showInsertModal" @close="showInsertModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div  slot="body">
                         <form v-on:submit.prevent="createCostAllocation">
-                            <div class="grid-x" v-if="errorMessage">
-                                <div class="medium-12 columns padding-lr">
-                                    <div class="alert callout">
-                                        <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="grid-x">
                                 <div class="medium-4 padding-lr">
                                     <label>شماره نامه
@@ -568,111 +562,94 @@
                     </div>
                 </modal-small>
                 <!--Insert Modal End-->
-
-                <!--Update Modal Start-->
-                <!--                <modal-large v-if="showModalUpdate" @close="showModalUpdate = false">
-                                    <div  slot="body">
-                                        <div class="grid-x" v-if="errorMessage">
-                                            <div class="medium-12 columns padding-lr">
-                                                <div class="alert callout">
-                                                    <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
-                                                </div>
-                                            </div>
+                <!--update Modal Start-->
+                <modal-small v-if="showUpdateModal" @close="showUpdateModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <div  slot="body">
+                        <form v-on:submit.prevent="updateCostAllocation">
+                            <div class="grid-x">
+                                <div class="medium-4 padding-lr">
+                                    <label>شماره نامه
+                                        <input class="form-element-margin-btm" type="text" name="letterNumber" v-model="AllocationFill.idNumber">
+                                    </label>
+                                </div>
+                                <div class="medium-4 padding-lr">
+                                    <p class="date-picker-lbl">تاریخ نامه
+                                        <pdatepicker id="updateDatePicker" v-model="AllocationFill.date"  open-transition-animation="left-slide-fade"></pdatepicker>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-8 cell padding-lr">
+                                    <label>موافقت نامه
+                                        <select class="form-element-margin-btm"  v-model="selectedCostAgreement" v-on:change="getCreditSource" name="approved" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('approved')}">
+                                            <option value=""></option>
+                                            <option v-for="costAgreement in costAgreements" :value="costAgreement.id">{{ 'موافقتنامه شماره ' + costAgreement.caLetterNumber + '  ابلاغ شده در تاریخ  ' + costAgreement.caLetterDate}}</option>
+                                        </select>
+                                        <span v-show="errors.has('approved')" class="error-font">لطفا موافقت نامه را انتخاب کنید!</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="medium-6 cell padding-lr">
+                                    <label>اعتبار مصوب
+                                        <select class="form-element-margin-btm" @change="displayCreditResourceInfo"  v-model="AllocationFill.caCsId" name="credit" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('credit')}">
+                                            <option value=""></option>
+                                            <option v-for="caCreditSource in caCreditSources" :value="caCreditSource.id">{{ caCreditSource.credit_distribution_title.cdtSubject + ' - ' + caCreditSource.credit_distribution_row.cdSubject + ' - ' + caCreditSource.tiny_season.season_title.season.sSubject + ' - ' + caCreditSource.tiny_season.season_title.cstSubject + ' - ' + caCreditSource.tiny_season.ctsSubject + ' - ' + $parent.calcDispAmount(caCreditSource.ccsAmount) }}</option>
+                                        </select>
+                                        <span v-show="errors.has('credit')" class="error-font">لطفا اعتبار مصوب را انتخاب کنید!</span>
+                                    </label>
+                                </div>
+                                <div class="medium-6 cell padding-lr">
+                                    <label>مبلغ تخصیص <span class="btn-red">(میلیون ریال)</span>
+                                        <input :disabled="AllocationFill.isFound" class="form-element-margin-btm" type="text"  v-model="AllocationFill.amount" name="creditCost" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('creditCost')}"/>
+                                    </label>
+                                    <span v-show="errors.has('creditCost')" class="error-font">لطفا مبلغ تخصیص انتخاب کنید!</span>
+                                </div>
+                            </div>
+                            <div style="margin-top: 5px" class="grid-x" v-show="creditSourceInfo.approvedAmount">
+                                <div class="medium-12 my-callout-bg-color">
+                                    <div class="grid-x">
+                                        <div class="medium-12">
+                                            <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount) }}</span>
                                         </div>
-                                        <div class="grid-x">
-                                            <div class="medium-2 padding-lr">
-                                                <label>شماره نامه
-                                                    <input class="form-element-margin-btm" type="text" name="letterNumber" v-model="AllocationInput.rocaaNumber">
-                                                </label>
-                                            </div>
-                                            <div class="medium-2 padding-lr">
-                                                <label>تاریخ نامه
-                                                    <input class="form-element-margin-btm" type="text" name="letterDate" v-model="AllocationInput.rocaaDate">
-                                                </label>
-                                            </div>
+                                        <div class="medium-12">
+                                            <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.sumAllocation) }}</span>
                                         </div>
-
-                                        <div class="grid-x">
-                                            <div class="medium-6 cell padding-lr">
-                                                <label>طرح
-                                                    <select class="form-element-margin-btm"  v-model="AllocationInput.rocaaPlan" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
-                                                        <option value=""></option>
-                                                        <option value="1">1</option>
-                                                    </select>
-                                                    <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
-                                                </label>
-                                            </div>
-                                            <div class="medium-6 cell padding-lr">
-                                                <label>عنوان پروژه
-                                                    <select class="form-element-margin-btm"  v-model="AllocationInput.rocaaProject" name="projectTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('projectTitle')}">
-                                                        <option value=""></option>
-                                                        <option value="1">1</option>
-                                                    </select>
-                                                </label>
-                                                <span v-show="errors.has('projectTitle')" class="error-font">لطفا عنوان پروژه انتخاب کنید!</span>
-                                            </div>
-                                        </div>
-                                        <div style="margin-top: 15px;" class="grid-x padding-lr">
-                                            <div class="medium-12 my-callout-bg-color">
-                                                <div class="grid-x">
-                                                    <div class="medium-4">
-                                                        <p class="btn-red">ردیف توزیع اعتبار</p>
-                                                    </div>
-                                                    <div class="medium-3">
-                                                        <p class="btn-red">اعتبار مبادله شده</p>
-                                                    </div>
-                                                    <div class="medium-2">
-                                                        <p class="btn-red">آخرین تخصیص</p>
-                                                    </div>
-                                                    <div class="medium-3">
-                                                        <p class="btn-red text-center">مبلغ</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div style="margin-top: 15px;margin-bottom: 25px;" class="grid-x padding-lr small-font">
-                                            <div class="medium-12">
-                                                <div class="grid-x">
-                                                    <div class="medium-4 padding-lr">
-                                                        <p>ردیف توزیع اعتبار</p>
-                                                    </div>
-                                                    <div class="medium-3 padding-lr">
-                                                        <p>اعتبار مبادله شده</p>
-                                                    </div>
-                                                    <div class="medium-2 padding-lr">
-                                                        <p>آخرین تخصیص</p>
-                                                    </div>
-                                                    <div style="margin-top: -7px;" class="medium-3 padding-lr">
-                                                        <label>
-                                                            <input class="form-element-margin-btm" type="text" name="cost" v-model="AllocationInput.rocaaCost" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('cost')}">
-                                                        </label>
-                                                        <span v-show="errors.has('cost')" class="error-font">لطفا مبلغ را وارد کنید!</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                        <div class="medium-12">
+                                            <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.approvedAmount , creditSourceInfo.sumAllocation) }}</span>
                                         </div>
                                     </div>
-                                </modal-large>-->
-                <!--Update Modal End-->
-
-                <!-- Delete Modal Start-->
-                <!--                <modal-tiny v-if="showModalDelete" @close="showModalDelete = false">
-                                    <div  slot="body">
-                                        <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                            <p>کاربر گرامی</p>
-                                            <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
-                                            <div class="grid-x">
-                                                <div class="medium-12 column text-center">
-                                                    <button  class="button primary btn-large-w" v-on:click="deleteTinySeason">بله</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </modal-tiny>-->
-                <!-- Delete Modal End-->
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="small-12 columns padding-lr">
+                                    <label>شرح
+                                        <textarea name="csDescription" style="min-height: 150px;" v-model="AllocationFill.description"></textarea>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="medium-6 columns padding-lr padding-bottom-modal">
+                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                            </div>
+                        </form>
+                    </div>
+                </modal-small>
+                <!--update Modal End-->
+                <!-- Delete Modal Start -->
+                <modal-tiny v-if="showDeleteModal" @close="showDeleteModal = false">
+                    <div  slot="body">
+                        <div class="small-font">
+                            <p>کاربر گرامی</p>
+                            <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
+                            <div class="grid-x">
+                                <div class="medium-12 column text-center">
+                                    <button v-on:click="deleteCostAllocation" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </modal-tiny>
+                <!-- Delete Modal End -->
                 <!--Insert found Modal Start-->
                 <modal-tiny v-if="showInsertFoundModal" @close="showInsertFoundModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div  slot="body">
@@ -842,15 +819,15 @@
                 provOrNat: '',
                 searchProvValue:'',
                 searchNatValue:'',
-                showModal: false,
-                showModalUpdate: false,
-                showModalDelete: false,
+                showInsertModal: false,
+                showUpdateModal: false,
+                showDeleteModal: false,
                 selectColumn:false,
                 showInsertFoundModal: false,
                 showConvertToModal: false,
-                costAllocationFill: {},
+                AllocationFill: {},
                 creditSourceInfo: {},
-                caIdDelete: {},
+                caIdForDelete: '',
                 approvedPlans: {},
                 selectedCostAgreement: '',
                 costAgreements: {},
@@ -966,7 +943,6 @@
                         sum += alloc.caAmount;
                     });
                 });
-
                 return sum;
             },
 
@@ -975,7 +951,6 @@
                 allocs.forEach(alloc => {
                     sum += alloc.caAmount;
                 });
-
                 return sum;
             },
 
@@ -998,9 +973,11 @@
             },
 
             openInsertModal: function (type) {
+                this.AllocationInput = [];
+                this.selectedCostAgreement = '';
                 this.provOrNat = type;
                 this.getAllCostAgreements(type);
-                this.showModal = true;
+                this.showInsertModal = true;
             },
 
             createCostAllocation: function () {
@@ -1027,74 +1004,106 @@
                                     this.natCostAllocations = response.data.data;
                                     this.makePagination(response.data , "national");
                                 }
-                                this.showModal = false;
+                                this.showInsertModal = false;
                                 this.$parent.displayNotif(response.status);
-                                this.clearInsertForm();
                                 console.log(response);
                             },(error) => {
                                 console.log(error);
-                                this.errorMessage = 'تخصیص با این مشخصات قبلا ثبت شده است!';
-                                this.clearInsertForm();
+
                             });
                     }
                 });
             },
 
-            clearInsertForm: function () {
-                this.AllocationInput = [];
-                this.selectedCostAgreement = '';
-            },
+            openUpdateModal: function (item , progId , type) {
+                this.AllocationFill.id = item.id;
+                if (item.caFoundId == null)
+                {
+                    this.AllocationFill.isFound = false;
+                }else{
+                    this.AllocationFill.isFound = true;
+                }
 
-            registerOfCreditAllocationAssetsUpdateDialog: function (item) {
-                this.costAllocationFill.caPlan = item.caPlan;
-                this.costAllocationFill.caSum = item.caSum;
-                this.costAllocationFill.caRow = item.caRow;
-                this.costAllocationFill.caNumber = item.caNumber;
-                this.costAllocationFill.caDate = item.caDate;
-                this.costAllocationFill.caCost = item.caCost;
-
-                this.errorMessage_update = '';
-                this.showModalUpdate = true;
+                this.AllocationFill.idNumber = item.caLetterNumber;
+                this.AllocationFill.date = item.caLetterDate;
+                this.AllocationFill.caCsId = item.caCcsId;
+                this.AllocationFill.amount = this.$parent.calcDispAmount(item.caAmount , false);
+                this.AllocationFill.description = item.caDescription;
+                this.selectedCostAgreement = progId;
+                this.showUpdateModal = true;
+                this.getCreditSource();
+                this.provOrNat = type;
+                this.getAllCostAgreements(type);
             },
 
             updateCostAllocation: function () {
-
-                /*axios.post('/budget/admin/sub_seasons/update' , this.tinySeasonsFill)
-                    .then((response) => {
-                        if(this.planOrCost == 1)
-                            this.tinySeasonsCost = response.data;
-                        else
-                            this.tinySeasons = response.data;
-                        this.showModalUpdate = false;
-                        this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'بروزرسانی با موفقیت انجام شد.' , type: 'success'});
-                        console.log(response);
-                    },(error) => {
-                        console.log(error);
-                        this.errorMessage_update = 'ریز فصل با این مشخصات قبلا ثبت شده است!';
-                    });*/
-                alert('ویرایش انجام شد');
-
+                if ($('#updateDatePicker').val() == '')
+                    this.AllocationInput.date = '';
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/budget/allocation/cost/update' , {
+                            id: this.AllocationFill.id,
+                            idNumber: this.AllocationFill.idNumber,
+                            date: this.AllocationFill.date,
+                            caCsId: this.AllocationFill.caCsId,
+                            amount: this.AllocationFill.amount,
+                            description: this.AllocationFill.description,
+                            pOrN: this.provOrNat
+                        })
+                            .then((response) => {
+                                if (this.provOrNat == 0)
+                                {
+                                    this.provCostAllocations = response.data.data;
+                                    this.makePagination(response.data , "provincial");
+                                }
+                                else
+                                {
+                                    this.natCostAllocations = response.data.data;
+                                    this.makePagination(response.data , "national");
+                                }
+                                this.showUpdateModal = false;
+                                this.$parent.displayNotif(response.status);
+                                console.log(response);
+                            },(error) => {
+                                console.log(error);
+                                this.errorMessage = 'تخصیص با این مشخصات قبلا ثبت شده است!';
+                            });
+                    }
+                });
             },
 
-            openDeleteCostAllocationConfirm: function (ca) {
-                this.apIdDelete = rocaa;
-                this.showModalDelete = true;
+            openDeleteModal: function (caId , type) {
+                this.provOrNat = type;
+                this.caIdForDelete = caId;
+                this.showDeleteModal = true;
             },
 
             deleteCostAllocation: function () {
-                /*axios.post('/budget/admin/sub_seasons/delete' , this.tsIdDelete)
+                axios.post('/budget/allocation/cost/delete' , {
+                    id: this.caIdForDelete,
+                    pOrN: this.provOrNat
+                    })
                     .then((response) => {
-                        if(response.data.tsPlanOrCost == 1)
-                            this.tinySeasonsCost = response.data;
-                        else
-                            this.tinySeasons = response.data;
-                        this.showModalDelete = false;
-                        this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'حذف رکورد با موفقیت انجام شد.' , type: 'success'});
+                        if (response.status != 204)
+                        {
+                            if (this.provOrNat == 0)
+                            {
+                                this.provCostAllocations = response.data.data;
+                                this.makePagination(response.data , "provincial");
+                            }
+                            else
+                            {
+                                this.natCostAllocations = response.data.data;
+                                this.makePagination(response.data , "national");
+                            }
+                        }
+                        this.showDeleteModal = false;
+                        this.$parent.displayNotif(response.status);
                         console.log(response);
                     },(error) => {
                         console.log(error);
-                        this.$notify({group: 'tinySeasonPm', title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
-                    });*/
+                        this.showDeleteModal = false;
+                    });
             },
 
             ////////////// this method created for test convert found to allocation ///////////////////

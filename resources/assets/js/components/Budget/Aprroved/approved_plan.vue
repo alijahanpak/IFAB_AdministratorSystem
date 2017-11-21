@@ -1690,6 +1690,7 @@
                     console.log(response);
                 },(error) => {
                     console.log(error);
+                    this.showDeleteModal = false;
                 });
             },
 
