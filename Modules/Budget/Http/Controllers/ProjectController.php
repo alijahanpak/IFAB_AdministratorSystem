@@ -65,8 +65,24 @@ class ProjectController extends Controller
         );
     }
 
+    public function deleteApprovedProject(Request $request)
+    {
+        $cap = CapitalAssetsProject::find($request->id);
+        try {
+            $cap->delete();
+            SystemLog::setBudgetSubSystemAdminLog('حذف پروژه تملک داریی های سرمایه ای');
+            return \response()->json($this->getAllProject($request->pOrN));
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                return \response()->json([] , 204);
+            }
+        }
+    }
+
     public function updateApprovedProject(Request $request)
     {
+        $old = CapitalAssetsProject::find($request->id);
         $project = CapitalAssetsProject::find($request->id);
         $project->cpUId = Auth::user()->id;
         $project->cpCapId = $request->pId;
@@ -79,7 +95,7 @@ class ProjectController extends Controller
         $project->cpDescription = $request->description;
         $project->save();
 
-        SystemLog::setBudgetSubSystemLog('ثبت پروژه تملک داریی های سرمایه ای ' . $request->subject);
+        SystemLog::setBudgetSubSystemLog('تغییر در پروژه تملک داریی های سرمایه ای ' . $old->cpSubject);
         return \response()->json(
             $this->getAllProject($request->pOrN)
         );
@@ -105,6 +121,23 @@ class ProjectController extends Controller
         $apCs->save();
 
         SystemLog::setBudgetSubSystemLog('ثبت تامین اعتبار پروژه تملک داریی های سرمایه ای ' . $request->subject);
+        return \response()->json(
+            $this->getAllProject($request->pOrN)
+        );
+    }
+
+    public function updateApCreditSource(Request $request)
+    {
+        $apCs = CapCreditSource::find($request->id);
+        $apCs->ccsUId = Auth::user()->id;
+        $apCs->ccsCdrId = $request->crId;
+        $apCs->ccsTsId = $request->tsId;
+        $apCs->ccsHtrId = $request->htrId;
+        $apCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
+        $apCs->ccsDescription = $request->description;
+        $apCs->save();
+
+        SystemLog::setBudgetSubSystemLog('تغییر در تامین اعتبار پروژه تملک داریی های سرمایه ای ');
         return \response()->json(
             $this->getAllProject($request->pOrN)
         );

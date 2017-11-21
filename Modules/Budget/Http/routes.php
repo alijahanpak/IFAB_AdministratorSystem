@@ -166,10 +166,12 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
 
     Route::prefix('approved_project/capital_assets')->group(function () {
         Route::get('/fetchData', 'ProjectController@fetchApprovedProjectData');
-        Route::get('/update', 'ProjectController@updateApprovedProject');
+        Route::post('/update', 'ProjectController@updateApprovedProject');
         Route::post('/register', 'ProjectController@registerApprovedProject');
+        Route::post('/delete', 'ProjectController@deleteApprovedProject');
         Route::get('/getAllItems', 'ProjectController@getAllApprovedProjects');
         Route::post('/credit_source/register', 'ProjectController@registerApCreditSource');
+        Route::post('/credit_source/update', 'ProjectController@updateApCreditSource');
         Route::get('/credit_source/getAllItem', 'ProjectController@getAllApCreditSourceItems');
         Route::post('/report', 'BudgetReportController@approvedProject');
 
