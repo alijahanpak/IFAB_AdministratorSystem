@@ -927,6 +927,9 @@
 
             setData: function (data) {
                     this.cdPlans = response.data.byPlan.data;
+                    this.cdPlansOrderByRow = response.data.byRow.data;
+                    this.cdPlansOrderByBudget = response.data.byBudget.data;
+                    this.cdPlansOrderByCounty = response.data.byCounty.data;
                     this.selectAll(this.cdPlans);
                     //console.log(JSON.stringify(this.cdPlans));
             },
@@ -1127,7 +1130,7 @@
                             isSelected = false;
                         }
                     });
-                    this.reportOptions.title = 'پیشنهاد طرح های توزیع اعتبار تملک دارایی های سرمایه ای استانی';
+                    this.reportOptions.title = ' طرح های توزیع اعتبار تملک دارایی های سرمایه ای استانی';
                 }
                 else{
                     this.$parent.displayNotif(800);
