@@ -29,7 +29,7 @@
                     <div class="tabs-panel is-active table-mrg-btm" id="capital_assets"
                          xmlns:v-on="http://www.w3.org/1999/xhtml">
                         <div class="medium-12 bottom-mrg">
-                            <div class="clearfix border-btm-line bottom-mrg tool-bar">
+                            <div class="clearfix tool-bar">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(0)">جدید</a>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
@@ -49,13 +49,13 @@
                                         <div class="inner-addon right-addon">
                                             <i v-if="searchPlanValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
                                             <i v-if="searchPlanValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
-                                            <input v-model="searchPlanValue" class="search" type="text" placeholder="جستوجو">
+                                            <input  v-model="searchPlanValue" class="search" type="text" placeholder="جستوجو">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!--Table Start-->
-                            <div class="medium-12 column table-mrg-top">
+                            <div class="medium-12 column">
                                 <div class="tbl-div-container">
                                     <table class="tbl-head">
                                         <colgroup>
@@ -110,7 +110,7 @@
                                                 </tr>
                                                 <template v-for="(seasonTitle , sIndex) in season.capital_assets_season_title">
                                                     <tr class="tbl-head-style-cell" v-if="sIndex > 0">
-                                                        <td :rowspan="season.seasonTitle.length">{{seasonTitle.castSubject}}</td>
+                                                        <td :rowspan="seasonTitle.capital_assets_tiny_season.length">{{seasonTitle.castSubject}}</td>
                                                         <td>{{seasonTitle.capital_assets_tiny_season[0].catsSubject}}</td>
                                                         <td>
                                                             <div class="grid-x">
@@ -172,7 +172,7 @@
                     <div class="tabs-panel table-mrg-btm" id="cost" xmlns:v-on="http://www.w3.org/1999/xhtml">
                         <div class="">
                             <div class="medium-12 bottom-mrg">
-                                <div class="clearfix border-btm-line bottom-mrg">
+                                <div class="clearfix tool-bar">
                                     <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                         <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
                                         <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="costDropDown">تعداد نمایش<span> 20 </span></button>
@@ -198,7 +198,7 @@
                                     </div>
                                 </div>
                                 <!--Table Start-->
-                                <div class="medium-12 column table-mrg-top">
+                                <div class="medium-12 column">
                                     <div class="tbl-div-container">
                                         <table class="tbl-head">
                                             <colgroup>
@@ -253,7 +253,7 @@
                                                     </tr>
                                                     <template v-for="(cSeasonTitle , sIndex) in cSeason.cost_season_title">
                                                         <tr class="tbl-head-style-cell" v-if="sIndex > 0">
-                                                            <td :rowspan="cSeason.cSeasonTitle.length">{{cSeasonTitle.cstSubject}}</td>
+                                                            <td :rowspan="cSeasonTitle.cost_tiny_season.length">{{cSeasonTitle.cstSubject}}</td>
                                                             <td>{{cSeasonTitle.cost_tiny_season[0].ctsSubject}}</td>
                                                             <td>
                                                                 <div class="grid-x">

@@ -20,14 +20,14 @@
         </div>
         <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
             <div class="medium-12 padding-lr" style="margin-top: 15px;">
-                <div class="clearfix sudo border-btm-line tool-bar">
+                <div class="clearfix tool-bar">
                     <div style="margin-top: 2px;" class="button-group float-right">
                         <a class="my-button toolbox-btn small" @click="openInsertModal">جدید</a>
                         <a class="my-button toolbox-btn small">گزارش</a>
                     </div>
                 </div>
             </div>
-            <div class="medium-12 column padding-lr table-mrg-top">
+            <div class="medium-12 column padding-lr">
                 <div class="tbl-div-container">
                     <table class="tbl-head">
                         <colgroup>

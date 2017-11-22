@@ -68,6 +68,38 @@ class AllocationOfCapitalAssetsController extends Controller
         );
     }
 
+    public function updateCapitalAssetsAllocation(Request $request)
+    {
+        $alloc = CapitalAssetsAllocation::find($request->id);
+        $alloc->caaUId = Auth::user()->id;
+        $alloc->caaCcsId = $request->pcsId;
+        $alloc->caaLetterNumber = $request->idNumber;
+        $alloc->caaLetterDate = $request->date;
+        $alloc->caaDescription = $request->description;
+        $alloc->caaAmount = AmountUnit::convertInputAmount($request->amount);
+        $alloc->save();
+
+        SystemLog::setBudgetSubSystemLog('تغییر تخصیص اعتبار تملک داریی های سرمایه ای');
+        return \response()->json(
+            $this->getAllCapitalAssetsAllocates($request->pOrN)
+        );
+    }
+
+    public function deleteCapitalAssetsAllocation(Request $request)
+    {
+        $caa = CapitalAssetsAllocation::find($request->id);
+        try {
+            $caa->delete();
+            SystemLog::setBudgetSubSystemLog('حذف تخصیص اعتبار تملک داریی های سرمایه ای');
+            return \response()->json($this->getAllCapitalAssetsAllocates($request->pOrN));
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                return \response()->json([] , 204);
+            }
+        }
+    }
+
     public function getCapitalAssetsCreditSourceInfo(Request $request)
     {
         $info['approvedAmount'] = CapCreditSource::where('id' , '=' , $request->pcsId)->value('ccsAmount');
@@ -99,6 +131,42 @@ class AllocationOfCapitalAssetsController extends Controller
         return \response()->json(
             $this->getAllCapitalAssetsFound()
         );
+    }
+
+    public function updateCapitalAssetsFound(Request $request)
+    {
+        $alloc = CapitalAssetsAllocation::find($request->id);
+        $alloc->caaUId = Auth::user()->id;
+        $alloc->caaLetterDate = $request->date;
+        $alloc->caaDescription = $request->description;
+        $alloc->caaAmount = AmountUnit::convertInputAmount($request->amount);
+        $alloc->save();
+
+        SystemLog::setBudgetSubSystemLog('تغییر تنخواه تملک داریی های سرمایه ای');
+        return \response()->json(
+            $this->getAllCapitalAssetsFound()
+        );
+    }
+
+    public function deleteCapitalAssetsFound(Request $request)
+    {
+        if (CapitalAssetsAllocation::where('caaFoundId' , '=' , $request->id)->exists())
+        {
+            return \response()->json([] , 204);
+        }else{
+            try {
+                CapitalAssetsAllocation::where('id' , '=' , $request->id)->delete();
+                SystemLog::setBudgetSubSystemLog('حذف تنخواه تملک داریی های سرمایه ای');
+                return \response()->json(
+                    $this->getAllCapitalAssetsFound()
+                );
+            }
+            catch (\Illuminate\Database\QueryException $e) {
+                if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                    return \response()->json([] , 204);
+                }
+            }
+        }
     }
 
     public function getAllCapitalAssetsCosts(Request $request) // for test convert found to allocation
@@ -272,10 +340,18 @@ class AllocationOfCapitalAssetsController extends Controller
         {
             return \response()->json([] , 204);
         }else{
-            CostAllocation::where('id' , '=' , $request->id)->delete();
-            return \response()->json(
-                $this->getAllCostFound()
-            );
+            try {
+                CostAllocation::where('id' , '=' , $request->id)->delete();
+                SystemLog::setBudgetSubSystemLog('حذف تنخواه هزینه ای');
+                return \response()->json(
+                    $this->getAllCostFound()
+                );
+            }
+            catch (\Illuminate\Database\QueryException $e) {
+                if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                    return \response()->json([] , 204);
+                }
+            }
         }
     }
 
