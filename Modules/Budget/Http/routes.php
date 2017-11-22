@@ -129,7 +129,6 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
     });
 
     Route::prefix('approved_plan/capital_assets/amendment')->group(function () {
-        //Route::get('/fetchData', 'PlanController@fetchCapitalAssetsApprovedPlan');
         Route::post('/temp/register', 'PlanController@registerApprovedAmendmentTemp');
         Route::post('/temp/cancel', 'PlanController@cancelApprovedAmendmentTemp');
         Route::post('/temp/project/register', 'PlanController@registerAmendmentProjectTemp');
@@ -139,9 +138,6 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('/temp/project/credit_source/delete', 'PlanController@deleteAmendmentProjectCreditSourceTemp');
         Route::post('/temp/project/credit_source/update', 'PlanController@updateAmendmentProjectCreditSourceTemp');
         Route::post('/accept', 'PlanController@acceptApprovedAmendment');
-        //Route::post('/delete', 'PlanController@deleteCapitalAssetsApprovedPlan');
-        //Route::post('/update', 'PlanController@updateCapitalAssetsApprovedPlan');
-        //Route::get('/getAllItems', 'PlanController@getAllApprovedPlan');
     });
 
     Route::prefix('approved_plan/cost')->group(function () {
@@ -176,8 +172,6 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('/credit_source/delete', 'ProjectController@deleteApCreditSource');
         Route::get('/credit_source/getAllItem', 'ProjectController@getAllApCreditSourceItems');
         Route::post('/report', 'BudgetReportController@approvedProject');
-
-        //Route::get('/getAllProjectWithPlanId', 'ProjectController@getAllProjectWithPlanId');
     });
 
     Route::prefix('admin/how_to_run')->group(function () {
@@ -185,15 +179,18 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
     });
 
     Route::prefix('allocation/capital_assets')->group(function () {
-        //Route::get('register_of_credit_allocation_assets/Allocation', 'AllocationOfCapitalAssetsController@register_of_credit_allocation_assets');
         Route::get('/fetchData', 'AllocationOfCapitalAssetsController@fetchAllocation');
         Route::post('/register', 'AllocationOfCapitalAssetsController@registerCapitalAssetsAllocation');
+        Route::post('/update', 'AllocationOfCapitalAssetsController@updateCapitalAssetsAllocation');
+        Route::post('/delete', 'AllocationOfCapitalAssetsController@deleteCapitalAssetsAllocation');
         Route::get('/getCapitalAssetsCreditSourceInfo', 'AllocationOfCapitalAssetsController@getCapitalAssetsCreditSourceInfo');
         Route::post('/report', 'BudgetReportController@capitalAssets');
     });
 
     Route::prefix('allocation/capital_assets/found')->group(function () {
         Route::post('/register', 'AllocationOfCapitalAssetsController@registerCapitalAssetsFound');
+        Route::post('/update', 'AllocationOfCapitalAssetsController@updateCapitalAssetsFound');
+        Route::post('/delete', 'AllocationOfCapitalAssetsController@deleteCapitalAssetsFound');
         Route::get('/fetchData', 'AllocationOfCapitalAssetsController@fetchFound');
         Route::get('/getAllCapitalAssetsCosts', 'AllocationOfCapitalAssetsController@getAllCapitalAssetsCosts'); // for test convert found to allocation
         Route::post('/convert_to_allocation', 'AllocationOfCapitalAssetsController@convertCapitalAssetsFoundToAllocation'); // for test convert found to allocation
