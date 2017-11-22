@@ -29,6 +29,8 @@ class CreateSeasonsTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_seasons');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

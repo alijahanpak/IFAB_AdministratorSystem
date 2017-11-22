@@ -42,7 +42,7 @@ class ProjectController extends Controller
             ->with('capitalAssetsProject.creditSource.creditDistributionRow')
             ->with('capitalAssetsProject.creditSource.tinySeason.seasonTitle.season')
             ->with('capitalAssetsProject.creditSource.howToRun')
-            ->with('capitalAssetsProject.county')->paginate(5);
+            ->with('capitalAssetsProject.county')->paginate(20);
     }
 
     public function registerApprovedProject(Request $request)
