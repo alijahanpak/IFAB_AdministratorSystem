@@ -1068,7 +1068,7 @@
                 projectCreditSources: {},
                 selectedItems: [],
                 selectedCount: 0,
-                reportOptions: {title:'' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true , costLabel:false},
+                reportOptions: {title:'' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true , costLabel:true},
                 foundIdForConvertTo: '',
 
                 national_pagination: {

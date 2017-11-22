@@ -21,6 +21,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('capital_assets/provincial/proposal/delete', 'CreditDistributionController@deleteProvincialBudgetProposal');
         Route::post('capital_assets/provincial/proposal/update', 'CreditDistributionController@updateProvincialBudgetProposal');
         Route::post('/report', 'BudgetReportController@planProvincial');
+        Route::post('/report', 'BudgetReportController@proposalProvincial');
     });
 
     Route::prefix('admin/sub_seasons/cost')->group(function () {
@@ -178,6 +179,8 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('/update', 'AllocationOfCapitalAssetsController@updateCostAllocation');
         Route::post('/delete', 'AllocationOfCapitalAssetsController@deleteCostAllocation');
         Route::get('/getCostCreditSourceInfo', 'AllocationOfCapitalAssetsController@getCostCreditSourceInfo');
+        Route::post('/report', 'BudgetReportController@costProvincial');
+        Route::post('/report', 'BudgetReportController@costNational');
     });
 
     Route::prefix('allocation/cost/found')->group(function () {
@@ -187,5 +190,6 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::get('/fetchData', 'AllocationOfCapitalAssetsController@fetchCostFound');
         Route::get('/getAllExpenseCosts', 'AllocationOfCapitalAssetsController@getAllExpenseCosts'); // for test convert found to allocation
         Route::post('/convert_to_allocation', 'AllocationOfCapitalAssetsController@convertCostFoundToAllocation'); // for test convert found to allocation
+        Route::post('/report', 'BudgetReportController@costFoundProvincial');
     });
 });

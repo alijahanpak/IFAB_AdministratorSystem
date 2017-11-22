@@ -29,7 +29,19 @@
                     <div class="clearfix border-btm-line tool-bar">
                         <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                             <a class="my-button toolbox-btn small" @click="openInsertModal">جدید</a>
-                            <a class="my-button toolbox-btn small">گزارش</a>
+                            <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
+                                <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(proposals)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
+                            </div>
+                            <div v-if="selectColumn" class="input-group-button toggle-icon-change">
+                                <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn(proposals)"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
+                            </div>
+                            <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDownPlan">گزارش</button>
+                            <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDownPlan" data-dropdown data-auto-focus="true">
+                                <ul class="my-menu small-font ltr-dir">
+                                    <li><a @click="openReportModal('pdf')"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                    <li><a @click="openReportModal('excel')"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
+                                </ul>
+                            </div>
                             <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
                             <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
                                 <ul class="my-menu small-font ltr-dir">
@@ -63,6 +75,7 @@
                                 <col width="150px"/>
                                 <col width="100px"/>
                                 <col width="200px"/>
+                                <col v-show="selectColumn" width="15px"/>
                                 <col width="12px"/>
                             </colgroup>
                             <tbody class="tbl-head-style">
@@ -73,6 +86,7 @@
                                 <th class="tbl-head-style-cell">عنوان</th>
                                 <th class="tbl-head-style-cell">اعتبار</th>
                                 <th class="tbl-head-style-cell">شرح</th>
+                                <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox" @click="toggleSelect(proposals)" :checked="allSelected(proposals)"></th>
                                 <th class="tbl-head-style-cell"></th>
                             </tr>
                             </tbody>
@@ -87,6 +101,7 @@
                                     <col width="150px"/>
                                     <col width="100px"/>
                                     <col width="200px"/>
+                                    <col v-show="selectColumn" width="15px"/>
                                 </colgroup>
                                 <tbody class="tbl-head-style-cell">
                                 <template v-for="county in proposals">
@@ -112,6 +127,9 @@
                                                 </div>
                                             </div>
                                         </td>
+                                        <td  v-show="selectColumn">
+                                            <input class="auto-margin" v-model="county.credit_distribution_plan_has_proposal[0].proposal[0].checked" type="checkbox">
+                                        </td>
                                     </tr>
                                     <template v-for="(plan , pIndex) in county.credit_distribution_plan_has_proposal">
                                         <tr class="tbl-head-style-cell" v-if="pIndex > 0">
@@ -135,6 +153,9 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td  v-show="selectColumn">
+                                                <input class="auto-margin" v-model="plan.proposal[0].checked" type="checkbox">
+                                            </td>
                                         </tr>
                                         <template v-for="(proposal , ppIndex) in plan.proposal">
                                             <tr class="tbl-head-style-cell" v-if="ppIndex > 0">
@@ -157,6 +178,9 @@
                                                         </div>
                                                     </div>
                                                 </td>
+                                                <td  v-show="selectColumn">
+                                                    <input class="auto-margin" v-model="proposal.checked" type="checkbox">
+                                                </td>
                                             </tr>
                                         </template>
                                     </template>
@@ -166,11 +190,16 @@
                         </div>
                     </div>
                     <div class="grid-x">
-                        <div class="medium-12">
+                        <div class="medium-8">
                             <vue-pagination  v-bind:pagination="pagination"
                                              v-on:click.native="fetchData(pagination.current_page)"
                                              :offset="4">
                             </vue-pagination>
+                        </div>
+                        <div style="color: #575962;" v-show="selectColumn" class="medium-4 small-font">
+                            <div class="float-left">
+                                <p> تعداد رکورد های انتخاب شده :<span class="selected-row-style">{{ selectedLength(proposals) }}</span></p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -334,6 +363,85 @@
                 </div>
             </modal-tiny>
             <!-- Delete Modal End -->
+            <!--Report Modal Start-->
+            <modal-tiny v-if="showModalReport" @close="showModalReport= false">
+                <div  slot="body">
+                    <div class="small-font">
+                        <form v-on:submit.prevent="openReportFile">
+                            <div class="grid-x padding-lr">
+                                <div class="medium-12">
+                                    <label>عنوان
+                                        <input type="text" v-model="reportOptions.title">
+                                    </label>
+                                </div>
+                            </div>
+                            <div v-show="reportType == 'pdf'">
+                                <div style="margin-top: 10px;" class="grid-x padding-lr">
+                                    <div class="medium-2">
+                                        <div class="switch tiny">
+                                            <input checked="true" class="switch-input" id="yes-no-1" v-model="reportOptions.withReporterName" type="checkbox">
+                                            <label class="switch-paddle" for="yes-no-1">
+                                                <span class="switch-active" aria-hidden="true">بلی</span>
+                                                <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="medium-10">
+                                        <p>درج نام کاربر تهیه کننده گزارش</p>
+                                    </div>
+                                </div>
+                                <div class="grid-x padding-lr">
+                                    <div class="medium-2">
+                                        <div class="switch tiny">
+                                            <input checked="true" class="switch-input" id="yes-no-2" type="checkbox" v-model="reportOptions.withFiscalYear">
+                                            <label class="switch-paddle" for="yes-no-2">
+                                                <span class="switch-active" aria-hidden="true">بلی</span>
+                                                <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="medium-10">
+                                        <p>درج سال مالی</p>
+                                    </div>
+                                </div>
+                                <div class="grid-x padding-lr">
+                                    <div class="medium-2">
+                                        <div class="switch tiny">
+                                            <input checked="true" class="switch-input" id="yes-no3" type="checkbox" v-model="reportOptions.withReportDate">
+                                            <label class="switch-paddle" for="yes-no3">
+                                                <span class="switch-active" aria-hidden="true">بلی</span>
+                                                <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="medium-10">
+                                        <p>درج تاریخ گزارش</p>
+                                    </div>
+                                </div>
+                                <div class="grid-x padding-lr">
+                                    <div class="medium-2">
+                                        <div class="switch tiny">
+                                            <input checked="true" class="switch-input" id="yes-no4" type="checkbox" v-model="reportOptions.orientation">
+                                            <label class="switch-paddle" for="yes-no4">
+                                                <span class="switch-active" aria-hidden="true">افقی</span>
+                                                <span class="switch-inactive" aria-hidden="true">عمودی</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="medium-10">
+                                        <p>جهت کاغذ</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="medium-12 columns padding-lr padding-bottom-modal input-margin-top">
+                                <button name="Submit" class="my-button my-success float-left"> <span class="btn-txt-mrg">مشاهده</span></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </modal-tiny>
+
+            <!--Report Modal End-->
             </div>
         </div>
     </div>
@@ -352,11 +460,16 @@
                 showInsertModal: false,
                 showUpdateModal: false,
                 showDeleteModal: false,
+                showModalReport:false,
+                selectColumn:false,
                 creditDistributionPlans: {},
                 counties: {},
                 selectCounty: '',
                 selectedProposalIdForDelete: '',
                 remainingAmount: 0,
+                selectedItems: [],
+                selectedCount: 0,
+                reportOptions: {title:'' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true ,costLabel: true},
 
                 pagination: {
                     total: 0,
@@ -390,12 +503,19 @@
             fetchData: function (page = 1) {
                 axios.get('/budget/credit_distribution/capital_assets/provincial/proposal/fetchData?page=' + page)
                     .then((response) => {
-                        this.proposals = response.data.data;
+                        this.setData(response.data.data);
                         this.makePagination(response.data);
                         console.log(response);
                     },(error) => {
                         console.log(error);
                     });
+            },
+
+            setData: function ( data) {
+                this.proposals = data;
+                this.selectAll(this.proposals);
+                //console.log(JSON.stringify(this.proposals));
+
             },
 
             getRemianingAmount: function (cdpId) {
@@ -464,7 +584,7 @@
                             pDescription: this.cdpProposalInput.pDescription
                         })
                             .then((response) => {
-                                this.proposals = response.data.data;
+                                this.setData(response.data.data);
                                 this.makePagination(response.data);
                                 this.showInsertModal = false;
                                 this.$parent.displayNotif(response.status);
@@ -507,7 +627,7 @@
                             pDescription: this.cdpProposalFill.pDescription
                         })
                             .then((response) => {
-                                this.proposals = response.data.data;
+                                this.setData(response.data.data);
                                 this.makePagination(response.data);
                                 this.showUpdateModal = false;
                                 this.$parent.displayNotif(response.status);
@@ -530,7 +650,7 @@
                 axios.post('/budget/credit_distribution/capital_assets/provincial/proposal/delete' , {id: this.selectedProposalIdForDelete})
                     .then((response) => {
                         if (response.status != 204)
-                            this.proposals = response.data.data;
+                            this.setData(response.data.data);
                         this.showDeleteModal = false;
                         this.$parent.displayNotif(response.status);
                         console.log(response);
@@ -538,6 +658,120 @@
                         console.log(error);
                         this.showDeleteModal = false;
                     });
+            },
+
+            showSelectColumn: function (county) {
+                this.selectAll(county);
+                if (this.selectColumn)
+                {
+                    this.selectColumn=false;
+                }
+                else {
+                    this.selectColumn = true;
+                }
+            },
+
+            openReportModal: function (type) {
+                this.reportType = type;
+                this.selectedItems = [];
+                var isSelected=false;
+                if (this.selectedLength(this.proposals) != 0)
+                {
+                    this.showModalReport = true;
+                    this.proposals.forEach(plans => {
+                        plans.credit_distribution_plan_has_proposal.forEach(plan => {
+                            plan.proposal.forEach(proposal=> {
+                                if (proposal.checked == true)
+                                    isSelected = true;
+                            });
+                        });
+                        if (isSelected) {
+                            this.selectedItems.push(plans);
+                            isSelected = false;
+                        }
+                    });
+                    this.reportOptions.title = ' پیشنهاد بودجه توزیع اعتبار تملک دارایی های سرمایه ای استانی';
+                }
+                else{
+                    this.$parent.displayNotif(800);
+                }
+
+                //console.log(JSON.stringify(this.selectedItems));
+            },
+
+            openReportFile: function () {
+                axios.post('/budget/credit_distribution/report' , {pOrN: this.provOrNat , type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
+                    .then((response) => {
+                        console.log(response.data);
+                        window.open(response.data);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            toggleSelect: function(county) {
+                var temp = false;
+                county.forEach(plans => {
+                        plans.credit_distribution_plan_has_proposal.forEach(plan => {
+                            plan.proposal.forEach(proposal=> {
+                                if (proposal.checked)
+                                    temp = true;
+                            });
+                    });
+                });
+                county.forEach(plans => {
+                    if(temp){
+                        plans.credit_distribution_plan_has_proposal.forEach(plan => {
+                            plan.proposal.forEach(proposal=> {
+                                proposal.checked = false;
+                            });
+                        });
+                    } else {
+                        plans.credit_distribution_plan_has_proposal.forEach(plan => {
+                            plan.proposal.forEach(proposal=> {
+                                proposal.checked = true;
+                            });
+                        });
+                    }
+                });
+                //console.log(JSON.stringify(this.approvedProjects_prov));
+            },
+
+            allSelected: function(county) {
+                var temp = true;
+                //console.log(JSON.stringify(this.approvedProjects_prov));
+                county.forEach(plans => {
+                    plans.credit_distribution_plan_has_proposal.forEach(plan => {
+                        plan.proposal.forEach(proposal=> {
+                            if (proposal.checked == false)
+                                temp = false;
+                        });
+                    });
+                });
+                return temp;
+            },
+
+            selectAll: function (county) {
+                county.forEach(plans => {
+                        plans.credit_distribution_plan_has_proposal.forEach(plan => {
+                            plan.proposal.forEach(proposal=> {
+                                this.$set(proposal, 'checked', true);
+                            });
+                    });
+                });
+                console.log(JSON.stringify(this.approvedProjects_prov));
+            },
+
+            selectedLength: function (county) {
+                var counter=0;
+                county.forEach(plans => {
+                        plans.credit_distribution_plan_has_proposal.forEach(plan => {
+                            plan.proposal.forEach(proposal => {
+                                counter += proposal.checked;
+                            });
+                        });
+                });
+                return counter;
             },
 
             makePagination: function(data){
