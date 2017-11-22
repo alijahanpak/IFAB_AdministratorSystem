@@ -19,12 +19,19 @@ class SeedAdminUsersTableSeeder extends Seeder
         Model::unguard();
 
         $user = new User;
-
         $user->name = 'علی جهان پاک';
         $user->email = 'a.jahanpak';
         $user->password = Hash::make('redrose');
-        $user->seInPutAmount = 1;
-        $user->seDispAmount = 1;
+        $user->seInPutAmount = 3;
+        $user->seDispAmount = 3;
+        $user->save();
+
+        $user = new User;
+        $user->name = 'سمیرا رجب پور';
+        $user->email = 's.rajabpoor';
+        $user->password = Hash::make('1234');
+        $user->seInPutAmount = 3;
+        $user->seDispAmount = 3;
         $user->save();
     }
 }

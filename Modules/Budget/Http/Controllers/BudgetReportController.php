@@ -457,4 +457,215 @@ class BudgetReportController extends Controller
             return url('xlsFiles/temp' . Auth::user()->id . '.xls');
         }
     }
+
+    public function proposalProvincial(Request $request)
+    {
+        if ($request->type == 'pdf') {
+            $options = $request->get('options');
+            $pdf = $this->initPdf($options);
+            $pdf->loadHTML(view('budget::reports.creditDistribution.proposal', ['options' => $options, 'items' => $request->get('selectedItems')]));
+            $pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
+            return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
+        } else if ($request->type == 'excel') {
+            Excel::create('temp' . Auth::user()->id, function ($excel) use ($request) {
+                $excel->getDefaultStyle()
+                    ->getAlignment()
+                    ->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+                $excel->sheet('sheet1', function ($sheet) use ($request) {
+                    $options = $request->get('options');
+                    $sheet->setRightToLeft(true);
+                    $sheet->appendRow(array($options['title']));
+                    $sheet->mergeCells('A1:F1');
+                    $sheet->getStyle('A1:F1')->getAlignment()->applyFromArray(
+                        array('horizontal' => 'center')
+                    );
+                    $sheet->appendRow(array('شهرستان',
+                        'طرح',
+                        'کد پروژه',
+                        'عنوان',
+                        'اعتبار',
+                        'شرح'));
+                    $sheet->cells('A2:F2', function ($cells) {
+                        $cells->setBackground('#34B7A3');
+                        $cells->setFontColor('#FFFFFF');
+                        $cells->setAlignment('center');
+                    });
+                    foreach($request->get('selectedItems') as $county){
+                        foreach($county['credit_distribution_plan_has_proposal'] as $plan){
+                            foreach($plan['proposal'] as $proposal){
+                                if($proposal['checked']==true){
+                                    $sheet->appendRow(array(
+                                        $county['coName'],
+                                        $plan['credit_distribution_title']['cdtIdNumber']. ' - ' . $plan['credit_distribution_title']['cdtSubject'],
+                                        $proposal['pbpCode'],
+                                        $proposal['pbpSubject'],
+                                        AmountUnit::convertDispAmount($proposal['pbpAmount']),
+                                        $proposal['pbpDescription'],
+                                    ));
+                                }
+                             }
+                        }
+                    }
+                });
+            })->store('xls', public_path('xlsFiles'));
+            return url('xlsFiles/temp' . Auth::user()->id . '.xls');
+        }
+    }
+
+    public function costProvincial(Request $request)
+    {
+        if ($request->type == 'pdf') {
+            $options = $request->get('options');
+            $pdf = $this->initPdf($options);
+            $pdf->loadHTML(view('budget::reports.allocation.cost.cost_provincial', ['options' => $options, 'items' => $request->get('selectedItems')]));
+            $pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
+            return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
+        } else if ($request->type == 'excel') {
+            Excel::create('temp' . Auth::user()->id, function ($excel) use ($request) {
+                $excel->getDefaultStyle()
+                    ->getAlignment()
+                    ->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+                $excel->sheet('sheet1', function ($sheet) use ($request) {
+                    $options = $request->get('options');
+                    $sheet->setRightToLeft(true);
+                    $sheet->appendRow(array($options['title']));
+                    $sheet->mergeCells('A1:F1');
+                    $sheet->getStyle('A1:F1')->getAlignment()->applyFromArray(
+                        array('horizontal' => 'center')
+                    );
+                    $sheet->appendRow(array('موافقتنامه',
+                        'برنامه',
+                        'ردیف اعتبار',
+                        'شماره',
+                        'تاریخ',
+                        'مبلغ'));
+                    $sheet->cells('A2:F2', function ($cells) {
+                        $cells->setBackground('#34B7A3');
+                        $cells->setFontColor('#FFFFFF');
+                        $cells->setAlignment('center');
+                    });
+                    foreach($request->get('selectedItems') as $plan){
+                        foreach($plan['ca_credit_source_has_allocation'] as $credit_source){
+                            foreach($credit_source['allocation'] as $alloc){
+                                if($alloc['checked']==true){
+                                    $sheet->appendRow(array(
+                                         $plan['caLetterNumber'],
+                                         $credit_source['credit_distribution_title']['cdtIdNumber'] . ' - '. $credit_source['credit_distribution_title']['cdtSubject'],
+                                         $credit_source['credit_distribution_row']['cdSubject'],
+                                         $alloc['caLetterNumber'],
+                                         $alloc['caLetterDate'],
+                                         AmountUnit::convertDispAmount($alloc['caAmount']),
+                                     ));
+                                }
+                            }
+                        }
+                    }
+                });
+            })->store('xls', public_path('xlsFiles'));
+            return url('xlsFiles/temp' . Auth::user()->id . '.xls');
+        }
+    }
+
+    public function costNational(Request $request)
+    {
+        if ($request->type == 'pdf') {
+            $options = $request->get('options');
+            $pdf = $this->initPdf($options);
+            $pdf->loadHTML(view('budget::reports.allocation.cost.cost_national', ['options' => $options, 'items' => $request->get('selectedItems')]));
+            $pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
+            return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
+        } else if ($request->type == 'excel') {
+            Excel::create('temp' . Auth::user()->id, function ($excel) use ($request) {
+                $excel->getDefaultStyle()
+                    ->getAlignment()
+                    ->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+                $excel->sheet('sheet1', function ($sheet) use ($request) {
+                    $options = $request->get('options');
+                    $sheet->setRightToLeft(true);
+                    $sheet->appendRow(array($options['title']));
+                    $sheet->mergeCells('A1:F1');
+                    $sheet->getStyle('A1:F1')->getAlignment()->applyFromArray(
+                        array('horizontal' => 'center')
+                    );
+                    $sheet->appendRow(array('موافقتنامه',
+                        'برنامه',
+                        'ردیف اعتبار',
+                        'شماره',
+                        'تاریخ',
+                        'مبلغ'));
+                    $sheet->cells('A2:F2', function ($cells) {
+                        $cells->setBackground('#34B7A3');
+                        $cells->setFontColor('#FFFFFF');
+                        $cells->setAlignment('center');
+                    });
+                    foreach($request->get('selectedItems') as $plan){
+                        foreach($plan['ca_credit_source_has_allocation'] as $credit_source){
+                            foreach($credit_source['allocation'] as $alloc){
+                                if($alloc['checked']==true){
+                                    $sheet->appendRow(array(
+                                        $plan['caLetterNumber'],
+                                        $credit_source['credit_distribution_title']['cdtIdNumber'] . ' - '. $credit_source['credit_distribution_title']['cdtSubject'],
+                                        $credit_source['credit_distribution_row']['cdSubject'],
+                                        $alloc['caLetterNumber'],
+                                        $alloc['caLetterDate'],
+                                        AmountUnit::convertDispAmount($alloc['caAmount']),
+                                    ));
+                                }
+                            }
+                        }
+                    }
+                });
+            })->store('xls', public_path('xlsFiles'));
+            return url('xlsFiles/temp' . Auth::user()->id . '.xls');
+        }
+    }
+
+    public function costFoundProvincial(Request $request)
+    {
+        if ($request->type == 'pdf') {
+            $options = $request->get('options');
+            $pdf = $this->initPdf($options);
+            $pdf->loadHTML(view('budget::reports.allocation.cost.found_provincial', ['options' => $options, 'items' => $request->get('selectedItems')]));
+            $pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
+            return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
+        } else if ($request->type == 'excel') {
+            Excel::create('temp' . Auth::user()->id, function ($excel) use ($request) {
+                $excel->getDefaultStyle()
+                    ->getAlignment()
+                    ->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+                $excel->sheet('sheet1', function ($sheet) use ($request) {
+                    $options = $request->get('options');
+                    $sheet->setRightToLeft(true);
+                    $sheet->appendRow(array($options['title']));
+                    $sheet->mergeCells('A1:E1');
+                    $sheet->getStyle('A1:E1')->getAlignment()->applyFromArray(
+                        array('horizontal' => 'center')
+                    );
+                    $sheet->appendRow(array('تاریخ',
+                        'مبلغ',
+                        'هزینه',
+                        'تبدیل شده به تخصیص',
+                        'شرح'));
+                    $sheet->cells('A2:E2', function ($cells) {
+                        $cells->setBackground('#34B7A3');
+                        $cells->setFontColor('#FFFFFF');
+                        $cells->setAlignment('center');
+                    });
+                    foreach($request->get('selectedItems') as $found){
+
+                        $sheet->appendRow(array(
+                            $found['caLetterDate'],
+                            AmountUnit::convertDispAmount($found['caAmount']),
+                            AmountUnit::convertDispAmount($found['caSumOfCost']),
+                            AmountUnit::convertDispAmount($found['caConvertedAllocAmount']),
+                            $found['caDescription'],
+
+                        ));
+
+                    }
+                });
+            })->store('xls', public_path('xlsFiles'));
+            return url('xlsFiles/temp' . Auth::user()->id . '.xls');
+        }
+    }
 }

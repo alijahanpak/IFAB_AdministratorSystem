@@ -37,20 +37,20 @@
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(0)">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
-                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
+                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(provCostAllocations)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
                                     </div>
                                     <div v-if="selectColumn" class="input-group-button toggle-icon-change">
-                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
+                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn(provCostAllocations)"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
                                     </div>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
-                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDownProv">گزارش</button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDownProv" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a  href="#"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
-                                            <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
+                                            <li><a  @click="openReportModal(0,'pdf')"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a  @click="openReportModal(0,'excel')"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                                         </ul>
                                     </div>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="DropDown1">تعداد نمایش<span> 20 </span></button>
-                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="DropDown1" data-dropdown data-auto-focus="true">
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="DropDownProv">تعداد نمایش<span> 20 </span></button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="DropDownProv" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
                                             <li><a  href="#">10</a></li>
                                             <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
@@ -95,7 +95,7 @@
                                         <th class="tbl-head-style-cell">شماره</th>
                                         <th class="tbl-head-style-cell">تاریخ</th>
                                         <th class="tbl-head-style-cell">مبلغ</th>
-                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input id="checkboxColumn" type="checkbox"></th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox" @click="toggleSelect(provCostAllocations)" :checked="allSelected(provCostAllocations)"></th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
@@ -146,7 +146,7 @@
                                                     </div>
                                                 </td>
                                                 <td  v-show="selectColumn">
-                                                    <input class="auto-margin" type="checkbox">
+                                                    <input class="auto-margin" v-model="progs.ca_credit_source_has_allocation[0].allocation[0].checked" type="checkbox">
                                                 </td>
                                             </tr>
                                             <template v-for="(credit_source , csIndex) in progs.ca_credit_source_has_allocation">
@@ -173,6 +173,9 @@
                                                             </div>
                                                         </div>
                                                     </td>
+                                                    <td  v-show="selectColumn">
+                                                        <input class="auto-margin" v-model="credit_source.allocation[0].checked" type="checkbox">
+                                                    </td>
                                                 </tr>
                                                 <template v-for="(alloc , allocIndex) in credit_source.allocation">
                                                     <tr class="tbl-head-style-cell" v-if="allocIndex > 0">
@@ -196,7 +199,7 @@
                                                             </div>
                                                         </td>
                                                         <td  v-show="selectColumn">
-                                                            <input class="auto-margin" type="checkbox">
+                                                            <input class="auto-margin" v-model="alloc.checked" type="checkbox">
                                                         </td>
                                                     </tr>
                                                 </template>
@@ -226,20 +229,20 @@
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
-                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
+                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(natCostAllocations)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
                                     </div>
                                     <div v-if="selectColumn" class="input-group-button toggle-icon-change">
-                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
+                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn(natCostAllocations)"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
                                     </div>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
-                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDownNat">گزارش</button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDownNat" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a  href="#"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
-                                            <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
+                                            <li><a  @click="openReportModal(1,'pdf')"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a  @click="openReportModal(1,'excel')"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                                         </ul>
                                     </div>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="DropDown2">تعداد نمایش<span> 20 </span></button>
-                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="DropDown2" data-dropdown data-auto-focus="true">
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="DropDownNat">تعداد نمایش<span> 20 </span></button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="DropDownNat" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
                                             <li><a  href="#">10</a></li>
                                             <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
@@ -284,7 +287,7 @@
                                         <th class="tbl-head-style-cell">شماره</th>
                                         <th class="tbl-head-style-cell">تاریخ</th>
                                         <th class="tbl-head-style-cell">مبلغ</th>
-                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox"></th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox" @click="toggleSelect(natCostAllocations)" :checked="allSelected(natCostAllocations)"></th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
@@ -329,7 +332,7 @@
                                                     </div>
                                                 </td>
                                                 <td  v-show="selectColumn">
-                                                    <input class="auto-margin" id="checkboxNational" type="checkbox">
+                                                    <input class="auto-margin" v-model="progs.ca_credit_source_has_allocation[0].allocation[0].checked" type="checkbox">
                                                 </td>
                                             </tr>
                                             <template v-for="(credit_source , csIndex) in progs.ca_credit_source_has_allocation">
@@ -355,6 +358,9 @@
                                                             </div>
                                                         </div>
                                                     </td>
+                                                    <td  v-show="selectColumn">
+                                                        <input class="auto-margin" v-model="credit_source.allocation[0].checked" type="checkbox">
+                                                    </td>
                                                 </tr>
                                                 <template v-for="(alloc , allocIndex) in credit_source.allocation">
                                                     <tr class="tbl-head-style-cell" v-if="allocIndex > 0">
@@ -377,7 +383,7 @@
                                                             </div>
                                                         </td>
                                                         <td  v-show="selectColumn">
-                                                            <input class="auto-margin" type="checkbox">
+                                                            <input class="auto-margin" v-model="alloc.checked" type="checkbox">
                                                         </td>
                                                     </tr>
                                                 </template>
@@ -407,16 +413,16 @@
                                 <div style="margin-top: 2px;" class="button-group float-right">
                                     <a class="my-button toolbox-btn small" @click="openInsertFoundModal">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
-                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
+                                        <button type="button" class="my-button my-icon-brand tiny" @click="foundShowSelectColumn(provCostFounds)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
                                     </div>
                                     <div v-if="selectColumn" class="input-group-button toggle-icon-change">
-                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
+                                        <button type="button" class="my-button my-icon-danger tiny" @click="foundShowSelectColumn(provCostFounds)"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
                                     </div>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="foundReportDropDown">گزارش</button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="foundReportDropDown" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a  href="#"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
-                                            <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
+                                            <li><a  @click="foundOpenReportModal('pdf')"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a   @click="foundOpenReportModal('excel')"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -440,7 +446,7 @@
                                         <th class="tbl-head-style-cell">هزینه</th>
                                         <th class="tbl-head-style-cell">تبدیل شده به تخصیص</th>
                                         <th class="tbl-head-style-cell">شرح</th>
-                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox"></th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox" @click="foundToggleSelect(provCostFounds)" :checked="foundAllSelected(provCostFounds)"></th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
@@ -478,9 +484,19 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td  v-show="selectColumn">
+                                                <input class="auto-margin" v-model="found.checked" type="checkbox">
+                                            </td>
                                         </tr>
                                         </tbody>
                                     </table>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div style="color: #575962;" v-show="selectColumn" class="medium-12 small-font">
+                                    <div class="float-left">
+                                        <p> تعداد رکورد های انتخاب شده :<span class="selected-row-style">{{ foundSelectedLength(provCostFounds) }}</span></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -831,6 +847,163 @@
                     </div>
                 </modal-large>
                 <!--Insert Modal End-->
+                <!--Report Modal Start-->
+                <modal-tiny v-if="showModalReport" @close="showModalReport= false">
+                    <div  slot="body">
+                        <div class="small-font">
+                            <form v-on:submit.prevent="openReportFile">
+                                <div class="grid-x padding-lr">
+                                    <div class="medium-12">
+                                        <label>عنوان
+                                            <input type="text" v-model="reportOptions.title">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div v-show="reportType == 'pdf'">
+                                    <div style="margin-top: 10px;" class="grid-x padding-lr">
+                                        <div class="medium-2">
+                                            <div class="switch tiny">
+                                                <input checked="true" class="switch-input" id="yes-no-1" v-model="reportOptions.withReporterName" type="checkbox">
+                                                <label class="switch-paddle" for="yes-no-1">
+                                                    <span class="switch-active" aria-hidden="true">بلی</span>
+                                                    <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="medium-10">
+                                            <p>درج نام کاربر تهیه کننده گزارش</p>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x padding-lr">
+                                        <div class="medium-2">
+                                            <div class="switch tiny">
+                                                <input checked="true" class="switch-input" id="yes-no-2" type="checkbox" v-model="reportOptions.withFiscalYear">
+                                                <label class="switch-paddle" for="yes-no-2">
+                                                    <span class="switch-active" aria-hidden="true">بلی</span>
+                                                    <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="medium-10">
+                                            <p>درج سال مالی</p>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x padding-lr">
+                                        <div class="medium-2">
+                                            <div class="switch tiny">
+                                                <input checked="true" class="switch-input" id="yes-no3" type="checkbox" v-model="reportOptions.withReportDate">
+                                                <label class="switch-paddle" for="yes-no3">
+                                                    <span class="switch-active" aria-hidden="true">بلی</span>
+                                                    <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="medium-10">
+                                            <p>درج تاریخ گزارش</p>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x padding-lr">
+                                        <div class="medium-2">
+                                            <div class="switch tiny">
+                                                <input checked="true" class="switch-input" id="yes-no4" type="checkbox" v-model="reportOptions.orientation">
+                                                <label class="switch-paddle" for="yes-no4">
+                                                    <span class="switch-active" aria-hidden="true">افقی</span>
+                                                    <span class="switch-inactive" aria-hidden="true">عمودی</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="medium-10">
+                                            <p>جهت کاغذ</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="medium-12 columns padding-lr padding-bottom-modal input-margin-top">
+                                    <button name="Submit" class="my-button my-success float-left"> <span class="btn-txt-mrg">مشاهده</span></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </modal-tiny>
+                <!--Report Modal End-->
+
+                <!--Report Found Modal Start-->
+                <modal-tiny v-if="showModalReportFound" @close="showModalReportFound= false">
+                    <div  slot="body">
+                        <div class="small-font">
+                            <form v-on:submit.prevent="foundOpenReportFile">
+                                <div class="grid-x padding-lr">
+                                    <div class="medium-12">
+                                        <label>عنوان
+                                            <input type="text" v-model="reportOptions.title">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div v-show="reportType == 'pdf'">
+                                    <div style="margin-top: 10px;" class="grid-x padding-lr">
+                                        <div class="medium-2">
+                                            <div class="switch tiny">
+                                                <input checked="true" class="switch-input" id="yes-no-1" v-model="reportOptions.withReporterName" type="checkbox">
+                                                <label class="switch-paddle" for="yes-no-1">
+                                                    <span class="switch-active" aria-hidden="true">بلی</span>
+                                                    <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="medium-10">
+                                            <p>درج نام کاربر تهیه کننده گزارش</p>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x padding-lr">
+                                        <div class="medium-2">
+                                            <div class="switch tiny">
+                                                <input checked="true" class="switch-input" id="yes-no-2" type="checkbox" v-model="reportOptions.withFiscalYear">
+                                                <label class="switch-paddle" for="yes-no-2">
+                                                    <span class="switch-active" aria-hidden="true">بلی</span>
+                                                    <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="medium-10">
+                                            <p>درج سال مالی</p>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x padding-lr">
+                                        <div class="medium-2">
+                                            <div class="switch tiny">
+                                                <input checked="true" class="switch-input" id="yes-no3" type="checkbox" v-model="reportOptions.withReportDate">
+                                                <label class="switch-paddle" for="yes-no3">
+                                                    <span class="switch-active" aria-hidden="true">بلی</span>
+                                                    <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="medium-10">
+                                            <p>درج تاریخ گزارش</p>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x padding-lr">
+                                        <div class="medium-2">
+                                            <div class="switch tiny">
+                                                <input checked="true" class="switch-input" id="yes-no4" type="checkbox" v-model="reportOptions.orientation">
+                                                <label class="switch-paddle" for="yes-no4">
+                                                    <span class="switch-active" aria-hidden="true">افقی</span>
+                                                    <span class="switch-inactive" aria-hidden="true">عمودی</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="medium-10">
+                                            <p>جهت کاغذ</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="medium-12 columns padding-lr padding-bottom-modal input-margin-top">
+                                    <button name="Submit" class="my-button my-success float-left"> <span class="btn-txt-mrg">مشاهده</span></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </modal-tiny>
+                <!--Report Found Modal End-->
                 <!--Forms End-->
             </div>
         </div>
@@ -855,11 +1028,13 @@
                 showInsertModal: false,
                 showUpdateModal: false,
                 showDeleteModal: false,
+                showModalReport:false,
                 selectColumn:false,
                 showInsertFoundModal: false,
                 showUpdateFoundModal: false,
                 showDeleteFoundModal: false,
                 showConvertToModal: false,
+                showModalReportFound:false,
                 AllocationFill: {},
                 creditSourceInfo: {},
                 caIdForDelete: '',
@@ -870,6 +1045,9 @@
                 caCreditSources: {},
                 dateIsValid_found: true,
                 unSelectedCost: false,
+                selectedItems: [],
+                selectedCount: 0,
+                reportOptions: {title:'' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true , costLabel:true},
                 foundIdForConvertTo: '',
 
                 national_pagination: {
@@ -912,7 +1090,7 @@
             fetchProvincialData: function (page = 1) {
                 axios.get('/budget/allocation/cost/fetchData?page=' + page , {params:{pOrN: 0}})
                     .then((response) => {
-                        this.provCostAllocations = response.data.data;
+                        this.setData(0,response.data.data);
                         this.makePagination(response.data , "provincial");
                         console.log(response);
                     },(error) => {
@@ -933,12 +1111,24 @@
             fetchNationalData: function (page = 1) {
                 axios.get('/budget/allocation/cost/fetchData?page=' + page , {params:{pOrN: 1}})
                     .then((response) => {
-                        this.natCostAllocations = response.data.data;
+                        this.setData(1,response.data.data);
                         this.makePagination(response.data , "national");
                         console.log(response);
                     },(error) => {
                         console.log(error);
                     });
+            },
+
+            setData: function (type , data) {
+                if (type == 0)
+                {
+                    this.provCostAllocations = data;
+                    this.selectAll(this.provCostAllocations);
+                    console.log(JSON.stringify(this.provCostAllocations));
+                }else {
+                    this.natCostAllocations = data;
+                    this.selectAll(this.natCostAllocations);
+                }
             },
 
             getAllCostAgreements: function (pOrN) {
@@ -1030,12 +1220,12 @@
                             .then((response) => {
                                 if (this.provOrNat == 0)
                                 {
-                                    this.provCostAllocations = response.data.data;
+                                    this.setData(0,response.data.data);
                                     this.makePagination(response.data , "provincial");
                                 }
                                 else
                                 {
-                                    this.natCostAllocations = response.data.data;
+                                    this.setData(1,response.data.data);
                                     this.makePagination(response.data , "national");
                                 }
                                 this.showInsertModal = false;
@@ -1088,12 +1278,12 @@
                             .then((response) => {
                                 if (this.provOrNat == 0)
                                 {
-                                    this.provCostAllocations = response.data.data;
+                                    this.setData(0,response.data.data);
                                     this.makePagination(response.data , "provincial");
                                 }
                                 else
                                 {
-                                    this.natCostAllocations = response.data.data;
+                                    this.setData(1,response.data.data);
                                     this.makePagination(response.data , "national");
                                 }
                                 this.showUpdateModal = false;
@@ -1122,12 +1312,12 @@
                         {
                             if (this.provOrNat == 0)
                             {
-                                this.provCostAllocations = response.data.data;
+                                this.setData(0,response.data.data);
                                 this.makePagination(response.data , "provincial");
                             }
                             else
                             {
-                                this.natCostAllocations = response.data.data;
+                                this.setData(1,response.data.data);
                                 this.makePagination(response.data , "national");
                             }
                         }
@@ -1304,15 +1494,7 @@
                 }
             },
 
-            showSelectColumn: function () {
-                if (this.selectColumn)
-                {
-                    this.selectColumn=false;
-                }
-                else{
-                    this.selectColumn=true;
-                }
-            },
+
             makePagination: function(data , type){
                 if (type == "national")
                 {
@@ -1326,6 +1508,213 @@
                     this.provincial_pagination.last_page = data.last_page;
                 }
             },
+
+            openReportModal: function (proOrNat , type) {
+                this.provOrNat = proOrNat;
+                this.reportType = type;
+                this.selectedItems = [];
+                var isSelected=false;
+                if (proOrNat == 0)
+                {
+                    if (this.selectedLength(this.provCostAllocations) != 0)
+                    {
+                        this.showModalReport = true;
+                        this.provCostAllocations.forEach(plan => {
+                            plan.ca_credit_source_has_allocation.forEach(credit_source => {
+                                credit_source.allocation.forEach(alloc =>{
+                                    if (alloc.checked == true)
+                                        isSelected=true;
+                                });
+                            });
+                            if (isSelected){
+                                this.selectedItems.push(plan);
+                                isSelected=false;
+                            }
+
+                        });
+                        this.reportOptions.title = 'تخصیص اعتبار هزینه ای استانی';
+                    }
+                    else{
+                        this.$parent.displayNotif(800);
+                    }
+                }
+                else{
+                    if (this.selectedLength(this.natCostAllocations) != 0)
+                    {
+                        this.showModalReport = true;
+                        this.natCostAllocations.forEach(plan => {
+                            plan.ca_credit_source_has_allocation.forEach(credit_source => {
+                                credit_source.allocation.forEach(alloc =>{
+                                    if (alloc.checked == true)
+                                        isSelected=true;
+                                });
+                            });
+                            if (isSelected){
+                                this.selectedItems.push(plan);
+                                isSelected=false;
+                            }
+
+                        });
+                        this.reportOptions.title = 'تخصیص اعتبار هزینه ای ملی';
+                    }
+                    else{
+                        this.$parent.displayNotif(800);
+                    }
+                }
+                console.log(JSON.stringify(this.selectedItems));
+            },
+
+            openReportFile: function () {
+                axios.post('/budget/allocation/cost/report' , {pOrN: this.provOrNat , type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
+                    .then((response) => {
+                        console.log(response.data);
+                        window.open(response.data);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            showSelectColumn: function (progs) {
+                this.selectAll(progs);
+                if (this.selectColumn)
+                {
+                    this.selectColumn=false;
+                }
+                else {
+                    this.selectColumn = true;
+                }
+            },
+
+
+            toggleSelect: function(progs) {
+                var temp = false;
+                progs.forEach(plan => {
+                    plan.ca_credit_source_has_allocation.forEach(credit_source => {
+                        credit_source.allocation.forEach(alloc =>{
+                            if (alloc.checked)
+                                temp = true;
+                        });
+                    });
+                });
+                progs.forEach(plan => {
+                    if(temp){
+                        plan.ca_credit_source_has_allocation.forEach(credit_source => {
+                            credit_source.allocation.forEach(alloc =>{
+                                alloc.checked = false;
+                            });
+                        });
+                    } else {
+                        plan.ca_credit_source_has_allocation.forEach(credit_source => {
+                            credit_source.allocation.forEach(alloc =>{
+                                alloc.checked = true;
+                            });
+                        });
+                    }
+                });
+                console.log(JSON.stringify(this.provCapitalAssetsAllocations));
+            },
+
+            allSelected: function(progs) {
+                var temp = true;
+                console.log(JSON.stringify(this.provCapitalAssetsAllocations));
+                progs.forEach(plan => {
+                    plan.ca_credit_source_has_allocation.forEach(credit_source => {
+                        credit_source.allocation.forEach(alloc =>{
+                            if (alloc.checked == false)
+                                temp = false;
+                        });
+                    });
+                });
+                return temp;
+            },
+
+            selectAll: function (progs) {
+                progs.forEach(plan => {
+                    plan.ca_credit_source_has_allocation.forEach(credit_source => {
+                        credit_source.allocation.forEach(alloc =>{
+                                this.$set(alloc, 'checked' , true);
+                        });
+                    });
+                });
+            },
+
+            selectedLength: function (progs) {
+                var counter=0;
+                progs.forEach(plan => {
+                    plan.ca_credit_source_has_allocation.forEach(credit_source => {
+                        credit_source.allocation.forEach(alloc =>{
+                            counter+=alloc.checked;
+                        });
+                    });
+                });
+                return counter;
+            },
+
+            ////////////////////////////Found Data////////////////////
+            foundOpenReportModal: function (type) {
+                this.reportType = type;
+                this.selectedItems = [];
+                if (this.foundSelectedLength(this.provCostFounds) != 0)
+                {
+                    this.showModalReportFound = true;
+                    this.provCostFounds.forEach(plan => {
+                        if (plan.checked == true)
+                            this.selectedItems.push(plan);
+                    });
+                    this.reportOptions.title = 'تنخواه استانی';
+                }
+                else{
+                    this.$parent.displayNotif(800);
+                }
+                console.log(JSON.stringify(this.selectedItems));
+            },
+
+            foundOpenReportFile: function () {
+                axios.post('budget/allocation/cost/found/report' , {type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
+                    .then((response) => {
+                        console.log(response.data);
+                        window.open(response.data);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            foundShowSelectColumn: function (found) {
+                this.foundSelectAll(found);
+                if (this.selectColumn)
+                {
+                    this.selectColumn=false;
+                }
+                else {
+                    this.selectColumn = true;
+                }
+            },
+            foundToggleSelect: function(found) {
+                if(found.find(plan => plan.checked)){
+                    found.forEach(plan => plan.checked = false)
+                } else {
+                    found.forEach(plan => plan.checked = true)
+                }
+            },
+
+            foundAllSelected: function(found) {
+                return found.every(function(plan){
+                    return plan.checked;
+                });
+            },
+
+            foundSelectAll: function (found) {
+                found.forEach(plan => {
+                    this.$set(plan , 'checked' , true);
+                });
+            },
+
+            foundSelectedLength: function (found) {
+                return found.filter(function (value) {
+                    return value.checked === true;
+                }).length;
+            },
+
         }
     }
 </script>
