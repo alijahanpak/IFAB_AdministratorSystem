@@ -3,30 +3,6 @@
 Route::group(['middleware' => 'web', 'prefix' => 'budget', 'namespace' => 'Modules\Budget\Http\Controllers'], function()
 {
     Route::get('/', 'BudgetController@dashboard');
-
-    //////////////////////////////////////////////////////////////////////////
-/*    Route::prefix('plan')->group(function () {
-        Route::get('capital_assets/plans', 'PlanController@capitalAssetsApprovedPlan');
-        Route::post('capital_assets/plans/register', 'PlanController@registerCapitalAssetsApprovedPlan');
-        Route::get('capital_assets/plans/delete/{capId}', 'PlanController@deleteCapitalAssetsApprovedPlan');
-        Route::post('capital_assets/plans/CAPIsExist', 'PlanController@CAPIsExist');
-        Route::post('capital_assets/plans/update', 'PlanController@updateCapitalAssetsApprovedPlan');
-        Route::get('capital_assets/plans/getAllItems', 'PlanController@getAllApprovedPlan');
-    });*/
-    ///////////////////////////////////////////////////////////////////////////
-/*    Route::prefix('project')->group(function () {
-        Route::get('capital_assets/projects', 'ProjectController@approved_projects');
-        Route::get('capital_assets/projects/fetchData', 'ProjectController@FetchApprovedProjects');
-        Route::post('capital_assets/projects/register', 'ProjectController@registerCapitalAssetsApprovedProject');
-        Route::get('capital_assets/projects/getAllItems', 'ProjectController@getAllApprovedProjects');
-    });*/
-    ///////////////////////////////////////////////////////////////////////////
-/*    Route::prefix('Allocation')->group(function () {
-        Route::get('register_of_credit_allocation_assets/Allocation', 'AllocationOfCapitalAssetsController@register_of_credit_allocation_assets');
-        Route::get('register_of_credit_allocation_assets/fetchData', 'AllocationOfCapitalAssetsController@FetchAllocation');
-        Route::post('register_of_credit_allocation_assets/register', 'AllocationOfCapitalAssetsController@registerCapitalAssetsAllocation');
-    });*/
-
 });
 
 ///////////////////////////////////////// api route /////////////////////////////////
