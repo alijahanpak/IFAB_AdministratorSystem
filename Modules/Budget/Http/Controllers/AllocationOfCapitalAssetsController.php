@@ -41,7 +41,7 @@ class AllocationOfCapitalAssetsController extends Controller
             ->with('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.howToRun')
             ->with('creditDistributionTitle')
             ->with('creditDistributionTitle.county')
-            ->paginate(5);
+            ->paginate(20);
     }
 
     public function getAllCapitalAssetsFound()
@@ -271,7 +271,7 @@ class AllocationOfCapitalAssetsController extends Controller
             ->with('caCreditSourceHasAllocation.tinySeason.seasonTitle.season')
             ->with('caCreditSourceHasAllocation.creditDistributionTitle')
             ->with('caCreditSourceHasAllocation.creditDistributionTitle.county')
-            ->paginate(5);
+            ->paginate(20);
     }
 
     public function fetchCostAllocationData(Request $request)

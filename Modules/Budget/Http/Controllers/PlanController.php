@@ -75,7 +75,7 @@ class PlanController extends Controller
             ->with('amendments.capitalAssetsProject.creditSource.tinySeason.seasonTitle.season')
             ->with('amendments.capitalAssetsProject.creditSource.howToRun')
             ->with('amendments.capitalAssetsProject.county')
-            ->paginate(5);
+            ->paginate(20);
     }
 
     public function deleteCapitalAssetsApprovedPlan(Request $request)

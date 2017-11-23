@@ -121,7 +121,7 @@ class CreditDistributionController extends Controller
             ->with('creditDistributionPlan.county')
             ->with('creditDistributionPlan.creditDistributionTitle')
             ->with('creditDistributionPlan.creditDistributionRow')
-            ->paginate(5);
+            ->paginate(2);
     }
 
     public function getAllCdPlansOrderByRow()
@@ -132,7 +132,7 @@ class CreditDistributionController extends Controller
             })
             ->with('creditDistributionPlan.county')
             ->with('creditDistributionPlan.creditDistributionTitle')
-            ->paginate(5);
+            ->paginate(2);
     }
 
     public function getAllCdPlansOrderByBudget()
@@ -144,7 +144,7 @@ class CreditDistributionController extends Controller
             ->with('cdpTitleHasCreditDistributionPlan.creditDistributionPlan.county')
             ->with('cdpTitleHasCreditDistributionPlan.creditDistributionPlan.creditDistributionTitle')
             ->with('cdpTitleHasCreditDistributionPlan.creditDistributionPlan.creditDistributionRow')
-            ->paginate(5);
+            ->paginate(2);
     }
 
     public function getAllCdPlansOrderByCounty()
@@ -155,7 +155,7 @@ class CreditDistributionController extends Controller
             })
             ->with('creditDistributionPlan.creditDistributionTitle')
             ->with('creditDistributionPlan.creditDistributionRow')
-            ->paginate(5);
+            ->paginate(2);
     }
 
     public function getPlansWithCountyId(Request $request)
@@ -191,7 +191,7 @@ class CreditDistributionController extends Controller
             ->with('creditDistributionPlanHasProposal.creditDistributionTitle')
             ->with('creditDistributionPlanHasProposal.creditDistributionRow')
             ->with('creditDistributionPlanHasProposal.proposal')
-            ->paginate(5);
+            ->paginate(2);
 
     }
 
