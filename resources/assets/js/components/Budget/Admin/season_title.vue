@@ -30,7 +30,7 @@
                          xmlns:v-on="http://www.w3.org/1999/xhtml">
                         <div class="medium-12 bottom-mrg">
                             <div class="clearfix tool-bar">
-                                <div style="margin-top: 2px;" class="button-group float-right report-mrg">
+                                <div class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(0)">جدید</a>
                                     <a class="my-button toolbox-btn small">گزارش</a>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> {{ itemInPage }} </span></button>
@@ -145,7 +145,7 @@
                     <div class="tabs-panel table-mrg-btm" id="cost" xmlns:v-on="http://www.w3.org/1999/xhtml">
                         <div class="medium-12 bottom-mrg">
                             <div class="clearfix tool-bar">
-                                <div style="margin-top: 2px;" class="button-group float-right report-mrg">
+                                <div class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
                                     <a class="my-button toolbox-btn small">گزارش</a>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="costDropDown">تعداد نمایش<span> {{ costItemInPage }} </span></button>

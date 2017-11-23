@@ -33,8 +33,8 @@
                     <!--Tab 1-->
                     <div class="tabs-panel is-active table-mrg-btm" id="national" xmlns:v-on="http://www.w3.org/1999/xhtml">
                         <div class="medium-12 bottom-mrg">
-                            <div class="clearfix border-btm-line bottom-mrg tool-bar">
-                                <div style="margin-top: 2px;" class="button-group float-right report-mrg">
+                            <div class="clearfix tool-bar">
+                                <div class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(0)">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
                                         <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(provCostAllocations)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
@@ -225,8 +225,8 @@
                     <!--Tab 2 Start-->
                     <div class="tabs-panel table-mrg-btm" id="provincial" xmlns:v-on="http://www.w3.org/1999/xhtml">
                         <div class="medium-12 bottom-mrg">
-                            <div class="clearfix border-btm-line bottom-mrg tool-bar">
-                                <div style="margin-top: 2px;" class="button-group float-right report-mrg">
+                            <div class="clearfix tool-bar">
+                                <div class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
                                         <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(natCostAllocations)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
@@ -409,8 +409,8 @@
                     <!--Tab 3-->
                     <div class="tabs-panel table-mrg-btm" id="provincialFound" xmlns:v-on="http://www.w3.org/1999/xhtml">
                         <div class="medium-12 bottom-mrg">
-                            <div class="clearfix border-btm-line bottom-mrg tool-bar">
-                                <div style="margin-top: 2px;" class="button-group float-right">
+                            <div class="clearfix tool-bar">
+                                <div style="margin-top: 2px;margin-bottom: 3px;" class="button-group float-right">
                                     <a class="my-button toolbox-btn small" @click="openInsertFoundModal">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
                                         <button type="button" class="my-button my-icon-brand tiny" @click="foundShowSelectColumn(provCostFounds)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
@@ -1101,7 +1101,7 @@
             fetchProvincialFoundData: function () {
                 axios.get('/budget/allocation/cost/found/fetchData')
                     .then((response) => {
-                        this.provCostFounds = response.data;
+                        this.foundSetData(response.data);
                         console.log(response);
                     },(error) => {
                         console.log(error);
@@ -1129,6 +1129,11 @@
                     this.natCostAllocations = data;
                     this.selectAll(this.natCostAllocations);
                 }
+            },
+
+            foundSetData: function (data) {
+                this.provCostFounds = data;
+                this.foundSelectAll(this.provCostFounds);
             },
 
             getAllCostAgreements: function (pOrN) {
@@ -1360,7 +1365,7 @@
                                 pOrN: 0
                             })
                                 .then((response) => {
-                                    this.provCostFounds = response.data;
+                                    this.foundSetData(response.data);
                                     this.showInsertFoundModal = false;
                                     this.$parent.displayNotif(response.status);
                                     console.log(response);
@@ -1392,9 +1397,9 @@
                                         pOrN: 0
                                     })
                                     .then((response) => {
-                                this.provCostFounds = response.data;
-                            this.showUpdateFoundModal = false;
-                            this.$parent.displayNotif(response.status);
+                                    this.foundSetData(response.data);
+                                    this.showUpdateFoundModal = false;
+                                    this.$parent.displayNotif(response.status);
                             console.log(response);
                         },(error) => {
                                 console.log(error);
@@ -1415,7 +1420,7 @@
                             pOrN: 0
                         }).then((response) => {
                         if (response.status != 204)
-                            this.provCostFounds = response.data;
+                            this.foundSetData(response.data);
                         this.showDeleteFoundModal = false;
                         this.$parent.displayNotif(response.status);
                         console.log(response);

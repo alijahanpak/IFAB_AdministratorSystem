@@ -32,8 +32,8 @@
                          xmlns:v-on="http://www.w3.org/1999/xhtml">
                         <div class="medium-12 bottom-mrg">
                             <!--Tab 1-->
-                            <div class="clearfix border-btm-line bottom-mrg tool-bar">
-                                <div style="margin-top: 2px;" class="button-group float-right report-mrg">
+                            <div class="clearfix tool-bar">
+                                <div class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(0)">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
                                         <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(approvedProjects_prov)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
@@ -295,8 +295,8 @@
                     <div class="tabs-panel table-mrg-btm" id="national_tab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                         <div class="medium-12 bottom-mrg">
                             <!--Tab 2-->
-                            <div class="clearfix border-btm-line bottom-mrg tool-bar">
-                                <div style="margin-top: 2px;" class="button-group float-right report-mrg">
+                            <div class="clearfix tool-bar">
+                                <div class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
                                         <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(approvedProjects_nat)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>

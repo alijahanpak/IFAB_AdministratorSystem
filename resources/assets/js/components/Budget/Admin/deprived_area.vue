@@ -26,8 +26,8 @@
                     <li class="tabs-title"><a href="#village">روستا</a></li>
                 </ul>
                 <div class="medium-12 padding-lr" style="margin-top: 15px;">
-                    <div class="clearfix border-btm-line tool-bar">
-                        <div style="margin-top: 2px;" class="button-group float-right">
+                    <div class="clearfix tool-bar">
+                        <div style="margin-bottom: 0px;" class="button-group float-right">
                             <a class="my-button toolbox-btn small" @click="openInsertModal">جدید</a>
                             <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
                                 <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(deprivedArea)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="tabs-content" data-tabs-content="deprived_area">
                     <!-- province tab content-->
-                    <div class="tabs-panel is-active table-mrg-btm" id="province">
+                    <div style="padding: 5px 14px;" class="tabs-panel is-active" id="province">
                         <div class="tbl-div-container">
                             <table class="tbl-head">
                                 <colgroup>
@@ -122,7 +122,7 @@
                         </div>
                     </div>
                     <!-- county tab-->
-                    <div class="tabs-panel table-mrg-btm" id="county">
+                    <div style="padding: 5px 14px;" class="tabs-panel table-mrg-btm" id="county">
                         <div class="tbl-div-container">
                             <table class="tbl-head">
                                 <colgroup>
@@ -174,7 +174,7 @@
                         </div>
                     </div>
                     <!-- region tab-->
-                    <div class="tabs-panel table-mrg-btm" id="region">
+                    <div style="padding: 5px 14px;" class="tabs-panel table-mrg-btm" id="region">
                         <div class="tbl-div-container">
                             <table class="tbl-head">
                                 <colgroup>
@@ -230,7 +230,7 @@
                         </div>
                     </div>
                     <!-- rural district tab -->
-                    <div class="tabs-panel table-mrg-btm" id="rural_district">
+                    <div style="padding: 5px 14px;" class="tabs-panel table-mrg-btm" id="rural_district">
                         <div class="tbl-div-container">
                             <table class="tbl-head">
                                 <colgroup>
@@ -290,7 +290,7 @@
                         </div>
                     </div>
                     <!-- village district tab -->
-                    <div class="tabs-panel table-mrg-btm" id="village">
+                    <div style="padding: 5px 14px;" class="tabs-panel table-mrg-btm" id="village">
                         <div class="tbl-div-container">
                             <table class="tbl-head">
                                 <colgroup>

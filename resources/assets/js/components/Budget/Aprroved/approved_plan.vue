@@ -33,7 +33,7 @@
                         <div class="medium-12 bottom-mrg">
                             <!--Tab 1-->
                             <div class="clearfix tool-bar">
-                                <div style="margin-top: 2px;" class="button-group float-right report-mrg">
+                                <div class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openApprovedPlanInsertModal(0)">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
                                         <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(approvedPlan_prov)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
@@ -62,9 +62,10 @@
                                 </div>
                                 <div class="float-left">
                                     <div class="input-group float-left">
-                                        <input class="input-group-field small-font" type="text">
-                                        <div class="input-group-button">
-                                            <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
+                                        <div class="inner-addon right-addon">
+                                            <i v-if="searchProvValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                            <i v-if="searchProvValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                            <input v-model="searchProvValue" class="search" type="text" placeholder="جستوجو">
                                         </div>
                                     </div>
                                 </div>
@@ -214,8 +215,8 @@
                          xmlns:v-on="http://www.w3.org/1999/xhtml">
                         <div class="medium-12 bottom-mrg">
                             <!--Tab 1-->
-                            <div class="clearfix border-btm-line bottom-mrg tool-bar">
-                                <div style="margin-top: 2px;" class="button-group float-right report-mrg">
+                            <div class="clearfix tool-bar">
+                                <div class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openApprovedPlanInsertModal(1)">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
                                         <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(approvedPlan_nat)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
@@ -244,9 +245,10 @@
                                 </div>
                                 <div class="float-left">
                                     <div class="input-group float-left">
-                                        <input class="input-group-field small-font" type="text">
-                                        <div class="input-group-button">
-                                            <button type="button" class="my-button my-brand"><i class="fi-magnifying-glass"></i></button>
+                                        <div class="inner-addon right-addon">
+                                            <i v-if="searchNatValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                            <i v-if="searchNatValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                            <input v-model="searchNatValue" class="search" type="text" placeholder="جستوجو">
                                         </div>
                                     </div>
                                 </div>
@@ -1304,6 +1306,8 @@
     export default {
         data(){
             return {
+                searchProvValue:'',
+                searchNatValue:'',
                 errorMessage: '',
                 errorMessage_update: '',
                 approvedPlan_prov: [],

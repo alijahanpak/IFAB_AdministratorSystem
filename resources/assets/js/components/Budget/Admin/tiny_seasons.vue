@@ -30,7 +30,7 @@
                          xmlns:v-on="http://www.w3.org/1999/xhtml">
                         <div class="medium-12 bottom-mrg">
                             <div class="clearfix tool-bar">
-                                <div style="margin-top: 2px;" class="button-group float-right report-mrg">
+                                <div class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(0)">جدید</a>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> {{ itemInPage }} </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
@@ -171,7 +171,7 @@
                         <div class="">
                             <div class="medium-12 bottom-mrg">
                                 <div class="clearfix tool-bar">
-                                    <div style="margin-top: 2px;" class="button-group float-right report-mrg">
+                                    <div class="button-group float-right report-mrg">
                                         <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
                                         <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="costDropDown">تعداد نمایش<span> {{ costItemInPage }} </span></button>
                                         <div style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="costDropDown" data-dropdown data-auto-focus="true">
