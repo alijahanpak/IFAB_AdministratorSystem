@@ -45,8 +45,8 @@
                                 <div class="float-left">
                                     <div class="input-group float-left">
                                         <div class="inner-addon right-addon">
-                                            <i v-if="searchCostValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
-                                            <i v-if="searchCostValue != ''" v-on:click.stop="removeFilter(0)" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                            <i v-if="planSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                            <i v-if="planSearchValue != ''" v-on:click.stop="removeFilter(0)" class="fa fa-close btn-red"  aria-hidden="true"></i>
                                             <input v-model="planSearchValue" v-on:keyup.enter="search(0)" class="search" type="text" placeholder="جستجو">
                                         </div>
                                     </div>
@@ -186,8 +186,8 @@
                                     <div class="float-left">
                                         <div class="input-group float-left">
                                             <div class="inner-addon right-addon">
-                                                <i v-if="searchCostValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
-                                                <i v-if="searchCostValue != ''" v-on:click.stop="removeFilter(1)" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                                <i v-if="costSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                                <i v-if="costSearchValue != ''" v-on:click.stop="removeFilter(1)" class="fa fa-close btn-red"  aria-hidden="true"></i>
                                                 <input v-model="costSearchValue" v-on:keyup.enter="search(1)" class="search" type="text" placeholder="جستجو">
                                             </div>
                                         </div>
@@ -541,7 +541,7 @@
             removeFilter: function (type) {
                 if (type == 0)
                 {
-                    this.planSearchValue = ''
+                    this.planSearchValue = '';
                     this.fetchCapitalAssetsData();
                 }else{
                     this.costSearchValue = '';

@@ -128,16 +128,26 @@ class BudgetAdminController extends Controller
         if ($type == "capitalAssets")
         {
             return Season::with(['capitalAssetsSeasonTitle.capitalAssetsTinySeason' => function($query) use ($searchValue){
-                    return $query->where('catsSubject' , 'LIKE' , '%' . $searchValue . '%')
+                return $query->where('catsSubject' , 'LIKE' , '%' . $searchValue . '%')
                         ->orWhere('catsDescription' , 'LIKE' , '%' . $searchValue . '%');
-                    }])->paginate($itemInPage);
+                    }])
+                    ->whereHas('capitalAssetsSeasonTitle.capitalAssetsTinySeason' , function ($query) use ($searchValue){
+                        return $query->where('catsSubject' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhere('catsDescription' , 'LIKE' , '%' . $searchValue . '%');
+                    })
+                    ->paginate($itemInPage);
 
         }else if ($type == "cost")
         {
             return Season::with(['costSeasonTitle.costTinySeason' => function($query) use ($searchValue){
                 return $query->where('ctsSubject' , 'LIKE' , '%' . $searchValue . '%')
                     ->orWhere('ctsDescription' , 'LIKE' , '%' . $searchValue . '%');
-            }])->paginate($itemInPage);
+                    }])
+                    ->whereHas('costSeasonTitle.costTinySeason' , function ($query) use ($searchValue){
+                        return $query->where('ctsSubject' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhere('ctsDescription' , 'LIKE' , '%' . $searchValue . '%');
+                    })
+                    ->paginate($itemInPage);
         }
     }
 
@@ -718,7 +728,7 @@ class BudgetAdminController extends Controller
             }
 
             SystemLog::setBudgetSubSystemAdminLog('تعریف طرح / برنامه توزیع اعتبار با عنوان ' . $request->subject);
-            return \response()->json($this->getAllPlanOrCostTitle());
+            return \response()->json($this->getAllPlanOrCostTitle($request->searchValue , $request->itemInPage));
         }
     }
 
@@ -770,7 +780,7 @@ class BudgetAdminController extends Controller
                 }
             }
             SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان طرح توزیع اعتبار (' . $old->cdtSubject . ') به (' . $cdpt->cdtSubject . ')');
-            return \response()->json($this->getAllPlanOrCostTitle());
+            return \response()->json($this->getAllPlanOrCostTitle($request->searchValue , $request->itemInPage));
         }
     }
 
@@ -784,7 +794,7 @@ class BudgetAdminController extends Controller
             $cdpt = CreditDistributionTitle::find($request->id);
             $cdpt->delete();
             SystemLog::setBudgetSubSystemAdminLog('حذف عنوان طرح توزیع اعتبار ' . $logTemp->cdptSubject);
-            return \response()->json($this->getAllPlanOrCostTitle());
+            return \response()->json($this->getAllPlanOrCostTitle($request->searchValue , $request->itemInPage));
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
@@ -793,18 +803,23 @@ class BudgetAdminController extends Controller
         }
     }
 
-    public function getAllPlanOrCostTitle()
+    public function getAllPlanOrCostTitle($searchValue , $itemInPage)
     {
         return CreditDistributionTitle::where('cdtCoId' , '=' , null)
+            ->where(function($q) use($searchValue){
+                $q->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cdtDescription' , 'LIKE' , '%' . $searchValue . '%');
+            })
             ->with('budgetSeason')
             ->with('CDTInCounty')
             ->with('CDTInCounty.county')
-            ->paginate(5);
+            ->paginate($itemInPage);
     }
 
-    public function fetchPlanOrCostTitleData()
+    public function fetchPlanOrCostTitleData(Request $request)
     {
-        return \response()->json($this->getAllPlanOrCostTitle());
+        return \response()->json($this->getAllPlanOrCostTitle($request->searchValue , $request->itemInPage));
     }
 
     public function getAllPlanOrCostTitleItem(Request $request)
