@@ -1,7 +1,7 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <ul class="pagination" role="navigation" aria-label="Pagination">
         <li class="pagination-previous">
-            <a aria-label="Previous" v-on:click.prevent="changePage(pagination.current_page - 1)" :class="{'disabled': pagination.current_page == 1}">
+            <a aria-label="Previous" v-on:click.prevent="changePage(pagination.current_page - 1)" v-show="pagination.current_page >= offset">
                 <span class="show-for-sr">page</span>
             </a>
         </li>
@@ -9,8 +9,9 @@
             <a href="" v-if="page != pagination.current_page" v-on:click.prevent="changePage(page)">{{ page }}</a>
             {{ (page == pagination.current_page) ? page : '' }}
         </li>
+        <li class="ellipsis" aria-hidden="true" v-show="(pagination.current_page < pagination.last_page) && (pagination.last_page > offset)"></li>
         <li class="pagination-next">
-            <a aria-label="Next" v-on:click.prevent="changePage(pagination.current_page + 1)" :class="{'disabled': pagination.current_page == pagination.last_page}">
+            <a aria-label="Next" v-on:click.prevent="changePage(pagination.current_page + 1)" v-show="pagination.current_page < pagination.last_page">
                 <span class="show-for-sr">page</span>
             </a>
         </li>
@@ -35,15 +36,19 @@
                     return [];
                 }
                 var from = this.pagination.current_page - this.offset;
-                if (from < 1) {
+                if (from < 0)
+                {
                     from = 1;
                 }
-                var to = from + (this.offset * 2);
+                else{
+                    from = (this.pagination.current_page - this.offset) + 2;
+                }
+            var to = from + (this.offset);
                 if (to >= this.pagination.last_page) {
                     to = this.pagination.last_page;
                 }
                 var pagesArray = [];
-                for (from = 1; from <= to; from++) {
+                for (from ; from <= to; from++) {
                     pagesArray.push(from);
                 }
                 return pagesArray;
