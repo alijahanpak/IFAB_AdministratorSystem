@@ -1350,6 +1350,15 @@ button.purple-btn {
     color: #ffffff;
 }
 
+.success-badage{
+    background-color: #00c5dc;
+    border-radius: 15px;
+    padding: 3px 8px;
+    margin-left:     3px;
+    margin-right: 3px;
+    color: #ffffff;
+}
+
 .info-badage{
     background-color: #36A3F7;
     border-radius: 15px;
@@ -1590,6 +1599,10 @@ button.purple-btn {
 
 .purple-color{
     color: #716aca;
+}
+.cost-label{
+    margin:15px;
+    color:#34bfa3;
 }
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
     display: block;
