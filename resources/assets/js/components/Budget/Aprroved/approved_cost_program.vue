@@ -23,6 +23,9 @@
         </div>
         <div class="grid-x  my-callout-box container-mrg-top dynamic-height-level1">
             <div  class="medium-12 column">
+                <div class="float-left cost-label">
+                    <span class="small-font">{{ costTemp }}</span>
+                </div>
                 <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="approved_cost_program_tab_view">
                     <li class="tabs-title is-active"><a href="#provincial_tab" aria-selected="true">استانی</a></li>
                     <li class="tabs-title"><a href="#national_tab">ملی</a></li>
@@ -32,8 +35,8 @@
                          xmlns:v-on="http://www.w3.org/1999/xhtml">
                         <div class="medium-12 bottom-mrg">
                             <!--Tab 1-->
-                            <div class="clearfix border-btm-line bottom-mrg tool-bar">
-                                <div style="margin-top: 2px;" class="button-group float-right report-mrg">
+                            <div class="clearfix tool-bar">
+                                <div class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openCostAgreementInsertModal(0)">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
                                         <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
@@ -245,8 +248,8 @@
                          xmlns:v-on="http://www.w3.org/1999/xhtml">
                         <div class="medium-12 bottom-mrg">
                             <!--Tab 1-->
-                            <div class="clearfix border-btm-line bottom-mrg tool-bar">
-                                <div style="margin-top: 2px;" class="button-group float-right report-mrg">
+                            <div class="clearfix tool-bar">
+                                <div class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openCostAgreementInsertModal(1)">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
                                         <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
@@ -278,7 +281,7 @@
                                         <div class="inner-addon right-addon">
                                             <i v-if="searchNatValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
                                             <i v-if="searchNatValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
-                                            <input v-model="searchProvValue" class="search" type="text" placeholder="جستوجو">
+                                            <input v-model="searchNatValue" class="search" type="text" placeholder="جستوجو">
                                         </div>
                                     </div>
                                 </div>
@@ -1232,7 +1235,7 @@
                 tempCreditSourceSelectedId_delete: '',
                 costAgreementFill: {},
                 acaCreditSourceFill: {},
-
+                costTemp:'',
                 caCreditSourceInput: {},
                 caCreditSourceFill: {},
                 caIdForInsertCreditSource: '',
@@ -1271,13 +1274,14 @@
 
         created: function () {
             this.fetchProvincialData();
-            this.fetchNationalData();
+            this.fetchNationalData()
         },
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
             this.$parent.userIsActive();
             this.myResizeModal();
+            this.costTemp = this.$parent.getDispAmountBaseLabel();
         },
 
         mounted: function () {

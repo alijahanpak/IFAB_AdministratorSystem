@@ -171,6 +171,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::get('/fetchData', 'AllocationOfCapitalAssetsController@fetchFound');
         Route::get('/getAllCapitalAssetsCosts', 'AllocationOfCapitalAssetsController@getAllCapitalAssetsCosts'); // for test convert found to allocation
         Route::post('/convert_to_allocation', 'AllocationOfCapitalAssetsController@convertCapitalAssetsFoundToAllocation'); // for test convert found to allocation
+        Route::post('/report', 'BudgetReportController@capitalFoundProvincial');
     });
 
     Route::prefix('allocation/cost')->group(function () {

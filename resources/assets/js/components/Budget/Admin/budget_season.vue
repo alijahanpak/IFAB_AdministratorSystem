@@ -21,7 +21,7 @@
         <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
             <div class="medium-12 padding-lr" style="margin-top: 15px;">
                 <div class="clearfix tool-bar">
-                    <div style="margin-top: 2px;" class="button-group float-right">
+                    <div style="margin-bottom: 0;" class="button-group float-right">
                         <a class="my-button toolbox-btn small" @click="openInsertModal">جدید</a>
                         <a class="my-button toolbox-btn small">گزارش</a>
                     </div>

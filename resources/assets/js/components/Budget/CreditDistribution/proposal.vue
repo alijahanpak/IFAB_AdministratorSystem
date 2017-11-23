@@ -26,8 +26,8 @@
         </div>
         <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
                 <div class="medium-12 padding-lr" style="margin-top: 15px;">
-                    <div class="clearfix border-btm-line tool-bar">
-                        <div style="margin-top: 2px;" class="button-group float-right report-mrg">
+                    <div class="clearfix tool-bar">
+                        <div class="button-group float-right report-mrg">
                             <a class="my-button toolbox-btn small" @click="openInsertModal">جدید</a>
                             <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
                                 <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(proposals)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
@@ -65,7 +65,7 @@
                         </div>
                     </div>
                 </div>
-                <div  class="medium-12 column padding-lr table-mrg-top">
+                <div  class="medium-12 column padding-lr">
                     <div class="tbl-div-container">
                         <table class="tbl-head">
                             <colgroup>
