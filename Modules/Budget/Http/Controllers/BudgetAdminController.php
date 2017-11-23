@@ -38,475 +38,10 @@ class BudgetAdminController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-/*    public function deprivedArea()
-    {
-        $dAreas = DeprivedArea::all();
-        return view('budget::pages.deprived_area.main' , ['pageTitle' => 'مناطق محروم' ,
-            'dAreas' => $dAreas,
-            'requireJsFile' => 'deprived_area']);
-    }*/
-
-/*    public function registerDeprivedArea(Request $request)
-    {
-
-        $deprivedArea = new DeprivedArea;
-        $deprivedArea->daUId = Auth::user()->id;
-        $deprivedArea->daCoId = Input::get('daCounty');
-        $deprivedArea->daReId = Input::get('daRegion');
-        $deprivedArea->daRdId = Input::get('daRuralDistrict');
-        $deprivedArea->daViId = Input::get('daVillage');
-        $deprivedArea->daDescription = Input::get('daDescription');
-        $deprivedArea->save();
-
-        SystemLog::setBudgetSubSystemAdminLog('تعریف منطقه محروم ' . DeprivedArea::getDeprivedAreaLabel($deprivedArea->id));
-        return Redirect::to(URL::previous());
-    }*/
-
-/*    public function fiscalYear()
-    {
-        return view('budget::pages.fiscal_year', ['pageTitle' => 'سال مالی',
-            'requireJsFile' => 'fiscal_year']);
-    }*/
-
-/*    public function creditDistributionDef()
-    {
-        $creditDRs = CreditDistributionRow::all();
-        $bSeasons = BudgetSeason::all();
-        $creditDPs = CreditDistributionTitle::where('cdtCoId' , '=' , null)->where('cdtCdtId' , '=' , null)->get();
-        return view('budget::pages.credit_distribution_def.main' ,
-            ['pageTitle' => 'تعاریف توزیع اعتبار' ,
-                'creditDRs' => $creditDRs ,
-                'bSeasons' => $bSeasons ,
-                'creditDPs' => $creditDPs,
-                'requireJsFile' => 'credit_distributed_def']);
-    }*/
-
-/*    public function registerCreditDistributionRow(Request $request)
-    {
-        $cdr = new CreditDistributionRow;
-        $cdr->cdUId = Auth::user()->id;
-        $cdr->cdPlanOrCost = 0;
-        $cdr->cdSubject = Input::get('cdrSubject');
-        $cdr->cdDescription = Input::get('cdrDescription');
-        $cdr->save();
-
-        SystemLog::setBudgetSubSystemAdminLog('تعریف ردیف توزیع اعتبار ' . Input::get('cdrSubject'));
-        return Redirect::to(URL::previous());
-    }*/
-
-/*    public function subSeasons()
-    {
-        $subSeasons = CapitalAssetsTinySeason::select(['tsSId'])->groupBy(['tsSId'])->get();
-        $seasons = Season::all();
-        return view('budget::pages.sub_seasons.main', ['subSeasons' => $subSeasons,
-            'seasons' => $seasons ,
-            'requireJsFile' => 'tiny_season',
-            'pageTitle' => 'ریز فصول']);
-    }*/
-    
-/*    public function updateCreditDistributionRow(Request $request)
-    {
-        $old = CreditDistributionRow::find(Input::get('cdrId'));
-        $cdr = CreditDistributionRow::find(Input::get('cdrId'));
-        $cdr->cdSubject = Input::get('cdrSubject');
-        $cdr->cdDescription = Input::get('cdrDescription');
-        $cdr->save();
-
-        SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان ردیف توزیع اعتبار (' . $old->cdSubject . ') به (' . Input::get('cdrSubject') . ')');
-        return Redirect::to(URL::previous());
-    }*/
-
-/*    public function deleteCreditDistributionRow($cdId)
-    {
-        $cdr = CreditDistributionRow::find($cdId);
-        try {
-            $logTemp = $cdr->cdSubject;
-            $cdr->delete();
-            SystemLog::setBudgetSubSystemAdminLog('حذف ردیف توزیع اعتبار ' . $logTemp);
-            return Redirect::to(URL::previous());
-        }
-        catch (\Illuminate\Database\QueryException $e) {
-            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return Redirect::to(URL::previous())->with('messageDialogPm', 'با توجه به وابستگی اطلاعات، حذف رکورد مورد نظر ممکن نیست!');
-            }
-        }
-    }*/
-
-/*    public function fiscalYearActivation(Request $request)
-    {
-        FiscalYear::activation(Input::get('fyId'));
-        SystemLog::setBudgetSubSystemAdminLog('فعالسازی سال مالی ' . FiscalYear::find(Input::get('fyId'))->fyLabel  );
-        return Redirect::to(URL::previous());
-    }*/
-
-/*    public function DAIsExist($coId , $reId = null , $rdId = null , $viId = null)
-    {
-        if (\Illuminate\Support\Facades\Request::ajax())
-        {
-            if (DeprivedArea::where('daCoId' , '=' , $coId)->where('daReId' , '=' , $reId)->where('daRdId' , '=' , $rdId)->where('daViId' , '=' , $viId)->exists())
-            {
-                return \Illuminate\Support\Facades\Response::json(['exist' => true]);
-            }
-            else
-            {
-                return \Illuminate\Support\Facades\Response::json(['exist' => false]);
-            }
-        }
-    }*/
-
-/*    public function DAIsExistForUpdate($daId , $coId , $reId = null , $rdId = null , $viId = null)
-    {
-        if (\Illuminate\Support\Facades\Request::ajax())
-        {
-            if (DeprivedArea::where('id' , '<>' , $daId)->where('daCoId' , '=' , $coId)->where('daReId' , '=' , $reId)->where('daRdId' , '=' , $rdId)->where('daViId' , '=' , $viId)->exists())
-            {
-                return \Illuminate\Support\Facades\Response::json(['exist' => true]);
-            }
-            else
-            {
-                return \Illuminate\Support\Facades\Response::json(['exist' => false]);
-            }
-        }
-    }*/
-
-/*    public function CDRIsExist($cdSubject , $cdId = null)
-    {
-        if (\Illuminate\Support\Facades\Request::ajax())
-        {
-            if ($cdId == null)
-            {
-                if (CreditDistributionRow::where('cdSubject' , '=' , $cdSubject)->exists())
-                {
-                    return \Illuminate\Support\Facades\Response::json(['exist' => true]);
-                }
-                else
-                {
-                    return \Illuminate\Support\Facades\Response::json(['exist' => false]);
-                }
-            }
-            else{
-                if (CreditDistributionRow::where('id' , '<>' , $cdId)->where('cdSubject' , '=' , $cdSubject)->exists())
-                {
-                    return \Illuminate\Support\Facades\Response::json(['exist' => true]);
-                }
-                else
-                {
-                    return \Illuminate\Support\Facades\Response::json(['exist' => false]);
-                }
-            }
-        }
-    }*/
-
-/*    function changeBudgetItemPermissionState($pbId , $state)
-    {
-        if (\Illuminate\Support\Facades\Request::ajax())
-        {
-            $fyBudgetPermission = FyPermissionInBudget::find($pbId);
-            $fyBudgetPermission->pbStatus = $state;
-            $fyBudgetPermission->save();
-            SystemLog::setBudgetSubSystemAdminLog('تغییر مجوز ' . $fyBudgetPermission->pbLabel . ' در سال مالی ' . FiscalYear::where('id' , '=' , $fyBudgetPermission->pbFyId)->value('fyLabel') . ' برای زیر سیستم بودجه.');
-            return \Illuminate\Support\Facades\Response::json(['state' => true]);
-        }
-    }*/
-
-/*    function checkSectionPermissionState($section , $fyId)
-    {
-        if (\Illuminate\Support\Facades\Request::ajax())
-        {
-            switch ($section)
-            {
-                case 'budget':
-                    $activeCount = FyPermissionInBudget::where('pbFyId' , '=' , $fyId)->where('pbStatus' , '=' , 1)->count();
-                    if (FyPermissionInBudget::where('pbFyId' , '=' , $fyId)->count() == $activeCount)
-                    {
-                        return \Illuminate\Support\Facades\Response::json(['state' => true]);
-                    }
-                    else
-                    {
-                        return \Illuminate\Support\Facades\Response::json(['state' => false]);
-                    }
-            }
-        }
-    }*/
-
-/*    function changeSectionPermissionState($section , $fyId , $state)
-    {
-        if (\Illuminate\Support\Facades\Request::ajax())
-        {
-            switch ($section)
-            {
-                case 'budget':
-                    FyPermissionInBudget::where('pbFyId' , '=' , $fyId)->update(['pbStatus' => $state]);
-                    SystemLog::setBudgetSubSystemAdminLog('تغییر مجوز های سال مالی ' . FiscalYear::where('id' , '=' , $fyId)->value('fyLabel') . ' در زیر سیستم بودجه.');
-                    return \Illuminate\Support\Facades\Response::json(['state' => true]);
-            }
-        }
-    }*/
-
-/*    public function registerBudgetSeason(Request $request)
-    {
-        $bs = new BudgetSeason;
-        $bs->bsUId = Auth::user()->id;
-        $bs->bsSubject = Input::get('bsSubject');
-        $bs->bsDescription = Input::get('bsDescription');
-        $bs->save();
-
-        SystemLog::setBudgetSubSystemAdminLog('تعریف فصل بودجه ' . Input::get('bsSubject'));
-        return Redirect::to(URL::previous() . '#budget_season_tab');
-    }*/
-
-/*    public function deleteBudgetSeason($bsId)
-    {
-        $bs = BudgetSeason::find($bsId);
-        try {
-            $logTemp = BudgetSeason::find($bsId);
-            $bs->delete();
-            SystemLog::setBudgetSubSystemAdminLog('حذف فصل بودجه ' . $logTemp->bsSubject);
-            return Redirect::to(URL::previous() . '#budget_season_tab');
-        }
-        catch (\Illuminate\Database\QueryException $e) {
-            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return Redirect::to(URL::previous() . '#budget_season_tab')->with('messageDialogPm', 'با توجه به وابستگی اطلاعات، حذف رکورد مورد نظر ممکن نیست!');
-            }
-        }
-    }
-
-    public function BSIsExist($bsSubject , $bsId = null)
-    {
-        if (\Illuminate\Support\Facades\Request::ajax())
-        {
-            if ($bsId == null)
-            {
-                if (BudgetSeason::where('bsSubject' , '=' , $bsSubject)->exists())
-                {
-                    return \Illuminate\Support\Facades\Response::json(['exist' => true]);
-                }
-                else
-                {
-                    return \Illuminate\Support\Facades\Response::json(['exist' => false]);
-                }
-            }
-            else{
-                if (BudgetSeason::where('id' , '<>' , $bsId)->where('bsSubject' , '=' , $bsSubject)->exists())
-                {
-                    return \Illuminate\Support\Facades\Response::json(['exist' => true]);
-                }
-                else
-                {
-                    return \Illuminate\Support\Facades\Response::json(['exist' => false]);
-                }
-            }
-        }
-    }
-
-    public function updateBudgetSeason(Request $request)
-    {
-        $old = BudgetSeason::find(Input::get('bsId'));
-        $bs = BudgetSeason::find(Input::get('bsId'));
-        $bs->bsSubject = Input::get('bsSubject');
-        $bs->bsDescription = Input::get('bsDescription');
-        $bs->save();
-
-        SystemLog::setBudgetSubSystemAdminLog('تغییر در فصل بودجه (' . $old->bsSubject . ') به (' . $bs->bsSubject . ')');
-        return Redirect::to(URL::previous() . '#budget_season_tab');
-    }*/
-
-/*    public function registerPlanTitle(Request $request)
-    {
-        $cdpt = new CreditDistributionTitle;
-        $cdpt->cdtUId = Auth::user()->id;
-        $cdpt->cdtBsId = Input::get('cdptSelectSeason');
-        $cdpt->cdtIdNumber = Input::get('cdptIdNumber');
-        $cdpt->cdtSubject = Input::get('cdptSubject');
-        $cdpt->cdtDescription = Input::get('cdptDescription');
-        $cdpt->save();
-
-        $counties = County::all();
-        foreach ($counties as $county)
-        {
-            if (Input::get('cdptCounty' . $county->id) != '')
-            {
-                $cdpt_co = new CreditDistributionTitle;
-                $cdpt_co->cdtUId = Auth::user()->id;
-                $cdpt_co->cdtBsId = Input::get('cdptSelectSeason');
-                $cdpt_co->cdtIdNumber = Input::get('cdptCounty' . $county->id) . PublicSetting::getProvincePlanLebel() . Input::get('cdptIdNumber');
-                $cdpt_co->cdtSubject = Input::get('cdptSubject');
-                $cdpt_co->cdtDescription = Input::get('cdptCountyDesc' . $county->id);
-                $cdpt_co->cdtCoId = $county->id;
-                $cdpt_co->cdtCdtId = $cdpt->id;
-                $cdpt_co->save();
-                SystemLog::setBudgetSubSystemAdminLog('تعریف عنوان طرح توزیع اعتبار در سطح شهرستان ' . $county->coName);
-            }
-        }
-
-        SystemLog::setBudgetSubSystemAdminLog('تعریف طرح توزیع اعتبار با عنوان ' . Input::get('cdptSubject'));
-        return Redirect::to(URL::previous() . '#plan_title_tab');
-    }*/
-
-/*    public function CDPTIsExist($cdptIdNumber , $cdptSubject , $cdptId = null)
-    {
-        if (\Illuminate\Support\Facades\Request::ajax())
-        {
-            if ($cdptId == null)
-            {
-                if (CreditDistributionTitle::where('cdtIdNumber' , '=' , $cdptIdNumber)->exists())
-                {
-                    return \Illuminate\Support\Facades\Response::json(['exist' => true]);
-                }
-                else
-                {
-                    return \Illuminate\Support\Facades\Response::json(['exist' => false]);
-                }
-            }
-            else{
-                if (CreditDistributionTitle::where('id' , '<>' , $cdptId)->where('cdtIdNumber' , '=' , $cdptIdNumber)->exists())
-                {
-                    return \Illuminate\Support\Facades\Response::json(['exist' => true]);
-                }
-                else
-                {
-                    return \Illuminate\Support\Facades\Response::json(['exist' => false]);
-                }
-            }
-        }
-    }*/
-
-/*    public function updatePlanTitle(Request $request)
-    {
-        $old = CreditDistributionTitle::find(Input::get('cdptId'));
-        $cdpt = CreditDistributionTitle::find(Input::get('cdptId'));
-        $cdpt->cdtUId = Auth::user()->id;
-        $cdpt->cdtBsId = Input::get('cdptSelectSeason');
-        $cdpt->cdtIdNumber = Input::get('cdptIdNumber');
-        $cdpt->cdtSubject = Input::get('cdptSubject');
-        $cdpt->cdtDescription = Input::get('cdptDescription');
-        $cdpt->save();
-
-        $counties = County::all();
-        foreach ($counties as $county)
-        {
-            $cdtP = CreditDistributionTitle::where('cdtCdtId' , $cdpt->id);
-            if (Input::get('cdptCounty' . $county->id) != '')
-            {
-                if ($cdtP->where('cdtIdNumber' , '=' , Input::get('cdptCounty' . $county->id) . PublicSetting::getProvincePlanLebel() . Input::get('cdptIdNumber'))->exists())
-                {
-                    $cdtP->where('cdtIdNumber' , '=' , Input::get('cdptCounty' . $county->id) . PublicSetting::getProvincePlanLebel() . Input::get('cdptIdNumber'))->update(['cdtIdNumber' => Uuid::uuid4() . Auth::user()->id]);
-                }
-                CreditDistributionTitle::updateOrCreate(['cdtCdtId' => Input::get('cdptId') , 'cdtCoId' => $county->id] , ['cdtUId' => Auth::user()->id,
-                    'cdtBsId' => Input::get('cdptSelectSeason'),
-                    'cdtIdNumber' => Input::get('cdptCounty' . $county->id) . PublicSetting::getProvincePlanLebel() . Input::get('cdptIdNumber'),
-                    'cdtSubject' => Input::get('cdptSubject'),
-                    'cdtDescription' => Input::get('cdptCountyDesc' . $county->id),
-                    'cdtCoId' => $county->id,
-                    'cdtCdtId' => $cdpt->id]);
-                SystemLog::setBudgetSubSystemAdminLog('تغییر عنوان طرح توزیع اعتبار در سطح شهرستان ' . $county->coName);
-            }
-            else if($cdtP->where('cdtCoId' , $county->id)->exists()){
-                try {
-                    $cdtP->where('cdtCoId' , $county->id)->delete();
-                    SystemLog::setBudgetSubSystemAdminLog('حذف عنوان طرح توزیع اعتبار ' . $county->coName);
-                }
-                catch (\Illuminate\Database\QueryException $e) {
-                }
-            }
-        }
-        SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان طرح توزیع اعتبار (' . $old->cdtSubject . ') به (' . $cdpt->cdtSubject . ')');
-        return Redirect::to(URL::previous() . '#plan_title_tab');
-    }*/
-
-/*    public function deletePlanTitle($cdptId)
-    {
-        try {
-            $logTemp = CreditDistributionTitle::find($cdptId);
-            CreditDistributionTitle::where('cdtCdtId' , '=' , $cdptId)->delete();
-            SystemLog::setBudgetSubSystemAdminLog('حذف عنوان طرح توزیع اعتبار در سطح شهرستان با عنوان ' . $logTemp->cdptSubject);
-
-            $cdpt = CreditDistributionTitle::find($cdptId);
-            $cdpt->delete();
-            SystemLog::setBudgetSubSystemAdminLog('حذف عنوان طرح توزیع اعتبار ' . $logTemp->cdptSubject);
-            return Redirect::to(URL::previous() . '#plan_title_tab');
-        }
-        catch (\Illuminate\Database\QueryException $e) {
-            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return Redirect::to(URL::previous() . '#budget_season_tab')->with('messageDialogPm', 'با توجه به وابستگی اطلاعات، حذف رکورد مورد نظر ممکن نیست!');
-            }
-        }
-    }*/
-
-/*    public function registerSubSeason(Request $request)
-    {
-        $ts = new CapitalAssetsTinySeason;
-        $ts->tsUId = Auth::user()->id;
-        $ts->tsSId = Input::get('sId');
-        $ts->tsPlanOrCost = 0; //capital assets
-        $ts->tsSubject = Input::get('tsSubject');
-        $ts->tsDescription = Input::get('tsDescription');
-        $ts->save();
-
-        SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل ' . Input::get('tsSubject') . ' در فصل ' . Season::find(Input::get('sId'))->sSubject);
-        return Redirect::to(URL::previous());
-    }*/
-
-/*    public function deleteSubSeason($tsId)
-    {
-        $ts = CapitalAssetsTinySeason::find($tsId);
-        try {
-            $logTemp = CapitalAssetsTinySeason::find($tsId);
-            $ts->delete();
-            SystemLog::setBudgetSubSystemAdminLog('حذف ریز فصل ' . $logTemp->tsSubject);
-            return Redirect::to(URL::previous());
-        }
-        catch (\Illuminate\Database\QueryException $e) {
-            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return Redirect::to(URL::previous())->with('messageDialogPm', 'با توجه به وابستگی اطلاعات، حذف رکورد مورد نظر ممکن نیست!');
-            }
-        }
-    }*/
-
-/*    public function SSIsExist($sId , $tsSubject , $tsId = null)
-    {
-        if (\Illuminate\Support\Facades\Request::ajax())
-        {
-            if ($tsId == null)
-            {
-                if (CapitalAssetsTinySeason::where('tsSId' , '=' , $sId)->Where('tsSubject' , '=' , $tsSubject)->exists())
-                {
-                    return \Illuminate\Support\Facades\Response::json(['exist' => true]);
-                }
-                else
-                {
-                    return \Illuminate\Support\Facades\Response::json(['exist' => false]);
-                }
-            }
-            else{
-                if (CapitalAssetsTinySeason::where('id' , '<>' , $tsId)->where('tsSId' , '=' , $sId)->where('tsSubject' , '=' , $tsSubject)->exists())
-                {
-                    return \Illuminate\Support\Facades\Response::json(['exist' => true]);
-                }
-                else
-                {
-                    return \Illuminate\Support\Facades\Response::json(['exist' => false]);
-                }
-            }
-        }
-    }*/
-
-/*    public function updateSubSeason(Request $request)
-    {
-        $old = CapitalAssetsTinySeason::find(Input::get('tsId'));
-        $ts = CapitalAssetsTinySeason::find(Input::get('tsId'));
-        $ts->tsSId = Input::get('sId');
-        $ts->tsSubject = Input::get('tsSubject');
-        $ts->tsDescription = Input::get('tsDescription');
-        $ts->save();
-
-        SystemLog::setBudgetSubSystemAdminLog('تغییر  ریز فصل (' . $old->tsSubject . ') به (' . $ts->tsSubject . ')');
-        return Redirect::to(URL::previous() . '#plan_title_tab');
-    }*/
     ////////////////////////////// cost tiny season /////////////////////////////////
     public function FetchCostTinySeasonData(Request $request)
     {
-        return \response()->json($this->getAllTinySeasons("cost"));
+        return \response()->json($this->getAllTinySeasons("cost" , $request->searchValue , $request->itemInPage));
     }
 
     public function registerCostTinySeason(Request $request)
@@ -527,7 +62,7 @@ class BudgetAdminController extends Controller
             $ts->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل هزینه ای ' . $request->subject . ' در عنوان فصل ' . CostSeasonTitle::find($request->stId)->catsSubject);
-            return \response()->json($this->getAllTinySeasons("cost") , 200);
+            return \response()->json($this->getAllTinySeasons("cost" , $request->searchValue , $request->itemInPage));
         }
     }
 
@@ -551,7 +86,7 @@ class BudgetAdminController extends Controller
             $ts->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تغییر  ریز فصل (' . $old->ctsSubject . ') به (' . $ts->ctsubject . ')');
-            return \response()->json($this->getAllTinySeasons("cost") , 200);
+            return \response()->json($this->getAllTinySeasons("cost" , $request->searchValue , $request->itemInPage));
         }
     }
 
@@ -561,11 +96,11 @@ class BudgetAdminController extends Controller
         try {
             $ts->delete();
             SystemLog::setBudgetSubSystemAdminLog('حذف ریز فصل ' . $request->subject);
-            return \response()->json($this->getAllTinySeasons("cost") , 200);
+            return \response()->json($this->getAllTinySeasons("cost" , $request->searchValue , $request->itemInPage) , 200);
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return \response()->json($this->getAllTinySeasons("cost") , 204);
+                return \response()->json($this->getAllTinySeasons("cost" , $request->searchValue , $request->itemInPage) , 204);
             }
         }
     }
@@ -585,29 +120,24 @@ class BudgetAdminController extends Controller
 
     public function FetchCapitalAssetsTinySeasonData(Request $request)
     {
-        return \response()->json($this->getAllTinySeasons("capitalAssets"));
+        return \response()->json($this->getAllTinySeasons("capitalAssets" , $request->searchValue , $request->itemInPage));
     }
 
-    public function getAllTinySeasons($type)
+    public function getAllTinySeasons($type , $searchValue , $itemInPage)
     {
         if ($type == "capitalAssets")
         {
-            $seasons = Season::with(['capitalAssetsSeasonTitle' => function($q){
-                $q->with('capitalAssetsTinySeason')
-                    ->has('capitalAssetsTinySeason');
-            }])->whereHas('capitalAssetsSeasonTitle' , function ($q){
-                $q->whereHas('capitalAssetsTinySeason');
-            })->paginate(5);
-            return $seasons;
+            return Season::with(['capitalAssetsSeasonTitle.capitalAssetsTinySeason' => function($query) use ($searchValue){
+                    return $query->where('catsSubject' , 'LIKE' , '%' . $searchValue . '%')
+                        ->orWhere('catsDescription' , 'LIKE' , '%' . $searchValue . '%');
+                    }])->paginate($itemInPage);
+
         }else if ($type == "cost")
         {
-            $seasons = Season::with(['costSeasonTitle' => function($q){
-                $q->with('costTinySeason')
-                    ->has('costTinySeason');
-            }])->whereHas('costSeasonTitle' , function ($q){
-                $q->whereHas('costTinySeason');
-            })->paginate(5);
-            return $seasons;
+            return Season::with(['costSeasonTitle.costTinySeason' => function($query) use ($searchValue){
+                return $query->where('ctsSubject' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('ctsDescription' , 'LIKE' , '%' . $searchValue . '%');
+            }])->paginate($itemInPage);
         }
     }
 
@@ -634,7 +164,7 @@ class BudgetAdminController extends Controller
             $ts->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل عمرانی ' . $request->subject . ' در عنوان فصل ' . CapitalAssetsSeasonTitle::find($request->stId)->castSubject);
-            return \response()->json($this->getAllTinySeasons("capitalAssets") , 200);
+            return \response()->json($this->getAllTinySeasons("capitalAssets" , $request->searchValue , $request->itemInPage));
         }
     }
 
@@ -658,7 +188,7 @@ class BudgetAdminController extends Controller
             $ts->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تغییر  ریز فصل (' . $old->catsSubject . ') به (' . $ts->catsubject . ')');
-            return \response()->json($this->getAllTinySeasons("capitalAssets") , 200);
+            return \response()->json($this->getAllTinySeasons("capitalAssets" , $request->searchValue , $request->itemInPage));
         }
     }
 
@@ -668,11 +198,11 @@ class BudgetAdminController extends Controller
         try {
             $ts->delete();
             SystemLog::setBudgetSubSystemAdminLog('حذف ریز فصل ' . $request->subject);
-            return \response()->json($this->getAllTinySeasons("capitalAssets") , 200);
+            return \response()->json($this->getAllTinySeasons("capitalAssets" , $request->searchValue , $request->itemInPage));
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return \response()->json($this->getAllTinySeasons("capitalAssets") , 204);
+                return \response()->json($this->getAllTinySeasons("capitalAssets" , $request->searchValue , $request->itemInPage) , 204);
             }
         }
     }
@@ -767,7 +297,7 @@ class BudgetAdminController extends Controller
         $st->save();
 
         SystemLog::setBudgetSubSystemAdminLog('تعریف عنوان فصل تملک داریی های سرمایه ای ' . $request->subject);
-        return \response()->json($this->getAllSeasonTitle("plan"));
+        return \response()->json($this->getAllSeasonTitle("plan" , $request->searchValue , $request->itemInPage));
     }
 
     public function updateCapitalAssetsSeasonTitle(Request $request)
@@ -780,23 +310,39 @@ class BudgetAdminController extends Controller
         $st->save();
 
         SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان فصل تملک داریی های سرمایه ای ' . $request->subject);
-        return \response()->json($this->getAllSeasonTitle("plan"));
+        return \response()->json($this->getAllSeasonTitle("plan" , $request->searchValue , $request->itemInPage));
     }
 
     public function fetchCapitalAssetsSeasonTitleData(Request $request)
     {
-        return \response()->json($this->getAllSeasonTitle("plan"));
+        return \response()->json($this->getAllSeasonTitle("plan" , $request->searchValue , $request->itemInPage));
     }
 
-    public function getAllSeasonTitle($pOrC)
+    public function getAllSeasonTitle($pOrC , $searchValue , $itemInPage)
     {
         if ($pOrC == "cost")
         {
-            return Season::with('costSeasonTitle')->whereHas('costSeasonTitle')->paginate(5);
+            return Season::with(['costSeasonTitle' => function ($query) use ($searchValue){
+                return $query->where('cstSubject' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cstDescription' , 'LIKE' , '%' . $searchValue . '%');
+                }])
+                ->whereHas('costSeasonTitle' , function ($query) use ($searchValue){
+                    return $query->where('cstSubject' , 'LIKE' , '%' . $searchValue . '%')
+                        ->orWhere('cstDescription' , 'LIKE' , '%' . $searchValue . '%');
+                })
+                ->paginate($itemInPage);
         }
         else if ($pOrC == "plan")
         {
-            return Season::with('capitalAssetsSeasonTitle')->whereHas('capitalAssetsSeasonTitle')->paginate(5);
+            return Season::with(['capitalAssetsSeasonTitle' => function ($query) use ($searchValue){
+                return $query->where('castSubject' , 'LIKE' ,  '%' . $searchValue . '%')
+                    ->orWhere('castDescription' , 'LIKE' , '%' . $searchValue . '%');
+                }])
+                ->whereHas('capitalAssetsSeasonTitle' , function ($query) use ($searchValue){
+                    return $query->where('castSubject' , 'LIKE' , '%' . $searchValue . '%')
+                                 ->orWhere('castDescription' , 'LIKE' , '%' . $searchValue . '%');
+                })
+                ->paginate($itemInPage);
         }
     }
 
@@ -812,7 +358,7 @@ class BudgetAdminController extends Controller
         try {
             $st->delete();
             SystemLog::setBudgetSubSystemAdminLog('حذف عنوان فصل ' . $subject);
-            return \response()->json($this->getAllSeasonTitle("plan"));
+            return \response()->json($this->getAllSeasonTitle("plan" , $request->searchValue , $request->itemInPage));
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
@@ -831,7 +377,7 @@ class BudgetAdminController extends Controller
         $st->save();
 
         SystemLog::setBudgetSubSystemAdminLog('تعریف عنوان فصل هزینه ای ' . $request->subject);
-        return \response()->json($this->getAllSeasonTitle("cost"));
+        return \response()->json($this->getAllSeasonTitle("cost" , $request->searchValue , $request->itemInPage));
     }
 
     public function updateCostSeasonTitle(Request $request)
@@ -844,12 +390,12 @@ class BudgetAdminController extends Controller
         $st->save();
 
         SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان فصل هزینه ای ' . $request->subject);
-        return \response()->json($this->getAllSeasonTitle("cost"));
+        return \response()->json($this->getAllSeasonTitle("cost" , $request->searchValue , $request->itemInPage));
     }
 
     public function fetchCostSeasonTitleData(Request $request)
     {
-        return \response()->json($this->getAllSeasonTitle("cost"));
+        return \response()->json($this->getAllSeasonTitle("cost" , $request->searchValue , $request->itemInPage));
     }
 
     public function getCostSeasonTitleWithSId(Request $request)
@@ -863,11 +409,11 @@ class BudgetAdminController extends Controller
         try {
             $st->delete();
             SystemLog::setBudgetSubSystemAdminLog('حذف عنوان فصل ' . $request->subject);
-            return \response()->json($this->getAllSeasonTitle("cost") , 200);
+            return \response()->json($this->getAllSeasonTitle("cost" , $request->searchValue , $request->itemInPage));
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return \response()->json($this->getAllSeasonTitle("cost") , 204);
+                return \response()->json([] , 204);
             }
         }
     }

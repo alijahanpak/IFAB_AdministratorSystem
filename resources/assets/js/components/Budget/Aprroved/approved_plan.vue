@@ -1139,7 +1139,7 @@
                                 </div>
                             </div>
                             <div class="medium-12 columns padding-lr padding-bottom-modal input-margin-top">
-                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">مشاهده</span></button>
+                                <button name="Submit" class="my-button my-success float-left"> <span class="btn-txt-mrg">مشاهده</span></button>
                             </div>
                         </form>
                     </div>

@@ -32,24 +32,22 @@
                             <div class="clearfix tool-bar">
                                 <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(0)">جدید</a>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> {{ itemInPage }} </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a  href="#">10</a></li>
-                                            <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
-                                            <li><a  href="#">30</a></li>
-                                            <li><a  href="#">50</a></li>
-                                            <li><a  href="#">100</a></li>
-                                            <li><a  href="#">200</a></li>
+                                            <li><a  @click="changeItemInPage(2 , 0)">2<span v-show="itemInPage == 2" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(4 , 0)">4<span v-show="itemInPage == 4" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(8 , 0)">8<span v-show="itemInPage == 8" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(10 , 0)">10<span v-show="itemInPage == 10" class="fi-check checked-color size-14"></span></a></li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="float-left">
                                     <div class="input-group float-left">
                                         <div class="inner-addon right-addon">
-                                            <i v-if="searchPlanValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
-                                            <i v-if="searchPlanValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
-                                            <input  v-model="searchPlanValue" class="search" type="text" placeholder="جستوجو">
+                                            <i v-if="searchCostValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                            <i v-if="searchCostValue != ''" v-on:click.stop="removeFilter(0)" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                            <input v-model="planSearchValue" v-on:keyup.enter="search(0)" class="search" type="text" placeholder="جستجو">
                                         </div>
                                     </div>
                                 </div>
@@ -175,15 +173,13 @@
                                 <div class="clearfix tool-bar">
                                     <div style="margin-top: 2px;" class="button-group float-right report-mrg">
                                         <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
-                                        <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="costDropDown">تعداد نمایش<span> 20 </span></button>
+                                        <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="costDropDown">تعداد نمایش<span> {{ costItemInPage }} </span></button>
                                         <div style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="costDropDown" data-dropdown data-auto-focus="true">
                                             <ul class="my-menu small-font ltr-dir">
-                                                <li><a  href="#">10</a></li>
-                                                <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
-                                                <li><a  href="#">30</a></li>
-                                                <li><a  href="#">50</a></li>
-                                                <li><a  href="#">100</a></li>
-                                                <li><a  href="#">200</a></li>
+                                                <li><a  @click="changeItemInPage(2 , 1)">2<span v-show="costItemInPage == 2" class="fi-check checked-color size-14"></span></a></li>
+                                                <li><a  @click="changeItemInPage(4 , 1)">4<span v-show="costItemInPage == 4" class="fi-check checked-color size-14"></span></a></li>
+                                                <li><a  @click="changeItemInPage(8 , 1)">8<span v-show="costItemInPage == 8" class="fi-check checked-color size-14"></span></a></li>
+                                                <li><a  @click="changeItemInPage(10 , 1)">10<span v-show="costItemInPage == 10" class="fi-check checked-color size-14"></span></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -191,8 +187,8 @@
                                         <div class="input-group float-left">
                                             <div class="inner-addon right-addon">
                                                 <i v-if="searchCostValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
-                                                <i v-if="searchCostValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
-                                                <input v-model="searchCostValue" class="search" type="text" placeholder="جستوجو">
+                                                <i v-if="searchCostValue != ''" v-on:click.stop="removeFilter(1)" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                                <input v-model="costSearchValue" v-on:keyup.enter="search(1)" class="search" type="text" placeholder="جستجو">
                                             </div>
                                         </div>
                                     </div>
@@ -449,6 +445,10 @@
                 showUpdateModal: false,
                 showDeleteModal: false,
                 showIcon:false,
+                itemInPage: 2,
+                costItemInPage: 2,
+                planSearchValue:'',
+                costSearchValue:'',
                 tinySeasonsFill: {},
                 tsIdDelete: '',
                 seasons: {},
@@ -491,7 +491,10 @@
 
         methods:{
             fetchCapitalAssetsData: function (page = 1) {
-                axios.get('/budget/admin/sub_seasons/capital_assets/fetchData?page=' + page)
+                axios.get('/budget/admin/sub_seasons/capital_assets/fetchData?page=' + page , {params:{
+                    searchValue: this.planSearchValue,
+                    itemInPage: this.itemInPage
+                }})
                     .then((response) => {
                         this.tinySeasons = response.data.data;
                         this.makePagination(response.data , "plan");
@@ -502,7 +505,10 @@
             },
 
             fetchCostData: function (page = 1) {
-                axios.get('/budget/admin/sub_seasons/cost/fetchData?page=' + page)
+                axios.get('/budget/admin/sub_seasons/cost/fetchData?page=' + page , {params:{
+                    searchValue: this.costSearchValue,
+                    itemInPage: this.costItemInPage
+                }})
                     .then((response) => {
                         this.tinySeasonsCost = response.data.data;
                         this.makePagination(response.data , "cost");
@@ -510,6 +516,37 @@
                     },(error) => {
                         console.log(error);
                     });
+            },
+
+            search: function (type) {
+                if (type == 0)
+                {
+                    this.fetchCapitalAssetsData();
+                }else{
+                    this.fetchCostData();
+                }
+            },
+
+            changeItemInPage: function (number , type) {
+                if (type == 0)
+                {
+                    this.itemInPage = number;
+                    this.fetchCapitalAssetsData();
+                }else{
+                    this.costItemInPage = number;
+                    this.fetchCostData();
+                }
+            },
+
+            removeFilter: function (type) {
+                if (type == 0)
+                {
+                    this.planSearchValue = ''
+                    this.fetchCapitalAssetsData();
+                }else{
+                    this.costSearchValue = '';
+                    this.fetchCostData();
+                }
             },
 
             makePagination: function(data , type){
@@ -577,7 +614,10 @@
                         axios.post(this.planOrCost == 0 ? '/budget/admin/sub_seasons/capital_assets/register' : '/budget/admin/sub_seasons/cost/register' , {
                             stId: this.tinySeasonsInput.tsStId ,
                             subject: this.tinySeasonsInput.tsSubject ,
-                            description: this.tinySeasonsInput.tsDescription}).then((response) => {
+                            description: this.tinySeasonsInput.tsDescription,
+                            searchValue: this.planOrCost == 0 ? this.planSearchValue : this.costSearchValue,
+                            itemInPage: this.planOrCost == 0 ? this.itemInPage : this.costItemInPage
+                        }).then((response) => {
                                 if(this.planOrCost == 1)
                                 {
                                     this.tinySeasonsCost = response.data.data;
@@ -628,7 +668,10 @@
                             id: this.tinySeasonsFill.id,
                             stId: this.tinySeasonsFill.tsStId ,
                             subject: this.tinySeasonsFill.tsSubject ,
-                            description: this.tinySeasonsFill.tsDescription}).then((response) => {
+                            description: this.tinySeasonsFill.tsDescription,
+                            searchValue: this.planOrCost == 0 ? this.planSearchValue : this.costSearchValue,
+                            itemInPage: this.planOrCost == 0 ? this.itemInPage : this.costItemInPage
+                        }).then((response) => {
                             if(this.planOrCost == 1)
                                 {
                                     this.tinySeasonsCost = response.data.data;
@@ -658,7 +701,9 @@
 
             deleteTinySeason: function () {
                 axios.post(this.planOrCost == 0 ? '/budget/admin/sub_seasons/capital_assets/delete' : '/budget/admin/sub_seasons/cost/delete' , {
-                    id: this.tsIdDelete
+                    id: this.tsIdDelete,
+                    searchValue: this.planOrCost == 0 ? this.planSearchValue : this.costSearchValue,
+                    itemInPage: this.planOrCost == 0 ? this.itemInPage : this.costItemInPage
                 }).then((response) => {
                         if (response.status != 204) //http status code for error in delete (no content)
                         {

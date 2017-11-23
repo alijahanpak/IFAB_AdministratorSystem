@@ -265,6 +265,10 @@ var app = new Vue({
             return this.amountBase.in_put_amount_unit.auSubject;
         },
 
+        getDispAmountBaseLabel: function () {
+            return this.amountBase.disp_amount_unit.auSubject;
+        },
+
         displayNotif: function (httpStatusCode) {
             switch (httpStatusCode){
                 case 204:
