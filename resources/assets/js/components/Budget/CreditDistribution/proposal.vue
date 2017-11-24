@@ -54,6 +54,9 @@
                                 </ul>
                             </div>
                         </div>
+                        <div class="float-right cost-label-2">
+                            <span class="small-font">{{ costTemp }}</span>
+                        </div>
                         <div class="float-left">
                             <div class="input-group float-left">
                                 <div class="inner-addon right-addon">
@@ -465,6 +468,7 @@
                 creditDistributionPlans: {},
                 counties: {},
                 selectCounty: '',
+                costTemp:'',
                 selectedProposalIdForDelete: '',
                 remainingAmount: 0,
                 selectedItems: [],
@@ -487,6 +491,7 @@
         updated: function () {
             $(this.$el).foundation(); //WORKS!
             this.$parent.userIsActive();
+            this.costTemp =  ' مبالغ: ' + this.$parent.getDispAmountBaseLabel();
         },
 
         mounted: function () {

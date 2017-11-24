@@ -1603,6 +1603,10 @@ button.purple-btn {
     margin:15px;
     color:#34bfa3;
 }
+.cost-label-2{
+    margin:5px;
+    color:#34bfa3;
+}
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
     display: block;
     width: 0;

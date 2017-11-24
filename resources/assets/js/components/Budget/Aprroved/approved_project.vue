@@ -23,6 +23,9 @@
         </div>
         <div class="grid-x  my-callout-box container-mrg-top dynamic-height-level1">
             <div  class="medium-12 column">
+                <div class="float-left cost-label">
+                    <span class="small-font">{{ costTemp }}</span>
+                </div>
                 <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="approved_project_tab_view">
                     <li class="tabs-title is-active"><a href="#provincial_tab" aria-selected="true">استانی</a></li>
                     <li class="tabs-title"><a href="#national_tab">ملی</a></li>
@@ -1006,6 +1009,7 @@
                 natSearchValue: '',
                 provOrNat: '',
                 apIdForDelete: '',
+                costTemp:'',
                 csIdForDelete: '',
                 approvedPlans: {},
                 counties: {},
@@ -1044,6 +1048,7 @@
         updated: function () {
             $(this.$el).foundation(); //WORKS!
             this.$parent.userIsActive();
+            this.costTemp =  ' مبالغ: ' + this.$parent.getDispAmountBaseLabel();
         },
 
         mounted: function () {

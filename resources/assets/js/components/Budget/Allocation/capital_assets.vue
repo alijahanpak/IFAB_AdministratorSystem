@@ -23,6 +23,9 @@
         </div>
         <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
             <div class="medium-12 column">
+                <div class="float-left cost-label">
+                    <span class="small-font">{{ costTemp }}</span>
+                </div>
                 <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="Register_of_credit_allocation_assets_tab_view">
                     <li class="tabs-title is-active"><a href="#national" aria-selected="true">استانی</a></li>
                     <li class="tabs-title"><a href="#provincial">ملی</a></li>
@@ -1126,6 +1129,7 @@
                 foundFill: {},
                 provOrNat: '',
                 searchProvValue:'',
+                costTemp:'',
                 searchNatValue:'',
                 showInsertModal: false,
                 showInsertFoundModal: false,
@@ -1177,6 +1181,7 @@
         updated: function () {
             $(this.$el).foundation(); //WORKS!
             this.$parent.userIsActive();
+            this.costTemp =  ' مبالغ: ' + this.$parent.getDispAmountBaseLabel();
         },
 
         mounted: function () {
