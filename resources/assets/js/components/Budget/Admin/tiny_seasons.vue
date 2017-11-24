@@ -436,8 +436,6 @@
                 errorMessage: '',
                 errorMessage_update: '',
                 selectedSeason: '',
-                searchPlanValue:'',
-                searchCostValue:'',
                 tinySeasons: [],
                 tinySeasonsCost: [],
                 tinySeasonsInput: {},

@@ -25,24 +25,35 @@ class ProjectController extends Controller
     public function fetchApprovedProjectData(Request $request)
     {
         return \response()->json(
-            $this->getAllProject($request->pOrN)
+            $this->getAllProject($request->pOrN , $request->searchValue , $request->itemInPage)
         );
     }
 
-    public function getAllProject($pOrN)
+    public function getAllProject($pOrN , $searchValue , $itemInPage)
     {
         return CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('capActive' , '=' , true)
             ->where('capProvinceOrNational' , '=' , $pOrN)
+/*            ->where(function($query) use($searchValue){
+                return $query->where();
+            })*/
             ->with('capitalAssetsProject')
-            ->whereHas('capitalAssetsProject')
-            ->with('creditDistributionTitle')
+            ->whereHas('capitalAssetsProject' , function($query) use($searchValue){
+                return $query->where('cpSubject' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cpCode' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cpDescription' , 'LIKE' , '%' . $searchValue . '%');
+            })
+            ->with(['creditDistributionTitle' => function($query) use($searchValue){
+                return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
+            }])
             ->with('creditDistributionTitle.county')
             ->with('capitalAssetsProject.creditSource')
             ->with('capitalAssetsProject.creditSource.creditDistributionRow')
             ->with('capitalAssetsProject.creditSource.tinySeason.seasonTitle.season')
             ->with('capitalAssetsProject.creditSource.howToRun')
-            ->with('capitalAssetsProject.county')->paginate(20);
+            ->with('capitalAssetsProject.county')
+            ->paginate($itemInPage);
     }
 
     public function registerApprovedProject(Request $request)
@@ -65,7 +76,7 @@ class ProjectController extends Controller
 
             SystemLog::setBudgetSubSystemLog('ثبت پروژه تملک داریی های سرمایه ای ' . $request->subject);
             return \response()->json(
-                $this->getAllProject($request->pOrN)
+                $this->getAllProject($request->pOrN , $request->searchValue , $request->itemInPage)
             );
         }
     }
@@ -76,7 +87,7 @@ class ProjectController extends Controller
         try {
             $cap->delete();
             SystemLog::setBudgetSubSystemLog('حذف پروژه تملک داریی های سرمایه ای');
-            return \response()->json($this->getAllProject($request->pOrN));
+            return \response()->json($this->getAllProject($request->pOrN , $request->searchValue , $request->itemInPage));
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
@@ -107,7 +118,7 @@ class ProjectController extends Controller
 
             SystemLog::setBudgetSubSystemLog('تغییر در پروژه تملک داریی های سرمایه ای ' . $old->cpSubject);
             return \response()->json(
-                $this->getAllProject($request->pOrN)
+                $this->getAllProject($request->pOrN , $request->searchValue , $request->itemInPage)
             );
         }
     }
@@ -140,7 +151,7 @@ class ProjectController extends Controller
 
             SystemLog::setBudgetSubSystemLog('ثبت تامین اعتبار پروژه تملک داریی های سرمایه ای ' . $request->subject);
             return \response()->json(
-                $this->getAllProject($request->pOrN)
+                $this->getAllProject($request->pOrN , $request->searchValue , $request->itemInPage)
             );
         }
     }
@@ -166,7 +177,7 @@ class ProjectController extends Controller
 
             SystemLog::setBudgetSubSystemLog('تغییر در تامین اعتبار پروژه تملک داریی های سرمایه ای ');
             return \response()->json(
-                $this->getAllProject($request->pOrN)
+                $this->getAllProject($request->pOrN , $request->searchValue , $request->itemInPage)
             );
         }
     }
@@ -177,7 +188,7 @@ class ProjectController extends Controller
         try {
             $cs->delete();
             SystemLog::setBudgetSubSystemLog('حذف تامین اعتبار پروژه تملک داریی های سرمایه ای');
-            return \response()->json($this->getAllProject($request->pOrN));
+            return \response()->json($this->getAllProject($request->pOrN , $request->searchValue , $request->itemInPage));
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation

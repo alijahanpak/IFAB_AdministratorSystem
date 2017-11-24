@@ -404,11 +404,18 @@ class PlanController extends Controller
     }
 
     /////////////////////////////// cost ////////////////////////////////////////////
-    public function getAllCostAgreemrent($pOrN)
+    public function getAllCostAgreemrent($pOrN , $searchValue , $itemInPage)
     {
         return CostAgreement::where('caFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('caActive' , '=' , true)
             ->where('caProvinceOrNational' , '=' , $pOrN)
+            ->where(function($query) use($searchValue){
+                return $query->where('caLetterNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('caLetterDate' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('caExchangeIdNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('caExchangeDate' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('caDescription' , 'LIKE' , '%' . $searchValue . '%');
+            })
             ->with('caCreditSource')
             ->with('caCreditSource.tinySeason.seasonTitle.season')
             ->with('caCreditSource.creditDistributionRow')
@@ -417,13 +424,13 @@ class PlanController extends Controller
             ->with('amendments.caCreditSource.tinySeason.seasonTitle.season')
             ->with('amendments.caCreditSource.creditDistributionRow')
             ->with('amendments.caCreditSource.creditDistributionTitle')
-            ->paginate(20);
+            ->paginate($itemInPage);
     }
 
     public function fetchCostAgreementData(Request $request)
     {
         return \response()->json(
-            $this->getAllCostAgreemrent($request->pOrN)
+            $this->getAllCostAgreemrent($request->pOrN , $request->searchValue , $request->itemInPage)
         );
     }
 
@@ -446,7 +453,7 @@ class PlanController extends Controller
             $ca->save();
 
             SystemLog::setBudgetSubSystemLog('ثبت موافقت نامه هزینه ای ');
-            return \response()->json($this->getAllCostAgreemrent($request->pOrN));
+            return \response()->json($this->getAllCostAgreemrent($request->pOrN , $request->searchValue , $request->itemInPage));
         }
     }
 
@@ -468,7 +475,7 @@ class PlanController extends Controller
             $ca->save();
 
             SystemLog::setBudgetSubSystemLog('تغییر موافقت نامه هزینه ای ');
-            return \response()->json($this->getAllCostAgreemrent($request->pOrN));
+            return \response()->json($this->getAllCostAgreemrent($request->pOrN , $request->searchValue , $request->itemInPage));
         }
     }
 
@@ -478,7 +485,7 @@ class PlanController extends Controller
         try {
             $ca->delete();
             SystemLog::setBudgetSubSystemAdminLog('حذف موافقت نامه هزینه ای');
-            return \response()->json($this->getAllCostAgreemrent($request->pOrN));
+            return \response()->json($this->getAllCostAgreemrent($request->pOrN , $request->searchValue , $request->itemInPage));
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
@@ -508,7 +515,7 @@ class PlanController extends Controller
 
             SystemLog::setBudgetSubSystemLog('ثبت تامین اعتبار هزینه ای');
             return \response()->json(
-                $this->getAllCostAgreemrent($request->pOrN)
+                $this->getAllCostAgreemrent($request->pOrN , $request->searchValue , $request->itemInPage)
             );
         }
     }
@@ -533,7 +540,7 @@ class PlanController extends Controller
 
             SystemLog::setBudgetSubSystemLog('تغییر تامین اعتبار هزینه ای');
             return \response()->json(
-                $this->getAllCostAgreemrent($request->pOrN)
+                $this->getAllCostAgreemrent($request->pOrN , $request->searchValue , $request->itemInPage)
             );
         }
     }
@@ -544,7 +551,7 @@ class PlanController extends Controller
         try {
             $cs->delete();
             SystemLog::setBudgetSubSystemAdminLog('حذف تامین اعتبار هزینه ای');
-            return \response()->json($this->getAllCostAgreemrent($request->pOrN));
+            return \response()->json($this->getAllCostAgreemrent($request->pOrN , $request->searchValue , $request->itemInPage));
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
@@ -615,7 +622,7 @@ class PlanController extends Controller
 
         CostAgreementTemp::find($request->caId)->delete();
         return \response()->json(
-            $this->getAllCostAgreemrent($temp->caProvinceOrNational)
+            $this->getAllCostAgreemrent($temp->caProvinceOrNational , $request->searchValue , $request->itemInPage)
         );
     }
 

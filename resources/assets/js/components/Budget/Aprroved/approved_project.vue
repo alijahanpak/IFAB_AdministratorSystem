@@ -48,24 +48,22 @@
                                             <li><a @click="openReportModal(0 , 'excel')"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                                         </ul>
                                     </div>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="countDropDown1">تعداد نمایش<span> 20 </span></button>
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="countDropDown1">تعداد نمایش<span> {{ itemInPage }} </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="countDropDown1" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a  href="#">10</a></li>
-                                            <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
-                                            <li><a  href="#">30</a></li>
-                                            <li><a  href="#">50</a></li>
-                                            <li><a  href="#">100</a></li>
-                                            <li><a  href="#">200</a></li>
+                                            <li><a  @click="changeItemInPage(10 , 0)">10<span v-show="itemInPage == 10" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(25 , 0)">25<span v-show="itemInPage == 25" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(50 , 0)">50<span v-show="itemInPage == 50" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(100 , 0)">100<span v-show="itemInPage == 100" class="fi-check checked-color size-14"></span></a></li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="float-left">
                                     <div class="input-group float-left">
                                         <div class="inner-addon right-addon">
-                                            <i v-if="searchProvValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
-                                            <i v-if="searchProvValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
-                                            <input v-model="searchProvValue" class="search" type="text" placeholder="جستجو">
+                                            <i v-if="provSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                            <i v-if="provSearchValue != ''" v-on:click.stop="removeFilter(0)" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                            <input v-model="provSearchValue" v-on:keyup.enter="search(0)" class="search" type="text" placeholder="جستجو">
                                         </div>
                                     </div>
                                 </div>
@@ -311,24 +309,22 @@
                                             <li><a  @click="openReportModal(1, 'excel')"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                                         </ul>
                                     </div>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> {{ natItemInPage }} </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a  href="#">10</a></li>
-                                            <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
-                                            <li><a  href="#">30</a></li>
-                                            <li><a  href="#">50</a></li>
-                                            <li><a  href="#">100</a></li>
-                                            <li><a  href="#">200</a></li>
+                                            <li><a  @click="changeItemInPage(10 , 1)">10<span v-show="natItemInPage == 10" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(25 , 1)">25<span v-show="natItemInPage == 25" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(50 , 1)">50<span v-show="natItemInPage == 50" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(100 , 1)">100<span v-show="natItemInPage == 100" class="fi-check checked-color size-14"></span></a></li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="float-left">
                                     <div class="input-group float-left">
                                         <div class="inner-addon right-addon">
-                                            <i v-if="searchNatValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
-                                            <i v-if="searchNatValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
-                                            <input v-model="searchNatValue" class="search" type="text" placeholder="جستجو">
+                                            <i v-if="natSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                            <i v-if="natSearchValue != ''" v-on:click.stop="removeFilter(1)" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                            <input v-model="natSearchValue" v-on:keyup.enter="search(1)" class="search" type="text" placeholder="جستجو">
                                         </div>
                                     </div>
                                 </div>
@@ -1004,8 +1000,10 @@
                 displayParentId_prov: '',
                 displayCreditSourceInfo_nat: '',
                 displayParentId_nat: '',
-                searchProvValue:'',
-                searchNatValue:'',
+                itemInPage: 10,
+                natItemInPage: 10,
+                provSearchValue: '',
+                natSearchValue: '',
                 provOrNat: '',
                 apIdForDelete: '',
                 csIdForDelete: '',
@@ -1041,7 +1039,6 @@
         created: function () {
             this.fetchProvincialData();
             this.fetchNationalData();
-            //
         },
 
         updated: function () {
@@ -1061,7 +1058,11 @@
 
         methods:{
             fetchProvincialData: function (page = 1) {
-                axios.get('/budget/approved_project/capital_assets/fetchData?page=' + page , {params:{pOrN: 0}})
+                axios.get('/budget/approved_project/capital_assets/fetchData?page=' + page , {params:{
+                    pOrN: 0,
+                    searchValue: this.provSearchValue,
+                    itemInPage: this.itemInPage
+                }})
                     .then((response) => {
                         this.setData(0 , response.data.data);
                         this.makePagination(response.data , "provincial");
@@ -1072,14 +1073,49 @@
             },
 
             fetchNationalData: function (page = 1) {
-                axios.get('/budget/approved_project/capital_assets/fetchData?page=' + page , {params:{pOrN: 1}})
+                axios.get('/budget/approved_project/capital_assets/fetchData?page=' + page , {params:{
+                    pOrN: 1,
+                    searchValue: this.natSearchValue,
+                    itemInPage: this.natItemInPage
+                }})
                     .then((response) => {
                         this.setData(1 , response.data.data);
                         this.makePagination(response.data , "national");
                         console.log(response);
                     },(error) => {
                         console.log(error);
-                    });
+                });
+            },
+
+            search: function (type) {
+                if (type == 0)
+                {
+                    this.fetchProvincialData();
+                }else{
+                    this.fetchNationalData();
+                }
+            },
+
+            changeItemInPage: function (number , type) {
+                if (type == 0)
+                {
+                    this.itemInPage = number;
+                    this.fetchProvincialData();
+                }else{
+                    this.natItemInPage = number;
+                    this.fetchNationalData();
+                }
+            },
+
+            removeFilter: function (type) {
+                if (type == 0)
+                {
+                    this.provSearchValue = '';
+                    this.fetchProvincialData();
+                }else{
+                    this.natSearchValue = '';
+                    this.fetchNationalData();
+                }
             },
 
             setData: function (type , data) {
@@ -1199,7 +1235,9 @@
                             pProgress: this.approvedProjectsInput.apPhysicalProgress,
                             coId: this.approvedProjectsInput.apCity,
                             description: this.approvedProjectsInput.apDescription,
-                            pOrN: this.provOrNat
+                            pOrN: this.provOrNat,
+                            searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
+                            itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
                         }).then((response) => {
                                 if (this.provOrNat == 0)
                                 {
@@ -1244,7 +1282,9 @@
                             tsId: this.apCreditSourceInput.tsId,
                             amount: this.apCreditSourceInput.csAmount,
                             description: this.apCreditSourceInput.csDescription,
-                            pOrN: this.provOrNat
+                            pOrN: this.provOrNat,
+                            searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
+                            itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
                         }).then((response) => {
                             if (this.provOrNat == 0)
                             {
@@ -1295,7 +1335,9 @@
                             tsId: this.apCreditSourceFill.tsId,
                             amount: this.apCreditSourceFill.csAmount,
                             description: this.apCreditSourceFill.csDescription,
-                            pOrN: this.provOrNat
+                            pOrN: this.provOrNat,
+                            searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
+                            itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
                         }).then((response) => {
                             if (this.provOrNat == 0)
                             {
@@ -1371,7 +1413,9 @@
                             pProgress: this.approvedProjectsFill.apPhysicalProgress,
                             coId: this.approvedProjectsFill.apCity,
                             description: this.approvedProjectsFill.apDescription,
-                            pOrN: this.provOrNat
+                            pOrN: this.provOrNat,
+                            searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
+                            itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
                         }).then((response) => {
                             if (this.provOrNat == 0)
                             {
@@ -1403,7 +1447,9 @@
             deleteApprovedProject: function () {
                 axios.post('/budget/approved_project/capital_assets/delete' , {
                     id: this.apIdForDelete,
-                    pOrN: this.provOrNat
+                    pOrN: this.provOrNat,
+                    searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
+                    itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
                 }).then((response) => {
                     if (response.status != 204)
                     {
@@ -1436,7 +1482,9 @@
             deleteApprovedProjectCreditSource: function () {
                 axios.post('/budget/approved_project/capital_assets/credit_source/delete' , {
                     id: this.csIdForDelete,
-                    pOrN: this.provOrNat
+                    pOrN: this.provOrNat,
+                    searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
+                    itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
                 }).then((response) => {
                     if (response.status != 204)
                     {
