@@ -26,7 +26,9 @@
         </div>
         <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
             <div class="medium-12 column">
-
+                <div class="float-left cost-label">
+                    <span class="small-font">{{ costTemp }}</span>
+                </div>
                 <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="Register_of_credit_allocation_assets_tab_view">
                     <li class="tabs-title is-active"><a href="#plan" aria-selected="true">طرح</a></li>
                     <li class="tabs-title"><a href="#row">ردیف</a></li>
@@ -832,6 +834,7 @@
                 showDeleteModal: false,
                 showModalReport:false,
                 selectColumn:false,
+                costTemp:'',
                 creditDistributionTitles: {},
                 creditDistributionRows: {},
                 counties: {},
@@ -881,6 +884,7 @@
         updated: function () {
             $(this.$el).foundation(); //WORKS!
             this.$parent.userIsActive();
+            this.costTemp =  ' مبالغ: ' + this.$parent.getDispAmountBaseLabel();
         },
 
         mounted: function () {
@@ -899,7 +903,7 @@
                     itemInPage: this.planItemInPage
                 }})
                     .then((response) => {
-                        this.cdPlans = response.data.data;
+                        this.setData(response.data.data ,0);
                         this.makePagination(response.data , "plan");
                         console.log(response);
                     },(error) => {
@@ -913,7 +917,7 @@
                     itemInPage: this.rowItemInPage
                 }})
                     .then((response) => {
-                        this.cdPlansOrderByRow = response.data.data;
+                        this.setData(response.data.data ,1);
                         this.makePagination(response.data , "row");
                         console.log(response);
                     },(error) => {
@@ -927,7 +931,7 @@
                     itemInPage: this.budgetSeasonItemInPage
                 }})
                     .then((response) => {
-                        this.cdPlansOrderByBudget = response.data.data;
+                        this.setData(response.data.data ,2);
                         this.makePagination(response.data , "budget");
                         console.log(response);
                     },(error) => {
@@ -941,7 +945,7 @@
                     itemInPage: this.countyItemInPage
                 }})
                     .then((response) => {
-                        this.cdPlansOrderByCounty = response.data.data;
+                        this.setData(response.data.data ,3);
                         this.makePagination(response.data , "county");
                         console.log(response);
                     },(error) => {
@@ -996,15 +1000,22 @@
             },
 
             setData: function (data , type) {
-                if (type == 0)
+                if (type == 0) {
                     this.cdPlans = data;
-                else if (type == 1)
+                    this.selectAll(this.cdPlans);
+                }
+                else if (type == 1) {
                     this.cdPlansOrderByRow = data;
-                else if (type == 2)
+                    this.selectAll(this.cdPlansOrderByRow);
+                }
+                else if (type == 2) {
                     this.cdPlansOrderByBudget = data;
-                else if (type == 3)
+                    this.selectAll(this.cdPlansOrderByBudget);
+                }
+                else if (type == 3) {
                     this.cdPlansOrderByCounty = data;
-                this.selectAll(this.cdPlans);
+                    this.selectAll(this.cdPlansOrderByCounty);
+                }
                     //console.log(JSON.stringify(this.cdPlans));
             },
 
@@ -1083,7 +1094,7 @@
                             itemInPage: this.planItemInPage
                         })
                             .then((response) => {
-                                this.cdPlans = response.data.data;
+                                this.setData(response.data.data ,0);
                                 this.makePagination(response.data , "plan");
                                 this.fetchData_byRow(this.row_pagination.current_page);
                                 this.fetchData_byBudgetSeaon(this.budget_pagination.current_page);
@@ -1128,7 +1139,7 @@
                             itemInPage: this.planItemInPage
                         })
                             .then((response) => {
-                                this.cdPlans = response.data.data;
+                                this.setData(response.data.data ,0);
                                 this.makePagination(response.data , "plan");
                                 this.fetchData_byRow(this.row_pagination.current_page);
                                 this.fetchData_byBudgetSeaon(this.budget_pagination.current_page);
@@ -1160,7 +1171,7 @@
                     .then((response) => {
                         if (response.status != 204)
                         {
-                            this.cdPlans = response.data.data;
+                            this.setData(response.data.data ,0);
                             this.makePagination(response.data , "plan");
                             this.fetchData_byRow(this.row_pagination.current_page);
                             this.fetchData_byBudgetSeaon(this.budget_pagination.current_page);

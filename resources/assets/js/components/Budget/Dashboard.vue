@@ -14,17 +14,17 @@
                     <div class="grid-x">
                         <div class="medium-8">
                             <h4>13</h4>
-                            <p>تعداد موافقت نامه مبادله شده</p>
+                            <p>موافقت نامه مبادله شده</p>
                         </div>
-                        <div class="medium-4">
-                            <i class="fi-graph-trend size-72"></i>
+                        <div class="medium-4 text-center">
+                            <i class="fa fa-line-chart size-48" aria-hidden="true"></i>
                         </div>
                     </div>
                 </div>
                 <div class="btn-red">
                     <a href="#">
                         <div class="panel-footer panel-footer-red small-font">
-                            <i class="fi-arrow-left size-18 float-left"></i>مشاهده جزئیات
+                            <i class="fa fa-arrow-left size-18 float-left" aria-hidden="true"></i>مشاهده جزئیات
                         </div>
                     </a>
                 </div>
@@ -38,15 +38,15 @@
                             <h4>13</h4>
                             <p>تعداد پیام ها</p>
                         </div>
-                        <div class="medium-4">
-                            <i class="fi-megaphone size-72"></i>
+                        <div class="medium-4 text-center">
+                            <i class="fa fa-bullhorn size-60" aria-hidden="true"></i>
                         </div>
                     </div>
                 </div>
                 <div class="btn-yellow">
                     <a href="#">
                         <div class="panel-footer panel-footer-yellow small-font">
-                            <i class="fi-arrow-left size-18 float-left"></i>مشاهده جزئیات
+                            <i class="fa fa-arrow-left size-18 float-left" aria-hidden="true"></i>مشاهده جزئیات
                         </div>
                     </a>
                 </div>
@@ -61,15 +61,15 @@
                             <h4>13</h4>
                             <p>تعداد پیام ها</p>
                         </div>
-                        <div class="medium-4">
-                            <i class="fi-database size-72"></i>
+                        <div class="medium-4 text-center">
+                            <i class="fa fa-server size-60" aria-hidden="true"></i>
                         </div>
                     </div>
                 </div>
                 <div class="btn-green">
                     <a href="#">
                         <div class="panel-footer panel-footer-green small-font">
-                            <i class="fi-arrow-left size-18 float-left"></i>مشاهده جزئیات
+                            <i class="fa fa-arrow-left size-18 float-left" aria-hidden="true"></i>مشاهده جزئیات
                         </div>
                     </a>
                 </div>
@@ -84,15 +84,15 @@
                             <h4>13</h4>
                             <p>تعداد پیام ها</p>
                         </div>
-                        <div class="medium-4">
-                            <i class="fi-comments size-72"></i>
+                        <div class="medium-4 text-center">
+                            <i class="fa fa-comments size-60" aria-hidden="true"></i>
                         </div>
                     </div>
                 </div>
                 <div class="btn-primary">
                     <a href="#">
                         <div class="panel-footer panel-footer-primary small-font">
-                            <i class="fi-arrow-left size-18 float-left"></i>مشاهده جزئیات
+                            <i class="fa fa-arrow-left size-18 float-left" aria-hidden="true"></i>مشاهده جزئیات
                         </div>
                     </a>
                 </div>
@@ -103,16 +103,16 @@
 
     <div class="grid-x my-grid-margin">
         <div class="medium-6 dashboard-padding ">
-            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fi-graph-bar"></i> <span class="small-font">تخصیص اعتبارات به تفکیک منابع</span>
+            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">تخصیص اعتبارات به تفکیک منابع</span>
                 <a type="button" class="my-secondary button tiny float-left" @click="showChartDialog = true">اطلاعات بیشتر</a>
             </div>
             <div class="medium-12 my-callout-box my-callout-bg-color">
-<!--                <canvas id="myChart"></canvas>-->
+            <!-- <canvas id="myChart"></canvas>-->
                 <line_chart :data="chart1"   :width="400" :height="200"></line_chart>
             </div>
         </div>
         <div class="medium-6 dashboard-padding ">
-            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fi-graph-bar"></i> <span class="small-font">تخصیص اعتبارات به تفکیک منابع</span>
+            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">تخصیص اعتبارات به تفکیک منابع</span>
                 <a type="button" class="my-secondary button tiny float-left" @click="showChartDialog = true">اطلاعات بیشتر</a>
             </div>
             <div class="medium-12 my-callout-box my-callout-bg-color">
@@ -123,7 +123,7 @@
 
     <div class="grid-x my-grid-margin">
         <div class="medium-6 dashboard-padding ">
-            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fi-graph-bar"></i> <span class="small-font">تخصیص اعتبارات به تفکیک منابع</span>
+            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">تخصیص اعتبارات به تفکیک منابع</span>
                 <button type="button" class="my-secondary button tiny float-left" data-open="exampleModal1" onclick="myChartF1('myChartM')">اطلاعات بیشتر</button>
             </div>
             <div class="medium-12 my-callout-box my-callout-bg-color">
@@ -131,7 +131,7 @@
             </div>
         </div>
         <div class="medium-6 dashboard-padding ">
-            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fi-graph-bar"></i> <span class="small-font">تخصیص اعتبارات به تفکیک منابع</span>
+            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">تخصیص اعتبارات به تفکیک منابع</span>
                 <button type="button" class="my-secondary button tiny float-left" data-open="exampleModal1" onclick="myChartF1('myChartM')">اطلاعات بیشتر</button>
             </div>
             <div class="medium-12 my-callout-box my-callout-bg-color">

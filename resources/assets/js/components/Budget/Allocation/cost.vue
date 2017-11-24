@@ -212,11 +212,16 @@
                                 <!--Table Body End-->
                             </div>
                             <div class="grid-x">
-                                <div class="medium-12">
+                                <div class="medium-8">
                                     <vue-pagination  v-bind:pagination="provincial_pagination"
                                                      v-on:click.native="fetchProvincialData(provincial_pagination.current_page)"
                                                      :offset="4">
                                     </vue-pagination>
+                                </div>
+                                <div style="color: #575962;" v-show="selectColumn" class="medium-4 small-font">
+                                    <div class="float-left">
+                                        <p> تعداد رکورد های انتخاب شده :<span class="selected-row-style">{{ selectedLength(provCostAllocations) }}</span></p>
+                                    </div>
                                 </div>
                             </div>
                             <!--Table End-->
@@ -394,11 +399,16 @@
                                 <!--Table Body End-->
                             </div>
                             <div class="grid-x">
-                                <div class="medium-12">
+                                <div class="medium-8">
                                     <vue-pagination  v-bind:pagination="national_pagination"
                                                      v-on:click.native="fetchNationalData(national_pagination.current_page)"
                                                      :offset="4">
                                     </vue-pagination>
+                                </div>
+                                <div style="color: #575962;" v-show="selectColumn" class="medium-4 small-font">
+                                    <div class="float-left">
+                                        <p> تعداد رکورد های انتخاب شده :<span class="selected-row-style">{{ selectedLength(natCostAllocations) }}</span></p>
+                                    </div>
                                 </div>
                             </div>
                             <!--Table End-->

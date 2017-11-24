@@ -1023,7 +1023,7 @@
                 creditDistributionRows: {},
                 selectedItems: [],
                 selectedCount: 0,
-                reportOptions: {title:'' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true},
+                reportOptions: {title:'' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true, costLabel:true},
                 national_pagination: {
                     total: 0,
                     to: 0,

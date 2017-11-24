@@ -133,7 +133,6 @@ a:focus,button:focus {
 .my-callout-bg-color{
     background-color: #F8F8F8;
     padding: 20px 10px 20px 20px;
-    margin: 14px;
 }
 .login-logo-mrg{
     margin-right: 77%;
@@ -526,7 +525,7 @@ a:focus,button:focus {
     background-color: #212529;
     height: 100%;
     padding-bottom: 0;
-    padding-top: 55px;
+    padding-top: 3px;
     position: fixed;
     top: 0;
     width: 240px;
@@ -1547,10 +1546,9 @@ button.purple-btn {
 }
 .version-software{
     font-family:"Helvetica Neue", Helvetica, Arial, sans-serif  ;
-    margin-right: 100px;
+    margin-right: 95px;
     position: fixed;bottom:0px;
-    color: #F2F3F8;
-    text-align: center;
+    color: #9b9b9b;
 }
 .inner-addon {
     position: relative;
