@@ -53,24 +53,22 @@
                                             <li><a @click="openReportModal('excel')"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                                         </ul>
                                     </div>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDownPlan">تعداد نمایش<span> 20 </span></button>
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDownPlan">تعداد نمایش<span> {{ planItemInPage }} </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDownPlan" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a  href="#">10</a></li>
-                                            <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
-                                            <li><a  href="#">30</a></li>
-                                            <li><a  href="#">50</a></li>
-                                            <li><a  href="#">100</a></li>
-                                            <li><a  href="#">200</a></li>
+                                            <li><a  @click="changeItemInPage(2 , 0)">2<span v-show="planItemInPage == 2" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(4 , 0)">4<span v-show="planItemInPage == 4" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(8 , 0)">8<span v-show="planItemInPage == 8" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(10 , 0)">10<span v-show="planItemInPage == 10" class="fi-check checked-color size-14"></span></a></li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="float-left">
                                     <div class="input-group float-left">
                                         <div class="inner-addon right-addon">
-                                            <i v-if="searchPlanValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
-                                            <i v-if="searchPlanValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
-                                            <input v-model="searchPlanValue" class="search" type="text" placeholder="جستوجو">
+                                            <i v-if="planSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                            <i v-if="planSearchValue != ''" v-on:click.stop="removeFilter(0)" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                            <input v-model="planSearchValue" v-on:keyup.enter="search(0)" class="search" type="text" placeholder="جستجو">
                                         </div>
                                     </div>
                                 </div>
@@ -171,7 +169,7 @@
                             <div class="grid-x">
                                 <div class="medium-8">
                                     <vue-pagination  v-bind:pagination="plan_pagination"
-                                                     v-on:click.native="fetchData(plan_pagination.current_page)"
+                                                     v-on:click.native="fetchData_byPlan(plan_pagination.current_page)"
                                                      :offset="4">
                                     </vue-pagination>
                                 </div>
@@ -191,24 +189,22 @@
                             <div class="clearfix tool-bar">
                                 <div class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
-                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="rowDropDown">تعداد نمایش<span> {{ rowItemInPage }} </span></button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="rowDropDown" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a  href="#">10</a></li>
-                                            <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
-                                            <li><a  href="#">30</a></li>
-                                            <li><a  href="#">50</a></li>
-                                            <li><a  href="#">100</a></li>
-                                            <li><a  href="#">200</a></li>
+                                            <li><a  @click="changeItemInPage(2 , 1)">2<span v-show="rowItemInPage == 2" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(4 , 1)">4<span v-show="rowItemInPage == 4" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(8 , 1)">8<span v-show="rowItemInPage == 8" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(10 , 1)">10<span v-show="rowItemInPage == 10" class="fi-check checked-color size-14"></span></a></li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="float-left">
                                     <div class="input-group float-left">
                                         <div class="inner-addon right-addon">
-                                            <i v-if="searchRowValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
-                                            <i v-if="searchRowValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
-                                            <input v-model="searchRowValue" class="search" type="text" placeholder="جستوجو">
+                                            <i v-if="rowSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                            <i v-if="rowSearchValue != ''" v-on:click.stop="removeFilter(1)" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                            <input v-model="rowSearchValue" v-on:keyup.enter="search(1)" class="search" type="text" placeholder="جستجو">
                                         </div>
                                     </div>
                                 </div>
@@ -300,7 +296,7 @@
                             <div class="grid-x">
                                 <div class="medium-12">
                                     <vue-pagination  v-bind:pagination="row_pagination"
-                                                     v-on:click.native="fetchData(row_pagination.current_page)"
+                                                     v-on:click.native="fetchData_byRow(row_pagination.current_page)"
                                                      :offset="4">
                                     </vue-pagination>
                                 </div>
@@ -314,24 +310,22 @@
                             <div class="clearfix tool-bar">
                                 <div class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
-                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="budgetSeasonDropDown">تعداد نمایش<span> {{ budgetSeasonItemInPage }} </span></button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="budgetSeasonDropDown" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a  href="#">10</a></li>
-                                            <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
-                                            <li><a  href="#">30</a></li>
-                                            <li><a  href="#">50</a></li>
-                                            <li><a  href="#">100</a></li>
-                                            <li><a  href="#">200</a></li>
+                                            <li><a  @click="changeItemInPage(2 , 2)">2<span v-show="budgetSeasonItemInPage == 2" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(4 , 2)">4<span v-show="budgetSeasonItemInPage == 4" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(8 , 2)">8<span v-show="budgetSeasonItemInPage == 8" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(10 , 2)">10<span v-show="budgetSeasonItemInPage == 10" class="fi-check checked-color size-14"></span></a></li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="float-left">
                                     <div class="input-group float-left">
                                         <div class="inner-addon right-addon">
-                                            <i v-if="searchSeasonValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
-                                            <i v-if="searchSeasonValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
-                                            <input v-model="searchSeasonValue" class="search" type="text" placeholder="جستوجو">
+                                            <i v-if="budgetSeasonSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                            <i v-if="budgetSeasonSearchValue != ''" v-on:click.stop="removeFilter(2)" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                            <input v-model="budgetSeasonSearchValue" v-on:keyup.enter="search(2)" class="search" type="text" placeholder="جستجو">
                                         </div>
                                     </div>
                                 </div>
@@ -451,7 +445,7 @@
                             <div class="grid-x">
                                 <div class="medium-12">
                                     <vue-pagination  v-bind:pagination="budget_pagination"
-                                                     v-on:click.native="fetchData(budget_pagination.current_page)"
+                                                     v-on:click.native="fetchData_byBudgetSeaon(budget_pagination.current_page)"
                                                      :offset="4">
                                     </vue-pagination>
                                 </div>
@@ -465,24 +459,22 @@
                             <div class="clearfix tool-bar">
                                 <div class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> 20 </span></button>
-                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="countyDropDown">تعداد نمایش<span> {{ countyItemInPage }} </span></button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="countyDropDown" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a  href="#">10</a></li>
-                                            <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
-                                            <li><a  href="#">30</a></li>
-                                            <li><a  href="#">50</a></li>
-                                            <li><a  href="#">100</a></li>
-                                            <li><a  href="#">200</a></li>
+                                            <li><a  @click="changeItemInPage(2 , 3)">2<span v-show="countyItemInPage == 2" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(4 , 3)">4<span v-show="countyItemInPage == 4" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(8 , 3)">8<span v-show="countyItemInPage == 8" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(10 , 3)">10<span v-show="countyItemInPage == 10" class="fi-check checked-color size-14"></span></a></li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="float-left">
                                     <div class="input-group float-left">
                                         <div class="inner-addon right-addon">
-                                            <i v-if="searchCityValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
-                                            <i v-if="searchCityValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
-                                            <input v-model="searchCityValue" class="search" type="text" placeholder="جستوجو">
+                                            <i v-if="countySearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                            <i v-if="countySearchValue != ''" v-on:click.stop="removeFilter(3)" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                            <input v-model="countySearchValue" v-on:keyup.enter="search(3)" class="search" type="text" placeholder="جستجو">
                                         </div>
                                     </div>
                                 </div>
@@ -574,7 +566,7 @@
                             <div class="grid-x">
                                 <div class="medium-12">
                                     <vue-pagination  v-bind:pagination="county_pagination"
-                                                     v-on:click.native="fetchData(county_pagination.current_page)"
+                                                     v-on:click.native="fetchData_byCounty(county_pagination.current_page)"
                                                      :offset="4">
                                     </vue-pagination>
                                 </div>
@@ -588,13 +580,6 @@
                 <modal-small v-if="showInsertModal" @close="showInsertModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div  slot="body">
                         <form v-on:submit.prevent="createCreditDistributionPlan">
-                            <div class="grid-x" v-if="errorMessage">
-                                <div class="medium-12 columns padding-lr">
-                                    <div class="alert callout">
-                                        <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="grid-x">
                                 <div class="medium-6 column padding-lr">
                                     <label>فصل بودجه
@@ -662,13 +647,6 @@
                 <modal-small v-if="showUpdateModal" @close="showUpdateModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div  slot="body">
                         <form v-on:submit.prevent="updateCreditDistributionPlan">
-                            <div class="grid-x" v-if="errorMessage">
-                                <div class="medium-12 columns padding-lr">
-                                    <div class="alert callout">
-                                        <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="grid-x">
                                 <div class="medium-6 column padding-lr">
                                     <label>فصل بودجه
@@ -835,11 +813,14 @@
     export default {
         data(){
             return {
-                errorMessage: '',
-                searchPlanValue:'',
-                searchRowValue:'',
-                searchSeasonValue:'',
-                searchCityValue:'',
+                planItemInPage: 2,
+                rowItemInPage: 2,
+                budgetSeasonItemInPage: 2,
+                countyItemInPage: 2,
+                planSearchValue: '',
+                rowSearchValue: '',
+                budgetSeasonSearchValue: '',
+                countySearchValue: '',
                 cdPlans: [],
                 cdPlansOrderByRow: [],
                 cdPlansOrderByBudget: [],
@@ -891,7 +872,10 @@
             }
         },
         created: function () {
-            this.fetchData();
+            this.fetchData_byPlan();
+            this.fetchData_byRow();
+            this.fetchData_byBudgetSeaon();
+            this.fetchData_byCounty();
         },
 
         updated: function () {
@@ -909,29 +893,118 @@
         },
 
         methods:{
-            fetchData: function (page = 1) {
-                axios.get('/budget/credit_distribution/capital_assets/provincial/plans/fetchData?page=' + page)
+            fetchData_byPlan: function (page = 1) {
+                axios.get('/budget/credit_distribution/capital_assets/provincial/plans/fetchData?page=' + page , {params:{
+                    searchValue: this.planSearchValue,
+                    itemInPage: this.planItemInPage
+                }})
                     .then((response) => {
-                        this.cdPlans = response.data.byPlan.data;
-                        this.makePagination(response.data.byPlan , "plan");
-                        this.cdPlansOrderByRow = response.data.byRow.data;
-                        this.makePagination(response.data.byRow , "row");
-                        this.cdPlansOrderByBudget = response.data.byBudget.data;
-                        this.makePagination(response.data.byBudget , "budget");
-                        this.cdPlansOrderByCounty = response.data.byCounty.data;
-                        this.makePagination(response.data.byCounty , "county");
+                        this.cdPlans = response.data.data;
+                        this.makePagination(response.data , "plan");
                         console.log(response);
                     },(error) => {
                         console.log(error);
                     });
             },
 
-            setData: function (data) {
-                    this.cdPlans = response.data.byPlan.data;
-                    this.cdPlansOrderByRow = response.data.byRow.data;
-                    this.cdPlansOrderByBudget = response.data.byBudget.data;
-                    this.cdPlansOrderByCounty = response.data.byCounty.data;
-                    this.selectAll(this.cdPlans);
+            fetchData_byRow: function (page = 1) {
+                axios.get('/budget/credit_distribution/capital_assets/provincial/plans/byRow/fetchData?page=' + page , {params:{
+                    searchValue: this.rowSearchValue,
+                    itemInPage: this.rowItemInPage
+                }})
+                    .then((response) => {
+                        this.cdPlansOrderByRow = response.data.data;
+                        this.makePagination(response.data , "row");
+                        console.log(response);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            fetchData_byBudgetSeaon: function (page = 1) {
+                axios.get('/budget/credit_distribution/capital_assets/provincial/plans/byBudgetSeason/fetchData?page=' + page , {params:{
+                    searchValue: this.budgetSeasonSearchValue,
+                    itemInPage: this.budgetSeasonItemInPage
+                }})
+                    .then((response) => {
+                        this.cdPlansOrderByBudget = response.data.data;
+                        this.makePagination(response.data , "budget");
+                        console.log(response);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            fetchData_byCounty: function (page = 1) {
+                axios.get('/budget/credit_distribution/capital_assets/provincial/plans/byCounty/fetchData?page=' + page , {params:{
+                    searchValue: this.countySearchValue,
+                    itemInPage: this.countyItemInPage
+                }})
+                    .then((response) => {
+                        this.cdPlansOrderByCounty = response.data.data;
+                        this.makePagination(response.data , "county");
+                        console.log(response);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            search: function (type) {
+                if (type == 0)
+                {
+                    this.fetchData_byPlan();
+                }else if (type == 1){
+                    this.fetchData_byRow();
+                }else if (type == 2){
+                    this.fetchData_byBudgetSeaon();
+                }else if (type == 3){
+                    this.fetchData_byCounty();
+                }
+            },
+
+            changeItemInPage: function (number , type) {
+                if (type == 0) {
+                    this.planItemInPage = number;
+                    this.fetchData_byPlan();
+                }else if (type == 1){
+                    this.rowItemInPage = number;
+                    this.fetchData_byRow();
+                }else if (type == 2){
+                    this.budgetSeasonItemInPage = number;
+                    this.fetchData_byBudgetSeaon();
+                }else if (type == 3){
+                    this.countyItemInPage = number;
+                    this.fetchData_byCounty();
+                }
+            },
+
+            removeFilter: function (type) {
+                if (type == 0)
+                {
+                    this.planSearchValue = '';
+                    this.fetchData_byPlan();
+                }else if (type == 1){
+                    this.rowSearchValue = '';
+                    this.fetchData_byRow();
+                }else if (type == 2){
+                    this.budgetSeasonSearchValue = '';
+                    this.fetchData_byBudgetSeaon();
+                }else if (type == 3){
+                    this.countySearchValue = '';
+                    this.fetchData_byCounty();
+                }
+            },
+
+            setData: function (data , type) {
+                if (type == 0)
+                    this.cdPlans = data;
+                else if (type == 1)
+                    this.cdPlansOrderByRow = data;
+                else if (type == 2)
+                    this.cdPlansOrderByBudget = data;
+                else if (type == 3)
+                    this.cdPlansOrderByCounty = data;
+                this.selectAll(this.cdPlans);
                     //console.log(JSON.stringify(this.cdPlans));
             },
 
@@ -1006,16 +1079,16 @@
                             coId: this.CdPlanInput.coId,
                             description: this.CdPlanInput.description,
                             amount: this.CdPlanInput.amount,
+                            searchValue: this.planSearchValue,
+                            itemInPage: this.planItemInPage
                         })
                             .then((response) => {
-                                this.cdPlans = response.data.byPlan.data;
-                                this.makePagination(response.data.byPlan , "plan");
-                                this.cdPlansOrderByRow = response.data.byRow.data;
-                                this.makePagination(response.data.byRow , "row");
-                                this.cdPlansOrderByBudget = response.data.byBudget.data;
-                                this.makePagination(response.data.byBudget , "budget");
-                                this.cdPlansOrderByCounty = response.data.byCounty.data;
-                                this.makePagination(response.data.byCounty , "county");
+                                this.cdPlans = response.data.data;
+                                this.makePagination(response.data , "plan");
+                                this.fetchData_byRow(this.row_pagination.current_page);
+                                this.fetchData_byBudgetSeaon(this.budget_pagination.current_page);
+                                this.fetchData_byCounty(this.county_pagination.current_page);
+                                this.showInsertModal = false;
                                 this.$parent.displayNotif(response.status);
                                 console.log(response);
                             },(error) => {
@@ -1035,7 +1108,6 @@
                 this.CdPlanFill.description = item.cdpDescription;
                 this.CdPlanFill.amount = this.$parent.calcDispAmount(item.cdpCredit , false);
                 this.selectedBs = bsId;
-                this.errorMessage = '';
                 this.getCreditDistributionRow();
                 this.getCounties();
                 this.getAllCdTitle();
@@ -1052,16 +1124,15 @@
                             coId: this.CdPlanFill.coId,
                             description: this.CdPlanFill.description,
                             amount: this.CdPlanFill.amount,
+                            searchValue: this.planSearchValue,
+                            itemInPage: this.planItemInPage
                         })
                             .then((response) => {
-                                this.cdPlans = response.data.byPlan.data;
-                                this.makePagination(response.data.byPlan , "plan");
-                                this.cdPlansOrderByRow = response.data.byRow.data;
-                                this.makePagination(response.data.byRow , "row");
-                                this.cdPlansOrderByBudget = response.data.byBudget.data;
-                                this.makePagination(response.data.byBudget , "budget");
-                                this.cdPlansOrderByCounty = response.data.byCounty.data;
-                                this.makePagination(response.data.byCounty , "county");
+                                this.cdPlans = response.data.data;
+                                this.makePagination(response.data , "plan");
+                                this.fetchData_byRow(this.row_pagination.current_page);
+                                this.fetchData_byBudgetSeaon(this.budget_pagination.current_page);
+                                this.fetchData_byCounty(this.county_pagination.current_page);
 
                                 this.showUpdateModal = false;
                                 this.$parent.displayNotif(response.status);
@@ -1081,18 +1152,19 @@
             },
 
             deleteSelectedPlan: function () {
-                axios.post('/budget/credit_distribution/capital_assets/provincial/plans/delete' , {id: this.selectedPlanIdForDelete})
+                axios.post('/budget/credit_distribution/capital_assets/provincial/plans/delete' , {
+                    id: this.selectedPlanIdForDelete,
+                    searchValue: this.planSearchValue,
+                    itemInPage: this.planItemInPage
+                })
                     .then((response) => {
                         if (response.status != 204)
                         {
-                            this.cdPlans = response.data.byPlan.data;
-                            this.makePagination(response.data.byPlan , "plan");
-                            this.cdPlansOrderByRow = response.data.byRow.data;
-                            this.makePagination(response.data.byRow , "row");
-                            this.cdPlansOrderByBudget = response.data.byBudget.data;
-                            this.makePagination(response.data.byBudget , "budget");
-                            this.cdPlansOrderByCounty = response.data.byCounty.data;
-                            this.makePagination(response.data.byCounty , "county");
+                            this.cdPlans = response.data.data;
+                            this.makePagination(response.data , "plan");
+                            this.fetchData_byRow(this.row_pagination.current_page);
+                            this.fetchData_byBudgetSeaon(this.budget_pagination.current_page);
+                            this.fetchData_byCounty(this.county_pagination.current_page);
                         }
                         this.showDeleteModal = false;
                         this.$parent.displayNotif(response.status);

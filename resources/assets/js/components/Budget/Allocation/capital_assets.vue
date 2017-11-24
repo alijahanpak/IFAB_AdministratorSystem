@@ -51,24 +51,22 @@
                                             <li><a  @click="openReportModal(0,'excel')"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                                         </ul>
                                     </div>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDownProv">تعداد نمایش<span> 20 </span></button>
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDownProv">تعداد نمایش<span> {{ itemInPage }} </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDownProv" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a  href="#">10</a></li>
-                                            <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
-                                            <li><a  href="#">30</a></li>
-                                            <li><a  href="#">50</a></li>
-                                            <li><a  href="#">100</a></li>
-                                            <li><a  href="#">200</a></li>
+                                            <li><a  @click="changeItemInPage(10 , 0)">10<span v-show="itemInPage == 10" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(25 , 0)">25<span v-show="itemInPage == 25" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(50 , 0)">50<span v-show="itemInPage == 50" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(100 , 0)">100<span v-show="itemInPage == 100" class="fi-check checked-color size-14"></span></a></li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="float-left">
                                     <div class="input-group float-left">
                                         <div class="inner-addon right-addon">
-                                            <i v-if="searchProvValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
-                                            <i v-if="searchProvValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
-                                            <input v-model="searchProvValue" class="search" type="text" placeholder="جستوجو">
+                                            <i v-if="provSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                            <i v-if="provSearchValue != ''" v-on:click.stop="removeFilter(0)" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                            <input v-model="provSearchValue" v-on:keyup.enter="search(0)" class="search" type="text" placeholder="جستجو">
                                         </div>
                                     </div>
                                 </div>
@@ -124,7 +122,7 @@
                                                     </td>
                                                     <td :rowspan="getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)">{{ plans.capital_assets_project_has_credit_source[0].cpCode + ' - ' + plans.capital_assets_project_has_credit_source[0].cpSubject }}</td>
                                                     <td v-if="plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].ccsDeleted" :rowspan="getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)" class="text-center"><span class="comlpleted-badage">حذف شده</span></td>
-                                                    <td v-if="!plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].ccsDeleted" :rowspan="getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)" class="text-center">{{ $parent.calcDispAmount(getProjectAllocationSum(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation) , false) }}</td>
+                                                    <td v-if="!plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].ccsDeleted" :rowspan="getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)" class="text-center">{{ $parent.calcDispAmount(getProjectAllocationSum(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation) , false) }}</td>
                                                     <td :rowspan="plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation.length">{{ plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
                                                     <td v-if="plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaFoundId == null">{{ plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterNumber }}</td>
                                                     <td class="text-center" v-if="plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaFoundId != null"><i class="fa fa-exchange btn-red has-tip top" data-tooltip aria-haspopup="true" data-disable-hover="false" title="تبدیل شده از تنخواه"></i></td>
@@ -152,7 +150,7 @@
                                                <template v-for="(projects, proIndex) in plans.capital_assets_project_has_credit_source">
                                                    <tr class="tbl-head-style-cell" v-if="proIndex > 0">
                                                        <td :rowspan="getProjectAllocCount(projects.credit_source_has_allocation)">{{ projects.cpCode + ' - ' + projects.cpSubject }}</td>
-                                                       <td v-if="!projects.credit_source_has_allocation[0].ccsDeleted" :rowspan="getProjectAllocCount(projects.credit_source_has_allocation)" class="text-center">{{ $parent.calcDispAmount(getProjectAllocationSum(projects.credit_source_has_allocation[0].allocation) , false) }}</td>
+                                                       <td v-if="!projects.credit_source_has_allocation[0].ccsDeleted" :rowspan="getProjectAllocCount(projects.credit_source_has_allocation)" class="text-center">{{ $parent.calcDispAmount(getProjectAllocationSum(projects.credit_source_has_allocation) , false) }}</td>
                                                        <td v-if="projects.credit_source_has_allocation[0].ccsDeleted" :rowspan="getProjectAllocCount(projects.credit_source_has_allocation)" class="text-center">
                                                            <span class="comlpleted-badage">حذف شده</span>
                                                        </td>
@@ -275,24 +273,22 @@
                                             <li><a  @click="openReportModal(1,'excel')"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                                         </ul>
                                     </div>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDownNat">تعداد نمایش<span> 20 </span></button>
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDownNat">تعداد نمایش<span> {{ natItemInPage }} </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDownNat" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a  href="#">10</a></li>
-                                            <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
-                                            <li><a  href="#">30</a></li>
-                                            <li><a  href="#">50</a></li>
-                                            <li><a  href="#">100</a></li>
-                                            <li><a  href="#">200</a></li>
+                                            <li><a  @click="changeItemInPage(10 , 1)">10<span v-show="natItemInPage == 10" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(25 , 1)">25<span v-show="natItemInPage == 25" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(50 , 1)">50<span v-show="natItemInPage == 50" class="fi-check checked-color size-14"></span></a></li>
+                                            <li><a  @click="changeItemInPage(100 , 1)">100<span v-show="natItemInPage == 100" class="fi-check checked-color size-14"></span></a></li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="float-left">
                                     <div class="input-group float-left">
                                         <div class="inner-addon right-addon">
-                                            <i v-if="searchNatValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
-                                            <i v-if="searchNatValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
-                                            <input v-model="searchNatValue" class="search" type="text" placeholder="جستوجو">
+                                            <i v-if="natSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                            <i v-if="natSearchValue != ''" v-on:click.stop="removeFilter(1)" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                            <input v-model="natSearchValue" v-on:keyup.enter="search(1)" class="search" type="text" placeholder="جستجو">
                                         </div>
                                     </div>
                                 </div>
@@ -348,7 +344,7 @@
                                                 </td>
                                                 <td :rowspan="getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)">{{ plans.capital_assets_project_has_credit_source[0].cpCode + ' - ' +  plans.capital_assets_project_has_credit_source[0].cpSubject }}</td>
                                                 <td v-if="plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].ccsDeleted" :rowspan="getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)" class="text-center"><span class="comlpleted-badage">حذف شده</span></td>
-                                                <td v-if="!plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].ccsDeleted" :rowspan="getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)" class="text-center">{{ $parent.calcDispAmount(getProjectAllocationSum(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation) , false) }}</td>
+                                                <td v-if="!plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].ccsDeleted" :rowspan="getProjectAllocCount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation)" class="text-center">{{ $parent.calcDispAmount(getProjectAllocationSum(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation) , false) }}</td>
                                                 <td :rowspan="plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation.length">{{ plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
                                                 <td>{{ plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterNumber }}</td>
                                                 <td>{{ plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaLetterDate }}</td>
@@ -375,7 +371,7 @@
                                             <template v-for="(projects, proIndex) in plans.capital_assets_project_has_credit_source">
                                                 <tr class="tbl-head-style-cell" v-if="proIndex > 0">
                                                     <td :rowspan="getProjectAllocCount(projects.credit_source_has_allocation)">{{ projects.cpCode + ' - ' +  projects.cpSubject }}</td>
-                                                    <td v-if="!projects.credit_source_has_allocation[0].ccsDeleted" :rowspan="getProjectAllocCount(projects.credit_source_has_allocation)" class="text-center">{{ $parent.calcDispAmount(getProjectAllocationSum(projects.credit_source_has_allocation[0].allocation) , false) }}</td>
+                                                    <td v-if="!projects.credit_source_has_allocation[0].ccsDeleted" :rowspan="getProjectAllocCount(projects.credit_source_has_allocation)" class="text-center">{{ $parent.calcDispAmount(getProjectAllocationSum(projects.credit_source_has_allocation) , false) }}</td>
                                                     <td v-if="projects.credit_source_has_allocation[0].ccsDeleted" :rowspan="getProjectAllocCount(projects.credit_source_has_allocation)" class="text-center">
                                                         <span class="comlpleted-badage">حذف شده</span>
                                                     </td>
@@ -565,13 +561,6 @@
                 <modal-small v-if="showInsertModal" @close="showInsertModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div  slot="body">
                         <form v-on:submit.prevent="createCapitalAssetsAllocation">
-                            <div class="grid-x" v-if="errorMessage">
-                                <div class="medium-12 columns padding-lr">
-                                    <div class="alert callout">
-                                        <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="grid-x">
                                 <div class="medium-4 padding-lr">
                                     <label>شماره نامه
@@ -745,13 +734,6 @@
                 <modal-tiny v-if="showInsertFoundModal" @close="showInsertFoundModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div  slot="body">
                         <form v-on:submit.prevent="createProvincialFound">
-                            <div class="grid-x" v-if="errorMessage">
-                                <div class="medium-12 columns padding-lr">
-                                    <div class="alert callout">
-                                        <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="grid-x">
                                 <div class="medium-6 padding-lr">
                                     <p class="date-picker-lbl">تاریخ
@@ -785,13 +767,6 @@
                 <modal-tiny v-if="showUpdateFoundModal" @close="showUpdateFoundModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div  slot="body">
                         <form v-on:submit.prevent="updateProvincialFound">
-                            <div class="grid-x" v-if="errorMessage">
-                                <div class="medium-12 columns padding-lr">
-                                    <div class="alert callout">
-                                        <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="grid-x">
                                 <div class="medium-6 padding-lr">
                                     <p class="date-picker-lbl">تاریخ
@@ -840,13 +815,6 @@
                 <modal-large v-if="showConvertToModal" @close="showConvertToModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div  slot="body">
                         <form v-on:submit.prevent="convertToAllocation">
-                            <div class="grid-x" v-if="errorMessage">
-                                <div class="medium-12 columns padding-lr">
-                                    <div class="alert callout">
-                                        <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="grid-x">
                                 <div class="medium-6 cell padding-lr">
                                     <label>طرح
@@ -1117,8 +1085,6 @@
     export default {
         data(){
             return {
-                errorMessage: '',
-                errorMessage_update: '',
                 provCapitalAssetsAllocations: [],
                 provCapitalAssetsFounds: [],
                 natCapitalAssetsAllocations: [],
@@ -1128,9 +1094,11 @@
                 foundInput: {},
                 foundFill: {},
                 provOrNat: '',
-                searchProvValue:'',
                 costTemp:'',
-                searchNatValue:'',
+                itemInPage: 10,
+                natItemInPage: 10,
+                provSearchValue: '',
+                natSearchValue: '',
                 showInsertModal: false,
                 showInsertFoundModal: false,
                 showUpdateFoundModal: false,
@@ -1195,7 +1163,11 @@
 
         methods:{
             fetchProvincialData: function (page = 1) {
-                axios.get('/budget/allocation/capital_assets/fetchData?page=' + page , {params:{pOrN: 0}})
+                axios.get('/budget/allocation/capital_assets/fetchData?page=' + page , {params:{
+                    pOrN: 0,
+                    searchValue: this.provSearchValue,
+                    itemInPage: this.itemInPage
+                }})
                     .then((response) => {
                         this.setData(0 , response.data.data);
                         this.makePagination(response.data , "provincial");
@@ -1216,7 +1188,11 @@
             },
 
             fetchNationalData: function (page = 1) {
-                axios.get('/budget/allocation/capital_assets/fetchData?page=' + page , {params:{pOrN: 1}})
+                axios.get('/budget/allocation/capital_assets/fetchData?page=' + page , {params:{
+                    pOrN: 1,
+                    searchValue: this.natSearchValue,
+                    itemInPage: this.natItemInPage
+                }})
                     .then((response) => {
                         this.setData(1 , response.data.data);
                         this.makePagination(response.data , "national");
@@ -1224,6 +1200,37 @@
                     },(error) => {
                         console.log(error);
                     });
+            },
+
+            search: function (type) {
+                if (type == 0)
+                {
+                    this.fetchProvincialData();
+                }else{
+                    this.fetchNationalData();
+                }
+            },
+
+            changeItemInPage: function (number , type) {
+                if (type == 0)
+                {
+                    this.itemInPage = number;
+                    this.fetchProvincialData();
+                }else{
+                    this.natItemInPage = number;
+                    this.fetchNationalData();
+                }
+            },
+
+            removeFilter: function (type) {
+                if (type == 0)
+                {
+                    this.provSearchValue = '';
+                    this.fetchProvincialData();
+                }else{
+                    this.natSearchValue = '';
+                    this.fetchNationalData();
+                }
             },
 
             setData: function (type , data) {
@@ -1284,10 +1291,12 @@
 
             },
 
-            getProjectAllocationSum: function (allocation) {
+            getProjectAllocationSum: function (creditSource) {
                 var sum = 0;
-                allocation.forEach(alloc => {
-                    sum += alloc.caaAmount;
+                creditSource.forEach(cs => {
+                    cs.allocation.forEach(alloc => {
+                        sum += alloc.caaAmount;
+                    });
                 });
                 return sum;
             },
@@ -1325,7 +1334,9 @@
                             pcsId: this.AllocationInput.pcsId,
                             amount: this.AllocationInput.amount,
                             description: this.AllocationInput.description,
-                            pOrN: this.provOrNat
+                            pOrN: this.provOrNat,
+                            searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
+                            itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
                         })
                             .then((response) => {
                                 if (this.provOrNat == 0)
@@ -1383,7 +1394,9 @@
                             pcsId: this.AllocationFill.pcsId,
                             amount: this.AllocationFill.amount,
                             description: this.AllocationFill.description,
-                            pOrN: this.provOrNat
+                            pOrN: this.provOrNat,
+                            searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
+                            itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
                         })
                             .then((response) => {
                                 if (this.provOrNat == 0)
@@ -1417,7 +1430,9 @@
             deleteCapitalAssetsAllocation: function () {
                 axios.post('/budget/allocation/capital_assets/delete' , {
                     id: this.aIdForDelete,
-                    pOrN: this.provOrNat
+                    pOrN: this.provOrNat,
+                    searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
+                    itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
                 })
                     .then((response) => {
                         if (response.status != 204) {
@@ -1550,7 +1565,9 @@
                                 pcsId: this.AllocationInput.pcsId,
                                 amount: this.AllocationInput.amount,
                                 description: this.AllocationInput.description,
-                                selectedCosts: this.selectedCosts
+                                selectedCosts: this.selectedCosts,
+                                searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
+                                itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
                             })
                                 .then((response) => {
                                     this.provCapitalAssetsFounds = response.data.found;
@@ -1719,7 +1736,6 @@
                 }
             },
 
-
             toggleSelect: function(plans) {
                 var temp = false;
                 plans.forEach(plan => {
@@ -1836,6 +1852,7 @@
                     this.selectColumn = true;
                 }
             },
+
             foundToggleSelect: function(found) {
                 if(found.find(plan => plan.checked)){
                     found.forEach(plan => plan.checked = false)
