@@ -26,11 +26,11 @@ class AllocationOfCapitalAssetsController extends Controller
     public function fetchAllocation(Request $request)
     {
         return \response()->json(
-            $this->getAllCapitalAssetsAllocates($request->pOrN)
+            $this->getAllCapitalAssetsAllocates($request->pOrN , $request->searchValue , $request->itemInPage)
         );
     }
 
-    public function getAllCapitalAssetsAllocates($pOrN)
+    public function getAllCapitalAssetsAllocates($pOrN , $searchValue , $itemInPage)
     {
         return CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('capProvinceOrNational' , '=' , $pOrN)
@@ -40,8 +40,12 @@ class AllocationOfCapitalAssetsController extends Controller
             ->with('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.tinySeason.seasonTitle.season')
             ->with('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.howToRun')
             ->with('creditDistributionTitle')
+            ->whereHas('creditDistributionTitle' , function ($query) use($searchValue){
+                return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
+            })
             ->with('creditDistributionTitle.county')
-            ->paginate(20);
+            ->paginate($itemInPage);
     }
 
     public function getAllCapitalAssetsFound()
@@ -64,7 +68,7 @@ class AllocationOfCapitalAssetsController extends Controller
 
         SystemLog::setBudgetSubSystemLog('ثبت تخصیص اعتبار تملک داریی های سرمایه ای');
         return \response()->json(
-            $this->getAllCapitalAssetsAllocates($request->pOrN)
+            $this->getAllCapitalAssetsAllocates($request->pOrN , $request->searchValue , $request->itemInPage)
         );
     }
 
@@ -81,7 +85,7 @@ class AllocationOfCapitalAssetsController extends Controller
 
         SystemLog::setBudgetSubSystemLog('تغییر تخصیص اعتبار تملک داریی های سرمایه ای');
         return \response()->json(
-            $this->getAllCapitalAssetsAllocates($request->pOrN)
+            $this->getAllCapitalAssetsAllocates($request->pOrN , $request->searchValue , $request->itemInPage)
         );
     }
 
@@ -91,7 +95,7 @@ class AllocationOfCapitalAssetsController extends Controller
         try {
             $caa->delete();
             SystemLog::setBudgetSubSystemLog('حذف تخصیص اعتبار تملک داریی های سرمایه ای');
-            return \response()->json($this->getAllCapitalAssetsAllocates($request->pOrN));
+            return \response()->json($this->getAllCapitalAssetsAllocates($request->pOrN , $request->searchValue , $request->itemInPage));
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
@@ -200,7 +204,7 @@ class AllocationOfCapitalAssetsController extends Controller
         SystemLog::setBudgetSubSystemLog('تبدیل تنخواه تملک دارایی های سرمایه ای به تخصیص');
         return \response()->json([
             'found' => $this->getAllCapitalAssetsFound(),
-            'allocation_prov' => $this->getAllCapitalAssetsAllocates(0)
+            'allocation_prov' => $this->getAllCapitalAssetsAllocates(0 , $request->searchValue , $request->itemInPage)
         ]);
     }
 
@@ -218,7 +222,7 @@ class AllocationOfCapitalAssetsController extends Controller
 
         SystemLog::setBudgetSubSystemLog('ثبت تخصیص اعتبار هزینه ای');
         return \response()->json(
-            $this->getAllCostAllocates($request->pOrN)
+            $this->getAllCostAllocates($request->pOrN , $request->searchValue , $request->itemInPage)
         );
     }
 
@@ -235,7 +239,7 @@ class AllocationOfCapitalAssetsController extends Controller
 
         SystemLog::setBudgetSubSystemLog('تغییر تخصیص اعتبار هزینه ای');
         return \response()->json(
-            $this->getAllCostAllocates($request->pOrN)
+            $this->getAllCostAllocates($request->pOrN , $request->searchValue , $request->itemInPage)
         );
     }
 
@@ -245,7 +249,7 @@ class AllocationOfCapitalAssetsController extends Controller
         try {
             $ca->delete();
             SystemLog::setBudgetSubSystemLog('حذف تخصیص اعتبار هزینه ای');
-            return \response()->json($this->getAllCostAllocates($request->pOrN));
+            return \response()->json($this->getAllCostAllocates($request->pOrN , $request->searchValue , $request->itemInPage));
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
@@ -261,23 +265,26 @@ class AllocationOfCapitalAssetsController extends Controller
         return \response()->json($info);
     }
 
-    public function getAllCostAllocates($pOrN)
+    public function getAllCostAllocates($pOrN , $searchValue , $itemInPage)
     {
         return CostAgreement::where('caFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('caProvinceOrNational' , '=' , $pOrN)
+            ->where(function($query) use($searchValue){
+                return $query->where('caLetterNumber' , 'LIKE' , '%' . $searchValue . '%');
+            })
             ->has('caCreditSourceHasAllocation')
             ->with('caCreditSourceHasAllocation.allocation')
             ->with('caCreditSourceHasAllocation.creditDistributionRow')
             ->with('caCreditSourceHasAllocation.tinySeason.seasonTitle.season')
             ->with('caCreditSourceHasAllocation.creditDistributionTitle')
             ->with('caCreditSourceHasAllocation.creditDistributionTitle.county')
-            ->paginate(20);
+            ->paginate($itemInPage);
     }
 
     public function fetchCostAllocationData(Request $request)
     {
         return \response()->json(
-            $this->getAllCostAllocates($request->pOrN)
+            $this->getAllCostAllocates($request->pOrN , $request->searchValue , $request->itemInPage)
         );
     }
 
@@ -379,7 +386,7 @@ class AllocationOfCapitalAssetsController extends Controller
         SystemLog::setBudgetSubSystemLog('تبدیل تنخواه هزینه ای به تخصیص');
         return \response()->json([
             'found' => $this->getAllCostFound(),
-            'allocation_prov' => $this->getAllCostAllocates(0)
+            'allocation_prov' => $this->getAllCostAllocates(0 , $request->searchValue , $request->itemInPage)
         ]);
     }
 }
