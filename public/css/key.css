@@ -1561,7 +1561,6 @@ button.purple-btn {
 .inner-addon .fa {
     position: absolute;
     padding: 10px;
-    pointer-events: none;
 }
 .right-addon .fa  { right:  0px;margin-top: 2px;}
 .right-addon input  { padding-right:  30px;padding-top: 10px; }

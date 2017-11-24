@@ -29,7 +29,7 @@ use Modules\Budget\Entities\CreditDistributionRow;
 class PlanController extends Controller
 {
     public function fetchCapitalAssetsApprovedPlan(Request $request){
-        return \response()->json($this->getAllPlans($request->pOrN));
+        return \response()->json($this->getAllPlans($request->pOrN , $request->searchValue , $request->itemInPage));
     }
 
     public function registerCapitalAssetsApprovedPlan(Request $request)
@@ -58,16 +58,32 @@ class PlanController extends Controller
 
 
             SystemLog::setBudgetSubSystemLog('ثبت طرح تملک داریی های سرمایه ای استانی');
-            return \response()->json($this->getAllPlans($request->pOrN));
+            return \response()->json($this->getAllPlans($request->pOrN , $request->searchValue , $request->itemInPage));
         }
     }
 
-    public function getAllPlans($pOrN)
+    public function getAllPlans($pOrN , $searchValue , $itemInPage)
     {
         return CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('capActive' , '=' , true)
             ->where('capProvinceOrNational' , '=' , $pOrN)
-            ->with('creditDistributionTitle')
+/*            ->where(function($query) use($searchValue){
+                return $query->where('capLetterNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('capLetterDate' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('capExchangeIdNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('capExchangeDate' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('capDescription' , 'LIKE' , '%' . $searchValue . '%');
+            })*/
+            ->with(['creditDistributionTitle' => function($query) use($searchValue){
+                return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cdtDescription' , 'LIKE', '%' . $searchValue . '%');
+            }])
+            ->whereHas('creditDistributionTitle' , function($query) use($searchValue){
+                return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cdtDescription' , 'LIKE', '%' . $searchValue . '%');
+            })
             ->with('creditDistributionTitle.county')
             ->with('amendments.creditDistributionTitle')
             ->with('amendments.creditDistributionTitle.county')
@@ -75,7 +91,7 @@ class PlanController extends Controller
             ->with('amendments.capitalAssetsProject.creditSource.tinySeason.seasonTitle.season')
             ->with('amendments.capitalAssetsProject.creditSource.howToRun')
             ->with('amendments.capitalAssetsProject.county')
-            ->paginate(20);
+            ->paginate($itemInPage);
     }
 
     public function deleteCapitalAssetsApprovedPlan(Request $request)
@@ -85,7 +101,7 @@ class PlanController extends Controller
             $logTemp = $cap->creditDistributionTitle->cdtSubject;
             $cap->delete();
             SystemLog::setBudgetSubSystemLog('حذف طرح مصوب تملک داریی های سرمایه ای ' . $logTemp);
-            return \response()->json($this->getAllPlans($request->pOrN));
+            return \response()->json($this->getAllPlans($request->pOrN , $request->searchValue , $request->itemInPage));
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
@@ -116,7 +132,7 @@ class PlanController extends Controller
             $cap->save();
 
             SystemLog::setBudgetSubSystemLog('تغییر در طرح تملک داریی های سرمایه ای ');
-            return \response()->json($this->getAllPlans($request->pOrN));
+            return \response()->json($this->getAllPlans($request->pOrN , $request->searchValue , $request->itemInPage));
         }
     }
 
@@ -203,7 +219,7 @@ class PlanController extends Controller
         }
 
         CapitalAssetsApprovedPlanTemp::find($request->capId)->delete();
-        return \response()->json($this->getAllPlans($temp->capProvinceOrNational));
+        return \response()->json($this->getAllPlans($temp->capProvinceOrNational , $request->searchValue , $request->itemInPage));
 
     }
 
@@ -404,11 +420,18 @@ class PlanController extends Controller
     }
 
     /////////////////////////////// cost ////////////////////////////////////////////
-    public function getAllCostAgreemrent($pOrN)
+    public function getAllCostAgreemrent($pOrN , $searchValue , $itemInPage)
     {
         return CostAgreement::where('caFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('caActive' , '=' , true)
             ->where('caProvinceOrNational' , '=' , $pOrN)
+            ->where(function($query) use($searchValue){
+                return $query->where('caLetterNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('caLetterDate' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('caExchangeIdNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('caExchangeDate' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('caDescription' , 'LIKE' , '%' . $searchValue . '%');
+            })
             ->with('caCreditSource')
             ->with('caCreditSource.tinySeason.seasonTitle.season')
             ->with('caCreditSource.creditDistributionRow')
@@ -417,13 +440,13 @@ class PlanController extends Controller
             ->with('amendments.caCreditSource.tinySeason.seasonTitle.season')
             ->with('amendments.caCreditSource.creditDistributionRow')
             ->with('amendments.caCreditSource.creditDistributionTitle')
-            ->paginate(20);
+            ->paginate($itemInPage);
     }
 
     public function fetchCostAgreementData(Request $request)
     {
         return \response()->json(
-            $this->getAllCostAgreemrent($request->pOrN)
+            $this->getAllCostAgreemrent($request->pOrN , $request->searchValue , $request->itemInPage)
         );
     }
 
@@ -446,7 +469,7 @@ class PlanController extends Controller
             $ca->save();
 
             SystemLog::setBudgetSubSystemLog('ثبت موافقت نامه هزینه ای ');
-            return \response()->json($this->getAllCostAgreemrent($request->pOrN));
+            return \response()->json($this->getAllCostAgreemrent($request->pOrN , $request->searchValue , $request->itemInPage));
         }
     }
 
@@ -468,7 +491,7 @@ class PlanController extends Controller
             $ca->save();
 
             SystemLog::setBudgetSubSystemLog('تغییر موافقت نامه هزینه ای ');
-            return \response()->json($this->getAllCostAgreemrent($request->pOrN));
+            return \response()->json($this->getAllCostAgreemrent($request->pOrN , $request->searchValue , $request->itemInPage));
         }
     }
 
@@ -478,7 +501,7 @@ class PlanController extends Controller
         try {
             $ca->delete();
             SystemLog::setBudgetSubSystemAdminLog('حذف موافقت نامه هزینه ای');
-            return \response()->json($this->getAllCostAgreemrent($request->pOrN));
+            return \response()->json($this->getAllCostAgreemrent($request->pOrN , $request->searchValue , $request->itemInPage));
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
@@ -508,7 +531,7 @@ class PlanController extends Controller
 
             SystemLog::setBudgetSubSystemLog('ثبت تامین اعتبار هزینه ای');
             return \response()->json(
-                $this->getAllCostAgreemrent($request->pOrN)
+                $this->getAllCostAgreemrent($request->pOrN , $request->searchValue , $request->itemInPage)
             );
         }
     }
@@ -533,7 +556,7 @@ class PlanController extends Controller
 
             SystemLog::setBudgetSubSystemLog('تغییر تامین اعتبار هزینه ای');
             return \response()->json(
-                $this->getAllCostAgreemrent($request->pOrN)
+                $this->getAllCostAgreemrent($request->pOrN , $request->searchValue , $request->itemInPage)
             );
         }
     }
@@ -544,7 +567,7 @@ class PlanController extends Controller
         try {
             $cs->delete();
             SystemLog::setBudgetSubSystemAdminLog('حذف تامین اعتبار هزینه ای');
-            return \response()->json($this->getAllCostAgreemrent($request->pOrN));
+            return \response()->json($this->getAllCostAgreemrent($request->pOrN , $request->searchValue , $request->itemInPage));
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
@@ -615,7 +638,7 @@ class PlanController extends Controller
 
         CostAgreementTemp::find($request->caId)->delete();
         return \response()->json(
-            $this->getAllCostAgreemrent($temp->caProvinceOrNational)
+            $this->getAllCostAgreemrent($temp->caProvinceOrNational , $request->searchValue , $request->itemInPage)
         );
     }
 

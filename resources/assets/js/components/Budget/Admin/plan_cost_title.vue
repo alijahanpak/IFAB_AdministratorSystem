@@ -36,24 +36,23 @@
                                 <li><a @click="openReportModal('excel')"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                             </ul>
                         </div>
-                        <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="costDropDown">تعداد نمایش<span> 20 </span></button>
+                        <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="costDropDown">تعداد نمایش<span> {{ itemInPage }} </span></button>
                         <div style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="costDropDown" data-dropdown data-auto-focus="true">
                             <ul class="my-menu small-font ltr-dir">
-                                <li><a  href="#">10</a></li>
-                                <li><a  href="#">20<span class="fi-check checked-color size-14"></span></a></li>
-                                <li><a  href="#">30</a></li>
-                                <li><a  href="#">50</a></li>
-                                <li><a  href="#">100</a></li>
-                                <li><a  href="#">200</a></li>
+                                <li><a  @click="changeItemInPage(5)">5<span v-show="itemInPage == 5" class="fi-check checked-color size-14"></span></a></li>
+                                <li><a  @click="changeItemInPage(10)">10<span v-show="itemInPage == 10" class="fi-check checked-color size-14"></span></a></li>
+                                <li><a  @click="changeItemInPage(15)">15<span v-show="itemInPage == 15" class="fi-check checked-color size-14"></span></a></li>
+                                <li><a  @click="changeItemInPage(20)">20<span v-show="itemInPage == 20" class="fi-check checked-color size-14"></span></a></li>
+                                <li><a  @click="changeItemInPage(30)">30<span v-show="itemInPage == 30" class="fi-check checked-color size-14"></span></a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="float-left">
                         <div class="input-group float-left">
                             <div class="inner-addon right-addon">
-                                <i v-if="searchPlanValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
-                                <i v-if="searchPlanValue != ''" class="fa fa-close btn-red"  aria-hidden="true"></i>
-                                <input v-model="searchPlanValue" class="search" type="text" placeholder="جستوجو">
+                                <i v-if="searchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                <i v-if="searchValue != ''" v-on:click.stop="removeFilter()" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                <input v-model="searchValue" v-on:keyup.enter="search()" class="search" type="text" placeholder="جستجو">
                             </div>
                         </div>
                     </div>
@@ -447,7 +446,7 @@
                 planOrCostInput: {},
                 planOrCostFill: {},
                 planCodeTemp: '',
-                searchPlanValue:'',
+                searchValue:'',
                 showInsertModal: false,
                 showUpdateModal: false,
                 showDeleteModal: false,
@@ -455,6 +454,7 @@
                 selectColumn:false,
                 bSeasons: [],
                 counties: [],
+                itemInPage: 5,
                 selectedPcIdForDelete: '',
                 displayCountyInfo: '',
                 provincePlanLabel: '',
@@ -492,14 +492,31 @@
 
         methods:{
             fetchData: function (page = 1) {
-                axios.get('/budget/admin/credit_distribution_def/plan_cost_title/fetchData?page=' + page)
+                axios.get('/budget/admin/credit_distribution_def/plan_cost_title/fetchData?page=' + page , {params:{
+                            searchValue: this.searchValue,
+                            itemInPage: this.itemInPage
+                        }})
                     .then((response) => {
                         this.planOrCosts = response.data.data;
                         this.makePagination(response.data);
                         console.log(response.status);
                     },(error) => {
                         console.log(error);
-                    });
+                });
+            },
+
+            search: function () {
+                this.fetchData();
+            },
+
+            changeItemInPage: function (number) {
+                this.itemInPage = number;
+                this.fetchData();
+            },
+
+            removeFilter: function () {
+                this.searchValue = '';
+                this.fetchData();
             },
 
             openReportModal: function (type) {
@@ -632,6 +649,8 @@
                         if (!this.duplicateCountyCode(this.planOrCostInput))
                         {
                             var jsonString = '{';
+                            jsonString += '"searchValue":"' + this.searchValue + '",';
+                            jsonString += '"itemInPage":"' + this.itemInPage + '",';
                             jsonString += '"bsId":"' + this.planOrCostInput.bsId + '",';
                             jsonString += '"code":"' + this.planOrCostInput.code + '",';
                             jsonString += '"subject":"' + this.planOrCostInput.subject + '",';
@@ -669,6 +688,8 @@
                         if (!this.duplicateCountyCode(this.planOrCostFill))
                         {
                             var jsonString = '{';
+                            jsonString += '"searchValue":"' + this.searchValue + '",';
+                            jsonString += '"itemInPage":"' + this.itemInPage + '",';
                             jsonString += '"id":"' + this.planOrCostFill.id + '",';
                             jsonString += '"bsId":"' + this.planOrCostFill.bsId + '",';
                             jsonString += '"code":"' + this.planCodeTemp + '",';
@@ -704,7 +725,11 @@
             },
 
             deletePlanOrCostTitle: function () {
-                axios.post('/budget/admin/credit_distribution_def/plan_cost_title/delete' , {id: this.selectedPcIdForDelete})
+                axios.post('/budget/admin/credit_distribution_def/plan_cost_title/delete' , {
+                        id: this.selectedPcIdForDelete,
+                        searchValue: this.searchValue,
+                        itemInPage: this.itemInPage
+                    })
                     .then((response) => {
                         if (response.status != 204)
                             this.planOrCosts = response.data.data;

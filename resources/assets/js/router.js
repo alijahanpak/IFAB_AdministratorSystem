@@ -212,7 +212,7 @@ var app = new Vue({
         login: function () {
             axios.post('/api/login' , this.authInfo)
                 .then((response) => {
-                    console.log(response.data.refresh_token);
+                    //console.log(response.data.refresh_token);
                     this.registerTokenInfo(response.data);
                     this.showModalLogin = false;
                     this.$router.go(this.$router.currentRoute.path); //reload page data
@@ -223,8 +223,8 @@ var app = new Vue({
 
         registerTokenInfo: function (data) {
             this.tokenInfo.Authorization = 'Bearer ' + data.access_token;
-            this.tokenInfo.refreshToken = data.refresh_token;
-            localStorage.setItem('ifab_token_expires_in' , data.expires_in);
+            //this.tokenInfo.refreshToken = data.refresh_token;
+            //localStorage.setItem('ifab_token_expires_in' , data.expires_in);
             this.setExpireTokenThread();
             this.$store.dispatch("login" , this.tokenInfo);
         },
@@ -332,11 +332,10 @@ var app = new Vue({
         },
 
         setExpireTokenThread: function () {
-            console.log("......................................................" + localStorage.getItem('ifab_token_expires_in'));
+            //console.log("......................................................" + localStorage.getItem('ifab_token_expires_in'));
             if (this.prevNowPlaying)
                 clearInterval(this.prevNowPlaying);
-            //this.prevNowPlaying = setInterval(this.expireTokenThread, (localStorage.getItem('ifab_token_expires_in') - 60) * 1000);
-            this.prevNowPlaying = setInterval(this.expireTokenThread, 300000);
+            this.prevNowPlaying = setInterval(this.expireTokenThread, 900000);
         },
 
         userIsActive: function () {
@@ -347,7 +346,7 @@ var app = new Vue({
             console.log("......................................................" + store.getters.userIsActive);
             if (store.getters.userIsActive)
             {
-                axios.post('/api/refresh_token' , {
+/*                axios.post('/api/refresh_token' , {
                     refresh_token: JSON.parse(localStorage.getItem("ifab_token_info")).refreshToken
                 }).then((response) => {
                     store.dispatch("userNotActive");
@@ -355,7 +354,9 @@ var app = new Vue({
                 }, (error) => {
                     this.showModalLogin = true;
                     this.fail();
-                });
+                });*/
+                store.dispatch("userNotActive");
+                this.setExpireTokenThread();
             }else{
                 clearInterval(this.prevNowPlaying);
                 this.showModalLogin = true;

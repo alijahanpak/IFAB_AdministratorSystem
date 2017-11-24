@@ -64,7 +64,7 @@ class AuthController extends Controller
         }
     }
 
-    public function refreshToken(Request $request)
+/*    public function refreshToken(Request $request)
     {
         $http = new \GuzzleHttp\Client;
         $response = $http->post(url('/oauth/token'), [
@@ -77,7 +77,7 @@ class AuthController extends Controller
             ],
         ]);
         return json_decode((string) $response->getBody(), true);
-    }
+    }*/
 
     public function userIsAuthorize(Request $request)
     {
