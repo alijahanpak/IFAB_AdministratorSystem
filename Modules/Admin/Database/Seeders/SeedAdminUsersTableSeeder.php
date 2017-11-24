@@ -19,6 +19,7 @@ class SeedAdminUsersTableSeeder extends Seeder
         Model::unguard();
 
         $user = new User;
+        $user->seFiscalYear = 5;
         $user->name = 'علی جهان پاک';
         $user->email = 'a.jahanpak';
         $user->password = Hash::make('redrose');
@@ -27,6 +28,7 @@ class SeedAdminUsersTableSeeder extends Seeder
         $user->save();
 
         $user = new User;
+        $user->seFiscalYear = 5;
         $user->name = 'سمیرا رجب پور';
         $user->email = 's.rajabpoor';
         $user->password = Hash::make('1234');

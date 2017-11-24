@@ -531,8 +531,8 @@
                                                         </div>
                                                         <div class="medium-1 cell-vertical-center text-left">
                                                             <a class="dropdown small sm-btn-align" :data-toggle="'capitalAssetsFound' + found.id"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'capitalAssetsFound' + found.id" data-dropdown data-auto-focus="true">
-                                                                <ul style="width: 170px" class="my-menu small-font text-right">
+                                                            <div style="width: 170px" class="dropdown-pane dropdown-pane-sm" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'capitalAssetsFound' + found.id" data-dropdown data-auto-focus="true">
+                                                                <ul class="my-menu small-font text-right">
                                                                     <li><a v-on:click.prevent="openFoundUpdateModal(found)"><i class="fa fa-newspaper-o size-16"></i>  ویراش</a></li>
                                                                     <li><a v-on:click.prevent="openFoundDeleteModal(found.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                     <li><a v-on:click.prevent="openConvertToModal(found.id)"><i class="fa fa-trash-o size-16"></i>  تبدیل به تخصیص</a></li>

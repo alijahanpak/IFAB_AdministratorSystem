@@ -24,7 +24,7 @@ class SeedCapitalAssetsApprovedPlanTableSeederTableSeeder extends Seeder
             $cap = new CapitalAssetsApprovedPlan;
             $cap->capUId = 1;
             $cap->capCdtId = $title->id;
-            $cap->capFyId = 2;
+            $cap->capFyId = 5;
             $cap->capLetterNumber = '196/265-' . (4000 + $i);
             $cap->capLetterDate = '1396/10/' . rand(1 , 30);
             $cap->capExchangeIdNumber = '196/393-' . (4000 + $i);
@@ -41,7 +41,7 @@ class SeedCapitalAssetsApprovedPlanTableSeederTableSeeder extends Seeder
             $cap = new CapitalAssetsApprovedPlan;
             $cap->capUId = 1;
             $cap->capCdtId = $title->id;
-            $cap->capFyId = 2;
+            $cap->capFyId = 5;
             $cap->capLetterNumber = '296/265-' . (5100 + $i);
             $cap->capLetterDate = '1396/10/' . rand(1 , 30);
             $cap->capExchangeIdNumber = '296/393-' . (3200 + $i);

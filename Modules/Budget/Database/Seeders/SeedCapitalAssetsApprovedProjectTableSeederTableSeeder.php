@@ -19,7 +19,7 @@ class SeedCapitalAssetsApprovedProjectTableSeederTableSeeder extends Seeder
     {
         Model::unguard();
         $i = 1;
-        $plans = CapitalAssetsApprovedPlan::where('capFyId' , '=' , 2)->with('creditDistributionTitle')->get();
+        $plans = CapitalAssetsApprovedPlan::where('capFyId' , '=' , 5)->with('creditDistributionTitle')->get();
         foreach ($plans as $plan)
         {
             $project = new CapitalAssetsProject;

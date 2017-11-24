@@ -203,21 +203,25 @@ class CreditDistributionController extends Controller
     }
 
     ///////////////////////// proposal ///////////////////////////
-    public function fetchProvincialBudgetProposalData(){
+    public function fetchProvincialBudgetProposalData(Request $request){
 
-        return \response()->json($this->getAllProvincialBudgetProposal());
+        return \response()->json($this->getAllProvincialBudgetProposal($request->searchValue , $request->itemInPage));
     }
 
-    public function getAllProvincialBudgetProposal()
+    public function getAllProvincialBudgetProposal($searchValue , $itemInPage)
     {
         return County::has('creditDistributionPlanHasProposal')
-            ->whereHas('creditDistributionPlanHasProposal' , function($q){
+            ->whereHas('creditDistributionPlanHasProposal' , function($q) use($searchValue){
                 return $q->where('cdpFyId' , '=' , Auth::user()->seFiscalYear);
             })
             ->with('creditDistributionPlanHasProposal.creditDistributionTitle')
             ->with('creditDistributionPlanHasProposal.creditDistributionRow')
             ->with('creditDistributionPlanHasProposal.proposal')
-            ->paginate(2);
+            ->whereHas('creditDistributionPlanHasProposal.proposal' , function ($query) use($searchValue){
+                return $query->where('pbpCode' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('pbpSubject' , 'LIKE' , '%' . $searchValue . '%');
+            })
+            ->paginate($itemInPage);
 
     }
 
@@ -238,7 +242,7 @@ class CreditDistributionController extends Controller
             $pbp->save();
 
             SystemLog::setBudgetSubSystemLog('ثبت پیشنهاد بودجه تملک داریی های سرمایه ای استانی برای پروژه ' . $pbp->pbpSubject);
-            return \response()->json($this->getAllProvincialBudgetProposal());
+            return \response()->json($this->getAllProvincialBudgetProposal($request->searchValue , $request->itemInPage));
         }
 
     }
@@ -263,7 +267,7 @@ class CreditDistributionController extends Controller
             $pbp->save();
 
             SystemLog::setBudgetSubSystemLog('تغییر در پیشنهاد بودجه تملک داریی های سرمایه ای استانی برای پروژه ' . $old->pbpSubject);
-            return \response()->json($this->getAllProvincialBudgetProposal());
+            return \response()->json($this->getAllProvincialBudgetProposal($request->searchValue , $request->itemInPage));
         }
     }
 
@@ -274,7 +278,7 @@ class CreditDistributionController extends Controller
             $cdp->delete();
 
             SystemLog::setBudgetSubSystemLog('حذف پیشنهاد بودجه تملک داریی های سرمایه ای استانی');
-            return \response()->json($this->getAllProvincialBudgetProposal());
+            return \response()->json($this->getAllProvincialBudgetProposal($request->searchValue , $request->itemInPage));
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
