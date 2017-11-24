@@ -1680,6 +1680,29 @@
                 });
             },
 
+            acceptCostAmendment: function () {
+                axios.post('/budget/approved_plan/cost/amendment/accept' , {
+                    caId: this.costAmendmentCreditSource.id,
+                    parentId: this.caAmendmentInput.parentId,
+                    searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
+                    itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
+                }).then((response) => {
+                    if (this.provOrNat == 0)
+                {
+                    this.costAgreement_prov = response.data.data;
+                    this.makePagination(response.data , "provincial");
+                }else{
+                    this.costAgreement_nat = response.data.data;
+                    this.makePagination(response.data , "national");
+                }
+                this.showModalAmendmentCost = false;
+                this.$parent.displayNotif(response.status);
+                console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+            },
+
             showSelectColumn: function () {
                 if (this.selectColumn)
                 {
@@ -1864,27 +1887,6 @@
                             this.$parent.displayNotif(error.response.status);
                         });
                     }
-                });
-            },
-
-            acceptCostAmendment: function () {
-                axios.post('/budget/approved_plan/cost/amendment/accept' , {
-                    caId: this.costAmendmentCreditSource.id,
-                    parentId: this.caAmendmentInput.parentId
-                }).then((response) => {
-                    if (this.provOrNat == 0)
-                    {
-                        this.costAgreement_prov = response.data.data;
-                        this.makePagination(response.data , "provincial");
-                    }else{
-                        this.costAgreement_nat = response.data.data;
-                        this.makePagination(response.data , "national");
-                    }
-                    this.showModalAmendmentCost = false;
-                    this.$parent.displayNotif(response.status);
-                    console.log(response);
-                },(error) => {
-                    console.log(error);
                 });
             },
 

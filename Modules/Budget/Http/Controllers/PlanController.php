@@ -29,7 +29,7 @@ use Modules\Budget\Entities\CreditDistributionRow;
 class PlanController extends Controller
 {
     public function fetchCapitalAssetsApprovedPlan(Request $request){
-        return \response()->json($this->getAllPlans($request->pOrN));
+        return \response()->json($this->getAllPlans($request->pOrN , $request->searchValue , $request->itemInPage));
     }
 
     public function registerCapitalAssetsApprovedPlan(Request $request)
@@ -58,16 +58,32 @@ class PlanController extends Controller
 
 
             SystemLog::setBudgetSubSystemLog('ثبت طرح تملک داریی های سرمایه ای استانی');
-            return \response()->json($this->getAllPlans($request->pOrN));
+            return \response()->json($this->getAllPlans($request->pOrN , $request->searchValue , $request->itemInPage));
         }
     }
 
-    public function getAllPlans($pOrN)
+    public function getAllPlans($pOrN , $searchValue , $itemInPage)
     {
         return CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('capActive' , '=' , true)
             ->where('capProvinceOrNational' , '=' , $pOrN)
-            ->with('creditDistributionTitle')
+/*            ->where(function($query) use($searchValue){
+                return $query->where('capLetterNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('capLetterDate' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('capExchangeIdNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('capExchangeDate' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('capDescription' , 'LIKE' , '%' . $searchValue . '%');
+            })*/
+            ->with(['creditDistributionTitle' => function($query) use($searchValue){
+                return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cdtDescription' , 'LIKE', '%' . $searchValue . '%');
+            }])
+            ->whereHas('creditDistributionTitle' , function($query) use($searchValue){
+                return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cdtDescription' , 'LIKE', '%' . $searchValue . '%');
+            })
             ->with('creditDistributionTitle.county')
             ->with('amendments.creditDistributionTitle')
             ->with('amendments.creditDistributionTitle.county')
@@ -75,7 +91,7 @@ class PlanController extends Controller
             ->with('amendments.capitalAssetsProject.creditSource.tinySeason.seasonTitle.season')
             ->with('amendments.capitalAssetsProject.creditSource.howToRun')
             ->with('amendments.capitalAssetsProject.county')
-            ->paginate(20);
+            ->paginate($itemInPage);
     }
 
     public function deleteCapitalAssetsApprovedPlan(Request $request)
@@ -85,7 +101,7 @@ class PlanController extends Controller
             $logTemp = $cap->creditDistributionTitle->cdtSubject;
             $cap->delete();
             SystemLog::setBudgetSubSystemLog('حذف طرح مصوب تملک داریی های سرمایه ای ' . $logTemp);
-            return \response()->json($this->getAllPlans($request->pOrN));
+            return \response()->json($this->getAllPlans($request->pOrN , $request->searchValue , $request->itemInPage));
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
@@ -116,7 +132,7 @@ class PlanController extends Controller
             $cap->save();
 
             SystemLog::setBudgetSubSystemLog('تغییر در طرح تملک داریی های سرمایه ای ');
-            return \response()->json($this->getAllPlans($request->pOrN));
+            return \response()->json($this->getAllPlans($request->pOrN , $request->searchValue , $request->itemInPage));
         }
     }
 
@@ -203,7 +219,7 @@ class PlanController extends Controller
         }
 
         CapitalAssetsApprovedPlanTemp::find($request->capId)->delete();
-        return \response()->json($this->getAllPlans($temp->capProvinceOrNational));
+        return \response()->json($this->getAllPlans($temp->capProvinceOrNational , $request->searchValue , $request->itemInPage));
 
     }
 
