@@ -74,10 +74,10 @@
                     </div>
                     <div class="large-12">
                         <p class="small-font footer-txt-size">تمامی حقوق این وب سایت متعلق یه اداره کل میراث فرهنگی، صنایع دستی و گردشگری استان همدان می باشد</p>
-                    </div><div class="large-12">
+                    </div>
+                    <div style="margin-top: 20px;" class="large-12">
                         <img class="float-center" src="{{ asset('pic\keylogo.png') }}" width="130px" height="20px">
                     </div>
-
                 </div>
             </div>
         </modal-login>

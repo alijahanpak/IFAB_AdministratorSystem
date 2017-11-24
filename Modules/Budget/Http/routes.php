@@ -131,6 +131,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('/credit_source/update', 'PlanController@updateCaCreditSource');
         Route::post('/credit_source/delete', 'PlanController@deleteCostCaCreditSource');
         Route::get('/credit_source/getAllItem', 'PlanController@getAllcaCreditSourceItems');
+        Route::post('/report', 'BudgetReportController@approvedProgram');
     });
 
     Route::prefix('approved_plan/cost/amendment')->group(function () {

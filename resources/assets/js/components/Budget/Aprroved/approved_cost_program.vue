@@ -39,16 +39,16 @@
                                 <div class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openCostAgreementInsertModal(0)">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
-                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
+                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(costAgreement_prov)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
                                     </div>
                                     <div v-if="selectColumn" class="input-group-button toggle-icon-change">
-                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
+                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn(costAgreement_prov)"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
                                     </div>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
-                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
+                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDownProv">گزارش</button>
+                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDownProv" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a  href="#"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
-                                            <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
+                                            <li><a  @click="openReportModal(0,'pdf')"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a  @click="openReportModal(0,'excel')"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                                         </ul>
                                     </div>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> {{ itemInPage }} </span></button>
@@ -96,7 +96,7 @@
                                         <th class="tbl-head-style-cell">اعتبار</th>
                                         <th class="tbl-head-style-cell">اصلاحیه</th>
                                         <th class="tbl-head-style-cell">شرح</th>
-                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input id="checkboxColumn" type="checkbox"></th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox" @click="toggleSelect(costAgreement_prov)" :checked="allSelected(costAgreement_prov)"></th>
                                         <th class="tbl-head-style-cell"></th>
 
                                     </tr>
@@ -146,11 +146,11 @@
                                                     </div>
                                                 </td>
                                                 <td  v-show="selectColumn">
-                                                    <input class="auto-margin" id="checkboxProv" type="checkbox">
+                                                    <input class="auto-margin" v-model="cAp.checked" type="checkbox">
                                                 </td>
                                             </tr>
                                             <tr v-show="displayCreditSourceInfo_prov == cAp.id">
-                                                <td colspan="7">
+                                                <td colspan="8">
                                                     <table class="unstriped tbl-secondary-mrg small-font">
                                                         <thead class="my-thead">
                                                         <tr style="background-color: #F1F1F1 !important;">
@@ -193,7 +193,7 @@
                                                 </td>
                                             </tr>
                                             <tr v-if="cAp.amendments.length > 0" v-show="displayAmendmentInfo_prov == cAp.id">
-                                                <td colspan="7">
+                                                <td colspan="8">
                                                     <table class="unstriped tbl-secondary-mrg small-font">
                                                         <thead class="my-thead">
                                                         <tr style="background-color: #F1F1F1 !important;">
@@ -250,16 +250,16 @@
                                 <div class="button-group float-right report-mrg">
                                     <a class="my-button toolbox-btn small" @click="openCostAgreementInsertModal(1)">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
-                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
+                                        <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(costAgreement_nat)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
                                     </div>
                                     <div v-if="selectColumn" class="input-group-button toggle-icon-change">
-                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
+                                        <button type="button" class="my-button my-icon-danger tiny" @click="showSelectColumn(costAgreement_nat)"><i class="fa fa-times size-14" aria-hidden="true"></i></button>
                                     </div>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="reportDropDown1">گزارش</button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="reportDropDown1" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
-                                            <li><a  href="#"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
-                                            <li><a  href="#"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
+                                            <li><a  @click="openReportModal(1,'pdf')"><i class="fa fa-file-pdf-o icon-margin-dropdown" aria-hidden="true"></i>PDF</a></li>
+                                            <li><a  @click="openReportModal(1,'excel')"><i class="fa fa-file-excel-o icon-margin-dropdown" aria-hidden="true"></i>Excel</a></li>
                                         </ul>
                                     </div>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="nationalDropDown">تعداد نمایش<span> {{ natItemInPage }} </span></button>
@@ -303,7 +303,7 @@
                                         <th class="tbl-head-style-cell">اعتبار</th>
                                         <th class="tbl-head-style-cell">اصلاحیه</th>
                                         <th class="tbl-head-style-cell">شرح</th>
-                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input id="checkboxColumnNational" type="checkbox"></th>
+                                        <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox" @click="toggleSelect(costAgreement_nat)" :checked="allSelected(costAgreement_nat)"></th>
                                         <th class="tbl-head-style-cell"></th>
                                     </tr>
                                     </tbody>
@@ -348,11 +348,11 @@
                                                     </div>
                                                 </td>
                                                 <td  v-show="selectColumn">
-                                                    <input class="auto-margin" id="checkboxNational" type="checkbox">
+                                                    <input class="auto-margin" v-model="cAp.checked" type="checkbox">
                                                 </td>
                                             </tr>
                                             <tr v-show="displayCreditSourceInfo_nat == cAp.id">
-                                                <td colspan="7">
+                                                <td colspan="8">
                                                     <table class="unstriped tbl-secondary-mrg small-font">
                                                         <thead class="my-thead">
                                                         <tr style="background-color: #F1F1F1 !important;">
@@ -1191,6 +1191,84 @@
                 </div>
             </modal-large>
             <!--amendment plan info-->
+            <!--Report Modal Start-->
+            <modal-tiny v-if="showModalReport" @close="showModalReport= false">
+                <div  slot="body">
+                    <div class="small-font">
+                        <form v-on:submit.prevent="openReportFile">
+                            <div class="grid-x padding-lr">
+                                <div class="medium-12">
+                                    <label>عنوان
+                                        <input type="text" v-model="reportOptions.title">
+                                    </label>
+                                </div>
+                            </div>
+                            <div v-show="reportType == 'pdf'">
+                                <div style="margin-top: 10px;" class="grid-x padding-lr">
+                                    <div class="medium-2">
+                                        <div class="switch tiny">
+                                            <input checked="true" class="switch-input" id="yes-no-1" v-model="reportOptions.withReporterName" type="checkbox">
+                                            <label class="switch-paddle" for="yes-no-1">
+                                                <span class="switch-active" aria-hidden="true">بلی</span>
+                                                <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="medium-10">
+                                        <p>درج نام کاربر تهیه کننده گزارش</p>
+                                    </div>
+                                </div>
+                                <div class="grid-x padding-lr">
+                                    <div class="medium-2">
+                                        <div class="switch tiny">
+                                            <input checked="true" class="switch-input" id="yes-no-2" type="checkbox" v-model="reportOptions.withFiscalYear">
+                                            <label class="switch-paddle" for="yes-no-2">
+                                                <span class="switch-active" aria-hidden="true">بلی</span>
+                                                <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="medium-10">
+                                        <p>درج سال مالی</p>
+                                    </div>
+                                </div>
+                                <div class="grid-x padding-lr">
+                                    <div class="medium-2">
+                                        <div class="switch tiny">
+                                            <input checked="true" class="switch-input" id="yes-no3" type="checkbox" v-model="reportOptions.withReportDate">
+                                            <label class="switch-paddle" for="yes-no3">
+                                                <span class="switch-active" aria-hidden="true">بلی</span>
+                                                <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="medium-10">
+                                        <p>درج تاریخ گزارش</p>
+                                    </div>
+                                </div>
+                                <div class="grid-x padding-lr">
+                                    <div class="medium-2">
+                                        <div class="switch tiny">
+                                            <input checked="true" class="switch-input" id="yes-no4" type="checkbox" v-model="reportOptions.orientation">
+                                            <label class="switch-paddle" for="yes-no4">
+                                                <span class="switch-active" aria-hidden="true">افقی</span>
+                                                <span class="switch-inactive" aria-hidden="true">عمودی</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="medium-10">
+                                        <p>جهت کاغذ</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="medium-12 columns padding-lr padding-bottom-modal input-margin-top">
+                                <button name="Submit" class="my-button my-success float-left"> <span class="btn-txt-mrg">مشاهده</span></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </modal-tiny>
+            <!--Report Modal End-->
         </div>
     </div>
 </template>
@@ -1223,6 +1301,7 @@
                 showACaCsInsertModal:false,
                 showDeleteTempCreditSourceModal: false,
                 showACaCsEditModal: false,
+                showModalReport:false,
                 showAmendmentProgInfoModal: false,
                 dateIsValid_delivery: true,
                 dateIsValid_exchange: true,
@@ -1254,6 +1333,9 @@
                 selectedSeasonTitle: '',
                 creditDistributionRows: {},
                 creditDistributionTitles: {},
+                selectedItems: [],
+                selectedCount: 0,
+                reportOptions: {title:'' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true , costLabel:true},
                 national_pagination: {
                     total: 0,
                     to: 0,
@@ -1279,7 +1361,7 @@
             $(this.$el).foundation(); //WORKS!
             this.$parent.userIsActive();
             this.myResizeModal();
-            this.costTemp =  ' مبلغ: ' + this.$parent.getDispAmountBaseLabel();
+            this.costTemp =  ' مبالغ: ' + this.$parent.getDispAmountBaseLabel();
         },
 
         mounted: function () {
@@ -1304,7 +1386,7 @@
                     itemInPage: this.itemInPage
                 }})
                     .then((response) => {
-                        this.costAgreement_prov = response.data.data;
+                        this.setData(0,response.data.data);
                         this.makePagination(response.data , "provincial");
                         console.log(response);
                     },(error) => {
@@ -1319,12 +1401,24 @@
                     itemInPage: this.natItemInPage
                 }})
                     .then((response) => {
-                        this.costAgreement_nat = response.data.data;
+                        this.setData(1,response.data.data);
                         this.makePagination(response.data , "national");
                         console.log(response);
                     },(error) => {
                         console.log(error);
                     });
+            },
+
+            setData: function (type , data) {
+                if (type == 0)
+                {
+                    this.costAgreement_prov = data;
+                    this.selectAll(this.costAgreement_prov);
+                    console.log(JSON.stringify(this.costAgreement_prov));
+                }else {
+                    this.costAgreement_nat = data;
+                    this.selectAll(this.costAgreement_nat);
+                }
             },
 
             search: function (type) {
@@ -1449,11 +1543,11 @@
                                 itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
                             }).then((response) => {
                                 if (this.provOrNat == 0) {
-                                    this.costAgreement_prov = response.data.data;
+                                    this.setData(0,response.data.data);
                                     this.makePagination(response.data, "provincial");
                                 }
                                 else {
-                                    this.costAgreement_nat = response.data.data;
+                                    this.setData(1,response.data.data);
                                     this.makePagination(response.data, "national");
                                 }
                                 this.showInsertModal = false;
@@ -1484,12 +1578,12 @@
                         }).then((response) => {
                             if (this.provOrNat == 0)
                             {
-                                this.costAgreement_prov = response.data.data;
+                                this.setData(0,response.data.data);
                                 this.makePagination(response.data , "provincial");
                             }
                             else
                             {
-                                this.costAgreement_nat = response.data.data;
+                                this.setData(1,response.data.data);
                                 this.makePagination(response.data , "national");
                             }
                             this.showCaCsInsertModal = false;
@@ -1537,12 +1631,12 @@
                         }).then((response) => {
                             if (this.provOrNat == 0)
                             {
-                                this.costAgreement_prov = response.data.data;
+                                this.setData(0,response.data.data);
                                 this.makePagination(response.data , "provincial");
                             }
                             else
                             {
-                                this.costAgreement_nat = response.data.data;
+                                this.setData(1,response.data.data);
                                 this.makePagination(response.data , "national");
                             }
                             this.showCaCsUpdateModal = false;
@@ -1571,12 +1665,12 @@
                 }).then((response) => {
                     if (this.provOrNat == 0 && response.status != 204)
                     {
-                        this.costAgreement_prov = response.data.data;
+                        this.setData(0,response.data.data);
                         this.makePagination(response.data , "provincial");
                     }
                     else if (this.provOrNat == 1 && response.status != 204)
                     {
-                        this.costAgreement_nat = response.data.data;
+                        this.setData(1,response.data.data);
                         this.makePagination(response.data , "national");
                     }
                     this.showCaCsDeleteModal = false;
@@ -1631,11 +1725,11 @@
                                 itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
                             }).then((response) => {
                                 if (this.provOrNat == 0) {
-                                    this.costAgreement_prov = response.data.data;
+                                    this.setData(0,response.data.data);
                                     this.makePagination(response.data, "provincial");
                                 }
                                 else {
-                                    this.costAgreement_nat = response.data.data;
+                                    this.setData(1,response.data.data);
                                     this.makePagination(response.data, "national");
                                 }
                                 this.showUpdateModal = false;
@@ -1664,11 +1758,11 @@
                     itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
                 }).then((response) => {
                     if (this.provOrNat == 0 && response.status != 204) {
-                        this.costAgreement_prov = response.data.data;
+                        this.setData(0,response.data.data);
                         this.makePagination(response.data, "provincial");
                     }
                     else if (this.provOrNat == 1 && response.status != 204){
-                        this.costAgreement_nat = response.data.data;
+                        this.setData(1,response.data.data);
                         this.makePagination(response.data, "national");
                     }
                     this.showDeleteModal = false;
@@ -1689,10 +1783,10 @@
                 }).then((response) => {
                     if (this.provOrNat == 0)
                 {
-                    this.costAgreement_prov = response.data.data;
+                    this.setData(0,response.data.data);
                     this.makePagination(response.data , "provincial");
                 }else{
-                    this.costAgreement_nat = response.data.data;
+                    this.setData(1,response.data.data);
                     this.makePagination(response.data , "national");
                 }
                 this.showModalAmendmentCost = false;
@@ -1948,6 +2042,88 @@
                         }
                         break;
                 }
+            },
+            /////////////////////////////////Report//////////////////////
+            openReportModal: function (proOrNat, type) {
+                this.reportType = type;
+                this.selectedItems = [];
+                if (proOrNat == 0)
+                {
+                    if (this.selectedLength(this.costAgreement_prov) != 0)
+                    {
+                        this.showModalReport = true;
+                        this.costAgreement_prov.forEach(plan => {
+                            if (plan.checked == true)
+                                this.selectedItems.push(plan);
+                        });
+                        this.reportOptions.title = 'موافقت نامه های هزینه ای استانی';
+                    }
+                    else{
+                        this.$parent.displayNotif(800);
+                    }
+                }
+                else {
+                    if (this.selectedLength(this.costAgreement_nat) != 0)
+                    {
+                        this.showModalReport = true;
+                        this.costAgreement_nat.forEach(plan => {
+                            if (plan.checked == true)
+                                this.selectedItems.push(plan);
+                        });
+                        this.reportOptions.title = 'موافقت نامه های هزینه ملی';
+                    }
+                    else{
+                        this.$parent.displayNotif(800);
+                    }
+                }
+
+                console.log(JSON.stringify(this.selectedItems));
+            },
+
+            openReportFile: function () {
+                axios.post('budget/approved_plan/cost/report' , {type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
+                    .then((response) => {
+                        console.log(response.data);
+                        window.open(response.data);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            showSelectColumn: function (cAp) {
+                this.selectAll(cAp);
+                if (this.selectColumn)
+                {
+                    this.selectColumn=false;
+                }
+                else {
+                    this.selectColumn = true;
+                }
+            },
+            toggleSelect: function(cAp) {
+                if(cAp.find(plan => plan.checked)){
+                    cAp.forEach(plan => plan.checked = false)
+                } else {
+                    cAp.forEach(plan => plan.checked = true)
+                }
+            },
+
+            allSelected: function(cAp) {
+                return cAp.every(function(plan){
+                    return plan.checked;
+                });
+            },
+
+            selectAll: function (cAp) {
+                cAp.forEach(plan => {
+                    this.$set(plan , 'checked' , true);
+                });
+            },
+
+            selectedLength: function (cAp) {
+                return cAp.filter(function (value) {
+                    return value.checked === true;
+                }).length;
             },
         }
     }

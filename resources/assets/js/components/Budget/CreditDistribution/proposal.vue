@@ -51,6 +51,9 @@
                                 <li><a  @click="changeItemInPage(10)">10<span v-show="itemInPage == 10" class="fi-check checked-color size-14"></span></a></li>
                             </ul>
                         </div>
+                        <div class="float-right cost-label-2">
+                            <span class="small-font">{{ costTemp }}</span>
+                        </div>
                     </div>
                     <div class="float-left">
                         <div class="input-group float-left">
@@ -448,6 +451,7 @@
                 creditDistributionPlans: {},
                 counties: {},
                 selectCounty: '',
+                costTemp:'',
                 selectedProposalIdForDelete: '',
                 remainingAmount: 0,
                 selectedItems: [],
@@ -470,6 +474,7 @@
         updated: function () {
             $(this.$el).foundation(); //WORKS!
             this.$parent.userIsActive();
+            this.costTemp =  ' مبالغ: ' + this.$parent.getDispAmountBaseLabel();
         },
 
         mounted: function () {
