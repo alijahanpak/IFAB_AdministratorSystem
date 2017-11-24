@@ -86,6 +86,9 @@
         <div class="grid-x">
             <div id="leftmenuinner" style="background-color: #2C2E3E;z-index: 995;" class="medium-2 cell small-font">
                 <div  id="leftmenuinnerinner ">
+                    <div class="large-12">
+                        <img class="float-center" src="{{ asset('pic\pallas.png') }}" width="150px" height="15px">
+                    </div>
                     <nav class="accordion"  data-margin-top="4.2">
                         <ul style="background-color: #2C2E3E;" class="vertical menu sub-menu accordion-menu" data-accordion-menu data-multi-open="false" >
                             <li>
@@ -153,7 +156,9 @@
                     </nav>
                 </div>
                 <div class="grid-x">
-                    <p class="version-software">V:2576.1</p>
+                    <div class="medium-12">
+                        <p style="margin-bottom: 5px;"  class="version-software text-center small-font">V:2576.1</p>
+                    </div>
                 </div>
             </div>
             <div class="medium-10 main-margin my-callout-box">
@@ -242,7 +247,7 @@
             <vue-progress-bar></vue-progress-bar>
             <div class="medium-12 my-footer">
                 <div class="grid-x">
-                    <div class="medium-12">
+                    <div style="padding-top: 4px;" class="medium-12">
                         <div class="small button-group float-left footer-menu">
                             <a class="clear button menu-color">راهنمای سامانه</a>
                             <a class="clear button menu-color">درباره ما</a>
