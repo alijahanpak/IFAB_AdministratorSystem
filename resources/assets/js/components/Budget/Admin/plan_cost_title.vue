@@ -99,14 +99,14 @@
                                 <tr>
                                     <td class="text-center">{{ planOrCost.cdtIdNumber }}</td>
                                     <td>{{ planOrCost.cdtSubject }}</td>
-                                    <td>{{ planOrCost.budget_season.bsSubject }}</td>
+                                    <td class="text-center">{{ planOrCost.budget_season.bsSubject }}</td>
                                     <td class="text-center">
                                         <a class="" v-if="planOrCost.c_d_t_in_county.length != 0" @click="displayCountyInfo == planOrCost.id ? displayCountyInfo = '' : displayCountyInfo = planOrCost.id">جزئیات</a>
                                         <span class="comlpleted-badage" v-if="planOrCost.c_d_t_in_county.length == 0">تعریف نشده</span>
                                     </td>
                                     <td>
                                         <div class="grid-x">
-                                            <div class="medium-11">
+                                            <div class="medium-11 text-justify">
                                                 {{ planOrCost.cdtDescription }}
                                             </div>
                                             <div class="medium-1 cell-vertical-center text-left">

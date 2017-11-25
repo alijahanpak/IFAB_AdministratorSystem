@@ -124,7 +124,7 @@
                                                         <div>{{ plans.capLetterNumber }}</div>
                                                         <div>{{ plans.capLetterDate }}</div>
                                                     </td>
-                                                    <td>
+                                                    <td class="text-center">
                                                         {{ plans.credit_distribution_title.county.coName }}
                                                     </td>
                                                     <td class="text-center">
@@ -132,7 +132,7 @@
                                                     </td>
                                                     <td>
                                                         <div class="grid-x">
-                                                            <div class="medium-11">
+                                                            <div class="medium-11 text-justify">
                                                                 {{ plans.capDescription }}
                                                             </div>
                                                             <div class="medium-1 cell-vertical-center text-left auto-margin">
@@ -308,7 +308,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="grid-x">
-                                                        <div class="medium-11">
+                                                        <div class="medium-11 text-justify">
                                                             {{ plans.capDescription }}
                                                         </div>
                                                         <div class="medium-1 cell-vertical-center text-left auto-margin">

@@ -359,6 +359,7 @@ var app = new Vue({
                 this.setExpireTokenThread();
             }else{
                 clearInterval(this.prevNowPlaying);
+                this.$store.dispatch("logout");
                 this.showModalLogin = true;
             }
         },

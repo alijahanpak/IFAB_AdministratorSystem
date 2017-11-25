@@ -31,8 +31,8 @@
                 <div class="tbl-div-container">
                     <table class="tbl-head">
                         <colgroup>
-                            <col width="450px"/>
-                            <col width="390px"/>
+                            <col width="250px"/>
+                            <col width="590px"/>
                             <col width="12px"/>
                         </colgroup>
                         <tbody class="tbl-head-style">
@@ -48,8 +48,8 @@
                     <div class="tbl_body_style dynamic-height-level2">
                         <table class="tbl-body-contain">
                             <colgroup>
-                                <col width="450px"/>
-                                <col width="390px"/>
+                                <col width="250px"/>
+                                <col width="590px"/>
                             </colgroup>
                             <tbody class="tbl-head-style-cell">
                                 <tr v-for="budgetSeason in budgetSeasons">

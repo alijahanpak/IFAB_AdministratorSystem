@@ -1,9 +1,10 @@
 // LineChart.js
-import { Line } from 'vue-chartjs'
+import { Line , mixins } from 'vue-chartjs'
+const { reactiveProp } = mixins
 
 export default {
     extends: Line,
-    props: ['data'],
+    mixins: [reactiveProp],
     data(){
         return {
             options:{
@@ -24,6 +25,6 @@ export default {
     },
     mounted () {
         console.log("mounted line chart");
-        this.renderChart(this.data , this.options);
+        this.renderChart(this.chartData , this.options);
     }
 }

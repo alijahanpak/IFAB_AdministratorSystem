@@ -91,7 +91,7 @@
                                             <td>{{ da.village == null ? '&#45;&#45;' : da.village.viName }}</td>
                                             <td>
                                                 <div class="grid-x">
-                                                    <div class="medium-11">
+                                                    <div class="medium-11 text-justify">
                                                         {{ da.daDescription }}
                                                     </div>
                                                     <div class="medium-1 cell-vertical-center text-left">
@@ -152,7 +152,7 @@
                                             <td>{{ da.county.coName }}</td>
                                             <td>
                                                 <div class="grid-x">
-                                                    <div class="medium-11">
+                                                    <div class="medium-11 text-justify">
                                                         {{ da.daDescription }}
                                                     </div>
                                                     <div class="medium-1 cell-vertical-center text-left">
@@ -208,7 +208,7 @@
                                             <td>{{ da.county.coName }}</td>
                                             <td>
                                                 <div class="grid-x">
-                                                    <div class="medium-11">
+                                                    <div class="medium-11 text-justify">
                                                         {{ da.daDescription }}
                                                     </div>
                                                     <div class="medium-1 cell-vertical-center text-left">
@@ -268,7 +268,7 @@
                                             <td>{{ da.region.reName }}</td>
                                             <td>
                                                 <div class="grid-x">
-                                                    <div class="medium-11">
+                                                    <div class="medium-11 text-justify">
                                                         {{ da.daDescription }}
                                                     </div>
                                                     <div class="medium-1 cell-vertical-center text-left">
@@ -332,7 +332,7 @@
                                             <td>{{ da.rural_district.rdName }}</td>
                                             <td>
                                                 <div class="grid-x">
-                                                    <div class="medium-11">
+                                                    <div class="medium-11 text-justify">
                                                         {{ da.daDescription }}
                                                     </div>
                                                     <div class="medium-1 cell-vertical-center text-left">

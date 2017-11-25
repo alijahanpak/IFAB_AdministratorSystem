@@ -118,7 +118,7 @@
                                         <tbody class="tbl-head-style-cell">
                                         <template v-for="progs in provCostAllocations">
                                             <tr class="tbl-head-style-cell" >
-                                                <td :rowspan="getProjectAllocCount(progs.ca_credit_source_has_allocation)">{{ progs.caLetterNumber }}
+                                                <td class="text-center" :rowspan="getProjectAllocCount(progs.ca_credit_source_has_allocation)">{{ progs.caLetterNumber }}
                                                     <div v-show="!progs.caActive" class="text-center" style="margin-top: 5px">
                                                         <span class="new-badage">غیر فعال</span>
                                                     </div>
@@ -126,11 +126,11 @@
                                                 <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length">{{ progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtIdNumber + ' - ' + progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtSubject }}</td>
                                                 <td v-if="progs.ca_credit_source_has_allocation[0].ccsDeleted" :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length" class="text-center"><span class="comlpleted-badage">حذف شده</span></td>
                                                 <td v-if="!progs.ca_credit_source_has_allocation[0].ccsDeleted" :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length" class="text-center">{{ $parent.calcDispAmount(getProgAllocationSum(progs.ca_credit_source_has_allocation[0].allocation) , false) }}</td>
-                                                <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length">{{ progs.ca_credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
-                                                <td v-if="progs.ca_credit_source_has_allocation[0].allocation[0].caFoundId == null">{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterNumber }}</td>
+                                                <td class="text-center" :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length">{{ progs.ca_credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
+                                                <td v-if="progs.ca_credit_source_has_allocation[0].allocation[0].caFoundId == null" class="text-center">{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterNumber }}</td>
                                                 <td class="text-center" v-if="progs.ca_credit_source_has_allocation[0].allocation[0].caFoundId != null"><i class="fa fa-exchange btn-red has-tip top" data-tooltip aria-haspopup="true" data-disable-hover="false" title="تبدیل شده از تنخواه"></i></td>
-                                                <td>{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterDate }}</td>
-                                                <td>
+                                                <td class="text-center">{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterDate }}</td>
+                                                <td class="text-center">
                                                     <div class="grid-x">
                                                         <div class="medium-11">
                                                             {{ $parent.calcDispAmount(progs.ca_credit_source_has_allocation[0].allocation[0].caAmount , false) }}
@@ -154,11 +154,11 @@
                                                 <tr class="tbl-head-style-cell" v-if="csIndex > 0">
                                                     <td :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_title.cdtIdNumber + ' - ' + credit_source.credit_distribution_title.cdtSubject }}</td>
                                                     <td :rowspan="credit_source.allocation.length" class="text-center">{{ $parent.calcDispAmount(getCsAllocationSum(credit_source.allocation) , false) }}</td>
-                                                    <td :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_row.cdSubject }}</td>
-                                                    <td v-if="credit_source.allocation[0].caFoundId == null">{{ credit_source.allocation[0].caLetterNumber }}</td>
+                                                    <td class="text-center" :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_row.cdSubject }}</td>
+                                                    <td v-if="credit_source.allocation[0].caFoundId == null" class="text-center">{{ credit_source.allocation[0].caLetterNumber }}</td>
                                                     <td class="text-center" v-if="credit_source.allocation[0].caFoundId != null"><i class="fa fa-exchange btn-red has-tip top" data-tooltip aria-haspopup="true" data-disable-hover="false" title="تبدیل شده از تنخواه"></i></td>
-                                                    <td>{{ credit_source.allocation[0].caLetterDate }}</td>
-                                                    <td>
+                                                    <td class="text-center">{{ credit_source.allocation[0].caLetterDate }}</td>
+                                                    <td class="text-center">
                                                         <div class="grid-x">
                                                             <div class="medium-11">
                                                                 {{ $parent.calcDispAmount(credit_source.allocation[0].caAmount , false) }}
@@ -180,10 +180,10 @@
                                                 </tr>
                                                 <template v-for="(alloc , allocIndex) in credit_source.allocation">
                                                     <tr class="tbl-head-style-cell" v-if="allocIndex > 0">
-                                                        <td v-if="alloc.caFoundId == null">{{ alloc.caLetterNumber }}</td>
+                                                        <td class="text-center" v-if="alloc.caFoundId == null">{{ alloc.caLetterNumber }}</td>
                                                         <td class="text-center" v-if="alloc.caFoundId != null"><i class="fa fa-exchange btn-red has-tip top" data-tooltip aria-haspopup="true" data-disable-hover="false" title="تبدیل شده از تنخواه"></i></td>
-                                                        <td>{{ alloc.caLetterDate }}</td>
-                                                        <td>
+                                                        <td class="text-center">{{ alloc.caLetterDate }}</td>
+                                                        <td class="text-center">
                                                             <div class="grid-x">
                                                                 <div class="medium-11">
                                                                     {{ $parent.calcDispAmount(alloc.caAmount , false) }}
@@ -313,13 +313,13 @@
                                         <tbody class="tbl-head-style-cell">
                                         <template v-for="progs in natCostAllocations">
                                             <tr class="tbl-head-style-cell" >
-                                                <td :rowspan="getProjectAllocCount(progs.ca_credit_source_has_allocation)">{{ progs.caLetterNumber }}</td>
+                                                <td :rowspan="getProjectAllocCount(progs.ca_credit_source_has_allocation)" class="text-center">{{ progs.caLetterNumber }}</td>
                                                 <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length">{{ progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtIdNumber + ' - ' + progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtSubject }}</td>
                                                 <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length" class="text-center">{{ $parent.calcDispAmount(getProgAllocationSum(progs.ca_credit_source_has_allocation[0].allocation) , false) }}</td>
-                                                <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length">{{ progs.ca_credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
-                                                <td>{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterNumber }}</td>
-                                                <td>{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterDate }}</td>
-                                                <td>
+                                                <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length" class="text-center">{{ progs.ca_credit_source_has_allocation[0].credit_distribution_row.cdSubject }}</td>
+                                                <td class="text-center">{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterNumber }}</td>
+                                                <td class="text-center">{{ progs.ca_credit_source_has_allocation[0].allocation[0].caLetterDate }}</td>
+                                                <td class="text-center">
                                                     <div class="grid-x">
                                                         <div class="medium-11">
                                                             {{ $parent.calcDispAmount(progs.ca_credit_source_has_allocation[0].allocation[0].caAmount , false) }}
@@ -343,10 +343,10 @@
                                                 <tr class="tbl-head-style-cell" v-if="csIndex > 0">
                                                     <td :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_title.cdtIdNumber + ' - ' + credit_source.credit_distribution_title.cdtSubject }}</td>
                                                     <td :rowspan="credit_source.allocation.length" class="text-center">{{ $parent.calcDispAmount(getCsAllocationSum(credit_source.allocation) , false) }}</td>
-                                                    <td :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_row.cdSubject }}</td>
-                                                    <td>{{ credit_source.allocation[0].caLetterNumber }}</td>
-                                                    <td>{{ credit_source.allocation[0].caLetterDate }}</td>
-                                                    <td>
+                                                    <td :rowspan="credit_source.allocation.length" class="text-center">{{ credit_source.credit_distribution_row.cdSubject }}</td>
+                                                    <td class="text-center">{{ credit_source.allocation[0].caLetterNumber }}</td>
+                                                    <td class="text-center">{{ credit_source.allocation[0].caLetterDate }}</td>
+                                                    <td class="text-center">
                                                         <div class="grid-x">
                                                             <div class="medium-11">
                                                                 {{ $parent.calcDispAmount(credit_source.allocation[0].caAmount , false) }}
@@ -368,9 +368,9 @@
                                                 </tr>
                                                 <template v-for="(alloc , allocIndex) in credit_source.allocation">
                                                     <tr class="tbl-head-style-cell" v-if="allocIndex > 0">
-                                                        <td>{{ alloc.caLetterNumber }}</td>
-                                                        <td>{{ alloc.caLetterDate }}</td>
-                                                        <td>
+                                                        <td class="text-center">{{ alloc.caLetterNumber }}</td>
+                                                        <td class="text-center">{{ alloc.caLetterDate }}</td>
+                                                        <td class="text-center">
                                                             <div class="grid-x">
                                                                 <div class="medium-11">
                                                                     {{ $parent.calcDispAmount(alloc.caAmount , false) }}

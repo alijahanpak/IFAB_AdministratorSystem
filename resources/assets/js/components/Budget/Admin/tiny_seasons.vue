@@ -59,8 +59,8 @@
                                         <colgroup>
                                             <col width="150px"/>
                                             <col width="250px"/>
-                                            <col width="350px"/>
-                                            <col width="200px"/>
+                                            <col width="250px"/>
+                                            <col width="300px"/>
                                             <col width="12px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style">
@@ -80,18 +80,18 @@
                                             <colgroup>
                                                 <col width="150px"/>
                                                 <col width="250px"/>
-                                                <col width="350px"/>
-                                                <col width="200px"/>
+                                                <col width="250px"/>
+                                                <col width="300px"/>
                                             </colgroup>
                                             <tbody class="tbl-head-style-cell">
                                             <template v-for="season in tinySeasons">
                                                 <tr class="tbl-head-style-cell">
-                                                    <td :rowspan="getSeasonCount(season.capital_assets_season_title)"> {{ season.sSubject }}</td>
+                                                    <td class="text-center" :rowspan="getSeasonCount(season.capital_assets_season_title)"> {{ season.sSubject }}</td>
                                                     <td :rowspan="season.capital_assets_season_title[0].capital_assets_tiny_season.length">  {{ season.capital_assets_season_title[0].castSubject }}</td>
                                                     <td> {{ season.capital_assets_season_title[0].capital_assets_tiny_season[0].catsSubject }}</td>
                                                     <td>
                                                         <div class="grid-x">
-                                                            <div class="medium-11">
+                                                            <div class="medium-11 text-justify">
                                                                 {{ season.capital_assets_season_title[0].capital_assets_tiny_season[0].catsDescription }}
                                                             </div>
                                                             <div class="medium-1 cell-vertical-center text-left">
@@ -112,7 +112,7 @@
                                                         <td>{{seasonTitle.capital_assets_tiny_season[0].catsSubject}}</td>
                                                         <td>
                                                             <div class="grid-x">
-                                                                <div class="medium-11">
+                                                                <div class="medium-11 text-justify">
                                                                     {{seasonTitle.capital_assets_tiny_season[0].catsDescription}}
                                                                 </div>
                                                                 <div class="medium-1 cell-vertical-center text-left">
@@ -132,7 +132,7 @@
                                                             <td>{{seasonTiny.catsSubject}}</td>
                                                             <td>
                                                                 <div class="grid-x">
-                                                                    <div class="medium-11">
+                                                                    <div class="medium-11 text-justify">
                                                                         {{seasonTiny.catsDescription}}
                                                                     </div>
                                                                     <div class="medium-1 cell-vertical-center text-left">
@@ -200,8 +200,8 @@
                                             <colgroup>
                                                 <col width="150px"/>
                                                 <col width="250px"/>
-                                                <col width="350px"/>
-                                                <col width="200px"/>
+                                                <col width="250px"/>
+                                                <col width="300px"/>
                                                 <col width="12px"/>
                                             </colgroup>
                                             <tbody class="tbl-head-style">
@@ -221,18 +221,18 @@
                                                 <colgroup>
                                                     <col width="150px"/>
                                                     <col width="250px"/>
-                                                    <col width="350px"/>
-                                                    <col width="200px"/>
+                                                    <col width="250px"/>
+                                                    <col width="300px"/>
                                                 </colgroup>
                                                 <tbody class="tbl-head-style-cell">
                                                 <template v-for="cSeason in tinySeasonsCost">
                                                     <tr class="tbl-head-style-cell">
-                                                        <td :rowspan="getSeasonCostCount(cSeason.cost_season_title)"> {{ cSeason.sSubject }}</td>
+                                                        <td class="text-center" :rowspan="getSeasonCostCount(cSeason.cost_season_title)"> {{ cSeason.sSubject }}</td>
                                                         <td :rowspan="cSeason.cost_season_title[0].cost_tiny_season.length">  {{ cSeason.cost_season_title[0].cstSubject }}</td>
                                                         <td> {{ cSeason.cost_season_title[0].cost_tiny_season[0].ctsSubject }}</td>
                                                         <td>
                                                             <div class="grid-x">
-                                                                <div class="medium-11">
+                                                                <div class="medium-11 text-justify">
                                                                     {{ cSeason.cost_season_title[0].cost_tiny_season[0].ctsDescription }}
                                                                 </div>
                                                                 <div class="medium-1 cell-vertical-center text-left">
@@ -253,7 +253,7 @@
                                                             <td>{{cSeasonTitle.cost_tiny_season[0].ctsSubject}}</td>
                                                             <td>
                                                                 <div class="grid-x">
-                                                                    <div class="medium-11">
+                                                                    <div class="medium-11 text-justify">
                                                                         {{cSeasonTitle.cost_tiny_season[0].ctsDescription}}
                                                                     </div>
                                                                     <div class="medium-1 cell-vertical-center text-left">
@@ -273,7 +273,7 @@
                                                                 <td>{{cSeasonTiny.ctsSubject}}</td>
                                                                 <td>
                                                                     <div class="grid-x">
-                                                                        <div class="medium-11">
+                                                                        <div class="medium-11 text-justify">
                                                                             {{cSeasonTiny.ctsDescription}}
                                                                         </div>
                                                                         <div class="medium-1 cell-vertical-center text-left">

@@ -57,7 +57,8 @@
                                 <tr v-for="fiscalYear in fiscalYears">
                                     <td>{{ fiscalYear.fyLabel }}</td>
                                     <td>{{ fiscalYear.fyDescription }}</td>
-                                    <td class="text-center">{{ getFiscalYearStatus(fiscalYear.fyStatus) }}</td>
+                                    <td class="text-center" v-show="fiscalYear.fyStatus != 2">{{ getFiscalYearStatus(fiscalYear.fyStatus) }}</td>
+                                    <td class="text-center btn-red" v-show="fiscalYear.fyStatus == 2">{{ getFiscalYearStatus(fiscalYear.fyStatus) }}</td>
                                     <td class="text-center">
                                         <a v-show="fiscalYear.fyStatus == 1" @click="openChangePermissionDialog(fiscalYear.id)"><i class="fi-clipboard-pencil size-21 blue-color"></i></a>
                                     </td>

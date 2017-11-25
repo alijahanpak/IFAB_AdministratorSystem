@@ -116,21 +116,21 @@
                                             <template  v-for="plans in approvedProjects_prov">
                                                 <tr>
                                                     <td :rowspan="plans.capital_assets_project.length + (displayParentId_prov == plans.id ? 1 : 0)"> {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' - ' + plans.credit_distribution_title.county.coName }}</td>
-                                                    <td>
+                                                    <td class="text-center">
                                                         {{ plans.capital_assets_project[0].cpCode }}
                                                     </td>
                                                     <td>
                                                         {{ plans.capital_assets_project[0].cpSubject }}
                                                     </td>
-                                                    <td>
+                                                    <td class="text-center">
                                                         {{ plans.capital_assets_project[0].county.coName }}
                                                     </td>
-                                                    <td>
+                                                    <td class="text-center">
                                                         <span @click="openAccordion(0 , plans.capital_assets_project[0].id , plans.id)">{{ $parent.calcDispAmount(sumOfAmount(plans.capital_assets_project[0].credit_source) , false) }}</span>
                                                     </td>
                                                     <td>
                                                         <div class="grid-x">
-                                                            <div class="medium-11">
+                                                            <div class="medium-11 text-justify">
                                                                 {{ plans.capital_assets_project[0].cpDescription }}
                                                             </div>
                                                             <div class="medium-1 cell-vertical-center text-left auto-margin">
@@ -173,7 +173,7 @@
                                                                 <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
                                                                 <td>
                                                                     <div class="grid-x">
-                                                                        <div class="medium-11">
+                                                                        <div class="medium-11 text-justify">
                                                                             {{ creditSource.ccsDescription }}
                                                                         </div>
                                                                         <div class="medium-1 cell-vertical-center text-left auto-margin">
@@ -194,21 +194,21 @@
                                                 </tr>
                                                 <template v-for="(project , pIndex) in plans.capital_assets_project">
                                                     <tr v-if="pIndex > 0">
-                                                        <td>
+                                                        <td class="text-center">
                                                             {{ project.cpCode }}
                                                         </td>
                                                         <td>
                                                             {{ project.cpSubject }}
                                                         </td>
-                                                        <td>
+                                                        <td class="text-center">
                                                             {{ project.county.coName }}
                                                         </td>
-                                                        <td>
+                                                        <td class="text-center">
                                                             <span @click="openAccordion(0 , project.id , plans.id)">{{ $parent.calcDispAmount(sumOfAmount(project.credit_source) , false) }}</span>
                                                         </td>
                                                         <td>
                                                             <div class="grid-x">
-                                                                <div class="medium-11">
+                                                                <div class="medium-11 text-justify">
                                                                     {{ project.cpDescription }}
                                                                 </div>
                                                                 <div class="medium-1 cell-vertical-center text-left auto-margin">
@@ -251,7 +251,7 @@
                                                                     <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
                                                                     <td>
                                                                         <div class="grid-x">
-                                                                            <div class="medium-11">
+                                                                            <div class="medium-11 text-justify">
                                                                                 {{ creditSource.ccsDescription }}
                                                                             </div>
                                                                             <div class="medium-1 cell-vertical-center text-left auto-margin">
@@ -376,21 +376,21 @@
                                         <template  v-for="plans in approvedProjects_nat">
                                             <tr>
                                                 <td :rowspan="plans.capital_assets_project.length + (displayParentId_nat == plans.id ? 1 : 0)">  {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
-                                                <td>
+                                                <td class="text-center">
                                                     {{ plans.capital_assets_project[0].cpCode }}
                                                 </td>
                                                 <td>
                                                     {{ plans.capital_assets_project[0].cpSubject }}
                                                 </td>
-                                                <td>
+                                                <td class="text-center">
                                                     {{ plans.capital_assets_project[0].county.coName }}
                                                 </td>
-                                                <td>
+                                                <td class="text-center">
                                                     <span @click="openAccordion(1 , plans.capital_assets_project[0].id , plans.id)">{{ $parent.calcDispAmount(sumOfAmount(plans.capital_assets_project[0].credit_source) , false) }}</span>
                                                 </td>
                                                 <td>
                                                     <div class="grid-x">
-                                                        <div class="medium-11">
+                                                        <div class="medium-11 text-justify">
                                                             {{ plans.capital_assets_project[0].cpDescription }}
                                                         </div>
                                                         <div class="medium-1 cell-vertical-center text-left auto-margin">
@@ -433,7 +433,7 @@
                                                             <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
                                                             <td>
                                                                 <div class="grid-x">
-                                                                    <div class="medium-11">
+                                                                    <div class="medium-11 text-justify">
                                                                         {{ creditSource.ccsDescription }}
                                                                     </div>
                                                                     <div class="medium-1 cell-vertical-center text-left auto-margin">
@@ -454,16 +454,16 @@
                                             </tr>
                                             <template v-for="(project , pIndex) in plans.capital_assets_project">
                                                 <tr v-if="pIndex > 0">
-                                                    <td>
+                                                    <td class="text-center">
                                                         {{ project.cpCode }}
                                                     </td>
                                                     <td>
                                                         {{ project.cpSubject }}
                                                     </td>
-                                                    <td>
+                                                    <td class="text-center">
                                                         {{ project.county.coName }}
                                                     </td>
-                                                    <td>
+                                                    <td class="text-center">
                                                         <span @click="openAccordion(1 , project.id , plans.id)">{{ $parent.calcDispAmount(sumOfAmount(project.credit_source) , false) }}</span>
                                                     </td>
                                                     <td>
@@ -511,7 +511,7 @@
                                                                 <td>{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
                                                                 <td>
                                                                     <div class="grid-x">
-                                                                        <div class="medium-11">
+                                                                        <div class="medium-11 text-justify">
                                                                             {{ creditSource.ccsDescription }}
                                                                         </div>
                                                                         <div class="medium-1 cell-vertical-center text-left auto-margin">

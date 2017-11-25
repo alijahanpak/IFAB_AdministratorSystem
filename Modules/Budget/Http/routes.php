@@ -198,4 +198,9 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('/convert_to_allocation', 'AllocationOfCapitalAssetsController@convertCostFoundToAllocation'); // for test convert found to allocation
         Route::post('/report', 'BudgetReportController@costFoundProvincial');
     });
+
+    Route::prefix('chart')->group(function () {
+        Route::get('/capitalAssets', 'ChartController@capitalAssets');
+        Route::get('/cost', 'ChartController@cost');
+    });
 });

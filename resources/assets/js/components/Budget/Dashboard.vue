@@ -103,31 +103,31 @@
 
     <div class="grid-x my-grid-margin">
         <div class="medium-6 dashboard-padding ">
-            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">تخصیص اعتبارات به تفکیک منابع</span>
-                <a type="button" class="my-secondary button tiny float-left" @click="showChartDialog = true">اطلاعات بیشتر</a>
+            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">تملک داریی های سرمایه ای</span>
+                <a type="button" class="my-secondary button tiny float-left" @click="showCapitalAssetsChartDialog = true">اطلاعات بیشتر</a>
             </div>
             <div class="medium-12 my-callout-box my-callout-bg-color">
             <!-- <canvas id="myChart"></canvas>-->
-                <line_chart :data="chart1"   :width="400" :height="200"></line_chart>
+                <line-chart :chart-data="capitalAssetsChart"   :width="400" :height="200"></line-chart>
             </div>
         </div>
         <div class="medium-6 dashboard-padding ">
-            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">تخصیص اعتبارات به تفکیک منابع</span>
-                <a type="button" class="my-secondary button tiny float-left" @click="showChartDialog = true">اطلاعات بیشتر</a>
+            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">هزینه ای</span>
+                <a type="button" class="my-secondary button tiny float-left" @click="showCostChartDialog = true">اطلاعات بیشتر</a>
             </div>
             <div class="medium-12 my-callout-box my-callout-bg-color">
-                <line_chart :data="chart1"   :width="400" :height="200"></line_chart>
+                <line-chart :chart-data="costChart"   :width="400" :height="200"></line-chart>
             </div>
         </div>
     </div>
 
-    <div class="grid-x my-grid-margin">
+<!--    <div class="grid-x my-grid-margin">
         <div class="medium-6 dashboard-padding ">
             <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">تخصیص اعتبارات به تفکیک منابع</span>
                 <button type="button" class="my-secondary button tiny float-left" data-open="exampleModal1" onclick="myChartF1('myChartM')">اطلاعات بیشتر</button>
             </div>
             <div class="medium-12 my-callout-box my-callout-bg-color">
-                <line_chart :data="chart1"   :width="400" :height="200"></line_chart>
+                <line-chart :chart-data="capitalAssetsApprovedChart"   :width="400" :height="200"></line-chart>
             </div>
         </div>
         <div class="medium-6 dashboard-padding ">
@@ -135,61 +135,103 @@
                 <button type="button" class="my-secondary button tiny float-left" data-open="exampleModal1" onclick="myChartF1('myChartM')">اطلاعات بیشتر</button>
             </div>
             <div class="medium-12 my-callout-box my-callout-bg-color">
-                <line_chart :data="chart1"   :width="400" :height="200"></line_chart>
+                <line-chart :chart-data="capitalAssetsApprovedChart"   :width="400" :height="200"></line-chart>
             </div>
         </div>
-    </div>
+    </div>-->
     <!--chart1 Modal Start-->
     <!--Insert Modal Start-->
-    <modal-large v-if="showChartDialog" @close="showChartDialog = false">
+    <modal-large v-if="showCapitalAssetsChartDialog" @close="showCapitalAssetsChartDialog = false">
         <div  slot="body">
-            <h6 class="text-center BYekan">نمودار تخصیص اعتبارات بر اساس منابع</h6>
-            <line_chart :data="chart1" :width="400" :height="200"></line_chart>
-            <button type="button" class="my-secondary small button float-left"><i class="fi-archive"></i> دریافت </button>
+            <h6 class="text-center BYekan">تملک داریی های سرمایه</h6>
+            <line-chart :chart-data="capitalAssetsChart" :width="400" :height="200"></line-chart>
+        </div>
+    </modal-large>
+    <!--chart1 Modal End-->
+    <modal-large v-if="showCostChartDialog" @close="showCapitalAssetsChartDialog = false">
+        <div  slot="body">
+            <h6 class="text-center BYekan">هزینه ای</h6>
+            <line-chart :chart-data="costChart" :width="400" :height="200"></line-chart>
         </div>
     </modal-large>
     <!--chart1 Modal End-->
 </div>
 </template>
 <script>
-    import line_chart from '../../charts/lineChart'
+    import LineChart from '../../charts/lineChart'
+
     export default {
-        name: 'dashboard',
-        components:{
-            line_chart
+        components: {
+            LineChart
         },
-        data(){
-            return{
-                chart1:{
-                    labels: ['همدان', 'ملایر', 'تویسرکان', 'نهاوند', 'رزن', 'فامنین', 'اسدآباد', 'کبودراهنگ', 'بهار'],
+        data () {
+            return {
+                capitalAssetsChart: null,
+                costChart: null,
+                showCapitalAssetsChartDialog: false,
+                showCostChartDialog: false
+            }
+        },
+        mounted () {
+
+        },
+
+        created: function(){
+            this.fetchCapitalAssetsData();
+        },
+
+        methods: {
+            setData (data) {
+                this.capitalAssetsChart = {
+                    labels: this.getCountyLabels(data),
                     datasets: [
                         {
                             label: 'مصوب',
-                            backgroundColor: 'rgba(45,187,58,0.4)',
-                            data: [13, 35, 16, 23, 22, 61, 12, 20, 29]
-                        },
-                        {
+                            backgroundColor: 'rgba(45 , 187 , 58 , 0.4)',
+                            data: this.getCountyApprovedAmount(data)
+                        }, {
                             label: 'تخصیص',
-                            backgroundColor: 'rgba(10,26,174,0.4)',
-                            data: [1, 15, 26, 3, 47, 6, 9, 20, 29]
-                        },
-                        {
-                            label: 'هزینه کرد',
-                            backgroundColor: 'rgba(20,187,39,0.4)',
-                            data: [10, 25, 36, 30, 17, 16, 19, 2, 21]
+                            backgroundColor: 'rgba(10 , 26 , 174 , 0.4)',
+                            data: this.getCountyAllocationAmount(data)
                         }
                     ]
-                },
-                showChartDialog: false,
+                }
+            },
+
+            fetchCapitalAssetsData: function () {
+                axios.get('/budget/chart/capitalAssets')
+                    .then((response) => {
+                        this.setData(response.data);
+                        console.log(response);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            getCountyLabels (data) {
+                var temp = [];
+                data.forEach(county => {
+                    temp.push(county.coName);
+                });
+                return temp;
+            },
+
+            getCountyApprovedAmount (data) {
+                var temp = [];
+                data.forEach(county => {
+                    temp.push(this.$parent.calcDispAmount(county.coSumOfApprovedAmount , false));
+                });
+                return temp;
+            },
+
+            getCountyAllocationAmount (data) {
+                var temp = [];
+                data.forEach(county => {
+                    temp.push(this.$parent.calcDispAmount(county.coSumOfAllocationAmount , false));
+                });
+                return temp;
             }
-        },
 
-        mounted() {
-            console.log('dashboard Component mounted.')
-        },
-
-        updated: function () {
-            this.$parent.userIsActive();
         }
     }
 </script>

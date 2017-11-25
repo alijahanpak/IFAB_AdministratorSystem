@@ -129,7 +129,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="grid-x">
-                                                        <div class="medium-11">
+                                                        <div class="medium-11 text-justify">
                                                             {{ cAp.caDescription }}
                                                         </div>
                                                         <div class="medium-1 cell-vertical-center text-left">
@@ -173,7 +173,7 @@
                                                             <td class="text-center">{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
                                                             <td>
                                                                 <div class="grid-x">
-                                                                    <div class="medium-11">
+                                                                    <div class="medium-11 text-justify">
                                                                         {{ creditSource.ccsDescription }}
                                                                     </div>
                                                                     <div class="medium-1 cell-vertical-center text-left">
@@ -335,7 +335,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="grid-x">
-                                                        <div class="medium-11">
+                                                        <div class="medium-11 text-justify">
                                                             {{ cAp.caDescription }}
                                                         </div>
                                                         <div class="medium-1 cell-vertical-center text-left">
@@ -379,7 +379,7 @@
                                                             <td class="text-center">{{ $parent.calcDispAmount(creditSource.ccsAmount , false) }}</td>
                                                             <td>
                                                                 <div class="grid-x">
-                                                                    <div class="medium-11">
+                                                                    <div class="medium-11 text-justify">
                                                                         {{ creditSource.ccsDescription }}
                                                                     </div>
                                                                     <div class="medium-1 cell-vertical-center text-left">

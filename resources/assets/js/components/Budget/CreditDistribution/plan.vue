@@ -80,10 +80,10 @@
                                 <table class="tbl-head">
                                     <colgroup>
                                         <col width="200px"/>
-                                        <col width="200px"/>
                                         <col width="150px"/>
                                         <col width="100px"/>
-                                        <col width="200px"/>
+                                        <col width="100px"/>
+                                        <col width="300px"/>
                                         <col v-show="selectColumn" width="15px"/>
                                         <col width="12px"/>
                                     </colgroup>
@@ -104,22 +104,22 @@
                                     <table class="tbl-body-contain">
                                         <colgroup>
                                             <col width="200px"/>
-                                            <col width="200px"/>
                                             <col width="150px"/>
                                             <col width="100px"/>
-                                            <col width="200px"/>
+                                            <col width="100px"/>
+                                            <col width="300px"/>
                                             <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
                                             <template v-for="plans in cdPlans">
                                                 <tr class="tbl-head-style-cell" >
                                                     <td :rowspan="plans.credit_distribution_plan.length">{{ plans.cdtIdNumber + ' - ' + plans.cdtSubject }}</td>
-                                                    <td>{{ plans.credit_distribution_plan[0].credit_distribution_row.cdSubject }}</td>
-                                                    <td>{{ plans.credit_distribution_plan[0].county.coName }}</td>
-                                                    <td>{{ $parent.calcDispAmount(plans.credit_distribution_plan[0].cdpCredit , false)  }}</td>
+                                                    <td class="text-center">{{ plans.credit_distribution_plan[0].credit_distribution_row.cdSubject }}</td>
+                                                    <td class="text-center">{{ plans.credit_distribution_plan[0].county.coName }}</td>
+                                                    <td class="text-center">{{ $parent.calcDispAmount(plans.credit_distribution_plan[0].cdpCredit , false)  }}</td>
                                                     <td>
                                                         <div class="grid-x">
-                                                            <div class="medium-11">
+                                                            <div class="medium-11 text-justify">
                                                                 {{ plans.credit_distribution_plan[0].cdpDescription }}
                                                             </div>
                                                             <div class="medium-1 cell-vertical-center text-left">
@@ -139,12 +139,12 @@
                                                 </tr>
                                                 <template v-for="(cdPlan , cdIndex) in plans.credit_distribution_plan">
                                                     <tr class="tbl-head-style-cell" v-if="cdIndex > 0">
-                                                        <td>{{ cdPlan.credit_distribution_row.cdSubject }}</td>
-                                                        <td>{{ cdPlan.county.coName }}</td>
-                                                        <td>{{ $parent.calcDispAmount(cdPlan.cdpCredit , false)  }}</td>
+                                                        <td class="text-center">{{ cdPlan.credit_distribution_row.cdSubject }}</td>
+                                                        <td class="text-center">{{ cdPlan.county.coName }}</td>
+                                                        <td class="text-center">{{ $parent.calcDispAmount(cdPlan.cdpCredit , false)  }}</td>
                                                         <td>
                                                             <div class="grid-x">
-                                                                <div class="medium-11">
+                                                                <div class="medium-11 text-justify">
                                                                     {{ cdPlan.cdpDescription }}
                                                                 </div>
                                                                 <div class="medium-1 cell-vertical-center text-left">
@@ -215,11 +215,11 @@
                             <div class="tbl-div-container">
                                 <table class="tbl-head">
                                     <colgroup>
-                                        <col width="200px"/>
-                                        <col width="200px"/>
                                         <col width="150px"/>
-                                        <col width="100px"/>
                                         <col width="200px"/>
+                                        <col width="100px"/>
+                                        <col width="100px"/>
+                                        <col width="300px"/>
                                         <col width="12px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style">
@@ -237,22 +237,22 @@
                                 <div class="tbl_body_style dynamic-height-level2">
                                     <table class="tbl-body-contain">
                                         <colgroup>
-                                            <col width="200px"/>
-                                            <col width="200px"/>
                                             <col width="150px"/>
-                                            <col width="100px"/>
                                             <col width="200px"/>
+                                            <col width="100px"/>
+                                            <col width="100px"/>
+                                            <col width="300px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
                                         <template v-for="rows in cdPlansOrderByRow">
                                             <tr class="tbl-head-style-cell" >
-                                                <td :rowspan="rows.credit_distribution_plan.length">{{ rows.cdSubject }}</td>
+                                                <td class="text-center" :rowspan="rows.credit_distribution_plan.length">{{ rows.cdSubject }}</td>
                                                 <td>{{ rows.credit_distribution_plan[0].credit_distribution_title.cdtIdNumber + ' - ' + rows.credit_distribution_plan[0].credit_distribution_title.cdtSubject }}</td>
-                                                <td>{{ rows.credit_distribution_plan[0].county.coName }}</td>
-                                                <td>{{ $parent.calcDispAmount(rows.credit_distribution_plan[0].cdpCredit , false)  }}</td>
+                                                <td class="text-center">{{ rows.credit_distribution_plan[0].county.coName }}</td>
+                                                <td class="text-center">{{ $parent.calcDispAmount(rows.credit_distribution_plan[0].cdpCredit , false)  }}</td>
                                                 <td>
                                                     <div class="grid-x">
-                                                        <div class="medium-11">
+                                                        <div class="medium-11 text-justify">
                                                             {{ rows.credit_distribution_plan[0].cdpDescription }}
                                                         </div>
                                                         <div class="medium-1 cell-vertical-center text-left">
@@ -270,11 +270,11 @@
                                             <template v-for="(cdPlan , cdIndex) in rows.credit_distribution_plan">
                                                 <tr class="tbl-head-style-cell" v-if="cdIndex > 0">
                                                     <td>{{ cdPlan.credit_distribution_title.cdtIdNumber + ' - ' + cdPlan.credit_distribution_title.cdtSubject }}</td>
-                                                    <td>{{ cdPlan.county.coName }}</td>
-                                                    <td>{{ $parent.calcDispAmount(cdPlan.cdpCredit , false)  }}</td>
+                                                    <td class="text-center">{{ cdPlan.county.coName }}</td>
+                                                    <td class="text-center">{{ $parent.calcDispAmount(cdPlan.cdpCredit , false)  }}</td>
                                                     <td>
                                                         <div class="grid-x">
-                                                            <div class="medium-11">
+                                                            <div class="medium-11 text-justify">
                                                                 {{ cdPlan.cdpDescription }}
                                                             </div>
                                                             <div class="medium-1 cell-vertical-center text-left">
@@ -337,9 +337,9 @@
                                 <table class="tbl-head">
                                     <colgroup>
                                         <col width="100px"/>
+                                        <col width="200px"/>
                                         <col width="150px"/>
-                                        <col width="150px"/>
-                                        <col width="150px"/>
+                                        <col width="100px"/>
                                         <col width="100px"/>
                                         <col width="200px"/>
                                         <col width="12px"/>
@@ -361,9 +361,9 @@
                                     <table class="tbl-body-contain">
                                         <colgroup>
                                             <col width="100px"/>
+                                            <col width="200px"/>
                                             <col width="150px"/>
-                                            <col width="150px"/>
-                                            <col width="150px"/>
+                                            <col width="100px"/>
                                             <col width="100px"/>
                                             <col width="200px"/>
                                         </colgroup>
@@ -372,12 +372,12 @@
                                             <tr class="tbl-head-style-cell" >
                                                 <td :rowspan="getBsPlanCount(bs.cdp_title_has_credit_distribution_plan)">{{ bs.bsSubject }}</td>
                                                 <td :rowspan="bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan.length">{{ bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_title.cdtIdNumber + ' - ' + bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_title.cdtSubject }}</td>
-                                                <td>{{ bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_row.cdSubject }}</td>
-                                                <td>{{ bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].county.coName }}</td>
-                                                <td>{{ $parent.calcDispAmount(bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].cdpCredit , false)  }}</td>
+                                                <td class="text-center">{{ bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_row.cdSubject }}</td>
+                                                <td class="text-center">{{ bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].county.coName }}</td>
+                                                <td class="text-center">{{ $parent.calcDispAmount(bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].cdpCredit , false)  }}</td>
                                                 <td>
                                                     <div class="grid-x">
-                                                        <div class="medium-11">
+                                                        <div class="medium-11 text-justify">
                                                             {{ bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].cdpDescription }}
                                                         </div>
                                                         <div class="medium-1 cell-vertical-center text-left">
@@ -395,12 +395,12 @@
                                             <template v-for="(cdTitle , cdtIndex) in bs.cdp_title_has_credit_distribution_plan">
                                                 <tr class="tbl-head-style-cell" v-if="cdtIndex > 0">
                                                     <td :rowspan="cdTitle.credit_distribution_plan.length">{{ cdTitle.credit_distribution_plan[0].credit_distribution_title.cdtIdNumber + ' - ' + cdTitle.credit_distribution_plan[0].credit_distribution_title.cdtSubject }}</td>
-                                                    <td>{{ cdTitle.credit_distribution_plan[0].credit_distribution_row.cdSubject }}</td>
-                                                    <td>{{ cdTitle.credit_distribution_plan[0].county.coName }}</td>
-                                                    <td>{{ $parent.calcDispAmount(cdTitle.credit_distribution_plan[0].cdpCredit , false)  }}</td>
+                                                    <td class="text-center">{{ cdTitle.credit_distribution_plan[0].credit_distribution_row.cdSubject }}</td>
+                                                    <td class="text-center">{{ cdTitle.credit_distribution_plan[0].county.coName }}</td>
+                                                    <td class="text-center">{{ $parent.calcDispAmount(cdTitle.credit_distribution_plan[0].cdpCredit , false)  }}</td>
                                                     <td>
                                                         <div class="grid-x">
-                                                            <div class="medium-11">
+                                                            <div class="medium-11 text-justify">
                                                                 {{ cdTitle.credit_distribution_plan[0].cdpDescription }}
                                                             </div>
                                                             <div class="medium-1 cell-vertical-center text-left">
@@ -417,12 +417,12 @@
                                                 </tr>
                                                 <template v-for="(cdPlan , cdIndex) in cdTitle.credit_distribution_plan">
                                                     <tr class="tbl-head-style-cell" v-if="cdIndex > 0">
-                                                        <td>{{ cdPlan.credit_distribution_row.cdSubject }}</td>
-                                                        <td>{{ cdPlan.county.coName }}</td>
-                                                        <td>{{ $parent.calcDispAmount(cdPlan.cdpCredit , false)  }}</td>
+                                                        <td class="text-center">{{ cdPlan.credit_distribution_row.cdSubject }}</td>
+                                                        <td class="text-center">{{ cdPlan.county.coName }}</td>
+                                                        <td class="text-center">{{ $parent.calcDispAmount(cdPlan.cdpCredit , false)  }}</td>
                                                         <td>
                                                             <div class="grid-x">
-                                                                <div class="medium-11">
+                                                                <div class="medium-11 text-justify">
                                                                     {{ cdPlan.cdpDescription }}
                                                                 </div>
                                                                 <div class="medium-1 cell-vertical-center text-left">
@@ -485,11 +485,11 @@
                             <div class="tbl-div-container">
                                 <table class="tbl-head">
                                     <colgroup>
-                                        <col width="150px"/>
-                                        <col width="200px"/>
-                                        <col width="200px"/>
                                         <col width="100px"/>
                                         <col width="200px"/>
+                                        <col width="150px"/>
+                                        <col width="100px"/>
+                                        <col width="300px"/>
                                         <col width="12px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style">
@@ -507,22 +507,22 @@
                                 <div class="tbl_body_style dynamic-height-level2">
                                     <table class="tbl-body-contain">
                                         <colgroup>
-                                            <col width="150px"/>
-                                            <col width="200px"/>
-                                            <col width="200px"/>
                                             <col width="100px"/>
                                             <col width="200px"/>
+                                            <col width="150px"/>
+                                            <col width="100px"/>
+                                            <col width="300px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
                                         <template v-for="county in cdPlansOrderByCounty">
                                             <tr class="tbl-head-style-cell" >
-                                                <td :rowspan="county.credit_distribution_plan.length">{{ county.coName }}</td>
+                                                <td class="text-center" :rowspan="county.credit_distribution_plan.length">{{ county.coName }}</td>
                                                 <td>{{ county.credit_distribution_plan[0].credit_distribution_title.cdtIdNumber + ' - ' + county.credit_distribution_plan[0].credit_distribution_title.cdtSubject }}</td>
-                                                <td>{{ county.credit_distribution_plan[0].credit_distribution_row.cdSubject }}</td>
-                                                <td>{{ $parent.calcDispAmount(county.credit_distribution_plan[0].cdpCredit , false)  }}</td>
+                                                <td class="text-center">{{ county.credit_distribution_plan[0].credit_distribution_row.cdSubject }}</td>
+                                                <td class="text-center">{{ $parent.calcDispAmount(county.credit_distribution_plan[0].cdpCredit , false)  }}</td>
                                                 <td>
                                                     <div class="grid-x">
-                                                        <div class="medium-11">
+                                                        <div class="medium-11 text-justify">
                                                             {{ county.credit_distribution_plan[0].cdpDescription }}
                                                         </div>
                                                         <div class="medium-1 cell-vertical-center text-left">
@@ -540,11 +540,11 @@
                                             <template v-for="(cdPlan , cdIndex) in county.credit_distribution_plan">
                                                 <tr class="tbl-head-style-cell" v-if="cdIndex > 0">
                                                     <td>{{ cdPlan.credit_distribution_title.cdtIdNumber + ' - ' + cdPlan.credit_distribution_title.cdtSubject }}</td>
-                                                    <td>{{ cdPlan.credit_distribution_row.cdSubject }}</td>
-                                                    <td>{{ $parent.calcDispAmount(cdPlan.cdpCredit , false)  }}</td>
+                                                    <td class="text-center">{{ cdPlan.credit_distribution_row.cdSubject }}</td>
+                                                    <td class="text-center">{{ $parent.calcDispAmount(cdPlan.cdpCredit , false)  }}</td>
                                                     <td>
                                                         <div class="grid-x">
-                                                            <div class="medium-11">
+                                                            <div class="medium-11 text-justify">
                                                                 {{ cdPlan.cdpDescription }}
                                                             </div>
                                                             <div class="medium-1 cell-vertical-center text-left">

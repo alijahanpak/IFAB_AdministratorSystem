@@ -37,8 +37,8 @@
                             <div class="tbl-div-container">
                                 <table class="tbl-head">
                                     <colgroup>
-                                        <col width="450px"/>
-                                        <col width="390px"/>
+                                        <col width="250px"/>
+                                        <col width="590px"/>
                                         <col width="12px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style">
@@ -54,15 +54,15 @@
                                 <div class="tbl_body_style dynamic-height-level2">
                                     <table class="tbl-body-contain">
                                         <colgroup>
-                                            <col width="450px"/>
-                                            <col width="390px"/>
+                                            <col width="250px"/>
+                                            <col width="590px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
                                         <tr v-for="plan in rowDistributionCredit">
                                             <td>{{ plan.cdSubject }}</td>
                                             <td>
                                                 <div class="grid-x">
-                                                    <div class="medium-11">
+                                                    <div class="medium-11 text-justify">
                                                         {{ plan.cdDescription }}
                                                     </div>
                                                     <div class="medium-1 cell-vertical-center text-left">
@@ -88,16 +88,16 @@
                     <div class="tabs-panel table-mrg-btm" id="cost" xmlns:v-on="http://www.w3.org/1999/xhtml">
                         <div class="">
                             <div class="medium-12 bottom-mrg">
-                                <div class="clearfix border-btm-line bottom-mrg">
-                                    <div style="margin-top: 2px;" class="button-group float-right">
+                                <div class="clearfix tool-bar">
+                                    <div style="margin-bottom: 4px;" class="button-group float-right">
                                         <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
                                     </div>
                                 </div>
                                 <div class="tbl-div-container">
                                     <table class="tbl-head">
                                         <colgroup>
-                                            <col width="450px"/>
-                                            <col width="390px"/>
+                                            <col width="250px"/>
+                                            <col width="590px"/>
                                             <col width="12px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style">
@@ -113,15 +113,15 @@
                                     <div class="tbl_body_style dynamic-height-level2">
                                         <table class="tbl-body-contain">
                                             <colgroup>
-                                                <col width="450px"/>
-                                                <col width="390px"/>
+                                                <col width="250px"/>
+                                                <col width="590px"/>
                                             </colgroup>
                                             <tbody class="tbl-head-style-cell">
                                             <tr v-for="cost in rowDistributionCredit_cost">
                                                 <td>{{ cost.cdSubject }}</td>
                                                 <td>
                                                     <div class="grid-x">
-                                                        <div class="medium-11">
+                                                        <div class="medium-11 text-justify">
                                                             {{ cost.cdDescription }}
                                                         </div>
                                                         <div class="medium-1 cell-vertical-center text-left">

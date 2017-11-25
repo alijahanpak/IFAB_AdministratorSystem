@@ -72,8 +72,8 @@
                         <colgroup>
                             <col width="100px"/>
                             <col width="150px"/>
-                            <col width="150px"/>
-                            <col width="150px"/>
+                            <col width="100px"/>
+                            <col width="200px"/>
                             <col width="100px"/>
                             <col width="200px"/>
                             <col v-show="selectColumn" width="15px"/>
@@ -98,8 +98,8 @@
                             <colgroup>
                                 <col width="100px"/>
                                 <col width="150px"/>
-                                <col width="150px"/>
-                                <col width="150px"/>
+                                <col width="100px"/>
+                                <col width="200px"/>
                                 <col width="100px"/>
                                 <col width="200px"/>
                                 <col v-show="selectColumn" width="15px"/>
@@ -107,11 +107,11 @@
                             <tbody class="tbl-head-style-cell">
                             <template v-for="county in proposals">
                                 <tr class="tbl-head-style-cell">
-                                    <td :rowspan="getPlanProposalCount(county.credit_distribution_plan_has_proposal)">{{ county.coName }}</td>
+                                    <td class="text-center" :rowspan="getPlanProposalCount(county.credit_distribution_plan_has_proposal)">{{ county.coName }}</td>
                                     <td :rowspan="county.credit_distribution_plan_has_proposal[0].proposal.length">{{ county.credit_distribution_plan_has_proposal[0].credit_distribution_title.cdtIdNumber + ' - ' + county.credit_distribution_plan_has_proposal[0].credit_distribution_title.cdtSubject }}</td>
-                                    <td>{{ county.credit_distribution_plan_has_proposal[0].proposal[0].pbpCode  }}</td>
+                                    <td class="text-center">{{ county.credit_distribution_plan_has_proposal[0].proposal[0].pbpCode  }}</td>
                                     <td>{{ county.credit_distribution_plan_has_proposal[0].proposal[0].pbpSubject }}</td>
-                                    <td>{{ $parent.calcDispAmount(county.credit_distribution_plan_has_proposal[0].proposal[0].pbpAmount , false)  }}</td>
+                                    <td class="text-center">{{ $parent.calcDispAmount(county.credit_distribution_plan_has_proposal[0].proposal[0].pbpAmount , false)  }}</td>
                                     <td>
                                         <div class="grid-x">
                                             <div class="medium-11 text-justify">
@@ -135,9 +135,9 @@
                                 <template v-for="(plan , pIndex) in county.credit_distribution_plan_has_proposal">
                                     <tr class="tbl-head-style-cell" v-if="pIndex > 0">
                                         <td :rowspan="plan.proposal.length">{{ plan.credit_distribution_title.cdtIdNumber + ' - ' + plan.credit_distribution_title.cdtSubject }}</td>
-                                        <td>{{ plan.proposal[0].pbpCode  }}</td>
+                                        <td class="text-center">{{ plan.proposal[0].pbpCode  }}</td>
                                         <td>{{ plan.proposal[0].pbpSubject }}</td>
-                                        <td>{{ $parent.calcDispAmount(plan.proposal[0].pbpAmount , false)  }}</td>
+                                        <td class="text-center">{{ $parent.calcDispAmount(plan.proposal[0].pbpAmount , false)  }}</td>
                                         <td>
                                             <div class="grid-x">
                                                 <div class="medium-11 text-justify">
@@ -160,9 +160,9 @@
                                     </tr>
                                     <template v-for="(proposal , ppIndex) in plan.proposal">
                                         <tr class="tbl-head-style-cell" v-if="ppIndex > 0">
-                                            <td>{{ proposal.pbpCode  }}</td>
+                                            <td class="text-center">{{ proposal.pbpCode  }}</td>
                                             <td>{{ proposal.pbpSubject }}</td>
-                                            <td>{{ $parent.calcDispAmount(proposal.pbpAmount , false)  }}</td>
+                                            <td class="text-center">{{ $parent.calcDispAmount(proposal.pbpAmount , false)  }}</td>
                                             <td>
                                                 <div class="grid-x">
                                                     <div class="medium-11 text-justify">

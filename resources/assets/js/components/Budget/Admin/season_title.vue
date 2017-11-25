@@ -84,11 +84,11 @@
                                         <tbody class="tbl-head-style-cell">
                                             <template v-for="season in seasonTitles">
                                                 <tr>
-                                                    <td :rowspan="season.capital_assets_season_title.length">{{season.sSubject}}</td>
+                                                    <td class="text-center" :rowspan="season.capital_assets_season_title.length">{{season.sSubject}}</td>
                                                     <td>{{season.capital_assets_season_title[0].castSubject}}</td>
                                                     <td>
                                                         <div class="grid-x">
-                                                            <div class="medium-11">
+                                                            <div class="medium-11 text-justify">
                                                                 {{season.capital_assets_season_title[0].castDescription}}
                                                             </div>
                                                             <div class="medium-1 cell-vertical-center text-left">
@@ -108,7 +108,7 @@
                                                         <td>{{seasonTitle.castSubject}}</td>
                                                         <td>
                                                             <div class="grid-x">
-                                                                <div class="medium-11">
+                                                                <div class="medium-11 text-justify">
                                                                     {{seasonTitle.castDescription}}
                                                                 </div>
                                                                 <div class="medium-1 cell-vertical-center text-left">
@@ -199,11 +199,11 @@
                                         <tbody class="tbl-head-style-cell">
                                         <template v-for="season in seasonTitleCosts">
                                             <tr>
-                                                <td :rowspan="season.cost_season_title.length">{{season.sSubject}}</td>
+                                                <td class="text-center" :rowspan="season.cost_season_title.length">{{season.sSubject}}</td>
                                                 <td>{{season.cost_season_title[0].cstSubject}}</td>
                                                 <td>
                                                     <div class="grid-x">
-                                                        <div class="medium-11">
+                                                        <div class="medium-11 text-justify">
                                                             {{season.cost_season_title[0].cstDescription}}
                                                         </div>
                                                         <div class="medium-1 cell-vertical-center text-left">
@@ -223,7 +223,7 @@
                                                     <td>{{seasonTitle.cstSubject}}</td>
                                                     <td>
                                                         <div class="grid-x">
-                                                            <div class="medium-11">
+                                                            <div class="medium-11 text-justify">
                                                                 {{seasonTitle.cstDescription}}
                                                             </div>
                                                             <div class="medium-1 cell-vertical-center text-left">
