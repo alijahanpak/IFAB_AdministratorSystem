@@ -622,11 +622,17 @@
             fetchData: function (page = 1) {
                 axios.get('/budget/admin/deprived_area/fetchData?page=' + page)
                     .then((response) => {
-                        this.deprivedArea = response.data;
+                        this.setData(response.data);
                         console.log(response.data);
                     },(error) => {
                         console.log(error);
                     });
+            },
+
+            setData: function (data) {
+                this.deprivedArea = data;
+                this.selectAll(this.deprivedArea);
+                console.log(JSON.stringify(this.deprivedArea));
             },
 
             createDeprivedArea: function () {
@@ -639,7 +645,7 @@
                             village: this.deprivedAreaInput.village ,
                             description: this.deprivedAreaInput.description})
                             .then((response) => {
-                                this.deprivedArea = response.data;
+                                this.setData(response.data);
                                 this.showInsertModal = false;
                                 this.$parent.displayNotif(response.status);
                                 this.deprivedAreaInput = [];
@@ -838,7 +844,7 @@
                             village: this.deprivedAreaFill.village ,
                             description: this.deprivedAreaFill.description})
                         .then((response) => {
-                        this.deprivedArea = response.data;
+                            this.setData(response.data);
                         this.showUpdateModal = false;
                         this.$parent.displayNotif(response.status);
                         this.deprivedAreaFill = [];
@@ -856,7 +862,7 @@
                             id: this.daIdForDelete})
                     .then((response) => {
                     if (response.status != 204)
-                        this.deprivedArea = response.data;
+                        this.setData(response.data);
                     this.showDeleteModal = false;
                     this.$parent.displayNotif(response.status);
                     console.log(response);

@@ -14,6 +14,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::get('capital_assets/provincial/plans/byRow/fetchData', 'CreditDistributionController@fetchCreditDistributionPlanByRow');
         Route::get('capital_assets/provincial/plans/byBudgetSeason/fetchData', 'CreditDistributionController@fetchCreditDistributionPlanByBudgetSeason');
         Route::get('capital_assets/provincial/plans/byCounty/fetchData', 'CreditDistributionController@fetchCreditDistributionPlanByCounty');
+        Route::post('capital_assets/provincial/plans/report', 'BudgetReportController@planProvincial');
 
         Route::post('capital_assets/provincial/plans/register', 'CreditDistributionController@registerCreditDistributionPlan');
         Route::get('capital_assets/provincial/plans/getAllWithCountyId', 'CreditDistributionController@getPlansWithCountyId');
@@ -24,8 +25,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('capital_assets/provincial/proposal/register', 'CreditDistributionController@registerProvincialBudgetProposal');
         Route::post('capital_assets/provincial/proposal/delete', 'CreditDistributionController@deleteProvincialBudgetProposal');
         Route::post('capital_assets/provincial/proposal/update', 'CreditDistributionController@updateProvincialBudgetProposal');
-        Route::post('/report', 'BudgetReportController@planProvincial');
-        Route::post('/report', 'BudgetReportController@proposalProvincial');
+        Route::post('capital_assets/provincial/proposal/report', 'BudgetReportController@proposalProvincial');
     });
 
     Route::prefix('admin/sub_seasons/cost')->group(function () {

@@ -1224,7 +1224,7 @@
             },
 
             openReportFile: function () {
-                axios.post('/budget/credit_distribution/report' , {pOrN: this.provOrNat , type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
+                axios.post('/budget/credit_distribution/capital_assets/provincial/plans/report' , {pOrN: this.provOrNat , type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
                     .then((response) => {
                         console.log(response.data);
                         window.open(response.data);

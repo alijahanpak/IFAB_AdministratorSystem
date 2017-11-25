@@ -734,8 +734,8 @@ class BudgetReportController extends Controller
                     $options = $request->get('options');
                     $sheet->setRightToLeft(true);
                     $sheet->appendRow(array($options['title']));
-                    $sheet->mergeCells('A1:F1');
-                    $sheet->getStyle('A1:F1')->getAlignment()->applyFromArray(
+                    $sheet->mergeCells('A1:M1');
+                    $sheet->getStyle('A1:M1')->getAlignment()->applyFromArray(
                         array('horizontal' => 'center')
                     );
                     $sheet->appendRow(array('شماره مبادله',
@@ -743,23 +743,40 @@ class BudgetReportController extends Controller
                         'شماره ابلاغ',
                         'تاریخ ابلاغ',
                         'اعتبار',
+                        'برنامه',
+                        'ردیف',
+                        'فصل',
+                        'عنوان فصل',
+                        'ریز فصل',
+                        'مبلغ',
+                        'توضیحات',
                         'شرح'));
-                    $sheet->cells('A2:F2', function ($cells) {
+                    $sheet->cells('A2:M2', function ($cells) {
                         $cells->setBackground('#34B7A3');
                         $cells->setFontColor('#FFFFFF');
                         $cells->setAlignment('center');
                     });
                     foreach($request->get('selectedItems') as $tempItem){
+                        if(count($tempItem['ca_credit_source']) >0) {
+                            foreach($tempItem['ca_credit_source'] as $creditSource) {
+                                $sheet->appendRow(array(
+                                    $tempItem['caLetterNumber'],
+                                    $tempItem['caLetterDate'],
+                                    $tempItem['caExchangeIdNumber'],
+                                    $tempItem['caExchangeDate'],
+                                    0,
+                                    $tempItem['caDescription'],
 
-                        $sheet->appendRow(array(
-                            $tempItem['caLetterNumber'],
-                            $tempItem['caLetterDate'],
-                            $tempItem['caExchangeIdNumber'],
-                            $tempItem['caExchangeDate'],
-                            0,
-                            $tempItem['caDescription'],
-                        ));
-
+                                    $creditSource['credit_distribution_title']['cdtIdNumber'] .'-'.$creditSource['credit_distribution_title']['cdtSubject'],
+                                    $creditSource['credit_distribution_row']['cdSubject'],
+                                    $creditSource['tiny_season']['season_title']['season']['sSubject'],
+                                    $creditSource['tiny_season']['season_title']['cstSubject'],
+                                    $creditSource['tiny_season']['ctsSubject'],
+                                    AmountUnit::convertDispAmount($creditSource['ccsAmount']),
+                                    $creditSource['ccsDescription'],
+                                ));
+                            }
+                        }
                     }
                 });
             })->store('xls', public_path('xlsFiles'));

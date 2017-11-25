@@ -121,7 +121,7 @@
         </div>
     </div>
 
-<!--    <div class="grid-x my-grid-margin">
+    <!--<div class="grid-x my-grid-margin">
         <div class="medium-6 dashboard-padding ">
             <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">تخصیص اعتبارات به تفکیک منابع</span>
                 <button type="button" class="my-secondary button tiny float-left" data-open="exampleModal1" onclick="myChartF1('myChartM')">اطلاعات بیشتر</button>
