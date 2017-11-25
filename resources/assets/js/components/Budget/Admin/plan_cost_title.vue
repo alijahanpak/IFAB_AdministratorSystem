@@ -497,7 +497,7 @@
                             itemInPage: this.itemInPage
                         }})
                     .then((response) => {
-                        this.planOrCosts = response.data.data;
+                        this.setData(response.data.data);
                         this.makePagination(response.data);
                         console.log(response.status);
                     },(error) => {
@@ -535,6 +535,12 @@
                         this.$parent.displayNotif(800);
                     }
                 console.log(JSON.stringify(this.selectedItems));
+            },
+
+            setData: function (data) {
+                this.planOrCosts = data;
+                this.selectAll(this.planOrCosts);
+                console.log(JSON.stringify(this.planOrCosts));
             },
 
             openReportFile: function () {
@@ -664,7 +670,7 @@
                             jsonString += '"":""}';
                             axios.post('/budget/admin/credit_distribution_def/plan_cost_title/register' , JSON.parse(jsonString))
                                 .then((response) => {
-                                    this.planOrCosts = response.data.data;
+                                    this.setData(response.data.data);
                                     this.makePagination(response.data);
                                     this.showInsertModal = false;
                                     this.$parent.displayNotif(response.status);
@@ -706,7 +712,7 @@
                             jsonString += '"":""}';
                             axios.post('/budget/admin/credit_distribution_def/plan_cost_title/update' , JSON.parse(jsonString))
                                 .then((response) => {
-                                    this.planOrCosts = response.data.data;
+                                    this.setData(response.data.data);
                                     this.makePagination(response.data);
                                     this.showUpdateModal = false;
                                     this.$parent.displayNotif(response.status);
@@ -732,7 +738,7 @@
                     })
                     .then((response) => {
                         if (response.status != 204)
-                            this.planOrCosts = response.data.data;
+                            this.setData(response.data.data);
                         this.showDeleteModal = false;
                         this.$parent.displayNotif(response.status);
                         console.log(response);

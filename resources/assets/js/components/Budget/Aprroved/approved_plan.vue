@@ -733,7 +733,7 @@
                             <!--Table Body End-->
                     </div>
                     <div class="grid-x">
-                        <div class="medium-12 columns padding-bottom-modal">
+                        <div class="medium-12 columns">
                             <div class="button-group float-left report-mrg">
                                 <a class="my-button my-danger float-left btn-for-load" @click="cancelApprovedAmendmentTemp"> <span class="btn-txt-mrg">لغو</span></a>
                                 <a class="my-button my-success float-left btn-for-load" @click="acceptApprovedAmendment"> <span class="btn-txt-mrg">تایید</span></a>

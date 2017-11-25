@@ -23,7 +23,6 @@
                 <div class="clearfix tool-bar">
                     <div style="margin-bottom: 0;" class="button-group float-right">
                         <a class="my-button toolbox-btn small" @click="openInsertModal">جدید</a>
-                        <a class="my-button toolbox-btn small">گزارش</a>
                     </div>
                 </div>
             </div>

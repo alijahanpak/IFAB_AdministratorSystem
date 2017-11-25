@@ -985,6 +985,9 @@ html, body {
 .padding-bottom-modal{
     padding-bottom: 40px;
 }
+.padding-bottom-modal-fs{
+    padding-bottom: 20px;
+}
 .my-notification {
     padding: 10px;
     margin: 0 5px 5px;
