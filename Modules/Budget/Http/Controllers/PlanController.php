@@ -76,13 +76,11 @@ class PlanController extends Controller
             })*/
             ->with(['creditDistributionTitle' => function($query) use($searchValue){
                 return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
-                    ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%')
-                    ->orWhere('cdtDescription' , 'LIKE', '%' . $searchValue . '%');
+                    ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
             }])
             ->whereHas('creditDistributionTitle' , function($query) use($searchValue){
                 return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
-                    ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%')
-                    ->orWhere('cdtDescription' , 'LIKE', '%' . $searchValue . '%');
+                    ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
             })
             ->with('creditDistributionTitle.county')
             ->with('amendments.creditDistributionTitle')

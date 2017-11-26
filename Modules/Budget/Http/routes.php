@@ -201,6 +201,6 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
 
     Route::prefix('chart')->group(function () {
         Route::get('/capitalAssets', 'ChartController@capitalAssets');
-        Route::get('/cost', 'ChartController@cost');
+        Route::get('/costs', 'ChartController@costs');
     });
 });

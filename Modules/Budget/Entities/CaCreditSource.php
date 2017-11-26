@@ -24,6 +24,11 @@ class CaCreditSource extends Model
         return $this->belongsTo(CreditDistributionTitle::class , 'ccsCdtId' , 'id');
     }
 
+    public function costAgreement()
+    {
+        return $this->belongsTo(CostAgreement::class , 'ccsCaId' , 'id');
+    }
+
     public function allocation()
     {
         return $this->hasMany(CostAllocation::class , 'caCcsId' , 'id');

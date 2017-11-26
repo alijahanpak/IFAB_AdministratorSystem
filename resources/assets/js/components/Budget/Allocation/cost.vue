@@ -558,8 +558,8 @@
                                     <span v-show="errors.has('creditCost')" class="error-font">لطفا مبلغ تخصیص انتخاب کنید!</span>
                                 </div>
                             </div>
-                            <div style="margin-top: 5px" class="grid-x" v-show="creditSourceInfo.approvedAmount">
-                                <div class="medium-12 my-callout-bg-color">
+                            <div style="margin-top: 5px" class="grid-x padding-lr" v-show="creditSourceInfo.approvedAmount">
+                                <div class="medium-12 my-callout-bg-color ">
                                     <div class="grid-x">
                                         <div class="medium-12">
                                             <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount) }}</span>
@@ -631,7 +631,7 @@
                                     <span v-show="errors.has('creditCost')" class="error-font">لطفا مبلغ تخصیص انتخاب کنید!</span>
                                 </div>
                             </div>
-                            <div style="margin-top: 5px" class="grid-x" v-show="creditSourceInfo.approvedAmount">
+                            <div style="margin-top: 5px" class="grid-x padding-lr" v-show="creditSourceInfo.approvedAmount">
                                 <div class="medium-12 my-callout-bg-color">
                                     <div class="grid-x">
                                         <div class="medium-12">

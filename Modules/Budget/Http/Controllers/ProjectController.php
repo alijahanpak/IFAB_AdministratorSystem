@@ -47,6 +47,10 @@ class ProjectController extends Controller
                 return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
                     ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
             }])
+            ->whereHas('creditDistributionTitle' , function($query) use($searchValue){
+                return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
+            })
             ->with('creditDistributionTitle.county')
             ->with('capitalAssetsProject.creditSource')
             ->with('capitalAssetsProject.creditSource.creditDistributionRow')

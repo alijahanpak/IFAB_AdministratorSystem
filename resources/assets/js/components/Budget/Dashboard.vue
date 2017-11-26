@@ -103,7 +103,7 @@
 
     <div class="grid-x my-grid-margin">
         <div class="medium-6 dashboard-padding ">
-            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">تملک داریی های سرمایه ای</span>
+            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">تملک داریی های سرمایه ای استانی</span>
                 <a type="button" class="my-secondary button tiny float-left" @click="showCapitalAssetsChartDialog = true">اطلاعات بیشتر</a>
             </div>
             <div class="medium-12 my-callout-box my-callout-bg-color">
@@ -112,7 +112,7 @@
             </div>
         </div>
         <div class="medium-6 dashboard-padding ">
-            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">هزینه ای</span>
+            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">هزینه ای استانی</span>
                 <a type="button" class="my-secondary button tiny float-left" @click="showCostChartDialog = true">اطلاعات بیشتر</a>
             </div>
             <div class="medium-12 my-callout-box my-callout-bg-color">
@@ -121,37 +121,52 @@
         </div>
     </div>
 
-    <!--<div class="grid-x my-grid-margin">
+<!--    <div class="grid-x my-grid-margin">
         <div class="medium-6 dashboard-padding ">
-            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">تخصیص اعتبارات به تفکیک منابع</span>
-                <button type="button" class="my-secondary button tiny float-left" data-open="exampleModal1" onclick="myChartF1('myChartM')">اطلاعات بیشتر</button>
+            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">تملک داریی های سرمایه ای ملی</span>
+                <a type="button" class="my-secondary button tiny float-left" @click="showNatCapitalAssetsChartDialog = true">اطلاعات بیشتر</a>
             </div>
             <div class="medium-12 my-callout-box my-callout-bg-color">
-                <line-chart :chart-data="capitalAssetsApprovedChart"   :width="400" :height="200"></line-chart>
+                &lt;!&ndash; <canvas id="myChart"></canvas>&ndash;&gt;
+                <line-chart :chart-data="natCapitalAssetsChart"   :width="400" :height="200"></line-chart>
             </div>
         </div>
         <div class="medium-6 dashboard-padding ">
-            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">تخصیص اعتبارات به تفکیک منابع</span>
-                <button type="button" class="my-secondary button tiny float-left" data-open="exampleModal1" onclick="myChartF1('myChartM')">اطلاعات بیشتر</button>
+            <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">هزینه ای ملی</span>
+                <a type="button" class="my-secondary button tiny float-left" @click="showNatCostChartDialog = true">اطلاعات بیشتر</a>
             </div>
             <div class="medium-12 my-callout-box my-callout-bg-color">
-                <line-chart :chart-data="capitalAssetsApprovedChart"   :width="400" :height="200"></line-chart>
+                <line-chart :chart-data="natCostChart"   :width="400" :height="200"></line-chart>
             </div>
         </div>
     </div>-->
-    <!--chart1 Modal Start-->
     <!--Insert Modal Start-->
     <modal-large v-if="showCapitalAssetsChartDialog" @close="showCapitalAssetsChartDialog = false">
         <div  slot="body">
-            <h6 class="text-center BYekan">تملک داریی های سرمایه</h6>
+            <h6 class="text-center BYekan">تملک داریی های سرمایه استانی</h6>
             <line-chart :chart-data="capitalAssetsChart" :width="400" :height="200"></line-chart>
         </div>
     </modal-large>
     <!--chart1 Modal End-->
-    <modal-large v-if="showCostChartDialog" @close="showCapitalAssetsChartDialog = false">
+    <modal-large v-if="showCostChartDialog" @close="showCostChartDialog = false">
         <div  slot="body">
-            <h6 class="text-center BYekan">هزینه ای</h6>
+            <h6 class="text-center BYekan">هزینه ای استانی</h6>
             <line-chart :chart-data="costChart" :width="400" :height="200"></line-chart>
+        </div>
+    </modal-large>
+    <!--chart1 Modal End-->
+    <!--Insert Modal Start-->
+    <modal-large v-if="showNatCapitalAssetsChartDialog" @close="showNatCapitalAssetsChartDialog = false">
+        <div  slot="body">
+            <h6 class="text-center BYekan">تملک داریی های سرمایه استانی</h6>
+            <line-chart :chart-data="natCapitalAssetsChart" :width="400" :height="200"></line-chart>
+        </div>
+    </modal-large>
+    <!--chart1 Modal End-->
+    <modal-large v-if="showNatCostChartDialog" @close="showNatCostChartDialog = false">
+        <div  slot="body">
+            <h6 class="text-center BYekan">هزینه ای استانی</h6>
+            <line-chart :chart-data="natCostChart" :width="400" :height="200"></line-chart>
         </div>
     </modal-large>
     <!--chart1 Modal End-->
@@ -168,8 +183,12 @@
             return {
                 capitalAssetsChart: null,
                 costChart: null,
+                natCapitalAssetsChart: null,
+                natCostChart: null,
                 showCapitalAssetsChartDialog: false,
-                showCostChartDialog: false
+                showCostChartDialog: false,
+                showNatCapitalAssetsChartDialog: false,
+                showNatCostChartDialog: false
             }
         },
         mounted () {
@@ -178,10 +197,28 @@
 
         created: function(){
             this.fetchCapitalAssetsData();
+            this.fetchCostsData();
         },
 
         methods: {
-            setData (data) {
+            setCostsChartData (data) {
+                this.costChart = {
+                    labels: this.getSeasonLabels(data),
+                    datasets: [
+                        {
+                            label: 'مصوب',
+                            backgroundColor: 'rgba(45 , 187 , 58 , 0.4)',
+                            data: this.getSeasonApprovedAmount(data)
+                        }, {
+                            label: 'تخصیص',
+                            backgroundColor: 'rgba(10 , 26 , 174 , 0.4)',
+                            data: this.getSeasonAllocationAmount(data)
+                        }
+                    ]
+                }
+            },
+
+            setCapitalAssetsChartData (data) {
                 this.capitalAssetsChart = {
                     labels: this.getCountyLabels(data),
                     datasets: [
@@ -201,18 +238,29 @@
             fetchCapitalAssetsData: function () {
                 axios.get('/budget/chart/capitalAssets')
                     .then((response) => {
-                        this.setData(response.data);
+                    this.setCapitalAssetsChartData(response.data);
+                    this.setNatCapitalAssetsChartData(response.data);
                         console.log(response);
                     },(error) => {
                         console.log(error);
                     });
             },
 
+            fetchCostsData: function () {
+                axios.get('/budget/chart/costs').then((response) => {
+                    this.setCostsChartData(response.data);
+                    this.setNatCostsChartData(response.data);
+                console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
+            },
+
             getCountyLabels (data) {
                 var temp = [];
                 data.forEach(county => {
                     temp.push(county.coName);
-                });
+            });
                 return temp;
             },
 
@@ -220,7 +268,7 @@
                 var temp = [];
                 data.forEach(county => {
                     temp.push(this.$parent.calcDispAmount(county.coSumOfApprovedAmount , false));
-                });
+            });
                 return temp;
             },
 
@@ -228,10 +276,99 @@
                 var temp = [];
                 data.forEach(county => {
                     temp.push(this.$parent.calcDispAmount(county.coSumOfAllocationAmount , false));
-                });
+            });
+                return temp;
+            },
+
+            getSeasonLabels (data) {
+                var temp = [];
+                data.forEach(season => {
+                    temp.push(season.sSubject);
+            });
+                return temp;
+            },
+
+            getSeasonApprovedAmount (data) {
+                var temp = [];
+                data.forEach(season => {
+                    temp.push(this.$parent.calcDispAmount(season.coSumOfApprovedAmount , false));
+            });
+                return temp;
+            },
+
+            getSeasonAllocationAmount (data) {
+                var temp = [];
+                data.forEach(season => {
+                    temp.push(this.$parent.calcDispAmount(season.coSumOfAllocationAmount , false));
+            });
+                return temp;
+            },
+            /////////////////////////////////////////////////////////,
+            setNatCostsChartData (data) {
+                this.natCostChart = {
+                    labels: this.getSeasonLabels(data),
+                    datasets: [
+                        {
+                            label: 'مصوب',
+                            backgroundColor: 'rgba(45 , 187 , 58 , 0.4)',
+                            data: this.getNatSeasonApprovedAmount(data)
+                        }, {
+                            label: 'تخصیص',
+                            backgroundColor: 'rgba(10 , 26 , 174 , 0.4)',
+                            data: this.getNatSeasonAllocationAmount(data)
+                        }
+                    ]
+                }
+            },
+
+            setNatCapitalAssetsChartData (data) {
+                this.natCapitalAssetsChart = {
+                    labels: this.getCountyLabels(data),
+                    datasets: [
+                        {
+                            label: 'مصوب',
+                            backgroundColor: 'rgba(45 , 187 , 58 , 0.4)',
+                            data: this.getNatCountyApprovedAmount(data)
+                        }, {
+                            label: 'تخصیص',
+                            backgroundColor: 'rgba(10 , 26 , 174 , 0.4)',
+                            data: this.getNatCountyAllocationAmount(data)
+                        }
+                    ]
+                }
+            },
+
+            getNatCountyApprovedAmount (data) {
+                var temp = [];
+                data.forEach(county => {
+                    temp.push(this.$parent.calcDispAmount(county.coSumOfNatApprovedAmount , false));
+            });
+                return temp;
+            },
+
+            getNatCountyAllocationAmount (data) {
+                var temp = [];
+                data.forEach(county => {
+                    temp.push(this.$parent.calcDispAmount(county.coSumOfNatAllocationAmount , false));
+            });
+                return temp;
+            },
+
+            getNatSeasonApprovedAmount (data) {
+                var temp = [];
+                data.forEach(season => {
+                    temp.push(this.$parent.calcDispAmount(season.coSumOfNatApprovedAmount , false));
+            });
+                return temp;
+            },
+
+            getNatSeasonAllocationAmount (data) {
+                var temp = [];
+                data.forEach(season => {
+                    temp.push(this.$parent.calcDispAmount(season.coSumOfNatAllocationAmount , false));
+            });
                 return temp;
             }
-
         }
     }
 </script>
