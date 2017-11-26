@@ -62,6 +62,8 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
     //////////////////////////
     Route::prefix('admin/fiscal_year')->group(function () {
         Route::get('/fetchData', 'BudgetAdminController@fetchFiscalYearData');
+        Route::get('/fetchAllFiscalYears', 'BudgetAdminController@fetchAllFiscalYears');
+        Route::post('/changeFiscalYear', 'BudgetAdminController@changeFiscalYear');
         Route::get('/getFyPermissionInBudget', 'BudgetAdminController@getFyPermissionInBudget');
         Route::post('/changeSectionPermissionState', 'BudgetAdminController@changeSectionPermissionState');
         Route::post('/changeBudgetItemPermissionState', 'BudgetAdminController@changeBudgetItemPermissionState');

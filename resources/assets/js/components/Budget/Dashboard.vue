@@ -106,45 +106,60 @@
             <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">تملک داریی های سرمایه ای استانی</span>
                 <a type="button" class="my-secondary button tiny float-left" @click="showCapitalAssetsChartDialog = true">اطلاعات بیشتر</a>
             </div>
-            <div class="medium-12 my-callout-box my-callout-bg-color">
-            <!-- <canvas id="myChart"></canvas>-->
+            <div class="medium-12 my-callout-box my-callout-bg-color text-center">
                 <line-chart :chart-data="capitalAssetsChart"   :width="400" :height="200"></line-chart>
+                <small>مبالغ: <span class="btn-red">{{ $parent.getAmountBaseLabel()}}</span></small>
             </div>
         </div>
         <div class="medium-6 dashboard-padding ">
             <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">هزینه ای استانی</span>
                 <a type="button" class="my-secondary button tiny float-left" @click="showCostChartDialog = true">اطلاعات بیشتر</a>
             </div>
-            <div class="medium-12 my-callout-box my-callout-bg-color">
+            <div class="medium-12 my-callout-box my-callout-bg-color text-center">
                 <line-chart :chart-data="costChart"   :width="400" :height="200"></line-chart>
+                <small>مبالغ: <span class="btn-red">{{ $parent.getAmountBaseLabel()}}</span></small>
             </div>
         </div>
     </div>
 
-<!--    <div class="grid-x my-grid-margin">
+    <div class="grid-x my-grid-margin">
         <div class="medium-6 dashboard-padding ">
             <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">تملک داریی های سرمایه ای ملی</span>
                 <a type="button" class="my-secondary button tiny float-left" @click="showNatCapitalAssetsChartDialog = true">اطلاعات بیشتر</a>
             </div>
-            <div class="medium-12 my-callout-box my-callout-bg-color">
-                &lt;!&ndash; <canvas id="myChart"></canvas>&ndash;&gt;
+            <div class="medium-12 my-callout-box my-callout-bg-color text-center">
                 <line-chart :chart-data="natCapitalAssetsChart"   :width="400" :height="200"></line-chart>
+                <div class="grid-x">
+                    <div class="medium-12 text-center">
+                        <small>مبالغ: <span class="btn-red">{{ $parent.getAmountBaseLabel()}}</span></small>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="medium-6 dashboard-padding ">
             <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">هزینه ای ملی</span>
                 <a type="button" class="my-secondary button tiny float-left" @click="showNatCostChartDialog = true">اطلاعات بیشتر</a>
             </div>
-            <div class="medium-12 my-callout-box my-callout-bg-color">
+            <div class="medium-12 my-callout-box my-callout-bg-color text-center">
                 <line-chart :chart-data="natCostChart"   :width="400" :height="200"></line-chart>
+                <div class="grid-x">
+                    <div class="medium-12 text-center">
+                        <small>مبالغ: <span class="btn-red">{{ $parent.getAmountBaseLabel()}}</span></small>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>-->
+    </div>
     <!--Insert Modal Start-->
     <modal-large v-if="showCapitalAssetsChartDialog" @close="showCapitalAssetsChartDialog = false">
         <div  slot="body">
             <h6 class="text-center BYekan">تملک داریی های سرمایه استانی</h6>
             <line-chart :chart-data="capitalAssetsChart" :width="400" :height="200"></line-chart>
+            <div class="grid-x">
+                <div class="medium-12 text-center">
+                    <small>مبالغ: <span class="btn-red">{{ $parent.getAmountBaseLabel()}}</span></small>
+                </div>
+            </div>
         </div>
     </modal-large>
     <!--chart1 Modal End-->
@@ -152,6 +167,11 @@
         <div  slot="body">
             <h6 class="text-center BYekan">هزینه ای استانی</h6>
             <line-chart :chart-data="costChart" :width="400" :height="200"></line-chart>
+            <div class="grid-x">
+                <div class="medium-12 text-center">
+                    <small>مبالغ: <span class="btn-red">{{ $parent.getAmountBaseLabel()}}</span></small>
+                </div>
+            </div>
         </div>
     </modal-large>
     <!--chart1 Modal End-->
@@ -160,6 +180,7 @@
         <div  slot="body">
             <h6 class="text-center BYekan">تملک داریی های سرمایه استانی</h6>
             <line-chart :chart-data="natCapitalAssetsChart" :width="400" :height="200"></line-chart>
+            <small>مبالغ: <span class="btn-red">{{ $parent.getAmountBaseLabel()}}</span></small>
         </div>
     </modal-large>
     <!--chart1 Modal End-->
@@ -167,6 +188,7 @@
         <div  slot="body">
             <h6 class="text-center BYekan">هزینه ای استانی</h6>
             <line-chart :chart-data="natCostChart" :width="400" :height="200"></line-chart>
+            <small>مبالغ: <span class="btn-red">{{ $parent.getAmountBaseLabel()}}</span></small>
         </div>
     </modal-large>
     <!--chart1 Modal End-->
@@ -223,6 +245,10 @@
                     labels: this.getCountyLabels(data),
                     datasets: [
                         {
+                            label: 'پیشنهاد دستگاه',
+                            backgroundColor: 'rgba(240 , 173 , 78 , 0.4)',
+                            data: this.getCountyProposalAmount(data)
+                        }, {
                             label: 'مصوب',
                             backgroundColor: 'rgba(45 , 187 , 58 , 0.4)',
                             data: this.getCountyApprovedAmount(data)
@@ -261,6 +287,14 @@
                 data.forEach(county => {
                     temp.push(county.coName);
             });
+                return temp;
+            },
+
+            getCountyProposalAmount (data) {
+                var temp = [];
+                data.forEach(county => {
+                    temp.push(this.$parent.calcDispAmount(county.coSumOfProposalAmount , false));
+                });
                 return temp;
             },
 

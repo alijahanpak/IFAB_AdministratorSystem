@@ -16,6 +16,7 @@ use Modules\Admin\Entities\FiscalYear;
 use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\Season;
 use Modules\Admin\Entities\SystemLog;
+use Modules\Admin\Entities\User;
 use Modules\Admin\Entities\Village;
 use Modules\Budget\Entities\BudgetSeason;
 use Modules\Budget\Entities\CapitalAssetsSeasonTitle;
@@ -430,19 +431,32 @@ class BudgetAdminController extends Controller
     ///////////////////////////////// fiscal year api ////////////////////////////////
     public function fetchFiscalYearData(Request $request)
     {
-        return \response()->json($this->getAllFiscallYears());
+        return \response()->json($this->getAllFiscalYears());
     }
 
-    public function getAllFiscallYears()
+    public function getAllFiscalYears()
     {
-        return FiscalYear::paginate(5);
+        return FiscalYear::paginate(10);
+    }
+
+    public function fetchAllFiscalYears(Request $request)
+    {
+        return FiscalYear::where('fyStatus' , '<>' , 0)->get();
     }
 
     public function fiscalYearActivate(Request $request)
     {
         FiscalYear::activate($request->fyId);
         SystemLog::setBudgetSubSystemAdminLog('فعالسازی سال مالی ' . FiscalYear::find($request->fyId)->fyLabel);
-        return \response()->json($this->getAllFiscallYears());
+        return \response()->json($this->getAllFiscalYears());
+    }
+
+    public function changeFiscalYear(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $user->seFiscalYear = $request->fyId;
+        $user->save();
+        return \request()->json([]);
     }
 
     public function getFyPermissionInBudget(Request $request)
@@ -473,7 +487,6 @@ class BudgetAdminController extends Controller
         $fyBudgetPermission->save();
         SystemLog::setBudgetSubSystemAdminLog('تغییر مجوز ' . $fyBudgetPermission->pbLabel . ' در سال مالی ' . FiscalYear::where('id' , '=' , $fyBudgetPermission->pbFyId)->value('fyLabel') . ' برای زیر سیستم بودجه.');
         return \response()->json($this->getBudgetPermissionWithFyId($fyBudgetPermission->pbFyId));
-
     }
 
     /////////////////////////////// deprived area ///////////////////////////////////////////

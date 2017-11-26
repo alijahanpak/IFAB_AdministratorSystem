@@ -618,15 +618,17 @@
                                     <span v-show="errors.has('creditCost')" class="error-font">لطفا مبلغ تخصیص را وارد کنید!</span>
                                 </div>
                             </div>
-                            <div class="grid-x my-callout-bg-color" v-show="creditSourceInfo.approvedAmount">
-                                <div class="medium-12">
-                                    <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount) }}</span>
-                                </div>
-                                <div class="medium-12">
-                                    <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.sumAllocation) }}</span>
-                                </div>
-                                <div class="medium-12">
-                                    <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.approvedAmount , creditSourceInfo.sumAllocation) }}</span>
+                            <div class="grid-x padding-lr" style="margin-top: 10px" v-show="creditSourceInfo.approvedAmount">
+                                <div class="medium-12 my-callout-bg-color">
+                                    <div class="medium-12">
+                                        <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount) }}</span>
+                                    </div>
+                                    <div class="medium-12">
+                                        <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.sumAllocation) }}</span>
+                                    </div>
+                                    <div class="medium-12">
+                                        <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.approvedAmount , creditSourceInfo.sumAllocation) }}</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="grid-x">
@@ -697,15 +699,17 @@
                                     <span v-show="errors.has('creditCost')" class="error-font">لطفا مبلغ تخصیص را وارد کنید!</span>
                                 </div>
                             </div>
-                            <div class="grid-x my-callout-bg-color" v-show="creditSourceInfo.approvedAmount">
-                                <div class="medium-12">
-                                    <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount) }}</span>
-                                </div>
-                                <div class="medium-12">
-                                    <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.sumAllocation) }}</span>
-                                </div>
-                                <div class="medium-12">
-                                    <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.approvedAmount , creditSourceInfo.sumAllocation) }}</span>
+                            <div class="grid-x padding-lr" style="margin-top: 10px" v-show="creditSourceInfo.approvedAmount">
+                                <div class="medium-12 my-callout-bg-color">
+                                    <div class="medium-12">
+                                        <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount) }}</span>
+                                    </div>
+                                    <div class="medium-12">
+                                        <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.sumAllocation) }}</span>
+                                    </div>
+                                    <div class="medium-12">
+                                        <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.approvedAmount , creditSourceInfo.sumAllocation) }}</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="grid-x">
