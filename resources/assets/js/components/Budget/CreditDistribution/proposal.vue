@@ -229,8 +229,8 @@
                                 <span v-show="errors.has('planCode')" class="error-font">کد طرح مورد نظر را انتخاب کنید!</span>
                             </div>
                         </div>
-                        <div class="grid-x my-callout-bg-color" style="margin-top: 10px;margin-bottom: 10px" v-show="cdpProposalInput.cdpId != null && cdpProposalInput.cdpId != ''">
-                            <div class="medium-12">
+                        <div class="grid-x padding-lr" style="margin-top: 10px;margin-bottom: 10px" v-show="cdpProposalInput.cdpId != null && cdpProposalInput.cdpId != ''">
+                            <div class="medium-12 my-callout-bg-color">
                                 <span>اعتبار باقیمانده: </span><span class="btn-red" id="pbpPlanAmount" style="margin-bottom: 0;">{{ remainingAmount }} </span><span>{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
                             </div>
                         </div>
@@ -294,8 +294,8 @@
                                 <span v-show="errors.has('planCode')" class="error-font">کد طرح مورد نظر را انتخاب کنید!</span>
                             </div>
                         </div>
-                        <div class="grid-x my-callout-bg-color" style="margin-top: 10px;margin-bottom: 10px" v-show="cdpProposalFill.cdpId != null && cdpProposalFill.cdpId != ''">
-                            <div class="medium-12">
+                        <div class="grid-x padding-lr" style="margin-top: 10px;margin-bottom: 10px" v-show="cdpProposalFill.cdpId != null && cdpProposalFill.cdpId != ''">
+                            <div class="medium-12 my-callout-bg-color">
                                 <span>اعتبار باقیمانده: </span><span class="btn-red" style="margin-bottom: 0;">{{ remainingAmount }} </span><span>{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
                             </div>
                         </div>

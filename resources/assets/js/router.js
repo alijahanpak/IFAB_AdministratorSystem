@@ -146,6 +146,9 @@ var app = new Vue({
     data:{
         amountBase: {},
         publicParams: {},
+        fiscalYears: {},
+        currentFyLabel: '',
+        userInfo:{},
         showModalLogin: false,
         authInfo: {email: '' , password: ''},
         tokenInfo: {"Authorization": '' , "Accept": 'application/json; charset=utf-8' , "Content-type" : 'application/json; charset=utf-8'},
@@ -157,14 +160,7 @@ var app = new Vue({
     },
 
     created: function () {
-        if (!store.getters.isLoggedIn)
-        {
-            this.showModalLogin = true;
-        }
-        else{
-            this.getPublicParams();
-            this.getAmountBase();
-        }
+
     },
 
     mounted: function () {
@@ -205,6 +201,15 @@ var app = new Vue({
         });
         this.myResize();
         this.setExpireTokenThread();
+        if (!store.getters.isLoggedIn)
+        {
+            this.showModalLogin = true;
+        }
+        else{
+            this.getFiscalYear();
+            this.getPublicParams();
+            this.getAmountBase();
+        }
         console.log("mounted router js");
     },
 
@@ -239,6 +244,20 @@ var app = new Vue({
                 });
         },
 
+        getUserInfo: function () {
+            axios.get('/api/getAuthUserInfo')
+                .then((response) => {
+                    console.log(response);
+                    this.userInfo = response.data;
+                    this.fiscalYears.forEach(fy => {
+                        if (this.currentFyId() == fy.id)
+                            this.currentFyLabel = fy.fyLabel;
+                    })
+                },(error) => {
+                    console.log(error);
+                });
+        },
+
         getAmountBase: function () {
             axios.get('/admin/getAmountBase')
                 .then((response) => {
@@ -267,6 +286,25 @@ var app = new Vue({
 
         getDispAmountBaseLabel: function () {
             return this.amountBase.disp_amount_unit.auSubject;
+        },
+
+        getFiscalYear: function () {
+            axios.get('/budget/admin/fiscal_year/fetchAllFiscalYears')
+                .then((response) => {
+                    this.fiscalYears = response.data;
+                    this.getUserInfo();
+                },(error) => {
+                    console.log(error);
+                });
+        },
+
+        changeFiscalYear: function (fyId) {
+            axios.post('/budget/admin/fiscal_year/changeFiscalYear' , {fyId: fyId})
+                .then((response) => {
+                    this.$router.go(this.$router.currentRoute.path); //reload page data
+                },(error) => {
+                    console.log(error);
+                });
         },
 
         displayNotif: function (httpStatusCode) {
@@ -336,6 +374,14 @@ var app = new Vue({
             if (this.prevNowPlaying)
                 clearInterval(this.prevNowPlaying);
             this.prevNowPlaying = setInterval(this.expireTokenThread, 900000);
+        },
+
+        currentFyId: function () {
+            return this.userInfo.seFiscalYear;
+        },
+
+        currentUserName: function () {
+            return this.userInfo.name;
         },
 
         userIsActive: function () {

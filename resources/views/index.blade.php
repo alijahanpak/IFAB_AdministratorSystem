@@ -166,12 +166,10 @@
                 <div style="z-index: 999;" data-sticky-container>
                     <div style="background-color: #FFFFFF;" class="top-bar top-menu-color" data-sticky data-margin-top="0">
                         <div class="top-bar-left">
-                            <button style="margin-bottom: 0;font-size: 0.9em;" class="my-button my-drop-down-btn-clear dropdown small sm-btn-align"  type="button" data-toggle="example-dropdown-bottom-left">سال مالی<span class="comlpleted-badage">1396</span></button>
+                            <button style="margin-bottom: 0;font-size: 0.9em;" class="my-button my-drop-down-btn-clear dropdown small sm-btn-align"  type="button" data-toggle="example-dropdown-bottom-left">سال مالی<span class="comlpleted-badage">@{{ currentFyLabel }}</span></button>
                             <div style="width: 120px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="example-dropdown-bottom-left" data-dropdown data-auto-focus="true">
                                 <ul class="my-menu small-font ltr-dir">
-                                    <li><a  href="#">1395</a></li>
-                                    <li><a  href="#">1394</a></li>
-                                    <li><a  href="#">1393</a></li>
+                                    <li v-for="fiscalYear in fiscalYears"><a @click="changeFiscalYear(fiscalYear.id)">@{{ fiscalYear.fyLabel }} <span v-show="fiscalYear.id == currentFyId()" class="fi-check checked-color size-14"></span></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -217,13 +215,13 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <a><span style="font-size: 14px;color: #666;"> علی جهان پاک </span></a>
+                                    <a><span style="font-size: 14px;color: #666;"> @{{ userInfo.name }} </span></a>
                                     <ul style="background-color: #ffffff;" class="top-menu-style menu menu vertical small-font white-color">
                                         <li>
                                             <div class="top-menu-bg">
                                                 <div class="grid-x cover-color">
                                                     <div class="medium-12">
-                                                        <h5 class="text-center BYekan">علی جهان پاک</h5>
+                                                        <h5 class="text-center BYekan">@{{ userInfo.name }}</h5>
                                                     </div>
                                                     <div class="medium-12">
                                                         <p class="text-center">کارشناس بودجه</p>

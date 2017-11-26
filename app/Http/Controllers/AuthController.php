@@ -83,4 +83,10 @@ class AuthController extends Controller
     {
         return \response()->json([] , 200);
     }
+
+    public function getAuthUserInfo(Request $request)
+    {
+        $userInfo = User::select('seFiscalYear' , 'name')->where('id' , '=' , Auth::user()->id)->first();
+        return \response()->json($userInfo);
+    }
 }
