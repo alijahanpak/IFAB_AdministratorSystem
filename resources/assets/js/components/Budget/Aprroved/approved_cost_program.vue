@@ -123,7 +123,17 @@
                                                 <td class="text-center">{{ cAp.caLetterDate }}</td>
                                                 <td class="text-center">{{ cAp.caExchangeIdNumber }}</td>
                                                 <td class="text-center">{{ cAp.caExchangeDate }}</td>
-                                                <td class="text-center"><span @click="displayCreditSourceInfo_prov == cAp.id ? displayCreditSourceInfo_prov = '' : displayCreditSourceInfo_prov = cAp.id">{{ $parent.calcDispAmount(sumOfAmount(cAp.ca_credit_source) , false) }}</span></td>
+                                                <td class="text-center">
+                                                    <div class="grid-x change-pointer" @click="displayCreditSourceInfo_prov == cAp.id ? displayCreditSourceInfo_prov = '' : displayCreditSourceInfo_prov = cAp.id">
+                                                        <div class="small-10">
+                                                            <span>{{ $parent.calcDispAmount(sumOfAmount(cAp.ca_credit_source) , false) }}</span>
+                                                        </div>
+                                                        <div class="small-2 text-center">
+                                                            <div v-if="displayCreditSourceInfo_prov == cAp.id" class="up_arrow"></div>
+                                                            <div v-if="displayCreditSourceInfo_prov != cAp.id" class="down_arrow"></div>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                                 <td class="text-center">
                                                     <span @click="displayAmendmentInfo_prov == cAp.id ? (displayAmendmentInfo_prov = '') : (displayAmendmentInfo_prov = cAp.id)" v-show="cAp.amendments.length > 0" class="info-badage change-pointer">تاریخچه</span>
                                                 </td>
@@ -329,7 +339,17 @@
                                             <tr>
                                                 <td class="text-center">{{ cAp.caLetterNumber }}</td>
                                                 <td class="text-center">{{ cAp.caLetterDate }}</td>
-                                                <td class="text-center"><span @click="displayCreditSourceInfo_nat == cAp.id ? displayCreditSourceInfo_nat = '' : displayCreditSourceInfo_nat = cAp.id">{{ $parent.calcDispAmount(sumOfAmount(cAp.ca_credit_source) , false) }}</span></td>
+                                                <td class="text-center">
+                                                    <div class="grid-x change-pointer" @click="displayCreditSourceInfo_nat == cAp.id ? displayCreditSourceInfo_nat = '' : displayCreditSourceInfo_nat = cAp.id">
+                                                        <div class="small-10">
+                                                            <span>{{ $parent.calcDispAmount(sumOfAmount(cAp.ca_credit_source) , false) }}</span>
+                                                        </div>
+                                                        <div class="small-2 text-center">
+                                                            <div v-if="displayCreditSourceInfo_nat == cAp.id" class="up_arrow"></div>
+                                                            <div v-if="displayCreditSourceInfo_nat != cAp.id" class="down_arrow"></div>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                                 <td class="text-center">
                                                     <span @click="displayAmendmentInfo_nat == cAp.id ? (displayAmendmentInfo_nat = '') : (displayAmendmentInfo_nat = cAp.id)" v-show="cAp.amendments.length > 0" class="info-badage change-pointer">تاریخچه</span>
                                                 </td>

@@ -1144,6 +1144,28 @@ button.purple-btn {
     margin-top: 20px;
 }
 
+.down_arrow {
+    border-right: 2px solid;
+    border-bottom: 2px solid;
+    width: 6px; height: 6px;
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 2px;
+    color: #36a3f7;
+    transform: rotate(45deg);
+}
+
+.up_arrow {
+    border-right: 2px solid;
+    border-bottom: 2px solid;
+    width: 6px; height: 6px;
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 0px;
+    color: #36a3f7;
+    transform: rotate(-135deg);
+}
+
 .my-button {
     display: inline-block;
     vertical-align: middle;

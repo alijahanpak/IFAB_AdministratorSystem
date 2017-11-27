@@ -79,8 +79,8 @@
                                         <col width="250px"/>
                                         <col width="100px"/>
                                         <col width="250"/>
-                                        <col width="150px"/>
                                         <col width="100px"/>
+                                        <col width="150px"/>
                                         <col width="250px"/>
                                         <col v-show="selectColumn" width="15px"/>
                                         <col width="12px"/>
@@ -107,8 +107,8 @@
                                                 <col width="250px"/>
                                                 <col width="100px"/>
                                                 <col width="250"/>
-                                                <col width="150px"/>
                                                 <col width="100px"/>
+                                                <col width="150px"/>
                                                 <col width="250px"/>
                                                 <col v-show="selectColumn" width="15px"/>
                                             </colgroup>
@@ -126,7 +126,15 @@
                                                         {{ plans.capital_assets_project[0].county.coName }}
                                                     </td>
                                                     <td class="text-center">
-                                                        <span @click="openAccordion(0 , plans.capital_assets_project[0].id , plans.id)">{{ $parent.calcDispAmount(sumOfAmount(plans.capital_assets_project[0].credit_source) , false) }}</span>
+                                                        <div class="grid-x change-pointer" @click="openAccordion(0 , plans.capital_assets_project[0].id , plans.id)">
+                                                            <div class="small-10">
+                                                                <span>{{ $parent.calcDispAmount(sumOfAmount(plans.capital_assets_project[0].credit_source) , false) }}</span>
+                                                            </div>
+                                                            <div class="small-2 text-center">
+                                                                <div v-if="displayCreditSourceInfo_prov == plans.capital_assets_project[0].id" class="up_arrow"></div>
+                                                                <div v-if="displayCreditSourceInfo_prov != plans.capital_assets_project[0].id" class="down_arrow"></div>
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                     <td>
                                                         <div class="grid-x">
@@ -204,7 +212,15 @@
                                                             {{ project.county.coName }}
                                                         </td>
                                                         <td class="text-center">
-                                                            <span @click="openAccordion(0 , project.id , plans.id)">{{ $parent.calcDispAmount(sumOfAmount(project.credit_source) , false) }}</span>
+                                                            <div class="grid-x change-pointer" @click="openAccordion(0 , project.id , plans.id)">
+                                                                <div class="small-10">
+                                                                    <span>{{ $parent.calcDispAmount(sumOfAmount(project.credit_source) , false) }}</span>
+                                                                </div>
+                                                                <div class="small-2 text-center">
+                                                                    <div v-if="displayCreditSourceInfo_prov == project.id" class="up_arrow"></div>
+                                                                    <div v-if="displayCreditSourceInfo_prov != project.id" class="down_arrow"></div>
+                                                                </div>
+                                                            </div>
                                                         </td>
                                                         <td>
                                                             <div class="grid-x">
@@ -272,7 +288,6 @@
                                                     </tr>
                                                 </template>
                                             </template>
-
                                             </tbody>
                                         </table>
                                     </div>
@@ -339,8 +354,8 @@
                                         <col width="250px"/>
                                         <col width="100px"/>
                                         <col width="250"/>
-                                        <col width="150px"/>
                                         <col width="100px"/>
+                                        <col width="150px"/>
                                         <col width="250px"/>
                                         <col v-show="selectColumn" width="15px"/>
                                         <col width="12px"/>
@@ -367,8 +382,8 @@
                                             <col width="250px"/>
                                             <col width="100px"/>
                                             <col width="250"/>
-                                            <col width="150px"/>
                                             <col width="100px"/>
+                                            <col width="150px"/>
                                             <col width="250px"/>
                                             <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
@@ -386,7 +401,15 @@
                                                     {{ plans.capital_assets_project[0].county.coName }}
                                                 </td>
                                                 <td class="text-center">
-                                                    <span @click="openAccordion(1 , plans.capital_assets_project[0].id , plans.id)">{{ $parent.calcDispAmount(sumOfAmount(plans.capital_assets_project[0].credit_source) , false) }}</span>
+                                                    <div class="grid-x change-pointer" @click="openAccordion(1 , plans.capital_assets_project[0].id , plans.id)">
+                                                        <div class="small-10">
+                                                            <span>{{ $parent.calcDispAmount(sumOfAmount(plans.capital_assets_project[0].credit_source) , false) }}</span>
+                                                        </div>
+                                                        <div class="small-2 text-center">
+                                                            <div v-if="displayCreditSourceInfo_nat == plans.capital_assets_project[0].id" class="up_arrow"></div>
+                                                            <div v-if="displayCreditSourceInfo_nat != plans.capital_assets_project[0].id" class="down_arrow"></div>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <div class="grid-x">
@@ -464,7 +487,15 @@
                                                         {{ project.county.coName }}
                                                     </td>
                                                     <td class="text-center">
-                                                        <span @click="openAccordion(1 , project.id , plans.id)">{{ $parent.calcDispAmount(sumOfAmount(project.credit_source) , false) }}</span>
+                                                        <div class="grid-x change-pointer" @click="openAccordion(1 , project.id , plans.id)">
+                                                            <div class="small-10">
+                                                                <span>{{ $parent.calcDispAmount(sumOfAmount(project.credit_source) , false) }}</span>
+                                                            </div>
+                                                            <div class="small-2 text-center">
+                                                                <div v-if="displayCreditSourceInfo_nat == project.id" class="up_arrow"></div>
+                                                                <div v-if="displayCreditSourceInfo_nat != project.id" class="down_arrow"></div>
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                     <td>
                                                         <div class="grid-x">

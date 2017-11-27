@@ -656,12 +656,22 @@
                                     <tbody class="tbl-head-style-cell">
                                     <template v-for="project in approvedAmendmentProjects.capital_assets_project">
                                         <tr>
-                                            <td>{{ project.cpCode }}</td>
+                                            <td class="text-center">{{ project.cpCode }}</td>
                                             <td>{{ project.cpSubject }}
                                                 <span v-show="project.cpDeleted" class="comlpleted-badage float-left">حذف شده</span>
                                             </td>
-                                            <td>{{ project.county.coName }}</td>
-                                            <td @click="displayCSInfo == project.id ? displayCSInfo = '' : displayCSInfo = project.id">{{ $parent.calcDispAmount(sumOfAmount(project.credit_source) , false) }}</td>
+                                            <td class="text-center">{{ project.county.coName }}</td>
+                                            <td class="text-center">
+                                                <div class="grid-x change-pointer" @click="displayCSInfo == project.id ? displayCSInfo = '' : displayCSInfo = project.id">
+                                                    <div class="small-10">
+                                                        <span>{{ $parent.calcDispAmount(sumOfAmount(project.credit_source) , false) }}</span>
+                                                    </div>
+                                                    <div class="small-2 text-center">
+                                                        <div v-if="displayCSInfo == project.id" class="up_arrow"></div>
+                                                        <div v-if="displayCSInfo != project.id" class="down_arrow"></div>
+                                                    </div>
+                                                </div>
+                                            </td>
                                             <td>
                                                 <div class="grid-x">
                                                     <div class="medium-11">
@@ -1248,12 +1258,22 @@
                                     <tbody class="tbl-head-style-cell">
                                     <template v-for="project in amendmentPlanInfo.capital_assets_project">
                                         <tr>
-                                            <td>{{ project.cpCode }}</td>
+                                            <td class="text-center">{{ project.cpCode }}</td>
                                             <td>{{ project.cpSubject }}
                                                 <span v-show="project.cpDeleted" class="comlpleted-badage float-left">حذف شده</span>
                                             </td>
-                                            <td>{{ project.county.coName }}</td>
-                                            <td @click="displayCSInfo == project.id ? displayCSInfo = '' : displayCSInfo = project.id">{{ $parent.calcDispAmount(sumOfAmount(project.credit_source) , false) }}</td>
+                                            <td class="text-center">{{ project.county.coName }}</td>
+                                            <td class="text-center">
+                                                <div class="grid-x change-pointer" @click="displayCSInfo == project.id ? displayCSInfo = '' : displayCSInfo = project.id">
+                                                    <div class="small-10">
+                                                        <span>{{ $parent.calcDispAmount(sumOfAmount(project.credit_source) , false) }}</span>
+                                                    </div>
+                                                    <div class="small-2 text-center">
+                                                        <div v-if="displayCSInfo == project.id" class="up_arrow"></div>
+                                                        <div v-if="displayCSInfo != project.id" class="down_arrow"></div>
+                                                    </div>
+                                                </div>
+                                            </td>
                                             <td>{{ project.cpDescription }}</td>
                                         </tr>
                                         <tr v-show="displayCSInfo == project.id">

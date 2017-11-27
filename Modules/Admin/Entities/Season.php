@@ -21,9 +21,18 @@ class Season extends Model
         return $this->hasMany(CapitalAssetsSeasonTitle::class , 'castSId' , 'id');
     }
 
+    public function capitalAssetsSeasonTitleHasTinySeason()
+    {
+        return $this->hasMany(CapitalAssetsSeasonTitle::class , 'castSId' , 'id')->has('capitalAssetsTinySeason');
+    }
+
     public function costSeasonTitle()
     {
         return $this->hasMany(CostSeasonTitle::class , 'cstSId' , 'id');
     }
 
+    public function costSeasonTitleHasTinySeason()
+    {
+        return $this->hasMany(CostSeasonTitle::class , 'cstSId' , 'id')->has('costTinySeason');
+    }
 }

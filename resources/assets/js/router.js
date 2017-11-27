@@ -302,8 +302,8 @@ var app = new Vue({
         changeFiscalYear: function (fyId) {
             axios.post('/budget/admin/fiscal_year/changeFiscalYear' , {fyId: fyId})
                 .then((response) => {
-                    //this.$router.go(this.$router.currentRoute.path); //reload page data
-                    this.$router.push(this.$router.currentRoute.path);
+                    this.$router.go(this.$router.currentRoute.path); //reload page data
+                    //this.$router.push(this.$router.currentRoute.path);
                 },(error) => {
                     console.log(error);
                 });

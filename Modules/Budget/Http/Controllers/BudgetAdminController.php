@@ -128,11 +128,8 @@ class BudgetAdminController extends Controller
     {
         if ($type == "capitalAssets")
         {
-            return Season::with(['capitalAssetsSeasonTitle.capitalAssetsTinySeason' => function($query) use ($searchValue){
-                return $query->where('catsSubject' , 'LIKE' , '%' . $searchValue . '%')
-                        ->orWhere('catsDescription' , 'LIKE' , '%' . $searchValue . '%');
-                    }])
-                    ->whereHas('capitalAssetsSeasonTitle.capitalAssetsTinySeason' , function ($query) use ($searchValue){
+            return Season::with('capitalAssetsSeasonTitleHasTinySeason.capitalAssetsTinySeason')
+                    ->whereHas('capitalAssetsSeasonTitleHasTinySeason.capitalAssetsTinySeason' , function ($query) use ($searchValue){
                         return $query->where('catsSubject' , 'LIKE' , '%' . $searchValue . '%')
                             ->orWhere('catsDescription' , 'LIKE' , '%' . $searchValue . '%');
                     })
@@ -140,11 +137,8 @@ class BudgetAdminController extends Controller
 
         }else if ($type == "cost")
         {
-            return Season::with(['costSeasonTitle.costTinySeason' => function($query) use ($searchValue){
-                return $query->where('ctsSubject' , 'LIKE' , '%' . $searchValue . '%')
-                    ->orWhere('ctsDescription' , 'LIKE' , '%' . $searchValue . '%');
-                    }])
-                    ->whereHas('costSeasonTitle.costTinySeason' , function ($query) use ($searchValue){
+            return Season::with('costSeasonTitleHasTinySeason.costTinySeason')
+                    ->whereHas('costSeasonTitleHasTinySeason.costTinySeason' , function ($query) use ($searchValue){
                         return $query->where('ctsSubject' , 'LIKE' , '%' . $searchValue . '%')
                             ->orWhere('ctsDescription' , 'LIKE' , '%' . $searchValue . '%');
                     })

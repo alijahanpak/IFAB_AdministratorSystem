@@ -86,27 +86,27 @@
                                             <tbody class="tbl-head-style-cell">
                                             <template v-for="season in tinySeasons">
                                                 <tr class="tbl-head-style-cell">
-                                                    <td class="text-center" :rowspan="getSeasonCount(season.capital_assets_season_title)"> {{ season.sSubject }}</td>
-                                                    <td :rowspan="season.capital_assets_season_title[0].capital_assets_tiny_season.length">  {{ season.capital_assets_season_title[0].castSubject }}</td>
-                                                    <td> {{ season.capital_assets_season_title[0].capital_assets_tiny_season[0].catsSubject }}</td>
+                                                    <td class="text-center" :rowspan="getSeasonCount(season.capital_assets_season_title_has_tiny_season)"> {{ season.sSubject }}</td>
+                                                    <td :rowspan="season.capital_assets_season_title_has_tiny_season[0].capital_assets_tiny_season.length">  {{ season.capital_assets_season_title_has_tiny_season[0].castSubject }}</td>
+                                                    <td> {{ season.capital_assets_season_title_has_tiny_season[0].capital_assets_tiny_season[0].catsSubject }}</td>
                                                     <td>
                                                         <div class="grid-x">
                                                             <div class="medium-11 text-justify">
-                                                                {{ season.capital_assets_season_title[0].capital_assets_tiny_season[0].catsDescription }}
+                                                                {{ season.capital_assets_season_title_has_tiny_season[0].capital_assets_tiny_season[0].catsDescription }}
                                                             </div>
                                                             <div class="medium-1 cell-vertical-center text-left">
                                                                 <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + season.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + season.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
-                                                                        <li><a v-on:click.prevent="openUpdateModal(season.capital_assets_season_title[0].capital_assets_tiny_season[0] , season.id , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                        <li><a v-on:click.prevent="openDeleteModal(season.capital_assets_season_title[0].capital_assets_tiny_season[0].id , 0)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                        <li><a v-on:click.prevent="openUpdateModal(season.capital_assets_season_title_has_tiny_season[0].capital_assets_tiny_season[0] , season.id , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                        <li><a v-on:click.prevent="openDeleteModal(season.capital_assets_season_title_has_tiny_season[0].capital_assets_tiny_season[0].id , 0)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                <template v-for="(seasonTitle , sIndex) in season.capital_assets_season_title">
+                                                <template v-for="(seasonTitle , sIndex) in season.capital_assets_season_title_has_tiny_season">
                                                     <tr class="tbl-head-style-cell" v-if="sIndex > 0">
                                                         <td :rowspan="seasonTitle.capital_assets_tiny_season.length">{{seasonTitle.castSubject}}</td>
                                                         <td>{{seasonTitle.capital_assets_tiny_season[0].catsSubject}}</td>
@@ -227,27 +227,27 @@
                                                 <tbody class="tbl-head-style-cell">
                                                 <template v-for="cSeason in tinySeasonsCost">
                                                     <tr class="tbl-head-style-cell">
-                                                        <td class="text-center" :rowspan="getSeasonCostCount(cSeason.cost_season_title)"> {{ cSeason.sSubject }}</td>
-                                                        <td :rowspan="cSeason.cost_season_title[0].cost_tiny_season.length">  {{ cSeason.cost_season_title[0].cstSubject }}</td>
-                                                        <td> {{ cSeason.cost_season_title[0].cost_tiny_season[0].ctsSubject }}</td>
+                                                        <td class="text-center" :rowspan="getSeasonCostCount(cSeason.cost_season_title_has_tiny_season)"> {{ cSeason.sSubject }}</td>
+                                                        <td :rowspan="cSeason.cost_season_title_has_tiny_season[0].cost_tiny_season.length">  {{ cSeason.cost_season_title_has_tiny_season[0].cstSubject }}</td>
+                                                        <td> {{ cSeason.cost_season_title_has_tiny_season[0].cost_tiny_season[0].ctsSubject }}</td>
                                                         <td>
                                                             <div class="grid-x">
                                                                 <div class="medium-11 text-justify">
-                                                                    {{ cSeason.cost_season_title[0].cost_tiny_season[0].ctsDescription }}
+                                                                    {{ cSeason.cost_season_title_has_tiny_season[0].cost_tiny_season[0].ctsDescription }}
                                                                 </div>
                                                                 <div class="medium-1 cell-vertical-center text-left">
                                                                     <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'ctsTinySeason' + cSeason.id "><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'ctsTinySeason' + cSeason.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
-                                                                            <li><a v-on:click.prevent="openUpdateModal(cSeason.cost_season_title[0].cost_tiny_season[0] , cSeason.id , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                            <li><a v-on:click.prevent="openDeleteModal(cSeason.cost_season_title[0].cost_tiny_season[0].id , 1)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                            <li><a v-on:click.prevent="openUpdateModal(cSeason.cost_season_title_has_tiny_season[0].cost_tiny_season[0] , cSeason.id , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                            <li><a v-on:click.prevent="openDeleteModal(cSeason.cost_season_title_has_tiny_season[0].cost_tiny_season[0].id , 1)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                                         </ul>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                    <template v-for="(cSeasonTitle , sIndex) in cSeason.cost_season_title">
+                                                    <template v-for="(cSeasonTitle , sIndex) in cSeason.cost_season_title_has_tiny_season">
                                                         <tr class="tbl-head-style-cell" v-if="sIndex > 0">
                                                             <td :rowspan="cSeasonTitle.cost_tiny_season.length">{{cSeasonTitle.cstSubject}}</td>
                                                             <td>{{cSeasonTitle.cost_tiny_season[0].ctsSubject}}</td>
@@ -312,13 +312,6 @@
                 <modal-tiny v-if="showInsertModal" @close="showInsertModal = false">
                     <div  slot="body">
                         <form v-on:submit.prevent="createTinySeason">
-                            <div class="grid-x" v-if="errorMessage">
-                                <div class="medium-12 columns padding-lr">
-                                    <div class="alert callout">
-                                        <p class="BYekan login-alert"><i class="fi-alert"></i>{{ errorMessage }}</p>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="grid-x">
                                 <div class="medium-12 cell padding-lr">
                                     <label>فصل
@@ -433,8 +426,6 @@
         data(){
             return {
                 planOrCost: 0,
-                errorMessage: '',
-                errorMessage_update: '',
                 selectedSeason: '',
                 tinySeasons: [],
                 tinySeasonsCost: [],
