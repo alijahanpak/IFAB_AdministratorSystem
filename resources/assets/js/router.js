@@ -223,6 +223,7 @@ var app = new Vue({
                     this.$router.go(this.$router.currentRoute.path); //reload page data
                 },(error) => {
                     console.log(error);
+                    this.displayNotif(error.response.status);
                 });
         },
 
@@ -301,7 +302,8 @@ var app = new Vue({
         changeFiscalYear: function (fyId) {
             axios.post('/budget/admin/fiscal_year/changeFiscalYear' , {fyId: fyId})
                 .then((response) => {
-                    this.$router.go(this.$router.currentRoute.path); //reload page data
+                    //this.$router.go(this.$router.currentRoute.path); //reload page data
+                    this.$router.push(this.$router.currentRoute.path);
                 },(error) => {
                     console.log(error);
                 });
@@ -318,8 +320,11 @@ var app = new Vue({
                 case 409:
                     this.$notify({title: 'پیام سیستم', text: 'رکورد تکراری است!' , type: 'error'});
                     break;
+                case 401:
+                    this.$notify({title: 'پیام سیستم', text: 'نام کاربر یا کلمه عبور اشتباه است!' , type: 'error'});
+                    break;
                 case 800: //doesn`t select records
-                    this.$notify({title: 'پیام سیستم', text: 'لطفا رکوردهای مورد نظر انتخاب کنید!' , type: 'error'})
+                    this.$notify({title: 'پیام سیستم', text: 'لطفا رکوردهای مورد نظر انتخاب کنید!' , type: 'error'});
             }
         },
 
