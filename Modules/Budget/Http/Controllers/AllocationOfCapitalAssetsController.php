@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Modules\Admin\Entities\AmountUnit;
+use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Budget\Entities\CaCreditSource;
 use Modules\Budget\Entities\CapCreditSource;
@@ -32,6 +33,7 @@ class AllocationOfCapitalAssetsController extends Controller
 
     public function getAllCapitalAssetsAllocates($pOrN , $searchValue , $itemInPage)
     {
+        $searchValue = PublicSetting::checkPersianCharacters($searchValue);
         return CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('capProvinceOrNational' , '=' , $pOrN)
             ->has('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.Allocation')
@@ -62,7 +64,7 @@ class AllocationOfCapitalAssetsController extends Controller
         $alloc->caaCcsId = $request->pcsId;
         $alloc->caaLetterNumber = $request->idNumber;
         $alloc->caaLetterDate = $request->date;
-        $alloc->caaDescription = $request->description;
+        $alloc->caaDescription = PublicSetting::checkPersianCharacters($request->description);
         $alloc->caaAmount = AmountUnit::convertInputAmount($request->amount);
         $alloc->save();
 
@@ -79,7 +81,7 @@ class AllocationOfCapitalAssetsController extends Controller
         $alloc->caaCcsId = $request->pcsId;
         $alloc->caaLetterNumber = $request->idNumber;
         $alloc->caaLetterDate = $request->date;
-        $alloc->caaDescription = $request->description;
+        $alloc->caaDescription = PublicSetting::checkPersianCharacters($request->description);
         $alloc->caaAmount = AmountUnit::convertInputAmount($request->amount);
         $alloc->save();
 
@@ -127,7 +129,7 @@ class AllocationOfCapitalAssetsController extends Controller
         $alloc->caaFyId = Auth::user()->seFiscalYear;
         $alloc->caaFound = true;
         $alloc->caaLetterDate = $request->date;
-        $alloc->caaDescription = $request->description;
+        $alloc->caaDescription = PublicSetting::checkPersianCharacters($request->description);
         $alloc->caaAmount = AmountUnit::convertInputAmount($request->amount);
         $alloc->save();
 
@@ -142,7 +144,7 @@ class AllocationOfCapitalAssetsController extends Controller
         $alloc = CapitalAssetsAllocation::find($request->id);
         $alloc->caaUId = Auth::user()->id;
         $alloc->caaLetterDate = $request->date;
-        $alloc->caaDescription = $request->description;
+        $alloc->caaDescription = PublicSetting::checkPersianCharacters($request->description);
         $alloc->caaAmount = AmountUnit::convertInputAmount($request->amount);
         $alloc->save();
 
@@ -195,7 +197,7 @@ class AllocationOfCapitalAssetsController extends Controller
         $alloc->caaUId = Auth::user()->id;
         $alloc->caaCcsId = $request->pcsId;
         $alloc->caaLetterDate = jDate::forge()->format('%Y/%m/%d');
-        $alloc->caaDescription = $request->description;
+        $alloc->caaDescription = PublicSetting::checkPersianCharacters($request->description);
         $alloc->caaAmount = $sumOfCost;
         $alloc->caaFoundId = $request->id;
         $alloc->save();
@@ -217,7 +219,7 @@ class AllocationOfCapitalAssetsController extends Controller
         $caAlloc->caLetterNumber = $request->idNumber;
         $caAlloc->caLetterDate = $request->date;
         $caAlloc->caAmount = AmountUnit::convertInputAmount($request->amount);
-        $caAlloc->caDescription = $request->description;
+        $caAlloc->caDescription = PublicSetting::checkPersianCharacters($request->description);
         $caAlloc->save();
 
         SystemLog::setBudgetSubSystemLog('ثبت تخصیص اعتبار هزینه ای');
@@ -234,7 +236,7 @@ class AllocationOfCapitalAssetsController extends Controller
         $caAlloc->caLetterNumber = $request->idNumber;
         $caAlloc->caLetterDate = $request->date;
         $caAlloc->caAmount = AmountUnit::convertInputAmount($request->amount);
-        $caAlloc->caDescription = $request->description;
+        $caAlloc->caDescription = PublicSetting::checkPersianCharacters($request->description);
         $caAlloc->save();
 
         SystemLog::setBudgetSubSystemLog('تغییر تخصیص اعتبار هزینه ای');
@@ -267,6 +269,7 @@ class AllocationOfCapitalAssetsController extends Controller
 
     public function getAllCostAllocates($pOrN , $searchValue , $itemInPage)
     {
+        $searchValue = PublicSetting::checkPersianCharacters($searchValue);
         return CostAgreement::where('caFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('caProvinceOrNational' , '=' , $pOrN)
             ->where(function($query) use($searchValue){
@@ -316,7 +319,7 @@ class AllocationOfCapitalAssetsController extends Controller
         $alloc->caFyId = Auth::user()->seFiscalYear;
         $alloc->caFound = true;
         $alloc->caLetterDate = $request->date;
-        $alloc->caDescription = $request->description;
+        $alloc->caDescription = PublicSetting::checkPersianCharacters($request->description);
         $alloc->caAmount = AmountUnit::convertInputAmount($request->amount);
         $alloc->save();
 
@@ -331,7 +334,7 @@ class AllocationOfCapitalAssetsController extends Controller
         $alloc = CostAllocation::find($request->id);
         $alloc->caUId = Auth::user()->id;
         $alloc->caLetterDate = $request->date;
-        $alloc->caDescription = $request->description;
+        $alloc->caDescription = PublicSetting::checkPersianCharacters($request->description);
         $alloc->caAmount = AmountUnit::convertInputAmount($request->amount);
         $alloc->save();
 
@@ -377,7 +380,7 @@ class AllocationOfCapitalAssetsController extends Controller
         $alloc->caUId = Auth::user()->id;
         $alloc->caCcsId = $request->caCsId;
         $alloc->caLetterDate = jDate::forge()->format('%Y/%m/%d');
-        $alloc->caDescription = $request->description;
+        $alloc->caDescription = PublicSetting::checkPersianCharacters($request->description);
         $alloc->caAmount = $sumOfCost;
         $alloc->caFoundId = $request->id;
         $alloc->save();

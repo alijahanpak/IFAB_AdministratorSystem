@@ -101,7 +101,11 @@
                                     <td>{{ planOrCost.cdtSubject }}</td>
                                     <td class="text-center">{{ planOrCost.budget_season.bsSubject }}</td>
                                     <td class="text-center">
-                                        <a class="" v-if="planOrCost.c_d_t_in_county.length != 0" @click="displayCountyInfo == planOrCost.id ? displayCountyInfo = '' : displayCountyInfo = planOrCost.id">جزئیات</a>
+                                        <div class="change-pointer" v-if="planOrCost.c_d_t_in_county.length != 0" @click="displayCountyInfo == planOrCost.id ? displayCountyInfo = '' : displayCountyInfo = planOrCost.id">
+                                            <span class="blue-color">جزئیات</span>
+                                            <div v-if="displayCountyInfo == planOrCost.id" class="up_arrow"></div>
+                                            <div v-if="displayCountyInfo != planOrCost.id" class="down_arrow"></div>
+                                        </div>
                                         <span class="comlpleted-badage" v-if="planOrCost.c_d_t_in_county.length == 0">تعریف نشده</span>
                                     </td>
                                     <td>

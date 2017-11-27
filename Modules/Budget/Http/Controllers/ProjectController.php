@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Modules\Admin\Entities\AmountUnit;
+use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Budget\Entities\CapCreditSource;
 use Modules\Budget\Entities\CapitalAssetsApprovedPlan;
@@ -16,12 +17,6 @@ use Modules\Budget\Entities\CreditDistributionRow;
 
 class ProjectController extends Controller
 {
-    public function approved_projects(){
-        return view('budget::pages.approved_projects.main',
-            ['pageTitle' => 'ثبت پروژه های مصوب',
-                'requireJsFile' => 'approved_projects']);
-    }
-
     public function fetchApprovedProjectData(Request $request)
     {
         return \response()->json(
@@ -31,6 +26,7 @@ class ProjectController extends Controller
 
     public function getAllProject($pOrN , $searchValue , $itemInPage)
     {
+        $searchValue = PublicSetting::checkPersianCharacters($searchValue);
         return CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('capActive' , '=' , true)
             ->where('capProvinceOrNational' , '=' , $pOrN)
@@ -70,12 +66,12 @@ class ProjectController extends Controller
             $project->cpUId = Auth::user()->id;
             $project->cpCapId = $request->pId;
             $project->cpCoId = $request->coId;
-            $project->cpSubject = $request->subject;
+            $project->cpSubject = PublicSetting::checkPersianCharacters($request->subject);
             $project->cpCode = $request->code;
             $project->cpStartYear = $request->startYear;
             $project->cpEndOfYear = $request->endYear;
             $project->cpPhysicalProgress = $request->pProgress;
-            $project->cpDescription = $request->description;
+            $project->cpDescription = PublicSetting::checkPersianCharacters($request->description);
             $project->save();
 
             SystemLog::setBudgetSubSystemLog('ثبت پروژه تملک داریی های سرمایه ای ' . $request->subject);
@@ -112,12 +108,12 @@ class ProjectController extends Controller
             $project->cpUId = Auth::user()->id;
             $project->cpCapId = $request->pId;
             $project->cpCoId = $request->coId;
-            $project->cpSubject = $request->subject;
+            $project->cpSubject = PublicSetting::checkPersianCharacters($request->subject);
             $project->cpCode = $request->code;
             $project->cpStartYear = $request->startYear;
             $project->cpEndOfYear = $request->endYear;
             $project->cpPhysicalProgress = $request->pProgress;
-            $project->cpDescription = $request->description;
+            $project->cpDescription = PublicSetting::checkPersianCharacters($request->description);
             $project->save();
 
             SystemLog::setBudgetSubSystemLog('تغییر در پروژه تملک داریی های سرمایه ای ' . $old->cpSubject);
@@ -150,7 +146,7 @@ class ProjectController extends Controller
             $apCs->ccsTsId = $request->tsId;
             $apCs->ccsHtrId = $request->htrId;
             $apCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
-            $apCs->ccsDescription = $request->description;
+            $apCs->ccsDescription = PublicSetting::checkPersianCharacters($request->description);
             $apCs->save();
 
             SystemLog::setBudgetSubSystemLog('ثبت تامین اعتبار پروژه تملک داریی های سرمایه ای ' . $request->subject);
@@ -176,7 +172,7 @@ class ProjectController extends Controller
             $apCs->ccsTsId = $request->tsId;
             $apCs->ccsHtrId = $request->htrId;
             $apCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
-            $apCs->ccsDescription = $request->description;
+            $apCs->ccsDescription = PublicSetting::checkPersianCharacters($request->description);
             $apCs->save();
 
             SystemLog::setBudgetSubSystemLog('تغییر در تامین اعتبار پروژه تملک داریی های سرمایه ای ');

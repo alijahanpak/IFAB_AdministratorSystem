@@ -58,8 +58,8 @@ class BudgetAdminController extends Controller
             $ts = new CostTinySeason;
             $ts->ctsUId = Auth::user()->id;
             $ts->ctsCstId = $request->stId;
-            $ts->ctsSubject = $request->subject;
-            $ts->ctsDescription = $request->description;
+            $ts->ctsSubject = PublicSetting::checkPersianCharacters($request->subject);
+            $ts->ctsDescription = PublicSetting::checkPersianCharacters($request->description);
             $ts->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل هزینه ای ' . $request->subject . ' در عنوان فصل ' . CostSeasonTitle::find($request->stId)->catsSubject);
@@ -71,7 +71,7 @@ class BudgetAdminController extends Controller
     {
         if (CostTinySeason::where('id' , '<>' , $request->id)
             ->where('ctsCstId' , '=' , $request->stId)
-            ->Where('ctsSubject' , '=' , $request->subject)
+            ->Where('ctsSubject' , '=' , PublicSetting::checkPersianCharacters($request->subject))
             ->exists())
         {
             return \response()->json([] , 409);
@@ -82,8 +82,8 @@ class BudgetAdminController extends Controller
             $ts = CostTinySeason::find($request->id);
             $ts->ctsUId = Auth::user()->id;
             $ts->ctsCstId = $request->stId;
-            $ts->ctsSubject = $request->subject;
-            $ts->ctsDescription = $request->description;
+            $ts->ctsSubject = PublicSetting::checkPersianCharacters($request->subject);
+            $ts->ctsDescription = PublicSetting::checkPersianCharacters($request->description);
             $ts->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تغییر  ریز فصل (' . $old->ctsSubject . ') به (' . $ts->ctsubject . ')');
@@ -97,11 +97,11 @@ class BudgetAdminController extends Controller
         try {
             $ts->delete();
             SystemLog::setBudgetSubSystemAdminLog('حذف ریز فصل ' . $request->subject);
-            return \response()->json($this->getAllTinySeasons("cost" , $request->searchValue , $request->itemInPage) , 200);
+            return \response()->json($this->getAllTinySeasons("cost" , $request->searchValue , $request->itemInPage));
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return \response()->json($this->getAllTinySeasons("cost" , $request->searchValue , $request->itemInPage) , 204);
+                return \response()->json([] , 204);
             }
         }
     }
@@ -126,6 +126,7 @@ class BudgetAdminController extends Controller
 
     public function getAllTinySeasons($type , $searchValue , $itemInPage)
     {
+        $searchValue = PublicSetting::checkPersianCharacters($searchValue);
         if ($type == "capitalAssets")
         {
             return Season::with('capitalAssetsSeasonTitleHasTinySeason.capitalAssetsTinySeason')
@@ -154,7 +155,7 @@ class BudgetAdminController extends Controller
     public function registerCapitalAssetsTinySeason(Request $request)
     {
         if (CapitalAssetsTinySeason::where('catsCastId' , '=' , $request->stId)
-            ->Where('catsSubject' , '=' , $request->subject)
+            ->Where('catsSubject' , '=' , PublicSetting::checkPersianCharacters($request->subject))
             ->exists())
         {
             return \response()->json([] , 409);
@@ -164,8 +165,8 @@ class BudgetAdminController extends Controller
             $ts = new CapitalAssetsTinySeason;
             $ts->catsUId = Auth::user()->id;
             $ts->catsCastId = $request->stId;
-            $ts->catsSubject = $request->subject;
-            $ts->catsDescription = $request->description;
+            $ts->catsSubject = PublicSetting::checkPersianCharacters($request->subject);
+            $ts->catsDescription = PublicSetting::checkPersianCharacters($request->description);
             $ts->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تعریف ریز فصل عمرانی ' . $request->subject . ' در عنوان فصل ' . CapitalAssetsSeasonTitle::find($request->stId)->castSubject);
@@ -177,7 +178,7 @@ class BudgetAdminController extends Controller
     {
         if (CapitalAssetsTinySeason::where('id' , '<>' , $request->id)
             ->where('catsCastId' , '=' , $request->stId)
-            ->Where('catsSubject' , '=' , $request->subject)
+            ->Where('catsSubject' , '=' , PublicSetting::checkPersianCharacters($request->subject))
             ->exists())
         {
             return \response()->json([] , 409);
@@ -188,8 +189,8 @@ class BudgetAdminController extends Controller
             $ts = CapitalAssetsTinySeason::find($request->id);
             $ts->catsUId = Auth::user()->id;
             $ts->catsCastId = $request->stId;
-            $ts->catsSubject = $request->subject;
-            $ts->catsDescription = $request->description;
+            $ts->catsSubject = PublicSetting::checkPersianCharacters($request->subject);
+            $ts->catsDescription = PublicSetting::checkPersianCharacters($request->description);
             $ts->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تغییر  ریز فصل (' . $old->catsSubject . ') به (' . $ts->catsubject . ')');
@@ -207,15 +208,9 @@ class BudgetAdminController extends Controller
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return \response()->json($this->getAllTinySeasons("capitalAssets" , $request->searchValue , $request->itemInPage) , 204);
+                return \response()->json([] , 204);
             }
         }
-    }
-
-    public function rowDistributionCredit()
-    {
-        return view('budget::pages.row_distribution_credit.main', ['pageTitle' => 'ردیف توزیع اعتبار',
-            'requireJsFile' => 'row_distribution_credit' ]);
     }
 
     public function FetchRowDC(Request $request)
@@ -227,7 +222,7 @@ class BudgetAdminController extends Controller
     public function registerRowDC(Request $request)
     {
 
-        if (CreditDistributionRow::where('cdSubject' , '=' , $request->rdcSubject)->exists())
+        if (CreditDistributionRow::where('cdSubject' , '=' , PublicSetting::checkPersianCharacters($request->rdcSubject))->exists())
         {
             return \response()->json([] , 409);
         }
@@ -236,8 +231,8 @@ class BudgetAdminController extends Controller
             $cdr = new CreditDistributionRow;
             $cdr->cdUId = Auth::user()->id;
             $cdr->cdPlanOrCost = $request->planOrCost;
-            $cdr->cdSubject = $request->rdcSubject;
-            $cdr->cdDescription = $request->rdcDescription;
+            $cdr->cdSubject = PublicSetting::checkPersianCharacters($request->rdcSubject);
+            $cdr->cdDescription = PublicSetting::checkPersianCharacters($request->rdcDescription);
             $cdr->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تعریف ردیف توزیع اعتبار ' . $request->rdcSubject);
@@ -248,7 +243,7 @@ class BudgetAdminController extends Controller
 
     public function updateRowDC(Request $request)
     {
-        if (CreditDistributionRow::where('id' , '<>' , $request->id)->where('cdSubject' , '=' , $request->rdcSubject)->exists())
+        if (CreditDistributionRow::where('id' , '<>' , $request->id)->where('cdSubject' , '=' , PublicSetting::checkPersianCharacters($request->rdcSubject))->exists())
         {
             return \response()->json([] , 409);
         }
@@ -256,8 +251,8 @@ class BudgetAdminController extends Controller
         {
             $old = CreditDistributionRow::find($request->id);
             $cdr = CreditDistributionRow::find($request->id);
-            $cdr->cdSubject = $request->rdcSubject;
-            $cdr->cdDescription = $request->rdcDescription;
+            $cdr->cdSubject = PublicSetting::checkPersianCharacters($request->rdcSubject);
+            $cdr->cdDescription = PublicSetting::checkPersianCharacters($request->rdcDescription);
             $cdr->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان ردیف توزیع اعتبار (' . $old->cdSubject . ') به (' . $request->rdcSubject . ')');
@@ -278,8 +273,7 @@ class BudgetAdminController extends Controller
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                $cdr = CreditDistributionRow::where('cdPlanOrCost' , $request->cdPlanOrCost)->get();
-                return \response()->json($cdr , 204);
+                return \response()->json([] , 204);
             }
         }
     }
@@ -297,8 +291,8 @@ class BudgetAdminController extends Controller
         $st = new CapitalAssetsSeasonTitle;
         $st->castUId = Auth::user()->id;
         $st->castSId = $request->sId;
-        $st->castSubject = $request->subject;
-        $st->castDescription = $request->description;
+        $st->castSubject = PublicSetting::checkPersianCharacters($request->subject);
+        $st->castDescription = PublicSetting::checkPersianCharacters($request->description);
         $st->save();
 
         SystemLog::setBudgetSubSystemAdminLog('تعریف عنوان فصل تملک داریی های سرمایه ای ' . $request->subject);
@@ -310,8 +304,8 @@ class BudgetAdminController extends Controller
         $st = CapitalAssetsSeasonTitle::find($request->id);
         $st->castUId = Auth::user()->id;
         $st->castSId = $request->sId;
-        $st->castSubject = $request->subject;
-        $st->castDescription = $request->description;
+        $st->castSubject = PublicSetting::checkPersianCharacters($request->subject);
+        $st->castDescription = PublicSetting::checkPersianCharacters($request->description);
         $st->save();
 
         SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان فصل تملک داریی های سرمایه ای ' . $request->subject);
@@ -325,6 +319,7 @@ class BudgetAdminController extends Controller
 
     public function getAllSeasonTitle($pOrC , $searchValue , $itemInPage)
     {
+        $searchValue = PublicSetting::checkPersianCharacters($searchValue);
         if ($pOrC == "cost")
         {
             return Season::with(['costSeasonTitle' => function ($query) use ($searchValue){
@@ -377,8 +372,8 @@ class BudgetAdminController extends Controller
         $st = new CostSeasonTitle;
         $st->cstUId = Auth::user()->id;
         $st->cstSId = $request->sId;
-        $st->cstSubject = $request->subject;
-        $st->cstDescription = $request->description;
+        $st->cstSubject = PublicSetting::checkPersianCharacters($request->subject);
+        $st->cstDescription = PublicSetting::checkPersianCharacters($request->description);
         $st->save();
 
         SystemLog::setBudgetSubSystemAdminLog('تعریف عنوان فصل هزینه ای ' . $request->subject);
@@ -390,8 +385,8 @@ class BudgetAdminController extends Controller
         $st = CostSeasonTitle::find($request->id);
         $st->cstUId = Auth::user()->id;
         $st->cstSId = $request->sId;
-        $st->cstSubject = $request->subject;
-        $st->cstDescription = $request->description;
+        $st->cstSubject = PublicSetting::checkPersianCharacters($request->subject);
+        $st->cstDescription = PublicSetting::checkPersianCharacters($request->description);
         $st->save();
 
         SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان فصل هزینه ای ' . $request->subject);
@@ -500,9 +495,12 @@ class BudgetAdminController extends Controller
 
     public function registerDeprivedArea(Request $request)
     {
-        if (DeprivedArea::where('daCoId' , '=' , $request->county)->where('daReId' , '=' , $request->region)->where('daRdId' , '=' , $request->ruralDistrict)->where('daViId' , '=' , $request->village)->exists())
+        if (DeprivedArea::where('daCoId' , '=' , $request->county)
+            ->where('daReId' , '=' , $request->region)
+            ->where('daRdId' , '=' , $request->ruralDistrict)
+            ->where('daViId' , '=' , $request->village)->exists())
         {
-            return \response()->json($this->getAllDeprivedArea() , 409);
+            return \response()->json([] , 409);
         }
         else
         {
@@ -512,7 +510,7 @@ class BudgetAdminController extends Controller
             $deprivedArea->daReId = $request->region;
             $deprivedArea->daRdId = $request->ruralDistrict;
             $deprivedArea->daViId = $request->village;
-            $deprivedArea->daDescription = $request->description;
+            $deprivedArea->daDescription = PublicSetting::checkPersianCharacters($request->description);
             $deprivedArea->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تعریف منطقه محروم ' . DeprivedArea::getDeprivedAreaLabel($deprivedArea->id));
@@ -523,9 +521,13 @@ class BudgetAdminController extends Controller
 
     public function updateDeprivedArea(Request $request)
     {
-        if (DeprivedArea::where('id' , '<>' , $request->id)->where('daCoId' , '=' , $request->county)->where('daReId' , '=' , $request->region)->where('daRdId' , '=' , $request->ruralDistrict)->where('daViId' , '=' , $request->village)->exists())
+        if (DeprivedArea::where('id' , '<>' , $request->id)
+            ->where('daCoId' , '=' , $request->county)
+            ->where('daReId' , '=' , $request->region)
+            ->where('daRdId' , '=' , $request->ruralDistrict)
+            ->where('daViId' , '=' , $request->village)->exists())
         {
-            return \response()->json($this->getAllDeprivedArea() , 409);
+            return \response()->json([] , 409);
         }
         else
         {
@@ -535,7 +537,7 @@ class BudgetAdminController extends Controller
             $deprivedArea->daReId = $request->region;
             $deprivedArea->daRdId = $request->ruralDistrict;
             $deprivedArea->daViId = $request->village;
-            $deprivedArea->daDescription = $request->description;
+            $deprivedArea->daDescription = PublicSetting::checkPersianCharacters($request->description);
             $deprivedArea->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تغییر در منطقه محروم (' . $old . ') به (' . DeprivedArea::getDeprivedAreaLabel($deprivedArea->id) . ')');
@@ -554,7 +556,7 @@ class BudgetAdminController extends Controller
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return \response()->json($this->getAllDeprivedArea() , 204);
+                return \response()->json([] , 204);
             }
         }
     }
@@ -580,8 +582,8 @@ class BudgetAdminController extends Controller
         {
             $bs = new BudgetSeason;
             $bs->bsUId = Auth::user()->id;
-            $bs->bsSubject = $request->subject;
-            $bs->bsDescription = $request->description;
+            $bs->bsSubject = PublicSetting::checkPersianCharacters($request->subject);
+            $bs->bsDescription = PublicSetting::checkPersianCharacters($request->description);
             $bs->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تعریف فصل بودجه ' . $request->subject);
@@ -592,7 +594,8 @@ class BudgetAdminController extends Controller
 
     public function updateBudgetSeason(Request $request)
     {
-        if (BudgetSeason::where('id' , '<>' , $request->id)->where('bsSubject' , '=' , $request->subject)->exists())
+        if (BudgetSeason::where('id' , '<>' , $request->id)
+            ->where('bsSubject' , '=' , PublicSetting::checkPersianCharacters($request->subject))->exists())
         {
             return \response()->json([] , 409);
         }
@@ -600,8 +603,8 @@ class BudgetAdminController extends Controller
         {
             $old = BudgetSeason::find($request->id);
             $bs = BudgetSeason::find($request->id);
-            $bs->bsSubject = $request->subject;
-            $bs->bsDescription = $request->description;
+            $bs->bsSubject = PublicSetting::checkPersianCharacters($request->subject);
+            $bs->bsDescription = PublicSetting::checkPersianCharacters($request->description);
             $bs->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تغییر در فصل بودجه (' . $old->bsSubject . ') به (' . $bs->bsSubject . ')');
@@ -643,7 +646,7 @@ class BudgetAdminController extends Controller
 
     public function registerCreditDistributionRow(Request $request)
     {
-        if (CreditDistributionRow::where('cdSubject' , '=' , $request->subject)
+        if (CreditDistributionRow::where('cdSubject' , '=' , PublicSetting::checkPersianCharacters($request->subject))
             ->where('cdPlanOrCost' , '=' , $request->planOrCost)->exists())
         {
             return \response()->json([] , 409);
@@ -653,8 +656,8 @@ class BudgetAdminController extends Controller
             $cdr = new CreditDistributionRow;
             $cdr->cdUId = Auth::user()->id;
             $cdr->cdPlanOrCost = $request->planOrCost;
-            $cdr->cdSubject = $request->subject;
-            $cdr->cdDescription = $request->description;
+            $cdr->cdSubject = PublicSetting::checkPersianCharacters($request->subject);
+            $cdr->cdDescription = PublicSetting::checkPersianCharacters($request->description);
             $cdr->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تعریف ردیف توزیع اعتبار ' . $request->subject);
@@ -665,8 +668,9 @@ class BudgetAdminController extends Controller
     public function updateCreditDistributionRow(Request $request)
     {
         if (CreditDistributionRow::where('id' , '<>' , $request->id)
-            ->where('cdSubject' , '=' , $request->subject)
-            ->where('cdPlanOrCost' , '=' , $request->planOrCost)->exists())
+            ->where('cdSubject' , '=' , PublicSetting::checkPersianCharacters($request->subject))
+            ->where('cdPlanOrCost' , '=' , PublicSetting::checkPersianCharacters($request->planOrCost))
+            ->exists())
         {
             return \response()->json([] , 409);
         }
@@ -674,8 +678,8 @@ class BudgetAdminController extends Controller
         {
             $old = CreditDistributionRow::find($request->id);
             $cdr = CreditDistributionRow::find($request->id);
-            $cdr->cdSubject = $request->subject;
-            $cdr->cdDescription = $request->description;
+            $cdr->cdSubject = PublicSetting::checkPersianCharacters($request->subject);
+            $cdr->cdDescription = PublicSetting::checkPersianCharacters($request->description);
             $cdr->save();
 
             SystemLog::setBudgetSubSystemAdminLog('تغییر در عنوان ردیف توزیع اعتبار (' . $old->cdSubject . ') به (' . $request->subject . ')');
@@ -711,8 +715,8 @@ class BudgetAdminController extends Controller
             $cdpt->cdtUId = Auth::user()->id;
             $cdpt->cdtBsId = $request->bsId;
             $cdpt->cdtIdNumber = $request->code;
-            $cdpt->cdtSubject = $request->subject;
-            $cdpt->cdtDescription = $request->description;
+            $cdpt->cdtSubject = PublicSetting::checkPersianCharacters($request->subject);
+            $cdpt->cdtDescription = PublicSetting::checkPersianCharacters($request->description);
             $cdpt->save();
 
             $counties = County::all();
@@ -724,9 +728,9 @@ class BudgetAdminController extends Controller
                     $cdpt_co->cdtUId = Auth::user()->id;
                     $cdpt_co->cdtBsId = $request->bsId;
                     $cdpt_co->cdtIdNumber = $request['county' . $county->id] . PublicSetting::getProvincePlanLebel() . $request->code;
-                    $cdpt_co->cdtSubject = $request->subject;
+                    $cdpt_co->cdtSubject = PublicSetting::checkPersianCharacters($request->subject);
                     if (isset($request['countyDesc' . $county->id]))
-                        $cdpt_co->cdtDescription = $request['countyDesc' . $county->id];
+                        $cdpt_co->cdtDescription = PublicSetting::checkPersianCharacters($request['countyDesc' . $county->id]);
                     $cdpt_co->cdtCoId = $county->id;
                     $cdpt_co->cdtCdtId = $cdpt->id;
                     $cdpt_co->save();
@@ -754,8 +758,8 @@ class BudgetAdminController extends Controller
             $cdpt->cdtUId = Auth::user()->id;
             $cdpt->cdtBsId = $request->bsId;
             $cdpt->cdtIdNumber = $request->code;
-            $cdpt->cdtSubject = $request->subject;
-            $cdpt->cdtDescription = $request->description;
+            $cdpt->cdtSubject = PublicSetting::checkPersianCharacters($request->subject);
+            $cdpt->cdtDescription = PublicSetting::checkPersianCharacters($request->description);
             $cdpt->save();
 
             $counties = County::all();
@@ -771,8 +775,8 @@ class BudgetAdminController extends Controller
                     CreditDistributionTitle::updateOrCreate(['cdtCdtId' => $request->id , 'cdtCoId' => $county->id] , ['cdtUId' => Auth::user()->id,
                         'cdtBsId' => $request->bsId,
                         'cdtIdNumber' => $request['county' . $county->id] . PublicSetting::getProvincePlanLebel() . $request->code,
-                        'cdtSubject' => $request->subject,
-                        'cdtDescription' => isset($request['countyDesc' . $county->id]) ? $request['countyDesc' . $county->id] : '',
+                        'cdtSubject' => PublicSetting::checkPersianCharacters($request->subject),
+                        'cdtDescription' => isset($request['countyDesc' . $county->id]) ? PublicSetting::checkPersianCharacters($request['countyDesc' . $county->id]) : '',
                         'cdtCoId' => $county->id,
                         'cdtCdtId' => $cdpt->id]);
                     SystemLog::setBudgetSubSystemAdminLog('تغییر عنوان طرح توزیع اعتبار در سطح شهرستان ' . $county->coName);
@@ -812,6 +816,7 @@ class BudgetAdminController extends Controller
 
     public function getAllPlanOrCostTitle($searchValue , $itemInPage)
     {
+        $searchValue = PublicSetting::checkPersianCharacters($searchValue);
         return CreditDistributionTitle::where('cdtCoId' , '=' , null)
             ->where(function($q) use($searchValue){
                 $q->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\Rules\In;
 use Modules\Admin\Entities\AmountUnit;
 use Modules\Admin\Entities\County;
+use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Admin\Entities\User;
 use Modules\Budget\Entities\BudgetSeason;
@@ -69,7 +70,7 @@ class CreditDistributionController extends Controller
             $cdp->cdpFyId = Auth::user()->seFiscalYear;
             $cdp->cdpCoId = $request->coId;
             $cdp->cdpCredit = AmountUnit::convertInputAmount($request->amount);
-            $cdp->cdpDescription = $request->description;
+            $cdp->cdpDescription = PublicSetting::checkPersianCharacters($request->description);
             $cdp->save();
 
             SystemLog::setBudgetSubSystemLog('اضافه کردن طرح توزیع اعتبار با عنوان ' . $cdp->creditDistributionTitle->cdtSubject . ' در ' . $cdp->creditDistributionRow->cdrSubject);
@@ -97,7 +98,7 @@ class CreditDistributionController extends Controller
             $cdp->cdpFyId = Auth::user()->seFiscalYear;
             $cdp->cdpCoId = $request->coId;
             $cdp->cdpCredit = AmountUnit::convertInputAmount($request->amount);
-            $cdp->cdpDescription = $request->description;
+            $cdp->cdpDescription = PublicSetting::checkPersianCharacters($request->description);
             $cdp->save();
 
             SystemLog::setBudgetSubSystemLog('بروز رسانی طرح توزیع اعتبار تملک داریی های سرمایه ای استانی');
@@ -127,6 +128,7 @@ class CreditDistributionController extends Controller
 
     public function getAllCdPlans($searchValue , $itemInPage)
     {
+        $searchValue = PublicSetting::checkPersianCharacters($searchValue);
         return CreditDistributionTitle::has('creditDistributionPlan')
             ->where(function($query) use($searchValue){
                 return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
@@ -143,6 +145,7 @@ class CreditDistributionController extends Controller
 
     public function getAllCdPlansOrderByRow($searchValue , $itemInPage)
     {
+        $searchValue = PublicSetting::checkPersianCharacters($searchValue);
         return CreditDistributionRow::has('creditDistributionPlan')
             ->where(function($query) use($searchValue){
                 return $query->where('cdSubject' , 'LIKE' , '%' . $searchValue . '%');
@@ -157,6 +160,7 @@ class CreditDistributionController extends Controller
 
     public function getAllCdPlansOrderByBudget($searchValue , $itemInPage)
     {
+        $searchValue = PublicSetting::checkPersianCharacters($searchValue);
         return BudgetSeason::has('cdpTitleHasCreditDistributionPlan')
             ->where(function($query) use($searchValue){
                 return $query->where('bsSubject' , 'LIKE' , '%' . $searchValue . '%');
@@ -172,6 +176,7 @@ class CreditDistributionController extends Controller
 
     public function getAllCdPlansOrderByCounty($searchValue , $itemInPage)
     {
+        $searchValue = PublicSetting::checkPersianCharacters($searchValue);
         return County::has('creditDistributionPlan')
             ->where(function($query) use($searchValue){
                 return $query->where('coName' , 'LIKE' , '%' . $searchValue . '%');
@@ -210,6 +215,7 @@ class CreditDistributionController extends Controller
 
     public function getAllProvincialBudgetProposal($searchValue , $itemInPage)
     {
+        $searchValue = PublicSetting::checkPersianCharacters($searchValue);
         return County::has('creditDistributionPlanHasProposal')
             ->whereHas('creditDistributionPlanHasProposal' , function($q) use($searchValue){
                 return $q->where('cdpFyId' , '=' , Auth::user()->seFiscalYear);
@@ -236,9 +242,9 @@ class CreditDistributionController extends Controller
             $pbp->pbpCdpId = $request->cdpId;
             $pbp->pbpFyId = Auth::user()->seFiscalYear;
             $pbp->pbpAmount = AmountUnit::convertInputAmount($request->pAmount);
-            $pbp->pbpSubject = $request->pSubject;
+            $pbp->pbpSubject = PublicSetting::checkPersianCharacters($request->pSubject);
             $pbp->pbpCode = $request->pCode;
-            $pbp->pbpDescription = $request->pDescription;
+            $pbp->pbpDescription = PublicSetting::checkPersianCharacters($request->pDescription);
             $pbp->save();
 
             SystemLog::setBudgetSubSystemLog('ثبت پیشنهاد بودجه تملک داریی های سرمایه ای استانی برای پروژه ' . $pbp->pbpSubject);
@@ -261,9 +267,9 @@ class CreditDistributionController extends Controller
             $pbp->pbpUId = Auth::user()->id;
             $pbp->pbpCdpId = $request->cdpId;
             $pbp->pbpAmount = AmountUnit::convertInputAmount($request->pAmount);
-            $pbp->pbpSubject = $request->pSubject;
+            $pbp->pbpSubject = PublicSetting::checkPersianCharacters($request->pSubject);
             $pbp->pbpCode = $request->pCode;
-            $pbp->pbpDescription = $request->pDescription;
+            $pbp->pbpDescription = PublicSetting::checkPersianCharacters($request->pDescription);
             $pbp->save();
 
             SystemLog::setBudgetSubSystemLog('تغییر در پیشنهاد بودجه تملک داریی های سرمایه ای استانی برای پروژه ' . $old->pbpSubject);

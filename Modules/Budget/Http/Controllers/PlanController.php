@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use Modules\Admin\Entities\AmountUnit;
+use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Budget\Entities\CaCreditSource;
 use Modules\Budget\Entities\CaCreditSourceTemp;
@@ -50,7 +51,7 @@ class PlanController extends Controller
             $cap->capExchangeIdNumber = $request->exIdNumber;
             $cap->capExchangeDate = $request->exDate;
             $cap->capProvinceOrNational = $request->pOrN;
-            $cap->capDescription = $request->description;
+            $cap->capDescription = PublicSetting::checkPersianCharacters($request->description);
             if (isset($request->capId))
                 $cap->capCapId = $request->capId;
             $cap->save();
@@ -64,6 +65,7 @@ class PlanController extends Controller
 
     public function getAllPlans($pOrN , $searchValue , $itemInPage)
     {
+        $searchValue = PublicSetting::checkPersianCharacters($searchValue);
         return CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('capActive' , '=' , true)
             ->where('capProvinceOrNational' , '=' , $pOrN)
@@ -126,7 +128,7 @@ class PlanController extends Controller
             $cap->capLetterDate = $request->date;
             $cap->capExchangeIdNumber = $request->exIdNumber;
             $cap->capExchangeDate = $request->exDate;
-            $cap->capDescription = $request->description;
+            $cap->capDescription = PublicSetting::checkPersianCharacters($request->description);
             $cap->save();
 
             SystemLog::setBudgetSubSystemLog('تغییر در طرح تملک داریی های سرمایه ای ');
@@ -157,7 +159,7 @@ class PlanController extends Controller
         $cap->capExchangeIdNumber = $temp->capExchangeIdNumber;
         $cap->capExchangeDate = $temp->capExchangeDate;
         $cap->capProvinceOrNational = $temp->capProvinceOrNational;
-        $cap->capDescription = $temp->capDescription;
+        $cap->capDescription = PublicSetting::checkPersianCharacters($temp->capDescription);
         $cap->save();
 
         CapitalAssetsApprovedPlan::where('id' , '=' , $request->parentId)
@@ -173,12 +175,12 @@ class PlanController extends Controller
                 $project->cpUId = $pTemp->cpUId;
                 $project->cpCapId = $cap->id;
                 $project->cpCoId = $pTemp->cpCoId;
-                $project->cpSubject = $pTemp->cpSubject;
+                $project->cpSubject = PublicSetting::checkPersianCharacters($pTemp->cpSubject);
                 $project->cpCode = $pTemp->cpCode;
                 $project->cpStartYear = $pTemp->cpStartYear;
                 $project->cpEndOfYear = $pTemp->cpEndOfYear;
                 $project->cpPhysicalProgress = $pTemp->cpPhysicalProgress;
-                $project->cpDescription = $pTemp->cpDescription;
+                $project->cpDescription = PublicSetting::checkPersianCharacters($pTemp->cpDescription);
                 $project->save();
 
                 if ($pTemp->cpCpId != null)
@@ -199,7 +201,7 @@ class PlanController extends Controller
                         $cs->ccsHtrId = $csTemp->ccsHtrId;
                         $cs->ccsCapId = $project->id;
                         $cs->ccsAmount = $csTemp->ccsAmount;
-                        $cs->ccsDescription = $csTemp->ccsDescription;
+                        $cs->ccsDescription = PublicSetting::checkPersianCharacters($csTemp->ccsDescription);
                         $cs->save();
 
                         CapitalAssetsAllocation::where('caaCcsId' , '=' , $csTemp->ccsCcsId)
@@ -239,7 +241,7 @@ class PlanController extends Controller
             $cap->capExchangeIdNumber = $old->capExchangeIdNumber;
             $cap->capExchangeDate = $old->capExchangeDate;
             $cap->capProvinceOrNational = $old->capProvinceOrNational;
-            $cap->capDescription = $request->description;
+            $cap->capDescription = PublicSetting::checkPersianCharacters($request->description);
             $cap->save();
 
             $oldProject = CapitalAssetsProject::where('cpCapId', '=', $request->capId)->get();
@@ -249,12 +251,12 @@ class PlanController extends Controller
                 $capP->cpCapId = $cap->id;
                 $capP->cpCpId = $item->id;
                 $capP->cpCoId = $item->cpCoId;
-                $capP->cpSubject = $item->cpSubject;
+                $capP->cpSubject = PublicSetting::checkPersianCharacters($item->cpSubject);
                 $capP->cpCode = $item->cpCode;
                 $capP->cpStartYear = $item->cpStartYear;
                 $capP->cpEndOfYear = $item->cpEndOfYear;
                 $capP->cpPhysicalProgress = $item->cpPhysicalProgress;
-                $capP->cpDescription = $item->cpDescription;
+                $capP->cpDescription = PublicSetting::checkPersianCharacters($item->cpDescription);
                 $capP->save();
 
                 $oldCreditSource = CapCreditSource::where('ccsCapId', '=', $item->id)->get();
@@ -267,7 +269,7 @@ class PlanController extends Controller
                     $capCs->ccsHtrId = $csItem->ccsHtrId;
                     $capCs->ccsCapId = $capP->id;
                     $capCs->ccsAmount = $csItem->ccsAmount;
-                    $capCs->ccsDescription = $csItem->ccsDescription;
+                    $capCs->ccsDescription = PublicSetting::checkPersianCharacters($csItem->ccsDescription);
                     $capCs->save();
                 }
 
@@ -286,12 +288,12 @@ class PlanController extends Controller
             $project->cpUId = Auth::user()->id;
             $project->cpCapId = $request->pId;
             $project->cpCoId = $request->coId;
-            $project->cpSubject = $request->subject;
+            $project->cpSubject = PublicSetting::checkPersianCharacters($request->subject);
             $project->cpCode = $request->code;
             $project->cpStartYear = $request->startYear;
             $project->cpEndOfYear = $request->endYear;
             $project->cpPhysicalProgress = $request->pProgress;
-            $project->cpDescription = $request->description;
+            $project->cpDescription = PublicSetting::checkPersianCharacters($request->description);
             $project->save();
             return \response()->json(
                 $this->getAllTempProjectWithPlanId($request->pId)
@@ -307,12 +309,12 @@ class PlanController extends Controller
             return \response()->json([] , 409);
         }else{
             $project = CapitalAssetsProjectTemp::find($request->cpId);
-            $project->cpSubject = $request->subject;
+            $project->cpSubject = PublicSetting::checkPersianCharacters($request->subject);
             $project->cpCode = $request->code;
             $project->cpStartYear = $request->startYear;
             $project->cpEndOfYear = $request->endYear;
             $project->cpPhysicalProgress = $request->pProgress;
-            $project->cpDescription = $request->description;
+            $project->cpDescription = PublicSetting::checkPersianCharacters($request->description);
             $project->save();
 
             return \response()->json(
@@ -357,7 +359,7 @@ class PlanController extends Controller
             $apCs->ccsTsId = $request->tsId;
             $apCs->ccsHtrId = $request->htrId;
             $apCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
-            $apCs->ccsDescription = $request->description;
+            $apCs->ccsDescription = PublicSetting::checkPersianCharacters($request->description);
             $apCs->save();
 
             return \response()->json(
@@ -381,7 +383,7 @@ class PlanController extends Controller
             $apCs->ccsTsId = $request->tsId;
             $apCs->ccsHtrId = $request->htrId;
             $apCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
-            $apCs->ccsDescription = $request->description;
+            $apCs->ccsDescription = PublicSetting::checkPersianCharacters($request->description);
             $apCs->save();
 
             return \response()->json(
@@ -420,6 +422,7 @@ class PlanController extends Controller
     /////////////////////////////// cost ////////////////////////////////////////////
     public function getAllCostAgreemrent($pOrN , $searchValue , $itemInPage)
     {
+        $searchValue = PublicSetting::checkPersianCharacters($searchValue);
         return CostAgreement::where('caFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('caActive' , '=' , true)
             ->where('caProvinceOrNational' , '=' , $pOrN)
@@ -463,7 +466,7 @@ class PlanController extends Controller
             $ca->caLetterDate = $request->date;
             $ca->caExchangeIdNumber = $request->exIdNumber;
             $ca->caExchangeDate = $request->exDate;
-            $ca->caDescription = $request->description;
+            $ca->caDescription = PublicSetting::checkPersianCharacters($request->description);
             $ca->save();
 
             SystemLog::setBudgetSubSystemLog('ثبت موافقت نامه هزینه ای ');
@@ -485,7 +488,7 @@ class PlanController extends Controller
             $ca->caLetterDate = $request->date;
             $ca->caExchangeIdNumber = $request->exIdNumber;
             $ca->caExchangeDate = $request->exDate;
-            $ca->caDescription = $request->description;
+            $ca->caDescription = PublicSetting::checkPersianCharacters($request->description);
             $ca->save();
 
             SystemLog::setBudgetSubSystemLog('تغییر موافقت نامه هزینه ای ');
@@ -524,7 +527,7 @@ class PlanController extends Controller
             $caCs->ccsTsId = $request->tsId;
             $caCs->ccsCdtId = $request->cdtId;
             $caCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
-            $caCs->ccsDescription = $request->description;
+            $caCs->ccsDescription = PublicSetting::checkPersianCharacters($request->description);
             $caCs->save();
 
             SystemLog::setBudgetSubSystemLog('ثبت تامین اعتبار هزینه ای');
@@ -549,7 +552,7 @@ class PlanController extends Controller
             $caCs->ccsTsId = $request->tsId;
             $caCs->ccsCdtId = $request->cdtId;
             $caCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
-            $caCs->ccsDescription = $request->description;
+            $caCs->ccsDescription = PublicSetting::checkPersianCharacters($request->description);
             $caCs->save();
 
             SystemLog::setBudgetSubSystemLog('تغییر تامین اعتبار هزینه ای');
@@ -605,7 +608,7 @@ class PlanController extends Controller
         $newCa->caLetterDate = $temp->caLetterDate;
         $newCa->caExchangeIdNumber = $temp->caExchangeIdNumber;
         $newCa->caExchangeDate = $temp->caExchangeDate;
-        $newCa->caDescription = $temp->caDescription;
+        $newCa->caDescription = PublicSetting::checkPersianCharacters($temp->caDescription);
         $newCa->save();
 
         CostAgreement::where('id' , '=' , $request->parentId)
@@ -623,7 +626,7 @@ class PlanController extends Controller
                 $cs->ccsCdtId = $csTemp->ccsCdtId;
                 $cs->ccsCaId = $newCa->id;
                 $cs->ccsAmount = $csTemp->ccsAmount;
-                $cs->ccsDescription = $csTemp->ccsDescription;
+                $cs->ccsDescription = PublicSetting::checkPersianCharacters($csTemp->ccsDescription);
                 $cs->save();
 
                 CostAllocation::where('caCcsId' , '=' , $csTemp->ccsCcsId)
@@ -658,7 +661,7 @@ class PlanController extends Controller
             $ca->caLetterDate = $request->date;
             $ca->caExchangeIdNumber = $old->caExchangeIdNumber;
             $ca->caExchangeDate = $old->caExchangeDate;
-            $ca->caDescription = $request->description;
+            $ca->caDescription = PublicSetting::checkPersianCharacters($request->description);
             $ca->save();
 
             $caCreditSources = CaCreditSource::where('ccsCaId' , '=' , $request->caId)->get();
@@ -672,7 +675,7 @@ class PlanController extends Controller
                 $newCa->ccsCaId = $ca->id;
                 $newCa->ccsCdtId = $item->ccsCdtId;
                 $newCa->ccsAmount = $item->ccsAmount;
-                $newCa->ccsDescription = $item->ccsDescription;
+                $newCa->ccsDescription = PublicSetting::checkPersianCharacters($item->ccsDescription);
                 $newCa->save();
             }
 
@@ -720,7 +723,7 @@ class PlanController extends Controller
             $caCs->ccsTsId = $request->tsId;
             $caCs->ccsCdtId = $request->cdtId;
             $caCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
-            $caCs->ccsDescription = $request->description;
+            $caCs->ccsDescription = PublicSetting::checkPersianCharacters($request->description);
             $caCs->save();
 
             return \response()->json($this->getAllCaTempItems($request->caId));
@@ -752,7 +755,7 @@ class PlanController extends Controller
             $caCs->ccsTsId = $request->tsId;
             $caCs->ccsCdtId = $request->cdtId;
             $caCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
-            $caCs->ccsDescription = $request->description;
+            $caCs->ccsDescription = PublicSetting::checkPersianCharacters($request->description);
             $caCs->save();
 
             return \response()->json($this->getAllCaTempItems($request->caId));

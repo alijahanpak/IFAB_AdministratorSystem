@@ -148,7 +148,7 @@ var app = new Vue({
         publicParams: {},
         fiscalYears: {},
         currentFyLabel: '',
-        userInfo:{},
+        userInfo: {name: '...'},
         showModalLogin: false,
         authInfo: {email: '' , password: ''},
         tokenInfo: {"Authorization": '' , "Accept": 'application/json; charset=utf-8' , "Content-type" : 'application/json; charset=utf-8'},

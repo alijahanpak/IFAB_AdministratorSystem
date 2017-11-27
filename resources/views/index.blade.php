@@ -24,7 +24,7 @@
     <passport-personal-access-tokens></passport-personal-access-tokens>
     <div id="container">
         <!--Modal Login Start-->
-        <modal-login v-if="showModalLogin" @close="showModalLogin = false">
+        <modal-login v-if="showModalLogin" @close="showModalLogin = false" v-cloak>
             <div slot="body">
                 <div class="grid-x">
                     <div style="margin-top: 40px;margin-bottom: 20px;" class="medium-12">
@@ -89,7 +89,7 @@
                     <div class="large-12">
                         <img class="float-center" src="{{ asset('pic\pallas.png') }}" width="150px" height="15px">
                     </div>
-                    <nav class="accordion"  data-margin-top="4.2">
+                    <nav class="accordion"  data-margin-top="4.2" v-cloak>
                         <ul style="background-color: #2C2E3E;" class="vertical menu sub-menu accordion-menu" data-accordion-menu data-multi-open="false" >
                             <li>
                                 <a class="right-menu-btm-border" href="#">توزیع اعتبار</a>
@@ -165,7 +165,7 @@
                 <!--Top Menu Start-->
                 <div style="z-index: 999;" data-sticky-container>
                     <div style="background-color: #FFFFFF;" class="top-bar top-menu-color" data-sticky data-margin-top="0">
-                        <div class="top-bar-left">
+                        <div class="top-bar-left"  v-cloak>
                             <button style="margin-bottom: 0;font-size: 0.9em;" class="my-button my-drop-down-btn-clear dropdown small sm-btn-align"  type="button" data-toggle="example-dropdown-bottom-left">سال مالی<span class="comlpleted-badage">@{{ currentFyLabel }}</span></button>
                             <div style="width: 120px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="example-dropdown-bottom-left" data-dropdown data-auto-focus="true">
                                 <ul class="my-menu small-font ltr-dir">
@@ -173,10 +173,10 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="top-bar-right">
-                            <ul style="background-color: #FFFFFF;" data-dropdown-menu class="dropdown  menu user-menu" >
+                        <div class="top-bar-right"  v-cloak>
+                            <ul style="background-color: #FFFFFF;" data-dropdown-menu class="dropdown  menu user-menu">
                                 <li>
-                                    <a style="margin-top: -1px;"><i class="fa fa-bell-o size-21 icon-gradient" aria-hidden="true"></i></a>
+                                    <a style="margin-top: -3px;"><i class="fa fa-bell-o size-21 icon-gradient" aria-hidden="true"></i></a>
                                     <ul style="background-color:#FFFFFF;" class="top-menu-style menu vertical">
                                         <li>
                                             <div class="top-menu-bg">
