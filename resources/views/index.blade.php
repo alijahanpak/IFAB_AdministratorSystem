@@ -84,7 +84,7 @@
         <!--Modal Login End-->
         <!--Body system-->
         <div class="grid-x">
-            <div id="leftmenuinner" style="background-color: #2C2E3E;z-index: 995;" class="medium-2 cell small-font">
+            <div id="leftmenuinner" style="background-color: #2C2E3E;z-index: 10;" class="medium-2 cell small-font">
                 <div  id="leftmenuinnerinner ">
                     <div class="large-12">
                         <img class="float-center" src="{{ asset('pic\pallas.png') }}" width="150px" height="15px">
@@ -163,7 +163,7 @@
             </div>
             <div class="medium-10 main-margin my-callout-box">
                 <!--Top Menu Start-->
-                <div style="z-index: 999;" data-sticky-container>
+                <div style="z-index: 11;" data-sticky-container>
                     <div style="background-color: #FFFFFF;" class="top-bar top-menu-color" data-sticky data-margin-top="0">
                         <div class="top-bar-left"  v-cloak>
                             <button style="margin-bottom: 0;font-size: 0.9em;" class="my-button my-drop-down-btn-clear dropdown small sm-btn-align"  type="button" data-toggle="example-dropdown-bottom-left">سال مالی<span class="comlpleted-badage">@{{ currentFyLabel }}</span></button>

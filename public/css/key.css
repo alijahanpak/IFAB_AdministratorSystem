@@ -850,7 +850,7 @@ html, body {
 
 .modal-mask {
     position: fixed;
-    z-index: 1000;
+    z-index: 30;
     top: 0;
     left: 0;
     width: 100%;
@@ -861,7 +861,7 @@ html, body {
 }
 .modal-mask-login {
     position: fixed;
-    z-index: 999990;
+    z-index: 40;
     top: 0;
     left: 0;
     width: 100%;
