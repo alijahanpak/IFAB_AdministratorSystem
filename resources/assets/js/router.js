@@ -183,7 +183,7 @@ var app = new Vue({
 
             if (tabHeight===undefined) {
                 if (toolBarHeight > 0)
-                    tabHeight = -28;
+                    tabHeight = -5;
                 else
                     tabHeight = -8;
                 notifHeight=0;
@@ -378,7 +378,7 @@ var app = new Vue({
             //console.log("......................................................" + localStorage.getItem('ifab_token_expires_in'));
             if (this.prevNowPlaying)
                 clearInterval(this.prevNowPlaying);
-            this.prevNowPlaying = setInterval(this.expireTokenThread, 900000);
+            this.prevNowPlaying = setInterval(this.expireTokenThread, 600000);
         },
 
         currentFyId: function () {

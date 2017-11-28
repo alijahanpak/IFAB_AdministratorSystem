@@ -22,7 +22,7 @@ class CapitalAssetsProjectTemp extends Model
 
     public function creditSource()
     {
-        return $this->hasMany(CapCreditSourceTemp::class , 'ccsCapId' , 'id');
+        return $this->hasMany(CapCreditSourceTemp::class , 'ccsCapId' , 'id')->orderBy('id', 'DESC');
     }
 
 }

@@ -23,11 +23,11 @@ class CreditDistributionTitle extends Model
 
     public function CDTInCounty()
     {
-        return $this->hasMany(CreditDistributionTitle::class , 'cdtCdtId' , 'id');
+        return $this->hasMany(CreditDistributionTitle::class , 'cdtCdtId' , 'id')->orderBy('id', 'DESC');
     }
 
     public function creditDistributionPlan()
     {
-        return $this->hasMany(CreditDistributionPlan::class , 'cdpCdtId' , 'id');
+        return $this->hasMany(CreditDistributionPlan::class , 'cdpCdtId' , 'id')->orderBy('id', 'DESC');
     }
 }

@@ -19,23 +19,23 @@ class County extends Model
 
     public function creditDistributionPlan()
     {
-        return $this->hasMany(CreditDistributionPlan::class , 'cdpCoId' , 'id');
+        return $this->hasMany(CreditDistributionPlan::class , 'cdpCoId' , 'id')->orderBy('id', 'DESC');
     }
 
     public function creditDistributionPlanHasProposal()
     {
-        return $this->hasMany(CreditDistributionPlan::class , 'cdpCoId' , 'id')->has('proposal');
+        return $this->hasMany(CreditDistributionPlan::class , 'cdpCoId' , 'id')->has('proposal')->orderBy('id', 'DESC');
     }
 
     public function creditDistributionTitle()
     {
 
-        return $this->hasMany(CreditDistributionTitle::class , 'cdtCoId' , 'id');
+        return $this->hasMany(CreditDistributionTitle::class , 'cdtCoId' , 'id')->orderBy('id', 'DESC');
     }
 
     public function capitalAssetsProject()
     {
 
-        return $this->hasMany(CapitalAssetsProject::class , 'cpCoId' , 'id');
+        return $this->hasMany(CapitalAssetsProject::class , 'cpCoId' , 'id')->orderBy('id', 'DESC');
     }
 }

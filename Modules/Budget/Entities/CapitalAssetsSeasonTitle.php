@@ -12,7 +12,7 @@ class CapitalAssetsSeasonTitle extends Model
 
     public function capitalAssetsTinySeason()
     {
-        return $this->hasMany(CapitalAssetsTinySeason::class , 'catsCastId' , 'id');
+        return $this->hasMany(CapitalAssetsTinySeason::class , 'catsCastId' , 'id')->orderBy('id', 'DESC');
     }
 
     public function season()

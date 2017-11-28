@@ -10,10 +10,10 @@ class CapitalAssetsAllocation extends Model
     protected $fillable = [];
     protected $appends = ['caaSumOfCost' , 'caaConvertedAllocAmount'];
 
-    public function cdrCaa()
+/*    public function cdrCaa()
     {
         return $this->hasMany(CdrCaa::class , 'ccCaaId' , 'id');
-    }
+    }*/
 
     public function capitalAssetsProject()
     {

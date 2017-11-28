@@ -340,7 +340,7 @@ class BudgetAdminController extends Controller
                 }])
                 ->whereHas('capitalAssetsSeasonTitle' , function ($query) use ($searchValue){
                     return $query->where('castSubject' , 'LIKE' , '%' . $searchValue . '%')
-                                 ->orWhere('castDescription' , 'LIKE' , '%' . $searchValue . '%');
+                        ->orWhere('castDescription' , 'LIKE' , '%' . $searchValue . '%');
                 })
                 ->paginate($itemInPage);
         }
@@ -490,6 +490,7 @@ class BudgetAdminController extends Controller
             ->with('region')
             ->with('ruralDistrict')
             ->with('village')
+            ->orderBy('id', 'DESC')
             ->get();
     }
 
@@ -826,6 +827,7 @@ class BudgetAdminController extends Controller
             ->with('budgetSeason')
             ->with('CDTInCounty')
             ->with('CDTInCounty.county')
+            ->orderBy('id', 'DESC')
             ->paginate($itemInPage);
     }
 
