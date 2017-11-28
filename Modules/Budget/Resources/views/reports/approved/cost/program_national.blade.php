@@ -15,13 +15,12 @@
                 </thead>
                 <tbody>
                 @foreach($items as $tempItem)
-                    @foreach($tempItem['ca_credit_source'] as $project)
                     <tr>
                         <td>{{$tempItem['caLetterNumber']}}</td>
                         <td>{{$tempItem['caLetterDate']}}</td>
                         <td>{{$tempItem['caExchangeIdNumber']}}</td>
                         <td>{{$tempItem['caExchangeDate']}}</td>
-                        <td>{{\Modules\Budget\Entities\CapCreditSource::sumOfCreditSource($project['id'])}}</td>
+                        <td>{{\Modules\Budget\Entities\CaCreditSource::sumOfCreditSource($tempItem['id'])}}</td>
                         <td>{{$tempItem['caDescription']}}</td>
                     </tr>
                     @if(count($tempItem['ca_credit_source']) >0)
@@ -56,7 +55,7 @@
                             </td>
                         </tr>
                         @endif
-                        @endforeach
+
                 @endforeach
                 </tbody>
             </table>

@@ -37,4 +37,5 @@ class CapCreditSource extends Model
     public static function sumOfCreditSource($pId){
         return CapCreditSource::where('ccsCapId','=',$pId)->sum('ccsAmount');
     }
+
 }

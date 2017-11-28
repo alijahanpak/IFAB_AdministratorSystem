@@ -33,4 +33,8 @@ class CaCreditSource extends Model
     {
         return $this->hasMany(CostAllocation::class , 'caCcsId' , 'id');
     }
+
+    public static function sumOfCreditSource($cAId){
+        return CaCreditSource::where('ccsCaId','=',$cAId)->sum('ccsAmount');
+    }
 }
