@@ -11,6 +11,6 @@ class CreditDistributionRow extends Model
 
     public function creditDistributionPlan()
     {
-        return $this->hasMany(CreditDistributionPlan::class , 'cdpCdrId' , 'id');
+        return $this->hasMany(CreditDistributionPlan::class , 'cdpCdrId' , 'id')->orderBy('id', 'DESC');
     }
 }

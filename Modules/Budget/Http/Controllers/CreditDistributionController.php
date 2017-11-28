@@ -3,18 +3,12 @@
 namespace Modules\Budget\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Validation\Rules\In;
 use Modules\Admin\Entities\AmountUnit;
 use Modules\Admin\Entities\County;
 use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\SystemLog;
-use Modules\Admin\Entities\User;
 use Modules\Budget\Entities\BudgetSeason;
 use Modules\Budget\Entities\CreditDistributionPlan;
 use Modules\Budget\Entities\CreditDistributionRow;
@@ -140,6 +134,7 @@ class CreditDistributionController extends Controller
             ->with('creditDistributionPlan.county')
             ->with('creditDistributionPlan.creditDistributionTitle')
             ->with('creditDistributionPlan.creditDistributionRow')
+            ->orderBy('id', 'DESC')
             ->paginate($itemInPage);
     }
 
@@ -155,6 +150,7 @@ class CreditDistributionController extends Controller
             })
             ->with('creditDistributionPlan.county')
             ->with('creditDistributionPlan.creditDistributionTitle')
+            ->orderBy('id', 'DESC')
             ->paginate($itemInPage);
     }
 
@@ -171,6 +167,7 @@ class CreditDistributionController extends Controller
             ->with('cdpTitleHasCreditDistributionPlan.creditDistributionPlan.county')
             ->with('cdpTitleHasCreditDistributionPlan.creditDistributionPlan.creditDistributionTitle')
             ->with('cdpTitleHasCreditDistributionPlan.creditDistributionPlan.creditDistributionRow')
+            ->orderBy('id', 'DESC')
             ->paginate($itemInPage);
     }
 
@@ -186,6 +183,7 @@ class CreditDistributionController extends Controller
             })
             ->with('creditDistributionPlan.creditDistributionTitle')
             ->with('creditDistributionPlan.creditDistributionRow')
+            ->orderBy('id', 'DESC')
             ->paginate($itemInPage);
     }
 
@@ -193,7 +191,8 @@ class CreditDistributionController extends Controller
     {
         $temp =CreditDistributionPlan::with(['creditDistributionTitle' , 'creditDistributionRow' , 'creditDistributionTitle.budgetSeason'])
             ->where('cdpFyId' , '=' , Auth::user()->seFiscalYear)
-            ->where('cdpCoId' , '=' , $request->coId)->get();
+            ->where('cdpCoId' , '=' , $request->coId)
+            ->orderBy('id', 'DESC')->get();
         return \response()->json($temp);
     }
 
@@ -227,6 +226,7 @@ class CreditDistributionController extends Controller
                 return $query->where('pbpCode' , 'LIKE' , '%' . $searchValue . '%')
                     ->orWhere('pbpSubject' , 'LIKE' , '%' . $searchValue . '%');
             })
+            ->orderBy('id', 'DESC')
             ->paginate($itemInPage);
 
     }

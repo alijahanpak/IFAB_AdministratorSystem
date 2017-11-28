@@ -22,11 +22,11 @@ class CapitalAssetsProject extends Model
 
     public function creditSource()
     {
-        return $this->hasMany(CapCreditSource::class , 'ccsCapId' , 'id');
+        return $this->hasMany(CapCreditSource::class , 'ccsCapId' , 'id')->orderBy('id', 'DESC');
     }
 
     public function creditSourceHasAllocation()
     {
-        return $this->hasMany(CapCreditSource::class , 'ccsCapId' , 'id')->has('allocation');
+        return $this->hasMany(CapCreditSource::class , 'ccsCapId' , 'id')->has('allocation')->orderBy('id', 'DESC');
     }
 }

@@ -16,6 +16,6 @@ class CapitalAssetsApprovedPlanTemp extends Model
 
     public function capitalAssetsProject()
     {
-        return $this->hasMany(CapitalAssetsProjectTemp::class , 'cpCapId' , 'id');
+        return $this->hasMany(CapitalAssetsProjectTemp::class , 'cpCapId' , 'id')->orderBy('id', 'DESC');
     }
 }

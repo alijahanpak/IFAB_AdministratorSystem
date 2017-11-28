@@ -13,12 +13,12 @@ class SeasonWithSumAmount extends Model
 
     public function capitalAssetsSeasonTitle()
     {
-        return $this->hasMany(CapitalAssetsSeasonTitle::class , 'castSId' , 'id');
+        return $this->hasMany(CapitalAssetsSeasonTitle::class , 'castSId' , 'id')->orderBy('id', 'DESC');
     }
 
     public function costSeasonTitle()
     {
-        return $this->hasMany(CostSeasonTitle::class , 'cstSId' , 'id');
+        return $this->hasMany(CostSeasonTitle::class , 'cstSId' , 'id')->orderBy('id', 'DESC');
     }
 
     public function getCoSumOfApprovedAmountAttribute()

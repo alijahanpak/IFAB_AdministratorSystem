@@ -31,6 +31,6 @@ class CaCreditSource extends Model
 
     public function allocation()
     {
-        return $this->hasMany(CostAllocation::class , 'caCcsId' , 'id');
+        return $this->hasMany(CostAllocation::class , 'caCcsId' , 'id')->orderBy('id', 'DESC');
     }
 }

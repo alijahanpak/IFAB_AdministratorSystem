@@ -18,21 +18,21 @@ class Season extends Model
 
     public function capitalAssetsSeasonTitle()
     {
-        return $this->hasMany(CapitalAssetsSeasonTitle::class , 'castSId' , 'id');
+        return $this->hasMany(CapitalAssetsSeasonTitle::class , 'castSId' , 'id')->orderBy('id', 'DESC');
     }
 
     public function capitalAssetsSeasonTitleHasTinySeason()
     {
-        return $this->hasMany(CapitalAssetsSeasonTitle::class , 'castSId' , 'id')->has('capitalAssetsTinySeason');
+        return $this->hasMany(CapitalAssetsSeasonTitle::class , 'castSId' , 'id')->has('capitalAssetsTinySeason')->orderBy('id', 'DESC');
     }
 
     public function costSeasonTitle()
     {
-        return $this->hasMany(CostSeasonTitle::class , 'cstSId' , 'id');
+        return $this->hasMany(CostSeasonTitle::class , 'cstSId' , 'id')->orderBy('id', 'DESC');
     }
 
     public function costSeasonTitleHasTinySeason()
     {
-        return $this->hasMany(CostSeasonTitle::class , 'cstSId' , 'id')->has('costTinySeason');
+        return $this->hasMany(CostSeasonTitle::class , 'cstSId' , 'id')->has('costTinySeason')->orderBy('id', 'DESC');
     }
 }

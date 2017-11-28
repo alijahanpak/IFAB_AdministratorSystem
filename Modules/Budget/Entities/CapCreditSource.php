@@ -31,7 +31,7 @@ class CapCreditSource extends Model
 
     public function allocation()
     {
-        return $this->hasMany(CapitalAssetsAllocation::class , 'caaCcsId' , 'id');
+        return $this->hasMany(CapitalAssetsAllocation::class , 'caaCcsId' , 'id')->orderBy('id', 'DESC');
     }
 
     public static function sumOfCreditSource($pId){

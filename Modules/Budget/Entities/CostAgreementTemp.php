@@ -11,6 +11,6 @@ class CostAgreementTemp extends Model
 
     public function caCreditSource()
     {
-        return $this->hasMany(CaCreditSourceTemp::class , 'ccsCaId' , 'id');
+        return $this->hasMany(CaCreditSourceTemp::class , 'ccsCaId' , 'id')->orderBy('id', 'DESC');
     }
 }
