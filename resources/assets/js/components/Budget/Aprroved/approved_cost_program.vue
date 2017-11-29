@@ -1383,7 +1383,7 @@
 
         created: function () {
             this.fetchProvincialData();
-            this.fetchNationalData()
+            this.fetchNationalData();
         },
 
         updated: function () {

@@ -47,6 +47,7 @@ class AllocationOfCapitalAssetsController extends Controller
                     ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
             })
             ->with('creditDistributionTitle.county')
+            ->orderBy('id', 'DESC')
             ->paginate($itemInPage);
     }
 
@@ -54,6 +55,7 @@ class AllocationOfCapitalAssetsController extends Controller
     {
         return CapitalAssetsAllocation::where('caaFound' , '=' , true)
             ->where('caaFyId' , '=' , Auth::user()->seFiscalYear)
+            ->orderBy('id', 'DESC')
             ->get();
     }
 
@@ -267,7 +269,8 @@ class AllocationOfCapitalAssetsController extends Controller
         return \response()->json($info);
     }
 
-    public function getAllCostAllocates($pOrN , $searchValue , $itemInPage)
+    public function
+    getAllCostAllocates($pOrN , $searchValue , $itemInPage)
     {
         $searchValue = PublicSetting::checkPersianCharacters($searchValue);
         return CostAgreement::where('caFyId' , '=' , Auth::user()->seFiscalYear)
@@ -281,6 +284,7 @@ class AllocationOfCapitalAssetsController extends Controller
             ->with('caCreditSourceHasAllocation.tinySeason.seasonTitle.season')
             ->with('caCreditSourceHasAllocation.creditDistributionTitle')
             ->with('caCreditSourceHasAllocation.creditDistributionTitle.county')
+            ->orderBy('id', 'DESC')
             ->paginate($itemInPage);
     }
 
@@ -309,6 +313,7 @@ class AllocationOfCapitalAssetsController extends Controller
     {
         return CostAllocation::where('caFound' , '=' , true)
             ->where('caFyId' , '=' , Auth::user()->seFiscalYear)
+            ->orderBy('id', 'DESC')
             ->get();
     }
 

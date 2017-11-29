@@ -3,7 +3,6 @@
 namespace Modules\Budget\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Modules\Admin\Entities\AmountUnit;
@@ -12,8 +11,6 @@ use Modules\Admin\Entities\SystemLog;
 use Modules\Budget\Entities\CapCreditSource;
 use Modules\Budget\Entities\CapitalAssetsApprovedPlan;
 use Modules\Budget\Entities\CapitalAssetsProject;
-use Modules\Budget\Entities\CdrCp;
-use Modules\Budget\Entities\CreditDistributionRow;
 
 class ProjectController extends Controller
 {
@@ -30,9 +27,6 @@ class ProjectController extends Controller
         return CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('capActive' , '=' , true)
             ->where('capProvinceOrNational' , '=' , $pOrN)
-/*            ->where(function($query) use($searchValue){
-                return $query->where();
-            })*/
             ->with('capitalAssetsProject')
             ->whereHas('capitalAssetsProject' , function($query) use($searchValue){
                 return $query->where('cpSubject' , 'LIKE' , '%' . $searchValue . '%')
@@ -53,6 +47,7 @@ class ProjectController extends Controller
             ->with('capitalAssetsProject.creditSource.tinySeason.seasonTitle.season')
             ->with('capitalAssetsProject.creditSource.howToRun')
             ->with('capitalAssetsProject.county')
+            ->orderBy('id', 'DESC')
             ->paginate($itemInPage);
     }
 

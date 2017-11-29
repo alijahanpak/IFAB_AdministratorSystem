@@ -12,7 +12,7 @@ class CostSeasonTitle extends Model
 
     public function costTinySeason()
     {
-        return $this->hasMany(CostTinySeason::class , 'ctsCstId' , 'id');
+        return $this->hasMany(CostTinySeason::class , 'ctsCstId' , 'id')->orderBy('id', 'DESC');
     }
 
     public function season()

@@ -56,8 +56,6 @@ class PlanController extends Controller
                 $cap->capCapId = $request->capId;
             $cap->save();
 
-
-
             SystemLog::setBudgetSubSystemLog('ثبت طرح تملک داریی های سرمایه ای استانی');
             return \response()->json($this->getAllPlans($request->pOrN , $request->searchValue , $request->itemInPage));
         }
@@ -91,6 +89,7 @@ class PlanController extends Controller
             ->with('amendments.capitalAssetsProject.creditSource.tinySeason.seasonTitle.season')
             ->with('amendments.capitalAssetsProject.creditSource.howToRun')
             ->with('amendments.capitalAssetsProject.county')
+            ->orderBy('id', 'DESC')
             ->paginate($itemInPage);
     }
 
@@ -143,6 +142,7 @@ class PlanController extends Controller
             ->where('capProvinceOrNational' , '=' , $request->pOrN)
             ->with('creditDistributionTitle')
             ->with('creditDistributionTitle.county')
+            ->orderBy('id', 'DESC')
             ->get());
     }
 
@@ -416,7 +416,8 @@ class PlanController extends Controller
             ->with('capitalAssetsProject.creditSource.tinySeason.seasonTitle')
             ->with('capitalAssetsProject.creditSource.tinySeason.seasonTitle.season')
             ->with('capitalAssetsProject.creditSource.howToRun')
-            ->with('capitalAssetsProject.county')->first();
+            ->with('capitalAssetsProject.county')
+            ->first();
     }
 
     /////////////////////////////// cost ////////////////////////////////////////////
@@ -441,6 +442,7 @@ class PlanController extends Controller
             ->with('amendments.caCreditSource.tinySeason.seasonTitle.season')
             ->with('amendments.caCreditSource.creditDistributionRow')
             ->with('amendments.caCreditSource.creditDistributionTitle')
+            ->orderBy('id', 'DESC')
             ->paginate($itemInPage);
     }
 
@@ -583,6 +585,7 @@ class PlanController extends Controller
             CostAgreement::where('caFyId' , '=' , Auth::user()->seFiscalYear)
                 ->where('caActive' , '=' , true)
                 ->where('caProvinceOrNational' , '=' , $request->pOrN)
+                ->orderBy('id', 'DESC')
                 ->get()
         );
     }
@@ -593,6 +596,7 @@ class PlanController extends Controller
                 ->with('creditDistributionRow')
                 ->with('creditDistributionTitle')
                 ->with('tinySeason.seasonTitle.season')
+                ->orderBy('id', 'DESC')
                 ->get()
         );
     }
@@ -704,6 +708,7 @@ class PlanController extends Controller
                 ->with('caCreditSource.tinySeason')
                 ->with('caCreditSource.tinySeason.seasonTitle')
                 ->with('caCreditSource.tinySeason.seasonTitle.season')
+                ->orderBy('id', 'DESC')
                 ->first();
     }
 

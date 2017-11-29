@@ -11,11 +11,11 @@ class BudgetSeason extends Model
 
     public function creditDistributionPlanTitle()
     {
-        return $this->hasMany(CreditDistributionTitle::class , 'cdtBsId' , 'id');
+        return $this->hasMany(CreditDistributionTitle::class , 'cdtBsId' , 'id')->orderBy('id', 'DESC');
     }
 
     public function cdpTitleHasCreditDistributionPlan()
     {
-        return $this->hasMany(CreditDistributionTitle::class , 'cdtBsId' , 'id')->has('creditDistributionPlan');
+        return $this->hasMany(CreditDistributionTitle::class , 'cdtBsId' , 'id')->has('creditDistributionPlan')->orderBy('id', 'DESC');
     }
 }

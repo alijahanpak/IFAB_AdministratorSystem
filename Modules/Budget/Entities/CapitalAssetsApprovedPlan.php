@@ -16,12 +16,12 @@ class CapitalAssetsApprovedPlan extends Model
 
     public function capitalAssetsProject()
     {
-        return $this->hasMany(CapitalAssetsProject::class , 'cpCapId' , 'id');
+        return $this->hasMany(CapitalAssetsProject::class , 'cpCapId' , 'id')->orderBy('id', 'DESC');
     }
 
     public function capitalAssetsProjectHasCreditSource()
     {
-        return $this->hasMany(CapitalAssetsProject::class , 'cpCapId' , 'id')->has('creditSourceHasAllocation');
+        return $this->hasMany(CapitalAssetsProject::class , 'cpCapId' , 'id')->has('creditSourceHasAllocation')->orderBy('id', 'DESC');
     }
 
     public static function getTotalAmount($capId)
@@ -31,6 +31,6 @@ class CapitalAssetsApprovedPlan extends Model
 
     public function amendments()
     {
-        return $this->hasMany(CapitalAssetsApprovedPlan::class , 'capCapId' , 'id');
+        return $this->hasMany(CapitalAssetsApprovedPlan::class , 'capCapId' , 'id')->orderBy('id', 'DESC');
     }
 }

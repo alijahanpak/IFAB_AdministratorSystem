@@ -10,14 +10,14 @@ class CapitalAssetsAllocation extends Model
     protected $fillable = [];
     protected $appends = ['caaSumOfCost' , 'caaConvertedAllocAmount'];
 
-    public function cdrCaa()
+/*    public function cdrCaa()
     {
         return $this->hasMany(CdrCaa::class , 'ccCaaId' , 'id');
-    }
+    }*/
 
-    public function capitalAssetsProject()
+    public function creditSource()
     {
-        return $this->belongsTo(CapitalAssetsProject::class , 'caaCpId' , 'id');
+        return $this->belongsTo(CapCreditSource::class , 'caaCcsId' , 'id');
     }
 
     public function getCaaSumOfCostAttribute()

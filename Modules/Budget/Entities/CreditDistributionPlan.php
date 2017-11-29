@@ -58,6 +58,6 @@ class CreditDistributionPlan extends Model
 
     public function proposal()
     {
-        return $this->hasMany(ProvincialBudgetProposal::class , 'pbpCdpId' , 'id');
+        return $this->hasMany(ProvincialBudgetProposal::class , 'pbpCdpId' , 'id')->orderBy('id', 'DESC');
     }
 }
