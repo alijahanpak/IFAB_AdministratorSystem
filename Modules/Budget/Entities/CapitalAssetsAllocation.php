@@ -15,9 +15,9 @@ class CapitalAssetsAllocation extends Model
         return $this->hasMany(CdrCaa::class , 'ccCaaId' , 'id');
     }*/
 
-    public function capitalAssetsProject()
+    public function creditSource()
     {
-        return $this->belongsTo(CapitalAssetsProject::class , 'caaCpId' , 'id');
+        return $this->belongsTo(CapCreditSource::class , 'caaCcsId' , 'id');
     }
 
     public function getCaaSumOfCostAttribute()

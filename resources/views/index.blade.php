@@ -26,57 +26,59 @@
         <!--Modal Login Start-->
         <modal-login v-if="showModalLogin" @close="showModalLogin = false" v-cloak>
             <div slot="body">
-                <div class="grid-x">
-                    <div style="margin-top: 40px;margin-bottom: 20px;" class="medium-12">
-                        <img class="float-center" src="{{ asset('pic\logom.jpg') }}" width="74px" height="74px">
+                <div class="login-frame">
+                    <div class="grid-x">
+                        <div class="medium-12">
+                            <img class="float-center" src="{{ asset('pic\logom.jpg') }}" width="74px" height="74px">
+                        </div>
                     </div>
-                </div>
-                <div class="grid-x">
-                    <div class="medium-12">
-                        <h5 class="BYekan text-center  login-txt">سامانه یکپارچه اداری، مالی و بودجه</h5>
+                    <div class="grid-x">
+                        <div class="medium-12">
+                            <h5 class="BYekan text-center  login-txt">سامانه یکپارچه اداری، مالی و بودجه</h5>
+                        </div>
                     </div>
-                </div>
-                <div style="margin-top:20px;" class="grid-x">
-                    <div style="margin:0 auto;" class="large-3 cell callout ">
-                        <form v-on:submit.prevent="login">
-                            <div class="grid-x" v-show="errorMessage">
-                                <div class="medium-12 columns padding-lr">
-                                    <div class="alert callout">
-                                        <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
+                    <div style="margin-top:20px;" class="grid-x">
+                        <div style="margin:0 auto;" class="large-3 cell callout ">
+                            <form v-on:submit.prevent="login">
+                                <div class="grid-x" v-show="errorMessage">
+                                    <div class="medium-12 columns padding-lr">
+                                        <div class="alert callout">
+                                            <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="columns padding-lr">
-                                <label>نام کاربری
-                                    <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="text" placeholder="&#xf2c0;" autofocus name="user" v-model="authInfo.email" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('user')}">
-                                </label>
-                                <span v-show="errors.has('user')" class="error-font">لطفا نام کاربری را وارد کنید!</span>
-                            </div>
-                            <div style="margin-top: 20px;" class="medium-12 columns padding-lr">
-                                <label>رمز عبور
-                                    <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="password" placeholder="&#xf09c;" name="pass" v-model="authInfo.password"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('pass')}">
-                                </label>
-                                <span v-show="errors.has('pass')" class="error-font">لطفا رمز عبور را وارد کنید!</span>
-                            </div>
-                            <div class="medium-12 padding-lr top-margin-element">
-                                <button style="margin-top: 20px;"  name="submit" class="my-button my-success expanded">ورود</button>
-                            </div>
-                        </form>
+                                <div class="columns padding-lr">
+                                    <label>نام کاربری
+                                        <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="text" placeholder="&#xf2c0;" autofocus name="user" v-model="authInfo.email" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('user')}">
+                                    </label>
+                                    <span v-show="errors.has('user')" class="error-font">لطفا نام کاربری را وارد کنید!</span>
+                                </div>
+                                <div style="margin-top: 20px;" class="medium-12 columns padding-lr">
+                                    <label>رمز عبور
+                                        <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="password" placeholder="&#xf09c;" name="pass" v-model="authInfo.password"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('pass')}">
+                                    </label>
+                                    <span v-show="errors.has('pass')" class="error-font">لطفا رمز عبور را وارد کنید!</span>
+                                </div>
+                                <div class="medium-12 padding-lr top-margin-element">
+                                    <button style="margin-top: 20px;"  name="submit" class="my-button my-success expanded">ورود</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
-                <div class="grid-x">
-                    <div class="large-12">
-                        <ul class="menu small-font align-center ul-margin">
-                            <li><a class="footer-menu" href="#">راهنمای سامانه</a></li>
-                            <li><a class="footer-menu" href="#">درباره ما</a></li>
-                            <li><a class="footer-menu" href="#">دیدگاه</a></li>
-                        </ul>
-                    </div>
-                    <div class="large-12">
-                        <p class="small-font footer-txt-size">تمامی حقوق این وب سایت متعلق یه اداره کل میراث فرهنگی، صنایع دستی و گردشگری استان همدان می باشد</p>
-                    </div>
-                    <div style="margin-top: 20px;" class="large-12">
-                        <img class="float-center" src="{{ asset('pic\keylogo.png') }}" width="130px" height="20px">
+                    <div class="grid-x">
+                        <div class="large-12">
+                            <ul class="menu small-font align-center ul-margin">
+                                <li><a class="footer-menu" href="#">راهنمای سامانه</a></li>
+                                <li><a class="footer-menu" href="#">درباره ما</a></li>
+                                <li><a class="footer-menu" href="#">دیدگاه</a></li>
+                            </ul>
+                        </div>
+                        <div class="large-12">
+                            <p class="small-font footer-txt-size">تمامی حقوق این وب سایت متعلق یه اداره کل میراث فرهنگی، صنایع دستی و گردشگری استان همدان می باشد</p>
+                        </div>
+                        <div style="margin-top: 20px;" class="large-12">
+                            <img class="float-center" src="{{ asset('pic\keylogo.png') }}" width="130px" height="20px">
+                        </div>
                     </div>
                 </div>
             </div>

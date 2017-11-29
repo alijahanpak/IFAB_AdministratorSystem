@@ -56,8 +56,6 @@ class PlanController extends Controller
                 $cap->capCapId = $request->capId;
             $cap->save();
 
-
-
             SystemLog::setBudgetSubSystemLog('ثبت طرح تملک داریی های سرمایه ای استانی');
             return \response()->json($this->getAllPlans($request->pOrN , $request->searchValue , $request->itemInPage));
         }

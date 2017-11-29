@@ -10,36 +10,46 @@
     <div class="grid-x my-grid-margin">
         <div class="medium-3">
             <div class="notification-panel panel-red">
-                <div class="panel-heading">
-                    <div class="grid-x">
+                <div class="panel-heading" style="min-height: 140px;">
+                    <div class="grid-x" style="min-height: 68px;">
                         <div class="medium-8">
-                            <h4>13</h4>
-                            <p>موافقت نامه مبادله شده</p>
+                            <p class="BTitrBold" style="margin-top: 10px">{{ prov_approvedPlanExchangedCount }}</p>
                         </div>
                         <div class="medium-4 text-center">
                             <i class="fa fa-line-chart size-48" aria-hidden="true"></i>
                         </div>
                     </div>
+                    <div class="grid-x">
+                        <div class="medium-12">
+                            <p style="margin-bottom: 0">موافقت نامه مبادله شده</p>
+                            <span class="size-10">تملک داریی های سرمایه ای استانی</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="btn-red">
-                    <a href="#">
+                    <router-link to="/budget/approved/capital_assets/approved/plan">
                         <div class="panel-footer panel-footer-red small-font">
                             <i class="fa fa-arrow-left size-18 float-left" aria-hidden="true"></i>مشاهده جزئیات
                         </div>
-                    </a>
+                    </router-link>
                 </div>
             </div>
         </div>
         <div class="medium-3">
             <div class="notification-panel panel-yellow">
-                <div class="panel-heading">
-                    <div class="grid-x">
+                <div class="panel-heading" style="min-height: 140px;">
+                    <div class="grid-x" style="min-height: 68px;">
                         <div class="medium-8">
-                            <h4>13</h4>
-                            <p>تعداد پیام ها</p>
+                            <p class="BTitrBold" style="margin-top: 10px">{{ $parent.calcDispAmount(sumOfCapAllocation , false) }}</p>
                         </div>
                         <div class="medium-4 text-center">
-                            <i class="fa fa-bullhorn size-60" aria-hidden="true"></i>
+                            <i class="fa fa-pie-chart size-48" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="grid-x">
+                        <div class="medium-12">
+                            <p style="margin-bottom: 0">تخصیص اعتبار <span class="size-10">({{ $parent.getAmountBaseLabel() }})</span></p>
+                            <span class="size-10">تملک داریی های سرمایه ای</span>
                         </div>
                     </div>
                 </div>
@@ -55,14 +65,19 @@
 
         <div class="medium-3">
             <div class="notification-panel panel-green">
-                <div class="panel-heading">
-                    <div class="grid-x">
+                <div class="panel-heading" style="min-height: 140px;">
+                    <div class="grid-x" style="min-height: 68px;">
                         <div class="medium-8">
-                            <h4>13</h4>
-                            <p>تعداد پیام ها</p>
+                            <p class="BTitrBold" style="margin-top: 10px">{{ $parent.calcDispAmount(sumOfCaAllocation , false) }}</p>
                         </div>
                         <div class="medium-4 text-center">
-                            <i class="fa fa-server size-60" aria-hidden="true"></i>
+                            <i class="fa fa-money size-48" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="grid-x">
+                        <div class="medium-12">
+                            <p style="margin-bottom: 0">تخصیص اعتبار <span class="size-10">({{ $parent.getAmountBaseLabel() }})</span></p>
+                            <span class="size-10">هزینه ای</span>
                         </div>
                     </div>
                 </div>
@@ -78,14 +93,18 @@
 
         <div class="medium-3">
             <div class="notification-panel panel-primary">
-                <div class="panel-heading">
-                    <div class="grid-x">
+                <div class="panel-heading" style="min-height: 140px;">
+                    <div class="grid-x" style="min-height: 68px;">
                         <div class="medium-8">
-                            <h4>13</h4>
-                            <p>تعداد پیام ها</p>
+                            <p class="BTitrBold" style="margin-top: 10px">0</p>
                         </div>
                         <div class="medium-4 text-center">
-                            <i class="fa fa-comments size-60" aria-hidden="true"></i>
+                            <i class="fa fa-comments size-48" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="grid-x">
+                        <div class="medium-12">
+                            <p>تعداد پیام ها</p>
                         </div>
                     </div>
                 </div>
@@ -210,7 +229,10 @@
                 showCapitalAssetsChartDialog: false,
                 showCostChartDialog: false,
                 showNatCapitalAssetsChartDialog: false,
-                showNatCostChartDialog: false
+                showNatCostChartDialog: false,
+                prov_approvedPlanExchangedCount: 0,
+                sumOfCapAllocation: 0,
+                sumOfCaAllocation: 0,
             }
         },
         mounted () {
@@ -220,6 +242,7 @@
         created: function(){
             this.fetchCapitalAssetsData();
             this.fetchCostsData();
+            this.getStatisticsData();
         },
 
         methods: {
@@ -293,7 +316,7 @@
             getCountyProposalAmount (data) {
                 var temp = [];
                 data.forEach(county => {
-                    temp.push(this.$parent.calcDispAmount(county.coSumOfProposalAmount , false));
+                    temp.push(this.$parent.calcDispAmount(county.coSumOfProposalAmount , false , false));
                 });
                 return temp;
             },
@@ -301,7 +324,7 @@
             getCountyApprovedAmount (data) {
                 var temp = [];
                 data.forEach(county => {
-                    temp.push(this.$parent.calcDispAmount(county.coSumOfApprovedAmount , false));
+                    temp.push(this.$parent.calcDispAmount(county.coSumOfApprovedAmount , false , false));
             });
                 return temp;
             },
@@ -309,7 +332,7 @@
             getCountyAllocationAmount (data) {
                 var temp = [];
                 data.forEach(county => {
-                    temp.push(this.$parent.calcDispAmount(county.coSumOfAllocationAmount , false));
+                    temp.push(this.$parent.calcDispAmount(county.coSumOfAllocationAmount , false , false));
             });
                 return temp;
             },
@@ -325,7 +348,7 @@
             getSeasonApprovedAmount (data) {
                 var temp = [];
                 data.forEach(season => {
-                    temp.push(this.$parent.calcDispAmount(season.coSumOfApprovedAmount , false));
+                    temp.push(this.$parent.calcDispAmount(season.coSumOfApprovedAmount , false , false));
             });
                 return temp;
             },
@@ -333,7 +356,7 @@
             getSeasonAllocationAmount (data) {
                 var temp = [];
                 data.forEach(season => {
-                    temp.push(this.$parent.calcDispAmount(season.coSumOfAllocationAmount , false));
+                    temp.push(this.$parent.calcDispAmount(season.coSumOfAllocationAmount , false , false));
             });
                 return temp;
             },
@@ -375,7 +398,7 @@
             getNatCountyApprovedAmount (data) {
                 var temp = [];
                 data.forEach(county => {
-                    temp.push(this.$parent.calcDispAmount(county.coSumOfNatApprovedAmount , false));
+                    temp.push(this.$parent.calcDispAmount(county.coSumOfNatApprovedAmount , false , false));
             });
                 return temp;
             },
@@ -383,7 +406,7 @@
             getNatCountyAllocationAmount (data) {
                 var temp = [];
                 data.forEach(county => {
-                    temp.push(this.$parent.calcDispAmount(county.coSumOfNatAllocationAmount , false));
+                    temp.push(this.$parent.calcDispAmount(county.coSumOfNatAllocationAmount , false , false));
             });
                 return temp;
             },
@@ -391,7 +414,7 @@
             getNatSeasonApprovedAmount (data) {
                 var temp = [];
                 data.forEach(season => {
-                    temp.push(this.$parent.calcDispAmount(season.coSumOfNatApprovedAmount , false));
+                    temp.push(this.$parent.calcDispAmount(season.coSumOfNatApprovedAmount , false , false));
             });
                 return temp;
             },
@@ -399,9 +422,20 @@
             getNatSeasonAllocationAmount (data) {
                 var temp = [];
                 data.forEach(season => {
-                    temp.push(this.$parent.calcDispAmount(season.coSumOfNatAllocationAmount , false));
+                    temp.push(this.$parent.calcDispAmount(season.coSumOfNatAllocationAmount , false , false));
             });
                 return temp;
+            },
+
+            getStatisticsData: function () {
+                axios.post('/budget/statistics/getAllData').then((response) => {
+                    this.prov_approvedPlanExchangedCount = response.data.approvedPlanExchangedCount;
+                    this.sumOfCapAllocation = response.data.sumOfCapAllocation;
+                    this.sumOfCaAllocation = response.data.sumOfCaAllocation
+                    console.log(response);
+                },(error) => {
+                    console.log(error);
+                });
             }
         }
     }

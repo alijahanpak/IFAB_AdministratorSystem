@@ -157,6 +157,7 @@ var app = new Vue({
     },
     updated: function () {
         $(this.$el).foundation(); //WORKS!
+        this.fixedLoginFrame();
     },
 
     created: function () {
@@ -269,8 +270,8 @@ var app = new Vue({
                 });
         },
 
-        calcDispAmount: function (amount , withAmountBase = true) {
-            return (amount / this.amountBase.disp_amount_unit.auAmount) + (withAmountBase == true ? ' ' + this.amountBase.disp_amount_unit.auSubject : '');
+        calcDispAmount: function (amount , withAmountBase = true , withFormattedMoney = true) {
+            return (withFormattedMoney == true ? (amount / this.amountBase.disp_amount_unit.auAmount).toLocaleString() : (amount / this.amountBase.disp_amount_unit.auAmount)) + (withAmountBase == true ? ' ' + this.amountBase.disp_amount_unit.auSubject : '');
         },
 
         calcPrecent: function (y1 , y2) {
@@ -355,7 +356,7 @@ var app = new Vue({
                     tabHeight = -5;
                 else
                     tabHeight = -8;
-                notifHeight=0;
+                notifHeight = 0;
             }
 
             if ($('.vertical-tab').length > 0)
@@ -367,6 +368,17 @@ var app = new Vue({
 
             var x = $(".dynamic-height-level1").height();
             $('.dynamic-height-level2').css('height', (x - 100 - (tabHeight  + toolBarHeight + paginationHeight + rowSelected)) + 'px');
+        },
+
+        fixedLoginFrame: function() {
+            if (this.showModalLogin == true)
+            {
+                var loginFrame = $('.login-frame').height();
+
+                var x = $.w.innerHeight();
+                var temp = (x - loginFrame) / 2;
+                $('.login-frame').css('margin-top', temp + 'px');
+            }
         },
 
         logout: function () {

@@ -205,4 +205,8 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::get('/capitalAssets', 'ChartController@capitalAssets');
         Route::get('/costs', 'ChartController@costs');
     });
+
+    Route::prefix('statistics')->group(function () {
+        Route::post('/getAllData' , 'BudgetController@getAllStatisticsData');
+    });
 });
