@@ -37,7 +37,9 @@
                                         <th>ریز فصل</th>
                                         <th>مبلغ</th>
                                         <th>توضیحات</th>
-                                    </tr>
+                                    </tr>. public static function sumOfCaCreditSource($pId){
+        return CapCreditSource::where('ccsCapId','=',$pId)->sum('ccsAmount');
+    }
                                     </thead>
                                     <tbody>
                                     @foreach($tempItem['ca_credit_source'] as $creditSource)
