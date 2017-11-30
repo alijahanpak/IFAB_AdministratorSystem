@@ -1718,7 +1718,7 @@
                             if(found.provCapitalAssetsFounds.every(function(project){return project.checked;}))
                                 this.selectedItems.push(plan);
                         });
-                        this.reportOptions.title = 'تخصیص اعتبار تنخواه- استانی';
+                        this.reportOptions.title = 'تنخواه تملک دارایی های سرمایه ای - استانی';
                     }
                     else{
                         this.$parent.displayNotif(800);
@@ -1837,7 +1837,7 @@
                         if (plan.checked == true)
                             this.selectedItems.push(plan);
                     });
-                    this.reportOptions.title = 'تخصیص اعتبار تملک داراییهای سرمایه ای - تنخواه استانی';
+                    this.reportOptions.title = 'تنخواه تملک دارایی های سرمایه ای استانی';
                 }
                 else{
                     this.$parent.displayNotif(800);

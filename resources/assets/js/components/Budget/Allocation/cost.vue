@@ -1724,7 +1724,7 @@
                         if (plan.checked == true)
                             this.selectedItems.push(plan);
                     });
-                    this.reportOptions.title = 'تنخواه استانی';
+                    this.reportOptions.title = 'تنخواه هزینه ای - استانی';
                 }
                 else{
                     this.$parent.displayNotif(800);
