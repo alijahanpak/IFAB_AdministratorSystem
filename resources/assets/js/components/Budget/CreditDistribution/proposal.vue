@@ -528,7 +528,7 @@
                 {
                     axios.get('/budget/credit_distribution/capital_assets/provincial/plans/getPlanRemainingAmount' , {params:{cdpId: cdpId}})
                         .then((response) => {
-                            this.remainingAmount = response.data.remainingAmount;
+                            this.remainingAmount = this.$parent.calcDispAmount(response.data.remainingAmount , false);
                             console.log(response);
                         },(error) => {
                             console.log(error);
@@ -613,7 +613,7 @@
                 this.getRemianingAmount(this.cdpProposalFill.cdpId);
                 this.cdpProposalFill.pSubject = proposal.pbpSubject;
                 this.cdpProposalFill.pCode = proposal.pbpCode;
-                this.cdpProposalFill.pAmount = this.$parent.calcDispAmount(proposal.pbpAmount , false);
+                this.cdpProposalFill.pAmount = this.$parent.calcDispAmount(proposal.pbpAmount , false , false);
                 this.cdpProposalFill.pDescription = proposal.pbpDescription;
                 this.selectedCounty = coId;
                 this.getCDPWithCoId();

@@ -857,16 +857,18 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="grid-x my-callout-bg-color" v-show="creditSourceInfo.approvedAmount">
-                                <div class="medium-12">
-                                    <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount) }}</span>
-                                </div>
-                                <div class="medium-12">
-                                    <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.sumAllocation) }}</span>
-                                </div>
-                                <div class="medium-12">
-                                    <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.approvedAmount , creditSourceInfo.sumAllocation) }}</span>
-                                </div>
+                            <div style="margin-top: 10px;" class="grid-x padding-lr" v-show="creditSourceInfo.approvedAmount">
+                                    <div class="medium-12 my-callout-bg-color">
+                                        <div class="medium-12">
+                                            <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount) }}</span>
+                                        </div>
+                                        <div class="medium-12">
+                                            <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.sumAllocation) }}</span>
+                                        </div>
+                                        <div class="medium-12">
+                                            <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.approvedAmount , creditSourceInfo.sumAllocation) }}</span>
+                                        </div>
+                                    </div>
                             </div>
                             <div class="grid-x" style="margin-top: 10px">
                                 <div class="medium-12 cell padding-lr">
@@ -1383,7 +1385,7 @@
                 this.AllocationFill.idNumber = item.caaLetterNumber;
                 this.AllocationFill.date = item.caaLetterDate;
                 this.AllocationFill.pcsId = item.caaCcsId;
-                this.AllocationFill.amount = this.$parent.calcDispAmount(item.caaAmount , false);
+                this.AllocationFill.amount = this.$parent.calcDispAmount(item.caaAmount , false , false);
                 this.AllocationFill.description = item.caaDescription;
                 this.selectedPlan = planId;
                 this.selectedProject = projectId;
@@ -1495,7 +1497,7 @@
             openFoundUpdateModal: function (item) {
                 this.foundFill.id = item.id;
                 this.foundFill.date = item.caaLetterDate;
-                this.foundFill.amount = this.$parent.calcDispAmount(item.caaAmount , false);
+                this.foundFill.amount = this.$parent.calcDispAmount(item.caaAmount , false , false);
                 this.foundFill.description = item.caaDescription;
                 this.showUpdateFoundModal = true;
             },

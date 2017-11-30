@@ -1638,7 +1638,7 @@
                 this.getTinySeasons();
                 this.caCreditSourceFill.tsId = cs.ccsTsId;
                 this.caCreditSourceFill.cdtId = cs.ccsCdtId;
-                this.caCreditSourceFill.amount = this.$parent.calcDispAmount(cs.ccsAmount , false);
+                this.caCreditSourceFill.amount = this.$parent.calcDispAmount(cs.ccsAmount , false , false);
                 this.caCreditSourceFill.description = cs.ccsDescription;
                 this.provOrNat = type;
                 this.showCaCsUpdateModal = true;
@@ -1856,6 +1856,9 @@
             },
             /////////////////////////// temp ///////////////////////////////////////////
             openACaCsCostInsertModal:function () {
+                this.acaCreditSourceInput = [];
+                this.selectedSeason = '';
+                this.selectedSeasonTitle = '';
                 this.showACaCsInsertModal=true;
                 this.getCreditDistributionTitle(1); //all item should be national type => county = null
                 this.getSeasons();
@@ -1895,7 +1898,7 @@
                 this.acaCreditSourceFill.crId = cs.ccsCdrId;
                 this.acaCreditSourceFill.tsId = cs.ccsTsId;
                 this.acaCreditSourceFill.cdtId = cs.ccsCdtId;
-                this.acaCreditSourceFill.amount = this.$parent.calcDispAmount(cs.ccsAmount , false);
+                this.acaCreditSourceFill.amount = this.$parent.calcDispAmount(cs.ccsAmount , false , false);
                 this.acaCreditSourceFill.description = cs.ccsDescription;
                 this.showACaCsEditModal=true;
             },

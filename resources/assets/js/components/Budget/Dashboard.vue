@@ -54,11 +54,11 @@
                     </div>
                 </div>
                 <div class="btn-yellow">
-                    <a href="#">
+                    <router-link to="/budget/allocation/capital_assets">
                         <div class="panel-footer panel-footer-yellow small-font">
                             <i class="fa fa-arrow-left size-18 float-left" aria-hidden="true"></i>مشاهده جزئیات
                         </div>
-                    </a>
+                    </router-link>
                 </div>
             </div>
         </div>
@@ -82,11 +82,11 @@
                     </div>
                 </div>
                 <div class="btn-green">
-                    <a href="#">
+                    <router-link to="/budget/Allocation/cost">
                         <div class="panel-footer panel-footer-green small-font">
                             <i class="fa fa-arrow-left size-18 float-left" aria-hidden="true"></i>مشاهده جزئیات
                         </div>
-                    </a>
+                    </router-link>
                 </div>
             </div>
         </div>

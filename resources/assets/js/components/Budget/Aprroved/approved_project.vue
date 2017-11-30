@@ -1348,7 +1348,7 @@
                 this.apCreditSourceFill.crId = item.ccsCdrId;
                 this.apCreditSourceFill.htrId = item.ccsHtrId;
                 this.apCreditSourceFill.tsId = item.ccsTsId;
-                this.apCreditSourceFill.csAmount = this.$parent.calcDispAmount(item.ccsAmount , false);
+                this.apCreditSourceFill.csAmount = this.$parent.calcDispAmount(item.ccsAmount , false , false);
                 this.apCreditSourceFill.csDescription = item.ccsDescription;
                 this.selectedSeason = item.tiny_season.season_title.castSId;
                 this.selectedSeasonTitle = item.tiny_season.catsCastId;

@@ -271,7 +271,7 @@ var app = new Vue({
         },
 
         calcDispAmount: function (amount , withAmountBase = true , withFormattedMoney = true) {
-            return (withFormattedMoney == true ? (amount / this.amountBase.disp_amount_unit.auAmount).toLocaleString() : (amount / this.amountBase.disp_amount_unit.auAmount)) + (withAmountBase == true ? ' ' + this.amountBase.disp_amount_unit.auSubject : '');
+            return (withFormattedMoney == true ? (amount / this.amountBase.disp_amount_unit.auAmount).toLocaleString('en' , {maximumFractionDigits : 20}) : (amount / this.amountBase.disp_amount_unit.auAmount)) + (withAmountBase == true ? ' ' + this.amountBase.disp_amount_unit.auSubject : '');
         },
 
         calcPrecent: function (y1 , y2) {

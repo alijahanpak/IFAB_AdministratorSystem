@@ -203,7 +203,7 @@ class CreditDistributionController extends Controller
             ->sum('pbpAmount');
         $cdpAmount = CreditDistributionPlan::where('id' , '=' , $request->cdpId)
             ->first()->cdpCredit;
-        return \response()->json(['remainingAmount' => AmountUnit::convertDispAmount($cdpAmount - $proposedAmount)]);
+        return \response()->json(['remainingAmount' => $cdpAmount - $proposedAmount]);
     }
 
     ///////////////////////// proposal ///////////////////////////

@@ -1955,7 +1955,7 @@
                 this.apCreditSourceFill.crId = creditSource.ccsCdrId;
                 this.apCreditSourceFill.tsId = creditSource.ccsTsId;
                 this.apCreditSourceFill.htrId = creditSource.ccsHtrId;
-                this.apCreditSourceFill.csAmount = this.$parent.calcDispAmount(creditSource.ccsAmount , false);
+                this.apCreditSourceFill.csAmount = this.$parent.calcDispAmount(creditSource.ccsAmount , false , false);
                 this.apCreditSourceFill.csDescription = creditSource.ccsDescription;
                 this.showApCreditEditModal=true;
             },

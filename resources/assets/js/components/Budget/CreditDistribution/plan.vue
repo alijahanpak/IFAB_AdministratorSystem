@@ -1117,7 +1117,7 @@
                 this.CdPlanFill.cdrId = item.cdpCdrId;
                 this.CdPlanFill.coId = item.cdpCoId;
                 this.CdPlanFill.description = item.cdpDescription;
-                this.CdPlanFill.amount = this.$parent.calcDispAmount(item.cdpCredit , false);
+                this.CdPlanFill.amount = this.$parent.calcDispAmount(item.cdpCredit , false , false);
                 this.selectedBs = bsId;
                 this.getCreditDistributionRow();
                 this.getCounties();
