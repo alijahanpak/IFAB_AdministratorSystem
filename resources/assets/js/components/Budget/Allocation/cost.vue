@@ -1253,6 +1253,8 @@
             openInsertModal: function (type) {
                 this.creditSourceInfo = [];
                 this.AllocationInput = [];
+                this.costAgreements = [];
+                this.caCreditSources = [];
                 this.selectedCostAgreement = '';
                 this.provOrNat = type;
                 this.getAllCostAgreements(type);

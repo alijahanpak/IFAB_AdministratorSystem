@@ -1546,6 +1546,8 @@
             },
 
             openCreditSourceInsertModal: function (caId , type) {
+                this.seasonTitles = [];
+                this.tinySeasons = [];
                 this.caCreditSourceInput = [];
                 this.selectedSeasonTitle = '';
                 this.selectedSeason = '';

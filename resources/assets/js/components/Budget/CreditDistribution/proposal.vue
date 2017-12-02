@@ -574,6 +574,7 @@
             openInsertModal: function () {
                 this.selectedCounty = '';
                 this.cdpProposalInput = [];
+                this.creditDistributionPlans = [];
                 this.getCounties();
                 this.showInsertModal = true;
             },

@@ -620,13 +620,19 @@
                             <div class="grid-x">
                                 <div class="medium-4 cell padding-lr">
                                     <label>سال شروع
-                                        <input class="form-element-margin-btm datePickerClass" type="text" name="startYear" v-model="approvedProjectsInput.apStartYear" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('startYear')}">
+                                        <select class="form-element-margin-btm"  v-model="approvedProjectsInput.apStartYear" name="startYear" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('startYear')}">
+                                            <option value=""></option>
+                                            <option v-for="year in 40" :value="year + 1379">{{ year + 1379 }}</option>
+                                        </select>
                                     </label>
                                     <span v-show="errors.has('startYear')" class="error-font">لطفا سال شروع پروژه را وارد کنید!</span>
                                 </div>
                                 <div class="medium-4 cell padding-lr">
                                     <label>سال خاتمه
-                                        <input class="form-element-margin-btm datePickerClass" type="text" name="endYear" v-model="approvedProjectsInput.apEndYear" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('endYear')}">
+                                        <select class="form-element-margin-btm"  v-model="approvedProjectsInput.apEndYear" name="endYear" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('endYear')}">
+                                            <option value=""></option>
+                                            <option v-for="year in 40" :value="year + 1379">{{ year + 1379 }}</option>
+                                        </select>
                                     </label>
                                     <span v-show="errors.has('endYear')" class="error-font">لطفا سال خاتمه پروژه را وارد کنید!</span>
                                 </div>
@@ -634,7 +640,7 @@
                                     <label> پیشرفت فیزیکی<span class="btn-red small-font"> (درصد) </span>
                                         <input  type="number" min="0" max="100" value="0" name="physicalProgress" v-model="approvedProjectsInput.apPhysicalProgress" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
                                         <div style="margin-top: -16px;height:2px;" class="alert progress form-element-margin-btm">
-                                            <div class="progress-meter" style="width: 100%"></div>
+                                            <div class="progress-meter" v-bind:style="{ 'width' : approvedProjectsInput.apPhysicalProgress + '%' }"></div>
                                         </div>
                                     </label>
                                     <span v-show="errors.has('physicalProgress')" class="error-font">لطفا پیشرفت فیزیکی را وارد کنید!</span>
@@ -696,19 +702,28 @@
                         <div class="grid-x">
                             <div class="medium-4 cell padding-lr">
                                 <label>سال شروع
-                                    <input class="form-element-margin-btm" type="text" name="startYear" v-model="approvedProjectsFill.apStartYear" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('startYear')}">
+                                    <select class="form-element-margin-btm"  v-model="approvedProjectsFill.apStartYear" name="startYear" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('startYear')}">
+                                        <option value=""></option>
+                                        <option v-for="year in 40" :value="year + 1379">{{ year + 1379 }}</option>
+                                    </select>
                                 </label>
                                 <span v-show="errors.has('startYear')" class="error-font">لطفا سال شروع پروژه را وارد کنید!</span>
                             </div>
                             <div class="medium-4 cell padding-lr">
                                 <label>سال خاتمه
-                                    <input class="form-element-margin-btm" type="text" name="endYear" v-model="approvedProjectsFill.apEndYear" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('endYear')}">
+                                    <select class="form-element-margin-btm"  v-model="approvedProjectsFill.apEndYear" name="endYear" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('endYear')}">
+                                        <option value=""></option>
+                                        <option v-for="year in 40" :value="year + 1379">{{ year + 1379 }}</option>
+                                    </select>
                                 </label>
                                 <span v-show="errors.has('endYear')" class="error-font">لطفا سال خاتمه پروژه را وارد کنید!</span>
                             </div>
                             <div class="medium-4 cell padding-lr">
                                 <label> پیشرفت فیزیکی<span class="btn-red small-font"> (درصد) </span>
                                     <input  type="number" min="0" max="100" value="0"  name="physicalProgress" v-model="approvedProjectsFill.apPhysicalProgress" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
+                                    <div style="margin-top: -16px;height:2px;" class="alert progress form-element-margin-btm">
+                                        <div class="progress-meter" v-bind:style="{ 'width' : approvedProjectsFill.apPhysicalProgress + '%' }"></div>
+                                    </div>
                                 </label>
                                 <span v-show="errors.has('physicalProgress')" class="error-font">لطفا پیشرفت فیزیکی را وارد کنید!</span>
                             </div>

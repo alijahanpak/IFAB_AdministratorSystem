@@ -1333,6 +1333,12 @@
             },
 
             openInsertModal: function (type) {
+                this.approvedPlans = [];
+                this.approvedProjects = [];
+                this.projectCreditSources = [];
+                this.creditSourceInfo = [];
+                this.selectedPlan = '';
+                this.selectedProject = '';
                 this.provOrNat = type;
                 this.getAllApprovedPlan(type);
                 this.showInsertModal = true;
@@ -1375,6 +1381,7 @@
             },
 
             openUpdateModal: function (item , planId , projectId , type) {
+                this.creditSourceInfo = [];
                 this.AllocationFill.id = item.id;
                 if (item.caaFoundId == null)
                 {

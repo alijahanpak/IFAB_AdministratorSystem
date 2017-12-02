@@ -798,7 +798,7 @@
                                 <label> پیشرفت فیزیکی<span class="btn-red small-font"> (درصد) </span>
                                     <input  type="number" min="0" max="100" value="0" name="physicalProgress" v-model="projectAmendmentInput.pProgress" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
                                     <div style="margin-top: -16px;height:2px;" class="alert progress form-element-margin-btm">
-                                        <div class="progress-meter" style="width: 100%"></div>
+                                        <div class="progress-meter" v-bind:style="{ 'width' : projectAmendmentInput.pProgress + '%' }"></div>
                                     </div>
                                 </label>
                                 <span v-show="errors.has('physicalProgress')" class="error-font">لطفا پیشرفت فیزیکی را وارد کنید!</span>
@@ -887,7 +887,7 @@
                                 <label> پیشرفت فیزیکی<span class="btn-red small-font"> (درصد) </span>
                                     <input  type="number" min="0" max="100" value="0" name="physicalProgress" v-model="projectAmendmentFill.pProgress" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
                                     <div style="margin-top: -16px;height:2px;" class="alert progress form-element-margin-btm">
-                                        <div class="progress-meter" style="width: 100%"></div>
+                                        <div class="progress-meter" v-bind:style="{ 'width' : projectAmendmentFill.pProgress + '%' }"></div>
                                     </div>
                                 </label>
                                 <span v-show="errors.has('physicalProgress')" class="error-font">لطفا پیشرفت فیزیکی را وارد کنید!</span>
@@ -1639,6 +1639,7 @@
             },
 
             openApprovedPlanInsertModal: function (type) {
+                this.approvedPlanInput = [];
                 this.getCreditDistributionTitle(type);
                 this.provOrNat = type;
                 this.showInsertModal= true;

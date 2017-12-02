@@ -574,6 +574,7 @@
 
             openInsertModal: function (pOrC) {
                 this.getSeasons();
+                this.seasonTitles = [];
                 this.selectedSeason = '';
                 this.tinySeasonsInput = [];
                 this.planOrCost = pOrC;
