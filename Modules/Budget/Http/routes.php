@@ -168,7 +168,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('/update', 'AllocationOfCapitalAssetsController@updateCapitalAssetsAllocation');
         Route::post('/delete', 'AllocationOfCapitalAssetsController@deleteCapitalAssetsAllocation');
         Route::get('/getCapitalAssetsCreditSourceInfo', 'AllocationOfCapitalAssetsController@getCapitalAssetsCreditSourceInfo');
-        Route::post('/report', 'BudgetReportController@capitalAssets');
+        Route::post('/report', 'BudgetReportController@capitalAssetsAllocation');
     });
 
     Route::prefix('allocation/capital_assets/found')->group(function () {
@@ -187,8 +187,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('/update', 'AllocationOfCapitalAssetsController@updateCostAllocation');
         Route::post('/delete', 'AllocationOfCapitalAssetsController@deleteCostAllocation');
         Route::get('/getCostCreditSourceInfo', 'AllocationOfCapitalAssetsController@getCostCreditSourceInfo');
-        Route::post('/report', 'BudgetReportController@costProvincial');
-        Route::post('/report', 'BudgetReportController@costNational');
+        Route::post('/report', 'BudgetReportController@costAllocation');
     });
 
     Route::prefix('allocation/cost/found')->group(function () {
