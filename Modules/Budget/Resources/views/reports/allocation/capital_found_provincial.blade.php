@@ -13,15 +13,37 @@
                  </tr>
                  </thead>
                  <tbody>
+                     <?php
+                         $sum = 0;
+                         $sumOfCost = 0;
+                         $sumOfConverted = 0;
+                     ?>
                      @foreach($items as $found)
                          <tr>
-                             <td>{{$found['caaLetterDate']}}</td>
-                             <td>{{\Modules\Admin\Entities\AmountUnit::convertDispAmount($found['caaAmount'])}}</td>
-                             <td>{{\Modules\Admin\Entities\AmountUnit::convertDispAmount($found['caaSumOfCost'])}}</td>
-                             <td>{{\Modules\Admin\Entities\AmountUnit::convertDispAmount($found['caaConvertedAllocAmount'])}}</td>
+                             <td class="text-center">{{$found['caaLetterDate']}}</td>
+                             <td class="text-center">{{\Modules\Admin\Entities\AmountUnit::convertDispAmount($found['caaAmount'])}}</td>
+                             <td class="text-center">{{\Modules\Admin\Entities\AmountUnit::convertDispAmount($found['caaSumOfCost'])}}</td>
+                             <td class="text-center">{{\Modules\Admin\Entities\AmountUnit::convertDispAmount($found['caaConvertedAllocAmount'])}}</td>
                              <td>{{$found['caaDescription']}}</td>
                          </tr>
+                         <?php
+                         $sum += $found['caaAmount'];
+                         $sumOfCost += $found['caaSumOfCost'];
+                         $sumOfConverted += $found['caaConvertedAllocAmount'];
+                         ?>
                      @endforeach
+                     <tr>
+                         <td class="text-center BTitrBold">مجموع</td>
+                         <td class="text-center BTitrBold">
+                             {{ \Modules\Admin\Entities\AmountUnit::convertDispAmount($sum) }}
+                         </td>
+                         <td class="text-center BTitrBold">
+                             {{ \Modules\Admin\Entities\AmountUnit::convertDispAmount($sumOfCost) }}
+                         </td>
+                         <td class="text-center BTitrBold">
+                             {{ \Modules\Admin\Entities\AmountUnit::convertDispAmount($sumOfConverted) }}
+                         </td>
+                     </tr>
                  </tbody>
              </table>
              @if ($options['withReporterName'])

@@ -5,23 +5,24 @@
             <table>
                 <thead align="center" class="BTitrBold">
                 <tr class="small-font">
-                    <th>شماره مبادله</th>
-                    <th>تاریخ مبادله</th>
                     <th>شماره ابلاغ</th>
                     <th>تاریخ ابلاغ</th>
+                    <th>شماره مبادله</th>
+                    <th>تاریخ مبادله</th>
                     <th>اعتبار</th>
                     <th>شرح</th>
                 </tr>
                 </thead>
                 <tbody>
+                <?php $sum = 0; ?>
                 @foreach($items as $tempItem)
                     <tr>
-                        <td>{{$tempItem['caLetterNumber']}}</td>
-                        <td>{{$tempItem['caLetterDate']}}</td>
-                        <td>{{$tempItem['caExchangeIdNumber']}}</td>
-                        <td>{{$tempItem['caExchangeDate']}}</td>
-                        <td>{{\Modules\Budget\Entities\CaCreditSource::sumOfCreditSource($tempItem['id'])}}</td>
-                        <td>{{$tempItem['caDescription']}}</td>
+                        <td class="text-center">{{ $tempItem['caLetterNumber'] }}</td>
+                        <td class="text-center">{{ $tempItem['caLetterDate'] }}</td>
+                        <td class="text-center">{{ $tempItem['caProvinceOrNational'] == 0 ? $tempItem['caExchangeIdNumber'] : ' -- '}}</td>
+                        <td class="text-center">{{ $tempItem['caProvinceOrNational'] == 0 ? $tempItem['caExchangeDate']  : ' -- '}}</td>
+                        <td class="text-center">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CaCreditSource::sumOfCreditSource($tempItem['id']))}}</td>
+                        <td>{{ $tempItem['caDescription']}}</td>
                     </tr>
                     @if(count($tempItem['ca_credit_source']) >0)
                         <tr>
@@ -36,29 +37,35 @@
                                         <th>ریز فصل</th>
                                         <th>مبلغ</th>
                                         <th>توضیحات</th>
-                                    </tr>. public static function sumOfCaCreditSource($pId){
-        return CapCreditSource::where('ccsCapId','=',$pId)->sum('ccsAmount');
-    }
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($tempItem['ca_credit_source'] as $creditSource)
-                                        <tr>
-                                            <td>{{ $creditSource['credit_distribution_title']['cdtIdNumber'] .'-'.$creditSource['credit_distribution_title']['cdtSubject'] }}</td>
-                                            <td>{{ $creditSource['credit_distribution_row']['cdSubject'] }}</td>
-                                            <td>{{ $creditSource['tiny_season']['season_title']['season']['sSubject']}}</td>
-                                            <td>{{ $creditSource['tiny_season']['season_title']['cstSubject'] }}</td>
-                                            <td>{{ $creditSource['tiny_season']['ctsSubject'] }}</td>
-                                            <td>{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount($creditSource['ccsAmount'] )}}</td>
-                                            <td>{{ $creditSource['ccsDescription']}}</td>
-                                        </tr>
-                                    @endforeach
+                                        @foreach($tempItem['ca_credit_source'] as $creditSource)
+                                            <tr>
+                                                <td>{{ $creditSource['credit_distribution_title']['cdtIdNumber'] .'-'.$creditSource['credit_distribution_title']['cdtSubject'] }}</td>
+                                                <td>{{ $creditSource['credit_distribution_row']['cdSubject'] }}</td>
+                                                <td class="text-center">{{ $creditSource['tiny_season']['season_title']['season']['sSubject']}}</td>
+                                                <td>{{ $creditSource['tiny_season']['season_title']['cstSubject'] }}</td>
+                                                <td>{{ $creditSource['tiny_season']['ctsSubject'] }}</td>
+                                                <td class="text-center">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount($creditSource['ccsAmount'])}}</td>
+                                                <td>{{ $creditSource['ccsDescription']}}</td>
+                                            </tr>
+                                            <?php
+                                                $sum += $creditSource['ccsAmount'];
+                                            ?>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </td>
                         </tr>
-                        @endif
-
+                    @endif
                 @endforeach
+                <tr>
+                    <td class="text-center BTitrBold" colspan="3">مجموع</td>
+                    <td class="text-center BTitrBold" colspan="2">
+                        {{ \Modules\Admin\Entities\AmountUnit::convertDispAmount($sum) }}
+                    </td>
+                </tr>
                 </tbody>
             </table>
             @if ($options['withReporterName'])

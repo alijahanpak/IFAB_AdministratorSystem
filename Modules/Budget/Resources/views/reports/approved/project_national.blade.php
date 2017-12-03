@@ -17,19 +17,19 @@
                 </tr>
                 </thead>
                 <tbody>
-
+                <?php $sum = 0; ?>
                 @foreach($items as $plan)
                     @foreach($plan['capital_assets_project'] as $project)
                         @if($project['checked']==true)
                             <tr>
                                 <td>{{ $plan['credit_distribution_title']['cdtIdNumber'] . ' - ' . $plan['credit_distribution_title']['cdtSubject'] }}</td>
-                                <td>{{$project['cpCode']}}</td>
+                                <td class="text-center">{{$project['cpCode']}}</td>
                                 <td>{{$project['cpSubject']}}</td>
-                                <td>{{$project['county']['coName']}}</td>
-                                <td>{{ $project['cpStartYear'] }}</td>
-                                <td>{{ $project['cpEndOfYear'] }}</td>
-                                <td>{{ $project['cpPhysicalProgress'] }}</td>
-                                <td>{{\Modules\Budget\Entities\CapCreditSource::sumOfCreditSource($project['id'])}}</td>
+                                <td class="text-center">{{$project['county']['coName']}}</td>
+                                <td class="text-center">{{ $project['cpStartYear'] }}</td>
+                                <td class="text-center">{{ $project['cpEndOfYear'] }}</td>
+                                <td class="text-center">{{ $project['cpPhysicalProgress'] }}</td>
+                                <td class="text-center">{{\Modules\Admin\Entities\AmountUnit::convertDispAmount(\Modules\Budget\Entities\CapCreditSource::sumOfCreditSource($project['id']))}}</td>
                                 <td>{{$project['cpDescription']}}</td>
                             </tr>
                             @if(count($project['credit_source']) >0)
@@ -51,13 +51,16 @@
                                             @foreach($project['credit_source'] as $creditSource)
                                                 <tr>
                                                     <td>{{ $creditSource['credit_distribution_row']['cdSubject'] }}</td>
-                                                    <td>{{ $creditSource['tiny_season']['season_title']['season']['sSubject'] }}</td>
-                                                    <td>{{ $creditSource['tiny_season']['season_title']['castSubject']}}</td>
+                                                    <td class="text-center">{{ $creditSource['tiny_season']['season_title']['season']['sSubject'] }}</td>
+                                                    <td>{{ $creditSource['tiny_season']['season_title']['castSubject'] }}</td>
                                                     <td>{{ $creditSource['tiny_season']['catsSubject'] }}</td>
-                                                    <td>{{ $creditSource['how_to_run']['htrSubject'] }}</td>
-                                                    <td>{{ $creditSource['ccsAmount'] }}</td>
-                                                    <td>{{ $creditSource['ccsDescription']}}</td>
+                                                    <td class="text-center">{{ $creditSource['how_to_run']['htrSubject'] }}</td>
+                                                    <td class="text-center">{{ \Modules\Admin\Entities\AmountUnit::convertDispAmount($creditSource['ccsAmount']) }}</td>
+                                                    <td>{{ $creditSource['ccsDescription'] }}</td>
                                                 </tr>
+                                                <?php
+                                                    $sum += $creditSource['ccsAmount'];
+                                                ?>
                                             @endforeach
                                             </tbody>
                                         </table>
@@ -67,6 +70,12 @@
                         @endif
                     @endforeach
                 @endforeach
+                <tr>
+                    <td class="text-center BTitrBold" colspan="6">مجموع</td>
+                    <td class="text-center BTitrBold" colspan="2">
+                        {{ \Modules\Admin\Entities\AmountUnit::convertDispAmount($sum) }}
+                    </td>
+                </tr>
                 </tbody>
             </table>
             @if ($options['withReporterName'])

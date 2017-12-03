@@ -14,23 +14,32 @@
                  </tr>
                  </thead>
                  <tbody>
-                 @foreach($items as $county)
-                     @foreach($county['credit_distribution_plan_has_proposal'] as $plan)
-                         @foreach($plan['proposal'] as $proposal)
-                            @if($proposal['checked']==true)
-                                <tr>
-                                    <td>{{$county['coName']}}</td>
-                                    <td>{{$plan['credit_distribution_title']['cdtIdNumber']. ' - ' . $plan['credit_distribution_title']['cdtSubject'] }}</td>
-                                    <td>{{$proposal['pbpCode']}}</td>
-                                    <td>{{$proposal['pbpSubject']}}</td>
-                                    <td>{{\Modules\Admin\Entities\AmountUnit::convertDispAmount($proposal['pbpAmount'])}}</td>
-                                    <td>{{$proposal['pbpDescription']}}</td>
-                                </tr>
-                            @endif
+                    <?php $sum = 0; ?>
+                     @foreach($items as $county)
+                         @foreach($county['credit_distribution_plan_has_proposal'] as $plan)
+                             @foreach($plan['proposal'] as $proposal)
+                                @if($proposal['checked']==true)
+                                    <tr>
+                                        <td>{{$county['coName']}}</td>
+                                        <td>{{$plan['credit_distribution_title']['cdtIdNumber']. ' - ' . $plan['credit_distribution_title']['cdtSubject'] }}</td>
+                                        <td class="text-center">{{$proposal['pbpCode']}}</td>
+                                        <td>{{$proposal['pbpSubject']}}</td>
+                                        <td class="text-center">{{\Modules\Admin\Entities\AmountUnit::convertDispAmount($proposal['pbpAmount'])}}</td>
+                                        <td>{{$proposal['pbpDescription']}}</td>
+                                    </tr>
+                                    <?php
+                                    $sum += $proposal['pbpAmount'];
+                                    ?>
+                                @endif
+                             @endforeach
                          @endforeach
                      @endforeach
-                 @endforeach
-
+                     <tr>
+                         <td class="text-center BTitrBold" colspan="3">مجموع</td>
+                         <td class="text-center BTitrBold" colspan="2">
+                             {{ \Modules\Admin\Entities\AmountUnit::convertDispAmount($sum) }}
+                         </td>
+                     </tr>
                  </tbody>
              </table>
              @if ($options['withReporterName'])

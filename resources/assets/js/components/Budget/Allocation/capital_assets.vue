@@ -887,7 +887,7 @@
                                                     <th class="tbl-head-style-cell">عنوان</th>
                                                     <th class="tbl-head-style-cell">مبلغ</th>
                                                     <th class="tbl-head-style-cell">شرح</th>
-                                                    <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox"></th>
+                                                    <th class="tbl-head-style-checkbox" v-show="selectColumn"></th>
                                                     <th class="tbl-head-style-cell"></th>
                                                 </tr>
                                                 </tbody>

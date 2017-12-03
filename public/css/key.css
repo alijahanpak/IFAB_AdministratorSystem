@@ -496,6 +496,11 @@ a:focus,button:focus {
 .font-wei{
     font-weight: normal;
 }
+
+.font-wei-bold{
+    font-weight: bold;
+}
+
 .modal-margin{
     margin-top: 30px;
     margin-bottom: -15px;

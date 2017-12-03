@@ -717,6 +717,7 @@ class BudgetReportController extends Controller
             return url('xlsFiles/temp' . Auth::user()->id . '.xls');
         }
     }
+
     public function approvedProgram(Request $request)
     {
         if ($request->type == 'pdf') {

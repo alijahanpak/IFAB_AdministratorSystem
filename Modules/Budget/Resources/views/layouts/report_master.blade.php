@@ -45,14 +45,15 @@
                 <img src="{{ asset('pic/ir-logo.jpg') }}" width="200px" height="100px">
             </div>
         </div>
-        @if ($options['withFiscalYear'])
+
         <div style="width: 60%;padding-top:50px;float: right;">
             <div class="text-center">
                 <p class="BTitrBold">{{ $options['title'] }}</p>
-                <p>سال مالی - <span> 1396 </span></p>
+                @if ($options['withFiscalYear'])
+                    <p>سال مالی - <span> 1396 </span></p>
+                @endif
             </div>
         </div>
-        @endif
         @if ($options['withReportDate'])
         <div style="margin-top: 50px;width: 20%;float: right;text-align: left;">
             <p class="left-details">تاریخ : <span> {{ \Morilog\Jalali\Facades\jDate::forge()->format('%Y/%m/%d') }} </span></p>
