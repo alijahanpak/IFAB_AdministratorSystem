@@ -235,14 +235,15 @@
                 sumOfCaAllocation: 0,
             }
         },
-        mounted () {
-
-        },
 
         created: function(){
             this.fetchCapitalAssetsData();
             this.fetchCostsData();
             this.getStatisticsData();
+        },
+
+        updated: function () {
+
         },
 
         methods: {
@@ -285,14 +286,17 @@
             },
 
             fetchCapitalAssetsData: function () {
-                axios.get('/budget/chart/capitalAssets')
+                axios.get('/budget/chart/capitalAssets' , {params:{test: Math.random()}})
                     .then((response) => {
                     this.setCapitalAssetsChartData(response.data);
                     this.setNatCapitalAssetsChartData(response.data);
+                        console.log('......................................................... fetchCapitalAssetsData');
                         console.log(response);
                     },(error) => {
                         console.log(error);
-                    });
+                    }).catch(error => {
+                    console.log('......................................................... fetchCapitalAssetsData catch');
+                });
             },
 
             fetchCostsData: function () {

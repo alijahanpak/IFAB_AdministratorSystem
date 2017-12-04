@@ -67,7 +67,7 @@ axios.interceptors.response.use(response => {
 
 axios.interceptors.request.use(function (config) {
     app.start();
-    config.headers = JSON.parse(localStorage.getItem("ifab_token_info")); //set headers to config axios request
+    config.headers = JSON.parse(sessionStorage.getItem("ifab_token_info")); //set headers to config axios request
     return config;
 }, function (error) {
     return Promise.reject(error);
@@ -81,7 +81,7 @@ const USER_ISNOT_ACTIVE = "USER_ISNOT_ACTIVE";
 
 const store = new Vuex.Store({
     state: {
-        isLoggedIn: !!localStorage.getItem("ifab_token_info"),
+        isLoggedIn: !!sessionStorage.getItem("ifab_token_info"),
         refreshTokenMode: false
     },
     mutations: {
@@ -108,14 +108,14 @@ const store = new Vuex.Store({
         login({ commit }, creds) {
             commit(LOGIN); // show spinner
             return new Promise(resolve => {
-                localStorage.setItem('ifab_token_info' , JSON.stringify(creds));
+                sessionStorage.setItem('ifab_token_info' , JSON.stringify(creds));
                 commit(LOGIN_SUCCESS);
                 resolve();
             });
         },
 
         logout({ commit }) {
-            localStorage.removeItem("ifab_token_info");
+            sessionStorage.removeItem("ifab_token_info");
             commit(LOGOUT);
         },
 
@@ -158,10 +158,11 @@ var app = new Vue({
     updated: function () {
         $(this.$el).foundation(); //WORKS!
         this.fixedLoginFrame();
+        console.log('......................................................... updated');
     },
 
     created: function () {
-
+        console.log('......................................................... created');
     },
 
     mounted: function () {
@@ -212,6 +213,7 @@ var app = new Vue({
             this.getAmountBase();
         }
         console.log("mounted router js");
+        console.log('......................................................... mounded');
     },
 
     methods:{
@@ -303,8 +305,7 @@ var app = new Vue({
         changeFiscalYear: function (fyId) {
             axios.post('/budget/admin/fiscal_year/changeFiscalYear' , {fyId: fyId})
                 .then((response) => {
-                    this.$router.go(this.$router.currentRoute.path); //reload page data
-                    //this.$router.push(this.$router.currentRoute.path);
+                    location.reload();
                 },(error) => {
                     console.log(error);
                 });
@@ -409,15 +410,6 @@ var app = new Vue({
             console.log("......................................................" + store.getters.userIsActive);
             if (store.getters.userIsActive)
             {
-/*                axios.post('/api/refresh_token' , {
-                    refresh_token: JSON.parse(localStorage.getItem("ifab_token_info")).refreshToken
-                }).then((response) => {
-                    store.dispatch("userNotActive");
-                    this.registerTokenInfo(response.data);
-                }, (error) => {
-                    this.showModalLogin = true;
-                    this.fail();
-                });*/
                 store.dispatch("userNotActive");
                 this.setExpireTokenThread();
             }else{
