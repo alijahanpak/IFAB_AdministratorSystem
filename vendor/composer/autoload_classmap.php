@@ -1703,6 +1703,7 @@ return array(
     'Modules\\Admin\\Database\\Seeders\\SeedAmountUnitSeederTableSeeder' => $baseDir . '/Modules/Admin/Database/Seeders/SeedAmountUnitSeederTableSeeder.php',
     'Modules\\Admin\\Database\\Seeders\\SeedPublicSettingTableSeederTableSeeder' => $baseDir . '/Modules/Admin/Database/Seeders/SeedPublicSettingTableSeederTableSeeder.php',
     'Modules\\Admin\\Database\\Seeders\\SeedSeasonTableSeederTableSeeder' => $baseDir . '/Modules/Admin/Database/Seeders/SeedSeasonTableSeederTableSeeder.php',
+    'Modules\\Admin\\Database\\Seeders\\SeederSubSystemTableSeederTableSeeder' => $baseDir . '/Modules/Admin/Database/Seeders/SeederSubSystemTableSeederTableSeeder.php',
     'Modules\\Admin\\Entities\\AmountUnit' => $baseDir . '/Modules/Admin/Entities/AmountUnit.php',
     'Modules\\Admin\\Entities\\County' => $baseDir . '/Modules/Admin/Entities/County.php',
     'Modules\\Admin\\Entities\\FiscalYear' => $baseDir . '/Modules/Admin/Entities/FiscalYear.php',
