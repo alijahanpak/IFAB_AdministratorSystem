@@ -17,7 +17,6 @@ class CreateHelpCategoryTable extends Migration
             Schema::create('tbl_help_category', function (Blueprint $table) {
                 $table->increments('id');
                 $table->integer('hcSsId')->length(10)->unsigned();
-                $table->integer('hcHcId')->length(10)->unsigned()->nullable();
                 $table->string('hcSubject');
                 $table->longText('hcDescription');
                 $table->timestamps();

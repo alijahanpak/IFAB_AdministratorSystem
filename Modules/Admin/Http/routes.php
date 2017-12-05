@@ -18,3 +18,10 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'admin', 'na
     Route::get('/getPublicParams' , 'AdminController@getPublicParams');
     Route::get('/getAmountBase' , 'AdminController@getAmountBase');
 });
+
+
+Route::group(['prefix' => 'admin/helpCenter', 'namespace' => 'Modules\Admin\Http\Controllers'], function()
+{
+    Route::get('/getAllSubSystem' , 'HelpCenterController@getAllSubSystem');
+    Route::get('/getHelpCategory' , 'HelpCenterController@getHelpCategory');
+});

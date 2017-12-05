@@ -17,3 +17,7 @@ Route::get('/logout' , 'AuthController@signout');
 Route::get('/' , function (){
     return view('index');
 });
+
+Route::get('/help_center' , function (){
+    return view('help_center');
+});
