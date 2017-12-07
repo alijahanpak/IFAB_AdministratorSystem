@@ -24,4 +24,5 @@ Route::group(['prefix' => 'admin/helpCenter', 'namespace' => 'Modules\Admin\Http
 {
     Route::get('/getAllSubSystem' , 'HelpCenterController@getAllSubSystem');
     Route::get('/getHelpCategory' , 'HelpCenterController@getHelpCategory');
+    Route::get('/getHelpCenter' , 'HelpCenterController@getHelpCenter');
 });
