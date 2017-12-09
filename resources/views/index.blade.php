@@ -178,7 +178,7 @@
                         <div class="top-bar-right"  v-cloak>
                             <ul style="background-color: #FFFFFF;" data-dropdown-menu class="dropdown  menu user-menu">
                                 <li>
-                                    <a href="{{ url('/help_center') }}" target="_blank"><i class="fa fa-balance-scale"></i></a>
+                                    <a style="margin-top: -4px;" href="{{ url('/help_center') }}" target="_blank"><i class="fa fa-question-circle-o size-24 icon-gradient" aria-hidden="true"></i></a>
                                 </li>
                                 <li>
                                     <a style="margin-top: -3px;"><i class="fa fa-bell-o size-21 icon-gradient" aria-hidden="true"></i></a>
