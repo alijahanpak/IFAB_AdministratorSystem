@@ -178,10 +178,10 @@
                         <div class="top-bar-right"  v-cloak>
                             <ul style="background-color: #FFFFFF;" data-dropdown-menu class="dropdown  menu user-menu">
                                 <li>
-                                    <a style="margin-top: -4px;" href="{{ url('/help_center') }}" target="_blank"><i class="fa fa-question-circle-o size-24 icon-gradient" aria-hidden="true"></i></a>
+                                    <a style="margin-top: -5px;" href="{{ url('/help_center') }}" target="_blank"><i class="fa fa-question size-24 icon-gradient" aria-hidden="true"></i></a>
                                 </li>
                                 <li>
-                                    <a style="margin-top: -3px;"><i class="fa fa-bell-o size-21 icon-gradient" aria-hidden="true"></i></a>
+                                    <a style="margin-top: -3px;"><i class="fa fa-bell-o size-20 icon-gradient" aria-hidden="true"></i></a>
                                     <ul style="background-color:#FFFFFF;" class="top-menu-style menu vertical">
                                         <li>
                                             <div class="top-menu-bg">
@@ -275,6 +275,7 @@
                                 <button class="change-pointer" @click="$emit('close')" type="button">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
+                                <a class="float-left" style="margin-top: 2px;" href="{{ url('/help_center') }}" target="_blank"><i class="fa fa-question size-18 icon-gradient" aria-hidden="true"></i></a>
                             </slot>
                         </div>
                         <div class="modal-body">
@@ -296,6 +297,7 @@
                                 <button class="change-pointer" @click="$emit('close')" type="button">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
+                                <a class="float-left" style="margin-top: 2px;" href="{{ url('/help_center') }}" target="_blank"><i class="fa fa-question size-18 icon-gradient" aria-hidden="true"></i></a>
                             </slot>
                         </div>
                         <div class="modal-body">
@@ -317,6 +319,7 @@
                                 <button class="change-pointer" @click="$emit('close')" type="button">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
+                                <a class="float-left" style="margin-top: 2px;" href="{{ url('/help_center') }}" target="_blank"><i class="fa fa-question size-18 icon-gradient" aria-hidden="true"></i></a>
                             </slot>
                         </div>
                         <div class="modal-body">
@@ -338,6 +341,7 @@
                                 <button class="change-pointer" @click="$emit('close')" type="button">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
+                                <a class="float-left" style="margin-top: 2px;" href="{{ url('/help_center') }}" target="_blank"><i class="fa fa-question size-18 icon-gradient" aria-hidden="true"></i></a>
                             </slot>
                         </div>
                         <div class="modal-body">

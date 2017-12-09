@@ -810,7 +810,7 @@
                                                     <th class="tbl-head-style-cell">عنوان</th>
                                                     <th class="tbl-head-style-cell">مبلغ</th>
                                                     <th class="tbl-head-style-cell">شرح</th>
-                                                    <th class="tbl-head-style-checkbox" v-show="selectColumn"><input type="checkbox"></th>
+                                                    <th class="tbl-head-style-checkbox" v-show="selectColumn"></th>
                                                     <th class="tbl-head-style-cell"></th>
                                                 </tr>
                                                 </tbody>
@@ -1059,7 +1059,7 @@
                 selectedCount: 0,
                 reportOptions: {title:'' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true , costLabel:true},
                 foundIdForConvertTo: '',
-
+                updateDataThreadNowPlaying: null,
                 national_pagination: {
                     total: 0,
                     to: 0,
@@ -1075,12 +1075,14 @@
                 },
             }
         },
+
         created: function () {
             this.fetchProvincialData();
             this.fetchProvincialFoundData();
             this.fetchNationalData();
-        },
 
+            this.setUpdateDataThread();
+        },
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
@@ -1091,6 +1093,11 @@
         mounted: function () {
             console.log("mounted Cost allocation component");
             this.$parent.myResize();
+        },
+
+        beforeDestroy: function () {
+            clearInterval(this.updateDataThreadNowPlaying);
+            console.log('...................................... kill update data thread');
         },
 
         components:{
@@ -1778,6 +1785,20 @@
                 return found.filter(function (value) {
                     return value.checked === true;
                 }).length;
+            },
+
+            setUpdateDataThread: function () {
+                console.log("...................................................... set cost allocation update thread");
+                if (this.updateDataThreadNowPlaying)
+                    clearInterval(this.updateDataThreadNowPlaying);
+                this.updateDataThreadNowPlaying = setInterval(this.updateDataThread, 120000);
+            },
+
+            updateDataThread: function () {
+                console.log("...................................................... cost allocation update thread");
+                this.fetchProvincialData();
+                this.fetchProvincialFoundData();
+                this.fetchNationalData();
             },
 
         }

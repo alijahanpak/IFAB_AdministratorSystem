@@ -233,6 +233,7 @@
                 prov_approvedPlanExchangedCount: 0,
                 sumOfCapAllocation: 0,
                 sumOfCaAllocation: 0,
+                updateDataThreadNowPlaying: null,
             }
         },
 
@@ -240,10 +241,17 @@
             this.fetchCapitalAssetsData();
             this.fetchCostsData();
             this.getStatisticsData();
+
+            this.setUpdateDataThread();
         },
 
         updated: function () {
 
+        },
+
+        beforeDestroy: function () {
+            clearInterval(this.updateDataThreadNowPlaying);
+            console.log('...................................... kill update data thread');
         },
 
         methods: {
@@ -440,7 +448,21 @@
                 },(error) => {
                     console.log(error);
                 });
-            }
+            },
+
+            setUpdateDataThread: function () {
+                console.log("...................................................... set budget dashboard update thread");
+                if (this.updateDataThreadNowPlaying)
+                    clearInterval(this.updateDataThreadNowPlaying);
+                this.updateDataThreadNowPlaying = setInterval(this.updateDataThread, 120000);
+            },
+
+            updateDataThread: function () {
+                console.log("...................................................... budget dashboard update thread");
+                this.fetchCapitalAssetsData();
+                this.fetchCostsData();
+                this.getStatisticsData();
+            },
         }
     }
 </script>

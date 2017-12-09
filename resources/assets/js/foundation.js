@@ -1,6 +1,6 @@
 
 window._ = require('lodash');
-window.hostname = 'http://localhost/IFAB_AdministratorSystem/public';
+window.hostname = 'http://192.168.1.23/IFAB_AdministratorSystem/public';
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This

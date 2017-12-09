@@ -165,6 +165,7 @@
                 allPermissionSelectedSection: {budget: ''},
                 fyLabel: '',
                 fyActiveId: '',
+                updateDataThreadNowPlaying: null,
                 budgetPermissionState: {},
                 pagination: {
                     total: 0,
@@ -177,6 +178,7 @@
 
         created: function () {
             this.fetchData();
+            this.setUpdateDataThread();
         },
 
         updated: function () {
@@ -188,6 +190,12 @@
             console.log("mounted fiscal year component");
             this.$parent.myResize();
         },
+
+        beforeDestroy: function () {
+            clearInterval(this.updateDataThreadNowPlaying);
+            console.log('...................................... kill update data thread');
+        },
+
 
         components:{
             'vue-pagination' : VuePagination
@@ -319,6 +327,18 @@
                 }
                 this.changeFySectionPermissionState(section);
                 console.log(JSON.stringify(this.fyPermissionInBudget));
+            },
+
+            setUpdateDataThread: function () {
+                console.log("...................................................... set fiscal year update thread");
+                if (this.updateDataThreadNowPlaying)
+                    clearInterval(this.updateDataThreadNowPlaying);
+                this.updateDataThreadNowPlaying = setInterval(this.updateDataThread, 120000);
+            },
+
+            updateDataThread: function () {
+                console.log("...................................................... fiscal year update thread");
+                this.fetchData();
             },
 
         }

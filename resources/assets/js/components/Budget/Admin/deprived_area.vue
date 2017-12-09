@@ -592,6 +592,7 @@
                 regionDisable: true,
                 ruralDistrictDisable: true,
                 villageDisable: true,
+                updateDataThreadNowPlaying: null,
                 daIdForDelete: '',
                 selectedItems: [],
                 selectedCount: 0,
@@ -602,6 +603,7 @@
         created: function () {
             this.fetchData();
             this.getCounties();
+            this.setUpdateDataThread();
         },
 
         updated: function () {
@@ -612,6 +614,11 @@
         mounted: function () {
             console.log("mounted deprived area component");
             this.$parent.myResize();
+        },
+
+        beforeDestroy: function () {
+            clearInterval(this.updateDataThreadNowPlaying);
+            console.log('...................................... kill update data thread');
         },
 
         components:{
@@ -870,7 +877,20 @@
                     console.log(error);
                     this.showDeleteModal = false;
                 });
-            }
+            },
+
+            setUpdateDataThread: function () {
+                console.log("...................................................... set deprived area update thread");
+                if (this.updateDataThreadNowPlaying)
+                    clearInterval(this.updateDataThreadNowPlaying);
+                this.updateDataThreadNowPlaying = setInterval(this.updateDataThread, 120000);
+            },
+
+            updateDataThread: function () {
+                console.log("...................................................... deprived area update thread");
+                this.fetchData();
+                this.getCounties();
+            },
         }
     }
 </script>

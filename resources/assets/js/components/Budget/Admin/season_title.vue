@@ -378,6 +378,7 @@
                 stIdDelete: {},
                 seasons: {},
                 planOrCost: 0,
+                updateDataThreadNowPlaying: null,
                 cost_pagination: {
                     total: 0,
                     to: 0,
@@ -397,6 +398,7 @@
         created: function () {
             this.fetchCostData();
             this.fetchCapitalAssetsData();
+            this.setUpdateDataThread();
         },
 
         updated: function () {
@@ -407,6 +409,11 @@
         mounted: function () {
             console.log("mounted season title component");
             this.$parent.myResize();
+        },
+
+        beforeDestroy: function () {
+            clearInterval(this.updateDataThreadNowPlaying);
+            console.log('...................................... kill update data thread');
         },
 
         components:{
@@ -614,7 +621,20 @@
                     }, (error) => {
                         console.log(error);
                  });
-            }
+            },
+
+            setUpdateDataThread: function () {
+                console.log("...................................................... set season title update thread");
+                if (this.updateDataThreadNowPlaying)
+                    clearInterval(this.updateDataThreadNowPlaying);
+                this.updateDataThreadNowPlaying = setInterval(this.updateDataThread, 120000);
+            },
+
+            updateDataThread: function () {
+                console.log("...................................................... season title update thread");
+                this.fetchCostData();
+                this.fetchCapitalAssetsData();
+            },
         }
     }
 </script>

@@ -1365,6 +1365,7 @@
                 selectedItems: [],
                 selectedCount: 0,
                 reportOptions: {title:'' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true , costLabel:true},
+                updateDataThreadNowPlaying: null,
                 national_pagination: {
                     total: 0,
                     to: 0,
@@ -1384,6 +1385,8 @@
         created: function () {
             this.fetchProvincialData();
             this.fetchNationalData();
+
+            this.setUpdateDataThread();
         },
 
         updated: function () {
@@ -1401,6 +1404,8 @@
         beforeDestroy: function () {
             console.log("destroy approved cost_program component");
             this.cleanCostAmendmentTemp(); //clean all remaining cost amendment record
+            clearInterval(this.updateDataThreadNowPlaying);
+            console.log('...................................... kill update data thread');
         },
 
         components:{
@@ -2158,6 +2163,19 @@
                 return cAp.filter(function (value) {
                     return value.checked === true;
                 }).length;
+            },
+
+            setUpdateDataThread: function () {
+                console.log("...................................................... set cost approved prog update thread");
+                if (this.updateDataThreadNowPlaying)
+                    clearInterval(this.updateDataThreadNowPlaying);
+                this.updateDataThreadNowPlaying = setInterval(this.updateDataThread, 120000);
+            },
+
+            updateDataThread: function () {
+                console.log("...................................................... cost approved prog update thread");
+                this.fetchProvincialData();
+                this.fetchNationalData();
             },
         }
     }

@@ -158,17 +158,15 @@ var app = new Vue({
     updated: function () {
         $(this.$el).foundation(); //WORKS!
         this.fixedLoginFrame();
-        console.log('......................................................... updated');
     },
 
     created: function () {
-        console.log('......................................................... created');
+        this.setExpireTokenThread();
     },
 
     mounted: function () {
         $.w = $(window);
         $.w.on('resize', function () {
-            console.log("......................res..........................");
             var tabHeight = $('.tabs').height();
             var toolBarHeight = $('.tool-bar').height();
             var paginationHeight = $('.pagination').height();
@@ -178,17 +176,11 @@ var app = new Vue({
                 toolBarHeight = -8;
             }
 
-            if (paginationHeight === undefined)
-            {
-                paginationHeight = -8;
-            }
-
             if (tabHeight===undefined) {
                 if (toolBarHeight > 0)
                     tabHeight = -5;
                 else
-                    tabHeight = -8;
-                notifHeight=0;
+                    tabHeight = 0;
             }
 
             if ($('.vertical-tab').length > 0)
@@ -196,13 +188,19 @@ var app = new Vue({
                 tabHeight = 10;
             }
 
-            $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 180) + 'px');
+            if (paginationHeight === undefined)
+            {
+                if (tabHeight === undefined)
+                    paginationHeight = -50;
+                else
+                    paginationHeight = -5;
+            }
 
+            $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 180) + 'px');
             var x = $(".dynamic-height-level1").height();
-            $('.dynamic-height-level2').css('height', (x - 100 - (tabHeight  + toolBarHeight + paginationHeight)) + 'px');
+            $('.dynamic-height-level2').css('height', (x - 90 - (tabHeight  + toolBarHeight + paginationHeight)) + 'px');
         });
         this.myResize();
-        this.setExpireTokenThread();
         if (!store.getters.isLoggedIn)
         {
             this.showModalLogin = true;
@@ -213,7 +211,6 @@ var app = new Vue({
             this.getAmountBase();
         }
         console.log("mounted router js");
-        console.log('......................................................... mounded');
     },
 
     methods:{
@@ -335,29 +332,17 @@ var app = new Vue({
             var tabHeight = $('.tabs').height();
             var toolBarHeight = $('.tool-bar').height();
             var paginationHeight = $('.pagination').height();
-            var rowSelected=$('.row-select').height();
             var notifHeight=25;
             if (toolBarHeight === undefined)
             {
                 toolBarHeight = -8;
             }
 
-            if (paginationHeight === undefined)
-            {
-                paginationHeight = -8;
-            }
-
-            if (rowSelected === undefined)
-            {
-                rowSelected = -8;
-            }
-
             if (tabHeight===undefined) {
                 if (toolBarHeight > 0)
                     tabHeight = -5;
                 else
-                    tabHeight = -8;
-                notifHeight = 0;
+                    tabHeight = 0;
             }
 
             if ($('.vertical-tab').length > 0)
@@ -365,10 +350,19 @@ var app = new Vue({
                 tabHeight = 10;
             }
 
-            $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 180) + 'px');
+            if (paginationHeight === undefined)
+            {
+                if (tabHeight === undefined)
+                    paginationHeight = -50;
+                else
+                    paginationHeight = -5;
+            }
 
+            console.log('...........' + paginationHeight);
+
+            $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 180) + 'px');
             var x = $(".dynamic-height-level1").height();
-            $('.dynamic-height-level2').css('height', (x - 100 - (tabHeight  + toolBarHeight + paginationHeight + rowSelected)) + 'px');
+            $('.dynamic-height-level2').css('height', (x - 90 - (tabHeight  + toolBarHeight + paginationHeight)) + 'px');
         },
 
         fixedLoginFrame: function() {
@@ -388,7 +382,6 @@ var app = new Vue({
         },
 
         setExpireTokenThread: function () {
-            //console.log("......................................................" + localStorage.getItem('ifab_token_expires_in'));
             if (this.prevNowPlaying)
                 clearInterval(this.prevNowPlaying);
             this.prevNowPlaying = setInterval(this.expireTokenThread, 600000);

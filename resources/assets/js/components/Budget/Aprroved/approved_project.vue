@@ -1070,6 +1070,7 @@
                 selectedItems: [],
                 selectedCount: 0,
                 reportOptions: {title:'' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true, costLabel:true},
+                updateDataThreadNowPlaying: null,
                 national_pagination: {
                     total: 0,
                     to: 0,
@@ -1089,6 +1090,8 @@
         created: function () {
             this.fetchProvincialData();
             this.fetchNationalData();
+
+            this.setUpdateDataThread();
         },
 
         updated: function () {
@@ -1101,6 +1104,11 @@
             console.log("mounted approved project component");
             this.$parent.myResize();
 
+        },
+
+        beforeDestroy: function () {
+            clearInterval(this.updateDataThreadNowPlaying);
+            console.log('...................................... kill update data thread');
         },
 
         components:{
@@ -1718,7 +1726,20 @@
                         this.displayParentId_nat = pId;
                     }
                 }
-            }
+            },
+
+            setUpdateDataThread: function () {
+                console.log("...................................................... set capital assets approved project update thread");
+                if (this.updateDataThreadNowPlaying)
+                    clearInterval(this.updateDataThreadNowPlaying);
+                this.updateDataThreadNowPlaying = setInterval(this.updateDataThread, 120000);
+            },
+
+            updateDataThread: function () {
+                console.log("...................................................... capital assets approved project update thread");
+                this.fetchProvincialData();
+                this.fetchNationalData();
+            },
         }
     }
 

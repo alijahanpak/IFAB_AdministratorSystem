@@ -115,7 +115,7 @@
                                         <tbody class="tbl-head-style-cell">
                                             <template v-for="plans in provCapitalAssetsAllocations">
                                                 <tr class="tbl-head-style-cell">
-                                                    <td :rowspan="getPlanAllocCount(plans.capital_assets_project_has_credit_source)">{{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}
+                                                    <td :rowspan="getPlanAllocCount(plans.capital_assets_project_has_credit_source)">{{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' - '  + plans.credit_distribution_title.county.coName}}
                                                         <div v-show="!plans.capActive" class="text-center" style="margin-top: 5px">
                                                             <span class="new-badage">غیر فعال</span>
                                                         </div>
@@ -1137,7 +1137,7 @@
                 selectedCount: 0,
                 reportOptions: {title:'' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true , costLabel:true},
                 foundIdForConvertTo: '',
-
+                updateDataThreadNowPlaying: null,
                 national_pagination: {
                     total: 0,
                     to: 0,
@@ -1157,6 +1157,8 @@
             this.fetchProvincialData();
             this.fetchNationalData();
             this.fetchProvincialFoundData();
+
+            this.setUpdateDataThread();
         },
 
         updated: function () {
@@ -1168,6 +1170,11 @@
         mounted: function () {
             console.log("mounted capital assets allocation component");
             this.$parent.myResize();
+        },
+
+        beforeDestroy: function () {
+            clearInterval(this.updateDataThreadNowPlaying);
+            console.log('...................................... kill update data thread');
         },
 
         components:{
@@ -1899,6 +1906,19 @@
                 }).length;
             },
 
+            setUpdateDataThread: function () {
+                console.log("...................................................... set capital assets allocation update thread");
+                if (this.updateDataThreadNowPlaying)
+                    clearInterval(this.updateDataThreadNowPlaying);
+                this.updateDataThreadNowPlaying = setInterval(this.updateDataThread, 120000);
+            },
+
+            updateDataThread: function () {
+                console.log("...................................................... capital assets allocation update thread");
+                this.fetchProvincialData();
+                this.fetchNationalData();
+                this.fetchProvincialFoundData();
+            },
         }
     }
 </script>

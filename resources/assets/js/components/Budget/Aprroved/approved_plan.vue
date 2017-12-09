@@ -1385,6 +1385,7 @@
                 selectedItems: [],
                 selectedCount: 0,
                 reportOptions: {title:'' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true ,costLabel:false},
+                updateDataThreadNowPlaying: null,
                 national_pagination: {
                     total: 0,
                     to: 0,
@@ -1404,6 +1405,8 @@
         created: function () {
             this.fetchProvincialData();
             this.fetchNationalData();
+
+            this.setUpdateDataThread();
         },
 
         updated: function () {
@@ -1421,6 +1424,8 @@
         beforeDestroy: function () {
             console.log("destroy approved project component");
             this.cleanApprovedAmendmentTemp(); //clean all remaining approved amendment plan record
+            clearInterval(this.updateDataThreadNowPlaying);
+            console.log('...................................... kill update data thread');
         },
 
         components:{
@@ -2157,6 +2162,19 @@
                         });
                     }
                 });
+            },
+
+            setUpdateDataThread: function () {
+                console.log("...................................................... set capital assets approved plan update thread");
+                if (this.updateDataThreadNowPlaying)
+                    clearInterval(this.updateDataThreadNowPlaying);
+                this.updateDataThreadNowPlaying = setInterval(this.updateDataThread, 120000);
+            },
+
+            updateDataThread: function () {
+                console.log("...................................................... capital assets approved plan update thread");
+                this.fetchProvincialData();
+                this.fetchNationalData();
             },
         }
     }

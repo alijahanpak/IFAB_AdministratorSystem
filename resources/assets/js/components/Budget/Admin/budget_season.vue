@@ -171,6 +171,7 @@
                 budgetSeasonInput: {subject: '' , description: ''},
                 budgetSeasonFill: {},
                 bsIdForDelete: '',
+                updateDataThreadNowPlaying: null,
                 showInsertModal: false,
                 showUpdateModal: false,
                 showDeleteModal: false,
@@ -179,6 +180,7 @@
 
         created: function () {
             this.fetchData();
+            this.setUpdateDataThread();
         },
 
         updated: function () {
@@ -189,6 +191,11 @@
         mounted: function () {
             console.log("mounted budget season component");
             this.$parent.myResize();
+        },
+
+        beforeDestroy: function () {
+            clearInterval(this.updateDataThreadNowPlaying);
+            console.log('...................................... kill update data thread');
         },
 
         methods:{
@@ -270,7 +277,19 @@
                         console.log(error);
                         this.showDeleteModal = false;
                 });
-            }
+            },
+
+            setUpdateDataThread: function () {
+                console.log("...................................................... set budget season update thread");
+                if (this.updateDataThreadNowPlaying)
+                    clearInterval(this.updateDataThreadNowPlaying);
+                this.updateDataThreadNowPlaying = setInterval(this.updateDataThread, 120000);
+            },
+
+            updateDataThread: function () {
+                console.log("...................................................... budget season update thread");
+                this.fetchData();
+            },
         }
     }
 </script>

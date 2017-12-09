@@ -463,6 +463,7 @@
                 displayCountyInfo: '',
                 provincePlanLabel: '',
                 CDPT_duplicateError: false,
+                updateDataThreadNowPlaying: null,
                 selectedItems: [],
                 selectedCount: 0,
                 reportOptions: {title:'' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true , costLabel:false},
@@ -478,6 +479,7 @@
         created: function () {
             this.fetchData();
             this.getProvincePlanLabel();
+            this.setUpdateDataThread();
         },
 
         updated: function () {
@@ -488,6 +490,11 @@
         mounted: function () {
             console.log("mounted budget season component");
             this.$parent.myResize();
+        },
+
+        beforeDestroy: function () {
+            clearInterval(this.updateDataThreadNowPlaying);
+            console.log('...................................... kill update data thread');
         },
 
         components:{
@@ -767,7 +774,20 @@
                 this.pagination.current_page = data.current_page;
                 this.pagination.to = data.to;
                 this.pagination.last_page = data.last_page;
-            }
+            },
+
+            setUpdateDataThread: function () {
+                console.log("...................................................... set plan_cost_title update thread");
+                if (this.updateDataThreadNowPlaying)
+                    clearInterval(this.updateDataThreadNowPlaying);
+                this.updateDataThreadNowPlaying = setInterval(this.updateDataThread, 120000);
+            },
+
+            updateDataThread: function () {
+                console.log("...................................................... plan_cost_title update thread");
+                this.fetchData();
+                this.getProvincePlanLabel();
+            },
         }
     }
 </script>

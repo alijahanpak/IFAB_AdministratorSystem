@@ -242,6 +242,7 @@
                 showInsertModal: false,
                 showUpdateModal: false,
                 showDeleteModal: false,
+                updateDataThreadNowPlaying: null,
                 rowDistributionCreditFill: {},
                 rdcIdDelete: {},
                 planOrCostRequestType: 0,
@@ -251,6 +252,7 @@
         created: function () {
             this.fetchCostData();
             this.fetchCapitalAssetsData();
+            this.setUpdateDataThread();
         },
 
         updated: function () {
@@ -261,6 +263,11 @@
         mounted: function () {
             console.log("mounted tiny season component");
             this.$parent.myResize();
+        },
+
+        beforeDestroy: function () {
+            clearInterval(this.updateDataThreadNowPlaying);
+            console.log('...................................... kill update data thread');
         },
 
         components:{
@@ -384,6 +391,19 @@
                         console.log(error);
                         this.showDeleteModal = false;
                     });
+            },
+
+            setUpdateDataThread: function () {
+                console.log("...................................................... set credit distribution row update thread");
+                if (this.updateDataThreadNowPlaying)
+                    clearInterval(this.updateDataThreadNowPlaying);
+                this.updateDataThreadNowPlaying = setInterval(this.updateDataThread, 120000);
+            },
+
+            updateDataThread: function () {
+                console.log("...................................................... credit distribution row update thread");
+                this.fetchCostData();
+                this.fetchCapitalAssetsData();
             },
         }
     }

@@ -457,7 +457,7 @@
                 selectedItems: [],
                 selectedCount: 0,
                 reportOptions: {title:'' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true ,costLabel: true},
-
+                updateDataThreadNowPlaying: null,
                 pagination: {
                     total: 0,
                     to: 0,
@@ -469,6 +469,7 @@
         created: function () {
             this.fetchData();
             $(this.$el).foundation(); //WORKS!
+            this.setUpdateDataThread();
         },
 
         updated: function () {
@@ -481,6 +482,11 @@
             console.log("mounted credit distribution plans component");
             this.$parent.myResize();
             $(this.$el).foundation(); //WORKS!
+        },
+
+        beforeDestroy: function () {
+            clearInterval(this.updateDataThreadNowPlaying);
+            console.log('...................................... kill update data thread');
         },
 
         components:{
@@ -791,6 +797,18 @@
                 this.pagination.current_page = data.current_page;
                 this.pagination.to = data.to;
                 this.pagination.last_page = data.last_page;
+            },
+
+            setUpdateDataThread: function () {
+                console.log("...................................................... set capital assets budget proposal update thread");
+                if (this.updateDataThreadNowPlaying)
+                    clearInterval(this.updateDataThreadNowPlaying);
+                this.updateDataThreadNowPlaying = setInterval(this.updateDataThread, 120000);
+            },
+
+            updateDataThread: function () {
+                console.log("...................................................... capital assets budget proposal update thread");
+                this.fetchData();
             },
         }
     }
