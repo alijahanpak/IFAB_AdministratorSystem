@@ -1625,6 +1625,9 @@
             },
 
             openConvertToModal: function (fId) {
+                this.approvedPlans = [];
+                this.approvedProjects =[];
+                this.projectCreditSources = [];
                 this.unSelectedCost = false;
                 this.selectedPlan = '';
                 this.selectedProject = '';

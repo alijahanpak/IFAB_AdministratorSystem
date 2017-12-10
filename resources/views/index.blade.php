@@ -68,7 +68,7 @@
                     <div class="grid-x">
                         <div class="large-12">
                             <ul class="menu small-font align-center ul-margin">
-                                <li><a class="footer-menu" href="#">راهنمای سامانه</a></li>
+                                <li><a class="footer-menu" href="{{ url('/help_center') }}" target="_blank">راهنمای سامانه</a></li>
                                 <li><a class="footer-menu" href="#">درباره ما</a></li>
                                 <li><a class="footer-menu" href="#">دیدگاه</a></li>
                             </ul>
@@ -178,9 +178,6 @@
                         <div class="top-bar-right"  v-cloak>
                             <ul style="background-color: #FFFFFF;" data-dropdown-menu class="dropdown  menu user-menu">
                                 <li>
-                                    <a style="margin-top: -5px;" href="{{ url('/help_center') }}" target="_blank"><i class="fa fa-question size-24 icon-gradient" aria-hidden="true"></i></a>
-                                </li>
-                                <li>
                                     <a style="margin-top: -3px;"><i class="fa fa-bell-o size-20 icon-gradient" aria-hidden="true"></i></a>
                                     <ul style="background-color:#FFFFFF;" class="top-menu-style menu vertical">
                                         <li>
@@ -252,7 +249,7 @@
                 <div class="grid-x">
                     <div style="padding-top: 4px;" class="medium-12">
                         <div class="small button-group float-left footer-menu">
-                            <a class="clear button menu-color">راهنمای سامانه</a>
+                            <a class="clear button menu-color" href="{{ url('/help_center') }}" target="_blank">راهنمای سامانه</a>
                             <a class="clear button menu-color">درباره ما</a>
                             <a class="clear button menu-color">ارتباط با ما</a>
                             <a class="clear button menu-color">دیدگاه</a>

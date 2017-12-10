@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>سامانه یک پارچه اداری مالی</title>
+    <title>راهنمای سامانه یک پارچه اداری مالی</title>
     <link rel="icon" type="image/png" href="{{ asset('pic\tablogo.png') }}">
     <link rel="stylesheet" href="{{ asset('css/foundation.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -20,17 +20,18 @@
     <passport-clients></passport-clients>
     <passport-authorized-clients></passport-authorized-clients>
     <passport-personal-access-tokens></passport-personal-access-tokens>
-    <div id="helpCenter" style="margin: 40px;margin-right: 100px;margin-left: 100px">
+    <div id="helpCenter" style="margin: 20px 100px 40px 100px">
         <div class="border-btm-line">
             <div class="text-center">
                 <img src="{{ asset('pic\pallas.png') }}" width="150px" height="15px">
             </div>
+            <h6 class="text-center BYekan black-color" style="margin-top: 10px">چطور می توانیم به شما کمک کنیم؟</h6>
         </div>
         <div class="grid-x" style="margin-top: 10px">
             <div class="medium-12">
                 <div class="float-right">
                     <button style="margin-bottom: 0;font-size: 0.9em;" class="my-button my-drop-down-btn-clear dropdown small sm-btn-align"  type="button" data-toggle="example-dropdown-bottom-left">دسته بندی</button>
-                    <div style="width: 200px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="example-dropdown-bottom-left" data-dropdown data-auto-focus="true">
+                    <div style="width: 150px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="example-dropdown-bottom-left" data-dropdown data-auto-focus="true">
                         <ul class="my-menu small-font">
                             <li v-for="subSystem in subSystems"><a @click="changeSubSystem(subSystem.id , subSystem.ssSubject)"> @{{ subSystem.ssSubject }}</a></li>
                         </ul>
@@ -46,7 +47,7 @@
                 </div>
             </div>
         </div>
-        <div class="grid-x" style="margin-top: 30px">
+        <div class="grid-x" style="margin-top: 30px" v-cloak>
             <div class="medium-4" style="padding-right: 30px">
                 <p style="margin-bottom: 5px">@{{ selectedSubSystem }}</p>
                 <ul>

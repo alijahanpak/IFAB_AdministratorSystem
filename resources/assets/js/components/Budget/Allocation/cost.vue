@@ -1543,6 +1543,8 @@
             },
 
             openConvertToModal: function (fId) {
+                this.costAgreements = [];
+                this.caCreditSources = [];
                 this.unSelectedCost = false;
                 this.selectedCostAgreement = '';
                 this.AllocationInput = [];
