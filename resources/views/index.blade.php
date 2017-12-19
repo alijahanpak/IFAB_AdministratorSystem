@@ -22,7 +22,7 @@
     <passport-clients></passport-clients>
     <passport-authorized-clients></passport-authorized-clients>
     <passport-personal-access-tokens></passport-personal-access-tokens>
-    <div id="container">
+    <div id="container" @mouseover="userIsActive()">
         <!--Modal Login Start-->
         <modal-login v-if="showModalLogin" @close="showModalLogin = false" v-cloak>
             <div slot="body">

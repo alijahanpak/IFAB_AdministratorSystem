@@ -1391,7 +1391,6 @@
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
-            this.$parent.userIsActive();
             this.myResizeModal();
             this.costTemp =  ' مبالغ: ' + this.$parent.getDispAmountBaseLabel();
         },

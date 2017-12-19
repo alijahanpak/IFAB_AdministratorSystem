@@ -474,7 +474,6 @@
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
-            this.$parent.userIsActive();
             this.costTemp =  ' مبالغ: ' + this.$parent.getDispAmountBaseLabel();
         },
 
