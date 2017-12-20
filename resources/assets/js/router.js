@@ -155,6 +155,7 @@ var app = new Vue({
         axiosRequestList: [],
         prevNowPlaying: null
     },
+
     updated: function () {
         $(this.$el).foundation(); //WORKS!
         this.fixedLoginFrame();
@@ -214,6 +215,7 @@ var app = new Vue({
     },
 
     methods:{
+
         login: function () {
             axios.post('/api/login' , this.authInfo)
                 .then((response) => {

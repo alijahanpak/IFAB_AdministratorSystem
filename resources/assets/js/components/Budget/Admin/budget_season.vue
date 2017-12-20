@@ -185,7 +185,6 @@
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
-            this.$parent.userIsActive();
         },
 
         mounted: function () {

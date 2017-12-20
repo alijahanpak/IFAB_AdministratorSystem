@@ -245,13 +245,13 @@
             this.setUpdateDataThread();
         },
 
-        updated: function () {
-            this.$parent.userIsActive();
-        },
-
         beforeDestroy: function () {
             clearInterval(this.updateDataThreadNowPlaying);
             console.log('...................................... kill update data thread');
+        },
+
+        updated: function () {
+            $(this.$el).foundation(); //WORKS!
         },
 
         methods: {
@@ -441,7 +441,7 @@
                 axios.post('/budget/statistics/getAllData').then((response) => {
                     this.prov_approvedPlanExchangedCount = response.data.approvedPlanExchangedCount;
                     this.sumOfCapAllocation = response.data.sumOfCapAllocation;
-                    this.sumOfCaAllocation = response.data.sumOfCaAllocation
+                    this.sumOfCaAllocation = response.data.sumOfCaAllocation;
                     console.log(response);
                 },(error) => {
                     console.log(error);

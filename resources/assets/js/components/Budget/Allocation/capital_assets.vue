@@ -1163,7 +1163,6 @@
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
-            this.$parent.userIsActive();
             this.costTemp =  ' مبالغ: ' + this.$parent.getDispAmountBaseLabel();
             console.log('...................................... update capital assets allocation');
         },
