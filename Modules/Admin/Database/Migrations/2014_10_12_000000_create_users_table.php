@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
                 $table->integer('seInPutAmount')->length(10)->unsigned();
                 $table->integer('seDispAmount')->length(10)->unsigned();
                 $table->integer('seFiscalYear')->nullable()->length(10)->unsigned();
+                $table->integer('rId')->length(10)->unsigned();
                 $table->string('name');
                 $table->string('email')->unique();
                 $table->string('password');
@@ -33,6 +34,11 @@ class CreateUsersTable extends Migration
 
                 $table->foreign('seDispAmount')
                     ->references('id')->on('tbl_amount_units')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+
+                $table->foreign('rId')
+                    ->references('id')->on('tbl_roles')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
             });

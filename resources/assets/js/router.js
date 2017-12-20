@@ -314,18 +314,23 @@ var app = new Vue({
             switch (httpStatusCode){
                 case 204:
                     this.$notify({title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
+                    this.$refs.errorAlarm.play();
                     break;
                 case 200:
                     this.$notify({title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.' , type: 'success'});
+                    this.$refs.successAlarm.play();
                     break;
                 case 409:
                     this.$notify({title: 'پیام سیستم', text: 'رکورد تکراری است!' , type: 'error'});
+                    this.$refs.successAlarm.play();
                     break;
                 case 401:
                     this.$notify({title: 'پیام سیستم', text: 'نام کاربر یا کلمه عبور اشتباه است!' , type: 'error'});
+                    this.$refs.errorAlarm.play();
                     break;
                 case 800: //doesn`t select records
                     this.$notify({title: 'پیام سیستم', text: 'لطفا رکوردهای مورد نظر انتخاب کنید!' , type: 'error'});
+                    this.$refs.errorAlarm.play();
             }
         },
 

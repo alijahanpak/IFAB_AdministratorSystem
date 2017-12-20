@@ -245,6 +245,8 @@
             <router-view></router-view>
             <!-- set progressbar -->
             <vue-progress-bar></vue-progress-bar>
+            <audio ref="successAlarm" src="{{ asset('alarms/success.mp3') }}"></audio>
+            <audio ref="errorAlarm" src="{{ asset('alarms/error.mp3') }}"></audio>
             <div class="medium-12 my-footer">
                 <div class="grid-x">
                     <div style="padding-top: 4px;" class="medium-12">
