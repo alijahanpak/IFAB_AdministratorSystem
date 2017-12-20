@@ -246,7 +246,7 @@
         },
 
         updated: function () {
-
+            this.$parent.userIsActive();
         },
 
         beforeDestroy: function () {
@@ -298,12 +298,10 @@
                     .then((response) => {
                     this.setCapitalAssetsChartData(response.data);
                     this.setNatCapitalAssetsChartData(response.data);
-                        console.log('......................................................... fetchCapitalAssetsData');
                         console.log(response);
                     },(error) => {
                         console.log(error);
                     }).catch(error => {
-                    console.log('......................................................... fetchCapitalAssetsData catch');
                 });
             },
 
@@ -435,7 +433,7 @@
                 var temp = [];
                 data.forEach(season => {
                     temp.push(this.$parent.calcDispAmount(season.coSumOfNatAllocationAmount , false , false));
-            });
+                });
                 return temp;
             },
 
