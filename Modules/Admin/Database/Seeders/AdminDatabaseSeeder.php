@@ -16,7 +16,12 @@ class AdminDatabaseSeeder extends Seeder
     {
         Model::unguard();
         $this->call(SeedPublicSettingTableSeederTableSeeder::class);
+        $this->call(SeederSubSystemTableSeederTableSeeder::class);
+        $this->call(SeederSubSystemPartTableSeederTableSeeder::class);
         $this->call(SeedAmountUnitSeederTableSeeder::class);
+        $this->call(SeederRoleTableSeederTableSeeder::class);
+        $this->call(SeederPermissionTableSeederTableSeeder::class);
+        $this->call(SeederRolePermissionTableSeederTableSeeder::class);
         $this->call(SeedAdminUsersTableSeeder::class);
         $this->call(SeedAdminCountiesTableSeeder::class);
         $this->call(SeedAdminRegionsTableSeeder::class);
@@ -24,7 +29,6 @@ class AdminDatabaseSeeder extends Seeder
         $this->call(SeedAdminVillagesTableSeeder::class);
         $this->call(SeedAdminFiscalYearsTableSeederTableSeeder::class);
         $this->call(SeedSeasonTableSeederTableSeeder::class);
-        $this->call(SeederSubSystemTableSeederTableSeeder::class);
 
     }
 }

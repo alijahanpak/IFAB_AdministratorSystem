@@ -20,11 +20,12 @@ class SeedAdminUsersTableSeeder extends Seeder
 
         $user = new User;
         $user->seFiscalYear = 5;
-        $user->name = 'علی جهان پاک';
-        $user->email = 'a.jahanpak';
-        $user->password = Hash::make('redrose');
+        $user->name = 'حسین خورشیدی';
+        $user->email = 'h.khorshidi';
+        $user->password = Hash::make('1234');
         $user->seInPutAmount = 3;
         $user->seDispAmount = 3;
+        $user->rId = 3;
         $user->save();
 
         $user = new User;
@@ -34,6 +35,27 @@ class SeedAdminUsersTableSeeder extends Seeder
         $user->password = Hash::make('1234');
         $user->seInPutAmount = 3;
         $user->seDispAmount = 3;
+        $user->rId = 1;
+        $user->save();
+
+        $user = new User;
+        $user->seFiscalYear = 5;
+        $user->name = 'مرتضی امزاجردی';
+        $user->email = 'm.amzajerdi';
+        $user->password = Hash::make('1234');
+        $user->seInPutAmount = 3;
+        $user->seDispAmount = 3;
+        $user->rId = 4;
+        $user->save();
+
+        $user = new User;
+        $user->seFiscalYear = 5;
+        $user->name = 'علی جهان پاک';
+        $user->email = 'a.jahanpak';
+        $user->password = Hash::make('1234');
+        $user->seInPutAmount = 3;
+        $user->seDispAmount = 3;
+        $user->rId = 2;
         $user->save();
     }
 }
