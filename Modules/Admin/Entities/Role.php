@@ -8,4 +8,9 @@ class Role extends Model
 {
     protected $table = 'tbl_roles';
     protected $fillable = [];
+
+    public function rolePermission()
+    {
+        return $this->hasMany(RolePermission::class , 'rpRId' , 'id');
+    }
 }

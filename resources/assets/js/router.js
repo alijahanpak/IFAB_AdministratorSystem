@@ -22,6 +22,9 @@ import cost_allocation from './components/Budget/Allocation/cost.vue'
 import credit_distribution_plan from './components/Budget/CreditDistribution/plan.vue'
 import budget_proposal from './components/Budget/CreditDistribution/proposal.vue'
 
+////////////////////////////////////////////////////////////////////////////
+import fdDashboard from './components/FinancialDepartment/Dashboard.vue'
+
 //export router instance
 const routes = [
     { path: '/budget', component: dashboard },
@@ -39,6 +42,8 @@ const routes = [
     { path: '/budget/admin/credit_distribution_def/plan_cost_title', component: plan_cost_title },
     { path: '/budget/admin/credit_distribution/plan', component: credit_distribution_plan },
     { path: '/budget/admin/credit_distribution/proposal', component: budget_proposal },
+    /////////////////////// financial department //////////////////////////
+    { path: '/financial_department', component: fdDashboard },
 ]
 
 const router = new VueRouter({
@@ -50,6 +55,29 @@ router.afterEach((to, from, next) => {
     {
         app.showModalLogin = true;
     }
+});
+
+router.beforeEach((to, from, next) => {
+    if (store.getters.isLoggedIn)
+    {
+/*        if (this.rolePermission.rRole == this.lastUserRole)
+        {
+            //this.$router.replace(this.$router.currentRoute.path); //reload page data
+            next();
+        }
+        else if (this.rolePermission.rRole == 'BUDGET_ADMIN' || this.rolePermission.rRole == 'BUDGET_EXPERT')
+        {
+            //this.$router.replace('/budget'); //reload page data
+            next('/budget');
+        }
+        else if (this.rolePermission.rRole == 'FINANCIAL_DEPARTMENT_ADMIN' || this.rolePermission.rRole == 'FINANCIAL_DEPARTMENT_EXPERT')
+        {
+            //this.$router.replace('/financial_department'); //reload page data
+            next('/financial_department');
+        }*/
+    }
+    console.log('............................................. before route');
+    next();
 });
 /////////////////////// config axios request /////////////////////////////////////
 axios.interceptors.response.use(response => {
@@ -147,6 +175,8 @@ var app = new Vue({
         amountBase: {},
         publicParams: {},
         fiscalYears: {},
+        rolePermission:{},
+        lastUserRole: '',
         currentFyLabel: '',
         userInfo: {name: '...'},
         showModalLogin: false,
@@ -221,8 +251,29 @@ var app = new Vue({
                 .then((response) => {
                     //console.log(response.data.refresh_token);
                     this.registerTokenInfo(response.data);
-                    this.showModalLogin = false;
-                    this.$router.go(this.$router.currentRoute.path); //reload page data
+                    axios.get('/admin/user/getRoleAndPermissions')
+                        .then((response) => {
+                            this.rolePermission = response.data;
+                            this.showModalLogin = false;
+                            this.$router.go(this.$router.currentRoute.path); //reload page data
+                            //this.$router.push(this.$router.currentRoute.path); //reload page data
+/*                            if (this.rolePermission.rRole == this.lastUserRole)
+                            {
+                                this.$router.replace(this.$router.currentRoute.path); //reload page data
+                            }
+                            else if (this.rolePermission.rRole == 'BUDGET_ADMIN' || this.rolePermission.rRole == 'BUDGET_EXPERT')
+                            {
+                                this.$router.replace('/budget'); //reload page data
+                            }
+                            else if (this.rolePermission.rRole == 'FINANCIAL_DEPARTMENT_ADMIN' || this.rolePermission.rRole == 'FINANCIAL_DEPARTMENT_EXPERT')
+                            {
+                                this.$router.replace('/financial_department'); //reload page data
+                            }*/
+                            this.lastUserRole = this.rolePermission.rRole;
+                        },(error) => {
+                            console.log(error);
+                            this.displayNotif(error.response.status);
+                     });
                 },(error) => {
                     console.log(error);
                     this.displayNotif(error.response.status);
@@ -330,6 +381,9 @@ var app = new Vue({
                     break;
                 case 800: //doesn`t select records
                     this.$notify({title: 'پیام سیستم', text: 'لطفا رکوردهای مورد نظر انتخاب کنید!' , type: 'error'});
+                    this.$refs.errorAlarm.play();
+                case 500: //doesn`t select records
+                    this.$notify({title: 'پیام سیستم', text: 'خطای داخلی رخ داده است، با مدیر سیستم تماس بگیرید!' , type: 'error'});
                     this.$refs.errorAlarm.play();
             }
         },

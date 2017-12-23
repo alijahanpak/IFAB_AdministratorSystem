@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Modules\Admin\Entities\County;
 use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\Region;
+use Modules\Admin\Entities\Role;
 use Modules\Admin\Entities\RuralDistrict;
 use Modules\Admin\Entities\Season;
 use Modules\Admin\Entities\User;
@@ -63,6 +64,15 @@ class AdminController extends Controller
                 ->with('inPutAmountUnit')
                 ->with('dispAmountUnit')
                 ->where('id' , '=' , Auth::user()->id)
+                ->first()
+        );
+    }
+
+    public function getRoleAndPermissions()
+    {
+        return \response()->json(
+            Role::where('id' , '=' , Auth::user()->rId)
+                ->with('rolePermission.permission')
                 ->first()
         );
     }
