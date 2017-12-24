@@ -6,6 +6,7 @@ import Vuex from 'vuex'
 window.Vue.use(VueRouter);
 window.Vue.use(Vuex);
 ///////////////////////////// router ///////////////////////////////////
+import accessDenied from './public_component/AccessDenied.vue'
 import dashboard from './components/Budget/Dashboard.vue'
 import tiny_seasons from './components/Budget/Admin/tiny_seasons.vue'
 import fiscal_year from './components/Budget/Admin/fiscal_year.vue'
@@ -27,7 +28,8 @@ import fdDashboard from './components/FinancialDepartment/Dashboard.vue'
 
 //export router instance
 const routes = [
-    { path: '/budget', component: dashboard },
+    { path: '/accessDenied', component: accessDenied},
+    { path: '/budget', component: dashboard},
     { path: '/budget/admin/season/tiny_seasons', component: tiny_seasons },
     { path: '/budget/admin/fiscal_year', component: fiscal_year },
     { path: '/budget/admin/deprived_area', component: deprived_area },
@@ -49,7 +51,7 @@ const routes = [
 const router = new VueRouter({
     routes
 });
-
+///////////////////////////////////////////////////////////////////////
 router.afterEach((to, from, next) => {
     if (!store.getters.isLoggedIn)
     {
@@ -57,28 +59,6 @@ router.afterEach((to, from, next) => {
     }
 });
 
-router.beforeEach((to, from, next) => {
-    if (store.getters.isLoggedIn)
-    {
-/*        if (this.rolePermission.rRole == this.lastUserRole)
-        {
-            //this.$router.replace(this.$router.currentRoute.path); //reload page data
-            next();
-        }
-        else if (this.rolePermission.rRole == 'BUDGET_ADMIN' || this.rolePermission.rRole == 'BUDGET_EXPERT')
-        {
-            //this.$router.replace('/budget'); //reload page data
-            next('/budget');
-        }
-        else if (this.rolePermission.rRole == 'FINANCIAL_DEPARTMENT_ADMIN' || this.rolePermission.rRole == 'FINANCIAL_DEPARTMENT_EXPERT')
-        {
-            //this.$router.replace('/financial_department'); //reload page data
-            next('/financial_department');
-        }*/
-    }
-    console.log('............................................. before route');
-    next();
-});
 /////////////////////// config axios request /////////////////////////////////////
 axios.interceptors.response.use(response => {
     app.finish();
@@ -176,14 +156,14 @@ var app = new Vue({
         publicParams: {},
         fiscalYears: {},
         rolePermission:{},
-        lastUserRole: '',
         currentFyLabel: '',
         userInfo: {name: '...'},
         showModalLogin: false,
         authInfo: {email: '' , password: ''},
         tokenInfo: {"Authorization": '' , "Accept": 'application/json; charset=utf-8' , "Content-type" : 'application/json; charset=utf-8'},
         axiosRequestList: [],
-        prevNowPlaying: null
+        prevNowPlaying: null,
+        accessPermissions: []
     },
 
     updated: function () {
@@ -254,22 +234,27 @@ var app = new Vue({
                     axios.get('/admin/user/getRoleAndPermissions')
                         .then((response) => {
                             this.rolePermission = response.data;
+                            this.rolePermission.role_permission.forEach((roleP) => {
+                                console.log('..................' + roleP.permission.pPermission);
+                                this.accessPermissions.push(roleP.permission.pPermission);
+                            });
+                            //sessionStorage.setItem('ifab_access_permissions' , JSON.stringify(accessPermissions));
                             this.showModalLogin = false;
-                            this.$router.go(this.$router.currentRoute.path); //reload page data
-                            //this.$router.push(this.$router.currentRoute.path); //reload page data
-/*                            if (this.rolePermission.rRole == this.lastUserRole)
+                            if (this.rolePermission.rRole == sessionStorage.getItem("ifab_lastUserRole"))
                             {
-                                this.$router.replace(this.$router.currentRoute.path); //reload page data
+                                sessionStorage.setItem('ifab_lastUserRole' , this.rolePermission.rRole);
+                                window.location.href = window.hostname + '#' + this.$router.currentRoute.path;
                             }
                             else if (this.rolePermission.rRole == 'BUDGET_ADMIN' || this.rolePermission.rRole == 'BUDGET_EXPERT')
                             {
-                                this.$router.replace('/budget'); //reload page data
+                                sessionStorage.setItem('ifab_lastUserRole' , this.rolePermission.rRole);
+                                window.location.href = window.hostname + '#/budget';
                             }
                             else if (this.rolePermission.rRole == 'FINANCIAL_DEPARTMENT_ADMIN' || this.rolePermission.rRole == 'FINANCIAL_DEPARTMENT_EXPERT')
                             {
-                                this.$router.replace('/financial_department'); //reload page data
-                            }*/
-                            this.lastUserRole = this.rolePermission.rRole;
+                                sessionStorage.setItem('ifab_lastUserRole' , this.rolePermission.rRole);
+                                window.location.href = window.hostname + '#/financial_department';
+                            }
                         },(error) => {
                             console.log(error);
                             this.displayNotif(error.response.status);
@@ -493,4 +478,11 @@ var app = new Vue({
         },
     }
 });
+
+/*router.beforeEach((to, from, next) => {
+    if (app.accessPermissions.includes(to.meta.permission))
+        return next();
+    else
+        return next('/accessDenied');
+});*/
 
