@@ -2,6 +2,7 @@
  * Created by ammorteza on 9/21/17.
  */
 import VueRouter from 'vue-router'
+import Acl from 'vue-acl'
 import Vuex from 'vuex'
 window.Vue.use(VueRouter);
 window.Vue.use(Vuex);
@@ -28,24 +29,24 @@ import fdDashboard from './components/FinancialDepartment/Dashboard.vue'
 
 //export router instance
 const routes = [
-    { path: '/accessDenied', component: accessDenied},
-    { path: '/budget', component: dashboard},
-    { path: '/budget/admin/season/tiny_seasons', component: tiny_seasons },
-    { path: '/budget/admin/fiscal_year', component: fiscal_year },
-    { path: '/budget/admin/deprived_area', component: deprived_area },
-    { path: '/budget/admin/credit_distribution_def/budget_season', component: budget_season },
-    { path: '/budget/admin/season/season_title', component: season_title },
-    { path: '/budget/approved/capital_assets/approved/plan', component: approved_plan },
-    { path: '/budget/approved/capital_assets/approved/program', component: approved_cost_program },
-    { path: '/budget/approved/capital_assets/approved/project', component: approved_project },
-    { path: '/budget/admin/credit_distribution_def/row', component: credit_distribution_row },
-    { path: '/budget/Allocation/capital_assets', component: capital_assets_allocation },
-    { path: '/budget/Allocation/cost', component: cost_allocation },
-    { path: '/budget/admin/credit_distribution_def/plan_cost_title', component: plan_cost_title },
-    { path: '/budget/admin/credit_distribution/plan', component: credit_distribution_plan },
-    { path: '/budget/admin/credit_distribution/proposal', component: budget_proposal },
+    { path: '/accessDenied', component: accessDenied , meta:{permission: 'public'}},
+    { path: '/budget', component: dashboard , meta:{permission: 'public' , fail: '/accessDenied'}},
+    { path: '/budget/admin/season/tiny_seasons', component: tiny_seasons , meta:{permission: 'morteza' , fail: '/accessDenied'}},
+    { path: '/budget/admin/fiscal_year', component: fiscal_year , meta:{permission: 'public' , fail: '/accessDenied'} },
+    { path: '/budget/admin/deprived_area', component: deprived_area ,meta:{permission: 'public' , fail: '/accessDenied'}},
+    { path: '/budget/admin/credit_distribution_def/budget_season', component: budget_season ,meta:{permission: 'public' , fail: '/accessDenied'}},
+    { path: '/budget/admin/season/season_title', component: season_title , meta:{permission: 'public' , fail: '/accessDenied'}},
+    { path: '/budget/approved/capital_assets/approved/plan', component: approved_plan , meta:{permission: 'public' , fail: '/accessDenied'}},
+    { path: '/budget/approved/capital_assets/approved/program', component: approved_cost_program , meta:{permission: 'public' , fail: '/accessDenied'}},
+    { path: '/budget/approved/capital_assets/approved/project', component: approved_project , meta:{permission: 'public' , fail: '/accessDenied'}},
+    { path: '/budget/admin/credit_distribution_def/row', component: credit_distribution_row , meta:{permission: 'public' , fail: '/accessDenied'}},
+    { path: '/budget/Allocation/capital_assets', component: capital_assets_allocation , meta:{permission: 'public' , fail: '/accessDenied'}},
+    { path: '/budget/Allocation/cost', component: cost_allocation , meta:{permission: 'public' , fail: '/accessDenied'}},
+    { path: '/budget/admin/credit_distribution_def/plan_cost_title', component: plan_cost_title , meta:{permission: 'public' , fail: '/accessDenied'}},
+    { path: '/budget/admin/credit_distribution/plan', component: credit_distribution_plan , meta:{permission: 'public' , fail: '/accessDenied'}},
+    { path: '/budget/admin/credit_distribution/proposal', component: budget_proposal , meta:{permission: 'public' , fail: '/accessDenied'}},
     /////////////////////// financial department //////////////////////////
-    { path: '/financial_department', component: fdDashboard },
+    { path: '/financial_department', component: fdDashboard , meta:{permission: 'public' , fail: '/accessDenied'}},
 ]
 
 const router = new VueRouter({
@@ -150,6 +151,7 @@ const store = new Vuex.Store({
 var app = new Vue({
     router,
     store,
+    Acl,
     el: '#container',
     data:{
         amountBase: {},
@@ -169,6 +171,7 @@ var app = new Vue({
     updated: function () {
         $(this.$el).foundation(); //WORKS!
         this.fixedLoginFrame();
+        console.log('user permission in acl = ');
     },
 
     created: function () {
@@ -225,7 +228,6 @@ var app = new Vue({
     },
 
     methods:{
-
         login: function () {
             axios.post('/api/login' , this.authInfo)
                 .then((response) => {
@@ -478,6 +480,8 @@ var app = new Vue({
         },
     }
 });
+
+Vue.use( Acl, { router: router, init: 'public' , save: true } );
 
 /*router.beforeEach((to, from, next) => {
     if (app.accessPermissions.includes(to.meta.permission))
