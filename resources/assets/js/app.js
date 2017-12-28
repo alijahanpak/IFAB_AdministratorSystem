@@ -45,6 +45,7 @@ Vue.component('modal-small', {template: '#modal-small-template'});
 Vue.component('modal-large', {template: '#modal-large-template'});
 Vue.component('modal-full-screen', {template: '#modal-full-screen-template'});
 Vue.component('modal-login', {template: '#modal-login-template'});
+Vue.component('modal-access-denied', {template: '#modal-access-denied-template'});
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

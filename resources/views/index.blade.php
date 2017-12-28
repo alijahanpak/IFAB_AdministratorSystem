@@ -371,6 +371,25 @@
             </div>
         </transition>
     </script>
+    <script type="text/x-template" id="modal-access-denied-template">
+        <transition name="modal-access-denied">
+            <div class="modal-mask-assess-denied">
+                <div class="modal-wrapper">
+                    <div style="padding: 0;" class="my-full-screen-login">
+                        <div class="modal-header">
+                            <slot name="header">
+
+                            </slot>
+                        </div>
+                        <div style="margin: 0;" class="modal-body">
+                            <slot name="body">
+                            </slot>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+    </script>
     <script src="{{ asset('js/vendor/jquery.js') }}"></script>
     <script src="{{ asset('js/vendor/what-input.js') }}"></script>
     <script src="{{ asset('js/vendor/foundation.js') }}"></script>

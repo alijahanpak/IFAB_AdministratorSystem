@@ -30,23 +30,23 @@ import fdDashboard from './components/FinancialDepartment/Dashboard.vue'
 //export router instance
 const routes = [
     { path: '/accessDenied', component: accessDenied , meta:{permission: 'public'}},
-    { path: '/budget', component: dashboard , meta:{permission: 'public' , fail: '/accessDenied'}},
-    { path: '/budget/admin/season/tiny_seasons', component: tiny_seasons , meta:{permission: 'morteza' , fail: '/accessDenied'}},
-    { path: '/budget/admin/fiscal_year', component: fiscal_year , meta:{permission: 'public' , fail: '/accessDenied'} },
-    { path: '/budget/admin/deprived_area', component: deprived_area ,meta:{permission: 'public' , fail: '/accessDenied'}},
-    { path: '/budget/admin/credit_distribution_def/budget_season', component: budget_season ,meta:{permission: 'public' , fail: '/accessDenied'}},
-    { path: '/budget/admin/season/season_title', component: season_title , meta:{permission: 'public' , fail: '/accessDenied'}},
-    { path: '/budget/approved/capital_assets/approved/plan', component: approved_plan , meta:{permission: 'public' , fail: '/accessDenied'}},
-    { path: '/budget/approved/capital_assets/approved/program', component: approved_cost_program , meta:{permission: 'public' , fail: '/accessDenied'}},
-    { path: '/budget/approved/capital_assets/approved/project', component: approved_project , meta:{permission: 'public' , fail: '/accessDenied'}},
-    { path: '/budget/admin/credit_distribution_def/row', component: credit_distribution_row , meta:{permission: 'public' , fail: '/accessDenied'}},
-    { path: '/budget/Allocation/capital_assets', component: capital_assets_allocation , meta:{permission: 'public' , fail: '/accessDenied'}},
-    { path: '/budget/Allocation/cost', component: cost_allocation , meta:{permission: 'public' , fail: '/accessDenied'}},
-    { path: '/budget/admin/credit_distribution_def/plan_cost_title', component: plan_cost_title , meta:{permission: 'public' , fail: '/accessDenied'}},
-    { path: '/budget/admin/credit_distribution/plan', component: credit_distribution_plan , meta:{permission: 'public' , fail: '/accessDenied'}},
-    { path: '/budget/admin/credit_distribution/proposal', component: budget_proposal , meta:{permission: 'public' , fail: '/accessDenied'}},
+    { path: '/budget', component: dashboard , meta:{permission: 'BUDGET_DASHBOARD_DISPLAY'}},
+    { path: '/budget/admin/season/tiny_seasons', component: tiny_seasons , meta:{permission: 'BUDGET_ADMIN_TINY_SEASON_DISPLAY'}},
+    { path: '/budget/admin/fiscal_year', component: fiscal_year , meta:{permission: 'BUDGET_ADMIN_FISCAL_YEARS_DISPLAY'} },
+    { path: '/budget/admin/deprived_area', component: deprived_area ,meta:{permission: 'BUDGET_ADMIN_DEPRIVED_AREA_DISPLAY'}},
+    { path: '/budget/admin/credit_distribution_def/budget_season', component: budget_season ,meta:{permission: 'BUDGET_ADMIN_BUDGET_SEASON_DISPLAY'}},
+    { path: '/budget/admin/season/season_title', component: season_title , meta:{permission: 'BUDGET_ADMIN_SEASON_TITLE_DISPLAY'}},
+    { path: '/budget/approved/capital_assets/approved/plan', component: approved_plan , meta:{permission: 'BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_DISPLAY'}},
+    { path: '/budget/approved/capital_assets/approved/program', component: approved_cost_program , meta:{permission: 'BUDGET_COST_APPROVED_PROG_DISPLAY'}},
+    { path: '/budget/approved/capital_assets/approved/project', component: approved_project , meta:{permission: 'BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DISPLAY'}},
+    { path: '/budget/admin/credit_distribution_def/row', component: credit_distribution_row , meta:{permission: 'BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_DISPLAY'}},
+    { path: '/budget/Allocation/capital_assets', component: capital_assets_allocation , meta:{permission: 'BUDGET_CAPITAL_ASSETS_ALLOCATION_DISPLAY'}},
+    { path: '/budget/Allocation/cost', component: cost_allocation , meta:{permission: 'BUDGET_COST_ALLOCATION_DISPLAY'}},
+    { path: '/budget/admin/credit_distribution_def/plan_cost_title', component: plan_cost_title , meta:{permission: 'BUDGET_ADMIN_PLAN_RO_COST_TITLE_DISPLAY'}},
+    { path: '/budget/admin/credit_distribution/plan', component: credit_distribution_plan , meta:{permission: 'BUDGET_CREDIT_DISTRIBUTION_PLAN_DISPLAY'}},
+    { path: '/budget/admin/credit_distribution/proposal', component: budget_proposal , meta:{permission: 'BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_DISPLAY'}},
     /////////////////////// financial department //////////////////////////
-    { path: '/financial_department', component: fdDashboard , meta:{permission: 'public' , fail: '/accessDenied'}},
+    { path: '/financial_department', component: fdDashboard , meta:{permission: 'public'}},
 ]
 
 const router = new VueRouter({
@@ -147,11 +147,12 @@ const store = new Vuex.Store({
         }
     }
 });
+////////////////////////////////////////////////////////////////////////////////
+window.Vue.use( Acl, { router: router, init: 'public' , save: true , fail: '/accessDenied'} );
 ///////////////////////////////// main app page /////////////////////////////////
 var app = new Vue({
     router,
     store,
-    Acl,
     el: '#container',
     data:{
         amountBase: {},
@@ -164,14 +165,13 @@ var app = new Vue({
         authInfo: {email: '' , password: ''},
         tokenInfo: {"Authorization": '' , "Accept": 'application/json; charset=utf-8' , "Content-type" : 'application/json; charset=utf-8'},
         axiosRequestList: [],
-        prevNowPlaying: null,
-        accessPermissions: []
+        prevNowPlaying: null
     },
 
     updated: function () {
         $(this.$el).foundation(); //WORKS!
         this.fixedLoginFrame();
-        console.log('user permission in acl = ');
+        console.log('user permission in acl = ' + this.access);
     },
 
     created: function () {
@@ -184,7 +184,7 @@ var app = new Vue({
             var tabHeight = $('.tabs').height();
             var toolBarHeight = $('.tool-bar').height();
             var paginationHeight = $('.pagination').height();
-            var notifHeight=25;
+            var notifHeight = 25;
             if (toolBarHeight === undefined)
             {
                 toolBarHeight = -8;
@@ -236,11 +236,12 @@ var app = new Vue({
                     axios.get('/admin/user/getRoleAndPermissions')
                         .then((response) => {
                             this.rolePermission = response.data;
+                            var accessPermissions = '';
                             this.rolePermission.role_permission.forEach((roleP) => {
                                 console.log('..................' + roleP.permission.pPermission);
-                                this.accessPermissions.push(roleP.permission.pPermission);
+                                accessPermissions += roleP.permission.pPermission + '&';
                             });
-                            //sessionStorage.setItem('ifab_access_permissions' , JSON.stringify(accessPermissions));
+                            this.access = accessPermissions;
                             this.showModalLogin = false;
                             if (this.rolePermission.rRole == sessionStorage.getItem("ifab_lastUserRole"))
                             {
@@ -480,13 +481,4 @@ var app = new Vue({
         },
     }
 });
-
-Vue.use( Acl, { router: router, init: 'public' , save: true } );
-
-/*router.beforeEach((to, from, next) => {
-    if (app.accessPermissions.includes(to.meta.permission))
-        return next();
-    else
-        return next('/accessDenied');
-});*/
 

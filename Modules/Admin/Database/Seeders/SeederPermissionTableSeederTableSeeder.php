@@ -17,6 +17,13 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
     {
         Model::unguard();
 
+        ///////////// dashboards ///////////////////////
+        $permission = new Permission;
+        $permission->pSspId = 5;
+        $permission->pSubject = 'مشاهده داشبورد';
+        $permission->pPermission = 'BUDGET_DASHBOARD_DISPLAY';
+        $permission->save();
+
         ///////////// budget fiscal year admin ///////////////////////
         $permission = new Permission;
         $permission->pSspId = 1;
@@ -390,7 +397,30 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
         $permission->pSubject = 'حذف تخصیص های تملک داریی های سرمایه ای';
         $permission->pPermission = 'BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE';
         $permission->save();
+        ////////////////////////////// budget cost allocation ////////////////////////////////
+        $permission = new Permission;
+        $permission->pSspId = 4;
+        $permission->pSubject = 'مشاهده تخصیص های هزینه ای';
+        $permission->pPermission = 'BUDGET_COST_ALLOCATION_DISPLAY';
+        $permission->save();
 
+        $permission = new Permission;
+        $permission->pSspId = 4;
+        $permission->pSubject = 'ایجاد تخصیص هزینه ای';
+        $permission->pPermission = 'BUDGET_COST_ALLOCATION_INSERT';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 4;
+        $permission->pSubject = 'تغییر تخصیص هزینه ای';
+        $permission->pPermission = 'BUDGET_COST_ALLOCATION_EDIT';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 4;
+        $permission->pSubject = 'حذف تخصیص هزینه ای';
+        $permission->pPermission = 'BUDGET_COST_ALLOCATION_DELETE';
+        $permission->save();
         ////////////////////////////// budget capital assets found allocation ////////////////////////////////
         $permission = new Permission;
         $permission->pSspId = 4;

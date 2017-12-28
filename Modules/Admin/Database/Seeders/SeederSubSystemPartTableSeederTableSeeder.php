@@ -42,6 +42,12 @@ class SeederSubSystemPartTableSeederTableSeeder extends Seeder
         $part->sspPart = 'BUDGET_ALLOCATION';
         $part->save();
 
+        $part = new SubSystemPart;
+        $part->sspSsId = 2;
+        $part->sspSubject = 'داشبورد';
+        $part->sspPart = 'BUDGET_DASHBOARD';
+        $part->save();
+
         /////////////////////// financial department parts ///////////////////////////
         $part = new SubSystemPart;
         $part->sspSsId = 3;
@@ -59,6 +65,12 @@ class SeederSubSystemPartTableSeederTableSeeder extends Seeder
         $part->sspSsId = 3;
         $part->sspSubject = 'سپرده';
         $part->sspPart = 'FINANCIAL_DEPARTMENT_DEPOSIT';
+        $part->save();
+
+        $part = new SubSystemPart;
+        $part->sspSsId = 3;
+        $part->sspSubject = 'داشبورد';
+        $part->sspPart = 'FINANCIAL_DEPARTMENT_DASHBOARD';
         $part->save();
     }
 }
