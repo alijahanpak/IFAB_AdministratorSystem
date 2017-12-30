@@ -86,7 +86,10 @@ class AuthController extends Controller
 
     public function getAuthUserInfo(Request $request)
     {
-        $userInfo = User::select('seFiscalYear' , 'name')->where('id' , '=' , Auth::user()->id)->first();
+        $userInfo = User::select('id' , 'seFiscalYear' , 'name' , 'rId')
+            ->where('id' , '=' , Auth::user()->id)
+            ->with('role')
+            ->first();
         return \response()->json($userInfo);
     }
 }

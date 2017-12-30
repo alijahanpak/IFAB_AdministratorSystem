@@ -226,12 +226,12 @@
                                                         <h5 class="text-center BYekan">@{{ userInfo.name }}</h5>
                                                     </div>
                                                     <div class="medium-12">
-                                                        <p class="text-center">کارشناس بودجه</p>
+                                                        <p class="text-center">@{{ userInfo.role.rSubject }}</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </li>
-                                        <li class="menu-top"><a href="#"><i class="tbl-menu fa fa-user-circle"></i> <span>کارشناس اداری مالی</span></a></li>
+                                        <li class="menu-top"><a href="#"><i class="tbl-menu fa fa-user-circle"></i> <span>@{{ userInfo.role.rSubject }}</span></a></li>
                                         <li class="menu-top"><a href="#"><i class="tbl-menu fa fa-sliders"></i> <span>تنظیمات</span></a></li>
                                         <li class="menu-top"><a v-on:click="logout"><i class="tbl-menu fa fa-sign-out"></i> <span>خروج</span></a></li>
                                     </ul>

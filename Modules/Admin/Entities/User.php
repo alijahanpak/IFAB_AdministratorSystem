@@ -18,4 +18,9 @@ class User extends Model
     {
         return $this->belongsTo(AmountUnit::class , 'seDispAmount' , 'id');
     }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class , 'rId' , 'id');
+    }
 }

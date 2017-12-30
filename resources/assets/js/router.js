@@ -160,7 +160,7 @@ var app = new Vue({
         fiscalYears: {},
         rolePermission:{},
         currentFyLabel: '',
-        userInfo: {name: '...'},
+        userInfo: {name: '...' , role:{rSubject: '...'}},
         showModalLogin: false,
         authInfo: {email: '' , password: ''},
         tokenInfo: {"Authorization": '' , "Accept": 'application/json; charset=utf-8' , "Content-type" : 'application/json; charset=utf-8'},
@@ -171,6 +171,7 @@ var app = new Vue({
     updated: function () {
         $(this.$el).foundation(); //WORKS!
         this.fixedLoginFrame();
+        this.fixedAccessDeniedFrame();
         console.log('user permission in acl = ' + this.access);
     },
 
@@ -266,6 +267,10 @@ var app = new Vue({
                     console.log(error);
                     this.displayNotif(error.response.status);
                 });
+        },
+
+        getUserRole: function () {
+            return sessionStorage.getItem("ifab_lastUserRole");
         },
 
         registerTokenInfo: function (data) {
@@ -423,6 +428,14 @@ var app = new Vue({
                 var temp = (x - loginFrame) / 2;
                 $('.login-frame').css('margin-top', temp + 'px');
             }
+        },
+
+        fixedAccessDeniedFrame: function() {
+            var accessDeniedFrame = $('.accessDenied-frame').height();
+            var x = $.w.innerHeight();
+            var temp = (x - accessDeniedFrame) / 2;
+            $('.accessDenied-frame').css('margin-top', temp + 'px');
+
         },
 
         logout: function () {
