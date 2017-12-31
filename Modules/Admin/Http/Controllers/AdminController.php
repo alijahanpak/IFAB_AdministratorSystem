@@ -76,4 +76,16 @@ class AdminController extends Controller
                 ->first()
         );
     }
+
+    public function uploadAvatar(Request $request)
+    {
+
+        if ($request->hasFile('avatar_img'))
+        {
+            return $request->avatar_img->storeAs(
+                'pic/avatars',
+                'avatar' . Auth::user()->id . '.png'
+            );
+        }
+    }
 }

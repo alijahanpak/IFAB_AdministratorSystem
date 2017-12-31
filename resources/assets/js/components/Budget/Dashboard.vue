@@ -238,10 +238,6 @@
         },
 
         created: function(){
-            this.fetchCapitalAssetsData();
-            this.fetchCostsData();
-            this.getStatisticsData();
-
             this.setUpdateDataThread();
         },
 
@@ -252,6 +248,12 @@
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
+        },
+
+        mounted: function () {
+            this.fetchCapitalAssetsData();
+            this.fetchCostsData();
+            this.getStatisticsData();
         },
 
         methods: {
