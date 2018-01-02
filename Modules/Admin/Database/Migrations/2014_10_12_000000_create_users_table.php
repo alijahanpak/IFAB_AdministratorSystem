@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
                 $table->integer('seFiscalYear')->nullable()->length(10)->unsigned();
                 $table->integer('rId')->length(10)->unsigned();
                 $table->string('name');
+                $table->string('avatarPath')->nullable();
                 $table->string('email')->unique();
                 $table->string('password');
                 $table->rememberToken();

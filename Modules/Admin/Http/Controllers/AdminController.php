@@ -82,10 +82,12 @@ class AdminController extends Controller
 
         if ($request->hasFile('avatar_img'))
         {
-            return $request->avatar_img->storeAs(
+            $file = $request->file('avatar_img');
+            $filePath = $file->storeAs(
                 'pic/avatars',
-                'avatar' . Auth::user()->id . '.png'
-            );
+                'avatar' . Auth::user()->id . '.' . $file->clientExtension());
+            User::where('id' , '=' , Auth::user()->id)->update(['avatarPath' => $filePath]);
+            return \response()->json(['imgPath' => $filePath]);
         }
     }
 }

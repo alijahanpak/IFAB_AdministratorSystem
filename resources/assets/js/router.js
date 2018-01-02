@@ -160,7 +160,7 @@ var app = new Vue({
         fiscalYears: {},
         rolePermission:{},
         currentFyLabel: '',
-        userInfo: {name: '...' , role:{rSubject: '...'}},
+        userInfo: {name: '...' , role:{rSubject: '...'} , avatarPath: null},
         showModalLogin: false,
         authInfo: {email: '' , password: ''},
         tokenInfo: {"Authorization": '' , "Accept": 'application/json; charset=utf-8' , "Content-type" : 'application/json; charset=utf-8'},

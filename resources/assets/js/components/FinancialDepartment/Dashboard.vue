@@ -33,39 +33,17 @@
 
     export default {
         components: {
-            LineChart
+            LineChart,
+            'my-upload': myUpload
         },
 
         data () {
             return {
                 show: false,
                 params: {
-                    token: '123456798',
-                    name: 'avatar'
                 },
 
-                headers: {Authorization:'' , smail: '*_~'},
-
-                en: {
-                    hint: 'Click or drag the file here to upload',
-                    loading: 'Uploading…',
-                    noSupported: 'Browser is not supported, please use IE10+ or other browsers',
-                    success: 'Upload success',
-                    fail: 'Upload failed',
-                    preview: 'Preview',
-                    btn: {
-                        off: 'لغو',
-                        close: 'بستن',
-                        back: 'بازگشت',
-                        save: 'ذخیر'
-                    },
-                    error: {
-                        onlyImg: 'Image only',
-                        outOfSize: 'Image exceeds size limit: ',
-                        lowestPx: 'Image\'s size is too low. Expected at least: '
-                    }
-                },
-
+                headers: {Authorization:'' , Accept: 'application/json'},
                 imgDataUrl: window.hostname + '/pic/avatars/avatar.jpg', // the datebase64 url of created image
                 uploadUrl: window.hostname + '/admin/user/uploadAvatar'
 
@@ -79,10 +57,6 @@
 
         beforeDestroy: function () {
 
-        },
-
-        components: {
-            'my-upload': myUpload
         },
 
         updated: function () {
