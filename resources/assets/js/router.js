@@ -150,11 +150,13 @@ const store = new Vuex.Store({
 ////////////////////////////////////////////////////////////////////////////////
 window.Vue.use( Acl, { router: router, init: 'public' , save: true , fail: '/accessDenied'} );
 ///////////////////////////////// main app page /////////////////////////////////
+
 var app = new Vue({
     router,
     store,
     el: '#container',
     data:{
+        show: false,
         amountBase: {},
         publicParams: {},
         fiscalYears: {},
@@ -162,6 +164,7 @@ var app = new Vue({
         currentFyLabel: '',
         userInfo: {name: '...' , role:{rSubject: '...'} , avatarPath: null},
         showModalLogin: false,
+        showModalUserSetting: false,
         authInfo: {email: '' , password: ''},
         tokenInfo: {"Authorization": '' , "Accept": 'application/json; charset=utf-8' , "Content-type" : 'application/json; charset=utf-8'},
         axiosRequestList: [],
@@ -267,6 +270,10 @@ var app = new Vue({
                     console.log(error);
                     this.displayNotif(error.response.status);
                 });
+        },
+
+        openModalUserSetting: function () {
+            this.showModalUserSetting=true;
         },
 
         getUserRole: function () {
@@ -492,6 +499,8 @@ var app = new Vue({
         fail () {
             this.$Progress.fail()
         },
+
     }
 });
+
 

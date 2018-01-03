@@ -1653,6 +1653,65 @@ button.purple-btn {
     margin:5px;
     color:#34bfa3;
 }
+.profile-background-image-loading {
+    background: url('../pic/cover.svg') center/cover;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("../pic/cover.svg");
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-position-x: center;
+    background-position-y: center;
+    background-size: cover;
+}
+.profile-image-cover {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 20px;
+    border: 2px solid;
+    object-fit: cover;
+    background-color: rgba(243,246,248,.94);
+    border: 4px solid #fff;
+    box-shadow: inset 0 1.5px 3px 0 rgba(0,0,0,.15),0 1.5px 3px 0 rgba(0,0,0,.15);
+}
+.profile-photo-edit-icon {
+    height: 32px;
+    width: 32px;
+    border-radius: 32px;
+    bottom: -6px;
+    right: -6px;
+    background-color: rgba(255,255,255,.9);
+    box-shadow: 0 2px 3px rgba(0,0,0,.2);
+    color: #0084bf;
+    padding: 8px 0 0 2px;
+}
+.profile-image-cover-pos {
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+.center-pos{
+    display: flex;
+    justify-content: center;
+}
+.gray-color{
+    color: rgba(0,0,0,.7);
+}
+
+
+/* Vue Transition Start*/
+/* TRANSITION */
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+}
+
+/* Vue Transition End*/
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
     display: block;
     width: 0;

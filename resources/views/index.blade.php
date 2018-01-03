@@ -84,6 +84,72 @@
             </div>
         </modal-login>
         <!--Modal Login End-->
+
+        <!--Modal User Setting Start-->
+        <modal-large v-if="showModalUserSetting" @close="showModalUserSetting = false" v-cloak>
+            <div slot="body">
+                <div class="grid-x">
+                    <div  class="medium-12 profile-background-image-loading">
+                        <img style="z-index: 888;" class="profile-image-cover profile-image-cover-pos float-center" src="pic\img_avatar.png">
+                        <a href="#" style="margin-right: 43%;margin-top: -60px;z-index: 999;" class="center-pos profile-photo-edit-icon" href=""><i class="fa fa fa-pencil size-18" aria-hidden="true"></i></a>
+                    </div>
+                    <div style="margin-top:25px; " class="medium-12">
+                        <h4 class="BYekan center-pos">@{{ userInfo.name }}</h4>
+                        <p class="center-pos gray-color">@{{ userInfo.role.rSubject }}</p>
+                    </div>
+                    <div class="medium-12">
+                        <div class="align-center">
+                            <div class="medium-12">
+                            <div class="medium-2 center-pos">
+                                <p class="gray-color">نمایش مبالغ به:</p>
+                            </div>
+                            <div class="medium-2 center-pos">
+                                <button style="width: 150px;" class="center-pos my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="costDropDownProv">ریال</button>
+                                <div  style="width: 150px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="costDropDownProv" data-dropdown data-auto-focus="true">
+                                    <ul class="my-menu small-font">
+                                        <li><a>ریال</a></li>
+                                        <li><a>هزار ریال</a></li>
+                                        <li><a>میلیون ریال</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="medium-12 center-pos">
+                        <transition name="fade">
+                            <div v-if="!show">
+                               <form>
+                                   <div style="margin-top: 20px;" class="medium-12 columns padding-lr">
+                                       <label>رمز عبور فعلی
+                                           <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="password" placeholder="&#xf09c;" name="currentPass"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('currentPass')}">
+                                       </label>
+                                       <span v-show="errors.has('newPass')" class="error-font">لطفا رمز عبور فعلی را وارد کنید!</span>
+                                   </div>
+                                   <div style="margin-top: 20px;" class="medium-12 columns padding-lr">
+                                       <label>رمز عبور جدید
+                                           <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="password" placeholder="&#xf09c;" name="newPass"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('newPass')}">
+                                       </label>
+                                       <span v-show="errors.has('newPass')" class="error-font">لطفا رمز عبور جدید را وارد کنید!</span>
+                                   </div>
+                                   <div style="margin-top: 20px;" class="medium-12 columns padding-lr">
+                                       <label>تکرار رمز عبور جدید
+                                           <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="password" placeholder="&#xf09c;" name="reNewPass"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('reNewPass')}">
+                                       </label>
+                                       <span v-show="errors.has('reNewPass')" class="error-font">لطفا رمز عبور جدید را دوباره وارد کنید!</span>
+                                   </div>
+                               </form>
+                            </div>
+                        </transition>
+                    </div>
+                    <div class="medium-12 center-pos">
+                        <button v-on:click="show = !show" style="width: 150px;margin-top: 20px;" class="my-button my-brand ">تغییر رمز عبور</button>
+                    </div>
+                </div>
+            </div>
+        </modal-large>
+        <!--Modal User Setting End-->
+
         <!--Body system-->
         <div class="grid-x">
             <div id="leftmenuinner" style="background-color: #2C2E3E;z-index: 10;" class="medium-2 cell small-font">
@@ -232,7 +298,7 @@
                                             </div>
                                         </li>
                                         <li class="menu-top"><a href="#"><i class="tbl-menu fa fa-user-circle"></i> <span>@{{ userInfo.role.rSubject }}</span></a></li>
-                                        <li class="menu-top"><a href="#"><i class="tbl-menu fa fa-sliders"></i> <span>تنظیمات</span></a></li>
+                                        <li class="menu-top"><a v-on:click="openModalUserSetting"><i class="tbl-menu fa fa-sliders"></i> <span>تنظیمات</span></a></li>
                                         <li class="menu-top"><a v-on:click="logout"><i class="tbl-menu fa fa-sign-out"></i> <span>خروج</span></a></li>
                                     </ul>
                                 </li>
