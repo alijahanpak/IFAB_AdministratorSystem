@@ -92,4 +92,18 @@ class AuthController extends Controller
             ->first();
         return \response()->json($userInfo);
     }
+
+    public function resetPassword(Request $request)
+    {
+        $userInfo = User::find(Auth::user()->id);
+        if (Hash::check($request->password , $userInfo->password))
+        {
+            $userInfo->password = Hash::make($request->newPassword);
+            $userInfo->save();
+            return \response()->json([] , 200);
+        }
+        else{
+            return \response()->json([], 401);
+        }
+    }
 }

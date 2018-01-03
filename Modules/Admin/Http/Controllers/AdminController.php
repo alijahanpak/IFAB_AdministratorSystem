@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Modules\Admin\Entities\AmountUnit;
 use Modules\Admin\Entities\County;
 use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\Region;
@@ -89,5 +90,19 @@ class AdminController extends Controller
             User::where('id' , '=' , Auth::user()->id)->update(['avatarPath' => $filePath]);
             return \response()->json(['imgPath' => $filePath]);
         }
+    }
+
+    public function changeAmountBase(Request $request)
+    {
+        User::where('id' , '=' , Auth::user()->id)
+            ->update(['seInPutAmount' => $request->auId , 'seDispAmount' => $request->auId]);
+        return \response()->json([] , 200);
+    }
+
+    public function getAllAmountBase()
+    {
+        return \response()->json(
+            AmountUnit::all()
+        );
     }
 }

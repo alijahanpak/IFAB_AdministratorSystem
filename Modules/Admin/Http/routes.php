@@ -17,6 +17,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'admin', 'na
 
     Route::get('/getPublicParams' , 'AdminController@getPublicParams');
     Route::get('/getAmountBase' , 'AdminController@getAmountBase');
+    Route::get('/getAllAmountBase' , 'AdminController@getAllAmountBase');
 });
 
 
@@ -31,4 +32,5 @@ Route::group(['middleware' => ['api' , 'auth_api:api'],'prefix' => 'admin/user',
 {
     Route::get('/getRoleAndPermissions ' , 'AdminController@getRoleAndPermissions');
     Route::post('/uploadAvatar ' , 'AdminController@uploadAvatar');
+    Route::post('/changeAmountBase ' , 'AdminController@changeAmountBase');
 });

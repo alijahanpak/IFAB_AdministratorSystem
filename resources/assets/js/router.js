@@ -155,6 +155,7 @@ var app = new Vue({
     store,
     el: '#container',
     data:{
+        allAmountBase: {},
         amountBase: {},
         publicParams: {},
         fiscalYears: {},

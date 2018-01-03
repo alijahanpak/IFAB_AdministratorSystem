@@ -20,4 +20,5 @@ use Illuminate\Http\Request;
 Route::post('/login' , 'AuthController@login_api');
 Route::post('/userIsAuthorize' , 'AuthController@userIsAuthorize')->middleware('auth_api:api');
 Route::get('/getAuthUserInfo' , 'AuthController@getAuthUserInfo')->middleware('auth_api:api');
+Route::post('/resetPassword' , 'AuthController@resetPassword')->middleware('auth_api:api');
 //Route::post('/refresh_token' , 'AuthController@refreshToken');
