@@ -11,8 +11,8 @@
 	</style>
 	<defs>
 		<linearGradient id="artdeco-banner-graph-gradient1" gradientUnits="userSpaceOnUse" x1="18.2309" y1="308.1425" x2="1421.7692" y2="-67.9344">
-			<stop offset="0" style="stop-color:#008CC9"/>
-			<stop offset="1" style="stop-color:#009EA5"/>
+			<stop offset="0" style="stop-color:#840AD9"/>
+			<stop offset="1" style="stop-color:#840AD9"/>
 		</linearGradient>
 	</defs>
 	<rect y="0.1" class="gradient" width="1440" height="160"/>

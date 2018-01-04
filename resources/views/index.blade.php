@@ -104,12 +104,10 @@
                                 <p class="gray-color">نمایش مبالغ به:</p>
                             </div>
                             <div class="medium-2 center-pos">
-                                <button style="width: 150px;" class="center-pos my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="costDropDownProv">ریال</button>
+                                <button style="width: 150px;" class="center-pos my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="costDropDownProv">@{{ amountBase.in_put_amount_unit.auSubject }}</button>
                                 <div  style="width: 150px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="costDropDownProv" data-dropdown data-auto-focus="true">
                                     <ul class="my-menu small-font">
-                                        <li><a>ریال</a></li>
-                                        <li><a>هزار ریال</a></li>
-                                        <li><a>میلیون ریال</a></li>
+                                        <li v-for="allAmountBases in allAmountBase"><a  @click="changeAllAmountBase(allAmountBases.id)">@{{ allAmountBases.auSubject }}</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -119,31 +117,34 @@
                     <div class="medium-12 center-pos">
                         <transition name="fade">
                             <div v-if="!show">
-                               <form>
+                               <form v-on:submit.prevent="changePassword">
                                    <div style="margin-top: 20px;" class="medium-12 columns padding-lr">
                                        <label>رمز عبور فعلی
-                                           <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="password" placeholder="&#xf09c;" name="currentPass"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('currentPass')}">
+                                           <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="password" placeholder="&#xf09c;" name="currentPass" v-model="changePassInput.password" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('currentPass')}">
                                        </label>
                                        <span v-show="errors.has('newPass')" class="error-font">لطفا رمز عبور فعلی را وارد کنید!</span>
                                    </div>
                                    <div style="margin-top: 20px;" class="medium-12 columns padding-lr">
                                        <label>رمز عبور جدید
-                                           <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="password" placeholder="&#xf09c;" name="newPass"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('newPass')}">
+                                           <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="password" placeholder="&#xf09c;" name="newPass" v-model="changePassInput.newPassword"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('newPass')}">
                                        </label>
                                        <span v-show="errors.has('newPass')" class="error-font">لطفا رمز عبور جدید را وارد کنید!</span>
                                    </div>
                                    <div style="margin-top: 20px;" class="medium-12 columns padding-lr">
                                        <label>تکرار رمز عبور جدید
-                                           <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="password" placeholder="&#xf09c;" name="reNewPass"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('reNewPass')}">
+                                           <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="password" placeholder="&#xf09c;" name="reNewPass" v-model="changePassInput.reNewPassword"  v-validate="'required|confirmed:newPass'" :class="{'input': true, 'error-border': errors.has('reNewPass')}">
                                        </label>
-                                       <span v-show="errors.has('reNewPass')" class="error-font">لطفا رمز عبور جدید را دوباره وارد کنید!</span>
+                                       <span v-show="errors.has('reNewPass')" class="error-font">در وارد کردن کلمه عبور دقت کنید!</span>
+                                   </div>
+                                   <div class="medium-12 columns padding-lr">
+                                       <button style="margin-top: 20px;" class="my-button my-success expanded">ثبت</button>
                                    </div>
                                </form>
                             </div>
                         </transition>
                     </div>
                     <div class="medium-12 center-pos">
-                        <button v-on:click="show = !show" style="width: 150px;margin-top: 20px;" class="my-button my-brand ">تغییر رمز عبور</button>
+                        <a v-on:click="show = !show" style="margin-top: 20px;">تغییر رمز عبور</a>
                     </div>
                 </div>
             </div>

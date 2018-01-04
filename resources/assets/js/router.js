@@ -156,13 +156,17 @@ var app = new Vue({
     store,
     el: '#container',
     data:{
-        show: false,
+        show: true,
+        registerBtn:false,
         allAmountBase: {},
         amountBase: {},
         publicParams: {},
         fiscalYears: {},
         rolePermission:{},
-        currentFyLabel: '',
+        changePassInput:{},
+        currentAabLabel:'',
+        nPassword:'',
+        reNPassword:'',
         userInfo: {name: '...' , role:{rSubject: '...'} , avatarPath: null},
         showModalLogin: false,
         showModalUserSetting: false,
@@ -228,6 +232,7 @@ var app = new Vue({
             this.getFiscalYear();
             this.getPublicParams();
             this.getAmountBase();
+            this.getAllAmountBase();
         }
         console.log("mounted router js");
     },
@@ -322,6 +327,15 @@ var app = new Vue({
                     console.log(error);
                 });
         },
+        getAllAmountBase: function () {
+            axios.get('/admin/getAllAmountBase')
+                .then((response) => {
+                    console.log(response.data);
+                    this.allAmountBase = response.data;
+                },(error) => {
+                    console.log(error);
+                });
+        },
 
         calcDispAmount: function (amount , withAmountBase = true , withFormattedMoney = true) {
             return (withFormattedMoney == true ? (amount / this.amountBase.disp_amount_unit.auAmount).toLocaleString('en' , {maximumFractionDigits : 20}) : (amount / this.amountBase.disp_amount_unit.auAmount)) + (withAmountBase == true ? ' ' + this.amountBase.disp_amount_unit.auSubject : '');
@@ -362,8 +376,39 @@ var app = new Vue({
                 });
         },
 
+        changeAllAmountBase: function (auId) {
+            axios.post('/admin/user/changeAmountBase' , {auId: auId})
+                .then((response) => {
+                    location.reload();
+                },(error) => {
+                    console.log(error);
+                });
+        },
+
+        changePassword: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/api/resetPassword', {
+                            password: this.changePassInput.password,
+                            newPassword: this.changePassInput.newPassword
+                        })
+                        .then((response) => {
+                            this.logout();
+                            //this.$parent.displayNotif(response.status);
+                        }, (error) => {
+                            console.log(error);
+                        });
+                    }
+
+                });
+        },
+
         displayNotif: function (httpStatusCode) {
             switch (httpStatusCode){
+                case 10:
+                    this.$notify({title: 'پیام سیستم', text: 'تکرار رمز عبور جدید اشتباه است!' , type: 'error'});
+                    this.$refs.errorAlarm.play();
+                    break;
                 case 204:
                     this.$notify({title: 'پیام سیستم', text: 'با توجه به وابستگی رکورد ها، حذف رکورد امکان پذیر نیست.' , type: 'error'});
                     this.$refs.errorAlarm.play();
@@ -468,6 +513,10 @@ var app = new Vue({
         userIsActive: function () {
             store.dispatch("userActive");
         },
+        currentAllAmountBase: function () {
+            return this.amountBase.id;
+        },
+
 
         expireTokenThread: function () {
             console.log("......................................................" + store.getters.userIsActive);
