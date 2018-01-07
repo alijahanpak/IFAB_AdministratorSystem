@@ -1,5 +1,6 @@
 <!doctype html>
-<html class="no-js" lang="en" dir="rtl" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<html class="no-js" lang="en" dir="rtl" xmlns:v-on="http://www.w3.org/1999/xhtml"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -90,8 +91,21 @@
             <div slot="body">
                 <div class="grid-x">
                     <div  class="medium-12 profile-background-image-loading">
-                        <img style="z-index: 888;" class="profile-image-cover profile-image-cover-pos float-center" src="pic\img_avatar.png">
-                        <a href="#" style="margin-right: 43%;margin-top: -60px;z-index: 999;" class="center-pos profile-photo-edit-icon" href=""><i class="fa fa fa-pencil size-18" aria-hidden="true"></i></a>
+                        <img style="z-index: 10;" class="profile-image-cover profile-image-cover-pos float-center" :src="imgDataUrl">
+                        <a @click="toggleShow" style="margin-right: 43%;margin-top: -60px;" class="center-pos profile-photo-edit-icon"><i class="fa fa fa-pencil size-18" aria-hidden="true"></i></a>
+                        <my-upload field="avatar_img"
+                                   @crop-success="cropSuccess"
+                                   @crop-upload-success="cropUploadSuccess"
+                                   @crop-upload-fail="cropUploadFail"
+                                   v-model="showUploadFile"
+                                   :width="200"
+                                   :height="200"
+                                   :url="uploadUrl"
+                                   :params="params"
+                                   :headers="headers"
+                                   langType="en"
+                                   img-format="png">
+                        </my-upload>
                     </div>
                     <div style="margin-top:25px; " class="medium-12">
                         <h4 class="BYekan center-pos">@{{ userInfo.name }}</h4>
@@ -136,7 +150,7 @@
                                        </label>
                                        <span v-show="errors.has('reNewPass')" class="error-font">در وارد کردن کلمه عبور دقت کنید!</span>
                                    </div>
-                                   <div class="medium-12 columns padding-lr">
+                                   <div v-show="(changePassInput.password != '' && changePassInput.password != null ) && (changePassInput.newPassword != '' && changePassInput.newPassword != null) && (changePassInput.reNewPassword != '' && changePassInput.reNewPassword != null)" class="medium-12 columns padding-lr">
                                        <button style="margin-top: 20px;" class="my-button my-success expanded">ثبت</button>
                                    </div>
                                </form>
@@ -290,6 +304,7 @@
                                             <div class="top-menu-bg">
                                                 <div class="grid-x cover-color">
                                                     <div class="medium-12">
+                                                        <img style="width: 60px;height: 60px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover profile-image-cover-pos float-center" :src="imgDataUrl">
                                                         <h5 class="text-center BYekan">@{{ userInfo.name }}</h5>
                                                     </div>
                                                     <div class="medium-12">
@@ -298,7 +313,6 @@
                                                 </div>
                                             </div>
                                         </li>
-                                        <li class="menu-top"><a href="#"><i class="tbl-menu fa fa-user-circle"></i> <span>@{{ userInfo.role.rSubject }}</span></a></li>
                                         <li class="menu-top"><a v-on:click="openModalUserSetting"><i class="tbl-menu fa fa-sliders"></i> <span>تنظیمات</span></a></li>
                                         <li class="menu-top"><a v-on:click="logout"><i class="tbl-menu fa fa-sign-out"></i> <span>خروج</span></a></li>
                                     </ul>

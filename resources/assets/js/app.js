@@ -14,6 +14,7 @@ import VeeValidate from 'vee-validate'
 import VueProgressBar from 'vue-progressbar'
 import PDatePicker from 'vue2-persian-datepicker'
 
+
 window.Vue.use(VeeValidate);
 window.Vue.use(Notifications , {velocity});
 window.Vue.use(VueProgressBar, {

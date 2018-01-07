@@ -150,14 +150,16 @@ const store = new Vuex.Store({
 ////////////////////////////////////////////////////////////////////////////////
 window.Vue.use( Acl, { router: router, init: 'public' , save: true , fail: '/accessDenied'} );
 ///////////////////////////////// main app page /////////////////////////////////
-
+import myUpload from 'vue-image-crop-upload';
 var app = new Vue({
     router,
     store,
+    components: {
+        'my-upload': myUpload
+    },
     el: '#container',
     data:{
         show: true,
-        registerBtn:false,
         allAmountBase: {},
         amountBase: {},
         publicParams: {},
@@ -173,7 +175,14 @@ var app = new Vue({
         authInfo: {email: '' , password: ''},
         tokenInfo: {"Authorization": '' , "Accept": 'application/json; charset=utf-8' , "Content-type" : 'application/json; charset=utf-8'},
         axiosRequestList: [],
-        prevNowPlaying: null
+        prevNowPlaying: null,
+        showUploadFile: false,
+        params: {
+        },
+
+        headers: {Authorization:'' , Accept: 'application/json'},
+        imgDataUrl: window.hostname + '/pic/avatars/avatar.jpg', // the datebase64 url of created image
+        uploadUrl: window.hostname + '/admin/user/uploadAvatar'
     },
 
     updated: function () {
@@ -185,6 +194,8 @@ var app = new Vue({
 
     created: function () {
         this.setExpireTokenThread();
+        var tokenInfo = JSON.parse(sessionStorage.getItem("ifab_token_info"));
+        this.headers.Authorization = tokenInfo.Authorization;
     },
 
     mounted: function () {
@@ -313,6 +324,9 @@ var app = new Vue({
                         if (this.currentFyId() == fy.id)
                             this.currentFyLabel = fy.fyLabel;
                     })
+                    if(this.userInfo.avatarPath !=null){
+                        this.imgDataUrl= this.userInfo.avatarPath;
+                    }
                 },(error) => {
                     console.log(error);
                 });
@@ -401,6 +415,38 @@ var app = new Vue({
                     }
 
                 });
+        },
+
+        toggleShow() {
+            this.showUploadFile = !this.showUploadFile;
+            console.log('......................... toggle upload avatar');
+        },
+
+        cropSuccess(imgDataUrl, field){
+            console.log('-------- crop success --------' + imgDataUrl);
+            this.imgDataUrl = imgDataUrl;
+        },
+        /**
+         * upload success
+         *
+         * [param] jsonData  server api return data, already json encode
+         * [param] field
+         */
+        cropUploadSuccess(jsonData, field){
+            console.log('-------- upload success --------');
+            console.log(jsonData);
+            console.log('field: ' + field);
+        },
+        /**
+         * upload fail
+         *
+         * [param] status    server api return error status, like 500
+         * [param] field
+         */
+        cropUploadFail(status, field){
+            console.log('-------- upload fail --------');
+            console.log(status);
+            console.log('field: ' + field);
         },
 
         displayNotif: function (httpStatusCode) {

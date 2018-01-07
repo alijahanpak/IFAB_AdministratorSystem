@@ -13,7 +13,7 @@
                        @crop-success="cropSuccess"
                        @crop-upload-success="cropUploadSuccess"
                        @crop-upload-fail="cropUploadFail"
-                       v-model="show"
+                       v-model="showUploadFile"
                        :width="200"
                        :height="200"
                        :url="uploadUrl"
@@ -39,7 +39,7 @@
 
         data () {
             return {
-                show: false,
+                showUploadFile: false,
                 params: {
                 },
 
