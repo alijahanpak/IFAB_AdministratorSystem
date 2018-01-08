@@ -179,6 +179,7 @@ var app = new Vue({
         showUploadFile: false,
         params: {
         },
+        updateAllPermissionThreadNowPlaying: null,
 
         headers: {Authorization:'' , Accept: 'application/json'},
         imgDataUrl: window.hostname + '/pic/avatars/avatar.jpg', // the datebase64 url of created image
@@ -196,6 +197,8 @@ var app = new Vue({
         this.setExpireTokenThread();
         var tokenInfo = JSON.parse(sessionStorage.getItem("ifab_token_info"));
         this.headers.Authorization = tokenInfo.Authorization;
+
+        this.setUpdateAllPermissionThread();
     },
 
     mounted: function () {
@@ -287,6 +290,29 @@ var app = new Vue({
                     console.log(error);
                     this.displayNotif(error.response.status);
                 });
+        },
+
+        updateAllPermissions: function () {
+            console.log('.................. update all permissions');
+            axios.get('/admin/user/getRoleAndPermissions')
+                .then((response) => {
+                    this.rolePermission = response.data;
+                    var accessPermissions = '';
+                    this.rolePermission.role_permission.forEach((roleP) => {
+                        accessPermissions += roleP.permission.pPermission + '&';
+                    });
+                    this.access = accessPermissions;
+                },(error) => {
+                    console.log(error);
+                    this.displayNotif(error.response.status);
+                });
+        },
+
+        setUpdateAllPermissionThread: function () {
+            //console.log("...................................................... set cost approved prog update thread");
+            if (this.updateAllPermissionThreadNowPlaying)
+                clearInterval(this.updateAllPermissionThreadNowPlaying);
+            this.updateAllPermissionThreadNowPlaying = setInterval(this.updateAllPermissions, 180000);
         },
 
         openModalUserSetting: function () {
