@@ -1668,12 +1668,23 @@ button.purple-btn {
 .profile-image-cover {
     width: 150px;
     height: 150px;
+    z-index: 10;
     border-radius: 50%;
-    margin: 20px;
     border: 2px solid;
     object-fit: cover;
     background-color: rgba(243,246,248,.94);
     border: 4px solid #fff;
+    box-shadow: inset 0 1.5px 3px 0 rgba(0,0,0,.15),0 1.5px 3px 0 rgba(0,0,0,.15);
+}
+.profile-image-cover-index {
+    width: 150px;
+    height: 150px;
+    z-index: 10;
+    border-radius: 50%;
+    border: 1px solid;
+    object-fit: cover;
+    background-color: rgba(243,246,248,.94);
+    border: 1px solid #fff;
     box-shadow: inset 0 1.5px 3px 0 rgba(0,0,0,.15),0 1.5px 3px 0 rgba(0,0,0,.15);
 }
 .profile-photo-edit-icon {
@@ -1688,26 +1699,28 @@ button.purple-btn {
     color: #0084bf;
     padding: 8px 0 0 2px;
 }
+
 .profile-image-cover-pos {
     margin-top: 50px;
     margin-left: auto;
     margin-right: auto;
-
 }
+
 .center-pos{
     display: flex;
     justify-content: center;
 }
+
 .gray-color{
     color: rgba(0,0,0,.7);
 }
-
 
 /* Vue Transition Start*/
 /* TRANSITION */
 .fade-enter-active, .fade-leave-active {
     transition: opacity .5s;
 }
+
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
 }

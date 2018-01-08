@@ -15,7 +15,7 @@
 			<stop offset="1" style="stop-color:#840AD9"/>
 		</linearGradient>
 	</defs>
-	<rect y="0.1" class="gradient" width="1440" height="160"/>
+	<rect y="0.1" class="gradient" width="1440" height="200"/>
 	<g class="foreground">
 		<circle cx="42" cy="32.5" r="3.5"/>
 		<circle cx="184.1" cy="41" r="3.5"/>

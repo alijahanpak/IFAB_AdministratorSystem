@@ -40,14 +40,7 @@
                     </div>
                     <div style="margin-top:20px;" class="grid-x">
                         <div style="margin:0 auto;" class="large-3 cell callout ">
-                            <form v-on:submit.prevent="login">
-                                <div class="grid-x" v-show="errorMessage">
-                                    <div class="medium-12 columns padding-lr">
-                                        <div class="alert callout">
-                                            <p class="BYekan login-alert"><i class="fi-alert"></i>@{{ errorMessage }}</p>
-                                        </div>
-                                    </div>
-                                </div>
+                            <form v-on:submit.prevent="login" v-cloak>
                                 <div class="columns padding-lr">
                                     <label>نام کاربری
                                         <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="text" placeholder="&#xf2c0;" autofocus name="user" v-model="authInfo.email" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('user')}">
@@ -91,8 +84,12 @@
             <div slot="body">
                 <div class="grid-x">
                     <div  class="medium-12 profile-background-image-loading">
-                        <img style="z-index: 10;" class="profile-image-cover profile-image-cover-pos float-center" :src="imgDataUrl">
-                        <a @click="toggleShow" style="margin-right: 43%;margin-top: -60px;" class="center-pos profile-photo-edit-icon"><i class="fa fa fa-pencil size-18" aria-hidden="true"></i></a>
+                        <div style="position: relative; width: 150px; height: 150px; top:50px;" class="float-center">
+                            <img class="profile-image-cover" :src="imgDataUrl">
+                            <a @click="toggleShow" style="right: 13%;top: 120px; position: absolute" class="center-pos profile-photo-edit-icon">
+                                <i class="fa fa fa-pencil size-18" aria-hidden="true"></i>
+                            </a>
+                        </div>
                         <my-upload field="avatar_img"
                                    @crop-success="cropSuccess"
                                    @crop-upload-success="cropUploadSuccess"
@@ -107,7 +104,7 @@
                                    img-format="png">
                         </my-upload>
                     </div>
-                    <div style="margin-top:25px; " class="medium-12">
+                    <div style="margin-top:60px; " class="medium-12">
                         <h4 class="BYekan center-pos">@{{ userInfo.name }}</h4>
                         <p class="center-pos gray-color">@{{ userInfo.role.rSubject }}</p>
                     </div>
@@ -115,7 +112,7 @@
                         <div class="align-center">
                             <div class="medium-12">
                             <div class="medium-2 center-pos">
-                                <p class="gray-color">نمایش مبالغ به:</p>
+                                <p class="gray-color size-14">نمایش مبالغ به:</p>
                             </div>
                             <div class="medium-2 center-pos">
                                 <button style="width: 150px;" class="center-pos my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="costDropDownProv">@{{ amountBase.in_put_amount_unit.auSubject }}</button>
@@ -304,11 +301,11 @@
                                             <div class="top-menu-bg">
                                                 <div class="grid-x cover-color">
                                                     <div class="medium-12">
-                                                        <img style="width: 60px;height: 60px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover profile-image-cover-pos float-center" :src="imgDataUrl">
+                                                        <img style="width: 60px;height: 60px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos float-center" :src="imgDataUrl">
                                                         <h5 class="text-center BYekan">@{{ userInfo.name }}</h5>
                                                     </div>
                                                     <div class="medium-12">
-                                                        <p class="text-center">@{{ userInfo.role.rSubject }}</p>
+                                                        <p class="text-center" style="margin-bottom: 0">@{{ userInfo.role.rSubject }}</p>
                                                     </div>
                                                 </div>
                                             </div>
