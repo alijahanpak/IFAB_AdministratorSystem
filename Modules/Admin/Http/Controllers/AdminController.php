@@ -8,12 +8,15 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Modules\Admin\Entities\AmountUnit;
 use Modules\Admin\Entities\County;
+use Modules\Admin\Entities\Group;
+use Modules\Admin\Entities\GroupPermission;
 use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\Region;
 use Modules\Admin\Entities\Role;
 use Modules\Admin\Entities\RuralDistrict;
 use Modules\Admin\Entities\Season;
 use Modules\Admin\Entities\User;
+use Modules\Admin\Entities\UserGroup;
 use Modules\Admin\Entities\Village;
 
 class AdminController extends Controller
@@ -69,12 +72,15 @@ class AdminController extends Controller
         );
     }
 
-    public function getRoleAndPermissions()
+    public function getRoleAndGroupPermissions()
     {
+        $role = Role::where('id' , '=' , Auth::user()->rId)->first();
+        $gIDs = UserGroup::where('ugUId' , '=' , Auth::user()->id)->pluck('ugGId')->toArray();
+
         return \response()->json(
-            Role::where('id' , '=' , Auth::user()->rId)
-                ->with('rolePermission.permission')
-                ->first()
+            ["rRole" => $role->rRole, "groupPermissions" => GroupPermission::whereIn('gpGId' , $gIDs)
+                ->with('permission')
+                ->get()]
         );
     }
 

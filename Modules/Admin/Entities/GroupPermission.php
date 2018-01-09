@@ -11,6 +11,6 @@ class GroupPermission extends Model
 
     public function permission()
     {
-        return $this->belongsTo(Permission::class , 'rpPId' , 'id');
+        return $this->belongsTo(Permission::class , 'gpPId' , 'id');
     }
 }

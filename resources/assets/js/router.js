@@ -164,7 +164,7 @@ var app = new Vue({
         amountBase: {},
         publicParams: {},
         fiscalYears: {},
-        rolePermission:{},
+        groupPermission:{},
         changePassInput:{},
         currentAabLabel:'',
         nPassword:'',
@@ -257,29 +257,30 @@ var app = new Vue({
                 .then((response) => {
                     //console.log(response.data.refresh_token);
                     this.registerTokenInfo(response.data);
-                    axios.get('/admin/user/getRoleAndPermissions')
+                    axios.get('/admin/user/getRoleAndGroupPermissions')
                         .then((response) => {
-                            this.rolePermission = response.data;
+                            this.groupPermission = response.data;
                             var accessPermissions = '';
-                            this.rolePermission.role_permission.forEach((roleP) => {
-                                console.log('..................' + roleP.permission.pPermission);
-                                accessPermissions += roleP.permission.pPermission + '&';
+                            this.groupPermission.groupPermissions.forEach((groupP) => {
+                                console.log('..................' + groupP.permission.pPermission);
+                                accessPermissions += groupP.permission.pPermission + '&';
                             });
+                            console.log('.......................... permission' + accessPermissions);
                             this.access = accessPermissions;
                             this.showModalLogin = false;
-                            if (this.rolePermission.rRole == sessionStorage.getItem("ifab_lastUserRole"))
+                            if (this.groupPermission.rRole == sessionStorage.getItem("ifab_lastUserRole"))
                             {
-                                sessionStorage.setItem('ifab_lastUserRole' , this.rolePermission.rRole);
+                                sessionStorage.setItem('ifab_lastUserRole' , this.groupPermission.rRole);
                                 window.location.href = window.hostname + '#' + this.$router.currentRoute.path;
                             }
-                            else if (this.rolePermission.rRole == 'BUDGET_ADMIN' || this.rolePermission.rRole == 'BUDGET_EXPERT')
+                            else if (this.groupPermission.rRole == 'BUDGET_ADMIN' || this.groupPermission.rRole == 'BUDGET_EXPERT')
                             {
-                                sessionStorage.setItem('ifab_lastUserRole' , this.rolePermission.rRole);
+                                sessionStorage.setItem('ifab_lastUserRole' , this.groupPermission.rRole);
                                 window.location.href = window.hostname + '#/budget';
                             }
-                            else if (this.rolePermission.rRole == 'FINANCIAL_DEPARTMENT_ADMIN' || this.rolePermission.rRole == 'FINANCIAL_DEPARTMENT_EXPERT')
+                            else if (this.groupPermission.rRole == 'FINANCIAL_DEPARTMENT_ADMIN' || this.groupPermission.rRole == 'FINANCIAL_DEPARTMENT_EXPERT')
                             {
-                                sessionStorage.setItem('ifab_lastUserRole' , this.rolePermission.rRole);
+                                sessionStorage.setItem('ifab_lastUserRole' , this.groupPermission.rRole);
                                 window.location.href = window.hostname + '#/financial_department';
                             }
                         },(error) => {
@@ -294,12 +295,12 @@ var app = new Vue({
 
         updateAllPermissions: function () {
             console.log('.................. update all permissions');
-            axios.get('/admin/user/getRoleAndPermissions')
+            axios.get('/admin/user/getRoleAndGroupPermissions')
                 .then((response) => {
-                    this.rolePermission = response.data;
+                    this.groupPermission = response.data;
                     var accessPermissions = '';
-                    this.rolePermission.role_permission.forEach((roleP) => {
-                        accessPermissions += roleP.permission.pPermission + '&';
+                    this.groupPermission.groupPermissions.forEach((groupP) => {
+                        accessPermissions += groupP.permission.pPermission + '&';
                     });
                     this.access = accessPermissions;
                 },(error) => {
