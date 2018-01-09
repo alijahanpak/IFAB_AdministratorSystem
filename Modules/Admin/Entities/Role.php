@@ -11,6 +11,6 @@ class Role extends Model
 
     public function rolePermission()
     {
-        return $this->hasMany(RolePermission::class , 'rpRId' , 'id');
+        return $this->hasMany(GroupPermission::class , 'rpRId' , 'id');
     }
 }

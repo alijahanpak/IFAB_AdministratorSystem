@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRolePermissionTable extends Migration
+class CreateUserGroupTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,20 @@ class CreateRolePermissionTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('tbl_group_permissions')) {
-            Schema::create('tbl_group_permissions', function (Blueprint $table) {
+        if (!Schema::hasTable('tbl_user_groups')) {
+            Schema::create('tbl_user_groups', function (Blueprint $table) {
                 $table->increments('id');
-                $table->integer('gpGId')->length(10)->unsigned();
-                $table->integer('gpPId')->length(10)->unsigned();
+                $table->integer('ugUId')->length(10)->unsigned();
+                $table->integer('ugGId')->length(10)->unsigned();
                 $table->timestamps();
 
-                $table->foreign('gpGId')
-                    ->references('id')->on('tbl_groups')
+                $table->foreign('ugUId')
+                    ->references('id')->on('users')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
 
-                $table->foreign('gpPId')
-                    ->references('id')->on('tbl_permissions')
+                $table->foreign('ugGId')
+                    ->references('id')->on('tbl_groups')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
             });
@@ -40,6 +40,6 @@ class CreateRolePermissionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_group_permissions');
+        Schema::dropIfExists('tbl_user_groups');
     }
 }

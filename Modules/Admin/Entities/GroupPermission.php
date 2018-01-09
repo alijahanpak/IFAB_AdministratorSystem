@@ -4,9 +4,9 @@ namespace Modules\Admin\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RolePermission extends Model
+class GroupPermission extends Model
 {
-    protected $table = 'tbl_role_permissions';
+    protected $table = 'tbl_group_permissions';
     protected $fillable = [];
 
     public function permission()

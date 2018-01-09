@@ -312,7 +312,7 @@ var app = new Vue({
             //console.log("...................................................... set cost approved prog update thread");
             if (this.updateAllPermissionThreadNowPlaying)
                 clearInterval(this.updateAllPermissionThreadNowPlaying);
-            this.updateAllPermissionThreadNowPlaying = setInterval(this.updateAllPermissions, 180000);
+            this.updateAllPermissionThreadNowPlaying = setInterval(this.updateAllPermissions, 90000);
         },
 
         openModalUserSetting: function () {
