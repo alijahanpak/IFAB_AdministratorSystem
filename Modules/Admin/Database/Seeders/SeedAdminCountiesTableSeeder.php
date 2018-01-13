@@ -24,7 +24,12 @@ class SeedAdminCountiesTableSeeder extends Seeder
         $county->save();
 
         $county = new County;
-        $county->coName = 'همدان';
+        $county->coName = 'بهار';
+        $county->coUId = User::first()->id;
+        $county->save();
+
+        $county = new County;
+        $county->coName = 'تویسرکان';
         $county->coUId = User::first()->id;
         $county->save();
 
@@ -35,11 +40,6 @@ class SeedAdminCountiesTableSeeder extends Seeder
 
         $county = new County;
         $county->coName = 'نهاوند';
-        $county->coUId = User::first()->id;
-        $county->save();
-
-        $county = new County;
-        $county->coName = 'تویسرکان';
         $county->coUId = User::first()->id;
         $county->save();
 
@@ -58,6 +58,9 @@ class SeedAdminCountiesTableSeeder extends Seeder
         $county->coUId = User::first()->id;
         $county->save();
 
-
+        $county = new County;
+        $county->coName = 'همدان';
+        $county->coUId = User::first()->id;
+        $county->save();
     }
 }

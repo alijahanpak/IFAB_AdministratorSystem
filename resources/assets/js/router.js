@@ -305,7 +305,7 @@ var app = new Vue({
                     this.access = accessPermissions;
                 },(error) => {
                     console.log(error);
-                    this.displayNotif(error.response.status);
+                    //this.displayNotif(error.response.status);
                 });
         },
 

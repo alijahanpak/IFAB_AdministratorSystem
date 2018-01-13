@@ -19,35 +19,34 @@ class SeederGroupPermissionTableSeederTableSeeder extends Seeder
 
         for ($i = 1 ; $i <= 70 ;$i++)
         {
-            $rolePermission = new GroupPermission;
-            $rolePermission->gpGId = 1;
-            $rolePermission->gpPId = $i;
-            $rolePermission->save();
+            $gPermission = new GroupPermission;
+            $gPermission->gpGId = 1;
+            $gPermission->gpPId = $i;
+            $gPermission->save();
         }
 
         for ($i = 1 ; $i <= 70 ;$i++)
         {
-            $rolePermission = new GroupPermission;
-            $rolePermission->gpGId = 2;
-            $rolePermission->gpPId = $i;
-            $rolePermission->save();
+            $gPermission = new GroupPermission;
+            $gPermission->gpGId = 2;
+            $gPermission->gpPId = $i;
+            $gPermission->save();
         }
 
         for ($i = 1 ; $i <= 70 ;$i++)
         {
-            $rolePermission = new GroupPermission;
-            $rolePermission->gpGId = 3;
-            $rolePermission->gpPId = $i;
-            $rolePermission->save();
+            $gPermission = new GroupPermission;
+            $gPermission->gpGId = 3;
+            $gPermission->gpPId = $i;
+            $gPermission->save();
         }
 
         for ($i = 1 ; $i <= 70 ;$i++)
         {
-            $rolePermission = new GroupPermission;
-            $rolePermission->gpGId = 4;
-            $rolePermission->gpPId = $i;
-            $rolePermission->save();
+            $gPermission = new GroupPermission;
+            $gPermission->gpGId = 4;
+            $gPermission->gpPId = $i;
+            $gPermission->save();
         }
-
     }
 }

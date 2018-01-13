@@ -22,13 +22,13 @@ class SeedAdminRegionsTableSeeder extends Seeder
         $region = new Region;
         $region->reName = 'خزل';
         $region->reUId = User::first()->id;
-        $region->reCoId = 4; //نهاوند
+        $region->reCoId = 5; //نهاوند
         $region->save();
 
         $region = new Region;
         $region->reName = 'شراء';
         $region->reUId = User::first()->id;
-        $region->reCoId = 2; //نهاوند
+        $region->reCoId = 8; //نهاوند
         $region->save();
 
         $region = new Region;
