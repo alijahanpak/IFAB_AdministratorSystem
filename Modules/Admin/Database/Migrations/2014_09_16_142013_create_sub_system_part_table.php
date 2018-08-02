@@ -15,8 +15,8 @@ class CreateSubSystemPartTable extends Migration
     {
         if (!Schema::hasTable('tbl_sub_system_parts')) {
             Schema::create('tbl_sub_system_parts', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('sspSsId')->length(10)->unsigned();
+                $table->bigIncrements('id');
+                $table->bigInteger('sspSsId')->length(20)->unsigned();
                 $table->string('sspSubject');
                 $table->string('sspPart')->unique();
                 $table->timestamps();
@@ -36,6 +36,8 @@ class CreateSubSystemPartTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_sub_system_parts');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

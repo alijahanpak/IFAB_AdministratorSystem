@@ -15,9 +15,9 @@ class CreateRuralDistrictsTable extends Migration
     {
         if (!Schema::hasTable('tbl_rural_districts')) {
             Schema::create('tbl_rural_districts', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('rdUId')->length(10)->unsigned();
-                $table->integer('rdReId')->length(10)->unsigned();
+                $table->bigIncrements('id');
+                $table->bigInteger('rdUId')->length(20)->unsigned();
+                $table->bigInteger('rdReId')->length(20)->unsigned();
                 $table->string('rdName');
                 $table->timestamps();
 

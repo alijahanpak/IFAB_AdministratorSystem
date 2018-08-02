@@ -15,12 +15,12 @@ class CreateCapCreditSourceTable extends Migration
     {
         if (!Schema::hasTable('tbl_cap_credit_source')) {
             Schema::create('tbl_cap_credit_source', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('ccsUId')->length(10)->unsigned();
-                $table->integer('ccsCdrId')->length(10)->unsigned();
-                $table->integer('ccsTsId')->length(10)->unsigned();
-                $table->integer('ccsHtrId')->length(10)->unsigned();
-                $table->integer('ccsCapId')->length(10)->unsigned();
+                $table->bigIncrements('id');
+                $table->bigInteger('ccsUId')->length(20)->unsigned();
+                $table->bigInteger('ccsCdrId')->length(20)->unsigned();
+                $table->bigInteger('ccsTsId')->length(20)->unsigned();
+                $table->bigInteger('ccsHtrId')->length(20)->unsigned();
+                $table->bigInteger('ccsCapId')->length(20)->unsigned();
                 $table->bigInteger('ccsAmount');
                 $table->longText('ccsDescription')->nullable();
                 $table->tinyInteger('ccsDeleted')->default(0);
@@ -61,6 +61,8 @@ class CreateCapCreditSourceTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_cap_credit_source');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

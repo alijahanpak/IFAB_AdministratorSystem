@@ -15,9 +15,9 @@ class CreateRegionsTable extends Migration
     {
         if (!Schema::hasTable('tbl_regions')) {
             Schema::create('tbl_regions', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('reUId')->length(10)->unsigned();
-                $table->integer('reCoId')->length(10)->unsigned();
+                $table->bigIncrements('id');
+                $table->bigInteger('reUId')->length(20)->unsigned();
+                $table->bigInteger('reCoId')->length(20)->unsigned();
                 $table->string('reName');
                 $table->timestamps();
 

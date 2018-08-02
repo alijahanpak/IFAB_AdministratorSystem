@@ -15,9 +15,9 @@ class CreateCapitalAssetsSeasonTitleTable extends Migration
     {
         if (!Schema::hasTable('tbl_capital_assets_season_title')) {
             Schema::create('tbl_capital_assets_season_title', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('castUId')->length(10)->unsigned();
-                $table->integer('castSId')->length(10)->unsigned();
+                $table->bigIncrements('id');
+                $table->bigInteger('castUId')->length(20)->unsigned();
+                $table->bigInteger('castSId')->length(20)->unsigned();
                 $table->string('castSubject');
                 $table->longText('castDescription')->nullable();
                 $table->timestamps();
@@ -42,6 +42,8 @@ class CreateCapitalAssetsSeasonTitleTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_capital_assets_season_title');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

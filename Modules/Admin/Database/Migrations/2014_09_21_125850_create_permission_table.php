@@ -15,8 +15,8 @@ class CreatePermissionTable extends Migration
     {
         if (!Schema::hasTable('tbl_permissions')) {
             Schema::create('tbl_permissions', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('pSspId')->length(10)->unsigned();
+                $table->bigIncrements('id');
+                $table->bigInteger('pSspId')->length(20)->unsigned();
                 $table->string('pSubject');
                 $table->string('pPermission')->unique();
                 $table->timestamps();
@@ -36,6 +36,8 @@ class CreatePermissionTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_permissions');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

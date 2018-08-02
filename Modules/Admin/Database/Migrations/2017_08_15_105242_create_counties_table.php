@@ -15,8 +15,8 @@ class CreateCountiesTable extends Migration
     {
         if (!Schema::hasTable('tbl_counties')) {
             Schema::create('tbl_counties', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('coUId')->length(10)->unsigned();
+                $table->bigIncrements('id');
+                $table->bigInteger('coUId')->length(20)->unsigned();
                 $table->string('coName');
                 $table->timestamps();
 

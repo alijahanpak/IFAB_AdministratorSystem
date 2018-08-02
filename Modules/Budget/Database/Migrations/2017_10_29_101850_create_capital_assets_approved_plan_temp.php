@@ -15,10 +15,10 @@ class CreateCapitalAssetsApprovedPlanTemp extends Migration
     {
         if (!Schema::hasTable('tbl_capital_assets_approved_plan_temp')) {
             Schema::create('tbl_capital_assets_approved_plan_temp', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('capUId')->length(10)->unsigned();
-                $table->integer('capCdtId')->length(10)->unsigned();
-                $table->integer('capFyId')->length(10)->unsigned();
+                $table->bigIncrements('id');
+                $table->bigInteger('capUId')->length(20)->unsigned();
+                $table->bigInteger('capCdtId')->length(20)->unsigned();
+                $table->bigInteger('capFyId')->length(20)->unsigned();
                 $table->string('capLetterNumber');
                 $table->string('capLetterDate');
                 $table->string('capExchangeDate');
@@ -52,6 +52,8 @@ class CreateCapitalAssetsApprovedPlanTemp extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_capital_assets_approved_plan_temp');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

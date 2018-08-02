@@ -15,11 +15,11 @@ class CreateCapitalAssetsProjectsTable extends Migration
     {
         if (!Schema::hasTable('tbl_capital_assets_projects')) {
             Schema::create('tbl_capital_assets_projects', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('cpUId')->length(10)->unsigned();
-                $table->integer('cpCapId')->length(10)->unsigned();
-                $table->integer('cpCoId')->length(10)->unsigned()->nullable();
-                $table->integer('cpCpId')->length(10)->unsigned()->nullable();
+                $table->bigIncrements('id');
+                $table->bigInteger('cpUId')->length(20)->unsigned();
+                $table->bigInteger('cpCapId')->length(20)->unsigned();
+                $table->bigInteger('cpCoId')->length(20)->unsigned()->nullable();
+                $table->bigInteger('cpCpId')->length(20)->unsigned()->nullable();
                 $table->string('cpSubject');
                 $table->string('cpCode');
                 $table->string('cpStartYear');

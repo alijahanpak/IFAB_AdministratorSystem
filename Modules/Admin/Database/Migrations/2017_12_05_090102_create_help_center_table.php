@@ -15,8 +15,8 @@ class CreateHelpCenterTable extends Migration
     {
         if (!Schema::hasTable('tbl_help_center')) {
             Schema::create('tbl_help_center', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('hceHcId')->length(10)->unsigned();
+                $table->bigIncrements('id');
+                $table->bigInteger('hceHcId')->length(20)->unsigned();
                 $table->string('hceSubject');
                 $table->string('hceImgName');
                 $table->longText('hceDescription');
@@ -37,6 +37,8 @@ class CreateHelpCenterTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_help_center');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

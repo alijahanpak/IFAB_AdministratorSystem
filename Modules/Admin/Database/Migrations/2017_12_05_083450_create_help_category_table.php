@@ -15,8 +15,8 @@ class CreateHelpCategoryTable extends Migration
     {
         if (!Schema::hasTable('tbl_help_category')) {
             Schema::create('tbl_help_category', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('hcSsId')->length(10)->unsigned();
+                $table->bigIncrements('id');
+                $table->bigInteger('hcSsId')->length(20)->unsigned();
                 $table->string('hcSubject');
                 $table->longText('hcDescription');
                 $table->timestamps();
@@ -36,6 +36,8 @@ class CreateHelpCategoryTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_help_category');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }
