@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRoleTable extends Migration
+class CreateOfficeUnitsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,11 @@ class CreateRoleTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('tbl_roles')) {
-            Schema::create('tbl_roles', function (Blueprint $table) {
+        if (!Schema::hasTable('tbl_office_units')) {
+            Schema::create('tbl_office_units', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->bigInteger('rOuId')->length(20)->unsigned();
-                $table->string('rSubject');
-                $table->string('rRole')->unique();
+                $table->string('ouSubject');
                 $table->timestamps();
-
-                $table->foreign('rOuId')
-                    ->references('id')->on('tbl_office_units')
-                    ->onDelete('restrict')
-                    ->onUpdate('cascade');
             });
         }
     }
@@ -37,7 +30,7 @@ class CreateRoleTable extends Migration
     public function down()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        Schema::dropIfExists('tbl_roles');
+        Schema::dropIfExists('tbl_office_units');
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }
