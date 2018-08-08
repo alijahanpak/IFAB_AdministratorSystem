@@ -13,7 +13,16 @@ import velocity      from 'velocity-animate'
 import VeeValidate from 'vee-validate'
 import VueProgressBar from 'vue-progressbar'
 import PDatePicker from 'vue2-persian-datepicker'
+import vSelectPage from 'v-selectpage';
 
+Vue.use(vSelectPage, {
+    // server side data loader
+    dataLoad: function(vue, data, params){
+        return new Promise((resolve, reject)=>{
+            axios.post(url, params).then(resp=>resolve(resp)).then(resp=>reject(resp));
+        });
+    }
+});
 
 window.Vue.use(VeeValidate);
 window.Vue.use(Notifications , {velocity});
