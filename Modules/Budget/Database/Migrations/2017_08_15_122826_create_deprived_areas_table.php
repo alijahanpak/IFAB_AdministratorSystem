@@ -15,12 +15,12 @@ class CreateDeprivedAreasTable extends Migration
     {
         if (!Schema::hasTable('tbl_deprived_areas')) {
             Schema::create('tbl_deprived_areas', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('daUId')->length(10)->unsigned();
-                $table->integer('daCoId')->length(10)->unsigned();
-                $table->integer('daReId')->length(10)->unsigned()->nullable();
-                $table->integer('daRdId')->length(10)->unsigned()->nullable();
-                $table->integer('daViId')->length(10)->unsigned()->nullable();
+                $table->bigIncrements('id');
+                $table->bigInteger('daUId')->length(20)->unsigned();
+                $table->bigInteger('daCoId')->length(20)->unsigned();
+                $table->bigInteger('daReId')->length(20)->unsigned()->nullable();
+                $table->bigInteger('daRdId')->length(20)->unsigned()->nullable();
+                $table->bigInteger('daViId')->length(20)->unsigned()->nullable();
                 $table->longText('daDescription')->nullable();
                 $table->timestamps();
 
@@ -59,6 +59,8 @@ class CreateDeprivedAreasTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_deprived_areas');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

@@ -15,9 +15,9 @@ class CreateCapitalAssetsTinySeasonsTable extends Migration
     {
         if (!Schema::hasTable('tbl_capital_assets_tiny_seasons')) {
             Schema::create('tbl_capital_assets_tiny_seasons', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('catsUId')->length(10)->unsigned();
-                $table->integer('catsCastId')->length(10)->unsigned();
+                $table->bigIncrements('id');
+                $table->bigInteger('catsUId')->length(20)->unsigned();
+                $table->bigInteger('catsCastId')->length(20)->unsigned();
                 $table->string('catsSubject');
                 $table->longText('catsDescription')->nullable();
                 $table->timestamps();
@@ -42,6 +42,8 @@ class CreateCapitalAssetsTinySeasonsTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_capital_assets_tiny_seasons');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

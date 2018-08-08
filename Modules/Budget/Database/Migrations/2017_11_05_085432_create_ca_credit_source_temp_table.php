@@ -15,13 +15,13 @@ class CreateCaCreditSourceTempTable extends Migration
     {
         if (!Schema::hasTable('tbl_ca_credit_source_temp')) {
             Schema::create('tbl_ca_credit_source_temp', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('ccsUId')->length(10)->unsigned();
-                $table->integer('ccsCdrId')->length(10)->unsigned();
-                $table->integer('ccsTsId')->length(10)->unsigned();
-                $table->integer('ccsCaId')->length(10)->unsigned();
-                $table->integer('ccsCdtId')->length(10)->unsigned();
-                $table->integer('ccsCcsId')->length(10)->unsigned()->nullable();
+                $table->bigIncrements('id');
+                $table->bigInteger('ccsUId')->length(20)->unsigned();
+                $table->bigInteger('ccsCdrId')->length(20)->unsigned();
+                $table->bigInteger('ccsTsId')->length(20)->unsigned();
+                $table->bigInteger('ccsCaId')->length(20)->unsigned();
+                $table->bigInteger('ccsCdtId')->length(20)->unsigned();
+                $table->bigInteger('ccsCcsId')->length(20)->unsigned()->nullable();
                 $table->bigInteger('ccsAmount');
                 $table->tinyInteger('ccsDeleted')->default(0);
                 $table->longText('ccsDescription')->nullable();
@@ -62,6 +62,8 @@ class CreateCaCreditSourceTempTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_ca_credit_source_temp');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

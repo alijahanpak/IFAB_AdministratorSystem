@@ -15,9 +15,9 @@ class CreateCapitalAssetsCostsTable extends Migration
     {
         if (!Schema::hasTable('tbl_capital_assets_costs')) {
             Schema::create('tbl_capital_assets_costs', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('cacUId')->length(10)->unsigned();
-                $table->integer('cacCaaId')->length(10)->unsigned()->nullable();
+                $table->bigIncrements('id');
+                $table->bigInteger('cacUId')->length(20)->unsigned();
+                $table->bigInteger('cacCaaId')->length(20)->unsigned()->nullable();
                 $table->string('cacSubject');
                 $table->bigInteger('cacAmount');
                 $table->longText('cacDescription')->nullable();
@@ -43,6 +43,8 @@ class CreateCapitalAssetsCostsTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_capital_assets_costs');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

@@ -15,9 +15,9 @@ class CreateVillagesTable extends Migration
     {
         if (!Schema::hasTable('tbl_villages')) {
             Schema::create('tbl_villages', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('viUId')->length(10)->unsigned();
-                $table->integer('viRdId')->length(10)->unsigned();
+                $table->bigIncrements('id');
+                $table->bigInteger('viUId')->length(20)->unsigned();
+                $table->bigInteger('viRdId')->length(20)->unsigned();
                 $table->string('viName');
                 $table->timestamps();
 

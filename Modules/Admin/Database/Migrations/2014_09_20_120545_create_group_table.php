@@ -15,7 +15,7 @@ class CreateGroupTable extends Migration
     {
         if (!Schema::hasTable('tbl_groups')) {
             Schema::create('tbl_groups', function (Blueprint $table) {
-                $table->increments('id');
+                $table->bigIncrements('id');
                 $table->string('gSubject');
                 $table->timestamps();
             });
@@ -29,6 +29,8 @@ class CreateGroupTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_groups');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

@@ -15,7 +15,7 @@ class CreateAmountUnitsTable extends Migration
     {
         if (!Schema::hasTable('tbl_amount_units')) {
             Schema::create('tbl_amount_units', function (Blueprint $table) {
-                $table->increments('id');
+                $table->bigIncrements('id');
                 $table->string('auSubject');
                 $table->bigInteger('auAmount');
                 $table->longText('auDescription')->nullable();
@@ -31,6 +31,8 @@ class CreateAmountUnitsTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_amount_units');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

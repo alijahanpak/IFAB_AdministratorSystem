@@ -15,9 +15,9 @@ class CreateCostTinySeasonTable extends Migration
     {
         if (!Schema::hasTable('tbl_cost_tiny_season')) {
             Schema::create('tbl_cost_tiny_season', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('ctsUId')->length(10)->unsigned();
-                $table->integer('ctsCstId')->length(10)->unsigned();
+                $table->bigIncrements('id');
+                $table->bigInteger('ctsUId')->length(20)->unsigned();
+                $table->bigInteger('ctsCstId')->length(20)->unsigned();
                 $table->string('ctsSubject');
                 $table->longText('ctsDescription')->nullable();
                 $table->timestamps();
@@ -42,6 +42,8 @@ class CreateCostTinySeasonTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_cost_tiny_season');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

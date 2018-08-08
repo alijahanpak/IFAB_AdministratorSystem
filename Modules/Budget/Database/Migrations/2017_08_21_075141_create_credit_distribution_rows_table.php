@@ -15,8 +15,8 @@ class CreateCreditDistributionRowsTable extends Migration
     {
         if (!Schema::hasTable('tbl_credit_distribution_rows')) {
             Schema::create('tbl_credit_distribution_rows', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('cdUId')->length(10)->unsigned();
+                $table->bigIncrements('id');
+                $table->bigInteger('cdUId')->length(20)->unsigned();
                 $table->boolean('cdPlanOrCost');
                 $table->string('cdSubject');
                 $table->longText('cdDescription')->nullable();

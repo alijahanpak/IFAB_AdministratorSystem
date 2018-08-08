@@ -15,9 +15,9 @@ class CreateUserGroupTable extends Migration
     {
         if (!Schema::hasTable('tbl_user_groups')) {
             Schema::create('tbl_user_groups', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('ugUId')->length(10)->unsigned();
-                $table->integer('ugGId')->length(10)->unsigned();
+                $table->bigIncrements('id');
+                $table->bigInteger('ugUId')->length(20)->unsigned();
+                $table->bigInteger('ugGId')->length(20)->unsigned();
                 $table->timestamps();
 
                 $table->foreign('ugUId')
@@ -40,6 +40,8 @@ class CreateUserGroupTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_user_groups');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }
