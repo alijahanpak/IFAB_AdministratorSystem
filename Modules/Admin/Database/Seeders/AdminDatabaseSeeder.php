@@ -15,6 +15,7 @@ class AdminDatabaseSeeder extends Seeder
     public function run()
     {
         Model::unguard();
+        $this->call(SeedOfficeUniteTableSeeder::class);
         $this->call(SeedPublicSettingTableSeederTableSeeder::class);
         $this->call(SeederSubSystemTableSeederTableSeeder::class);
         $this->call(SeederSubSystemPartTableSeederTableSeeder::class);
