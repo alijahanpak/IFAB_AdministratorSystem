@@ -24,4 +24,9 @@ class _Request extends Model
     {
         return $this->hasMany(RequestCommodity::class , 'rcRId' , 'id')->orderBy('id', 'DESC');
     }
+
+    public function history()
+    {
+        return $this->hasMany(RequestHistory::class , 'rhRId' , 'id');
+    }
 }

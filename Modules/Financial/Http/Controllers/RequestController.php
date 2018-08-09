@@ -11,6 +11,7 @@ use Modules\Admin\Entities\SystemLog;
 use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\Commodity;
 use Modules\Financial\Entities\RequestCommodity;
+use Modules\Financial\Entities\RequestHistory;
 use Modules\Financial\Entities\RequestState;
 use Modules\Financial\Entities\RequestType;
 
@@ -24,18 +25,21 @@ class RequestController extends Controller
 
     function fetchPostedRequestsData(Request $request)
     {
-        $req = $this->getAllRequests(Auth::user()->id);
+        $req = $this->getAllPostedRequests(Auth::user()->id);
         return \response()->json($req);
     }
 
-    function getAllRequests($uId)
+    function getAllPostedRequests($uId)
     {
         return _Request::where('rUId' , $uId)
             ->with('requestState')
             ->with('requestType')
             ->with('requestCommodity.commodity')
+            ->with('history.sourceUserInfo.role')
+            ->with('history.destinationUserInfo.role')
+            ->with('history.requestState')
             ->orderBy('id' , 'DESC')
-            ->get();
+            ->paginate(20);
     }
 
     function register(Request $request)
@@ -67,9 +71,18 @@ class RequestController extends Controller
             }
         }
 
+        // make history for this request
+        $history = new RequestHistory();
+        $history->rhSrcUId = Auth::user()->id;
+        $history->rhDestUId = $request->destUId;
+        $history->rhRId = $req->id;
+        $history->rhRsId = $req->rRsId;
+        $history->rhDescription = PublicSetting::checkPersianCharacters($request->refDescription);
+        $history->save();
+
         SystemLog::setFinancialSubSystemLog('ثبت درخواست ' . $reqType->rtSubject);
         return \response()->json(
-            $this->getAllRequests(Auth::user()->id)
+            $this->getAllPostedRequests(Auth::user()->id)
         );
     }
 }
