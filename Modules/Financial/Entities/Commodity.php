@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Commodity extends Model
 {
-    protected $fillable = [];
+    protected $fillable = ['cSubject'];
     protected $table = 'tbl_commodities';
 }
