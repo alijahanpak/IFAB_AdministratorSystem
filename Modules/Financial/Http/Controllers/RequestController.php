@@ -85,4 +85,28 @@ class RequestController extends Controller
             $this->getAllPostedRequests(Auth::user()->id)
         );
     }
+
+    function fetchReceivedRequestsData(Request $request)
+    {
+        $req = RequestHistory::selectRaw('rhRId , MAX(id) as id')
+            ->where('rhDestUId' , '=' , Auth::user()->id)
+            ->groupBy('rhRId')
+            ->pluck('rhRId');
+        return \response()->json(
+            $this->getAllReceivedRequests($req)
+        );
+    }
+
+    function getAllReceivedRequests($reqIds)
+    {
+        return _Request::whereIn('id' , $reqIds)
+            ->with('requestState')
+            ->with('requestType')
+            ->with('requestCommodity.commodity')
+            ->with('history.sourceUserInfo.role')
+            ->with('history.destinationUserInfo.role')
+            ->with('history.requestState')
+            ->orderBy('id' , 'DESC')
+            ->paginate(20);
+    }
 }
