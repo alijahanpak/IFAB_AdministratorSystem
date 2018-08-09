@@ -14,6 +14,7 @@ import VeeValidate from 'vee-validate'
 import VueProgressBar from 'vue-progressbar'
 import PDatePicker from 'vue2-persian-datepicker'
 import vSelectPage from 'v-selectpage';
+import Suggestions from 'v-suggestions'
 
 Vue.use(vSelectPage, {
     // server side data loader
@@ -34,6 +35,8 @@ window.Vue.use(VueProgressBar, {
 });
 
 Vue.component('pdatepicker', PDatePicker);
+
+Vue.use(Suggestions)
 
 Vue.component(
     'passport-clients',
