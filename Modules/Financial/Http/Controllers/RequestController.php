@@ -33,7 +33,7 @@ class RequestController extends Controller
         })->whereHas('category' , function ($q) use($userCat){
             return $q->whereNotIn('id' , $userCat);
         })->where('rstOrder' , '<>' , 1)
-            ->with('category')
+            ->with('category.roleCategory.role.user')
             ->orderBy('rstOrder')
             ->get();
         return \response()->json($rType);

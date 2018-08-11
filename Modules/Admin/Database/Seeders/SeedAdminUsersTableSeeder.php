@@ -78,5 +78,36 @@ class SeedAdminUsersTableSeeder extends Seeder
         $user->seDispAmount = 3;
         $user->rId = 5;
         $user->save();
+
+        $user = new User;
+        $user->seFiscalYear = 5;
+        $user->name = 'علی مالمیر';
+        $user->email = 'a.malmir';
+        $user->superUser = true;
+        $user->password = Hash::make('1234');
+        $user->seInPutAmount = 3;
+        $user->seDispAmount = 3;
+        $user->rId = 6;
+        $user->save();
+
+        $user = new User;
+        $user->seFiscalYear = 5;
+        $user->name = 'رضا حیرانیان';
+        $user->email = 'r.heyranian';
+        $user->password = Hash::make('1234');
+        $user->seInPutAmount = 3;
+        $user->seDispAmount = 3;
+        $user->rId = 7;
+        $user->save();
+
+        $user = new User;
+        $user->seFiscalYear = 5;
+        $user->name = 'احمد ترابی';
+        $user->email = 'a.torabi';
+        $user->password = Hash::make('1234');
+        $user->seInPutAmount = 3;
+        $user->seDispAmount = 3;
+        $user->rId = 8;
+        $user->save();
     }
 }

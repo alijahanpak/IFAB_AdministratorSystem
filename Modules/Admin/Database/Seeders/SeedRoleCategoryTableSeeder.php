@@ -42,5 +42,25 @@ class SeedRoleCategoryTableSeeder extends Seeder
         $rCat->rcCId = 1;
         $rCat->save();
 
+        $rCat = new RoleCategory();
+        $rCat->rcRId = 6;
+        $rCat->rcCId = 3;
+        $rCat->save();
+
+        $rCat = new RoleCategory();
+        $rCat->rcRId = 7;
+        $rCat->rcCId = 5;
+        $rCat->save();
+
+        $rCat = new RoleCategory();
+        $rCat->rcRId = 7;
+        $rCat->rcCId = 4;
+        $rCat->save();
+
+        $rCat = new RoleCategory();
+        $rCat->rcRId = 8;
+        $rCat->rcCId = 2;
+        $rCat->save();
+
     }
 }
