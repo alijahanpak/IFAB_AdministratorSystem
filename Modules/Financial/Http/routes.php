@@ -12,6 +12,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::post('register', 'RequestController@register');
 
         Route::get('received/fetchData', 'RequestController@fetchReceivedRequestsData');
+        Route::get('steps/fetchData', 'RequestController@fetchRequestSteps');
     });
 
     Route::prefix('commodity')->group(function () {

@@ -7,12 +7,14 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Modules\Admin\Entities\PublicSetting;
+use Modules\Admin\Entities\RoleCategory;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\Commodity;
 use Modules\Financial\Entities\RequestCommodity;
 use Modules\Financial\Entities\RequestHistory;
 use Modules\Financial\Entities\RequestState;
+use Modules\Financial\Entities\RequestStep;
 use Modules\Financial\Entities\RequestType;
 
 class RequestController extends Controller
@@ -20,6 +22,20 @@ class RequestController extends Controller
     function fetchRequestTypes(Request $request)
     {
         $rType = RequestType::all();
+        return \response()->json($rType);
+    }
+
+    function fetchRequestSteps(Request $request)
+    {
+        $userCat = RoleCategory::where('rcRId' , '=' , Auth::user()->rId)->pluck('rcCId');
+        $rType = RequestStep::whereHas('requestType' , function ($q) use($request){
+            return $q->where('rtType' , '=' , $request->requestType);
+        })->whereHas('category' , function ($q) use($userCat){
+            return $q->whereNotIn('id' , $userCat);
+        })->where('rstOrder' , '<>' , 1)
+            ->with('category')
+            ->orderBy('rstOrder')
+            ->get();
         return \response()->json($rType);
     }
 

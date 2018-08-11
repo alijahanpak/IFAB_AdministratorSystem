@@ -9,6 +9,7 @@ class _Request extends Model
 {
     protected $fillable = [];
     protected $table = 'tbl_requests';
+    protected $appends = ['rLastRef'];
 
     public function requestState()
     {
@@ -28,5 +29,11 @@ class _Request extends Model
     public function history()
     {
         return $this->hasMany(RequestHistory::class , 'rhRId' , 'id');
+    }
+
+    public function getRLastRefAttribute()
+    {
+        $lastHistoryId = RequestHistory::where('rhRId' , '=' , $this->id)->max('id');
+        return RequestHistory::with('destinationUserInfo.role.officeUnit')->find($lastHistoryId);
     }
 }
