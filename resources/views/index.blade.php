@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font.css') }}">
     <link rel="stylesheet" href="{{ asset('foundation-icons/foundation-icons.css') }}">
+    <link rel="stylesheet" href="{{ asset('fontawesome-free-5.1.1-web/css/all.css') }}">
     <link rel="stylesheet" href="{{ asset('font-awesome-4.7.0/css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/line-spin-clockwise-fade-rotating.css') }}">
     <link rel="stylesheet" href="{{ asset('css/persian-datepicker.min.css') }}">

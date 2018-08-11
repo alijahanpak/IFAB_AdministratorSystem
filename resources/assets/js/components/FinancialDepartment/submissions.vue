@@ -24,7 +24,7 @@
                     <button style="width: 120px;" class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="insertDropDown">جدید</button>
                     <div  style="width: 120px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="insertDropDown" data-dropdown data-auto-focus="true">
                         <ul class="my-menu small-font">
-                            <li v-for="submissionsTypes in submissionsType" :value="submissionsTypes.id"><a  @click="openSubmissionsModal(submissionsTypes)" v-model="submissionsTypeSelect">{{ submissionsTypes.rtSubject }}</a></li>
+                            <li v-for="submissionsTypes in submissionsType" :value="submissionsTypes.id"><a  @click="openSubmissionsModal(submissionsTypes)">{{ submissionsTypes.rtSubject }}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
                                 <tbody class="tbl-head-style-cell">
                                 <tr v-for="allSubmissions in submissions">
                                     <td>{{allSubmissions.rSubject}}</td>
-                                    <td>{{allSubmissions.rCostEstimation}}</td>
+                                    <td>{{allSubmissions.rCostEstimation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}}</td>
                                     <td>{{allSubmissions.rLetterNumber}}</td>
                                     <td>{{allSubmissions.rLetterDate}}</td>
                                 </tr>
@@ -73,36 +73,112 @@
             </div>
         </div>
         <!-- Submission Buy Service Modal -->
-        <modal-small v-if="showBuyServiceModal" @close="showBuyServiceModal = false">
+        <modal-large v-if="showBuyCommodityModal" @close="showBuyCommodityModal = false">
             <div  slot="body">
                 <div class="small-font">
-                   <div class="grid-x">
-                       <div class="large-12 medium-12 small-12">
-                           <suggestions
-                                   v-model="query"
-                                   :options="options"
-                                   :onInputChange="onCountryInputChange">
-                               <div slot="item" slot-scope="props" class="single-item">
-                                   <strong>Name: {{props.item}}</strong>
-                               </div>
-                           </suggestions>
-                       </div>
-                   </div>
+                    <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="commodity_tab_view">
+                        <li class="tabs-title is-active"><a href="#reciverTab" aria-selected="true">دریافت کنندگان</a></li>
+                        <li class="tabs-title"><a href="#commodityTab">فرم درخواست کالا</a></li>
+                    </ul>
+                    <div class="tabs-content" data-tabs-content="commodity_tab_view">
+                        <!--Tab 1-->
+                        <div class="tabs-panel is-active table-mrg-btm" id="reciverTab">
+
+                        </div>
+                        <!--Tab 1-->
+
+                        <!--Tab 2-->
+                        <div class="tabs-panel table-mrg-btm" id="commodityTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                            <div style="margin-top: 25px" class="grid-x">
+                                <div class="large-12 medium-12 small-12 padding-lr">
+                                    <table class="stack">
+                                        <thead>
+                                        <tr style="color: #575962;">
+                                            <th width="50">ردیف</th>
+                                            <th>شرح و نوع جنس</th>
+                                            <th width="100">تعداد</th>
+                                            <th width="150">مبلغ برآوری</th>
+                                            <th>توضیحات (موارد مصرف)</th>
+                                            <th>عملیات</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr v-for="(commodityRequests,index) in commodityRequest">
+                                            <td>{{index+1}}</td>
+                                            <td>{{commodityRequests.commodityName}}</td>
+                                            <td>{{commodityRequests.commodityCount}}</td>
+                                            <td>{{commodityRequests.commodityPrice}}</td>
+                                            <td>{{commodityRequests.commodityDescription}}</td>
+                                            <td class="text-center"><a @click="deleteCommodityItem(index)"><i class="far fa-trash-alt btn-red size-18"></i></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <suggestions style="margin-bottom: -18px;" name="commodityTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('commodityTitle')}"
+                                                             v-model="commodityQuery"
+                                                             :options="commodityOptions"
+                                                             :onInputChange="onCommodityInputChange">
+                                                    <div slot="item" slot-scope="props" class="single-item">
+                                                        <strong>{{props.item}}</strong>
+                                                    </div>
+                                                </suggestions>
+                                                <span v-show="errors.has('commodityTitle')" class="error-font">لطفا عنوان کالای مورد نظر را وارد کنید!</span>
+                                            </td>
+                                            <td>
+                                                <input id="number" v-model="commodityItem.commodityCount" class="text-margin-btm" type="number" value="1">
+                                            </td>
+                                            <td>
+                                                <money v-model="commodityItem.commodityPrice"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('price')}"></money>
+                                            </td>
+                                            <td>
+                                                <input v-model="commodityItem.commodityDescription" class="text-margin-btm" type="text">
+                                            </td>
+                                            <td class="text-center"><a v-if="commodityQuery != '' && commodityItem.commodityCount != '' && commodityItem.commodityPrice" @click="addCommodityItem()"><i class="fas fa-check btn-green size-18"></i></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" class="text-center font-wei-bold">مجموع برآورد</td>
+                                            <td colspan="2" class="text-center font-wei-bold">{{sumOfCommodityPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Tab 2-->
+                    </div>
                 </div>
             </div>
-        </modal-small>
+        </modal-large>
         <!-- Submission Buy Service Modal -->
     </div>
 </template>
 <script>
+    import Suggestions from "v-suggestions/src/Suggestions";
     export default {
+        components: {Suggestions},
         data () {
             return {
                 submissionsType:{},
                 submissions:[],
+                commodity:[],
                 showBuyServiceModal:false,
                 showBuyCommodityModal:false,
                 showFundModal:false,
+                //commodity input text
+                commodityQuery: '',
+                commodityList: [],
+                selectedCommodity: null,
+                commodityOptions: {},
+                //commodity input text
+                money: {
+                    thousands: ',',
+                    precision: '',
+                    masked: true
+                },
+                commodityItem:{},
+                commodityRequest:[],
+                sumOfCommodityPrice:0,
+                convertCommodityPrice:'',
 
             }
         },
@@ -127,7 +203,7 @@
                     .then((response) => {
                         this.submissions = response.data;
                         console.log(response);
-                    },(error) => {
+                    }, (error) => {
                         console.log(error);
                     });
             },
@@ -137,16 +213,90 @@
                     .then((response) => {
                         this.submissionsType = response.data;
                         console.log(response);
-                    },(error) => {
+                    }, (error) => {
                         console.log(error);
                     });
             },
 
+            /*-----------------------------------------------------------------------------
+            ------------------ Commodity search Item Start ------------------------------
+            -----------------------------------------------------------------------------*/
+            fetchCommodity: function () {
+                axios.get('/financial/commodity/fetchData')
+                    .then((response) => {
+                        this.commodity = response.data;
+                        this.commodityList= [];
+                        this.commodity.forEach(subject=> {
+                            this.commodityList.push(subject.cSubject)
+                        });
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                    });
+            },
+
+            onCommodityInputChange(commodityQuery) {
+                if (commodityQuery.trim().length === 0) {
+                    return null
+                }
+                // return the matching countries as an array
+                return this.commodityList.filter((commodityes) => {
+                    return commodityes.toLowerCase().includes(commodityQuery.toLowerCase())
+                })
+            },
+            onCommoditySelected(item) {
+                this.selectedCommodity = item
+            },
+            onSearchItemSelected(item) {
+                this.selectedSearchItem = item
+            },
+
+            /*-----------------------------------------------------------------------------
+            ------------------ Commodity search Item End ------------------------------
+            -----------------------------------------------------------------------------*/
+
             openSubmissionsModal: function (st) {
-                if( st.id == 1){
-                    this.showBuyServiceModal=true;
+
+                switch (st.id){
+                    case 1:
+                        this.showBuyServiceModal=true;
+                        break;
+
+                    case 2:
+                        this.showBuyCommodityModal=true;
+                        this.fetchCommodity();
+                        this.sumOfCommodityPrice=0;
+                        break;
+
+                    case 3:
+                        this.showFundModal=true;
+                        this.fetchCommodity();
+                        break;
+
                 }
             },
+
+            addCommodityItem: function () {
+
+                this.commodityItem.commodityName=this.commodityQuery;
+                this.commodityRequest.push(this.commodityItem);
+                console.log(JSON.stringify(this.commodityRequest));
+                this.commodityQuery='';
+                this.commodityItem={};
+                this.commodityRequest.forEach(sum => {
+                    var temp;
+                    temp=sum.commodityPrice.replace(',','');
+                    this.sumOfCommodityPrice+=parseInt(temp,10);
+
+                });
+
+            },
+
+            deleteCommodityItem: function (index) {
+                this.commodityRequest.splice(index,1);
+            },
+
+
 
         }
     }

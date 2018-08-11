@@ -4,8 +4,11 @@
 import VueRouter from 'vue-router'
 import Acl from 'vue-acl'
 import Vuex from 'vuex'
+import Suggestions from 'v-suggestions'
+import 'v-suggestions/dist/v-suggestions.css' // you can import the stylesheets also (optional)
 window.Vue.use(VueRouter);
 window.Vue.use(Vuex);
+window.Vue.use(Suggestions);
 ///////////////////////////// router ///////////////////////////////////
 import accessDenied from './public_component/AccessDenied.vue'
 import dashboard from './components/Budget/Dashboard.vue'

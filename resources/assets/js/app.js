@@ -13,8 +13,8 @@ import velocity      from 'velocity-animate'
 import VeeValidate from 'vee-validate'
 import VueProgressBar from 'vue-progressbar'
 import PDatePicker from 'vue2-persian-datepicker'
-import vSelectPage from 'v-selectpage';
-import Suggestions from 'v-suggestions'
+import vSelectPage from 'v-selectpage'
+import money from 'v-money';
 
 Vue.use(vSelectPage, {
     // server side data loader
@@ -25,6 +25,8 @@ Vue.use(vSelectPage, {
     }
 });
 
+window.Vue.use(money, {precision: 4});
+
 window.Vue.use(VeeValidate);
 window.Vue.use(Notifications , {velocity});
 window.Vue.use(VueProgressBar, {
@@ -34,9 +36,9 @@ window.Vue.use(VueProgressBar, {
 
 });
 
+
 Vue.component('pdatepicker', PDatePicker);
 
-Vue.use(Suggestions)
 
 Vue.component(
     'passport-clients',
