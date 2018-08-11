@@ -32,5 +32,9 @@ class SeederGroupTableSeederTableSeeder extends Seeder
         $group = new Group;
         $group->gSubject = 'معاونین';
         $group->save();
+
+        $group = new Group;
+        $group->gSubject = 'دبیرخانه';
+        $group->save();
     }
 }

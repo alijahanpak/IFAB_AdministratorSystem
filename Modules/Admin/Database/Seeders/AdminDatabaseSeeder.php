@@ -32,6 +32,9 @@ class AdminDatabaseSeeder extends Seeder
         $this->call(SeedAdminVillagesTableSeeder::class);
         $this->call(SeedAdminFiscalYearsTableSeederTableSeeder::class);
         $this->call(SeedSeasonTableSeederTableSeeder::class);
+        $this->call(SeedSignatureTableSeeder::class);
+        $this->call(SeedCategoryTableSeeder::class);
+        $this->call(SeedRoleCategoryTableSeeder::class);
 
     }
 }

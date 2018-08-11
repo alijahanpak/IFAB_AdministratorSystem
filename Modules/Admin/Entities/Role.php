@@ -13,4 +13,9 @@ class Role extends Model
     {
         return $this->hasMany(GroupPermission::class , 'rpRId' , 'id');
     }
+
+    public function officeUnit()
+    {
+        return $this->belongsTo(OfficeUnite::class , 'rOuId' , 'id');
+    }
 }

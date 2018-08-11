@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
                 $table->bigInteger('seDispAmount')->length(20)->unsigned();
                 $table->bigInteger('seFiscalYear')->nullable()->length(20)->unsigned();
                 $table->bigInteger('rId')->length(20)->unsigned();
+                $table->boolean('superUser')->default(false);
                 $table->string('name');
                 $table->string('avatarPath')->nullable();
                 $table->string('email')->unique();
