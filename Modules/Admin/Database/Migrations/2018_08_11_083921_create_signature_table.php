@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCommoditiesTable extends Migration
+class CreateSignatureTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,18 @@ class CreateCommoditiesTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('tbl_commodities')) {
-            Schema::create('tbl_commodities', function (Blueprint $table) {
+        if (!Schema::hasTable('tbl_signatures')) {
+            Schema::create('tbl_signatures', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->longText('cSubject' , 250)->unique(250);
+                $table->bigInteger('sUId')->length(20)->unsigned();
+                $table->boolean('sState')->default(true);
+                $table->string('sPath');
                 $table->timestamps();
+
+                $table->foreign('sUId')
+                    ->references('id')->on('users')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
             });
         }
     }
@@ -30,7 +37,7 @@ class CreateCommoditiesTable extends Migration
     public function down()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        Schema::dropIfExists('tbl_commodities');
+        Schema::dropIfExists('tbl_signatures');
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

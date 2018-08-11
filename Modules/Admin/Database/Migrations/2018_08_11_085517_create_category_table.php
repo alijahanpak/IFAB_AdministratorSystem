@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCommoditiesTable extends Migration
+class CreateCategoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateCommoditiesTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('tbl_commodities')) {
-            Schema::create('tbl_commodities', function (Blueprint $table) {
+        if (!Schema::hasTable('tbl_categories')) {
+            Schema::create('tbl_categories', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->longText('cSubject' , 250)->unique(250);
+                $table->string('cSubject');
+                $table->string('cCategory');
                 $table->timestamps();
             });
         }
@@ -30,7 +31,7 @@ class CreateCommoditiesTable extends Migration
     public function down()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        Schema::dropIfExists('tbl_commodities');
+        Schema::dropIfExists('tbl_categories');
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

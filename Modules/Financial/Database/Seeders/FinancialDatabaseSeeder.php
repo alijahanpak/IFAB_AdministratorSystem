@@ -15,10 +15,11 @@ class FinancialDatabaseSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-        //$this->call(SeedRequestTypeTableSeeder::class);
-        //$this->call(SeedRequestStateTableSeeder::class);
-        //$this->call(SeedCommoditiesTableSeeder::class);
-        //$this->call(SeedRequestTableSeeder::class);
-        //$this->call(SeedRequestCommoditiesTableSeeder::class);
+        $this->call(SeedRequestTypeTableSeeder::class);
+        $this->call(SeedRequestStateTableSeeder::class);
+        $this->call(SeedCommoditiesTableSeeder::class);
+        $this->call(SeedRequestTableSeeder::class);
+        $this->call(SeedRequestCommoditiesTableSeeder::class);
+        $this->call(SeedRequestStepTableSeeder::class);
     }
 }
