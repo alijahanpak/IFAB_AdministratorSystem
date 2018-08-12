@@ -36,4 +36,9 @@ class _Request extends Model
         $lastHistoryId = RequestHistory::where('rhRId' , '=' , $this->id)->max('id');
         return RequestHistory::with('destinationUserInfo.role.officeUnit')->find($lastHistoryId);
     }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class , 'rUId' , 'id')->select('name');
+    }
 }

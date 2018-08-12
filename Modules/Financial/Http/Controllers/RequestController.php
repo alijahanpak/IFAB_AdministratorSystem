@@ -151,4 +151,32 @@ class RequestController extends Controller
             ->orderBy('id' , 'DESC')
             ->paginate(20);
     }
+
+    function normalSearch(Request $request)
+    {
+        $searchValue = PublicSetting::checkPersianCharacters($request->searchValue);
+        $result = _Request::where('rSubject' , 'LIKE' , '%' . $searchValue . '%')
+            ->orWhere('rDescription' , 'LIKE' , '%' . $searchValue . '%')
+            ->orWhere('rLetterNumber' , 'LIKE' , '%' . $searchValue . '%')
+            ->orWhere('rLetterDate' , 'LIKE' , '%' . $searchValue . '%')
+            ->orWhere('rCostEstimation' , '=' , $searchValue)
+            ->orWhereHas('creator' , function ($q) use($searchValue){
+                return $q->where('name' , 'LIKE' , '%' . $searchValue . '%');
+            })
+            ->orWhereHas('requestType' , function ($q) use($searchValue){
+                return $q->where('rtSubject' , 'LIKE' , '%' . $searchValue . '%');
+            })
+            ->orWhereHas('requestState' , function ($q) use($searchValue){
+                return $q->where('rsSubject' , 'LIKE' , '%' . $searchValue . '%');
+            })
+            ->with('requestState')
+            ->with('requestType')
+            ->with('requestCommodity.commodity')
+            ->with('history.sourceUserInfo.role')
+            ->with('history.destinationUserInfo.role')
+            ->with('history.requestState')
+            ->orderBy('id' , 'DESC')
+            ->paginate(20);
+        return response()->json($result);
+    }
 }
