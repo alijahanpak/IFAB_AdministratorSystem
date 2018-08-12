@@ -198,10 +198,10 @@
 
         methods: {
 
-            fetchData: function () {
-                axios.get('/financial/request/posted/fetchData')
+            fetchData: function (page=1) {
+                axios.get('/financial/request/posted/fetchData?page=' + page)
                     .then((response) => {
-                        this.submissions = response.data;
+                        this.submissions = response.data.data;
                         console.log(response);
                     }, (error) => {
                         console.log(error);
@@ -217,6 +217,16 @@
                         console.log(error);
                     });
             },
+
+            /*fetchRecipientsGroup: function () {
+                axios.get('/financial/request/steps/fetchData', {params:{requestType:this.requestTypeSend}})
+                    .then((response) => {
+                        this.recipients = response.data;
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                    });
+            },*/
 
             /*-----------------------------------------------------------------------------
             ------------------ Commodity search Item Start ------------------------------
