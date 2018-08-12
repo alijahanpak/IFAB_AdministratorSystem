@@ -8,4 +8,9 @@ class Category extends Model
 {
     protected $fillable = [];
     protected $table = 'tbl_categories';
+
+    public function roleCategory()
+    {
+        return $this->hasMany(RoleCategory::class ,'rcCId' , 'id');
+    }
 }

@@ -40,5 +40,13 @@ class SeedOfficeUniteTableSeeder extends Seeder
         $officeUnite = new OfficeUnite();
         $officeUnite->ouSubject = 'واحد مالی';
         $officeUnite->save();
+
+        $officeUnite = new OfficeUnite();
+        $officeUnite->ouSubject = 'حوزه مدیرکل';
+        $officeUnite->save();
+
+        $officeUnite = new OfficeUnite();
+        $officeUnite->ouSubject = 'واحد انفورماتیک';
+        $officeUnite->save();
     }
 }

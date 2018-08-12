@@ -16,7 +16,7 @@ class CreateCommoditiesTable extends Migration
         if (!Schema::hasTable('tbl_commodities')) {
             Schema::create('tbl_commodities', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->longText('cSubject' , 250)->unique(250);
+                $table->string('cSubject')->unique();
                 $table->timestamps();
             });
         }

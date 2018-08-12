@@ -46,5 +46,23 @@ class SeederRoleTableSeederTableSeeder extends Seeder
         $role->rRole = 'CULTURAL_HERITAGE_EXPERT';
         $role->rOuId = 1;
         $role->save();
+
+        $role = new Role;
+        $role->rSubject = 'مدیرکل';
+        $role->rRole = 'DIRECTOR_GENERAL';
+        $role->rOuId = 7;
+        $role->save();
+
+        $role = new Role;
+        $role->rSubject = 'مسئول واحد انفورماتیک';
+        $role->rRole = 'INFORMATICS_ADMIN';
+        $role->rOuId = 8;
+        $role->save();
+
+        $role = new Role;
+        $role->rSubject = 'معاون میراث فرهنگی';
+        $role->rRole = 'CULTURAL_HERITAGE_ASSISTANT';
+        $role->rOuId = 1;
+        $role->save();
     }
 }

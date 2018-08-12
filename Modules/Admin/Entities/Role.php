@@ -18,4 +18,9 @@ class Role extends Model
     {
         return $this->belongsTo(OfficeUnite::class , 'rOuId' , 'id');
     }
+
+    public function user()
+    {
+        return $this->hasMany(User::class , 'rId' , 'id');
+    }
 }
