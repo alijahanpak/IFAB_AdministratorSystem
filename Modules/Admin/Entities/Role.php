@@ -21,6 +21,6 @@ class Role extends Model
 
     public function user()
     {
-        return $this->hasMany(User::class , 'rId' , 'id');
+        return $this->hasMany(User::class , 'rId' , 'id')->select('id' , 'rId' , 'name' , 'avatarPath');
     }
 }

@@ -13,4 +13,9 @@ class RoleCategory extends Model
     {
         return $this->belongsTo(Role::class ,'rcRId' , 'id');
     }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class ,'rcCId' , 'id');
+    }
 }

@@ -3,11 +3,11 @@
 namespace Modules\Financial\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\RoleCategory;
+use Modules\Admin\Entities\Signature;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\Commodity;
@@ -16,6 +16,7 @@ use Modules\Financial\Entities\RequestHistory;
 use Modules\Financial\Entities\RequestState;
 use Modules\Financial\Entities\RequestStep;
 use Modules\Financial\Entities\RequestType;
+use Modules\Financial\Entities\RequestVerifiers;
 
 class RequestController extends Controller
 {
@@ -76,7 +77,6 @@ class RequestController extends Controller
             foreach ($request->get('items') as $item)
             {
                 $cId = Commodity::firstOrCreate(['cSubject' => PublicSetting::checkPersianCharacters($item['subject'])]);
-                echo $cId->id;
                 $reqComm = new RequestCommodity();
                 $reqComm->rcRId = $req->id;
                 $reqComm->rcCId = $cId->id;
@@ -87,13 +87,39 @@ class RequestController extends Controller
             }
         }
 
+        //////////////////////// set verifiers ////////////////////////////////
+        $userSig = Signature::where('sUId' , '=' , Auth::user()->id)->first();
+        if ($userSig == null)
+            return response()->json([] , 500);
+
+        $userCat = RoleCategory::where('rcRId' , '=' , Auth::user()->rId)->pluck('rcCId');
+        $mySteps = RequestStep::where('rstRtId' , '=' , $request->rtId)
+            ->whereIn('rstCId' , $userCat)
+            ->orderBy('rstOrder')
+            ->get();
+
+        $firstStepId = RequestStep::where('rstRtId' , '=' , $request->rtId)
+            ->orderBy('rstOrder')
+            ->first();
+
+        RequestVerifiers::firstOrCreate(['rvSId' => $userSig->id , 'rvRstId' => $firstStepId->id , 'rvRId' => $req->id , 'rvUId' => Auth::user()->id]);
+        foreach ($mySteps as $myStep)
+        {
+            RequestVerifiers::firstOrCreate(['rvSId' => $userSig->id , 'rvRstId' => $myStep->id , 'rvRId' => $req->id , 'rvUId' => Auth::user()->id]);
+        }
+
+        if (is_array($request->get('verifiers'))) {
+            foreach ($request->get('verifiers') as $verifiers){
+                RequestVerifiers::firstOrCreate(['rvRstId' => $verifiers['rstId'], 'rvRId' => $req->id, 'rvUId' => $verifiers['uId']]);
+            }
+        }
+        ///////////////////////////////////////////////////////////////////////
         // make history for this request
         $history = new RequestHistory();
         $history->rhSrcUId = Auth::user()->id;
-        $history->rhDestUId = $request->destUId;
+        $history->rhDestUId = $request->get('verifiers')[0]['uId'];
         $history->rhRId = $req->id;
         $history->rhRsId = $req->rRsId;
-        $history->rhDescription = PublicSetting::checkPersianCharacters($request->refDescription);
         $history->save();
 
         SystemLog::setFinancialSubSystemLog('ثبت درخواست ' . $reqType->rtSubject);
