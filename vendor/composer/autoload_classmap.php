@@ -1814,6 +1814,7 @@ return array(
     'Modules\\Financial\\Entities\\RequestState' => $baseDir . '/Modules/Financial/Entities/RequestState.php',
     'Modules\\Financial\\Entities\\RequestStep' => $baseDir . '/Modules/Financial/Entities/RequestStep.php',
     'Modules\\Financial\\Entities\\RequestType' => $baseDir . '/Modules/Financial/Entities/RequestType.php',
+    'Modules\\Financial\\Entities\\RequestVerifiers' => $baseDir . '/Modules/Financial/Entities/RequestVerifiers.php',
     'Modules\\Financial\\Entities\\_Request' => $baseDir . '/Modules/Financial/Entities/Request.php',
     'Modules\\Financial\\Http\\Controllers\\CommodityController' => $baseDir . '/Modules/Financial/Http/Controllers/CommodityController.php',
     'Modules\\Financial\\Http\\Controllers\\FinancialController' => $baseDir . '/Modules/Financial/Http/Controllers/FinancialController.php',

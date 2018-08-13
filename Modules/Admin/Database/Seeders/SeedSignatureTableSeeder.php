@@ -5,6 +5,7 @@ namespace Modules\Admin\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Admin\Entities\Signature;
+use Modules\Admin\Entities\User;
 
 class SeedSignatureTableSeeder extends Seeder
 {
@@ -17,29 +18,13 @@ class SeedSignatureTableSeeder extends Seeder
     {
         Model::unguard();
 
-        $sig = new Signature();
-        $sig->sUId = 1;
-        $sig->sPath = asset('pic/signatures/test_signature.png');
-        $sig->save();
-
-        $sig = new Signature();
-        $sig->sUId = 2;
-        $sig->sPath = asset('pic/signatures/test_signature.png');
-        $sig->save();
-
-        $sig = new Signature();
-        $sig->sUId = 3;
-        $sig->sPath = asset('pic/signatures/test_signature.png');
-        $sig->save();
-
-        $sig = new Signature();
-        $sig->sUId = 4;
-        $sig->sPath = asset('pic/signatures/test_signature.png');
-        $sig->save();
-
-        $sig = new Signature();
-        $sig->sUId = 5;
-        $sig->sPath = asset('pic/signatures/test_signature.png');
-        $sig->save();
+        $users = User::all();
+        foreach ($users as $user)
+        {
+            $sig = new Signature();
+            $sig->sUId = $user->id;
+            $sig->sPath = asset('pic/signatures/test_signature.png');
+            $sig->save();
+        }
     }
 }

@@ -2224,6 +2224,7 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         'Modules\\Financial\\Entities\\RequestState' => __DIR__ . '/../..' . '/Modules/Financial/Entities/RequestState.php',
         'Modules\\Financial\\Entities\\RequestStep' => __DIR__ . '/../..' . '/Modules/Financial/Entities/RequestStep.php',
         'Modules\\Financial\\Entities\\RequestType' => __DIR__ . '/../..' . '/Modules/Financial/Entities/RequestType.php',
+        'Modules\\Financial\\Entities\\RequestVerifiers' => __DIR__ . '/../..' . '/Modules/Financial/Entities/RequestVerifiers.php',
         'Modules\\Financial\\Entities\\_Request' => __DIR__ . '/../..' . '/Modules/Financial/Entities/Request.php',
         'Modules\\Financial\\Http\\Controllers\\CommodityController' => __DIR__ . '/../..' . '/Modules/Financial/Http/Controllers/CommodityController.php',
         'Modules\\Financial\\Http\\Controllers\\FinancialController' => __DIR__ . '/../..' . '/Modules/Financial/Http/Controllers/FinancialController.php',
