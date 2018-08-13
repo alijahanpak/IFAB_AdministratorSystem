@@ -75,92 +75,121 @@
         <!-- Submission Buy Service Modal -->
         <modal-large v-if="showBuyCommodityModal" @close="showBuyCommodityModal = false">
             <div  slot="body">
-                <div class="small-font">
-                    <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="commodity_tab_view">
-                        <li class="tabs-title is-active"><a href="#reciverTab" aria-selected="true">دریافت کنندگان</a></li>
-                        <li class="tabs-title"><a href="#commodityTab">فرم درخواست کالا</a></li>
-                    </ul>
-                    <div class="tabs-content" data-tabs-content="commodity_tab_view">
-                        <!--Tab 1-->
-                        <div class="tabs-panel is-active table-mrg-btm" id="reciverTab">
+                <form>
+                    <div class="small-font">
+                        <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="commodity_tab_view">
+                            <li class="tabs-title is-active"><a href="#reciverTab" aria-selected="true">دریافت کنندگان</a></li>
+                            <li class="tabs-title"><a href="#commodityTab">فرم درخواست کالا</a></li>
+                        </ul>
+                        <div class="tabs-content" data-tabs-content="commodity_tab_view">
+                            <!--Tab 1-->
+                            <div class="tabs-panel is-active table-mrg-btm" id="reciverTab">
+                                <div class="grid-x">
+                                    <div v-for="recipientsGroup in recipients" class="large-12 medium-12 small-12">
+                                        <div class="grid-x">
+                                            <div class="large-4 medium-4 small-12"></div>
+                                            <div class="large-4 medium-4 small-12">
+                                                <label>{{recipientsGroup.category.cSubject}}
+                                                   <!-- <v-selectpage style="font-family: BYekan" class="form-control"
+                                                                  :data="recipientsGroup.category.role_category[0].role.user"
+                                                                  show-field="name"
+                                                                  sort="name desc"
+                                                                  language="en"
+                                                                  placeholder="انتخاب کنید"
+                                                                  @values="singleValues">
+                                                    </v-selectpage>-->
 
-                        </div>
-                        <!--Tab 1-->
+                                                    <vue-select class="vue-select1" name="select1" :options="recipientsUsers" :model.sync="result1">
+                                                    </vue-select>
 
-                        <!--Tab 2-->
-                        <div class="tabs-panel table-mrg-btm" id="commodityTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                            <div style="margin-top: 25px" class="grid-x">
-                                <div class="large-12 medium-12 small-12 padding-lr">
-                                    <table class="stack">
-                                        <thead>
-                                        <tr style="color: #575962;">
-                                            <th width="50">ردیف</th>
-                                            <th>شرح و نوع جنس</th>
-                                            <th width="100">تعداد</th>
-                                            <th width="150">مبلغ برآوری</th>
-                                            <th>توضیحات (موارد مصرف)</th>
-                                            <th>عملیات</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr v-for="(commodityRequests,index) in commodityRequest">
-                                            <td>{{index+1}}</td>
-                                            <td>{{commodityRequests.commodityName}}</td>
-                                            <td>{{commodityRequests.commodityCount}}</td>
-                                            <td>{{commodityRequests.commodityPrice}}</td>
-                                            <td>{{commodityRequests.commodityDescription}}</td>
-                                            <td class="text-center"><a @click="deleteCommodityItem(index)"><i class="far fa-trash-alt btn-red size-18"></i></a></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>
-                                                <suggestions style="margin-bottom: -18px;" name="commodityTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('commodityTitle')}"
-                                                             v-model="commodityQuery"
-                                                             :options="commodityOptions"
-                                                             :onInputChange="onCommodityInputChange">
-                                                    <div slot="item" slot-scope="props" class="single-item">
-                                                        <strong>{{props.item}}</strong>
-                                                    </div>
-                                                </suggestions>
-                                                <span v-show="errors.has('commodityTitle')" class="error-font">لطفا عنوان کالای مورد نظر را وارد کنید!</span>
-                                            </td>
-                                            <td>
-                                                <input id="number" v-model="commodityItem.commodityCount" class="text-margin-btm" type="number" value="1">
-                                            </td>
-                                            <td>
-                                                <money v-model="commodityItem.commodityPrice"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('price')}"></money>
-                                            </td>
-                                            <td>
-                                                <input v-model="commodityItem.commodityDescription" class="text-margin-btm" type="text">
-                                            </td>
-                                            <td class="text-center"><a v-if="commodityQuery != '' && commodityItem.commodityCount != '' && commodityItem.commodityPrice" @click="addCommodityItem()"><i class="fas fa-check btn-green size-18"></i></a></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="4" class="text-center font-wei-bold">مجموع برآورد</td>
-                                            <td colspan="2" class="text-center font-wei-bold">{{sumOfCommodityPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                                                </label>
+                                            </div>
+                                            <div class="large-4 medium-4 small-12"></div>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
+                            <!--Tab 1-->
+
+                            <!--Tab 2-->
+                            <div class="tabs-panel table-mrg-btm" id="commodityTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div style="margin-top: 25px" class="grid-x">
+                                    <div class="large-12 medium-12 small-12 padding-lr">
+                                        <table class="stack">
+                                            <thead>
+                                            <tr style="color: #575962;">
+                                                <th width="50">ردیف</th>
+                                                <th>شرح و نوع جنس</th>
+                                                <th width="100">تعداد</th>
+                                                <th width="150">مبلغ برآوری</th>
+                                                <th>توضیحات (موارد مصرف)</th>
+                                                <th>عملیات</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr v-for="(commodityRequests,index) in commodityRequest">
+                                                <td>{{index+1}}</td>
+                                                <td>{{commodityRequests.commodityName}}</td>
+                                                <td>{{commodityRequests.commodityCount}}</td>
+                                                <td>{{commodityRequests.commodityPrice}}</td>
+                                                <td>{{commodityRequests.commodityDescription}}</td>
+                                                <td class="text-center"><a @click="deleteCommodityItem(index)"><i class="far fa-trash-alt btn-red size-18"></i></a></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <suggestions style="margin-bottom: -18px;" name="commodityTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('commodityTitle')}"
+                                                                 v-model="commodityQuery"
+                                                                 :options="commodityOptions"
+                                                                 :onInputChange="onCommodityInputChange">
+                                                        <div slot="item" slot-scope="props" class="single-item">
+                                                            <strong>{{props.item}}</strong>
+                                                        </div>
+                                                    </suggestions>
+                                                    <span v-show="errors.has('commodityTitle')" class="error-font">لطفا عنوان کالای مورد نظر را وارد کنید!</span>
+                                                </td>
+                                                <td>
+                                                    <input id="number" v-model="commodityItem.commodityCount" class="text-margin-btm" type="number" value="1">
+                                                </td>
+                                                <td>
+                                                    <money v-model="commodityItem.commodityPrice"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('price')}"></money>
+                                                </td>
+                                                <td>
+                                                    <input v-model="commodityItem.commodityDescription" class="text-margin-btm" type="text">
+                                                </td>
+                                                <td class="text-center"><a v-if="commodityQuery != '' && commodityItem.commodityCount != '' && commodityItem.commodityPrice" @click="addCommodityItem()"><i class="fas fa-check btn-green size-18"></i></a></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4" class="text-center font-wei-bold">مجموع برآورد</td>
+                                                <td colspan="2" class="text-center font-wei-bold">{{sumOfCommodityPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Tab 2-->
                         </div>
-                        <!--Tab 2-->
                     </div>
-                </div>
+                </form>
             </div>
         </modal-large>
         <!-- Submission Buy Service Modal -->
     </div>
 </template>
+
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     export default {
         components: {Suggestions},
+        "vue-select": require("vue-select"),
         data () {
             return {
                 submissionsType:{},
                 submissions:[],
                 commodity:[],
+                recipients:[],
                 showBuyServiceModal:false,
                 showBuyCommodityModal:false,
                 showFundModal:false,
@@ -179,6 +208,9 @@
                 commodityRequest:[],
                 sumOfCommodityPrice:0,
                 convertCommodityPrice:'',
+                requestTypeSend:'',
+                recipientsUsers:[],
+
 
             }
         },
@@ -218,15 +250,19 @@
                     });
             },
 
-            /*fetchRecipientsGroup: function () {
+            fetchRecipientsGroup: function () {
                 axios.get('/financial/request/steps/fetchData', {params:{requestType:this.requestTypeSend}})
                     .then((response) => {
                         this.recipients = response.data;
+                        this.recipients.forEach(users=> {
+                            this.recipientsUsers.push(users.category.role_category[0].role.user[0].name);
+                        });
+                        console.log(JSON.stringify(this.recipientsUsers));
                         console.log(response);
                     }, (error) => {
                         console.log(error);
                     });
-            },*/
+            },
 
             /*-----------------------------------------------------------------------------
             ------------------ Commodity search Item Start ------------------------------
@@ -266,7 +302,8 @@
             -----------------------------------------------------------------------------*/
 
             openSubmissionsModal: function (st) {
-
+                this.requestTypeSend=st.rtType;
+                this.fetchRecipientsGroup();
                 switch (st.id){
                     case 1:
                         this.showBuyServiceModal=true;

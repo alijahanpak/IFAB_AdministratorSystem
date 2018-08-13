@@ -16,6 +16,7 @@ import PDatePicker from 'vue2-persian-datepicker'
 import vSelectPage from 'v-selectpage'
 import money from 'v-money';
 
+
 Vue.use(vSelectPage, {
     // server side data loader
     dataLoad: function(vue, data, params){
@@ -34,6 +35,15 @@ window.Vue.use(VueProgressBar, {
     failedColor: 'red',
     height: '50',
 
+});
+
+Vue.use(vSelectPage, {
+    // server side data loader
+    dataLoad: function(vue, data, params){
+        return new Promise((resolve, reject)=>{
+            axios.post(url, params).then(resp=>resolve(resp)).then(resp=>reject(resp));
+        });
+    }
 });
 
 

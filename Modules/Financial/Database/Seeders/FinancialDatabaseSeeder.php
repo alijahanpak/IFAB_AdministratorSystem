@@ -20,5 +20,6 @@ class FinancialDatabaseSeeder extends Seeder
         $this->call(SeedCommoditiesTableSeeder::class);
         $this->call(SeedRequestTableSeeder::class);
         $this->call(SeedRequestCommoditiesTableSeeder::class);
+        $this->call(SeedRequestStepTableSeeder::class);
     }
 }

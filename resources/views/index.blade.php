@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ asset('font-awesome-4.7.0/css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/line-spin-clockwise-fade-rotating.css') }}">
     <link rel="stylesheet" href="{{ asset('css/persian-datepicker.min.css') }}">
+
    {{-- <link rel="stylesheet" href="{{ asset('css/jquery.scrollbar.css') }}">--}}
     <link rel="stylesheet" href="{{ asset('css/key.css') }}">
     {{--<script src="{{ asset('js/Chart.js') }}"></script>--}}
@@ -479,14 +480,16 @@
             </div>
         </transition>
     </script>
+
     <script src="{{ asset('js/vendor/jquery.js') }}"></script>
     <script src="{{ asset('js/vendor/what-input.js') }}"></script>
     <script src="{{ asset('js/vendor/foundation.js') }}"></script>
-{{--    <script src="{{ asset('js/persian-date.min.js') }}"></script>
+{{--<script src="{{ asset('js/persian-date.min.js') }}"></script>
     <script src="{{ asset('js/persian-datepicker.min.js') }}"></script>
     <script src="{{ asset('js/jquery.scrollbar.min.js') }}"></script>--}}
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/key.js') }}"></script>
+
 
 </body>
 </html>
