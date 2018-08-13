@@ -19,4 +19,9 @@ class RequestStep extends Model
     {
         return $this->belongsTo(Category::class , 'rstCId' , 'id');
     }
+
+    public function requestVerifiers()
+    {
+        return $this->hasMany(RequestVerifiers::class , 'rvRstId' , 'id');
+    }
 }

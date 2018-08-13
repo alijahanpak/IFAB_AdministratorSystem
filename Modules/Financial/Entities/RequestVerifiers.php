@@ -3,6 +3,7 @@
 namespace Modules\Financial\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Admin\Entities\User;
 
 class RequestVerifiers extends Model
 {
@@ -12,5 +13,10 @@ class RequestVerifiers extends Model
     public function requestStep()
     {
         return $this->belongsTo(RequestStep::class , 'rvRstId' , 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class , 'rvUId' , 'id')->select('id' , 'name' , 'rId');
     }
 }

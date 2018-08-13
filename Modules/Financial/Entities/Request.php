@@ -10,7 +10,7 @@ class _Request extends Model
 {
     protected $fillable = [];
     protected $table = 'tbl_requests';
-    protected $appends = ['rLastRef' , 'rYouAreVerifiers'];
+    protected $appends = ['rLastRef' , 'rYouAreVerifiers' , 'rRemainingVerifiers'];
 
     public function requestState()
     {
@@ -44,6 +44,25 @@ class _Request extends Model
             ->where('rvUId' , '=' , Auth::user()->id)
             ->where('rvSId' , '=' , null)
             ->with('requestStep')
+            ->get();
+        return $result;
+    }
+
+    public function getRRemainingVerifiersAttribute()
+    {
+        $myOrder = RequestStep::whereHas('requestVerifiers' , function ($q){
+            return $q->where('rvRId' , '=' , $this->id)
+                ->where('rvUId' , '=' , Auth::user()->id);
+        })->value('rstOrder');
+
+        $result = RequestVerifiers::where('rvRId' , '=' , $this->id)
+            ->where('rvUId' , '<>' , Auth::user()->id)
+            ->where('rvSId' , '=' , null)
+            ->whereHas('requestStep' , function ($q) use($myOrder){
+                return $q->where('rstOrder' , '<' , $myOrder);
+            })
+            ->with('requestStep')
+            ->with('user.role')
             ->get();
         return $result;
     }

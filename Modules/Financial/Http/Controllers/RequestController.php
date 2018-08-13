@@ -216,4 +216,9 @@ class RequestController extends Controller
             ->pluck('rhRId');
         return $req;
     }
+
+    public function accept(Request $request)
+    {
+
+    }
 }
