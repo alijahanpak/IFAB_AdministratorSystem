@@ -64,5 +64,11 @@ class SeederRoleTableSeederTableSeeder extends Seeder
         $role->rRole = 'CULTURAL_HERITAGE_ASSISTANT';
         $role->rOuId = 1;
         $role->save();
+
+        $role = new Role;
+        $role->rSubject = 'معاون توسعه مدیریت و پشتیبانی';
+        $role->rRole = 'MANAGEMENT_DEVELOPMENT_AND_SUPPORT_ASSISTANT';
+        $role->rOuId = 9;
+        $role->save();
     }
 }

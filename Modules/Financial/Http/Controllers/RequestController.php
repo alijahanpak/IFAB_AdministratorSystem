@@ -181,18 +181,25 @@ class RequestController extends Controller
         $rHis = RequestHistory::find($request->lastRefId);
         if ($request->acceptPermission == true)
         {
-
-        }else{
-            // make history for this request
-            $history = new RequestHistory();
-            $history->rhSrcUId = Auth::user()->id;
-            $history->rhDestUId = $request->destUId;
-            $history->rhRId = $rHis->rhRId;
-            $history->rhRsId = $rHis->rhRsId;
-            $history->rhDescription = PublicSetting::checkPersianCharacters($request->description);
-            $history->save();
+            $verifier = RequestVerifiers::find($request->verifierId);
+            $verifier->rvUId = $request->destUId;
+            $verifier->save();
         }
+        // make history for this request
+        $history = new RequestHistory();
+        $history->rhSrcUId = Auth::user()->id;
+        $history->rhDestUId = $request->destUId;
+        $history->rhRId = $rHis->rhRId;
+        $history->rhRsId = $rHis->rhRsId;
+        $history->rhDescription = PublicSetting::checkPersianCharacters($request->description);
+        $history->save();
 
+        if ($request->acceptPermission == true)
+        {
+            SystemLog::setFinancialSubSystemLog('ارجاع درخواست با انتقال مجوز تایید');
+        }else{
+            SystemLog::setFinancialSubSystemLog('ارجاع درخواست');
+        }
         return \response()->json(
             $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
         );
