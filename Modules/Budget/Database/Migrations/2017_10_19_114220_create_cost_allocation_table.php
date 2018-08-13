@@ -15,11 +15,11 @@ class CreateCostAllocationTable extends Migration
     {
         if (!Schema::hasTable('tbl_cost_allocation')) {
             Schema::create('tbl_cost_allocation', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('caUId')->length(10)->unsigned();
-                $table->integer('caCcsId')->length(10)->unsigned()->nullable();
-                $table->integer('caFyId')->length(10)->unsigned()->nullable();
-                $table->integer('caFoundId')->length(10)->unsigned()->nullable();
+                $table->bigIncrements('id');
+                $table->bigInteger('caUId')->length(20)->unsigned();
+                $table->bigInteger('caCcsId')->length(20)->unsigned()->nullable();
+                $table->bigInteger('caFyId')->length(20)->unsigned()->nullable();
+                $table->bigInteger('caFoundId')->length(20)->unsigned()->nullable();
                 $table->string('caLetterNumber')->nullable();
                 $table->string('caLetterDate')->nullable();
                 $table->boolean('caFound')->default(false);
@@ -47,6 +47,8 @@ class CreateCostAllocationTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_cost_allocation');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

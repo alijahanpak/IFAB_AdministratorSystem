@@ -15,6 +15,7 @@ class AdminDatabaseSeeder extends Seeder
     public function run()
     {
         Model::unguard();
+        $this->call(SeedOfficeUniteTableSeeder::class);
         $this->call(SeedPublicSettingTableSeederTableSeeder::class);
         $this->call(SeederSubSystemTableSeederTableSeeder::class);
         $this->call(SeederSubSystemPartTableSeederTableSeeder::class);
@@ -31,6 +32,9 @@ class AdminDatabaseSeeder extends Seeder
         $this->call(SeedAdminVillagesTableSeeder::class);
         $this->call(SeedAdminFiscalYearsTableSeederTableSeeder::class);
         $this->call(SeedSeasonTableSeederTableSeeder::class);
+        $this->call(SeedSignatureTableSeeder::class);
+        $this->call(SeedCategoryTableSeeder::class);
+        $this->call(SeedRoleCategoryTableSeeder::class);
 
     }
 }

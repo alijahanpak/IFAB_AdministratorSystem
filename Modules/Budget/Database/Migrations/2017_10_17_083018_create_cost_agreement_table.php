@@ -15,10 +15,10 @@ class CreateCostAgreementTable extends Migration
     {
         if (!Schema::hasTable('tbl_cost_agreement')) {
             Schema::create('tbl_cost_agreement', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('caUId')->length(10)->unsigned();
-                $table->integer('caFyId')->length(10)->unsigned();
-                $table->integer('caCaId')->length(10)->unsigned()->nullable()->default(null);
+                $table->bigIncrements('id');
+                $table->bigInteger('caUId')->length(20)->unsigned();
+                $table->bigInteger('caFyId')->length(20)->unsigned();
+                $table->bigInteger('caCaId')->length(20)->unsigned()->nullable()->default(null);
                 $table->string('caLetterNumber');
                 $table->string('caLetterDate');
                 $table->string('caExchangeDate')->nullable();
@@ -48,6 +48,8 @@ class CreateCostAgreementTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_cost_agreement');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

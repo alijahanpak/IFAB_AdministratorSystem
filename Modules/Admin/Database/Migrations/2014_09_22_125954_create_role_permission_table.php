@@ -15,9 +15,9 @@ class CreateRolePermissionTable extends Migration
     {
         if (!Schema::hasTable('tbl_group_permissions')) {
             Schema::create('tbl_group_permissions', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('gpGId')->length(10)->unsigned();
-                $table->integer('gpPId')->length(10)->unsigned();
+                $table->bigIncrements('id');
+                $table->bigInteger('gpGId')->length(20)->unsigned();
+                $table->bigInteger('gpPId')->length(20)->unsigned();
                 $table->timestamps();
 
                 $table->foreign('gpGId')
@@ -40,6 +40,8 @@ class CreateRolePermissionTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_group_permissions');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

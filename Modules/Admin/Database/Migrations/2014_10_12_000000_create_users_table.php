@@ -16,11 +16,12 @@ class CreateUsersTable extends Migration
         if (!Schema::hasTable('users'))
         {
             Schema::create('users', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('seInPutAmount')->length(10)->unsigned();
-                $table->integer('seDispAmount')->length(10)->unsigned();
-                $table->integer('seFiscalYear')->nullable()->length(10)->unsigned();
-                $table->integer('rId')->length(10)->unsigned();
+                $table->bigIncrements('id');
+                $table->bigInteger('seInPutAmount')->length(20)->unsigned();
+                $table->bigInteger('seDispAmount')->length(20)->unsigned();
+                $table->bigInteger('seFiscalYear')->nullable()->length(20)->unsigned();
+                $table->bigInteger('rId')->length(20)->unsigned();
+                $table->boolean('superUser')->default(false);
                 $table->string('name');
                 $table->string('avatarPath')->nullable();
                 $table->string('email')->unique();

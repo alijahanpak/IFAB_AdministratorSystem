@@ -15,12 +15,12 @@ class CreateCreditDistributionPlansTable extends Migration
     {
         if (!Schema::hasTable('tbl_credit_distribution_plans')) {
             Schema::create('tbl_credit_distribution_plans', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('cdpUId')->length(10)->unsigned();
-                $table->integer('cdpCoId')->length(10)->unsigned();
-                $table->integer('cdpCdtId')->length(10)->unsigned();
-                $table->integer('cdpCdrId')->length(10)->unsigned();
-                $table->integer('cdpFyId')->length(10)->unsigned();
+                $table->bigIncrements('id');
+                $table->bigInteger('cdpUId')->length(20)->unsigned();
+                $table->bigInteger('cdpCoId')->length(20)->unsigned();
+                $table->bigInteger('cdpCdtId')->length(20)->unsigned();
+                $table->bigInteger('cdpCdrId')->length(20)->unsigned();
+                $table->bigInteger('cdpFyId')->length(20)->unsigned();
                 $table->bigInteger('cdpCredit');
                 $table->longText('cdpDescription')->nullable();
                 $table->timestamps();
@@ -60,6 +60,8 @@ class CreateCreditDistributionPlansTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_credit_distribution_plans');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

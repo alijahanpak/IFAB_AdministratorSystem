@@ -15,10 +15,10 @@ class CreateProvincialBudgetProposalsTable extends Migration
     {
         if (!Schema::hasTable('tbl_provincial_budget_proposals')) {
             Schema::create('tbl_provincial_budget_proposals', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('pbpUId')->length(10)->unsigned();
-                $table->integer('pbpCdpId')->length(10)->unsigned();
-                $table->integer('pbpFyId')->length(10)->unsigned();
+                $table->bigIncrements('id');
+                $table->bigInteger('pbpUId')->length(20)->unsigned();
+                $table->bigInteger('pbpCdpId')->length(20)->unsigned();
+                $table->bigInteger('pbpFyId')->length(20)->unsigned();
                 $table->string('pbpCode');
                 $table->string('pbpSubject');
                 $table->bigInteger('pbpAmount');
@@ -50,6 +50,8 @@ class CreateProvincialBudgetProposalsTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_provincial_budget_proposals');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

@@ -15,11 +15,11 @@ class CreateCreditDistributionTitlesTable extends Migration
     {
         if (!Schema::hasTable('tbl_credit_distribution_titles')) {
             Schema::create('tbl_credit_distribution_titles', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('cdtUId')->length(10)->unsigned();
-                $table->integer('cdtBsId')->length(10)->unsigned();
-                $table->integer('cdtCoId')->length(10)->unsigned()->nullable();
-                $table->integer('cdtCdtId')->length(10)->unsigned()->nullable();
+                $table->bigIncrements('id');
+                $table->bigInteger('cdtUId')->length(20)->unsigned();
+                $table->bigInteger('cdtBsId')->length(20)->unsigned();
+                $table->bigInteger('cdtCoId')->length(20)->unsigned()->nullable();
+                $table->bigInteger('cdtCdtId')->length(20)->unsigned()->nullable();
                 $table->string('cdtIdNumber')->unique();
                 $table->string('cdtSubject');
                 $table->longText('cdtDescription')->nullable();
@@ -45,6 +45,8 @@ class CreateCreditDistributionTitlesTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_credit_distribution_titles');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

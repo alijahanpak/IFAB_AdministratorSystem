@@ -15,8 +15,8 @@ class CreateFiscalYearsTable extends Migration
     {
         if (!Schema::hasTable('tbl_fiscal_years')) {
             Schema::create('tbl_fiscal_years', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('fyUId')->length(10)->unsigned();
+                $table->bigIncrements('id');
+                $table->bigInteger('fyUId')->length(20)->unsigned();
                 $table->unsignedTinyInteger('fyStatus')->default(0);
                 $table->string('fyLabel');
                 $table->longText('fyDescription')->nullable();

@@ -15,7 +15,7 @@ class CreateSubSystemTable extends Migration
     {
         if (!Schema::hasTable('tbl_sub_system')) {
             Schema::create('tbl_sub_system', function (Blueprint $table) {
-                $table->increments('id');
+                $table->bigIncrements('id');
                 $table->string('ssSubject');
                 $table->timestamps();
             });
@@ -29,6 +29,8 @@ class CreateSubSystemTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_sub_system');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

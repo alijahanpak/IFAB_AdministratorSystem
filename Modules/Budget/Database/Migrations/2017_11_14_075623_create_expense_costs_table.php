@@ -15,9 +15,9 @@ class CreateExpenseCostsTable extends Migration
     {
         if (!Schema::hasTable('tbl_expense_costs')) {
             Schema::create('tbl_expense_costs', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('ecUId')->length(10)->unsigned();
-                $table->integer('ecCaId')->length(10)->unsigned()->nullable();
+                $table->bigIncrements('id');
+                $table->bigInteger('ecUId')->length(20)->unsigned();
+                $table->bigInteger('ecCaId')->length(20)->unsigned()->nullable();
                 $table->string('ecSubject');
                 $table->bigInteger('ecAmount');
                 $table->longText('ecDescription')->nullable();
@@ -43,6 +43,8 @@ class CreateExpenseCostsTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_expense_costs');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

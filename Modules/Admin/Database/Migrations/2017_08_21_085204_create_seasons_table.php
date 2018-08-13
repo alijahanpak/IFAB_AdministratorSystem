@@ -15,7 +15,7 @@ class CreateSeasonsTable extends Migration
     {
         if (!Schema::hasTable('tbl_seasons')) {
             Schema::create('tbl_seasons', function (Blueprint $table) {
-                $table->increments('id');
+                $table->bigIncrements('id');
                 $table->string('sSubject');
                 $table->timestamps();
             });
@@ -29,7 +29,6 @@ class CreateSeasonsTable extends Migration
      */
     public function down()
     {
-
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_seasons');
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');

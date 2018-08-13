@@ -15,10 +15,16 @@ class CreateRoleTable extends Migration
     {
         if (!Schema::hasTable('tbl_roles')) {
             Schema::create('tbl_roles', function (Blueprint $table) {
-                $table->increments('id');
+                $table->bigIncrements('id');
+                $table->bigInteger('rOuId')->length(20)->unsigned();
                 $table->string('rSubject');
                 $table->string('rRole')->unique();
                 $table->timestamps();
+
+                $table->foreign('rOuId')
+                    ->references('id')->on('tbl_office_units')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
             });
         }
     }
@@ -30,6 +36,8 @@ class CreateRoleTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_roles');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

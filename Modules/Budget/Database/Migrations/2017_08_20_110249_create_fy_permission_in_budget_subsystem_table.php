@@ -15,8 +15,8 @@ class CreateFyPermissionInBudgetSubsystemTable extends Migration
     {
         if (!Schema::hasTable('tbl_fy_permission_in_budget_subsystem')) {
             Schema::create('tbl_fy_permission_in_budget_subsystem', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('pbFyId')->length(10)->unsigned();
+                $table->bigIncrements('id');
+                $table->bigInteger('pbFyId')->length(20)->unsigned();
                 $table->string('pbFieldName')->unique();
                 $table->string('pbLabel');
                 $table->boolean('pbStatus')->default(true);
@@ -37,6 +37,8 @@ class CreateFyPermissionInBudgetSubsystemTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_fy_permission_in_budget_subsystem');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

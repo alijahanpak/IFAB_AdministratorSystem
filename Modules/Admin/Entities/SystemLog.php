@@ -27,4 +27,13 @@ class SystemLog extends Model
         $systemLog->slLogText = $log;
         $systemLog->save();
     }
+
+    public static function setFinancialSubSystemLog($log)
+    {
+        $systemLog = new SystemLog;
+        $systemLog->slUId = Auth::user()->id;
+        $systemLog->slSubSystem = 'زیر سیستم مالی';
+        $systemLog->slLogText = $log;
+        $systemLog->save();
+    }
 }

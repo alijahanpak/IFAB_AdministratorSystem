@@ -15,8 +15,8 @@ class CreateTableSystemLog extends Migration
     {
         if (!Schema::hasTable('tbl_system_log')) {
             Schema::create('tbl_system_log', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('slUId')->length(10)->unsigned();
+                $table->bigIncrements('id');
+                $table->bigInteger('slUId')->length(20)->unsigned();
                 $table->string('slSubSystem');
                 $table->longText('slLogText');
                 $table->timestamps();
@@ -36,6 +36,8 @@ class CreateTableSystemLog extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tbl_system_log');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

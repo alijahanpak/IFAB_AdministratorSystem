@@ -111,4 +111,40 @@ class AdminController extends Controller
             AmountUnit::all()
         );
     }
+
+    public function fetchMyGroupsUsers()
+    {
+        if (Auth::user()->superUser != true)
+        {
+            $myGroups = UserGroup::where('ugUId' , '=' , Auth::user()->id)->pluck('ugGId');
+            $usersId = UserGroup::whereIn('ugGId' , $myGroups)->pluck('ugUId');
+            $usersInfo = User::whereIn('id' , $usersId)
+                ->where('id' , '<>' , Auth::user()->id)
+                ->select('id' , 'name' , 'rId')
+                ->with('role')
+                ->get();
+        }else{
+            $usersId = UserGroup::pluck('ugUId');
+            $usersInfo = User::whereIn('id' , $usersId)
+                ->where('id' , '<>' , Auth::user()->id)
+                ->select('id' , 'name' , 'rId')
+                ->with('role')
+                ->get();
+        }
+
+        return \response()->json(
+            $usersInfo
+        );
+    }
+
+    public function getMyCategoryUsers(Request $request)
+    {
+        $result = User::whereHas('role.category' , function ($q) use($request){
+            return $q->where('rcCId' , '=' , $request->cId);
+        })->where('id' , '<>' , Auth::user()->id)
+            ->select('id' , 'rId' , 'name')
+            ->with('role')
+            ->get();
+        return \response()->json($result);
+    }
 }
