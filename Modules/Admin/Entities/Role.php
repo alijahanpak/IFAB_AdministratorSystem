@@ -23,4 +23,9 @@ class Role extends Model
     {
         return $this->hasMany(User::class , 'rId' , 'id')->select('id' , 'rId' , 'name' , 'avatarPath');
     }
+
+    public function category()
+    {
+        return $this->hasMany(RoleCategory::class , 'rcRId' , 'id');
+    }
 }

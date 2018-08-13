@@ -130,12 +130,8 @@ class RequestController extends Controller
 
     function fetchReceivedRequestsData(Request $request)
     {
-        $req = RequestHistory::selectRaw('rhRId , MAX(id) as id')
-            ->where('rhDestUId' , '=' , Auth::user()->id)
-            ->groupBy('rhRId')
-            ->pluck('rhRId');
         return \response()->json(
-            $this->getAllReceivedRequests($req)
+            $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
         );
     }
 
@@ -178,5 +174,39 @@ class RequestController extends Controller
             ->orderBy('id' , 'DESC')
             ->paginate(20);
         return response()->json($result);
+    }
+
+    public function referral(Request $request)
+    {
+        $rHis = RequestHistory::find($request->lastRefId);
+        if ($request->acceptPermission == true)
+        {
+
+        }else{
+            // make history for this request
+            $history = new RequestHistory();
+            $history->rhSrcUId = Auth::user()->id;
+            $history->rhDestUId = $request->destUId;
+            $history->rhRId = $rHis->rhRId;
+            $history->rhRsId = $rHis->rhRsId;
+            $history->rhDescription = PublicSetting::checkPersianCharacters($request->description);
+            $history->save();
+        }
+
+        return \response()->json(
+            $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+        );
+    }
+
+    private function getLastReceivedRequestIdList()
+    {
+        $rhIds = RequestHistory::selectRaw('rhRId , MAX(id) as id')
+            ->groupBy('rhRId')
+            ->pluck('id');
+        $req = RequestHistory::whereIn('id' , $rhIds)
+            ->where('rhDestUId' , '=' , Auth::user()->id)
+            ->orderBy('id' , 'DESC')
+            ->pluck('rhRId');
+        return $req;
     }
 }

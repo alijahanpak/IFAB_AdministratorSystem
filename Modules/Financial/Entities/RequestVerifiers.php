@@ -8,4 +8,9 @@ class RequestVerifiers extends Model
 {
     protected $fillable = ['rvSId' , 'rvRstId' , 'rvRId' , 'rvUId'];
     protected $table = 'tbl_request_verifiers';
+
+    public function requestStep()
+    {
+        return $this->belongsTo(RequestStep::class , 'rvRstId' , 'id');
+    }
 }
