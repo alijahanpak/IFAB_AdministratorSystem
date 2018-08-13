@@ -98,10 +98,10 @@
                                                                   placeholder="انتخاب کنید"
                                                                   @values="singleValues">
                                                     </v-selectpage>-->
-
-                                                    <vue-select class="vue-select1" name="select1" :options="recipientsUsers" :model.sync="result1">
-                                                    </vue-select>
-
+                                                    <select class="form-element-margin-btm"  name="sId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('sId')}">
+                                                        <option value=""></option>
+                                                        <option  :value="recipientsGroup.id">{{ recipientsUsers}}</option>
+                                                    </select>
                                                 </label>
                                             </div>
                                             <div class="large-4 medium-4 small-12"></div>
@@ -254,9 +254,34 @@
                 axios.get('/financial/request/steps/fetchData', {params:{requestType:this.requestTypeSend}})
                     .then((response) => {
                         this.recipients = response.data;
-                        this.recipients.forEach(users=> {
-                            this.recipientsUsers.push(users.category.role_category[0].role.user[0].name);
+
+                        this.recipients.forEach(category=> {
+                            category.forEach(role_category =>{
+                                alert(role_category.id);
+                            });
+
+
                         });
+
+                        /*this.recipients.forEach(category=> {
+                            category.forEach(role_category =>{
+                                role_category.forEach(role => {
+                                    role.forEach(user =>{
+                                        console.log(user.name);
+                                        this.recipientsUsers.push(user.name);
+                                    });
+                                });
+                            });
+
+                        });*/
+
+                        /*this.recipients.forEach(users=> {
+                            var roleCategoryTemp=users.category.role_category.indexOf(this.recipients);
+                            console.log(roleCategoryTemp);
+                            var userTemp=users.category.role_category.role.user.indexOf();
+
+                            this.recipientsUsers.push(users.category.role_category[roleCategoryTemp].role.user[userTemp].name);
+                        });*/
                         console.log(JSON.stringify(this.recipientsUsers));
                         console.log(response);
                     }, (error) => {
