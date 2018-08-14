@@ -12,9 +12,11 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font.css') }}">
     <link rel="stylesheet" href="{{ asset('foundation-icons/foundation-icons.css') }}">
+    <link rel="stylesheet" href="{{ asset('fontawesome-free-5.1.1-web/css/all.css') }}">
     <link rel="stylesheet" href="{{ asset('font-awesome-4.7.0/css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/line-spin-clockwise-fade-rotating.css') }}">
     <link rel="stylesheet" href="{{ asset('css/persian-datepicker.min.css') }}">
+
    {{-- <link rel="stylesheet" href="{{ asset('css/jquery.scrollbar.css') }}">--}}
     <link rel="stylesheet" href="{{ asset('css/key.css') }}">
     {{--<script src="{{ asset('js/Chart.js') }}"></script>--}}
@@ -232,6 +234,16 @@
                                     </li>
                                 </ul>
                             </li>
+                            <!--Financial Department Start-->
+                            <li>
+                                <a class="right-mp right-menu-btm-border">کارتابل</a>
+                                <ul class="menu vertical nested">
+                                    <li><router-link to="/financial_department/submissions">درخواست های ارسالی</router-link></li>
+                                    <li><router-link to="/budget/admin/deprived_area">درخواست های دریافتی</router-link></li>
+                                    <li><router-link to="/budget/admin/deprived_area">جستجو</router-link></li>
+                                </ul>
+                            </li>
+                            <!--Financial Department End-->
                         </ul>
                     </nav>
                 </div>
@@ -468,14 +480,16 @@
             </div>
         </transition>
     </script>
+
     <script src="{{ asset('js/vendor/jquery.js') }}"></script>
     <script src="{{ asset('js/vendor/what-input.js') }}"></script>
     <script src="{{ asset('js/vendor/foundation.js') }}"></script>
-{{--    <script src="{{ asset('js/persian-date.min.js') }}"></script>
+{{--<script src="{{ asset('js/persian-date.min.js') }}"></script>
     <script src="{{ asset('js/persian-datepicker.min.js') }}"></script>
     <script src="{{ asset('js/jquery.scrollbar.min.js') }}"></script>--}}
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/key.js') }}"></script>
+
 
 </body>
 </html>
