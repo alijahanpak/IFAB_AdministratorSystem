@@ -17,9 +17,10 @@ class CreateRequestHistoryTable extends Migration
             Schema::create('tbl_request_history', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->bigInteger('rhSrcUId')->length(20)->unsigned();
-                $table->bigInteger('rhDestUId')->length(20)->unsigned();
+                $table->bigInteger('rhDestUId')->length(20)->unsigned()->nullable();
                 $table->bigInteger('rhRId')->length(20)->unsigned();
                 $table->bigInteger('rhRsId')->length(20)->unsigned();
+                $table->boolean('rhInSecretariat')->default(false);
                 $table->longText('rhDescription')->nullable();
                 $table->timestamps();
 

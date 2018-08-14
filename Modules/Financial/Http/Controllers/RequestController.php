@@ -17,6 +17,7 @@ use Modules\Financial\Entities\RequestState;
 use Modules\Financial\Entities\RequestStep;
 use Modules\Financial\Entities\RequestType;
 use Modules\Financial\Entities\RequestVerifiers;
+use Modules\Financial\Entities\SecretariatRequestQueue;
 
 class RequestController extends Controller
 {
@@ -219,6 +220,59 @@ class RequestController extends Controller
 
     public function accept(Request $request)
     {
+        $sig = Signature::where('sUId' , '=' , Auth::user()->id)->first();
+        $currentVerifier = RequestVerifiers::find($request->verifierId);
+        $req = _Request::find($currentVerifier->rvRId);
 
+        if ($currentVerifier->rvUId == Auth::user()->id)
+        {
+            if (count($req->rRemainingVerifiers) == 0)
+            {
+                RequestVerifiers::where('rvRId' , '=' , $currentVerifier->rvRId)
+                    ->where('rvUId' , '=' , $currentVerifier->rvUId)
+                    ->update(['rvSId' => $sig->id]);
+
+                $nextVerifier = RequestVerifiers::where('rvRId' , '=' , $currentVerifier->rvRId)
+                    ->where('id' , '>' , $currentVerifier->id)
+                    ->where('rvSId' , '=' , null)
+                    ->first();
+                if ($nextVerifier)
+                {
+                    // make history for this request
+                    $history = new RequestHistory();
+                    $history->rhSrcUId = Auth::user()->id;
+                    $history->rhDestUId = $nextVerifier->rvUId; // for secretariat destination
+                    $history->rhRId = $currentVerifier->rvRId;
+                    $history->rhRsId = $req->rRsId;
+                    $history->save();
+
+                }else{
+                    $req->rRsId = RequestState::where('rsState' , '=' , 'SECRETARIAT_QUEUE')->value('id');
+                    $req->save();
+                    // make history for this request
+                    $history = new RequestHistory();
+                    $history->rhSrcUId = Auth::user()->id;
+                    $history->rhDestUId = null; // for secretariat destination
+                    $history->rhRId = $currentVerifier->rvRId;
+                    $history->rhRsId = $req->rRsId;
+                    $history->rhInSecretariat = true;
+                    $history->save();
+
+                    $srQueue = new SecretariatRequestQueue();
+                    $srQueue->srqRId = $currentVerifier->rvRId;
+                    $srQueue->save();
+                }
+
+                SystemLog::setFinancialSubSystemLog('تایید درخواست توسط ' . Auth::user()->name);
+                return response()->json(
+                    $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+                );
+
+            }else{
+                return response()->json([] , 406); //Exist verifiers before you
+            }
+        }else{
+            return response()->json([] , 405);
+        }
     }
 }
