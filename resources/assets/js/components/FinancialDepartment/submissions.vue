@@ -72,10 +72,10 @@
                 </div>
             </div>
         </div>
-        <!-- Submission Buy Service Modal -->
+        <!-- Submission Buy commodity Modal -->
         <modal-large v-if="showBuyCommodityModal" @close="showBuyCommodityModal = false">
             <div  slot="body">
-                <form>
+                <form v-on:submit.prevent="createRequest" >
                     <div class="small-font">
                         <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="commodity_tab_view">
                             <li class="tabs-title is-active"><a href="#reciverTab" aria-selected="true">دریافت کنندگان</a></li>
@@ -87,27 +87,48 @@
                                 <div class="grid-x">
                                     <div v-for="recipientsGroup in recipients"  class="large-12 medium-12 small-12">
                                         <div class="grid-x">
-                                            <div class="large-4 medium-4 small-12"></div>
-                                            <div class="large-4 medium-4 small-12">
+                                            <div v-if="recipientsGroup.rstIsRequire == 1" class="large-6 medium-6 small-12">
                                                 <label>{{recipientsGroup.category.cSubject}}
-                                                   <!-- <v-selectpage style="font-family: BYekan" class="form-control"
-                                                                  :data="recipientsGroup.category.role_category[0].role.user"
-                                                                  show-field="name"
-                                                                  sort="name desc"
-                                                                  language="en"
-                                                                  placeholder="انتخاب کنید"
-                                                                  @values="singleValues">
-                                                    </v-selectpage>-->
-                                                    <select class="form-element-margin-btm"  name="sId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('sId')}">
+                                                    <select class="form-element-margin-btm"  v-model="recipientUsersInput['recipient'[+recipientsGroup.id]]" :name="'recipient'[+recipientsGroup.id]" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('recipient[+recipientsGroup.id]')}">
                                                         <option value=""></option>
                                                         <template v-for="rolCat in recipientsGroup.category.role_category">
                                                             <option v-for="users in rolCat.role.user" :value="users.id" >{{users.name}} - {{rolCat.role.rSubject}}</option>
                                                         </template>
-
                                                     </select>
+                                                    <span v-show="errors.has('recipient[+recipientsGroup.id]')" class="error-font">لطفا فیلد {{recipientsGroup.category.cSubject}}}  را انتخاب کنید!</span>
                                                 </label>
                                             </div>
-                                            <div class="large-4 medium-4 small-12"></div>
+                                            <div v-else="recipientsGroup.rstIsRequire==0" class="large-6 medium-6 small-12">
+                                                <div class="grid-x">
+                                                    <div style="margin-top: 20px;" class="large-12 medium-12  small-12">
+                                                        <label> آیا درخواست نیاز به بررسی و تایید {{recipientsGroup.category.cSubject}} دارد؟
+                                                            <div class="switch small">
+                                                                <input checked="false" v-model="isRequireChangeState" class="switch-input" id="is-require-state" type="checkbox">
+                                                                <label class="switch-paddle" for="is-require-state">
+                                                                    <span class="switch-active" aria-hidden="true">بلی</span>
+                                                                    <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                                </label>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                    <div class="large-12 medium-12  small-12">
+                                                        <label>{{recipientsGroup.category.cSubject}}
+                                                            <select :disabled="!isRequireChangeState" class="form-element-margin-btm"  :name="'recipient'[+recipientsGroup.id]" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('\'recipient\'[+recipientsGroup.id]')}">
+                                                                <template v-if="isRequireChangeState == true">
+                                                                    <option value=""></option>
+                                                                    <template v-for="rolCat in recipientsGroup.category.role_category">
+                                                                        <option v-for="users in rolCat.role.user" :value="users.id" >{{users.name}} - {{rolCat.role.rSubject}}</option>
+                                                                    </template>
+                                                                </template>
+                                                                <template v-else="isRequireChangeState == false">
+                                                                    <option value=""></option>
+                                                                </template>
+                                                            </select>
+                                                            <span v-show="errors.has('\'recipient\'[+recipientsGroup.id]')" class="error-font">لطفا فیلد {{recipientsGroup.category.cSubject}}}  را انتخاب کنید!</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -117,14 +138,20 @@
                             <!--Tab 2-->
                             <div class="tabs-panel table-mrg-btm" id="commodityTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                 <div style="margin-top: 25px" class="grid-x">
-                                    <div class="large-12 medium-12 small-12 padding-lr">
+                                    <div class="medium-6">
+                                        <label>موضوع
+                                            <input class="form-element-margin-btm" type="text" name="requestSubject" v-model="requestInput.rSubject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('requestSubject')}">
+                                        </label>
+                                        <span v-show="errors.has('requestSubject')" class="error-font">لطفا موضوع را برای درخواست مورد نظر را وارد نمایید!</span>
+                                    </div>
+                                    <div style="margin-top: 20px;" class="large-12 medium-12 small-12">
                                         <table class="stack">
                                             <thead>
                                             <tr style="color: #575962;">
                                                 <th width="50">ردیف</th>
                                                 <th>شرح و نوع جنس</th>
                                                 <th width="100">تعداد</th>
-                                                <th width="150">مبلغ برآوری</th>
+                                                <th width="150">مبلغ برآوردی</th>
                                                 <th>توضیحات (موارد مصرف)</th>
                                                 <th>عملیات</th>
                                             </tr>
@@ -141,7 +168,7 @@
                                             <tr>
                                                 <td></td>
                                                 <td>
-                                                    <suggestions style="margin-bottom: -18px;" name="commodityTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('commodityTitle')}"
+                                                    <suggestions style="margin-bottom: -18px;" name="commodityTitle" v-validate :class="{'input': true, 'select-error': errors.has('commodityTitle')}"
                                                                  v-model="commodityQuery"
                                                                  :options="commodityOptions"
                                                                  :onInputChange="onCommodityInputChange">
@@ -149,7 +176,6 @@
                                                             <strong>{{props.item}}</strong>
                                                         </div>
                                                     </suggestions>
-                                                    <span v-show="errors.has('commodityTitle')" class="error-font">لطفا عنوان کالای مورد نظر را وارد کنید!</span>
                                                 </td>
                                                 <td>
                                                     <input id="number" v-model="commodityItem.commodityCount" class="text-margin-btm" type="number" value="1">
@@ -172,12 +198,15 @@
                                 </div>
                             </div>
                             <!--Tab 2-->
+                            <div class="large-12 medium-12 small-12 padding-lr padding-bottom-modal medium-top-m">
+                                <button type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                            </div>
                         </div>
                     </div>
                 </form>
             </div>
         </modal-large>
-        <!-- Submission Buy Service Modal -->
+        <!-- Submission Buy commodity Modal -->
     </div>
 </template>
 
@@ -216,8 +245,10 @@
                 sumOfCommodityPrice:0,
                 convertCommodityPrice:'',
                 requestTypeSend:'',
-                recipientsUsers:[],
-                recIndex1:'',
+                requestTypeId:'',
+                recipientUsersInput:[],
+                recipientUsers:[],
+                isRequireChangeState:false,
 
 
             }
@@ -317,6 +348,7 @@
 
             openSubmissionsModal: function (st) {
                 this.requestTypeSend=st.rtType;
+                this.requestTypeId=st.id;
                 this.fetchRecipientsGroup();
                 switch (st.id){
                     case 1:
@@ -358,24 +390,64 @@
             },
 
             createRequest: function () {
-                this.$validator.validateAll().then((result) => {
-                    if (result) {
-                        //var formData = new FormData(this.newCarInput);
-                        var config = {
-                            headers: {'Content-Type': 'multipart/form-data'},
-                            onUploadProgress: function (progressEvent) {
-                                this.percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                                this.$forceUpdate();
-                            }.bind(this)
-                        };
-                        //this.prepareFields();
-                    }
-                });
+                /*this.recipientUsersInput.forEach (users=>{
+                   this.recipientUsers.push('recipient'[+users.id]);
+                });*/
+                /*alert(this.recipientUsersInput);
+                console.log(JSON.stringify(this.recipients));
+                this.recipients.forEach(rec=> {
+                    if (this.recipientUsersInput['recipient'[+recipientsGroup.id] == rec.category)
+                        this.recipientUsers.push(rec.id);
+                    rec.category.role_category.forEach(role_category =>{
+                        role_category.role.user.forEach(user=>{
+                            this.recipientUsers.push(user.id);
+                        });
+                    });
+                });*/
 
-            },
 
+    this.$validator.validateAll().then((result) => {
+        if (result) {
+            var config = {
+                headers: {'Content-Type': 'multipart/form-data'},
+                onUploadProgress: function (progressEvent) {
+                    this.percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                    this.$forceUpdate();
+                }.bind(this)
+            };
+            //this.prepareFields();
+            this.data.append('subject', this.requestInput.rSubject );
+            this.data.append('rtId', this.requestTypeId );
+            this.data.append('costEstimation', this.sumOfCommodityPrice);
+            this.commodityRequest.forEach ((items,index) => {
+                this.data.append('items['+index+'][subject]', items.commodityName );
+                this.data.append('items['+index+'][count]', items.commodityCount );
+                this.data.append('items['+index+'][costEstimation]', items.commodityPrice );
+                this.data.append('items['+index+'][description]', items.commodityDescription );
+            });
+
+            axios.post('/financial/request/register', this.data , config).then((response) => {
+                this.submissions = response.data.data;
+                this.makePagination(response.data);
+                this.showInsertModal = false;
+                this.$parent.displayNotif(response.status);
+                console.log(response);
+                this.resetData();
+            }, (error) => {
+                console.log(error);
+                this.$parent.displayNotif(error.response.status);
+                this.data = new FormData();
+            });
 
 
         }
-    }
+    });
+
+},
+
+
+
+
+}
+}
 </script>

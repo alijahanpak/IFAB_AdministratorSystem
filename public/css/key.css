@@ -1875,6 +1875,10 @@ input[type="search"]:valid + label {
     cursor: pointer;
 }
 
+.medium-top-m{
+    margin-top: 20px;
+}
+
 /* Vue Transition End*/
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
     display: block;
