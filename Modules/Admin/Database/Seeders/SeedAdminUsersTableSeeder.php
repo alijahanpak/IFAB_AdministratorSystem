@@ -117,7 +117,7 @@ class SeedAdminUsersTableSeeder extends Seeder
         $user->password = Hash::make('1234');
         $user->seInPutAmount = 3;
         $user->seDispAmount = 3;
-        $user->rId = 8;
+        $user->rId = 9;
         $user->save();
     }
 }
