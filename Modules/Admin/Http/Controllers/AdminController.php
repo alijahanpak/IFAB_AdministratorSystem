@@ -137,7 +137,7 @@ class AdminController extends Controller
         );
     }
 
-    public function getMyCategoryUsers(Request $request)
+    public function fetchMyCategoryUsers(Request $request)
     {
         $result = User::whereHas('role.category' , function ($q) use($request){
             return $q->where('rcCId' , '=' , $request->cId);

@@ -17,7 +17,7 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
     {
         Model::unguard();
 
-        ///////////// dashboards ///////////////////////
+        ///////////// budget dashboards ///////////////////////
         $permission = new Permission;
         $permission->pSspId = 5;
         $permission->pSubject = 'مشاهده داشبورد';
@@ -481,6 +481,13 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
         $permission->pSspId = 4;
         $permission->pSubject = 'تبدیل تنخواه به تخصیص هزینه ای';
         $permission->pPermission = 'BUDGET_COST_FOUND_CONVERT_TO_ALLOCATION';
+        $permission->save();
+
+        ///////////// financial dashboards ///////////////////////
+        $permission = new Permission;
+        $permission->pSspId = 9;
+        $permission->pSubject = 'مشاهده داشبورد مالی';
+        $permission->pPermission = 'FINANCIAL_DASHBOARD_DISPLAY';
         $permission->save();
 
     }

@@ -192,6 +192,7 @@ class RequestController extends Controller
         $history->rhDestUId = $request->destUId;
         $history->rhRId = $rHis->rhRId;
         $history->rhRsId = $rHis->rhRsId;
+        $history->rhIsReferral = $request->acceptPermission ? false : true;
         $history->rhDescription = PublicSetting::checkPersianCharacters($request->description);
         $history->save();
 
@@ -274,5 +275,25 @@ class RequestController extends Controller
         }else{
             return response()->json([] , 405);
         }
+    }
+
+    public function response(Request $request)
+    {
+        $rHis = RequestHistory::find($request->lastRefId);
+        // make history for this request
+        $history = new RequestHistory();
+        $history->rhSrcUId = Auth::user()->id;
+        $history->rhDestUId = $rHis->rhSrcUId;
+        $history->rhRId = $rHis->rhRId;
+        $history->rhRsId = $rHis->rhRsId;
+        $history->rhIsReferral = true;
+        $history->rhDescription = PublicSetting::checkPersianCharacters($request->description);
+        $history->save();
+
+        SystemLog::setFinancialSubSystemLog('پاسخ به ارجاع درخواست');
+
+        return \response()->json(
+            $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+        );
     }
 }

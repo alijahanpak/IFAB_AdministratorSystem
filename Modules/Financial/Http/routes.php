@@ -15,6 +15,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::get('steps/fetchData', 'RequestController@fetchRequestSteps');
         Route::get('search/normal/fetchData', 'RequestController@normalSearch');
         Route::post('referral', 'RequestController@referral');
+        Route::post('response', 'RequestController@response');
         Route::post('accept', 'RequestController@accept');
     });
 

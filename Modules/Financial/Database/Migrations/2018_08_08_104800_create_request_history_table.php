@@ -21,6 +21,7 @@ class CreateRequestHistoryTable extends Migration
                 $table->bigInteger('rhRId')->length(20)->unsigned();
                 $table->bigInteger('rhRsId')->length(20)->unsigned();
                 $table->boolean('rhInSecretariat')->default(false);
+                $table->boolean('rhIsReferral')->default(false);
                 $table->longText('rhDescription')->nullable();
                 $table->timestamps();
 
