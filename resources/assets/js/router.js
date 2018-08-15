@@ -4,8 +4,11 @@
 import VueRouter from 'vue-router'
 import Acl from 'vue-acl'
 import Vuex from 'vuex'
+import Suggestions from 'v-suggestions'
+import 'v-suggestions/dist/v-suggestions.css' // you can import the stylesheets also (optional)
 window.Vue.use(VueRouter);
 window.Vue.use(Vuex);
+window.Vue.use(Suggestions);
 ///////////////////////////// router ///////////////////////////////////
 import accessDenied from './public_component/AccessDenied.vue'
 import dashboard from './components/Budget/Dashboard.vue'
@@ -23,6 +26,12 @@ import capital_assets_allocation from './components/Budget/Allocation/capital_as
 import cost_allocation from './components/Budget/Allocation/cost.vue'
 import credit_distribution_plan from './components/Budget/CreditDistribution/plan.vue'
 import budget_proposal from './components/Budget/CreditDistribution/proposal.vue'
+
+/////////////////////// Financial Department Start//////////////////////////
+
+import submissions from './components/FinancialDepartment/submissions.vue'
+
+/////////////////////// Financial Department End//////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////
 import fdDashboard from './components/FinancialDepartment/Dashboard.vue'
@@ -45,8 +54,9 @@ const routes = [
     { path: '/budget/admin/credit_distribution_def/plan_cost_title', component: plan_cost_title , meta:{permission: 'BUDGET_ADMIN_PLAN_RO_COST_TITLE_DISPLAY'}},
     { path: '/budget/admin/credit_distribution/plan', component: credit_distribution_plan , meta:{permission: 'BUDGET_CREDIT_DISTRIBUTION_PLAN_DISPLAY'}},
     { path: '/budget/admin/credit_distribution/proposal', component: budget_proposal , meta:{permission: 'BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_DISPLAY'}},
-    /////////////////////// financial department //////////////////////////
+    /////////////////////// Financial Department Start//////////////////////////
     { path: '/financial_department', component: fdDashboard , meta:{permission: 'public'}},
+    { path: '/financial_department/submissions', component: submissions , meta:{permission: 'public'}},
 ]
 
 const router = new VueRouter({
