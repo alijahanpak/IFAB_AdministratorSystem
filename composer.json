@@ -17,6 +17,7 @@
         "laravelcollective/html": "^5.3.0",
         "maatwebsite/excel": "~2.1.0",
         "morilog/jalali": "^2.3",
+        "mpociot/laravel-apidoc-generator": "^2.0",
         "nwidart/laravel-modules": "^1.27"
     },
     "require-dev": {

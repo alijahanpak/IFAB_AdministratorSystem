@@ -14,11 +14,12 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
+        '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
-        'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
-        '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
+        'e8d8290bf1a9fb22ceb9abc966d831ec' => __DIR__ . '/..' . '/mpociot/documentarian/includes/helpers.php',
         'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
         'f18cc91337d49233e5754e93f3ed9ec3' => __DIR__ . '/..' . '/laravelcollective/html/src/helpers.php',
         'e4e590a9b5afe940db71ee1662c02677' => __DIR__ . '/..' . '/morilog/jalali/src/helpers.php',
@@ -41,6 +42,8 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         ),
         'W' => 
         array (
+            'Windwalker\\Structure\\' => 21,
+            'Windwalker\\Renderer\\' => 20,
             'Webmozart\\Assert\\' => 17,
         ),
         'T' => 
@@ -67,6 +70,7 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Bridge\\PsrHttpMessage\\' => 30,
             'SuperClosure\\' => 13,
+            'Silly\\' => 6,
         ),
         'R' => 
         array (
@@ -77,6 +81,7 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
             'Psy\\' => 4,
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
+            'Psr\\Container\\' => 14,
             'PhpParser\\' => 10,
         ),
         'N' => 
@@ -85,9 +90,11 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         ),
         'M' => 
         array (
+            'Mpociot\\Documentarian\\' => 22,
             'Morilog\\Jalali\\' => 15,
             'Monolog\\' => 8,
             'Modules\\' => 8,
+            'Mni\\FrontYAML\\' => 14,
         ),
         'L' => 
         array (
@@ -104,6 +111,7 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         ),
         'I' => 
         array (
+            'Invoker\\' => 8,
             'Illuminate\\' => 11,
         ),
         'G' => 
@@ -160,6 +168,14 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         'XdgBaseDir\\' => 
         array (
             0 => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src',
+        ),
+        'Windwalker\\Structure\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/windwalker/structure',
+        ),
+        'Windwalker\\Renderer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/windwalker/renderer',
         ),
         'Webmozart\\Assert\\' => 
         array (
@@ -241,6 +257,10 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         array (
             0 => __DIR__ . '/..' . '/jeremeamia/SuperClosure/src',
         ),
+        'Silly\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mnapoli/silly/src',
+        ),
         'Ramsey\\Uuid\\' => 
         array (
             0 => __DIR__ . '/..' . '/ramsey/uuid/src',
@@ -257,6 +277,10 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
+        'Psr\\Container\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
         'PhpParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
@@ -264,6 +288,10 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         'Nwidart\\Modules\\' => 
         array (
             0 => __DIR__ . '/..' . '/nwidart/laravel-modules/src',
+        ),
+        'Mpociot\\Documentarian\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mpociot/documentarian/src',
         ),
         'Morilog\\Jalali\\' => 
         array (
@@ -276,6 +304,10 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         'Modules\\' => 
         array (
             0 => __DIR__ . '/../..' . '/Modules',
+        ),
+        'Mni\\FrontYAML\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mnapoli/front-yaml/src',
         ),
         'League\\OAuth2\\Server\\' => 
         array (
@@ -304,6 +336,10 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         'Knp\\Snappy\\' => 
         array (
             0 => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy',
+        ),
+        'Invoker\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-di/invoker/src',
         ),
         'Illuminate\\' => 
         array (
@@ -393,6 +429,14 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         ),
         'M' => 
         array (
+            'Mpociot\\ApiDoc' => 
+            array (
+                0 => __DIR__ . '/..' . '/mpociot/laravel-apidoc-generator/src',
+            ),
+            'Mpociot' => 
+            array (
+                0 => __DIR__ . '/..' . '/mpociot/reflection-docblock/src',
+            ),
             'Mockery' => 
             array (
                 0 => __DIR__ . '/..' . '/mockery/mockery/library',
@@ -1805,6 +1849,21 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         'Illuminate\\View\\ViewFinderInterface' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewFinderInterface.php',
         'Illuminate\\View\\ViewName' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewName.php',
         'Illuminate\\View\\ViewServiceProvider' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewServiceProvider.php',
+        'Invoker\\CallableResolver' => __DIR__ . '/..' . '/php-di/invoker/src/CallableResolver.php',
+        'Invoker\\Exception\\InvocationException' => __DIR__ . '/..' . '/php-di/invoker/src/Exception/InvocationException.php',
+        'Invoker\\Exception\\NotCallableException' => __DIR__ . '/..' . '/php-di/invoker/src/Exception/NotCallableException.php',
+        'Invoker\\Exception\\NotEnoughParametersException' => __DIR__ . '/..' . '/php-di/invoker/src/Exception/NotEnoughParametersException.php',
+        'Invoker\\Invoker' => __DIR__ . '/..' . '/php-di/invoker/src/Invoker.php',
+        'Invoker\\InvokerInterface' => __DIR__ . '/..' . '/php-di/invoker/src/InvokerInterface.php',
+        'Invoker\\ParameterResolver\\AssociativeArrayResolver' => __DIR__ . '/..' . '/php-di/invoker/src/ParameterResolver/AssociativeArrayResolver.php',
+        'Invoker\\ParameterResolver\\Container\\ParameterNameContainerResolver' => __DIR__ . '/..' . '/php-di/invoker/src/ParameterResolver/Container/ParameterNameContainerResolver.php',
+        'Invoker\\ParameterResolver\\Container\\TypeHintContainerResolver' => __DIR__ . '/..' . '/php-di/invoker/src/ParameterResolver/Container/TypeHintContainerResolver.php',
+        'Invoker\\ParameterResolver\\DefaultValueResolver' => __DIR__ . '/..' . '/php-di/invoker/src/ParameterResolver/DefaultValueResolver.php',
+        'Invoker\\ParameterResolver\\NumericArrayResolver' => __DIR__ . '/..' . '/php-di/invoker/src/ParameterResolver/NumericArrayResolver.php',
+        'Invoker\\ParameterResolver\\ParameterResolver' => __DIR__ . '/..' . '/php-di/invoker/src/ParameterResolver/ParameterResolver.php',
+        'Invoker\\ParameterResolver\\ResolverChain' => __DIR__ . '/..' . '/php-di/invoker/src/ParameterResolver/ResolverChain.php',
+        'Invoker\\ParameterResolver\\TypeHintResolver' => __DIR__ . '/..' . '/php-di/invoker/src/ParameterResolver/TypeHintResolver.php',
+        'Invoker\\Reflection\\CallableReflection' => __DIR__ . '/..' . '/php-di/invoker/src/Reflection/CallableReflection.php',
         'JakubOnderka\\PhpConsoleColor\\ConsoleColor' => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src/JakubOnderka/PhpConsoleColor/ConsoleColor.php',
         'JakubOnderka\\PhpConsoleColor\\InvalidStyleException' => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src/JakubOnderka/PhpConsoleColor/InvalidStyleException.php',
         'JakubOnderka\\PhpConsoleHighlighter\\Highlighter' => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src/JakubOnderka/PhpConsoleHighlighter/Highlighter.php',
@@ -2036,6 +2095,13 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         'Maatwebsite\\Excel\\Readers\\LaravelExcelReader' => __DIR__ . '/..' . '/maatwebsite/excel/src/Maatwebsite/Excel/Readers/LaravelExcelReader.php',
         'Maatwebsite\\Excel\\Writers\\CellWriter' => __DIR__ . '/..' . '/maatwebsite/excel/src/Maatwebsite/Excel/Writers/CellWriter.php',
         'Maatwebsite\\Excel\\Writers\\LaravelExcelWriter' => __DIR__ . '/..' . '/maatwebsite/excel/src/Maatwebsite/Excel/Writers/LaravelExcelWriter.php',
+        'Mni\\FrontYAML\\Bridge\\CommonMark\\CommonMarkParser' => __DIR__ . '/..' . '/mnapoli/front-yaml/src/Bridge/CommonMark/CommonMarkParser.php',
+        'Mni\\FrontYAML\\Bridge\\Parsedown\\ParsedownParser' => __DIR__ . '/..' . '/mnapoli/front-yaml/src/Bridge/Parsedown/ParsedownParser.php',
+        'Mni\\FrontYAML\\Bridge\\Symfony\\SymfonyYAMLParser' => __DIR__ . '/..' . '/mnapoli/front-yaml/src/Bridge/Symfony/SymfonyYAMLParser.php',
+        'Mni\\FrontYAML\\Document' => __DIR__ . '/..' . '/mnapoli/front-yaml/src/Document.php',
+        'Mni\\FrontYAML\\Markdown\\MarkdownParser' => __DIR__ . '/..' . '/mnapoli/front-yaml/src/Markdown/MarkdownParser.php',
+        'Mni\\FrontYAML\\Parser' => __DIR__ . '/..' . '/mnapoli/front-yaml/src/Parser.php',
+        'Mni\\FrontYAML\\YAML\\YAMLParser' => __DIR__ . '/..' . '/mnapoli/front-yaml/src/YAML/YAMLParser.php',
         'MockApp' => __DIR__ . '/..' . '/barryvdh/laravel-cors/tests/CorsServiceTest.php',
         'Mockery' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
         'Mockery\\Adapter\\Phpunit\\MockeryPHPUnitIntegration' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php',
@@ -2225,6 +2291,7 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         'Modules\\Financial\\Entities\\RequestStep' => __DIR__ . '/../..' . '/Modules/Financial/Entities/RequestStep.php',
         'Modules\\Financial\\Entities\\RequestType' => __DIR__ . '/../..' . '/Modules/Financial/Entities/RequestType.php',
         'Modules\\Financial\\Entities\\RequestVerifiers' => __DIR__ . '/../..' . '/Modules/Financial/Entities/RequestVerifiers.php',
+        'Modules\\Financial\\Entities\\SecretariatRequestQueue' => __DIR__ . '/../..' . '/Modules/Financial/Entities/SecretariatRequestQueue.php',
         'Modules\\Financial\\Entities\\_Request' => __DIR__ . '/../..' . '/Modules/Financial/Entities/Request.php',
         'Modules\\Financial\\Http\\Controllers\\CommodityController' => __DIR__ . '/../..' . '/Modules/Financial/Http/Controllers/CommodityController.php',
         'Modules\\Financial\\Http\\Controllers\\FinancialController' => __DIR__ . '/../..' . '/Modules/Financial/Http/Controllers/FinancialController.php',
@@ -2323,6 +2390,40 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         'Morilog\\Jalali\\JalaliServiceProvider' => __DIR__ . '/..' . '/morilog/jalali/src/JalaliServiceProvider.php',
         'Morilog\\Jalali\\jDate' => __DIR__ . '/..' . '/morilog/jalali/src/jDate.php',
         'Morilog\\Jalali\\jDateTime' => __DIR__ . '/..' . '/morilog/jalali/src/jDateTime.php',
+        'Mpociot\\ApiDoc\\ApiDocGeneratorServiceProvider' => __DIR__ . '/..' . '/mpociot/laravel-apidoc-generator/src/Mpociot/ApiDoc/ApiDocGeneratorServiceProvider.php',
+        'Mpociot\\ApiDoc\\Commands\\GenerateDocumentation' => __DIR__ . '/..' . '/mpociot/laravel-apidoc-generator/src/Mpociot/ApiDoc/Commands/GenerateDocumentation.php',
+        'Mpociot\\ApiDoc\\Commands\\UpdateDocumentation' => __DIR__ . '/..' . '/mpociot/laravel-apidoc-generator/src/Mpociot/ApiDoc/Commands/UpdateDocumentation.php',
+        'Mpociot\\ApiDoc\\Generators\\AbstractGenerator' => __DIR__ . '/..' . '/mpociot/laravel-apidoc-generator/src/Mpociot/ApiDoc/Generators/AbstractGenerator.php',
+        'Mpociot\\ApiDoc\\Generators\\DingoGenerator' => __DIR__ . '/..' . '/mpociot/laravel-apidoc-generator/src/Mpociot/ApiDoc/Generators/DingoGenerator.php',
+        'Mpociot\\ApiDoc\\Generators\\LaravelGenerator' => __DIR__ . '/..' . '/mpociot/laravel-apidoc-generator/src/Mpociot/ApiDoc/Generators/LaravelGenerator.php',
+        'Mpociot\\ApiDoc\\Parsers\\RuleDescriptionParser' => __DIR__ . '/..' . '/mpociot/laravel-apidoc-generator/src/Mpociot/ApiDoc/Parsers/RuleDescriptionParser.php',
+        'Mpociot\\ApiDoc\\Postman\\CollectionWriter' => __DIR__ . '/..' . '/mpociot/laravel-apidoc-generator/src/Mpociot/ApiDoc/Postman/CollectionWriter.php',
+        'Mpociot\\Documentarian\\Documentarian' => __DIR__ . '/..' . '/mpociot/documentarian/src/Documentarian.php',
+        'Mpociot\\Reflection\\DocBlock' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock.php',
+        'Mpociot\\Reflection\\DocBlock\\Context' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Context.php',
+        'Mpociot\\Reflection\\DocBlock\\Description' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Description.php',
+        'Mpociot\\Reflection\\DocBlock\\Location' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Location.php',
+        'Mpociot\\Reflection\\DocBlock\\Serializer' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Serializer.php',
+        'Mpociot\\Reflection\\DocBlock\\Tag' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Tag.php',
+        'Mpociot\\Reflection\\DocBlock\\Tag\\AuthorTag' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Tag/AuthorTag.php',
+        'Mpociot\\Reflection\\DocBlock\\Tag\\CoversTag' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Tag/CoversTag.php',
+        'Mpociot\\Reflection\\DocBlock\\Tag\\DeprecatedTag' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Tag/DeprecatedTag.php',
+        'Mpociot\\Reflection\\DocBlock\\Tag\\ExampleTag' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Tag/ExampleTag.php',
+        'Mpociot\\Reflection\\DocBlock\\Tag\\LinkTag' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Tag/LinkTag.php',
+        'Mpociot\\Reflection\\DocBlock\\Tag\\MethodTag' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Tag/MethodTag.php',
+        'Mpociot\\Reflection\\DocBlock\\Tag\\ParamTag' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Tag/ParamTag.php',
+        'Mpociot\\Reflection\\DocBlock\\Tag\\PropertyReadTag' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Tag/PropertyReadTag.php',
+        'Mpociot\\Reflection\\DocBlock\\Tag\\PropertyTag' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Tag/PropertyTag.php',
+        'Mpociot\\Reflection\\DocBlock\\Tag\\PropertyWriteTag' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Tag/PropertyWriteTag.php',
+        'Mpociot\\Reflection\\DocBlock\\Tag\\ReturnTag' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Tag/ReturnTag.php',
+        'Mpociot\\Reflection\\DocBlock\\Tag\\SeeTag' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Tag/SeeTag.php',
+        'Mpociot\\Reflection\\DocBlock\\Tag\\SinceTag' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Tag/SinceTag.php',
+        'Mpociot\\Reflection\\DocBlock\\Tag\\SourceTag' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Tag/SourceTag.php',
+        'Mpociot\\Reflection\\DocBlock\\Tag\\ThrowsTag' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Tag/ThrowsTag.php',
+        'Mpociot\\Reflection\\DocBlock\\Tag\\UsesTag' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Tag/UsesTag.php',
+        'Mpociot\\Reflection\\DocBlock\\Tag\\VarTag' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Tag/VarTag.php',
+        'Mpociot\\Reflection\\DocBlock\\Tag\\VersionTag' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Tag/VersionTag.php',
+        'Mpociot\\Reflection\\DocBlock\\Type\\Collection' => __DIR__ . '/..' . '/mpociot/reflection-docblock/src/Mpociot/Reflection/DocBlock/Type/Collection.php',
         'Nwidart\\Modules\\Collection' => __DIR__ . '/..' . '/nwidart/laravel-modules/src/Collection.php',
         'Nwidart\\Modules\\Commands\\CommandCommand' => __DIR__ . '/..' . '/nwidart/laravel-modules/src/Commands/CommandCommand.php',
         'Nwidart\\Modules\\Commands\\ControllerCommand' => __DIR__ . '/..' . '/nwidart/laravel-modules/src/Commands/ControllerCommand.php',
@@ -3267,6 +3368,9 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         'Prophecy\\Prophet' => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy/Prophet.php',
         'Prophecy\\Util\\ExportUtil' => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy/Util/ExportUtil.php',
         'Prophecy\\Util\\StringUtil' => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy/Util/StringUtil.php',
+        'Psr\\Container\\ContainerExceptionInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerExceptionInterface.php',
+        'Psr\\Container\\ContainerInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerInterface.php',
+        'Psr\\Container\\NotFoundExceptionInterface' => __DIR__ . '/..' . '/psr/container/src/NotFoundExceptionInterface.php',
         'Psr\\Http\\Message\\MessageInterface' => __DIR__ . '/..' . '/psr/http-message/src/MessageInterface.php',
         'Psr\\Http\\Message\\RequestInterface' => __DIR__ . '/..' . '/psr/http-message/src/RequestInterface.php',
         'Psr\\Http\\Message\\ResponseInterface' => __DIR__ . '/..' . '/psr/http-message/src/ResponseInterface.php',
@@ -3534,6 +3638,13 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         'SebastianBergmann\\RecursionContext\\InvalidArgumentException' => __DIR__ . '/..' . '/sebastian/recursion-context/src/InvalidArgumentException.php',
         'SebastianBergmann\\ResourceOperations\\ResourceOperations' => __DIR__ . '/..' . '/sebastian/resource-operations/src/ResourceOperations.php',
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
+        'Silly\\Application' => __DIR__ . '/..' . '/mnapoli/silly/src/Application.php',
+        'Silly\\Command\\Command' => __DIR__ . '/..' . '/mnapoli/silly/src/Command/Command.php',
+        'Silly\\Command\\ExpressionParser' => __DIR__ . '/..' . '/mnapoli/silly/src/Command/ExpressionParser.php',
+        'Silly\\Command\\InvalidCommandExpression' => __DIR__ . '/..' . '/mnapoli/silly/src/Command/InvalidCommandExpression.php',
+        'Silly\\HyphenatedInputResolver' => __DIR__ . '/..' . '/mnapoli/silly/src/HyphenatedInputResolver.php',
+        'Silly\\Input\\InputArgument' => __DIR__ . '/..' . '/mnapoli/silly/src/Input/InputArgument.php',
+        'Silly\\Input\\InputOption' => __DIR__ . '/..' . '/mnapoli/silly/src/Input/InputOption.php',
         'SuperClosure\\Analyzer\\AstAnalyzer' => __DIR__ . '/..' . '/jeremeamia/SuperClosure/src/Analyzer/AstAnalyzer.php',
         'SuperClosure\\Analyzer\\ClosureAnalyzer' => __DIR__ . '/..' . '/jeremeamia/SuperClosure/src/Analyzer/ClosureAnalyzer.php',
         'SuperClosure\\Analyzer\\Token' => __DIR__ . '/..' . '/jeremeamia/SuperClosure/src/Analyzer/Token.php',
@@ -4114,6 +4225,46 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         'TijsVerkoyen\\CssToInlineStyles\\Css\\Rule\\Processor' => __DIR__ . '/..' . '/tijsverkoyen/css-to-inline-styles/src/Css/Rule/Processor.php',
         'TijsVerkoyen\\CssToInlineStyles\\Css\\Rule\\Rule' => __DIR__ . '/..' . '/tijsverkoyen/css-to-inline-styles/src/Css/Rule/Rule.php',
         'Webmozart\\Assert\\Assert' => __DIR__ . '/..' . '/webmozart/assert/src/Assert.php',
+        'Windwalker\\Renderer\\AbstractEngineRenderer' => __DIR__ . '/..' . '/windwalker/renderer/AbstractEngineRenderer.php',
+        'Windwalker\\Renderer\\AbstractRenderer' => __DIR__ . '/..' . '/windwalker/renderer/AbstractRenderer.php',
+        'Windwalker\\Renderer\\BladeRenderer' => __DIR__ . '/..' . '/windwalker/renderer/BladeRenderer.php',
+        'Windwalker\\Renderer\\Blade\\BladeExtending' => __DIR__ . '/..' . '/windwalker/renderer/Blade/BladeExtending.php',
+        'Windwalker\\Renderer\\Blade\\GlobalContainer' => __DIR__ . '/..' . '/windwalker/renderer/Blade/GlobalContainer.php',
+        'Windwalker\\Renderer\\EdgeRenderer' => __DIR__ . '/..' . '/windwalker/renderer/EdgeRenderer.php',
+        'Windwalker\\Renderer\\Edge\\GlobalContainer' => __DIR__ . '/..' . '/windwalker/renderer/Edge/GlobalContainer.php',
+        'Windwalker\\Renderer\\MustacheRenderer' => __DIR__ . '/..' . '/windwalker/renderer/MustacheRenderer.php',
+        'Windwalker\\Renderer\\PhpRenderer' => __DIR__ . '/..' . '/windwalker/renderer/PhpRenderer.php',
+        'Windwalker\\Renderer\\PlatesRenderer' => __DIR__ . '/..' . '/windwalker/renderer/PlatesRenderer.php',
+        'Windwalker\\Renderer\\RendererInterface' => __DIR__ . '/..' . '/windwalker/renderer/RendererInterface.php',
+        'Windwalker\\Renderer\\Test\\BladeRendererTest' => __DIR__ . '/..' . '/windwalker/renderer/Test/BladeRendererTest.php',
+        'Windwalker\\Renderer\\Test\\Chris' => __DIR__ . '/..' . '/windwalker/renderer/Test/MustacheRendererTest.php',
+        'Windwalker\\Renderer\\Test\\MustacheRendererTest' => __DIR__ . '/..' . '/windwalker/renderer/Test/MustacheRendererTest.php',
+        'Windwalker\\Renderer\\Test\\PhpRendererTest' => __DIR__ . '/..' . '/windwalker/renderer/Test/PhpRendererTest.php',
+        'Windwalker\\Renderer\\Test\\PlatesRendererTest' => __DIR__ . '/..' . '/windwalker/renderer/Test/PlatesRendererTest.php',
+        'Windwalker\\Renderer\\Test\\Stub\\StubTwigExtension' => __DIR__ . '/..' . '/windwalker/renderer/Test/Stub/StubTwigExtension.php',
+        'Windwalker\\Renderer\\Test\\TwigRendererTest' => __DIR__ . '/..' . '/windwalker/renderer/Test/TwigRendererTest.php',
+        'Windwalker\\Renderer\\Test\\Twig\\GlobalContainerTest' => __DIR__ . '/..' . '/windwalker/renderer/Test/Twig/GlobalContainerTest.php',
+        'Windwalker\\Renderer\\TwigRenderer' => __DIR__ . '/..' . '/windwalker/renderer/TwigRenderer.php',
+        'Windwalker\\Renderer\\Twig\\GlobalContainer' => __DIR__ . '/..' . '/windwalker/renderer/Twig/GlobalContainer.php',
+        'Windwalker\\Renderer\\Twig\\TwigFilesystemLoader' => __DIR__ . '/..' . '/windwalker/renderer/Twig/TwigFilesystemLoader.php',
+        'Windwalker\\Structure\\Format' => __DIR__ . '/..' . '/windwalker/structure/Format.php',
+        'Windwalker\\Structure\\Format\\FormatInterface' => __DIR__ . '/..' . '/windwalker/structure/Format/FormatInterface.php',
+        'Windwalker\\Structure\\Format\\IniFormat' => __DIR__ . '/..' . '/windwalker/structure/Format/IniFormat.php',
+        'Windwalker\\Structure\\Format\\JsonFormat' => __DIR__ . '/..' . '/windwalker/structure/Format/JsonFormat.php',
+        'Windwalker\\Structure\\Format\\PhpFormat' => __DIR__ . '/..' . '/windwalker/structure/Format/PhpFormat.php',
+        'Windwalker\\Structure\\Format\\XmlFormat' => __DIR__ . '/..' . '/windwalker/structure/Format/XmlFormat.php',
+        'Windwalker\\Structure\\Format\\YamlFormat' => __DIR__ . '/..' . '/windwalker/structure/Format/YamlFormat.php',
+        'Windwalker\\Structure\\Format\\YmlFormat' => __DIR__ . '/..' . '/windwalker/structure/Format/YmlFormat.php',
+        'Windwalker\\Structure\\Structure' => __DIR__ . '/..' . '/windwalker/structure/Structure.php',
+        'Windwalker\\Structure\\StructureHelper' => __DIR__ . '/..' . '/windwalker/structure/StructureHelper.php',
+        'Windwalker\\Structure\\Test\\Format\\IniFormatTest' => __DIR__ . '/..' . '/windwalker/structure/Test/Format/IniFormatTest.php',
+        'Windwalker\\Structure\\Test\\Format\\JsonFormatTest' => __DIR__ . '/..' . '/windwalker/structure/Test/Format/JsonFormatTest.php',
+        'Windwalker\\Structure\\Test\\Format\\PhpFormatTest' => __DIR__ . '/..' . '/windwalker/structure/Test/Format/PhpFormatTest.php',
+        'Windwalker\\Structure\\Test\\Format\\XmlFormatTest' => __DIR__ . '/..' . '/windwalker/structure/Test/Format/XmlFormatTest.php',
+        'Windwalker\\Structure\\Test\\Format\\YamlFormatTest' => __DIR__ . '/..' . '/windwalker/structure/Test/Format/YamlFormatTest.php',
+        'Windwalker\\Structure\\Test\\StructureHelperTest' => __DIR__ . '/..' . '/windwalker/structure/Test/StructureHelperTest.php',
+        'Windwalker\\Structure\\Test\\StructureTest' => __DIR__ . '/..' . '/windwalker/structure/Test/StructureTest.php',
+        'Windwalker\\Structure\\Test\\Stubs\\StubDumpable' => __DIR__ . '/..' . '/windwalker/structure/Test/Stubs/StubDumpable.php',
         'XdgBaseDir\\Xdg' => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src/Xdg.php',
         'Zend\\Diactoros\\AbstractSerializer' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/AbstractSerializer.php',
         'Zend\\Diactoros\\CallbackStream' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/CallbackStream.php',

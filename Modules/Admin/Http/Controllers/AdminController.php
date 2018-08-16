@@ -18,9 +18,22 @@ use Modules\Admin\Entities\Season;
 use Modules\Admin\Entities\User;
 use Modules\Admin\Entities\UserGroup;
 use Modules\Admin\Entities\Village;
-
+/**
+ * @resource admin controller
+ *
+ * manage all subSystem values
+ */
 class AdminController extends Controller
 {
+
+    /**
+     * fetch all Region by county id
+     *
+     * you have pass above params:
+     *
+     * 1- cId => countyId
+     *
+     */
     public function getRegionsByCountyId(Request $request)
     {
             $region = Region::where('reCoId' , '=' , $request->coId)->get();

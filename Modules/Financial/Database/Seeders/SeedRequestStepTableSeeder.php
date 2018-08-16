@@ -67,5 +67,18 @@ class SeedRequestStepTableSeeder extends Seeder
         $rStep->rstCId = 3;
         $rStep->rstOrder = 4;
         $rStep->save();
+
+        /////////////////////////////
+        $rStep = new RequestStep();
+        $rStep->rstRtId = 3;
+        $rStep->rstCId = 1;
+        $rStep->rstOrder = 1;
+        $rStep->save();
+
+        $rStep = new RequestStep();
+        $rStep->rstRtId = 3;
+        $rStep->rstCId = 3;
+        $rStep->rstOrder = 2;
+        $rStep->save();
     }
 }
