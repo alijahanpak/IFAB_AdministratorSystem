@@ -79,7 +79,7 @@
                     <div class="small-font">
                         <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="commodity_tab_view">
                             <li class="tabs-title is-active"><a href="#reciverTab" aria-selected="true">دریافت کنندگان</a></li>
-                            <li class="tabs-title"><a href="#commodityTab">فرم درخواست کالا</a></li>
+                            <li class="tabs-title"><a href="#commodityTab">فرم درخواست </a></li>
                         </ul>
                         <div class="tabs-content" data-tabs-content="commodity_tab_view">
                             <!--Tab 1-->
@@ -89,13 +89,13 @@
                                         <div class="grid-x">
                                             <div v-if="recipientsGroup.rstIsRequire == 1" class="large-6 medium-6 small-12">
                                                 <label>{{recipientsGroup.category.cSubject}}
-                                                    <select class="form-element-margin-btm"  v-model="recipientUsersInput['recipient'[+recipientsGroup.id]]" :name="'recipient'[+recipientsGroup.id]" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('recipient[+recipientsGroup.id]')}">
+                                                    <select class="form-element-margin-btm" :name="'recipient'+recipientsGroup.id" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('recipient'+recipientsGroup.id)}">
                                                         <option value=""></option>
                                                         <template v-for="rolCat in recipientsGroup.category.role_category">
-                                                            <option v-for="users in rolCat.role.user" :value="users.id" >{{users.name}} - {{rolCat.role.rSubject}}</option>
+                                                            <option v-for="users in rolCat.role.user" @click="getUserRecipients(recipientsGroup.id,users.id)" :value="recipientsGroup.id">{{users.name}} - {{rolCat.role.rSubject}}</option>
                                                         </template>
                                                     </select>
-                                                    <span v-show="errors.has('recipient[+recipientsGroup.id]')" class="error-font">لطفا فیلد {{recipientsGroup.category.cSubject}}}  را انتخاب کنید!</span>
+                                                    <span v-show="errors.has('recipient'+recipientsGroup.id)" class="error-font">لطفا فیلد {{recipientsGroup.category.cSubject}}  را انتخاب کنید!</span>
                                                 </label>
                                             </div>
                                             <div v-else="recipientsGroup.rstIsRequire==0" class="large-6 medium-6 small-12">
@@ -144,14 +144,15 @@
                                         </label>
                                         <span v-show="errors.has('requestSubject')" class="error-font">لطفا موضوع را برای درخواست مورد نظر را وارد نمایید!</span>
                                     </div>
-                                    <div style="margin-top: 20px;" class="large-12 medium-12 small-12">
+                                    <!--Commodity Start-->
+                                    <div  v-show="requestTypeSend == 'BUY_COMMODITY'" style="margin-top: 20px;" class="large-12 medium-12 small-12">
                                         <table class="stack">
                                             <thead>
                                             <tr style="color: #575962;">
                                                 <th width="50">ردیف</th>
                                                 <th>شرح و نوع جنس</th>
                                                 <th width="100">تعداد</th>
-                                                <th width="150">مبلغ برآوردی</th>
+                                                <th width="200">مبلغ برآوردی <span class="btn-red small-font">({{costTemp}})</span></th>
                                                 <th>توضیحات (موارد مصرف)</th>
                                                 <th>عملیات</th>
                                             </tr>
@@ -189,12 +190,57 @@
                                                 <td class="text-center"><a v-if="commodityQuery != '' && commodityItem.commodityCount != '' && commodityItem.commodityPrice" @click="addCommodityItem()"><i class="fas fa-check btn-green size-18"></i></a></td>
                                             </tr>
                                             <tr>
-                                                <td colspan="4" class="text-center font-wei-bold">مجموع برآورد</td>
-                                                <td colspan="2" class="text-center font-wei-bold">{{sumOfCommodityPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}}</td>
+                                                <td colspan="4" class="text-center font-wei-bold"> مجموع برآورد</td>
+                                                <td colspan="2" class="text-center font-wei-bold">{{sumOfCommodityPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}} <span class="btn-red">{{  costTemp  }}</span> </td>
                                             </tr>
                                             </tbody>
                                         </table>
                                     </div>
+                                    <!--Commodity End-->
+
+                                    <!--Service Start-->
+                                    <div v-show="requestTypeSend == 'BUY_SERVICES'" class="large-12 medium-12 small-12">
+                                        <div class="grid-x">
+                                            <div class="large-4 medium-4 small-12">
+                                                <label>برآورد تقریبی اعتبار مورد نیاز <span class="btn-red">({{costTemp}})</span>
+                                                    <money v-model="requestInput.serviceEstimated"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('price')}"></money>
+                                                </label>
+                                                <span v-show="errors.has('serviceEstimated')" class="error-font">لطفا مبلغ تقریبی را برای درخواست مورد نظر را وارد نمایید!</span>
+                                            </div>
+                                            <div class="large-12 medium-12 small-12">
+                                                <label>شرح کامل خدمات
+                                                    <textarea class="form-element-margin-btm"  style="min-height: 150px;" name="fullDescription" v-model="requestInput.fullDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
+                                                    <span v-show="errors.has('fullDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</span>
+                                                </label>
+                                            </div>
+                                            <div class="large-12 medium-12 small-12">
+                                                <label>توضیحات تکمیلی
+                                                    <textarea class="form-element-margin-btm"  style="min-height: 150px;" name="furtherDescription" v-model="requestInput.furtherDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('furtherDescription')}"></textarea>
+                                                    <span v-show="errors.has('furtherDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Service End-->
+
+                                    <!--Fund Start-->
+                                    <div v-show="requestTypeSend == 'FUND'" class="large-12 medium-12 small-12">
+                                        <div class="grid-x">
+                                            <div class="large-4 medium-4 small-12">
+                                                <label> مبلغ تنخواه <span class="btn-red">({{costTemp}})</span>
+                                                    <money v-model="requestInput.fundEstimated"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('price')}"></money>
+                                                </label>
+                                                <span v-show="errors.has('fundEstimated')" class="error-font">لطفا مبلغ تنخواه را برای درخواست مورد نظر را وارد نمایید!</span>
+                                            </div>
+                                            <div class="large-12 medium-12 small-12">
+                                                <label>متن درخواست
+                                                    <textarea class="form-element-margin-btm"  style="min-height: 150px;" name="requestText" v-model="requestInput.fullDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
+                                                    <span v-show="errors.has('fullDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Fund End-->
                                 </div>
                             </div>
                             <!--Tab 2-->
@@ -246,9 +292,9 @@
                 convertCommodityPrice:'',
                 requestTypeSend:'',
                 requestTypeId:'',
-                recipientUsersInput:[],
                 recipientUsers:[],
                 isRequireChangeState:false,
+                costTemp:'',
 
 
             }
@@ -261,6 +307,7 @@
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
+            this.costTemp =  '  ' + this.$parent.getDispAmountBaseLabel();
         },
 
         mounted: function () {
@@ -350,23 +397,11 @@
                 this.requestTypeSend=st.rtType;
                 this.requestTypeId=st.id;
                 this.fetchRecipientsGroup();
-                switch (st.id){
-                    case 1:
-                        this.showBuyServiceModal=true;
-                        break;
 
-                    case 2:
-                        this.showBuyCommodityModal=true;
-                        this.fetchCommodity();
-                        this.sumOfCommodityPrice=0;
-                        break;
+                this.showBuyCommodityModal=true;
+                this.fetchCommodity();
+                this.sumOfCommodityPrice=0;
 
-                    case 3:
-                        this.showFundModal=true;
-                        this.fetchCommodity();
-                        break;
-
-                }
             },
 
             addCommodityItem: function () {
@@ -380,7 +415,6 @@
                     var temp;
                     temp=sum.commodityPrice.replace(',','');
                     this.sumOfCommodityPrice+=parseInt(temp,10);
-
                 });
 
             },
@@ -390,64 +424,89 @@
             },
 
             createRequest: function () {
-                /*this.recipientUsersInput.forEach (users=>{
-                   this.recipientUsers.push('recipient'[+users.id]);
-                });*/
-                /*alert(this.recipientUsersInput);
-                console.log(JSON.stringify(this.recipients));
-                this.recipients.forEach(rec=> {
-                    if (this.recipientUsersInput['recipient'[+recipientsGroup.id] == rec.category)
-                        this.recipientUsers.push(rec.id);
-                    rec.category.role_category.forEach(role_category =>{
-                        role_category.role.user.forEach(user=>{
-                            this.recipientUsers.push(user.id);
+                this.$validator.validateAll().then((result) => {
+                    if(this.requestTypeSend == 'BUY_SERVICE'){
+                        this.sumOfCommodityPrice=this.requestInput.serviceEstimated;
+                    }
+
+                    if (result) {
+                        var config = {
+                            headers: {'Content-Type': 'multipart/form-data'},
+                            onUploadProgress: function (progressEvent) {
+                                this.percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                                this.$forceUpdate();
+                            }.bind(this)
+                        };
+                        //this.prepareFields();
+                        this.data.append('subject', this.requestInput.rSubject );
+                        this.data.append('rtId', this.requestTypeId );
+                        this.data.append('costEstimation', this.sumOfCommodityPrice);
+                        this.data.append('description', this.requestInput.fullDescription);
+                        this.data.append('furtherDetails', this.requestInput.furtherDescription);
+                        if(this.requestTypeSend == 'BUY_COMMODITY'){
+                            this.commodityRequest.forEach ((items,index) => {
+                                this.data.append('items['+index+'][subject]', items.commodityName );
+                                this.data.append('items['+index+'][count]', items.commodityCount );
+                                this.data.append('items['+index+'][costEstimation]', items.commodityPrice.replace(',',''));
+                                this.data.append('items['+index+'][description]', items.commodityDescription );
+                            });
+                        }
+                        else {
+                            this.data.append('items',null);
+                        }
+
+                        this.recipientUsers.forEach((user,index) => {
+                            this.data.append('verifiers['+index+'][rstId]', user.stepId );
+                            this.data.append('verifiers['+index+'][uId]', user.userId );
                         });
+
+
+                        axios.post('/financial/request/register', this.data , config).then((response) => {
+                            this.submissions = response.data.data;
+                            this.showBuyCommodityModal = false;
+                            this.$parent.displayNotif(response.status);
+                            console.log(response);
+                            this.resetData();
+                        }, (error) => {
+                            console.log(error);
+                            this.$parent.displayNotif(error.response.status);
+                            this.data = new FormData();
+                        });
+
+
+                    }
+                });
+
+            },
+
+            getUserRecipients:function (stepId,userId) {
+                var recipientUsersInput={};
+                recipientUsersInput.stepId=stepId;
+                recipientUsersInput.userId=userId;
+
+                if(this.recipientUsers === undefined || this.recipientUsers.length == 0){
+                    this.recipientUsers.push(recipientUsersInput);
+                }
+                else{
+                    this.recipientUsers.forEach((item,index) =>{
+                        if(item.stepId ==  recipientUsersInput.stepId){
+                            this.recipientUsers.splice(index,1);
+                            this.recipientUsers.push(recipientUsersInput);
+                        }
+                        else{
+                            this.recipientUsers.push(recipientUsersInput);
+                        }
                     });
-                });*/
-
-
-    this.$validator.validateAll().then((result) => {
-        if (result) {
-            var config = {
-                headers: {'Content-Type': 'multipart/form-data'},
-                onUploadProgress: function (progressEvent) {
-                    this.percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                    this.$forceUpdate();
-                }.bind(this)
-            };
-            //this.prepareFields();
-            this.data.append('subject', this.requestInput.rSubject );
-            this.data.append('rtId', this.requestTypeId );
-            this.data.append('costEstimation', this.sumOfCommodityPrice);
-            this.commodityRequest.forEach ((items,index) => {
-                this.data.append('items['+index+'][subject]', items.commodityName );
-                this.data.append('items['+index+'][count]', items.commodityCount );
-                this.data.append('items['+index+'][costEstimation]', items.commodityPrice );
-                this.data.append('items['+index+'][description]', items.commodityDescription );
-            });
-
-            axios.post('/financial/request/register', this.data , config).then((response) => {
-                this.submissions = response.data.data;
-                this.makePagination(response.data);
-                this.showInsertModal = false;
-                this.$parent.displayNotif(response.status);
-                console.log(response);
-                this.resetData();
-            }, (error) => {
-                console.log(error);
-                this.$parent.displayNotif(error.response.status);
-                this.data = new FormData();
-            });
-
-
-        }
-    });
-
-},
+                }
+                console.log(JSON.stringify(this.recipientUsers));
+            },
 
 
 
-
-}
+            resetData() {
+                this.data = new FormData(); // Reset it completely
+                this.attachments = [];
+            },
+    }
 }
 </script>
