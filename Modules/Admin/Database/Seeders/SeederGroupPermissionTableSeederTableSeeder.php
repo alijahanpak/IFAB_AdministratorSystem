@@ -17,7 +17,7 @@ class SeederGroupPermissionTableSeederTableSeeder extends Seeder
     {
         Model::unguard();
 
-        for ($i = 1 ; $i <= 70 ;$i++)
+        for ($i = 2 ; $i <= 76 ;$i++)
         {
             $gPermission = new GroupPermission;
             $gPermission->gpGId = 1;
@@ -25,7 +25,7 @@ class SeederGroupPermissionTableSeederTableSeeder extends Seeder
             $gPermission->save();
         }
 
-        for ($i = 1 ; $i <= 70 ;$i++)
+        for ($i = 1 ; $i <= 75 ;$i++)
         {
             $gPermission = new GroupPermission;
             $gPermission->gpGId = 2;
@@ -33,7 +33,7 @@ class SeederGroupPermissionTableSeederTableSeeder extends Seeder
             $gPermission->save();
         }
 
-        for ($i = 1 ; $i <= 70 ;$i++)
+        for ($i = 1 ; $i <= 75 ;$i++)
         {
             $gPermission = new GroupPermission;
             $gPermission->gpGId = 3;
@@ -41,7 +41,7 @@ class SeederGroupPermissionTableSeederTableSeeder extends Seeder
             $gPermission->save();
         }
 
-        for ($i = 1 ; $i <= 70 ;$i++)
+        for ($i = 1 ; $i <= 75 ;$i++)
         {
             $gPermission = new GroupPermission;
             $gPermission->gpGId = 4;
@@ -49,7 +49,7 @@ class SeederGroupPermissionTableSeederTableSeeder extends Seeder
             $gPermission->save();
         }
 
-        for ($i = 1 ; $i <= 70 ;$i++)
+        for ($i = 1 ; $i <= 75 ;$i++)
         {
             $gPermission = new GroupPermission;
             $gPermission->gpGId = 5;

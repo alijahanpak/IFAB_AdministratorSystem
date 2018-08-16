@@ -55,6 +55,9 @@ class _Request extends Model
                 ->where('rvUId' , '=' , Auth::user()->id);
         })->value('rstOrder');
 
+        if (!$myOrder)
+            return [];
+
         $result = RequestVerifiers::where('rvRId' , '=' , $this->id)
             ->where('rvUId' , '<>' , Auth::user()->id)
             ->where('rvSId' , '=' , null)
