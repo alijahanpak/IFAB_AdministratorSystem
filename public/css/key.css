@@ -1876,7 +1876,7 @@ input[type="search"]:valid + label {
 }
 
 .medium-top-m{
-    margin-top: 20px;
+    margin-top: 50px;
 }
 
 /* Vue Transition End*/
