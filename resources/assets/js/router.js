@@ -55,7 +55,7 @@ const routes = [
     { path: '/budget/admin/credit_distribution/plan', component: credit_distribution_plan , meta:{permission: 'BUDGET_CREDIT_DISTRIBUTION_PLAN_DISPLAY'}},
     { path: '/budget/admin/credit_distribution/proposal', component: budget_proposal , meta:{permission: 'BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_DISPLAY'}},
     /////////////////////// Financial Department Start//////////////////////////
-    { path: '/financial_department', component: fdDashboard , meta:{permission: 'public'}},
+    { path: '/financial_department', component: fdDashboard , meta:{permission: 'FINANCIAL_DASHBOARD_DISPLAY'}},
     { path: '/financial_department/submissions', component: submissions , meta:{permission: 'public'}},
 ]
 
@@ -179,7 +179,7 @@ var app = new Vue({
         currentAabLabel:'',
         nPassword:'',
         reNPassword:'',
-        userInfo: {name: '...' , role:{rSubject: '...'} , avatarPath: null},
+        userInfo: {id: '',name: '...' , role:{rSubject: '...'} , avatarPath: null},
         showModalLogin: false,
         showModalUserSetting: false,
         authInfo: {email: '' , password: ''},
@@ -278,21 +278,27 @@ var app = new Vue({
                             console.log('.......................... permission' + accessPermissions);
                             this.access = accessPermissions;
                             this.showModalLogin = false;
-                            if (this.groupPermission.rRole == sessionStorage.getItem("ifab_lastUserRole"))
-                            {
-                                sessionStorage.setItem('ifab_lastUserRole' , this.groupPermission.rRole);
-                                window.location.href = window.hostname + '#' + this.$router.currentRoute.path;
-                            }
-                            else if (this.groupPermission.rRole == 'BUDGET_ADMIN' || this.groupPermission.rRole == 'BUDGET_EXPERT')
-                            {
-                                sessionStorage.setItem('ifab_lastUserRole' , this.groupPermission.rRole);
-                                window.location.href = window.hostname + '#/budget';
-                            }
-                            else if (this.groupPermission.rRole == 'FINANCIAL_DEPARTMENT_ADMIN' || this.groupPermission.rRole == 'FINANCIAL_DEPARTMENT_EXPERT')
-                            {
-                                sessionStorage.setItem('ifab_lastUserRole' , this.groupPermission.rRole);
-                                window.location.href = window.hostname + '#/financial_department';
-                            }
+                            axios.get('/api/getAuthUserInfo')
+                                .then((response) => {
+                                    console.log(response);
+                                    this.userInfo = response.data;
+                                    if (this.$can('BUDGET_DASHBOARD_DISPLAY'))
+                                    {
+                                        if ((sessionStorage.getItem("ifab_lastUserId") == this.userInfo.id) && (this.$router.currentRoute.path == sessionStorage.getItem("ifab_lastUserUrl")))
+                                            window.location.href = window.hostname + '#' + this.$router.currentRoute.path;
+                                        else
+                                            window.location.href = window.hostname + '#/budget';
+                                    }
+                                    else if (this.$can('FINANCIAL_DASHBOARD_DISPLAY'))
+                                    {
+                                        if ((sessionStorage.getItem("ifab_lastUserId") == this.userInfo.id) && (this.$router.currentRoute.path == sessionStorage.getItem("ifab_lastUserUrl")))
+                                            window.location.href = window.hostname + '#' + this.$router.currentRoute.path;
+                                        else
+                                            window.location.href = window.hostname + '#/financial_department';
+                                    }
+                                },(error) => {
+                                    console.log(error);
+                                });
                         },(error) => {
                             console.log(error);
                             this.displayNotif(error.response.status);
@@ -575,6 +581,8 @@ var app = new Vue({
         },
 
         logout: function () {
+            sessionStorage.setItem('ifab_lastUserUrl' , '');
+            sessionStorage.setItem('ifab_lastUserId' , '');
             this.$store.dispatch("logout");
             this.$router.go(this.$router.currentRoute.path);
         },
@@ -611,6 +619,8 @@ var app = new Vue({
                 clearInterval(this.prevNowPlaying);
                 this.$store.dispatch("logout");
                 this.showModalLogin = true;
+                sessionStorage.setItem('ifab_lastUserUrl' , this.$router.currentRoute.path);
+                sessionStorage.setItem('ifab_lastUserId' , this.userInfo.id);
             }
         },
 

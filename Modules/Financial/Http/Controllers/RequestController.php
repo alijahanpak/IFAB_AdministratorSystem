@@ -49,7 +49,7 @@ class RequestController extends Controller
 
     function getAllPostedRequests($uId)
     {
-        return _Request::where('rUId' , $uId)
+        return _Request::where('rUId' , '=' , $uId)
             ->with('requestState')
             ->with('requestType')
             ->with('requestCommodity.commodity')
