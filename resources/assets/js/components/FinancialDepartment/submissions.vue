@@ -89,13 +89,13 @@
                                         <div class="grid-x">
                                             <div v-if="recipientsGroup.rstIsRequire == 1" class="large-6 medium-6 small-12">
                                                 <label>{{recipientsGroup.category.cSubject}}
-                                                    <select class="form-element-margin-btm"  v-model="recipientUsersInput['recipient'[+recipientsGroup.id]]" :name="'recipient'[+recipientsGroup.id]" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('recipient[+recipientsGroup.id]')}">
+                                                    <select class="form-element-margin-btm" :name="'recipient'+recipientsGroup.id" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('recipient'+recipientsGroup.id)}">
                                                         <option value=""></option>
                                                         <template v-for="rolCat in recipientsGroup.category.role_category">
-                                                            <option v-for="users in rolCat.role.user" :value="users.id" >{{users.name}} - {{rolCat.role.rSubject}}</option>
+                                                            <option v-for="users in rolCat.role.user" @click="getUserRecipients(recipientsGroup.id,users.id)" :value="recipientsGroup.id">{{users.name}} - {{rolCat.role.rSubject}}</option>
                                                         </template>
                                                     </select>
-                                                    <span v-show="errors.has('recipient[+recipientsGroup.id]')" class="error-font">لطفا فیلد {{recipientsGroup.category.cSubject}}}  را انتخاب کنید!</span>
+                                                    <span v-show="errors.has('recipient'+recipientsGroup.id)" class="error-font">لطفا فیلد {{recipientsGroup.category.cSubject}}  را انتخاب کنید!</span>
                                                 </label>
                                             </div>
                                             <div v-else="recipientsGroup.rstIsRequire==0" class="large-6 medium-6 small-12">
@@ -246,7 +246,6 @@
                 convertCommodityPrice:'',
                 requestTypeSend:'',
                 requestTypeId:'',
-                recipientUsersInput:[],
                 recipientUsers:[],
                 isRequireChangeState:false,
 
@@ -380,7 +379,6 @@
                     var temp;
                     temp=sum.commodityPrice.replace(',','');
                     this.sumOfCommodityPrice+=parseInt(temp,10);
-
                 });
 
             },
@@ -390,64 +388,78 @@
             },
 
             createRequest: function () {
-                /*this.recipientUsersInput.forEach (users=>{
-                   this.recipientUsers.push('recipient'[+users.id]);
-                });*/
-                /*alert(this.recipientUsersInput);
-                console.log(JSON.stringify(this.recipients));
-                this.recipients.forEach(rec=> {
-                    if (this.recipientUsersInput['recipient'[+recipientsGroup.id] == rec.category)
-                        this.recipientUsers.push(rec.id);
-                    rec.category.role_category.forEach(role_category =>{
-                        role_category.role.user.forEach(user=>{
-                            this.recipientUsers.push(user.id);
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        var config = {
+                            headers: {'Content-Type': 'multipart/form-data'},
+                            onUploadProgress: function (progressEvent) {
+                                this.percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                                this.$forceUpdate();
+                            }.bind(this)
+                        };
+                        //this.prepareFields();
+                        this.data.append('subject', this.requestInput.rSubject );
+                        this.data.append('rtId', this.requestTypeId );
+                        this.data.append('costEstimation', this.sumOfCommodityPrice);
+                        this.commodityRequest.forEach ((items,index) => {
+                            this.data.append('items['+index+'][subject]', items.commodityName );
+                            this.data.append('items['+index+'][count]', items.commodityCount );
+                            this.data.append('items['+index+'][costEstimation]', items.commodityPrice.replace(',',''));
+                            this.data.append('items['+index+'][description]', items.commodityDescription );
                         });
+                        this.recipientUsers.forEach((user,index) => {
+                            this.data.append('verifiers['+index+'][rstId]', user.stepId );
+                            this.data.append('verifiers['+index+'][uId]', user.userId );
+                        });
+
+
+                        axios.post('/financial/request/register', this.data , config).then((response) => {
+                            this.submissions = response.data.data;
+                            this.makePagination(response.data);
+                            this.showInsertModal = false;
+                            this.$parent.displayNotif(response.status);
+                            console.log(response);
+                            this.resetData();
+                        }, (error) => {
+                            console.log(error);
+                            this.$parent.displayNotif(error.response.status);
+                            this.data = new FormData();
+                        });
+
+
+                    }
+                });
+
+            },
+
+            getUserRecipients:function (stepId,userId) {
+                var recipientUsersInput={};
+                recipientUsersInput.stepId=stepId;
+                recipientUsersInput.userId=userId;
+
+                if(this.recipientUsers === undefined || this.recipientUsers.length == 0){
+                    this.recipientUsers.push(recipientUsersInput);
+                }
+                else{
+                    this.recipientUsers.forEach((item,index) =>{
+                        if(item.stepId ==  recipientUsersInput.stepId){
+                            this.recipientUsers.splice(index,1);
+                            this.recipientUsers.push(recipientUsersInput);
+                        }
+                        else{
+                            this.recipientUsers.push(recipientUsersInput);
+                        }
                     });
-                });*/
-
-
-    this.$validator.validateAll().then((result) => {
-        if (result) {
-            var config = {
-                headers: {'Content-Type': 'multipart/form-data'},
-                onUploadProgress: function (progressEvent) {
-                    this.percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                    this.$forceUpdate();
-                }.bind(this)
-            };
-            //this.prepareFields();
-            this.data.append('subject', this.requestInput.rSubject );
-            this.data.append('rtId', this.requestTypeId );
-            this.data.append('costEstimation', this.sumOfCommodityPrice);
-            this.commodityRequest.forEach ((items,index) => {
-                this.data.append('items['+index+'][subject]', items.commodityName );
-                this.data.append('items['+index+'][count]', items.commodityCount );
-                this.data.append('items['+index+'][costEstimation]', items.commodityPrice );
-                this.data.append('items['+index+'][description]', items.commodityDescription );
-            });
-
-            axios.post('/financial/request/register', this.data , config).then((response) => {
-                this.submissions = response.data.data;
-                this.makePagination(response.data);
-                this.showInsertModal = false;
-                this.$parent.displayNotif(response.status);
-                console.log(response);
-                this.resetData();
-            }, (error) => {
-                console.log(error);
-                this.$parent.displayNotif(error.response.status);
-                this.data = new FormData();
-            });
-
-
-        }
-    });
-
-},
+                }
+                console.log(JSON.stringify(this.recipientUsers));
+            },
 
 
 
-
-}
+            resetData() {
+                this.data = new FormData(); // Reset it completely
+                this.attachments = [];
+            },
+    }
 }
 </script>
