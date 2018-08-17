@@ -36,5 +36,10 @@ class SeedRequestStateTableSeeder extends Seeder
         $rState->rsSubject = 'در صف دبیرخانه';
         $rState->rsState = 'SECRETARIAT_QUEUE';
         $rState->save();
+
+        $rState = new RequestState();
+        $rState->rsSubject = 'خاتمه یافته';
+        $rState->rsState = 'CLOSED';
+        $rState->save();
     }
 }
