@@ -19,6 +19,7 @@ class CreateRequestCommoditiesTable extends Migration
                 $table->bigInteger('rcRId')->length(20)->unsigned();
                 $table->bigInteger('rcCId')->length(20)->unsigned();
                 $table->integer('rcCount');
+                $table->integer('rcExistCount')->default(0);
                 $table->bigInteger('rcCostEstimation');
                 $table->boolean('rcIsExist')->default(false);
                 $table->longText('rcDescription')->nullable();
