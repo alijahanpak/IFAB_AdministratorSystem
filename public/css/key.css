@@ -57,7 +57,6 @@ td {
     color: #555555;
     font-size: 12px;
     border: solid 1.5px  #D8DEE2;
-    background-color: #FFFFFF;
 }
 th {
     border: solid 1.5px #C7CDD1;
@@ -1878,6 +1877,11 @@ input[type="search"]:valid + label {
 .medium-top-m{
     margin-top: 50px;
 }
+.table-row:hover{
+    background-color: #D8DEE2;
+    cursor: pointer;
+}
+
 
 /* Vue Transition End*/
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {

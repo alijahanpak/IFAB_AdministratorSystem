@@ -32,7 +32,9 @@
                     <div class="tbl-div-container">
                         <table class="tbl-head">
                             <colgroup>
+                                <col width="50px"/>
                                 <col width="590px"/>
+                                <col width="200px"/>
                                 <col width="200px"/>
                                 <col width="200px"/>
                                 <col width="200px"/>
@@ -40,7 +42,9 @@
                             </colgroup>
                             <tbody class="tbl-head-style">
                             <tr class="tbl-head-style-cell">
+                                <th class="tbl-head-style-cell">ردیف</th>
                                 <th class="tbl-head-style-cell">عنوان</th>
+                                <th class="tbl-head-style-cell">نوع درخواست</th>
                                 <th class="tbl-head-style-cell">قیمت</th>
                                 <th class="tbl-head-style-cell">شماره</th>
                                 <th class="tbl-head-style-cell">تاریخ</th>
@@ -53,14 +57,20 @@
                         <div class="tbl_body_style dynamic-height-level2">
                             <table class="tbl-body-contain">
                                 <colgroup>
+                                    <col width="50px"/>
                                     <col width="590px"/>
+                                    <col width="200px"/>
                                     <col width="200px"/>
                                     <col width="200px"/>
                                     <col width="200px"/>
                                 </colgroup>
                                 <tbody class="tbl-head-style-cell">
-                                <tr v-for="allSubmissions in submissions">
+                                <tr class="table-row" @click="getSubmissionDetail(allSubmissions)" v-for="(allSubmissions,index) in submissions">
+                                    <td>{{index+1}}</td>
                                     <td>{{allSubmissions.rSubject}}</td>
+                                    <td v-if="allSubmissions.rRtId==1"> خدمات</td>
+                                    <td v-else-if="allSubmissions.rRtId==2"> کالا</td>
+                                    <td v-else="allSubmissions.rRtId==3"> تنخواه</td>
                                     <td>{{allSubmissions.rCostEstimation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}}</td>
                                     <td>{{allSubmissions.rLetterNumber}}</td>
                                     <td>{{allSubmissions.rLetterDate}}</td>
@@ -203,7 +213,7 @@
                                         <div class="grid-x">
                                             <div class="large-4 medium-4 small-12">
                                                 <label>برآورد تقریبی اعتبار مورد نیاز <span class="btn-red">({{costTemp}})</span>
-                                                    <money v-model="requestInput.serviceEstimated"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('price')}"></money>
+                                                    <money v-model="requestInput.serviceEstimated"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('serviceEstimated')}"></money>
                                                 </label>
                                                 <span v-show="errors.has('serviceEstimated')" class="error-font">لطفا مبلغ تقریبی را برای درخواست مورد نظر را وارد نمایید!</span>
                                             </div>
@@ -252,7 +262,96 @@
                 </form>
             </div>
         </modal-large>
-        <!-- Submission Buy commodity Modal -->
+        <!-- Submission Buy  Modal -->
+
+        <!-- Submission Detail Modal -->
+        <modal-large v-if="showSubmissionDeatilModal" @close="showSubmissionDeatilModal = false">
+            <div  slot="body">
+                <div class="small-font">
+                    <div class="grid-x">
+                        <div v-show="requestTypeDetail == 'SERVICES'" class="large-12 medium-12 small-12">
+                            <div class="grid-x">
+                                <div class="large-12 medium-12 small-12">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td width="150px">شماره : </td>
+                                                <td>{{requestFill.rLetterNumber}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="150px">تاریخ : </td>
+                                                <td>{{requestFill.rLetterDate}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="150px">موضوع : </td>
+                                                <td>{{requestFill.rSubject}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="150px">مبلغ برآردی : </td>
+                                                <td>{{requestFill.rCostEstimation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}} <span class="btn-red">  {{costTemp}}  </span></td>
+                                            </tr>
+                                            <tr>
+                                                <td width="150px">شرح کامل خدمات : </td>
+                                                <td class="text-justify">{{requestFill.rDescription}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="150px">توضیحات تکمیلی : </td>
+                                                <td class="text-justify">{{requestFill.rFurtherDetails}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-show="requestTypeDetail == 'COMMODITY'" class="large-12 medium-12 small-12">
+                            <div class="grid-x">
+                                <div class="large-12 medium-12 small-12">
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <td width="150px">شماره : </td>
+                                            <td>{{requestFill.rLetterNumber}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td width="150px">تاریخ : </td>
+                                            <td>{{requestFill.rLetterDate}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td width="150px">موضوع : </td>
+                                            <td>{{requestFill.rSubject}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table>
+                                        <thead>
+                                        <th width="50">ردیف</th>
+                                        <th>شرح و نوع جنس</th>
+                                        <th width="100">تعداد</th>
+                                        <th width="200">مبلغ برآوردی <span class="btn-red small-font">({{costTemp}})</span></th>
+                                        <th>توضیحات (موارد مصرف)</th>
+                                        </thead>
+                                        <tbody>
+                                        <tr v-for="(lists,index) in commodityList">
+                                            <td>{{index+1}}</td>
+                                            <td>{{lists.commodity.cSubject}}</td>
+                                            <td>{{lists.rcCount}}</td>
+                                            <td>{{lists.rcCostEstimation}}</td>
+                                            <td>{{lists.rcDescription}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-show="requestTypeDetail == 'FUND'" class="large-12 medium-12 small-12">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-large>
+        <!-- Submission Detail Modal -->
     </div>
 </template>
 
@@ -272,9 +371,9 @@
                 commodity:[],
                 recipients:[],
                 requestInput:{},
-                showBuyServiceModal:false,
+                requestFill:{},
                 showBuyCommodityModal:false,
-                showFundModal:false,
+                showSubmissionDeatilModal:false,
                 //commodity input text
                 commodityQuery: '',
                 commodityList: [],
@@ -291,6 +390,7 @@
                 sumOfCommodityPrice:0,
                 convertCommodityPrice:'',
                 requestTypeSend:'',
+                requestTypeDetail:'',
                 requestTypeId:'',
                 recipientUsers:[],
                 isRequireChangeState:false,
@@ -410,24 +510,23 @@
                 this.commodityRequest.push(this.commodityItem);
                 console.log(JSON.stringify(this.commodityRequest));
                 this.commodityQuery='';
+                var temp;
+                temp=this.commodityItem.commodityPrice.replace(',','');
+                this.sumOfCommodityPrice+=parseInt(temp,10);
                 this.commodityItem={};
-                this.commodityRequest.forEach(sum => {
-                    var temp;
-                    temp=sum.commodityPrice.replace(',','');
-                    this.sumOfCommodityPrice+=parseInt(temp,10);
-                });
 
             },
 
             deleteCommodityItem: function (index) {
+                var arrayTemp=[];
+                arrayTemp=this.commodityRequest[index];
+                //arrayTemp.commodityPrice.replace(',','');
+                this.sumOfCommodityPrice-=parseInt(arrayTemp.commodityPrice.replace(',',''),10);
                 this.commodityRequest.splice(index,1);
             },
 
             createRequest: function () {
                 this.$validator.validateAll().then((result) => {
-                    if(this.requestTypeSend == 'BUY_SERVICE'){
-                        this.sumOfCommodityPrice=this.requestInput.serviceEstimated;
-                    }
 
                     if (result) {
                         var config = {
@@ -437,10 +536,15 @@
                                 this.$forceUpdate();
                             }.bind(this)
                         };
+                        if(this.requestTypeSend == 'BUY_SERVICES'){
+                            this.sumOfCommodityPrice=this.requestInput.serviceEstimated.replace(',','');
+                            alert( this.sumOfCommodityPrice);
+                        }
                         //this.prepareFields();
                         this.data.append('subject', this.requestInput.rSubject );
                         this.data.append('rtId', this.requestTypeId );
                         this.data.append('costEstimation', this.sumOfCommodityPrice);
+                        alert(this.sumOfCommodityPrice);
                         this.data.append('description', this.requestInput.fullDescription);
                         this.data.append('furtherDetails', this.requestInput.furtherDescription);
                         if(this.requestTypeSend == 'BUY_COMMODITY'){
@@ -506,6 +610,35 @@
             resetData() {
                 this.data = new FormData(); // Reset it completely
                 this.attachments = [];
+            },
+
+            getSubmissionDetail: function (submission) {
+                this.showSubmissionDeatilModal=true;
+                if (submission.rRtId == 1){
+                    this.requestTypeDetail='SERVICES';
+                    this.requestFill.rLetterNumber=submission.rLetterNumber;
+                    this.requestFill.rLetterDate=submission.rLetterDate
+                    this.requestFill.rSubject=submission.rSubject;
+                    this.requestFill.rCostEstimation=submission.rCostEstimation;
+                    this.requestFill.rDescription=submission.rDescription;
+                    this.requestFill.rFurtherDetails=submission.rFurtherDetails;
+                }
+                else if (submission.rRtId == 2){
+                    this.commodityList=[];
+                    this.requestTypeDetail='COMMODITY';
+                    this.requestFill.rLetterNumber=submission.rLetterNumber;
+                    this.requestFill.rLetterDate=submission.rLetterDate
+                    this.requestFill.rSubject=submission.rSubject;
+                    this.submissions.forEach(items => {
+                        items.request_commodity.forEach(commodity => {
+                            this.commodityList.push(commodity);
+                        });
+                    });
+                    console.log(JSON.stringify(this.commodityList));
+                }
+                else if (submission.rRtId == 3){
+                    this.requestTypeDetail='FUND';
+                }
             },
     }
 }
