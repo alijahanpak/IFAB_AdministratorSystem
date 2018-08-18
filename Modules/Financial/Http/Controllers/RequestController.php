@@ -139,6 +139,7 @@ class RequestController extends Controller
     function getAllReceivedRequests($reqIds)
     {
         return _Request::whereIn('id' , $reqIds)
+            ->where('rRsId' , '=' , RequestState::where('rsState' , '=' , 'ACTIVE')->value('id'))
             ->with('requestState')
             ->with('requestType')
             ->with('requestCommodity.commodity')
@@ -221,6 +222,7 @@ class RequestController extends Controller
 
     public function accept(Request $request)
     {
+        $requestClosed = false;
         $sig = Signature::where('sUId' , '=' , Auth::user()->id)->first();
         $currentVerifier = RequestVerifiers::find($request->verifierId);
         $req = _Request::find($currentVerifier->rvRId);
@@ -229,39 +231,75 @@ class RequestController extends Controller
         {
             if (count($req->rRemainingVerifiers) == 0)
             {
+                // determine exist item with warehouse keeper
+                if (is_array($request->get('itemExistCount')))
+                {
+                    foreach ($request->get('itemExistCount') as $item)
+                    {
+                        $temp = RequestCommodity::find($item['rcId']);
+                        RequestCommodity::where('id' , '=' , $item['rcId'])
+                            ->update(['rcExistCount' => $item['existCount'] , 'rcIsExist' => $temp->rcCount <= $item['existCount'] ? true : false]);
+                    }
+
+                    // calculate new cost estimation
+                    $allRcItems = RequestCommodity::where('rcRId' , '=' , $req->id)->get();
+                    $costEstimation = 0;
+                    foreach ($allRcItems as $item)
+                    {
+                        if ($item->rcCount >= $item->rcExistCount)
+                        {
+                            $costEstimation += (($item->rcCount - $item->rcExistCount) * $item->rcCostEstimation);
+                        }
+                    }
+
+
+                    $req->rCostEstimation = $costEstimation;
+                    if ($costEstimation == 0)
+                    {
+                        $req->rRsId = RequestState::where('rsState' , '=' , 'CLOSED')->value('id');
+                        $requestClosed = true;
+                    }
+                    $req->save();
+                }
+
                 RequestVerifiers::where('rvRId' , '=' , $currentVerifier->rvRId)
                     ->where('rvUId' , '=' , $currentVerifier->rvUId)
                     ->update(['rvSId' => $sig->id]);
-
-                $nextVerifier = RequestVerifiers::where('rvRId' , '=' , $currentVerifier->rvRId)
-                    ->where('id' , '>' , $currentVerifier->id)
-                    ->where('rvSId' , '=' , null)
-                    ->first();
-                if ($nextVerifier)
+                if ($requestClosed)
                 {
-                    // make history for this request
-                    $history = new RequestHistory();
-                    $history->rhSrcUId = Auth::user()->id;
-                    $history->rhDestUId = $nextVerifier->rvUId; // for secretariat destination
-                    $history->rhRId = $currentVerifier->rvRId;
-                    $history->rhRsId = $req->rRsId;
-                    $history->save();
-
+                    // change request history for current user
+                    RequestHistory::where('id' , '=' , $request->lastRefId)
+                        ->update(['rhRsId' => $req->rRsId , 'rhDescription' => 'کلیه کالاهای درخواست شده در انبار موجود می باشد، شما می توانید برای دریافت کالا به انبار مراجعه کنید.']);
                 }else{
-                    $req->rRsId = RequestState::where('rsState' , '=' , 'SECRETARIAT_QUEUE')->value('id');
-                    $req->save();
-                    // make history for this request
-                    $history = new RequestHistory();
-                    $history->rhSrcUId = Auth::user()->id;
-                    $history->rhDestUId = null; // for secretariat destination
-                    $history->rhRId = $currentVerifier->rvRId;
-                    $history->rhRsId = $req->rRsId;
-                    $history->rhInSecretariat = true;
-                    $history->save();
+                    $nextVerifier = RequestVerifiers::where('rvRId' , '=' , $currentVerifier->rvRId)
+                        ->where('id' , '>' , $currentVerifier->id)
+                        ->where('rvSId' , '=' , null)
+                        ->first();
+                    if ($nextVerifier)
+                    {
+                        // make history for this request
+                        $history = new RequestHistory();
+                        $history->rhSrcUId = Auth::user()->id;
+                        $history->rhDestUId = $nextVerifier->rvUId; // for secretariat destination
+                        $history->rhRId = $currentVerifier->rvRId;
+                        $history->rhRsId = $req->rRsId;
+                        $history->save();
+                    }else{
+                        $req->rRsId = RequestState::where('rsState' , '=' , 'SECRETARIAT_QUEUE')->value('id');
+                        $req->save();
+                        // make history for this request
+                        $history = new RequestHistory();
+                        $history->rhSrcUId = Auth::user()->id;
+                        $history->rhDestUId = null; // for secretariat destination
+                        $history->rhRId = $currentVerifier->rvRId;
+                        $history->rhRsId = $req->rRsId;
+                        $history->rhInSecretariat = true;
+                        $history->save();
 
-                    $srQueue = new SecretariatRequestQueue();
-                    $srQueue->srqRId = $currentVerifier->rvRId;
-                    $srQueue->save();
+                        $srQueue = new SecretariatRequestQueue();
+                        $srQueue->srqRId = $currentVerifier->rvRId;
+                        $srQueue->save();
+                    }
                 }
 
                 SystemLog::setFinancialSubSystemLog('تایید درخواست توسط ' . Auth::user()->name);
