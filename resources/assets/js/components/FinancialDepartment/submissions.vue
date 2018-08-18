@@ -270,82 +270,236 @@
                 <div class="small-font">
                     <div class="grid-x">
                         <div v-show="requestTypeDetail == 'SERVICES'" class="large-12 medium-12 small-12">
-                            <div class="grid-x">
-                                <div class="large-12 medium-12 small-12">
-                                    <table>
-                                        <tbody>
-                                            <tr>
-                                                <td width="150px">شماره : </td>
-                                                <td>{{requestFill.rLetterNumber}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td width="150px">تاریخ : </td>
-                                                <td>{{requestFill.rLetterDate}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td width="150px">موضوع : </td>
-                                                <td>{{requestFill.rSubject}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td width="150px">مبلغ برآردی : </td>
-                                                <td>{{requestFill.rCostEstimation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}} <span class="btn-red">  {{costTemp}}  </span></td>
-                                            </tr>
-                                            <tr>
-                                                <td width="150px">شرح کامل خدمات : </td>
-                                                <td class="text-justify">{{requestFill.rDescription}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td width="150px">توضیحات تکمیلی : </td>
-                                                <td class="text-justify">{{requestFill.rFurtherDetails}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                            <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="service_tab_view">
+                                <li class="tabs-title is-active"><a href="#serviceDetailTab" aria-selected="true">جزییات درخواست</a></li>
+                                <li class="tabs-title"><a href="#serviceHistoryTab">تاریخچه درخواست </a></li>
+                            </ul>
+                            <div class="tabs-content" data-tabs-content="service_tab_view">
+                                <!--Tab 1-->
+                                <div class="tabs-panel is-active table-mrg-btm" id="serviceDetailTab">
+                                    <div class="grid-x">
+                                        <div class="large-12 medium-12 small-12">
+                                            <table>
+                                                <tbody>
+                                                <tr>
+                                                    <td width="150px">شماره : </td>
+                                                    <td>{{requestFill.rLetterNumber}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="150px">تاریخ : </td>
+                                                    <td>{{requestFill.rLetterDate}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="150px">موضوع : </td>
+                                                    <td>{{requestFill.rSubject}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="150px">مبلغ برآردی : </td>
+                                                    <td>{{requestFill.rCostEstimation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}} <span class="btn-red">  {{costTemp}}  </span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="150px">شرح کامل خدمات : </td>
+                                                    <td class="text-justify">{{requestFill.rDescription}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="150px">توضیحات تکمیلی : </td>
+                                                    <td class="text-justify">{{requestFill.rFurtherDetails}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
+                                <!--Tab 1-->
+                                <!--Tab 2-->
+                                <div class="tabs-panel table-mrg-btm" id="serviceHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <div v-for="recipientUser in recipientUsers" class="grid-x timeline">
+                                        <div class="large-12 medium-12 small-12 timeline-item">
+                                            <div class="grid-x">
+                                                <div class="large-4 medium-2 small-12">
+
+                                                </div>
+                                                <div class="large-8 medium-10 small-12 timeline-content timeline-icon">
+                                                    <img class="profile-image-cover-index profile-image-cover-pos" :src="imgDataUrl">
+                                                </div>
+                                                <div class="large-8 medium-10 small-12 timeline-content">
+                                                    <div class="grid-x">
+                                                        <div class="large-12 medium-12 small-12 timeline-content-header">
+                                                            <p>{{recipientUser.destination_user_info.name}}</p>
+                                                            <p style="margin-top:-10px;" class="small-font">{{recipientUser.destination_user_info.role.rSubject}}</p>
+                                                            <span style="text-align: left" class="timeline-state gray-color">{{recipientUser.request_state.rsSubject}}</span>
+                                                        </div>
+                                                        <div class="large-12 medium-12 small-12">
+                                                            <p class="small-top-m text-justify">
+                                                                {{recipientUser.rhDescription}}
+                                                            </p>
+                                                            <p style="direction: ltr;" class="gray-color small-font"><i class="far fa-calendar-alt"></i><span> {{recipientUser.created_at}} </span> - <i class="far fa-clock"></i> <span>{{recipientUser.created_at}}</span></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Tab 2-->
                             </div>
                         </div>
                         <div v-show="requestTypeDetail == 'COMMODITY'" class="large-12 medium-12 small-12">
-                            <div class="grid-x">
-                                <div class="large-12 medium-12 small-12">
-                                    <table>
-                                        <tbody>
-                                        <tr>
-                                            <td width="150px">شماره : </td>
-                                            <td>{{requestFill.rLetterNumber}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td width="150px">تاریخ : </td>
-                                            <td>{{requestFill.rLetterDate}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td width="150px">موضوع : </td>
-                                            <td>{{requestFill.rSubject}}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                            <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="commodity_tab_view">
+                                <li class="tabs-title is-active"><a href="#commodityDetailTab" aria-selected="true">جزییات درخواست</a></li>
+                                <li class="tabs-title"><a href="#commodityHistoryTab">تاریخچه درخواست </a></li>
+                            </ul>
+                            <div class="tabs-content" data-tabs-content="commodity_tab_view">
+                                <!--Tab 1-->
+                                <div class="tabs-panel is-active table-mrg-btm" id="commodityDetailTab">
+                                    <div class="grid-x">
+                                        <div class="large-12 medium-12 small-12">
+                                            <table>
+                                                <tbody>
+                                                <tr>
+                                                    <td width="150px">شماره : </td>
+                                                    <td>{{requestFill.rLetterNumber}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="150px">تاریخ : </td>
+                                                    <td>{{requestFill.rLetterDate}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="150px">موضوع : </td>
+                                                    <td>{{requestFill.rSubject}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
 
-                                    <table>
-                                        <thead>
-                                        <th width="50">ردیف</th>
-                                        <th>شرح و نوع جنس</th>
-                                        <th width="100">تعداد</th>
-                                        <th width="200">مبلغ برآوردی <span class="btn-red small-font">({{costTemp}})</span></th>
-                                        <th>توضیحات (موارد مصرف)</th>
-                                        </thead>
-                                        <tbody>
-                                        <tr v-for="(lists,index) in commodityList">
-                                            <td>{{index+1}}</td>
-                                            <td>{{lists.commodity.cSubject}}</td>
-                                            <td>{{lists.rcCount}}</td>
-                                            <td>{{lists.rcCostEstimation}}</td>
-                                            <td>{{lists.rcDescription}}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                                            <table>
+                                                <thead>
+                                                <th width="50">ردیف</th>
+                                                <th>شرح و نوع جنس</th>
+                                                <th width="100">تعداد</th>
+                                                <th width="200">مبلغ برآوردی <span class="btn-red small-font">({{costTemp}})</span></th>
+                                                <th>توضیحات (موارد مصرف)</th>
+                                                </thead>
+                                                <tbody>
+                                                <tr v-for="(lists,index) in commodityList">
+                                                    <td>{{index+1}}</td>
+                                                    <td>{{lists.commodity.cSubject}}</td>
+                                                    <td>{{lists.rcCount}}</td>
+                                                    <td>{{lists.rcCostEstimation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}}</td>
+                                                    <td>{{lists.rcDescription}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" class="text-center font-wei-bold"> مجموع برآورد</td>
+                                                    <td colspan="2" class="text-center font-wei-bold">{{requestFill.rCostEstimation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}} <span class="btn-red">{{  costTemp  }}</span> </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
+                                <!--Tab 1-->
+                                <!--Tab 2-->
+                                <div class="tabs-panel table-mrg-btm" id="commodityHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <div v-for="recipientUser in recipientUsers" class="grid-x timeline">
+                                        <div class="large-12 medium-12 small-12 timeline-item">
+                                            <div class="grid-x">
+                                                <div class="large-4 medium-2 small-12">
+
+                                                </div>
+                                                <div class="large-8 medium-10 small-12 timeline-content timeline-icon">
+                                                    <img class="profile-image-cover-index profile-image-cover-pos" :src="imgDataUrl">
+                                                </div>
+                                                <div class="large-8 medium-10 small-12 timeline-content">
+                                                    <div class="grid-x">
+                                                        <div class="large-12 medium-12 small-12 timeline-content-header">
+                                                            <p>{{recipientUser.destination_user_info.name}}</p>
+                                                            <p style="margin-top:-10px;" class="small-font">{{recipientUser.destination_user_info.role.rSubject}}</p>
+                                                            <span style="text-align: left" class="timeline-state gray-color">{{recipientUser.request_state.rsSubject}}</span>
+                                                        </div>
+                                                        <div class="large-12 medium-12 small-12">
+                                                            <p class="small-top-m text-justify">
+                                                                {{recipientUser.rhDescription}}
+                                                            </p>
+                                                            <p style="direction: ltr;" class="gray-color small-font"><i class="far fa-calendar-alt"></i><span> {{recipientUser.created_at}} </span> - <i class="far fa-clock"></i> <span>{{recipientUser.created_at}}</span></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Tab 2-->
                             </div>
                         </div>
                         <div v-show="requestTypeDetail == 'FUND'" class="large-12 medium-12 small-12">
+                            <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="fund_tab_view">
+                                <li class="tabs-title is-active"><a href="#fundDetailTab" aria-selected="true">جزییات درخواست</a></li>
+                                <li class="tabs-title"><a href="#fundHistoryTab">تاریخچه درخواست </a></li>
+                            </ul>
+                            <div class="tabs-content" data-tabs-content="fund_tab_view">
+                                <!--Tab 1-->
+                                <div class="tabs-panel is-active table-mrg-btm" id="fundDetailTab">
+                                    <div class="grid-x">
+                                        <div class="large-12 medium-12 small-12">
+                                            <table>
+                                                <tbody>
+                                                <tr>
+                                                    <td width="150px">شماره : </td>
+                                                    <td>{{requestFill.rLetterNumber}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="150px">تاریخ : </td>
+                                                    <td>{{requestFill.rLetterDate}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="150px">موضوع : </td>
+                                                    <td>{{requestFill.rSubject}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="150px">مبلغ برآردی : </td>
+                                                    <td>{{requestFill.rCostEstimation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}} <span class="btn-red">  {{costTemp}}  </span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="150px">متن درخواست : </td>
+                                                    <td class="text-justify">{{requestFill.rDescription}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Tab 1-->
+                                <!--Tab 2-->
+                                <div class="tabs-panel table-mrg-btm" id="fundHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <div v-for="recipientUser in recipientUsers" class="grid-x timeline">
+                                        <div class="large-12 medium-12 small-12 timeline-item">
+                                            <div class="grid-x">
+                                                <div class="large-4 medium-2 small-12">
 
+                                                </div>
+                                                <div class="large-8 medium-10 small-12 timeline-content timeline-icon">
+                                                    <img class="profile-image-cover-index profile-image-cover-pos" :src="imgDataUrl">
+                                                </div>
+                                                <div class="large-8 medium-10 small-12 timeline-content">
+                                                    <div class="grid-x">
+                                                        <div class="large-12 medium-12 small-12 timeline-content-header">
+                                                            <p>{{recipientUser.destination_user_info.name}}</p>
+                                                            <p style="margin-top:-10px;" class="small-font">{{recipientUser.destination_user_info.role.rSubject}}</p>
+                                                            <span style="text-align: left" class="timeline-state gray-color">{{recipientUser.request_state.rsSubject}}</span>
+                                                        </div>
+                                                        <div class="large-12 medium-12 small-12">
+                                                            <p class="small-top-m text-justify">
+                                                                {{recipientUser.rhDescription}}
+                                                            </p>
+                                                            <p style="direction: ltr;" class="gray-color small-font"><i class="far fa-calendar-alt"></i><span> {{recipientUser.created_at}} </span> - <i class="far fa-clock"></i> <span>{{recipientUser.created_at}}</span></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Tab 2-->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -537,7 +691,7 @@
                             }.bind(this)
                         };
                         if(this.requestTypeSend == 'BUY_SERVICES'){
-                            this.sumOfCommodityPrice=this.requestInput.serviceEstimated.replace(',','');
+                            this.sumOfCommodityPrice=this.requestInput.serviceEstimated.split(',').join('');
                             alert( this.sumOfCommodityPrice);
                         }
                         //this.prepareFields();
@@ -614,6 +768,16 @@
 
             getSubmissionDetail: function (submission) {
                 this.showSubmissionDeatilModal=true;
+                this.recipientUsers=[];
+                var requestHistory=[];
+                requestHistory.push(submission);
+                console.log(JSON.stringify(requestHistory));
+                requestHistory.forEach(users => {
+                    users.history.forEach(userHistory => {
+                        this.recipientUsers.push(userHistory);
+                    });
+                });
+                console.log(JSON.stringify(this.recipientUsers));
                 if (submission.rRtId == 1){
                     this.requestTypeDetail='SERVICES';
                     this.requestFill.rLetterNumber=submission.rLetterNumber;
@@ -624,20 +788,27 @@
                     this.requestFill.rFurtherDetails=submission.rFurtherDetails;
                 }
                 else if (submission.rRtId == 2){
+                    var commodityTemp=[];
+                    commodityTemp.push(submission);
                     this.commodityList=[];
                     this.requestTypeDetail='COMMODITY';
                     this.requestFill.rLetterNumber=submission.rLetterNumber;
-                    this.requestFill.rLetterDate=submission.rLetterDate
+                    this.requestFill.rLetterDate=submission.rLetterDate;
                     this.requestFill.rSubject=submission.rSubject;
-                    this.submissions.forEach(items => {
+                    this.requestFill.rCostEstimation=submission.rCostEstimation;
+                    commodityTemp.forEach(items => {
                         items.request_commodity.forEach(commodity => {
                             this.commodityList.push(commodity);
                         });
                     });
-                    console.log(JSON.stringify(this.commodityList));
                 }
                 else if (submission.rRtId == 3){
                     this.requestTypeDetail='FUND';
+                    this.requestFill.rLetterNumber=submission.rLetterNumber;
+                    this.requestFill.rLetterDate=submission.rLetterDate
+                    this.requestFill.rSubject=submission.rSubject;
+                    this.requestFill.rCostEstimation=submission.rCostEstimation;
+                    this.requestFill.rDescription=submission.rDescription;
                 }
             },
     }
