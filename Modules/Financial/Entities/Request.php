@@ -32,6 +32,11 @@ class _Request extends Model
         return $this->hasMany(RequestHistory::class , 'rhRId' , 'id');
     }
 
+    public function verifiers()
+    {
+        return $this->hasMany(RequestVerifiers::class , 'rvRId' , 'id');
+    }
+
     public function getRLastRefAttribute()
     {
         $lastHistoryId = RequestHistory::where('rhRId' , '=' , $this->id)->max('id');

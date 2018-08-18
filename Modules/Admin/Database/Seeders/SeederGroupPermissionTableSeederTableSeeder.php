@@ -49,7 +49,7 @@ class SeederGroupPermissionTableSeederTableSeeder extends Seeder
             $gPermission->save();
         }
 
-        for ($i = 1 ; $i <= 75 ;$i++)
+        for ($i = 1 ; $i <= 77 ;$i++)
         {
             $gPermission = new GroupPermission;
             $gPermission->gpGId = 5;

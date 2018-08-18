@@ -490,5 +490,12 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
         $permission->pPermission = 'FINANCIAL_DASHBOARD_DISPLAY';
         $permission->save();
 
+        ///////////////// secretariat ///////////////////////////
+        $permission = new Permission;
+        $permission->pSspId = 10;
+        $permission->pSubject = 'مشاهده صف دبیرخانه';
+        $permission->pPermission = 'SECRETARIAT_QUEUE_DISPLAY';
+        $permission->save();
+
     }
 }

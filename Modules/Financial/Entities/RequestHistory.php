@@ -7,7 +7,7 @@ use Modules\Admin\Entities\User;
 
 class RequestHistory extends Model
 {
-    protected $fillable = [];
+    protected $fillable = ['rhRsId' , 'rhDescription'];
     protected $table = 'tbl_request_history';
 
     public function sourceUserInfo()
