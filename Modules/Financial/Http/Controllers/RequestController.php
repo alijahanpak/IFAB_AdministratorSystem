@@ -13,6 +13,7 @@ use Modules\Admin\Entities\SystemLog;
 use Modules\Admin\Entities\UserGroup;
 use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\Commodity;
+use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\RequestCommodity;
 use Modules\Financial\Entities\RequestHistory;
 use Modules\Financial\Entities\RequestState;
@@ -310,7 +311,6 @@ class RequestController extends Controller
                         $history->rhDestUId = null; // for secretariat destination
                         $history->rhRId = $currentVerifier->rvRId;
                         $history->rhRsId = $req->rRsId;
-                        $history->rhInSecretariat = true;
                         $history->save();
 
                         $srQueue = new SecretariatRequestQueue();
@@ -347,6 +347,34 @@ class RequestController extends Controller
 
         SystemLog::setFinancialSubSystemLog('پاسخ به ارجاع درخواست');
 
+        return \response()->json(
+            $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+        );
+    }
+
+    public function numbering(Request $request)
+    {
+        $req = _Request::find($request->rId);
+        $req->rLetterNumber = $request->letterNumber;
+        $req->rLetterDate = $request->letterDate;
+        $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
+        $req->save();
+
+        SecretariatRequestQueue::where('srqRId' , '=' , $req->id)->delete();
+
+        // make history for this request
+        $history = new RequestHistory();
+        $history->rhSrcUId = Auth::user()->id;
+        $history->rhDestUId = null; // for secretariat destination
+        $history->rhRId = $req->id;
+        $history->rhRsId = $req->rRsId;
+        $history->save();
+
+        $finReqQueue = new FinancialRequestQueue();
+        $finReqQueue->frqRId = $req->id;
+        $finReqQueue->save();
+
+        SystemLog::setFinancialSubSystemLog('شماره گذاری درخواست ' . $req->rSubject . ' در دبیرخانه');
         return \response()->json(
             $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
         );
