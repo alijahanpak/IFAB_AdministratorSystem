@@ -32,5 +32,9 @@ class SeederSubSystemTableSeederTableSeeder extends Seeder
         $subSystem = new SubSystem;
         $subSystem->ssSubject = 'کارگزینی';
         $subSystem->save();
+
+        $subSystem = new SubSystem;
+        $subSystem->ssSubject = 'دبیرخانه';
+        $subSystem->save();
     }
 }

@@ -70,5 +70,11 @@ class SeederRoleTableSeederTableSeeder extends Seeder
         $role->rRole = 'MANAGEMENT_DEVELOPMENT_AND_SUPPORT_ASSISTANT';
         $role->rOuId = 9;
         $role->save();
+
+        $role = new Role;
+        $role->rSubject = 'کارمند دبیرخانه';
+        $role->rRole = 'SECRETARIAT_EMPLOYEE';
+        $role->rOuId = 9;
+        $role->save();
     }
 }

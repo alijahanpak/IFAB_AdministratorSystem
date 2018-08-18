@@ -5,10 +5,12 @@ namespace Modules\Financial\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Modules\Admin\Entities\GroupPermission;
 use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\RoleCategory;
 use Modules\Admin\Entities\Signature;
 use Modules\Admin\Entities\SystemLog;
+use Modules\Admin\Entities\UserGroup;
 use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\Commodity;
 use Modules\Financial\Entities\RequestCommodity;
@@ -142,6 +144,7 @@ class RequestController extends Controller
             ->where('rRsId' , '=' , RequestState::where('rsState' , '=' , 'ACTIVE')->value('id'))
             ->with('requestState')
             ->with('requestType')
+            ->with('verifiers.user.role.officeUnit')
             ->with('requestCommodity.commodity')
             ->with('history.sourceUserInfo.role')
             ->with('history.destinationUserInfo.role')
@@ -217,6 +220,20 @@ class RequestController extends Controller
             ->where('rhDestUId' , '=' , Auth::user()->id)
             ->orderBy('id' , 'DESC')
             ->pluck('rhRId');
+
+        /////////// check access to secretariat queue permission //////////////////////
+        $gIDs = UserGroup::where('ugUId' , '=' , Auth::user()->id)->pluck('ugGId')->toArray();
+        $accessToSQPermission = GroupPermission::whereIn('gpGId' , $gIDs)
+            ->whereHas('permission' , function ($q){
+                return $q->where('pPermission' , '=' , 'SECRETARIAT_QUEUE_DISPLAY');
+            })
+            ->count();
+        if ($accessToSQPermission)
+        {
+            $secQueue = SecretariatRequestQueue::all()->pluck('srqRId');
+        }
+
+        $req = $req->merge($secQueue);
         return $req;
     }
 
