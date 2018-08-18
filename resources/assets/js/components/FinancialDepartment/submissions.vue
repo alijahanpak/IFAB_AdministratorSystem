@@ -219,13 +219,15 @@
                                             </div>
                                             <div class="large-12 medium-12 small-12">
                                                 <label>شرح کامل خدمات
-                                                    <textarea class="form-element-margin-btm"  style="min-height: 150px;" name="fullDescription" v-model="requestInput.fullDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
+                                                    <textarea v-if="requestTypeSend == 'BUY_SERVICES'" class="form-element-margin-btm"  style="min-height: 150px;" name="fullDescription" v-model="requestInput.fullDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
+                                                    <textarea v-else="" class="form-element-margin-btm"  style="min-height: 150px;" name="fullDescription" v-model="requestInput.fullDescription"   :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
                                                     <span v-show="errors.has('fullDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</span>
                                                 </label>
                                             </div>
                                             <div class="large-12 medium-12 small-12">
                                                 <label>توضیحات تکمیلی
-                                                    <textarea class="form-element-margin-btm"  style="min-height: 150px;" name="furtherDescription" v-model="requestInput.furtherDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('furtherDescription')}"></textarea>
+                                                    <textarea v-if="requestTypeSend == 'BUY_SERVICES'" class="form-element-margin-btm"  style="min-height: 150px;" name="furtherDescription" v-model="requestInput.furtherDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('furtherDescription')}"></textarea>
+                                                    <textarea v-else="" class="form-element-margin-btm"  style="min-height: 150px;" name="furtherDescription" v-model="requestInput.furtherDescription"  :class="{'input': true, 'error-border': errors.has('furtherDescription')}"></textarea>
                                                     <span v-show="errors.has('furtherDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</span>
                                                 </label>
                                             </div>
@@ -238,7 +240,7 @@
                                         <div class="grid-x">
                                             <div class="large-4 medium-4 small-12">
                                                 <label> مبلغ تنخواه <span class="btn-red">({{costTemp}})</span>
-                                                    <money v-model="requestInput.fundEstimated"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('price')}"></money>
+                                                    <money v-model="requestInput.fundEstimated"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fundEstimated')}"></money>
                                                 </label>
                                                 <span v-show="errors.has('fundEstimated')" class="error-font">لطفا مبلغ تنخواه را برای درخواست مورد نظر را وارد نمایید!</span>
                                             </div>
@@ -648,6 +650,7 @@
             -----------------------------------------------------------------------------*/
 
             openSubmissionsModal: function (st) {
+                this.requestInput={};
                 this.requestTypeSend=st.rtType;
                 this.requestTypeId=st.id;
                 this.fetchRecipientsGroup();
@@ -665,7 +668,7 @@
                 console.log(JSON.stringify(this.commodityRequest));
                 this.commodityQuery='';
                 var temp;
-                temp=this.commodityItem.commodityPrice.replace(',','');
+                temp=this.commodityItem.commodityPrice.split(',').join('');
                 this.sumOfCommodityPrice+=parseInt(temp,10);
                 this.commodityItem={};
 
@@ -675,13 +678,12 @@
                 var arrayTemp=[];
                 arrayTemp=this.commodityRequest[index];
                 //arrayTemp.commodityPrice.replace(',','');
-                this.sumOfCommodityPrice-=parseInt(arrayTemp.commodityPrice.replace(',',''),10);
+                this.sumOfCommodityPrice-=parseInt(arrayTemp.commodityPrice.split(',').join(''),10);
                 this.commodityRequest.splice(index,1);
             },
 
             createRequest: function () {
                 this.$validator.validateAll().then((result) => {
-
                     if (result) {
                         var config = {
                             headers: {'Content-Type': 'multipart/form-data'},
@@ -692,27 +694,30 @@
                         };
                         if(this.requestTypeSend == 'BUY_SERVICES'){
                             this.sumOfCommodityPrice=this.requestInput.serviceEstimated.split(',').join('');
-                            alert( this.sumOfCommodityPrice);
+
+                        }
+                        if(this.requestTypeSend == 'FUND'){
+                            this.sumOfCommodityPrice=this.requestInput.fundEstimated.split(',').join('');
+
+
                         }
                         //this.prepareFields();
                         this.data.append('subject', this.requestInput.rSubject );
                         this.data.append('rtId', this.requestTypeId );
                         this.data.append('costEstimation', this.sumOfCommodityPrice);
-                        alert(this.sumOfCommodityPrice);
                         this.data.append('description', this.requestInput.fullDescription);
                         this.data.append('furtherDetails', this.requestInput.furtherDescription);
                         if(this.requestTypeSend == 'BUY_COMMODITY'){
                             this.commodityRequest.forEach ((items,index) => {
                                 this.data.append('items['+index+'][subject]', items.commodityName );
                                 this.data.append('items['+index+'][count]', items.commodityCount );
-                                this.data.append('items['+index+'][costEstimation]', items.commodityPrice.replace(',',''));
+                                this.data.append('items['+index+'][costEstimation]', items.commodityPrice.split(',').join(''));
                                 this.data.append('items['+index+'][description]', items.commodityDescription );
                             });
                         }
                         else {
                             this.data.append('items',null);
                         }
-
                         this.recipientUsers.forEach((user,index) => {
                             this.data.append('verifiers['+index+'][rstId]', user.stepId );
                             this.data.append('verifiers['+index+'][uId]', user.userId );
