@@ -1874,6 +1874,10 @@ input[type="search"]:valid + label {
     cursor: pointer;
 }
 
+.small-top-m{
+    margin-top: 20px;
+}
+
 .medium-top-m{
     margin-top: 50px;
 }
@@ -1884,6 +1888,111 @@ input[type="search"]:valid + label {
 
 
 /* Vue Transition End*/
+
+/*TimeLine Start*/
+.timeline{
+    width: 100%;
+    margin: 30px auto;
+    position: relative;
+    padding: 0 10px;
+    -webkit-transition: all 0.4s ease;
+    -moz-transition: all 0.4s ease;
+    -ms-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+}
+.timeline-item:before {
+    content: "";
+    width: 3px;
+    height: 100%;
+    background: #ee4d4d;
+    left: 73%;
+    top: 0;
+    position: absolute;
+}
+.timeline-item:after {
+    content: "";
+    clear: both;
+    display: table;
+    width: 100%;
+}
+.timeline-item{
+    position: relative;
+    padding-bottom: 50px;
+}
+.timeline-item .timeline-content{
+    background: #fff;
+    padding: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
+    -ms-box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.timeline-item .timeline-content .timeline-content-header{
+    padding: 15px;
+    background: #ee4d4d;
+    color: #fff;
+    margin: -20px -20px 0 -20px;
+    font-weight: 300;
+    width: 100vw;
+    -webkit-border-radius: 3px 3px 0 0;
+    -moz-border-radius: 3px 3px 0 0;
+    -ms-border-radius: 3px 3px 0 0;
+    border-radius: 3px 3px 0 0;
+}
+.timeline .timeline-item .timeline-content:before {
+    content: '';
+    position: absolute;
+    left: 66.6%;
+    top: 20px;
+    width: 0;
+    height: 0;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-left: 7px solid #ee4d4d;
+}
+.timeline .timeline-item .timeline-content.right {
+    float: right;
+}
+.timeline .timeline-item .timeline-content.right:before {
+    content: '';
+    right: 45%;
+    left: inherit;
+    border-left: 0;
+    border-right: 7px solid #ee4d4d;
+}
+.timeline .timeline-item .timeline-icon {
+    background: #ee4d4d;
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    top: 0;
+    left: 72.5%;
+    overflow: hidden;
+    margin-left: -23px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    border-radius: 50%;
+}
+.timeline-state{
+    background-color: #FFFFFF;
+    padding: 8px;
+    text-align: center;
+    position: absolute;
+    margin-top: -50px;
+    right:90%;
+}
+
+/*TimeLine End*/
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
     display: block;
     width: 0;
