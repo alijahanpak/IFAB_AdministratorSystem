@@ -239,7 +239,7 @@
                                 <a class="right-mp right-menu-btm-border">کارتابل</a>
                                 <ul class="menu vertical nested">
                                     <li><router-link to="/financial_department/submissions">درخواست های ارسالی</router-link></li>
-                                    <li><router-link to="/budget/admin/deprived_area">درخواست های دریافتی</router-link></li>
+                                    <li><router-link to="/financial_department/received_requests">درخواست های دریافتی</router-link></li>
                                     <li><router-link to="/budget/admin/deprived_area">جستجو</router-link></li>
                                 </ul>
                             </li>
