@@ -45,6 +45,7 @@ class SeedAdminUsersTableSeeder extends Seeder
         $user->password = Hash::make('1234');
         $user->seInPutAmount = 3;
         $user->seDispAmount = 3;
+        $user->avatarPath = asset('pic/avatars/avatar3.png');
         $user->rId = 4;
         $user->save();
 
@@ -55,6 +56,7 @@ class SeedAdminUsersTableSeeder extends Seeder
         $user->password = Hash::make('1234');
         $user->seInPutAmount = 3;
         $user->seDispAmount = 3;
+        $user->avatarPath = asset('pic/avatars/avatar4.png');
         $user->rId = 2;
         $user->save();
 
@@ -87,6 +89,7 @@ class SeedAdminUsersTableSeeder extends Seeder
         $user->password = Hash::make('1234');
         $user->seInPutAmount = 3;
         $user->seDispAmount = 3;
+        $user->avatarPath = asset('pic/avatars/avatar7.jpg');
         $user->rId = 6;
         $user->save();
 
@@ -107,6 +110,7 @@ class SeedAdminUsersTableSeeder extends Seeder
         $user->password = Hash::make('1234');
         $user->seInPutAmount = 3;
         $user->seDispAmount = 3;
+        $user->avatarPath = asset('pic/avatars/avatar9.jpeg');
         $user->rId = 8;
         $user->save();
 
