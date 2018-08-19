@@ -91,9 +91,9 @@
                     <div class="grid-x">
                         <div class="large-12 medium-12 small-12">
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="request_tab_view">
-                                <li class="tabs-title is-active"><a href="#requestDetailTab" aria-selected="true">جزییات درخواست</a></li>
-                                <li class="tabs-title"><a href="#requestVerifiersTab">تایید کنندگان درخواست </a></li>
-                                <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه درخواست </a></li>
+                                <li class="tabs-title is-active"><a href="#requestDetailTab" aria-selected="true">جزییات</a></li>
+                                <li class="tabs-title"><a href="#requestVerifiersTab">تایید کنندگان </a></li>
+                                <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
                             </ul>
                             <div class="tabs-content" data-tabs-content="request_tab_view">
                                 <!--Tab 1-->
@@ -216,7 +216,7 @@
                                                 </div>
                                                 <div v-show="verifier.rvSId != null" style="direction: ltr;" class="large-5 medium-5 small-12 small-top-m">
                                                     <p class="user-verifier-label">تایید شده</p>
-                                                    <p style="margin-bottom: 0;color:#9E9E9E;margin-top:-8px" class="small-font"><i class="far fa-calendar-alt"></i><span> 1397/05/28 </span> - <i class="far fa-clock"></i> <span>14:29</span></p>
+                                                    <p style="margin-bottom: 0;color:#9E9E9E;margin-top:-8px" class="small-font"><i class="far fa-calendar-alt"></i><span> {{verifier.rvShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{verifier.rvShamsiTime}}</span></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -237,15 +237,18 @@
                                                 <div class="large-7 medium-7 small-12 timeline-content">
                                                     <div class="grid-x">
                                                         <div class="large-12 medium-12 small-12 timeline-content-header">
-                                                            <p>{{recipientUser.destination_user_info.name}}</p>
-                                                            <p style="margin-top:-10px;" class="small-font">{{recipientUser.destination_user_info.role.rSubject}}</p>
-                                                            <span style="text-align: left" class="timeline-state gray-color">{{recipientUser.request_state.rsSubject}}</span>
+                                                            <p>{{recipientUser.source_user_info.name}}</p>
+                                                            <p style="margin-top:-13px;margin-bottom: -5px;" class="small-font">{{recipientUser.source_user_info.role.rSubject}}</p>
+                                                            <span style="text-align: left;" class="timeline-state gray-color">{{recipientUser.request_state.rsSubject}}</span>
                                                         </div>
                                                         <div class="large-12 medium-12 small-12">
-                                                            <p class="small-top-m text-justify">
+                                                            <p class="small-top-m">
+                                                                {{recipientUser.destination_user_info.name}} - {{recipientUser.destination_user_info.role.rSubject}} :
+                                                            </p>
+                                                            <p class="small-top-m text-justify gray-colors">
                                                                 {{recipientUser.rhDescription}}
                                                             </p>
-                                                            <p style="direction: ltr;" class="gray-color small-font"><i class="far fa-calendar-alt"></i><span> {{recipientUser.created_at}} </span> - <i class="far fa-clock"></i> <span>{{recipientUser.created_at}}</span></p>
+                                                            <p style="direction: ltr;margin-bottom: -15px;" class="gray-color small-font"><i class="far fa-calendar-alt"></i><span> {{recipientUser.rhShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{recipientUser.rhShamsiTime}}</span></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -259,11 +262,50 @@
                                 <!--Tab 3-->
                             </div>
                         </div>
+                        <div class="large-12 medium-12 small-12 padding-lr medium-top-m">
+                            <div class="stacked-for-small button-group">
+                                <button  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
+                                <button @click="openReferralsModal()"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg">  ارجاع</span></button>
+                                <button  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg">  پاسخ</span></button>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </modal-large>
-        <!-- Request Detail Modal -->
+        <!-- Request Detail Modal End-->
+        <!-- Referral Detail Modal Start-->
+        <modal-small v-if="showReferralsModal" @close="showReferralsModal = false">
+            <div  slot="body">
+                <div class="small-font">
+                    <div class="grid-x">
+                        <div v-show="UserIsVerifier != null" class="large-12 medium-12 small-12 padding-lr">
+                            <input id="checkbox1"  v-model="referralPermission" type="checkbox"><label for="checkbox1">ارجاع با انتقال مجوز تایید</label>
+                        </div>
+                        <div v-if="referralPermission == false" class="large-12 medium-12 small-12 padding-lr">
+                            <select>
+                                <option value=""></option>
+                                <option v-for="groupUser in groupUsers" :value="groupUser.id">{{groupUser.name}} - {{groupUser.role.rSubject}}</option>
+                            </select>
+                        </div>
+                        <div v-if="referralPermission == true" class="large-12 medium-12 small-12 padding-lr">
+                            <select>
+                                <option value=""></option>
+                                <option v-for="groupUsersByCIds in groupUsersByCId" :value="groupUsersByCIds.id">{{groupUsersByCIds.name}} - {{groupUsersByCIds.role.rSubject}}</option>
+                            </select>
+                        </div>
+                        <div class="large-12 medium-12 small-12 padding-lr">
+                            <label>شرح ارجاع
+                                <textarea  class="form-element-margin-btm"  style="min-height: 150px;" name="referralDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('referralDescription')}"></textarea>
+                                <span v-show="errors.has('referralDescription')" class="error-font">لطفا شرح ارجاع را وارد کنید!</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-small>
+        <!-- Referral Detail Modal End-->
     </div>
 </template>
 
@@ -277,13 +319,16 @@
                 receiveRequests:[],
                 costTemp:'',
                 showRequestDetailModal:false,
+                showReferralsModal:false,
                 requestTypeDetail:'',
                 requestFill:{},
                 commodityList:[],
                 recipientUsers:[],
+                UserIsVerifier:[],
                 verifiers:[],
-
-
+                groupUsers:[],
+                groupUsersByCId:[],
+                referralPermission:false,
 
             }
         },
@@ -313,9 +358,31 @@
                     });
             },
 
+            getGroupUsers: function () {
+                axios.get('/admin/user/getMyGroupUsers')
+                    .then((response) => {
+                        this.groupUsers = response.data;
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                    });
+            },
+
+            getMyCategoryUsers: function () {
+                axios.get('/admin/user/getMyCategoryUsers',{params:{cId:this.UserIsVerifier.request_step.rstCId}})
+                    .then((response) => {
+                        this.groupUsersByCId = response.data;
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                    });
+            },
+
             getRequestDetail: function (request) {
                 this.showRequestDetailModal=true;
                 this.recipientUsers=[];
+                this.verifiers=[];
+                this.UserIsVerifier=[];
                 var requestHistory=[];
                 requestHistory.push(request);
                 console.log(JSON.stringify(requestHistory));
@@ -330,7 +397,12 @@
                         this.verifiers.push(verify);
                     });
                 });
-                console.log(JSON.stringify(this.recipientUsers));
+
+
+                this.UserIsVerifier=request.rYouAreVerifiers[0];
+
+
+                console.log(JSON.stringify(this.UserIsVerifier));
                 if (request.rRtId == 1){
                     this.requestTypeDetail='SERVICES';
                     this.requestFill.rLetterNumber=request.rLetterNumber;
@@ -363,6 +435,12 @@
                     this.requestFill.rCostEstimation=request.rCostEstimation;
                     this.requestFill.rDescription=request.rDescription;
                 }
+            },
+
+            openReferralsModal: function () {
+              this.showReferralsModal=true;
+              this.getGroupUsers();
+              this.getMyCategoryUsers();
             },
 
 

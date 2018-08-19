@@ -270,16 +270,17 @@
             <div  slot="body">
                 <div class="small-font">
                     <div class="grid-x">
-                        <div v-show="requestTypeDetail == 'SERVICES'" class="large-12 medium-12 small-12">
-                            <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="service_tab_view">
-                                <li class="tabs-title is-active"><a href="#serviceDetailTab" aria-selected="true">جزییات درخواست</a></li>
-                                <li class="tabs-title"><a href="#serviceHistoryTab">تاریخچه درخواست </a></li>
+                        <div class="large-12 medium-12 small-12">
+                            <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="request_tab_view">
+                                <li class="tabs-title is-active"><a href="#requestDetailTab" aria-selected="true">جزییات درخواست</a></li>
+                                <li class="tabs-title"><a href="#requestVerifiersTab">تایید کنندگان درخواست </a></li>
+                                <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه درخواست </a></li>
                             </ul>
-                            <div class="tabs-content" data-tabs-content="service_tab_view">
+                            <div class="tabs-content" data-tabs-content="request_tab_view">
                                 <!--Tab 1-->
-                                <div class="tabs-panel is-active table-mrg-btm" id="serviceDetailTab">
+                                <div class="tabs-panel is-active table-mrg-btm" id="requestDetailTab">
                                     <div class="grid-x">
-                                        <div class="large-12 medium-12 small-12">
+                                        <div v-show="requestTypeDetail == 'SERVICES'" class="large-12 medium-12 small-12">
                                             <table>
                                                 <tbody>
                                                 <tr>
@@ -309,52 +310,8 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                    </div>
-                                </div>
-                                <!--Tab 1-->
-                                <!--Tab 2-->
-                                <div class="tabs-panel table-mrg-btm" id="serviceHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                    <div v-for="recipientUser in recipientUsers" class="grid-x timeline">
-                                        <div class="large-12 medium-12 small-12 timeline-item">
-                                            <div class="grid-x">
-                                                <div class="large-4 medium-2 small-12">
 
-                                                </div>
-                                                <div class="large-8 medium-10 small-12 timeline-content timeline-icon">
-                                                    <img class="profile-image-cover-index profile-image-cover-pos" :src="imgDataUrl">
-                                                </div>
-                                                <div class="large-8 medium-10 small-12 timeline-content">
-                                                    <div class="grid-x">
-                                                        <div class="large-12 medium-12 small-12 timeline-content-header">
-                                                            <p>{{recipientUser.destination_user_info.name}}</p>
-                                                            <p style="margin-top:-10px;" class="small-font">{{recipientUser.destination_user_info.role.rSubject}}</p>
-                                                            <span style="text-align: left" class="timeline-state gray-color">{{recipientUser.request_state.rsSubject}}</span>
-                                                        </div>
-                                                        <div class="large-12 medium-12 small-12">
-                                                            <p class="small-top-m text-justify">
-                                                                {{recipientUser.rhDescription}}
-                                                            </p>
-                                                            <p style="direction: ltr;" class="gray-color small-font"><i class="far fa-calendar-alt"></i><span> {{recipientUser.created_at}} </span> - <i class="far fa-clock"></i> <span>{{recipientUser.created_at}}</span></p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--Tab 2-->
-                            </div>
-                        </div>
-                        <div v-show="requestTypeDetail == 'COMMODITY'" class="large-12 medium-12 small-12">
-                            <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="commodity_tab_view">
-                                <li class="tabs-title is-active"><a href="#commodityDetailTab" aria-selected="true">جزییات درخواست</a></li>
-                                <li class="tabs-title"><a href="#commodityHistoryTab">تاریخچه درخواست </a></li>
-                            </ul>
-                            <div class="tabs-content" data-tabs-content="commodity_tab_view">
-                                <!--Tab 1-->
-                                <div class="tabs-panel is-active table-mrg-btm" id="commodityDetailTab">
-                                    <div class="grid-x">
-                                        <div class="large-12 medium-12 small-12">
+                                        <div v-show="requestTypeDetail == 'COMMODITY'" class="large-12 medium-12 small-12">
                                             <table>
                                                 <tbody>
                                                 <tr>
@@ -395,52 +352,8 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                    </div>
-                                </div>
-                                <!--Tab 1-->
-                                <!--Tab 2-->
-                                <div class="tabs-panel table-mrg-btm" id="commodityHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                    <div v-for="recipientUser in recipientUsers" class="grid-x timeline">
-                                        <div class="large-12 medium-12 small-12 timeline-item">
-                                            <div class="grid-x">
-                                                <div class="large-4 medium-2 small-12">
 
-                                                </div>
-                                                <div class="large-8 medium-10 small-12 timeline-content timeline-icon">
-                                                    <img class="profile-image-cover-index profile-image-cover-pos" :src="imgDataUrl">
-                                                </div>
-                                                <div class="large-8 medium-10 small-12 timeline-content">
-                                                    <div class="grid-x">
-                                                        <div class="large-12 medium-12 small-12 timeline-content-header">
-                                                            <p>{{recipientUser.destination_user_info.name}}</p>
-                                                            <p style="margin-top:-10px;" class="small-font">{{recipientUser.destination_user_info.role.rSubject}}</p>
-                                                            <span style="text-align: left" class="timeline-state gray-color">{{recipientUser.request_state.rsSubject}}</span>
-                                                        </div>
-                                                        <div class="large-12 medium-12 small-12">
-                                                            <p class="small-top-m text-justify">
-                                                                {{recipientUser.rhDescription}}
-                                                            </p>
-                                                            <p style="direction: ltr;" class="gray-color small-font"><i class="far fa-calendar-alt"></i><span> {{recipientUser.created_at}} </span> - <i class="far fa-clock"></i> <span>{{recipientUser.created_at}}</span></p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--Tab 2-->
-                            </div>
-                        </div>
-                        <div v-show="requestTypeDetail == 'FUND'" class="large-12 medium-12 small-12">
-                            <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="fund_tab_view">
-                                <li class="tabs-title is-active"><a href="#fundDetailTab" aria-selected="true">جزییات درخواست</a></li>
-                                <li class="tabs-title"><a href="#fundHistoryTab">تاریخچه درخواست </a></li>
-                            </ul>
-                            <div class="tabs-content" data-tabs-content="fund_tab_view">
-                                <!--Tab 1-->
-                                <div class="tabs-panel is-active table-mrg-btm" id="fundDetailTab">
-                                    <div class="grid-x">
-                                        <div class="large-12 medium-12 small-12">
+                                        <div v-show="requestTypeDetail == 'FUND'" class="large-12 medium-12 small-12">
                                             <table>
                                                 <tbody>
                                                 <tr>
@@ -466,40 +379,68 @@
                                                 </tbody>
                                             </table>
                                         </div>
+
                                     </div>
                                 </div>
                                 <!--Tab 1-->
                                 <!--Tab 2-->
-                                <div class="tabs-panel table-mrg-btm" id="fundHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                    <div v-for="recipientUser in recipientUsers" class="grid-x timeline">
-                                        <div class="large-12 medium-12 small-12 timeline-item">
+                                <div class="tabs-panel table-mrg-btm" id="requestVerifiersTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <div class="grid-x">
+                                        <div v-for="verifier in verifiers" class="large-12 medium-12 small-12 verifier-panel">
                                             <div class="grid-x">
-                                                <div class="large-4 medium-2 small-12">
-
+                                                <div class="large-1 medium-1 small-12">
+                                                    <img style="width: 60px;height: 60px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="$parent.imgDataUrl">
                                                 </div>
-                                                <div class="large-8 medium-10 small-12 timeline-content timeline-icon">
-                                                    <img class="profile-image-cover-index profile-image-cover-pos" :src="imgDataUrl">
+                                                <div class="large-6 medium-6 small-12 small-top-m">
+                                                    <p>{{verifier.user.name}}</p>
+                                                    <p style="margin-top:-13px;color:#757575;" class="small-font">{{verifier.user.role.rSubject}}</p>
                                                 </div>
-                                                <div class="large-8 medium-10 small-12 timeline-content">
-                                                    <div class="grid-x">
-                                                        <div class="large-12 medium-12 small-12 timeline-content-header">
-                                                            <p>{{recipientUser.destination_user_info.name}}</p>
-                                                            <p style="margin-top:-10px;" class="small-font">{{recipientUser.destination_user_info.role.rSubject}}</p>
-                                                            <span style="text-align: left" class="timeline-state gray-color">{{recipientUser.request_state.rsSubject}}</span>
-                                                        </div>
-                                                        <div class="large-12 medium-12 small-12">
-                                                            <p class="small-top-m text-justify">
-                                                                {{recipientUser.rhDescription}}
-                                                            </p>
-                                                            <p style="direction: ltr;" class="gray-color small-font"><i class="far fa-calendar-alt"></i><span> {{recipientUser.created_at}} </span> - <i class="far fa-clock"></i> <span>{{recipientUser.created_at}}</span></p>
-                                                        </div>
-                                                    </div>
+                                                <div v-show="verifier.rvSId != null" style="direction: ltr;" class="large-5 medium-5 small-12 small-top-m">
+                                                    <p class="user-verifier-label">تایید شده</p>
+                                                    <p style="margin-bottom: 0;color:#9E9E9E;margin-top:-8px" class="small-font"><i class="far fa-calendar-alt"></i><span> 1397/05/28 </span> - <i class="far fa-clock"></i> <span>14:29</span></p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <!--Tab 2-->
+                                <!--Tab 3-->
+                                <div class="tabs-panel table-mrg-btm" id="requestHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <div v-for="recipientUser in recipientUsers" class="grid-x timeline">
+                                        <div class="large-12 medium-12 small-12 timeline-item">
+                                            <div class="grid-x">
+                                                <div class="large-3 medium-3 small-12">
+
+                                                </div>
+                                                <div class="large-7 medium-7 small-12 timeline-icon">
+                                                    <img style="width: 57px;height: 57px;margin-top: 1px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="$parent.imgDataUrl">
+                                                </div>
+                                                <div class="large-7 medium-7 small-12 timeline-content">
+                                                    <div class="grid-x">
+                                                        <div class="large-12 medium-12 small-12 timeline-content-header">
+                                                            <p>{{recipientUser.source_user_info.name}}</p>
+                                                            <p style="margin-top:-13px;margin-bottom: -5px;" class="small-font">{{recipientUser.source_user_info.role.rSubject}}</p>
+                                                            <span style="text-align: left;" class="timeline-state gray-color">{{recipientUser.request_state.rsSubject}}</span>
+                                                        </div>
+                                                        <div class="large-12 medium-12 small-12">
+                                                            <p class="small-top-m">
+                                                                {{recipientUser.destination_user_info.name}} - {{recipientUser.destination_user_info.role.rSubject}} :
+                                                            </p>
+                                                            <p class="small-top-m text-justify gray-colors">
+                                                                {{recipientUser.rhDescription}}
+                                                            </p>
+                                                            <p style="direction: ltr;margin-bottom: -15px;" class="gray-color small-font"><i class="far fa-calendar-alt"></i><span> {{recipientUser.rhShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{recipientUser.rhShamsiTime}}</span></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="large-3 medium-3 small-12">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Tab 3-->
                             </div>
                         </div>
                     </div>
