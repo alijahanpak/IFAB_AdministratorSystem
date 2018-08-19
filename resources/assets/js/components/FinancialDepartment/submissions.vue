@@ -226,9 +226,7 @@
                                             </div>
                                             <div class="large-12 medium-12 small-12">
                                                 <label>توضیحات تکمیلی
-                                                    <textarea v-if="requestTypeSend == 'BUY_SERVICES'" class="form-element-margin-btm"  style="min-height: 150px;" name="furtherDescription" v-model="requestInput.furtherDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('furtherDescription')}"></textarea>
-                                                    <textarea v-else="" class="form-element-margin-btm"  style="min-height: 150px;" name="furtherDescription" v-model="requestInput.furtherDescription"  :class="{'input': true, 'error-border': errors.has('furtherDescription')}"></textarea>
-                                                    <span v-show="errors.has('furtherDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</span>
+                                                    <textarea class="form-element-margin-btm"  style="min-height: 150px;" name="furtherDescription" v-model="requestInput.furtherDescription"></textarea>
                                                 </label>
                                             </div>
                                         </div>
