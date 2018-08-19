@@ -232,9 +232,9 @@ class RequestController extends Controller
         if ($accessToSQPermission)
         {
             $secQueue = SecretariatRequestQueue::all()->pluck('srqRId');
+            $req = $req->merge($secQueue);
         }
 
-        $req = $req->merge($secQueue);
         return $req;
     }
 
