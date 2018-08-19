@@ -379,4 +379,15 @@ class RequestController extends Controller
             $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
         );
     }
+
+    public function wasSeen(Request $request)
+    {
+        $rHistory = RequestHistory::find($request->rhId);
+        $rHistory->rhHasBeenSeen = true;
+        $rHistory->save();
+
+        return \response()->json(
+            $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+        );
+    }
 }
