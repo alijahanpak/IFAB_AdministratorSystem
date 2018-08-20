@@ -46,5 +46,10 @@ class SeedCategoryTableSeeder extends Seeder
         $cat->cSubject = 'مسئول شهرستان';
         $cat->cCategory = 'COUNTY_UNDERTAKING';
         $cat->save();
+
+        $cat = new Category();
+        $cat->cSubject = 'مسئول انبار';
+        $cat->cCategory = 'COUNTY_UNDERTAKING';
+        $cat->save();
     }
 }
