@@ -73,11 +73,17 @@ class SeederSubSystemPartTableSeederTableSeeder extends Seeder
         $part->sspPart = 'FINANCIAL_DEPARTMENT_DASHBOARD';
         $part->save();
 
-        /////////////////////// secretariat parts ///////////////////////////
+        /////////////////////// Management development parts /////////////////////
         $part = new SubSystemPart;
-        $part->sspSsId = 5;
+        $part->sspSsId = 4;
         $part->sspSubject = 'ثبت و شماره گذاری';
         $part->sspPart = 'SECRETARIAT_REGISTER_AND_NUMBERING';
+        $part->save();
+
+        $part = new SubSystemPart;
+        $part->sspSsId = 4;
+        $part->sspSubject = 'انبار';
+        $part->sspPart = 'REPOSITORY';
         $part->save();
     }
 }
