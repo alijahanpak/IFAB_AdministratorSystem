@@ -55,6 +55,7 @@ class RequestController extends Controller
         return _Request::where('rUId' , '=' , $uId)
             ->with('requestState')
             ->with('requestType')
+            ->with('verifiers.user.role.officeUnit')
             ->with('requestCommodity.commodity')
             ->with('history.sourceUserInfo.role')
             ->with('history.destinationUserInfo.role')
