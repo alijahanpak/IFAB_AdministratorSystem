@@ -29,7 +29,7 @@ class _Request extends Model
 
     public function history()
     {
-        return $this->hasMany(RequestHistory::class , 'rhRId' , 'id');
+        return $this->hasMany(RequestHistory::class , 'rhRId' , 'id')->orderBy('id' , 'DESC');
     }
 
     public function verifiers()

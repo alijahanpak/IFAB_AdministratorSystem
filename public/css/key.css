@@ -1881,6 +1881,9 @@ input[type="search"]:valid + label {
 .medium-top-m{
     margin-top: 50px;
 }
+.large-top-m{
+    margin-top: 80px;
+}
 .table-row:hover{
     background-color: #D8DEE2;
     cursor: pointer;
@@ -2010,6 +2013,38 @@ input[type="search"]:valid + label {
 
 .gray-colors{
     color: #BDBDBD;
+}
+
+.response-panel{
+    background: #fff;
+    padding: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
+    -ms-box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.response-panel .response-header{
+    border-radius: 5px;
+    background-color:  #FFFFFF;
+    border-radius: 5px;
+    position: absolute;
+    color: #000000;
+    font-weight: bold;
+    padding: 8px;
+    margin-top: -40px;
+
+}
+.direction-ltr{
+    direction: ltr;
 }
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
     display: block;
