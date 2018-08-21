@@ -109,6 +109,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('/update', 'PlanController@updateCapitalAssetsApprovedPlan');
         Route::get('/getAllItems', 'PlanController@getAllApprovedPlan');
         Route::post('/report', 'BudgetReportController@approvedPlan');
+        Route::get('/fetchCompleteData', 'PlanController@getCompleteCapitalAssetsApprovedPlan');
     });
 
     Route::prefix('approved_plan/capital_assets/amendment')->group(function () {
@@ -134,6 +135,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('/credit_source/delete', 'PlanController@deleteCostCaCreditSource');
         Route::get('/credit_source/getAllItem', 'PlanController@getAllcaCreditSourceItems');
         Route::post('/report', 'BudgetReportController@approvedProgram');
+        Route::get('/fetchCompleteData', 'PlanController@getCompleteCostAgreementData'); //will be used in requests Financing
     });
 
     Route::prefix('approved_plan/cost/amendment')->group(function () {

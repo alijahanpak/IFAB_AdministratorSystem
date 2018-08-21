@@ -146,6 +146,24 @@ class PlanController extends Controller
             ->get());
     }
 
+    public function getCompleteCapitalAssetsApprovedPlan(Request $request)
+    {
+        $searchValue = PublicSetting::checkPersianCharacters($request->searchValue);
+        return \response()->json(CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
+            ->has('capitalAssetsProjectHasCreditSource')
+            ->where('capActive' , '=' , true)
+            ->whereHas('creditDistributionTitle' , function($query) use($searchValue){
+                return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
+            })
+            ->with('creditDistributionTitle.county')
+            ->with('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.allocation')
+            ->with('capitalAssetsProjectHasCreditSource.county')
+            ->orderBy('id', 'DESC')
+            ->get()
+        );
+    }
+
     /////////////////////////////// amendment ////////////////////////////////////////////
     public function acceptApprovedAmendment(Request $request)
     {
@@ -406,7 +424,7 @@ class PlanController extends Controller
 
     public function getAllTempProjectWithPlanId($pId)
     {
-        return CapitalAssetsApprovedPlanTemp::where('id' , '=' , $pId)
+        return \response()->json(CapitalAssetsApprovedPlanTemp::where('id' , '=' , $pId)
             ->with('capitalAssetsProject')
             ->with('creditDistributionTitle')
             ->with('creditDistributionTitle.county')
@@ -417,7 +435,7 @@ class PlanController extends Controller
             ->with('capitalAssetsProject.creditSource.tinySeason.seasonTitle.season')
             ->with('capitalAssetsProject.creditSource.howToRun')
             ->with('capitalAssetsProject.county')
-            ->first();
+            ->first());
     }
 
     /////////////////////////////// cost ////////////////////////////////////////////
@@ -645,6 +663,26 @@ class PlanController extends Controller
         return \response()->json(
             $this->getAllCostAgreemrent($temp->caProvinceOrNational , $request->searchValue , $request->itemInPage)
         );
+    }
+
+    public function getCompleteCostAgreementData(Request $request) //will be used in requests Financing
+    {
+        $searchValue = PublicSetting::checkPersianCharacters($request->searchValue);
+        return CostAgreement::where('caFyId' , '=' , Auth::user()->seFiscalYear)
+            ->where('caActive' , '=' , true)
+            ->where(function($query) use($searchValue){
+                return $query->where('caLetterNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('caLetterDate' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('caExchangeIdNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('caExchangeDate' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('caDescription' , 'LIKE' , '%' . $searchValue . '%');
+            })
+            ->with('caCreditSourceHasAllocation.tinySeason.seasonTitle.season')
+            ->with('caCreditSourceHasAllocation.creditDistributionRow')
+            ->with('caCreditSourceHasAllocation.creditDistributionTitle')
+            ->with('caCreditSourceHasAllocation.allocation')
+            ->orderBy('id', 'DESC')
+            ->get();
     }
 
     /////////////////////////////// cost temp /////////////////////////////

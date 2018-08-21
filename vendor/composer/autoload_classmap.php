@@ -1831,6 +1831,7 @@ return array(
     'Modules\\Financial\\Database\\Seeders\\SeedRequestTableSeeder' => $baseDir . '/Modules/Financial/Database/Seeders/SeedRequestTableSeeder.php',
     'Modules\\Financial\\Database\\Seeders\\SeedRequestTypeTableSeeder' => $baseDir . '/Modules/Financial/Database/Seeders/SeedRequestTypeTableSeeder.php',
     'Modules\\Financial\\Entities\\Commodity' => $baseDir . '/Modules/Financial/Entities/Commodity.php',
+    'Modules\\Financial\\Entities\\FinancialRequestQueue' => $baseDir . '/Modules/Financial/Entities/FinancialRequestQueue.php',
     'Modules\\Financial\\Entities\\RequestCommodity' => $baseDir . '/Modules/Financial/Entities/RequestCommodity.php',
     'Modules\\Financial\\Entities\\RequestHistory' => $baseDir . '/Modules/Financial/Entities/RequestHistory.php',
     'Modules\\Financial\\Entities\\RequestState' => $baseDir . '/Modules/Financial/Entities/RequestState.php',
