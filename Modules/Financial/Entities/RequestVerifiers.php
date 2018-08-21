@@ -19,7 +19,7 @@ class RequestVerifiers extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class , 'rvUId' , 'id')->select('id' , 'name' , 'rId');
+        return $this->belongsTo(User::class , 'rvUId' , 'id')->select('id' , 'name' , 'rId' , 'avatarPath');
     }
 
     public function getRvShamsiDateAttribute()

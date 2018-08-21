@@ -2006,9 +2006,41 @@ input[type="search"]:valid + label {
     text-align: center;
 }
 .verifier-panel{
-    background-color:#F5F5F5;
-    padding:8px;
-    margin-bottom: 5px
+    background: #fff;
+    padding: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
+    -ms-box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    margin-bottom: 10px
+}
+
+.current-verifier-panel{
+    background: #fff;
+    padding: 20px;
+    border: 1px solid  #840AD9;
+    -webkit-box-shadow: 0 3px 0  #840AD9;
+    -moz-box-shadow: 0 3px 0  #840AD9;
+    -ms-box-shadow: 0 3px 0  #840AD9;
+    box-shadow: 0 3px 0  #840AD9;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    margin-bottom: 10px
 }
 
 .gray-colors{
@@ -2045,6 +2077,10 @@ input[type="search"]:valid + label {
 }
 .direction-ltr{
     direction: ltr;
+}
+
+.icon-padding-btm{
+    padding-bottom: 0px;
 }
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
     display: block;

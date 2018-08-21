@@ -14,12 +14,12 @@ class RequestHistory extends Model
 
     public function sourceUserInfo()
     {
-        return $this->belongsTo(User::class , 'rhSrcUId' , 'id')->select('name' , 'rId' , 'id');
+        return $this->belongsTo(User::class , 'rhSrcUId' , 'id')->select('name' , 'rId' , 'id' , 'avatarPath');
     }
 
     public function destinationUserInfo()
     {
-        return $this->belongsTo(User::class , 'rhDestUId' , 'id')->select('name' , 'rId' , 'id');
+        return $this->belongsTo(User::class , 'rhDestUId' , 'id')->select('name' , 'rId' , 'id' , 'avatarPath');
     }
 
     public function requestState()
