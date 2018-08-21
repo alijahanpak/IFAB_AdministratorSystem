@@ -66,13 +66,14 @@
                                 </colgroup>
                                 <tbody class="tbl-head-style-cell">
                                 <tr class="table-row" @click="getRequestDetail(receiveRequest)" v-for="receiveRequest in receiveRequests">
-                                    <td></td>
+                                    <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
+                                    <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
                                     <td>{{receiveRequest.rSubject}}</td>
                                     <td>{{receiveRequest.rLastRef.source_user_info.name}} - {{receiveRequest.rLastRef.source_user_info.role.rSubject}}</td>
                                     <td v-if="receiveRequest.rRtId==1"> خدمات</td>
                                     <td v-else-if="receiveRequest.rRtId==2"> کالا</td>
                                     <td v-else="receiveRequest.rRtId==3"> تنخواه</td>
-                                    <td>{{receiveRequest.rCostEstimation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}}</td>
+                                    <td>{{$parent.calcDispAmount(receiveRequest.rCostEstimation,false)}}</td>
                                     <td>{{receiveRequest.rLetterNumber}}</td>
                                     <td>{{receiveRequest.rLetterDate}}</td>
                                 </tr>
@@ -116,7 +117,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">مبلغ برآردی : </td>
-                                                    <td>{{requestFill.rCostEstimation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}} <span class="btn-red">  {{costTemp}}  </span></td>
+                                                    <td>{{$parent.calcDispAmount(requestFill.rCostEstimation,false)}} <span class="btn-red">  {{costTemp}}  </span></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">شرح کامل خدمات : </td>
@@ -153,6 +154,7 @@
                                                 <th width="50">ردیف</th>
                                                 <th>شرح و نوع جنس</th>
                                                 <th width="100">تعداد</th>
+                                                <th v-show='$can("DETERMINE_EXIST_COMMODITY_IN_REPOSITORY")' width="100">موجودی انبار</th>
                                                 <th width="200">مبلغ برآوردی <span class="btn-red small-font">({{costTemp}})</span></th>
                                                 <th>توضیحات (موارد مصرف)</th>
                                                 </thead>
@@ -161,12 +163,16 @@
                                                     <td>{{index+1}}</td>
                                                     <td>{{lists.commodity.cSubject}}</td>
                                                     <td>{{lists.rcCount}}</td>
-                                                    <td>{{lists.rcCostEstimation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}}</td>
+                                                    <td v-show='$can("DETERMINE_EXIST_COMMODITY_IN_REPOSITORY")'>
+                                                        <input  style="margin-bottom: 0px;" class="form-element-margin-btm" v-model="repoCountInput.existCount" type="text" :name="'repoCount' + index" v-validate="'required','min_value:0','max_value:'+lists.rcCount " data-vv-as="field" :class="{'input': true, 'error-border': errors.has('repoCount' + index)}">
+                                                        <span v-show="errors.has('repoCount' + index)" class="error-font"></span>
+                                                    </td>
+                                                    <td>{{$parent.calcDispAmount(lists.rcCostEstimation,false)}}</td>
                                                     <td>{{lists.rcDescription}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="4" class="text-center font-wei-bold"> مجموع برآورد</td>
-                                                    <td colspan="2" class="text-center font-wei-bold">{{requestFill.rCostEstimation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}} <span class="btn-red">{{  costTemp  }}</span> </td>
+                                                    <td colspan="2" class="text-center font-wei-bold">{{$parent.calcDispAmount(requestFill.rCostEstimation,false)}} <span class="btn-red">{{  costTemp  }}</span> </td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -189,7 +195,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">مبلغ برآردی : </td>
-                                                    <td>{{requestFill.rCostEstimation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}} <span class="btn-red">  {{costTemp}}  </span></td>
+                                                    <td>{{$parent.calcDispAmount(requestFill.rCostEstimation,false)}} <span class="btn-red">  {{costTemp}}  </span></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">متن درخواست : </td>
@@ -208,7 +214,7 @@
                                         <div v-for="verifier in verifiers" class="large-12 medium-12 small-12 verifier-panel">
                                             <div class="grid-x">
                                                 <div class="large-1 medium-1 small-12">
-                                                    <img style="width: 60px;height: 60px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="$parent.imgDataUrl">
+                                                    <img style="width: 60px;height: 60px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="verifier.user.avatarPath != null ? baseURL + verifier.user.avatarPath : $parent.baseAvatar">
                                                 </div>
                                                 <div class="large-6 medium-6 small-12 small-top-m">
                                                     <p>{{verifier.user.name}}</p>
@@ -234,7 +240,7 @@
 
                                                         </div>
                                                         <div class="large-7 medium-7 small-12 timeline-icon">
-                                                            <img style="width: 57px;height: 57px;margin-top: 1px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="$parent.imgDataUrl">
+                                                            <img style="width: 57px;height: 57px;margin-top: 1px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="recipientUser.source_user_info.avatarPath != null ? baseURL + recipientUser.source_user_info.avatarPath : $parent.baseAvatar">
                                                         </div>
                                                         <div class="large-7 medium-7 small-12 timeline-content">
                                                             <div class="grid-x">
@@ -244,9 +250,16 @@
                                                                     <span style="text-align: left;" class="timeline-state gray-color">{{recipientUser.request_state.rsSubject}}</span>
                                                                 </div>
                                                                 <div class="large-12 medium-12 small-12">
-                                                                    <p class="small-top-m">
-                                                                        {{recipientUser.destination_user_info.name}} - {{recipientUser.destination_user_info.role.rSubject}} :
-                                                                    </p>
+                                                                    <div class="grid-x">
+                                                                        <div class="large-1 medium-2 small-12">
+                                                                            <img style="width: 40px;height: 40px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="recipientUser.destination_user_info.avatarPath != null ? baseURL + recipientUser.destination_user_info.avatarPath : $parent.baseAvatar">
+                                                                        </div>
+                                                                        <div class="large-11 medium-10 small-12 padding-lr">
+                                                                            <p class="small-top-m">
+                                                                                {{recipientUser.destination_user_info.name}} - {{recipientUser.destination_user_info.role.rSubject}} :
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
                                                                     <p class="small-top-m text-justify gray-colors">
                                                                         {{recipientUser.rhDescription}}
                                                                     </p>
@@ -268,7 +281,7 @@
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr medium-top-m">
                             <div class="stacked-for-small button-group">
-                                <button @click="openSubmitRequestModal()" v-show="UserIsVerifier != null"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
+                                <button @click="openSubmitRequestModal()" v-if=" youAreVerifier != '' "  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
                                 <button @click="openReferralsModal()"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg">  ارجاع</span></button>
                                 <button @click="openResponseRequestModal()" v-show="canResponse == 1 " class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg">  پاسخ</span></button>
                             </div>
@@ -285,7 +298,7 @@
                 <form v-on:submit.prevent="requestReferral">
                     <div class="small-font">
                         <div class="grid-x">
-                            <div v-show="UserIsVerifier != null" class="large-12 medium-12 small-12 padding-lr">
+                            <div v-show="youAreVerifier != ''" class="large-12 medium-12 small-12 padding-lr">
                                 <input id="checkbox1"  v-model="referralPermission" type="checkbox"><label for="checkbox1">ارجاع با انتقال مجوز تایید</label>
                             </div>
                             <div v-if="referralPermission == false" class="large-12 medium-12 small-12 padding-lr">
@@ -404,6 +417,7 @@
                 commodityList:[],
                 recipientUsers:[],
                 UserIsVerifier:[],
+                repoCountInput:[],
                 remainingVerifiers:[],
                 verifiers:[],
                 groupUsers:[],
@@ -417,6 +431,7 @@
                 referralDescription:'',
                 referralDestination:'',
                 canResponse:'',
+                baseURL:window.hostname+'/',
 
             }
         },
@@ -468,13 +483,24 @@
             },
 
             getRequestDetail: function (request) {
+                if(request.rLastRef.rhHasBeenSeen==0) {
+                    axios.post('/financial/request/received/was_seen', {
+                        rhId: request.rLastRef.id
+                    }).then((response) => {
+                        this.receiveRequests = response.data.data;
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                    });
+                }
                 this.showRequestDetailModal=true;
                 this.recipientUsers=[];
                 this.verifiers=[];
                 this.UserIsVerifier=[];
                 var requestHistory=[];
                 requestHistory.push(request);
-                console.log(JSON.stringify(requestHistory));
+
+
                 requestHistory.forEach(users => {
                     users.history.forEach(userHistory => {
                         this.recipientUsers.push(userHistory);
@@ -500,7 +526,6 @@
                     this.youAreVerifierCId=request.rYouAreVerifiers[0].request_step.rstCId;
                 }
 
-
                 this.referralDescription=request.rLastRef.rhDescription;
                 this.referralDestination=request.rLastRef.source_user_info.name +' - ' +request.rLastRef.source_user_info.role.rSubject;
                 this.canResponse=request.rLastRef.rhIsReferral;
@@ -508,7 +533,7 @@
                 if (request.rRtId == 1){
                     this.requestTypeDetail='SERVICES';
                     this.requestFill.rLetterNumber=request.rLetterNumber;
-                    this.requestFill.rLetterDate=request.rLetterDate
+                    this.requestFill.rLetterDate=request.rLetterDate;
                     this.requestFill.rSubject=request.rSubject;
                     this.requestFill.rCostEstimation=request.rCostEstimation;
                     this.requestFill.rDescription=request.rDescription;
@@ -532,7 +557,7 @@
                 else if (request.rRtId == 3){
                     this.requestTypeDetail='FUND';
                     this.requestFill.rLetterNumber=request.rLetterNumber;
-                    this.requestFill.rLetterDate=request.rLetterDate
+                    this.requestFill.rLetterDate=request.rLetterDate;
                     this.requestFill.rSubject=request.rSubject;
                     this.requestFill.rCostEstimation=request.rCostEstimation;
                     this.requestFill.rDescription=request.rDescription;
@@ -540,9 +565,9 @@
             },
 
             openReferralsModal: function () {
-              this.showReferralsModal=true;
-              this.getGroupUsers();
-              this.getMyCategoryUsers();
+                this.showReferralsModal=true;
+                this.getGroupUsers();
+                this.getMyCategoryUsers();
             },
 
             requestReferral: function () {
@@ -553,6 +578,7 @@
                             destUId: this.referralInput.destUId,
                             lastRefId: this.lastVerifier,
                             description: this.referralInput.description,
+                            verifierId:this.youAreVerifier
                         }).then((response) => {
                             this.receiveRequests = response.data.data;
                             this.showReferralsModal = false;
@@ -577,6 +603,7 @@
             },
 
             acceptRequest: function () {
+
                 axios.post('/financial/request/accept', {
                     lastRefId: this.lastVerifier,
                     verifierId: this.youAreVerifier,
@@ -612,7 +639,6 @@
                     this.$parent.displayNotif(error.response.status);
                 });
             },
-
 
 
 

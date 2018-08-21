@@ -32,7 +32,6 @@
                     <div class="tbl-div-container">
                         <table class="tbl-head">
                             <colgroup>
-                                <col width="50px"/>
                                 <col width="590px"/>
                                 <col width="200px"/>
                                 <col width="200px"/>
@@ -42,7 +41,6 @@
                             </colgroup>
                             <tbody class="tbl-head-style">
                             <tr class="tbl-head-style-cell">
-                                <th class="tbl-head-style-cell">ردیف</th>
                                 <th class="tbl-head-style-cell">عنوان</th>
                                 <th class="tbl-head-style-cell">نوع درخواست</th>
                                 <th class="tbl-head-style-cell">قیمت</th>
@@ -57,7 +55,6 @@
                         <div class="tbl_body_style dynamic-height-level2">
                             <table class="tbl-body-contain">
                                 <colgroup>
-                                    <col width="50px"/>
                                     <col width="590px"/>
                                     <col width="200px"/>
                                     <col width="200px"/>
@@ -65,13 +62,12 @@
                                     <col width="200px"/>
                                 </colgroup>
                                 <tbody class="tbl-head-style-cell">
-                                <tr class="table-row" @click="getSubmissionDetail(allSubmissions)" v-for="(allSubmissions,index) in submissions">
-                                    <td>{{index+1}}</td>
+                                <tr class="table-row" @click="getSubmissionDetail(allSubmissions)" v-for="allSubmissions in submissions">
                                     <td>{{allSubmissions.rSubject}}</td>
                                     <td v-if="allSubmissions.rRtId==1"> خدمات</td>
                                     <td v-else-if="allSubmissions.rRtId==2"> کالا</td>
                                     <td v-else="allSubmissions.rRtId==3"> تنخواه</td>
-                                    <td>{{allSubmissions.rCostEstimation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}}</td>
+                                    <td>{{$parent.calcDispAmount(allSubmissions.rCostEstimation,false)}}</td>
                                     <td>{{allSubmissions.rLetterNumber}}</td>
                                     <td>{{allSubmissions.rLetterDate}}</td>
                                 </tr>
@@ -123,18 +119,18 @@
                                                     </div>
                                                     <div class="large-12 medium-12  small-12">
                                                         <label>{{recipientsGroup.category.cSubject}}
-                                                            <select :disabled="!isRequireChangeState" class="form-element-margin-btm"  :name="'recipient'[+recipientsGroup.id]" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('\'recipient\'[+recipientsGroup.id]')}">
+                                                            <select :disabled="!isRequireChangeState" class="form-element-margin-btm"  :name="'recipient'+recipientsGroup.id" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('recipient'+recipientsGroup.id)}">
                                                                 <template v-if="isRequireChangeState == true">
                                                                     <option value=""></option>
                                                                     <template v-for="rolCat in recipientsGroup.category.role_category">
-                                                                        <option v-for="users in rolCat.role.user" :value="users.id" >{{users.name}} - {{rolCat.role.rSubject}}</option>
+                                                                        <option v-for="users in rolCat.role.user" @click="getUserRecipients(recipientsGroup.id,users.id)" :value="recipientsGroup.id">{{users.name}} - {{rolCat.role.rSubject}}</option>
                                                                     </template>
                                                                 </template>
                                                                 <template v-else="isRequireChangeState == false">
                                                                     <option value=""></option>
                                                                 </template>
                                                             </select>
-                                                            <span v-show="errors.has('\'recipient\'[+recipientsGroup.id]')" class="error-font">لطفا فیلد {{recipientsGroup.category.cSubject}}}  را انتخاب کنید!</span>
+                                                            <span v-show="errors.has('recipient'+recipientsGroup.id)" class="error-font">لطفا فیلد {{recipientsGroup.category.cSubject}}  را انتخاب کنید!</span>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -172,7 +168,7 @@
                                                 <td>{{index+1}}</td>
                                                 <td>{{commodityRequests.commodityName}}</td>
                                                 <td>{{commodityRequests.commodityCount}}</td>
-                                                <td>{{commodityRequests.commodityPrice}}</td>
+                                                <td>{{$parent.calcDispAmount(commodityRequests.commodityPrice,false)}}</td>
                                                 <td>{{commodityRequests.commodityDescription}}</td>
                                                 <td class="text-center"><a @click="deleteCommodityItem(index)"><i class="far fa-trash-alt btn-red size-18"></i></a></td>
                                             </tr>
@@ -201,7 +197,7 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="4" class="text-center font-wei-bold"> مجموع برآورد</td>
-                                                <td colspan="2" class="text-center font-wei-bold">{{sumOfCommodityPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}} <span class="btn-red">{{  costTemp  }}</span> </td>
+                                                <td colspan="2" class="text-center font-wei-bold">{{$parent.calcDispAmount(sumOfCommodityPrice,false)}} <span class="btn-red">{{  costTemp  }}</span> </td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -297,7 +293,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">مبلغ برآردی : </td>
-                                                    <td>{{requestFill.rCostEstimation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}} <span class="btn-red">  {{costTemp}}  </span></td>
+                                                    <td>{{$parent.calcDispAmount(requestFill.rCostEstimation,false)}} <span class="btn-red">  {{costTemp}}  </span></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">شرح کامل خدمات : </td>
@@ -342,12 +338,12 @@
                                                     <td>{{index+1}}</td>
                                                     <td>{{lists.commodity.cSubject}}</td>
                                                     <td>{{lists.rcCount}}</td>
-                                                    <td>{{lists.rcCostEstimation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}}</td>
+                                                    <td>{{$parent.calcDispAmount(lists.rcCostEstimation,false)}}</td>
                                                     <td>{{lists.rcDescription}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="4" class="text-center font-wei-bold"> مجموع برآورد</td>
-                                                    <td colspan="2" class="text-center font-wei-bold">{{requestFill.rCostEstimation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}} <span class="btn-red">{{  costTemp  }}</span> </td>
+                                                    <td colspan="2" class="text-center font-wei-bold">{{$parent.calcDispAmount(requestFill.rCostEstimation,false)}} <span class="btn-red">{{  costTemp  }}</span> </td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -370,7 +366,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">مبلغ برآردی : </td>
-                                                    <td>{{requestFill.rCostEstimation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}} <span class="btn-red">  {{costTemp}}  </span></td>
+                                                    <td>{{$parent.calcDispAmount(requestFill.rCostEstimation,false)}} <span class="btn-red">  {{costTemp}}  </span></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">متن درخواست : </td>
@@ -389,7 +385,7 @@
                                         <div v-for="verifier in verifiers" class="large-12 medium-12 small-12 verifier-panel">
                                             <div class="grid-x">
                                                 <div class="large-1 medium-1 small-12">
-                                                    <img style="width: 60px;height: 60px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="$parent.imgDataUrl">
+                                                    <img style="width: 60px;height: 60px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="verifier.user.avatarPath != null ? baseURL + verifier.user.avatarPath : $parent.baseAvatar">
                                                 </div>
                                                 <div class="large-6 medium-6 small-12 small-top-m">
                                                     <p>{{verifier.user.name}}</p>
@@ -397,7 +393,7 @@
                                                 </div>
                                                 <div v-show="verifier.rvSId != null" style="direction: ltr;" class="large-5 medium-5 small-12 small-top-m">
                                                     <p class="user-verifier-label">تایید شده</p>
-                                                    <p style="margin-bottom: 0;color:#9E9E9E;margin-top:-8px" class="small-font"><i class="far fa-calendar-alt"></i><span> 1397/05/28 </span> - <i class="far fa-clock"></i> <span>14:29</span></p>
+                                                    <p style="margin-bottom: 0;color:#9E9E9E;margin-top:-8px" class="small-font"><i class="far fa-calendar-alt"></i><span> {{verifier.rvShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{verifier.rvShamsiTime}}</span></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -406,35 +402,46 @@
                                 <!--Tab 2-->
                                 <!--Tab 3-->
                                 <div class="tabs-panel table-mrg-btm" id="requestHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                    <div v-for="recipientUser in recipientUsers" class="grid-x timeline">
-                                        <div class="large-12 medium-12 small-12 timeline-item">
-                                            <div class="grid-x">
-                                                <div class="large-3 medium-3 small-12">
-
-                                                </div>
-                                                <div class="large-7 medium-7 small-12 timeline-icon">
-                                                    <img style="width: 57px;height: 57px;margin-top: 1px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="$parent.imgDataUrl">
-                                                </div>
-                                                <div class="large-7 medium-7 small-12 timeline-content">
+                                    <div class="grid-x">
+                                        <div class="large-12 medium-12 small-12 large-top-m">
+                                            <div style="margin-top:-50px;" v-for="recipientUser in recipientUsers" class="grid-x timeline">
+                                                <div class="large-12 medium-12 small-12 timeline-item">
                                                     <div class="grid-x">
-                                                        <div class="large-12 medium-12 small-12 timeline-content-header">
-                                                            <p>{{recipientUser.source_user_info.name}}</p>
-                                                            <p style="margin-top:-13px;margin-bottom: -5px;" class="small-font">{{recipientUser.source_user_info.role.rSubject}}</p>
-                                                            <span style="text-align: left;" class="timeline-state gray-color">{{recipientUser.request_state.rsSubject}}</span>
+                                                        <div class="large-3 medium-3 small-12">
+
                                                         </div>
-                                                        <div class="large-12 medium-12 small-12">
-                                                            <p class="small-top-m">
-                                                                {{recipientUser.destination_user_info.name}} - {{recipientUser.destination_user_info.role.rSubject}} :
-                                                            </p>
-                                                            <p class="small-top-m text-justify gray-colors">
-                                                                {{recipientUser.rhDescription}}
-                                                            </p>
-                                                            <p style="direction: ltr;margin-bottom: -15px;" class="gray-color small-font"><i class="far fa-calendar-alt"></i><span> {{recipientUser.rhShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{recipientUser.rhShamsiTime}}</span></p>
+                                                        <div class="large-7 medium-7 small-12 timeline-icon">
+                                                            <img style="width: 57px;height: 57px;margin-top: 1px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="recipientUser.source_user_info.avatarPath != null ? baseURL + recipientUser.source_user_info.avatarPath : $parent.baseAvatar">
+                                                        </div>
+                                                        <div class="large-7 medium-7 small-12 timeline-content">
+                                                            <div class="grid-x">
+                                                                <div class="large-12 medium-12 small-12 timeline-content-header">
+                                                                    <p>{{recipientUser.source_user_info.name}}</p>
+                                                                    <p style="margin-top:-13px;margin-bottom: -5px;" class="small-font">{{recipientUser.source_user_info.role.rSubject}}</p>
+                                                                    <span style="text-align: left;" class="timeline-state gray-color">{{recipientUser.request_state.rsSubject}}</span>
+                                                                </div>
+                                                                <div class="large-12 medium-12 small-12">
+                                                                    <div class="grid-x">
+                                                                        <div class="large-1 medium-2 small-12">
+                                                                            <img style="width: 40px;height: 40px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="recipientUser.destination_user_info.avatarPath != null ? baseURL + recipientUser.destination_user_info.avatarPath : $parent.baseAvatar">
+                                                                        </div>
+                                                                        <div class="large-11 medium-10 small-12 padding-lr">
+                                                                            <p class="small-top-m">
+                                                                                {{recipientUser.destination_user_info.name}} - {{recipientUser.destination_user_info.role.rSubject}} :
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <p class="small-top-m text-justify gray-colors">
+                                                                        {{recipientUser.rhDescription}}
+                                                                    </p>
+                                                                    <p style="direction: ltr;margin-bottom: -15px;" class="gray-color small-font"><i class="far fa-calendar-alt"></i><span> {{recipientUser.rhShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{recipientUser.rhShamsiTime}}</span></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="large-3 medium-3 small-12">
+
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="large-3 medium-3 small-12">
-
                                                 </div>
                                             </div>
                                         </div>
@@ -491,6 +498,8 @@
                 recipientUsers:[],
                 isRequireChangeState:false,
                 costTemp:'',
+                verifiers:[],
+                baseURL:window.hostname+'/',
 
 
             }
@@ -652,7 +661,7 @@
                                 this.data.append('items['+index+'][subject]', items.commodityName );
                                 this.data.append('items['+index+'][count]', items.commodityCount );
                                 this.data.append('items['+index+'][costEstimation]', items.commodityPrice.split(',').join(''));
-                                this.data.append('items['+index+'][description]', items.commodityDescription );
+                                this.data.append('items['+index+'][description]', items.commodityDescription == undefined ? '' :  items.commodityDescription );
                             });
                         }
                         else {
@@ -714,6 +723,7 @@
             getSubmissionDetail: function (submission) {
                 this.showSubmissionDeatilModal=true;
                 this.recipientUsers=[];
+                this.verifiers=[];
                 var requestHistory=[];
                 requestHistory.push(submission);
                 console.log(JSON.stringify(requestHistory));
@@ -722,7 +732,13 @@
                         this.recipientUsers.push(userHistory);
                     });
                 });
-                console.log(JSON.stringify(this.recipientUsers));
+
+                requestHistory.forEach(users => {
+                    users.verifiers.forEach(verify => {
+                        this.verifiers.push(verify);
+                    });
+                });
+
                 if (submission.rRtId == 1){
                     this.requestTypeDetail='SERVICES';
                     this.requestFill.rLetterNumber=submission.rLetterNumber;

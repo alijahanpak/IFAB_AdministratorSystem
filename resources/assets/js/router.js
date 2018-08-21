@@ -195,7 +195,8 @@ var app = new Vue({
 
         headers: {Authorization:'' , Accept: 'application/json'},
         imgDataUrl: window.hostname + '/pic/avatars/avatar.jpg', // the datebase64 url of created image
-        uploadUrl: window.hostname + '/admin/user/uploadAvatar'
+        uploadUrl: window.hostname + '/admin/user/uploadAvatar',
+        baseAvatar:window.hostname + '/pic/avatars/avatar.jpg',
     },
 
     updated: function () {
