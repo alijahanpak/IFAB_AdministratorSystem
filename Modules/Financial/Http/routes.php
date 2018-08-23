@@ -19,6 +19,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::post('response', 'RequestController@response');
         Route::post('accept', 'RequestController@accept');
         Route::post('secretariat/numbering/register', 'RequestController@numbering');
+        Route::post('financing', 'RequestController@financing');
     });
 
     Route::prefix('commodity')->group(function () {

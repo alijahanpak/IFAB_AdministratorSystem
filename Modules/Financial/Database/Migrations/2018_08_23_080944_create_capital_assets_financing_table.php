@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCapitalAssetsFoundsTable extends Migration
+class CreateCapitalAssetsFinancingTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class CreateCapitalAssetsFoundsTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('tbl_capital_assets_founds')) {
-            Schema::create('tbl_capital_assets_founds', function (Blueprint $table) {
+        if (!Schema::hasTable('tbl_capital_assets_financing')) {
+            Schema::create('tbl_capital_assets_financing', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->bigInteger('cafCaaId')->length(20)->unsigned();
                 $table->bigInteger('cafRId')->length(20)->unsigned();
@@ -42,7 +42,7 @@ class CreateCapitalAssetsFoundsTable extends Migration
     public function down()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        Schema::dropIfExists('tbl_capital_assets_founds');
+        Schema::dropIfExists('tbl_capital_assets_financing');
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

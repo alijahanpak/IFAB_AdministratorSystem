@@ -4,8 +4,8 @@ namespace Modules\Financial\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CostFound extends Model
+class CostFinancing extends Model
 {
     protected $fillable = [];
-    protected $table = 'tbl_cost_founds';
+    protected $table = 'tbl_cost_financing';
 }
