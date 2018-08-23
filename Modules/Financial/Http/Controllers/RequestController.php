@@ -233,6 +233,9 @@ class RequestController extends Controller
         if ($accessToSQPermission)
         {
             $secQueue = SecretariatRequestQueue::all()->pluck('srqRId');
+            RequestHistory::whereIn('rhRId' , $secQueue)
+                ->where('rhRsId' , '=' , RequestState::where('rsState' , '=' , 'SECRETARIAT_QUEUE')->value('id'))
+                ->update(['rhDestUId' => Auth::user()->id , 'rhRsId' => RequestState::where('rsState' , '=' , 'ACTIVE')->value('id')]);
             $req = $req->merge($secQueue);
         }
 
