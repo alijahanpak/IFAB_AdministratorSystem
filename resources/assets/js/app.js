@@ -15,6 +15,7 @@ import VueProgressBar from 'vue-progressbar'
 import PDatePicker from 'vue2-persian-datepicker'
 import vSelectPage from 'v-selectpage'
 import money from 'v-money';
+import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
 
 
 Vue.use(vSelectPage, {
@@ -64,6 +65,8 @@ Vue.component(
     'passport-personal-access-tokens',
     require('./components/passport/PersonalAccessTokens.vue')
 );
+
+Vue.component('date-picker', VuePersianDatetimePicker);
 
 Vue.component('modal-tiny', {template: '#modal-tiny-template'});
 Vue.component('modal-small', {template: '#modal-small-template'});

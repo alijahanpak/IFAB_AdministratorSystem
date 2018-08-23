@@ -31,6 +31,7 @@ import budget_proposal from './components/Budget/CreditDistribution/proposal.vue
 
 import submissions from './components/FinancialDepartment/submissions.vue'
 import received_requests from './components/FinancialDepartment/received_requests.vue'
+import search_requests from './components/FinancialDepartment/search_requests.vue'
 
 /////////////////////// Financial Department End//////////////////////////
 
@@ -59,6 +60,7 @@ const routes = [
     { path: '/financial_department', component: fdDashboard , meta:{permission: 'FINANCIAL_DASHBOARD_DISPLAY'}},
     { path: '/financial_department/submissions', component: submissions , meta:{permission: 'public'}},
     { path: '/financial_department/received_requests', component: received_requests , meta:{permission: 'public'}},
+    { path: '/financial_department/search_requests', component: search_requests , meta:{permission: 'public'}},
 ]
 
 const router = new VueRouter({
