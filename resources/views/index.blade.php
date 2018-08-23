@@ -240,7 +240,7 @@
                                 <ul class="menu vertical nested">
                                     <li><router-link to="/financial_department/submissions">درخواست های ارسالی</router-link></li>
                                     <li><router-link to="/financial_department/received_requests">درخواست های دریافتی</router-link></li>
-                                    <li><router-link to="/budget/admin/deprived_area">جستجو</router-link></li>
+                                    <li><router-link to="/financial_department/search_requests">جستجو</router-link></li>
                                 </ul>
                             </li>
                             <!--Financial Department End-->
