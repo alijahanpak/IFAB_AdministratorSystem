@@ -19,42 +19,29 @@
             </div>
         </div>
         <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
-            <div class="medium-12 column">
-                <div class="float-left cost-label">
-                    <span class="small-font"> مبالغ : {{costTemp}} </span>
-                </div>
-            </div>
             <div class="medium-12 padding-lr" style="margin-top: 15px;">
-                <div class="medium-12 column">
-                    <div class="tbl-div-container">
-                        <table class="tbl-head">
-                            <colgroup>
-                                <col width="80px"/>
-                                <col width="400px"/>
-                                <col width="300px"/>
-                                <col width="200px"/>
-                                <col width="150px"/>
-                                <col width="200px"/>
-                                <col width="200px"/>
-                                <col width="12px"/>
-                            </colgroup>
-                            <tbody class="tbl-head-style">
-                            <tr class="tbl-head-style-cell">
-                                <th class="tbl-head-style-cell">وضعیت</th>
-                                <th class="tbl-head-style-cell">عنوان</th>
-                                <th class="tbl-head-style-cell">ارسال کننده</th>
-                                <th class="tbl-head-style-cell">نوع درخواست</th>
-                                <th class="tbl-head-style-cell">قیمت</th>
-                                <th class="tbl-head-style-cell">شماره</th>
-                                <th class="tbl-head-style-cell">تاریخ</th>
-                                <th class="tbl-head-style-cell"></th>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <!--Table Head End-->
-                        <!--Table Body Start-->
-                        <div class="tbl_body_style dynamic-height-level2">
-                            <table class="tbl-body-contain">
+                <div class="clearfix tool-bar">
+                    <div class="medium-12 column">
+                        <div class="float-left cost-label">
+                            <span class="small-font"> مبالغ : {{costTemp}} </span>
+                        </div>
+                    </div>
+                    <div class="medium-12 column padding-lr">
+                        <div class="float-left">
+                            <div class="input-group float-left">
+                                <div class="inner-addon right-addon">
+                                    <i v-if="receiveRequestSearchValue == ''"   class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                    <i v-if="receiveRequestSearchValue != ''"  class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                    <input v-model="receiveRequestSearchValue" class="search" type="text" placeholder="جستجو">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="medium-12 padding-lr" style="margin-top: 15px;">
+                    <div class="medium-12 column">
+                        <div class="tbl-div-container">
+                            <table class="tbl-head">
                                 <colgroup>
                                     <col width="80px"/>
                                     <col width="400px"/>
@@ -63,22 +50,50 @@
                                     <col width="150px"/>
                                     <col width="200px"/>
                                     <col width="200px"/>
+                                    <col width="12px"/>
                                 </colgroup>
-                                <tbody class="tbl-head-style-cell">
-                                <tr class="table-row" @click="getRequestDetail(receiveRequest)" v-for="receiveRequest in receiveRequests">
-                                    <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
-                                    <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
-                                    <td>{{receiveRequest.rSubject}}</td>
-                                    <td>{{receiveRequest.rLastRef.source_user_info.name}} - {{receiveRequest.rLastRef.source_user_info.role.rSubject}}</td>
-                                    <td v-if="receiveRequest.rRtId==1"> خدمات</td>
-                                    <td v-else-if="receiveRequest.rRtId==2"> کالا</td>
-                                    <td v-else="receiveRequest.rRtId==3"> تنخواه</td>
-                                    <td>{{$parent.calcDispAmount(receiveRequest.rCostEstimation,false)}}</td>
-                                    <td>{{receiveRequest.rLetterNumber}}</td>
-                                    <td>{{receiveRequest.rLetterDate}}</td>
+                                <tbody class="tbl-head-style">
+                                <tr class="tbl-head-style-cell">
+                                    <th class="tbl-head-style-cell">وضعیت</th>
+                                    <th class="tbl-head-style-cell">عنوان</th>
+                                    <th class="tbl-head-style-cell">ارسال کننده</th>
+                                    <th class="tbl-head-style-cell">نوع درخواست</th>
+                                    <th class="tbl-head-style-cell">قیمت</th>
+                                    <th class="tbl-head-style-cell">شماره</th>
+                                    <th class="tbl-head-style-cell">تاریخ</th>
+                                    <th class="tbl-head-style-cell"></th>
                                 </tr>
                                 </tbody>
                             </table>
+                            <!--Table Head End-->
+                            <!--Table Body Start-->
+                            <div class="tbl_body_style dynamic-height-level2">
+                                <table class="tbl-body-contain">
+                                    <colgroup>
+                                        <col width="80px"/>
+                                        <col width="400px"/>
+                                        <col width="300px"/>
+                                        <col width="200px"/>
+                                        <col width="150px"/>
+                                        <col width="200px"/>
+                                        <col width="200px"/>
+                                    </colgroup>
+                                    <tbody class="tbl-head-style-cell">
+                                    <tr class="table-row" @click="getRequestDetail(receiveRequest)" v-for="receiveRequest in receiveRequests">
+                                        <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
+                                        <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
+                                        <td>{{receiveRequest.rSubject}}</td>
+                                        <td>{{receiveRequest.rLastRef.source_user_info.name}} - {{receiveRequest.rLastRef.source_user_info.role.rSubject}}</td>
+                                        <td v-if="receiveRequest.rRtId==1"> خدمات</td>
+                                        <td v-else-if="receiveRequest.rRtId==2"> کالا</td>
+                                        <td v-else="receiveRequest.rRtId==3"> تنخواه</td>
+                                        <td>{{$parent.calcDispAmount(receiveRequest.rCostEstimation,false)}}</td>
+                                        <td>{{receiveRequest.rLetterNumber}}</td>
+                                        <td>{{receiveRequest.rLetterDate}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -164,8 +179,8 @@
                                                     <td>{{lists.commodity.cSubject}}</td>
                                                     <td>{{lists.rcCount}}</td>
                                                     <td v-show='$can("DETERMINE_EXIST_COMMODITY_IN_REPOSITORY")'>
-                                                        <input  style="margin-bottom: 0px;" class="form-element-margin-btm" v-model="repoCountInput.existCount" type="text" :name="'repoCount' + index" v-validate="'required','min_value:0','max_value:'+lists.rcCount " data-vv-as="field" :class="{'input': true, 'error-border': errors.has('repoCount' + index)}">
-                                                        <span v-show="errors.has('repoCount' + index)" class="error-font"></span>
+                                                        <input v-on:change="setRepoExistCount(lists.id,commodityCountInput['existCount' + lists.id])" v-model="commodityCountInput['existCount' + lists.id]"  style="margin-bottom: 0px;" class="form-element-margin-btm" type="text" :name="'repoCount' + lists.id" v-validate="'required','min_value:0','max_value:'+lists.rcCount " data-vv-as="field" :class="{'input': true, 'error-border': errors.has('repoCount' + lists.id)}">
+                                                        <span v-show="errors.has('repoCount' + lists.id)" class="error-font"></span>
                                                     </td>
                                                     <td>{{$parent.calcDispAmount(lists.rcCostEstimation,false)}}</td>
                                                     <td>{{lists.rcDescription}}</td>
@@ -284,6 +299,7 @@
                                 <button @click="openSubmitRequestModal()" v-if=" youAreVerifier != '' "  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
                                 <button @click="openReferralsModal()"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg">  ارجاع</span></button>
                                 <button @click="openResponseRequestModal()" v-show="canResponse == 1 " class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg">  پاسخ</span></button>
+                                <button style="width:130px;" @click="openRegisterAndNumberingModal()" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت دبیرخانه</span></button>
                             </div>
 
                         </div>
@@ -396,14 +412,53 @@
             </div>
         </modal-tiny>
         <!-- Response Request modal -->
+
+        <!-- RegisterAndNumbering Start -->
+        <modal-tiny v-if="showRegisterAndNumberingModal" @close="showRegisterAndNumberingModal = false">
+            <div  slot="body">
+                <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <div class="grid-x">
+                        <div class="large-12 medium-12 small-12 padding-lr">
+                            <label>تاریخ
+                                <input
+                                        type="text"
+                                        class="form-control form-control-lg"
+                                        v-model="registerDate"
+                                        id="my-custom-input"
+                                        placeholder="انتخاب تاریخ">
+
+                                <date-picker
+                                        v-model="registerDate"
+                                        :color="'#5c6bc0'"
+                                        element="my-custom-input">
+                                </date-picker>
+                            </label>
+                        </div>
+                        <div class="large-12 medium-12 small-12 padding-lr">
+                            <label> شماره
+                                <input class="form-element-margin-btm" type="text" name="letterNumber" v-model="letterNumber" v-validate="'required'" data-vv-as="field" :class="{'input': true, 'error-border': errors.has('letterNumber')}">
+                                <span v-show="errors.has('letterNumber')" class="error-font"></span>
+                            </label>
+                        </div>
+                        <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
+                            <button @click="registerAndNumbering()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-tiny>
+        <!-- RegisterAndNumbering End -->
     </div>
 </template>
 
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
+    import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
     export default {
-        components: {Suggestions},
+        components: {Suggestions,
         "vue-select": require("vue-select"),
+        datePicker: VuePersianDatetimePicker
+        },
         data () {
             return {
                 receiveRequests:[],
@@ -412,12 +467,13 @@
                 showReferralsModal:false,
                 showSubmitRequestModal:false,
                 showResponseRequestModal:false,
+                showRegisterAndNumberingModal:false,
+                receiveRequestSearchValue:'',
                 requestTypeDetail:'',
                 requestFill:{},
                 commodityList:[],
                 recipientUsers:[],
                 UserIsVerifier:[],
-                repoCountInput:[],
                 remainingVerifiers:[],
                 verifiers:[],
                 groupUsers:[],
@@ -432,7 +488,12 @@
                 referralDestination:'',
                 canResponse:'',
                 baseURL:window.hostname+'/',
-
+                commodityCountInput:{},
+                repoExistCount:[],
+                commodityCount:'',
+                registerDate: '',
+                requestId: '',
+                letterNumber: '',
             }
         },
 
@@ -499,7 +560,7 @@
                 this.UserIsVerifier=[];
                 var requestHistory=[];
                 requestHistory.push(request);
-
+                this.requestId=request.id;
 
                 requestHistory.forEach(users => {
                     users.history.forEach(userHistory => {
@@ -607,7 +668,7 @@
                 axios.post('/financial/request/accept', {
                     lastRefId: this.lastVerifier,
                     verifierId: this.youAreVerifier,
-                    itemExistCount: null
+                    itemExistCount: this.repoExistCount
                 }).then((response) => {
                     this.receiveRequests = response.data.data;
                     this.showSubmitRequestModal = false;
@@ -639,6 +700,50 @@
                     this.$parent.displayNotif(error.response.status);
                 });
             },
+
+            setRepoExistCount: function (cId,count) {
+                console.log(JSON.stringify(this.commodityCountInput));
+                var repoExistCountInput={};
+                repoExistCountInput.rcId=cId;
+                repoExistCountInput.existCount=count;
+
+                if(this.repoExistCount === undefined || this.repoExistCount.length == 0){
+                    this.repoExistCount.push(repoExistCountInput);
+                }
+                else{
+                    this.repoExistCount.forEach((item,index) =>{
+                        if(item.rcId ==  repoExistCountInput.rcId){
+                            this.repoExistCount.splice(index,1);
+                            this.repoExistCount.push(repoExistCountInput);
+                        }
+                        else{
+                            this.repoExistCount.push(repoExistCountInput);
+                        }
+                    });
+                }
+            },
+
+            openRegisterAndNumberingModal: function (){
+              this.showRegisterAndNumberingModal=true;
+            },
+
+            registerAndNumbering:function () {
+                axios.post('/financial/request/secretariat/numbering/register', {
+                    rId: this.requestId,
+                    letterDate: this.registerDate,
+                    letterNumber: this.letterNumber
+                }).then((response) => {
+                    this.receiveRequests = response.data.data;
+                    this.showRegisterAndNumberingModal = false;
+                    this.showRequestDetailModal = false;
+                    this.$parent.displayNotif(response.status);
+                    console.log(response);
+                }, (error) => {
+                    console.log(error);
+                    this.$parent.displayNotif(error.response.status);
+                });
+            },
+
 
 
 

@@ -109,7 +109,7 @@
                                                     <div style="margin-top: 20px;" class="large-12 medium-12  small-12">
                                                         <label> آیا درخواست نیاز به بررسی و تایید {{recipientsGroup.category.cSubject}} دارد؟
                                                             <div class="switch small">
-                                                                <input checked="false" v-model="isRequireChangeState" class="switch-input" id="is-require-state" type="checkbox">
+                                                                <input v-on:change="dropUserRecipients(recipientsGroup.id,isRequireChangeState)" checked="false" v-model="isRequireChangeState" class="switch-input" id="is-require-state" type="checkbox">
                                                                 <label class="switch-paddle" for="is-require-state">
                                                                     <span class="switch-active" aria-hidden="true">بلی</span>
                                                                     <span class="switch-inactive" aria-hidden="true">خیر</span>
@@ -119,14 +119,14 @@
                                                     </div>
                                                     <div class="large-12 medium-12  small-12">
                                                         <label>{{recipientsGroup.category.cSubject}}
-                                                            <select :disabled="!isRequireChangeState" class="form-element-margin-btm"  :name="'recipient'+recipientsGroup.id" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('recipient'+recipientsGroup.id)}">
+                                                            <select  :disabled="!isRequireChangeState" class="form-element-margin-btm"  :name="'recipient'+recipientsGroup.id" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('recipient'+recipientsGroup.id)}">
                                                                 <template v-if="isRequireChangeState == true">
                                                                     <option value=""></option>
                                                                     <template v-for="rolCat in recipientsGroup.category.role_category">
                                                                         <option v-for="users in rolCat.role.user" @click="getUserRecipients(recipientsGroup.id,users.id)" :value="recipientsGroup.id">{{users.name}} - {{rolCat.role.rSubject}}</option>
                                                                     </template>
                                                                 </template>
-                                                                <template v-else="isRequireChangeState == false">
+                                                                <template v-if="isRequireChangeState == false">
                                                                     <option value=""></option>
                                                                 </template>
                                                             </select>
@@ -496,6 +496,7 @@
                 requestTypeDetail:'',
                 requestTypeId:'',
                 recipientUsers:[],
+                recipientUsersTemp:[],
                 isRequireChangeState:false,
                 costTemp:'',
                 verifiers:[],
@@ -641,79 +642,80 @@
                                 this.$forceUpdate();
                             }.bind(this)
                         };
-                        if(this.requestTypeSend == 'BUY_SERVICES'){
-                            this.sumOfCommodityPrice=this.requestInput.serviceEstimated.split(',').join('');
-
-                        }
-                        if(this.requestTypeSend == 'FUND'){
-                            this.sumOfCommodityPrice=this.requestInput.fundEstimated.split(',').join('');
-
-
-                        }
-                        //this.prepareFields();
-                        this.data.append('subject', this.requestInput.rSubject );
-                        this.data.append('rtId', this.requestTypeId );
-                        this.data.append('costEstimation', this.sumOfCommodityPrice);
-                        this.data.append('description', this.requestInput.fullDescription);
-                        this.data.append('furtherDetails', this.requestInput.furtherDescription);
-                        if(this.requestTypeSend == 'BUY_COMMODITY'){
-                            this.commodityRequest.forEach ((items,index) => {
-                                this.data.append('items['+index+'][subject]', items.commodityName );
-                                this.data.append('items['+index+'][count]', items.commodityCount );
-                                this.data.append('items['+index+'][costEstimation]', items.commodityPrice.split(',').join(''));
-                                this.data.append('items['+index+'][description]', items.commodityDescription == undefined ? '' :  items.commodityDescription );
+                        this.recipients.forEach(item => {
+                            if(this.recipientUsersTemp[item.id] != null){
+                                var recipientUsersInput={};
+                                recipientUsersInput.stepId=item.id;
+                                recipientUsersInput.userId=this.recipientUsersTemp[item.id];
+                                this.recipientUsers.push(recipientUsersInput);
+                                console.log(JSON.stringify(this.recipientUsers))
+                            }
                             });
-                        }
-                        else {
-                            this.data.append('items',null);
-                        }
-                        this.recipientUsers.forEach((user,index) => {
-                            this.data.append('verifiers['+index+'][rstId]', user.stepId );
-                            this.data.append('verifiers['+index+'][uId]', user.userId );
-                        });
+                            if(this.requestTypeSend == 'BUY_SERVICES'){
+                                this.sumOfCommodityPrice=this.requestInput.serviceEstimated.split(',').join('');
+
+                            }
+                            if(this.requestTypeSend == 'FUND'){
+                                this.sumOfCommodityPrice=this.requestInput.fundEstimated.split(',').join('');
 
 
-                        axios.post('/financial/request/register', this.data , config).then((response) => {
-                            this.submissions = response.data.data;
-                            this.showBuyCommodityModal = false;
-                            this.$parent.displayNotif(response.status);
-                            console.log(response);
-                            this.resetData();
-                        }, (error) => {
-                            console.log(error);
-                            this.$parent.displayNotif(error.response.status);
-                            this.data = new FormData();
-                        });
+                            }
+                            //this.prepareFields();
+                            this.data.append('subject', this.requestInput.rSubject );
+                            this.data.append('rtId', this.requestTypeId );
+                            this.data.append('costEstimation', this.sumOfCommodityPrice);
+                            this.data.append('description', this.requestInput.fullDescription);
+                            this.data.append('furtherDetails', this.requestInput.furtherDescription);
+                            if(this.requestTypeSend == 'BUY_COMMODITY'){
+                                this.commodityRequest.forEach ((items,index) => {
+                                    this.data.append('items['+index+'][subject]', items.commodityName );
+                                    this.data.append('items['+index+'][count]', items.commodityCount );
+                                    this.data.append('items['+index+'][costEstimation]', items.commodityPrice.split(',').join(''));
+                                    this.data.append('items['+index+'][description]', items.commodityDescription == undefined ? '' :  items.commodityDescription );
+                                });
+                            }
+                            else {
+                                this.data.append('items',null);
+                            }
+                            this.recipientUsers.forEach((user,index) => {
+                                this.data.append('verifiers['+index+'][rstId]', user.stepId );
+                                this.data.append('verifiers['+index+'][uId]', user.userId );
+                            });
 
 
-                    }
-                });
+                            axios.post('/financial/request/register', this.data , config).then((response) => {
+                                this.submissions = response.data.data;
+                                this.showBuyCommodityModal = false;
+                                this.$parent.displayNotif(response.status);
+                                console.log(response);
+                                this.resetData();
+                            }, (error) => {
+                                console.log(error);
+                                this.$parent.displayNotif(error.response.status);
+                                this.data = new FormData();
+                            });
 
-            },
 
-            getUserRecipients:function (stepId,userId) {
-                var recipientUsersInput={};
-                recipientUsersInput.stepId=stepId;
-                recipientUsersInput.userId=userId;
-
-                if(this.recipientUsers === undefined || this.recipientUsers.length == 0){
-                    this.recipientUsers.push(recipientUsersInput);
-                }
-                else{
-                    this.recipientUsers.forEach((item,index) =>{
-                        if(item.stepId ==  recipientUsersInput.stepId){
-                            this.recipientUsers.splice(index,1);
-                            this.recipientUsers.push(recipientUsersInput);
-                        }
-                        else{
-                            this.recipientUsers.push(recipientUsersInput);
                         }
                     });
+
+                },
+
+            getUserRecipients:function (stepId,userId) {
+                alert(stepId);
+                this.recipientUsersTemp[stepId]=userId;
+                console.log(JSON.stringify(this.recipientUsersTemp));
+             },
+
+            dropUserRecipients:function (stepId) {
+                if(this.isRequireChangeState == false){
+                    this.recipientUsersTemp[stepId]= null;
+                    console.log(JSON.stringify(this.recipientUsersTemp));
                 }
-                console.log(JSON.stringify(this.recipientUsers));
-            },
-
-
+                else{
+                    console.log(JSON.stringify(this.recipientUsersTemp));
+                }
+             },
 
             resetData() {
                 this.data = new FormData(); // Reset it completely
