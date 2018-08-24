@@ -215,14 +215,6 @@ class RequestController extends Controller
 
     private function getLastReceivedRequestIdList()
     {
-        $rhIds = RequestHistory::selectRaw('rhRId , MAX(id) as id')
-            ->groupBy('rhRId')
-            ->pluck('id');
-        $req = RequestHistory::whereIn('id' , $rhIds)
-            ->where('rhDestUId' , '=' , Auth::user()->id)
-            ->orderBy('id' , 'DESC')
-            ->pluck('rhRId');
-
         /////////// check access to secretariat queue permission //////////////////////
         $gIDs = UserGroup::where('ugUId' , '=' , Auth::user()->id)->pluck('ugGId')->toArray();
         $accessToSQPermission = GroupPermission::whereIn('gpGId' , $gIDs)
@@ -236,9 +228,17 @@ class RequestController extends Controller
             RequestHistory::whereIn('rhRId' , $secQueue)
                 ->where('rhRsId' , '=' , RequestState::where('rsState' , '=' , 'SECRETARIAT_QUEUE')->value('id'))
                 ->update(['rhDestUId' => Auth::user()->id , 'rhRsId' => RequestState::where('rsState' , '=' , 'ACTIVE')->value('id')]);
-            $req = $req->merge($secQueue);
+            _Request::whereIn('id' , $secQueue)->update(['rRsId' => RequestState::where('rsState' , '=' , 'ACTIVE')->value('id')]);
+            SecretariatRequestQueue::whereIn('srqRId' , $secQueue)->delete();
         }
 
+        $rhIds = RequestHistory::selectRaw('rhRId , MAX(id) as id')
+            ->groupBy('rhRId')
+            ->pluck('id');
+        $req = RequestHistory::whereIn('id' , $rhIds)
+            ->where('rhDestUId' , '=' , Auth::user()->id)
+            ->orderBy('id' , 'DESC')
+            ->pluck('rhRId');
         return $req;
     }
 
