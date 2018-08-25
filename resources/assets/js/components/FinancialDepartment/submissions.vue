@@ -702,7 +702,6 @@
                 },
 
             getUserRecipients:function (stepId,userId) {
-                alert(stepId);
                 this.recipientUsersTemp[stepId]=userId;
                 console.log(JSON.stringify(this.recipientUsersTemp));
              },
