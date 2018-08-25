@@ -463,7 +463,7 @@
         <!-- RegisterAndNumbering End -->
 
         <!-- Cost Credits Modal Start -->
-        <modal-large v-if="showCostCreditsModal" @close="showCostCreditsModal = false">
+        <modal-full-screen v-if="showCostCreditsModal" @close="showCostCreditsModal = false">
             <div  slot="body">
                 <div class="small-font">
                     <div class="grid-x">
@@ -477,8 +477,67 @@
                                 <!--Tab 1-->
                                 <div class="tabs-panel is-active table-mrg-btm" id="programTab">
                                     <div class="grid-x">
-                                        <div class="large-12 medium-12 small-12">
+                                        <!--Table Start-->
+                                        <!--Table Head Start-->
+                                        <div class="tbl-div-container">
+                                            <table class="tbl-head">
+                                                <colgroup>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="250px"/>
+                                                    <col width="40px"/>
+                                                    <col width="12px"/>
+                                                </colgroup>
+                                                <tbody class="tbl-head-style ">
+                                                <tr class="tbl-head-style-cell">
+                                                    <th class="tbl-head-style-cell">شماره نامه</th>
+                                                    <th class="tbl-head-style-cell">تاریخ نامه</th>
+                                                    <th class="tbl-head-style-cell">رزرو شده</th>
+                                                    <th class="tbl-head-style-cell">تامین اعتبار</th>
+                                                    <th class="tbl-head-style-cell">تعهد</th>
+                                                    <th class="tbl-head-style-cell">هزینه شده</th>
+                                                    <th class="tbl-head-style-cell">شرح</th>
+                                                    <th class="tbl-head-style-cell"></th>
+                                                    <th class="tbl-head-style-cell"></th>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <!--Table Head End-->
+                                            <!--Table Body Start-->
+                                            <div class="tbl_body_style dynamic-height-level-modal1">
+                                                <table class="tbl-body-contain">
+                                                    <colgroup>
+                                                        <col width="170px"/>
+                                                        <col width="170px"/>
+                                                        <col width="170px"/>
+                                                        <col width="170px"/>
+                                                        <col width="150px"/>
+                                                        <col width="150px"/>
+                                                        <col width="250px"/>
+                                                        <col width="40px"/>
+                                                    </colgroup>
+                                                    <tbody class="tbl-head-style-cell">
+                                                    <tr v-for="plan in completeCostAgrement">
+                                                        <td>{{plan.caLetterNumber}}</td>
+                                                        <td>{{plan.caLetterDate}}</td>
+                                                        <td>{{plan.caSumOfCost}}</td>
+                                                        <td>{{plan.caSumOfReserved}}</td>
+                                                        <td>{{plan.caSumOfFinancing}}</td>
+                                                        <td>{{plan.caSumOfCommitment}}</td>
+
+                                                        <td>{{plan.caDescription}}</td>
+                                                        <td><input type="checkbox" :name="'plan' + plan.id"></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
+                                        <!--Table Body End-->
                                     </div>
                                 </div>
                                 <!--Tab 1-->
@@ -494,32 +553,69 @@
                                 <!--Tab 3-->
                                 <div class="tabs-panel table-mrg-btm" id="allocationTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
-                                        <div class="large-12 medium-12 small-12">
-                                            <div class="large-12 medium-12 small-12">
-                                                <table>
-                                                    <thead>
-                                                    <th>رزرو شده</th>
-                                                    <th>تامین اعتبار</th>
-                                                    <th>تعهد </th>
-                                                    <th>هزینه شده</th>
-                                                    <th></th>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr v-for="allocation in allocations">
-                                                        <td>{{}}</td>
-                                                        <td>{{}}</td>
-                                                        <td>{{}}</td>
-                                                        <td>{{}}</td>
-                                                        <td>{{allocation.caLetterNumber}}</td>
-                                                        <td>{{allocation.caLetterDate}}</td>
-                                                        <td>{{allocation.caAmount}}</td>
-                                                        <td>{{allocation.caDescription}}</td>
-                                                        <td><input type="checkbox" :name="'alloc' + allocation.id"></td>
-                                                    </tr>
+                                        <!--Table Start-->
+                                        <!--Table Head Start-->
+                                        <div class="tbl-div-container">
+                                            <table class="tbl-head">
+                                                <colgroup>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="250px"/>
+                                                    <col width="40px"/>
+                                                    <col width="12px"/>
+                                                </colgroup>
+                                                <tbody class="tbl-head-style ">
+                                                <tr class="tbl-head-style-cell">
+                                                    <th class="tbl-head-style-cell">رزرو شده</th>
+                                                    <th class="tbl-head-style-cell">تامین اعتبار</th>
+                                                    <th class="tbl-head-style-cell">تعهد</th>
+                                                    <th class="tbl-head-style-cell">هزینه شده</th>
+                                                    <th class="tbl-head-style-cell">شماره نامه</th>
+                                                    <th class="tbl-head-style-cell">تاریخ نامه</th>
+                                                    <th class="tbl-head-style-cell">مبلغ</th>
+                                                    <th class="tbl-head-style-cell">شرح</th>
+                                                    <th class="tbl-head-style-cell"></th>
+                                                    <th class="tbl-head-style-cell"></th>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <!--Table Head End-->
+                                            <!--Table Body Start-->
+                                            <div class="tbl_body_style dynamic-height-level-modal1">
+                                                <table class="tbl-body-contain">
+                                                    <colgroup>
+                                                        <col width="170px"/>
+                                                        <col width="170px"/>
+                                                        <col width="170px"/>
+                                                        <col width="170px"/>
+                                                        <col width="150px"/>
+                                                        <col width="150px"/>
+                                                        <col width="150px"/>
+                                                        <col width="250px"/>
+                                                        <col width="40px"/>
+                                                    </colgroup>
+                                                    <tbody class="tbl-head-style-cell">
+                                                        <tr v-for="allocation in allocations">
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>{{allocation.caLetterNumber}}</td>
+                                                            <td>{{allocation.caLetterDate}}</td>
+                                                            <td>{{$parent.calcDispAmount(allocation.caAmount,false)}}</td>
+                                                            <td>{{allocation.caDescription}}</td>
+                                                            <td><input type="checkbox" :name="'alloc' + allocation.id"></td>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
+                                        <!--Table Body End-->
                                     </div>
                                 </div>
                                 <!--Tab 3-->
@@ -528,7 +624,7 @@
                     </div>
                 </div>
             </div>
-        </modal-large>
+        </modal-full-screen>
         <!-- Cost Credits Modal End -->
     </div>
 </template>
@@ -591,6 +687,7 @@
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
+            this.myResizeModal();
             this.costTemp =  '  ' + this.$parent.getDispAmountBaseLabel();
         },
 
@@ -636,20 +733,25 @@
                 axios.get('/budget/approved_plan/cost/fetchCompleteData')
                     .then((response) => {
                         this.completeCostAgrement = response.data;
+
+                        //get allocations start
+                        this.completeCostAgrement.forEach(cost => {
+                            if(cost.ca_credit_source_has_allocation.length >= 0)
+                                cost.ca_credit_source_has_allocation.forEach(alloc =>{
+                                    alloc.allocation.forEach(item =>{
+                                        this.allocations.push(item);
+                                    });
+                                });
+                        });
+                        console.log(JSON.stringify(this.allocations));
+                        //get allocations start
+
                         console.log(response);
                     }, (error) => {
                         console.log(error);
                     });
-                //get allocations start
-                this.completeCostAgrement.forEach(cost => {
-                    cost.ca_credit_source_has_allocation.forEach(alloc =>{
-                        alloc.allocation.forEach(item =>{
-                            this.allocations.push(item);
-                        });
-                    });
-                });
-                console.log(JSON.stringify(this.allocations));
-                //get allocations start
+                console.log(JSON.stringify(this.completeCostAgrement));
+
             },
 
             getRequestDetail: function (request) {
@@ -856,9 +958,11 @@
             openCostCreditsModal:function () {
                 this.getCompleteCostAgrement();
                 this.showCostCreditsModal=true;
+            },
 
-
-
+            myResizeModal: function() {
+                var x = $.w.outerHeight();
+                $('.dynamic-height-level-modal1').css('height', (x-300) + 'px');
             },
 
 
