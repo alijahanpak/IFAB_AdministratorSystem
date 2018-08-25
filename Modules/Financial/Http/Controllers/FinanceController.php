@@ -71,7 +71,30 @@ class FinanceController extends Controller
 
         if (is_array($request->capFinancing))
         {
+/*            $insertedAId = array();
+            $i = 0;
+            foreach ($request->capFinancing as $capFinanc)
+            {
+                $capAllocInfo = CapitalAssetsFinancing::where('id' , '=' , $capFinanc['aId'])->first();
+                $remainigAmount = $capAllocInfo['caaAmount'] - ($capAllocInfo['caSumOfCost'] + $capAllocInfo['caSumOfReserved'] + $capAllocInfo['caSumOfFinancing']);
+                if (($remainigAmount - AmountUnit::convertInputAmount($costFinanc['amount'])) > 0)
+                {
+                    CostFinancing::updateOrCreate(['cfCaId' => $costFinanc['aId'] , 'cfRId' => $request->rId],
+                        ['cfAmount' => AmountUnit::convertInputAmount($costFinanc['amount']) , 'cfAccepted' => false]);
+                }else{
+                    CostFinancing::whereIn('cfCaId' , $insertedAId)
+                        ->where('cfRId' , '=' , $request->rId)
+                        ->delete();
+                    return \response()->json($this->getAllFinancing($request->rId));
+                }
 
+                $insertedAId[$i++] = $costFinanc['aId'];
+            }
+
+            // delete old items that not exist in new list items
+            CostFinancing::whereNotIn('cfCaId' , $insertedAId)
+                ->where('cfRId' , '=' , $request->rId)
+                ->delete();*/
         }
 
         return \response()->json($this->getAllFinancing($request->rId));
