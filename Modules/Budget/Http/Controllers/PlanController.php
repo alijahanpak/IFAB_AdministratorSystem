@@ -669,6 +669,7 @@ class PlanController extends Controller
     {
         $searchValue = PublicSetting::checkPersianCharacters($request->searchValue);
         return CostAgreement::where('caFyId' , '=' , Auth::user()->seFiscalYear)
+            ->has('caCreditSourceHasAllocation')
             ->where('caActive' , '=' , true)
             ->where(function($query) use($searchValue){
                 return $query->where('caLetterNumber' , 'LIKE' , '%' . $searchValue . '%')
