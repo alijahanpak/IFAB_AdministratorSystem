@@ -11,6 +11,7 @@ use Modules\Admin\Entities\RoleCategory;
 use Modules\Admin\Entities\Signature;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Admin\Entities\UserGroup;
+use Modules\Budget\Entities\CostAllocation;
 use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\Commodity;
 use Modules\Financial\Entities\FinancialRequestQueue;
@@ -393,5 +394,26 @@ class RequestController extends Controller
         return \response()->json(
             $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
         );
+    }
+
+    public function reserveFinancing(Request $request)
+    {
+        if (is_array($request->costFinancing))
+        {
+            foreach ($request->costFinancing as $costFinanc)
+            {
+                $costAllocInfo = CostAllocation::where('id' , '=' , $costFinanc['aId'])->first();
+                $remainigAmount = $costAllocInfo['caAmount'] - ($costAllocInfo['caSumOfCost'] + $costAllocInfo['caSumOfReserved'] + $costAllocInfo['caSumOfFinancing']);
+                if (($remainigAmount - $costFinanc['amount']) > 0)
+                {
+
+                }
+            }
+        }
+
+        if (is_array($request->capFinancing))
+        {
+
+        }
     }
 }

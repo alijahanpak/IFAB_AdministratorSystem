@@ -18,6 +18,7 @@ class CreateCapitalAssetsFinancingTable extends Migration
                 $table->bigIncrements('id');
                 $table->bigInteger('cafCaaId')->length(20)->unsigned();
                 $table->bigInteger('cafRId')->length(20)->unsigned();
+                $table->boolean('cafAccepted')->default(0);
                 $table->bigInteger('cafAmount');
                 $table->timestamps();
 
