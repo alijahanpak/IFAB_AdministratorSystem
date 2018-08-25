@@ -9,7 +9,7 @@ class CostAllocation extends Model
 {
     protected $table = 'tbl_cost_allocation';
     protected $fillable = [];
-    protected $appends = ['caSumOfCost' , 'caConvertedAllocAmount' , 'caSumOfReserved' , 'caSumOfFinancing'];
+    protected $appends = ['caSumOfCost' , 'caConvertedAllocAmount' , 'caSumOfReserved' , 'caSumOfFinancing' , 'caSumOfCommitment'];
 
     public function creditSource()
     {
@@ -49,5 +49,10 @@ class CostAllocation extends Model
     public function getCaSumOfFinancingAttribute()
     {
         return $this->sumOfFinancing()->sum('cfAmount');
+    }
+
+    public function getCaSumOfCommitmentAttribute()
+    {
+        return 0;
     }
 }

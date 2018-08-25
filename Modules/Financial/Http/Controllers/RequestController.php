@@ -404,7 +404,10 @@ class RequestController extends Controller
             {
                 $costAllocInfo = CostAllocation::where('id' , '=' , $costFinanc['aId'])->first();
                 $remainigAmount = $costAllocInfo['caAmount'] - ($costAllocInfo['caSumOfCost'] + $costAllocInfo['caSumOfReserved'] + $costAllocInfo['caSumOfFinancing']);
-                return $remainigAmount;
+                if (($remainigAmount - $costFinanc['amount']) > 0)
+                {
+
+                }
             }
         }
 

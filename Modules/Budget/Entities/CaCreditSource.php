@@ -8,7 +8,7 @@ class CaCreditSource extends Model
 {
     protected $table = 'tbl_ca_credit_source';
     protected $fillable = [];
-    protected $appends = ['ccsSumOfCost' , 'ccsSumOfReserved' , 'ccsSumOfFinancing'];
+    protected $appends = ['ccsSumOfCost' , 'ccsSumOfReserved' , 'ccsSumOfFinancing' , 'ccsSumOfCommitment'];
 
     public function tinySeason()
     {
@@ -52,5 +52,10 @@ class CaCreditSource extends Model
     public function getCcsSumOfFinancingAttribute()
     {
         return $this->allocation()->get()->sum('caSumOfFinancing');
+    }
+
+    public function getCcsSumOfCommitmentAttribute()
+    {
+        return $this->allocation()->get()->sum('caSumOfCommitment');
     }
 }
