@@ -168,7 +168,7 @@
                                                 <td>{{index+1}}</td>
                                                 <td>{{commodityRequests.commodityName}}</td>
                                                 <td>{{commodityRequests.commodityCount}}</td>
-                                                <td>{{$parent.calcDispAmount(commodityRequests.commodityPrice,false)}}</td>
+                                                <td>{{commodityRequests.commodityPrice}}</td>
                                                 <td>{{commodityRequests.commodityDescription}}</td>
                                                 <td class="text-center"><a @click="deleteCommodityItem(index)"><i class="far fa-trash-alt btn-red size-18"></i></a></td>
                                             </tr>
@@ -268,9 +268,9 @@
                     <div class="grid-x">
                         <div class="large-12 medium-12 small-12">
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="request_tab_view">
-                                <li class="tabs-title is-active"><a href="#requestDetailTab" aria-selected="true">جزییات درخواست</a></li>
-                                <li class="tabs-title"><a href="#requestVerifiersTab">تایید کنندگان درخواست </a></li>
-                                <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه درخواست </a></li>
+                                <li class="tabs-title is-active"><a href="#requestDetailTab" aria-selected="true">جزییات</a></li>
+                                <li class="tabs-title"><a href="#requestVerifiersTab">تایید کنندگان </a></li>
+                                <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
                             </ul>
                             <div class="tabs-content" data-tabs-content="request_tab_view">
                                 <!--Tab 1-->

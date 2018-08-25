@@ -109,6 +109,7 @@
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="request_tab_view">
                                 <li class="tabs-title is-active"><a href="#requestDetailTab" aria-selected="true">جزییات</a></li>
                                 <li class="tabs-title"><a href="#requestVerifiersTab">تایید کنندگان </a></li>
+                                <li class="tabs-title"><a href="#creditsTab">اعتبارات</a></li>
                                 <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
                             </ul>
                             <div class="tabs-content" data-tabs-content="request_tab_view">
@@ -245,6 +246,18 @@
                                 </div>
                                 <!--Tab 2-->
                                 <!--Tab 3-->
+                                <div class="tabs-panel table-mrg-btm" id="creditsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <div class="grid-x">
+                                        <div class="large-12 medium-12 small-12 small-top-m">
+                                            <div class="stacked-for-small button-group float-left">
+                                                <button @click="openCostCreditsModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">  اعتبارات هزینه ای</span></button>
+                                                <button @click="" class="my-button my-success float-left"><span class="btn-txt-mrg">  اعتبارات عمرانی</span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Tab 3-->
+                                <!--Tab 4-->
                                 <div class="tabs-panel table-mrg-btm" id="requestHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 large-top-m">
@@ -291,7 +304,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--Tab 3-->
+                                <!--Tab 4-->
                             </div>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr medium-top-m">
@@ -299,7 +312,7 @@
                                 <button @click="openSubmitRequestModal()" v-if=" youAreVerifier != '' "  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
                                 <button @click="openReferralsModal()"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg">  ارجاع</span></button>
                                 <button @click="openResponseRequestModal()" v-show="canResponse == 1 " class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg">  پاسخ</span></button>
-                                <button style="width:130px;" @click="openRegisterAndNumberingModal()" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت دبیرخانه</span></button>
+                                <button v-show='$can("SECRETARIAT_REGISTER_AND_NUMBERING")' style="width:130px;" @click="openRegisterAndNumberingModal()" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت دبیرخانه</span></button>
                             </div>
 
                         </div>
@@ -448,6 +461,75 @@
             </div>
         </modal-tiny>
         <!-- RegisterAndNumbering End -->
+
+        <!-- Cost Credits Modal Start -->
+        <modal-large v-if="showCostCreditsModal" @close="showCostCreditsModal = false">
+            <div  slot="body">
+                <div class="small-font">
+                    <div class="grid-x">
+                        <div class="large-12 medium-12 small-12">
+                            <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="cost_credit_tab_view">
+                                <li class="tabs-title is-active"><a href="#programTab" aria-selected="true">برنامه</a></li>
+                                <li class="tabs-title"><a href="#creditDistributionResourcesTab">منابع تامین اعتبار </a></li>
+                                <li class="tabs-title"><a href="#allocationTab">تخصیص </a></li>
+                            </ul>
+                            <div class="tabs-content" data-tabs-content="cost_credit_tab_view">
+                                <!--Tab 1-->
+                                <div class="tabs-panel is-active table-mrg-btm" id="programTab">
+                                    <div class="grid-x">
+                                        <div class="large-12 medium-12 small-12">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Tab 1-->
+                                <!--Tab 2-->
+                                <div class="tabs-panel table-mrg-btm" id="creditDistributionResourcesTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <div class="grid-x">
+                                        <div class="large-12 medium-12 small-12">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Tab 2-->
+                                <!--Tab 3-->
+                                <div class="tabs-panel table-mrg-btm" id="allocationTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <div class="grid-x">
+                                        <div class="large-12 medium-12 small-12">
+                                            <div class="large-12 medium-12 small-12">
+                                                <table>
+                                                    <thead>
+                                                    <th>رزرو شده</th>
+                                                    <th>تامین اعتبار</th>
+                                                    <th>تعهد </th>
+                                                    <th>هزینه شده</th>
+                                                    <th></th>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr v-for="allocation in allocations">
+                                                        <td>{{}}</td>
+                                                        <td>{{}}</td>
+                                                        <td>{{}}</td>
+                                                        <td>{{}}</td>
+                                                        <td>{{allocation.caLetterNumber}}</td>
+                                                        <td>{{allocation.caLetterDate}}</td>
+                                                        <td>{{allocation.caAmount}}</td>
+                                                        <td>{{allocation.caDescription}}</td>
+                                                        <td><input type="checkbox" :name="'alloc' + allocation.id"></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Tab 3-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-large>
+        <!-- Cost Credits Modal End -->
     </div>
 </template>
 
@@ -468,6 +550,8 @@
                 showSubmitRequestModal:false,
                 showResponseRequestModal:false,
                 showRegisterAndNumberingModal:false,
+                showCostCreditsModal:false,
+                showCapitalAssetsModal:false,
                 receiveRequestSearchValue:'',
                 requestTypeDetail:'',
                 requestFill:{},
@@ -494,6 +578,10 @@
                 registerDate: '',
                 requestId: '',
                 letterNumber: '',
+                /*credits*/
+                completeCostAgrement:[],
+                allocations:[],
+                /*credits*/
             }
         },
 
@@ -532,6 +620,7 @@
                     });
             },
 
+
             getMyCategoryUsers: function () {
                 axios.get('/admin/user/getMyCategoryUsers',{params:{cId:this.youAreVerifierCId}})
                     .then((response) => {
@@ -541,6 +630,26 @@
                     }, (error) => {
                         console.log(error);
                     });
+            },
+
+            getCompleteCostAgrement: function () {
+                axios.get('/budget/approved_plan/cost/fetchCompleteData')
+                    .then((response) => {
+                        this.completeCostAgrement = response.data;
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                    });
+                //get allocations start
+                this.completeCostAgrement.forEach(cost => {
+                    cost.ca_credit_source_has_allocation.forEach(alloc =>{
+                        alloc.allocation.forEach(item =>{
+                            this.allocations.push(item);
+                        });
+                    });
+                });
+                console.log(JSON.stringify(this.allocations));
+                //get allocations start
             },
 
             getRequestDetail: function (request) {
@@ -742,6 +851,14 @@
                     console.log(error);
                     this.$parent.displayNotif(error.response.status);
                 });
+            },
+
+            openCostCreditsModal:function () {
+                this.getCompleteCostAgrement();
+                this.showCostCreditsModal=true;
+
+
+
             },
 
 
