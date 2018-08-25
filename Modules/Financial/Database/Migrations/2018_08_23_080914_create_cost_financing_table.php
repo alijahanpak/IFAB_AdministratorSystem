@@ -18,6 +18,7 @@ class CreateCostFinancingTable extends Migration
                 $table->bigIncrements('id');
                 $table->bigInteger('cfCaId')->length(20)->unsigned();
                 $table->bigInteger('cfRId')->length(20)->unsigned();
+                $table->boolean('cfAccepted')->default(0);
                 $table->bigInteger('cfAmount');
                 $table->timestamps();
 

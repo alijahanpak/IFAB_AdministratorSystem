@@ -499,7 +499,7 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
 
         $permission = new Permission;
         $permission->pSspId = 10;
-        $permission->pSubject = 'مشاهده صف دبیرخانه';
+        $permission->pSubject = 'ثبت دبیرخانه';
         $permission->pPermission = 'SECRETARIAT_REGISTER_AND_NUMBERING';
         $permission->save();
 
