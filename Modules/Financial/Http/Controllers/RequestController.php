@@ -5,6 +5,7 @@ namespace Modules\Financial\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Modules\Admin\Entities\AmountUnit;
 use Modules\Admin\Entities\GroupPermission;
 use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\RoleCategory;
@@ -13,7 +14,9 @@ use Modules\Admin\Entities\SystemLog;
 use Modules\Admin\Entities\UserGroup;
 use Modules\Budget\Entities\CostAllocation;
 use Modules\Financial\Entities\_Request;
+use Modules\Financial\Entities\CapitalAssetsFinancing;
 use Modules\Financial\Entities\Commodity;
+use Modules\Financial\Entities\CostFinancing;
 use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\RequestCommodity;
 use Modules\Financial\Entities\RequestHistory;
@@ -214,7 +217,7 @@ class RequestController extends Controller
         );
     }
 
-    private function getLastReceivedRequestIdList()
+    public function getLastReceivedRequestIdList()
     {
         /////////// check access to secretariat queue permission //////////////////////
         $gIDs = UserGroup::where('ugUId' , '=' , Auth::user()->id)->pluck('ugGId')->toArray();
@@ -394,26 +397,5 @@ class RequestController extends Controller
         return \response()->json(
             $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
         );
-    }
-
-    public function reserveFinancing(Request $request)
-    {
-        if (is_array($request->costFinancing))
-        {
-            foreach ($request->costFinancing as $costFinanc)
-            {
-                $costAllocInfo = CostAllocation::where('id' , '=' , $costFinanc['aId'])->first();
-                $remainigAmount = $costAllocInfo['caAmount'] - ($costAllocInfo['caSumOfCost'] + $costAllocInfo['caSumOfReserved'] + $costAllocInfo['caSumOfFinancing']);
-                if (($remainigAmount - $costFinanc['amount']) > 0)
-                {
-
-                }
-            }
-        }
-
-        if (is_array($request->capFinancing))
-        {
-
-        }
     }
 }
