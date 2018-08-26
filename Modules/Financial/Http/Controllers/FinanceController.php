@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Modules\Admin\Entities\AmountUnit;
+use Modules\Budget\Entities\CapitalAssetsAllocation;
 use Modules\Budget\Entities\CostAllocation;
 use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\CapitalAssetsFinancing;
@@ -27,10 +28,23 @@ class FinanceController extends Controller
             ->get();
     }
 
+    private function getAllCapFinancingByRId($rId)
+    {
+        return CapitalAssetsFinancing::where('cafRId' , '=' , $rId)
+            ->with('allocation.creditSource.tinySeason.seasonTitle.season')
+            ->with('allocation.creditSource.howToRun')
+            ->with('allocation.creditSource.creditDistributionRow')
+            ->with('allocation.creditSource.capitalAssetsProject.county')
+            ->with('allocation.creditSource.capitalAssetsProject.capitalAssetsApprovedPlan')
+            ->with('allocation.creditSource.capitalAssetsProject.capitalAssetsApprovedPlan.creditDistributionTitle.county')
+            ->get();
+    }
+
     private function getAllFinancing($rId)
     {
         return [
-            "costFinancing" => $this->getAllCostFinancingByRId($rId)
+            "costFinancing" => $this->getAllCostFinancingByRId($rId),
+            "capFinancing" => $this->getAllCapFinancingByRId($rId)
         ];
     }
 
@@ -71,30 +85,30 @@ class FinanceController extends Controller
 
         if (is_array($request->capFinancing))
         {
-/*            $insertedAId = array();
+            $insertedAId = array();
             $i = 0;
             foreach ($request->capFinancing as $capFinanc)
             {
-                $capAllocInfo = CapitalAssetsFinancing::where('id' , '=' , $capFinanc['aId'])->first();
-                $remainigAmount = $capAllocInfo['caaAmount'] - ($capAllocInfo['caSumOfCost'] + $capAllocInfo['caSumOfReserved'] + $capAllocInfo['caSumOfFinancing']);
-                if (($remainigAmount - AmountUnit::convertInputAmount($costFinanc['amount'])) > 0)
+                $capAllocInfo = CapitalAssetsAllocation::where('id' , '=' , $capFinanc['aId'])->first();
+                $remainigAmount = $capAllocInfo['caaAmount'] - ($capAllocInfo['caaSumOfCost'] + $capAllocInfo['caaSumOfReserved'] + $capAllocInfo['caaSumOfFinancing']);
+                if (($remainigAmount - AmountUnit::convertInputAmount($capFinanc['amount'])) > 0)
                 {
-                    CostFinancing::updateOrCreate(['cfCaId' => $costFinanc['aId'] , 'cfRId' => $request->rId],
-                        ['cfAmount' => AmountUnit::convertInputAmount($costFinanc['amount']) , 'cfAccepted' => false]);
+                    CapitalAssetsFinancing::updateOrCreate(['cafCaaId' => $capFinanc['aId'] , 'cafRId' => $request->rId],
+                        ['cafAmount' => AmountUnit::convertInputAmount($capFinanc['amount']) , 'cafAccepted' => false]);
                 }else{
-                    CostFinancing::whereIn('cfCaId' , $insertedAId)
-                        ->where('cfRId' , '=' , $request->rId)
+                    CapitalAssetsFinancing::whereIn('cafCaaId' , $insertedAId)
+                        ->where('cafRId' , '=' , $request->rId)
                         ->delete();
                     return \response()->json($this->getAllFinancing($request->rId));
                 }
 
-                $insertedAId[$i++] = $costFinanc['aId'];
+                $insertedAId[$i++] = $capFinanc['aId'];
             }
 
             // delete old items that not exist in new list items
-            CostFinancing::whereNotIn('cfCaId' , $insertedAId)
-                ->where('cfRId' , '=' , $request->rId)
-                ->delete();*/
+            CapitalAssetsFinancing::whereNotIn('cafCaaId' , $insertedAId)
+                ->where('cafRId' , '=' , $request->rId)
+                ->delete();
         }
 
         return \response()->json($this->getAllFinancing($request->rId));
