@@ -532,8 +532,8 @@
                                                         <td>{{plan.caSumOfFinancing}}</td>
                                                         <td>{{plan.caSumOfCommitment}}</td>
                                                         <td>{{plan.caDescription}}</td>
-                                                        <td><input v-on:change="calculationOfCostCreditd(plan,plan,0,amountInput['planAmount' + plan.id])" style="margin-bottom:0px;" v-show="plan.selected == true" type="text"  v-model="amountInput['planAmount' + plan.id]" :name="'planAmount' + plan.id" :value="plan.amount"/></td>
-                                                        <td><input v-on:change="setTextBoxValueCost(amountInput['planAmount' + plan.id])" v-model="plan.selected" type="checkbox" :name="'plan' + plan.id"></td>
+                                                        <td><input v-on:keyup="calculationOfCostCredit(plan,plan,0,amountInput['planAmount' + plan.id])" style="margin-bottom:0px;" v-show="plan.selected == true" type="text"  v-model="amountInput['planAmount' + plan.id]" :name="'planAmount' + plan.id" :value="plan.amount"/></td>
+                                                        <td><input v-on:change="setTextBoxValueCost(plan,plan,0,'planAmount' + plan.id)" v-model="plan.selected" type="checkbox" :name="'plan' + plan.id"></td>
 
                                                     </tr>
                                                     </tbody>
@@ -599,7 +599,7 @@
                                                             <td>{{$parent.calcDispAmount(creditSource.ccsAmount,false)}}</td>
                                                             <td>{{creditSource.caDescription}}</td>
                                                             <td><input style="margin-bottom:0px;" v-show="creditSource.selected == true" type="text" :name="'creditSourceAmount' + creditSource.id" :value="creditSource.amount"/></td>
-                                                            <td><input v-on:change="calculationOfCostCreditd(plan,creditSource,0)" v-model="creditSource.selected" type="checkbox" :name="'creditSource' + creditSource.id"></td>
+                                                            <td><input v-on:change="calculationOfCostCredit(plan,creditSource,0)" v-model="creditSource.selected" type="checkbox" :name="'creditSource' + creditSource.id"></td>
                                                         </tr>
                                                     </template>
                                                     </tbody>
@@ -669,7 +669,7 @@
                                                                 <td>{{allocation.caSumOfFinancing}}</td>
                                                                 <td>{{allocation.caSumOfCommitment}}</td>
                                                                 <td>{{allocation.caDescription}}</td>
-                                                                <td><input v-on:change="calculationOfCostCreditd(plan,allocation,0,amountInput['allocationAmount' + allocation.id])" style="margin-bottom:0px;" v-show="allocation.selected == true" type="text" v-model="amountInput['allocationAmount' + allocation.id]" :name="'allocationAmount' + allocation.id" :value="allocation.amount"/></td>
+                                                                <td><input v-on:change="calculationOfCostCredit(plan,allocation,0,amountInput['allocationAmount' + allocation.id])" style="margin-bottom:0px;" v-show="allocation.selected == true" type="text" v-model="amountInput['allocationAmount' + allocation.id]" :name="'allocationAmount' + allocation.id" :value="allocation.amount"/></td>
                                                                 <td><input v-on:change="setTextBoxValueCost('allocationAmount' + allocation.id)"  v-model="allocation.selected" type="checkbox" :name="'allocation' + allocation.id"></td>
                                                             </tr>
                                                         </template>
@@ -740,8 +740,8 @@
                                                             <td>{{found.caSumOfFinancing}}</td>
                                                             <td>{{found.caSumOfCommitment}}</td>
                                                             <td>{{found.caDescription}}</td>
-                                                            <td><input v-on:change="calculationOfCostCreditd(plan,found,0,amountInput['foundAmount' + found.id])" style="margin-bottom:0px;" v-show="found.selected == true" type="text" v-model="amountInput['foundAmount' + found.id]" :name="'foundAmount' + found.id" :value="found.amount"/></td>
-                                                            <td><input v-on:change="calculationOfCostCreditd(plan,found,0,amountInput['foundAmount' + found.id])" v-model="found.selected" type="checkbox" :name="'costFound' + found.id"></td>
+                                                            <td><input v-on:change="calculationOfCostCredit(plan,found,0,amountInput['foundAmount' + found.id])" style="margin-bottom:0px;" v-show="found.selected == true" type="text" v-model="amountInput['foundAmount' + found.id]" :name="'foundAmount' + found.id" :value="found.amount"/></td>
+                                                            <td><input v-on:change="calculationOfCostCredit(plan,found,0,amountInput['foundAmount' + found.id])" v-model="found.selected" type="checkbox" :name="'costFound' + found.id"></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -1135,14 +1135,14 @@
                 $('.dynamic-height-level-modal1').css('height', (x-320) + 'px');
             },
 
-            calculationOfCostCreditd: function(rootData,data,type,value){
-                /*var aCount=0;
+            calculationOfCostCredit: function(rootData,data,type,value){
+                var aCount=0;
                 var piceOfAmount=0;
                 if(type == 0){
                     data.ca_credit_source_has_allocation.forEach(cs => {
                         aCount += cs.allocation.length;
                          });
-                    piceOfAmount = this.baseAmount / aCount;
+                    piceOfAmount = value / aCount;
                     data.ca_credit_source_has_allocation.forEach(cs => {
                         cs.selected = true;
                         cs.allocation.forEach( alloc =>{
@@ -1150,15 +1150,15 @@
                             var remainingAmount= alloc.caAmount - (alloc.caSumOfCost + alloc.caSumOfReserved + alloc.caSumOfFinancing + alloc.caSumOfCommitment );
                             if( remainingAmount >= piceOfAmount) {
                                 alloc.amount= piceOfAmount;
-                                this.baseAmount -= piceOfAmount;
+                                this.reservedAmount += piceOfAmount;
                             }
                             else{
                                 alloc.amount = remainingAmount;
-                                this.baseAmount -= remainingAmount;
+                                this.reservedAmount += remainingAmount;
                             }
                         });
                     });
-                    this.calculationOfCostCreditdEdit(rootData)
+                    this.calculationOfCostCreditEdit(rootData)
 
                  }
                  if(type == 1){
@@ -1169,28 +1169,27 @@
                  }
                  if(type == 3){
                      alert(data);
-                 }*/
-                alert(value);
+                 }
             },
 
-            calculationOfCostCreditdEdit: function(data){
-                var sumfOfPlanAmount=0;
-
-                    data.ca_credit_source_has_allocation.forEach(cs => {
-                        var sumOfAlloc= 0 ;
-                        cs.allocation.forEach( alloc =>{
-                            sumOfAlloc += alloc.amount;
-                        });
-                        cs.amount = sumOfAlloc;
-                        sumfOfPlanAmount += cs.amount;
+            calculationOfCostCreditEdit: function(data){
+                var sumOfPlanAmount=0;
+                data.ca_credit_source_has_allocation.forEach(cs => {
+                    var sumOfAlloc= 0 ;
+                    cs.allocation.forEach( alloc =>{
+                        sumOfAlloc += alloc.amount;
+                        alert(alloc.amount);
                     });
-                    data.amount = sumfOfPlanAmount;
-
+                    cs.amount = sumOfAlloc;
+                    sumOfPlanAmount += cs.amount;
+                });
+                data.amount = sumOfPlanAmount;
+                console.log(JSON.stringify(data));
             },
 
-            setTextBoxValueCost: function (inputName) {
-                this.amountInput.inputName=this.baseAmount - this.reservedAmount;
-                alert
+            setTextBoxValueCost: function (rootData,data,type,inputName) {
+                this.amountInput[inputName]=this.baseAmount - this.reservedAmount;
+                this.calculationOfCostCredit(rootData,data,type,this.amountInput[inputName]);
             },
 
 

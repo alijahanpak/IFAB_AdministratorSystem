@@ -149,7 +149,7 @@ class PlanController extends Controller
     public function getCompleteCapitalAssetsApprovedPlan(Request $request)
     {
         $searchValue = PublicSetting::checkPersianCharacters($request->searchValue);
-        return \response()->json(CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
+        $caApprovedPlan = CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
             ->has('capitalAssetsProjectHasCreditSource')
             ->where('capActive' , '=' , true)
             ->whereHas('creditDistributionTitle' , function($query) use($searchValue){
@@ -160,8 +160,14 @@ class PlanController extends Controller
             ->with('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.allocation')
             ->with('capitalAssetsProjectHasCreditSource.county')
             ->orderBy('id', 'DESC')
-            ->get()
-        );
+            ->get();
+
+        $capFound = CapitalAssetsAllocation::where('caaFound' , '<>' , false)->get();
+        return \response()->json([
+            'caApprovedPlan' => $caApprovedPlan,
+            'capFound' => $capFound
+        ]);
+
     }
 
     /////////////////////////////// amendment ////////////////////////////////////////////
