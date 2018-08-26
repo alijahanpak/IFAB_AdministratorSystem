@@ -735,15 +735,14 @@
                         this.completeCostAgrement = response.data;
 
                         //get allocations start
-                        this.completeCostAgrement.forEach(cost => {
-                            if(cost.ca_credit_source_has_allocation.length >= 0)
-                                cost.ca_credit_source_has_allocation.forEach(alloc =>{
-                                    alloc.allocation.forEach(item =>{
-                                        this.allocations.push(item);
-                                    });
+                        /*this.completeCostAgrement.forEach(cost => {
+                            cost.ca_credit_source_has_allocation.forEach(alloc =>{
+                                alloc.allocation.forEach(item =>{
+                                    this.allocations.push(item);
                                 });
+                            });
                         });
-                        console.log(JSON.stringify(this.allocations));
+                        console.log(JSON.stringify(this.allocations));*/
                         //get allocations start
 
                         console.log(response);
