@@ -26,7 +26,7 @@
                             <span class="small-font"> مبالغ : {{costTemp}} </span>
                         </div>
                     </div>
-                    <div class="medium-12 column padding-lr">
+                    <!--<div class="medium-12 column padding-lr">
                         <div class="float-left">
                             <div class="input-group float-left">
                                 <div class="inner-addon right-addon">
@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="medium-12 padding-lr" style="margin-top: 15px;">
                     <div class="medium-12 column">
@@ -109,6 +109,7 @@
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="request_tab_view">
                                 <li class="tabs-title is-active"><a href="#requestDetailTab" aria-selected="true">جزییات</a></li>
                                 <li class="tabs-title"><a href="#requestVerifiersTab">تایید کنندگان </a></li>
+                                <li class="tabs-title"><a href="#creditsTab">اعتبارات</a></li>
                                 <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
                             </ul>
                             <div class="tabs-content" data-tabs-content="request_tab_view">
@@ -245,6 +246,18 @@
                                 </div>
                                 <!--Tab 2-->
                                 <!--Tab 3-->
+                                <div class="tabs-panel table-mrg-btm" id="creditsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <div class="grid-x">
+                                        <div class="large-12 medium-12 small-12 small-top-m">
+                                            <div class="stacked-for-small button-group float-left">
+                                                <button @click="openCostCreditsModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">  اعتبارات هزینه ای</span></button>
+                                                <button @click="" class="my-button my-success float-left"><span class="btn-txt-mrg">  اعتبارات عمرانی</span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Tab 3-->
+                                <!--Tab 4-->
                                 <div class="tabs-panel table-mrg-btm" id="requestHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 large-top-m">
@@ -291,7 +304,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--Tab 3-->
+                                <!--Tab 4-->
                             </div>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr medium-top-m">
@@ -299,7 +312,7 @@
                                 <button @click="openSubmitRequestModal()" v-if=" youAreVerifier != '' "  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
                                 <button @click="openReferralsModal()"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg">  ارجاع</span></button>
                                 <button @click="openResponseRequestModal()" v-show="canResponse == 1 " class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg">  پاسخ</span></button>
-                                <button style="width:130px;" @click="openRegisterAndNumberingModal()" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت دبیرخانه</span></button>
+                                <button v-show='$can("SECRETARIAT_REGISTER_AND_NUMBERING")' style="width:130px;" @click="openRegisterAndNumberingModal()" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت دبیرخانه</span></button>
                             </div>
 
                         </div>
@@ -448,6 +461,315 @@
             </div>
         </modal-tiny>
         <!-- RegisterAndNumbering End -->
+
+        <!-- Cost Credits Modal Start -->
+        <modal-full-screen v-if="showCostCreditsModal" @close="showCostCreditsModal = false">
+            <div  slot="body">
+                <div class="small-font">
+                    <div class="grid-x">
+                        <div class="large-12 medium-12 small-12">
+                            <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="cost_credit_tab_view">
+                                <li class="tabs-title is-active"><a href="#programTab" aria-selected="true">برنامه</a></li>
+                                <li class="tabs-title"><a href="#creditDistributionResourcesTab">منابع تامین اعتبار </a></li>
+                                <li class="tabs-title"><a href="#allocationTab">تخصیص </a></li>
+                                <li class="tabs-title"><a href="#fundTab">تنخواه </a></li>
+                            </ul>
+                            <div class="tabs-content" data-tabs-content="cost_credit_tab_view">
+                                <!--Tab 1-->
+                                <div class="tabs-panel is-active table-mrg-btm" id="programTab">
+                                    <div class="grid-x">
+                                        <!--Table Start-->
+                                        <!--Table Head Start-->
+                                        <div class="tbl-div-container">
+                                            <table class="tbl-head">
+                                                <colgroup>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="250px"/>
+                                                    <col width="150px"/>
+                                                    <col width="40px"/>
+                                                    <col width="12px"/>
+                                                </colgroup>
+                                                <tbody class="tbl-head-style ">
+                                                <tr class="tbl-head-style-cell">
+                                                    <th class="tbl-head-style-cell">شماره نامه</th>
+                                                    <th class="tbl-head-style-cell">تاریخ نامه</th>
+                                                    <th class="tbl-head-style-cell">رزرو شده</th>
+                                                    <th class="tbl-head-style-cell">تامین اعتبار شده</th>
+                                                    <th class="tbl-head-style-cell">تعهد</th>
+                                                    <th class="tbl-head-style-cell">هزینه شده</th>
+                                                    <th class="tbl-head-style-cell">شرح</th>
+                                                    <th class="tbl-head-style-cell">اعتبار پیشنهادی</th>
+                                                    <th class="tbl-head-style-cell"></th>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <!--Table Head End-->
+                                            <!--Table Body Start-->
+                                            <div class="tbl_body_style dynamic-height-level-modal1">
+                                                <table class="tbl-body-contain">
+                                                    <colgroup>
+                                                        <col width="150px"/>
+                                                        <col width="150px"/>
+                                                        <col width="150px"/>
+                                                        <col width="150px"/>
+                                                        <col width="150px"/>
+                                                        <col width="150px"/>
+                                                        <col width="250px"/>
+                                                        <col width="150px"/>
+                                                        <col width="40px"/>
+                                                    </colgroup>
+                                                    <tbody class="tbl-head-style-cell">
+                                                    <tr v-for="plan in completeCostAgrement">
+                                                        <td>{{plan.caLetterNumber}}</td>
+                                                        <td>{{plan.caLetterDate}}</td>
+                                                        <td>{{plan.caSumOfCost}}</td>
+                                                        <td>{{plan.caSumOfReserved}}</td>
+                                                        <td>{{plan.caSumOfFinancing}}</td>
+                                                        <td>{{plan.caSumOfCommitment}}</td>
+                                                        <td>{{plan.caDescription}}</td>
+                                                        <td><input v-on:change="calculationOfCostCreditd(plan,plan,0,amountInput['planAmount' + plan.id])" style="margin-bottom:0px;" v-show="plan.selected == true" type="text"  v-model="amountInput['planAmount' + plan.id]" :name="'planAmount' + plan.id" :value="plan.amount"/></td>
+                                                        <td><input v-on:change="setTextBoxValueCost(amountInput['planAmount' + plan.id])" v-model="plan.selected" type="checkbox" :name="'plan' + plan.id"></td>
+
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!--Table Body End-->
+                                    </div>
+                                </div>
+                                <!--Tab 1-->
+                                <!--Tab 2-->
+                                <div class="tabs-panel table-mrg-btm" id="creditDistributionResourcesTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <div class="grid-x">
+                                        <!--Table Start-->
+                                        <!--Table Head Start-->
+                                        <div class="tbl-div-container">
+                                            <table class="tbl-head">
+                                                <colgroup>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="100"/>
+                                                    <col width="250px"/>
+                                                    <col width="150px"/>
+                                                    <col width="40px"/>
+                                                    <col width="12px"/>
+                                                </colgroup>
+                                                <tbody class="tbl-head-style ">
+                                                <tr class="tbl-head-style-cell">
+                                                    <th class="tbl-head-style-cell">رزرو شده</th>
+                                                    <th class="tbl-head-style-cell">تامین اعتبار</th>
+                                                    <th class="tbl-head-style-cell">تعهد</th>
+                                                    <th class="tbl-head-style-cell">هزینه شده</th>
+                                                    <th class="tbl-head-style-cell">مبلغ</th>
+                                                    <th class="tbl-head-style-cell">شرح</th>
+                                                    <th class="tbl-head-style-cell">اعتبار پیشنهادی</th>
+                                                    <th class="tbl-head-style-cell"></th>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <!--Table Head End-->
+                                            <!--Table Body Start-->
+                                            <div class="tbl_body_style dynamic-height-level-modal1">
+                                                <table class="tbl-body-contain">
+                                                    <colgroup>
+                                                        <col width="150px"/>
+                                                        <col width="150px"/>
+                                                        <col width="150px"/>
+                                                        <col width="150px"/>
+                                                        <col width="100"/>
+                                                        <col width="250px"/>
+                                                        <col width="150px"/>
+                                                        <col width="40px"/>
+                                                    </colgroup>
+                                                    <tbody class="tbl-head-style-cell">
+                                                    <template v-for="plan in completeCostAgrement">
+                                                        <tr v-for="creditSource in plan.ca_credit_source_has_allocation">
+                                                            <td>{{creditSource.caSumOfCost}}</td>
+                                                            <td>{{creditSource.caSumOfReserved}}</td>
+                                                            <td>{{creditSource.caSumOfFinancing}}</td>
+                                                            <td>{{creditSource.caSumOfCommitment}}</td>
+                                                            <td>{{$parent.calcDispAmount(creditSource.ccsAmount,false)}}</td>
+                                                            <td>{{creditSource.caDescription}}</td>
+                                                            <td><input style="margin-bottom:0px;" v-show="creditSource.selected == true" type="text" :name="'creditSourceAmount' + creditSource.id" :value="creditSource.amount"/></td>
+                                                            <td><input v-on:change="calculationOfCostCreditd(plan,creditSource,0)" v-model="creditSource.selected" type="checkbox" :name="'creditSource' + creditSource.id"></td>
+                                                        </tr>
+                                                    </template>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!--Table Body End-->
+                                    </div>
+                                </div>
+                                <!--Tab 2-->
+                                <!--Tab 3-->
+                                <div class="tabs-panel table-mrg-btm" id="allocationTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <div class="grid-x">
+                                        <!--Table Start-->
+                                        <!--Table Head Start-->
+                                        <div class="tbl-div-container">
+                                            <table class="tbl-head">
+                                                <colgroup>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="250px"/>
+                                                    <col width="150px"/>
+                                                    <col width="40px"/>
+                                                    <col width="12px"/>
+                                                </colgroup>
+                                                <tbody class="tbl-head-style ">
+                                                <tr class="tbl-head-style-cell">
+                                                    <th class="tbl-head-style-cell">شماره نامه</th>
+                                                    <th class="tbl-head-style-cell">تاریخ نامه</th>
+                                                    <th class="tbl-head-style-cell">رزرو شده</th>
+                                                    <th class="tbl-head-style-cell">تامین اعتبار</th>
+                                                    <th class="tbl-head-style-cell">تعهد</th>
+                                                    <th class="tbl-head-style-cell">هزینه شده</th>
+                                                    <th class="tbl-head-style-cell">شرح</th>
+                                                    <th class="tbl-head-style-cell">اعتبار پیشنهادی</th>
+                                                    <th class="tbl-head-style-cell"></th>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <!--Table Head End-->
+                                            <!--Table Body Start-->
+                                            <div class="tbl_body_style dynamic-height-level-modal1">
+                                                <table class="tbl-body-contain">
+                                                    <colgroup>
+                                                        <col width="150px"/>
+                                                        <col width="150px"/>
+                                                        <col width="150px"/>
+                                                        <col width="150px"/>
+                                                        <col width="150px"/>
+                                                        <col width="150px"/>
+                                                        <col width="250px"/>
+                                                        <col width="150px"/>
+                                                        <col width="40px"/>
+                                                    </colgroup>
+                                                    <tbody class="tbl-head-style-cell">
+                                                    <template v-for="plan in completeCostAgrement">
+                                                        <template v-for="crditSourse in plan.ca_credit_source_has_allocation">
+                                                            <tr v-if="allocation.caFound == 0" v-for="allocation in crditSourse.allocation">
+                                                                <td>{{allocation.caLetterNumber}}</td>
+                                                                <td>{{allocation.caLetterDate}}</td>
+                                                                <td>{{allocation.caSumOfCost}}</td>
+                                                                <td>{{allocation.caSumOfReserved}}</td>
+                                                                <td>{{allocation.caSumOfFinancing}}</td>
+                                                                <td>{{allocation.caSumOfCommitment}}</td>
+                                                                <td>{{allocation.caDescription}}</td>
+                                                                <td><input v-on:change="calculationOfCostCreditd(plan,allocation,0,amountInput['allocationAmount' + allocation.id])" style="margin-bottom:0px;" v-show="allocation.selected == true" type="text" v-model="amountInput['allocationAmount' + allocation.id]" :name="'allocationAmount' + allocation.id" :value="allocation.amount"/></td>
+                                                                <td><input v-on:change="setTextBoxValueCost('allocationAmount' + allocation.id)"  v-model="allocation.selected" type="checkbox" :name="'allocation' + allocation.id"></td>
+                                                            </tr>
+                                                        </template>
+                                                    </template>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!--Table Body End-->
+                                    </div>
+                                </div>
+                                <!--Tab 3-->
+
+                                <!--Tab 4-->
+                                <div class="tabs-panel table-mrg-btm" id="fundTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <div class="grid-x">
+                                        <!--Table Start-->
+                                        <!--Table Head Start-->
+                                        <div class="tbl-div-container">
+                                            <table class="tbl-head">
+                                                <colgroup>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="150px"/>
+                                                    <col width="250px"/>
+                                                    <col width="150px"/>
+                                                    <col width="40px"/>
+                                                    <col width="12px"/>
+                                                </colgroup>
+                                                <tbody class="tbl-head-style ">
+                                                <tr class="tbl-head-style-cell">
+                                                    <th class="tbl-head-style-cell">شماره نامه</th>
+                                                    <th class="tbl-head-style-cell">تاریخ نامه</th>
+                                                    <th class="tbl-head-style-cell">رزرو شده</th>
+                                                    <th class="tbl-head-style-cell">تامین اعتبار</th>
+                                                    <th class="tbl-head-style-cell">تعهد</th>
+                                                    <th class="tbl-head-style-cell">هزینه شده</th>
+                                                    <th class="tbl-head-style-cell">اعتبار پیشنهادی</th>
+                                                    <th class="tbl-head-style-cell">شرح</th>
+                                                    <th class="tbl-head-style-cell"></th>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <!--Table Head End-->
+                                            <!--Table Body Start-->
+                                            <div class="tbl_body_style dynamic-height-level-modal1">
+                                                <table class="tbl-body-contain">
+                                                    <colgroup>
+                                                        <col width="150px"/>
+                                                        <col width="150px"/>
+                                                        <col width="150px"/>
+                                                        <col width="150px"/>
+                                                        <col width="150px"/>
+                                                        <col width="150px"/>
+                                                        <col width="250px"/>
+                                                        <col width="150px"/>
+                                                        <col width="40px"/>
+                                                    </colgroup>
+                                                    <tbody class="tbl-head-style-cell">
+                                                        <tr  v-for="found in costFound">
+                                                            <td>{{found.caLetterNumber}}</td>
+                                                            <td>{{found.caLetterDate}}</td>
+                                                            <td>{{found.caSumOfCost}}</td>
+                                                            <td>{{found.caSumOfReserved}}</td>
+                                                            <td>{{found.caSumOfFinancing}}</td>
+                                                            <td>{{found.caSumOfCommitment}}</td>
+                                                            <td>{{found.caDescription}}</td>
+                                                            <td><input v-on:change="calculationOfCostCreditd(plan,found,0,amountInput['foundAmount' + found.id])" style="margin-bottom:0px;" v-show="found.selected == true" type="text" v-model="amountInput['foundAmount' + found.id]" :name="'foundAmount' + found.id" :value="found.amount"/></td>
+                                                            <td><input v-on:change="calculationOfCostCreditd(plan,found,0,amountInput['foundAmount' + found.id])" v-model="found.selected" type="checkbox" :name="'costFound' + found.id"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!--Table Body End-->
+                                    </div>
+                                </div>
+                                <!--Tab 4-->
+
+                            </div>
+                        </div>
+                        <div class="large-12 medium-12 small-12 padding-lr small-top-m">
+                            <p> مبلغ برآورد : <span class="btn-red"> {{baseAmount}} </span></p>
+                        </div>
+                        <div class="large-12 medium-12 small-12 padding-lr">
+                            <p> مبلغ تامین اعتبار : <span class="btn-red"> {{reservedAmount}} </span></p>
+                        </div>
+                        <div class="large-12 medium-12 small-12 padding-lr">
+                            <div class="stacked-for-small button-group float-left">
+                                <button @click="" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-full-screen>
+        <!-- Cost Credits Modal End -->
     </div>
 </template>
 
@@ -468,6 +790,8 @@
                 showSubmitRequestModal:false,
                 showResponseRequestModal:false,
                 showRegisterAndNumberingModal:false,
+                showCostCreditsModal:false,
+                showCapitalAssetsModal:false,
                 receiveRequestSearchValue:'',
                 requestTypeDetail:'',
                 requestFill:{},
@@ -494,6 +818,14 @@
                 registerDate: '',
                 requestId: '',
                 letterNumber: '',
+                /*credits*/
+                completeCostAgrement:[],
+                costFound:[],
+                allocations:[],
+                baseAmount:0,
+                reservedAmount:0,
+                amountInput:{},
+                /*credits*/
             }
         },
 
@@ -503,6 +835,7 @@
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
+            this.myResizeModal();
             this.costTemp =  '  ' + this.$parent.getDispAmountBaseLabel();
         },
 
@@ -532,6 +865,7 @@
                     });
             },
 
+
             getMyCategoryUsers: function () {
                 axios.get('/admin/user/getMyCategoryUsers',{params:{cId:this.youAreVerifierCId}})
                     .then((response) => {
@@ -541,6 +875,51 @@
                     }, (error) => {
                         console.log(error);
                     });
+            },
+
+            getCompleteCostAgrement: function () {
+                axios.get('/budget/approved_plan/cost/fetchCompleteData')
+                    .then((response) => {
+                        this.completeCostAgrement = response.data.costAgreement;
+                        this.costFound = response.data.costAgreement;
+
+                        this.addNewFieldInCollection();
+                        //get allocations start
+                        /*this.completeCostAgrement.forEach(cost => {
+                            cost.ca_credit_source_has_allocation.forEach(alloc =>{
+                                alloc.allocation.forEach(item =>{
+                                    this.allocations.push(item);
+                                });
+                            });
+                        });
+                        console.log(JSON.stringify(this.allocations));*/
+                        //get allocations start
+
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                    });
+
+            },
+
+            addNewFieldInCollection:function(){
+                this.completeCostAgrement.forEach(cost => {
+                    Vue.set(cost,"selected",false);
+                    Vue.set(cost,"amount",0);
+                    cost.ca_credit_source_has_allocation.forEach(alloc =>{
+                        Vue.set(alloc,"selected",false);
+                        Vue.set(alloc,"amount",0);
+                        alloc.allocation.forEach(item =>{
+                            Vue.set(item,"selected",false);
+                            Vue.set(item,"amount",0);
+                        });
+                    });
+                });
+
+                this.costFound.forEach(found => {
+                    Vue.set(found,"selected",false);
+                    Vue.set(found,"amount",0);
+                });
             },
 
             getRequestDetail: function (request) {
@@ -590,6 +969,8 @@
                 this.referralDescription=request.rLastRef.rhDescription;
                 this.referralDestination=request.rLastRef.source_user_info.name +' - ' +request.rLastRef.source_user_info.role.rSubject;
                 this.canResponse=request.rLastRef.rhIsReferral;
+
+                this.baseAmount= request.rCostEstimation;
 
                 if (request.rRtId == 1){
                     this.requestTypeDetail='SERVICES';
@@ -744,9 +1125,76 @@
                 });
             },
 
+            openCostCreditsModal:function () {
+                this.getCompleteCostAgrement();
+                this.showCostCreditsModal=true;
+            },
+
+            myResizeModal: function() {
+                var x = $.w.outerHeight();
+                $('.dynamic-height-level-modal1').css('height', (x-320) + 'px');
+            },
+
+            calculationOfCostCreditd: function(rootData,data,type,value){
+                /*var aCount=0;
+                var piceOfAmount=0;
+                if(type == 0){
+                    data.ca_credit_source_has_allocation.forEach(cs => {
+                        aCount += cs.allocation.length;
+                         });
+                    piceOfAmount = this.baseAmount / aCount;
+                    data.ca_credit_source_has_allocation.forEach(cs => {
+                        cs.selected = true;
+                        cs.allocation.forEach( alloc =>{
+                            alloc.selected = true;
+                            var remainingAmount= alloc.caAmount - (alloc.caSumOfCost + alloc.caSumOfReserved + alloc.caSumOfFinancing + alloc.caSumOfCommitment );
+                            if( remainingAmount >= piceOfAmount) {
+                                alloc.amount= piceOfAmount;
+                                this.baseAmount -= piceOfAmount;
+                            }
+                            else{
+                                alloc.amount = remainingAmount;
+                                this.baseAmount -= remainingAmount;
+                            }
+                        });
+                    });
+                    this.calculationOfCostCreditdEdit(rootData)
+
+                 }
+                 if(type == 1){
+                     alert(data);
+                 }
+                 if(type == 2){
+                     alert(data);
+                 }
+                 if(type == 3){
+                     alert(data);
+                 }*/
+                alert(value);
+            },
+
+            calculationOfCostCreditdEdit: function(data){
+                var sumfOfPlanAmount=0;
+
+                    data.ca_credit_source_has_allocation.forEach(cs => {
+                        var sumOfAlloc= 0 ;
+                        cs.allocation.forEach( alloc =>{
+                            sumOfAlloc += alloc.amount;
+                        });
+                        cs.amount = sumOfAlloc;
+                        sumfOfPlanAmount += cs.amount;
+                    });
+                    data.amount = sumfOfPlanAmount;
+
+            },
+
+            setTextBoxValueCost: function (inputName) {
+                this.amountInput.inputName=this.baseAmount - this.reservedAmount;
+                alert
+            },
 
 
 
-    }
+}
 }
 </script>

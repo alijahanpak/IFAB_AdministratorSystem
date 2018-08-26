@@ -8,6 +8,7 @@ class CapitalAssetsApprovedPlan extends Model
 {
     protected $table = 'tbl_capital_assets_approved_plan';
     protected $fillable = [];
+    protected $appends = ['capSumOfCost' , 'capSumOfReserved' , 'capSumOfFinancing' , 'capSumOfCommitment'];
 
     public function creditDistributionTitle()
     {
@@ -32,5 +33,25 @@ class CapitalAssetsApprovedPlan extends Model
     public function amendments()
     {
         return $this->hasMany(CapitalAssetsApprovedPlan::class , 'capCapId' , 'id')->orderBy('id', 'DESC');
+    }
+
+    public function getCapSumOfCostAttribute()
+    {
+        return $this->capitalAssetsProject()->get()->sum('cpSumOfCost');
+    }
+
+    public function getCapSumOfReservedAttribute()
+    {
+        return $this->capitalAssetsProject()->get()->sum('cpSumOfReserved');
+    }
+
+    public function getCapSumOfFinancingAttribute()
+    {
+        return $this->capitalAssetsProject()->get()->sum('cpSumOfFinancing');
+    }
+
+    public function getCapSumOfCommitmentAttribute()
+    {
+        return $this->capitalAssetsProject()->get()->sum('cpSumOfCommitment');
     }
 }

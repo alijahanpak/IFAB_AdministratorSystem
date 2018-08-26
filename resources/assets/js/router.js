@@ -199,6 +199,7 @@ var app = new Vue({
         imgDataUrl: window.hostname + '/pic/avatars/avatar.jpg', // the datebase64 url of created image
         uploadUrl: window.hostname + '/admin/user/uploadAvatar',
         baseAvatar:window.hostname + '/pic/avatars/avatar.jpg',
+        temp:[],
     },
 
     updated: function () {

@@ -5,14 +5,18 @@ namespace Modules\Financial\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Modules\Admin\Entities\AmountUnit;
 use Modules\Admin\Entities\GroupPermission;
 use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\RoleCategory;
 use Modules\Admin\Entities\Signature;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Admin\Entities\UserGroup;
+use Modules\Budget\Entities\CostAllocation;
 use Modules\Financial\Entities\_Request;
+use Modules\Financial\Entities\CapitalAssetsFinancing;
 use Modules\Financial\Entities\Commodity;
+use Modules\Financial\Entities\CostFinancing;
 use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\RequestCommodity;
 use Modules\Financial\Entities\RequestHistory;
@@ -213,16 +217,8 @@ class RequestController extends Controller
         );
     }
 
-    private function getLastReceivedRequestIdList()
+    public function getLastReceivedRequestIdList()
     {
-        $rhIds = RequestHistory::selectRaw('rhRId , MAX(id) as id')
-            ->groupBy('rhRId')
-            ->pluck('id');
-        $req = RequestHistory::whereIn('id' , $rhIds)
-            ->where('rhDestUId' , '=' , Auth::user()->id)
-            ->orderBy('id' , 'DESC')
-            ->pluck('rhRId');
-
         /////////// check access to secretariat queue permission //////////////////////
         $gIDs = UserGroup::where('ugUId' , '=' , Auth::user()->id)->pluck('ugGId')->toArray();
         $accessToSQPermission = GroupPermission::whereIn('gpGId' , $gIDs)
@@ -233,9 +229,20 @@ class RequestController extends Controller
         if ($accessToSQPermission)
         {
             $secQueue = SecretariatRequestQueue::all()->pluck('srqRId');
-            $req = $req->merge($secQueue);
+            RequestHistory::whereIn('rhRId' , $secQueue)
+                ->where('rhRsId' , '=' , RequestState::where('rsState' , '=' , 'SECRETARIAT_QUEUE')->value('id'))
+                ->update(['rhDestUId' => Auth::user()->id , 'rhRsId' => RequestState::where('rsState' , '=' , 'ACTIVE')->value('id')]);
+            _Request::whereIn('id' , $secQueue)->update(['rRsId' => RequestState::where('rsState' , '=' , 'ACTIVE')->value('id')]);
+            SecretariatRequestQueue::whereIn('srqRId' , $secQueue)->delete();
         }
 
+        $rhIds = RequestHistory::selectRaw('rhRId , MAX(id) as id')
+            ->groupBy('rhRId')
+            ->pluck('id');
+        $req = RequestHistory::whereIn('id' , $rhIds)
+            ->where('rhDestUId' , '=' , Auth::user()->id)
+            ->orderBy('id' , 'DESC')
+            ->pluck('rhRId');
         return $req;
     }
 

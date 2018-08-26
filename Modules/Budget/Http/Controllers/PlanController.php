@@ -668,7 +668,8 @@ class PlanController extends Controller
     public function getCompleteCostAgreementData(Request $request) //will be used in requests Financing
     {
         $searchValue = PublicSetting::checkPersianCharacters($request->searchValue);
-        return CostAgreement::where('caFyId' , '=' , Auth::user()->seFiscalYear)
+        $costAgreement = CostAgreement::where('caFyId' , '=' , Auth::user()->seFiscalYear)
+            ->has('caCreditSourceHasAllocation')
             ->where('caActive' , '=' , true)
             ->where(function($query) use($searchValue){
                 return $query->where('caLetterNumber' , 'LIKE' , '%' . $searchValue . '%')
@@ -683,6 +684,13 @@ class PlanController extends Controller
             ->with('caCreditSourceHasAllocation.allocation')
             ->orderBy('id', 'DESC')
             ->get();
+
+        $costFound = CostAllocation::where('caFound' , '<>' , false)->get();
+
+        return \response()->json([
+            'costAgreement' => $costAgreement,
+            'costFound' => $costFound
+        ]);
     }
 
     /////////////////////////////// cost temp /////////////////////////////

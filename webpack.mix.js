@@ -15,8 +15,9 @@ mix.js('resources/assets/js/app.js', 'public/js');
 /**
  * configuration for moment to ignore loading locales
  */
+/*
 module.exports.plugins = [
     //...
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
     //...
-]
+]*/
