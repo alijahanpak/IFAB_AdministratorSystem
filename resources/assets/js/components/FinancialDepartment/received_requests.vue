@@ -669,7 +669,7 @@
                                                                 <td>{{allocation.caSumOfFinancing}}</td>
                                                                 <td>{{allocation.caSumOfCommitment}}</td>
                                                                 <td>{{allocation.caDescription}}</td>
-                                                                <td><input v-on:change="calculationOfCostCredit(plan,allocation,0,amountInput['allocationAmount' + allocation.id])" style="margin-bottom:0px;" v-show="allocation.selected == true" type="text" v-model="amountInput['allocationAmount' + allocation.id]" :name="'allocationAmount' + allocation.id" :value="allocation.amount"/></td>
+                                                                <td><input v-on:change="calculationOfCostCredit(plan,allocation,0,amountInput['allocationAmount' + allocation.id])" style="margin-bottom:0px;" v-show="allocation.selected == true" type="text" :v-model="amountInput['allocationAmount' + allocation.id]" :name="'allocationAmount' + allocation.id" :value="allocation.amount"/></td>
                                                                 <td><input v-on:change="setTextBoxValueCost('allocationAmount' + allocation.id)"  v-model="allocation.selected" type="checkbox" :name="'allocation' + allocation.id"></td>
                                                             </tr>
                                                         </template>
@@ -1138,7 +1138,7 @@
             calculationOfCostCredit: function(rootData,data,type,value){
                 var aCount=0;
                 var piceOfAmount=0;
-                if(type == 0){
+                if(type == 0){ //plan level
                     data.ca_credit_source_has_allocation.forEach(cs => {
                         aCount += cs.allocation.length;
                          });
@@ -1149,7 +1149,7 @@
                             alloc.selected = true;
                             var remainingAmount= alloc.caAmount - (alloc.caSumOfCost + alloc.caSumOfReserved + alloc.caSumOfFinancing + alloc.caSumOfCommitment );
                             if( remainingAmount >= piceOfAmount) {
-                                alloc.amount= piceOfAmount;
+                                alloc.amount = piceOfAmount;
                                 this.reservedAmount += piceOfAmount;
                             }
                             else{
@@ -1158,16 +1158,32 @@
                             }
                         });
                     });
-                    this.calculationOfCostCreditEdit(rootData)
+                    this.calculationOfCostCreditEdit(rootData);
+                 }
+                 if(type == 1){ //credit source level
+                     aCount = data.allocation.length;
+                     data.ca_credit_source_has_allocation.forEach(cs => {
 
+                     });
+                     piceOfAmount = value / aCount;
+                     data.allocation.forEach( alloc =>{
+                         alloc.selected = true;
+                         var remainingAmount= alloc.caAmount - (alloc.caSumOfCost + alloc.caSumOfReserved + alloc.caSumOfFinancing + alloc.caSumOfCommitment );
+                         if( remainingAmount >= piceOfAmount) {
+                             alloc.amount = piceOfAmount;
+                             this.reservedAmount += piceOfAmount;
+                         }
+                         else{
+                             alloc.amount = remainingAmount;
+                             this.reservedAmount += remainingAmount;
+                         }
+                     });
+                     this.calculationOfCostCreditEdit(rootData);
                  }
-                 if(type == 1){
+                 if(type == 2){ //allocation level
                      alert(data);
                  }
-                 if(type == 2){
-                     alert(data);
-                 }
-                 if(type == 3){
+                 if(type == 3){ //found level
                      alert(data);
                  }
             },
