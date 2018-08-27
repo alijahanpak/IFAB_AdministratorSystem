@@ -423,11 +423,14 @@
                                                                 <div class="large-12 medium-12 small-12">
                                                                     <div class="grid-x">
                                                                         <div class="large-1 medium-2 small-12">
-                                                                            <img style="width: 40px;height: 40px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="recipientUser.destination_user_info.avatarPath != null ? baseURL + recipientUser.destination_user_info.avatarPath : $parent.baseAvatar">
+                                                                            <img style="width: 40px;height: 40px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="(recipientUser.destination_user_info != null && recipientUser.destination_user_info.avatarPath != null) ? baseURL + recipientUser.destination_user_info.avatarPath : $parent.baseAvatar">
                                                                         </div>
                                                                         <div class="large-11 medium-10 small-12 padding-lr">
-                                                                            <p class="small-top-m">
-                                                                                {{recipientUser.destination_user_info.name}} - {{recipientUser.destination_user_info.role.rSubject}} :
+                                                                            <p class="small-top-m" v-if="recipientUser.destination_user_info != null">
+                                                                                {{recipientUser.destination_user_info.name}} - {{recipientUser.destination_user_info.role.rSubject}}
+                                                                            </p>
+                                                                            <p class="small-top-m btn-red" v-else>
+                                                                                در انتظار مشاهده
                                                                             </p>
                                                                         </div>
                                                                     </div>
