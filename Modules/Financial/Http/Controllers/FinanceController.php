@@ -71,7 +71,7 @@ class FinanceController extends Controller
                     CostFinancing::whereIn('cfCaId' , $insertedAId)
                         ->where('cfRId' , '=' , $request->rId)
                         ->delete();
-                    return \response()->json($this->getAllFinancing($request->rId));
+                    return \response()->json($this->getAllFinancing($request->rId) , 420); //error in calc request amount
                 }
 
                 $insertedAId[$i++] = $costFinanc['aId'];
@@ -99,7 +99,7 @@ class FinanceController extends Controller
                     CapitalAssetsFinancing::whereIn('cafCaaId' , $insertedAId)
                         ->where('cafRId' , '=' , $request->rId)
                         ->delete();
-                    return \response()->json($this->getAllFinancing($request->rId));
+                    return \response()->json($this->getAllFinancing($request->rId) , 420); //error in calc request amount
                 }
 
                 $insertedAId[$i++] = $capFinanc['aId'];

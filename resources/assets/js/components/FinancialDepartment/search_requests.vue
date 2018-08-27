@@ -49,7 +49,7 @@
                                 <tr class="tbl-head-style-cell">
                                     <th class="tbl-head-style-cell">عنوان</th>
                                     <th class="tbl-head-style-cell">نوع درخواست</th>
-                                    <th class="tbl-head-style-cell">قیمت</th>
+                                    <th class="tbl-head-style-cell">مبلغ <span class="btn-red small-font">(ریال)</span></th>
                                     <th class="tbl-head-style-cell">شماره</th>
                                     <th class="tbl-head-style-cell">تاریخ</th>
                                     <th class="tbl-head-style-cell"></th>
@@ -73,7 +73,7 @@
                                         <td class="text-center" v-if="allRequest.rRtId==1"> خدمات</td>
                                         <td class="text-center" v-else-if="allRequest.rRtId==2"> کالا</td>
                                         <td class="text-center" v-else="allRequest.rRtId==3"> تنخواه</td>
-                                        <td class="text-center">{{$parent.calcDispAmount(allRequest.rCostEstimation,false)}}</td>
+                                        <td class="text-center">{{$parent.dispMoneyFormat(allRequest.rCostEstimation)}}</td>
                                         <td class="text-center">{{allRequest.rLetterNumber}}</td>
                                         <td class="text-center">{{allRequest.rLetterDate}}</td>
                                     </tr>
@@ -116,8 +116,8 @@
                                                     <td>{{requestFill.rSubject}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="150px">مبلغ برآردی : </td>
-                                                    <td>{{$parent.calcDispAmount(requestFill.rCostEstimation,false)}} <span class="btn-red">  {{costTemp}}  </span></td>
+                                                    <td width="150px">مبلغ برآورد : </td>
+                                                    <td>{{$parent.dispMoneyFormat(requestFill.rCostEstimation)}} <span class="btn-red">  ریال  </span></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">شرح کامل خدمات : </td>
@@ -154,7 +154,7 @@
                                                 <th width="50">ردیف</th>
                                                 <th>شرح و نوع جنس</th>
                                                 <th width="100">تعداد</th>
-                                                <th width="200">مبلغ برآوردی <span class="btn-red small-font">({{costTemp}})</span></th>
+                                                <th width="200">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
                                                 <th>توضیحات (موارد مصرف)</th>
                                                 </thead>
                                                 <tbody>
@@ -162,12 +162,12 @@
                                                     <td>{{index+1}}</td>
                                                     <td>{{lists.commodity.cSubject}}</td>
                                                     <td>{{lists.rcCount}}</td>
-                                                    <td>{{$parent.calcDispAmount(lists.rcCostEstimation,false)}}</td>
+                                                    <td>{{$parent.dispMoneyFormat(lists.rcCostEstimation)}}</td>
                                                     <td>{{lists.rcDescription}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="4" class="text-center font-wei-bold"> مجموع برآورد</td>
-                                                    <td colspan="2" class="text-center font-wei-bold">{{$parent.calcDispAmount(requestFill.rCostEstimation,false)}} <span class="btn-red">{{  costTemp  }}</span> </td>
+                                                    <td colspan="2" class="text-center font-wei-bold">{{$parent.dispMoneyFormat(requestFill.rCostEstimation)}} <span class="btn-red">  ریال  </span> </td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -189,8 +189,8 @@
                                                     <td>{{requestFill.rSubject}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="150px">مبلغ برآردی : </td>
-                                                    <td>{{$parent.calcDispAmount(requestFill.rCostEstimation,false)}} <span class="btn-red">  {{costTemp}}  </span></td>
+                                                    <td width="150px">مبلغ برآورد : </td>
+                                                    <td>{{$parent.dispMoneyFormat(requestFill.rCostEstimation)}} <span class="btn-red">  ریال  </span></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">متن درخواست : </td>
@@ -221,23 +221,26 @@
                                                                 <div class="large-12 medium-12 small-12 timeline-content-header">
                                                                     <p>{{recipientUser.source_user_info.name}}</p>
                                                                     <p style="margin-top:-13px;margin-bottom: -5px;" class="small-font">{{recipientUser.source_user_info.role.rSubject}}</p>
-                                                                    <span style="text-align: left;" class="timeline-state gray-color">{{recipientUser.request_state.rsSubject}}</span>
+                                                                    <span class="timeline-state gray-color">{{recipientUser.request_state.rsSubject}}</span>
                                                                 </div>
                                                                 <div class="large-12 medium-12 small-12">
-                                                                    <div class="grid-x">
-                                                                        <div class="large-1 medium-2 small-12">
-                                                                            <img v-if="recipientUser.destination_user_info != null" style="width: 40px;height: 40px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="recipientUser.destination_user_info.avatarPath != null ? baseURL + recipientUser.destination_user_info.avatarPath : $parent.baseAvatar">
-                                                                            <img v-else="" style="width: 40px;height: 40px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="recipientUser.destination_user_info.avatarPath != null ? baseURL + recipientUser.destination_user_info.avatarPath : $parent.baseAvatar">
-                                                                        </div>
-                                                                        <div class="large-11 medium-10 small-12 padding-lr">
-                                                                            <p class="small-top-m">
-                                                                                {{recipientUser.destination_user_info.name}} - {{recipientUser.destination_user_info.role.rSubject}} :
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
                                                                     <p class="small-top-m text-justify gray-colors">
                                                                         {{recipientUser.rhDescription}}
                                                                     </p>
+                                                                    <p style="margin-bottom: 0" class="small-top-m">گیرنده:</p>
+                                                                    <div class="grid-x">
+                                                                        <div class="large-1 medium-2 small-12">
+                                                                            <img style="width: 40px;height: 40px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="(recipientUser.destination_user_info != null && recipientUser.destination_user_info.avatarPath != null) ? baseURL + recipientUser.destination_user_info.avatarPath : $parent.baseAvatar">
+                                                                        </div>
+                                                                        <div class="large-11 medium-10 small-12 padding-lr">
+                                                                            <p class="small-top-m" v-if="recipientUser.destination_user_info != null">
+                                                                                {{recipientUser.destination_user_info.name}} - {{recipientUser.destination_user_info.role.rSubject}} :
+                                                                            </p>
+                                                                            <p class="small-top-m btn-red" v-else>
+                                                                                در انتظار مشاهده
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
                                                                     <p style="direction: ltr;margin-bottom: -15px;" class="gray-color small-font"><i class="far fa-calendar-alt"></i><span> {{recipientUser.rhShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{recipientUser.rhShamsiTime}}</span></p>
                                                                 </div>
                                                             </div>
