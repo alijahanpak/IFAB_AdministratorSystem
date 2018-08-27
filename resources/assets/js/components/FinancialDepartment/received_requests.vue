@@ -528,8 +528,8 @@
                                                         <td>{{plan.caSumOfFinancing}}</td>
                                                         <td>{{plan.caSumOfCommitment}}</td>
                                                         <td>{{plan.caDescription}}</td>
-                                                        <td><input v-on:keyup="calculationOfCostCredit(plan,plan,0,amountInput['planAmount' + plan.id])" style="margin-bottom:0px;" v-show="plan.selected == true" type="text"  v-model="amountInput['planAmount' + plan.id]" :name="'planAmount' + plan.id" :value="plan.amount" /></td>
-                                                        <td><input v-on:change="setTextBoxValueCost(plan,plan,0,'planAmount' + plan.id)" v-model="plan.selected" type="checkbox" :name="'plan' + plan.id"></td>
+                                                        <td><input v-on:keyup="calculationOfCostCredit(plan, plan, 0, plan.amount)" style="margin-bottom:0px;" v-show="plan.selected == true" type="text"  v-model="plan.amount" :value="plan.amount" /></td>
+                                                        <td><input v-on:change="setTextBoxValueCost(plan,plan,0)" v-model="plan.selected" type="checkbox"></td>
 
                                                     </tr>
                                                     </tbody>
@@ -594,8 +594,8 @@
                                                             <td>{{creditSource.caSumOfCommitment}}</td>
                                                             <td>{{$parent.calcDispAmount(creditSource.ccsAmount,false)}}</td>
                                                             <td>{{creditSource.caDescription}}</td>
-                                                            <td><input style="margin-bottom:0px;" v-show="creditSource.selected == true" type="text" :name="'creditSourceAmount' + creditSource.id"  :value="creditSource.amount" /></td>
-                                                            <td><input v-on:change="calculationOfCostCredit(plan,creditSource,0)" v-model="creditSource.selected" type="checkbox" :name="'creditSource' + creditSource.id"></td>
+                                                            <td><input v-on:keyup="calculationOfCostCredit(plan, creditSource, 1, creditSource.amount)" style="margin-bottom:0px;" v-show="creditSource.selected == true" type="text"  :value="creditSource.amount" /></td>
+                                                            <td><input v-on:change="setTextBoxValueCost(plan,creditSource,1)" v-model="creditSource.selected" type="checkbox"></td>
                                                         </tr>
                                                     </template>
                                                     </tbody>
@@ -1137,9 +1137,7 @@
             },
 
             calculationOfCostCredit: function(rootData,data,type,value){
-
                 value= this.$parent.calcRealAmount(value.split(',').join(''));
-
                 var aCount=0;
                 var piceOfAmount=0;
                 if(type == 0){ //plan level
@@ -1168,9 +1166,6 @@
                  }
                  if(type == 1){ //credit source level
                      aCount = data.allocation.length;
-                     data.ca_credit_source_has_allocation.forEach(cs => {
-
-                     });
                      piceOfAmount = value / aCount;
                      data.allocation.forEach( alloc =>{
                          alloc.selected = true;
@@ -1200,17 +1195,61 @@
                     var sumOfAlloc= 0 ;
                     cs.allocation.forEach( alloc =>{
                         sumOfAlloc += this.$parent.calcRealAmount(alloc.amount.split(',').join(''));
+                        if (this.$parent.calcRealAmount(alloc.amount.split(',').join('')) != 0)
+                            alloc.selected = true;
+                        else
+                            alloc.selected = false;
                     });
                     cs.amount = this.$parent.calcDispAmount(sumOfAlloc,false);
-                    sumOfPlanAmount += this.$parent.calcRealAmount(cs.amount.split(',').join(''));
+                    sumOfPlanAmount += sumOfAlloc;
+                    if (sumOfAlloc != 0)
+                        cs.selected = true;
+                    else
+                        cs.selected = false;
                 });
+                alert(sumOfPlanAmount);
+                if (sumOfPlanAmount != 0)
+                    data.selected = true;
+                else
+                    data.selected = false;
                 data.amount = this.$parent.calcDispAmount(sumOfPlanAmount,false);
                 console.log(JSON.stringify(data));
             },
 
-            setTextBoxValueCost: function (rootData,data,type,inputName) {
-                this.amountInput[inputName]=this.$parent.calcDispAmount((this.baseAmount - this.reservedAmount),false);
-                this.calculationOfCostCredit(rootData,data,type,this.amountInput[inputName]);
+            setTextBoxValueCost: function (rootData,data,type) {
+                //this.amountInput[inputName]=this.$parent.calcDispAmount((this.baseAmount - this.reservedAmount),false);
+                if (data.selected == true)
+                {
+                    this.calculationOfCostCredit(rootData,data,type,this.$parent.calcDispAmount((this.baseAmount - this.reservedAmount),false));
+                }else{
+                    if (type == 0)
+                    {
+                        this.reservedAmount -= this.$parent.calcRealAmount(data.amount.split(',').join(''));
+                        data.amount = 0;
+                        data.ca_credit_source_has_allocation.forEach(cs => {
+                            cs.selected = false;
+                            cs.amount = 0;
+                            cs.allocation.forEach( alloc =>{
+                                alloc.selected = false;
+                                alloc.amount = 0;
+                            });
+                        });
+                        this.calculationOfCostCreditEdit(rootData);
+                    }else if (type == 1)
+                    {
+                        this.reservedAmount -= this.$parent.calcRealAmount(data.amount.split(',').join(''));
+                        data.amount = 0;
+                        cs.allocation.forEach( alloc =>{
+                            alloc.selected = true;
+                            alloc.amount = 0;
+                        });
+                        this.calculationOfCostCreditEdit(rootData);
+                    }else if (type == 2)
+                    {
+
+                    }
+                }
+
             },
 
 
