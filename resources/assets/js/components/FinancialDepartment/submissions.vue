@@ -485,7 +485,7 @@
                 //commodity input text
                 money: {
                     thousands: ',',
-                    precision: '',
+                    precision: 0,
                     masked: true
                 },
                 commodityItem:{},

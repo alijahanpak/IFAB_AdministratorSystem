@@ -404,6 +404,11 @@ var app = new Vue({
             return (withFormattedMoney == true ? (amount / this.amountBase.disp_amount_unit.auAmount).toLocaleString('en' , {maximumFractionDigits : 20}) : (amount / this.amountBase.disp_amount_unit.auAmount)) + (withAmountBase == true ? ' ' + this.amountBase.disp_amount_unit.auSubject : '');
         },
 
+        calcRealAmount: function (amount) {
+            //alert(amount * 1);
+            return (amount * this.amountBase.disp_amount_unit.auAmount);
+        },
+
         calcPrecent: function (y1 , y2) {
             if (y1 == 0 || y2 == 0 )
                 return 0;
