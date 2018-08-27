@@ -21,11 +21,6 @@
         <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
             <div class="medium-12 padding-lr" style="margin-top: 15px;">
                 <div class="clearfix tool-bar">
-                    <div class="medium-12 column">
-                        <div class="float-left cost-label">
-                            <span class="small-font"> مبالغ : {{costTemp}} </span>
-                        </div>
-                    </div>
                     <!--<div class="medium-12 column padding-lr">
                         <div class="float-left">
                             <div class="input-group float-left">
@@ -46,8 +41,8 @@
                                     <col width="80px"/>
                                     <col width="400px"/>
                                     <col width="300px"/>
-                                    <col width="200px"/>
                                     <col width="150px"/>
+                                    <col width="200px"/>
                                     <col width="200px"/>
                                     <col width="200px"/>
                                     <col width="12px"/>
@@ -58,7 +53,7 @@
                                     <th class="tbl-head-style-cell">عنوان</th>
                                     <th class="tbl-head-style-cell">ارسال کننده</th>
                                     <th class="tbl-head-style-cell">نوع درخواست</th>
-                                    <th class="tbl-head-style-cell">قیمت</th>
+                                    <th class="tbl-head-style-cell">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
                                     <th class="tbl-head-style-cell">شماره</th>
                                     <th class="tbl-head-style-cell">تاریخ</th>
                                     <th class="tbl-head-style-cell"></th>
@@ -73,8 +68,8 @@
                                         <col width="80px"/>
                                         <col width="400px"/>
                                         <col width="300px"/>
-                                        <col width="200px"/>
                                         <col width="150px"/>
+                                        <col width="200px"/>
                                         <col width="200px"/>
                                         <col width="200px"/>
                                     </colgroup>
@@ -87,7 +82,7 @@
                                         <td v-if="receiveRequest.rRtId==1"> خدمات</td>
                                         <td v-else-if="receiveRequest.rRtId==2"> کالا</td>
                                         <td v-else="receiveRequest.rRtId==3"> تنخواه</td>
-                                        <td>{{$parent.calcDispAmount(receiveRequest.rCostEstimation,false)}}</td>
+                                        <td>{{$parent.dispMoneyFormat(receiveRequest.rCostEstimation)}}</td>
                                         <td>{{receiveRequest.rLetterNumber}}</td>
                                         <td>{{receiveRequest.rLetterDate}}</td>
                                     </tr>
@@ -132,8 +127,8 @@
                                                     <td>{{requestFill.rSubject}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="150px">مبلغ برآردی : </td>
-                                                    <td>{{$parent.calcDispAmount(requestFill.rCostEstimation,false)}} <span class="btn-red">  {{costTemp}}  </span></td>
+                                                    <td width="150px">مبلغ برآوردی : </td>
+                                                    <td>{{$parent.dispMoneyFormat(requestFill.rCostEstimation)}} <span class="btn-red">  ریال  </span></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">شرح کامل خدمات : </td>
@@ -171,7 +166,7 @@
                                                 <th>شرح و نوع جنس</th>
                                                 <th width="100">تعداد</th>
                                                 <th v-show='$can("DETERMINE_EXIST_COMMODITY_IN_REPOSITORY")' width="100">موجودی انبار</th>
-                                                <th width="200">مبلغ برآوردی <span class="btn-red small-font">({{costTemp}})</span></th>
+                                                <th width="200">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
                                                 <th>توضیحات (موارد مصرف)</th>
                                                 </thead>
                                                 <tbody>
@@ -183,12 +178,12 @@
                                                         <input v-on:change="setRepoExistCount(lists.id,commodityCountInput['existCount' + lists.id])" v-model="commodityCountInput['existCount' + lists.id]"  style="margin-bottom: 0px;" class="form-element-margin-btm" type="text" :name="'repoCount' + lists.id" v-validate="'required','min_value:0','max_value:'+lists.rcCount " data-vv-as="field" :class="{'input': true, 'error-border': errors.has('repoCount' + lists.id)}">
                                                         <span v-show="errors.has('repoCount' + lists.id)" class="error-font"></span>
                                                     </td>
-                                                    <td>{{$parent.calcDispAmount(lists.rcCostEstimation,false)}}</td>
+                                                    <td>{{$parent.dispMoneyFormat(lists.rcCostEstimation)}}</td>
                                                     <td>{{lists.rcDescription}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="4" class="text-center font-wei-bold"> مجموع برآورد</td>
-                                                    <td colspan="2" class="text-center font-wei-bold">{{$parent.calcDispAmount(requestFill.rCostEstimation,false)}} <span class="btn-red">{{  costTemp  }}</span> </td>
+                                                    <td colspan="2" class="text-center font-wei-bold">{{$parent.dispMoneyFormat(requestFill.rCostEstimation)}} <span class="btn-red">  ریال  </span> </td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -210,8 +205,8 @@
                                                     <td>{{requestFill.rSubject}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="150px">مبلغ برآردی : </td>
-                                                    <td>{{$parent.calcDispAmount(requestFill.rCostEstimation,false)}} <span class="btn-red">  {{costTemp}}  </span></td>
+                                                    <td width="150px">مبلغ برآوردی : </td>
+                                                    <td>{{$parent.dispMoneyFormat(requestFill.rCostEstimation)}} <span class="btn-red">  ریال  </span></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">متن درخواست : </td>
@@ -275,9 +270,13 @@
                                                                 <div class="large-12 medium-12 small-12 timeline-content-header">
                                                                     <p>{{recipientUser.source_user_info.name}}</p>
                                                                     <p style="margin-top:-13px;margin-bottom: -5px;" class="small-font">{{recipientUser.source_user_info.role.rSubject}}</p>
-                                                                    <span style="text-align: left;" class="timeline-state gray-color">{{recipientUser.request_state.rsSubject}}</span>
+                                                                    <span class="timeline-state gray-color">{{recipientUser.request_state.rsSubject}}</span>
                                                                 </div>
                                                                 <div class="large-12 medium-12 small-12">
+                                                                    <p class="small-top-m text-justify gray-colors">
+                                                                        {{recipientUser.rhDescription}}
+                                                                    </p>
+                                                                    <p style="margin-bottom: 0" class="small-top-m">گیرنده:</p>
                                                                     <div class="grid-x">
                                                                         <div class="large-1 medium-2 small-12">
                                                                             <img style="width: 40px;height: 40px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="recipientUser.destination_user_info.avatarPath != null ? baseURL + recipientUser.destination_user_info.avatarPath : $parent.baseAvatar">
@@ -288,9 +287,6 @@
                                                                             </p>
                                                                         </div>
                                                                     </div>
-                                                                    <p class="small-top-m text-justify gray-colors">
-                                                                        {{recipientUser.rhDescription}}
-                                                                    </p>
                                                                     <p style="direction: ltr;margin-bottom: -15px;" class="gray-color small-font"><i class="far fa-calendar-alt"></i><span> {{recipientUser.rhShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{recipientUser.rhShamsiTime}}</span></p>
                                                                 </div>
                                                             </div>

@@ -409,6 +409,10 @@ var app = new Vue({
             return (amount * this.amountBase.disp_amount_unit.auAmount);
         },
 
+        dispMoneyFormat: function (amount) {
+            return amount.toLocaleString('en' , {maximumFractionDigits : 20});
+        },
+
         calcPrecent: function (y1 , y2) {
             if (y1 == 0 || y2 == 0 )
                 return 0;
@@ -505,6 +509,10 @@ var app = new Vue({
 
         displayNotif: function (httpStatusCode) {
             switch (httpStatusCode){
+                case 420:
+                    this.$notify({title: 'پیام سیستم', text: 'با توجه به تغییرات مبالغ اعتبارات، لطفا مجدد نسبت به تامین اعتبار اقدام کنید.' , type: 'error'});
+                    this.$refs.errorAlarm.play();
+                    break;
                 case 10:
                     this.$notify({title: 'پیام سیستم', text: 'تکرار رمز عبور جدید اشتباه است!' , type: 'error'});
                     this.$refs.errorAlarm.play();

@@ -269,23 +269,20 @@ class RequestController extends Controller
 
                     // calculate new cost estimation
                     $allRcItems = RequestCommodity::where('rcRId' , '=' , $req->id)->get();
-                    $costEstimation = 0;
-                    foreach ($allRcItems as $item)
-                    {
-                        if ($item->rcCount >= $item->rcExistCount)
-                        {
-                            $costEstimation += (($item->rcCount - $item->rcExistCount) * $item->rcCostEstimation);
+                    if (count($allRcItems) > 0) {
+                        $costEstimation = 0;
+                        foreach ($allRcItems as $item) {
+                            if ($item->rcCount >= $item->rcExistCount) {
+                                $costEstimation += (($item->rcCount - $item->rcExistCount) * $item->rcCostEstimation);
+                            }
                         }
+                        $req->rCostEstimation = $costEstimation;
+                        if ($costEstimation == 0) {
+                            $req->rRsId = RequestState::where('rsState', '=', 'CLOSED')->value('id');
+                            $requestClosed = true;
+                        }
+                        $req->save();
                     }
-
-
-                    $req->rCostEstimation = $costEstimation;
-                    if ($costEstimation == 0)
-                    {
-                        $req->rRsId = RequestState::where('rsState' , '=' , 'CLOSED')->value('id');
-                        $requestClosed = true;
-                    }
-                    $req->save();
                 }
 
                 RequestVerifiers::where('rvRId' , '=' , $currentVerifier->rvRId)
