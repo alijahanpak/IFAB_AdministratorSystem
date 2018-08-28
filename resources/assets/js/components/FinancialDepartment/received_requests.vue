@@ -1137,13 +1137,12 @@
             },
 
             calculationOfCostCredit: function(rootData,data,type,value){
-                value= this.$parent.calcRealAmount(value.split(',').join(''));
                 var aCount=0;
                 var piceOfAmount=0;
                 if(type == 0){ //plan level
                     data.ca_credit_source_has_allocation.forEach(cs => {
                         aCount += cs.allocation.length;
-                         });
+                    });
                     piceOfAmount = value / aCount;
                     data.ca_credit_source_has_allocation.forEach(cs => {
                         cs.selected = true;
@@ -1151,11 +1150,11 @@
                             alloc.selected = true;
                             var remainingAmount= alloc.caAmount - (alloc.caSumOfCost + alloc.caSumOfReserved + alloc.caSumOfFinancing + alloc.caSumOfCommitment );
                             if( remainingAmount >= piceOfAmount) {
-                                alloc.amount = this.$parent.calcDispAmount(piceOfAmount,false);
+                                alloc.amount = piceOfAmount;
                                 this.reservedAmount += piceOfAmount;
                             }
                             else{
-                                alloc.amount = this.$parent.calcDispAmount(remainingAmount,false);
+                                alloc.amount = remainingAmount;
                                 this.reservedAmount += remainingAmount;
                             }
                             console.log(JSON.stringify(alloc));
@@ -1163,30 +1162,30 @@
                         });
                     });
                     this.calculationOfCostCreditEdit(rootData);
-                 }
-                 if(type == 1){ //credit source level
+                }
+                else if(type == 1){ //credit source level
                      aCount = data.allocation.length;
                      piceOfAmount = value / aCount;
                      data.allocation.forEach( alloc =>{
                          alloc.selected = true;
                          var remainingAmount= alloc.caAmount - (alloc.caSumOfCost + alloc.caSumOfReserved + alloc.caSumOfFinancing + alloc.caSumOfCommitment );
                          if( remainingAmount >= piceOfAmount) {
-                             alloc.amount = this.$parent.calcDispAmount(piceOfAmount,false);
+                             alloc.amount = piceOfAmount;
                              this.reservedAmount += piceOfAmount;
                          }
                          else{
-                             alloc.amount = this.$parent.calcDispAmount(remainingAmount,false);
+                             alloc.amount = remainingAmount;
                              this.reservedAmount += remainingAmount;
                          }
                      });
                      this.calculationOfCostCreditEdit(rootData);
-                 }
-                 if(type == 2){ //allocation level
+                }
+                else if(type == 2){ //allocation level
                      //alert(data);
-                 }
-                 if(type == 3){ //found level
+                }
+                else if(type == 3){ //found level
                      //alert(data);
-                 }
+                }
             },
 
             calculationOfCostCreditEdit: function(data){
@@ -1194,25 +1193,25 @@
                 data.ca_credit_source_has_allocation.forEach(cs => {
                     var sumOfAlloc= 0 ;
                     cs.allocation.forEach( alloc =>{
-                        sumOfAlloc += this.$parent.calcRealAmount(alloc.amount.split(',').join(''));
-                        if (this.$parent.calcRealAmount(alloc.amount.split(',').join('')) != 0)
+                        sumOfAlloc += alloc.amount;
+                        if (alloc.amount != 0)
                             alloc.selected = true;
                         else
                             alloc.selected = false;
                     });
-                    cs.amount = this.$parent.calcDispAmount(sumOfAlloc,false);
+                    cs.amount = sumOfAlloc;
+                    alert(cs.amount);
                     sumOfPlanAmount += sumOfAlloc;
                     if (sumOfAlloc != 0)
                         cs.selected = true;
                     else
                         cs.selected = false;
                 });
-                alert(sumOfPlanAmount);
                 if (sumOfPlanAmount != 0)
                     data.selected = true;
                 else
                     data.selected = false;
-                data.amount = this.$parent.calcDispAmount(sumOfPlanAmount,false);
+                data.amount = sumOfPlanAmount;
                 console.log(JSON.stringify(data));
             },
 
@@ -1220,11 +1219,11 @@
                 //this.amountInput[inputName]=this.$parent.calcDispAmount((this.baseAmount - this.reservedAmount),false);
                 if (data.selected == true)
                 {
-                    this.calculationOfCostCredit(rootData,data,type,this.$parent.calcDispAmount((this.baseAmount - this.reservedAmount),false));
+                    this.calculationOfCostCredit(rootData,data,type,(this.baseAmount - this.reservedAmount));
                 }else{
                     if (type == 0)
                     {
-                        this.reservedAmount -= this.$parent.calcRealAmount(data.amount.split(',').join(''));
+                        this.reservedAmount -= data.amount;
                         data.amount = 0;
                         data.ca_credit_source_has_allocation.forEach(cs => {
                             cs.selected = false;
@@ -1237,7 +1236,7 @@
                         this.calculationOfCostCreditEdit(rootData);
                     }else if (type == 1)
                     {
-                        this.reservedAmount -= this.$parent.calcRealAmount(data.amount.split(',').join(''));
+                        this.reservedAmount -= data.amount;
                         data.amount = 0;
                         cs.allocation.forEach( alloc =>{
                             alloc.selected = true;
