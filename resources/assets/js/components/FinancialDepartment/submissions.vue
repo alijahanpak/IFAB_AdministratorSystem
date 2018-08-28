@@ -64,9 +64,7 @@
                                 <tbody class="tbl-head-style-cell">
                                 <tr class="table-row" @click="getSubmissionDetail(allSubmissions)" v-for="allSubmissions in submissions">
                                     <td>{{allSubmissions.rSubject}}</td>
-                                    <td v-if="allSubmissions.rRtId==1"> خدمات</td>
-                                    <td v-else-if="allSubmissions.rRtId==2"> کالا</td>
-                                    <td v-else="allSubmissions.rRtId==3"> تنخواه</td>
+                                    <td>{{allSubmissions.request_type.rtSubject}}</td>
                                     <td>{{ $parent.dispMoneyFormat(allSubmissions.rCostEstimation) }}</td>
                                     <td>{{allSubmissions.rLetterNumber}}</td>
                                     <td>{{allSubmissions.rLetterDate}}</td>
@@ -78,7 +76,7 @@
                 </div>
             </div>
         </div>
-        <!-- Submission Buy commodity Modal -->
+        <!-- Submission Buy Modal -->
         <modal-large v-if="showBuyCommodityModal" @close="showBuyCommodityModal = false">
             <div  slot="body">
                 <form v-on:submit.prevent="createRequest" >
@@ -197,7 +195,7 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="4" class="text-center font-wei-bold"> مجموع برآورد</td>
-                                                <td colspan="2" class="text-center font-wei-bold">{{sumOfCommodityPrice}} <span class="btn-red">{{  'ریال'  }}</span> </td>
+                                                <td colspan="2" class="text-center font-wei-bold">{{$parent.dispMoneyFormat(sumOfCommodityPrice)}} <span class="btn-red">{{  'ریال'  }}</span> </td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -252,14 +250,14 @@
                             </div>
                             <!--Tab 2-->
                             <div class="large-12 medium-12 small-12 padding-lr padding-bottom-modal medium-top-m">
-                                <button type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                                <button type="submit"  :disabled="submitBtnState" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
         </modal-large>
-        <!-- Submission Buy  Modal -->
+        <!-- Submission Buy Modal -->
 
         <!-- Submission Detail Modal -->
         <modal-large v-if="showSubmissionDeatilModal" @close="showSubmissionDeatilModal = false">
@@ -276,7 +274,7 @@
                                 <!--Tab 1-->
                                 <div class="tabs-panel is-active table-mrg-btm" id="requestDetailTab">
                                     <div class="grid-x">
-                                        <div v-show="requestTypeDetail == 'SERVICES'" class="large-12 medium-12 small-12">
+                                        <div v-if="requestTypeDetail == 'SERVICES'" class="large-12 medium-12 small-12">
                                             <table>
                                                 <tbody>
                                                 <tr>
@@ -307,7 +305,7 @@
                                             </table>
                                         </div>
 
-                                        <div v-show="requestTypeDetail == 'COMMODITY'" class="large-12 medium-12 small-12">
+                                        <div v-if="requestTypeDetail == 'COMMODITY'" class="large-12 medium-12 small-12">
                                             <table>
                                                 <tbody>
                                                 <tr>
@@ -349,7 +347,7 @@
                                             </table>
                                         </div>
 
-                                        <div v-show="requestTypeDetail == 'FUND'" class="large-12 medium-12 small-12">
+                                        <div v-if="requestTypeDetail == 'FUND'" class="large-12 medium-12 small-12">
                                             <table>
                                                 <tbody>
                                                 <tr>
@@ -504,6 +502,7 @@
                 isRequireChangeState:false,
                 verifiers:[],
                 baseURL:window.hostname+'/',
+                submitBtnState:true,
 
 
             }
@@ -603,9 +602,11 @@
             -----------------------------------------------------------------------------*/
 
             openSubmissionsModal: function (st) {
+                this.submitBtnState=true;
                 this.requestInput={};
                 this.requestTypeSend=st.rtType;
                 this.requestTypeId=st.id;
+                this.recipientUsersTemp=[];
                 this.fetchRecipientsGroup();
 
                 this.showBuyCommodityModal=true;
@@ -624,6 +625,9 @@
                 temp=this.commodityItem.commodityPrice.split(',').join('');
                 this.sumOfCommodityPrice += parseInt(temp,10);
                 this.commodityItem={};
+                if(this.commodityRequest.length >= 0){
+                    this.btnState=false;
+                }
 
             },
 
