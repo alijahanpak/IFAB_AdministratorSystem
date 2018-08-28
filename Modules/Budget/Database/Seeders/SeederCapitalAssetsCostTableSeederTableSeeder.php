@@ -18,7 +18,7 @@ class SeederCapitalAssetsCostTableSeederTableSeeder extends Seeder
     {
         Model::unguard();
 
-        for ($i = 1;$i <= 40 ;$i++)
+/*        for ($i = 1;$i <= 40 ;$i++)
         {
             $cost = new CapitalAssetsCost;
             $cost->cacUId = 1;
@@ -28,6 +28,6 @@ class SeederCapitalAssetsCostTableSeederTableSeeder extends Seeder
             $cost->cacDescription = 'گربه پالاس (Pallas cat)، پستانداری است که غالبا در مناطق مرکزی آسیا یافت می‌شود.';
             $cost->save();
 
-        }
+        }*/
     }
 }

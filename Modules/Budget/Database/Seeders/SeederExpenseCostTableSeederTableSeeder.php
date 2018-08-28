@@ -18,7 +18,7 @@ class SeederExpenseCostTableSeederTableSeeder extends Seeder
     {
         Model::unguard();
 
-        for ($i = 1;$i <= 40 ;$i++)
+/*        for ($i = 1;$i <= 40 ;$i++)
         {
             $cost = new ExpenseCosts;
             $cost->ecUId = 1;
@@ -28,6 +28,6 @@ class SeederExpenseCostTableSeederTableSeeder extends Seeder
             $cost->ecDescription = 'گربه پالاس (Pallas cat)، پستانداری است که غالبا در مناطق مرکزی آسیا یافت می‌شود.';
             $cost->save();
 
-        }
+        }*/
     }
 }

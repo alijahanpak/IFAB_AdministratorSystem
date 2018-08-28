@@ -405,7 +405,6 @@ var app = new Vue({
         },
 
         calcRealAmount: function (amount) {
-            //alert(amount * 1);
             return (amount * this.amountBase.disp_amount_unit.auAmount);
         },
 
