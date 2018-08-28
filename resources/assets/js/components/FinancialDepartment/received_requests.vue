@@ -1568,6 +1568,12 @@
                 $('.dynamic-height-level-modal1').css('height', (x-320) + 'px');
             },
 
+            openCapitalAssetsModal:function () {
+                this.getCompleteCapitalAssetsApproved ();
+                this.showCapitalAssetsModal=true;
+            },
+
+            /////////////////////// cost financing //////////////////////////////
             calculationOfCostCredit: function(rootData,data,type,value){
                 var aCount=0;
                 var piceOfAmount=0;
@@ -1747,12 +1753,185 @@
 
             },
 
+            ///////////////////// capital assets fainancing /////////////////////////////
+            calculationOfCapCredit: function(rootData,data,type,value){
+                var aCount=0;
+                var piceOfAmount=0;
+                var piceOfDivRemAmount=0;
 
-            openCapitalAssetsModal:function () {
-                this.getCompleteCapitalAssetsApproved ();
-                this.showCapitalAssetsModal=true;
+                if (!isNaN(value))
+                {
+                    if(type == 0){ //plan level
+                        data.ca_credit_source_has_allocation.forEach(cs => {
+                            aCount += cs.allocation.length;
+                        });
+                        piceOfAmount = (value / aCount) >> 0;
+                        piceOfDivRemAmount = value % aCount;
+                        data.ca_credit_source_has_allocation.forEach(cs => {
+                            cs.selected = true;
+                            cs.allocation.forEach( alloc =>{
+                                alloc.selected = true;
+                                var remainingAmount = alloc.caAmount - (alloc.caSumOfCost + alloc.caSumOfReserved + alloc.caSumOfFinancing + alloc.caSumOfCommitment);
+                                if( remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
+                                    alloc.amount = (piceOfAmount + piceOfDivRemAmount);
+                                    piceOfDivRemAmount = 0;
+                                }
+                                else if (remainingAmount >= piceOfAmount){
+                                    alloc.amount = piceOfAmount;
+                                }else{
+                                    alloc.amount = remainingAmount;
+                                }
+                                console.log(JSON.stringify(alloc));
+                            });
+                        });
+                        this.calculationOfCostCreditEdit(rootData);
+                        this.calculateCostReservedAmount();
+                    }
+                    else if(type == 1){ //credit source level
+                        aCount = data.allocation.length;
+                        piceOfAmount = (value / aCount)  >> 0;
+                        piceOfDivRemAmount = value % aCount;
+                        data.allocation.forEach( alloc =>{
+                            alloc.selected = true;
+                            var remainingAmount = alloc.caAmount - (alloc.caSumOfCost + alloc.caSumOfReserved + alloc.caSumOfFinancing + alloc.caSumOfCommitment );
+                            if (remainingAmount > 0) {
+                                if (remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
+                                    alloc.amount = (piceOfAmount + piceOfDivRemAmount);
+                                    piceOfDivRemAmount = 0;
+                                }
+                                else if (remainingAmount >= piceOfAmount) {
+                                    alloc.amount = piceOfAmount;
+                                } else {
+                                    alloc.amount = remainingAmount;
+                                }
+                            }
+                        });
+                        this.calculationOfCostCreditEdit(rootData);
+                        this.calculateCostReservedAmount();
+                    }
+                    else if(type == 2){ //allocation level
+                        data.selected = true;
+                        var remainingAmount = data.caAmount - (data.caSumOfCost + data.caSumOfReserved + data.caSumOfFinancing + data.caSumOfCommitment );
+                        if (remainingAmount > 0) {
+                            if (remainingAmount >= value) {
+                                data.amount = value;
+                            }
+                            else {
+                                data.amount = remainingAmount;
+                            }
+                        }
+                        this.calculationOfCostCreditEdit(rootData);
+                        this.calculateCostReservedAmount();
+                    }else if(type == 3) //found level
+                    {
+                        data.selected = true;
+                        var remainingAmount = data.caAmount - (data.caSumOfCost + data.caSumOfReserved + data.caSumOfFinancing + data.caSumOfCommitment);
+                        if (remainingAmount > 0)
+                        {
+                            if(remainingAmount >= value) {
+                                data.amount = value;
+                            }
+                            else{
+                                data.amount = remainingAmount;
+                            }
+                        }
+
+                        if (data.amount == 0)
+                        {
+                            data.amount = 0;
+                            data.selected = false;
+                        }
+                        this.calculateCostReservedAmount();
+                    }
+                }
             },
 
+            calculateCapReservedAmount: function(){
+                this.reservedAmount = 0;
+                this.completeCostAgrement.forEach(plan => {
+                    plan.ca_credit_source_has_allocation.forEach(cs => {
+                        cs.allocation.forEach( alloc =>{
+                            this.reservedAmount += parseInt(alloc.amount , 10);
+                        });
+                    });
+                });
+
+                this.costFound.forEach(found => {
+                    this.reservedAmount += parseInt(found.amount , 10);
+                });
+            },
+
+            calculationOfCapCreditEdit: function(data){
+                var sumOfPlanAmount=0;
+                if (data != null)
+                {
+                    data.ca_credit_source_has_allocation.forEach(cs => {
+                        var sumOfAlloc= 0 ;
+                        cs.allocation.forEach( alloc =>{
+                            sumOfAlloc += parseInt(alloc.amount , 10);
+                            if (parseInt(alloc.amount , 10) != 0)
+                                alloc.selected = true;
+                            else
+                                alloc.selected = false;
+                        });
+                        cs.amount = sumOfAlloc;
+                        sumOfPlanAmount += sumOfAlloc;
+                        if (sumOfAlloc != 0)
+                            cs.selected = true;
+                        else
+                            cs.selected = false;
+                    });
+                    if (sumOfPlanAmount != 0)
+                        data.selected = true;
+                    else
+                        data.selected = false;
+                    data.amount = sumOfPlanAmount;
+                    console.log(JSON.stringify(data));
+                }
+            },
+
+            setTextBoxValueCap: function (rootData,data,type) {
+                if (data.selected == true)
+                {
+                    this.calculationOfCostCredit(rootData,data,type,(this.baseAmount - this.reservedAmount));
+                }else{
+                    if (type == 0)
+                    {
+                        data.amount = 0;
+                        data.ca_credit_source_has_allocation.forEach(cs => {
+                            cs.selected = false;
+                            cs.amount = 0;
+                            cs.allocation.forEach( alloc =>{
+                                alloc.selected = false;
+                                alloc.amount = 0;
+                            });
+                        });
+                        this.calculationOfCostCreditEdit(rootData);
+                        this.calculateCostReservedAmount();
+                    }else if (type == 1)
+                    {
+                        data.amount = 0;
+                        cs.allocation.forEach( alloc =>{
+                            alloc.selected = true;
+                            alloc.amount = 0;
+                        });
+                        this.calculationOfCostCreditEdit(rootData);
+                        this.calculateCostReservedAmount();
+                    }else if (type == 2)
+                    {
+                        data.amount = 0;
+                        data.selected = false;
+                        this.calculationOfCostCreditEdit(rootData);
+                        this.calculateCostReservedAmount();
+                    } else if (type == 3)
+                    {
+                        data.amount = 0;
+                        data.selected = false;
+                        this.calculateCostReservedAmount();
+                    }
+                }
+
+            },
         }
     }
 </script>
