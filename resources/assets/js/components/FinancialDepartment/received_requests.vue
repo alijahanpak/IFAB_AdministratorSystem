@@ -523,10 +523,10 @@
                                                     <tr v-for="plan in completeCostAgrement">
                                                         <td>{{plan.caLetterNumber}}</td>
                                                         <td>{{plan.caLetterDate}}</td>
-                                                        <td>{{plan.caSumOfCost}}</td>
-                                                        <td>{{plan.caSumOfReserved}}</td>
-                                                        <td>{{plan.caSumOfFinancing}}</td>
-                                                        <td>{{plan.caSumOfCommitment}}</td>
+                                                        <td>{{$parent.dispMoneyFormat(plan.caSumOfCost)}}</td>
+                                                        <td>{{$parent.dispMoneyFormat(plan.caSumOfReserved)}}</td>
+                                                        <td>{{$parent.dispMoneyFormat(plan.caSumOfFinancing)}}</td>
+                                                        <td>{{$parent.dispMoneyFormat(plan.caSumOfCommitment)}}</td>
                                                         <td>{{plan.caDescription}}</td>
                                                         <td><input class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, plan, 0, plan.amount)" style="margin-bottom:0px;" v-show="plan.selected == true" type="text"  v-model="plan.amount" :value="plan.amount" /></td>
                                                         <td><input v-on:change="setTextBoxValueCost(plan,plan,0)" v-model="plan.selected" type="checkbox"></td>
@@ -588,12 +588,12 @@
                                                     <tbody class="tbl-head-style-cell">
                                                     <template v-for="plan in completeCostAgrement">
                                                         <tr v-for="creditSource in plan.ca_credit_source_has_allocation">
-                                                            <td>{{creditSource.caSumOfCost}}</td>
-                                                            <td>{{creditSource.caSumOfReserved}}</td>
-                                                            <td>{{creditSource.caSumOfFinancing}}</td>
-                                                            <td>{{creditSource.caSumOfCommitment}}</td>
-                                                            <td>{{$parent.calcDispAmount(creditSource.ccsAmount,false)}}</td>
-                                                            <td>{{creditSource.caDescription}}</td>
+                                                            <td>{{ $parent.dispMoneyFormat(creditSource.ccsSumOfCost) }}</td>
+                                                            <td>{{ $parent.dispMoneyFormat(creditSource.ccsSumOfReserved) }}</td>
+                                                            <td>{{ $parent.dispMoneyFormat(creditSource.ccsSumOfFinancing) }}</td>
+                                                            <td>{{ $parent.dispMoneyFormat(creditSource.ccsSumOfCommitment) }}</td>
+                                                            <td>{{ $parent.dispMoneyFormat(creditSource.ccsAmount) }}</td>
+                                                            <td>{{ creditSource.caDescription}}</td>
                                                             <td><input class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, creditSource, 1, creditSource.amount)" style="margin-bottom:0px;" v-show="creditSource.selected == true" type="text" v-model="creditSource.amount"  :value="creditSource.amount" /></td>
                                                             <td><input v-on:change="setTextBoxValueCost(plan,creditSource,1)" v-model="creditSource.selected" type="checkbox"></td>
                                                         </tr>
@@ -660,10 +660,10 @@
                                                             <tr v-if="allocation.caFound == 0" v-for="allocation in crditSourse.allocation">
                                                                 <td>{{allocation.caLetterNumber}}</td>
                                                                 <td>{{allocation.caLetterDate}}</td>
-                                                                <td>{{allocation.caSumOfCost}}</td>
-                                                                <td>{{allocation.caSumOfReserved}}</td>
-                                                                <td>{{allocation.caSumOfFinancing}}</td>
-                                                                <td>{{allocation.caSumOfCommitment}}</td>
+                                                                <td>{{$parent.dispMoneyFormat(allocation.caSumOfCost)}}</td>
+                                                                <td>{{$parent.dispMoneyFormat(allocation.caSumOfReserved)}}</td>
+                                                                <td>{{$parent.dispMoneyFormat(allocation.caSumOfFinancing)}}</td>
+                                                                <td>{{$parent.dispMoneyFormat(allocation.caSumOfCommitment)}}</td>
                                                                 <td>{{allocation.caDescription}}</td>
                                                                 <td><input class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan,allocation,2,allocation.amount)" style="margin-bottom:0px;" v-show="allocation.selected == true" type="text" v-model="allocation.amount" :value="allocation.amount" /></td>
                                                                 <td><input v-on:change="setTextBoxValueCost(plan,allocation,2)" v-model="allocation.selected" type="checkbox"></td>
@@ -731,10 +731,10 @@
                                                         <tr  v-for="found in costFound">
                                                             <td>{{found.caLetterNumber}}</td>
                                                             <td>{{found.caLetterDate}}</td>
-                                                            <td>{{found.caSumOfCost}}</td>
-                                                            <td>{{found.caSumOfReserved}}</td>
-                                                            <td>{{found.caSumOfFinancing}}</td>
-                                                            <td>{{found.caSumOfCommitment}}</td>
+                                                            <td>{{$parent.dispMoneyFormat(found.caSumOfCost)}}</td>
+                                                            <td>{{$parent.dispMoneyFormat(found.caSumOfReserved)}}</td>
+                                                            <td>{{$parent.dispMoneyFormat(found.caSumOfFinancing)}}</td>
+                                                            <td>{{$parent.dispMoneyFormat(found.caSumOfCommitment)}}</td>
                                                             <td>{{found.caDescription}}</td>
                                                             <td><input class="direction-ltr" v-on:keyup="calculationOfCostCredit(null,found,3,found.amount)" style="margin-bottom:0px;" v-show="found.selected == true" type="text" v-model="found.amount" :value="found.amount" /></td>
                                                             <td><input v-on:change="setTextBoxValueCost(null,found,3)" v-model="found.selected" type="checkbox"></td>
@@ -751,10 +751,10 @@
                             </div>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr small-top-m">
-                            <p> مبلغ برآورد : <span class="btn-red"> {{$parent.calcDispAmount(baseAmount,false)}} </span></p>
+                            <p> مبلغ برآورد : <span class="btn-red"> {{$parent.dispMoneyFormat(baseAmount)}} </span></p>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr">
-                            <p> مبلغ تامین اعتبار : <span class="btn-red"> {{$parent.calcDispAmount(reservedAmount,false)}} </span></p>
+                            <p> مبلغ تامین اعتبار : <span class="btn-red"> {{$parent.dispMoneyFormat(reservedAmount)}} </span></p>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <div class="stacked-for-small button-group float-left">
