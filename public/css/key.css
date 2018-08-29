@@ -2005,6 +2005,23 @@ input[type="search"]:valid + label {
     width: 90px;
     text-align: center;
 }
+
+.success-label{
+    background-color: #34bfa3;
+    border-radius: 5px;
+    padding:8px;
+    color:#FFFFFF;
+    text-align: center;
+}
+
+.reserved-label{
+    background-color: #F9A825;
+    border-radius: 5px;
+    padding:8px;
+    color:#FFFFFF;
+    text-align: center;
+}
+
 .verifier-panel{
     background: #fff;
     padding: 20px;
@@ -2082,6 +2099,7 @@ input[type="search"]:valid + label {
 .icon-padding-btm{
     padding-bottom: 0px;
 }
+
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
     display: block;
     width: 0;

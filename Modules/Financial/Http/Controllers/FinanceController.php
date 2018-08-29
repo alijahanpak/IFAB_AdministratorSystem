@@ -22,6 +22,7 @@ class FinanceController extends Controller
     {
         return CostFinancing::where('cfRId' , '=' , $rId)
             ->with('allocation.creditSource.tinySeason.seasonTitle.season')
+            ->with('allocation.creditSource.costAgreement')
             ->with('allocation.creditSource.creditDistributionRow')
             ->with('allocation.creditSource.creditDistributionTitle.budgetSeason')
             ->with('allocation.creditSource.creditDistributionTitle.county')

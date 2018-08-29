@@ -243,10 +243,133 @@
                                 <!--Tab 3-->
                                 <div class="tabs-panel table-mrg-btm" id="creditsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
-                                        <div class="large-12 medium-12 small-12 small-top-m">
-                                            <div class="stacked-for-small button-group float-left">
+                                        <div class="large-12 medium-12 small-12">
+                                            <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="credit_tab_view">
+                                                <li class="tabs-title is-active"><a href="#creditCapitalAssetsTab" aria-selected="true">تملک دارایی های سرمایه ای</a></li>
+                                                <li class="tabs-title"><a href="#creditCostTab">هزینه ای </a></li>
+                                            </ul>
+                                            <div class="tabs-content" data-tabs-content="credit_tab_view">
+                                                <!--Tab 1-->
+                                                <div class="tabs-panel is-active table-mrg-btm" id="creditCapitalAssetsTab">
+                                                    <div class="grid-x">
+                                                        <!--Table Start-->
+                                                        <!--Table Head Start-->
+                                                        <div class="tbl-div-container">
+                                                            <table class="tbl-head">
+                                                                <colgroup>
+                                                                    <col width="200px"/>
+                                                                    <col width="120px"/>
+                                                                    <col width="250px"/>
+                                                                    <col width="350px"/>
+                                                                    <col width="150px"/>
+                                                                    <col width="100px"/>
+                                                                    <col width="12px"/>
+                                                                </colgroup>
+                                                                <tbody class="tbl-head-style ">
+                                                                <tr class="tbl-head-style-cell">
+                                                                    <th class="tbl-head-style-cell">شماره طرح</th>
+                                                                    <th class="tbl-head-style-cell">کد پروژه</th>
+                                                                    <th class="tbl-head-style-cell">عنوان پروژه</th>
+                                                                    <th class="tbl-head-style-cell">شرح</th>
+                                                                    <th class="tbl-head-style-cell">مبلغ رزرو شده</th>
+                                                                    <th class="tbl-head-style-cell">وضعیت</th>
+                                                                    <th class="tbl-head-style-cell"></th>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <!--Table Head End-->
+                                                            <!--Table Body Start-->
+                                                            <div class="tbl_body_style dynamic-height-level-modal2">
+                                                                <table class="tbl-body-contain">
+                                                                    <colgroup>
+                                                                        <col width="200px"/>
+                                                                        <col width="120px"/>
+                                                                        <col width="250px"/>
+                                                                        <col width="350px"/>
+                                                                        <col width="150px"/>
+                                                                        <col width="100px"/>
+                                                                    </colgroup>
+                                                                    <tbody class="tbl-head-style-cell">
+                                                                    <tr v-for="capFinancing in requestCapFinancing">
+                                                                        <td>{{capFinancing.allocation.credit_source.capital_assets_project.capital_assets_approved_plan.credit_distribution_title.cdtSubject}}</td>
+                                                                        <td>{{capFinancing.allocation.credit_source.capital_assets_project.cpCode}}</td>
+                                                                        <td>{{capFinancing.allocation.credit_source.capital_assets_project.cpSubject}}</td>
+                                                                        <td>{{capFinancing.allocation.credit_source.capital_assets_project.cpDescription}}</td>
+                                                                        <td>{{$parent.dispMoneyFormat(capFinancing.cafAmount)}}</td>
+                                                                        <td v-show="capFinancing.cafAccepted == 1"><span class="success-label">تایید شده</span></td>
+                                                                        <td v-show="capFinancing.cafAccepted == 0"><span class="reserved-label">رزرو شده</span></td>
+
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <!--Table Body End-->
+                                                    </div>
+                                                </div>
+                                                <!--Tab 1-->
+
+                                                <!--Tab 2-->
+                                                <div class="tabs-panel table-mrg-btm" id="creditCostTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                                    <div class="grid-x">
+                                                        <!--Table Start-->
+                                                        <!--Table Head Start-->
+                                                        <div class="tbl-div-container">
+                                                            <table class="tbl-head">
+                                                                <colgroup>
+                                                                    <col width="200px"/>
+                                                                    <col width="200px"/>
+                                                                    <col width="350px"/>
+                                                                    <col width="150px"/>
+                                                                    <col width="100px"/>
+                                                                    <col width="12px"/>
+                                                                </colgroup>
+                                                                <tbody class="tbl-head-style ">
+                                                                <tr class="tbl-head-style-cell">
+                                                                    <th class="tbl-head-style-cell">شماره برنامه</th>
+                                                                    <th class="tbl-head-style-cell">شماره نامه</th>
+                                                                    <th class="tbl-head-style-cell">شرح</th>
+                                                                    <th class="tbl-head-style-cell">مبلغ رزرو شده</th>
+                                                                    <th class="tbl-head-style-cell">وضعیت</th>
+                                                                    <th class="tbl-head-style-cell"></th>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <!--Table Head End-->
+                                                            <!--Table Body Start-->
+                                                            <div class="tbl_body_style dynamic-height-level-modal2">
+                                                                <table class="tbl-body-contain">
+                                                                    <colgroup>
+                                                                        <col width="200px"/>
+                                                                        <col width="200px"/>
+                                                                        <col width="350px"/>
+                                                                        <col width="150px"/>
+                                                                        <col width="100px"/>
+                                                                    </colgroup>
+                                                                    <tbody class="tbl-head-style-cell">
+                                                                    <tr v-for="costFinancing in requestCostFinancing">
+                                                                        <td>{{costFinancing.allocation.credit_source.credit_distribution_title.cdtIdNumber}}</td>
+                                                                        <td>{{costFinancing.allocation.credit_source.cost_agreement.caLetterNumber}}</td>
+                                                                        <td>{{costFinancing.allocation.credit_source.cost_agreement.caDescription}}</td>
+                                                                        <td>{{$parent.dispMoneyFormat(costFinancing.cfAmount)}}</td>
+                                                                        <td v-show="costFinancing.cfAccepted	 == 1"><span class="success-label">تایید شده</span></td>
+                                                                        <td v-show="costFinancing.cfAccepted	 == 0"><span class="reserved-label">رزرو شده</span></td>
+
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <!--Table Body End-->
+                                                    </div>
+                                                </div>
+                                                <!--Tab 2-->
+                                            </div>
+                                        </div>
+                                        <div class="large-12 medium-12 small-12 small-top-m padding-lr">
+                                            <div style="margin-bottom:-10px;" class="stacked-for-small button-group float-left">
+                                                <button @click="openCapitalAssetsModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">  اعتبارات تملک دارایی های سرمایه ای</span></button>
                                                 <button @click="openCostCreditsModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">  اعتبارات هزینه ای</span></button>
-                                                <button @click="openCapitalAssetsModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">  اعتبارات عمرانی</span></button>
                                             </div>
                                         </div>
                                     </div>
@@ -304,19 +427,19 @@
                             </div>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr medium-top-m">
-                            <div class="stacked-for-small button-group">
+                            <div style="margin-bottom:-10px;" class="stacked-for-small button-group">
                                 <button @click="openSubmitRequestModal()" v-if=" youAreVerifier != '' "  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
                                 <button @click="openReferralsModal()"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg">  ارجاع</span></button>
                                 <button @click="openResponseRequestModal()" v-show="canResponse == 1 " class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg">  پاسخ</span></button>
                                 <button v-show='$can("SECRETARIAT_REGISTER_AND_NUMBERING")' style="width:130px;" @click="openRegisterAndNumberingModal()" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت دبیرخانه</span></button>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </modal-large>
         <!-- Request Detail Modal End-->
+
         <!-- Referral Detail Modal Start-->
         <modal-small v-if="showReferralsModal" @close="showReferralsModal = false">
             <div  slot="body">
@@ -757,7 +880,7 @@
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <div class="stacked-for-small button-group float-left">
-                                <button @click="" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                <button @click="reserveCostFinance()" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
                             </div>
                         </div>
                     </div>
@@ -1206,6 +1329,7 @@
                     decimal:'.',
                     masked: true
                 },
+
                 /*credits*/
                 completeCostAgrement:[],
                 costFound:[],
@@ -1220,6 +1344,9 @@
                 capitalAssetsFound:[],
                 capitalAssetsAllocations:[],
                 /*capital assets*/
+
+                requestCostFinancing:[],
+                requestCapFinancing:[],
             }
         },
 
@@ -1355,6 +1482,17 @@
                 });
             },
 
+            fetchRequestFinancing: function (){
+                axios.get('/financial/request/financing' , {params:{rId:this.requestId}})
+                    .then((response) => {
+                        this.requestCostFinancing = response.data.costFinancing;
+                        this.requestCapFinancing = response.data.capFinancing;
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                    });
+            },
+
             getRequestDetail: function (request) {
                 if(request.rLastRef.rhHasBeenSeen==0) {
                     axios.post('/financial/request/received/was_seen', {
@@ -1373,6 +1511,10 @@
                 var requestHistory=[];
                 requestHistory.push(request);
                 this.requestId=request.id;
+
+                this.requestCostFinancing=[];
+                this.requestCapFinancing=[];
+                this.fetchRequestFinancing();
 
                 requestHistory.forEach(users => {
                     users.history.forEach(userHistory => {
@@ -1561,11 +1703,13 @@
             openCostCreditsModal:function () {
                 this.getCompleteCostAgrement();
                 this.showCostCreditsModal=true;
+                this.reservedAmount=0;
             },
 
             myResizeModal: function() {
                 var x = $.w.outerHeight();
                 $('.dynamic-height-level-modal1').css('height', (x-320) + 'px');
+                $('.dynamic-height-level-modal2').css('height', (x-420) + 'px');
             },
 
             calculationOfCostCredit: function(rootData,data,type,value){
@@ -1751,6 +1895,67 @@
             openCapitalAssetsModal:function () {
                 this.getCompleteCapitalAssetsApproved ();
                 this.showCapitalAssetsModal=true;
+                this.reservedAmount=0;
+            },
+
+            reserveCostFinance: function () {
+                var costFinancing= [];
+                this.completeCostAgrement.forEach(cost => {
+                    cost.ca_credit_source_has_allocation.forEach(alloc =>{
+                        alloc.allocation.forEach(item =>{
+                            if(item.selected == true){
+                                var obj={};
+                                Vue.set(obj,"aId",item.id);
+                                Vue.set(obj,"amount",item.amount);
+                                costFinancing.push(obj);
+                            }
+                        });
+                    });
+                });
+                console.log(JSON.stringify(costFinancing));
+                axios.post('/financial/request/financing/reservation', {
+                    rId: this.requestId,
+                    costFinancing:costFinancing,
+                }).then((response) => {
+                    this.requestCostFinancing = response.data.costFinancing;
+                    this.showCostCreditsModal = false;
+                    this.$parent.displayNotif(response.status);
+                    console.log(response);
+                }, (error) => {
+                    console.log(error);
+                    this.$parent.displayNotif(error.response.status);
+                });
+            },
+
+            reserveCapitalAssetsFinance: function () {
+                var capitalAssetsFinancing= [];
+                this.completeCapitalAssetsAgrement.forEach(ca => {
+                    ca.capital_assets_project_has_credit_source	.forEach(project =>{
+                        project.credit_source_has_allocation.forEach(cs =>{
+                            cs.allocation.forEach(alloc =>{
+                                if(alloc.selected == true){
+                                    var obj={};
+                                    Vue.set(obj,"aId",alloc.id);
+                                    Vue.set(obj,"amount",alloc.amount);
+                                    capitalAssetsFinancing.push(obj);
+                                }
+                            });
+                        });
+                    });
+                });
+                console.log(JSON.stringify(capitalAssetsFinancing));
+                axios.post('/financial/request/financing/reservation', {
+                    rId: this.requestId,
+                    costFinancing:capitalAssetsFinancing,
+                }).then((response) => {
+                    this.requestCapFinancing = response.data.capFinancing;
+                    this.showCostCreditsModal = false;
+                    this.$parent.displayNotif(response.status);
+                    console.log(response);
+                }, (error) => {
+                    console.log(error);
+                    this.$parent.displayNotif(error.response.status);
+                });
             },
 
         }
