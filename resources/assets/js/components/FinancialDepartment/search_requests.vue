@@ -234,7 +234,7 @@
                                                                         </div>
                                                                         <div class="large-11 medium-10 small-12 padding-lr">
                                                                             <p class="small-top-m" v-if="recipientUser.destination_user_info != null">
-                                                                                {{recipientUser.destination_user_info.name}} - {{recipientUser.destination_user_info.role.rSubject}} :
+                                                                                {{recipientUser.destination_user_info.name}} - {{recipientUser.destination_user_info.role.rSubject}}
                                                                             </p>
                                                                             <p class="small-top-m btn-red" v-else>
                                                                                 در انتظار مشاهده
