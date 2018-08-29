@@ -409,7 +409,7 @@ var app = new Vue({
         },
 
         dispMoneyFormat: function (amount) {
-            return amount.toLocaleString('en' , {maximumFractionDigits : 20});
+            return (parseInt(amount,10)).toLocaleString('en' , {maximumFractionDigits : 20});
         },
 
         calcPrecent: function (y1 , y2) {

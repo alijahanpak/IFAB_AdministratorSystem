@@ -24,11 +24,11 @@ class RequestVerifiers extends Model
 
     public function getRvShamsiDateAttribute()
     {
-        return jDate::forge($this->update_at)->format('Y/m/d');
+        return jDate::forge($this->updated_at)->format('Y/m/d');
     }
 
     public function getRvShamsiTimeAttribute()
     {
-        return jDate::forge($this->update_at)->format('time');
+        return jDate::forge($this->updated_at)->format('time');
     }
 }

@@ -250,7 +250,7 @@
                             </div>
                             <!--Tab 2-->
                             <div class="large-12 medium-12 small-12 padding-lr padding-bottom-modal medium-top-m">
-                                <button type="submit"  :disabled="submitBtnState" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                                <button type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
                             </div>
                         </div>
                     </div>
