@@ -283,7 +283,7 @@
                                                                         </div>
                                                                         <div class="large-11 medium-10 small-12 padding-lr">
                                                                             <p class="small-top-m">
-                                                                                {{recipientUser.destination_user_info.name}} - {{recipientUser.destination_user_info.role.rSubject}} :
+                                                                                {{recipientUser.destination_user_info.name}} - {{recipientUser.destination_user_info.role.rSubject}}
                                                                             </p>
                                                                         </div>
                                                                     </div>
@@ -753,7 +753,7 @@
                             <p> مبلغ برآورد : <span class="btn-red"> {{$parent.dispMoneyFormat(baseAmount)}} </span></p>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr">
-                            <p> مبلغ تامین اعتبار : <span class="btn-red"> {{$parent.dispMoneyFormat(reservedAmount)}} </span></p>
+                            <p> مبلغ تامین اعتبار : <span class="btn-red"> {{$parent.dispMoneyFormat(costReservedAmount)}} </span></p>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <div class="stacked-for-small button-group float-left">
@@ -837,9 +837,8 @@
                                                         <td>{{plan.capSumOfFinancing}}</td>
                                                         <td>{{plan.capSumOfCommitment}}</td>
                                                         <td>{{plan.capDescription}}</td>
-                                                        <td><input v-on:keyup="calculationOfCostCredit(plan, plan, 0, plan.amount)" style="margin-bottom:0px;" v-show="plan.selected == true" type="text"  v-model="plan.amount" :value="plan.amount" /></td>
-                                                        <td><input v-on:change="setTextBoxValueCost(plan,plan,0)" v-model="plan.selected" type="checkbox"></td>
-
+                                                        <td><input v-on:keyup="calculationOfCapCredit(plan, plan, 0, plan.amount)" style="margin-bottom:0px;" v-show="plan.selected == true" type="text"  v-model="plan.amount" :value="plan.amount" /></td>
+                                                        <td><input v-on:change="setTextBoxValueCap(plan,plan,0)" v-model="plan.selected" type="checkbox"></td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -900,16 +899,16 @@
                                                     </colgroup>
                                                     <tbody class="tbl-head-style-cell">
                                                     <template v-for="plan in completeCapitalAssetsAgrement">
-                                                        <tr v-for="creditSource in plan.capital_assets_project_has_credit_source">
-                                                            <td>{{creditSource.cpSubject}}</td>
-                                                            <td>{{creditSource.cpCode}}</td>
-                                                            <td>{{creditSource.cpSumOfCost}}</td>
-                                                            <td>{{creditSource.cpSumOfReserved}}</td>
-                                                            <td>{{creditSource.cpSumOfFinancing}}</td>
-                                                            <td>{{creditSource.cpSumOfCommitment}}</td>
-                                                            <td>{{creditSource.cpDescription}}</td>
-                                                            <td><input v-on:keyup="calculationOfCostCredit(plan, creditSource, 1, creditSource.amount)" style="margin-bottom:0px;" v-show="creditSource.selected == true" type="text"  :value="creditSource.amount" /></td>
-                                                            <td><input v-on:change="setTextBoxValueCost(plan,creditSource,1)" v-model="creditSource.selected" type="checkbox"></td>
+                                                        <tr v-for="project in plan.capital_assets_project_has_credit_source">
+                                                            <td>{{project.cpSubject}}</td>
+                                                            <td>{{project.cpCode}}</td>
+                                                            <td>{{project.cpSumOfCost}}</td>
+                                                            <td>{{project.cpSumOfReserved}}</td>
+                                                            <td>{{project.cpSumOfFinancing}}</td>
+                                                            <td>{{project.cpSumOfCommitment}}</td>
+                                                            <td>{{project.cpDescription}}</td>
+                                                            <td><input v-on:keyup="calculationOfCapCredit(plan, project, 1, project.amount)" style="margin-bottom:0px;" v-show="project.selected == true" type="text" v-model="project.amount"  :value="project.amount" /></td>
+                                                            <td><input v-on:change="setTextBoxValueCap(plan,project,1)" v-model="project.selected" type="checkbox"></td>
                                                         </tr>
                                                     </template>
                                                     </tbody>
@@ -968,16 +967,16 @@
                                                     </colgroup>
                                                     <tbody class="tbl-head-style-cell">
                                                     <template v-for="plan in completeCapitalAssetsAgrement">
-                                                        <template v-for="creditSource in plan.capital_assets_project_has_credit_source">
-                                                            <tr v-for="allocations in creditSource.credit_source_has_allocation">
-                                                                <td>{{allocations.ccsSumOfCost}}</td>
-                                                                <td>{{allocations.ccsSumOfReserved}}</td>
-                                                                <td>{{allocations.ccsSumOfFinancing}}</td>
-                                                                <td>{{allocations.ccsSumOfCommitment}}</td>
-                                                                <td>{{allocations.ccsAmount}}</td>
-                                                                <td>{{allocations.ccsDescription}}</td>
-                                                                <td><input v-on:keyup="calculationOfCostCredit(plan, creditSource, 1, creditSource.amount)" style="margin-bottom:0px;" v-show="creditSource.selected == true" type="text"  :value="creditSource.amount" /></td>
-                                                                <td><input v-on:change="setTextBoxValueCost(plan,creditSource,1)" v-model="creditSource.selected" type="checkbox"></td>
+                                                        <template v-for="project in plan.capital_assets_project_has_credit_source">
+                                                            <tr v-for="creditSource in project.credit_source_has_allocation">
+                                                                <td>{{creditSource.ccsSumOfCost}}</td>
+                                                                <td>{{creditSource.ccsSumOfReserved}}</td>
+                                                                <td>{{creditSource.ccsSumOfFinancing}}</td>
+                                                                <td>{{creditSource.ccsSumOfCommitment}}</td>
+                                                                <td>{{creditSource.ccsAmount}}</td>
+                                                                <td>{{creditSource.ccsDescription}}</td>
+                                                                <td><input v-on:keyup="calculationOfCapCredit(plan, creditSource, 2, creditSource.amount)" style="margin-bottom:0px;" v-show="creditSource.selected == true" type="text" v-model="creditSource.amount"  :value="creditSource.amount" /></td>
+                                                                <td><input v-on:change="setTextBoxValueCap(plan,creditSource,2)" v-model="creditSource.selected" type="checkbox"></td>
                                                             </tr>
                                                         </template>
                                                     </template>
@@ -1051,8 +1050,8 @@
                                                                     <td>{{alloc.caaSumOfCommitment}}</td>
                                                                     <td>{{alloc.caaAmount}}</td>
                                                                     <td>{{alloc.caaDescription}}</td>
-                                                                    <td><input v-on:keyup="calculationOfCostCredit(plan, creditSource, 1, creditSource.amount)" style="margin-bottom:0px;" v-show="creditSource.selected == true" type="text"  :value="creditSource.amount" /></td>
-                                                                    <td><input v-on:change="setTextBoxValueCost(plan,creditSource,1)" v-model="creditSource.selected" type="checkbox"></td>
+                                                                    <td><input v-on:keyup="calculationOfCapCredit(plan, alloc, 3, alloc.amount)" style="margin-bottom:0px;" v-show="alloc.selected == true" type="text" v-model="alloc.amount"  :value="alloc.amount" /></td>
+                                                                    <td><input v-on:change="setTextBoxValueCap(plan,alloc,3)" v-model="alloc.selected" type="checkbox"></td>
                                                                 </tr>
                                                             </template>
                                                         </template>
@@ -1123,8 +1122,8 @@
                                                         <td>{{found.caaSumOfCommitment}}</td>
                                                         <td>{{found.caaAmount}}</td>
                                                         <td>{{found.caaDescription}}</td>
-                                                        <td><input v-on:keyup="calculationOfCostCredit(plan, creditSource, 1, found.amount)" style="margin-bottom:0px;" v-show="found.selected == true" type="text"  :value="found.amount" /></td>
-                                                        <td><input v-on:change="setTextBoxValueCost(plan,creditSource,1)" v-model="found.selected" type="checkbox"></td>
+                                                        <td><input v-on:keyup="calculationOfCapCredit(null, found, 4, found.amount)" style="margin-bottom:0px;" v-show="found.selected == true" type="text" v-model="found.amount"  :value="found.amount" /></td>
+                                                        <td><input v-on:change="setTextBoxValueCap(null,found,4)" v-model="found.selected" type="checkbox"></td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -1138,10 +1137,10 @@
                             </div>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr small-top-m">
-                            <p> مبلغ برآورد : <span class="btn-red"> {{$parent.calcDispAmount(baseAmount,false)}} </span></p>
+                            <p> مبلغ برآورد : <span class="btn-red"> {{$parent.dispMoneyFormat(baseAmount)}} </span></p>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr">
-                            <p> مبلغ تامین اعتبار : <span class="btn-red"> {{$parent.calcDispAmount(reservedAmount,false)}} </span></p>
+                            <p> مبلغ تامین اعتبار : <span class="btn-red"> {{$parent.dispMoneyFormat(capReservedAmount)}} </span></p>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <div class="stacked-for-small button-group float-left">
@@ -1211,7 +1210,8 @@
                 costFound:[],
                 allocations:[],
                 baseAmount:0,
-                reservedAmount:0,
+                costReservedAmount:0,
+                capReservedAmount:0,
                 amountInput:{},
                 /*credits*/
 
@@ -1666,21 +1666,6 @@
                 }
             },
 
-            calculateCostReservedAmount: function(){
-                this.reservedAmount = 0;
-                this.completeCostAgrement.forEach(plan => {
-                    plan.ca_credit_source_has_allocation.forEach(cs => {
-                        cs.allocation.forEach( alloc =>{
-                            this.reservedAmount += parseInt(alloc.amount , 10);
-                        });
-                    });
-                });
-
-                this.costFound.forEach(found => {
-                    this.reservedAmount += parseInt(found.amount , 10);
-                });
-            },
-
             calculationOfCostCreditEdit: function(data){
                 var sumOfPlanAmount=0;
                 if (data != null)
@@ -1713,7 +1698,7 @@
             setTextBoxValueCost: function (rootData,data,type) {
                 if (data.selected == true)
                 {
-                    this.calculationOfCostCredit(rootData,data,type,(this.baseAmount - this.reservedAmount));
+                    this.calculationOfCostCredit(rootData,data,type,(this.baseAmount - (this.costReservedAmount + this.capReservedAmount)));
                 }else{
                     if (type == 0)
                     {
@@ -1762,16 +1747,47 @@
                 if (!isNaN(value))
                 {
                     if(type == 0){ //plan level
-                        data.ca_credit_source_has_allocation.forEach(cs => {
-                            aCount += cs.allocation.length;
+                        data.capital_assets_project_has_credit_source.forEach(project => {
+                            project.credit_source_has_allocation.forEach(cs => {
+                                aCount += cs.allocation.length;
+                            });
                         });
                         piceOfAmount = (value / aCount) >> 0;
                         piceOfDivRemAmount = value % aCount;
-                        data.ca_credit_source_has_allocation.forEach(cs => {
+                        data.capital_assets_project_has_credit_source.forEach(project => {
+                            project.selected = true;
+                            project.credit_source_has_allocation.forEach(cs => {
+                                cs.selected = true;
+                                cs.allocation.forEach( alloc =>{
+                                    alloc.selected = true;
+                                    var remainingAmount = alloc.caaAmount - (alloc.caaSumOfCost + alloc.caaSumOfReserved + alloc.caaSumOfFinancing + alloc.caaSumOfCommitment);
+                                    if( remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
+                                        alloc.amount = (piceOfAmount + piceOfDivRemAmount);
+                                        piceOfDivRemAmount = 0;
+                                    }
+                                    else if (remainingAmount >= piceOfAmount){
+                                        alloc.amount = piceOfAmount;
+                                    }else{
+                                        alloc.amount = remainingAmount;
+                                    }
+                                    console.log(JSON.stringify(alloc));
+                                });
+                            });
+                        });
+                        this.calculationOfCapCreditEdit(rootData);
+                        this.calculateCapReservedAmount();
+                    }
+                    else if(type == 1){ //credit source level
+                        data.credit_source_has_allocation.forEach(cs => {
+                            aCount += cs.allocation.length;
+                        });
+                        piceOfAmount = (value / aCount)  >> 0;
+                        piceOfDivRemAmount = value % aCount;
+                        data.credit_source_has_allocation.forEach(cs => {
                             cs.selected = true;
                             cs.allocation.forEach( alloc =>{
                                 alloc.selected = true;
-                                var remainingAmount = alloc.caAmount - (alloc.caSumOfCost + alloc.caSumOfReserved + alloc.caSumOfFinancing + alloc.caSumOfCommitment);
+                                var remainingAmount = alloc.caaAmount - (alloc.caaSumOfCost + alloc.caaSumOfReserved + alloc.caaSumOfFinancing + alloc.caaSumOfCommitment);
                                 if( remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
                                     alloc.amount = (piceOfAmount + piceOfDivRemAmount);
                                     piceOfDivRemAmount = 0;
@@ -1784,34 +1800,34 @@
                                 console.log(JSON.stringify(alloc));
                             });
                         });
-                        this.calculationOfCostCreditEdit(rootData);
-                        this.calculateCostReservedAmount();
+                        this.calculationOfCapCreditEdit(rootData);
+                        this.calculateCapReservedAmount();
                     }
-                    else if(type == 1){ //credit source level
-                        aCount = data.allocation.length;
+                    else if(type == 2) { //allocation level
+                        aCount += data.allocation.length;
                         piceOfAmount = (value / aCount)  >> 0;
                         piceOfDivRemAmount = value % aCount;
                         data.allocation.forEach( alloc =>{
                             alloc.selected = true;
-                            var remainingAmount = alloc.caAmount - (alloc.caSumOfCost + alloc.caSumOfReserved + alloc.caSumOfFinancing + alloc.caSumOfCommitment );
-                            if (remainingAmount > 0) {
-                                if (remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
-                                    alloc.amount = (piceOfAmount + piceOfDivRemAmount);
-                                    piceOfDivRemAmount = 0;
-                                }
-                                else if (remainingAmount >= piceOfAmount) {
-                                    alloc.amount = piceOfAmount;
-                                } else {
-                                    alloc.amount = remainingAmount;
-                                }
+                            var remainingAmount = alloc.caaAmount - (alloc.caaSumOfCost + alloc.caaSumOfReserved + alloc.caaSumOfFinancing + alloc.caaSumOfCommitment);
+                            if( remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
+                                alloc.amount = (piceOfAmount + piceOfDivRemAmount);
+                                piceOfDivRemAmount = 0;
                             }
+                            else if (remainingAmount >= piceOfAmount){
+                                alloc.amount = piceOfAmount;
+                            }else{
+                                alloc.amount = remainingAmount;
+                            }
+                            console.log(JSON.stringify(alloc));
                         });
-                        this.calculationOfCostCreditEdit(rootData);
-                        this.calculateCostReservedAmount();
+
+                        this.calculationOfCapCreditEdit(rootData);
+                        this.calculateCapReservedAmount();
                     }
-                    else if(type == 2){ //allocation level
+                    else if(type == 3){ //allocation level
                         data.selected = true;
-                        var remainingAmount = data.caAmount - (data.caSumOfCost + data.caSumOfReserved + data.caSumOfFinancing + data.caSumOfCommitment );
+                        var remainingAmount = data.caaAmount - (data.caaSumOfCost + data.caaSumOfReserved + data.caaSumOfFinancing + data.caaSumOfCommitment );
                         if (remainingAmount > 0) {
                             if (remainingAmount >= value) {
                                 data.amount = value;
@@ -1820,12 +1836,12 @@
                                 data.amount = remainingAmount;
                             }
                         }
-                        this.calculationOfCostCreditEdit(rootData);
-                        this.calculateCostReservedAmount();
-                    }else if(type == 3) //found level
+                        this.calculationOfCapCreditEdit(rootData);
+                        this.calculateCapReservedAmount();
+                    }else if(type == 4) //found level
                     {
                         data.selected = true;
-                        var remainingAmount = data.caAmount - (data.caSumOfCost + data.caSumOfReserved + data.caSumOfFinancing + data.caSumOfCommitment);
+                        var remainingAmount = data.caaAmount - (data.caaSumOfCost + data.caaSumOfReserved + data.caaSumOfFinancing + data.caaSumOfCommitment);
                         if (remainingAmount > 0)
                         {
                             if(remainingAmount >= value) {
@@ -1841,51 +1857,79 @@
                             data.amount = 0;
                             data.selected = false;
                         }
-                        this.calculateCostReservedAmount();
+                        this.calculateCapReservedAmount();
                     }
                 }
             },
 
-            calculateCapReservedAmount: function(){
-                this.reservedAmount = 0;
+            calculateCostReservedAmount: function(){
+                this.costReservedAmount = 0;
                 this.completeCostAgrement.forEach(plan => {
                     plan.ca_credit_source_has_allocation.forEach(cs => {
                         cs.allocation.forEach( alloc =>{
-                            this.reservedAmount += parseInt(alloc.amount , 10);
+                            this.costReservedAmount += parseInt(alloc.amount , 10);
                         });
                     });
                 });
 
                 this.costFound.forEach(found => {
-                    this.reservedAmount += parseInt(found.amount , 10);
+                    this.costReservedAmount += parseInt(found.amount , 10);
+                });
+            },
+
+            calculateCapReservedAmount: function(){
+                this.capReservedAmount = 0;
+                this.completeCapitalAssetsAgrement.forEach(plan => {
+                    plan.capital_assets_project_has_credit_source.forEach(project => {
+                        project.credit_source_has_allocation.forEach(cs => {
+                            cs.allocation.forEach( alloc =>{
+                                this.capReservedAmount += parseInt(alloc.amount , 10);
+                            });
+                        });
+                    });
+                });
+
+                this.capitalAssetsFound.forEach(found => {
+                    this.capReservedAmount += parseInt(found.amount , 10);
                 });
             },
 
             calculationOfCapCreditEdit: function(data){
-                var sumOfPlanAmount=0;
+                var sumOfProjectAmount=0;
+                var sumOfCsAmount=0;
                 if (data != null)
                 {
-                    data.ca_credit_source_has_allocation.forEach(cs => {
-                        var sumOfAlloc= 0 ;
-                        cs.allocation.forEach( alloc =>{
-                            sumOfAlloc += parseInt(alloc.amount , 10);
-                            if (parseInt(alloc.amount , 10) != 0)
-                                alloc.selected = true;
+                    data.capital_assets_project_has_credit_source.forEach(project => {
+                        sumOfCsAmount=0;
+                        project.credit_source_has_allocation.forEach(cs => {
+                            var sumOfAlloc= 0 ;
+                            cs.allocation.forEach( alloc =>{
+                                sumOfAlloc += parseInt(alloc.amount , 10);
+                                if (parseInt(alloc.amount , 10) != 0)
+                                    alloc.selected = true;
+                                else
+                                    alloc.selected = false;
+                            });
+                            cs.amount = sumOfAlloc;
+                            sumOfCsAmount += sumOfAlloc;
+                            if (sumOfAlloc != 0)
+                                cs.selected = true;
                             else
-                                alloc.selected = false;
+                                cs.selected = false;
                         });
-                        cs.amount = sumOfAlloc;
-                        sumOfPlanAmount += sumOfAlloc;
-                        if (sumOfAlloc != 0)
-                            cs.selected = true;
+                        project.amount = sumOfCsAmount;
+                        sumOfProjectAmount += sumOfCsAmount;
+                        if (sumOfCsAmount != 0)
+                            project.selected = true;
                         else
-                            cs.selected = false;
+                            project.selected = false;
                     });
-                    if (sumOfPlanAmount != 0)
+
+                    if (sumOfProjectAmount != 0)
                         data.selected = true;
                     else
                         data.selected = false;
-                    data.amount = sumOfPlanAmount;
+                    data.amount = sumOfProjectAmount;
                     console.log(JSON.stringify(data));
                 }
             },
@@ -1893,12 +1937,29 @@
             setTextBoxValueCap: function (rootData,data,type) {
                 if (data.selected == true)
                 {
-                    this.calculationOfCostCredit(rootData,data,type,(this.baseAmount - this.reservedAmount));
+                    this.calculationOfCapCredit(rootData,data,type,(this.baseAmount - (this.costReservedAmount + this.capReservedAmount)));
                 }else{
                     if (type == 0)
                     {
                         data.amount = 0;
-                        data.ca_credit_source_has_allocation.forEach(cs => {
+                        data.capital_assets_project_has_credit_source.forEach(project => {
+                            project.selected = false;
+                            project.amount = 0;
+                            project.credit_source_has_allocation.forEach(cs => {
+                                cs.selected = false;
+                                cs.amount = 0;
+                                cs.allocation.forEach( alloc =>{
+                                    alloc.selected = false;
+                                    alloc.amount = 0;
+                                });
+                            });
+                        });
+                        this.calculationOfCapCreditEdit(rootData);
+                        this.calculateCapReservedAmount();
+                    }else if (type == 1)
+                    {
+                        data.amount = 0;
+                        data.credit_source_has_allocation.forEach(cs => {
                             cs.selected = false;
                             cs.amount = 0;
                             cs.allocation.forEach( alloc =>{
@@ -1906,28 +1967,28 @@
                                 alloc.amount = 0;
                             });
                         });
-                        this.calculationOfCostCreditEdit(rootData);
-                        this.calculateCostReservedAmount();
-                    }else if (type == 1)
-                    {
-                        data.amount = 0;
-                        cs.allocation.forEach( alloc =>{
-                            alloc.selected = true;
-                            alloc.amount = 0;
-                        });
-                        this.calculationOfCostCreditEdit(rootData);
-                        this.calculateCostReservedAmount();
+                        this.calculationOfCapCreditEdit(rootData);
+                        this.calculateCapReservedAmount();
                     }else if (type == 2)
                     {
                         data.amount = 0;
-                        data.selected = false;
-                        this.calculationOfCostCreditEdit(rootData);
-                        this.calculateCostReservedAmount();
-                    } else if (type == 3)
+                        data.allocation.forEach(cs => {
+                            alloc.selected = false;
+                            alloc.amount = 0;
+                        });
+                        this.calculationOfCapCreditEdit(rootData);
+                        this.calculateCapReservedAmount();
+                    }else if (type == 3)
                     {
                         data.amount = 0;
                         data.selected = false;
-                        this.calculateCostReservedAmount();
+                        this.calculationOfCapCreditEdit(rootData);
+                        this.calculateCapReservedAmount();
+                    } else if (type == 4)
+                    {
+                        data.amount = 0;
+                        data.selected = false;
+                        this.calculateCapReservedAmount();
                     }
                 }
 

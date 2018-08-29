@@ -63,10 +63,10 @@ class FinanceController extends Controller
             {
                 $costAllocInfo = CostAllocation::where('id' , '=' , $costFinanc['aId'])->first();
                 $remainigAmount = $costAllocInfo['caAmount'] - ($costAllocInfo['caSumOfCost'] + $costAllocInfo['caSumOfReserved'] + $costAllocInfo['caSumOfFinancing']);
-                if (($remainigAmount - AmountUnit::convertInputAmount($costFinanc['amount'])) > 0)
+                if (($remainigAmount - $costFinanc['amount']) > 0)
                 {
                     CostFinancing::updateOrCreate(['cfCaId' => $costFinanc['aId'] , 'cfRId' => $request->rId],
-                        ['cfAmount' => AmountUnit::convertInputAmount($costFinanc['amount']) , 'cfAccepted' => false]);
+                        ['cfAmount' => $costFinanc['amount'] , 'cfAccepted' => false]);
                 }else{
                     CostFinancing::whereIn('cfCaId' , $insertedAId)
                         ->where('cfRId' , '=' , $request->rId)
@@ -91,10 +91,10 @@ class FinanceController extends Controller
             {
                 $capAllocInfo = CapitalAssetsAllocation::where('id' , '=' , $capFinanc['aId'])->first();
                 $remainigAmount = $capAllocInfo['caaAmount'] - ($capAllocInfo['caaSumOfCost'] + $capAllocInfo['caaSumOfReserved'] + $capAllocInfo['caaSumOfFinancing']);
-                if (($remainigAmount - AmountUnit::convertInputAmount($capFinanc['amount'])) > 0)
+                if (($remainigAmount - $capFinanc['amount']) > 0)
                 {
                     CapitalAssetsFinancing::updateOrCreate(['cafCaaId' => $capFinanc['aId'] , 'cafRId' => $request->rId],
-                        ['cafAmount' => AmountUnit::convertInputAmount($capFinanc['amount']) , 'cafAccepted' => false]);
+                        ['cafAmount' => $capFinanc['amount'] , 'cafAccepted' => false]);
                 }else{
                     CapitalAssetsFinancing::whereIn('cafCaaId' , $insertedAId)
                         ->where('cafRId' , '=' , $request->rId)
