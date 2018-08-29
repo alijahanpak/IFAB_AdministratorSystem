@@ -853,10 +853,10 @@
                                                         <tr  v-for="found in costFound">
                                                             <td>{{found.caLetterNumber}}</td>
                                                             <td>{{found.caLetterDate}}</td>
-                                                            <td>{{$parent.dispMoneyFormat(found.caSumOfCost)}}</td>
                                                             <td>{{$parent.dispMoneyFormat(found.caSumOfReserved)}}</td>
                                                             <td>{{$parent.dispMoneyFormat(found.caSumOfFinancing)}}</td>
                                                             <td>{{$parent.dispMoneyFormat(found.caSumOfCommitment)}}</td>
+                                                            <td>{{$parent.dispMoneyFormat(found.caSumOfCost)}}</td>
                                                             <td>{{found.caDescription}}</td>
                                                             <td><input class="direction-ltr" v-on:keyup="calculationOfCostCredit(null,found,3,found.amount)" style="margin-bottom:0px;" v-show="found.selected == true" type="text" v-model="found.amount" :value="found.amount" /></td>
                                                             <td><input v-on:change="setTextBoxValueCost(null,found,3)" v-model="found.selected" type="checkbox"></td>
@@ -1448,7 +1448,6 @@
                     .then((response) => {
                         this.completeCapitalAssetsAgrement = response.data.caApprovedPlan;
                         this.capitalAssetsFound = response.data.capFound;
-
                         this.addNewFieldInCapitalAssetsCollection();
                         console.log(JSON.stringify(this.completeCapitalAssetsAgrement));
                         console.log(response);
@@ -1475,7 +1474,6 @@
                         });
                     });
                 });
-
                 this.capitalAssetsFound.forEach(found => {
                     Vue.set(found,"selected",false);
                     Vue.set(found,"amount",0);
@@ -1719,6 +1717,7 @@
                 this.capitalAssetsFound = [];
                 this.getCompleteCapitalAssetsApproved ();
                 this.showCapitalAssetsModal=true;
+
             },
 
             /////////////////////// cost financing //////////////////////////////
@@ -2143,7 +2142,6 @@
 
             },
 
-
             reserveCostFinance: function () {
                 var costFinancing= [];
                 this.completeCostAgrement.forEach(cost => {
@@ -2158,11 +2156,21 @@
                         });
                     });
                 });
+
+                this.costFound.forEach(found => {
+                    if(found.selected == true) {
+                        var obj = {};
+                        Vue.set(obj, "aId", found.id);
+                        Vue.set(obj, "amount", found.amount);
+                        costFinancing.push(obj);
+                    }
+                });
                 console.log(JSON.stringify(costFinancing));
                 axios.post('/financial/request/financing/reservation', {
                     rId: this.requestId,
                     costFinancing:costFinancing,
                 }).then((response) => {
+                    alert("111");
                     this.requestCostFinancing = response.data.costFinancing;
                     this.showCostCreditsModal = false;
                     this.$parent.displayNotif(response.status);
