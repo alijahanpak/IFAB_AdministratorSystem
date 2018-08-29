@@ -11,11 +11,6 @@ class CapitalAssetsAllocation extends Model
     protected $fillable = [];
     protected $appends = ['caaSumOfCost' , 'caaConvertedAllocAmount'  , 'caaSumOfReserved' , 'caaSumOfFinancing' , 'caaSumOfCommitment'];
 
-/*    public function cdrCaa()
-    {
-        return $this->hasMany(CdrCaa::class , 'ccCaaId' , 'id');
-    }*/
-
     public function creditSource()
     {
         return $this->belongsTo(CapCreditSource::class , 'caaCcsId' , 'id');

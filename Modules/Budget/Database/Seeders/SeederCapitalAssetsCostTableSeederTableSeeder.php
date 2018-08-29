@@ -18,16 +18,16 @@ class SeederCapitalAssetsCostTableSeederTableSeeder extends Seeder
     {
         Model::unguard();
 
-/*        for ($i = 1;$i <= 40 ;$i++)
+        for ($i = 1;$i <= 40 ;$i++)
         {
             $cost = new CapitalAssetsCost;
             $cost->cacUId = 1;
             $cost->cacSubject = 'سند هزینه شماره ' . $i;
             $cost->cacCaaId = CapitalAssetsAllocation::where('caaFound' , '=' , true)->inRandomOrder()->first()->id;
-            $cost->cacAmount = rand(1000000 , 200000000);
+            $cost->cacAmount = rand(10000 , 200000);
             $cost->cacDescription = 'گربه پالاس (Pallas cat)، پستانداری است که غالبا در مناطق مرکزی آسیا یافت می‌شود.';
             $cost->save();
 
-        }*/
+        }
     }
 }

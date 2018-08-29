@@ -1336,6 +1336,10 @@
                 baseAmount:0,
                 costReservedAmount:0,
                 capReservedAmount:0,
+                lastCostReservedAmount:0,
+                lastCapReservedAmount:0,
+                _financingAmount: 0,
+                _reservedAmount: 0,
                 amountInput:{},
                 /*credits*/
 
@@ -1427,20 +1431,58 @@
                 this.completeCostAgrement.forEach(cost => {
                     Vue.set(cost,"selected",false);
                     Vue.set(cost,"amount",0);
-                    cost.ca_credit_source_has_allocation.forEach(alloc =>{
-                        Vue.set(alloc,"selected",false);
-                        Vue.set(alloc,"amount",0);
-                        alloc.allocation.forEach(item =>{
-                            Vue.set(item,"selected",false);
-                            Vue.set(item,"amount",0);
+                    cost.ca_credit_source_has_allocation.forEach(cs =>{
+                        Vue.set(cs,"selected",false);
+                        Vue.set(cs,"amount",0);
+                        cs.allocation.forEach(alloc =>{
+                            var isExist = false;
+                            var tempAmount = 0;
+                            this.requestCostFinancing.forEach(costFin => {
+                                if (costFin.allocation.id == alloc.id)
+                                {
+                                    isExist = true;
+                                    tempAmount = costFin.cfAmount;
+                                    costFin.stop = true;
+                                }
+                            });
+                            if (isExist)
+                            {
+                                Vue.set(alloc,"selected",true);
+                                Vue.set(alloc,"amount",tempAmount);
+                            }else{
+                                Vue.set(alloc,"selected",false);
+                                Vue.set(alloc,"amount",0);
+                            }
                         });
                     });
                 });
 
-                this.costFound.forEach(found => {
-                    Vue.set(found,"selected",false);
-                    Vue.set(found,"amount",0);
+                this.completeCostAgrement.forEach(ca => {
+                    this.calculationOfCostCreditEdit(ca);
                 });
+
+                this.costFound.forEach(found => {
+                    var isExist = false;
+                    var tempAmount = 0;
+                    this.requestCostFinancing.forEach(costFin => {
+                        if (costFin.allocation.id == found.id)
+                        {
+                            isExist = true;
+                            tempAmount = costFin.cfAmount;
+                            costFin.stop = true;
+                        }
+                    });
+                    if (isExist)
+                    {
+                        Vue.set(found,"selected",true);
+                        Vue.set(found,"amount",tempAmount);
+                    }else{
+                        Vue.set(found,"selected",false);
+                        Vue.set(found,"amount",0);
+                    }
+                });
+
+                this.calculateCostReservedAmount();
             },
 
             getCompleteCapitalAssetsApproved: function () {
@@ -1468,18 +1510,55 @@
                             Vue.set(cs,"selected",false);
                             Vue.set(cs,"amount",0);
                             cs.allocation.forEach(alloc =>{
-                                Vue.set(alloc,"selected",false);
-                                Vue.set(alloc,"amount",0);
-
+                                var isExist = false;
+                                var tempAmount = 0;
+                                this.requestCapFinancing.forEach(capFin => {
+                                    if (capFin.allocation.id == alloc.id)
+                                    {
+                                        isExist = true;
+                                        tempAmount = capFin.cafAmount;
+                                        capFin.stop = true;
+                                    }
+                                });
+                                if (isExist)
+                                {
+                                    Vue.set(alloc,"selected",true);
+                                    Vue.set(alloc,"amount",tempAmount);
+                                }else{
+                                    Vue.set(alloc,"selected",false);
+                                    Vue.set(alloc,"amount",0);
+                                }
                             });
                         });
                     });
                 });
 
-                this.capitalAssetsFound.forEach(found => {
-                    Vue.set(found,"selected",false);
-                    Vue.set(found,"amount",0);
+                this.completeCapitalAssetsAgrement.forEach(ca => {
+                    this.calculationOfCapCreditEdit(ca);
                 });
+
+                this.capitalAssetsFound.forEach(found => {
+                    var isExist = false;
+                    var tempAmount = 0;
+                    this.requestCapFinancing.forEach(capFin => {
+                        if (capFin.allocation.id == found.id)
+                        {
+                            isExist = true;
+                            tempAmount = capFin.cafAmount;
+                            capFin.stop = true;
+                        }
+                    });
+                    if (isExist)
+                    {
+                        Vue.set(found,"selected",true);
+                        Vue.set(found,"amount",tempAmount);
+                    }else{
+                        Vue.set(found,"selected",false);
+                        Vue.set(found,"amount",0);
+                    }
+                });
+
+                this.calculateCapReservedAmount();
             },
 
             fetchRequestFinancing: function (){
@@ -1487,10 +1566,36 @@
                     .then((response) => {
                         this.requestCostFinancing = response.data.costFinancing;
                         this.requestCapFinancing = response.data.capFinancing;
+                        this.getFinancingAmount();
                         console.log(response);
                     }, (error) => {
                         console.log(error);
                     });
+            },
+
+            getFinancingAmount: function(){
+                this._financingAmount = 0;
+                this._financingAmount = 0;
+                this.lastCostReservedAmount = 0;
+                this.lastCapReservedAmount = 0;
+
+                this.requestCapFinancing.forEach(item => {
+                    if (item.cafAccepted == 1)
+                        this._financingAmount += parseInt(item.cafAmount , 10);
+                    else
+                        this._reservedAmount += parseInt(item.cafAmount , 10);
+
+                    this.lastCapReservedAmount += parseInt(item.cafAmount , 10);
+                });
+
+                this.requestCostFinancing.forEach(item => {
+                    if (item.cfAccepted == 1)
+                        this._financingAmount += parseInt(item.cfAmount , 10);
+                    else
+                        this._reservedAmount += parseInt(item.cfAmount , 10);
+
+                    this.lastCostReservedAmount += parseInt(item.cfAmount , 10);
+                });
             },
 
             getRequestDetail: function (request) {
@@ -1703,6 +1808,8 @@
             openCostCreditsModal:function () {
                 this.completeCostAgrement= [];
                 this.costFound = [];
+                this.costReservedAmount = 0;
+                this.getFinancingAmount();
                 this.getCompleteCostAgrement();
                 this.showCostCreditsModal=true;
                 this.reservedAmount=0;
@@ -1717,6 +1824,8 @@
             openCapitalAssetsModal:function () {
                 this.completeCapitalAssetsAgrement = [];
                 this.capitalAssetsFound = [];
+                this.capReservedAmount = 0;
+                this.getFinancingAmount();
                 this.getCompleteCapitalAssetsApproved ();
                 this.showCapitalAssetsModal=true;
             },
@@ -1726,7 +1835,6 @@
                 var aCount=0;
                 var piceOfAmount=0;
                 var piceOfDivRemAmount=0;
-
                 if (!isNaN(value))
                 {
                     if(type == 0){ //plan level
@@ -1846,7 +1954,7 @@
             setTextBoxValueCost: function (rootData,data,type) {
                 if (data.selected == true)
                 {
-                    this.calculationOfCostCredit(rootData,data,type,(this.baseAmount - (this.costReservedAmount + this.capReservedAmount)));
+                    this.calculationOfCostCredit(rootData,data,type,(this.baseAmount - this.costReservedAmount));
                 }else{
                     if (type == 0)
                     {
@@ -1891,7 +1999,7 @@
                 var aCount=0;
                 var piceOfAmount=0;
                 var piceOfDivRemAmount=0;
-
+                alert(value);
                 if (!isNaN(value))
                 {
                     if(type == 0){ //plan level
@@ -2011,7 +2119,7 @@
             },
 
             calculateCostReservedAmount: function(){
-                this.costReservedAmount = 0;
+                this.costReservedAmount = this.lastCapReservedAmount; // sum with last cap
                 this.completeCostAgrement.forEach(plan => {
                     plan.ca_credit_source_has_allocation.forEach(cs => {
                         cs.allocation.forEach( alloc =>{
@@ -2026,17 +2134,17 @@
             },
 
             calculateCapReservedAmount: function(){
-                this.capReservedAmount = 0;
+                this.capReservedAmount = this.lastCostReservedAmount; // sum with last cost
                 this.completeCapitalAssetsAgrement.forEach(plan => {
                     plan.capital_assets_project_has_credit_source.forEach(project => {
                         project.credit_source_has_allocation.forEach(cs => {
                             cs.allocation.forEach( alloc =>{
                                 this.capReservedAmount += parseInt(alloc.amount , 10);
-
                             });
                         });
                     });
                 });
+
 
                 this.capitalAssetsFound.forEach(found => {
                     this.capReservedAmount += parseInt(found.amount , 10);
@@ -2086,7 +2194,7 @@
             setTextBoxValueCap: function (rootData,data,type) {
                 if (data.selected == true)
                 {
-                    this.calculationOfCapCredit(rootData,data,type,(this.baseAmount - (this.costReservedAmount + this.capReservedAmount)));
+                    this.calculationOfCapCredit(rootData,data,type,(this.baseAmount - this.capReservedAmount));
                 }else{
                     if (type == 0)
                     {
@@ -2142,7 +2250,6 @@
                 }
 
             },
-
 
             reserveCostFinance: function () {
                 var costFinancing= [];

@@ -64,7 +64,7 @@ class FinanceController extends Controller
             {
                 $costAllocInfo = CostAllocation::where('id' , '=' , $costFinanc['aId'])->first();
                 $remainigAmount = $costAllocInfo['caAmount'] - ($costAllocInfo['caSumOfCost'] + $costAllocInfo['caSumOfReserved'] + $costAllocInfo['caSumOfFinancing']);
-                if (($remainigAmount - $costFinanc['amount']) > 0)
+                if (($remainigAmount - $costFinanc['amount']) >= 0)
                 {
                     CostFinancing::updateOrCreate(['cfCaId' => $costFinanc['aId'] , 'cfRId' => $request->rId],
                         ['cfAmount' => $costFinanc['amount'] , 'cfAccepted' => false]);
@@ -92,7 +92,7 @@ class FinanceController extends Controller
             {
                 $capAllocInfo = CapitalAssetsAllocation::where('id' , '=' , $capFinanc['aId'])->first();
                 $remainigAmount = $capAllocInfo['caaAmount'] - ($capAllocInfo['caaSumOfCost'] + $capAllocInfo['caaSumOfReserved'] + $capAllocInfo['caaSumOfFinancing']);
-                if (($remainigAmount - $capFinanc['amount']) > 0)
+                if (($remainigAmount - $capFinanc['amount']) >= 0)
                 {
                     CapitalAssetsFinancing::updateOrCreate(['cafCaaId' => $capFinanc['aId'] , 'cafRId' => $request->rId],
                         ['cafAmount' => $capFinanc['amount'] , 'cafAccepted' => false]);
