@@ -151,7 +151,10 @@ class RequestController extends Controller
             ->with('requestState')
             ->with('requestType')
             ->with('verifiers.user.role.officeUnit')
-            ->with('requestCommodity.commodity')
+            ->with(['requestCommodity' => function($q){
+                return $q->where('rcIsExist' , '=' , 0)
+                    ->with('commodity');
+            }])
             ->with('history.sourceUserInfo.role')
             ->with('history.destinationUserInfo.role')
             ->with('history.requestState')
