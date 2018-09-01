@@ -63,7 +63,11 @@ class FinanceController extends Controller
             foreach ($request->costFinancing as $costFinanc)
             {
                 $costAllocInfo = CostAllocation::where('id' , '=' , $costFinanc['aId'])->first();
-                $remainigAmount = $costAllocInfo['caAmount'] - ($costAllocInfo['caSumOfCost'] + $costAllocInfo['caSumOfReserved'] + $costAllocInfo['caSumOfFinancing']);
+                $lastReserve = CostFinancing::where('cfCaId' , '=' , $costFinanc['aId'])
+                    ->where('cfRId' ,'=', $request->rId)
+                    ->value('cfAmount');
+
+                $remainigAmount = $costAllocInfo['caAmount'] - ($costAllocInfo['caSumOfCost'] + (($costAllocInfo['caSumOfReserved'] + $costAllocInfo['caSumOfFinancing']) - $lastReserve));
                 if (($remainigAmount - $costFinanc['amount']) >= 0)
                 {
                     CostFinancing::updateOrCreate(['cfCaId' => $costFinanc['aId'] , 'cfRId' => $request->rId],
@@ -91,7 +95,10 @@ class FinanceController extends Controller
             foreach ($request->capFinancing as $capFinanc)
             {
                 $capAllocInfo = CapitalAssetsAllocation::where('id' , '=' , $capFinanc['aId'])->first();
-                $remainigAmount = $capAllocInfo['caaAmount'] - ($capAllocInfo['caaSumOfCost'] + $capAllocInfo['caaSumOfReserved'] + $capAllocInfo['caaSumOfFinancing']);
+                $lastReserve = CapitalAssetsFinancing::where('cafCaaId' , '=' , $capFinanc['aId'])
+                    ->where('cafRId' ,'=', $request->rId)
+                    ->value('cafAmount');
+                $remainigAmount = $capAllocInfo['caaAmount'] - ($capAllocInfo['caaSumOfCost'] + (($capAllocInfo['caaSumOfReserved'] + $capAllocInfo['caaSumOfFinancing']) - $lastReserve));
                 if (($remainigAmount - $capFinanc['amount']) >= 0)
                 {
                     CapitalAssetsFinancing::updateOrCreate(['cafCaaId' => $capFinanc['aId'] , 'cafRId' => $request->rId],
@@ -113,6 +120,16 @@ class FinanceController extends Controller
         }
 
         return \response()->json($this->getAllFinancing($request->rId));
+    }
+
+    public function deleteCostFinancing(Request $request)
+    {
+
+    }
+
+    public function deleteCapFinancing(Request $request)
+    {
+
     }
 
     public function acceptFinancing(Request $request)

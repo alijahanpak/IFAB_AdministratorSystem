@@ -508,8 +508,8 @@ var app = new Vue({
 
         displayNotif: function (httpStatusCode) {
             switch (httpStatusCode){
-                case 420:
-                    this.$notify({title: 'پیام سیستم', text: 'با توجه به تغییرات مبالغ اعتبارات، لطفا مجدد نسبت به تامین اعتبار اقدام کنید.' , type: 'error'});
+                case 1:
+                    this.$notify({title: 'پیام سیستم', text: 'مبلغ باقی مانده صفر است!' , type: 'error'});
                     this.$refs.errorAlarm.play();
                     break;
                 case 10:
@@ -530,6 +530,10 @@ var app = new Vue({
                     break;
                 case 401:
                     this.$notify({title: 'پیام سیستم', text: 'نام کاربر یا کلمه عبور اشتباه است!' , type: 'error'});
+                    this.$refs.errorAlarm.play();
+                    break;
+                case 420:
+                    this.$notify({title: 'پیام سیستم', text: 'با توجه به تغییرات مبالغ اعتبارات، لطفا مجدد نسبت به تامین اعتبار اقدام کنید.' , type: 'error'});
                     this.$refs.errorAlarm.play();
                     break;
                 case 800: //doesn`t select records

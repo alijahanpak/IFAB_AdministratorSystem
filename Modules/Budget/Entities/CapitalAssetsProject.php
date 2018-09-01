@@ -33,21 +33,21 @@ class CapitalAssetsProject extends Model
 
     public function getCpSumOfCostAttribute()
     {
-        return $this->creditSource()->get()->sum('cpSumOfCost');
+        return $this->creditSource()->get()->sum('ccsSumOfCost');
     }
 
     public function getCpSumOfReservedAttribute()
     {
-        return $this->creditSource()->get()->sum('cpSumOfReserved');
+        return $this->creditSource()->get()->sum('ccsSumOfReserved');
     }
 
     public function getCpSumOfFinancingAttribute()
     {
-        return $this->creditSource()->get()->sum('cpSumOfFinancing');
+        return $this->creditSource()->get()->sum('ccsSumOfFinancing');
     }
 
     public function getCpSumOfCommitmentAttribute()
     {
-        return $this->creditSource()->get()->sum('cpSumOfCommitment');
+        return $this->creditSource()->get()->sum('ccsSumOfCommitment');
     }
 }
