@@ -604,6 +604,9 @@
             openSubmissionsModal: function (st) {
                 this.submitBtnState=true;
                 this.requestInput={};
+                this.commodityList=[];
+                this.commodityRequest=[];
+                this.isRequireChangeState=false;
                 this.requestTypeSend=st.rtType;
                 this.requestTypeId=st.id;
                 this.recipientUsersTemp=[];
@@ -616,7 +619,6 @@
             },
 
             addCommodityItem: function () {
-
                 this.commodityItem.commodityName=this.commodityQuery;
                 this.commodityRequest.push(this.commodityItem);
                 console.log(JSON.stringify(this.commodityRequest));

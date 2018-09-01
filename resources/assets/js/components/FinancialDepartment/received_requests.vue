@@ -415,8 +415,9 @@
                                         </div>
                                         <div style="padding: 0 17px 0 17px;" class="large-12 medium-12 small-12 small-top-m">
                                             <div style="margin-bottom:-10px;margin-top: 5px" class="stacked-for-small button-group float-left">
-                                                <button @click="openCapitalAssetsModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">  اعتبارات تملک دارایی های سرمایه ای</span></button>
-                                                <button @click="openCostCreditsModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">  اعتبارات هزینه ای</span></button>
+                                                <button @click="openCapitalAssetsModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">ثبت نهایی</span></button>
+                                                <button @click="openCapitalAssetsModal()" class="my-button toolbox-btn float-left"><span class="btn-txt-mrg">  اعتبارات تملک دارایی های سرمایه ای</span></button>
+                                                <button @click="openCostCreditsModal()" class="my-button toolbox-btn float-left"><span class="btn-txt-mrg">  اعتبارات هزینه ای</span></button>
                                             </div>
                                         </div>
                                     </div>
@@ -703,7 +704,7 @@
                                                         <td>{{$parent.dispMoneyFormat(plan.caSumOfCommitment)}}</td>
                                                         <td>{{plan.caDescription}}</td>
                                                         <td>
-                                                            <input class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, plan, 0, plan.amount)" style="margin-bottom:0px;" v-show="plan.selected == true" type="text"  v-model="plan.amount" :name="plan.id" :value="plan.amount"  v-validate="'numeric','min_value:0','max_value:'+ getRemainingAmount()" :class="{'input': true, 'error-border': errors.has(plan.id)}" />
+                                                            <input class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, plan, 0, plan.amount)" style="margin-bottom:0px;" v-show="plan.selected == true" type="text"  v-model="plan.amount" :name="plan.id" :value="plan.amount"  v-validate="'numeric','min_value:0','max_value:'+ getRemainingCostAmount(plan , 1)" :class="{'input': true, 'error-border': errors.has(plan.id)}" />
                                                             <span v-show="errors.has(plan.id)" class="error-font"></span>
                                                         </td>
                                                         <td><input v-on:change="setTextBoxValueCost(plan,plan,0)" v-model="plan.selected" type="checkbox"></td>
@@ -771,7 +772,7 @@
                                                             <td>{{ $parent.dispMoneyFormat(creditSource.ccsAmount) }}</td>
                                                             <td>{{ creditSource.caDescription}}</td>
                                                             <td>
-                                                                <input class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, creditSource, 1, creditSource.amount)" style="margin-bottom:0px;" v-show="creditSource.selected == true" type="text" v-model="creditSource.amount"  :value="creditSource.amount" :name="creditSource.id" v-validate="'numeric'" :class="{'input': true, 'error-border': errors.has(creditSource.id)}" />
+                                                                <input class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, creditSource, 1, creditSource.amount)" style="margin-bottom:0px;" v-show="creditSource.selected == true" type="text" v-model="creditSource.amount"  :value="creditSource.amount" :name="creditSource.id" v-validate="'numeric','min_value:0','max_value:'+ getRemainingCostAmount(creditSource , 2)" :class="{'input': true, 'error-border': errors.has(creditSource.id)}" />
                                                                 <span v-show="errors.has(creditSource.id)" class="error-font"></span>
                                                             </td>
                                                             <td><input v-on:change="setTextBoxValueCost(plan,creditSource,1)" v-model="creditSource.selected" type="checkbox"></td>
@@ -844,7 +845,10 @@
                                                                 <td>{{$parent.dispMoneyFormat(allocation.caSumOfFinancing)}}</td>
                                                                 <td>{{$parent.dispMoneyFormat(allocation.caSumOfCommitment)}}</td>
                                                                 <td>{{allocation.caDescription}}</td>
-                                                                <td><input class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan,allocation,2,allocation.amount)" style="margin-bottom:0px;" v-show="allocation.selected == true" type="text" v-model="allocation.amount" :value="allocation.amount" /></td>
+                                                                <td>
+                                                                    <input class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan,allocation,2,allocation.amount)" style="margin-bottom:0px;" v-show="allocation.selected == true" type="text" v-model="allocation.amount" :value="allocation.amount" :name="allocation.id" v-validate="'numeric','min_value:0','max_value:'+ getRemainingCostAmount(allocation , 3)" :class="{'input': true, 'error-border': errors.has(allocation.id)}"/>
+                                                                    <span v-show="errors.has(allocation.id)" class="error-font"></span>
+                                                                </td>
                                                                 <td><input v-on:change="setTextBoxValueCost(plan,allocation,2)" v-model="allocation.selected" type="checkbox"></td>
                                                             </tr>
                                                         </template>
@@ -915,7 +919,10 @@
                                                             <td>{{$parent.dispMoneyFormat(found.caSumOfCommitment)}}</td>
                                                             <td>{{$parent.dispMoneyFormat(found.caSumOfCost)}}</td>
                                                             <td>{{found.caDescription}}</td>
-                                                            <td><input class="direction-ltr" v-on:keyup="calculationOfCostCredit(null,found,3,found.amount)" style="margin-bottom:0px;" v-show="found.selected == true" type="text" v-model="found.amount" :value="found.amount" /></td>
+                                                            <td>
+                                                                <input class="direction-ltr" v-on:keyup="calculationOfCostCredit(null,found,3,found.amount)" style="margin-bottom:0px;" v-show="found.selected == true" type="text" v-model="found.amount" :value="found.amount" :name="found.id" v-validate="'numeric','min_value:0','max_value:'+ getRemainingCostAmount(found , 3)" :class="{'input': true, 'error-border': errors.has(found.id)}" />
+                                                                <span v-show="errors.has(found.id)" class="error-font"></span>
+                                                            </td>
                                                             <td><input v-on:change="setTextBoxValueCost(null,found,3)" v-model="found.selected" type="checkbox"></td>
                                                         </tr>
                                                     </tbody>
@@ -1437,6 +1444,7 @@
 
                 requestCostFinancing:[],
                 requestCapFinancing:[],
+                maxInputValue:0,
             }
         },
 
@@ -2416,8 +2424,26 @@
                 });
             },
 
-            getRemainingAmount: function () {
-                return 100;
+            getRemainingCostAmount: function (data, type) {
+                var remainingAmount= 0;
+                if (type == 1)
+                {
+                    data.ca_credit_source_has_allocation.forEach(alloc =>{
+                        alloc.allocation.forEach(item =>{
+                            remainingAmount += item.caAmount - (item.caSumOfCost + item.caSumOfReserved + item.caSumOfFinancing + item.caSumOfCommitment);
+                        });
+                    });
+                }else if(type == 2)
+                {
+                    data.allocation.forEach(item =>{
+                        remainingAmount += item.caAmount - (item.caSumOfCost + item.caSumOfReserved + item.caSumOfFinancing + item.caSumOfCommitment);
+                    });
+                }else if(type == 3){
+                    remainingAmount = data.caAmount - (data.caSumOfCost + data.caSumOfReserved + data.caSumOfFinancing + data.caSumOfCommitment);
+                }
+
+                var temp = (this.baseAmount - (this.lastCapReservedAmount + this.lastCostReservedAmount));
+                return  (remainingAmount < temp ? remainingAmount : temp);
             },
         }
     }
