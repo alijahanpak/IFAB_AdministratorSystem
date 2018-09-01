@@ -2099,6 +2099,9 @@ input[type="search"]:valid + label {
 .icon-padding-btm{
     padding-bottom: 0px;
 }
+.p-margin-btm{
+    margin-bottom: 0px;
+}
 
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
     display: block;

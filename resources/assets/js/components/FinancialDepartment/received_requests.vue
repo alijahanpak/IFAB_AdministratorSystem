@@ -249,6 +249,11 @@
                                                 <li class="tabs-title"><a href="#creditCostTab">هزینه ای </a></li>
                                             </ul>
                                             <div class="tabs-content" data-tabs-content="credit_tab_view">
+                                                <div class="grid-x">
+                                                    <div style="margin-top: 10px;" class="large-12 medium-12 small-12 direction-ltr">
+                                                        <span class="cost-label">مبالغ : ریال</span>
+                                                    </div>
+                                                </div>
                                                 <!--Tab 1-->
                                                 <div class="tabs-panel is-active table-mrg-btm" id="creditCapitalAssetsTab">
                                                     <div class="grid-x">
@@ -260,9 +265,10 @@
                                                                     <col width="200px"/>
                                                                     <col width="120px"/>
                                                                     <col width="250px"/>
-                                                                    <col width="350px"/>
+                                                                    <col width="320px"/>
                                                                     <col width="150px"/>
-                                                                    <col width="100px"/>
+                                                                    <col width="120px"/>
+                                                                    <col width="60px"/>
                                                                     <col width="12px"/>
                                                                 </colgroup>
                                                                 <tbody class="tbl-head-style ">
@@ -273,6 +279,7 @@
                                                                     <th class="tbl-head-style-cell">شرح</th>
                                                                     <th class="tbl-head-style-cell">مبلغ رزرو شده</th>
                                                                     <th class="tbl-head-style-cell">وضعیت</th>
+                                                                    <th class="tbl-head-style-cell">عملیات</th>
                                                                     <th class="tbl-head-style-cell"></th>
                                                                 </tr>
                                                                 </tbody>
@@ -285,26 +292,45 @@
                                                                         <col width="200px"/>
                                                                         <col width="120px"/>
                                                                         <col width="250px"/>
-                                                                        <col width="350px"/>
+                                                                        <col width="320px"/>
                                                                         <col width="150px"/>
-                                                                        <col width="100px"/>
+                                                                        <col width="120px"/>
+                                                                        <col width="60px"/>
                                                                     </colgroup>
                                                                     <tbody class="tbl-head-style-cell">
                                                                     <tr v-for="capFinancing in requestCapFinancing">
-                                                                        <td>{{capFinancing.allocation.credit_source.capital_assets_project.capital_assets_approved_plan.credit_distribution_title.cdtSubject}}</td>
-                                                                        <td>{{capFinancing.allocation.credit_source.capital_assets_project.cpCode}}</td>
-                                                                        <td>{{capFinancing.allocation.credit_source.capital_assets_project.cpSubject}}</td>
-                                                                        <td>{{capFinancing.allocation.credit_source.capital_assets_project.cpDescription}}</td>
-                                                                        <td>{{$parent.dispMoneyFormat(capFinancing.cafAmount)}}</td>
+                                                                        <td v-if="capFinancing.allocation.credit_source != null">{{capFinancing.allocation.credit_source.capital_assets_project.capital_assets_approved_plan.credit_distribution_title.cdtSubject}}</td>
+                                                                        <td v-if="capFinancing.allocation.credit_source != null">{{capFinancing.allocation.credit_source.capital_assets_project.cpCode}}</td>
+                                                                        <td v-if="capFinancing.allocation.credit_source != null">{{capFinancing.allocation.credit_source.capital_assets_project.cpSubject}}</td>
+                                                                        <td v-if="capFinancing.allocation.credit_source != null">{{capFinancing.allocation.credit_source.capital_assets_project.cpDescription}}</td>
+                                                                        <template v-if="capFinancing.allocation.credit_source == null">
+                                                                            <td colspan="4" class="text-center"><span class="user-verifier-label">تنخواه</span></td>
+                                                                        </template>
+                                                                        <td class="text-center">{{$parent.dispMoneyFormat(capFinancing.cafAmount)}}</td>
                                                                         <td v-show="capFinancing.cafAccepted == 1"><span class="success-label">تایید شده</span></td>
                                                                         <td v-show="capFinancing.cafAccepted == 0"><span class="reserved-label">رزرو شده</span></td>
-
+                                                                        <td class="text-center"><i class="far fa-trash-alt size-21 btn-red"></i></td>
                                                                     </tr>
                                                                     </tbody>
                                                                 </table>
                                                             </div>
                                                         </div>
                                                         <!--Table Body End-->
+                                                    </div>
+                                                    <div class="grid-x">
+                                                        <div style="background-color:#F1F1F1;padding: 10px;margin-top: -12px;border: solid 1.5px #D8DEE2;" class="large-12 medium-12 small-12">
+                                                            <div class="grid-x">
+                                                                <div class="large-4 medium-4 small-12">
+                                                                    <p class="p-margin-btm"> مبلغ برآورد : <span class="btn-red"> {{$parent.dispMoneyFormat(baseAmount)}} </span></p>
+                                                                </div>
+                                                                <div class="large-4 medium-4 small-12">
+                                                                    <p class="p-margin-btm"> مبلغ رزرو شده : <span class="btn-red"> 0 </span></p>
+                                                                </div>
+                                                                <div class="large-4 medium-4 small-12">
+                                                                    <p class="p-margin-btm"> مبلغ تامین اعتبار شده : <span class="btn-red"> {{$parent.dispMoneyFormat(capReservedAmount)}} </span></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <!--Tab 1-->
@@ -322,6 +348,7 @@
                                                                     <col width="350px"/>
                                                                     <col width="150px"/>
                                                                     <col width="100px"/>
+                                                                    <col width="60px"/>
                                                                     <col width="12px"/>
                                                                 </colgroup>
                                                                 <tbody class="tbl-head-style ">
@@ -331,6 +358,7 @@
                                                                     <th class="tbl-head-style-cell">شرح</th>
                                                                     <th class="tbl-head-style-cell">مبلغ رزرو شده</th>
                                                                     <th class="tbl-head-style-cell">وضعیت</th>
+                                                                    <th class="tbl-head-style-cell">عملیات</th>
                                                                     <th class="tbl-head-style-cell"></th>
                                                                 </tr>
                                                                 </tbody>
@@ -345,16 +373,20 @@
                                                                         <col width="350px"/>
                                                                         <col width="150px"/>
                                                                         <col width="100px"/>
+                                                                        <col width="60px"/>
                                                                     </colgroup>
                                                                     <tbody class="tbl-head-style-cell">
                                                                     <tr v-for="costFinancing in requestCostFinancing">
-                                                                        <td>{{costFinancing.allocation.credit_source.credit_distribution_title.cdtIdNumber}}</td>
-                                                                        <td>{{costFinancing.allocation.credit_source.cost_agreement.caLetterNumber}}</td>
-                                                                        <td>{{costFinancing.allocation.credit_source.cost_agreement.caDescription}}</td>
-                                                                        <td>{{$parent.dispMoneyFormat(costFinancing.cfAmount)}}</td>
-                                                                        <td v-show="costFinancing.cfAccepted	 == 1"><span class="success-label">تایید شده</span></td>
-                                                                        <td v-show="costFinancing.cfAccepted	 == 0"><span class="reserved-label">رزرو شده</span></td>
-
+                                                                        <td v-if="costFinancing.allocation.credit_source != null">{{costFinancing.allocation.credit_source.credit_distribution_title.cdtIdNumber}}</td>
+                                                                        <td v-if="costFinancing.allocation.credit_source != null">{{costFinancing.allocation.credit_source.cost_agreement.caLetterNumber}}</td>
+                                                                        <td v-if="costFinancing.allocation.credit_source != null">{{costFinancing.allocation.credit_source.cost_agreement.caDescription}}</td>
+                                                                        <template v-if="costFinancing.allocation.credit_source == null">
+                                                                           <td colspan="3" class="text-center"><span class="user-verifier-label">تنخواه</span></td>
+                                                                        </template>
+                                                                        <td class="text-center">{{$parent.dispMoneyFormat(costFinancing.cfAmount)}}</td>
+                                                                        <td v-show="costFinancing.cfAccepted == 1"><span class="success-label">تایید شده</span></td>
+                                                                        <td v-show="costFinancing.cfAccepted == 0"><span class="reserved-label">رزرو شده</span></td>
+                                                                        <td class="text-center"><i class="far fa-trash-alt size-21 btn-red"></i></td>
                                                                     </tr>
                                                                     </tbody>
                                                                 </table>
@@ -362,12 +394,27 @@
                                                         </div>
                                                         <!--Table Body End-->
                                                     </div>
+                                                    <div class="grid-x">
+                                                        <div style="background-color:#F1F1F1;padding: 10px;margin-top: -12px;border: solid 1.5px #D8DEE2;" class="large-12 medium-12 small-12">
+                                                            <div class="grid-x">
+                                                                <div class="large-4 medium-4 small-12">
+                                                                    <p class="p-margin-btm"> مبلغ برآورد : <span class="btn-red"> {{$parent.dispMoneyFormat(baseAmount)}} </span></p>
+                                                                </div>
+                                                                <div class="large-4 medium-4 small-12">
+                                                                    <p class="p-margin-btm"> مبلغ رزرو شده : <span class="btn-red"> 0 </span></p>
+                                                                </div>
+                                                                <div class="large-4 medium-4 small-12">
+                                                                    <p class="p-margin-btm"> مبلغ تامین اعتبار شده : <span class="btn-red"> 0 </span></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <!--Tab 2-->
                                             </div>
                                         </div>
-                                        <div class="large-12 medium-12 small-12 small-top-m padding-lr">
-                                            <div style="margin-bottom:-10px;" class="stacked-for-small button-group float-left">
+                                        <div style="padding: 0 17px 0 17px;" class="large-12 medium-12 small-12 small-top-m">
+                                            <div style="margin-bottom:-10px;margin-top: 5px" class="stacked-for-small button-group float-left">
                                                 <button @click="openCapitalAssetsModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">  اعتبارات تملک دارایی های سرمایه ای</span></button>
                                                 <button @click="openCostCreditsModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">  اعتبارات هزینه ای</span></button>
                                             </div>
@@ -593,6 +640,11 @@
                                 <li class="tabs-title"><a href="#fundTab">تنخواه </a></li>
                             </ul>
                             <div class="tabs-content" data-tabs-content="cost_credit_tab_view">
+                                <div class="grid-x">
+                                    <div style="margin-top: 10px;" class="large-12 medium-12 small-12 direction-ltr">
+                                        <span class="cost-label">مبالغ : ریال</span>
+                                    </div>
+                                </div>
                                 <!--Tab 1-->
                                 <div class="tabs-panel is-active table-mrg-btm" id="programTab">
                                     <div class="grid-x">
@@ -650,9 +702,11 @@
                                                         <td>{{$parent.dispMoneyFormat(plan.caSumOfFinancing)}}</td>
                                                         <td>{{$parent.dispMoneyFormat(plan.caSumOfCommitment)}}</td>
                                                         <td>{{plan.caDescription}}</td>
-                                                        <td><input class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, plan, 0, plan.amount)" style="margin-bottom:0px;" v-show="plan.selected == true" type="text"  v-model="plan.amount" :value="plan.amount" /></td>
+                                                        <td>
+                                                            <input class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, plan, 0, plan.amount)" style="margin-bottom:0px;" v-show="plan.selected == true" type="text"  v-model="plan.amount" :name="plan.id" :value="plan.amount"  v-validate="'numeric','min_value:0','max_value:'+ getRemainingAmount()" :class="{'input': true, 'error-border': errors.has(plan.id)}" />
+                                                            <span v-show="errors.has(plan.id)" class="error-font"></span>
+                                                        </td>
                                                         <td><input v-on:change="setTextBoxValueCost(plan,plan,0)" v-model="plan.selected" type="checkbox"></td>
-
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -716,7 +770,10 @@
                                                             <td>{{ $parent.dispMoneyFormat(creditSource.ccsSumOfCommitment) }}</td>
                                                             <td>{{ $parent.dispMoneyFormat(creditSource.ccsAmount) }}</td>
                                                             <td>{{ creditSource.caDescription}}</td>
-                                                            <td><input class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, creditSource, 1, creditSource.amount)" style="margin-bottom:0px;" v-show="creditSource.selected == true" type="text" v-model="creditSource.amount"  :value="creditSource.amount" /></td>
+                                                            <td>
+                                                                <input class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, creditSource, 1, creditSource.amount)" style="margin-bottom:0px;" v-show="creditSource.selected == true" type="text" v-model="creditSource.amount"  :value="creditSource.amount" :name="creditSource.id" v-validate="'numeric'" :class="{'input': true, 'error-border': errors.has(creditSource.id)}" />
+                                                                <span v-show="errors.has(creditSource.id)" class="error-font"></span>
+                                                            </td>
                                                             <td><input v-on:change="setTextBoxValueCost(plan,creditSource,1)" v-model="creditSource.selected" type="checkbox"></td>
                                                         </tr>
                                                     </template>
@@ -873,14 +930,26 @@
                             </div>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr small-top-m">
-                            <p> مبلغ برآورد : <span class="btn-red"> {{$parent.dispMoneyFormat(baseAmount)}} </span></p>
-                        </div>
-                        <div class="large-12 medium-12 small-12 padding-lr">
-                            <p> مبلغ تامین اعتبار : <span class="btn-red"> {{$parent.dispMoneyFormat(costReservedAmount)}} </span></p>
-                        </div>
-                        <div class="large-12 medium-12 small-12 padding-lr">
-                            <div class="stacked-for-small button-group float-left">
-                                <button @click="reserveCostFinance()" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                            <div class="grid-x">
+                                <div class="large-6 medium-6 small-12">
+                                    <div class="grid-x">
+                                        <div class="large-12 medium-12 small-12">
+                                            <p> مبلغ برآورد : <span class="btn-red"> {{$parent.dispMoneyFormat(baseAmount)}} </span></p>
+                                        </div>
+                                        <div class="large-12 medium-12 small-12">
+                                            <p> مبلغ تامین اعتبار : <span class="btn-red"> {{$parent.dispMoneyFormat(costReservedAmount)}} </span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="large-6 medium-6 small-12">
+                                    <div class="grid-x">
+                                        <div class="large-12 medium-12 small-12">
+                                            <div class="stacked-for-small button-group float-left">
+                                                <button @click="reserveCostFinance()" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -903,6 +972,11 @@
                                 <li class="tabs-title"><a href="#caFundTab">تنخواه </a></li>
                             </ul>
                             <div class="tabs-content" data-tabs-content="capital_assets_tab_view">
+                                <div class="grid-x">
+                                    <div style="margin-top: 10px;" class="large-12 medium-12 small-12 direction-ltr">
+                                        <span class="cost-label">مبالغ : ریال</span>
+                                    </div>
+                                </div>
                                 <!--Tab 1-->
                                 <div class="tabs-panel is-active table-mrg-btm" id="caPlaneTab">
                                     <div class="grid-x">
@@ -1260,14 +1334,26 @@
                             </div>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr small-top-m">
-                            <p> مبلغ برآورد : <span class="btn-red"> {{$parent.dispMoneyFormat(baseAmount)}} </span></p>
-                        </div>
-                        <div class="large-12 medium-12 small-12 padding-lr">
-                            <p> مبلغ تامین اعتبار : <span class="btn-red"> {{$parent.dispMoneyFormat(capReservedAmount)}} </span></p>
-                        </div>
-                        <div class="large-12 medium-12 small-12 padding-lr">
-                            <div class="stacked-for-small button-group float-left">
-                                <button @click="reserveCapitalAssetsFinance()" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                            <div class="grid-x">
+                                <div class="large-6 medium-6 small-12">
+                                    <div class="grid-x">
+                                        <div class="large-12 medium-12 small-12">
+                                            <p> مبلغ برآورد : <span class="btn-red"> {{$parent.dispMoneyFormat(baseAmount)}} </span></p>
+                                        </div>
+                                        <div class="large-12 medium-12 small-12">
+                                            <p> مبلغ تامین اعتبار : <span class="btn-red"> {{$parent.dispMoneyFormat(capReservedAmount)}} </span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="large-6 medium-6 small-12">
+                                    <div class="grid-x">
+                                        <div class="large-12 medium-12 small-12">
+                                            <div class="stacked-for-small button-group float-left">
+                                                <button @click="reserveCapitalAssetsFinance()" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1566,6 +1652,7 @@
                         this.requestCostFinancing = response.data.costFinancing;
                         this.requestCapFinancing = response.data.capFinancing;
                         this.getFinancingAmount();
+                        console.log(this.requestCostFinancing);
                         console.log(response);
                     }, (error) => {
                         console.log(error);
@@ -1619,6 +1706,7 @@
                 this.requestCostFinancing=[];
                 this.requestCapFinancing=[];
                 this.fetchRequestFinancing();
+
 
                 requestHistory.forEach(users => {
                     users.history.forEach(userHistory => {
@@ -1817,7 +1905,7 @@
             myResizeModal: function() {
                 var x = $.w.outerHeight();
                 $('.dynamic-height-level-modal1').css('height', (x-320) + 'px');
-                $('.dynamic-height-level-modal2').css('height', (x-420) + 'px');
+                $('.dynamic-height-level-modal2').css('height', (x-460) + 'px');
             },
 
             openCapitalAssetsModal:function () {
@@ -1999,7 +2087,6 @@
                 var aCount=0;
                 var piceOfAmount=0;
                 var piceOfDivRemAmount=0;
-                alert(value);
                 if (!isNaN(value))
                 {
                     if(type == 0){ //plan level
@@ -2279,7 +2366,6 @@
                     rId: this.requestId,
                     costFinancing:costFinancing,
                 }).then((response) => {
-                    alert("111");
                     this.requestCostFinancing = response.data.costFinancing;
                     this.showCostCreditsModal = false;
                     this.$parent.displayNotif(response.status);
@@ -2307,6 +2393,14 @@
                         });
                     });
                 });
+                this.capitalAssetsFound.forEach(found => {
+                    if(found.selected == true) {
+                        var obj = {};
+                        Vue.set(obj, "aId", found.id);
+                        Vue.set(obj, "amount", found.amount);
+                        capitalAssetsFinancing.push(obj);
+                    }
+                });
                 console.log(JSON.stringify(capitalAssetsFinancing));
                 axios.post('/financial/request/financing/reservation', {
                     rId: this.requestId,
@@ -2320,6 +2414,10 @@
                     console.log(error);
                     this.$parent.displayNotif(error.response.status);
                 });
+            },
+
+            getRemainingAmount: function () {
+                return 100;
             },
         }
     }
