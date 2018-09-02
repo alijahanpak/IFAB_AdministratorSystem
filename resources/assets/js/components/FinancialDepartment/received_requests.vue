@@ -415,9 +415,9 @@
                                         </div>
                                         <div style="padding: 0 17px 0 17px;" class="large-12 medium-12 small-12 small-top-m">
                                             <div style="margin-bottom:-10px;margin-top: 5px" class="stacked-for-small button-group float-left">
-                                                <button @click="openCapitalAssetsModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">ثبت نهایی</span></button>
-                                                <button @click="openCapitalAssetsModal()" class="my-button toolbox-btn float-left"><span class="btn-txt-mrg">  اعتبارات تملک دارایی های سرمایه ای</span></button>
-                                                <button @click="openCostCreditsModal()" class="my-button toolbox-btn float-left"><span class="btn-txt-mrg">  اعتبارات هزینه ای</span></button>
+                                                <button v-show='$can("FINANCIAL_FINAL_REGISTRATION_FINANCING")' @click="openCapitalAssetsModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">ثبت نهایی</span></button>
+                                                <button v-show='$can("FINANCIAL_CAPITAL_ASSETS_FINANCING")' @click="openCapitalAssetsModal()" class="my-button toolbox-btn float-left"><span class="btn-txt-mrg">  اعتبارات تملک دارایی های سرمایه ای</span></button>
+                                                <button v-show='$can("FINANCIAL_COST_FINANCING")' @click="openCostCreditsModal()" class="my-button toolbox-btn float-left"><span class="btn-txt-mrg">  اعتبارات هزینه ای</span></button>
                                             </div>
                                         </div>
                                     </div>
@@ -1717,10 +1717,20 @@
                 axios.get('/financial/request/received/fetchData?page=' + page)
                     .then((response) => {
                         this.receiveRequests = response.data.data;
+                        this.getUnReadReceivedRequest();
                         console.log(response);
                     }, (error) => {
                         console.log(error);
                     });
+            },
+
+            getUnReadReceivedRequest: function(){
+                var count = 0;
+                 this.receiveRequests.forEach(item => {
+                     if (item.rLastRef.rhHasBeenSeen == 0)
+                        count++;
+                 });
+                this.$parent.unReadRequestCount = count;
             },
 
             getGroupUsers: function () {

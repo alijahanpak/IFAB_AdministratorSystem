@@ -194,12 +194,14 @@ var app = new Vue({
         params: {
         },
         updateAllPermissionThreadNowPlaying: null,
+        updateUnReadReceivedRequestThreadNowPlaying: null,
 
         headers: {Authorization:'' , Accept: 'application/json'},
         imgDataUrl: window.hostname + '/pic/avatars/avatar.jpg', // the datebase64 url of created image
         uploadUrl: window.hostname + '/admin/user/uploadAvatar',
         baseAvatar:window.hostname + '/pic/avatars/avatar.jpg',
         temp:[],
+        unReadRequestCount: 0,
     },
 
     updated: function () {
@@ -215,6 +217,7 @@ var app = new Vue({
         this.headers.Authorization = tokenInfo.Authorization;
 
         this.setUpdateAllPermissionThread();
+        this.setUpdateUnReadReceivedCountThread();
     },
 
     mounted: function () {
@@ -338,6 +341,13 @@ var app = new Vue({
             this.updateAllPermissionThreadNowPlaying = setInterval(this.updateAllPermissions, 90000);
         },
 
+        setUpdateUnReadReceivedCountThread: function () {
+            //console.log("...................................................... set cost approved prog update thread");
+            if (this.updateUnReadReceivedRequestThreadNowPlaying)
+                clearInterval(this.updateUnReadReceivedRequestThreadNowPlaying);
+            this.updateUnReadReceivedRequestThreadNowPlaying = setInterval(this._getUnReadReceivedRequest(), 90000);
+        },
+
         openModalUserSetting: function () {
             this.showModalUserSetting=true;
         },
@@ -359,6 +369,16 @@ var app = new Vue({
                 .then((response) => {
                     console.log(response);
                     this.publicParams = response.data;
+                },(error) => {
+                    console.log(error);
+                });
+        },
+
+        _getUnReadReceivedRequest: function(){
+            axios.get('/financial/request/received/unread_count')
+                .then((response) => {
+                    console.log(response);
+                    this.unReadRequestCount = response.data;
                 },(error) => {
                     console.log(error);
                 });

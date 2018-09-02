@@ -490,6 +490,30 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
         $permission->pPermission = 'FINANCIAL_DASHBOARD_DISPLAY';
         $permission->save();
 
+        $permission = new Permission;
+        $permission->pSspId = 9;
+        $permission->pSubject = 'مشاهده صف مالی';
+        $permission->pPermission = 'FINANCIAL_QUEUE_DISPLAY';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 9;
+        $permission->pSubject = 'تامین اعتبار تملک دارایی ها سرمایه ای';
+        $permission->pPermission = 'FINANCIAL_CAPITAL_ASSETS_FINANCING';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 9;
+        $permission->pSubject = 'تامین اعتبار هزینه ای';
+        $permission->pPermission = 'FINANCIAL_COST_FINANCING';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 9;
+        $permission->pSubject = 'ثبت نهایی تامین اعتبار';
+        $permission->pPermission = 'FINANCIAL_FINAL_REGISTRATION_FINANCING';
+        $permission->save();
+
         ///////////////// secretariat ///////////////////////////
         $permission = new Permission;
         $permission->pSspId = 10;

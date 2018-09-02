@@ -20,8 +20,8 @@ class SeedAdminUsersTableSeeder extends Seeder
 
         $user = new User;
         $user->seFiscalYear = 5;
-        $user->name = 'حسین خورشیدی';
-        $user->email = 'h.khorshidi';
+        $user->name = 'جلال قره باغی';
+        $user->email = 'j.g_baghi';
         $user->password = Hash::make('1234');
         $user->seInPutAmount = 3;
         $user->seDispAmount = 3;
@@ -40,8 +40,8 @@ class SeedAdminUsersTableSeeder extends Seeder
 
         $user = new User;
         $user->seFiscalYear = 5;
-        $user->name = 'مرتضی امزاجردی';
-        $user->email = 'm.amzajerdi';
+        $user->name = 'علی نجاری';
+        $user->email = 'a.najari';
         $user->password = Hash::make('1234');
         $user->seInPutAmount = 3;
         $user->seDispAmount = 3;
@@ -51,13 +51,13 @@ class SeedAdminUsersTableSeeder extends Seeder
 
         $user = new User;
         $user->seFiscalYear = 5;
-        $user->name = 'علی جهان پاک';
-        $user->email = 'a.jahanpak';
+        $user->name = 'فاطمه قیاسوند';
+        $user->email = 'f.ghiasvand';
         $user->password = Hash::make('1234');
         $user->seInPutAmount = 3;
         $user->seDispAmount = 3;
         $user->avatarPath = 'pic/avatars/avatar4.png';
-        $user->rId = 2;
+        $user->rId = 4;
         $user->save();
 
         $user = new User;

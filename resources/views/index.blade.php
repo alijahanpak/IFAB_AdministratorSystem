@@ -237,9 +237,9 @@
                             <!--Financial Department Start-->
                             <li>
                                 <a class="right-mp right-menu-btm-border">کارتابل</a>
-                                <ul class="menu vertical nested">
+                                <ul class="menu vertical nested is-active">
                                     <li><router-link to="/financial_department/submissions">درخواست های ارسالی</router-link></li>
-                                    <li><router-link to="/financial_department/received_requests">درخواست های دریافتی</router-link></li>
+                                    <li><router-link to="/financial_department/received_requests">درخواست های دریافتی (@{{ unReadRequestCount }})</router-link></li>
                                     <li><router-link to="/financial_department/search_requests">جستجو</router-link></li>
                                 </ul>
                             </li>

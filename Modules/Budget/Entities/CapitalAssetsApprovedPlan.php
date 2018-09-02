@@ -8,7 +8,7 @@ class CapitalAssetsApprovedPlan extends Model
 {
     protected $table = 'tbl_capital_assets_approved_plan';
     protected $fillable = [];
-    protected $appends = ['capSumOfCost' , 'capSumOfReserved' , 'capSumOfFinancing' , 'capSumOfCommitment'];
+    protected $appends = ['capSumOfCost' , 'capSumOfReserved' , 'capSumOfFinancing' , 'capSumOfCommitment' , 'capSumOfAllocation'];
 
     public function creditDistributionTitle()
     {
@@ -37,21 +37,26 @@ class CapitalAssetsApprovedPlan extends Model
 
     public function getCapSumOfCostAttribute()
     {
-        return $this->capitalAssetsProject()->get()->sum('cpSumOfCost');
+        return $this->capitalAssetsProjectHasCreditSource()->get()->sum('cpSumOfCost');
     }
 
     public function getCapSumOfReservedAttribute()
     {
-        return $this->capitalAssetsProject()->get()->sum('cpSumOfReserved');
+        return $this->capitalAssetsProjectHasCreditSource()->get()->sum('cpSumOfReserved');
     }
 
     public function getCapSumOfFinancingAttribute()
     {
-        return $this->capitalAssetsProject()->get()->sum('cpSumOfFinancing');
+        return $this->capitalAssetsProjectHasCreditSource()->get()->sum('cpSumOfFinancing');
     }
 
     public function getCapSumOfCommitmentAttribute()
     {
-        return $this->capitalAssetsProject()->get()->sum('cpSumOfCommitment');
+        return $this->capitalAssetsProjectHasCreditSource()->get()->sum('cpSumOfCommitment');
+    }
+
+    public function getCapSumOfAllocationAttribute()
+    {
+        return $this->capitalAssetsProjectHasCreditSource()->get()->sum('cpSumOfAllocation');
     }
 }

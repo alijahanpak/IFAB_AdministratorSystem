@@ -162,6 +162,13 @@ class RequestController extends Controller
             ->paginate(20);
     }
 
+    function getUnReadReceivedRequestCount(Request $request)
+    {
+        return RequestHistory::where('rhDestUId' , '=' , Auth::user()->id)
+            ->where('rhHasBeenSeen' , '=' , 0)
+            ->count();
+    }
+
     function normalSearch(Request $request)
     {
         $searchValue = PublicSetting::checkPersianCharacters($request->searchValue);
@@ -222,8 +229,8 @@ class RequestController extends Controller
 
     public function getLastReceivedRequestIdList()
     {
-        /////////// check access to secretariat queue permission //////////////////////
         $gIDs = UserGroup::where('ugUId' , '=' , Auth::user()->id)->pluck('ugGId')->toArray();
+        /////////// check access to secretariat queue permission //////////////////////
         $accessToSQPermission = GroupPermission::whereIn('gpGId' , $gIDs)
             ->whereHas('permission' , function ($q){
                 return $q->where('pPermission' , '=' , 'SECRETARIAT_QUEUE_DISPLAY');
@@ -237,6 +244,22 @@ class RequestController extends Controller
                 ->update(['rhDestUId' => Auth::user()->id , 'rhRsId' => RequestState::where('rsState' , '=' , 'ACTIVE')->value('id')]);
             _Request::whereIn('id' , $secQueue)->update(['rRsId' => RequestState::where('rsState' , '=' , 'ACTIVE')->value('id')]);
             SecretariatRequestQueue::whereIn('srqRId' , $secQueue)->delete();
+        }
+
+        /////////// check access to financing queue permission //////////////////////
+        $accessToFQPermission = GroupPermission::whereIn('gpGId' , $gIDs)
+            ->whereHas('permission' , function ($q){
+                return $q->where('pPermission' , '=' , 'FINANCIAL_QUEUE_DISPLAY');
+            })
+            ->count();
+        if ($accessToFQPermission)
+        {
+            $finQueue = FinancialRequestQueue::all()->pluck('frqRId');
+            RequestHistory::whereIn('rhRId' , $finQueue)
+                ->where('rhRsId' , '=' , RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id'))
+                ->update(['rhDestUId' => Auth::user()->id , 'rhRsId' => RequestState::where('rsState' , '=' , 'ACTIVE')->value('id')]);
+            _Request::whereIn('id' , $finQueue)->update(['rRsId' => RequestState::where('rsState' , '=' , 'ACTIVE')->value('id')]);
+            FinancialRequestQueue::whereIn('frqRId' , $finQueue)->delete();
         }
 
         $rhIds = RequestHistory::selectRaw('rhRId , MAX(id) as id')
