@@ -157,6 +157,9 @@ class PlanController extends Controller
                     ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
             })
             ->with('creditDistributionTitle.county')
+            ->with('creditDistributionTitle.budgetSeason')
+            ->with('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.tinySeason.seasonTitle.season')
+            ->with('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.howToRun')
             ->with('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.allocation')
             ->with('capitalAssetsProjectHasCreditSource.county')
             ->orderBy('id', 'DESC')

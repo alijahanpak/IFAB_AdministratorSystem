@@ -2103,6 +2103,45 @@ input[type="search"]:valid + label {
     margin-bottom: 0px;
 }
 
+.detail-tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+    z-index: 999;
+}
+
+.detail-tooltip .tooltiptext {
+    visibility: hidden;
+    height: 500px;
+    overflow: auto;
+    width: 100%;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 999;
+    top: 150%;
+    left: 50%;
+    margin-left: -60px;
+}
+
+.detail-tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
+}
+
+.detail-tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
     display: block;
     width: 0;
