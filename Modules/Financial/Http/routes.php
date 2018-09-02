@@ -12,6 +12,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::post('register', 'RequestController@register');
 
         Route::get('received/fetchData', 'RequestController@fetchReceivedRequestsData');
+        Route::get('received/unread_count', 'RequestController@getUnReadReceivedRequestCount');
         Route::post('received/was_seen', 'RequestController@wasSeen');
         Route::get('steps/fetchData', 'RequestController@fetchRequestSteps');
         Route::get('search/normal/fetchData', 'RequestController@normalSearch');

@@ -1484,10 +1484,20 @@
                 axios.get('/financial/request/received/fetchData?page=' + page)
                     .then((response) => {
                         this.receiveRequests = response.data.data;
+                        this.getUnReadReceivedRequest();
                         console.log(response);
                     }, (error) => {
                         console.log(error);
                     });
+            },
+
+            getUnReadReceivedRequest: function(){
+                var count = 0;
+                 this.receiveRequests.forEach(item => {
+                     if (item.rLastRef.rhHasBeenSeen == 0)
+                        count++;
+                 });
+                this.$parent.unReadRequestCount = count;
             },
 
             getGroupUsers: function () {

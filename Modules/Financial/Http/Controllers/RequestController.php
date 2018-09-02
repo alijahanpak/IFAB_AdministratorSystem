@@ -162,6 +162,13 @@ class RequestController extends Controller
             ->paginate(20);
     }
 
+    function getUnReadReceivedRequestCount(Request $request)
+    {
+        return RequestHistory::where('rhDestUId' , '=' , Auth::user()->id)
+            ->where('rhHasBeenSeen' , '=' , 0)
+            ->count();
+    }
+
     function normalSearch(Request $request)
     {
         $searchValue = PublicSetting::checkPersianCharacters($request->searchValue);

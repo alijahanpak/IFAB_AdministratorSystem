@@ -8,7 +8,7 @@ class CostAgreement extends Model
 {
     protected $table = 'tbl_cost_agreement';
     protected $fillable = [];
-    protected $appends = ['caSumOfCost' , 'caSumOfReserved' , 'caSumOfFinancing' , 'caSumOfCommitment'];
+    protected $appends = ['caSumOfCost' , 'caSumOfReserved' , 'caSumOfFinancing' , 'caSumOfCommitment' , 'caSumOfAllocation'];
 
     public function caCreditSource()
     {
@@ -42,6 +42,11 @@ class CostAgreement extends Model
 
     public function getCaSumOfCommitmentAttribute()
     {
-        return $this->caCreditSourceHasAllocation()->get()->sum('caSumOfCommitment');
+        return $this->caCreditSourceHasAllocation()->get()->sum('ccsSumOfCommitment');
+    }
+
+    public function getCaSumOfAllocationAttribute()
+    {
+        return $this->caCreditSourceHasAllocation()->get()->sum('ccsSumOfAllocation');
     }
 }
