@@ -704,7 +704,7 @@
                                                         <td>{{$parent.dispMoneyFormat(plan.caSumOfCost)}}</td>
                                                         <td>{{plan.caDescription}}</td>
                                                         <td>
-                                                            <input :disabled="plan.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, plan, 0, plan.amount)" style="margin-bottom:0px;" v-show="plan.selected == true" type="text"  v-model="plan.amount" :name="plan.id" :value="plan.amount"  v-validate="'numeric','min_value:0','max_value:'+ getRemainingCostAmount(plan , 1)" :class="{'input': true, 'error-border': errors.has(plan.id)}" />
+                                                            <input :disabled="plan.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, plan, 0, plan.amount)" style="margin-bottom:0px;" v-if="plan.selected == true" type="text"  v-model="plan.amount" :name="plan.id" :value="plan.amount"  v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCostAmount(plan , 1) + parseInt(plan.amount , 10))" :class="{'input': true, 'error-border': errors.has(plan.id)}" />
                                                             <span v-show="errors.has(plan.id)" class="error-font"></span>
                                                         </td>
                                                         <td><input :disabled="plan.isHistory" v-on:change="setTextBoxValueCost(plan,plan,0)" v-model="plan.selected" type="checkbox"></td>
@@ -772,7 +772,7 @@
                                                             <td>{{ $parent.dispMoneyFormat(creditSource.ccsAmount) }}</td>
                                                             <td>{{ creditSource.caDescription}}</td>
                                                             <td>
-                                                                <input :disabled="creditSource.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, creditSource, 1, creditSource.amount)" style="margin-bottom:0px;" v-show="creditSource.selected == true" type="text" v-model="creditSource.amount"  :value="creditSource.amount" :name="creditSource.id" v-validate="'numeric','min_value:0','max_value:'+ getRemainingCostAmount(creditSource , 2)" :class="{'input': true, 'error-border': errors.has(creditSource.id)}" />
+                                                                <input :disabled="creditSource.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, creditSource, 1, creditSource.amount)" style="margin-bottom:0px;" v-if="creditSource.selected == true" type="text" v-model="creditSource.amount"  :value="creditSource.amount" :name="creditSource.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCostAmount(creditSource , 2) + parseInt(creditSource.amount , 10))" :class="{'input': true, 'error-border': errors.has(creditSource.id)}" />
                                                                 <span v-show="errors.has(creditSource.id)" class="error-font"></span>
                                                             </td>
                                                             <td><input :disabled="creditSource.isHistory" v-on:change="setTextBoxValueCost(plan,creditSource,1)" v-model="creditSource.selected" type="checkbox"></td>
@@ -846,7 +846,7 @@
                                                                 <td>{{$parent.dispMoneyFormat(allocation.caSumOfCost)}}</td>
                                                                 <td>{{allocation.caDescription}}</td>
                                                                 <td>
-                                                                    <input :disabled="allocation.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan,allocation,2,allocation.amount)" style="margin-bottom:0px;" v-show="allocation.selected == true" type="text" v-model="allocation.amount" :value="allocation.amount" :name="allocation.id" v-validate="'numeric','min_value:0','max_value:'+ getRemainingCostAmount(allocation , 3)" :class="{'input': true, 'error-border': errors.has(allocation.id)}"/>
+                                                                    <input :disabled="allocation.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan,allocation,2,allocation.amount)" style="margin-bottom:0px;" v-if="allocation.selected == true" type="text" v-model="allocation.amount" :value="allocation.amount" :name="allocation.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCostAmount(allocation , 3)  + parseInt(allocation.amount , 10))" :class="{'input': true, 'error-border': errors.has(allocation.id)}"/>
                                                                     <span v-show="errors.has(allocation.id)" class="error-font"></span>
                                                                 </td>
                                                                 <td><input :disabled="allocation.isHistory" v-on:change="setTextBoxValueCost(plan,allocation,2)" v-model="allocation.selected" type="checkbox"></td>
@@ -920,7 +920,7 @@
                                                             <td>{{$parent.dispMoneyFormat(found.caSumOfCost)}}</td>
                                                             <td>{{found.caDescription}}</td>
                                                             <td>
-                                                                <input :disabled="found.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(null,found,3,found.amount)" style="margin-bottom:0px;" v-show="found.selected == true" type="text" v-model="found.amount" :value="found.amount" :name="found.id" v-validate="'numeric','min_value:0','max_value:'+ getRemainingCostAmount(found , 3)" :class="{'input': true, 'error-border': errors.has(found.id)}" />
+                                                                <input :disabled="found.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(null,found,3,found.amount)" style="margin-bottom:0px;" v-if="found.selected == true" type="text" v-model="found.amount" :value="found.amount" :name="found.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCostAmount(found , 3) + parseInt(found.amount , 10))" :class="{'input': true, 'error-border': errors.has(found.id)}" />
                                                                 <span v-show="errors.has(found.id)" class="error-font"></span>
                                                             </td>
                                                             <td><input  :disabled="found.isHistory" v-on:change="setTextBoxValueCost(null,found,3)" v-model="found.selected" type="checkbox"></td>
@@ -1042,7 +1042,10 @@
                                                         <td>{{plan.capSumOfCommitment}}</td>
                                                         <td>{{plan.capSumOfCost}}</td>
                                                         <td>{{plan.capDescription}}</td>
-                                                        <td><input :disabled="plan.isHistory" v-on:keyup="calculationOfCapCredit(plan, plan, 0, plan.amount)" style="margin-bottom:0px;" v-show="plan.selected == true" type="text"  v-model="plan.amount" :value="plan.amount" /></td>
+                                                        <td>
+                                                            <input :disabled="plan.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(plan, plan, 0, plan.amount)" style="margin-bottom:0px;" v-if="plan.selected == true" type="text"  v-model="plan.amount" :value="plan.amount" :name="'plan'+plan.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCapitalAssetsAmount(plan , 1) + parseInt(plan.amount , 10))" :class="{'input': true, 'error-border': errors.has('plan' + plan.id)}"/>
+                                                            <span v-show="errors.has('plan'+plan.id)" class="error-font"></span>
+                                                        </td>
                                                         <td><input :disabled="plan.isHistory" v-on:change="setTextBoxValueCap(plan,plan,0)" v-model="plan.selected" type="checkbox"></td>
                                                     </tr>
                                                     </tbody>
@@ -1112,7 +1115,10 @@
                                                             <td>{{project.cpSumOfCommitment}}</td>
                                                             <td>{{project.cpSumOfCost}}</td>
                                                             <td>{{project.cpDescription}}</td>
-                                                            <td><input :disabled="project.isHistory" v-on:keyup="calculationOfCapCredit(plan, project, 1, project.amount)" style="margin-bottom:0px;" v-show="project.selected == true" type="text" v-model="project.amount"  :value="project.amount" /></td>
+                                                            <td>
+                                                                <input :disabled="project.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(plan, project, 1, project.amount)" style="margin-bottom:0px;" v-if="project.selected == true" type="text" v-model="project.amount"  :value="project.amount" :name="'project'+project.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCapitalAssetsAmount(project , 2) + parseInt(project.amount , 10))" :class="{'input': true, 'error-border': errors.has('project'+project.id)}"/>
+                                                                <span v-show="errors.has('project'+project.id)" class="error-font"></span>
+                                                            </td>
                                                             <td><input :disabled="project.isHistory" v-on:change="setTextBoxValueCap(plan,project,1)" v-model="project.selected" type="checkbox"></td>
                                                         </tr>
                                                     </template>
@@ -1180,7 +1186,10 @@
                                                                 <td>{{creditSource.ccsSumOfCost}}</td>
                                                                 <td>{{creditSource.ccsAmount}}</td>
                                                                 <td>{{creditSource.ccsDescription}}</td>
-                                                                <td><input :disabled="creditSource.isHistory" v-on:keyup="calculationOfCapCredit(plan, creditSource, 2, creditSource.amount)" style="margin-bottom:0px;" v-show="creditSource.selected == true" type="text" v-model="creditSource.amount"  :value="creditSource.amount" /></td>
+                                                                <td>
+                                                                    <input :disabled="creditSource.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(plan, creditSource, 2, creditSource.amount)" style="margin-bottom:0px;" v-if="creditSource.selected == true" type="text" v-model="creditSource.amount"  :value="creditSource.amount" :name="'creditSource'+creditSource.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCapitalAssetsAmount(creditSource , 3) + parseInt(creditSource.amount , 10))" :class="{'input': true, 'error-border': errors.has('creditSource'+creditSource.id)}" />
+                                                                    <span v-show="errors.has('creditSource'+creditSource.id)" class="error-font"></span>
+                                                                </td>
                                                                 <td><input :disabled="creditSource.isHistory" v-on:change="setTextBoxValueCap(plan,creditSource,2)" v-model="creditSource.selected" type="checkbox"></td>
                                                             </tr>
                                                         </template>
@@ -1255,7 +1264,10 @@
                                                                     <td>{{alloc.caaSumOfCost}}</td>
                                                                     <td>{{alloc.caaAmount}}</td>
                                                                     <td>{{alloc.caaDescription}}</td>
-                                                                    <td><input :disabled="alloc.isHistory" v-on:keyup="calculationOfCapCredit(plan, alloc, 3, alloc.amount)" style="margin-bottom:0px;" v-show="alloc.selected == true" type="text" v-model="alloc.amount"  :value="alloc.amount" /></td>
+                                                                    <td>
+                                                                        <input :disabled="alloc.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(plan, alloc, 3, alloc.amount)" style="margin-bottom:0px;" v-if="alloc.selected == true" type="text" v-model="alloc.amount"  :value="alloc.amount" :name="'alloc'+alloc.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCapitalAssetsAmount(alloc , 4) + parseInt(alloc.amount , 10))" :class="{'input': true, 'error-border': errors.has('alloc'+alloc.id)}" />
+                                                                        <span v-show="errors.has('alloc'+alloc.id)" class="error-font"></span>
+                                                                    </td>
                                                                     <td><input :disabled="alloc.isHistory" v-on:change="setTextBoxValueCap(plan,alloc,3)" v-model="alloc.selected" type="checkbox"></td>
                                                                 </tr>
                                                             </template>
@@ -1327,7 +1339,10 @@
                                                         <td>{{found.caaSumOfCost}}</td>
                                                         <td>{{found.caaAmount}}</td>
                                                         <td>{{found.caaDescription}}</td>
-                                                        <td><input :disabled="found.isHistory" v-on:keyup="calculationOfCapCredit(null, found, 4, found.amount)" style="margin-bottom:0px;" v-show="found.selected == true" type="text" v-model="found.amount"  :value="found.amount" /></td>
+                                                        <td>
+                                                            <input :disabled="found.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(null, found, 4, found.amount)" style="margin-bottom:0px;" v-if="found.selected == true" type="text" v-model="found.amount"  :value="found.amount" :name="'found'+found.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCapitalAssetsAmount(found , 4) + parseInt(found.amount , 10))" :class="{'input': true, 'error-border': errors.has('found'+found.id)}"/>
+                                                            <span v-show="errors.has('found'+found.id)" class="error-font"></span>
+                                                        </td>
                                                         <td><input :disabled="found.isHistory" v-on:change="setTextBoxValueCap(null,found,4)" v-model="found.selected" type="checkbox"></td>
                                                     </tr>
                                                     </tbody>
@@ -2471,6 +2486,8 @@
             },
 
             reserveCostFinance: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
                 var costFinancing= [];
                 this.completeCostAgrement.forEach(cost => {
                     cost.ca_credit_source_has_allocation.forEach(alloc =>{
@@ -2496,7 +2513,7 @@
                 console.log(JSON.stringify(costFinancing));
                 axios.post('/financial/request/financing/reservation', {
                     rId: this.requestId,
-                    costFinancing:costFinancing,
+                    costFinancing: costFinancing,
                 }).then((response) => {
                     this.requestCostFinancing = response.data.costFinancing;
                     this.showCostCreditsModal = false;
@@ -2506,9 +2523,13 @@
                     console.log(error);
                     this.$parent.displayNotif(error.response.status);
                 });
+                    }
+                });
             },
 
             reserveCapitalAssetsFinance: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
                 var capitalAssetsFinancing= [];
                 this.completeCapitalAssetsAgrement.forEach(ca => {
                     ca.capital_assets_project_has_credit_source	.forEach(project =>{
@@ -2546,6 +2567,8 @@
                     console.log(error);
                     this.$parent.displayNotif(error.response.status);
                 });
+                    }
+                });
             },
 
             getRemainingCostAmount: function (data, type) {
@@ -2566,8 +2589,39 @@
                     remainingAmount = data.caAmount - (data.caSumOfCost + data.caSumOfReserved + data.caSumOfFinancing + data.caSumOfCommitment);
                 }
 
-                var temp = (this.baseAmount - (this.lastCapReservedAmount + this.lastCostReservedAmount));
+                var temp = (this.baseAmount - this.costReservedAmount);
                 return  (remainingAmount < temp ? remainingAmount : temp);
+            },
+
+            getRemainingCapitalAssetsAmount: function (data, type) {
+                var remainingCapAmount= 0;
+                if (type == 1)
+                {
+                    data.capital_assets_project_has_credit_source.forEach(project =>{
+                        project.credit_source_has_allocation.forEach(cs => {
+                            cs.allocation.forEach(alloc => {
+                                remainingCapAmount += alloc.caaAmount - (alloc.caaSumOfCost + alloc.caaSumOfReserved + alloc.caaSumOfFinancing + alloc.caaSumOfCommitment);
+                            });
+                        });
+                    });
+                }else if(type == 2)
+                {
+                    data.credit_source_has_allocation.forEach(cs => {
+                        cs.allocation.forEach(alloc => {
+                            remainingCapAmount += alloc.caaAmount - (alloc.caaSumOfCost + alloc.caaSumOfReserved + alloc.caaSumOfFinancing + alloc.caaSumOfCommitment);
+                        });
+                    });
+
+                }else if(type == 3){
+                    data.allocation.forEach(alloc => {
+                        remainingCapAmount += alloc.caaAmount - (alloc.caaSumOfCost + alloc.caaSumOfReserved + alloc.caaSumOfFinancing + alloc.caaSumOfCommitment);
+                    });
+                }else if(type == 4){
+                    remainingCapAmount += data.caaAmount - (data.caaSumOfCost + data.caaSumOfReserved + data.caaSumOfFinancing + data.caaSumOfCommitment);
+                }
+
+                var temp = (this.baseAmount - this.capReservedAmount);
+                return  (remainingCapAmount < temp ? remainingCapAmount : temp);
             },
         }
     }
