@@ -328,6 +328,7 @@
                                                 <th width="50">ردیف</th>
                                                 <th>شرح و نوع جنس</th>
                                                 <th width="100">تعداد</th>
+                                                <th width="150">موجود در انبار</th>
                                                 <th width="200">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
                                                 <th>توضیحات (موارد مصرف)</th>
                                                 </thead>
@@ -336,6 +337,7 @@
                                                     <td>{{index+1}}</td>
                                                     <td>{{lists.commodity.cSubject}}</td>
                                                     <td>{{lists.rcCount}}</td>
+                                                    <td>{{lists.rcExistCount}}</td>
                                                     <td>{{$parent.dispMoneyFormat(lists.rcCostEstimation)}}</td>
                                                     <td>{{lists.rcDescription}}</td>
                                                 </tr>

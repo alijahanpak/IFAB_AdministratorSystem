@@ -161,12 +161,12 @@
                                                 <tr v-for="(lists,index) in commodityList">
                                                     <td>{{index+1}}</td>
                                                     <td>{{lists.commodity.cSubject}}</td>
-                                                    <td>{{lists.rcCount}}</td>
+                                                    <td>{{lists.rcCount - lists.rcExistCount}}</td>
                                                     <td>{{$parent.dispMoneyFormat(lists.rcCostEstimation)}}</td>
                                                     <td>{{lists.rcDescription}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="4" class="text-center font-wei-bold"> مجموع برآورد</td>
+                                                    <td colspan="3" class="text-center font-wei-bold"> مجموع برآورد</td>
                                                     <td colspan="2" class="text-center font-wei-bold">{{$parent.dispMoneyFormat(requestFill.rCostEstimation)}} <span class="btn-red">  ریال  </span> </td>
                                                 </tr>
                                                 </tbody>

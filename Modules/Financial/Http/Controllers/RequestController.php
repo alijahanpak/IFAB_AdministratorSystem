@@ -284,7 +284,7 @@ class RequestController extends Controller
             if (count($req->rRemainingVerifiers) == 0)
             {
                 // determine exist item with warehouse keeper
-                if (is_array($request->get('itemExistCount')))
+                if (is_array($request->get('itemExistCount')) && count($request->get('itemExistCount')) > 0)
                 {
                     foreach ($request->get('itemExistCount') as $item)
                     {
@@ -298,8 +298,14 @@ class RequestController extends Controller
                     if (count($allRcItems) > 0) {
                         $costEstimation = 0;
                         foreach ($allRcItems as $item) {
-                            if ($item->rcCount >= $item->rcExistCount) {
-                                $costEstimation += (($item->rcCount - $item->rcExistCount) * $item->rcCostEstimation);
+                            if ($item->rcCount > $item->rcExistCount) {
+                                $costEstimation += (($item->rcCount - $item->rcExistCount) * ($item->rcCostEstimation / $item->rcCount));
+                                RequestCommodity::where('id' , '=' , $item->id)
+                                    ->update(['rcCostEstimation' => (($item->rcCount - $item->rcExistCount) * ($item->rcCostEstimation / $item->rcCount))]);
+                            }else if ($item->rcCount == $item->rcExistCount)
+                            {
+                                RequestCommodity::where('id' , '=' , $item->id)
+                                    ->update(['rcCostEstimation' => 0]);
                             }
                         }
                         $req->rCostEstimation = $costEstimation;

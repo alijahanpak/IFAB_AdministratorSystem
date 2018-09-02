@@ -173,7 +173,7 @@
                                                 <tr v-for="(lists,index) in commodityList">
                                                     <td>{{index+1}}</td>
                                                     <td>{{lists.commodity.cSubject}}</td>
-                                                    <td>{{lists.rcCount}}</td>
+                                                    <td>{{lists.rcCount - lists.rcExistCount}}</td>
                                                     <td v-show='$can("DETERMINE_EXIST_COMMODITY_IN_REPOSITORY")'>
                                                         <input v-on:change="setRepoExistCount(lists.id,commodityCountInput['existCount' + lists.id])" v-model="commodityCountInput['existCount' + lists.id]"  style="margin-bottom: 0px;" class="form-element-margin-btm" type="text" :name="'repoCount' + lists.id" v-validate="'required','min_value:0','max_value:'+lists.rcCount " data-vv-as="field" :class="{'input': true, 'error-border': errors.has('repoCount' + lists.id)}">
                                                         <span v-show="errors.has('repoCount' + lists.id)" class="error-font"></span>
@@ -182,7 +182,7 @@
                                                     <td>{{lists.rcDescription}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="4" class="text-center font-wei-bold"> مجموع برآورد</td>
+                                                    <td colspan="3" class="text-center font-wei-bold"> مجموع برآورد</td>
                                                     <td colspan="2" class="text-center font-wei-bold">{{$parent.dispMoneyFormat(requestFill.rCostEstimation)}} <span class="btn-red">  ریال  </span> </td>
                                                 </tr>
                                                 </tbody>
