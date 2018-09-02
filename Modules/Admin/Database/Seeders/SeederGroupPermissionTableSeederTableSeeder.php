@@ -49,14 +49,23 @@ class SeederGroupPermissionTableSeederTableSeeder extends Seeder
             $gPermission->save();
         }
 
-        for ($i = 1 ; $i <= 78 ;$i++)
+/*        for ($i = 1 ; $i <= 78 ;$i++)
         {
             $gPermission = new GroupPermission;
             $gPermission->gpGId = 5;
             $gPermission->gpPId = $i;
             $gPermission->save();
-        }
+        }*/
 
+        $gPermission = new GroupPermission;
+        $gPermission->gpGId = 5;
+        $gPermission->gpPId = 81;
+        $gPermission->save();
+
+        $gPermission = new GroupPermission;
+        $gPermission->gpGId = 5;
+        $gPermission->gpPId = 82;
+        $gPermission->save();
 
         $gPermission = new GroupPermission;
         $gPermission->gpGId = 6;
@@ -65,7 +74,32 @@ class SeederGroupPermissionTableSeederTableSeeder extends Seeder
 
         $gPermission = new GroupPermission;
         $gPermission->gpGId = 6;
+        $gPermission->gpPId = 83;
+        $gPermission->save();
+
+        $gPermission = new GroupPermission;
+        $gPermission->gpGId = 9;
+        $gPermission->gpPId = 77;
+        $gPermission->save();
+
+        $gPermission = new GroupPermission;
+        $gPermission->gpGId = 7;
+        $gPermission->gpPId = 78;
+        $gPermission->save();
+
+        $gPermission = new GroupPermission;
+        $gPermission->gpGId = 7;
+        $gPermission->gpPId = 80;
+        $gPermission->save();
+
+        $gPermission = new GroupPermission;
+        $gPermission->gpGId = 8;
         $gPermission->gpPId = 79;
+        $gPermission->save();
+
+        $gPermission = new GroupPermission;
+        $gPermission->gpGId = 8;
+        $gPermission->gpPId = 80;
         $gPermission->save();
 
     }
