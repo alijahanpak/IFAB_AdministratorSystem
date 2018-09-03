@@ -1885,7 +1885,7 @@ input[type="search"]:valid + label {
     margin-top: 80px;
 }
 .table-row:hover{
-    background-color: #D8DEE2;
+    background-color: #EDE7F6;
     cursor: pointer;
 }
 

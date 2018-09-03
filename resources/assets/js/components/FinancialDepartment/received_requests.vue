@@ -1006,8 +1006,8 @@
                                                 </colgroup>
                                                 <tbody class="tbl-head-style ">
                                                 <tr class="tbl-head-style-cell">
-                                                    <th class="tbl-head-style-cell">شماره نامه</th>
-                                                    <th class="tbl-head-style-cell">تاریخ نامه</th>
+                                                    <th class="tbl-head-style-cell">شماره طرح</th>
+                                                    <th class="tbl-head-style-cell">مجموع تخصیص</th>
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
                                                     <th class="tbl-head-style-cell">تامین اعتبار شده</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
@@ -1034,74 +1034,74 @@
                                                         <col width="40px"/>
                                                     </colgroup>
                                                     <tbody class="tbl-head-style-cell">
-                                                    <tr v-for="plan in completeCapitalAssetsAgrement">
-                                                        <td>
+                                                    <tr class="table-row"  v-for="plan in completeCapitalAssetsAgrement">
+                                                        <td :data-toggle="'plan' + plan.id">{{plan.credit_distribution_title.cdtIdNumber}}
                                                             <div class="clearfix tool-bar">
-                                                                <button style="margin-bottom: 0px;" class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" :data-toggle="'plan' + plan.id">{{plan.credit_distribution_title.cdtIdNumber}}</button>
-                                                                <div  style="width: 600px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="top" data-alignment="right" :id="'plan' + plan.id" data-dropdown data-auto-focus="true">
+                                                                <div  style="width: 600px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="top" data-alignment="auto" :id="'plan' + plan.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font">
-                                                                    <div class="grid-x">
-                                                                        <!--Table Start-->
+                                                                        <div class="grid-x">
+                                                                            <!--Table Start-->
                                                                             <div class="tbl_body_style dynamic-height-level-modal2">
                                                                                 <table class="stack">
                                                                                     <tbody>
-                                                                                        <tr>
-                                                                                            <td width="150" class="black-color">شماره موافقتنامه :</td>
-                                                                                            <td>{{plan.capLetterNumber}}</td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td width="150" class="black-color">تاریخ موافقتنامه :</td>
-                                                                                            <td>{{plan.capLetterDate}}</td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td width="150" class="black-color">تاریخ موافقتنامه :</td>
-                                                                                            <td>{{plan.capLetterDate}}</td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td width="150" class="black-color">نوع موافقتنامه :</td>
-                                                                                            <td v-show="plan.capProvinceOrNational == 0">استانی</td>
-                                                                                            <td v-show="plan.capProvinceOrNational == 1">ملی</td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td width="150" class="black-color">شرح موافقتنامه :</td>
-                                                                                            <td class="text-justify">{{plan.capDescription}}</td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td width="150" class="black-color">شماره طرح :</td>
-                                                                                            <td>{{plan.credit_distribution_title.cdtIdNumber}}</td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td width="150" class="black-color">عنوان طرح :</td>
-                                                                                            <td>{{plan.credit_distribution_title.cdtSubject}}</td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td width="150" class="black-color">عنوان فصل بودجه:</td>
-                                                                                            <td>{{plan.credit_distribution_title.budget_season.bsSubject}}</td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td width="150" class="black-color">شرح فصل بودجه:</td>
-                                                                                            <td class="text-justify">{{plan.credit_distribution_title.budget_season.bsDescription}}</td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td width="150" class="black-color">شرح طرح :</td>
-                                                                                            <td class="text-justify">{{plan.credit_distribution_title.cdtDescription}}</td>
-                                                                                        </tr>
+                                                                                    <tr>
+                                                                                        <td width="150" class="black-color">شماره موافقتنامه :</td>
+                                                                                        <td>{{plan.capLetterNumber}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td width="150" class="black-color">تاریخ موافقتنامه :</td>
+                                                                                        <td>{{plan.capLetterDate}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td width="150" class="black-color">تاریخ موافقتنامه :</td>
+                                                                                        <td>{{plan.capLetterDate}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td width="150" class="black-color">نوع موافقتنامه :</td>
+                                                                                        <td v-show="plan.capProvinceOrNational == 0">استانی</td>
+                                                                                        <td v-show="plan.capProvinceOrNational == 1">ملی</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td width="150" class="black-color">شرح موافقتنامه :</td>
+                                                                                        <td class="text-justify">{{plan.capDescription}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td width="150" class="black-color">شماره طرح :</td>
+                                                                                        <td>{{plan.credit_distribution_title.cdtIdNumber}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td width="150" class="black-color">عنوان طرح :</td>
+                                                                                        <td>{{plan.credit_distribution_title.cdtSubject}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td width="150" class="black-color">عنوان فصل بودجه:</td>
+                                                                                        <td>{{plan.credit_distribution_title.budget_season.bsSubject}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td width="150" class="black-color">شرح فصل بودجه:</td>
+                                                                                        <td class="text-justify">{{plan.credit_distribution_title.budget_season.bsDescription}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td width="150" class="black-color">شرح طرح :</td>
+                                                                                        <td class="text-justify">{{plan.credit_distribution_title.cdtDescription}}</td>
+                                                                                    </tr>
 
                                                                                     </tbody>
                                                                                 </table>
                                                                             </div>
-                                                                        <!--Table Body End-->
-                                                                    </div>
+                                                                            <!--Table Body End-->
+                                                                        </div>
                                                                     </ul>
                                                                 </div>
                                                             </div>
+
                                                         </td>
-                                                        <td>{{plan.capLetterNumber}}</td>
-                                                        <td>{{plan.capSumOfReserved}}</td>
-                                                        <td>{{plan.capSumOfFinancing}}</td>
-                                                        <td>{{plan.capSumOfCommitment}}</td>
-                                                        <td>{{plan.capSumOfCost}}</td>
-                                                        <td>{{plan.capDescription}}</td>
+                                                        <td :data-toggle="'plan' + plan.id" class="text-center">{{$parent.dispMoneyFormat(plan.capSumOfAllocation)}}</td>
+                                                        <td :data-toggle="'plan' + plan.id" class="text-center">{{$parent.dispMoneyFormat(plan.capSumOfReserved)}}</td>
+                                                        <td :data-toggle="'plan' + plan.id" class="text-center">{{$parent.dispMoneyFormat(plan.capSumOfFinancing)}}</td>
+                                                        <td :data-toggle="'plan' + plan.id" class="text-center">{{$parent.dispMoneyFormat(plan.capSumOfCommitment)}}</td>
+                                                        <td :data-toggle="'plan' + plan.id" class="text-center">{{$parent.dispMoneyFormat(plan.capSumOfCost)}}</td>
+                                                        <td :data-toggle="'plan' + plan.id">{{plan.capDescription}}</td>
                                                         <td>
                                                             <input :disabled="plan.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(plan, plan, 0, plan.amount)" style="margin-bottom:0px;" v-if="plan.selected == true" type="text"  v-model="plan.amount" :value="plan.amount" :name="'plan'+plan.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCapitalAssetsAmount(plan , 1) + parseInt(plan.amount , 10))" :class="{'input': true, 'error-border': errors.has('plan' + plan.id)}"/>
                                                             <span v-show="errors.has('plan'+plan.id)" class="error-font"></span>
@@ -1131,6 +1131,7 @@
                                                     <col width="150px"/>
                                                     <col width="150px"/>
                                                     <col width="150px"/>
+                                                    <col width="150px"/>
                                                     <col width="250px"/>
                                                     <col width="150px"/>
                                                     <col width="40px"/>
@@ -1140,6 +1141,7 @@
                                                 <tr class="tbl-head-style-cell">
                                                     <th class="tbl-head-style-cell">عنوان</th>
                                                     <th class="tbl-head-style-cell">کد پروژه</th>
+                                                    <th class="tbl-head-style-cell">مجموع تخصیص</th>
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
                                                     <th class="tbl-head-style-cell">تامین اعتبار</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
@@ -1161,8 +1163,10 @@
                                                         <col width="150px"/>
                                                         <col width="150px"/>
                                                         <col width="150px"/>
+                                                        <col width="150px"/>
                                                         <col width="250px"/>
                                                         <col width="150px"/>
+                                                        <col width="40px"/>
                                                         <col width="40px"/>
                                                     </colgroup>
                                                     <tbody class="tbl-head-style-cell">
@@ -1251,10 +1255,11 @@
                                                                 </div>
 
                                                             </td>
-                                                            <td>{{project.cpSumOfReserved}}</td>
-                                                            <td>{{project.cpSumOfFinancing}}</td>
-                                                            <td>{{project.cpSumOfCommitment}}</td>
-                                                            <td>{{project.cpSumOfCost}}</td>
+                                                            <td class="text-center">{{$parent.dispMoneyFormat(plan.capSumOfAllocation)}}</td>
+                                                            <td class="text-center">{{$parent.dispMoneyFormat(project.cpSumOfReserved)}}</td>
+                                                            <td class="text-center">{{$parent.dispMoneyFormat(project.cpSumOfFinancing)}}</td>
+                                                            <td class="text-center">{{$parent.dispMoneyFormat(project.cpSumOfCommitment)}}</td>
+                                                            <td class="text-center">{{$parent.dispMoneyFormat(project.cpSumOfCost)}}</td>
                                                             <td>{{project.cpDescription}}</td>
                                                             <td>
                                                                 <input :disabled="project.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(plan, project, 1, project.amount)" style="margin-bottom:0px;" v-if="project.selected == true" type="text" v-model="project.amount"  :value="project.amount" :name="'project'+project.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCapitalAssetsAmount(project , 2) + parseInt(project.amount , 10))" :class="{'input': true, 'error-border': errors.has('project'+project.id)}"/>
@@ -1324,13 +1329,13 @@
                                                     <template v-for="plan in completeCapitalAssetsAgrement">
                                                         <template v-for="project in plan.capital_assets_project_has_credit_source">
                                                             <tr v-for="creditSource in project.credit_source_has_allocation">
-                                                                <!--<td>
+                                                                <td>
                                                                     <div class="clearfix tool-bar">
                                                                         <button style="margin-bottom: 0px; width: 120px;" class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" :data-toggle="'creditSource' + creditSource.id">{{plan.credit_distribution_title.cdtIdNumber}}</button>
                                                                         <div  style="width: 600px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="top" data-alignment="right" :id="'creditSource' + creditSource.id" data-dropdown data-auto-focus="true">
                                                                             <ul class="my-menu small-font">
                                                                                 <div class="grid-x">
-                                                                                    &lt;!&ndash;Table Start&ndash;&gt;
+                                                                                    <!--Table Start-->
                                                                                     <div class="tbl_body_style dynamic-height-level-modal2">
                                                                                         <table class="stack text-right">
                                                                                             <tbody>
@@ -1347,16 +1352,8 @@
                                                                                                 <td>{{creditSource.how_to_run.htrSubject}}</td>
                                                                                             </tr>
                                                                                             <tr>
-                                                                                                <td width="150" class="black-color">عنوان ریز فصل :</td>
-                                                                                                <td>{{creditSource.tiny_season.castSubject}}</td>
-                                                                                            </tr>
-                                                                                            <tr class="">
-                                                                                                <td width="150" class="black-color">شرح ریز فصل :</td>
-                                                                                                <td class="text-justify">{{creditSource.tiny_season.castDescription}}</td>
-                                                                                            </tr>
-                                                                                            <tr>
                                                                                                 <td width="150" class="black-color">تاریخ شروع پروژه :</td>
-                                                                                                <td>{{project.cpStartOfYear}}</td>
+                                                                                                <td>{{project.cpStartYear}}</td>
                                                                                             </tr>
                                                                                             <tr>
                                                                                                 <td width="150" class="black-color">تاریخ پایان پروژه :</td>
@@ -1377,6 +1374,22 @@
                                                                                             <tr>
                                                                                                 <td width="150" class="black-color">عنوان طرح :</td>
                                                                                                 <td>{{plan.credit_distribution_title.cdtSubject}}</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td width="150" class="black-color">عنوان فصل بودجه:</td>
+                                                                                                <td>{{plan.credit_distribution_title.budget_season.bsSubject}}</td>
+                                                                                            </tr>
+                                                                                            <tr class="text-justify">
+                                                                                                <td width="150" class="black-color">شرح فصل بودجه:</td>
+                                                                                                <td class="text-justify">{{plan.credit_distribution_title.budget_season.bsDescription}}</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td width="150" class="black-color">عنوان ریز فصل :</td>
+                                                                                                <td>{{creditSource.tiny_season.catsSubject}}</td>
+                                                                                            </tr>
+                                                                                            <tr class="">
+                                                                                                <td width="150" class="black-color">شرح ریز فصل :</td>
+                                                                                                <td class="text-justify">{{creditSource.tiny_season.catsDescription}}</td>
                                                                                             </tr>
                                                                                             <tr>
                                                                                                 <td width="150" class="black-color">شرح طرح :</td>
@@ -1407,17 +1420,17 @@
                                                                                             </tbody>
                                                                                         </table>
                                                                                     </div>
-                                                                                    &lt;!&ndash;Table Body End&ndash;&gt;
+                                                                                    <!--Table Body End-->
                                                                                 </div>
                                                                             </ul>
                                                                         </div>
                                                                     </div>
-                                                                </td>-->
-                                                                <td>{{creditSource.ccsSumOfReserved}}</td>
-                                                                <td>{{creditSource.ccsSumOfFinancing}}</td>
-                                                                <td>{{creditSource.ccsSumOfCommitment}}</td>
-                                                                <td>{{creditSource.ccsSumOfCost}}</td>
-                                                                <td>{{creditSource.ccsAmount}}</td>
+                                                                </td>
+                                                                <td class="text-center">{{creditSource.ccsSumOfReserved}}</td>
+                                                                <td class="text-center">{{creditSource.ccsSumOfFinancing}}</td>
+                                                                <td class="text-center">{{creditSource.ccsSumOfCommitment}}</td>
+                                                                <td class="text-center">{{creditSource.ccsSumOfCost}}</td>
+                                                                <td class="text-center">{{creditSource.ccsAmount}}</td>
                                                                 <td>{{creditSource.ccsDescription}}</td>
                                                                 <td>
                                                                     <input :disabled="creditSource.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(plan, creditSource, 2, creditSource.amount)" style="margin-bottom:0px;" v-if="creditSource.selected == true" type="text" v-model="creditSource.amount"  :value="creditSource.amount" :name="'creditSource'+creditSource.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCapitalAssetsAmount(creditSource , 3) + parseInt(creditSource.amount , 10))" :class="{'input': true, 'error-border': errors.has('creditSource'+creditSource.id)}" />
@@ -1490,13 +1503,89 @@
                                                         <template v-for="creditSource in plan.capital_assets_project_has_credit_source">
                                                             <template v-for="allocations in creditSource.credit_source_has_allocation">
                                                                 <tr v-for="alloc in allocations.allocation">
-                                                                    <td>{{alloc.caaLetterNumber}}</td>
-                                                                    <td>{{alloc.caaSumOfReserved}}</td>
-                                                                    <td>{{alloc.caaSumOfFinancing}}</td>
-                                                                    <td>{{alloc.caaSumOfCommitment}}</td>
-                                                                    <td>{{alloc.caaSumOfCost}}</td>
-                                                                    <td>{{alloc.caaAmount}}</td>
-                                                                    <td>{{alloc.caaDescription}}</td>
+                                                                    <td>
+                                                                        <div class="clearfix tool-bar">
+                                                                            <button style="margin-bottom: 0px; width: 140px;" class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" :data-toggle="'allocation' + alloc.id">{{alloc.caaLetterNumber}}</button>
+                                                                            <div  style="width: 600px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="top" data-alignment="right" :id="'allocation' + alloc.id" data-dropdown data-auto-focus="true">
+                                                                                <ul class="my-menu small-font">
+                                                                                    <div class="grid-x">
+                                                                                        <!--Table Start-->
+                                                                                        <div class="tbl_body_style dynamic-height-level-modal2">
+                                                                                            <table class="stack text-right">
+                                                                                                <tbody>
+                                                                                                <tr>
+                                                                                                    <td width="150" class="black-color">عنوان پروژه :</td>
+                                                                                                    <td>{{creditSource.cpSubject}}</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="150" class="black-color">کد پروژه :</td>
+                                                                                                    <td>{{creditSource.cpCode}}</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="150" class="black-color">شماره طرح :</td>
+                                                                                                    <td>{{plan.credit_distribution_title.cdtIdNumber}}</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="150" class="black-color">عنوان طرح :</td>
+                                                                                                    <td>{{plan.credit_distribution_title.cdtSubject}}</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="150" class="black-color">عنوان فصل بودجه:</td>
+                                                                                                    <td>{{plan.credit_distribution_title.budget_season.bsSubject}}</td>
+                                                                                                </tr>
+                                                                                                <tr class="text-justify">
+                                                                                                    <td width="150" class="black-color">شرح فصل بودجه:</td>
+                                                                                                    <td class="text-justify">{{plan.credit_distribution_title.budget_season.bsDescription}}</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="150" class="black-color">عنوان ریز فصل :</td>
+                                                                                                    <td>{{allocations.tiny_season.catsSubject}}</td>
+                                                                                                </tr>
+                                                                                                <tr class="">
+                                                                                                    <td width="150" class="black-color">شرح ریز فصل :</td>
+                                                                                                    <td class="text-justify">{{allocations.tiny_season.catsDescription}}</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="150" class="black-color">شرح طرح :</td>
+                                                                                                    <td class="text-justify">{{plan.credit_distribution_title.cdtDescription}}</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="150" class="black-color">شماره موافقتنامه :</td>
+                                                                                                    <td class="text-justify">{{plan.capLetterNumber}}</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="150" class="black-color">تاریخ موافقتنامه :</td>
+                                                                                                    <td>{{plan.capLetterDate}}</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="150" class="black-color">تاریخ موافقتنامه :</td>
+                                                                                                    <td>{{plan.capLetterDate}}</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="150" class="black-color">نوع موافقتنامه :</td>
+                                                                                                    <td v-show="plan.capProvinceOrNational == 0">استانی</td>
+                                                                                                    <td v-show="plan.capProvinceOrNational == 1">ملی</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="150" class="black-color">شرح موافقتنامه :</td>
+                                                                                                    <td>{{plan.capDescription}}</td>
+                                                                                                </tr>
+
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </div>
+                                                                                        <!--Table Body End-->
+                                                                                    </div>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="text-center">{{alloc.caaSumOfReserved}}</td>
+                                                                    <td class="text-center">{{alloc.caaSumOfFinancing}}</td>
+                                                                    <td class="text-center">{{alloc.caaSumOfCommitment}}</td>
+                                                                    <td class="text-center">{{alloc.caaSumOfCost}}</td>
+                                                                    <td class="text-center">{{alloc.caaAmount}}</td>
+                                                                    <td >{{alloc.caaDescription}}</td>
                                                                     <td>
                                                                         <input :disabled="alloc.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(plan, alloc, 3, alloc.amount)" style="margin-bottom:0px;" v-if="alloc.selected == true" type="text" v-model="alloc.amount"  :value="alloc.amount" :name="'alloc'+alloc.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCapitalAssetsAmount(alloc , 4) + parseInt(alloc.amount , 10))" :class="{'input': true, 'error-border': errors.has('alloc'+alloc.id)}" />
                                                                         <span v-show="errors.has('alloc'+alloc.id)" class="error-font"></span>
@@ -1565,12 +1654,12 @@
                                                     </colgroup>
                                                     <tbody class="tbl-head-style-cell">
                                                     <tr v-for="found in capitalAssetsFound">
-                                                        <td>{{found.caaLetterNumber}}</td>
-                                                        <td>{{found.caaSumOfReserved}}</td>
-                                                        <td>{{found.caaSumOfFinancing}}</td>
-                                                        <td>{{found.caaSumOfCommitment}}</td>
-                                                        <td>{{found.caaSumOfCost}}</td>
-                                                        <td>{{found.caaAmount}}</td>
+                                                        <td class="text-center">{{found.caaLetterNumber}}</td>
+                                                        <td class="text-center">{{found.caaSumOfReserved}}</td>
+                                                        <td class="text-center">{{found.caaSumOfFinancing}}</td>
+                                                        <td class="text-center">{{found.caaSumOfCommitment}}</td>
+                                                        <td class="text-center">{{found.caaSumOfCost}}</td>
+                                                        <td class="text-center">{{found.caaAmount}}</td>
                                                         <td>{{found.caaDescription}}</td>
                                                         <td>
                                                             <input :disabled="found.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(null, found, 4, found.amount)" style="margin-bottom:0px;" v-if="found.selected == true" type="text" v-model="found.amount"  :value="found.amount" :name="'found'+found.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCapitalAssetsAmount(found , 4) + parseInt(found.amount , 10))" :class="{'input': true, 'error-border': errors.has('found'+found.id)}"/>
@@ -2093,20 +2182,23 @@
             },
 
             acceptRequest: function () {
-
-                axios.post('/financial/request/accept', {
-                    lastRefId: this.lastVerifier,
-                    verifierId: this.youAreVerifier,
-                    itemExistCount: this.repoExistCount
-                }).then((response) => {
-                    this.receiveRequests = response.data.data;
-                    this.showSubmitRequestModal = false;
-                    this.showRequestDetailModal = false;
-                    this.$parent.displayNotif(response.status);
-                    console.log(response);
-                }, (error) => {
-                    console.log(error);
-                    this.$parent.displayNotif(error.response.status);
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/financial/request/accept', {
+                            lastRefId: this.lastVerifier,
+                            verifierId: this.youAreVerifier,
+                            itemExistCount: this.repoExistCount
+                        }).then((response) => {
+                            this.receiveRequests = response.data.data;
+                            this.showSubmitRequestModal = false;
+                            this.showRequestDetailModal = false;
+                            this.$parent.displayNotif(response.status);
+                            console.log(response);
+                        }, (error) => {
+                            console.log(error);
+                            this.$parent.displayNotif(error.response.status);
+                        });
+                    }
                 });
             },
 

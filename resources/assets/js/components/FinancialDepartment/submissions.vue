@@ -613,6 +613,7 @@
                 this.requestTypeId=st.id;
                 this.recipientUsersTemp=[];
                 this.verifiers=[];
+                this.recipientUsers=[];
                 this.fetchRecipientsGroup();
 
                 this.showBuyCommodityModal=true;
