@@ -165,7 +165,7 @@
                                                 <th width="50">ردیف</th>
                                                 <th>شرح و نوع جنس</th>
                                                 <th width="100">تعداد</th>
-                                                <th v-show='$can("DETERMINE_EXIST_COMMODITY_IN_REPOSITORY")' width="100">موجودی انبار</th>
+                                                <th v-if='$can("DETERMINE_EXIST_COMMODITY_IN_REPOSITORY")' width="100">موجودی انبار</th>
                                                 <th width="200">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
                                                 <th>توضیحات (موارد مصرف)</th>
                                                 </thead>
@@ -174,7 +174,7 @@
                                                     <td>{{index+1}}</td>
                                                     <td>{{lists.commodity.cSubject}}</td>
                                                     <td>{{lists.rcCount - lists.rcExistCount}}</td>
-                                                    <td v-show='$can("DETERMINE_EXIST_COMMODITY_IN_REPOSITORY")'>
+                                                    <td v-if='$can("DETERMINE_EXIST_COMMODITY_IN_REPOSITORY")'>
                                                         <input v-on:change="setRepoExistCount(lists.id,commodityCountInput['existCount' + lists.id])" v-model="commodityCountInput['existCount' + lists.id]"  style="margin-bottom: 0px;" class="form-element-margin-btm" type="text" :name="'repoCount' + lists.id" v-validate="'required','min_value:0','max_value:'+lists.rcCount " data-vv-as="field" :class="{'input': true, 'error-border': errors.has('repoCount' + lists.id)}">
                                                         <span v-show="errors.has('repoCount' + lists.id)" class="error-font"></span>
                                                     </td>
@@ -182,7 +182,7 @@
                                                     <td>{{lists.rcDescription}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="3" class="text-center font-wei-bold"> مجموع برآورد</td>
+                                                    <td :colspan='$can("DETERMINE_EXIST_COMMODITY_IN_REPOSITORY") ? 4 : 3' class="text-center font-wei-bold"> مجموع برآورد</td>
                                                     <td colspan="2" class="text-center font-wei-bold">{{$parent.dispMoneyFormat(requestFill.rCostEstimation)}} <span class="btn-red">  ریال  </span> </td>
                                                 </tr>
                                                 </tbody>
