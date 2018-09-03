@@ -612,6 +612,7 @@
                 this.requestTypeSend=st.rtType;
                 this.requestTypeId=st.id;
                 this.recipientUsersTemp=[];
+                this.verifiers=[];
                 this.fetchRecipientsGroup();
 
                 this.showBuyCommodityModal=true;
