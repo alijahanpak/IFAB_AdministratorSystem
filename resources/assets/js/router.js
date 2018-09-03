@@ -205,7 +205,7 @@ var app = new Vue({
     },
 
     updated: function () {
-        $(this.$el).foundation(); //WORKS!
+        $(this.$el).foundation(); //WORKS FINE!
         this.fixedLoginFrame();
         this.fixedAccessDeniedFrame();
         console.log('user permission in acl = ' + this.access);
@@ -342,10 +342,10 @@ var app = new Vue({
         },
 
         setUpdateUnReadReceivedCountThread: function () {
-            //console.log("...................................................... set cost approved prog update thread");
+            console.log("...................................................... get unread received request thread");
             if (this.updateUnReadReceivedRequestThreadNowPlaying)
                 clearInterval(this.updateUnReadReceivedRequestThreadNowPlaying);
-            this.updateUnReadReceivedRequestThreadNowPlaying = setInterval(this._getUnReadReceivedRequest(), 90000);
+            this.updateUnReadReceivedRequestThreadNowPlaying = setInterval(this._getUnReadReceivedRequest, 120000);
         },
 
         openModalUserSetting: function () {

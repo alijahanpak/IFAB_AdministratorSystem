@@ -1783,11 +1783,13 @@
                 requestCostFinancing:[],
                 requestCapFinancing:[],
                 maxInputValue:0,
+                updateDataThreadNowPlaying: null,
             }
         },
 
         created: function(){
             this.fetchData();
+            this.setUpdateDataThread();
         },
 
         updated: function () {
@@ -1800,7 +1802,23 @@
             this.$parent.myResize();
         },
 
+        beforeDestroy: function () {
+            clearInterval(this.updateDataThreadNowPlaying);
+            console.log('...................................... kill update data thread');
+        },
+
         methods: {
+            setUpdateDataThread: function () {
+                console.log("...................................................... set received request update thread");
+                if (this.updateDataThreadNowPlaying)
+                    clearInterval(this.updateDataThreadNowPlaying);
+                this.updateDataThreadNowPlaying = setInterval(this.updateDataThread, 60000);
+            },
+
+            updateDataThread: function () {
+                console.log("...................................................... received request update thread");
+                this.fetchData();
+            },
 
             fetchData: function (page=1) {
                 axios.get('/financial/request/received/fetchData?page=' + page)
@@ -2060,6 +2078,7 @@
                         rhId: request.rLastRef.id
                     }).then((response) => {
                         this.receiveRequests = response.data.data;
+                        this.getUnReadReceivedRequest();
                         console.log(response);
                     }, (error) => {
                         console.log(error);
@@ -2160,6 +2179,7 @@
                             verifierId:this.youAreVerifier
                         }).then((response) => {
                             this.receiveRequests = response.data.data;
+                            this.getUnReadReceivedRequest();
                             this.showReferralsModal = false;
                             this.showRequestDetailModal = false;
                             this.referralInput = {};
@@ -2190,6 +2210,7 @@
                             itemExistCount: this.repoExistCount
                         }).then((response) => {
                             this.receiveRequests = response.data.data;
+                            this.getUnReadReceivedRequest();
                             this.showSubmitRequestModal = false;
                             this.showRequestDetailModal = false;
                             this.$parent.displayNotif(response.status);
@@ -2212,6 +2233,7 @@
                     description: this.responseDescription
                 }).then((response) => {
                     this.receiveRequests = response.data.data;
+                    this.getUnReadReceivedRequest();
                     this.showResponseRequestModal = false;
                     this.showRequestDetailModal = false;
                     this.$parent.displayNotif(response.status);
@@ -2255,6 +2277,7 @@
                     letterNumber: this.letterNumber
                 }).then((response) => {
                     this.receiveRequests = response.data.data;
+                    this.getUnReadReceivedRequest();
                     this.showRegisterAndNumberingModal = false;
                     this.showRequestDetailModal = false;
                     this.$parent.displayNotif(response.status);

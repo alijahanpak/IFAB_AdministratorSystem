@@ -287,12 +287,14 @@
                 costTemp:'',
                 commodityList:[],
                 baseURL:window.hostname+'/',
+                updateDataThreadNowPlaying:null,
 
             }
         },
 
         created: function(){
             this.fetchData();
+            this.setUpdateDataThread();
         },
 
         updated: function () {
@@ -304,7 +306,23 @@
             this.$parent.myResize();
         },
 
+        beforeDestroy: function () {
+            clearInterval(this.updateDataThreadNowPlaying);
+            console.log('...................................... kill update data thread');
+        },
+
         methods: {
+            setUpdateDataThread: function () {
+                console.log("...................................................... set search part update thread");
+                if (this.updateDataThreadNowPlaying)
+                    clearInterval(this.updateDataThreadNowPlaying);
+                this.updateDataThreadNowPlaying = setInterval(this.updateDataThread, 60000);
+            },
+
+            updateDataThread: function () {
+                console.log("...................................................... search part update thread");
+                this.fetchData();
+            },
 
             fetchData: function (page=1) {
                 axios.get('/financial/request/search/normal/fetchData?page=' + page , {params:{searchValue:this.requestSearchValue}})
