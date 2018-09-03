@@ -505,6 +505,7 @@
                 verifiers:[],
                 baseURL:window.hostname+'/',
                 submitBtnState:true,
+                updateDataThreadNowPlaying:null,
 
 
             }
@@ -513,6 +514,7 @@
         created: function(){
             this.fetchData();
             this.fetchSubmissionsType();
+            this.setUpdateDataThread();
         },
 
         updated: function () {
@@ -524,7 +526,23 @@
             this.$parent.myResize();
         },
 
+        beforeDestroy: function () {
+            clearInterval(this.updateDataThreadNowPlaying);
+            console.log('...................................... kill update data thread');
+        },
+
         methods: {
+            setUpdateDataThread: function () {
+                console.log("...................................................... set posted request update thread");
+                if (this.updateDataThreadNowPlaying)
+                    clearInterval(this.updateDataThreadNowPlaying);
+                this.updateDataThreadNowPlaying = setInterval(this.updateDataThread, 60000);
+            },
+
+            updateDataThread: function () {
+                console.log("...................................................... posted request update thread");
+                this.fetchData();
+            },
 
             fetchData: function (page=1) {
                 axios.get('/financial/request/posted/fetchData?page=' + page)

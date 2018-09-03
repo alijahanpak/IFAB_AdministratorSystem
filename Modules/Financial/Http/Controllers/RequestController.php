@@ -14,6 +14,7 @@ use Modules\Admin\Entities\SystemLog;
 use Modules\Admin\Entities\UserGroup;
 use Modules\Budget\Entities\CostAllocation;
 use Modules\Financial\Entities\_Request;
+use Modules\Financial\Entities\Attachment;
 use Modules\Financial\Entities\CapitalAssetsFinancing;
 use Modules\Financial\Entities\Commodity;
 use Modules\Financial\Entities\CostFinancing;
@@ -59,6 +60,7 @@ class RequestController extends Controller
         return _Request::where('rUId' , '=' , $uId)
             ->with('requestState')
             ->with('requestType')
+            ->with('attachment')
             ->with('verifiers.user.role.officeUnit')
             ->with('requestCommodity.commodity')
             ->with('history.sourceUserInfo.role')
@@ -80,6 +82,18 @@ class RequestController extends Controller
         $req->rDescription = PublicSetting::checkPersianCharacters($request->description);
         $req->rFurtherDetails = PublicSetting::checkPersianCharacters($request->furtherDetails);
         $req->save();
+
+        if ($request->exists('attachments'))
+        {
+            foreach ($request->file('attachments') as $files)
+            {
+                $fileName = $files->store('attachments');
+                $attachment = new Attachment();
+                $attachment->aRId = $req->id;
+                $attachment->aPath = $fileName;
+                $attachment->save();
+            }
+        }
 
         if (is_array($request->get('items')))
         {
@@ -149,6 +163,7 @@ class RequestController extends Controller
         return _Request::whereIn('id' , $reqIds)
             ->where('rRsId' , '=' , RequestState::where('rsState' , '=' , 'ACTIVE')->value('id'))
             ->with('requestState')
+            ->with('attachment')
             ->with('requestType')
             ->with('verifiers.user.role.officeUnit')
             ->with(['requestCommodity' => function($q){

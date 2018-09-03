@@ -17,7 +17,7 @@ class SeedRequestCommoditiesTableSeeder extends Seeder
     {
         Model::unguard();
 
-        $reqComm = new RequestCommodity();
+/*        $reqComm = new RequestCommodity();
         $reqComm->rcRId = 1;
         $reqComm->rcCId = 1;
         $reqComm->rcCount = 10;
@@ -31,6 +31,6 @@ class SeedRequestCommoditiesTableSeeder extends Seeder
         $reqComm->rcCount = 13;
         $reqComm->rcCostEstimation = 6000;
         $reqComm->rcDescription = 'بسته کاغذ A4';
-        $reqComm->save();
+        $reqComm->save();*/
     }
 }

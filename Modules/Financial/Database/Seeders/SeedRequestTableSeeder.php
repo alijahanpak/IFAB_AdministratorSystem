@@ -17,13 +17,13 @@ class SeedRequestTableSeeder extends Seeder
     {
         Model::unguard();
 
-        $req = new _Request();
+/*        $req = new _Request();
         $req->rRsId = 1;
-        $req->rRtId = 2;
+        $req->rRtId = 1;
         $req->rUId = 5;
-        $req->rSubject = 'استفاده در دبیرخانه معاونت میراث';
+        $req->rSubject = 'مرمت خانه بیژن';
         $req->rCostEstimation = 12000;
-        $req->save();
+        $req->save();*/
 
     }
 }

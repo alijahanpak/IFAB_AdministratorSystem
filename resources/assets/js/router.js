@@ -345,7 +345,7 @@ var app = new Vue({
             console.log("...................................................... get unread received request thread");
             if (this.updateUnReadReceivedRequestThreadNowPlaying)
                 clearInterval(this.updateUnReadReceivedRequestThreadNowPlaying);
-            this.updateUnReadReceivedRequestThreadNowPlaying = setInterval(this._getUnReadReceivedRequest(), 120000);
+            this.updateUnReadReceivedRequestThreadNowPlaying = setInterval(this._getUnReadReceivedRequest, 120000);
         },
 
         openModalUserSetting: function () {
