@@ -73,6 +73,14 @@
                             </table>
                         </div>
                     </div>
+                    <div class="grid-x">
+                        <div class="medium-12">
+                            <vue-pagination  v-bind:pagination="posted_pagination"
+                                             v-on:click.native="fetchData(posted_pagination.current_page)"
+                                             :offset="4">
+                            </vue-pagination>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -464,9 +472,13 @@
 
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
+    import VuePagination from '../../public_component/pagination.vue';
     export default {
-        components: {Suggestions},
-        "vue-select": require("vue-select"),
+        components: {
+            Suggestions,
+            "vue-select": require("vue-select"),
+            'vue-pagination' : VuePagination,
+        },
         data () {
             return {
                 attachments: [],
@@ -506,6 +518,12 @@
                 baseURL:window.hostname+'/',
                 submitBtnState:true,
                 updateDataThreadNowPlaying:null,
+                posted_pagination: {
+                    total: 0,
+                    to: 0,
+                    current_page: 1,
+                    last_page: ''
+                },
 
 
             }
@@ -532,6 +550,12 @@
         },
 
         methods: {
+            makePagination: function(data){
+                this.posted_pagination.current_page = data.current_page;
+                this.posted_pagination.to = data.to;
+                this.posted_pagination.last_page = data.last_page;
+            },
+
             setUpdateDataThread: function () {
                 console.log("...................................................... set posted request update thread");
                 if (this.updateDataThreadNowPlaying)
@@ -548,6 +572,7 @@
                 axios.get('/financial/request/posted/fetchData?page=' + page)
                     .then((response) => {
                         this.submissions = response.data.data;
+                        this.makePagination(response.data);
                         console.log(response);
                     }, (error) => {
                         console.log(error);
@@ -716,6 +741,7 @@
 
                             axios.post('/financial/request/register', this.data , config).then((response) => {
                                 this.submissions = response.data.data;
+                                this.makePagination(response.data);
                                 this.showBuyCommodityModal = false;
                                 this.$parent.displayNotif(response.status);
                                 console.log(response);

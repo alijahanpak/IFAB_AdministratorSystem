@@ -1831,21 +1831,12 @@
                 axios.get('/financial/request/received/fetchData?page=' + page)
                     .then((response) => {
                         this.receiveRequests = response.data.data;
-                        this.getUnReadReceivedRequest();
+                        this.$parent._getUnReadReceivedRequest();
                         this.makePagination(response.data);
                         console.log(response);
                     }, (error) => {
                         console.log(error);
                 });
-            },
-
-            getUnReadReceivedRequest: function(){
-                var count = 0;
-                 this.receiveRequests.forEach(item => {
-                     if (item.rLastRef.rhHasBeenSeen == 0)
-                        count++;
-                 });
-                this.$parent.unReadRequestCount = count;
             },
 
             getGroupUsers: function () {
@@ -2085,7 +2076,7 @@
                         rhId: request.rLastRef.id
                     }).then((response) => {
                         this.receiveRequests = response.data.data;
-                        this.getUnReadReceivedRequest();
+                        this.$parent._getUnReadReceivedRequest();
                         this.makePagination(response.data);
                         console.log(response);
                     }, (error) => {
@@ -2187,7 +2178,7 @@
                             verifierId:this.youAreVerifier
                         }).then((response) => {
                             this.receiveRequests = response.data.data;
-                            this.getUnReadReceivedRequest();
+                            this.$parent._getUnReadReceivedRequest();
                             this.makePagination(response.data);
                             this.showReferralsModal = false;
                             this.showRequestDetailModal = false;
@@ -2219,7 +2210,7 @@
                             itemExistCount: this.repoExistCount
                         }).then((response) => {
                             this.receiveRequests = response.data.data;
-                            this.getUnReadReceivedRequest();
+                            this.$parent._getUnReadReceivedRequest();
                             this.makePagination(response.data);
                             this.showSubmitRequestModal = false;
                             this.showRequestDetailModal = false;
@@ -2243,7 +2234,7 @@
                     description: this.responseDescription
                 }).then((response) => {
                     this.receiveRequests = response.data.data;
-                    this.getUnReadReceivedRequest();
+                    this.$parent._getUnReadReceivedRequest();
                     this.makePagination(response.data);
                     this.showResponseRequestModal = false;
                     this.showRequestDetailModal = false;
@@ -2288,7 +2279,7 @@
                     letterNumber: this.letterNumber
                 }).then((response) => {
                     this.receiveRequests = response.data.data;
-                    this.getUnReadReceivedRequest();
+                    this.$parent._getUnReadReceivedRequest();
                     this.makePagination(response.data);
                     this.showRegisterAndNumberingModal = false;
                     this.showRequestDetailModal = false;
