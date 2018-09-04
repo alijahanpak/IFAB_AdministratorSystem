@@ -28,7 +28,6 @@
                         </ul>
                     </div>
                 </div>
-                <div class="medium-12 column">
                     <div class="tbl-div-container">
                         <table class="tbl-head">
                             <colgroup>
@@ -73,7 +72,6 @@
                             </table>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
         <!-- Submission Buy Modal -->

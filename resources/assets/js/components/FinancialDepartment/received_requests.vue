@@ -18,7 +18,7 @@
                 </div>
             </div>
         </div>
-        <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
+        <div class="grid-x  dynamic-height-level1">
             <div class="medium-12 padding-lr" style="margin-top: 15px;">
                 <div class="clearfix tool-bar">
                     <!--<div class="medium-12 column padding-lr">
@@ -33,63 +33,60 @@
                         </div>
                     </div>-->
                 </div>
-                <div class="medium-12 padding-lr" style="margin-top: 15px;">
-                    <div class="medium-12 column">
-                        <div class="tbl-div-container">
-                            <table class="tbl-head">
-                                <colgroup>
-                                    <col width="80px"/>
-                                    <col width="400px"/>
-                                    <col width="300px"/>
-                                    <col width="150px"/>
-                                    <col width="200px"/>
-                                    <col width="200px"/>
-                                    <col width="200px"/>
-                                    <col width="12px"/>
-                                </colgroup>
-                                <tbody class="tbl-head-style">
-                                <tr class="tbl-head-style-cell">
-                                    <th class="tbl-head-style-cell">وضعیت</th>
-                                    <th class="tbl-head-style-cell">عنوان</th>
-                                    <th class="tbl-head-style-cell">ارسال کننده</th>
-                                    <th class="tbl-head-style-cell">نوع درخواست</th>
-                                    <th class="tbl-head-style-cell">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
-                                    <th class="tbl-head-style-cell">شماره</th>
-                                    <th class="tbl-head-style-cell">تاریخ</th>
-                                    <th class="tbl-head-style-cell"></th>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <!--Table Head End-->
-                            <!--Table Body Start-->
-                            <div class="tbl_body_style dynamic-height-level2">
-                                <table class="tbl-body-contain">
-                                    <colgroup>
-                                        <col width="80px"/>
-                                        <col width="400px"/>
-                                        <col width="300px"/>
-                                        <col width="150px"/>
-                                        <col width="200px"/>
-                                        <col width="200px"/>
-                                        <col width="200px"/>
-                                    </colgroup>
-                                    <tbody class="tbl-head-style-cell">
-                                    <tr class="table-row" @click="getRequestDetail(receiveRequest)" v-for="receiveRequest in receiveRequests">
-                                        <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
-                                        <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
-                                        <td>{{receiveRequest.rSubject}}</td>
-                                        <td>{{receiveRequest.rLastRef.source_user_info.name}} - {{receiveRequest.rLastRef.source_user_info.role.rSubject}}</td>
-                                        <td v-if="receiveRequest.rRtId==1"> خدمات</td>
-                                        <td v-else-if="receiveRequest.rRtId==2"> کالا</td>
-                                        <td v-else="receiveRequest.rRtId==3"> تنخواه</td>
-                                        <td>{{$parent.dispMoneyFormat(receiveRequest.rCostEstimation)}}</td>
-                                        <td>{{receiveRequest.rLetterNumber}}</td>
-                                        <td>{{receiveRequest.rLetterDate}}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+
+                <div class="tbl-div-container">
+                    <table class="tbl-head">
+                        <colgroup>
+                            <col width="80px"/>
+                            <col width="400px"/>
+                            <col width="300px"/>
+                            <col width="200px"/>
+                            <col width="200px"/>
+                            <col width="200px"/>
+                            <col width="200px"/>
+                            <col width="12px"/>
+                        </colgroup>
+                        <tbody class="tbl-head-style">
+                        <tr class="tbl-head-style-cell">
+                            <th class="tbl-head-style-cell">وضعیت</th>
+                            <th class="tbl-head-style-cell">عنوان</th>
+                            <th class="tbl-head-style-cell">ارسال کننده</th>
+                            <th class="tbl-head-style-cell">نوع درخواست</th>
+                            <th class="tbl-head-style-cell">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
+                            <th class="tbl-head-style-cell">شماره</th>
+                            <th class="tbl-head-style-cell">تاریخ</th>
+                            <th class="tbl-head-style-cell"></th>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!--Table Head End-->
+                    <!--Table Body Start-->
+                    <div class="tbl_body_style dynamic-height-level2">
+                        <table class="tbl-body-contain">
+                            <colgroup>
+                                <col width="80px"/>
+                                <col width="400px"/>
+                                <col width="300px"/>
+                                <col width="200px"/>
+                                <col width="200px"/>
+                                <col width="200px"/>
+                                <col width="200px"/>
+                            </colgroup>
+                            <tbody class="tbl-head-style-cell">
+                            <tr class="table-row" @click="getRequestDetail(receiveRequest)" v-for="receiveRequest in receiveRequests">
+                                <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
+                                <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
+                                <td>{{receiveRequest.rSubject}}</td>
+                                <td>{{receiveRequest.rLastRef.source_user_info.name}} - {{receiveRequest.rLastRef.source_user_info.role.rSubject}}</td>
+                                <td v-if="receiveRequest.rRtId==1"> خدمات</td>
+                                <td v-else-if="receiveRequest.rRtId==2"> کالا</td>
+                                <td v-else="receiveRequest.rRtId==3"> تنخواه</td>
+                                <td>{{$parent.dispMoneyFormat(receiveRequest.rCostEstimation)}}</td>
+                                <td>{{receiveRequest.rLetterNumber}}</td>
+                                <td>{{receiveRequest.rLetterDate}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -1035,9 +1032,11 @@
                                                     </colgroup>
                                                     <tbody class="tbl-head-style-cell">
                                                     <tr class="table-row"  v-for="plan in completeCapitalAssetsAgrement">
-                                                        <td :data-toggle="'plan' + plan.id">{{plan.credit_distribution_title.cdtIdNumber}}
+                                                        <td :data-toggle="'plan' + plan.id">{{plan.credit_distribution_title.cdtIdNumber}}</td>
+                                                        <td :data-toggle="'plan' + plan.id" class="text-center">{{$parent.dispMoneyFormat(plan.capSumOfAllocation)}}</td>
+                                                        <td :data-toggle="'plan' + plan.id" class="text-center">{{$parent.dispMoneyFormat(plan.capSumOfReserved)}}
                                                             <div class="clearfix tool-bar">
-                                                                <div  style="width: 600px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="top" data-alignment="auto" :id="'plan' + plan.id" data-dropdown data-auto-focus="true">
+                                                                <div  style="width: 600px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="auto" :id="'plan' + plan.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font">
                                                                         <div class="grid-x">
                                                                             <!--Table Start-->
@@ -1094,10 +1093,7 @@
                                                                     </ul>
                                                                 </div>
                                                             </div>
-
                                                         </td>
-                                                        <td :data-toggle="'plan' + plan.id" class="text-center">{{$parent.dispMoneyFormat(plan.capSumOfAllocation)}}</td>
-                                                        <td :data-toggle="'plan' + plan.id" class="text-center">{{$parent.dispMoneyFormat(plan.capSumOfReserved)}}</td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$parent.dispMoneyFormat(plan.capSumOfFinancing)}}</td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$parent.dispMoneyFormat(plan.capSumOfCommitment)}}</td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$parent.dispMoneyFormat(plan.capSumOfCost)}}</td>
@@ -1171,12 +1167,12 @@
                                                     </colgroup>
                                                     <tbody class="tbl-head-style-cell">
                                                     <template v-for="plan in completeCapitalAssetsAgrement">
-                                                        <tr v-for="project in plan.capital_assets_project_has_credit_source">
-                                                            <td>{{project.cpSubject}}</td>
-                                                            <td  class="text-center">
+                                                        <tr class="table-row" v-for="project in plan.capital_assets_project_has_credit_source">
+                                                            <td :data-toggle="'project' + project.id">{{project.cpSubject}}</td>
+                                                            <td :data-toggle="'project' + project.id" class="text-center">{{project.cpCode}}</td>
+                                                            <td :data-toggle="'project' + project.id" class="text-center">{{$parent.dispMoneyFormat(plan.capSumOfAllocation)}}
                                                                 <div class="clearfix tool-bar">
-                                                                    <button style="margin-bottom: 0px; width: 120px;" class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" :data-toggle="'project' + project.id">{{project.cpCode}}</button>
-                                                                    <div  style="width: 600px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="top" data-alignment="right" :id="'project' + project.id" data-dropdown data-auto-focus="true">
+                                                                    <div  style="width: 600px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true" data-h-offset="100px"  data-hover="true" data-hover-pane="true"  data-position="top" data-alignment="right" :id="'project' + project.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font">
                                                                             <div class="grid-x">
                                                                                 <!--Table Start-->
@@ -1253,14 +1249,12 @@
                                                                         </ul>
                                                                     </div>
                                                                 </div>
-
                                                             </td>
-                                                            <td class="text-center">{{$parent.dispMoneyFormat(plan.capSumOfAllocation)}}</td>
-                                                            <td class="text-center">{{$parent.dispMoneyFormat(project.cpSumOfReserved)}}</td>
-                                                            <td class="text-center">{{$parent.dispMoneyFormat(project.cpSumOfFinancing)}}</td>
-                                                            <td class="text-center">{{$parent.dispMoneyFormat(project.cpSumOfCommitment)}}</td>
-                                                            <td class="text-center">{{$parent.dispMoneyFormat(project.cpSumOfCost)}}</td>
-                                                            <td>{{project.cpDescription}}</td>
+                                                            <td :data-toggle="'project' + project.id" class="text-center">{{$parent.dispMoneyFormat(project.cpSumOfReserved)}}</td>
+                                                            <td :data-toggle="'project' + project.id" class="text-center">{{$parent.dispMoneyFormat(project.cpSumOfFinancing)}}</td>
+                                                            <td :data-toggle="'project' + project.id" class="text-center">{{$parent.dispMoneyFormat(project.cpSumOfCommitment)}}</td>
+                                                            <td :data-toggle="'project' + project.id" class="text-center">{{$parent.dispMoneyFormat(project.cpSumOfCost)}}</td>
+                                                            <td :data-toggle="'project' + project.id">{{project.cpDescription}}</td>
                                                             <td>
                                                                 <input :disabled="project.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(plan, project, 1, project.amount)" style="margin-bottom:0px;" v-if="project.selected == true" type="text" v-model="project.amount"  :value="project.amount" :name="'project'+project.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCapitalAssetsAmount(project , 2) + parseInt(project.amount , 10))" :class="{'input': true, 'error-border': errors.has('project'+project.id)}"/>
                                                                 <span v-show="errors.has('project'+project.id)" class="error-font"></span>
@@ -1291,6 +1285,7 @@
                                                     <col width="150px"/>
                                                     <col width="150px"/>
                                                     <col width="150px"/>
+                                                    <col width="150px"/>
                                                     <col width="250px"/>
                                                     <col width="150px"/>
                                                     <col width="40px"/>
@@ -1299,6 +1294,7 @@
                                                 <tbody class="tbl-head-style ">
                                                 <tr class="tbl-head-style-cell">
                                                     <th class="tbl-head-style-cell">شماره طرح</th>
+                                                    <th class="tbl-head-style-cell">مجموع تخصیص</th>
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
                                                     <th class="tbl-head-style-cell">تامین اعتبار</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
@@ -1321,6 +1317,7 @@
                                                         <col width="150px"/>
                                                         <col width="150px"/>
                                                         <col width="150px"/>
+                                                        <col width="150px"/>
                                                         <col width="250px"/>
                                                         <col width="150px"/>
                                                         <col width="40px"/>
@@ -1328,11 +1325,13 @@
                                                     <tbody class="tbl-head-style-cell">
                                                     <template v-for="plan in completeCapitalAssetsAgrement">
                                                         <template v-for="project in plan.capital_assets_project_has_credit_source">
-                                                            <tr v-for="creditSource in project.credit_source_has_allocation">
-                                                                <td>
+                                                            <tr class="table-row" v-for="creditSource in project.credit_source_has_allocation">
+                                                                <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{plan.credit_distribution_title.cdtIdNumber}}</td>
+                                                                <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{$parent.dispMoneyFormat(plan.capSumOfAllocation)}}</td>
+                                                                <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{$parent.dispMoneyFormat(creditSource.ccsSumOfReserved)}}</td>
+                                                                <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{$parent.dispMoneyFormat(creditSource.ccsSumOfFinancing)}}
                                                                     <div class="clearfix tool-bar">
-                                                                        <button style="margin-bottom: 0px; width: 120px;" class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" :data-toggle="'creditSource' + creditSource.id">{{plan.credit_distribution_title.cdtIdNumber}}</button>
-                                                                        <div  style="width: 600px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="top" data-alignment="right" :id="'creditSource' + creditSource.id" data-dropdown data-auto-focus="true">
+                                                                        <div  style="width: 600px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true" data-h-offset="100px"  data-hover="true" data-hover-pane="true"  data-position="top" data-alignment="right" :id="'creditSource' + creditSource.id" data-dropdown data-auto-focus="true">
                                                                             <ul class="my-menu small-font">
                                                                                 <div class="grid-x">
                                                                                     <!--Table Start-->
@@ -1426,12 +1425,10 @@
                                                                         </div>
                                                                     </div>
                                                                 </td>
-                                                                <td class="text-center">{{creditSource.ccsSumOfReserved}}</td>
-                                                                <td class="text-center">{{creditSource.ccsSumOfFinancing}}</td>
-                                                                <td class="text-center">{{creditSource.ccsSumOfCommitment}}</td>
-                                                                <td class="text-center">{{creditSource.ccsSumOfCost}}</td>
-                                                                <td class="text-center">{{creditSource.ccsAmount}}</td>
-                                                                <td>{{creditSource.ccsDescription}}</td>
+                                                                <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{$parent.dispMoneyFormat(creditSource.ccsSumOfCommitment)}}</td>
+                                                                <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{$parent.dispMoneyFormat(creditSource.ccsSumOfCost)}}</td>
+                                                                <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{$parent.dispMoneyFormat(creditSource.ccsAmount)}}</td>
+                                                                <td :data-toggle="'creditSource' + creditSource.id">{{creditSource.ccsDescription}}</td>
                                                                 <td>
                                                                     <input :disabled="creditSource.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(plan, creditSource, 2, creditSource.amount)" style="margin-bottom:0px;" v-if="creditSource.selected == true" type="text" v-model="creditSource.amount"  :value="creditSource.amount" :name="'creditSource'+creditSource.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCapitalAssetsAmount(creditSource , 3) + parseInt(creditSource.amount , 10))" :class="{'input': true, 'error-border': errors.has('creditSource'+creditSource.id)}" />
                                                                     <span v-show="errors.has('creditSource'+creditSource.id)" class="error-font"></span>
@@ -1502,11 +1499,12 @@
                                                     <template v-for="plan in completeCapitalAssetsAgrement">
                                                         <template v-for="creditSource in plan.capital_assets_project_has_credit_source">
                                                             <template v-for="allocations in creditSource.credit_source_has_allocation">
-                                                                <tr v-for="alloc in allocations.allocation">
-                                                                    <td>
+                                                                <tr class="table-row" v-for="alloc in allocations.allocation">
+                                                                    <td :data-toggle="'allocation' + alloc.id" class="text-center">{{alloc.caaLetterNumber}}</td>
+                                                                    <td :data-toggle="'allocation' + alloc.id" class="text-center">{{alloc.caaSumOfReserved}}</td>
+                                                                    <td :data-toggle="'allocation' + alloc.id" class="text-center">{{alloc.caaSumOfFinancing}}
                                                                         <div class="clearfix tool-bar">
-                                                                            <button style="margin-bottom: 0px; width: 140px;" class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" :data-toggle="'allocation' + alloc.id">{{alloc.caaLetterNumber}}</button>
-                                                                            <div  style="width: 600px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="top" data-alignment="right" :id="'allocation' + alloc.id" data-dropdown data-auto-focus="true">
+                                                                            <div  style="width: 600px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true" data-h-offset="100px" data-hover="true" data-hover-pane="true"  data-position="top" data-alignment="right" :id="'allocation' + alloc.id" data-dropdown data-auto-focus="true">
                                                                                 <ul class="my-menu small-font">
                                                                                     <div class="grid-x">
                                                                                         <!--Table Start-->
@@ -1580,12 +1578,10 @@
                                                                             </div>
                                                                         </div>
                                                                     </td>
-                                                                    <td class="text-center">{{alloc.caaSumOfReserved}}</td>
-                                                                    <td class="text-center">{{alloc.caaSumOfFinancing}}</td>
-                                                                    <td class="text-center">{{alloc.caaSumOfCommitment}}</td>
-                                                                    <td class="text-center">{{alloc.caaSumOfCost}}</td>
-                                                                    <td class="text-center">{{alloc.caaAmount}}</td>
-                                                                    <td >{{alloc.caaDescription}}</td>
+                                                                    <td :data-toggle="'allocation' + alloc.id" class="text-center">{{alloc.caaSumOfCommitment}}</td>
+                                                                    <td :data-toggle="'allocation' + alloc.id" class="text-center">{{alloc.caaSumOfCost}}</td>
+                                                                    <td :data-toggle="'allocation' + alloc.id" class="text-center">{{alloc.caaAmount}}</td>
+                                                                    <td :data-toggle="'allocation' + alloc.id" >{{alloc.caaDescription}}</td>
                                                                     <td>
                                                                         <input :disabled="alloc.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(plan, alloc, 3, alloc.amount)" style="margin-bottom:0px;" v-if="alloc.selected == true" type="text" v-model="alloc.amount"  :value="alloc.amount" :name="'alloc'+alloc.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCapitalAssetsAmount(alloc , 4) + parseInt(alloc.amount , 10))" :class="{'input': true, 'error-border': errors.has('alloc'+alloc.id)}" />
                                                                         <span v-show="errors.has('alloc'+alloc.id)" class="error-font"></span>
