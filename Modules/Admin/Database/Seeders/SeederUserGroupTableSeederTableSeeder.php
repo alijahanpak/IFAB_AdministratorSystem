@@ -4,7 +4,6 @@ namespace Modules\Admin\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Admin\Entities\GroupPermission;
 use Modules\Admin\Entities\UserGroup;
 
 class SeederUserGroupTableSeederTableSeeder extends Seeder
@@ -71,21 +70,6 @@ class SeederUserGroupTableSeederTableSeeder extends Seeder
         $userGroup = new UserGroup;
         $userGroup->ugUId = 7;
         $userGroup->ugGId = 4;
-        $userGroup->save();
-
-        $userGroup = new UserGroup;
-        $userGroup->ugUId = 1;
-        $userGroup->ugGId = 9;
-        $userGroup->save();
-
-        $userGroup = new UserGroup;
-        $userGroup->ugUId = 3;
-        $userGroup->ugGId = 7;
-        $userGroup->save();
-
-        $userGroup = new UserGroup;
-        $userGroup->ugUId = 4;
-        $userGroup->ugGId = 8;
         $userGroup->save();
 
         $userGroup = new UserGroup;

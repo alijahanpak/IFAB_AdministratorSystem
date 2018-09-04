@@ -30,7 +30,7 @@ Route::group(['prefix' => 'admin/helpCenter', 'namespace' => 'Modules\Admin\Http
 
 Route::group(['middleware' => ['api' , 'auth_api:api'],'prefix' => 'admin/user', 'namespace' => 'Modules\Admin\Http\Controllers'], function()
 {
-    Route::get('/getRoleAndGroupPermissions ' , 'AdminController@getRoleAndGroupPermissions');
+    Route::get('/getRoleAndPermissions ' , 'AdminController@getRoleAndPermissions');
     Route::post('/uploadAvatar ' , 'AdminController@uploadAvatar');
     Route::post('/changeAmountBase ' , 'AdminController@changeAmountBase');
     Route::get('/getMyGroupUsers ' , 'AdminController@fetchMyGroupsUsers');

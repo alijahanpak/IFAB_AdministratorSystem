@@ -18,29 +18,15 @@
                 </div>
             </div>
         </div>
-        <div class="grid-x  dynamic-height-level1">
-            <div class="medium-12 padding-lr" style="margin-top: 15px;">
-                <div class="clearfix tool-bar">
-                    <!--<div class="medium-12 column padding-lr">
-                        <div class="float-left">
-                            <div class="input-group float-left">
-                                <div class="inner-addon right-addon">
-                                    <i v-if="receiveRequestSearchValue == ''"   class="fa fa-search purple-color"  aria-hidden="true"></i>
-                                    <i v-if="receiveRequestSearchValue != ''"  class="fa fa-close btn-red"  aria-hidden="true"></i>
-                                    <input v-model="receiveRequestSearchValue" class="search" type="text" placeholder="جستجو">
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
-                </div>
-
+        <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
+            <div class="medium-12 padding-lr table-mrg-top">
                 <div class="tbl-div-container">
                     <table class="tbl-head">
                         <colgroup>
                             <col width="80px"/>
                             <col width="400px"/>
                             <col width="300px"/>
-                            <col width="200px"/>
+                            <col width="150px"/>
                             <col width="200px"/>
                             <col width="200px"/>
                             <col width="200px"/>
@@ -67,7 +53,7 @@
                                 <col width="80px"/>
                                 <col width="400px"/>
                                 <col width="300px"/>
-                                <col width="200px"/>
+                                <col width="150px"/>
                                 <col width="200px"/>
                                 <col width="200px"/>
                                 <col width="200px"/>
@@ -87,6 +73,14 @@
                             </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                <div class="grid-x">
+                    <div class="medium-12">
+                        <vue-pagination  v-bind:pagination="received_pagination"
+                                         v-on:click.native="fetchData(received_pagination.current_page)"
+                                         :offset="4">
+                        </vue-pagination>
                     </div>
                 </div>
             </div>
@@ -545,7 +539,7 @@
                             <div v-for="UserVerifier in UserIsVerifier" class="large-12 medium-12 small-12 verifier-panel">
                                 <div class="grid-x">
                                     <div class="large-2 medium-2 small-12">
-                                        <img style="width: 60px;height: 60px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="recipientUser.destination_user_info.avatarPath != null ? baseURL + recipientUser.destination_user_info.avatarPath : $parent.baseAvatar">
+                                        <img style="width: 60px;height: 60px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="UserVerifier.user.avatarPath != null ?baseURL + UserVerifier.user.avatarPath : $parent.baseAvatar">
                                     </div>
                                     <div class="large-10 medium-10 small-12 small-top-m">
                                         <p>{{UserVerifier.user.name}}</p>
@@ -692,14 +686,46 @@
                                                         <col width="40px"/>
                                                     </colgroup>
                                                     <tbody class="tbl-head-style-cell">
-                                                    <tr v-for="plan in completeCostAgrement">
-                                                        <td>{{plan.caLetterNumber}}</td>
-                                                        <td>{{plan.caLetterDate}}</td>
-                                                        <td>{{$parent.dispMoneyFormat(plan.caSumOfReserved)}}</td>
-                                                        <td>{{$parent.dispMoneyFormat(plan.caSumOfFinancing)}}</td>
-                                                        <td>{{$parent.dispMoneyFormat(plan.caSumOfCommitment)}}</td>
-                                                        <td>{{$parent.dispMoneyFormat(plan.caSumOfCost)}}</td>
-                                                        <td>{{plan.caDescription}}</td>
+                                                    <tr class="table-row" v-for="plan in completeCostAgrement">
+                                                        <td :data-toggle="'plan' + plan.id" class="text-center">{{plan.caLetterNumber}}</td>
+                                                        <td :data-toggle="'plan' + plan.id" class="text-center">{{plan.caLetterDate}}</td>
+                                                        <td :data-toggle="'plan' + plan.id" class="text-center">{{$parent.dispMoneyFormat(plan.caSumOfReserved)}}
+                                                            <div  style="width: 600px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="auto" :id="'plan' + plan.id" data-dropdown data-auto-focus="true">
+                                                                <ul class="my-menu small-font">
+                                                                    <div class="grid-x">
+                                                                        <!--Table Start-->
+                                                                        <div class="tbl_body_style dynamic-height-level-modal2">
+                                                                            <table class="stack">
+                                                                                <tbody>
+                                                                                <tr>
+                                                                                    <td width="150" class="black-color">شماره موافقتنامه :</td>
+                                                                                    <td>{{plan.caLetterNumber}}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td width="150" class="black-color">تاریخ موافقتنامه :</td>
+                                                                                    <td>{{plan.caLetterDate}}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td width="150" class="black-color">نوع موافقتنامه :</td>
+                                                                                    <td v-show="plan.caProvinceOrNational == 0">استانی</td>
+                                                                                    <td v-show="plan.cpProvinceOrNational == 1">ملی</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td width="150" class="black-color">شرح موافقتنامه :</td>
+                                                                                    <td class="text-justify">{{plan.caDescription}}</td>
+                                                                                </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                        <!--Table Body End-->
+                                                                    </div>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                        <td :data-toggle="'plan' + plan.id" class="text-center">{{$parent.dispMoneyFormat(plan.caSumOfFinancing)}}</td>
+                                                        <td :data-toggle="'plan' + plan.id" class="text-center">{{$parent.dispMoneyFormat(plan.caSumOfCommitment)}}</td>
+                                                        <td :data-toggle="'plan' + plan.id" class="text-center">{{$parent.dispMoneyFormat(plan.caSumOfCost)}}</td>
+                                                        <td :data-toggle="'plan' + plan.id" class="text-center">{{plan.caDescription}}</td>
                                                         <td>
                                                             <input :disabled="plan.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, plan, 0, plan.amount)" style="margin-bottom:0px;" v-if="plan.selected == true" type="text"  v-model="plan.amount" :name="plan.id" :value="plan.amount"  v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCostAmount(plan , 1) + parseInt(plan.amount , 10))" :class="{'input': true, 'error-border': errors.has(plan.id)}" />
                                                             <span v-show="errors.has(plan.id)" class="error-font"></span>
@@ -1708,10 +1734,13 @@
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
+    import VuePagination from '../../public_component/pagination.vue';
     export default {
-        components: {Suggestions,
-        "vue-select": require("vue-select"),
-        datePicker: VuePersianDatetimePicker
+        components: {
+            Suggestions,
+            "vue-select": require("vue-select"),
+            datePicker: VuePersianDatetimePicker,
+            'vue-pagination' : VuePagination,
         },
         data () {
             return {
@@ -1780,6 +1809,13 @@
                 requestCapFinancing:[],
                 maxInputValue:0,
                 updateDataThreadNowPlaying: null,
+
+                received_pagination: {
+                    total: 0,
+                    to: 0,
+                    current_page: 1,
+                    last_page: ''
+                },
             }
         },
 
@@ -1804,6 +1840,12 @@
         },
 
         methods: {
+            makePagination: function(data){
+                this.received_pagination.current_page = data.current_page;
+                this.received_pagination.to = data.to;
+                this.received_pagination.last_page = data.last_page;
+            },
+
             setUpdateDataThread: function () {
                 console.log("...................................................... set received request update thread");
                 if (this.updateDataThreadNowPlaying)
@@ -1821,10 +1863,11 @@
                     .then((response) => {
                         this.receiveRequests = response.data.data;
                         this.getUnReadReceivedRequest();
+                        this.makePagination(response.data);
                         console.log(response);
                     }, (error) => {
                         console.log(error);
-                    });
+                });
             },
 
             getUnReadReceivedRequest: function(){
@@ -1845,7 +1888,6 @@
                         console.log(error);
                     });
             },
-
 
             getMyCategoryUsers: function () {
                 axios.get('/admin/user/getMyCategoryUsers',{params:{cId:this.youAreVerifierCId}})
@@ -2075,6 +2117,7 @@
                     }).then((response) => {
                         this.receiveRequests = response.data.data;
                         this.getUnReadReceivedRequest();
+                        this.makePagination(response.data);
                         console.log(response);
                     }, (error) => {
                         console.log(error);
@@ -2176,6 +2219,7 @@
                         }).then((response) => {
                             this.receiveRequests = response.data.data;
                             this.getUnReadReceivedRequest();
+                            this.makePagination(response.data);
                             this.showReferralsModal = false;
                             this.showRequestDetailModal = false;
                             this.referralInput = {};
@@ -2207,6 +2251,7 @@
                         }).then((response) => {
                             this.receiveRequests = response.data.data;
                             this.getUnReadReceivedRequest();
+                            this.makePagination(response.data);
                             this.showSubmitRequestModal = false;
                             this.showRequestDetailModal = false;
                             this.$parent.displayNotif(response.status);
@@ -2230,6 +2275,7 @@
                 }).then((response) => {
                     this.receiveRequests = response.data.data;
                     this.getUnReadReceivedRequest();
+                    this.makePagination(response.data);
                     this.showResponseRequestModal = false;
                     this.showRequestDetailModal = false;
                     this.$parent.displayNotif(response.status);
@@ -2274,6 +2320,7 @@
                 }).then((response) => {
                     this.receiveRequests = response.data.data;
                     this.getUnReadReceivedRequest();
+                    this.makePagination(response.data);
                     this.showRegisterAndNumberingModal = false;
                     this.showRequestDetailModal = false;
                     this.$parent.displayNotif(response.status);

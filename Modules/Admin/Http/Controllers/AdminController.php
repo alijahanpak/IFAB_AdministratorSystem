@@ -3,13 +3,10 @@
 namespace Modules\Admin\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Modules\Admin\Entities\AmountUnit;
 use Modules\Admin\Entities\County;
-use Modules\Admin\Entities\Group;
-use Modules\Admin\Entities\GroupPermission;
 use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\Region;
 use Modules\Admin\Entities\Role;
@@ -17,6 +14,7 @@ use Modules\Admin\Entities\RuralDistrict;
 use Modules\Admin\Entities\Season;
 use Modules\Admin\Entities\User;
 use Modules\Admin\Entities\UserGroup;
+use Modules\Admin\Entities\UserPermission;
 use Modules\Admin\Entities\Village;
 /**
  * @resource admin controller
@@ -85,15 +83,16 @@ class AdminController extends Controller
         );
     }
 
-    public function getRoleAndGroupPermissions()
+    public function getRoleAndPermissions()
     {
         $role = Role::where('id' , '=' , Auth::user()->rId)->first();
-        $gIDs = UserGroup::where('ugUId' , '=' , Auth::user()->id)->pluck('ugGId')->toArray();
 
         return \response()->json(
-            ["rRole" => $role->rRole, "groupPermissions" => GroupPermission::whereIn('gpGId' , $gIDs)
-                ->with('permission')
-                ->get()]
+            ["rRole" => $role->rRole,
+                "permissions" => UserPermission::where('upUId' , '=' , Auth::user()->id)
+                    ->with('permission')
+                    ->get()
+            ]
         );
     }
 

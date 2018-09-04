@@ -51,13 +51,13 @@ class SeedRequestStepTableSeeder extends Seeder
 
         $rStep = new RequestStep();
         $rStep->rstRtId = 2;
-        $rStep->rstCId = 7;
+        $rStep->rstCId = 2;
         $rStep->rstOrder = 2;
         $rStep->save();
 
         $rStep = new RequestStep();
         $rStep->rstRtId = 2;
-        $rStep->rstCId = 2;
+        $rStep->rstCId = 7;
         $rStep->rstOrder = 3;
         $rStep->save();
 

@@ -6,19 +6,15 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Modules\Admin\Entities\AmountUnit;
-use Modules\Admin\Entities\GroupPermission;
 use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\RoleCategory;
 use Modules\Admin\Entities\Signature;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Admin\Entities\UserGroup;
-use Modules\Budget\Entities\CostAllocation;
+use Modules\Admin\Entities\UserPermission;
 use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\Attachment;
-use Modules\Financial\Entities\CapitalAssetsFinancing;
 use Modules\Financial\Entities\Commodity;
-use Modules\Financial\Entities\CostFinancing;
 use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\RequestCommodity;
 use Modules\Financial\Entities\RequestHistory;
@@ -249,9 +245,8 @@ class RequestController extends Controller
 
     public function getLastReceivedRequestIdList()
     {
-        $gIDs = UserGroup::where('ugUId' , '=' , Auth::user()->id)->pluck('ugGId')->toArray();
         /////////// check access to secretariat queue permission //////////////////////
-        $accessToSQPermission = GroupPermission::whereIn('gpGId' , $gIDs)
+        $accessToSQPermission = UserPermission::where('upUId' , '=' , Auth::user()->id)
             ->whereHas('permission' , function ($q){
                 return $q->where('pPermission' , '=' , 'SECRETARIAT_QUEUE_DISPLAY');
             })
@@ -269,7 +264,7 @@ class RequestController extends Controller
         }
 
         /////////// check access to financing queue permission //////////////////////
-        $accessToFQPermission = GroupPermission::whereIn('gpGId' , $gIDs)
+        $accessToFQPermission = UserPermission::where('upUId' , '=' , Auth::user()->id)
             ->whereHas('permission' , function ($q){
                 return $q->where('pPermission' , '=' , 'FINANCIAL_QUEUE_DISPLAY');
             })
