@@ -216,6 +216,7 @@ var app = new Vue({
         var tokenInfo = JSON.parse(sessionStorage.getItem("ifab_token_info"));
         this.headers.Authorization = tokenInfo.Authorization;
 
+        this._getUnReadReceivedRequest();
         this.setUpdateAllPermissionThread();
         this.setUpdateUnReadReceivedCountThread();
     },
