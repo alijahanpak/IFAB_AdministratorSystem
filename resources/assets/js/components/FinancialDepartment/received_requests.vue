@@ -19,77 +19,68 @@
             </div>
         </div>
         <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
-            <div class="medium-12 padding-lr" style="margin-top: 15px;">
-                <div class="clearfix tool-bar">
-                    <!--<div class="medium-12 column padding-lr">
-                        <div class="float-left">
-                            <div class="input-group float-left">
-                                <div class="inner-addon right-addon">
-                                    <i v-if="receiveRequestSearchValue == ''"   class="fa fa-search purple-color"  aria-hidden="true"></i>
-                                    <i v-if="receiveRequestSearchValue != ''"  class="fa fa-close btn-red"  aria-hidden="true"></i>
-                                    <input v-model="receiveRequestSearchValue" class="search" type="text" placeholder="جستجو">
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
+            <div class="medium-12 padding-lr table-mrg-top">
+                <div class="tbl-div-container">
+                    <table class="tbl-head">
+                        <colgroup>
+                            <col width="80px"/>
+                            <col width="400px"/>
+                            <col width="300px"/>
+                            <col width="150px"/>
+                            <col width="200px"/>
+                            <col width="200px"/>
+                            <col width="200px"/>
+                            <col width="12px"/>
+                        </colgroup>
+                        <tbody class="tbl-head-style">
+                        <tr class="tbl-head-style-cell">
+                            <th class="tbl-head-style-cell">وضعیت</th>
+                            <th class="tbl-head-style-cell">عنوان</th>
+                            <th class="tbl-head-style-cell">ارسال کننده</th>
+                            <th class="tbl-head-style-cell">نوع درخواست</th>
+                            <th class="tbl-head-style-cell">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
+                            <th class="tbl-head-style-cell">شماره</th>
+                            <th class="tbl-head-style-cell">تاریخ</th>
+                            <th class="tbl-head-style-cell"></th>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!--Table Head End-->
+                    <!--Table Body Start-->
+                    <div class="tbl_body_style dynamic-height-level2">
+                        <table class="tbl-body-contain">
+                            <colgroup>
+                                <col width="80px"/>
+                                <col width="400px"/>
+                                <col width="300px"/>
+                                <col width="150px"/>
+                                <col width="200px"/>
+                                <col width="200px"/>
+                                <col width="200px"/>
+                            </colgroup>
+                            <tbody class="tbl-head-style-cell">
+                            <tr class="table-row" @click="getRequestDetail(receiveRequest)" v-for="receiveRequest in receiveRequests">
+                                <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
+                                <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
+                                <td>{{receiveRequest.rSubject}}</td>
+                                <td>{{receiveRequest.rLastRef.source_user_info.name}} - {{receiveRequest.rLastRef.source_user_info.role.rSubject}}</td>
+                                <td v-if="receiveRequest.rRtId==1"> خدمات</td>
+                                <td v-else-if="receiveRequest.rRtId==2"> کالا</td>
+                                <td v-else="receiveRequest.rRtId==3"> تنخواه</td>
+                                <td>{{$parent.dispMoneyFormat(receiveRequest.rCostEstimation)}}</td>
+                                <td>{{receiveRequest.rLetterNumber}}</td>
+                                <td>{{receiveRequest.rLetterDate}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="medium-12 padding-lr" style="margin-top: 15px;">
-                    <div class="medium-12 column">
-                        <div class="tbl-div-container">
-                            <table class="tbl-head">
-                                <colgroup>
-                                    <col width="80px"/>
-                                    <col width="400px"/>
-                                    <col width="300px"/>
-                                    <col width="150px"/>
-                                    <col width="200px"/>
-                                    <col width="200px"/>
-                                    <col width="200px"/>
-                                    <col width="12px"/>
-                                </colgroup>
-                                <tbody class="tbl-head-style">
-                                <tr class="tbl-head-style-cell">
-                                    <th class="tbl-head-style-cell">وضعیت</th>
-                                    <th class="tbl-head-style-cell">عنوان</th>
-                                    <th class="tbl-head-style-cell">ارسال کننده</th>
-                                    <th class="tbl-head-style-cell">نوع درخواست</th>
-                                    <th class="tbl-head-style-cell">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
-                                    <th class="tbl-head-style-cell">شماره</th>
-                                    <th class="tbl-head-style-cell">تاریخ</th>
-                                    <th class="tbl-head-style-cell"></th>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <!--Table Head End-->
-                            <!--Table Body Start-->
-                            <div class="tbl_body_style dynamic-height-level2">
-                                <table class="tbl-body-contain">
-                                    <colgroup>
-                                        <col width="80px"/>
-                                        <col width="400px"/>
-                                        <col width="300px"/>
-                                        <col width="150px"/>
-                                        <col width="200px"/>
-                                        <col width="200px"/>
-                                        <col width="200px"/>
-                                    </colgroup>
-                                    <tbody class="tbl-head-style-cell">
-                                    <tr class="table-row" @click="getRequestDetail(receiveRequest)" v-for="receiveRequest in receiveRequests">
-                                        <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
-                                        <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
-                                        <td>{{receiveRequest.rSubject}}</td>
-                                        <td>{{receiveRequest.rLastRef.source_user_info.name}} - {{receiveRequest.rLastRef.source_user_info.role.rSubject}}</td>
-                                        <td v-if="receiveRequest.rRtId==1"> خدمات</td>
-                                        <td v-else-if="receiveRequest.rRtId==2"> کالا</td>
-                                        <td v-else="receiveRequest.rRtId==3"> تنخواه</td>
-                                        <td>{{$parent.dispMoneyFormat(receiveRequest.rCostEstimation)}}</td>
-                                        <td>{{receiveRequest.rLetterNumber}}</td>
-                                        <td>{{receiveRequest.rLetterDate}}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                <div class="grid-x">
+                    <div class="medium-12">
+                        <vue-pagination  v-bind:pagination="received_pagination"
+                                         v-on:click.native="fetchData(received_pagination.current_page)"
+                                         :offset="4">
+                        </vue-pagination>
                     </div>
                 </div>
             </div>
@@ -1712,10 +1703,13 @@
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
+    import VuePagination from '../../public_component/pagination.vue';
     export default {
-        components: {Suggestions,
-        "vue-select": require("vue-select"),
-        datePicker: VuePersianDatetimePicker
+        components: {
+            Suggestions,
+            "vue-select": require("vue-select"),
+            datePicker: VuePersianDatetimePicker,
+            'vue-pagination' : VuePagination,
         },
         data () {
             return {
@@ -1784,6 +1778,13 @@
                 requestCapFinancing:[],
                 maxInputValue:0,
                 updateDataThreadNowPlaying: null,
+
+                received_pagination: {
+                    total: 0,
+                    to: 0,
+                    current_page: 1,
+                    last_page: ''
+                },
             }
         },
 
@@ -1808,6 +1809,12 @@
         },
 
         methods: {
+            makePagination: function(data){
+                this.received_pagination.current_page = data.current_page;
+                this.received_pagination.to = data.to;
+                this.received_pagination.last_page = data.last_page;
+            },
+
             setUpdateDataThread: function () {
                 console.log("...................................................... set received request update thread");
                 if (this.updateDataThreadNowPlaying)
@@ -1825,10 +1832,11 @@
                     .then((response) => {
                         this.receiveRequests = response.data.data;
                         this.getUnReadReceivedRequest();
+                        this.makePagination(response.data);
                         console.log(response);
                     }, (error) => {
                         console.log(error);
-                    });
+                });
             },
 
             getUnReadReceivedRequest: function(){
@@ -1849,7 +1857,6 @@
                         console.log(error);
                     });
             },
-
 
             getMyCategoryUsers: function () {
                 axios.get('/admin/user/getMyCategoryUsers',{params:{cId:this.youAreVerifierCId}})
@@ -2079,6 +2086,7 @@
                     }).then((response) => {
                         this.receiveRequests = response.data.data;
                         this.getUnReadReceivedRequest();
+                        this.makePagination(response.data);
                         console.log(response);
                     }, (error) => {
                         console.log(error);
@@ -2180,6 +2188,7 @@
                         }).then((response) => {
                             this.receiveRequests = response.data.data;
                             this.getUnReadReceivedRequest();
+                            this.makePagination(response.data);
                             this.showReferralsModal = false;
                             this.showRequestDetailModal = false;
                             this.referralInput = {};
@@ -2211,6 +2220,7 @@
                         }).then((response) => {
                             this.receiveRequests = response.data.data;
                             this.getUnReadReceivedRequest();
+                            this.makePagination(response.data);
                             this.showSubmitRequestModal = false;
                             this.showRequestDetailModal = false;
                             this.$parent.displayNotif(response.status);
@@ -2234,6 +2244,7 @@
                 }).then((response) => {
                     this.receiveRequests = response.data.data;
                     this.getUnReadReceivedRequest();
+                    this.makePagination(response.data);
                     this.showResponseRequestModal = false;
                     this.showRequestDetailModal = false;
                     this.$parent.displayNotif(response.status);
@@ -2278,6 +2289,7 @@
                 }).then((response) => {
                     this.receiveRequests = response.data.data;
                     this.getUnReadReceivedRequest();
+                    this.makePagination(response.data);
                     this.showRegisterAndNumberingModal = false;
                     this.showRequestDetailModal = false;
                     this.$parent.displayNotif(response.status);

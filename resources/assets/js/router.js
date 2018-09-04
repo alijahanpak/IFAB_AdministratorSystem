@@ -178,7 +178,7 @@ var app = new Vue({
         amountBase: {},
         publicParams: {},
         fiscalYears: {},
-        groupPermission:{},
+        userPermission:{},
         changePassInput:{},
         currentAabLabel:'',
         nPassword:'',
@@ -277,13 +277,13 @@ var app = new Vue({
                 .then((response) => {
                     //console.log(response.data.refresh_token);
                     this.registerTokenInfo(response.data);
-                    axios.get('/admin/user/getRoleAndGroupPermissions')
+                    axios.get('/admin/user/getRoleAndPermissions')
                         .then((response) => {
-                            this.groupPermission = response.data;
+                            this.userPermission = response.data;
                             var accessPermissions = '';
-                            this.groupPermission.groupPermissions.forEach((groupP) => {
-                                console.log('..................' + groupP.permission.pPermission);
-                                accessPermissions += groupP.permission.pPermission + '&';
+                            this.userPermission.permissions.forEach((per) => {
+                                console.log('..................' + per.permission.pPermission);
+                                accessPermissions += per.permission.pPermission + '&';
                             });
                             console.log('.......................... permission' + accessPermissions);
                             this.access = accessPermissions;
@@ -321,12 +321,12 @@ var app = new Vue({
 
         updateAllPermissions: function () {
             console.log('.................. update all permissions');
-            axios.get('/admin/user/getRoleAndGroupPermissions')
+            axios.get('/admin/user/getRoleAndPermissions')
                 .then((response) => {
-                    this.groupPermission = response.data;
+                    this.userPermission = response.data;
                     var accessPermissions = '';
-                    this.groupPermission.groupPermissions.forEach((groupP) => {
-                        accessPermissions += groupP.permission.pPermission + '&';
+                    this.userPermission.permissions.forEach((pre) => {
+                        accessPermissions += pre.permission.pPermission + '&';
                     });
                     this.access = accessPermissions;
                 },(error) => {

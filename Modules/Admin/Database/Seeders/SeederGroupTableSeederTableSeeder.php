@@ -40,17 +40,5 @@ class SeederGroupTableSeederTableSeeder extends Seeder
         $group = new Group;
         $group->gSubject = 'انبار';
         $group->save();
-
-        $group = new Group;
-        $group->gSubject = 'کارشناسان تامین اعتبار عمرانی';
-        $group->save();
-
-        $group = new Group;
-        $group->gSubject = 'کارشناسان تامین اعتبار هزینه ای';
-        $group->save();
-
-        $group = new Group;
-        $group->gSubject = 'مسئولین امور مالی';
-        $group->save();
     }
 }

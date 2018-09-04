@@ -23,7 +23,7 @@ class AdminDatabaseSeeder extends Seeder
         $this->call(SeederGroupTableSeederTableSeeder::class);
         $this->call(SeederRoleTableSeederTableSeeder::class);
         $this->call(SeederPermissionTableSeederTableSeeder::class);
-        $this->call(SeederGroupPermissionTableSeederTableSeeder::class);
+        $this->call(SeederUserPermissionTableSeeder::class);
         $this->call(SeedAdminUsersTableSeeder::class);
         $this->call(SeederUserGroupTableSeederTableSeeder::class);
         $this->call(SeedAdminCountiesTableSeeder::class);
