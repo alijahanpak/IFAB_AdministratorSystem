@@ -20,66 +20,70 @@
         </div>
         <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
             <div class="medium-12 padding-lr" style="margin-top: 15px;">
-                <div class="medium-12 column padding-lr">
-                    <div class="clearfix tool-bar">
-                        <div class="float-left">
-                            <div class="input-group float-left">
-                                <div class="inner-addon right-addon">
-                                    <i v-if="requestSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
-                                    <i v-if="requestSearchValue != ''" v-on:click.stop="removeFilter()" class="fa fa-close btn-red"  aria-hidden="true"></i>
-                                    <input v-model="requestSearchValue" v-on:keyup.enter="search()" class="search" type="text" placeholder="جستجو">
-                                </div>
+                <div class="clearfix tool-bar">
+                    <div class="float-left">
+                        <div class="input-group float-left">
+                            <div class="inner-addon right-addon">
+                                <i v-if="requestSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                <i v-if="requestSearchValue != ''" v-on:click.stop="removeFilter()" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                <input v-model="requestSearchValue" v-on:keyup.enter="search()" class="search" type="text" placeholder="جستجو">
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="medium-12 padding-lr" style="margin-top: 15px;">
-                    <div class="medium-12 column">
-                        <div class="tbl-div-container">
-                            <table class="tbl-head">
+                <div class="medium-12 column">
+                    <div class="tbl-div-container">
+                        <table class="tbl-head">
+                            <colgroup>
+                                <col width="400px"/>
+                                <col width="200px"/>
+                                <col width="150px"/>
+                                <col width="200px"/>
+                                <col width="200px"/>
+                                <col width="12px"/>
+                            </colgroup>
+                            <tbody class="tbl-head-style">
+                            <tr class="tbl-head-style-cell">
+                                <th class="tbl-head-style-cell">عنوان</th>
+                                <th class="tbl-head-style-cell">نوع درخواست</th>
+                                <th class="tbl-head-style-cell">مبلغ <span class="btn-red small-font">(ریال)</span></th>
+                                <th class="tbl-head-style-cell">شماره</th>
+                                <th class="tbl-head-style-cell">تاریخ</th>
+                                <th class="tbl-head-style-cell"></th>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!--Table Head End-->
+                        <!--Table Body Start-->
+                        <div class="tbl_body_style dynamic-height-level2">
+                            <table class="tbl-body-contain">
                                 <colgroup>
                                     <col width="400px"/>
                                     <col width="200px"/>
                                     <col width="150px"/>
                                     <col width="200px"/>
                                     <col width="200px"/>
-                                    <col width="12px"/>
                                 </colgroup>
-                                <tbody class="tbl-head-style">
-                                <tr class="tbl-head-style-cell">
-                                    <th class="tbl-head-style-cell">عنوان</th>
-                                    <th class="tbl-head-style-cell">نوع درخواست</th>
-                                    <th class="tbl-head-style-cell">مبلغ <span class="btn-red small-font">(ریال)</span></th>
-                                    <th class="tbl-head-style-cell">شماره</th>
-                                    <th class="tbl-head-style-cell">تاریخ</th>
-                                    <th class="tbl-head-style-cell"></th>
+                                <tbody class="tbl-head-style-cell">
+                                <tr class="table-row" @click="getRequestDetail(allRequest)" v-for="allRequest in allRequests">
+                                    <td>{{allRequest.rSubject}}</td>
+                                    <td class="text-center" v-if="allRequest.rRtId==1"> خدمات</td>
+                                    <td class="text-center" v-else-if="allRequest.rRtId==2"> کالا</td>
+                                    <td class="text-center" v-else="allRequest.rRtId==3"> تنخواه</td>
+                                    <td class="text-center">{{$parent.dispMoneyFormat(allRequest.rCostEstimation)}}</td>
+                                    <td class="text-center">{{allRequest.rLetterNumber}}</td>
+                                    <td class="text-center">{{allRequest.rLetterDate}}</td>
                                 </tr>
                                 </tbody>
                             </table>
-                            <!--Table Head End-->
-                            <!--Table Body Start-->
-                            <div class="tbl_body_style dynamic-height-level2">
-                                <table class="tbl-body-contain">
-                                    <colgroup>
-                                        <col width="400px"/>
-                                        <col width="200px"/>
-                                        <col width="150px"/>
-                                        <col width="200px"/>
-                                        <col width="200px"/>
-                                    </colgroup>
-                                    <tbody class="tbl-head-style-cell">
-                                    <tr class="table-row" @click="getRequestDetail(allRequest)" v-for="allRequest in allRequests">
-                                        <td>{{allRequest.rSubject}}</td>
-                                        <td class="text-center" v-if="allRequest.rRtId==1"> خدمات</td>
-                                        <td class="text-center" v-else-if="allRequest.rRtId==2"> کالا</td>
-                                        <td class="text-center" v-else="allRequest.rRtId==3"> تنخواه</td>
-                                        <td class="text-center">{{$parent.dispMoneyFormat(allRequest.rCostEstimation)}}</td>
-                                        <td class="text-center">{{allRequest.rLetterNumber}}</td>
-                                        <td class="text-center">{{allRequest.rLetterDate}}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-x">
+                        <div class="medium-12">
+                            <vue-pagination  v-bind:pagination="result_pagination"
+                                             v-on:click.native="fetchData(result_pagination.current_page)"
+                                             :offset="4">
+                            </vue-pagination>
                         </div>
                     </div>
                 </div>
@@ -269,11 +273,15 @@
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
+    import VuePagination from '../../public_component/pagination.vue';
     export default {
-        components: {Suggestions,
-        "vue-select": require("vue-select"),
-        datePicker: VuePersianDatetimePicker
+        components: {
+            Suggestions,
+            "vue-select": require("vue-select"),
+            datePicker: VuePersianDatetimePicker,
+            'vue-pagination' : VuePagination,
         },
+
         data () {
             return {
                 allRequests:[],
@@ -288,6 +296,12 @@
                 commodityList:[],
                 baseURL:window.hostname+'/',
                 updateDataThreadNowPlaying:null,
+                result_pagination: {
+                    total: 0,
+                    to: 0,
+                    current_page: 1,
+                    last_page: ''
+                },
 
             }
         },
@@ -312,6 +326,12 @@
         },
 
         methods: {
+            makePagination: function(data){
+                this.result_pagination.current_page = data.current_page;
+                this.result_pagination.to = data.to;
+                this.result_pagination.last_page = data.last_page;
+            },
+
             setUpdateDataThread: function () {
                 console.log("...................................................... set search part update thread");
                 if (this.updateDataThreadNowPlaying)
@@ -328,6 +348,7 @@
                 axios.get('/financial/request/search/normal/fetchData?page=' + page , {params:{searchValue:this.requestSearchValue}})
                     .then((response) => {
                         this.allRequests = response.data.data;
+                        this.makePagination(response.data);
                         console.log(response);
                     }, (error) => {
                         console.log(error);
