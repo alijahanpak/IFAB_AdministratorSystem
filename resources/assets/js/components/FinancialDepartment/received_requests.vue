@@ -63,7 +63,21 @@
                                 <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
                                 <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
                                 <td>{{receiveRequest.rSubject}}</td>
-                                <td>{{receiveRequest.rLastRef.source_user_info.name}} - {{receiveRequest.rLastRef.source_user_info.role.rSubject}}</td>
+                                <td :data-toggle="'lastRef' + receiveRequest.id">{{receiveRequest.rLastRef.source_user_info.name}} - {{receiveRequest.rLastRef.source_user_info.role.rSubject}}
+                                    <div class="clearfix tool-bar" v-if="receiveRequest.rLastRef.rhDescription !== null">
+                                        <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="top" data-alignment="auto" :id="'lastRef' + receiveRequest.id" data-dropdown data-auto-focus="true">
+                                            <ul class="my-menu small-font">
+                                                <div class="grid-x">
+                                                    <div class="medium-12">
+                                                        <p class="black-color">{{receiveRequest.rLastRef.source_user_info.name}} - {{receiveRequest.rLastRef.source_user_info.role.rSubject}}</p>
+                                                        <p class="gray-colors text-justify" style="margin-top: -10px">{{ receiveRequest.rLastRef.rhDescription }}</p>
+                                                        <p style="direction: ltr;margin-bottom: -10px;" class="gray-color small-font float-left"><i class="far fa-calendar-alt"></i><span> {{receiveRequest.rLastRef.rhShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{receiveRequest.rLastRef.rhShamsiTime}}</span></p>
+                                                    </div>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td v-if="receiveRequest.rRtId==1"> خدمات</td>
                                 <td v-else-if="receiveRequest.rRtId==2"> کالا</td>
                                 <td v-else="receiveRequest.rRtId==3"> تنخواه</td>
@@ -406,7 +420,7 @@
                                         </div>
                                         <div style="padding: 0 17px 0 17px;" class="large-12 medium-12 small-12 small-top-m">
                                             <div style="margin-bottom:-10px;margin-top: 5px" class="stacked-for-small button-group float-left">
-                                                <button v-show='$can("FINANCIAL_FINAL_REGISTRATION_FINANCING")' @click="openCapitalAssetsModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">ثبت نهایی</span></button>
+                                                <button v-show='$can("FINANCIAL_ACCEPT_FINANCING")' @click="" class="my-button my-success float-left"><span class="btn-txt-mrg">تایید و ارجاع</span></button>
                                                 <button v-show='$can("FINANCIAL_CAPITAL_ASSETS_FINANCING")' @click="openCapitalAssetsModal()" class="my-button toolbox-btn float-left"><span class="btn-txt-mrg">  اعتبارات تملک دارایی های سرمایه ای</span></button>
                                                 <button v-show='$can("FINANCIAL_COST_FINANCING")' @click="openCostCreditsModal()" class="my-button toolbox-btn float-left"><span class="btn-txt-mrg">  اعتبارات هزینه ای</span></button>
                                             </div>
@@ -556,6 +570,24 @@
             </div>
         </modal-tiny>
         <!-- Submit Request modal -->
+
+        <!-- dialog modal -->
+        <modal-tiny v-if="showDialogModal" @close="showDialogModal = false">
+            <div  slot="body">
+                <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <div class="grid-x">
+                        <div class="large-12 medium-12 small-12 padding-lr text-center">
+                            <p class="modal-text text-justify">{{ dialogMessage }}</p>
+                        </div>
+
+                        <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
+                            <button @click="showDialogModal = false" class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  بله</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-tiny>
+        <!-- dialog message end -->
 
         <!-- Response Request modal -->
         <modal-tiny v-if="showResponseRequestModal" @close="showResponseRequestModal = false">
@@ -1722,6 +1754,8 @@
                 showRegisterAndNumberingModal:false,
                 showCostCreditsModal:false,
                 showCapitalAssetsModal:false,
+                showDialogModal: false,
+                dialogMessage: '',
                 receiveRequestSearchValue:'',
                 requestTypeDetail:'',
                 requestFill:{},
@@ -2269,7 +2303,12 @@
             },
 
             openRegisterAndNumberingModal: function (){
-              this.showRegisterAndNumberingModal=true;
+                if (this.UserIsVerifier.length == 0)
+                    this.showRegisterAndNumberingModal=true;
+                else {
+                    this.dialogMessage = 'با توجه به اینکه درخواست تایید نهایی نشده است ثبت در دبیرخانه امکان پذیر نیست! شما می توانید آخرین وضعیت تایید درخواست را از بخش تاییدگنندگان مشاهده کنید.';
+                    this.showDialogModal = true;
+                }
             },
 
             registerAndNumbering:function () {
@@ -2295,10 +2334,15 @@
                 this.completeCostAgrement= [];
                 this.costFound = [];
                 this.costReservedAmount = 0;
-                this.getFinancingAmount();
-                this.getCompleteCostAgrement();
-                this.showCostCreditsModal=true;
-                this.reservedAmount=0;
+                if (this.UserIsVerifier.length == 0 && (this.requestFill.rLetterNumber != '' && this.requestFill.rLetterDate != ''))
+                {
+                    this.getFinancingAmount();
+                    this.getCompleteCostAgrement();
+                    this.showCostCreditsModal=true;
+                }else{
+                    this.dialogMessage = 'با توجه به اینکه درخواست تایید نهایی یا ثبت دبیرخانه نشده است! امکان تامین اعتبار وجود ندارد.';
+                    this.showDialogModal = true;
+                }
             },
 
             myResizeModal: function() {
@@ -2311,10 +2355,15 @@
                 this.completeCapitalAssetsAgrement = [];
                 this.capitalAssetsFound = [];
                 this.capReservedAmount = 0;
-                this.getFinancingAmount();
-                this.getCompleteCapitalAssetsApproved ();
-                this.showCapitalAssetsModal=true;
-
+                if (this.UserIsVerifier.length == 0 && (this.requestFill.rLetterNumber != '' && this.requestFill.rLetterDate != ''))
+                {
+                    this.getFinancingAmount();
+                    this.getCompleteCapitalAssetsApproved ();
+                    this.showCapitalAssetsModal=true;
+                }else{
+                    this.dialogMessage = 'با توجه به اینکه درخواست تایید نهایی یا ثبت دبیرخانه نشده است! امکان تامین اعتبار وجود ندارد.';
+                    this.showDialogModal = true;
+                }
             },
 
             /////////////////////// cost financing //////////////////////////////
@@ -2879,6 +2928,7 @@
                     this.requestCostFinancing = response.data.costFinancing;
                     this.showCostCreditsModal = false;
                     this.$parent.displayNotif(response.status);
+                    this.getFinancingAmount();
                     console.log(response);
                 }, (error) => {
                     console.log(error);
@@ -2923,6 +2973,7 @@
                     this.requestCapFinancing = response.data.capFinancing;
                     this.showCapitalAssetsModal = false;
                     this.$parent.displayNotif(response.status);
+                    this.getFinancingAmount();
                     console.log(response);
                 }, (error) => {
                     console.log(error);

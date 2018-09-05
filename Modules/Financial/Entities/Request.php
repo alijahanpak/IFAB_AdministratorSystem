@@ -66,17 +66,25 @@ class _Request extends Model
         })->value('rstOrder');
 
         if (!$myOrder)
-            return [];
+        {
+            $result = RequestVerifiers::where('rvRId' , '=' , $this->id)
+                ->where('rvUId' , '<>' , Auth::user()->id)
+                ->where('rvSId' , '=' , null)
+                ->with('requestStep')
+                ->with('user.role')
+                ->get();
+        }else{
+            $result = RequestVerifiers::where('rvRId' , '=' , $this->id)
+                ->where('rvUId' , '<>' , Auth::user()->id)
+                ->where('rvSId' , '=' , null)
+                ->whereHas('requestStep' , function ($q) use($myOrder){
+                    return $q->where('rstOrder' , '<' , $myOrder);
+                })
+                ->with('requestStep')
+                ->with('user.role')
+                ->get();
+        }
 
-        $result = RequestVerifiers::where('rvRId' , '=' , $this->id)
-            ->where('rvUId' , '<>' , Auth::user()->id)
-            ->where('rvSId' , '=' , null)
-            ->whereHas('requestStep' , function ($q) use($myOrder){
-                return $q->where('rstOrder' , '<' , $myOrder);
-            })
-            ->with('requestStep')
-            ->with('user.role')
-            ->get();
         return $result;
     }
 

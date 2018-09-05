@@ -510,8 +510,8 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
 
         $permission = new Permission;
         $permission->pSspId = 9;
-        $permission->pSubject = 'ثبت نهایی تامین اعتبار';
-        $permission->pPermission = 'FINANCIAL_FINAL_REGISTRATION_FINANCING';
+        $permission->pSubject = 'تایید تامین اعتبار در امور مالی';
+        $permission->pPermission = 'FINANCIAL_ACCEPT_FINANCING';
         $permission->save();
 
         ///////////////// secretariat ///////////////////////////

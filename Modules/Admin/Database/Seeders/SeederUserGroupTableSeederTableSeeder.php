@@ -58,6 +58,16 @@ class SeederUserGroupTableSeederTableSeeder extends Seeder
         $userGroup->save();
 
         $userGroup = new UserGroup;
+        $userGroup->ugUId = 7;
+        $userGroup->ugGId = 4;
+        $userGroup->save();
+
+        $userGroup = new UserGroup;
+        $userGroup->ugUId = 1;
+        $userGroup->ugGId = 4;
+        $userGroup->save();
+
+        $userGroup = new UserGroup;
         $userGroup->ugUId = 11;
         $userGroup->ugGId = 6;
         $userGroup->save();
