@@ -9,6 +9,9 @@
     outline: medium none;
     transition: box-shadow 0.5s ease 0s, border-color 0.25s ease-in-out 0s;
 }
+input[type="file"] {
+    display: none;
+}
 .select-error{
                 background-color: #fefefe;
     border: 1px solid #cc4b37 !important;
@@ -2140,6 +2143,10 @@ input[type="search"]:valid + label {
 
 .detail-tooltip:hover .tooltiptext {
     visibility: visible;
+}
+
+.tbl-border{
+    border:none;
 }
 
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {

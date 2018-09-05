@@ -90,6 +90,7 @@
                         <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="commodity_tab_view">
                             <li class="tabs-title is-active"><a href="#reciverTab" aria-selected="true">دریافت کنندگان</a></li>
                             <li class="tabs-title"><a href="#commodityTab">فرم درخواست </a></li>
+                            <li class="tabs-title"><a href="#attachmentTab">پیوست </a></li>
                         </ul>
                         <div class="tabs-content" data-tabs-content="commodity_tab_view">
                             <!--Tab 1-->
@@ -255,6 +256,53 @@
                                 </div>
                             </div>
                             <!--Tab 2-->
+
+                            <!--Tab 3 - Attachment Tab-->
+                            <div class="tabs-panel table-mrg-btm" id="attachmentTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div style="margin-top: 25px" class="grid-x">
+                                    <div class="medium-12">
+                                        <div class="grid-x container-mrg-top">
+                                            <div class="medium-12 padding-lr">
+                                                <div class="form-group medium-12">
+                                                    <div class="medium-12">
+                                                        <div class="medium-12">
+                                                            <table>
+                                                                <thead>
+                                                                    <th class="text-center tbl-border">فایل</th>
+                                                                    <th class="text-center tbl-border">حجم</th>
+                                                                    <th class="text-center tbl-border">عملیات</th>
+                                                                </thead>
+                                                                <tbody class="text-center">
+                                                                <tr class="attachment-holder animated fadeIn" v-cloak v-for="(attachment, index) in attachments">
+                                                                    <td class="latin-font tbl-border">
+                                                                        <i v-if="extension[index] == 'jpg'" class="far fa-file-image size-38 purple-color"></i>
+                                                                        <i v-if="extension[index] == 'pdf'" class="fas fa-file-pdf size-38 btn-red"></i>
+                                                                        <i v-if="extension[index] == 'xlsx' || extension[index] == 'xls'" class="fas fa-file-excel size-38 btn-green"></i>
+                                                                    </td>
+                                                                    <td class="tbl-border">
+                                                                        {{  Number((attachment.size / 1000).toFixed(1)) + ' کیلوبایت'}}
+                                                                    </td>
+                                                                    <td class="tbl-border">
+                                                                        <span class="" style="background: red; cursor: pointer;" @click="removeAttachment(index)"><button type="button" class="my-button my-danger">حذف</button></span>
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br><br>
+                                                <label class="my-button my-brand"> انتخاب فایل
+                                                  <input @change="uploadFieldChange" id="File" type="file">
+                                                </label>
+                                                <!--            <button class="my-button my-brand" v-on:click.prevent="submit">بارگذاری</button>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Tab 3 - Attachment Tab-->
+
                             <div class="large-12 medium-12 small-12 padding-lr padding-bottom-modal medium-top-m">
                                 <button type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
                             </div>
@@ -479,7 +527,9 @@
         },
         data () {
             return {
+                imgUrl: [],
                 attachments: [],
+                extension:[],
                 // Each file will need to be sent as FormData element
                 data: new FormData(),
                 percentCompleted: 0, // You can store upload progress 0-100 in value, and show it on the screen
@@ -771,10 +821,6 @@
                 }
              },
 
-            resetData() {
-                this.data = new FormData(); // Reset it completely
-                this.attachments = [];
-            },
 
             getSubmissionDetail: function (submission) {
                 this.showSubmissionDeatilModal=true;
@@ -828,6 +874,53 @@
                     this.requestFill.rDescription=submission.rDescription;
                 }
             },
+
+            /*--------------------------- File Upload Start--------------------------------------*/
+            getAttachmentSize() {
+                this.upload_size = 0; // Reset to beginningƒ
+                this.attachments.map((item) => { this.upload_size += parseInt(item.size); });
+                this.upload_size = Number((this.upload_size).toFixed(1));
+                this.$forceUpdate();
+
+            },
+
+            prepareFields() {
+                if (this.attachments.length > 0) {
+                    for (var i = 0; i < this.attachments.length; i++) {
+                        let attachment = this.attachments[i];
+                        this.data.append('attachments[]', attachment);
+                    }
+
+                }
+            },
+
+            removeAttachment(index) {
+                this.attachments.splice(index , 1);
+                this.imgUrl.splice(index, 1);
+                this.getAttachmentSize();
+            },
+            // This function will be called every time you add a file
+            uploadFieldChange(e) {
+                this.extension='';
+                this.extension= e.target.files[0].name.split('.').pop().toLowerCase();
+                alert(this.extension);
+                var files = e.target.files || e.dataTransfer.files;
+                if (!files.length)
+                    return;
+                for (var i = files.length - 1; i >= 0; i--) {
+                    this.attachments.push(files[i]);
+                }
+
+                // Reset the form to avoid copying these files multiple times into this.attachments
+                document.getElementById("attachments").value = [];
+
+            },
+
+            resetData() {
+                this.data = new FormData(); // Reset it completely
+                this.attachments = [];
+            },
+            /*----------------------------- File Upload End---------------------------------*/
     }
 }
 </script>
