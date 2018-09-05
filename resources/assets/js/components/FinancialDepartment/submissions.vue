@@ -28,7 +28,6 @@
                         </ul>
                     </div>
                 </div>
-                <div class="medium-12 column">
                     <div class="tbl-div-container">
                         <table class="tbl-head">
                             <colgroup>
@@ -82,7 +81,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
         <!-- Submission Buy Modal -->
         <modal-large v-if="showBuyCommodityModal" @close="showBuyCommodityModal = false">
