@@ -2149,6 +2149,29 @@ input[type="search"]:valid + label {
     border:none;
 }
 
+.format-card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1);
+    transition: 0.3s;
+    border-radius: 3px;
+}
+
+.format-card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.format-card img {
+    border-radius: 5px 5px 0 0;
+}
+
+.format-container {
+    border-top: 1px solid rgba(0,0,0,0.2);
+    padding: 2px 16px;
+}
+
+.padding-lr-format-card{
+    padding: 0px 30px 0px 30px;
+}
+
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
     display: block;
     width: 0;
