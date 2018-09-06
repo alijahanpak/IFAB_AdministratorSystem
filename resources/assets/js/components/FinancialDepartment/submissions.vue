@@ -291,6 +291,21 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="grid-x">
+                                                    <div v-for="(attachment, index) in attachments" class="large-3 medium-4 small-12 padding-lr">
+                                                        <div class="format-card">
+                                                            <div style="padding:15px;" class="text-center">
+                                                                <i v-if="attachment.name.split('.').pop().toLowerCase() == 'pdf'" class="fas fa-file-pdf size-72 btn-red"></i>
+                                                                <i v-if="attachment.name.split('.').pop().toLowerCase() == 'jpg'" class="far fa-file-image size-72 btn-red"></i>
+                                                                <h3 style="margin-top:10px;" class="gray-colors">{{attachment.name.split('.').pop().toUpperCase()}}</h3>
+                                                            </div>
+                                                            <div class="format-container direction-ltr">
+                                                                <h6 class="small-top-m gray-color"><b>{{attachment.name}}</b></h6>
+                                                                <p class="gray-color">{{  Number((attachment.size / 1000).toFixed(1)) + ' کیلوبایت'}}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <br><br>
                                                 <label class="my-button my-brand"> انتخاب فایل
                                                   <input @change="uploadFieldChange" id="File" type="file">
@@ -901,15 +916,16 @@
             },
             // This function will be called every time you add a file
             uploadFieldChange(e) {
-                this.extension='';
-                this.extension= e.target.files[0].name.split('.').pop().toLowerCase();
-                alert(this.extension);
+                /*this.extension='';
+                this.extension= e.target.files[0].name.split('.').pop().toLowerCase();*/
                 var files = e.target.files || e.dataTransfer.files;
                 if (!files.length)
                     return;
                 for (var i = files.length - 1; i >= 0; i--) {
                     this.attachments.push(files[i]);
                 }
+                console.log(this.attachments);
+                //this.attachments.name.split('.').pop().toLowerCase();
 
                 // Reset the form to avoid copying these files multiple times into this.attachments
                 document.getElementById("attachments").value = [];
