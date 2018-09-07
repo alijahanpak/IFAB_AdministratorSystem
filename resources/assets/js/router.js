@@ -11,6 +11,7 @@ window.Vue.use(Vuex);
 window.Vue.use(Suggestions);
 ///////////////////////////// router ///////////////////////////////////
 import accessDenied from './public_component/AccessDenied.vue'
+import login from './public_component/login.vue'
 import dashboard from './components/Budget/Dashboard.vue'
 import tiny_seasons from './components/Budget/Admin/tiny_seasons.vue'
 import fiscal_year from './components/Budget/Admin/fiscal_year.vue'
@@ -41,6 +42,7 @@ import fdDashboard from './components/FinancialDepartment/Dashboard.vue'
 //export router instance
 const routes = [
     { path: '/accessDenied', component: accessDenied , meta:{permission: 'public'}},
+    { path: '/login', component: login ,meta:{permission: 'public'}},
     { path: '/budget', component: dashboard , meta:{permission: 'BUDGET_DASHBOARD_DISPLAY'}},
     { path: '/budget/admin/season/tiny_seasons', component: tiny_seasons , meta:{permission: 'BUDGET_ADMIN_TINY_SEASON_DISPLAY'}},
     { path: '/budget/admin/fiscal_year', component: fiscal_year , meta:{permission: 'BUDGET_ADMIN_FISCAL_YEARS_DISPLAY'} },
@@ -67,23 +69,21 @@ const router = new VueRouter({
     routes
 });
 ///////////////////////////////////////////////////////////////////////
-router.afterEach((to, from, next) => {
-    if (!store.getters.isLoggedIn)
-    {
-        app.showModalLogin = true;
+router.beforeEach((to, from, next) => {
+    if (!store.getters.isLoggedIn && to.path != '/login') {
+        next('/login');
+    }else if(store.getters.isLoggedIn && to.path == '/login'){
+        next('/financial_department/received_requests');
+    }else{
+        next();
     }
 });
-
 /////////////////////// config axios request /////////////////////////////////////
 axios.interceptors.response.use(response => {
     app.finish();
     return response;
 },function (error) {
     console.log(error);
-    if (error.response.status == 401)
-    {
-        app.showModalLogin = true;
-    }
     app.fail();
     return Promise.reject(error);
 });
@@ -184,7 +184,6 @@ var app = new Vue({
         nPassword:'',
         reNPassword:'',
         userInfo: {id: '',name: '...' , role:{rSubject: '...'} , avatarPath: null},
-        showModalLogin: false,
         showModalUserSetting: false,
         authInfo: {email: '' , password: ''},
         tokenInfo: {"Authorization": '' , "Accept": 'application/json; charset=utf-8' , "Content-type" : 'application/json; charset=utf-8'},
@@ -206,9 +205,7 @@ var app = new Vue({
 
     updated: function () {
         $(this.$el).foundation(); //WORKS FINE!
-        this.fixedLoginFrame();
         this.fixedAccessDeniedFrame();
-        console.log('user permission in acl = ' + this.access);
     },
 
     created: function () {
@@ -216,7 +213,6 @@ var app = new Vue({
         var tokenInfo = JSON.parse(sessionStorage.getItem("ifab_token_info"));
         this.headers.Authorization = tokenInfo.Authorization;
 
-        this._getUnReadReceivedRequest();
         this.setUpdateAllPermissionThread();
         this.setUpdateUnReadReceivedCountThread();
     },
@@ -258,61 +254,45 @@ var app = new Vue({
             $('.dynamic-height-level2').css('height', (x - 90 - (tabHeight  + toolBarHeight + paginationHeight)) + 'px');
         });
         this.myResize();
-        if (!store.getters.isLoggedIn)
-        {
-            this.showModalLogin = true;
-        }
-        else{
-            this.getFiscalYear();
-            this.getPublicParams();
-            this.getAmountBase();
-            this.getAllAmountBase();
-        }
+        this.init();
         console.log("mounted router js");
     },
 
     methods:{
-        login: function () {
-            axios.post('/api/login' , this.authInfo)
+        init: function(){
+            this.getFiscalYear();
+            this.getPublicParams();
+            this.getAmountBase();
+            this.getAllAmountBase();
+            this._getUnReadReceivedRequest();
+        },
+
+        getAllPermission: function(){
+            axios.get('/admin/user/getRoleAndPermissions')
                 .then((response) => {
-                    //console.log(response.data.refresh_token);
-                    this.registerTokenInfo(response.data);
-                    axios.get('/admin/user/getRoleAndPermissions')
+                    this.userPermission = response.data;
+                    var accessPermissions = '';
+                    this.userPermission.permissions.forEach((per) => {
+                        console.log('..................' + per.permission.pPermission);
+                        accessPermissions += per.permission.pPermission + '&';
+                    });
+                    console.log('.......................... permission' + accessPermissions);
+                    this.access = accessPermissions;
+                    axios.get('/api/getAuthUserInfo')
                         .then((response) => {
-                            this.userPermission = response.data;
-                            var accessPermissions = '';
-                            this.userPermission.permissions.forEach((per) => {
-                                console.log('..................' + per.permission.pPermission);
-                                accessPermissions += per.permission.pPermission + '&';
-                            });
-                            console.log('.......................... permission' + accessPermissions);
-                            this.access = accessPermissions;
-                            this.showModalLogin = false;
-                            axios.get('/api/getAuthUserInfo')
-                                .then((response) => {
-                                    console.log(response);
-                                    this.userInfo = response.data;
-                                    if (this.$can('BUDGET_DASHBOARD_DISPLAY'))
-                                    {
-                                        if ((sessionStorage.getItem("ifab_lastUserId") == this.userInfo.id) && (this.$router.currentRoute.path == sessionStorage.getItem("ifab_lastUserUrl")))
-                                            window.location.href = window.hostname + '#' + this.$router.currentRoute.path;
-                                        else
-                                            window.location.href = window.hostname + '#/budget';
-                                    }
-                                    else if (this.$can('FINANCIAL_DASHBOARD_DISPLAY'))
-                                    {
-                                        if ((sessionStorage.getItem("ifab_lastUserId") == this.userInfo.id) && (this.$router.currentRoute.path == sessionStorage.getItem("ifab_lastUserUrl")))
-                                            window.location.href = window.hostname + '#' + this.$router.currentRoute.path;
-                                        else
-                                            window.location.href = window.hostname + '#/financial_department';
-                                    }
-                                },(error) => {
-                                    console.log(error);
-                                });
+                            console.log(response);
+                            this.userInfo = response.data;
+                            if ((localStorage.getItem("ifab_lastUserId") == this.userInfo.id) && (localStorage.getItem("ifab_lastUserUrl") != ''))
+                            {
+                                this.$router.push(localStorage.getItem("ifab_lastUserUrl"));
+                            }else{
+                                this.$router.push('/financial_department/received_requests');
+                            }
+                            localStorage.removeItem('ifab_lastUserUrl');
+                            localStorage.removeItem('ifab_lastUserId');
                         },(error) => {
                             console.log(error);
-                            this.displayNotif(error.response.status);
-                     });
+                        });
                 },(error) => {
                     console.log(error);
                     this.displayNotif(error.response.status);
@@ -331,7 +311,6 @@ var app = new Vue({
                     this.access = accessPermissions;
                 },(error) => {
                     console.log(error);
-                    //this.displayNotif(error.response.status);
                 });
         },
 
@@ -604,7 +583,7 @@ var app = new Vue({
             $('.dynamic-height-level2').css('height', (x - 90 - (tabHeight  + toolBarHeight + paginationHeight)) + 'px');
         },
 
-        fixedLoginFrame: function() {
+/*        fixedLoginFrame: function() {
             if (this.showModalLogin == true)
             {
                 var loginFrame = $('.login-frame').height();
@@ -613,7 +592,7 @@ var app = new Vue({
                 var temp = (x - loginFrame) / 2;
                 $('.login-frame').css('margin-top', temp + 'px');
             }
-        },
+        },*/
 
         fixedAccessDeniedFrame: function() {
             var accessDeniedFrame = $('.accessDenied-frame').height();
@@ -623,11 +602,15 @@ var app = new Vue({
 
         },
 
+        beforeLogout: function(){
+            localStorage.removeItem('ifab_lastUserUrl');
+            localStorage.removeItem('ifab_lastUserId');
+            this.logout();
+        },
+
         logout: function () {
-            sessionStorage.setItem('ifab_lastUserUrl' , '');
-            sessionStorage.setItem('ifab_lastUserId' , '');
             this.$store.dispatch("logout");
-            this.$router.go(this.$router.currentRoute.path);
+            this.$router.go('/login');
         },
 
         setExpireTokenThread: function () {
@@ -660,10 +643,9 @@ var app = new Vue({
                 this.setExpireTokenThread();
             }else{
                 clearInterval(this.prevNowPlaying);
-                this.$store.dispatch("logout");
-                this.showModalLogin = true;
-                sessionStorage.setItem('ifab_lastUserUrl' , this.$router.currentRoute.path);
-                sessionStorage.setItem('ifab_lastUserId' , this.userInfo.id);
+                localStorage.setItem('ifab_lastUserUrl' , this.$router.currentRoute.path);
+                localStorage.setItem('ifab_lastUserId' , this.userInfo.id);
+                this.logout();
             }
         },
 
