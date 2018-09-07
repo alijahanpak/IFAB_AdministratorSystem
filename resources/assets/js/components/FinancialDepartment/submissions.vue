@@ -263,52 +263,32 @@
                                     <div class="medium-12">
                                         <div class="grid-x container-mrg-top">
                                             <div class="medium-12 padding-lr">
-                                                <div class="form-group medium-12">
-                                                    <div class="medium-12">
-                                                        <div class="medium-12">
-                                                            <table>
-                                                                <thead>
-                                                                    <th class="text-center tbl-border">فایل</th>
-                                                                    <th class="text-center tbl-border">حجم</th>
-                                                                    <th class="text-center tbl-border">عملیات</th>
-                                                                </thead>
-                                                                <tbody class="text-center">
-                                                                <tr class="attachment-holder animated fadeIn" v-cloak v-for="(attachment, index) in attachments">
-                                                                    <td class="latin-font tbl-border">
-                                                                        <i v-if="extension[index] == 'jpg'" class="far fa-file-image size-38 purple-color"></i>
-                                                                        <i v-if="extension[index] == 'pdf'" class="fas fa-file-pdf size-38 btn-red"></i>
-                                                                        <i v-if="extension[index] == 'xlsx' || extension[index] == 'xls'" class="fas fa-file-excel size-38 btn-green"></i>
-                                                                    </td>
-                                                                    <td class="tbl-border">
-                                                                        {{  Number((attachment.size / 1000).toFixed(1)) + ' کیلوبایت'}}
-                                                                    </td>
-                                                                    <td class="tbl-border">
-                                                                        <span class="" style="background: red; cursor: pointer;" @click="removeAttachment(index)"><button type="button" class="my-button my-danger">حذف</button></span>
-                                                                    </td>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                                 <div class="grid-x">
                                                     <div v-for="(attachment, index) in attachments" class="large-3 medium-4 small-12 padding-lr">
                                                         <div class="format-card">
+                                                            <a style="margin-right: 8px;margin-top:8px;" class="dropdown small sm-btn-align"  type="button" :data-toggle="'attachment' + index"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'attachment' + index" data-dropdown data-auto-focus="true">
+                                                                <ul class="my-menu small-font text-right">
+                                                                    <li><a @click="removeAttachment(index)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                </ul>
+                                                            </div>
                                                             <div style="padding:15px;" class="text-center">
                                                                 <i v-if="attachment.name.split('.').pop().toLowerCase() == 'pdf'" class="fas fa-file-pdf size-72 btn-red"></i>
-                                                                <i v-if="attachment.name.split('.').pop().toLowerCase() == 'jpg'" class="far fa-file-image size-72 btn-red"></i>
+                                                                <i v-if="attachment.name.split('.').pop().toLowerCase() == 'jpg' || attachment.name.split('.').pop().toLowerCase() == 'png'" class="fas fa-file-image size-72 purple-color"></i>
+                                                                <i v-if="attachment.name.split('.').pop().toLowerCase() == 'doc' || attachment.name.split('.').pop().toLowerCase() == 'docx'" class="fas fa-file-word size-72 blue-color"></i>
+                                                                <i v-if="attachment.name.split('.').pop().toLowerCase() == 'xls' || attachment.name.split('.').pop().toLowerCase() == 'xlsx'" class="fas fa-file-excel size-72 btn-green"></i>
                                                                 <h3 style="margin-top:10px;" class="gray-colors">{{attachment.name.split('.').pop().toUpperCase()}}</h3>
                                                             </div>
                                                             <div class="format-container direction-ltr">
-                                                                <h6 class="small-top-m gray-color"><b>{{attachment.name}}</b></h6>
-                                                                <p class="gray-color">{{  Number((attachment.size / 1000).toFixed(1)) + ' کیلوبایت'}}</p>
+                                                                <p class="small-top-m gray-color"><b>{{attachment.name}}</b></p>
+                                                                <p class="gray-color small-top-m">{{  Number((attachment.size / 1000).toFixed(1)) + ' کیلوبایت'}}</p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <br><br>
-                                                <label class="my-button my-brand"> انتخاب فایل
-                                                  <input @change="uploadFieldChange" id="File" type="file">
+                                                <label class="my-button my-brand padding-lr"> انتخاب فایل
+                                                  <input @change="uploadFieldChange" accept=".jpg,.jpeg,.png,.doc,.docx,.doc,.xls,.xlsx,.pdf" id="File" type="file">
                                                 </label>
                                                 <!--            <button class="my-button my-brand" v-on:click.prevent="submit">بارگذاری</button>-->
                                             </div>
@@ -720,6 +700,7 @@
                 this.recipientUsersTemp=[];
                 this.verifiers=[];
                 this.recipientUsers=[];
+                this.attachments=[];
                 this.fetchRecipientsGroup();
 
                 this.showBuyCommodityModal=true;
@@ -761,6 +742,7 @@
                                 this.$forceUpdate();
                             }.bind(this)
                         };
+
                         this.recipients.forEach(item => {
                             if(this.recipientUsersTemp[item.id] != null){
                                 var recipientUsersInput={};
@@ -779,7 +761,7 @@
 
 
                             }
-                            //this.prepareFields();
+                            this.prepareFields();
                             this.data.append('subject', this.requestInput.rSubject );
                             this.data.append('rtId', this.requestTypeId );
                             this.data.append('costEstimation', this.sumOfCommodityPrice);
@@ -904,6 +886,7 @@
                     for (var i = 0; i < this.attachments.length; i++) {
                         let attachment = this.attachments[i];
                         this.data.append('attachments[]', attachment);
+                        console.log(attachment.name);
                     }
 
                 }
