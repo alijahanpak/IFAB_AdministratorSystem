@@ -263,8 +263,14 @@
                                     <div class="medium-12">
                                         <div class="grid-x container-mrg-top">
                                             <div class="medium-12 padding-lr">
+                                                <label class="my-button my-brand"> انتخاب فایل
+                                                    <input @change="uploadFieldChange" accept=".jpg,.jpeg,.png,.doc,.docx,.doc,.xls,.xlsx,.pdf" id="File" type="file">
+                                                </label>
+                                                <br><br>
+                                            </div>
+                                            <div class="medium-12">
                                                 <div class="grid-x">
-                                                    <div v-for="(attachment, index) in attachments" class="large-3 medium-4 small-12 padding-lr">
+                                                    <div style="margin-top: 15px;margin-bottom: 15px;" v-for="(attachment, index) in attachments" class="large-3 medium-4 small-12 padding-lr">
                                                         <div class="format-card">
                                                             <a style="margin-right: 8px;margin-top:8px;" class="dropdown small sm-btn-align"  type="button" :data-toggle="'attachment' + index"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'attachment' + index" data-dropdown data-auto-focus="true">
@@ -274,22 +280,18 @@
                                                             </div>
                                                             <div style="padding:15px;" class="text-center">
                                                                 <i v-if="attachment.name.split('.').pop().toLowerCase() == 'pdf'" class="fas fa-file-pdf size-72 btn-red"></i>
-                                                                <i v-if="attachment.name.split('.').pop().toLowerCase() == 'jpg' || attachment.name.split('.').pop().toLowerCase() == 'png'" class="fas fa-file-image size-72 purple-color"></i>
+                                                                <i v-if="attachment.name.split('.').pop().toLowerCase() == 'jpg' || attachment.name.split('.').pop().toLowerCase() == 'jpeg' || attachment.name.split('.').pop().toLowerCase() == 'png'" class="fas fa-file-image size-72 purple-color"></i>
                                                                 <i v-if="attachment.name.split('.').pop().toLowerCase() == 'doc' || attachment.name.split('.').pop().toLowerCase() == 'docx'" class="fas fa-file-word size-72 blue-color"></i>
                                                                 <i v-if="attachment.name.split('.').pop().toLowerCase() == 'xls' || attachment.name.split('.').pop().toLowerCase() == 'xlsx'" class="fas fa-file-excel size-72 btn-green"></i>
                                                                 <h3 style="margin-top:10px;" class="gray-colors">{{attachment.name.split('.').pop().toUpperCase()}}</h3>
                                                             </div>
                                                             <div class="format-container direction-ltr">
-                                                                <p class="small-top-m gray-color"><b>{{attachment.name}}</b></p>
+                                                                <p style="height:50px" class="small-top-m gray-color"><b>{{attachment.name}}</b></p>
                                                                 <p class="gray-color small-top-m">{{  Number((attachment.size / 1000).toFixed(1)) + ' کیلوبایت'}}</p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <br><br>
-                                                <label class="my-button my-brand padding-lr"> انتخاب فایل
-                                                  <input @change="uploadFieldChange" accept=".jpg,.jpeg,.png,.doc,.docx,.doc,.xls,.xlsx,.pdf" id="File" type="file">
-                                                </label>
                                                 <!--            <button class="my-button my-brand" v-on:click.prevent="submit">بارگذاری</button>-->
                                             </div>
                                         </div>
@@ -318,6 +320,7 @@
                                 <li class="tabs-title is-active"><a href="#requestDetailTab" aria-selected="true">جزییات</a></li>
                                 <li class="tabs-title"><a href="#requestVerifiersTab">تایید کنندگان </a></li>
                                 <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
+                                <li class="tabs-title"><a href="#requestAttachmentsTab">پیوست </a></li>
                             </ul>
                             <div class="tabs-content" data-tabs-content="request_tab_view">
                                 <!--Tab 1-->
@@ -501,6 +504,30 @@
                                     </div>
                                 </div>
                                 <!--Tab 3-->
+
+                                <!--Tab 4-->
+                                <div class="tabs-panel table-mrg-btm" id="requestAttachmentsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <div class="grid-x medium-top-m">
+                                        <div style="margin-top: 15px;margin-bottom: 15px;" v-for="attachment in attachments" class="large-3 medium-4 small-12 padding-lr">
+                                            <a  v-bind:href="attachment.aPath" target="_blank">
+                                                <div class="format-card">
+                                                    <div style="padding:15px;" class="text-center">
+                                                        <i v-if="attachment.aPath.split('.').pop().toLowerCase() == 'pdf'" class="fas fa-file-pdf size-72 btn-red"></i>
+                                                        <i v-if="attachment.aPath.split('.').pop().toLowerCase() == 'jpg' || attachment.aPath.split('.').pop().toLowerCase() == 'jpeg' || attachment.aPath.split('.').pop().toLowerCase() == 'png'" class="fas fa-file-image size-72 purple-color"></i>
+                                                        <i v-if="attachment.aPath.split('.').pop().toLowerCase() == 'doc' || attachment.aPath.split('.').pop().toLowerCase() == 'docx'" class="fas fa-file-word size-72 blue-color"></i>
+                                                        <i v-if="attachment.aPath.split('.').pop().toLowerCase() == 'xls' || attachment.aPath.split('.').pop().toLowerCase() == 'xlsx'" class="fas fa-file-excel size-72 btn-green"></i>
+                                                        <h3 style="margin-top:10px;" class="gray-colors">{{attachment.aPath.split('.').pop().toUpperCase()}}</h3>
+                                                    </div>
+                                                    <div class="format-container direction-ltr">
+                                                        <p style="height: 50px;" class="small-top-m gray-color"><b>{{attachment.aName}}</b></p>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Tab 4-->
+
                             </div>
                         </div>
                     </div>
@@ -823,6 +850,7 @@
                 this.showSubmissionDeatilModal=true;
                 this.recipientUsers=[];
                 this.verifiers=[];
+                this.attachments=[];
                 var requestHistory=[];
                 requestHistory.push(submission);
                 console.log(JSON.stringify(requestHistory));
@@ -835,6 +863,12 @@
                 requestHistory.forEach(users => {
                     users.verifiers.forEach(verify => {
                         this.verifiers.push(verify);
+                    });
+                });
+
+                requestHistory.forEach(attach => {
+                    attach.attachment.forEach(item => {
+                        this.attachments.push(item);
                     });
                 });
 

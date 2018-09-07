@@ -111,6 +111,7 @@
                                 <li class="tabs-title"><a href="#requestVerifiersTab">تایید کنندگان </a></li>
                                 <li class="tabs-title"><a href="#creditsTab">اعتبارات</a></li>
                                 <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
+                                <li class="tabs-title"><a href="#requestAttachmentsTab">پیوست </a></li>
                             </ul>
                             <div class="tabs-content" data-tabs-content="request_tab_view">
                                 <!--Tab 1-->
@@ -477,6 +478,29 @@
                                     </div>
                                 </div>
                                 <!--Tab 4-->
+
+                                <!--Tab 5-->
+                                <div class="tabs-panel table-mrg-btm" id="requestAttachmentsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <div class="grid-x medium-top-m">
+                                        <div style="margin-top: 15px;margin-bottom: 15px;" v-for="attachment in attachments" class="large-3 medium-4 small-12 padding-lr">
+                                            <a  v-bind:href="attachment.aPath" target="_blank">
+                                                <div class="format-card">
+                                                    <div style="padding:15px;" class="text-center">
+                                                        <i v-if="attachment.aPath.split('.').pop().toLowerCase() == 'pdf'" class="fas fa-file-pdf size-72 btn-red"></i>
+                                                        <i v-if="attachment.aPath.split('.').pop().toLowerCase() == 'jpg' || attachment.aPath.split('.').pop().toLowerCase() == 'jpeg' || attachment.aPath.split('.').pop().toLowerCase() == 'png'" class="fas fa-file-image size-72 purple-color"></i>
+                                                        <i v-if="attachment.aPath.split('.').pop().toLowerCase() == 'doc' || attachment.aPath.split('.').pop().toLowerCase() == 'docx'" class="fas fa-file-word size-72 blue-color"></i>
+                                                        <i v-if="attachment.aPath.split('.').pop().toLowerCase() == 'xls' || attachment.aPath.split('.').pop().toLowerCase() == 'xlsx'" class="fas fa-file-excel size-72 btn-green"></i>
+                                                        <h3 style="margin-top:10px;" class="gray-colors">{{attachment.aPath.split('.').pop().toUpperCase()}}</h3>
+                                                    </div>
+                                                    <div class="format-container direction-ltr">
+                                                        <p style="height: 50px;" class="small-top-m gray-color"><b>{{attachment.aName}}</b></p>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Tab 5-->
                             </div>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr medium-top-m">
@@ -1861,6 +1885,7 @@
         },
         data () {
             return {
+                attachments:[],
                 receiveRequests:[],
                 costTemp:'',
                 showRequestDetailModal:false,
@@ -2237,6 +2262,7 @@
                 this.recipientUsers=[];
                 this.verifiers=[];
                 this.UserIsVerifier=[];
+                this.attachments=[];
                 var requestHistory=[];
                 requestHistory.push(request);
                 this.requestId=request.id;
@@ -2261,6 +2287,12 @@
                 requestHistory.forEach(remainUsers => {
                     remainUsers.rRemainingVerifiers.forEach(users => {
                         this.UserIsVerifier.push(users);
+                    });
+                });
+
+                requestHistory.forEach(attach => {
+                    attach.attachment.forEach(item => {
+                        this.attachments.push(item);
                     });
                 });
 
