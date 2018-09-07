@@ -90,7 +90,7 @@
                         <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="commodity_tab_view">
                             <li class="tabs-title is-active"><a href="#reciverTab" aria-selected="true">دریافت کنندگان</a></li>
                             <li class="tabs-title"><a href="#commodityTab">فرم درخواست </a></li>
-                            <li class="tabs-title"><a href="#attachmentTab">پیوست </a></li>
+                            <li class="tabs-title"><a href="#attachmentTab">پیوست ها </a></li>
                         </ul>
                         <div class="tabs-content" data-tabs-content="commodity_tab_view">
                             <!--Tab 1-->

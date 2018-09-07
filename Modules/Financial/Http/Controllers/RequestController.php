@@ -88,6 +88,7 @@ class RequestController extends Controller
                     $attachment = new Attachment();
                     $attachment->aRId = $req->id;
                     $attachment->aPath = $fileName;
+                    $attachment->aName = $files->getClientOriginalName();
                     $attachment->save();
                 }
             }
