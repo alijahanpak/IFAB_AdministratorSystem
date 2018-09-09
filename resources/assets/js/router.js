@@ -512,6 +512,10 @@ var app = new Vue({
                     this.$notify({title: 'پیام سیستم', text: 'مبلغ باقی مانده صفر است!' , type: 'error'});
                     this.$refs.errorAlarm.play();
                     break;
+                case 2:
+                    this.$notify({title: 'پیام سیستم', text: 'حجم فایل انتخابی نباید بیشتر از 2 مگابایت باشد!' , type: 'error'});
+                    this.$refs.errorAlarm.play();
+                    break;
                 case 10:
                     this.$notify({title: 'پیام سیستم', text: 'تکرار رمز عبور جدید اشتباه است!' , type: 'error'});
                     this.$refs.errorAlarm.play();

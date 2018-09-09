@@ -263,21 +263,14 @@
                                     <div class="medium-12">
                                         <div class="grid-x container-mrg-top">
                                             <div class="medium-12 padding-lr">
-                                                <label class="my-button my-brand"> انتخاب فایل
+                                                <label class="my-button toolbox-btn"> انتخاب فایل
                                                     <input @change="uploadFieldChange" accept=".jpg,.jpeg,.png,.doc,.docx,.doc,.xls,.xlsx,.pdf" id="File" type="file">
                                                 </label>
-                                                <br><br>
                                             </div>
                                             <div class="medium-12">
                                                 <div class="grid-x">
                                                     <div style="margin-top: 15px;margin-bottom: 15px;" v-for="(attachment, index) in attachments" class="large-3 medium-4 small-12 padding-lr">
                                                         <div class="format-card">
-                                                            <a style="margin-right: 8px;margin-top:8px;" class="dropdown small sm-btn-align"  type="button" :data-toggle="'attachment' + index"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'attachment' + index" data-dropdown data-auto-focus="true">
-                                                                <ul class="my-menu small-font text-right">
-                                                                    <li><a @click="removeAttachment(index)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                </ul>
-                                                            </div>
                                                             <div style="padding:15px;" class="text-center">
                                                                 <i v-if="attachment.name.split('.').pop().toLowerCase() == 'pdf'" class="fas fa-file-pdf size-72 btn-red"></i>
                                                                 <i v-if="attachment.name.split('.').pop().toLowerCase() == 'jpg' || attachment.name.split('.').pop().toLowerCase() == 'jpeg' || attachment.name.split('.').pop().toLowerCase() == 'png'" class="fas fa-file-image size-72 purple-color"></i>
@@ -286,8 +279,32 @@
                                                                 <h3 style="margin-top:10px;" class="gray-colors">{{attachment.name.split('.').pop().toUpperCase()}}</h3>
                                                             </div>
                                                             <div class="format-container direction-ltr">
-                                                                <p style="height:50px" class="small-top-m gray-color"><b>{{attachment.name}}</b></p>
-                                                                <p class="gray-color small-top-m">{{  Number((attachment.size / 1000).toFixed(1)) + ' کیلوبایت'}}</p>
+                                                                <p style="cursor: pointer;" :data-toggle="'attachment' + index" class="small-top-m gray-color one-line"><b>{{attachment.name}}</b></p>
+                                                                <div class="clearfix tool-bar">
+                                                                    <div style="width: 200px" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="auto" data-alignment="auto" :id="'attachment' + index" data-dropdown data-auto-focus="true">
+                                                                        <ul class="my-menu small-font">
+                                                                            <div class="grid-x">
+                                                                                <div class="medium-12">
+                                                                                    <p style="word-break: break-all;" class="black-color">{{attachment.name}}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="grid-x">
+                                                                    <div class="large-10">
+                                                                        <p v-if="Number((attachment.size / 1000).toFixed(1)) < 1024 " class="gray-colors">{{  Number((attachment.size / 1000).toFixed(1)) + ' کیلوبایت'}}</p>
+                                                                        <p v-if="Number((attachment.size / 1000).toFixed(1)) > 1024" class="gray-colors">{{  Number(((attachment.size / 1000)/1024).toFixed(1)) + ' مگابایت'}}</p>
+                                                                    </div>
+                                                                    <div style="direction:rtl;" class="large-2">
+                                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'attachmentDel' + index"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'attachmentDel' + index" data-dropdown data-auto-focus="true">
+                                                                            <ul class="my-menu small-font text-right">
+                                                                                <li><a @click="removeAttachment(index)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -941,7 +958,6 @@
                 for (var i = files.length - 1; i >= 0; i--) {
                     this.attachments.push(files[i]);
                 }
-                console.log(this.attachments);
                 //this.attachments.name.split('.').pop().toLowerCase();
 
                 // Reset the form to avoid copying these files multiple times into this.attachments

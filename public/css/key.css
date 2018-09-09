@@ -2173,6 +2173,12 @@ input[type="search"]:valid + label {
     padding: 0px 30px 0px 30px;
 }
 
+.one-line{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
     display: block;
     width: 0;
