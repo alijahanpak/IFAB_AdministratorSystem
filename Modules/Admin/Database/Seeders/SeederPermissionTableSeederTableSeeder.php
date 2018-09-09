@@ -534,5 +534,25 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
         $permission->pPermission = 'DETERMINE_EXIST_COMMODITY_IN_REPOSITORY';
         $permission->save();
 
+        ///////////////// supplier ///////////////////////////
+        $permission = new Permission;
+        $permission->pSspId = 12;
+        $permission->pSubject = 'مشاهده صف کارپردازی';
+        $permission->pPermission = 'SUPPLIER_QUEUE_DISPLAY';
+        $permission->save();
+
+        ///////////////// unit of contract ///////////////////////////
+        $permission = new Permission;
+        $permission->pSspId = 13;
+        $permission->pSubject = 'مشاهده صف واحد عقد قرارداد';
+        $permission->pPermission = 'UNIT_OF_CONTRACT_QUEUE_DISPLAY';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 9;
+        $permission->pSubject = 'تایید پرداخت از تنخواه گردان';
+        $permission->pPermission = 'FINANCIAL_ACCEPT_PAY_FROM_REFUND';
+        $permission->save();
+
     }
 }

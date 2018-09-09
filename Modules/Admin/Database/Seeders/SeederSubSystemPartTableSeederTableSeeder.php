@@ -85,5 +85,17 @@ class SeederSubSystemPartTableSeederTableSeeder extends Seeder
         $part->sspSubject = 'انبار';
         $part->sspPart = 'REPOSITORY';
         $part->save();
+
+        $part = new SubSystemPart;
+        $part->sspSsId = 4;
+        $part->sspSubject = 'کاربردازی';
+        $part->sspPart = 'SUPPLIER';
+        $part->save();
+
+        $part = new SubSystemPart;
+        $part->sspSsId = 4;
+        $part->sspSubject = 'واحد عقد قرارداد';
+        $part->sspPart = 'UNIT_OF_CONTRACT';
+        $part->save();
     }
 }

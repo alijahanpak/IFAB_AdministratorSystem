@@ -46,5 +46,15 @@ class SeedRequestStateTableSeeder extends Seeder
         $rState->rsSubject = 'در صف امور مالی';
         $rState->rsState = 'FINANCIAL_QUEUE';
         $rState->save();
+
+        $rState = new RequestState();
+        $rState->rsSubject = 'در صف کارپردازی';
+        $rState->rsState = 'SUPPLIER_QUEUE';
+        $rState->save();
+
+        $rState = new RequestState();
+        $rState->rsSubject = 'در صف واحد عقد قرارداد';
+        $rState->rsState = 'UNIT_OF_CONTRACT_QUEUE';
+        $rState->save();
     }
 }
