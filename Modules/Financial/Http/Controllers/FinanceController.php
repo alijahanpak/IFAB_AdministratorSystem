@@ -156,7 +156,7 @@ class FinanceController extends Controller
             $history->rhDestUId = null; // for financial destination
             $history->rhRId = $req->id;
             $history->rhRsId = $req->rRsId;
-            $history->rhDescription = 'تامین اعتبار انجام شد.';
+            $history->rhDescription = 'تامین اعتبار مورد تایید می باشد.';
             $history->save();
 
             $finReqQueue = new FinancialRequestQueue();

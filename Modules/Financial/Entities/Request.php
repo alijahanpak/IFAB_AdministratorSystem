@@ -27,6 +27,11 @@ class _Request extends Model
         return $this->hasMany(RequestCommodity::class , 'rcRId' , 'id')->orderBy('id', 'DESC');
     }
 
+    public function contract()
+    {
+        return $this->hasMany(Contract::class , 'cRId' , 'id')->orderBy('id', 'DESC');
+    }
+
     public function attachment()
     {
         return $this->hasMany(Attachment::class , 'aRId' , 'id')->orderBy('id', 'DESC');

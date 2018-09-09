@@ -65,7 +65,7 @@
                                 <td>{{receiveRequest.rSubject}}</td>
                                 <td :data-toggle="'lastRef' + receiveRequest.id">{{receiveRequest.rLastRef.source_user_info.name}} - {{receiveRequest.rLastRef.source_user_info.role.rSubject}}
                                     <div class="clearfix tool-bar" v-if="receiveRequest.rLastRef.rhDescription !== null">
-                                        <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="top" data-alignment="auto" :id="'lastRef' + receiveRequest.id" data-dropdown data-auto-focus="true">
+                                        <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="left" data-alignment="auto" :id="'lastRef' + receiveRequest.id" data-dropdown data-auto-focus="true">
                                             <ul class="my-menu small-font">
                                                 <div class="grid-x">
                                                     <div class="medium-12">
@@ -333,7 +333,7 @@
                                                                     <p class="p-margin-btm"> مبلغ رزرو شده : <span class="btn-red"> {{$parent.dispMoneyFormat(_reservedAmount)}} </span></p>
                                                                 </div>
                                                                 <div class="large-4 medium-4 small-12">
-                                                                    <p class="p-margin-btm"> مبلغ تامین اعتبار شده : <span class="btn-red"> {{$parent.dispMoneyFormat(_financingAmount)}} </span></p>
+                                                                    <p class="p-margin-btm"> مبلغ تامین اعتبار قطعی : <span class="btn-red"> {{$parent.dispMoneyFormat(_financingAmount)}} </span></p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -410,7 +410,7 @@
                                                                     <p class="p-margin-btm"> مبلغ رزرو شده : <span class="btn-red"> {{$parent.dispMoneyFormat(_reservedAmount)}} </span></p>
                                                                 </div>
                                                                 <div class="large-4 medium-4 small-12">
-                                                                    <p class="p-margin-btm"> مبلغ تامین اعتبار شده : <span class="btn-red"> {{$parent.dispMoneyFormat(_financingAmount)}} </span></p>
+                                                                    <p class="p-margin-btm"> مبلغ تامین اعتبار قطعی : <span class="btn-red"> {{$parent.dispMoneyFormat(_financingAmount)}} </span></p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -717,7 +717,7 @@
                                                     <th class="tbl-head-style-cell">شماره نامه</th>
                                                     <th class="tbl-head-style-cell">مجموع تخصیص</th>
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
-                                                    <th class="tbl-head-style-cell">تامین اعتبار شده</th>
+                                                    <th class="tbl-head-style-cell">تامین اعتبار قطعی</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
                                                     <th class="tbl-head-style-cell">هزینه شده</th>
                                                     <th class="tbl-head-style-cell">شرح</th>
@@ -820,7 +820,7 @@
                                                 <tr class="tbl-head-style-cell">
                                                     <th class="tbl-head-style-cell">مجموع تخصیص</th>
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
-                                                    <th class="tbl-head-style-cell">تامین اعتبار</th>
+                                                    <th class="tbl-head-style-cell">تامین اعتبار قطعی</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
                                                     <th class="tbl-head-style-cell">هزینه شده</th>
                                                     <th class="tbl-head-style-cell">مبلغ</th>
@@ -939,7 +939,7 @@
                                                     <th class="tbl-head-style-cell">شماره نامه</th>
                                                     <th class="tbl-head-style-cell">تاریخ نامه</th>
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
-                                                    <th class="tbl-head-style-cell">تامین اعتبار</th>
+                                                    <th class="tbl-head-style-cell">تامین اعتبار قطعی</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
                                                     <th class="tbl-head-style-cell">هزینه شده</th>
                                                     <th class="tbl-head-style-cell">شرح</th>
@@ -1060,7 +1060,7 @@
                                                     <th class="tbl-head-style-cell">شماره نامه</th>
                                                     <th class="tbl-head-style-cell">تاریخ نامه</th>
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
-                                                    <th class="tbl-head-style-cell">تامین اعتبار</th>
+                                                    <th class="tbl-head-style-cell">تامین اعتبار قطعی</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
                                                     <th class="tbl-head-style-cell">هزینه شده</th>
                                                     <th class="tbl-head-style-cell">اعتبار پیشنهادی</th>
@@ -1184,7 +1184,7 @@
                                                     <th class="tbl-head-style-cell">شماره طرح</th>
                                                     <th class="tbl-head-style-cell">مجموع تخصیص</th>
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
-                                                    <th class="tbl-head-style-cell">تامین اعتبار شده</th>
+                                                    <th class="tbl-head-style-cell">تامین اعتبار قطعی</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
                                                     <th class="tbl-head-style-cell">هزینه شده</th>
                                                     <th class="tbl-head-style-cell">شرح</th>
@@ -1314,7 +1314,7 @@
                                                     <th class="tbl-head-style-cell">کد پروژه</th>
                                                     <th class="tbl-head-style-cell">مجموع تخصیص</th>
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
-                                                    <th class="tbl-head-style-cell">تامین اعتبار</th>
+                                                    <th class="tbl-head-style-cell">تامین اعتبار قطعی</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
                                                     <th class="tbl-head-style-cell">هزینه شده</th>
                                                     <th class="tbl-head-style-cell">شرح</th>
@@ -1468,7 +1468,7 @@
                                                     <th class="tbl-head-style-cell">شماره طرح</th>
                                                     <th class="tbl-head-style-cell">مجموع تخصیص</th>
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
-                                                    <th class="tbl-head-style-cell">تامین اعتبار</th>
+                                                    <th class="tbl-head-style-cell">تامین اعتبار قطعی</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
                                                     <th class="tbl-head-style-cell">هزینه شده</th>
                                                     <th class="tbl-head-style-cell">مبلغ</th>
@@ -1639,7 +1639,7 @@
                                                 <tr class="tbl-head-style-cell">
                                                     <th class="tbl-head-style-cell">شماره نامه</th>
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
-                                                    <th class="tbl-head-style-cell">تامین اعتبار</th>
+                                                    <th class="tbl-head-style-cell">تامین اعتبار قطعی</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
                                                     <th class="tbl-head-style-cell">هزینه شده</th>
                                                     <th class="tbl-head-style-cell">مبلغ</th>
@@ -1789,7 +1789,7 @@
                                                 <tr class="tbl-head-style-cell">
                                                     <th class="tbl-head-style-cell">شماره نامه</th>
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
-                                                    <th class="tbl-head-style-cell">تامین اعتبار</th>
+                                                    <th class="tbl-head-style-cell">تامین اعتبار قطعی</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
                                                     <th class="tbl-head-style-cell">هزینه شده</th>
                                                     <th class="tbl-head-style-cell">مبلغ</th>
@@ -2482,7 +2482,7 @@
                 this.completeCostAgrement= [];
                 this.costFound = [];
                 this.costReservedAmount = 0;
-                if (this.UserIsVerifier.length == 0 && (this.requestFill.rLetterNumber != '' && this.requestFill.rLetterDate != ''))
+                if (this.UserIsVerifier.length == 0 && (this.requestFill.rLetterNumber != '' && this.requestFill.rLetterNumber != null) && (this.requestFill.rLetterDate != '' && this.requestFill.rLetterDate != null))
                 {
                     this.getFinancingAmount();
                     this.getCompleteCostAgrement();
@@ -2504,7 +2504,7 @@
                 this.completeCapitalAssetsAgrement = [];
                 this.capitalAssetsFound = [];
                 this.capReservedAmount = 0;
-                if (this.UserIsVerifier.length == 0 && (this.requestFill.rLetterNumber != '' && this.requestFill.rLetterDate != ''))
+                if (this.UserIsVerifier.length == 0 && (this.requestFill.rLetterNumber != '' && this.requestFill.rLetterNumber != null) && (this.requestFill.rLetterDate != '' && this.requestFill.rLetterDate != null))
                 {
                     this.getFinancingAmount();
                     this.getCompleteCapitalAssetsApproved ();

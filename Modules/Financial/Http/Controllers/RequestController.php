@@ -63,13 +63,14 @@ class RequestController extends Controller
             ->with('history.sourceUserInfo.role')
             ->with('history.destinationUserInfo.role')
             ->with('history.requestState')
+            ->with('contract')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
     }
 
     function register(Request $request)
     {
-        DB::transaction(function () use($request){
+        $resultCode = DB::transaction(function () use($request){
             $req = new _Request();
             $req->rRsId = RequestState::where('rsState' , '=' , 'ACTIVE')->value('id');
             $req->rRtId = $request->rtId;
@@ -111,7 +112,7 @@ class RequestController extends Controller
             //////////////////////// set verifiers ////////////////////////////////
             $userSig = Signature::where('sUId' , '=' , Auth::user()->id)->first();
             if ($userSig == null)
-                return response()->json([] , 500);
+                return 500;
 
             $userCat = RoleCategory::where('rcRId' , '=' , Auth::user()->rId)->pluck('rcCId');
             $mySteps = RequestStep::where('rstRtId' , '=' , $request->rtId)
@@ -145,10 +146,13 @@ class RequestController extends Controller
 
             $reqType = RequestType::find($request->rtId);
             SystemLog::setFinancialSubSystemLog('ثبت درخواست ' . $reqType->rtSubject);
+
+            return 200;
         });
+
         return \response()->json(
             $this->getAllPostedRequests(Auth::user()->id)
-        );
+        , $resultCode);
     }
 
     function fetchReceivedRequestsData(Request $request)
@@ -173,6 +177,7 @@ class RequestController extends Controller
             ->with('history.sourceUserInfo.role')
             ->with('history.destinationUserInfo.role')
             ->with('history.requestState')
+            ->with('contract')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
     }
