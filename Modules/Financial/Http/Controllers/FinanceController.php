@@ -14,6 +14,7 @@ use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\CapitalAssetsFinancing;
 use Modules\Financial\Entities\CostFinancing;
 use Modules\Financial\Entities\FinancialRequestQueue;
+use Modules\Financial\Entities\RefundCosts;
 use Modules\Financial\Entities\RequestHistory;
 use Modules\Financial\Entities\RequestState;
 use Modules\Financial\Entities\SupplierRequestQueue;
@@ -185,6 +186,34 @@ class FinanceController extends Controller
             $history->rhDescription = 'تامین اعتبار، مورد تایید می باشد.';
             $history->save();
 
+        });
+
+        $rController = new RequestController();
+        return \response()->json(
+            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+        );
+    }
+
+    function supplyFromRefund(Request $request)
+    {
+        DB::transaction(function () use($request){
+            $req = _Request::find($request->id);
+            $req->isFromRefundCosts = true;
+            $req->rRsId = RequestState::where('rsState' , '=' , 'SUPPLIER_QUEUE')->value('id');
+            $req->save();
+
+            $supReqQueue = new SupplierRequestQueue();
+            $supReqQueue->srqRId = $req->id;
+            $supReqQueue->save();
+
+            // make history for this request
+            $history = new RequestHistory();
+            $history->rhSrcUId = Auth::user()->id;
+            $history->rhDestUId = null; // for supplier destination
+            $history->rhRId = $req->id;
+            $history->rhRsId = $req->rRsId;
+            $history->rhDescription = 'با سلام، لطفا از محل تنخواه گردان تدارکات تامین گردد.';
+            $history->save();
         });
 
         $rController = new RequestController();
