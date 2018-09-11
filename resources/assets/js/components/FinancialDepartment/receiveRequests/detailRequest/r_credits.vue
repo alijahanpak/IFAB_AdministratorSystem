@@ -172,7 +172,7 @@
         </div>
         <div style="padding: 0 17px 0 17px;" class="large-12 medium-12 small-12 small-top-m">
             <div style="margin-bottom:-10px;margin-top: 5px" class="stacked-for-small button-group float-left">
-                <button v-show='$can("FINANCIAL_ACCEPT_FINANCING")' @click="" class="my-button my-success float-left"><span class="btn-txt-mrg">تایید تامین اعتبار</span></button>
+                <button v-show='$can("FINANCIAL_ACCEPT_FINANCING") && acceptBtn' @click="acceptFinancing()"  class="my-button my-success float-left"><span class="btn-txt-mrg">تایید تامین اعتبار</span></button>
                 <button v-show='$can("FINANCIAL_CAPITAL_ASSETS_FINANCING")' @click="openCapitalAssetsModal()" class="my-button toolbox-btn float-left"><span class="btn-txt-mrg">  اعتبارات تملک دارایی های سرمایه ای</span></button>
                 <button v-show='$can("FINANCIAL_COST_FINANCING")' @click="openCostCreditsModal()" class="my-button toolbox-btn float-left"><span class="btn-txt-mrg">  اعتبارات هزینه ای</span></button>
             </div>
@@ -1373,6 +1373,10 @@
             </div>
         </modal-full-screen>
         <!-- Capital Assets Modal End -->
+
+        <messageDialog v-bind:showDialogModal="showDialogModal">
+            {{dialogMessage}}
+        </messageDialog>
     </div>
 
 
@@ -1380,13 +1384,17 @@
 <script>
 
 export default{
-    props:['baseAmount','UserIsVerifier','requestFill','requestId'],
+    props:['baseAmount','UserIsVerifier','requestFill','requestId',],
+
     data () {
         return {
             showCostCreditsModal:false,
             showCapitalAssetsModal:false,
             requestCostFinancing:[],
             requestCapFinancing:[],
+            acceptBtn:false,
+            dialogMessage:'',
+            showDialogModal:false,
 
             /*credits*/
             completeCostAgrement:[],
@@ -1413,6 +1421,7 @@ export default{
     created: function () {
         $(this.$el).foundation(); //WORKS!
         this.fetchRequestFinancing();
+
     },
     updated: function () {
         $(this.$el).foundation(); //WORKS!
@@ -1432,6 +1441,7 @@ export default{
                 .then((response) => {
                     this.requestCostFinancing = response.data.costFinancing;
                     this.requestCapFinancing = response.data.capFinancing;
+                    this.checkAcceptFinancingVisible();
                     this.getFinancingAmount();
                     console.log(this.requestCostFinancing);
                     console.log(response);
@@ -2325,6 +2335,46 @@ export default{
 
             var temp = (this.baseAmount - this.capReservedAmount);
             return  (remainingCapAmount < temp ? remainingCapAmount : temp);
+        },
+
+        checkAcceptFinancingVisible:function(){
+            this.requestCostFinancing.forEach(item =>{
+                if(item.cfAccepted == 0){
+                    this.acceptBtn=true;
+                }
+            });
+
+            this.requestCapFinancing.forEach(item =>{
+                if(item.cafAccepted == 0){
+                    this.acceptBtn=true;
+                }
+            });
+
+            /*if(((this._reservedAmount + this._financingAmount) - this.$parent.baseAmount) != 0){
+                this.acceptBtn=
+            }*/
+        },
+
+        acceptFinancing: function(){
+            if(((this._reservedAmount + this._financingAmount) - this.baseAmount) != 0){
+                this.dialogMessage = 'تامین اعتبار به طور کامل انجام نشده است';
+                this.showDialogModal=true;
+            }
+            else {
+                axios.post('/financial/request/financing/accept', {
+                    rId: this.requestId,
+                }).then((response) => {
+                    this.$parent.receiveRequests = response.data.data;
+                    this.$emit('closeModal');
+                    this.$root.displayNotif(response.status);
+                    this.getFinancingAmount();
+                    console.log(response);
+                }, (error) => {
+                    console.log(error);
+                    this.$root.displayNotif(error.response.status);
+                });
+            }
+
         },
         myResizeModal: function() {
             var x = $.w.outerHeight();

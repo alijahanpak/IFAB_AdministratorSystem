@@ -13,9 +13,6 @@
                             <li>
                                 <span class="show-for-sr">Current: </span>درخواست های دریافتی
                             </li>
-                            <messageDialog v-show="showDialogModal">
-                                {{dialogMessage}}
-                            </messageDialog>
                         </ul>
                     </nav>
                 </div>
@@ -148,7 +145,7 @@
                                 <!--Tab 2-->
                                 <!--Tab 3-->
                                 <div class="tabs-panel table-mrg-btm" id="creditsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                    <rCredits
+                                    <rCredits v-on:closeModal="showRequestDetailModal=false"
                                         v-bind:baseAmount="baseAmount"
                                         v-bind:requestFill="requestFill"
                                         v-bind:UserIsVerifier="UserIsVerifier"
@@ -413,7 +410,6 @@
     import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
     import VuePagination from '../../../public_component/pagination.vue';
 
-    import messageDialog from './message_dialog.vue';
 
     /* Import Local Components Start*/
     import rDetails from './detailRequest/r_details.vue';
@@ -425,7 +421,6 @@
             "vue-select": require("vue-select"),
             datePicker: VuePersianDatetimePicker,
             'vue-pagination' : VuePagination,
-            messageDialog,
             rDetails,
             rCredits,
         },
@@ -696,6 +691,11 @@
               this.showSubmitRequestModal=true;
             },
 
+            closeRequestDetailModal: function () {
+                alert('ali');
+                this.showRequestDetailModal=false;
+            },
+
             hideSubmitRequestModal: function () {
               this.showSubmitRequestModal=false;
             },
@@ -726,6 +726,7 @@
             openResponseRequestModal: function () {
                 this.showResponseRequestModal=true;
             },
+
 
             responseRequest: function () {
                 axios.post('/financial/request/response', {
