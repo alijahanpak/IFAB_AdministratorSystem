@@ -12,7 +12,9 @@ use Modules\Budget\Entities\CapitalAssetsAllocation;
 use Modules\Budget\Entities\CostAllocation;
 use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\CapitalAssetsFinancing;
+use Modules\Financial\Entities\Contract;
 use Modules\Financial\Entities\CostFinancing;
+use Modules\Financial\Entities\Factor;
 use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\RefundCosts;
 use Modules\Financial\Entities\RequestHistory;
@@ -132,12 +134,46 @@ class FinanceController extends Controller
 
     public function deleteCostFinancing(Request $request)
     {
+        $resultCode = DB::transaction(function () use($request){
+            $existFund = Contract::where('cRId' , '=' , $request->rId)
+                ->exists();
+            $existFund = Factor::where('fRId' , '=' , $request->rId)
+                ->exists();
 
+            if ($existFund)
+            {
+                return 207;
+            }else{
+                CostFinancing::where('id' , '=' , $request->id)
+                    ->delete();
+                return 200;
+            }
+
+        });
+
+        return \response()->json($this->getAllFinancing($request->rId) , $resultCode);
     }
 
     public function deleteCapFinancing(Request $request)
     {
+        $resultCode = DB::transaction(function () use($request){
+            $existFund = Contract::where('cRId' , '=' , $request->rId)
+                ->exists();
+            $existFund = Factor::where('fRId' , '=' , $request->rId)
+                ->exists();
 
+            if ($existFund)
+            {
+                return 207;
+            }else{
+                CapitalAssetsFinancing::where('id' , '=' , $request->id)
+                    ->delete();
+                return 200;
+            }
+
+        });
+
+        return \response()->json($this->getAllFinancing($request->rId) , $resultCode);
     }
 
     public function acceptFinancing(Request $request)

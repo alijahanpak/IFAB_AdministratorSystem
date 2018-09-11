@@ -1417,8 +1417,6 @@ export default{
     updated: function () {
         $(this.$el).foundation(); //WORKS!
         this.myResizeModal();
-
-
     },
 
     mounted: function () {
@@ -1426,7 +1424,6 @@ export default{
     },
 
     methods : {
-
         fetchRequestFinancing: function (){
             axios.get('/financial/request/financing' , {params:{rId:this.requestId}})
                 .then((response) => {
