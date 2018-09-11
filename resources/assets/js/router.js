@@ -28,11 +28,14 @@ import cost_allocation from './components/Budget/Allocation/cost.vue'
 import credit_distribution_plan from './components/Budget/CreditDistribution/plan.vue'
 import budget_proposal from './components/Budget/CreditDistribution/proposal.vue'
 
+
+
 /////////////////////// Financial Department Start//////////////////////////
 
 import submissions from './components/FinancialDepartment/submissions.vue'
-import received_requests from './components/FinancialDepartment/received_requests.vue'
+import received_requests from './components/FinancialDepartment/receiveRequests/received_requests.vue'
 import search_requests from './components/FinancialDepartment/search_requests.vue'
+
 
 /////////////////////// Financial Department End//////////////////////////
 
@@ -63,6 +66,7 @@ const routes = [
     { path: '/financial_department/submissions', component: submissions , meta:{permission: 'public'}},
     { path: '/financial_department/received_requests', component: received_requests , meta:{permission: 'public'}},
     { path: '/financial_department/search_requests', component: search_requests , meta:{permission: 'public'}},
+
 ]
 
 const router = new VueRouter({

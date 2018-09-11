@@ -955,8 +955,15 @@
                 var files = e.target.files || e.dataTransfer.files;
                 if (!files.length)
                     return;
+
                 for (var i = files.length - 1; i >= 0; i--) {
-                    this.attachments.push(files[i]);
+                    console.log(files[i].size);
+                    if((files[i].size / 1000).toFixed(1) > 2048){
+                        this.$parent.displayNotif(2);
+                    }
+                    else{
+                        this.attachments.push(files[i]);
+                    }
                 }
                 //this.attachments.name.split('.').pop().toLowerCase();
 

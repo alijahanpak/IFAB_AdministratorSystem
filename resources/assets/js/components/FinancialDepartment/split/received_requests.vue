@@ -1,5 +1,5 @@
 <template>
-<!--Body system-->
+    <!--Body system-->
     <div class="medium-10 border-right-line inner-body-pad main-margin">
         <div class="grid-x padding-lr breadcrumbs-pos">
             <div class="medium-12">
@@ -13,6 +13,9 @@
                             <li>
                                 <span class="show-for-sr">Current: </span>درخواست های دریافتی
                             </li>
+                            <messageDialog v-show="showDialogModal">
+                                {{dialogMessage}}
+                            </messageDialog>
                         </ul>
                     </nav>
                 </div>
@@ -116,113 +119,12 @@
                             <div class="tabs-content" data-tabs-content="request_tab_view">
                                 <!--Tab 1-->
                                 <div class="tabs-panel is-active table-mrg-btm" id="requestDetailTab">
-                                    <div class="grid-x">
-                                        <div v-show="requestTypeDetail == 'SERVICES'" class="large-12 medium-12 small-12">
-                                            <table>
-                                                <tbody>
-                                                <tr>
-                                                    <td width="150px">شماره : </td>
-                                                    <td>{{requestFill.rLetterNumber}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="150px">تاریخ : </td>
-                                                    <td>{{requestFill.rLetterDate}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="150px">موضوع : </td>
-                                                    <td>{{requestFill.rSubject}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="150px">مبلغ برآوردی : </td>
-                                                    <td>{{$parent.dispMoneyFormat(requestFill.rCostEstimation)}} <span class="btn-red">  ریال  </span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="150px">شرح کامل خدمات : </td>
-                                                    <td class="text-justify">{{requestFill.rDescription}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="150px">توضیحات تکمیلی : </td>
-                                                    <td class="text-justify">{{requestFill.rFurtherDetails}}</td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                    <rDetails v-bind:requestTypeDetail="requestTypeDetail"
+                                              v-bind:requestFill="requestFill"
+                                              v-bind:commodityList="commodityList"
+                                    >
 
-                                        <div v-show="requestTypeDetail == 'COMMODITY'" class="large-12 medium-12 small-12">
-                                            <table>
-                                                <tbody>
-                                                <tr>
-                                                    <td width="150px">شماره : </td>
-                                                    <td>{{requestFill.rLetterNumber}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="150px">تاریخ : </td>
-                                                    <td>{{requestFill.rLetterDate}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="150px">موضوع : </td>
-                                                    <td>{{requestFill.rSubject}}</td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-
-                                            <table>
-                                                <thead>
-                                                <th width="50">ردیف</th>
-                                                <th>شرح و نوع جنس</th>
-                                                <th width="100">تعداد</th>
-                                                <th v-if='$can("DETERMINE_EXIST_COMMODITY_IN_REPOSITORY")' width="100">موجودی انبار</th>
-                                                <th width="200">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
-                                                <th>توضیحات (موارد مصرف)</th>
-                                                </thead>
-                                                <tbody>
-                                                <tr v-for="(lists,index) in commodityList">
-                                                    <td>{{index+1}}</td>
-                                                    <td>{{lists.commodity.cSubject}}</td>
-                                                    <td>{{lists.rcCount - lists.rcExistCount}}</td>
-                                                    <td v-if='$can("DETERMINE_EXIST_COMMODITY_IN_REPOSITORY")'>
-                                                        <input v-on:change="setRepoExistCount(lists.id,commodityCountInput['existCount' + lists.id])" v-model="commodityCountInput['existCount' + lists.id]"  style="margin-bottom: 0px;" class="form-element-margin-btm" type="text" :name="'repoCount' + lists.id" v-validate="'required','min_value:0','max_value:'+lists.rcCount " data-vv-as="field" :class="{'input': true, 'error-border': errors.has('repoCount' + lists.id)}">
-                                                        <span v-show="errors.has('repoCount' + lists.id)" class="error-font"></span>
-                                                    </td>
-                                                    <td>{{$parent.dispMoneyFormat(lists.rcCostEstimation)}}</td>
-                                                    <td>{{lists.rcDescription}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td :colspan='$can("DETERMINE_EXIST_COMMODITY_IN_REPOSITORY") ? 4 : 3' class="text-center font-wei-bold"> مجموع برآورد</td>
-                                                    <td colspan="2" class="text-center font-wei-bold">{{$parent.dispMoneyFormat(requestFill.rCostEstimation)}} <span class="btn-red">  ریال  </span> </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-                                        <div v-show="requestTypeDetail == 'FUND'" class="large-12 medium-12 small-12">
-                                            <table>
-                                                <tbody>
-                                                <tr>
-                                                    <td width="150px">شماره : </td>
-                                                    <td>{{requestFill.rLetterNumber}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="150px">تاریخ : </td>
-                                                    <td>{{requestFill.rLetterDate}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="150px">موضوع : </td>
-                                                    <td>{{requestFill.rSubject}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="150px">مبلغ برآوردی : </td>
-                                                    <td>{{$parent.dispMoneyFormat(requestFill.rCostEstimation)}} <span class="btn-red">  ریال  </span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="150px">متن درخواست : </td>
-                                                    <td class="text-justify">{{requestFill.rDescription}}</td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-                                    </div>
+                                    </rDetails>
                                 </div>
                                 <!--Tab 1-->
                                 <!--Tab 2-->
@@ -248,185 +150,15 @@
                                 <!--Tab 2-->
                                 <!--Tab 3-->
                                 <div class="tabs-panel table-mrg-btm" id="creditsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                    <div class="grid-x">
-                                        <div class="large-12 medium-12 small-12">
-                                            <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="credit_tab_view">
-                                                <li class="tabs-title is-active"><a href="#creditCapitalAssetsTab" aria-selected="true">تملک دارایی های سرمایه ای</a></li>
-                                                <li class="tabs-title"><a href="#creditCostTab">هزینه ای </a></li>
-                                            </ul>
-                                            <div class="tabs-content" data-tabs-content="credit_tab_view">
-                                                <div class="grid-x">
-                                                    <div style="margin-top: 10px;" class="large-12 medium-12 small-12 direction-ltr">
-                                                        <span class="cost-label">مبالغ : ریال</span>
-                                                    </div>
-                                                </div>
-                                                <!--Tab 1-->
-                                                <div class="tabs-panel is-active table-mrg-btm" id="creditCapitalAssetsTab">
-                                                    <div class="grid-x">
-                                                        <!--Table Start-->
-                                                        <!--Table Head Start-->
-                                                        <div class="tbl-div-container">
-                                                            <table class="tbl-head">
-                                                                <colgroup>
-                                                                    <col width="200px"/>
-                                                                    <col width="120px"/>
-                                                                    <col width="250px"/>
-                                                                    <col width="320px"/>
-                                                                    <col width="150px"/>
-                                                                    <col width="120px"/>
-                                                                    <col width="60px"/>
-                                                                    <col width="12px"/>
-                                                                </colgroup>
-                                                                <tbody class="tbl-head-style ">
-                                                                <tr class="tbl-head-style-cell">
-                                                                    <th class="tbl-head-style-cell">شماره طرح</th>
-                                                                    <th class="tbl-head-style-cell">کد پروژه</th>
-                                                                    <th class="tbl-head-style-cell">عنوان پروژه</th>
-                                                                    <th class="tbl-head-style-cell">شرح</th>
-                                                                    <th class="tbl-head-style-cell">مبلغ رزرو شده</th>
-                                                                    <th class="tbl-head-style-cell">وضعیت</th>
-                                                                    <th class="tbl-head-style-cell">عملیات</th>
-                                                                    <th class="tbl-head-style-cell"></th>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                            <!--Table Head End-->
-                                                            <!--Table Body Start-->
-                                                            <div class="tbl_body_style dynamic-height-level-modal2">
-                                                                <table class="tbl-body-contain">
-                                                                    <colgroup>
-                                                                        <col width="200px"/>
-                                                                        <col width="120px"/>
-                                                                        <col width="250px"/>
-                                                                        <col width="320px"/>
-                                                                        <col width="150px"/>
-                                                                        <col width="120px"/>
-                                                                        <col width="60px"/>
-                                                                    </colgroup>
-                                                                    <tbody class="tbl-head-style-cell">
-                                                                    <tr v-for="capFinancing in requestCapFinancing">
-                                                                        <td v-if="capFinancing.allocation.credit_source != null">{{capFinancing.allocation.credit_source.capital_assets_project.capital_assets_approved_plan.credit_distribution_title.cdtSubject}}</td>
-                                                                        <td v-if="capFinancing.allocation.credit_source != null">{{capFinancing.allocation.credit_source.capital_assets_project.cpCode}}</td>
-                                                                        <td v-if="capFinancing.allocation.credit_source != null">{{capFinancing.allocation.credit_source.capital_assets_project.cpSubject}}</td>
-                                                                        <td v-if="capFinancing.allocation.credit_source != null">{{capFinancing.allocation.credit_source.capital_assets_project.cpDescription}}</td>
-                                                                        <template v-if="capFinancing.allocation.credit_source == null">
-                                                                            <td colspan="4" class="text-center"><span class="user-verifier-label">تنخواه</span></td>
-                                                                        </template>
-                                                                        <td class="text-center">{{$parent.dispMoneyFormat(capFinancing.cafAmount)}}</td>
-                                                                        <td v-show="capFinancing.cafAccepted == 1"><span class="success-label">تایید شده</span></td>
-                                                                        <td v-show="capFinancing.cafAccepted == 0"><span class="reserved-label">رزرو شده</span></td>
-                                                                        <td class="text-center"><i class="far fa-trash-alt size-21 btn-red"></i></td>
-                                                                    </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                        <!--Table Body End-->
-                                                    </div>
-                                                    <div class="grid-x">
-                                                        <div style="background-color:#F1F1F1;padding: 10px;margin-top: -12px;border: solid 1.5px #D8DEE2;" class="large-12 medium-12 small-12">
-                                                            <div class="grid-x">
-                                                                <div class="large-4 medium-4 small-12">
-                                                                    <p class="p-margin-btm"> مبلغ برآورد : <span class="btn-red"> {{$parent.dispMoneyFormat(baseAmount)}} </span></p>
-                                                                </div>
-                                                                <div class="large-4 medium-4 small-12">
-                                                                    <p class="p-margin-btm"> مبلغ رزرو شده : <span class="btn-red"> {{$parent.dispMoneyFormat(_reservedAmount)}} </span></p>
-                                                                </div>
-                                                                <div class="large-4 medium-4 small-12">
-                                                                    <p class="p-margin-btm"> مبلغ تامین اعتبار شده : <span class="btn-red"> {{$parent.dispMoneyFormat(_financingAmount)}} </span></p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--Tab 1-->
+                                    <rCredits
+                                            v-bind:requestCapFinancing="requestCapFinancing"
+                                            v-bind:requestCostFinancing="requestCostFinancing"
+                                            v-bind:baseAmount="baseAmount"
+                                            v-bind:_reservedAmount="_reservedAmount"
+                                            v-bind:_financingAmount="_financingAmount"
+                                    >
 
-                                                <!--Tab 2-->
-                                                <div class="tabs-panel table-mrg-btm" id="creditCostTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                                    <div class="grid-x">
-                                                        <!--Table Start-->
-                                                        <!--Table Head Start-->
-                                                        <div class="tbl-div-container">
-                                                            <table class="tbl-head">
-                                                                <colgroup>
-                                                                    <col width="200px"/>
-                                                                    <col width="200px"/>
-                                                                    <col width="350px"/>
-                                                                    <col width="150px"/>
-                                                                    <col width="100px"/>
-                                                                    <col width="60px"/>
-                                                                    <col width="12px"/>
-                                                                </colgroup>
-                                                                <tbody class="tbl-head-style ">
-                                                                <tr class="tbl-head-style-cell">
-                                                                    <th class="tbl-head-style-cell">شماره برنامه</th>
-                                                                    <th class="tbl-head-style-cell">شماره نامه</th>
-                                                                    <th class="tbl-head-style-cell">شرح</th>
-                                                                    <th class="tbl-head-style-cell">مبلغ رزرو شده</th>
-                                                                    <th class="tbl-head-style-cell">وضعیت</th>
-                                                                    <th class="tbl-head-style-cell">عملیات</th>
-                                                                    <th class="tbl-head-style-cell"></th>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                            <!--Table Head End-->
-                                                            <!--Table Body Start-->
-                                                            <div class="tbl_body_style dynamic-height-level-modal2">
-                                                                <table class="tbl-body-contain">
-                                                                    <colgroup>
-                                                                        <col width="200px"/>
-                                                                        <col width="200px"/>
-                                                                        <col width="350px"/>
-                                                                        <col width="150px"/>
-                                                                        <col width="100px"/>
-                                                                        <col width="60px"/>
-                                                                    </colgroup>
-                                                                    <tbody class="tbl-head-style-cell">
-                                                                    <tr v-for="costFinancing in requestCostFinancing">
-                                                                        <td v-if="costFinancing.allocation.credit_source != null">{{costFinancing.allocation.credit_source.credit_distribution_title.cdtIdNumber}}</td>
-                                                                        <td v-if="costFinancing.allocation.credit_source != null">{{costFinancing.allocation.credit_source.cost_agreement.caLetterNumber}}</td>
-                                                                        <td v-if="costFinancing.allocation.credit_source != null">{{costFinancing.allocation.credit_source.cost_agreement.caDescription}}</td>
-                                                                        <template v-if="costFinancing.allocation.credit_source == null">
-                                                                           <td colspan="3" class="text-center"><span class="user-verifier-label">تنخواه</span></td>
-                                                                        </template>
-                                                                        <td class="text-center">{{$parent.dispMoneyFormat(costFinancing.cfAmount)}}</td>
-                                                                        <td v-show="costFinancing.cfAccepted == 1"><span class="success-label">تایید شده</span></td>
-                                                                        <td v-show="costFinancing.cfAccepted == 0"><span class="reserved-label">رزرو شده</span></td>
-                                                                        <td class="text-center"><i class="far fa-trash-alt size-21 btn-red"></i></td>
-                                                                    </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                        <!--Table Body End-->
-                                                    </div>
-                                                    <div class="grid-x">
-                                                        <div style="background-color:#F1F1F1;padding: 10px;margin-top: -12px;border: solid 1.5px #D8DEE2;" class="large-12 medium-12 small-12">
-                                                            <div class="grid-x">
-                                                                <div class="large-4 medium-4 small-12">
-                                                                    <p class="p-margin-btm"> مبلغ برآورد : <span class="btn-red"> {{$parent.dispMoneyFormat(baseAmount)}} </span></p>
-                                                                </div>
-                                                                <div class="large-4 medium-4 small-12">
-                                                                    <p class="p-margin-btm"> مبلغ رزرو شده : <span class="btn-red"> {{$parent.dispMoneyFormat(_reservedAmount)}} </span></p>
-                                                                </div>
-                                                                <div class="large-4 medium-4 small-12">
-                                                                    <p class="p-margin-btm"> مبلغ تامین اعتبار شده : <span class="btn-red"> {{$parent.dispMoneyFormat(_financingAmount)}} </span></p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--Tab 2-->
-                                            </div>
-                                        </div>
-                                        <div style="padding: 0 17px 0 17px;" class="large-12 medium-12 small-12 small-top-m">
-                                            <div style="margin-bottom:-10px;margin-top: 5px" class="stacked-for-small button-group float-left">
-                                                <button v-show='$can("FINANCIAL_ACCEPT_FINANCING")' @click="" class="my-button my-success float-left"><span class="btn-txt-mrg">تایید تامین اعتبار</span></button>
-                                                <button v-show='$can("FINANCIAL_CAPITAL_ASSETS_FINANCING")' @click="openCapitalAssetsModal()" class="my-button toolbox-btn float-left"><span class="btn-txt-mrg">  اعتبارات تملک دارایی های سرمایه ای</span></button>
-                                                <button v-show='$can("FINANCIAL_COST_FINANCING")' @click="openCostCreditsModal()" class="my-button toolbox-btn float-left"><span class="btn-txt-mrg">  اعتبارات هزینه ای</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    </rCredits>
                                 </div>
                                 <!--Tab 3-->
                                 <!--Tab 4-->
@@ -596,7 +328,7 @@
         <!-- Submit Request modal -->
 
         <!-- dialog modal -->
-        <modal-tiny v-if="showDialogModal" @close="showDialogModal = false">
+        <!--<modal-tiny v-if="showDialogModal" @close="showDialogModal = false">
             <div  slot="body">
                 <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div class="grid-x">
@@ -610,7 +342,7 @@
                     </div>
                 </div>
             </div>
-        </modal-tiny>
+        </modal-tiny>-->
         <!-- dialog message end -->
 
         <!-- Response Request modal -->
@@ -1086,21 +818,21 @@
                                                         <col width="40px"/>
                                                     </colgroup>
                                                     <tbody class="tbl-head-style-cell">
-                                                        <tr  v-for="found in costFound">
-                                                            <td class="text-center">{{found.caLetterNumber}}</td>
-                                                            <td class="text-center">{{found.caLetterDate}}</td>
-                                                            <td class="text-center">{{$parent.dispMoneyFormat(found.caSumOfReserved)}}</td>
-                                                            <td class="text-center">{{$parent.dispMoneyFormat(found.caSumOfFinancing)}}</td>
-                                                            <td class="text-center">{{$parent.dispMoneyFormat(found.caSumOfCommitment)}}</td>
-                                                            <td class="text-center">{{$parent.dispMoneyFormat(found.caSumOfCost)}}</td>
-                                                            <td class="text-justify">{{found.caDescription}}</td>
-                                                            <td>
-                                                                <input :disabled="found.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(null,found,3,found.amount)" style="margin-bottom:0px;" v-if="found.selected == true" type="text" v-model="found.amount" :value="found.amount" :name="found.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCostAmount(found , 3) + parseInt(found.amount , 10))" :class="{'input': true, 'error-border': errors.has(found.id)}" />
-                                                                <span v-show="errors.has(found.id)" class="error-font"></span>
-                                                            </td>
-                                                            <td><input  :disabled="found.isHistory" v-on:change="setTextBoxValueCost(null,found,3)" v-model="found.selected" type="checkbox"></td>
+                                                    <tr  v-for="found in costFound">
+                                                        <td class="text-center">{{found.caLetterNumber}}</td>
+                                                        <td class="text-center">{{found.caLetterDate}}</td>
+                                                        <td class="text-center">{{$parent.dispMoneyFormat(found.caSumOfReserved)}}</td>
+                                                        <td class="text-center">{{$parent.dispMoneyFormat(found.caSumOfFinancing)}}</td>
+                                                        <td class="text-center">{{$parent.dispMoneyFormat(found.caSumOfCommitment)}}</td>
+                                                        <td class="text-center">{{$parent.dispMoneyFormat(found.caSumOfCost)}}</td>
+                                                        <td class="text-justify">{{found.caDescription}}</td>
+                                                        <td>
+                                                            <input :disabled="found.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(null,found,3,found.amount)" style="margin-bottom:0px;" v-if="found.selected == true" type="text" v-model="found.amount" :value="found.amount" :name="found.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCostAmount(found , 3) + parseInt(found.amount , 10))" :class="{'input': true, 'error-border': errors.has(found.id)}" />
+                                                            <span v-show="errors.has(found.id)" class="error-font"></span>
+                                                        </td>
+                                                        <td><input  :disabled="found.isHistory" v-on:change="setTextBoxValueCost(null,found,3)" v-model="found.selected" type="checkbox"></td>
 
-                                                        </tr>
+                                                    </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -1875,13 +1607,23 @@
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
-    import VuePagination from '../../public_component/pagination.vue';
+    import VuePagination from '../../../public_component/pagination.vue';
+
+    import messageDialog from './message_dialog.vue';
+
+    /* Import Local Components Start*/
+    import rDetails from './detailRequest/r_details.vue';
+    import rCredits from './detailRequest/r_credits.vue';
+    /* Import Local Components End*/
     export default {
         components: {
             Suggestions,
             "vue-select": require("vue-select"),
             datePicker: VuePersianDatetimePicker,
             'vue-pagination' : VuePagination,
+            messageDialog,
+            rDetails,
+            rCredits,
         },
         data () {
             return {
@@ -1895,7 +1637,7 @@
                 showRegisterAndNumberingModal:false,
                 showCostCreditsModal:false,
                 showCapitalAssetsModal:false,
-                showDialogModal: false,
+                showDialogModal: true,
                 dialogMessage: '',
                 receiveRequestSearchValue:'',
                 requestTypeDetail:'',
@@ -1917,7 +1659,6 @@
                 referralDestination:'',
                 canResponse:'',
                 baseURL:window.hostname+'/',
-                commodityCountInput:{},
                 repoExistCount:[],
                 commodityCount:'',
                 registerDate: '',
@@ -2011,7 +1752,7 @@
                         console.log(response);
                     }, (error) => {
                         console.log(error);
-                });
+                    });
             },
 
             getGroupUsers: function () {
@@ -2376,11 +2117,11 @@
             },
 
             openSubmitRequestModal: function () {
-              this.showSubmitRequestModal=true;
+                this.showSubmitRequestModal=true;
             },
 
             hideSubmitRequestModal: function () {
-              this.showSubmitRequestModal=false;
+                this.showSubmitRequestModal=false;
             },
 
             acceptRequest: function () {
@@ -2478,7 +2219,7 @@
                 });
             },
 
-            openCostCreditsModal:function () {
+            /*openCostCreditsModal:function () {
                 this.completeCostAgrement= [];
                 this.costFound = [];
                 this.costReservedAmount = 0;
@@ -2491,7 +2232,7 @@
                     this.dialogMessage = 'با توجه به اینکه درخواست تایید نهایی یا ثبت دبیرخانه نشده است! امکان تامین اعتبار وجود ندارد.';
                     this.showDialogModal = true;
                 }
-            },
+            },*/
 
             myResizeModal: function() {
                 var x = $.w.outerHeight();
@@ -3047,42 +2788,42 @@
             reserveCostFinance: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                var costFinancing= [];
-                this.completeCostAgrement.forEach(cost => {
-                    cost.ca_credit_source_has_allocation.forEach(alloc =>{
-                        alloc.allocation.forEach(item =>{
-                            if(item.selected == true){
-                                var obj={};
-                                Vue.set(obj,"aId",item.id);
-                                Vue.set(obj,"amount",item.amount);
+                        var costFinancing= [];
+                        this.completeCostAgrement.forEach(cost => {
+                            cost.ca_credit_source_has_allocation.forEach(alloc =>{
+                                alloc.allocation.forEach(item =>{
+                                    if(item.selected == true){
+                                        var obj={};
+                                        Vue.set(obj,"aId",item.id);
+                                        Vue.set(obj,"amount",item.amount);
+                                        costFinancing.push(obj);
+                                    }
+                                });
+                            });
+                        });
+
+                        this.costFound.forEach(found => {
+                            if(found.selected == true) {
+                                var obj = {};
+                                Vue.set(obj, "aId", found.id);
+                                Vue.set(obj, "amount", found.amount);
                                 costFinancing.push(obj);
                             }
                         });
-                    });
-                });
-
-                this.costFound.forEach(found => {
-                    if(found.selected == true) {
-                        var obj = {};
-                        Vue.set(obj, "aId", found.id);
-                        Vue.set(obj, "amount", found.amount);
-                        costFinancing.push(obj);
-                    }
-                });
-                console.log(JSON.stringify(costFinancing));
-                axios.post('/financial/request/financing/reservation', {
-                    rId: this.requestId,
-                    costFinancing: costFinancing,
-                }).then((response) => {
-                    this.requestCostFinancing = response.data.costFinancing;
-                    this.showCostCreditsModal = false;
-                    this.$parent.displayNotif(response.status);
-                    this.getFinancingAmount();
-                    console.log(response);
-                }, (error) => {
-                    console.log(error);
-                    this.$parent.displayNotif(error.response.status);
-                });
+                        console.log(JSON.stringify(costFinancing));
+                        axios.post('/financial/request/financing/reservation', {
+                            rId: this.requestId,
+                            costFinancing: costFinancing,
+                        }).then((response) => {
+                            this.requestCostFinancing = response.data.costFinancing;
+                            this.showCostCreditsModal = false;
+                            this.$parent.displayNotif(response.status);
+                            this.getFinancingAmount();
+                            console.log(response);
+                        }, (error) => {
+                            console.log(error);
+                            this.$parent.displayNotif(error.response.status);
+                        });
                     }
                 });
             },
@@ -3090,44 +2831,44 @@
             reserveCapitalAssetsFinance: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                var capitalAssetsFinancing= [];
-                this.completeCapitalAssetsAgrement.forEach(ca => {
-                    ca.capital_assets_project_has_credit_source	.forEach(project =>{
-                        project.credit_source_has_allocation.forEach(cs =>{
-                            cs.allocation.forEach(alloc => {
-                                if (alloc.selected == true) {
-                                    var obj = {};
-                                    Vue.set(obj, "aId", alloc.id);
-                                    Vue.set(obj, "amount", alloc.amount);
-                                    capitalAssetsFinancing.push(obj);
-                                }
+                        var capitalAssetsFinancing= [];
+                        this.completeCapitalAssetsAgrement.forEach(ca => {
+                            ca.capital_assets_project_has_credit_source	.forEach(project =>{
+                                project.credit_source_has_allocation.forEach(cs =>{
+                                    cs.allocation.forEach(alloc => {
+                                        if (alloc.selected == true) {
+                                            var obj = {};
+                                            Vue.set(obj, "aId", alloc.id);
+                                            Vue.set(obj, "amount", alloc.amount);
+                                            capitalAssetsFinancing.push(obj);
+                                        }
 
+                                    });
+                                });
                             });
                         });
-                    });
-                });
-                this.capitalAssetsFound.forEach(found => {
-                    if(found.selected == true) {
-                        var obj = {};
-                        Vue.set(obj, "aId", found.id);
-                        Vue.set(obj, "amount", found.amount);
-                        capitalAssetsFinancing.push(obj);
-                    }
-                });
-                console.log(JSON.stringify(capitalAssetsFinancing));
-                axios.post('/financial/request/financing/reservation', {
-                    rId: this.requestId,
-                    capFinancing: capitalAssetsFinancing,
-                }).then((response) => {
-                    this.requestCapFinancing = response.data.capFinancing;
-                    this.showCapitalAssetsModal = false;
-                    this.$parent.displayNotif(response.status);
-                    this.getFinancingAmount();
-                    console.log(response);
-                }, (error) => {
-                    console.log(error);
-                    this.$parent.displayNotif(error.response.status);
-                });
+                        this.capitalAssetsFound.forEach(found => {
+                            if(found.selected == true) {
+                                var obj = {};
+                                Vue.set(obj, "aId", found.id);
+                                Vue.set(obj, "amount", found.amount);
+                                capitalAssetsFinancing.push(obj);
+                            }
+                        });
+                        console.log(JSON.stringify(capitalAssetsFinancing));
+                        axios.post('/financial/request/financing/reservation', {
+                            rId: this.requestId,
+                            capFinancing: capitalAssetsFinancing,
+                        }).then((response) => {
+                            this.requestCapFinancing = response.data.capFinancing;
+                            this.showCapitalAssetsModal = false;
+                            this.$parent.displayNotif(response.status);
+                            this.getFinancingAmount();
+                            console.log(response);
+                        }, (error) => {
+                            console.log(error);
+                            this.$parent.displayNotif(error.response.status);
+                        });
                     }
                 });
             },
