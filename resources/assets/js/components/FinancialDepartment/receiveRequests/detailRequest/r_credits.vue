@@ -25,7 +25,7 @@
                                     <col width="320px"/>
                                     <col width="150px"/>
                                     <col width="120px"/>
-                                    <col width="60px"/>
+                                    <col v-if="$can('FINANCIAL_REMOVE_FINANCING_ITEM')" width="60px"/>
                                     <col width="12px"/>
                                 </colgroup>
                                 <tbody class="tbl-head-style ">
@@ -36,7 +36,7 @@
                                     <th class="tbl-head-style-cell">شرح</th>
                                     <th class="tbl-head-style-cell">مبلغ رزرو شده</th>
                                     <th class="tbl-head-style-cell">وضعیت</th>
-                                    <th class="tbl-head-style-cell">عملیات</th>
+                                    <th v-if="$can('FINANCIAL_REMOVE_FINANCING_ITEM')" class="tbl-head-style-cell">عملیات</th>
                                     <th class="tbl-head-style-cell"></th>
                                 </tr>
                                 </tbody>
@@ -52,7 +52,7 @@
                                         <col width="320px"/>
                                         <col width="150px"/>
                                         <col width="120px"/>
-                                        <col width="60px"/>
+                                        <col v-if="$can('FINANCIAL_REMOVE_FINANCING_ITEM')" width="60px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style-cell">
                                     <tr v-for="capFinancing in requestCapFinancing">
@@ -66,7 +66,7 @@
                                         <td class="text-center">{{$root.dispMoneyFormat(capFinancing.cafAmount)}}</td>
                                         <td v-show="capFinancing.cafAccepted == 1"><span class="success-label">تایید شده</span></td>
                                         <td v-show="capFinancing.cafAccepted == 0"><span class="reserved-label">رزرو شده</span></td>
-                                        <td class="text-center"><i class="far fa-trash-alt size-21 btn-red"></i></td>
+                                        <td v-if="$can('FINANCIAL_REMOVE_FINANCING_ITEM')" class="text-center"><i class="far fa-trash-alt size-21 btn-red"></i></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -105,7 +105,7 @@
                                     <col width="350px"/>
                                     <col width="150px"/>
                                     <col width="100px"/>
-                                    <col width="60px"/>
+                                    <col v-if="$can('FINANCIAL_REMOVE_FINANCING_ITEM')" width="60px"/>
                                     <col width="12px"/>
                                 </colgroup>
                                 <tbody class="tbl-head-style ">
@@ -115,7 +115,7 @@
                                     <th class="tbl-head-style-cell">شرح</th>
                                     <th class="tbl-head-style-cell">مبلغ رزرو شده</th>
                                     <th class="tbl-head-style-cell">وضعیت</th>
-                                    <th class="tbl-head-style-cell">عملیات</th>
+                                    <th v-if="$can('FINANCIAL_REMOVE_FINANCING_ITEM')" class="tbl-head-style-cell">عملیات</th>
                                     <th class="tbl-head-style-cell"></th>
                                 </tr>
                                 </tbody>
@@ -130,7 +130,7 @@
                                         <col width="350px"/>
                                         <col width="150px"/>
                                         <col width="100px"/>
-                                        <col width="60px"/>
+                                        <col v-if="$can('FINANCIAL_REMOVE_FINANCING_ITEM')" width="60px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style-cell">
                                     <tr v-for="costFinancing in requestCostFinancing">
@@ -143,7 +143,7 @@
                                         <td class="text-center">{{$root.dispMoneyFormat(costFinancing.cfAmount)}}</td>
                                         <td v-show="costFinancing.cfAccepted == 1"><span class="success-label">تایید شده</span></td>
                                         <td v-show="costFinancing.cfAccepted == 0"><span class="reserved-label">رزرو شده</span></td>
-                                        <td class="text-center"><i class="far fa-trash-alt size-21 btn-red"></i></td>
+                                        <td v-if="$can('FINANCIAL_REMOVE_FINANCING_ITEM')" class="text-center"><i class="far fa-trash-alt size-21 btn-red"></i></td>
                                     </tr>
                                     </tbody>
                                 </table>

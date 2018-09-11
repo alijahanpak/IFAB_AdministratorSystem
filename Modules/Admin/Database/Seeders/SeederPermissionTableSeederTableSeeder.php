@@ -554,5 +554,11 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
         $permission->pPermission = 'FINANCIAL_ACCEPT_PAY_FROM_REFUND';
         $permission->save();
 
+        $permission = new Permission;
+        $permission->pSspId = 7;
+        $permission->pSubject = 'حذف موارد تامین اعتبار شده';
+        $permission->pPermission = 'FINANCIAL_REMOVE_FINANCING_ITEM';
+        $permission->save();
+
     }
 }
