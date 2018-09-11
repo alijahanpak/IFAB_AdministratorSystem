@@ -51,6 +51,11 @@ class SeederUserPermissionTableSeeder extends Seeder
         $gPermission->upPId = 78;
         $gPermission->save();
 
+        $gPermission = new UserPermission();
+        $gPermission->upUId = 3;
+        $gPermission->upPId = 86;
+        $gPermission->save();
+
         for ($i = 1 ; $i <= 75 ;$i++)
         {
             $gPermission = new UserPermission();
@@ -62,6 +67,11 @@ class SeederUserPermissionTableSeeder extends Seeder
         $gPermission = new UserPermission();
         $gPermission->upUId = 4;
         $gPermission->upPId = 79;
+        $gPermission->save();
+
+        $gPermission = new UserPermission();
+        $gPermission->upUId = 4;
+        $gPermission->upPId = 86;
         $gPermission->save();
 
         for ($i = 1 ; $i <= 75 ;$i++)
@@ -98,6 +108,16 @@ class SeederUserPermissionTableSeeder extends Seeder
         $gPermission = new UserPermission();
         $gPermission->upUId = 11;
         $gPermission->upPId = 83;
+        $gPermission->save();
+
+        $gPermission = new UserPermission();
+        $gPermission->upUId = 12;
+        $gPermission->upPId = 84;
+        $gPermission->save();
+
+        $gPermission = new UserPermission();
+        $gPermission->upUId = 13;
+        $gPermission->upPId = 85;
         $gPermission->save();
     }
 }

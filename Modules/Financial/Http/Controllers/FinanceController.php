@@ -14,8 +14,11 @@ use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\CapitalAssetsFinancing;
 use Modules\Financial\Entities\CostFinancing;
 use Modules\Financial\Entities\FinancialRequestQueue;
+use Modules\Financial\Entities\RefundCosts;
 use Modules\Financial\Entities\RequestHistory;
 use Modules\Financial\Entities\RequestState;
+use Modules\Financial\Entities\SupplierRequestQueue;
+use Modules\Financial\Entities\UnitOfContractRequestQueue;
 
 class FinanceController extends Controller
 {
@@ -146,9 +149,33 @@ class FinanceController extends Controller
             CapitalAssetsFinancing::where('cafRId' , '=' , $request->rId)
                 ->update(['cafAccepted' => true]);
 
-            $req = _Request::find($request->rId);
-            $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
-            $req->save();
+            $req = _Request::where('id' , '=' , $request->rId)->with('requestType')->first();
+            if ($req->requestType->rtType == 'BUY_COMMODITY')
+            {
+                $req = _Request::find($request->rId);
+                $req->rRsId = RequestState::where('rsState' , '=' , 'SUPPLIER_QUEUE')->value('id');
+                $req->save();
+
+                $supReqQueue = new SupplierRequestQueue();
+                $supReqQueue->srqRId = $req->id;
+                $supReqQueue->save();
+            }else if ($req->requestType->rtType == 'BUY_SERVICES'){
+                $req = _Request::find($request->rId);
+                $req->rRsId = RequestState::where('rsState' , '=' , 'UNIT_OF_CONTRACT_QUEUE')->value('id');
+                $req->save();
+
+                $ufcReqQueue = new UnitOfContractRequestQueue();
+                $ufcReqQueue->ufcrqRId = $req->id;
+                $ufcReqQueue->save();
+            }else if ($req->requestType->rtType == 'FUND'){
+                $req = _Request::find($request->rId);
+                $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
+                $req->save();
+
+                $finReqQueue = new FinancialRequestQueue();
+                $finReqQueue->frqRId = $req->id;
+                $finReqQueue->save();
+            }
 
             // make history for this request
             $history = new RequestHistory();
@@ -156,12 +183,37 @@ class FinanceController extends Controller
             $history->rhDestUId = null; // for financial destination
             $history->rhRId = $req->id;
             $history->rhRsId = $req->rRsId;
-            $history->rhDescription = 'تامین اعتبار انجام شد.';
+            $history->rhDescription = 'تامین اعتبار، مورد تایید می باشد.';
             $history->save();
 
-            $finReqQueue = new FinancialRequestQueue();
-            $finReqQueue->frqRId = $req->id;
-            $finReqQueue->save();
+        });
+
+        $rController = new RequestController();
+        return \response()->json(
+            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+        );
+    }
+
+    function supplyFromRefund(Request $request)
+    {
+        DB::transaction(function () use($request){
+            $req = _Request::find($request->id);
+            $req->isFromRefundCosts = true;
+            $req->rRsId = RequestState::where('rsState' , '=' , 'SUPPLIER_QUEUE')->value('id');
+            $req->save();
+
+            $supReqQueue = new SupplierRequestQueue();
+            $supReqQueue->srqRId = $req->id;
+            $supReqQueue->save();
+
+            // make history for this request
+            $history = new RequestHistory();
+            $history->rhSrcUId = Auth::user()->id;
+            $history->rhDestUId = null; // for supplier destination
+            $history->rhRId = $req->id;
+            $history->rhRsId = $req->rRsId;
+            $history->rhDescription = 'با سلام، لطفا از محل تنخواه گردان تدارکات تامین گردد.';
+            $history->save();
         });
 
         $rController = new RequestController();

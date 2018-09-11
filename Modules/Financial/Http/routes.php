@@ -23,6 +23,13 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::get('financing', 'FinanceController@fetchAllFinancing');
         Route::post('financing/reservation', 'FinanceController@reserveFinancing');
         Route::post('financing/accept', 'FinanceController@acceptFinancing');
+        Route::post('financing/supply_from_refund', 'FinanceController@supplyFromRefund');
+        Route::post('contract/insert', 'ContractController@addNewContract');
+        Route::post('contract/accept', 'ContractController@accept');
+        Route::post('contract/delete', 'ContractController@delete');
+        Route::post('factor/insert', 'FactorController@addNewFactor');
+        Route::post('factor/accept', 'FactorController@accept');
+        Route::post('factor/delete', 'FactorController@delete');
     });
 
     Route::prefix('commodity')->group(function () {

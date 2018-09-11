@@ -25,6 +25,7 @@ class CreateRequestsTable extends Migration
                 $table->longText('rFurtherDetails')->nullable();
                 $table->string('rLetterNumber')->nullable();
                 $table->string('rLetterDate')->nullable();
+                $table->boolean('isFromRefundCosts')->default(false);
                 $table->timestamps();
 
                 $table->foreign('rUId')

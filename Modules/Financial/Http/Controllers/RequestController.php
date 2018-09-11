@@ -23,6 +23,8 @@ use Modules\Financial\Entities\RequestStep;
 use Modules\Financial\Entities\RequestType;
 use Modules\Financial\Entities\RequestVerifiers;
 use Modules\Financial\Entities\SecretariatRequestQueue;
+use Modules\Financial\Entities\SupplierRequestQueue;
+use Modules\Financial\Entities\UnitOfContractRequestQueue;
 
 class RequestController extends Controller
 {
@@ -63,13 +65,14 @@ class RequestController extends Controller
             ->with('history.sourceUserInfo.role')
             ->with('history.destinationUserInfo.role')
             ->with('history.requestState')
+            ->with('contract')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
     }
 
     function register(Request $request)
     {
-        DB::transaction(function () use($request){
+        $resultCode = DB::transaction(function () use($request){
             $req = new _Request();
             $req->rRsId = RequestState::where('rsState' , '=' , 'ACTIVE')->value('id');
             $req->rRtId = $request->rtId;
@@ -111,7 +114,7 @@ class RequestController extends Controller
             //////////////////////// set verifiers ////////////////////////////////
             $userSig = Signature::where('sUId' , '=' , Auth::user()->id)->first();
             if ($userSig == null)
-                return response()->json([] , 500);
+                return 500;
 
             $userCat = RoleCategory::where('rcRId' , '=' , Auth::user()->rId)->pluck('rcCId');
             $mySteps = RequestStep::where('rstRtId' , '=' , $request->rtId)
@@ -145,10 +148,13 @@ class RequestController extends Controller
 
             $reqType = RequestType::find($request->rtId);
             SystemLog::setFinancialSubSystemLog('ثبت درخواست ' . $reqType->rtSubject);
+
+            return 200;
         });
+
         return \response()->json(
             $this->getAllPostedRequests(Auth::user()->id)
-        );
+        , $resultCode);
     }
 
     function fetchReceivedRequestsData(Request $request)
@@ -173,6 +179,7 @@ class RequestController extends Controller
             ->with('history.sourceUserInfo.role')
             ->with('history.destinationUserInfo.role')
             ->with('history.requestState')
+            ->with('contract')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
     }
@@ -279,6 +286,42 @@ class RequestController extends Controller
                     ->update(['rhDestUId' => Auth::user()->id, 'rhRsId' => RequestState::where('rsState', '=', 'ACTIVE')->value('id')]);
                 _Request::whereIn('id', $finQueue)->update(['rRsId' => RequestState::where('rsState', '=', 'ACTIVE')->value('id')]);
                 FinancialRequestQueue::whereIn('frqRId', $finQueue)->delete();
+            });
+        }
+
+        /////////// check access to supplier queue permission //////////////////////
+        $accessToSPQPermission = UserPermission::where('upUId' , '=' , Auth::user()->id)
+            ->whereHas('permission' , function ($q){
+                return $q->where('pPermission' , '=' , 'SUPPLIER_QUEUE_DISPLAY');
+            })
+            ->count();
+        if ($accessToSPQPermission)
+        {
+            DB::transaction(function () {
+                $finQueue = SupplierRequestQueue::all()->pluck('srqRId');
+                RequestHistory::whereIn('rhRId', $finQueue)
+                    ->where('rhRsId', '=', RequestState::where('rsState', '=', 'SUPPLIER_QUEUE')->value('id'))
+                    ->update(['rhDestUId' => Auth::user()->id, 'rhRsId' => RequestState::where('rsState', '=', 'ACTIVE')->value('id')]);
+                _Request::whereIn('id', $finQueue)->update(['rRsId' => RequestState::where('rsState', '=', 'ACTIVE')->value('id')]);
+                SupplierRequestQueue::whereIn('srqRId', $finQueue)->delete();
+            });
+        }
+
+        /////////// check access to unit of contract queue permission //////////////////////
+        $accessToNFCQPermission = UserPermission::where('upUId' , '=' , Auth::user()->id)
+            ->whereHas('permission' , function ($q){
+                return $q->where('pPermission' , '=' , 'UNIT_OF_CONTRACT_QUEUE_DISPLAY');
+            })
+            ->count();
+        if ($accessToNFCQPermission)
+        {
+            DB::transaction(function () {
+                $finQueue = UnitOfContractRequestQueue::all()->pluck('ufcrqRId');
+                RequestHistory::whereIn('rhRId', $finQueue)
+                    ->where('rhRsId', '=', RequestState::where('rsState', '=', 'UNIT_OF_CONTRACT_QUEUE')->value('id'))
+                    ->update(['rhDestUId' => Auth::user()->id, 'rhRsId' => RequestState::where('rsState', '=', 'ACTIVE')->value('id')]);
+                _Request::whereIn('id', $finQueue)->update(['rRsId' => RequestState::where('rsState', '=', 'ACTIVE')->value('id')]);
+                UnitOfContractRequestQueue::whereIn('ufcrqRId', $finQueue)->delete();
             });
         }
 

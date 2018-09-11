@@ -59,15 +59,17 @@
                 authInfo: {email: '', password: ''},
                 tokenInfo: {"Authorization": '' , "Accept": 'application/json; charset=utf-8' , "Content-type" : 'application/json; charset=utf-8'},
                 userPermission: '',
+                fixedLoginFrameThread: null,
             }
         },
 
         created: function () {
             $(this.$el).foundation(); //WORKS!
-            this.fixedLoginFrame();
+            this.setFixedLoginFrameThread();
             var tokenInfo = JSON.parse(sessionStorage.getItem("ifab_token_info"));
             this.headers.Authorization = tokenInfo.Authorization;
         },
+
         updated: function () {
             $(this.$el).foundation(); //WORKS!
             this.fixedLoginFrame();
@@ -82,11 +84,16 @@
                 var temp = (x - loginFrame) / 2;
                 $('.login-frame').css('margin-top', temp + 'px');
             });
-
             this.fixedLoginFrame();
         },
 
         methods : {
+            setFixedLoginFrameThread: function () {
+                if (this.fixedLoginFrameThread)
+                    clearInterval(this.fixedLoginFrameThread);
+                this.fixedLoginFrameThread = setInterval(this.fixedLoginFrameTemp, 200);
+            },
+
             login: function () {
                 axios.post('/api/login' , this.authInfo)
                     .then((response) => {
@@ -108,9 +115,20 @@
 
             fixedLoginFrame: function () {
                 var loginFrame = $('.login-frame').height();
+                console.log("...................................................... :" + loginFrame);
                 var x = $.w.innerHeight();
                 var temp = (x - loginFrame) / 2;
                 $('.login-frame').css('margin-top', temp + 'px');
+            },
+
+            fixedLoginFrameTemp: function () {
+                var loginFrame = $('.login-frame').height();
+                console.log("...................................................... :" + loginFrame);
+                var x = $.w.innerHeight();
+                var temp = (x - loginFrame) / 2;
+                $('.login-frame').css('margin-top', temp + 'px');
+                if (this.fixedLoginFrameThread)
+                    clearInterval(this.fixedLoginFrameThread);
             },
         }
     }
