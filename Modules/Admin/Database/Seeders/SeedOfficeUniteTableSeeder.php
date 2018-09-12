@@ -58,7 +58,7 @@ class SeedOfficeUniteTableSeeder extends Seeder
         $officeUnite->save();
 
         $officeUnite = new OfficeUnite();
-        $officeUnite->ouSubject = 'واحد حقوقی';
+        $officeUnite->ouSubject = 'واحد عقد قرارداد';
         $officeUnite->save();
     }
 }

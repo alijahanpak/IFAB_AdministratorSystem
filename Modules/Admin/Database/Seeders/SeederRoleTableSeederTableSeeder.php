@@ -90,8 +90,8 @@ class SeederRoleTableSeederTableSeeder extends Seeder
         $role->save();
 
         $role = new Role;
-        $role->rSubject = 'مسئول واحد حقوقی';
-        $role->rRole = 'LEGAL_ADMIN';
+        $role->rSubject = 'مسئول واحد عقد قرارداد';
+        $role->rRole = 'CONTRACT_ADMIN';
         $role->rOuId = 11;
         $role->save();
     }

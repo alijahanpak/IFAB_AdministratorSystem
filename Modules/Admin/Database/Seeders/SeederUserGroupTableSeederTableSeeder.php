@@ -63,6 +63,11 @@ class SeederUserGroupTableSeederTableSeeder extends Seeder
         $userGroup->save();
 
         $userGroup = new UserGroup;
+        $userGroup->ugUId = 10;
+        $userGroup->ugGId = 3;
+        $userGroup->save();
+
+        $userGroup = new UserGroup;
         $userGroup->ugUId = 7;
         $userGroup->ugGId = 4;
         $userGroup->save();
@@ -83,12 +88,22 @@ class SeederUserGroupTableSeederTableSeeder extends Seeder
         $userGroup->save();
 
         $userGroup = new UserGroup;
-        $userGroup->ugUId = 7;
-        $userGroup->ugGId = 4;
+        $userGroup->ugUId = 1;
+        $userGroup->ugGId = 1;
         $userGroup->save();
 
         $userGroup = new UserGroup;
-        $userGroup->ugUId = 1;
+        $userGroup->ugUId = 13;
+        $userGroup->ugGId = 3;
+        $userGroup->save();
+
+        $userGroup = new UserGroup;
+        $userGroup->ugUId = 7;
+        $userGroup->ugGId = 3;
+        $userGroup->save();
+
+        $userGroup = new UserGroup;
+        $userGroup->ugUId = 12;
         $userGroup->ugGId = 1;
         $userGroup->save();
 

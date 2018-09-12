@@ -359,7 +359,7 @@
                                                     <td>{{requestFill.rSubject}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="150px">مبلغ برآردی : </td>
+                                                    <td width="150px">مبلغ برآوردی : </td>
                                                     <td>{{$parent.dispMoneyFormat(requestFill.rCostEstimation)}} <span class="btn-red">  ریال  </span></td>
                                                 </tr>
                                                 <tr>
@@ -434,7 +434,7 @@
                                                     <td>{{requestFill.rSubject}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="150px">مبلغ برآردی : </td>
+                                                    <td width="150px">مبلغ برآوردی : </td>
                                                     <td>{{$parent.dispMoneyFormat(requestFill.rCostEstimation)}} <span class="btn-red">  ریال  </span></td>
                                                 </tr>
                                                 <tr>

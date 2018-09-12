@@ -183,9 +183,15 @@
                             <li>
                                 <a class="right-mp right-menu-btm-border">کارتابل</a>
                                 <ul class="menu vertical nested is-active">
-                                    <li><router-link to="/financial_department/submissions">درخواست های ارسالی</router-link></li>
-                                    <li><router-link to="/financial_department/received_requests">درخواست های دریافتی (@{{ unReadRequestCount }})</router-link></li>
-                                    <li><router-link to="/financial_department/search_requests">جستجو</router-link></li>
+                                    <li>
+                                        <a class="right-mp right-menu-btm-border">درخواست ها</a>
+                                        <ul class="menu vertical nested is-active">
+                                            <li><router-link to="/financial_department/submissions">ارسالی</router-link></li>
+                                            <li><router-link to="/financial_department/received_requests">دریافتی (@{{ unReadRequestCount }})</router-link></li>
+                                            <li><router-link to="/financial_department/search_requests">جستجو</router-link></li>
+                                        </ul>
+                                    </li>
+                                    <li><router-link to="/financial_department/received_requests">تنخواه گردان کارپردازی</router-link></li>
                                 </ul>
                             </li>
                             <!--Financial Department End-->
