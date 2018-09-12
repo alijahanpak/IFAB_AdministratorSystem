@@ -1,5 +1,5 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
-    <modal-tiny v-if="showDialogModal" @close="showDialogModal = false">
+    <modal-tiny @close="$emit('close')">
             <div  slot="body">
                 <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div class="grid-x">
@@ -8,7 +8,7 @@
                         </div>
 
                         <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
-                            <button @click="showDialogModal = false" class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  بله</span></button>
+                            <button @click="$emit('close')" class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  بله</span></button>
                         </div>
                     </div>
                 </div>
@@ -17,7 +17,6 @@
 </template>
 <script>
     export default{
-        props:['showDialogModal'],
 
         created: function () {
             $(this.$el).foundation(); //WORKS!

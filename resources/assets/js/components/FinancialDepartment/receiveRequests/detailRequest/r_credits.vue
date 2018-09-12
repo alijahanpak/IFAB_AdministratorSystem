@@ -66,7 +66,7 @@
                                         <td class="text-center">{{$root.dispMoneyFormat(capFinancing.cafAmount)}}</td>
                                         <td v-show="capFinancing.cafAccepted == 1"><span class="success-label">تایید شده</span></td>
                                         <td v-show="capFinancing.cafAccepted == 0"><span class="reserved-label">رزرو شده</span></td>
-                                        <td v-if="$can('FINANCIAL_REMOVE_FINANCING_ITEM')" class="text-center"><i class="far fa-trash-alt size-21 btn-red"></i></td>
+                                        <td v-if="$can('FINANCIAL_REMOVE_FINANCING_ITEM')" class="text-center"><a @click="openDeleteFinancingModal(capFinancing,1)"><i class="far fa-trash-alt size-21 btn-red"></i></a></i></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -143,7 +143,7 @@
                                         <td class="text-center">{{$root.dispMoneyFormat(costFinancing.cfAmount)}}</td>
                                         <td v-show="costFinancing.cfAccepted == 1"><span class="success-label">تایید شده</span></td>
                                         <td v-show="costFinancing.cfAccepted == 0"><span class="reserved-label">رزرو شده</span></td>
-                                        <td v-if="$can('FINANCIAL_REMOVE_FINANCING_ITEM')" class="text-center"><i class="far fa-trash-alt size-21 btn-red"></i></td>
+                                        <td v-if="$can('FINANCIAL_REMOVE_FINANCING_ITEM')" class="text-center"><a @click="openDeleteFinancingModal(costFinancing,2)"><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -1374,7 +1374,23 @@
         </modal-full-screen>
         <!-- Capital Assets Modal End -->
 
-        <messageDialog v-bind:showDialogModal="showDialogModal">
+        <!-- delete Financing modal -->
+        <modal-tiny v-if="showDeleteFinancingModal" @close="showDeleteFinancingModal = false">
+            <div  slot="body">
+                <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <p>کاربر گرامی</p>
+                    <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
+                    <div class="grid-x">
+                        <div class="medium-12 column text-center">
+                            <button v-on:click="deleteFinancing"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-tiny>
+        <!-- delete Financing modal -->
+
+        <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
             {{dialogMessage}}
         </messageDialog>
     </div>
@@ -1395,6 +1411,7 @@ export default{
             acceptBtn:false,
             dialogMessage:'',
             showDialogModal:false,
+            showDeleteFinancingModal:false,
 
             /*credits*/
             completeCostAgrement:[],
@@ -1414,6 +1431,9 @@ export default{
             capitalAssetsFound:[],
             capitalAssetsAllocations:[],
             /*capital assets*/
+
+            delId:'',
+            deleteType:'',
         }
 
     },
@@ -2353,15 +2373,15 @@ export default{
         },
 
         acceptFinancing: function(){
-            if(((this._reservedAmount + this._financingAmount) - this.baseAmount) != 0){
-                this.dialogMessage = 'تامین اعتبار به طور کامل انجام نشده است';
+            if(((this._reservedAmount + this._financingAmount) - this.baseAmount) != 0 || (this.requestCostFinancing.length < 0 && this.requestCapFinancing.length < 0)){
+                this.dialogMessage = 'تامین اعتبار به طور کامل انجام نشده است. لطفا به امور مالی ارجاع نمایید.';
                 this.showDialogModal=true;
             }
             else {
                 axios.post('/financial/request/financing/accept', {
                     rId: this.requestId,
                 }).then((response) => {
-                    this.$parent.receiveRequests = response.data.data;
+                    this.$parent.receiveRequests = response.data;
                     this.$emit('closeModal');
                     this.$root.displayNotif(response.status);
                     this.getFinancingAmount();
@@ -2373,6 +2393,48 @@ export default{
             }
 
         },
+
+        openDeleteFinancingModal:function(item,type){
+          this.showDeleteFinancingModal=true;
+          this.delId=item.id;
+          this.deleteType=type;
+
+        },
+
+        deleteFinancing:function(){
+            if(this.deleteType == 1){
+                axios.post('/financial/request/financing/cap/delete', {
+                    id:this.delId,
+                    rId:this.requestId,
+                }).then((response) => {
+                    if (response.status != 204) {
+                        this.requestCapFinancing = response.data.capFinancing;
+                    }
+                    this.showDeleteFinancingModal = false;
+                    console.log(response);
+                    this.$root.displayNotif(response.status);
+                }, (error) => {
+                });
+
+            }
+            if(this.deleteType == 2){
+                axios.post('/financial/request/financing/cost/delete', {
+                    id:this.delId,
+                    rId:this.requestId,
+                }).then((response) => {
+                    if (response.status != 204) {
+                        this.requestCostFinancing = response.data.costFinancing;
+
+                    }
+                    this.showDeleteFinancingModal = false;
+                    console.log(response);
+                    this.$root.displayNotif(response.status);
+                }, (error) => {
+                });
+            }
+
+        },
+
         myResizeModal: function() {
             var x = $.w.outerHeight();
             $('.dynamic-height-level-modal1').css('height', (x-320) + 'px');

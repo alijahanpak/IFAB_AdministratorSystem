@@ -110,6 +110,7 @@
                                 <li class="tabs-title is-active"><a href="#requestDetailTab" aria-selected="true">جزییات</a></li>
                                 <li class="tabs-title"><a href="#requestVerifiersTab">تایید کنندگان </a></li>
                                 <li class="tabs-title"><a href="#creditsTab">اعتبارات</a></li>
+                                <li class="tabs-title"><a href="#contractTab">اطلاعات قرارداد</a></li>
                                 <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
                                 <li class="tabs-title"><a href="#requestAttachmentsTab">پیوست </a></li>
                             </ul>
@@ -155,6 +156,14 @@
                                 </div>
                                 <!--Tab 3-->
                                 <!--Tab 4-->
+                                <div class="tabs-panel table-mrg-btm" id="contractTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <rContract
+                                            v-bind:contracts="contracts">
+
+                                    </rContract>
+                                </div>
+                                <!--Tab 4-->
+                                <!--Tab 5-->
                                 <div class="tabs-panel table-mrg-btm" id="requestHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 large-top-m">
@@ -202,9 +211,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--Tab 4-->
-
                                 <!--Tab 5-->
+
+                                <!--Tab 6-->
                                 <div class="tabs-panel table-mrg-btm" id="requestAttachmentsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x medium-top-m">
                                         <div style="margin-top: 15px;margin-bottom: 15px;" v-for="attachment in attachments" class="large-3 medium-4 small-12 padding-lr">
@@ -225,7 +234,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--Tab 5-->
+                                <!--Tab 6-->
                             </div>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr medium-top-m">
@@ -414,6 +423,7 @@
     /* Import Local Components Start*/
     import rDetails from './detailRequest/r_details.vue';
     import rCredits from './detailRequest/r_credits.vue';
+    import rContract from './detailRequest/r_contract.vue';
     /* Import Local Components End*/
     export default {
         components: {
@@ -423,6 +433,7 @@
             'vue-pagination' : VuePagination,
             rDetails,
             rCredits,
+            rContract,
         },
         data () {
             return {
@@ -471,6 +482,8 @@
                 baseAmount:0,
 
                 /*credits*/
+
+                contracts:[],
 
                 maxInputValue:0,
                 updateDataThreadNowPlaying: null,
@@ -575,6 +588,7 @@
                 this.verifiers=[];
                 this.UserIsVerifier=[];
                 this.attachments=[];
+                this.contracts=[];
                 var requestHistory=[];
                 requestHistory.push(request);
                 this.requestId=request.id;
@@ -593,6 +607,12 @@
                 requestHistory.forEach(users => {
                     users.verifiers.forEach(verify => {
                         this.verifiers.push(verify);
+                    });
+                });
+
+                requestHistory.forEach(item => {
+                    item.contract.forEach(con => {
+                        this.contracts.push(con);
                     });
                 });
 
