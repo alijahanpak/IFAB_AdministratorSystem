@@ -146,8 +146,8 @@ class SeedAdminUsersTableSeeder extends Seeder
 
         $user = new User;
         $user->seFiscalYear = 5;
-        $user->name = 'جعفر علیخانی';
-        $user->email = 'j.alikhani';
+        $user->name = 'علیرضا طاهری';
+        $user->email = 'a.taheri';
         $user->password = Hash::make('1234');
         $user->seInPutAmount = 3;
         $user->seDispAmount = 3;

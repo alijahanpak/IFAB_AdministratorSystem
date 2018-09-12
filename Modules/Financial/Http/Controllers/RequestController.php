@@ -57,6 +57,7 @@ class RequestController extends Controller
     function getAllPostedRequests($uId)
     {
         return _Request::where('rUId' , '=' , $uId)
+            ->where('rFyId' , '=' , Auth::user()->seFiscalYear)
             ->with('requestState')
             ->with('requestType')
             ->with('attachment')
@@ -77,6 +78,7 @@ class RequestController extends Controller
             $req->rRsId = RequestState::where('rsState' , '=' , 'ACTIVE')->value('id');
             $req->rRtId = $request->rtId;
             $req->rUId = Auth::user()->id;
+            $req->rFyId = Auth::user()->seFiscalYear;
             $req->rSubject = PublicSetting::checkPersianCharacters($request->subject);
             $req->rCostEstimation = $request->costEstimation;
             $req->rDescription = PublicSetting::checkPersianCharacters($request->description);
@@ -168,6 +170,7 @@ class RequestController extends Controller
     {
         return _Request::whereIn('id' , $reqIds)
             ->where('rRsId' , '=' , RequestState::where('rsState' , '=' , 'ACTIVE')->value('id'))
+            ->where('rFyId' , '=' , Auth::user()->seFiscalYear)
             ->with('requestState')
             ->with('attachment')
             ->with('requestType')
@@ -188,26 +191,32 @@ class RequestController extends Controller
     {
         return RequestHistory::where('rhDestUId' , '=' , Auth::user()->id)
             ->where('rhHasBeenSeen' , '=' , 0)
+            ->whereHas('request' , function ($q){
+                return $q->where('rFyId' , '=' , Auth::user()->seFiscalYear);
+            })
             ->count();
     }
 
     function normalSearch(Request $request)
     {
         $searchValue = PublicSetting::checkPersianCharacters($request->searchValue);
-        $result = _Request::where('rSubject' , 'LIKE' , '%' . $searchValue . '%')
-            ->orWhere('rDescription' , 'LIKE' , '%' . $searchValue . '%')
-            ->orWhere('rLetterNumber' , 'LIKE' , '%' . $searchValue . '%')
-            ->orWhere('rLetterDate' , 'LIKE' , '%' . $searchValue . '%')
-            ->orWhere('rCostEstimation' , '=' , $searchValue)
-            ->orWhereHas('creator' , function ($q) use($searchValue){
-                return $q->where('name' , 'LIKE' , '%' . $searchValue . '%');
+        $result = _Request::where(function ($q) use($searchValue){
+                return $q->where('rSubject' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('rDescription' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('rLetterNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('rLetterDate' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('rCostEstimation' , '=' , $searchValue)
+                    ->orWhereHas('creator' , function ($query) use($searchValue){
+                        return $query->where('name' , 'LIKE' , '%' . $searchValue . '%');
+                    })
+                    ->orWhereHas('requestType' , function ($query) use($searchValue){
+                        return $query->where('rtSubject' , 'LIKE' , '%' . $searchValue . '%');
+                    })
+                    ->orWhereHas('requestState' , function ($query) use($searchValue){
+                        return $query->where('rsSubject' , 'LIKE' , '%' . $searchValue . '%');
+                    });
             })
-            ->orWhereHas('requestType' , function ($q) use($searchValue){
-                return $q->where('rtSubject' , 'LIKE' , '%' . $searchValue . '%');
-            })
-            ->orWhereHas('requestState' , function ($q) use($searchValue){
-                return $q->where('rsSubject' , 'LIKE' , '%' . $searchValue . '%');
-            })
+            ->where('rFyId' , '=' , Auth::user()->seFiscalYear)
             ->with('requestState')
             ->with('requestType')
             ->with('requestCommodity.commodity')

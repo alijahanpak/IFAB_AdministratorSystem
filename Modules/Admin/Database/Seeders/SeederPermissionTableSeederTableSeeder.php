@@ -560,5 +560,41 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
         $permission->pPermission = 'FINANCIAL_REMOVE_FINANCING_ITEM';
         $permission->save();
 
+        $permission = new Permission;
+        $permission->pSspId = 13;
+        $permission->pSubject = 'ثبت اطلاعات قرارداد ها';
+        $permission->pPermission = 'UNIT_OF_CONTRACT_ADD_NEW_CONTRACT';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 12;
+        $permission->pSubject = 'ثبت اطلاعات فاکتور ها';
+        $permission->pPermission = 'SUPPLIER_ADD_NEW_FACTOR';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 13;
+        $permission->pSubject = 'حذف قرارداد';
+        $permission->pPermission = 'UNIT_OF_CONTRACT_DELETE_CONTRACT';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 12;
+        $permission->pSubject = 'حذف فاکتور';
+        $permission->pPermission = 'SUPPLIER_DELETE_FACTOR';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 12;
+        $permission->pSubject = 'تایید نهایی اطلاعات فاکتور ها';
+        $permission->pPermission = 'SUPPLIER_ACCEPT_FACTOR';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 13;
+        $permission->pSubject = 'تایید نهایی اطلاعات قرارداد ها';
+        $permission->pPermission = 'UNIT_OF_CONTRACT_ACCEPT_CONTRACT';
+        $permission->save();
+
     }
 }
