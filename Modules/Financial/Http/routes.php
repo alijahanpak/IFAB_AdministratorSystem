@@ -10,6 +10,8 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::get('types/fetchData', 'RequestController@fetchRequestTypes');
         Route::get('posted/fetchData', 'RequestController@fetchPostedRequestsData');
         Route::post('register', 'RequestController@register');
+        Route::post('attachment/new', 'RequestController@addNewAttachments');
+        Route::post('attachment/delete', 'RequestController@deleteAttachment');
 
         Route::get('received/fetchData', 'RequestController@fetchReceivedRequestsData');
         Route::get('received/unread_count', 'RequestController@getUnReadReceivedRequestCount');

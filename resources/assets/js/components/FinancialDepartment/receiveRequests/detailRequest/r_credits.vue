@@ -2409,6 +2409,7 @@ export default{
                 }).then((response) => {
                     if (response.status != 204) {
                         this.requestCapFinancing = response.data.capFinancing;
+                        this.getFinancingAmount();
                     }
                     this.showDeleteFinancingModal = false;
                     console.log(response);
@@ -2424,6 +2425,7 @@ export default{
                 }).then((response) => {
                     if (response.status != 204) {
                         this.requestCostFinancing = response.data.costFinancing;
+                        this.getFinancingAmount();
 
                     }
                     this.showDeleteFinancingModal = false;
