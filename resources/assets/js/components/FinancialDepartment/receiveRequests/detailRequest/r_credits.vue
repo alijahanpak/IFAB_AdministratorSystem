@@ -1400,7 +1400,7 @@
 <script>
 
 export default{
-    props:['baseAmount','UserIsVerifier','requestFill','requestId',],
+    props:['baseAmount','UserIsVerifier','requestFill','requestId','receiveRequests'],
 
     data () {
         return {
@@ -2381,7 +2381,7 @@ export default{
                 axios.post('/financial/request/financing/accept', {
                     rId: this.requestId,
                 }).then((response) => {
-                    this.$parent.receiveRequests = response.data;
+                    this.receiveRequests = response.data.data;
                     this.$emit('closeModal');
                     this.$root.displayNotif(response.status);
                     this.getFinancingAmount();

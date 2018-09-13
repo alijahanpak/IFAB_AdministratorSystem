@@ -148,6 +148,7 @@
                                 <div class="tabs-panel table-mrg-btm" id="creditsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <rCredits v-on:closeModal="showRequestDetailModal=false"
                                         v-bind:baseAmount="baseAmount"
+                                        v-bind:receiveRequests="receiveRequests"
                                         v-bind:requestFill="requestFill"
                                         v-bind:UserIsVerifier="UserIsVerifier"
                                         v-bind:requestId="requestId">
