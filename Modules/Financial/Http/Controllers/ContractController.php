@@ -32,14 +32,10 @@ class ContractController extends Controller
             SystemLog::setFinancialSubSystemLog('ثبت قرارداد ' . $request->subject . ' برای درخواست ' . _Request::find($request->rId)->rSubject);
         });
 
+        $rController = new RequestController();
         return \response()->json(
-            $this->getAllContract($request->rId)
+            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
         );
-    }
-
-    function getAllContract($rId)
-    {
-        return Contract::where('cRId' , '=' , $rId)->get();
     }
 
     function accept(Request $request)
@@ -51,8 +47,9 @@ class ContractController extends Controller
             SystemLog::setFinancialSubSystemLog('تایید قرارداد های ' . _Request::find($request->rId)->rSubject);
         });
 
+        $rController = new RequestController();
         return \response()->json(
-            $this->getAllContract($request->rId)
+            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
         );
     }
 
@@ -69,8 +66,9 @@ class ContractController extends Controller
             }
         });
 
+        $rController = new RequestController();
         return \response()->json(
-            $this->getAllContract($request->rId)
+            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
         , $resultCode);
     }
 }

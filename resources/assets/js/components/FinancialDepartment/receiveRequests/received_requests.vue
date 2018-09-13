@@ -158,10 +158,9 @@
                                 <!--Tab 3-->
                                 <!--Tab 4-->
                                 <div class="tabs-panel table-mrg-btm" id="contractTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                    <rContract v-on:updateReceiveRequestData="getRequestDetail"
+                                    <rContract v-on:updateReceiveRequestData="updateReceiveRequestData"
                                             v-bind:requestId="requestId"
                                             v-bind:contracts="contracts">
-
                                     </rContract>
                                 </div>
                                 <!--Tab 4-->
@@ -529,6 +528,17 @@
         },
 
         methods: {
+            updateReceiveRequestData: function(value , rId){
+                this.receiveRequests = value.data;
+                this.receiveRequests.forEach(item => {
+                    if (item.id == rId)
+                    {
+                        this.getRequestDetail(item);
+                    }
+                });
+                this.makePagination(value);
+            },
+
             makePagination: function(data){
                 this.received_pagination.current_page = data.current_page;
                 this.received_pagination.to = data.to;

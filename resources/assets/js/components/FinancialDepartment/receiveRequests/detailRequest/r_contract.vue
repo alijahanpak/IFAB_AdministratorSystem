@@ -204,7 +204,7 @@
 <script>
 
     export default{
-        props:['contracts','requestId',],
+        props:['contracts','requestId'],
         data () {
             return {
             showInsertContractModal:false,
@@ -224,7 +224,6 @@
         updated: function () {
             $(this.$el).foundation(); //WORKS!
             this.myResizeModal();
-
         },
 
         mounted: function () {
@@ -257,7 +256,7 @@
                             endDate: this.contractInput.endDate,
                             description: this.contractInput.description,
                         }).then((response) => {
-                            this.$emit('updateReceiveRequestData');
+                            this.$emit('updateReceiveRequestData' , response.data , this.requestId);
                             this.showInsertContractModal = false;
                             this.$root.displayNotif(response.status);
                             console.log(response);
