@@ -479,8 +479,7 @@ a:focus,button:focus {
 }
 .error-font{
     font-size: small;
-    margin-top: -1.5rem !important;
-
+    margin-top: -0.8rem !important;
     font-size: 0.75rem;
     color: #cc4b37;
 }
