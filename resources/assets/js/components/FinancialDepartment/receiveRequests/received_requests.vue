@@ -158,7 +158,8 @@
                                 <!--Tab 3-->
                                 <!--Tab 4-->
                                 <div class="tabs-panel table-mrg-btm" id="contractTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                    <rContract
+                                    <rContract v-on:updateReceiveRequestData="getRequestDetail"
+                                            v-bind:requestId="requestId"
                                             v-bind:contracts="contracts">
 
                                     </rContract>
