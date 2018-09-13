@@ -5,12 +5,13 @@ namespace Modules\Financial\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Mockery\Exception;
 use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\RoleCategory;
 use Modules\Admin\Entities\Signature;
 use Modules\Admin\Entities\SystemLog;
-use Modules\Admin\Entities\UserGroup;
 use Modules\Admin\Entities\UserPermission;
 use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\Attachment;
@@ -157,6 +158,49 @@ class RequestController extends Controller
         return \response()->json(
             $this->getAllPostedRequests(Auth::user()->id)
         , $resultCode);
+    }
+
+    function addNewAttachments(Request $request)
+    {
+        $resultCode = DB::transaction(function () use($request){
+            if ($request->exists('attachments'))
+            {
+                foreach ($request->file('attachments') as $files)
+                {
+                    try{
+                        $fileName = $files->store('attachments');
+                        $attachment = new Attachment();
+                        $attachment->aRId = $request->rId;
+                        $attachment->aPath = $fileName;
+                        $attachment->aName = $files->getClientOriginalName();
+                        $attachment->save();
+                    }catch (Exception $e){
+                        return 500;
+                    }
+                }
+
+                return 200;
+            }
+        });
+
+        return \response()->json(
+            $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+        , $resultCode);
+    }
+
+    function deleteAttachment(Request $request)
+    {
+        $storagePath = Config::get('filesystems.disks.local.root');
+        DB::transaction(function () use($request , $storagePath){
+            $attachment = Attachment::find($request->id);
+            Attachment::where('id' , '=' , $request->id)
+                ->delete();
+            @unlink($storagePath . '/' . $attachment->aPath);
+        });
+
+        return \response()->json(
+            $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+        );
     }
 
     function fetchReceivedRequestsData(Request $request)
