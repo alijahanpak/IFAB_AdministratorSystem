@@ -216,29 +216,38 @@
 
                                 <!--Tab 6-->
                                 <div class="tabs-panel table-mrg-btm" id="requestAttachmentsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                    <div class="grid-x medium-top-m">
-                                        <div style="margin-top: 15px;margin-bottom: 15px;" v-for="attachment in attachments" class="large-3 medium-4 small-12 padding-lr">
-                                            <a  v-bind:href="attachment.aPath" target="_blank">
-                                                <div class="format-card">
-                                                    <div style="padding:15px;" class="text-center">
-                                                        <i v-if="attachment.aPath.split('.').pop().toLowerCase() == 'pdf'" class="fas fa-file-pdf size-72 btn-red"></i>
-                                                        <i v-if="attachment.aPath.split('.').pop().toLowerCase() == 'jpg' || attachment.aPath.split('.').pop().toLowerCase() == 'jpeg' || attachment.aPath.split('.').pop().toLowerCase() == 'png'" class="fas fa-file-image size-72 purple-color"></i>
-                                                        <i v-if="attachment.aPath.split('.').pop().toLowerCase() == 'doc' || attachment.aPath.split('.').pop().toLowerCase() == 'docx'" class="fas fa-file-word size-72 blue-color"></i>
-                                                        <i v-if="attachment.aPath.split('.').pop().toLowerCase() == 'xls' || attachment.aPath.split('.').pop().toLowerCase() == 'xlsx'" class="fas fa-file-excel size-72 btn-green"></i>
-                                                        <h3 style="margin-top:10px;" class="gray-colors">{{attachment.aPath.split('.').pop().toUpperCase()}}</h3>
-                                                    </div>
-                                                    <div class="format-container direction-ltr">
-                                                        <p style="height: 50px;" class="small-top-m gray-color"><b>{{attachment.aName}}</b></p>
-                                                    </div>
+                                    <div class="grid-x">
+                                        <div class="medium-12 padding-lr">
+                                            <label v-show='$can("UNIT_OF_CONTRACT_ADD_NEW_ATTACHMENT")' class="my-button toolbox-btn"> انتخاب فایل
+                                                <input accept=".jpg,.jpeg,.png,.doc,.docx,.doc,.xls,.xlsx,.pdf" id="File" type="file">
+                                            </label>
+                                        </div>
+                                        <div class="medium-12">
+                                            <div class="grid-x">
+                                                <div style="margin-top: 15px;" v-for="attachment in attachments" class="large-3 medium-4 small-12 padding-lr">
+                                                    <a  v-bind:href="attachment.aPath" target="_blank">
+                                                        <div class="format-card">
+                                                            <div style="padding:15px;" class="text-center">
+                                                                <i v-if="attachment.aPath.split('.').pop().toLowerCase() == 'pdf'" class="fas fa-file-pdf size-72 btn-red"></i>
+                                                                <i v-if="attachment.aPath.split('.').pop().toLowerCase() == 'jpg' || attachment.aPath.split('.').pop().toLowerCase() == 'jpeg' || attachment.aPath.split('.').pop().toLowerCase() == 'png'" class="fas fa-file-image size-72 purple-color"></i>
+                                                                <i v-if="attachment.aPath.split('.').pop().toLowerCase() == 'doc' || attachment.aPath.split('.').pop().toLowerCase() == 'docx'" class="fas fa-file-word size-72 blue-color"></i>
+                                                                <i v-if="attachment.aPath.split('.').pop().toLowerCase() == 'xls' || attachment.aPath.split('.').pop().toLowerCase() == 'xlsx'" class="fas fa-file-excel size-72 btn-green"></i>
+                                                                <h3 style="margin-top:10px;" class="gray-colors">{{attachment.aPath.split('.').pop().toUpperCase()}}</h3>
+                                                            </div>
+                                                            <div class="format-container direction-ltr">
+                                                                <p style="height: 50px;" class="small-top-m gray-color"><b>{{attachment.aName}}</b></p>
+                                                            </div>
+                                                        </div>
+                                                    </a>
                                                 </div>
-                                            </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <!--Tab 6-->
                             </div>
                         </div>
-                        <div class="large-12 medium-12 small-12 padding-lr medium-top-m">
+                        <div class="large-12 medium-12 small-12 medium-top-m">
                             <div style="margin-bottom:-10px;" class="stacked-for-small button-group">
                                 <button @click="openSubmitRequestModal()" v-if=" youAreVerifier != '' "  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
                                 <button @click="openReferralsModal()"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg">  ارجاع</span></button>

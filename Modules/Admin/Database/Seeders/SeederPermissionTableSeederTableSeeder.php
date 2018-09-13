@@ -596,5 +596,16 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
         $permission->pPermission = 'UNIT_OF_CONTRACT_ACCEPT_CONTRACT';
         $permission->save();
 
+        $permission = new Permission;
+        $permission->pSspId = 13;
+        $permission->pSubject = 'حذف پیوست';
+        $permission->pPermission = 'UNIT_OF_CONTRACT_DELETE_ATTACHMENT';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 13;
+        $permission->pSubject = 'اضافه کردن پیوست جدید';
+        $permission->pPermission = 'UNIT_OF_CONTRACT_ADD_NEW_ATTACHMENT';
+        $permission->save();
     }
 }

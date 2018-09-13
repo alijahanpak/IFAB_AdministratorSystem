@@ -5,6 +5,8 @@ namespace Modules\Admin\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Mockery\Exception;
 use Modules\Admin\Entities\AmountUnit;
 use Modules\Admin\Entities\County;
 use Modules\Admin\Entities\PublicSetting;
@@ -98,15 +100,21 @@ class AdminController extends Controller
 
     public function uploadAvatar(Request $request)
     {
-
         if ($request->hasFile('avatar_img'))
         {
-            $file = $request->file('avatar_img');
-            $filePath = $file->storeAs(
-                'pic/avatars',
-                'avatar' . Auth::user()->id . '.' . $file->clientExtension());
-            User::where('id' , '=' , Auth::user()->id)->update(['avatarPath' => $filePath]);
-            return \response()->json(['imgPath' => $filePath]);
+            $result = DB::transaction(function () use($request){
+                try{
+                    $file = $request->file('avatar_img');
+                    $filePath = $file->storeAs(
+                        'pic/avatars',
+                        'avatar' . Auth::user()->id . '.' . $file->clientExtension());
+                    User::where('id' , '=' , Auth::user()->id)->update(['avatarPath' => $filePath]);
+                    return \response()->json(['imgPath' => $filePath]);
+                }catch (Exception $e){
+                    return \response()->json([] , 500);
+                }
+            });
+            return $result;
         }
     }
 

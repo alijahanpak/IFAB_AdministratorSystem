@@ -259,65 +259,61 @@
 
                             <!--Tab 3 - Attachment Tab-->
                             <div class="tabs-panel table-mrg-btm" id="attachmentTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                <div style="margin-top: 25px" class="grid-x">
+                                <div class="grid-x">
+                                    <div class="medium-12 padding-lr">
+                                        <label class="my-button toolbox-btn"> انتخاب فایل
+                                            <input @change="uploadFieldChange" accept=".jpg,.jpeg,.png,.doc,.docx,.doc,.xls,.xlsx,.pdf" id="File" type="file">
+                                        </label>
+                                    </div>
                                     <div class="medium-12">
-                                        <div class="grid-x container-mrg-top">
-                                            <div class="medium-12 padding-lr">
-                                                <label class="my-button toolbox-btn"> انتخاب فایل
-                                                    <input @change="uploadFieldChange" accept=".jpg,.jpeg,.png,.doc,.docx,.doc,.xls,.xlsx,.pdf" id="File" type="file">
-                                                </label>
-                                            </div>
-                                            <div class="medium-12">
-                                                <div class="grid-x">
-                                                    <div style="margin-top: 15px;margin-bottom: 15px;" v-for="(attachment, index) in attachments" class="large-3 medium-4 small-12 padding-lr">
-                                                        <div class="format-card">
-                                                            <div style="padding:15px;" class="text-center">
-                                                                <i v-if="attachment.name.split('.').pop().toLowerCase() == 'pdf'" class="fas fa-file-pdf size-72 btn-red"></i>
-                                                                <i v-if="attachment.name.split('.').pop().toLowerCase() == 'jpg' || attachment.name.split('.').pop().toLowerCase() == 'jpeg' || attachment.name.split('.').pop().toLowerCase() == 'png'" class="fas fa-file-image size-72 purple-color"></i>
-                                                                <i v-if="attachment.name.split('.').pop().toLowerCase() == 'doc' || attachment.name.split('.').pop().toLowerCase() == 'docx'" class="fas fa-file-word size-72 blue-color"></i>
-                                                                <i v-if="attachment.name.split('.').pop().toLowerCase() == 'xls' || attachment.name.split('.').pop().toLowerCase() == 'xlsx'" class="fas fa-file-excel size-72 btn-green"></i>
-                                                                <h3 style="margin-top:10px;" class="gray-colors">{{attachment.name.split('.').pop().toUpperCase()}}</h3>
-                                                            </div>
-                                                            <div class="format-container direction-ltr">
-                                                                <p style="cursor: pointer;" :data-toggle="'attachment' + index" class="small-top-m gray-color one-line"><b>{{attachment.name}}</b></p>
-                                                                <div class="clearfix tool-bar">
-                                                                    <div style="width: 200px" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="auto" data-alignment="auto" :id="'attachment' + index" data-dropdown data-auto-focus="true">
-                                                                        <ul class="my-menu small-font">
-                                                                            <div class="grid-x">
-                                                                                <div class="medium-12">
-                                                                                    <p style="word-break: break-all;" class="black-color">{{attachment.name}}</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="grid-x">
-                                                                    <div class="large-10">
-                                                                        <p v-if="Number((attachment.size / 1000).toFixed(1)) < 1024 " class="gray-colors">{{  Number((attachment.size / 1000).toFixed(1)) + ' کیلوبایت'}}</p>
-                                                                        <p v-if="Number((attachment.size / 1000).toFixed(1)) > 1024" class="gray-colors">{{  Number(((attachment.size / 1000)/1024).toFixed(1)) + ' مگابایت'}}</p>
-                                                                    </div>
-                                                                    <div style="direction:rtl;" class="large-2">
-                                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'attachmentDel' + index"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'attachmentDel' + index" data-dropdown data-auto-focus="true">
-                                                                            <ul class="my-menu small-font text-right">
-                                                                                <li><a @click="removeAttachment(index)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                            </ul>
+                                        <div class="grid-x">
+                                            <div style="margin-top: 15px;margin-bottom: 15px;" v-for="(attachment, index) in attachments" class="large-3 medium-4 small-12 padding-lr">
+                                                <div class="format-card">
+                                                    <div style="padding:15px;" class="text-center">
+                                                        <i v-if="attachment.name.split('.').pop().toLowerCase() == 'pdf'" class="fas fa-file-pdf size-72 btn-red"></i>
+                                                        <i v-if="attachment.name.split('.').pop().toLowerCase() == 'jpg' || attachment.name.split('.').pop().toLowerCase() == 'jpeg' || attachment.name.split('.').pop().toLowerCase() == 'png'" class="fas fa-file-image size-72 purple-color"></i>
+                                                        <i v-if="attachment.name.split('.').pop().toLowerCase() == 'doc' || attachment.name.split('.').pop().toLowerCase() == 'docx'" class="fas fa-file-word size-72 blue-color"></i>
+                                                        <i v-if="attachment.name.split('.').pop().toLowerCase() == 'xls' || attachment.name.split('.').pop().toLowerCase() == 'xlsx'" class="fas fa-file-excel size-72 btn-green"></i>
+                                                        <h3 style="margin-top:10px;" class="gray-colors">{{attachment.name.split('.').pop().toUpperCase()}}</h3>
+                                                    </div>
+                                                    <div class="format-container direction-ltr">
+                                                        <p style="cursor: pointer;" :data-toggle="'attachment' + index" class="small-top-m gray-color one-line"><b>{{attachment.name}}</b></p>
+                                                        <div class="clearfix tool-bar">
+                                                            <div style="width: 200px" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="auto" data-alignment="auto" :id="'attachment' + index" data-dropdown data-auto-focus="true">
+                                                                <ul class="my-menu small-font">
+                                                                    <div class="grid-x">
+                                                                        <div class="medium-12">
+                                                                            <p style="word-break: break-all;" class="black-color">{{attachment.name}}</p>
                                                                         </div>
                                                                     </div>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid-x">
+                                                            <div class="large-10">
+                                                                <p v-if="Number((attachment.size / 1000).toFixed(1)) < 1024 " class="gray-colors">{{  Number((attachment.size / 1000).toFixed(1)) + ' کیلوبایت'}}</p>
+                                                                <p v-if="Number((attachment.size / 1000).toFixed(1)) > 1024" class="gray-colors">{{  Number(((attachment.size / 1000)/1024).toFixed(1)) + ' مگابایت'}}</p>
+                                                            </div>
+                                                            <div style="direction:rtl;" class="large-2">
+                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'attachmentDel' + index"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'attachmentDel' + index" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font text-right">
+                                                                        <li><a @click="removeAttachment(index)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    </ul>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!--            <button class="my-button my-brand" v-on:click.prevent="submit">بارگذاری</button>-->
                                             </div>
                                         </div>
+                                        <!--            <button class="my-button my-brand" v-on:click.prevent="submit">بارگذاری</button>-->
                                     </div>
                                 </div>
                             </div>
                             <!--Tab 3 - Attachment Tab-->
 
-                            <div class="large-12 medium-12 small-12 padding-lr padding-bottom-modal medium-top-m">
+                            <div class="large-12 medium-12 small-12 medium-top-m">
                                 <button type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
                             </div>
                         </div>
@@ -524,8 +520,8 @@
 
                                 <!--Tab 4-->
                                 <div class="tabs-panel table-mrg-btm" id="requestAttachmentsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                    <div class="grid-x medium-top-m">
-                                        <div style="margin-top: 15px;margin-bottom: 15px;" v-for="attachment in attachments" class="large-3 medium-4 small-12 padding-lr">
+                                    <div class="grid-x" style="margin-bottom: 30px;margin-top: 20px">
+                                        <div v-for="attachment in attachments" class="large-3 medium-4 small-12">
                                             <a  v-bind:href="attachment.aPath" target="_blank">
                                                 <div class="format-card">
                                                     <div style="padding:15px;" class="text-center">
@@ -544,7 +540,6 @@
                                     </div>
                                 </div>
                                 <!--Tab 4-->
-
                             </div>
                         </div>
                     </div>
