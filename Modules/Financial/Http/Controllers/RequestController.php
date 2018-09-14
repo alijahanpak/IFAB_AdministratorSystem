@@ -95,6 +95,7 @@ class RequestController extends Controller
                     $attachment->aRId = $req->id;
                     $attachment->aPath = $fileName;
                     $attachment->aName = $files->getClientOriginalName();
+                    $attachment->aSize = $files->getClientSize();
                     $attachment->save();
                 }
             }
@@ -173,6 +174,7 @@ class RequestController extends Controller
                         $attachment->aRId = $request->rId;
                         $attachment->aPath = $fileName;
                         $attachment->aName = $files->getClientOriginalName();
+                        $attachment->aSize = $files->getClientSize();
                         $attachment->save();
                     }catch (Exception $e){
                         return 500;
@@ -267,6 +269,7 @@ class RequestController extends Controller
             ->with('history.sourceUserInfo.role')
             ->with('history.destinationUserInfo.role')
             ->with('history.requestState')
+            ->with('attachment')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
         return response()->json($result);

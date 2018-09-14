@@ -217,30 +217,57 @@
                                 <!--Tab 6-->
                                 <div class="tabs-panel table-mrg-btm" id="requestAttachmentsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
+                                        <vue-element-loading :active="showLoaderProgress" spinner="spinner" color="#716aca"/>
                                         <div class="medium-12 padding-lr">
                                             <label v-show='$can("UNIT_OF_CONTRACT_ADD_NEW_ATTACHMENT")' class="my-button toolbox-btn"> انتخاب فایل
-                                                <input accept=".jpg,.jpeg,.png,.doc,.docx,.doc,.xls,.xlsx,.pdf" id="File" type="file">
+                                                <input @change="addNewAttachment" accept=".jpg,.jpeg,.png,.doc,.docx,.doc,.xls,.xlsx,.pdf" id="File" type="file">
                                             </label>
                                         </div>
                                         <div class="medium-12">
                                             <div class="grid-x">
-                                                <div style="margin-top: 15px;" v-for="attachment in attachments" class="large-3 medium-4 small-12 padding-lr">
-                                                    <a  v-bind:href="attachment.aPath" target="_blank">
-                                                        <div class="format-card">
+                                                <div style="margin-top: 15px;margin-bottom: 15px;" v-for="(attachment, index) in attachments" class="large-3 medium-4 small-12 padding-lr">
+                                                    <div class="format-card">
+                                                        <a  v-bind:href="attachment.aPath" target="_blank">
                                                             <div style="padding:15px;" class="text-center">
-                                                                <i v-if="attachment.aPath.split('.').pop().toLowerCase() == 'pdf'" class="fas fa-file-pdf size-72 btn-red"></i>
-                                                                <i v-if="attachment.aPath.split('.').pop().toLowerCase() == 'jpg' || attachment.aPath.split('.').pop().toLowerCase() == 'jpeg' || attachment.aPath.split('.').pop().toLowerCase() == 'png'" class="fas fa-file-image size-72 purple-color"></i>
-                                                                <i v-if="attachment.aPath.split('.').pop().toLowerCase() == 'doc' || attachment.aPath.split('.').pop().toLowerCase() == 'docx'" class="fas fa-file-word size-72 blue-color"></i>
-                                                                <i v-if="attachment.aPath.split('.').pop().toLowerCase() == 'xls' || attachment.aPath.split('.').pop().toLowerCase() == 'xlsx'" class="fas fa-file-excel size-72 btn-green"></i>
-                                                                <h3 style="margin-top:10px;" class="gray-colors">{{attachment.aPath.split('.').pop().toUpperCase()}}</h3>
+                                                                <i v-if="attachment.aName.split('.').pop().toLowerCase() == 'pdf'" class="fas fa-file-pdf size-72 btn-red"></i>
+                                                                <i v-if="attachment.aName.split('.').pop().toLowerCase() == 'jpg' || attachment.aName.split('.').pop().toLowerCase() == 'jpeg' || attachment.aName.split('.').pop().toLowerCase() == 'png'" class="fas fa-file-image size-72 purple-color"></i>
+                                                                <i v-if="attachment.aName.split('.').pop().toLowerCase() == 'doc' || attachment.aName.split('.').pop().toLowerCase() == 'docx'" class="fas fa-file-word size-72 blue-color"></i>
+                                                                <i v-if="attachment.aName.split('.').pop().toLowerCase() == 'xls' || attachment.aName.split('.').pop().toLowerCase() == 'xlsx'" class="fas fa-file-excel size-72 btn-green"></i>
+                                                                <h3 style="margin-top:10px;" class="gray-colors">{{attachment.aName.split('.').pop().toUpperCase()}}</h3>
                                                             </div>
-                                                            <div class="format-container direction-ltr">
-                                                                <p style="height: 50px;" class="small-top-m gray-color"><b>{{attachment.aName}}</b></p>
+                                                        </a>
+                                                        <div class="format-container direction-ltr">
+                                                            <p style="cursor: pointer;" :data-toggle="'attachment' + index" class="small-top-m gray-color one-line"><b>{{attachment.aName}}</b></p>
+                                                            <div class="clearfix tool-bar">
+                                                                <div style="width: 200px" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="auto" data-alignment="auto" :id="'attachment' + index" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font">
+                                                                        <div class="grid-x">
+                                                                            <div class="medium-12">
+                                                                                <p style="word-break: break-all;" class="black-color">{{attachment.aName}}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <div class="grid-x">
+                                                                <div class="large-10">
+                                                                    <p v-if="Number((attachment.aSize / 1000).toFixed(1)) < 1024 " class="gray-colors">{{  Number((attachment.aSize / 1000).toFixed(1)) + ' کیلوبایت'}}</p>
+                                                                    <p v-if="Number((attachment.aSize / 1000).toFixed(1)) > 1024" class="gray-colors">{{  Number(((attachment.aSize / 1000)/1024).toFixed(1)) + ' مگابایت'}}</p>
+                                                                </div>
+                                                                <div style="direction:rtl;" class="large-2">
+                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'attachmentDel' + index"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'attachmentDel' + index" data-dropdown data-auto-focus="true">
+                                                                        <ul class="my-menu small-font text-right">
+                                                                            <li><a @click="openDeleteAttachmentCinfirmModel(attachment.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </a>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <!--            <button class="my-button my-brand" v-on:click.prevent="submit">بارگذاری</button>-->
                                         </div>
                                     </div>
                                 </div>
@@ -339,23 +366,22 @@
         </modal-tiny>
         <!-- Submit Request modal -->
 
-        <!-- dialog modal -->
-        <!--<modal-tiny v-if="showDialogModal" @close="showDialogModal = false">
+        <!-- Submit Request modal -->
+        <modal-tiny v-if="showDeleteAttachmentConfirmModal" @close="showDeleteAttachmentConfirmModal = false">
             <div  slot="body">
                 <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div class="grid-x">
                         <div class="large-12 medium-12 small-12 padding-lr text-center">
-                            <p class="modal-text text-justify">{{ dialogMessage }}</p>
+                            <p class="modal-text">آیا تمایل دارید فایل مورد نظر را حذف کنید؟</p>
                         </div>
-
                         <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
-                            <button @click="showDialogModal = false" class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  بله</span></button>
+                            <button @click="removeAttachment()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  بله</span></button>
                         </div>
                     </div>
                 </div>
             </div>
-        </modal-tiny>-->
-        <!-- dialog message end -->
+        </modal-tiny>
+        <!-- Submit Request modal -->
 
         <!-- Response Request modal -->
         <modal-tiny v-if="showResponseRequestModal" @close="showResponseRequestModal = false">
@@ -428,6 +454,7 @@
     import Suggestions from "v-suggestions/src/Suggestions";
     import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
     import VuePagination from '../../../public_component/pagination.vue';
+    import VueElementLoading from 'vue-element-loading'
 
 
     /* Import Local Components Start*/
@@ -444,10 +471,13 @@
             rDetails,
             rCredits,
             rContract,
+            VueElementLoading,
         },
         data () {
             return {
                 attachments:[],
+                attachmentIdForDelete: 0,
+                showLoaderProgress:false,
                 receiveRequests:[],
                 costTemp:'',
                 showRequestDetailModal:false,
@@ -456,6 +486,7 @@
                 showResponseRequestModal:false,
                 showRegisterAndNumberingModal:false,
                 showDialogModal: true,
+                showDeleteAttachmentConfirmModal: false,
                 dialogMessage: '',
                 receiveRequestSearchValue:'',
                 requestTypeDetail:'',
@@ -528,15 +559,15 @@
         },
 
         methods: {
-            updateReceiveRequestData: function(value , rId){
-                this.receiveRequests = value.data;
+            updateReceiveRequestData: function(requests , rId){
+                this.receiveRequests = requests.data;
                 this.receiveRequests.forEach(item => {
                     if (item.id == rId)
                     {
                         this.getRequestDetail(item);
                     }
                 });
-                this.makePagination(value);
+                this.makePagination(requests);
             },
 
             makePagination: function(data){
@@ -845,7 +876,68 @@
                 $('.dynamic-height-level-modal3').css('height', (x-580) + 'px');
             },
 
+            addNewAttachment(e) {
+                this.extension= e.target.files[0].name.split('.').pop().toLowerCase();
+                var files = e.target.files || e.dataTransfer.files;
+                if (!files.length)
+                    return;
 
+                var newAttachments = [];
+                for (var i = files.length - 1; i >= 0; i--) {
+                    console.log(files[i].size);
+                    if((files[i].size / 1000).toFixed(1) > 2048){
+                        this.$parent.displayNotif(2);
+                    }
+                    else{
+                        newAttachments.push(files[i]);
+                    }
+                }
+
+                if (newAttachments.length > 0) {
+                    this.showLoaderProgress = true;
+                    this.data = new FormData();
+                    for (var i = 0; i < newAttachments.length; i++) {
+                        let attachment = newAttachments[i];
+                        this.data.append('attachments[]', attachment);
+                        //console.log(attachment.name);
+                    }
+
+                    this.data.append('rId', this.requestId);
+                    axios.post('/financial/request/attachment/new', this.data).then((response) => {
+                        this.updateReceiveRequestData(response.data , this.requestId);
+                        this.showLoaderProgress = false;
+                        this.$parent.displayNotif(response.status);
+                        console.log(response);
+                        this.data = new FormData();
+                    }, (error) => {
+                        console.log(error);
+                        this.showLoaderProgress = false;
+                        this.$parent.displayNotif(error.response.status);
+                        this.data = new FormData();
+                    });
+                }
+            },
+
+            openDeleteAttachmentCinfirmModel: function(aId)
+            {
+                this.attachmentIdForDelete = aId;
+                this.showDeleteAttachmentConfirmModal = true;
+            },
+
+            removeAttachment: function () {
+                this.showDeleteAttachmentConfirmModal = false;
+                axios.post('/financial/request/attachment/delete', {
+                    rId: this.requestId,
+                    id: this.attachmentIdForDelete
+                }).then((response) => {
+                    this.updateReceiveRequestData(response.data , this.requestId);
+                    this.$parent.displayNotif(response.status);
+                    console.log(response);
+                }, (error) => {
+                    console.log(error);
+                    this.$parent.displayNotif(error.response.status);
+                });
+            },
         }
     }
 </script>

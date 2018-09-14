@@ -99,6 +99,7 @@
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="request_tab_view">
                                 <li class="tabs-title is-active"><a href="#requestDetailTab" aria-selected="true">جزییات</a></li>
                                 <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
+                                <li class="tabs-title"><a href="#requestAttachmentsTab">پیوست </a></li>
                             </ul>
                             <div class="tabs-content" data-tabs-content="request_tab_view">
                                 <!--Tab 1-->
@@ -259,6 +260,50 @@
                                     </div>
                                 </div>
                                 <!--Tab 2-->
+                                <!--Tab 3-->
+                                <div class="tabs-panel table-mrg-btm" id="requestAttachmentsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <div class="grid-x" style="margin-bottom: 30px;margin-top: 20px">
+                                        <div class="medium-12">
+                                            <div class="grid-x">
+                                                <div style="margin-top: 15px;margin-bottom: 15px;" v-for="(attachment, index) in attachments" class="large-3 medium-4 small-12 padding-lr">
+                                                    <div class="format-card">
+                                                        <a  v-bind:href="attachment.aPath" target="_blank">
+                                                            <div style="padding:15px;" class="text-center">
+                                                                <i v-if="attachment.aName.split('.').pop().toLowerCase() == 'pdf'" class="fas fa-file-pdf size-72 btn-red"></i>
+                                                                <i v-if="attachment.aName.split('.').pop().toLowerCase() == 'jpg' || attachment.aName.split('.').pop().toLowerCase() == 'jpeg' || attachment.aName.split('.').pop().toLowerCase() == 'png'" class="fas fa-file-image size-72 purple-color"></i>
+                                                                <i v-if="attachment.aName.split('.').pop().toLowerCase() == 'doc' || attachment.aName.split('.').pop().toLowerCase() == 'docx'" class="fas fa-file-word size-72 blue-color"></i>
+                                                                <i v-if="attachment.aName.split('.').pop().toLowerCase() == 'xls' || attachment.aName.split('.').pop().toLowerCase() == 'xlsx'" class="fas fa-file-excel size-72 btn-green"></i>
+                                                                <h3 style="margin-top:10px;" class="gray-colors">{{attachment.aName.split('.').pop().toUpperCase()}}</h3>
+                                                            </div>
+                                                        </a>
+                                                        <div class="format-container direction-ltr">
+                                                            <p style="cursor: pointer;" :data-toggle="'attachment' + index" class="small-top-m gray-color one-line"><b>{{attachment.aName}}</b></p>
+                                                            <div class="clearfix tool-bar">
+                                                                <div style="width: 200px" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="auto" data-alignment="auto" :id="'attachment' + index" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font">
+                                                                        <div class="grid-x">
+                                                                            <div class="medium-12">
+                                                                                <p style="word-break: break-all;" class="black-color">{{attachment.aName}}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <div class="grid-x">
+                                                                <div class="large-12">
+                                                                    <p v-if="Number((attachment.aSize / 1000).toFixed(1)) < 1024 " class="gray-colors">{{  Number((attachment.aSize / 1000).toFixed(1)) + ' کیلوبایت'}}</p>
+                                                                    <p v-if="Number((attachment.aSize / 1000).toFixed(1)) > 1024" class="gray-colors">{{  Number(((attachment.aSize / 1000)/1024).toFixed(1)) + ' مگابایت'}}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--            <button class="my-button my-brand" v-on:click.prevent="submit">بارگذاری</button>-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Tab 3-->
                             </div>
                         </div>
                     </div>
@@ -284,6 +329,7 @@
 
         data () {
             return {
+                attachments: [],
                 allRequests:[],
                 requestSearchValue:'',
                 showRequestDetailModal:false,
@@ -356,11 +402,12 @@
             },
 
             getRequestDetail: function (request) {
-
                 this.showRequestDetailModal=true;
                 this.recipientUsers=[];
                 this.UserIsVerifier=[];
+                this.attachments=[];
                 var requestHistory=[];
+
                 requestHistory.push(request);
 
                 requestHistory.forEach(users => {
@@ -376,7 +423,11 @@
                     });
                 });
 
-
+                requestHistory.forEach(attach => {
+                    attach.attachment.forEach(item => {
+                        this.attachments.push(item);
+                    });
+                });
 
                 if (request.rRtId == 1){
                     this.requestTypeDetail='SERVICES';

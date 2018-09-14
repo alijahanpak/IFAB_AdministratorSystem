@@ -116,7 +116,7 @@
                                 <label>درصد افزایش و یا کاهش
                                     <input type="text" name="contractPercent" v-model="contractInput.percentIncAndDec" v-validate="'required','min_value:0','max_value:100'" :class="{'input': true, 'error-border': errors.has('contractPercent')}">
                                 </label>
-                                <p v-show="errors.has('contractPercent')" class="error-font">لطفا درصد افزایش یا کاهش را برای قرارداد مورد نظر را وارد نمایید!</p>
+                                <p v-show="errors.has('contractPercent')" class="error-font">مقدار نا معتبر است!</p>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -180,7 +180,7 @@
                             </div>
                         </div>
                         <div class="grid-x">
-                            <div class="large-12 medium-12 small-12">
+                            <div class="large-12 medium-12 small-12 padding-lr">
                                 <label>شرح کامل خدمات
                                     <textarea style="min-height: 150px;" name="contractDescription" v-model="contractInput.description"   :class="{'input': true, 'error-border': errors.has('contractDescription')}"></textarea>
                                     <p v-show="errors.has('contractDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</p>

@@ -19,6 +19,7 @@ class CreateAttachmentsTable extends Migration
                 $table->bigInteger('aRId')->length(20)->unsigned();
                 $table->string('aPath');
                 $table->string('aName');
+                $table->integer('aSize');
                 $table->timestamps();
 
                 $table->foreign('aRId')
