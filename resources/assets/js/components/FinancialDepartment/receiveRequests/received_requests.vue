@@ -112,7 +112,7 @@
                                 <li class="tabs-title"><a href="#creditsTab">اعتبارات</a></li>
                                 <li class="tabs-title"><a href="#contractTab">اطلاعات قرارداد</a></li>
                                 <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
-                                <li class="tabs-title"><a href="#requestAttachmentsTab">پیوست </a></li>
+                                <li class="tabs-title"><a href="#requestAttachmentsTab">پیوست ها </a></li>
                             </ul>
                             <div class="tabs-content" data-tabs-content="request_tab_view">
                                 <!--Tab 1-->
@@ -255,7 +255,7 @@
                                                                     <p v-if="Number((attachment.aSize / 1000).toFixed(1)) > 1024" class="gray-colors">{{  Number(((attachment.aSize / 1000)/1024).toFixed(1)) + ' مگابایت'}}</p>
                                                                 </div>
                                                                 <div style="direction:rtl;" class="large-2">
-                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'attachmentDel' + index"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                    <a v-if="$can('UNIT_OF_CONTRACT_DELETE_ATTACHMENT')" class="dropdown small sm-btn-align"  type="button" :data-toggle="'attachmentDel' + index"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'attachmentDel' + index" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
                                                                             <li><a @click="openDeleteAttachmentCinfirmModel(attachment.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>

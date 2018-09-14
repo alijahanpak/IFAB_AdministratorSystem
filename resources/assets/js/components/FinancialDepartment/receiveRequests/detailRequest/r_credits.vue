@@ -1460,7 +1460,7 @@ export default{
                     this.requestCapFinancing = response.data.capFinancing;
                     this.checkAcceptFinancingVisible();
                     this.getFinancingAmount();
-                    console.log(this.requestCostFinancing);
+                    //console.log(this.requestCostFinancing);
                     console.log(response);
                 }, (error) => {
                     console.log(error);

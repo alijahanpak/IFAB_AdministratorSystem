@@ -1,6 +1,6 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class="grid-x">
-        <div class="large-12 medium-12 small-12">
+        <div v-if="$can('UNIT_OF_CONTRACT_ADD_NEW_CONTRACT')" class="large-12 medium-12 small-12">
             <div class="clearfix tool-bar">
                 <div class="button-group float-right report-mrg">
                     <a class="my-button toolbox-btn small" @click="openInsertContractModal()">جدید</a>
@@ -19,7 +19,7 @@
                         <col width="120px"/>
                         <col width="300px"/>
                         <col width="120px"/>
-                        <col width="60px"/>
+                        <col v-if="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" width="60px"/>
                         <col width="12px"/>
                     </colgroup>
                     <tbody class="tbl-head-style ">
@@ -30,7 +30,7 @@
                         <th class="tbl-head-style-cell">تاریخ نامه</th>
                         <th class="tbl-head-style-cell">شرح</th>
                         <th class="tbl-head-style-cell">وضعیت</th>
-                        <th class="tbl-head-style-cell">عملیات</th>
+                        <th v-if="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" class="tbl-head-style-cell">عملیات</th>
                         <th class="tbl-head-style-cell"></th>
                     </tr>
                     </tbody>
@@ -46,7 +46,7 @@
                             <col width="120px"/>
                             <col width="300px"/>
                             <col width="120px"/>
-                            <col width="60px"/>
+                            <col v-if="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" width="60px"/>
                         </colgroup>
                         <tbody class="tbl-head-style-cell">
                         <tr class="table-row" v-for="contract in contracts">
@@ -83,7 +83,7 @@
                             <td :data-toggle="'contract' + contract.id" class="one-line">{{contract.cDescription}}</td>
                             <td :data-toggle="'contract' + contract.id" class="text-center" v-show="contract.cIsAccepted == 1"><span class="success-label">تایید شده</span></td>
                             <td :data-toggle="'contract' + contract.id" class="text-center" v-show="contract.cIsAccepted == 0"><span class="reserved-label">رزرو شده</span></td>
-                            <td class="text-center"><a @click=""><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
+                            <td v-if="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" class="text-center"><a @click=""><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
                         </tr>
                         </tbody>
                     </table>

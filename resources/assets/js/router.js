@@ -413,6 +413,8 @@ var app = new Vue({
         },
 
         dispMoneyFormat: function (amount) {
+            if (amount == undefined)
+                return 0;
             return (parseInt(amount,10)).toLocaleString('en' , {maximumFractionDigits : 20});
         },
 
