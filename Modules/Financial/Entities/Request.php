@@ -10,7 +10,7 @@ class _Request extends Model
 {
     protected $fillable = [];
     protected $table = 'tbl_requests';
-    protected $appends = ['rLastRef' , 'rYouAreVerifiers' , 'rRemainingVerifiers'];
+    protected $appends = ['rLastRef' , 'rYouAreVerifiers' , 'rRemainingVerifiers' , 'rCreditIsAccepted' , 'rAcceptedAmount'];
 
     public function requestState()
     {
@@ -45,6 +45,25 @@ class _Request extends Model
     public function verifiers()
     {
         return $this->hasMany(RequestVerifiers::class , 'rvRId' , 'id');
+    }
+
+    public function getRCreditIsAcceptedAttribute()
+    {
+        $costFinancingState = CostFinancing::where('cfRId' , '=' , $this->id)
+            ->where('cfAccepted' , '=' , false)
+            ->exists();
+        $capFinancingState = CapitalAssetsFinancing::where('cafRId' , '=' , $this->id)
+            ->where('cafAccepted' , '=' , false)
+            ->exists();
+        return (!$capFinancingState) && (!$costFinancingState);
+    }
+
+    public function getRAcceptedAmountAttribute()
+    {
+        $amount = Contract::where('cRId' , '=' , $this->id)->sum('cAmount');
+        $amount += Factor::where('fRId' , '=' , $this->id)->sum('fAmount');
+
+        return $amount;
     }
 
     public function getRLastRefAttribute()

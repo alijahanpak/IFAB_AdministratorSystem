@@ -3,7 +3,7 @@
             <div  slot="body">
                 <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div class="grid-x">
-                        <div class="large-12 medium-12 small-12 padding-lr text-center">
+                        <div class="large-12 medium-12 small-12 padding-lr">
                             <p class="modal-text text-justify"><slot></slot></p>
                         </div>
 

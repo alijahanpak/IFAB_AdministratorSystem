@@ -5,12 +5,16 @@ namespace Modules\Financial\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Mockery\Container;
 use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\Contract;
+use Modules\Financial\Entities\FinancialRequestQueue;
+use Modules\Financial\Entities\RequestHistory;
+use Modules\Financial\Entities\RequestState;
 
 class ContractController extends Controller
 {
@@ -44,7 +48,23 @@ class ContractController extends Controller
             Contract::where('cRId' , '=' , $request->rId)
                 ->update(['cIsAccepted' => true]);
 
-            SystemLog::setFinancialSubSystemLog('تایید قرارداد های ' . _Request::find($request->rId)->rSubject);
+            $req = _Request::find($request->rId);
+            $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
+            $req->save();
+
+            // make history for this request
+            $history = new RequestHistory();
+            $history->rhSrcUId = Auth::user()->id;
+            $history->rhDestUId = null; // for secretariat destination
+            $history->rhRId = $req->id;
+            $history->rhRsId = $req->rRsId;
+            $history->save();
+
+            $finReqQueue = new FinancialRequestQueue();
+            $finReqQueue->frqRId = $req->id;
+            $finReqQueue->save();
+
+            SystemLog::setFinancialSubSystemLog('تایید قرارداد های درخواست ' . _Request::find($request->rId)->rSubject);
         });
 
         $rController = new RequestController();

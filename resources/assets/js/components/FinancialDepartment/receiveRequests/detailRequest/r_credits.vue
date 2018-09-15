@@ -172,12 +172,11 @@
         </div>
         <div style="padding: 0 17px 0 17px;" class="large-12 medium-12 small-12 small-top-m">
             <div style="margin-bottom:-10px;margin-top: 5px" class="stacked-for-small button-group float-left">
-                <button v-show='$can("FINANCIAL_ACCEPT_FINANCING") && acceptBtn' @click="acceptFinancing()"  class="my-button my-success float-left"><span class="btn-txt-mrg">تایید تامین اعتبار</span></button>
+                <button v-show='$can("FINANCIAL_ACCEPT_FINANCING") && acceptBtn' @click="checkAcceptFinancing()"  class="my-button my-success float-left"><span class="btn-txt-mrg">تایید تامین اعتبار</span></button>
                 <button v-show='$can("FINANCIAL_CAPITAL_ASSETS_FINANCING")' @click="openCapitalAssetsModal()" class="my-button toolbox-btn float-left"><span class="btn-txt-mrg">  اعتبارات تملک دارایی های سرمایه ای</span></button>
                 <button v-show='$can("FINANCIAL_COST_FINANCING")' @click="openCostCreditsModal()" class="my-button toolbox-btn float-left"><span class="btn-txt-mrg">  اعتبارات هزینه ای</span></button>
             </div>
         </div>
-
 
         <!-- Cost Credits Modal Start -->
         <modal-full-screen v-if="showCostCreditsModal" @close="showCostCreditsModal = false">
@@ -1390,6 +1389,22 @@
         </modal-tiny>
         <!-- delete Financing modal -->
 
+        <!-- accept Financing modal -->
+        <modal-tiny v-if="showAcceptFinancingModal" @close="showAcceptFinancingModal = false">
+            <div  slot="body">
+                <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <p style="font-size: 1rem">کاربر گرامی:</p>
+                    <p class="large-offset-1 modal-text">تایید نهایی تامین اعتبار به منزله ایجاد تعهد در محل های انتخاب شده است، آیا برای تایید اطمینان دارید؟</p>
+                    <div class="grid-x">
+                        <div class="medium-12 column text-center">
+                            <button v-on:click="acceptFinancing"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-tiny>
+        <!-- accept Financing modal -->
+
         <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
             {{dialogMessage}}
         </messageDialog>
@@ -1400,12 +1415,13 @@
 <script>
 
 export default{
-    props:['baseAmount','UserIsVerifier','requestFill','requestId','receiveRequests'],
+    props:['baseAmount','UserIsVerifier','requestFill','requestId','receiveRequests' , 'updateReceiveRequestData'],
 
     data () {
         return {
             showCostCreditsModal:false,
             showCapitalAssetsModal:false,
+            showAcceptFinancingModal: false,
             requestCostFinancing:[],
             requestCapFinancing:[],
             acceptBtn:false,
@@ -1695,8 +1711,8 @@ export default{
                     data.ca_credit_source_has_allocation.forEach(cs => {
                         aCount += cs.allocation.length;
                     });
-                    piceOfAmount = (value / aCount) >> 0;
-                    piceOfDivRemAmount = value % aCount;
+                    piceOfAmount = ((parseInt(value) - (parseInt(value) % aCount)) / aCount);
+                    piceOfDivRemAmount = parseInt(value) % aCount;
                     data.ca_credit_source_has_allocation.forEach(cs => {
                         cs.selected = true;
                         cs.allocation.forEach( alloc =>{
@@ -1728,8 +1744,8 @@ export default{
                 }
                 else if(type == 1){ //credit source level
                     aCount = data.allocation.length;
-                    piceOfAmount = (value / aCount)  >> 0;
-                    piceOfDivRemAmount = value % aCount;
+                    piceOfAmount = ((parseInt(value) - (parseInt(value) % aCount)) / aCount);
+                    piceOfDivRemAmount = parseInt(value) % aCount;
                     data.allocation.forEach( alloc =>{
                         alloc.selected = true;
                         var remainingAmount = parseInt(alloc.caAmount) - (parseInt(alloc.caSumOfCost) + parseInt(alloc.caSumOfReserved) + parseInt(alloc.caSumOfFinancing) + parseInt(alloc.caSumOfCommitment));
@@ -1909,8 +1925,8 @@ export default{
                             aCount += cs.allocation.length;
                         });
                     });
-                    piceOfAmount = (value / aCount) >> 0;
-                    piceOfDivRemAmount = value % aCount;
+                    piceOfAmount = ((parseInt(value) - (parseInt(value) % aCount)) / aCount);
+                    piceOfDivRemAmount = parseInt(value) % aCount;
                     data.capital_assets_project_has_credit_source.forEach(project => {
                         project.selected = true;
                         project.credit_source_has_allocation.forEach(cs => {
@@ -1946,8 +1962,8 @@ export default{
                     data.credit_source_has_allocation.forEach(cs => {
                         aCount += cs.allocation.length;
                     });
-                    piceOfAmount = (value / aCount)  >> 0;
-                    piceOfDivRemAmount = value % aCount;
+                    piceOfAmount = ((parseInt(value) - (parseInt(value) % aCount)) / aCount);
+                    piceOfDivRemAmount = parseInt(value) % aCount;
                     data.credit_source_has_allocation.forEach(cs => {
                         cs.selected = true;
                         cs.allocation.forEach( alloc =>{
@@ -1978,8 +1994,8 @@ export default{
                 }
                 else if(type == 2) { //allocation level
                     aCount += data.allocation.length;
-                    piceOfAmount = (value / aCount)  >> 0;
-                    piceOfDivRemAmount = value % aCount;
+                    piceOfAmount = ((parseInt(value) - (parseInt(value) % aCount)) / aCount);
+                    piceOfDivRemAmount = parseInt(value) % aCount;
                     data.allocation.forEach( alloc =>{
                         alloc.selected = true;
                         var remainingAmount = parseInt(alloc.caaAmount) - (parseInt(alloc.caaSumOfCost) + parseInt(alloc.caaSumOfReserved) + parseInt(alloc.caaSumOfFinancing) + parseInt(alloc.caaSumOfCommitment));
@@ -2372,33 +2388,37 @@ export default{
             }*/
         },
 
-        acceptFinancing: function(){
+        checkAcceptFinancing: function(){
             if(((this._reservedAmount + this._financingAmount) - this.baseAmount) != 0 || (this.requestCostFinancing.length < 0 && this.requestCapFinancing.length < 0)){
                 this.dialogMessage = 'تامین اعتبار به طور کامل انجام نشده است. لطفا به امور مالی ارجاع نمایید.';
                 this.showDialogModal=true;
             }
             else {
-                axios.post('/financial/request/financing/accept', {
-                    rId: this.requestId,
-                }).then((response) => {
-                    this.receiveRequests = response.data.data;
-                    this.$emit('closeModal');
-                    this.$root.displayNotif(response.status);
-                    this.getFinancingAmount();
-                    console.log(response);
-                }, (error) => {
-                    console.log(error);
-                    this.$root.displayNotif(error.response.status);
-                });
+                this.showAcceptFinancingModal = true;
             }
 
+        },
+
+        acceptFinancing: function(){
+            axios.post('/financial/request/financing/accept', {
+                rId: this.requestId,
+            }).then((response) => {
+                this.receiveRequests = response.data.data;
+                this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                this.$emit('closeModal');
+                this.$root.displayNotif(response.status);
+                this.getFinancingAmount();
+                console.log(response);
+            }, (error) => {
+                console.log(error);
+                this.$root.displayNotif(error.response.status);
+            });
         },
 
         openDeleteFinancingModal:function(item,type){
           this.showDeleteFinancingModal=true;
           this.delId=item.id;
           this.deleteType=type;
-
         },
 
         deleteFinancing:function(){

@@ -24,12 +24,13 @@
                     <table class="tbl-head">
                         <colgroup>
                             <col width="80px"/>
-                            <col width="400px"/>
-                            <col width="300px"/>
+                            <col width="150px"/>
+                            <col width="250px"/>
                             <col width="150px"/>
                             <col width="200px"/>
                             <col width="200px"/>
-                            <col width="200px"/>
+                            <col width="150px"/>
+                            <col width="150px"/>
                             <col width="12px"/>
                         </colgroup>
                         <tbody class="tbl-head-style">
@@ -39,6 +40,7 @@
                             <th class="tbl-head-style-cell">ارسال کننده</th>
                             <th class="tbl-head-style-cell">نوع درخواست</th>
                             <th class="tbl-head-style-cell">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
+                            <th class="tbl-head-style-cell">مبلغ قرارداد <span class="btn-red small-font">(ریال)</span></th>
                             <th class="tbl-head-style-cell">شماره</th>
                             <th class="tbl-head-style-cell">تاریخ</th>
                             <th class="tbl-head-style-cell"></th>
@@ -51,12 +53,13 @@
                         <table class="tbl-body-contain">
                             <colgroup>
                                 <col width="80px"/>
-                                <col width="400px"/>
+                                <col width="300px"/>
                                 <col width="300px"/>
                                 <col width="150px"/>
                                 <col width="200px"/>
                                 <col width="200px"/>
-                                <col width="200px"/>
+                                <col width="150px"/>
+                                <col width="150px"/>
                             </colgroup>
                             <tbody class="tbl-head-style-cell">
                             <tr class="table-row" @click="getRequestDetail(receiveRequest)" v-for="receiveRequest in receiveRequests">
@@ -65,7 +68,7 @@
                                 <td>{{receiveRequest.rSubject}}</td>
                                 <td :data-toggle="'lastRef' + receiveRequest.id">{{receiveRequest.rLastRef.source_user_info.name}} - {{receiveRequest.rLastRef.source_user_info.role.rSubject}}
                                     <div class="clearfix tool-bar" v-if="receiveRequest.rLastRef.rhDescription !== null">
-                                        <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="top" data-alignment="auto" :id="'lastRef' + receiveRequest.id" data-dropdown data-auto-focus="true">
+                                        <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'lastRef' + receiveRequest.id" data-dropdown data-auto-focus="true">
                                             <ul class="my-menu small-font">
                                                 <div class="grid-x">
                                                     <div class="medium-12">
@@ -78,12 +81,17 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td v-if="receiveRequest.rRtId==1"> خدمات</td>
-                                <td v-else-if="receiveRequest.rRtId==2"> کالا</td>
-                                <td v-else="receiveRequest.rRtId==3"> تنخواه</td>
-                                <td>{{$parent.dispMoneyFormat(receiveRequest.rCostEstimation)}}</td>
-                                <td>{{receiveRequest.rLetterNumber}}</td>
-                                <td>{{receiveRequest.rLetterDate}}</td>
+                                <td>{{ receiveRequest.request_type.rtSubject }}</td>
+                                <td class="text-center">{{$parent.dispMoneyFormat(receiveRequest.rCostEstimation)}}</td>
+                                <td class="text-center" v-if="'parseInt(receiveRequests.rAcceptedAmount) > 0'">
+                                    {{$parent.dispMoneyFormat(receiveRequest.rAcceptedAmount)}}
+                                    <p style="margin-top: 5px;" v-if="'parseInt(receiveRequests.rAcceptedAmount) != receiveRequest.rCostEstimation'">
+                                        <span class="danger-label">اصلاح تامین اعتبار</span>
+                                    </p>
+                                </td>
+                                <td v-else class="text-center"><span class="reserved-label">فاقد قرارداد</span></td>
+                                <td class="text-center">{{receiveRequest.rLetterNumber}}</td>
+                                <td class="text-center">{{receiveRequest.rLetterDate}}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -147,20 +155,23 @@
                                 <!--Tab 3-->
                                 <div class="tabs-panel table-mrg-btm" id="creditsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <rCredits v-on:closeModal="showRequestDetailModal=false"
-                                        v-bind:baseAmount="baseAmount"
-                                        v-bind:receiveRequests="receiveRequests"
-                                        v-bind:requestFill="requestFill"
-                                        v-bind:UserIsVerifier="UserIsVerifier"
-                                        v-bind:requestId="requestId">
+                                              v-on:updateReceiveRequestData="updateReceiveRequestData"
+                                            v-bind:baseAmount="baseAmount"
+                                            v-bind:receiveRequests="receiveRequests"
+                                            v-bind:requestFill="requestFill"
+                                            v-bind:UserIsVerifier="UserIsVerifier"
+                                            v-bind:requestId="requestId">
 
                                     </rCredits>
                                 </div>
                                 <!--Tab 3-->
                                 <!--Tab 4-->
                                 <div class="tabs-panel table-mrg-btm" id="contractTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                    <rContract v-on:updateReceiveRequestData="updateReceiveRequestData"
+                                    <rContract  v-on:closeModal="showRequestDetailModal=false"
+                                            v-on:updateReceiveRequestData="updateReceiveRequestData"
                                             v-bind:requestId="requestId"
-                                            v-bind:contracts="contracts">
+                                            v-bind:contracts="contracts"
+                                            v-bind:creditIsAccepted="creditIsAccepted">
                                     </rContract>
                                 </div>
                                 <!--Tab 4-->
@@ -331,11 +342,11 @@
                 <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div class="grid-x">
                         <template v-if="UserIsVerifier.length <= 0">
-                            <div class="large-12 medium-12 small-12 padding-lr text-center">
-                                <p class="modal-text">آیا برای تایید درخواست اطمینان دارید؟ </p>
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <p class="black-color">آیا برای تایید درخواست اطمینان دارید؟ </p>
                             </div>
-                            <div class="large-12 medium-12 small-12 padding-lr text-center">
-                                <p class="modal-text">تایید شما به منزله امضا درخواست می باشد.</p>
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <p class="btn-red">تایید شما به منزله امضا درخواست می باشد.</p>
                             </div>
                             <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
                                 <button @click="acceptRequest()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
@@ -366,13 +377,13 @@
         </modal-tiny>
         <!-- Submit Request modal -->
 
-        <!-- Submit Request modal -->
+        <!-- confirm delete attachment modal -->
         <modal-tiny v-if="showDeleteAttachmentConfirmModal" @close="showDeleteAttachmentConfirmModal = false">
             <div  slot="body">
                 <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div class="grid-x">
-                        <div class="large-12 medium-12 small-12 padding-lr text-center">
-                            <p class="modal-text">آیا تمایل دارید فایل مورد نظر را حذف کنید؟</p>
+                        <div class="large-12 medium-12 small-12 padding-lr">
+                            <p class="black-color">آیا تمایل دارید فایل مورد نظر را حذف کنید؟</p>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
                             <button @click="removeAttachment()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  بله</span></button>
@@ -381,7 +392,7 @@
                 </div>
             </div>
         </modal-tiny>
-        <!-- Submit Request modal -->
+        <!-- confirm delete attachment modal -->
 
         <!-- Response Request modal -->
         <modal-tiny v-if="showResponseRequestModal" @close="showResponseRequestModal = false">
@@ -525,6 +536,7 @@
                 /*credits*/
 
                 contracts:[],
+                creditIsAccepted: true,
 
                 maxInputValue:0,
                 updateDataThreadNowPlaying: null,
@@ -649,7 +661,6 @@
                 this.requestCapFinancing=[];
                 this.fetchRequestFinancing();*/
 
-
                 requestHistory.forEach(users => {
                     users.history.forEach(userHistory => {
                         this.recipientUsers.push(userHistory);
@@ -681,6 +692,7 @@
                 });
 
                 this.lastVerifier=request.rLastRef.id;
+                this.creditIsAccepted = request.rCreditIsAccepted;
 
                 if(request.rYouAreVerifiers.length != 0){
                     this.youAreVerifier=request.rYouAreVerifiers[0].id;

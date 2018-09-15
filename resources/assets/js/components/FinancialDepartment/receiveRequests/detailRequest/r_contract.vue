@@ -82,7 +82,7 @@
                             <td :data-toggle="'contract' + contract.id" class="text-center">{{contract.cLetterDate}}</td>
                             <td :data-toggle="'contract' + contract.id" class="one-line">{{contract.cDescription}}</td>
                             <td :data-toggle="'contract' + contract.id" class="text-center" v-show="contract.cIsAccepted == 1"><span class="success-label">تایید شده</span></td>
-                            <td :data-toggle="'contract' + contract.id" class="text-center" v-show="contract.cIsAccepted == 0"><span class="reserved-label">رزرو شده</span></td>
+                            <td :data-toggle="'contract' + contract.id" class="text-center" v-show="contract.cIsAccepted == 0"><span class="reserved-label">تایید نشده</span></td>
                             <td v-if="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" class="text-center"><a @click=""><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
                         </tr>
                         </tbody>
@@ -90,6 +90,11 @@
                 </div>
             </div>
             <!--Table Body End-->
+            <div class="large-12 medium-12 small-12" v-if='$can("UNIT_OF_CONTRACT_ACCEPT_CONTRACT")'>
+                <div class="stacked-for-small button-group float-left">
+                    <button @click="checkAcceptContract()"  class="my-button my-success float-left"><span class="btn-txt-mrg">تایید اطلاعات قرارداد</span></button>
+                </div>
+            </div>
         </div>
 
         <!--Insert Contract Start-->
@@ -199,21 +204,43 @@
             </div>
         </modal-small>
         <!--Insert Contract End-->
+        <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
+            {{dialogMessage}}
+        </messageDialog>
+
+        <!-- accept Financing modal -->
+        <modal-tiny v-if="showAcceptConfirmModal" @close="showAcceptConfirmModal = false">
+            <div slot="body">
+                <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <p style="font-size: 1rem">کاربر گرامی:</p>
+                    <p class="large-offset-1 modal-text">تایید اطلاعات قرارداد به منزله ایجاد تعهد در محل های تامین اعتبار است، آیا صحت اطلاعات را تایید می کنید؟</p>
+                    <div class="grid-x">
+                        <div class="medium-12 column text-center">
+                            <button v-on:click="acceptContract"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-tiny>
+        <!-- accept Financing modal -->
     </div>
 </template>
 <script>
 
     export default{
-        props:['contracts','requestId'],
+        props:['contracts','requestId' , 'creditIsAccepted'],
         data () {
             return {
-            showInsertContractModal:false,
-            contractInput:{},
-            money: {
-                thousands: ',',
-                precision: 0,
-                masked: true
-            },
+                showInsertContractModal:false,
+                showAcceptConfirmModal: false,
+                showDialogModal: false,
+                dialogMessage: '',
+                contractInput:{},
+                money: {
+                    thousands: ',',
+                    precision: 0,
+                    masked: true
+                },
             }
 
         },
@@ -231,6 +258,36 @@
         },
 
         methods : {
+            checkAcceptContract: function(){
+                var existNotAccepted = false;
+                this.contracts.forEach(item => {
+                    if (item.cIsAccepted == false)
+                        existNotAccepted = true;
+                });
+
+                if (existNotAccepted)
+                {
+                    this.showAcceptConfirmModal = true;
+                }else{
+                    this.dialogMessage = 'قرارداد تایید نشده موجود نیست! لطفا قبل از تایید اطلاعات قرارداد نسبت به ثبت قرارداد جدید اقدام کنید.';
+                    this.showDialogModal = true;
+                }
+            },
+
+            acceptContract: function(){
+                axios.post('/financial/request/contract/accept', {
+                    rId: this.requestId,
+                }).then((response) => {
+                    this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                    this.$emit('closeModal');
+                    this.$root.displayNotif(response.status);
+                    console.log(response);
+                }, (error) => {
+                    console.log(error);
+                    this.$root.displayNotif(error.response.status);
+                });
+            },
+
             myResizeModal: function() {
                 var x = $.w.outerHeight();
                 $('.dynamic-height-level-modal1').css('height', (x-320) + 'px');
@@ -239,7 +296,12 @@
             },
 
             openInsertContractModal:function () {
-              this.showInsertContractModal=true;
+                if (this.creditIsAccepted == false)
+                {
+                    this.dialogMessage = 'تامین اعتبار تایید نهایی نشده است!';
+                    this.showDialogModal = true;
+                }else
+                    this.showInsertContractModal=true;
             },
 
             addNewContract:function () {
