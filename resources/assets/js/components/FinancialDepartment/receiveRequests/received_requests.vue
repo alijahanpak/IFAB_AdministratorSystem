@@ -82,14 +82,21 @@
                                     </div>
                                 </td>
                                 <td>{{ receiveRequest.request_type.rtSubject }}</td>
-                                <td class="text-center">{{$parent.dispMoneyFormat(receiveRequest.rCostEstimation)}}</td>
-                                <td class="text-center" v-if="'parseInt(receiveRequests.rAcceptedAmount) > 0'">
-                                    {{$parent.dispMoneyFormat(receiveRequest.rAcceptedAmount)}}
-                                    <p style="margin-top: 5px;" v-if="'parseInt(receiveRequests.rAcceptedAmount) != receiveRequest.rCostEstimation'">
-                                        <span class="danger-label">اصلاح تامین اعتبار</span>
-                                    </p>
-                                </td>
-                                <td v-else class="text-center"><span class="reserved-label">فاقد قرارداد</span></td>
+                                <template v-if="receiveRequest.request_type.rtType == 'BUY_SERVICES' || receiveRequest.request_type.rtType == 'BUY_COMMODITY'">
+                                    <td class="text-center">{{$parent.dispMoneyFormat(receiveRequest.rCostEstimation)}}</td>
+                                    <td class="text-center" v-if="receiveRequest.rAcceptedAmount > 0">
+                                        <div v-if="receiveRequest.rAcceptedAmount != receiveRequest.rCostEstimation">
+                                            <span class="danger-label">{{$parent.dispMoneyFormat(receiveRequest.rAcceptedAmount)}}</span>
+                                        </div>
+                                        <div v-else>
+                                            {{$parent.dispMoneyFormat(receiveRequest.rAcceptedAmount)}}
+                                        </div>
+                                    </td>
+                                    <td v-else class="text-center"><span class="reserved-label">فاقد قرارداد</span></td>
+                                </template>
+                                <template v-else>
+                                    <td colspan="2" class="text-center">{{$parent.dispMoneyFormat(receiveRequest.rCostEstimation)}}</td>
+                                </template>
                                 <td class="text-center">{{receiveRequest.rLetterNumber}}</td>
                                 <td class="text-center">{{receiveRequest.rLetterDate}}</td>
                             </tr>
@@ -171,7 +178,8 @@
                                             v-on:updateReceiveRequestData="updateReceiveRequestData"
                                             v-bind:requestId="requestId"
                                             v-bind:contracts="contracts"
-                                            v-bind:creditIsAccepted="creditIsAccepted">
+                                            v-bind:creditIsAccepted="creditIsAccepted"
+                                            v-bind:creditIsExist="creditIsExist">
                                     </rContract>
                                 </div>
                                 <!--Tab 4-->
@@ -537,6 +545,7 @@
 
                 contracts:[],
                 creditIsAccepted: true,
+                creditIsExist: false,
 
                 maxInputValue:0,
                 updateDataThreadNowPlaying: null,
@@ -693,6 +702,7 @@
 
                 this.lastVerifier=request.rLastRef.id;
                 this.creditIsAccepted = request.rCreditIsAccepted;
+                this.creditIsExist = request.rCreditIsExist;
 
                 if(request.rYouAreVerifiers.length != 0){
                     this.youAreVerifier=request.rYouAreVerifiers[0].id;

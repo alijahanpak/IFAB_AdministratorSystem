@@ -17,7 +17,7 @@ class SeederUserPermissionTableSeeder extends Seeder
     {
         Model::unguard();
 
-        for ($i = 2 ; $i <= 76 ;$i++)
+        for ($i = 1 ; $i <= 76 ;$i++)
         {
             $gPermission = new UserPermission();
             $gPermission->upUId = 1;

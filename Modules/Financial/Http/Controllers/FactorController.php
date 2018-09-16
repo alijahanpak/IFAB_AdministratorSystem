@@ -69,7 +69,7 @@ class FactorController extends Controller
                 $factor->delete();
                 return 200;
             }else{
-                return 207; //cannot delete contract
+                return 204; //cannot delete contract
             }
         });
 

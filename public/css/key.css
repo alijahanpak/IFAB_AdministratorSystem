@@ -2017,7 +2017,7 @@ input[type="search"]:valid + label {
 }
 
 .danger-label{
-    background-color: #ee4d4d;
+    background-color: #e57373;
     border-radius: 5px;
     padding:8px;
     color:#FFFFFF;

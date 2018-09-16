@@ -10,7 +10,7 @@ class _Request extends Model
 {
     protected $fillable = [];
     protected $table = 'tbl_requests';
-    protected $appends = ['rLastRef' , 'rYouAreVerifiers' , 'rRemainingVerifiers' , 'rCreditIsAccepted' , 'rAcceptedAmount'];
+    protected $appends = ['rLastRef' , 'rYouAreVerifiers' , 'rRemainingVerifiers' , 'rCreditIsAccepted' , 'rCreditIsExist' , 'rAcceptedAmount'];
 
     public function requestState()
     {
@@ -55,7 +55,17 @@ class _Request extends Model
         $capFinancingState = CapitalAssetsFinancing::where('cafRId' , '=' , $this->id)
             ->where('cafAccepted' , '=' , false)
             ->exists();
+
+
         return (!$capFinancingState) && (!$costFinancingState);
+    }
+
+    public function getRCreditIsExistAttribute()
+    {
+        $cfExist = CostFinancing::where('cfRId' , '=' , $this->id)->exists();
+        $cafExist = CapitalAssetsFinancing::where('cafRId' , '=' , $this->id)->exists();
+
+        return $cfExist || $cafExist;
     }
 
     public function getRAcceptedAmountAttribute()

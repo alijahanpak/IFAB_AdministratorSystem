@@ -15,10 +15,10 @@
                     <colgroup>
                         <col width="300px"/>
                         <col width="120px"/>
-                        <col width="150px"/>
-                        <col width="120px"/>
+                        <col width="110px"/>
+                        <col width="110px"/>
                         <col width="300px"/>
-                        <col width="120px"/>
+                        <col width="150px"/>
                         <col v-if="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" width="60px"/>
                         <col width="12px"/>
                     </colgroup>
@@ -42,10 +42,10 @@
                         <colgroup>
                             <col width="300px"/>
                             <col width="120px"/>
-                            <col width="150px"/>
-                            <col width="120px"/>
+                            <col width="110px"/>
+                            <col width="110px"/>
                             <col width="300px"/>
-                            <col width="120px"/>
+                            <col width="150px"/>
                             <col v-if="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" width="60px"/>
                         </colgroup>
                         <tbody class="tbl-head-style-cell">
@@ -83,7 +83,7 @@
                             <td :data-toggle="'contract' + contract.id" class="one-line">{{contract.cDescription}}</td>
                             <td :data-toggle="'contract' + contract.id" class="text-center" v-show="contract.cIsAccepted == 1"><span class="success-label">تایید شده</span></td>
                             <td :data-toggle="'contract' + contract.id" class="text-center" v-show="contract.cIsAccepted == 0"><span class="reserved-label">تایید نشده</span></td>
-                            <td v-if="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" class="text-center"><a @click=""><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
+                            <td v-if="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" class="text-center"><a @click="openConfirmDeleteContract(contract.id)"><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
                         </tr>
                         </tbody>
                     </table>
@@ -223,17 +223,34 @@
             </div>
         </modal-tiny>
         <!-- accept Financing modal -->
+
+        <!-- accept Financing modal -->
+        <modal-tiny v-if="showDeleteConfirmModal" @close="showDeleteConfirmModal = false">
+            <div slot="body">
+                <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <p class="large-offset-1 modal-text">آیا مایل هستید قرارداد را حذف کنید؟</p>
+                    <div class="grid-x">
+                        <div class="medium-12 column text-center">
+                            <button v-on:click="deleteContract"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-tiny>
+        <!-- accept Financing modal -->
     </div>
 </template>
 <script>
 
     export default{
-        props:['contracts','requestId' , 'creditIsAccepted'],
+        props:['contracts','requestId' , 'creditIsAccepted' , 'creditIsExist'],
         data () {
             return {
                 showInsertContractModal:false,
                 showAcceptConfirmModal: false,
+                showDeleteConfirmModal: false,
                 showDialogModal: false,
+                cIdForDelete: 0,
                 dialogMessage: '',
                 contractInput:{},
                 money: {
@@ -269,9 +286,14 @@
                 {
                     this.showAcceptConfirmModal = true;
                 }else{
-                    this.dialogMessage = 'قرارداد تایید نشده موجود نیست! لطفا قبل از تایید اطلاعات قرارداد نسبت به ثبت قرارداد جدید اقدام کنید.';
+                    this.dialogMessage = 'قرارداد تایید نشده ای موجود نیست! لطفا قبل از تایید اطلاعات قرارداد نسبت به ثبت قرارداد جدید اقدام کنید.';
                     this.showDialogModal = true;
                 }
+            },
+
+            openConfirmDeleteContract: function(cId){
+                this.cIdForDelete = cId;
+                this.showDeleteConfirmModal = true;
             },
 
             acceptContract: function(){
@@ -288,6 +310,22 @@
                 });
             },
 
+            deleteContract: function() {
+                axios.post('/financial/request/contract/delete', {
+                    rId: this.requestId,
+                    cId: this.cIdForDelete,
+                }).then((response) => {
+                    if (response.status == 200)
+                        this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                    this.showDeleteConfirmModal = false;
+                    this.$root.displayNotif(response.status);
+                    console.log(response);
+                }, (error) => {
+                    console.log(error);
+                    this.$root.displayNotif(error.response.status);
+                });
+            },
+
             myResizeModal: function() {
                 var x = $.w.outerHeight();
                 $('.dynamic-height-level-modal1').css('height', (x-320) + 'px');
@@ -296,12 +334,19 @@
             },
 
             openInsertContractModal:function () {
-                if (this.creditIsAccepted == false)
+                if (this.creditIsExist == true)
                 {
-                    this.dialogMessage = 'تامین اعتبار تایید نهایی نشده است!';
+                    if (this.creditIsAccepted == false)
+                    {
+                        this.dialogMessage = 'تامین اعتبار تایید نهایی نشده است!';
+                        this.showDialogModal = true;
+                    }else
+                        this.showInsertContractModal=true;
+                }else{
+                    this.dialogMessage = 'امکان ثبت قرارداد وجود ندارد. منابع تامین اعتبار برای این درخواست تعیین نشده است!';
                     this.showDialogModal = true;
-                }else
-                    this.showInsertContractModal=true;
+                }
+
             },
 
             addNewContract:function () {

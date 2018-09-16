@@ -91,7 +91,7 @@
             setFixedLoginFrameThread: function () {
                 if (this.fixedLoginFrameThread)
                     clearInterval(this.fixedLoginFrameThread);
-                this.fixedLoginFrameThread = setInterval(this.fixedLoginFrameTemp, 200);
+                this.fixedLoginFrameThread = setInterval(this.fixedLoginFrameTemp, 500);
             },
 
             login: function () {

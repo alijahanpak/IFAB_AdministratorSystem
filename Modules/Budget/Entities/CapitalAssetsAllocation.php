@@ -36,6 +36,11 @@ class CapitalAssetsAllocation extends Model
         return $this->hasMany(CapitalAssetsFinancing::class , 'cafCaaId' , 'id')->where('cafAccepted' , '=' , true);
     }
 
+    public function sumOfCommitment()
+    {
+        return $this->hasMany(CapitalAssetsFinancing::class , 'cafCaaId' , 'id')->where('cafAccepted' , '=' , true);
+    }
+
     public function getCaaConvertedAllocAmountAttribute()
     {
         return $this->hasMany(CapitalAssetsAllocation::class , 'caaFoundId' , 'id')->sum('caaAmount');
@@ -53,6 +58,6 @@ class CapitalAssetsAllocation extends Model
 
     public function getCaaSumOfCommitmentAttribute()
     {
-        return 0;
+        return $this->sumOfCommitment()->sum('cafAmount');
     }
 }

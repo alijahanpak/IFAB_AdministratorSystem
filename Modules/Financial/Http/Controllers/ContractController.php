@@ -79,10 +79,10 @@ class ContractController extends Controller
             $contract = Contract::where('id' , '=' , $request->cId)->first();
             if ($contract->cIsAccepted == false)
             {
-                $contract->delete();
+                Contract::where('id' , '=' , $request->cId)->delete();
                 return 200;
             }else{
-                return 207; //cannot delete contract
+                return 204; //cannot delete contract
             }
         });
 

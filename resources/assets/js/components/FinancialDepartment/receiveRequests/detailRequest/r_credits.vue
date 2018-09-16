@@ -84,7 +84,7 @@
                                     <p class="p-margin-btm"> مبلغ رزرو شده : <span class="btn-red"> {{$root.dispMoneyFormat(_reservedAmount)}} </span></p>
                                 </div>
                                 <div class="large-4 medium-4 small-12">
-                                    <p class="p-margin-btm"> مبلغ تامین اعتبار شده : <span class="btn-red"> {{$root.dispMoneyFormat(_financingAmount)}} </span></p>
+                                    <p class="p-margin-btm"> مبلغ تعهد شده : <span class="btn-red"> {{$root.dispMoneyFormat(_financingAmount)}} </span></p>
                                 </div>
                             </div>
                         </div>
@@ -161,7 +161,7 @@
                                     <p class="p-margin-btm"> مبلغ رزرو شده : <span class="btn-red"> {{$root.dispMoneyFormat(_reservedAmount)}} </span></p>
                                 </div>
                                 <div class="large-4 medium-4 small-12">
-                                    <p class="p-margin-btm"> مبلغ تامین اعتبار شده : <span class="btn-red"> {{$root.dispMoneyFormat(_financingAmount)}} </span></p>
+                                    <p class="p-margin-btm"> مبلغ تعهد شده : <span class="btn-red"> {{$root.dispMoneyFormat(_financingAmount)}} </span></p>
                                 </div>
                             </div>
                         </div>
