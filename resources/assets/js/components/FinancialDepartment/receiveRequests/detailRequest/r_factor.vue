@@ -1,9 +1,9 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class="grid-x">
-        <div v-if="$can('UNIT_OF_CONTRACT_ADD_NEW_CONTRACT')" class="large-12 medium-12 small-12">
+        <div v-if="$can('SUPPLIER_DELETE_FACTOR')" class="large-12 medium-12 small-12">
             <div class="clearfix tool-bar">
                 <div class="button-group float-right report-mrg">
-                    <a class="my-button toolbox-btn small" @click="openInsertContractModal()">جدید</a>
+                    <a class="my-button toolbox-btn small" @click="openInsertFactorModal()">جدید</a>
                 </div>
             </div>
         </div>
@@ -14,23 +14,19 @@
                 <table class="tbl-head">
                     <colgroup>
                         <col width="300px"/>
-                        <col width="120px"/>
-                        <col width="110px"/>
-                        <col width="110px"/>
+                        <col width="150px"/>
                         <col width="300px"/>
                         <col width="150px"/>
-                        <col v-if="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" width="60px"/>
+                        <col v-if="$can('SUPPLIER_DELETE_FACTOR')" width="60px"/>
                         <col width="12px"/>
                     </colgroup>
                     <tbody class="tbl-head-style ">
                     <tr class="tbl-head-style-cell">
                         <th class="tbl-head-style-cell">عنوان</th>
                         <th class="tbl-head-style-cell">مبلغ</th>
-                        <th class="tbl-head-style-cell">شماره نامه</th>
-                        <th class="tbl-head-style-cell">تاریخ نامه</th>
                         <th class="tbl-head-style-cell">شرح</th>
                         <th class="tbl-head-style-cell">وضعیت</th>
-                        <th v-if="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" class="tbl-head-style-cell">عملیات</th>
+                        <th v-if="$can('SUPPLIER_DELETE_FACTOR')" class="tbl-head-style-cell">عملیات</th>
                         <th class="tbl-head-style-cell"></th>
                     </tr>
                     </tbody>
@@ -41,187 +37,76 @@
                     <table class="tbl-body-contain">
                         <colgroup>
                             <col width="300px"/>
-                            <col width="120px"/>
-                            <col width="110px"/>
-                            <col width="110px"/>
+                            <col width="150px"/>
                             <col width="300px"/>
                             <col width="150px"/>
-                            <col v-if="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" width="60px"/>
+                            <col v-if="$can('SUPPLIER_DELETE_FACTOR')" width="60px"/>
                         </colgroup>
                         <tbody class="tbl-head-style-cell">
-                        <tr class="table-row" v-for="contract in contracts">
-                            <td :data-toggle="'contract' + contract.id">{{contract.cSubject}}</td>
-                            <td :data-toggle="'contract' + contract.id" class="text-center">{{$root.dispMoneyFormat(contract.cAmount)}}
-                                <div class="clearfix tool-bar">
-                                    <div  style="width: 500px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="auto" :id="'contract' + contract.id" data-dropdown data-auto-focus="true">
-                                        <ul class="my-menu small-font">
-                                            <div class="grid-x">
-                                                <div class="large-12">
-                                                <!--Table Start-->
-                                                <div class="tbl_body_style dynamic-height-level-modal3">
-                                                    <table class="stack text-right">
-                                                        <tbody>
-                                                        <tr class="align-right">
-                                                            <td width="150" class="black-color">عنوان  :</td>
-                                                            <td>{{contract.cSubject}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td width="150" class="black-color">مبلغ  :</td>
-                                                            <td>{{contract.cAmount}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td width="150" class="black-color">درصد افزایش و یا کاهش  :</td>
-                                                            <td>{{contract.cPercentInAndDec}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td width="150" class="black-color">شماره قرارداد  :</td>
-                                                            <td>{{contract.cLetterNumber}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td width="150" class="black-color">تاریخ قرارداد  :</td>
-                                                            <td>{{contract.cLetterDate}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td width="150" class="black-color">تاریخ شروع  :</td>
-                                                            <td>{{contract.cStartDate}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td width="150" class="black-color">تاریخ پایان  :</td>
-                                                            <td>{{contract.cEndDate}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td width="150" class="black-color">شرح  :</td>
-                                                            <td>{{contract.cDescription}}</td>
-                                                        </tr>
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <!--Table Body End-->
-                                                </div>
-                                            </div>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </td>
-                            <td :data-toggle="'contract' + contract.id" class="text-center">{{contract.cLetterNumber}}</td>
-                            <td :data-toggle="'contract' + contract.id" class="text-center">{{contract.cLetterDate}}</td>
-                            <td :data-toggle="'contract' + contract.id" class="one-line">{{contract.cDescription}}</td>
-                            <td :data-toggle="'contract' + contract.id" class="text-center" v-show="contract.cIsAccepted == 1"><span class="success-label">تایید شده</span></td>
-                            <td :data-toggle="'contract' + contract.id" class="text-center" v-show="contract.cIsAccepted == 0"><span class="reserved-label">تایید نشده</span></td>
-                            <td v-if="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" class="text-center"><a @click="openConfirmDeleteContract(contract.id)"><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
+                        <tr class="table-row" v-for="factor in factors">
+                            <td>{{factor.fSubject}}</td>
+                            <td class="text-center">{{$root.dispMoneyFormat(factor.fAmount)}}</td>
+                            <td class="text-center">{{factor.fDescription}}</td>
+                            <td class="text-center" v-show="factor.fIsAccepted == 1"><span class="success-label">تایید شده</span></td>
+                            <td class="text-center" v-show="factor.fIsAccepted == 0"><span class="reserved-label">تایید نشده</span></td>
+                            <td v-if="$can('SUPPLIER_DELETE_FACTOR')" class="text-center"><a @click="openConfirmDeleteContract(factor.id)"><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
             <!--Table Body End-->
-            <div class="large-12 medium-12 small-12" v-if='$can("UNIT_OF_CONTRACT_ACCEPT_CONTRACT")'>
+            <div class="large-12 medium-12 small-12" v-if='$can("SUPPLIER_ACCEPT_FACTOR")'>
                 <div class="stacked-for-small button-group float-left">
-                    <button @click="checkAcceptContract()"  class="my-button my-success float-left"><span class="btn-txt-mrg">تایید اطلاعات قرارداد</span></button>
+                    <button @click="checkAcceptFactor()"  class="my-button my-success float-left"><span class="btn-txt-mrg">تایید اطلاعات فاکتور</span></button>
                 </div>
             </div>
         </div>
 
-        <!--Insert Contract Start-->
-        <modal-small v-if="showInsertContractModal" @close="showInsertContractModal = false">
+        <!--Insert Factor Start-->
+        <modal-small v-if="showInsertFactorModal" @close="showInsertFactorModal = false">
             <div  slot="body">
-                <form v-on:submit.prevent="createContract" >
+                <form v-on:submit.prevent="createFactor" >
                     <div class="small-font">
+                        <div v-if="isFromRefundCosts == true" class="grid-x">
+                            <div class="large-6 medium-6 small-12 padding-lr">
+                                <label>تنخواه گردان
+                                    <select class="form-element-margin-btm" v-model="refundId" name="selectRefunds" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('selectRefunds')}">
+                                        <option value=""></option>
+                                        <option v-for="refund in refunds" :value="refund.id">{{refund.rSubject}} - {{$root.dispMoneyFormat(refund.rCostEstimation)}} ریال</option>
+                                    </select>
+                                    <span v-show="errors.has('selectRefunds')" class="error-font">لطفا تنخواه گردان مورد نظر را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                        </div>
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <label>عنوان
-                                    <input type="text" name="contractSubject" v-model="contractInput.subject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('contractSubject')}">
+                                    <input type="text" name="factorSubject" v-model="factorInput.subject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('factorSubject')}">
                                 </label>
-                                <p v-show="errors.has('contractSubject')" class="error-font">لطفا عنوان را برای قرارداد مورد نظر را وارد نمایید!</p>
+                                <p v-show="errors.has('factorSubject')" class="error-font">لطفا عنوان را برای فاکتور مورد نظر را وارد نمایید!</p>
                             </div>
                         </div>
                         <div class="grid-x">
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>مبلغ <span class="btn-red">(ریال)</span>
-                                    <money v-model="contractInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('contractAmount')}"></money>
+                                    <money v-model="factorInput.amount" name="factorAmount" v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('factorAmount')}"></money>
                                 </label>
-                                <p v-show="errors.has('contractAmount')" class="error-font">لطفا مبلغ را برای قرارداد مورد نظر را وارد نمایید!</p>
-                            </div>
-                            <div class="large-6 medium-6 small-12 padding-lr">
-                                <label>درصد افزایش و یا کاهش
-                                    <input type="text" name="contractPercent" v-model="contractInput.percentIncAndDec" v-validate="'required','min_value:0','max_value:100'" :class="{'input': true, 'error-border': errors.has('contractPercent')}">
-                                </label>
-                                <p v-show="errors.has('contractPercent')" class="error-font">مقدار نا معتبر است!</p>
+                                <p v-show="errors.has('factorAmount')" class="error-font">لطفا مبلغ را برای فاکتور مورد نظر را وارد نمایید!</p>
                             </div>
                         </div>
-                        <div class="grid-x">
-                            <div class="large-6 medium-6 small-12 padding-lr">
-                                <label>شماره قرارداد
-                                    <input type="text" name="letterNumber" v-model="contractInput.letterNumber" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('letterNumber')}">
-                                </label>
-                                <p v-show="errors.has('letterNumber')" class="error-font">لطفا شماره قرارداد مورد نظر را وارد نمایید!</p>
-                            </div>
-                            <div class="large-6 medium-6 small-12 padding-lr">
-                                <label>تاریخ قرارداد
-                                    <input
-                                            type="text"
-                                            name="letterDate"
-                                            class="form-control form-control-lg"
-                                            v-model="contractInput.letterDate"
-                                            id="contract-letterDate"
-                                            placeholder="انتخاب تاریخ">
-
-                                    <date-picker
-                                            v-model="contractInput.letterDate"
-                                            :color="'#5c6bc0'"
-                                            element="contract-letterDate">
-                                    </date-picker>
-                                </label>
-                                <p v-show="errors.has('letterDate')" class="error-font">لطفا تاریخ قرارداد مورد نظر را وارد نمایید!</p>
-                            </div>
-                        </div>
-                        <div class="grid-x">
-                            <div class="large-6 medium-6 small-12 padding-lr">
-                                <label>تاریخ شروع
-                                    <input
-                                            type="text"
-                                            class="form-control form-control-lg"
-                                            v-model="contractInput.startDate"
-                                            id="contract-startDate"
-                                            placeholder="انتخاب تاریخ">
-
-                                    <date-picker
-                                            v-model="contractInput.startDate"
-                                            :color="'#5c6bc0'"
-                                            element="contract-startDate">
-                                    </date-picker>
-                                </label>
-                            </div>
-                            <div class="large-6 medium-6 small-12 padding-lr">
-                                <label>تاریخ پایان
-                                    <input
-                                            type="text"
-                                            class="form-control form-control-lg"
-                                            v-model="contractInput.endDate"
-                                            id="contract-endDate"
-                                            placeholder="انتخاب تاریخ">
-
-                                    <date-picker
-                                            v-model="contractInput.endDate"
-                                            :color="'#5c6bc0'"
-                                            element="contract-endDate">
-                                    </date-picker>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="grid-x">
+                        <div style="margin-top: 16px;" class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
-                                <label>شرح کامل خدمات
-                                    <textarea style="min-height: 150px;" name="contractDescription" v-model="contractInput.description"   :class="{'input': true, 'error-border': errors.has('contractDescription')}"></textarea>
-                                    <p v-show="errors.has('contractDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</p>
+                                <label>شرح
+                                    <textarea style="min-height: 150px;" name="factorDescription" v-model="factorInput.description"   :class="{'input': true, 'error-border': errors.has('factorDescription')}"></textarea>
+                                    <p v-show="errors.has('factorDescription')" class="error-font">لطفا شرح کامل فاکتور را وارد کنید!</p>
                                 </label>
                             </div>
                         </div>
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <div class="stacked-for-small button-group float-left">
-                                    <button @click="addNewContract" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <button @click="addNewFactor" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
                                 </div>
                             </div>
                         </div>
@@ -229,7 +114,7 @@
                 </form>
             </div>
         </modal-small>
-        <!--Insert Contract End-->
+        <!--Insert Factor End-->
         <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
             {{dialogMessage}}
         </messageDialog>
@@ -242,7 +127,7 @@
                     <p class="large-offset-1 modal-text">تایید اطلاعات قرارداد به منزله ایجاد تعهد در محل های تامین اعتبار است، آیا صحت اطلاعات را تایید می کنید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="acceptContract"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <button v-on:click="acceptFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
                         </div>
                     </div>
                 </div>
@@ -257,7 +142,7 @@
                     <p class="large-offset-1 modal-text">آیا مایل هستید قرارداد را حذف کنید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="deleteContract"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <button v-on:click="deleteFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
                         </div>
                     </div>
                 </div>
@@ -269,16 +154,18 @@
 <script>
 
     export default{
-        props:['contracts','requestId' , 'creditIsAccepted' , 'creditIsExist'],
+        props:['factors','requestId' , 'rCreditIsAccepted' , 'rCreditIsExist','isFromRefundCosts'],
         data () {
             return {
-                showInsertContractModal:false,
+                showInsertFactorModal:false,
                 showAcceptConfirmModal: false,
                 showDeleteConfirmModal: false,
                 showDialogModal: false,
-                cIdForDelete: 0,
+                fIdForDelete: 0,
                 dialogMessage: '',
-                contractInput:{},
+                factorInput:{},
+                refunds:[],
+                refundId:'',
                 money: {
                     thousands: ',',
                     precision: 0,
@@ -301,10 +188,19 @@
         },
 
         methods : {
-            checkAcceptContract: function(){
+            getRefund: function () {
+                axios.get('/financial/request/get_all_refund')
+                    .then((response) => {
+                        this.refunds = response.data;
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                    });
+            },
+            checkAcceptFactor: function(){
                 var existNotAccepted = false;
-                this.contracts.forEach(item => {
-                    if (item.cIsAccepted == false)
+                this.factors.forEach(item => {
+                    if (item.fIsAccepted == false)
                         existNotAccepted = true;
                 });
 
@@ -312,7 +208,7 @@
                 {
                     this.showAcceptConfirmModal = true;
                 }else{
-                    this.dialogMessage = 'قرارداد تایید نشده ای موجود نیست! لطفا قبل از تایید اطلاعات قرارداد نسبت به ثبت قرارداد جدید اقدام کنید.';
+                    this.dialogMessage = 'فاکتور تایید نشده ای موجود نیست! لطفا قبل از تایید اطلاعات قرارداد نسبت به ثبت فاکتور جدید اقدام کنید.';
                     this.showDialogModal = true;
                 }
             },
@@ -322,8 +218,8 @@
                 this.showDeleteConfirmModal = true;
             },
 
-            acceptContract: function(){
-                axios.post('/financial/request/contract/accept', {
+            acceptFactor: function(){
+                axios.post('/financial/request/factor/accept', {
                     rId: this.requestId,
                 }).then((response) => {
                     this.$emit('updateReceiveRequestData' , response.data , this.requestId);
@@ -336,10 +232,10 @@
                 });
             },
 
-            deleteContract: function() {
-                axios.post('/financial/request/contract/delete', {
+            deleteFactor: function() {
+                axios.post('/financial/request/factor/delete', {
                     rId: this.requestId,
-                    cId: this.cIdForDelete,
+                    cId: this.fIdForDelete,
                 }).then((response) => {
                     if (response.status == 200)
                         this.$emit('updateReceiveRequestData' , response.data , this.requestId);
@@ -359,38 +255,37 @@
                 $('.dynamic-height-level-modal3').css('height', (x-580) + 'px');
             },
 
-            openInsertContractModal:function () {
-                if (this.creditIsExist == true)
+            openInsertFactorModal:function () {
+                if (this.rCreditIsExist == true)
                 {
-                    if (this.creditIsAccepted == false)
+                    if (this.rCreditIsAccepted == false)
                     {
                         this.dialogMessage = 'تامین اعتبار تایید نهایی نشده است!';
                         this.showDialogModal = true;
-                    }else
-                        this.showInsertContractModal=true;
+                    }else{
+                        this.getRefund();
+                        this.showInsertFactorModal=true;
+                    }
+
                 }else{
-                    this.dialogMessage = 'امکان ثبت قرارداد وجود ندارد. منابع تامین اعتبار برای این درخواست تعیین نشده است!';
+                    this.dialogMessage = 'امکان ثبت فاکتور وجود ندارد. منابع تامین اعتبار برای این درخواست تعیین نشده است!';
                     this.showDialogModal = true;
                 }
 
             },
 
-            addNewContract:function () {
+            addNewFactor:function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        axios.post('/financial/request/contract/insert', {
+                        axios.post('/financial/request/factor/insert', {
+                            refundCostsId: this.refundId,
                             rId: this.requestId,
-                            subject: this.contractInput.subject,
-                            amount: parseInt(this.contractInput.amount.split(',').join(''),10),
-                            percentIncAndDec: this.contractInput.percentIncAndDec,
-                            letterNumber: this.contractInput.letterNumber,
-                            letterDate: this.contractInput.letterDate,
-                            startDate: this.contractInput.startDate,
-                            endDate: this.contractInput.endDate,
-                            description: this.contractInput.description,
+                            subject: this.factorInput.subject,
+                            amount: parseInt(this.factorInput.amount.split(',').join(''),10),
+                            description: this.factorInput.description,
                         }).then((response) => {
                             this.$emit('updateReceiveRequestData' , response.data , this.requestId);
-                            this.showInsertContractModal = false;
+                            this.showInsertFactorModal = false;
                             this.$root.displayNotif(response.status);
                             console.log(response);
                         }, (error) => {

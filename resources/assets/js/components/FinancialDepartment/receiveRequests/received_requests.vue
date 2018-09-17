@@ -125,12 +125,9 @@
                                 <li class="tabs-title is-active"><a href="#requestDetailTab" aria-selected="true">جزییات</a></li>
                                 <li class="tabs-title"><a href="#requestVerifiersTab">تایید کنندگان </a></li>
                                 <li class="tabs-title"><a href="#creditsTab">اعتبارات</a></li>
-<<<<<<< HEAD
-                                <li class="tabs-title"><a href="#contractTab">اطلاعات قرارداد</a></li>
-                                <li class="tabs-title"><a href="#factorTab">اطلاعات فاکتور</a></li>
-=======
+                                <li class="tabs-title" v-if="requestType == 'BUY_COMMODITY'"><a href="#factorTab">اطلاعات فاکتور</a></li>
                                 <li class="tabs-title" v-if="requestType == 'BUY_SERVICES'"><a href="#contractTab">اطلاعات قرارداد</a></li>
->>>>>>> 7822d8585ef5f6f7efa871d5534601721ba1b502
+
                                 <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
                                 <li class="tabs-title"><a href="#requestAttachmentsTab">پیوست ها </a></li>
                             </ul>
@@ -196,8 +193,14 @@
                                 <!--Tab 4-->
                                 <!--Tab 5-->
                                 <div class="tabs-panel table-mrg-btm" id="factorTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                    <rFactor
-
+                                    <rFactor v-if="requestType == 'BUY_COMMODITY'"
+                                             v-on:closeModal="showRequestDetailModal=false"
+                                             v-on:updateReceiveRequestData="updateReceiveRequestData"
+                                             v-bind:requestId="requestId"
+                                             v-bind:factors="factors"
+                                             v-bind:rCreditIsAccepted="rCreditIsAccepted"
+                                             v-bind:rCreditIsExist="rCreditIsExist"
+                                             v-bind:isFromRefundCosts="isFromRefundCosts"
                                     >
 
                                     </rFactor>
@@ -569,6 +572,8 @@
                 creditIsAccepted: true,
                 creditIsExist: false,
 
+                factors:[],
+
                 maxInputValue:0,
                 updateDataThreadNowPlaying: null,
 
@@ -579,6 +584,7 @@
                     last_page: ''
                 },
                 isFromRefund: false,
+                isFromRefundCosts:false,
             }
         },
 
@@ -688,6 +694,7 @@
                 this.UserIsVerifier=[];
                 this.attachments=[];
                 this.contracts=[];
+                this.factors=[];
                 var requestHistory=[];
                 requestHistory.push(request);
                 this.requestId=request.id;
@@ -714,6 +721,12 @@
                     });
                 });
 
+                requestHistory.forEach(item => {
+                    item.factor.forEach(fac => {
+                        this.factors.push(fac);
+                    });
+                });
+
                 requestHistory.forEach(remainUsers => {
                     remainUsers.rRemainingVerifiers.forEach(users => {
                         this.UserIsVerifier.push(users);
@@ -729,8 +742,13 @@
                 this.lastVerifier=request.rLastRef.id;
                 this.creditIsAccepted = request.rCreditIsAccepted;
                 this.creditIsExist = request.rCreditIsExist;
+
+                this.rCreditIsAccepted = request.rCreditIsAccepted;
+                this.rCreditIsExist = request.rCreditIsExist;
+
                 this.requestType = request.request_type.rtType;
                 this.isFromRefund = request.isFromRefundCosts;
+                this.isFromRefundCosts=request.isFromRefundCosts;
 
                 if(request.rYouAreVerifiers.length != 0){
                     this.youAreVerifier=request.rYouAreVerifiers[0].id;
