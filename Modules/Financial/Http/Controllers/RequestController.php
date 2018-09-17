@@ -68,6 +68,7 @@ class RequestController extends Controller
             ->with('history.destinationUserInfo.role')
             ->with('history.requestState')
             ->with('contract')
+            ->with('factor')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
     }
@@ -229,6 +230,7 @@ class RequestController extends Controller
             ->with('history.destinationUserInfo.role')
             ->with('history.requestState')
             ->with('contract')
+            ->with('factor')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
     }
