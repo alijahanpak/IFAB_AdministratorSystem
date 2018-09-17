@@ -95,18 +95,18 @@
                         <div class="tabs-content" data-tabs-content="commodity_tab_view">
                             <!--Tab 1-->
                             <div class="tabs-panel is-active table-mrg-btm" id="reciverTab">
-                                <div class="grid-x">
+                                <div class="grid-x tbl_body_style">
                                     <div v-for="recipientsGroup in recipients"  class="large-12 medium-12 small-12">
                                         <div class="grid-x">
                                             <div v-if="recipientsGroup.rstIsRequire == 1" class="large-6 medium-6 small-12">
                                                 <label>{{recipientsGroup.category.cSubject}}
-                                                    <select class="form-element-margin-btm" :name="'recipient'+recipientsGroup.id" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('recipient'+recipientsGroup.id)}">
+                                                    <select :name="'recipient'+recipientsGroup.id" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('recipient'+recipientsGroup.id)}">
                                                         <option value=""></option>
                                                         <template v-for="rolCat in recipientsGroup.category.role_category">
                                                             <option v-for="users in rolCat.role.user" @click="getUserRecipients(recipientsGroup.id,users.id)" :value="recipientsGroup.id">{{users.name}} - {{rolCat.role.rSubject}}</option>
                                                         </template>
                                                     </select>
-                                                    <span v-show="errors.has('recipient'+recipientsGroup.id)" class="error-font">لطفا فیلد {{recipientsGroup.category.cSubject}}  را انتخاب کنید!</span>
+                                                    <p v-show="errors.has('recipient'+recipientsGroup.id)" class="error-font">لطفا فیلد {{recipientsGroup.category.cSubject}}  را انتخاب کنید!</p>
                                                 </label>
                                             </div>
                                             <div v-else="recipientsGroup.rstIsRequire==0" class="large-6 medium-6 small-12">
@@ -124,7 +124,7 @@
                                                     </div>
                                                     <div class="large-12 medium-12  small-12">
                                                         <label>{{recipientsGroup.category.cSubject}}
-                                                            <select  :disabled="!isRequireChangeState" class="form-element-margin-btm"  :name="'recipient'+recipientsGroup.id" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('recipient'+recipientsGroup.id)}">
+                                                            <select  :disabled="!isRequireChangeState"  :name="'recipient'+recipientsGroup.id" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('recipient'+recipientsGroup.id)}">
                                                                 <template v-if="isRequireChangeState == true">
                                                                     <option value=""></option>
                                                                     <template v-for="rolCat in recipientsGroup.category.role_category">
@@ -135,7 +135,7 @@
                                                                     <option value=""></option>
                                                                 </template>
                                                             </select>
-                                                            <span v-show="errors.has('recipient'+recipientsGroup.id)" class="error-font">لطفا فیلد {{recipientsGroup.category.cSubject}}  را انتخاب کنید!</span>
+                                                            <p v-show="errors.has('recipient'+recipientsGroup.id)" class="error-font">لطفا فیلد {{recipientsGroup.category.cSubject}}  را انتخاب کنید!</p>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -148,12 +148,12 @@
 
                             <!--Tab 2-->
                             <div class="tabs-panel table-mrg-btm" id="commodityTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                <div style="margin-top: 25px" class="grid-x">
+                                <div style="margin-top: 25px" class="grid-x tbl_body_style">
                                     <div class="medium-6">
                                         <label>موضوع
-                                            <input class="form-element-margin-btm" type="text" name="requestSubject" v-model="requestInput.rSubject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('requestSubject')}">
+                                            <input type="text" name="requestSubject" v-model="requestInput.rSubject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('requestSubject')}">
                                         </label>
-                                        <span v-show="errors.has('requestSubject')" class="error-font">لطفا موضوع را برای درخواست مورد نظر را وارد نمایید!</span>
+                                        <p v-show="errors.has('requestSubject')" class="error-font">لطفا موضوع را برای درخواست مورد نظر را وارد نمایید!</p>
                                     </div>
                                     <!--Commodity Start-->
                                     <div  v-show="requestTypeSend == 'BUY_COMMODITY'" style="margin-top: 20px;" class="large-12 medium-12 small-12">
@@ -216,13 +216,13 @@
                                                 <label>برآورد تقریبی اعتبار مورد نیاز <span class="btn-red">(ریال)</span>
                                                     <money v-model="requestInput.serviceEstimated"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('serviceEstimated')}"></money>
                                                 </label>
-                                                <span v-show="errors.has('serviceEstimated')" class="error-font">لطفا مبلغ تقریبی را برای درخواست مورد نظر را وارد نمایید!</span>
+                                                <p v-show="errors.has('serviceEstimated')" class="error-font">لطفا مبلغ تقریبی را برای درخواست مورد نظر را وارد نمایید!</p>
                                             </div>
-                                            <div class="large-12 medium-12 small-12">
+                                            <div style="margin-top:16px;" class="large-12 medium-12 small-12">
                                                 <label>شرح کامل خدمات
-                                                    <textarea v-if="requestTypeSend == 'BUY_SERVICES'" class="form-element-margin-btm"  style="min-height: 150px;" name="fullDescription" v-model="requestInput.fullDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
+                                                    <textarea v-if="requestTypeSend == 'BUY_SERVICES'"  style="min-height: 150px;" name="fullDescription" v-model="requestInput.fullDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
                                                     <textarea v-else="" class="form-element-margin-btm"  style="min-height: 150px;" name="fullDescription" v-model="requestInput.fullDescription"   :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
-                                                    <span v-show="errors.has('fullDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</span>
+                                                    <p v-show="errors.has('fullDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</p>
                                                 </label>
                                             </div>
                                             <div class="large-12 medium-12 small-12">
@@ -239,15 +239,15 @@
                                         <div class="grid-x">
                                             <div class="large-4 medium-4 small-12">
                                                 <label> مبلغ تنخواه <span class="btn-red">(ریال)</span>
-                                                    <money v-model="requestInput.fundEstimated"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fundEstimated')}"></money>
+                                                    <money v-model="requestInput.fundEstimated"  v-bind="money"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fundEstimated')}"></money>
                                                 </label>
-                                                <span v-show="errors.has('fundEstimated')" class="error-font">لطفا مبلغ تنخواه را برای درخواست مورد نظر را وارد نمایید!</span>
+                                                <p v-show="errors.has('fundEstimated')" class="error-font">لطفا مبلغ تنخواه را برای درخواست مورد نظر را وارد نمایید!</p>
                                             </div>
                                             <div class="large-12 medium-12 small-12">
                                                 <label>متن درخواست
-                                                    <textarea v-if="requestTypeSend == 'FUND'" class="form-element-margin-btm"  style="min-height: 150px;" name="requestText" v-model="requestInput.fullDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
+                                                    <textarea v-if="requestTypeSend == 'FUND'"  style="min-height: 150px;" name="requestText" v-model="requestInput.fullDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
                                                     <textarea v-else="" class="form-element-margin-btm"  style="min-height: 150px;" name="requestText" v-model="requestInput.fullDescription" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
-                                                    <span v-show="errors.has('fullDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</span>
+                                                    <p v-show="errors.has('fullDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</p>
                                                 </label>
                                             </div>
                                         </div>
@@ -259,7 +259,7 @@
 
                             <!--Tab 3 - Attachment Tab-->
                             <div class="tabs-panel table-mrg-btm" id="attachmentTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                <div class="grid-x">
+                                <div class="grid-x tbl_body_style">
                                     <div class="medium-12 padding-lr">
                                         <label class="my-button toolbox-btn"> انتخاب فایل
                                             <input @change="uploadFieldChange" accept=".jpg,.jpeg,.png,.doc,.docx,.doc,.xls,.xlsx,.pdf" id="File" type="file">
@@ -315,7 +315,7 @@
                             </div>
                             <!--Tab 3 - Attachment Tab-->
 
-                            <div class="large-12 medium-12 small-12 medium-top-m">
+                            <div class="large-12 medium-12 small-12 medium-top-m padding-lr">
                                 <button type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
                             </div>
                         </div>
@@ -643,6 +643,7 @@
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
+            this.myResizeModal();
             //this.costTemp =  '  ' + this.$parent.getDispAmountBaseLabel();
         },
 
@@ -656,6 +657,14 @@
         },
 
         methods: {
+
+            myResizeModal: function() {
+                var x = $.w.outerHeight();
+                $('.dynamic-height-level-modal1').css('height', (x-280) + 'px');
+                $('.dynamic-height-level-modal2').css('height', (x-460) + 'px');
+                $('.dynamic-height-level-modal3').css('height', (x-580) + 'px');
+            },
+
             makePagination: function(data){
                 this.posted_pagination.current_page = data.current_page;
                 this.posted_pagination.to = data.to;
