@@ -2106,6 +2106,10 @@ input[type="search"]:valid + label {
     direction: ltr;
 }
 
+.direction-rtl{
+    direction: rtl;
+}
+
 .icon-padding-btm{
     padding-bottom: 0px;
 }

@@ -53,26 +53,52 @@
                             <td :data-toggle="'contract' + contract.id">{{contract.cSubject}}</td>
                             <td :data-toggle="'contract' + contract.id" class="text-center">{{$root.dispMoneyFormat(contract.cAmount)}}
                                 <div class="clearfix tool-bar">
-                                    <div  style="width: 600px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="auto" :id="'contract' + contract.id" data-dropdown data-auto-focus="true">
+                                    <div  style="width: 500px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="auto" :id="'contract' + contract.id" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font">
                                             <div class="grid-x">
+                                                <div class="large-12">
                                                 <!--Table Start-->
                                                 <div class="tbl_body_style dynamic-height-level-modal3">
-                                                    <table class="stack">
+                                                    <table class="stack text-right">
                                                         <tbody>
-                                                        <tr>
+                                                        <tr class="align-right">
                                                             <td width="150" class="black-color">عنوان  :</td>
-                                                            <td></td>
+                                                            <td>{{contract.cSubject}}</td>
                                                         </tr>
                                                         <tr>
                                                             <td width="150" class="black-color">مبلغ  :</td>
-                                                            <td></td>
+                                                            <td>{{contract.cAmount}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="150" class="black-color">درصد افزایش و یا کاهش  :</td>
+                                                            <td>{{contract.cPercentInAndDec}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="150" class="black-color">شماره قرارداد  :</td>
+                                                            <td>{{contract.cLetterNumber}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="150" class="black-color">تاریخ قرارداد  :</td>
+                                                            <td>{{contract.cLetterDate}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="150" class="black-color">تاریخ شروع  :</td>
+                                                            <td>{{contract.cStartDate}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="150" class="black-color">تاریخ پایان  :</td>
+                                                            <td>{{contract.cEndDate}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="150" class="black-color">شرح  :</td>
+                                                            <td>{{contract.cDescription}}</td>
                                                         </tr>
 
                                                         </tbody>
                                                     </table>
                                                 </div>
                                                 <!--Table Body End-->
+                                                </div>
                                             </div>
                                         </ul>
                                     </div>

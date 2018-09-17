@@ -126,6 +126,7 @@
                                 <li class="tabs-title"><a href="#requestVerifiersTab">تایید کنندگان </a></li>
                                 <li class="tabs-title"><a href="#creditsTab">اعتبارات</a></li>
                                 <li class="tabs-title"><a href="#contractTab">اطلاعات قرارداد</a></li>
+                                <li class="tabs-title"><a href="#factorTab">اطلاعات فاکتور</a></li>
                                 <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
                                 <li class="tabs-title"><a href="#requestAttachmentsTab">پیوست ها </a></li>
                             </ul>
@@ -134,7 +135,9 @@
                                 <div class="tabs-panel is-active table-mrg-btm" id="requestDetailTab">
                                     <rDetails v-bind:requestTypeDetail="requestTypeDetail"
                                               v-bind:requestFill="requestFill"
-                                              v-bind:commodityList="commodityList">
+                                              v-bind:commodityList="commodityList"
+                                              v-on:setRepoExistCountParent="setRepoExistCount"
+                                    >
                                     </rDetails>
                                 </div>
                                 <!--Tab 1-->
@@ -163,11 +166,11 @@
                                 <div class="tabs-panel table-mrg-btm" id="creditsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <rCredits v-on:closeModal="showRequestDetailModal=false"
                                               v-on:updateReceiveRequestData="updateReceiveRequestData"
-                                            v-bind:baseAmount="baseAmount"
-                                            v-bind:receiveRequests="receiveRequests"
-                                            v-bind:requestFill="requestFill"
-                                            v-bind:UserIsVerifier="UserIsVerifier"
-                                            v-bind:requestId="requestId">
+                                              v-bind:baseAmount="baseAmount"
+                                              v-bind:receiveRequests="receiveRequests"
+                                              v-bind:requestFill="requestFill"
+                                              v-bind:UserIsVerifier="UserIsVerifier"
+                                              v-bind:requestId="requestId">
 
                                     </rCredits>
                                 </div>
@@ -184,6 +187,15 @@
                                 </div>
                                 <!--Tab 4-->
                                 <!--Tab 5-->
+                                <div class="tabs-panel table-mrg-btm" id="factorTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <rFactor
+
+                                    >
+
+                                    </rFactor>
+                                </div>
+                                <!--Tab 5-->
+                                <!--Tab 6-->
                                 <div class="tabs-panel table-mrg-btm" id="requestHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 large-top-m">
@@ -231,9 +243,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--Tab 5-->
-
                                 <!--Tab 6-->
+
+                                <!--Tab 7-->
                                 <div class="tabs-panel table-mrg-btm" id="requestAttachmentsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <vue-element-loading :active="showLoaderProgress" spinner="spinner" color="#716aca"/>
@@ -290,7 +302,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--Tab 6-->
+                                <!--Tab 7-->
                             </div>
                         </div>
                         <div class="large-12 medium-12 small-12 medium-top-m">
@@ -480,6 +492,7 @@
     import rDetails from './detailRequest/r_details.vue';
     import rCredits from './detailRequest/r_credits.vue';
     import rContract from './detailRequest/r_contract.vue';
+    import rFactor from './detailRequest/r_factor.vue';
     /* Import Local Components End*/
     export default {
         components: {
@@ -490,6 +503,7 @@
             rDetails,
             rCredits,
             rContract,
+            rFactor,
             VueElementLoading,
         },
         data () {
@@ -580,6 +594,9 @@
         },
 
         methods: {
+            setRepoExistCount:function(cECount){
+                this.repoExistCount=cECount;
+            },
             updateReceiveRequestData: function(requests , rId){
                 this.receiveRequests = requests.data;
                 this.receiveRequests.forEach(item => {
@@ -838,28 +855,6 @@
                     console.log(error);
                     this.$parent.displayNotif(error.response.status);
                 });
-            },
-
-            setRepoExistCount: function (cId,count) {
-                console.log(JSON.stringify(this.commodityCountInput));
-                var repoExistCountInput={};
-                repoExistCountInput.rcId=cId;
-                repoExistCountInput.existCount=count;
-
-                if(this.repoExistCount === undefined || this.repoExistCount.length == 0){
-                    this.repoExistCount.push(repoExistCountInput);
-                }
-                else{
-                    this.repoExistCount.forEach((item,index) =>{
-                        if(item.rcId ==  repoExistCountInput.rcId){
-                            this.repoExistCount.splice(index,1);
-                            this.repoExistCount.push(repoExistCountInput);
-                        }
-                        else{
-                            this.repoExistCount.push(repoExistCountInput);
-                        }
-                    });
-                }
             },
 
             openRegisterAndNumberingModal: function (){

@@ -116,6 +116,7 @@
         data () {
             return {
                 commodityCountInput:{},
+                repoExistCount:[],
             }
 
         },
@@ -134,6 +135,30 @@
 
         methods : {
 
+            setRepoExistCount: function (cId,count) {
+                console.log(JSON.stringify(this.commodityCountInput));
+                var repoExistCountInput={};
+                repoExistCountInput.rcId=cId;
+                repoExistCountInput.existCount=count;
+
+                console.log(JSON.stringify(repoExistCountInput));
+
+                if(this.repoExistCount === undefined || this.repoExistCount.length == 0){
+                    this.repoExistCount.push(repoExistCountInput);
+                }
+                else{
+                    this.repoExistCount.forEach((item,index) =>{
+                        if(item.rcId ==  repoExistCountInput.rcId){
+                            this.repoExistCount.splice(index,1);
+                            this.repoExistCount.push(repoExistCountInput);
+                        }
+                        else{
+                            this.repoExistCount.push(repoExistCountInput);
+                        }
+                    });
+                }
+                this.$emit('setRepoExistCountParent' , this.repoExistCount);
+            },
         }
     }
 </script>
