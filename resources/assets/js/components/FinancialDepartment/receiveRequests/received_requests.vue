@@ -167,12 +167,12 @@
                                 <div class="tabs-panel table-mrg-btm" id="creditsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <rCredits v-if="isFromRefund != true" v-on:closeModal="showRequestDetailModal=false"
                                               v-on:updateReceiveRequestData="updateReceiveRequestData"
-                                              v-bind:baseAmount="baseAmount"
-                                              v-bind:receiveRequests="receiveRequests"
-                                              v-bind:requestFill="requestFill"
-                                              v-bind:UserIsVerifier="UserIsVerifier"
-                                              v-bind:requestId="requestId">
-
+                                            v-bind:baseAmount="baseAmount"
+                                            v-bind:requestType="requestType"
+                                            v-bind:requestFill="requestFill"
+                                            v-bind:UserIsVerifier="UserIsVerifier"
+                                            v-bind:requestId="requestId"
+                                            v-bind:acceptedAmount="acceptedAmount">
                                     </rCredits>
                                     <div v-else>
                                         <p>از تنخواه گردان کارپردازی</p>
@@ -759,7 +759,10 @@
                 this.referralDestination=request.rLastRef.source_user_info.name +' - ' +request.rLastRef.source_user_info.role.rSubject;
                 this.canResponse=request.rLastRef.rhIsReferral;
 
-                this.baseAmount= request.rCostEstimation;
+                if (request.rAcceptedAmount > 0)
+                    this.baseAmount= request.rAcceptedAmount;
+                else
+                    this.baseAmount= request.rCostEstimation;
 
                 if (request.rRtId == 1){
                     this.requestTypeDetail='SERVICES';

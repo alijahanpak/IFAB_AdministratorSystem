@@ -9,7 +9,7 @@ class CapitalAssetsProject extends Model
 {
     protected $table = 'tbl_capital_assets_projects';
     protected $fillable = [];
-    protected $appends = ['cpSumOfCost' , 'cpSumOfReserved' , 'cpSumOfFinancing' , 'cpSumOfCommitment' , 'cpSumOfAllocation'];
+    protected $appends = ['cpSumOfCost' , 'cpSumOfReserved' , 'cpSumOfCommitment' , 'cpSumOfAllocation'];
 
     public function capitalAssetsApprovedPlan()
     {
@@ -39,11 +39,6 @@ class CapitalAssetsProject extends Model
     public function getCpSumOfReservedAttribute()
     {
         return $this->creditSourceHasAllocation()->get()->sum('ccsSumOfReserved');
-    }
-
-    public function getCpSumOfFinancingAttribute()
-    {
-        return $this->creditSourceHasAllocation()->get()->sum('ccsSumOfFinancing');
     }
 
     public function getCpSumOfCommitmentAttribute()

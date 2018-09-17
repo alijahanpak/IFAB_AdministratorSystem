@@ -78,7 +78,7 @@
                         <div style="background-color:#F1F1F1;padding: 10px;margin-top: -12px;border: solid 1.5px #D8DEE2;" class="large-12 medium-12 small-12">
                             <div class="grid-x">
                                 <div class="large-4 medium-4 small-12">
-                                    <p class="p-margin-btm"> مبلغ برآورد : <span class="btn-red"> {{$root.dispMoneyFormat(baseAmount)}} </span></p>
+                                    <p class="p-margin-btm"> مبلغ : <span class="btn-red"> {{$root.dispMoneyFormat(baseAmount)}} </span></p>
                                 </div>
                                 <div class="large-4 medium-4 small-12">
                                     <p class="p-margin-btm"> مبلغ رزرو شده : <span class="btn-red"> {{$root.dispMoneyFormat(_reservedAmount)}} </span></p>
@@ -155,7 +155,7 @@
                         <div style="background-color:#F1F1F1;padding: 10px;margin-top: -12px;border: solid 1.5px #D8DEE2;" class="large-12 medium-12 small-12">
                             <div class="grid-x">
                                 <div class="large-4 medium-4 small-12">
-                                    <p class="p-margin-btm"> مبلغ برآورد : <span class="btn-red"> {{$root.dispMoneyFormat(baseAmount)}} </span></p>
+                                    <p class="p-margin-btm"> مبلغ : <span class="btn-red"> {{$root.dispMoneyFormat(baseAmount)}} </span></p>
                                 </div>
                                 <div class="large-4 medium-4 small-12">
                                     <p class="p-margin-btm"> مبلغ رزرو شده : <span class="btn-red"> {{$root.dispMoneyFormat(_reservedAmount)}} </span></p>
@@ -210,8 +210,7 @@
                                                     <col width="150px"/>
                                                     <col width="150px"/>
                                                     <col width="150px"/>
-                                                    <col width="150px"/>
-                                                    <col width="250px"/>
+                                                    <col width="400px"/>
                                                     <col width="150px"/>
                                                     <col width="40px"/>
                                                     <col width="12px"/>
@@ -221,7 +220,6 @@
                                                     <th class="tbl-head-style-cell">شماره نامه</th>
                                                     <th class="tbl-head-style-cell">مجموع تخصیص</th>
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
-                                                    <th class="tbl-head-style-cell">تامین اعتبار شده</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
                                                     <th class="tbl-head-style-cell">هزینه شده</th>
                                                     <th class="tbl-head-style-cell">شرح</th>
@@ -241,8 +239,7 @@
                                                         <col width="150px"/>
                                                         <col width="150px"/>
                                                         <col width="150px"/>
-                                                        <col width="150px"/>
-                                                        <col width="250px"/>
+                                                        <col width="400px"/>
                                                         <col width="150px"/>
                                                         <col width="40px"/>
                                                     </colgroup>
@@ -283,7 +280,6 @@
                                                                 </ul>
                                                             </div>
                                                         </td>
-                                                        <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.caSumOfFinancing)}}</td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.caSumOfCommitment)}}</td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.caSumOfCost)}}</td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{plan.caDescription}}</td>
@@ -313,7 +309,6 @@
                                                     <col width="150px"/>
                                                     <col width="150px"/>
                                                     <col width="150px"/>
-                                                    <col width="150px"/>
                                                     <col width="100"/>
                                                     <col width="250px"/>
                                                     <col width="150px"/>
@@ -324,7 +319,6 @@
                                                 <tr class="tbl-head-style-cell">
                                                     <th class="tbl-head-style-cell">مجموع تخصیص</th>
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
-                                                    <th class="tbl-head-style-cell">تامین اعتبار</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
                                                     <th class="tbl-head-style-cell">هزینه شده</th>
                                                     <th class="tbl-head-style-cell">مبلغ</th>
@@ -344,7 +338,6 @@
                                                         <col width="150px"/>
                                                         <col width="150px"/>
                                                         <col width="150px"/>
-                                                        <col width="150px"/>
                                                         <col width="100"/>
                                                         <col width="250px"/>
                                                         <col width="150px"/>
@@ -354,8 +347,7 @@
                                                     <template v-for="plan in completeCostAgrement">
                                                         <tr class="table-row" v-for="creditSource in plan.ca_credit_source_has_allocation">
                                                             <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{ $root.dispMoneyFormat(creditSource.ccsSumOfAllocation) }}</td>
-                                                            <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{ $root.dispMoneyFormat(creditSource.ccsSumOfReserved) }}</td>
-                                                            <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{ $root.dispMoneyFormat(creditSource.ccsSumOfFinancing) }}
+                                                            <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{ $root.dispMoneyFormat(creditSource.ccsSumOfReserved) }}
                                                                 <div  style="width: 600px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="auto" :id="'creditSource' + creditSource.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font">
                                                                         <div class="grid-x">
@@ -432,8 +424,7 @@
                                                     <col width="150px"/>
                                                     <col width="150px"/>
                                                     <col width="150px"/>
-                                                    <col width="150px"/>
-                                                    <col width="250px"/>
+                                                    <col width="400px"/>
                                                     <col width="150px"/>
                                                     <col width="40px"/>
                                                     <col width="12px"/>
@@ -443,7 +434,6 @@
                                                     <th class="tbl-head-style-cell">شماره نامه</th>
                                                     <th class="tbl-head-style-cell">تاریخ نامه</th>
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
-                                                    <th class="tbl-head-style-cell">تامین اعتبار</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
                                                     <th class="tbl-head-style-cell">هزینه شده</th>
                                                     <th class="tbl-head-style-cell">شرح</th>
@@ -463,8 +453,7 @@
                                                         <col width="150px"/>
                                                         <col width="150px"/>
                                                         <col width="150px"/>
-                                                        <col width="150px"/>
-                                                        <col width="250px"/>
+                                                        <col width="400px"/>
                                                         <col width="150px"/>
                                                         <col width="40px"/>
                                                     </colgroup>
@@ -519,7 +508,6 @@
                                                                         </ul>
                                                                     </div>
                                                                 </td>
-                                                                <td :data-toggle="'allocation' + allocation.id" class="text-center">{{$root.dispMoneyFormat(allocation.caSumOfFinancing)}}</td>
                                                                 <td :data-toggle="'allocation' + allocation.id" class="text-center">{{$root.dispMoneyFormat(allocation.caSumOfCommitment)}}</td>
                                                                 <td :data-toggle="'allocation' + allocation.id" class="text-center">{{$root.dispMoneyFormat(allocation.caSumOfCost)}}</td>
                                                                 <td :data-toggle="'allocation' + allocation.id" class="text-justify">{{allocation.caDescription}}</td>
@@ -553,8 +541,7 @@
                                                     <col width="150px"/>
                                                     <col width="150px"/>
                                                     <col width="150px"/>
-                                                    <col width="150px"/>
-                                                    <col width="250px"/>
+                                                    <col width="400px"/>
                                                     <col width="150px"/>
                                                     <col width="40px"/>
                                                     <col width="12px"/>
@@ -564,7 +551,6 @@
                                                     <th class="tbl-head-style-cell">شماره نامه</th>
                                                     <th class="tbl-head-style-cell">تاریخ نامه</th>
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
-                                                    <th class="tbl-head-style-cell">تامین اعتبار</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
                                                     <th class="tbl-head-style-cell">هزینه شده</th>
                                                     <th class="tbl-head-style-cell">اعتبار پیشنهادی</th>
@@ -584,8 +570,7 @@
                                                         <col width="150px"/>
                                                         <col width="150px"/>
                                                         <col width="150px"/>
-                                                        <col width="150px"/>
-                                                        <col width="250px"/>
+                                                        <col width="400px"/>
                                                         <col width="150px"/>
                                                         <col width="40px"/>
                                                     </colgroup>
@@ -594,7 +579,6 @@
                                                         <td class="text-center">{{found.caLetterNumber}}</td>
                                                         <td class="text-center">{{found.caLetterDate}}</td>
                                                         <td class="text-center">{{$root.dispMoneyFormat(found.caSumOfReserved)}}</td>
-                                                        <td class="text-center">{{$root.dispMoneyFormat(found.caSumOfFinancing)}}</td>
                                                         <td class="text-center">{{$root.dispMoneyFormat(found.caSumOfCommitment)}}</td>
                                                         <td class="text-center">{{$root.dispMoneyFormat(found.caSumOfCost)}}</td>
                                                         <td class="text-justify">{{found.caDescription}}</td>
@@ -621,7 +605,7 @@
                                 <div class="large-6 medium-6 small-12">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12">
-                                            <p> مبلغ برآورد : <span class="btn-red"> {{$root.dispMoneyFormat(baseAmount)}} </span></p>
+                                            <p> مبلغ : <span class="btn-red"> {{$root.dispMoneyFormat(baseAmount)}} </span></p>
                                         </div>
                                         <div class="large-12 medium-12 small-12">
                                             <p> مبلغ تامین اعتبار : <span class="btn-red"> {{$root.dispMoneyFormat(costReservedAmount)}} </span></p>
@@ -677,7 +661,6 @@
                                                     <col width="150px"/>
                                                     <col width="150px"/>
                                                     <col width="150px"/>
-                                                    <col width="150px"/>
                                                     <col width="250px"/>
                                                     <col width="150px"/>
                                                     <col width="40px"/>
@@ -688,7 +671,6 @@
                                                     <th class="tbl-head-style-cell">شماره طرح</th>
                                                     <th class="tbl-head-style-cell">مجموع تخصیص</th>
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
-                                                    <th class="tbl-head-style-cell">تامین اعتبار شده</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
                                                     <th class="tbl-head-style-cell">هزینه شده</th>
                                                     <th class="tbl-head-style-cell">شرح</th>
@@ -703,7 +685,6 @@
                                             <div class="tbl_body_style dynamic-height-level-modal1">
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
-                                                        <col width="150px"/>
                                                         <col width="150px"/>
                                                         <col width="150px"/>
                                                         <col width="150px"/>
@@ -773,7 +754,6 @@
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                        <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.capSumOfFinancing)}}</td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.capSumOfCommitment)}}</td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.capSumOfCost)}}</td>
                                                         <td :data-toggle="'plan' + plan.id">{{plan.capDescription}}</td>
@@ -806,8 +786,7 @@
                                                     <col width="150px"/>
                                                     <col width="150px"/>
                                                     <col width="150px"/>
-                                                    <col width="150px"/>
-                                                    <col width="250px"/>
+                                                    <col width="400px"/>
                                                     <col width="150px"/>
                                                     <col width="40px"/>
                                                     <col width="12px"/>
@@ -818,7 +797,6 @@
                                                     <th class="tbl-head-style-cell">کد پروژه</th>
                                                     <th class="tbl-head-style-cell">مجموع تخصیص</th>
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
-                                                    <th class="tbl-head-style-cell">تامین اعتبار</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
                                                     <th class="tbl-head-style-cell">هزینه شده</th>
                                                     <th class="tbl-head-style-cell">شرح</th>
@@ -839,8 +817,7 @@
                                                         <col width="150px"/>
                                                         <col width="150px"/>
                                                         <col width="150px"/>
-                                                        <col width="150px"/>
-                                                        <col width="250px"/>
+                                                        <col width="400px"/>
                                                         <col width="150px"/>
                                                         <col width="40px"/>
                                                         <col width="40px"/>
@@ -927,7 +904,6 @@
                                                                 </div>
                                                             </td>
                                                             <td :data-toggle="'project' + project.id" class="text-center">{{$root.dispMoneyFormat(project.cpSumOfReserved)}}</td>
-                                                            <td :data-toggle="'project' + project.id" class="text-center">{{$root.dispMoneyFormat(project.cpSumOfFinancing)}}</td>
                                                             <td :data-toggle="'project' + project.id" class="text-center">{{$root.dispMoneyFormat(project.cpSumOfCommitment)}}</td>
                                                             <td :data-toggle="'project' + project.id" class="text-center">{{$root.dispMoneyFormat(project.cpSumOfCost)}}</td>
                                                             <td :data-toggle="'project' + project.id">{{project.cpDescription}}</td>
@@ -961,8 +937,7 @@
                                                     <col width="150px"/>
                                                     <col width="150px"/>
                                                     <col width="150px"/>
-                                                    <col width="150px"/>
-                                                    <col width="250px"/>
+                                                    <col width="400px"/>
                                                     <col width="150px"/>
                                                     <col width="40px"/>
                                                     <col width="12px"/>
@@ -972,7 +947,6 @@
                                                     <th class="tbl-head-style-cell">شماره طرح</th>
                                                     <th class="tbl-head-style-cell">مجموع تخصیص</th>
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
-                                                    <th class="tbl-head-style-cell">تامین اعتبار</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
                                                     <th class="tbl-head-style-cell">هزینه شده</th>
                                                     <th class="tbl-head-style-cell">مبلغ</th>
@@ -994,8 +968,7 @@
                                                         <col width="150px"/>
                                                         <col width="150px"/>
                                                         <col width="150px"/>
-                                                        <col width="150px"/>
-                                                        <col width="250px"/>
+                                                        <col width="400px"/>
                                                         <col width="150px"/>
                                                         <col width="40px"/>
                                                     </colgroup>
@@ -1005,8 +978,7 @@
                                                             <tr class="table-row" v-for="creditSource in project.credit_source_has_allocation">
                                                                 <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{plan.credit_distribution_title.cdtIdNumber}}</td>
                                                                 <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{$root.dispMoneyFormat(plan.capSumOfAllocation)}}</td>
-                                                                <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{$root.dispMoneyFormat(creditSource.ccsSumOfReserved)}}</td>
-                                                                <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{$root.dispMoneyFormat(creditSource.ccsSumOfFinancing)}}
+                                                                <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{$root.dispMoneyFormat(creditSource.ccsSumOfReserved)}}
                                                                     <div class="clearfix tool-bar">
                                                                         <div  style="width: 600px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true" data-h-offset="100px"  data-hover="true" data-hover-pane="true"  data-position="top" data-alignment="right" :id="'creditSource' + creditSource.id" data-dropdown data-auto-focus="true">
                                                                             <ul class="my-menu small-font">
@@ -1133,8 +1105,7 @@
                                                     <col width="150px"/>
                                                     <col width="150px"/>
                                                     <col width="150px"/>
-                                                    <col width="150px"/>
-                                                    <col width="250px"/>
+                                                    <col width="400px"/>
                                                     <col width="150px"/>
                                                     <col width="40px"/>
                                                     <col width="12px"/>
@@ -1143,7 +1114,6 @@
                                                 <tr class="tbl-head-style-cell">
                                                     <th class="tbl-head-style-cell">شماره نامه</th>
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
-                                                    <th class="tbl-head-style-cell">تامین اعتبار</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
                                                     <th class="tbl-head-style-cell">هزینه شده</th>
                                                     <th class="tbl-head-style-cell">مبلغ</th>
@@ -1164,8 +1134,7 @@
                                                         <col width="150px"/>
                                                         <col width="150px"/>
                                                         <col width="150px"/>
-                                                        <col width="150px"/>
-                                                        <col width="250px"/>
+                                                        <col width="400px"/>
                                                         <col width="150px"/>
                                                         <col width="40px"/>
                                                     </colgroup>
@@ -1175,8 +1144,7 @@
                                                             <template v-for="allocations in creditSource.credit_source_has_allocation">
                                                                 <tr class="table-row" v-for="alloc in allocations.allocation">
                                                                     <td :data-toggle="'allocation' + alloc.id" class="text-center">{{alloc.caaLetterNumber}}</td>
-                                                                    <td :data-toggle="'allocation' + alloc.id" class="text-center">{{$root.dispMoneyFormat(alloc.caaSumOfReserved)}}</td>
-                                                                    <td :data-toggle="'allocation' + alloc.id" class="text-center">{{$root.dispMoneyFormat(alloc.caaSumOfFinancing)}}
+                                                                    <td :data-toggle="'allocation' + alloc.id" class="text-center">{{$root.dispMoneyFormat(alloc.caaSumOfReserved)}}
                                                                         <div class="clearfix tool-bar">
                                                                             <div  style="width: 600px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true" data-h-offset="100px" data-hover="true" data-hover-pane="true"  data-position="top" data-alignment="right" :id="'allocation' + alloc.id" data-dropdown data-auto-focus="true">
                                                                                 <ul class="my-menu small-font">
@@ -1283,8 +1251,7 @@
                                                     <col width="150px"/>
                                                     <col width="150px"/>
                                                     <col width="150px"/>
-                                                    <col width="150px"/>
-                                                    <col width="250px"/>
+                                                    <col width="400px"/>
                                                     <col width="150px"/>
                                                     <col width="40px"/>
                                                     <col width="12px"/>
@@ -1293,7 +1260,6 @@
                                                 <tr class="tbl-head-style-cell">
                                                     <th class="tbl-head-style-cell">شماره نامه</th>
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
-                                                    <th class="tbl-head-style-cell">تامین اعتبار</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
                                                     <th class="tbl-head-style-cell">هزینه شده</th>
                                                     <th class="tbl-head-style-cell">مبلغ</th>
@@ -1314,8 +1280,7 @@
                                                         <col width="150px"/>
                                                         <col width="150px"/>
                                                         <col width="150px"/>
-                                                        <col width="150px"/>
-                                                        <col width="250px"/>
+                                                        <col width="400px"/>
                                                         <col width="150px"/>
                                                         <col width="40px"/>
                                                     </colgroup>
@@ -1323,7 +1288,6 @@
                                                     <tr v-for="found in capitalAssetsFound">
                                                         <td class="text-center">{{found.caaLetterNumber}}</td>
                                                         <td class="text-center">{{found.caaSumOfReserved}}</td>
-                                                        <td class="text-center">{{$root.dispMoneyFormat(found.caaSumOfFinancing)}}</td>
                                                         <td class="text-center">{{$root.dispMoneyFormat(found.caaSumOfCommitment)}}</td>
                                                         <td class="text-center">{{$root.dispMoneyFormat(found.caaSumOfCost)}}</td>
                                                         <td class="text-center">{{$root.dispMoneyFormat(found.caaAmount)}}</td>
@@ -1350,7 +1314,7 @@
                                 <div class="large-6 medium-6 small-12">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12">
-                                            <p> مبلغ برآورد : <span class="btn-red"> {{$root.dispMoneyFormat(baseAmount)}} </span></p>
+                                            <p> مبلغ : <span class="btn-red"> {{$root.dispMoneyFormat(baseAmount)}} </span></p>
                                         </div>
                                         <div class="large-12 medium-12 small-12">
                                             <p> مبلغ تامین اعتبار : <span class="btn-red"> {{$root.dispMoneyFormat(capReservedAmount)}} </span></p>
@@ -1759,7 +1723,7 @@ export default{
                         cs.selected = true;
                         cs.allocation.forEach( alloc =>{
                             alloc.selected = true;
-                            var remainingAmount = parseInt(alloc.caAmount) - (parseInt(alloc.caSumOfCost) + parseInt(alloc.caSumOfReserved) + parseInt(alloc.caSumOfFinancing) + parseInt(alloc.caSumOfCommitment));
+                            var remainingAmount = parseInt(alloc.caAmount) - (parseInt(alloc.caSumOfCost) + parseInt(alloc.caSumOfReserved) + parseInt(alloc.caSumOfCommitment));
                             if( remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
                                 alloc.amount = (piceOfAmount + piceOfDivRemAmount);
                                 piceOfDivRemAmount = 0;
@@ -1790,7 +1754,7 @@ export default{
                     piceOfDivRemAmount = parseInt(value) % aCount;
                     data.allocation.forEach( alloc =>{
                         alloc.selected = true;
-                        var remainingAmount = parseInt(alloc.caAmount) - (parseInt(alloc.caSumOfCost) + parseInt(alloc.caSumOfReserved) + parseInt(alloc.caSumOfFinancing) + parseInt(alloc.caSumOfCommitment));
+                        var remainingAmount = parseInt(alloc.caAmount) - (parseInt(alloc.caSumOfCost) + parseInt(alloc.caSumOfReserved) + parseInt(alloc.caSumOfCommitment));
                         if (remainingAmount > 0) {
                             if (remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
                                 alloc.amount = (piceOfAmount + piceOfDivRemAmount);
@@ -1816,7 +1780,7 @@ export default{
                 }
                 else if(type == 2){ //allocation level
                     data.selected = true;
-                    var remainingAmount = parseInt(data.caAmount) - (parseInt(data.caSumOfCost) + parseInt(data.caSumOfReserved) + parseInt(data.caSumOfFinancing) + parseInt(data.caSumOfCommitment));
+                    var remainingAmount = parseInt(data.caAmount) - (parseInt(data.caSumOfCost) + parseInt(data.caSumOfReserved) + parseInt(data.caSumOfCommitment));
                     if (remainingAmount > 0) {
                         if (remainingAmount >= value) {
                             data.amount = value;
@@ -1837,7 +1801,7 @@ export default{
                 }else if(type == 3) //found level
                 {
                     data.selected = true;
-                    var remainingAmount = parseInt(data.caAmount) - (parseInt(data.caSumOfCost) + parseInt(data.caSumOfReserved) + parseInt(data.caSumOfFinancing) + parseInt(data.caSumOfCommitment));
+                    var remainingAmount = parseInt(data.caAmount) - (parseInt(data.caSumOfCost) + parseInt(data.caSumOfReserved) + parseInt(data.caSumOfCommitment));
                     if (remainingAmount > 0)
                     {
                         if(remainingAmount >= value) {
@@ -1975,7 +1939,7 @@ export default{
                             cs.selected = true;
                             cs.allocation.forEach( alloc =>{
                                 alloc.selected = true;
-                                var remainingAmount = parseInt(alloc.caaAmount) - (parseInt(alloc.caaSumOfCost) + parseInt(alloc.caaSumOfReserved) + parseInt(alloc.caaSumOfFinancing) + parseInt(alloc.caaSumOfCommitment));
+                                var remainingAmount = parseInt(alloc.caaAmount) - (parseInt(alloc.caaSumOfCost) + parseInt(alloc.caaSumOfReserved) + parseInt(alloc.caaSumOfCommitment));
                                 if( remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
                                     alloc.amount = (piceOfAmount + piceOfDivRemAmount);
                                     piceOfDivRemAmount = 0;
@@ -2010,7 +1974,7 @@ export default{
                         cs.selected = true;
                         cs.allocation.forEach( alloc =>{
                             alloc.selected = true;
-                            var remainingAmount = parseInt(alloc.caaAmount) - (parseInt(alloc.caaSumOfCost) + parseInt(alloc.caaSumOfReserved) + parseInt(alloc.caaSumOfFinancing) + parseInt(alloc.caaSumOfCommitment));
+                            var remainingAmount = parseInt(alloc.caaAmount) - (parseInt(alloc.caaSumOfCost) + parseInt(alloc.caaSumOfReserved) + parseInt(alloc.caaSumOfCommitment));
                             if( remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
                                 alloc.amount = (piceOfAmount + piceOfDivRemAmount);
                                 piceOfDivRemAmount = 0;
@@ -2040,7 +2004,7 @@ export default{
                     piceOfDivRemAmount = parseInt(value) % aCount;
                     data.allocation.forEach( alloc =>{
                         alloc.selected = true;
-                        var remainingAmount = parseInt(alloc.caaAmount) - (parseInt(alloc.caaSumOfCost) + parseInt(alloc.caaSumOfReserved) + parseInt(alloc.caaSumOfFinancing) + parseInt(alloc.caaSumOfCommitment));
+                        var remainingAmount = parseInt(alloc.caaAmount) - (parseInt(alloc.caaSumOfCost) + parseInt(alloc.caaSumOfReserved) + parseInt(alloc.caaSumOfCommitment));
                         if( remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
                             alloc.amount = (piceOfAmount + piceOfDivRemAmount);
                             piceOfDivRemAmount = 0;
@@ -2066,7 +2030,7 @@ export default{
                 }
                 else if(type == 3){ //allocation level
                     data.selected = true;
-                    var remainingAmount = parseInt(data.caaAmount) - (parseInt(data.caaSumOfCost) + parseInt(data.caaSumOfReserved) + parseInt(data.caaSumOfFinancing) + parseInt(data.caaSumOfCommitment));
+                    var remainingAmount = parseInt(data.caaAmount) - (parseInt(data.caaSumOfCost) + parseInt(data.caaSumOfReserved) + parseInt(data.caaSumOfCommitment));
                     if (remainingAmount > 0) {
                         if (remainingAmount >= value) {
                             data.amount = value;
@@ -2087,7 +2051,7 @@ export default{
                 }else if(type == 4) //found level
                 {
                     data.selected = true;
-                    var remainingAmount = parseInt(data.caaAmount) - (parseInt(data.caaSumOfCost) + parseInt(data.caaSumOfReserved) + parseInt(data.caaSumOfFinancing) + parseInt(data.caaSumOfCommitment));
+                    var remainingAmount = parseInt(data.caaAmount) - (parseInt(data.caaSumOfCost) + parseInt(data.caaSumOfReserved) + parseInt(data.caaSumOfCommitment));
                     if (remainingAmount > 0)
                     {
                         if(remainingAmount >= value) {
@@ -2364,17 +2328,17 @@ export default{
             {
                 data.ca_credit_source_has_allocation.forEach(alloc =>{
                     alloc.allocation.forEach(item =>{
-                        remainingAmount = item.caAmount - (parseInt(item.caSumOfCost , 10) + parseInt(item.caSumOfReserved , 10) + parseInt(item.caSumOfFinancing , 10) + parseInt(item.caSumOfCommitment , 10));
+                        remainingAmount = item.caAmount - (parseInt(item.caSumOfCost , 10) + parseInt(item.caSumOfReserved , 10) + parseInt(item.caSumOfCommitment , 10));
 
                     });
                 });
             }else if(type == 2)
             {
                 data.allocation.forEach(item =>{
-                    remainingAmount = item.caAmount - (parseInt(item.caSumOfCost , 10) + parseInt(item.caSumOfReserved , 10) + parseInt(item.caSumOfFinancing , 10) + parseInt(item.caSumOfCommitment , 10));
+                    remainingAmount = item.caAmount - (parseInt(item.caSumOfCost , 10) + parseInt(item.caSumOfReserved , 10) + parseInt(item.caSumOfCommitment , 10));
                 });
             }else if(type == 3){
-                remainingAmount = data.caAmount - (parseInt(data.caSumOfCost , 10) + parseInt(data.caSumOfReserved , 10) + parseInt(data.caSumOfFinancing , 10) + parseInt(data.caSumOfCommitment , 10));
+                remainingAmount = data.caAmount - (parseInt(data.caSumOfCost , 10) + parseInt(data.caSumOfReserved , 10) + parseInt(data.caSumOfCommitment , 10));
             }
 
             var temp = (this.baseAmount - this.costReservedAmount);
@@ -2388,7 +2352,7 @@ export default{
                 data.capital_assets_project_has_credit_source.forEach(project =>{
                     project.credit_source_has_allocation.forEach(cs => {
                         cs.allocation.forEach(alloc => {
-                            remainingCapAmount += alloc.caaAmount - (parseInt(alloc.caaSumOfCost ,10) + parseInt(alloc.caaSumOfReserved , 10)+ parseInt(alloc.caaSumOfFinancing , 10) + parseInt(alloc.caaSumOfCommitment , 10));
+                            remainingCapAmount += alloc.caaAmount - (parseInt(alloc.caaSumOfCost ,10) + parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment , 10));
                         });
                     });
                 });
@@ -2396,16 +2360,16 @@ export default{
             {
                 data.credit_source_has_allocation.forEach(cs => {
                     cs.allocation.forEach(alloc => {
-                        remainingCapAmount += alloc.caaAmount - (parseInt(alloc.caaSumOfCost ,10) + parseInt(alloc.caaSumOfReserved , 10)+ parseInt(alloc.caaSumOfFinancing , 10) + parseInt(alloc.caaSumOfCommitment , 10));
+                        remainingCapAmount += alloc.caaAmount - (parseInt(alloc.caaSumOfCost ,10) + parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment , 10));
                     });
                 });
 
             }else if(type == 3){
                 data.allocation.forEach(alloc => {
-                    remainingCapAmount += alloc.caaAmount - (parseInt(alloc.caaSumOfCost , 10) + parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfFinancing , 10) + parseInt(alloc.caaSumOfCommitment));
+                    remainingCapAmount += alloc.caaAmount - (parseInt(alloc.caaSumOfCost , 10) + parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment));
                 });
             }else if(type == 4){
-                remainingCapAmount += data.caaAmount - (parseInt(data.caaSumOfCost , 10) + parseInt(data.caaSumOfReserved , 10) + parseInt(data.caaSumOfFinancing,10) + parseInt(data.caaSumOfCommitment , 10));
+                remainingCapAmount += data.caaAmount - (parseInt(data.caaSumOfCost , 10) + parseInt(data.caaSumOfReserved , 10) + parseInt(data.caaSumOfCommitment , 10));
             }
 
             var temp = (this.baseAmount - this.capReservedAmount);

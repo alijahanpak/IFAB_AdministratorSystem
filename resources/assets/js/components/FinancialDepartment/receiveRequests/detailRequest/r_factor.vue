@@ -214,7 +214,7 @@
             },
 
             openConfirmDeleteContract: function(cId){
-                this.cIdForDelete = cId;
+                this.fIdForDelete = cId;
                 this.showDeleteConfirmModal = true;
             },
 
@@ -235,7 +235,7 @@
             deleteFactor: function() {
                 axios.post('/financial/request/factor/delete', {
                     rId: this.requestId,
-                    cId: this.fIdForDelete,
+                    fId: this.fIdForDelete,
                 }).then((response) => {
                     if (response.status == 200)
                         this.$emit('updateReceiveRequestData' , response.data , this.requestId);

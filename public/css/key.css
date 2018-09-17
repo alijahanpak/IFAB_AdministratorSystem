@@ -2009,7 +2009,7 @@ input[type="search"]:valid + label {
 }
 
 .success-label{
-    background-color: #34bfa3;
+    background-color: #9CCC65;
     border-radius: 5px;
     padding:8px;
     color:#FFFFFF;

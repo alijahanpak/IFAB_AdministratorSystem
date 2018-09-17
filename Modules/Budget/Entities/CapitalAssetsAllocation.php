@@ -9,7 +9,7 @@ class CapitalAssetsAllocation extends Model
 {
     protected $table = 'tbl_capital_assets_allocation';
     protected $fillable = [];
-    protected $appends = ['caaSumOfCost' , 'caaConvertedAllocAmount'  , 'caaSumOfReserved' , 'caaSumOfFinancing' , 'caaSumOfCommitment'];
+    protected $appends = ['caaSumOfCost' , 'caaConvertedAllocAmount'  , 'caaSumOfReserved' , 'caaSumOfCommitment'];
 
     public function creditSource()
     {
@@ -31,11 +31,6 @@ class CapitalAssetsAllocation extends Model
         return $this->hasMany(CapitalAssetsFinancing::class , 'cafCaaId' , 'id')->where('cafAccepted' , '=' , false);
     }
 
-    public function sumOfFinancing()
-    {
-        return $this->hasMany(CapitalAssetsFinancing::class , 'cafCaaId' , 'id')->where('cafAccepted' , '=' , true);
-    }
-
     public function sumOfCommitment()
     {
         return $this->hasMany(CapitalAssetsFinancing::class , 'cafCaaId' , 'id')->where('cafAccepted' , '=' , true);
@@ -49,11 +44,6 @@ class CapitalAssetsAllocation extends Model
     public function getCaaSumOfReservedAttribute()
     {
         return $this->sumOfReserve()->sum('cafAmount');
-    }
-
-    public function getCaaSumOfFinancingAttribute()
-    {
-        return $this->sumOfFinancing()->sum('cafAmount');
     }
 
     public function getCaaSumOfCommitmentAttribute()

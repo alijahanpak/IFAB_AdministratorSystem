@@ -10,7 +10,7 @@ class CostAllocation extends Model
 {
     protected $table = 'tbl_cost_allocation';
     protected $fillable = [];
-    protected $appends = ['caSumOfCost' , 'caConvertedAllocAmount' , 'caSumOfReserved' , 'caSumOfFinancing' , 'caSumOfCommitment'];
+    protected $appends = ['caSumOfCost' , 'caConvertedAllocAmount' , 'caSumOfReserved' , 'caSumOfCommitment'];
 
     public function creditSource()
     {
@@ -32,11 +32,6 @@ class CostAllocation extends Model
         return $this->hasMany(CostFinancing::class , 'cfCaId' , 'id')->where('cfAccepted' , '=' , false);
     }
 
-    public function sumOfFinancing()
-    {
-        return $this->hasMany(CostFinancing::class , 'cfCaId' , 'id')->where('cfAccepted' , '=' , true);
-    }
-
     public function sumOfCommitment()
     {
         return $this->hasMany(CostFinancing::class , 'cfCaId' , 'id')->where('cfAccepted' , '=' , true);
@@ -50,11 +45,6 @@ class CostAllocation extends Model
     public function getCaSumOfReservedAttribute()
     {
         return $this->sumOfReserve()->sum('cfAmount');
-    }
-
-    public function getCaSumOfFinancingAttribute()
-    {
-        return $this->sumOfFinancing()->sum('cfAmount');
     }
 
     public function getCaSumOfCommitmentAttribute()

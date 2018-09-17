@@ -8,7 +8,7 @@ class CapCreditSource extends Model
 {
     protected $table = 'tbl_cap_credit_source';
     protected $fillable = [];
-    protected $appends = ['ccsSumOfCost' , 'ccsSumOfReserved' , 'ccsSumOfFinancing' , 'ccsSumOfCommitment' , 'ccsSumOfAllocation'];
+    protected $appends = ['ccsSumOfCost' , 'ccsSumOfReserved' , 'ccsSumOfCommitment' , 'ccsSumOfAllocation'];
 
     public function creditDistributionRow()
     {
@@ -47,11 +47,6 @@ class CapCreditSource extends Model
     public function getCcsSumOfReservedAttribute()
     {
         return $this->allocation()->get()->sum('caaSumOfReserved');
-    }
-
-    public function getCcsSumOfFinancingAttribute()
-    {
-        return $this->allocation()->get()->sum('caaSumOfFinancing');
     }
 
     public function getCcsSumOfCommitmentAttribute()
