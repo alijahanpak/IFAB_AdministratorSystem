@@ -74,7 +74,7 @@ class FinanceController extends Controller
                         ->where('cfRId' ,'=', $request->rId)
                         ->value('cfAmount');
 
-                    $remainigAmount = $costAllocInfo['caAmount'] - ($costAllocInfo['caSumOfCost'] + (($costAllocInfo['caSumOfReserved'] + $costAllocInfo['caSumOfFinancing']) - $lastReserve));
+                    $remainigAmount = $costAllocInfo['caAmount'] - ($costAllocInfo['caSumOfCost'] + (($costAllocInfo['caSumOfReserved']) - $lastReserve));
                     if (($remainigAmount - $costFinanc['amount']) >= 0)
                     {
                         CostFinancing::updateOrCreate(['cfCaId' => $costFinanc['aId'] , 'cfRId' => $request->rId],
@@ -107,7 +107,7 @@ class FinanceController extends Controller
                     $lastReserve = CapitalAssetsFinancing::where('cafCaaId' , '=' , $capFinanc['aId'])
                         ->where('cafRId' ,'=', $request->rId)
                         ->value('cafAmount');
-                    $remainigAmount = $capAllocInfo['caaAmount'] - ($capAllocInfo['caaSumOfCost'] + (($capAllocInfo['caaSumOfReserved'] + $capAllocInfo['caaSumOfFinancing']) - $lastReserve));
+                    $remainigAmount = $capAllocInfo['caaAmount'] - ($capAllocInfo['caaSumOfCost'] + (($capAllocInfo['caaSumOfReserved']) - $lastReserve));
                     if (($remainigAmount - $capFinanc['amount']) >= 0)
                     {
                         CapitalAssetsFinancing::updateOrCreate(['cafCaaId' => $capFinanc['aId'] , 'cafRId' => $request->rId],

@@ -167,7 +167,8 @@
                                             v-bind:requestType="requestType"
                                             v-bind:requestFill="requestFill"
                                             v-bind:UserIsVerifier="UserIsVerifier"
-                                            v-bind:requestId="requestId">
+                                            v-bind:requestId="requestId"
+                                            v-bind:acceptedAmount="acceptedAmount">
 
                                     </rCredits>
                                     <div v-else>
@@ -720,7 +721,10 @@
                 this.referralDestination=request.rLastRef.source_user_info.name +' - ' +request.rLastRef.source_user_info.role.rSubject;
                 this.canResponse=request.rLastRef.rhIsReferral;
 
-                this.baseAmount= request.rCostEstimation;
+                if (request.rAcceptedAmount > 0)
+                    this.baseAmount= request.rAcceptedAmount;
+                else
+                    this.baseAmount= request.rCostEstimation;
 
                 if (request.rRtId == 1){
                     this.requestTypeDetail='SERVICES';
