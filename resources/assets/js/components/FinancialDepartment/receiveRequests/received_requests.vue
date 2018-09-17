@@ -85,8 +85,20 @@
                                 <template v-if="receiveRequest.request_type.rtType == 'BUY_SERVICES' || receiveRequest.request_type.rtType == 'BUY_COMMODITY'">
                                     <td class="text-center">{{$parent.dispMoneyFormat(receiveRequest.rCostEstimation)}}</td>
                                     <td class="text-center" v-if="receiveRequest.rAcceptedAmount > 0">
-                                        <div v-if="receiveRequest.rAcceptedAmount != receiveRequest.rCostEstimation">
-                                            <span class="danger-label">{{$parent.dispMoneyFormat(receiveRequest.rAcceptedAmount)}}</span>
+                                        <div v-if="parseInt(receiveRequest.rAcceptedAmount) != parseInt(receiveRequest.rCommitmentAmount)">
+                                            <span class="danger-label" :data-toggle="'needForEditFinancing' + receiveRequest.id">{{$parent.dispMoneyFormat(receiveRequest.rAcceptedAmount)}}</span>
+                                            <div class="clearfix tool-bar">
+                                                <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'needForEditFinancing' + receiveRequest.id" data-dropdown data-auto-focus="true">
+                                                    <ul class="my-menu small-font">
+                                                        <div class="grid-x">
+                                                            <div class="medium-12">
+                                                                <p class="black-color text-justify">کاربر گرامی:</p>
+                                                                <p class="gray-colors text-justify" style="margin-top: -10px">مبلغ قرارداد / فاکتور با مبلغ تعهد شده از محل های تامین اعتبار تفاوت دارد، لطفا نسبت به اصلاح تامین اعتبار اقدام کنید.</p>
+                                                            </div>
+                                                        </div>
+                                                    </ul>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div v-else>
                                             {{$parent.dispMoneyFormat(receiveRequest.rAcceptedAmount)}}
@@ -167,12 +179,12 @@
                                 <div class="tabs-panel table-mrg-btm" id="creditsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <rCredits v-if="isFromRefund != true" v-on:closeModal="showRequestDetailModal=false"
                                               v-on:updateReceiveRequestData="updateReceiveRequestData"
+                                              v-on:updateCommitmentAmount="updateCommitmentAmount"
                                             v-bind:baseAmount="baseAmount"
                                             v-bind:requestType="requestType"
                                             v-bind:requestFill="requestFill"
                                             v-bind:UserIsVerifier="UserIsVerifier"
-                                            v-bind:requestId="requestId"
-                                            v-bind:acceptedAmount="acceptedAmount">
+                                            v-bind:requestId="requestId">
                                     </rCredits>
                                     <div v-else>
                                         <p>از تنخواه گردان کارپردازی</p>
@@ -200,8 +212,7 @@
                                              v-bind:factors="factors"
                                              v-bind:rCreditIsAccepted="rCreditIsAccepted"
                                              v-bind:rCreditIsExist="rCreditIsExist"
-                                             v-bind:isFromRefundCosts="isFromRefundCosts"
-                                    >
+                                             v-bind:isFromRefundCosts="isFromRefundCosts">
 
                                     </rFactor>
                                 </div>
@@ -623,6 +634,15 @@
                 this.makePagination(requests);
             },
 
+            updateCommitmentAmount: function(amount , rId){
+                this.receiveRequests.forEach(item => {
+                    if (item.id == rId)
+                    {
+                        item.rCommitmentAmount = amount;
+                    }
+                });
+            },
+
             makePagination: function(data){
                 this.received_pagination.current_page = data.current_page;
                 this.received_pagination.to = data.to;
@@ -742,9 +762,6 @@
                 this.lastVerifier=request.rLastRef.id;
                 this.creditIsAccepted = request.rCreditIsAccepted;
                 this.creditIsExist = request.rCreditIsExist;
-
-                this.rCreditIsAccepted = request.rCreditIsAccepted;
-                this.rCreditIsExist = request.rCreditIsExist;
 
                 this.requestType = request.request_type.rtType;
                 this.isFromRefund = request.isFromRefundCosts;

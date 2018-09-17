@@ -123,7 +123,7 @@
         <modal-tiny v-if="showAcceptConfirmModal" @close="showAcceptConfirmModal = false">
             <div slot="body">
                 <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                    <p style="font-size: 1rem">کاربر گرامی:</p>
+                    <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
                     <p class="large-offset-1 modal-text">تایید اطلاعات قرارداد به منزله ایجاد تعهد در محل های تامین اعتبار است، آیا صحت اطلاعات را تایید می کنید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">

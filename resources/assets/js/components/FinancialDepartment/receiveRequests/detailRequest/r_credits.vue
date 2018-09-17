@@ -1342,7 +1342,7 @@
         <modal-tiny v-if="showDeleteFinancingModal" @close="showDeleteFinancingModal = false">
             <div  slot="body">
                 <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                    <p>کاربر گرامی</p>
+                    <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
                     <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
@@ -1358,7 +1358,7 @@
         <modal-tiny v-if="showAcceptFinancingModal" @close="showAcceptFinancingModal = false">
             <div  slot="body">
                 <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                    <p style="font-size: 1rem">کاربر گرامی:</p>
+                    <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
                     <p class="large-offset-1 modal-text">تایید نهایی تامین اعتبار به منزله ایجاد تعهد در محل های انتخاب شده است، آیا برای تایید اطمینان دارید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
@@ -1374,7 +1374,7 @@
         <modal-tiny v-if="showAcceptApplyFromRefundModal" @close="showAcceptApplyFromRefundModal = false">
             <div  slot="body">
                 <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                    <p style="font-size: 1rem">کاربر گرامی:</p>
+                    <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
                     <p class="large-offset-1 modal-text">آیا تمایل دارید اعتبار از محل تنخواه گردان کارپردازی تامین گردد؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
@@ -1703,6 +1703,8 @@ export default{
 
                 this.lastCostReservedAmount += parseInt(item.cfAmount , 10);
             });
+
+            this.$emit('updateCommitmentAmount' , this._financingAmount , this.requestId);
         },
 
         /////////////////////// cost financing //////////////////////////////

@@ -10,7 +10,7 @@ class _Request extends Model
 {
     protected $fillable = [];
     protected $table = 'tbl_requests';
-    protected $appends = ['rLastRef' , 'rYouAreVerifiers' , 'rRemainingVerifiers' , 'rCreditIsAccepted' , 'rCreditIsExist' , 'rAcceptedAmount'];
+    protected $appends = ['rLastRef' , 'rYouAreVerifiers' , 'rRemainingVerifiers' , 'rCreditIsAccepted' , 'rCreditIsExist' , 'rAcceptedAmount' , 'rCommitmentAmount'];
 
     public function requestState()
     {
@@ -75,10 +75,25 @@ class _Request extends Model
 
     public function getRAcceptedAmountAttribute()
     {
-        $amount = Contract::where('cRId' , '=' , $this->id)->sum('cAmount');
-        $amount += Factor::where('fRId' , '=' , $this->id)->sum('fAmount');
+        $amount = Contract::where('cRId' , '=' , $this->id)
+            ->where('cIsAccepted' , true)->sum('cAmount');
+        $amount += Factor::where('fRId' , '=' , $this->id)
+            ->where('fIsAccepted' , true)->sum('fAmount');
 
         return $amount;
+    }
+
+    public function getRCommitmentAmountAttribute()
+    {
+        $costAmount = CostFinancing::where('cfRId' , $this->id)
+            ->where('cfAccepted' , true)
+            ->sum('cfAmount');
+
+        $capAmount = CapitalAssetsFinancing::where('cafRId' , $this->id)
+            ->where('cafAccepted' , true)
+            ->sum('cafAmount');
+
+        return $costAmount + $capAmount;
     }
 
     public function getRLastRefAttribute()

@@ -32,6 +32,7 @@ class FinanceController extends Controller
             ->with('allocation.creditSource.creditDistributionRow')
             ->with('allocation.creditSource.creditDistributionTitle.budgetSeason')
             ->with('allocation.creditSource.creditDistributionTitle.county')
+            ->orderBy('cfAccepted')
             ->get();
     }
 
@@ -44,6 +45,7 @@ class FinanceController extends Controller
             ->with('allocation.creditSource.capitalAssetsProject.county')
             ->with('allocation.creditSource.capitalAssetsProject.capitalAssetsApprovedPlan')
             ->with('allocation.creditSource.capitalAssetsProject.capitalAssetsApprovedPlan.creditDistributionTitle.county')
+            ->orderBy('cafAccepted')
             ->get();
     }
 
@@ -77,8 +79,16 @@ class FinanceController extends Controller
                     $remainigAmount = $costAllocInfo['caAmount'] - ($costAllocInfo['caSumOfCost'] + (($costAllocInfo['caSumOfReserved']) - $lastReserve));
                     if (($remainigAmount - $costFinanc['amount']) >= 0)
                     {
-                        CostFinancing::updateOrCreate(['cfCaId' => $costFinanc['aId'] , 'cfRId' => $request->rId],
-                            ['cfAmount' => $costFinanc['amount'] , 'cfAccepted' => false]);
+                        if (CostFinancing::where('cfCaId' , $costFinanc['aId'])
+                            ->where('cfRId' , $request->rId)
+                            ->exists())
+                        {
+                            CostFinancing::updateOrCreate(['cfCaId' => $costFinanc['aId'] , 'cfRId' => $request->rId],
+                                ['cfAmount' => $costFinanc['amount']]);
+                        }else{
+                            CostFinancing::updateOrCreate(['cfCaId' => $costFinanc['aId'] , 'cfRId' => $request->rId],
+                                ['cfAmount' => $costFinanc['amount'] , 'cfAccepted' => false]);
+                        }
                     }else{
                         CostFinancing::whereIn('cfCaId' , $insertedAId)
                             ->where('cfRId' , '=' , $request->rId)
@@ -110,8 +120,17 @@ class FinanceController extends Controller
                     $remainigAmount = $capAllocInfo['caaAmount'] - ($capAllocInfo['caaSumOfCost'] + (($capAllocInfo['caaSumOfReserved']) - $lastReserve));
                     if (($remainigAmount - $capFinanc['amount']) >= 0)
                     {
-                        CapitalAssetsFinancing::updateOrCreate(['cafCaaId' => $capFinanc['aId'] , 'cafRId' => $request->rId],
-                            ['cafAmount' => $capFinanc['amount'] , 'cafAccepted' => false]);
+                        if (CapitalAssetsFinancing::where('cafCaaId' , $capFinanc['aId'])
+                            ->where('cafRId' , $request->rId)
+                            ->exists())
+                        {
+                            CapitalAssetsFinancing::updateOrCreate(['cafCaaId' => $capFinanc['aId'] , 'cafRId' => $request->rId],
+                                ['cafAmount' => $capFinanc['amount']]);
+                        }else{
+                            CapitalAssetsFinancing::updateOrCreate(['cafCaaId' => $capFinanc['aId'] , 'cafRId' => $request->rId],
+                                ['cafAmount' => $capFinanc['amount'] , 'cafAccepted' => false]);
+                        }
+
                     }else{
                         CapitalAssetsFinancing::whereIn('cafCaaId' , $insertedAId)
                             ->where('cafRId' , '=' , $request->rId)
@@ -188,21 +207,42 @@ class FinanceController extends Controller
             $req = _Request::where('id' , '=' , $request->rId)->with('requestType')->first();
             if ($req->requestType->rtType == 'BUY_COMMODITY')
             {
-                $req = _Request::find($request->rId);
-                $req->rRsId = RequestState::where('rsState' , '=' , 'SUPPLIER_QUEUE')->value('id');
-                $req->save();
+                if ($req->rAcceptedAmount == 0)
+                {
+                    $req = _Request::find($request->rId);
+                    $req->rRsId = RequestState::where('rsState' , '=' , 'SUPPLIER_QUEUE')->value('id');
+                    $req->save();
 
-                $supReqQueue = new SupplierRequestQueue();
-                $supReqQueue->srqRId = $req->id;
-                $supReqQueue->save();
+                    $supReqQueue = new SupplierRequestQueue();
+                    $supReqQueue->srqRId = $req->id;
+                    $supReqQueue->save();
+                }else{
+                    $req = _Request::find($request->rId);
+                    $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
+                    $req->save();
+
+                    $finReqQueue = new FinancialRequestQueue();
+                    $finReqQueue->frqRId = $req->id;
+                    $finReqQueue->save();
+                }
             }else if ($req->requestType->rtType == 'BUY_SERVICES'){
-                $req = _Request::find($request->rId);
-                $req->rRsId = RequestState::where('rsState' , '=' , 'UNIT_OF_CONTRACT_QUEUE')->value('id');
-                $req->save();
+                if ($req->rAcceptedAmount == 0) {
+                    $req = _Request::find($request->rId);
+                    $req->rRsId = RequestState::where('rsState', '=', 'UNIT_OF_CONTRACT_QUEUE')->value('id');
+                    $req->save();
 
-                $ufcReqQueue = new UnitOfContractRequestQueue();
-                $ufcReqQueue->ufcrqRId = $req->id;
-                $ufcReqQueue->save();
+                    $ufcReqQueue = new UnitOfContractRequestQueue();
+                    $ufcReqQueue->ufcrqRId = $req->id;
+                    $ufcReqQueue->save();
+                }else{
+                    $req = _Request::find($request->rId);
+                    $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
+                    $req->save();
+
+                    $finReqQueue = new FinancialRequestQueue();
+                    $finReqQueue->frqRId = $req->id;
+                    $finReqQueue->save();
+                }
             }else if ($req->requestType->rtType == 'FUND'){
                 $req = _Request::find($request->rId);
                 $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
@@ -219,7 +259,7 @@ class FinanceController extends Controller
             $history->rhDestUId = null; // for financial destination
             $history->rhRId = $req->id;
             $history->rhRsId = $req->rRsId;
-            $history->rhDescription = 'تامین اعتبار، مورد تایید می باشد.';
+            $history->rhDescription = 'با سلام، تامین اعتبار، تایید شد. به نحو مقتضی اقدام شود.';
             $history->save();
 
         });
