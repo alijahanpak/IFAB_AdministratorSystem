@@ -551,4 +551,14 @@ class RequestController extends Controller
             $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
         );
     }
+
+    public function fetchAllRefund(Request $request)
+    {
+        $refund = _Request::where('rFyId' ,'=' , Auth::user()->seFiscalYear)
+            ->whereHas('requestType' , function ($q){
+                return $q->where('rtType' , '=' , 'FUND');
+            })->get();
+
+        return \response()->json($refund);
+    }
 }

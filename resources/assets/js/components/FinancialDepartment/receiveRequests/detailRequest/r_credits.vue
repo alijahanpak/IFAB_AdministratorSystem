@@ -173,6 +173,7 @@
         <div style="padding: 0 17px 0 17px;" class="large-12 medium-12 small-12 small-top-m">
             <div style="margin-bottom:-10px;margin-top: 5px" class="stacked-for-small button-group float-left">
                 <button v-show='$can("FINANCIAL_ACCEPT_FINANCING") && acceptBtn' @click="checkAcceptFinancing()"  class="my-button my-success float-left"><span class="btn-txt-mrg">تایید تامین اعتبار</span></button>
+                <button v-show="$can('FINANCIAL_ACCEPT_PAY_FROM_REFUND') && requestCostFinancing.length == 0 && requestCapFinancing.length == 0 && requestType == 'BUY_COMMODITY'" @click="checkApplyFromRefund()" class="my-button toolbox-btn float-left"><span class="btn-txt-mrg">  تامین از تنخواه گردان کارپردازی</span></button>
                 <button v-show='$can("FINANCIAL_CAPITAL_ASSETS_FINANCING")' @click="openCapitalAssetsModal()" class="my-button toolbox-btn float-left"><span class="btn-txt-mrg">  اعتبارات تملک دارایی های سرمایه ای</span></button>
                 <button v-show='$can("FINANCIAL_COST_FINANCING")' @click="openCostCreditsModal()" class="my-button toolbox-btn float-left"><span class="btn-txt-mrg">  اعتبارات هزینه ای</span></button>
             </div>
@@ -1405,6 +1406,22 @@
         </modal-tiny>
         <!-- accept Financing modal -->
 
+        <!-- accept supplay from refund modal -->
+        <modal-tiny v-if="showAcceptApplyFromRefundModal" @close="showAcceptApplyFromRefundModal = false">
+            <div  slot="body">
+                <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <p style="font-size: 1rem">کاربر گرامی:</p>
+                    <p class="large-offset-1 modal-text">آیا تمایل دارید اعتبار از محل تنخواه گردان کارپردازی تامین گردد؟</p>
+                    <div class="grid-x">
+                        <div class="medium-12 column text-center">
+                            <button v-on:click="applyFromRefund"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-tiny>
+        <!-- accept supplay from refund modal -->
+
         <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
             {{dialogMessage}}
         </messageDialog>
@@ -1415,13 +1432,14 @@
 <script>
 
 export default{
-    props:['baseAmount','UserIsVerifier','requestFill','requestId','receiveRequests' , 'updateReceiveRequestData'],
+    props:['baseAmount','UserIsVerifier','requestFill','requestId','requestType' , 'updateReceiveRequestData'],
 
     data () {
         return {
             showCostCreditsModal:false,
             showCapitalAssetsModal:false,
             showAcceptFinancingModal: false,
+            showAcceptApplyFromRefundModal: false,
             requestCostFinancing:[],
             requestCapFinancing:[],
             acceptBtn:false,
@@ -1560,6 +1578,30 @@ export default{
             });
 
             this.calculateCostReservedAmount();
+        },
+
+        checkApplyFromRefund: function(){
+            if (this.UserIsVerifier.length == 0 && (this.requestFill.rLetterNumber != '' && this.requestFill.rLetterDate != ''))
+            {
+                this.showAcceptApplyFromRefundModal = true;
+            }else{
+                this.dialogMessage = 'با توجه به اینکه درخواست تایید نهایی یا ثبت دبیرخانه نشده است! امکان تامین اعتبار وجود ندارد.';
+                this.showDialogModal = true;
+            }
+        },
+
+        applyFromRefund: function(){
+            axios.post('/financial/request/financing/supply_from_refund', {
+                id: this.requestId,
+            }).then((response) => {
+                this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                this.$emit('closeModal');
+                this.$root.displayNotif(response.status);
+                console.log(response);
+            }, (error) => {
+                console.log(error);
+                this.$root.displayNotif(error.response.status);
+            });
         },
 
         getCompleteCapitalAssetsApproved: function () {
@@ -2403,7 +2445,6 @@ export default{
             axios.post('/financial/request/financing/accept', {
                 rId: this.requestId,
             }).then((response) => {
-                this.receiveRequests = response.data.data;
                 this.$emit('updateReceiveRequestData' , response.data , this.requestId);
                 this.$emit('closeModal');
                 this.$root.displayNotif(response.status);

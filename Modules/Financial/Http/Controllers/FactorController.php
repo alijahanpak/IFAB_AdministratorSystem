@@ -35,15 +35,10 @@ class FactorController extends Controller
             SystemLog::setFinancialSubSystemLog('ثبت فاکتور ' . $request->subject . ' برای درخواست ' . _Request::find($request->rId)->rSubject);
         });
 
+        $rController = new RequestController();
         return \response()->json(
-            $this->getAllFactor($request->rId)
+            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
         );
-    }
-
-    function getAllFactor($rId)
-    {
-        return Factor::where('fRId' , '=' , $rId)
-            ->get();
     }
 
     function accept(Request $request)
@@ -55,8 +50,9 @@ class FactorController extends Controller
             SystemLog::setFinancialSubSystemLog('تایید فاکتور های ' . _Request::find($request->rId)->rSubject);
         });
 
+        $rController = new RequestController();
         return \response()->json(
-            $this->getAllFactor($request->rId)
+            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
         );
     }
 
@@ -73,8 +69,9 @@ class FactorController extends Controller
             }
         });
 
+        $rController = new RequestController();
         return \response()->json(
-            $this->getAllFactor($request->rId)
+            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
             , $resultCode);
     }
 }

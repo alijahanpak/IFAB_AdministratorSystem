@@ -125,7 +125,7 @@
                                 <li class="tabs-title is-active"><a href="#requestDetailTab" aria-selected="true">جزییات</a></li>
                                 <li class="tabs-title"><a href="#requestVerifiersTab">تایید کنندگان </a></li>
                                 <li class="tabs-title"><a href="#creditsTab">اعتبارات</a></li>
-                                <li class="tabs-title"><a href="#contractTab">اطلاعات قرارداد</a></li>
+                                <li class="tabs-title" v-if="requestType == 'BUY_SERVICES'"><a href="#contractTab">اطلاعات قرارداد</a></li>
                                 <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
                                 <li class="tabs-title"><a href="#requestAttachmentsTab">پیوست ها </a></li>
                             </ul>
@@ -161,20 +161,24 @@
                                 <!--Tab 2-->
                                 <!--Tab 3-->
                                 <div class="tabs-panel table-mrg-btm" id="creditsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                    <rCredits v-on:closeModal="showRequestDetailModal=false"
+                                    <rCredits v-if="isFromRefund != true" v-on:closeModal="showRequestDetailModal=false"
                                               v-on:updateReceiveRequestData="updateReceiveRequestData"
                                             v-bind:baseAmount="baseAmount"
-                                            v-bind:receiveRequests="receiveRequests"
+                                            v-bind:requestType="requestType"
                                             v-bind:requestFill="requestFill"
                                             v-bind:UserIsVerifier="UserIsVerifier"
                                             v-bind:requestId="requestId">
 
                                     </rCredits>
+                                    <div v-else>
+                                        <p>از تنخواه گردان کارپردازی</p>
+                                    </div>
                                 </div>
                                 <!--Tab 3-->
                                 <!--Tab 4-->
                                 <div class="tabs-panel table-mrg-btm" id="contractTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                    <rContract  v-on:closeModal="showRequestDetailModal=false"
+                                    <rContract v-if="requestType == 'BUY_SERVICES'"
+                                            v-on:closeModal="showRequestDetailModal=false"
                                             v-on:updateReceiveRequestData="updateReceiveRequestData"
                                             v-bind:requestId="requestId"
                                             v-bind:contracts="contracts"
@@ -556,6 +560,7 @@
                     current_page: 1,
                     last_page: ''
                 },
+                isFromRefund: false,
             }
         },
 
@@ -703,6 +708,8 @@
                 this.lastVerifier=request.rLastRef.id;
                 this.creditIsAccepted = request.rCreditIsAccepted;
                 this.creditIsExist = request.rCreditIsExist;
+                this.requestType = request.request_type.rtType;
+                this.isFromRefund = request.isFromRefundCosts;
 
                 if(request.rYouAreVerifiers.length != 0){
                     this.youAreVerifier=request.rYouAreVerifiers[0].id;
