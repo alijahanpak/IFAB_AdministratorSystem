@@ -68,6 +68,7 @@ class RequestController extends Controller
             ->with('history.destinationUserInfo.role')
             ->with('history.requestState')
             ->with('contract')
+            ->with('factor')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
     }
@@ -229,6 +230,7 @@ class RequestController extends Controller
             ->with('history.destinationUserInfo.role')
             ->with('history.requestState')
             ->with('contract')
+            ->with('factor')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
     }
@@ -550,5 +552,15 @@ class RequestController extends Controller
         return \response()->json(
             $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
         );
+    }
+
+    public function fetchAllRefund(Request $request)
+    {
+        $refund = _Request::where('rFyId' ,'=' , Auth::user()->seFiscalYear)
+            ->whereHas('requestType' , function ($q){
+                return $q->where('rtType' , '=' , 'FUND');
+            })->get();
+
+        return \response()->json($refund);
     }
 }
