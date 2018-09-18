@@ -781,7 +781,7 @@
                 else
                     this.baseAmount= request.rCostEstimation;
 
-                if (request.rRtId == 1){
+                if (request.request_type.rtType == 'BUY_SERVICES'){
                     this.requestTypeDetail='SERVICES';
                     this.requestFill.rLetterNumber=request.rLetterNumber;
                     this.requestFill.rLetterDate=request.rLetterDate;
@@ -790,7 +790,7 @@
                     this.requestFill.rDescription=request.rDescription;
                     this.requestFill.rFurtherDetails=request.rFurtherDetails;
                 }
-                else if (request.rRtId == 2){
+                else if (request.request_type.rtType == 'BUY_COMMODITY'){
                     var commodityTemp=[];
                     commodityTemp.push(request);
                     this.commodityList=[];
@@ -805,7 +805,7 @@
                         });
                     });
                 }
-                else if (request.rRtId == 3){
+                else if (request.request_type.rtType == 'FUND'){
                     this.requestTypeDetail='FUND';
                     this.requestFill.rLetterNumber=request.rLetterNumber;
                     this.requestFill.rLetterDate=request.rLetterDate;

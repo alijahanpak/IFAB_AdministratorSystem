@@ -2191,8 +2191,20 @@ input[type="search"]:valid + label {
 }
 
 .notif-badage{
-    background-color: #f4516c;
-    border-radius: 50%;
+    background-color: rgb(244, 81, 108);
+    border-radius: 8px;
+    width: 20px;
+    height: 20px;
+    padding: 4px 7px;
+    font-size: 1em;
+    margin-left:  8px;
+    margin-right: 8px;
+    color: #ffffff;
+}
+
+.notif-badge-purple{
+    background-color: #716aca;
+    border-radius: 8px;
     width: 20px;
     height: 20px;
     padding: 4px 7px;

@@ -137,6 +137,22 @@
                             </div>
                         </div>
                         <div class="grid-x">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <label>مجری
+                                    <input type="text" name="contractContractor" v-model="contractInput.subject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('contractSubject')}">
+                                </label>
+                                <p v-show="errors.has('contractPresenter')" class="error-font">لطفا عنوان را برای قرارداد مورد نظر را وارد نمایید!</p>
+                                <suggestions style="margin-bottom: -18px;" name="commodityTitle" v-validate :class="{'input': true, 'select-error': errors.has('contractContractor')}"
+                                             v-model="contractInput.contractor"
+                                             :options="commodityOptions"
+                                             :onInputChange="onCommodityInputChange">
+                                    <div slot="item" slot-scope="props" class="single-item">
+                                        <strong>{{props.item}}</strong>
+                                    </div>
+                                </suggestions>
+                            </div>
+                        </div>
+                        <div class="grid-x">
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>مبلغ <span class="btn-red">(ریال)</span>
                                     <money v-model="contractInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('contractAmount')}"></money>
@@ -267,9 +283,12 @@
     </div>
 </template>
 <script>
-
+    import Suggestions from "v-suggestions/src/Suggestions";
     export default{
         props:['contracts','requestId' , 'creditIsAccepted' , 'creditIsExist'],
+        components: {
+            Suggestions,
+        },
         data () {
             return {
                 showInsertContractModal:false,
@@ -284,6 +303,12 @@
                     precision: 0,
                     masked: true
                 },
+                //contract input text
+                commodityQuery: '',
+                commodityList: [],
+                selectedCommodity: null,
+                commodityOptions: {},
+                //contract input text
             }
 
         },
