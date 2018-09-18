@@ -15,14 +15,17 @@ use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\RefundCosts;
 use Modules\Financial\Entities\RequestHistory;
 use Modules\Financial\Entities\RequestState;
+use Modules\Financial\Entities\Seller;
 
 class FactorController extends Controller
 {
     function addNewFactor(Request $request)
     {
         DB::transaction(function () use($request){
+            $sId = Seller::firstOrCreate(['sSubject' => PublicSetting::checkPersianCharacters($request->seller)]);
             $factor = new Factor();
             $factor->fRId = $request->rId;
+            $factor->fSId = $sId->id;
             $factor->fSubject = PublicSetting::checkPersianCharacters($request->subject);
             $factor->fAmount = $request->amount;
             $factor->fDescription = PublicSetting::checkPersianCharacters($request->description);

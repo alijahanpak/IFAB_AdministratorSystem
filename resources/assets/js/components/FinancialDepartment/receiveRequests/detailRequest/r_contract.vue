@@ -65,9 +65,13 @@
                                                             <td width="150" class="black-color">عنوان  :</td>
                                                             <td>{{contract.cSubject}}</td>
                                                         </tr>
+                                                        <tr class="align-right">
+                                                            <td width="150" class="black-color">مجری  :</td>
+                                                            <td>{{contract.executor.eSubject}}</td>
+                                                        </tr>
                                                         <tr>
                                                             <td width="150" class="black-color">مبلغ  :</td>
-                                                            <td>{{contract.cAmount}}</td>
+                                                            <td>{{$root.dispMoneyFormat(contract.cAmount)}} ریال</td>
                                                         </tr>
                                                         <tr>
                                                             <td width="150" class="black-color">درصد افزایش و یا کاهش  :</td>
@@ -134,25 +138,24 @@
                                     <input type="text" name="contractSubject" v-model="contractInput.subject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('contractSubject')}">
                                 </label>
                                 <p v-show="errors.has('contractSubject')" class="error-font">لطفا عنوان را برای قرارداد مورد نظر را وارد نمایید!</p>
+                                <p v-show="errors.has('contractSubject')" class="error-font">لطفا عنوان را برای قرارداد مورد نظر را وارد نمایید!</p>
                             </div>
                         </div>
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <label>مجری
-                                    <input type="text" name="contractContractor" v-model="contractInput.subject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('contractSubject')}">
+                                    <suggestions style="margin-bottom: -18px;" name="executorTitle" v-validate :class="{'input': true, 'select-error': errors.has('executorTitle')}"
+                                                 v-model="contractInput.executor"
+                                                 :options="executorOptions"
+                                                 :onInputChange="onExecutorInputChange">
+                                        <div slot="item" slot-scope="props" class="single-item">
+                                            <strong>{{props.item}}</strong>
+                                        </div>
+                                    </suggestions>
                                 </label>
-                                <p v-show="errors.has('contractPresenter')" class="error-font">لطفا عنوان را برای قرارداد مورد نظر را وارد نمایید!</p>
-                                <suggestions style="margin-bottom: -18px;" name="commodityTitle" v-validate :class="{'input': true, 'select-error': errors.has('contractContractor')}"
-                                             v-model="contractInput.contractor"
-                                             :options="commodityOptions"
-                                             :onInputChange="onCommodityInputChange">
-                                    <div slot="item" slot-scope="props" class="single-item">
-                                        <strong>{{props.item}}</strong>
-                                    </div>
-                                </suggestions>
                             </div>
                         </div>
-                        <div class="grid-x">
+                        <div style="margin-top:15px;"  class="grid-x">
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>مبلغ <span class="btn-red">(ریال)</span>
                                     <money v-model="contractInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('contractAmount')}"></money>
@@ -304,10 +307,11 @@
                     masked: true
                 },
                 //contract input text
-                commodityQuery: '',
-                commodityList: [],
-                selectedCommodity: null,
-                commodityOptions: {},
+                executorItems:[],
+                executor: '',
+                executorList: [],
+                selectedExecutor: null,
+                executorOptions: {},
                 //contract input text
             }
 
@@ -326,6 +330,44 @@
         },
 
         methods : {
+
+            /*-----------------------------------------------------------------------------
+           ------------------ Contract Executor Start ------------------------------
+           -----------------------------------------------------------------------------*/
+            getAllExecutors: function () {
+                axios.get('/financial/executor/fetchData')
+                    .then((response) => {
+                        this.executorItems = response.data;
+                        this.executorList= [];
+                        this.executorItems.forEach(item=> {
+                            this.executorList.push(item.eSubject)
+                        });
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                    });
+            },
+
+            onExecutorInputChange(executorInput) {
+                if (executorInput.trim().length === 0) {
+                    return null
+                }
+                // return the matching countries as an array
+                return this.executorList.filter((executors) => {
+                    return executors.toLowerCase().includes(executorInput.toLowerCase())
+                })
+            },
+            onCommoditySelected(item) {
+                this.selectedExecutor = item
+            },
+            onSearchItemSelected(item) {
+                this.selectedSearchItem = item
+            },
+
+            /*-----------------------------------------------------------------------------
+            ------------------ Contract Executor End ------------------------------
+            -----------------------------------------------------------------------------*/
+
             checkAcceptContract: function(){
                 var existNotAccepted = false;
                 this.contracts.forEach(item => {
@@ -391,8 +433,11 @@
                     {
                         this.dialogMessage = 'تامین اعتبار تایید نهایی نشده است!';
                         this.showDialogModal = true;
-                    }else
+                    }else{
+                        this.contractInput={};
+                        this.getAllExecutors();
                         this.showInsertContractModal=true;
+                    }
                 }else{
                     this.dialogMessage = 'امکان ثبت قرارداد وجود ندارد. منابع تامین اعتبار برای این درخواست تعیین نشده است!';
                     this.showDialogModal = true;
@@ -406,6 +451,7 @@
                         axios.post('/financial/request/contract/insert', {
                             rId: this.requestId,
                             subject: this.contractInput.subject,
+                            executor: this.contractInput.executor,
                             amount: parseInt(this.contractInput.amount.split(',').join(''),10),
                             percentIncAndDec: this.contractInput.percentIncAndDec,
                             letterNumber: this.contractInput.letterNumber,

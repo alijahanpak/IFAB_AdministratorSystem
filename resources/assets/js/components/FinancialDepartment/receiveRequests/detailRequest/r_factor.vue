@@ -88,6 +88,20 @@
                             </div>
                         </div>
                         <div class="grid-x">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <label>فروشنده
+                                    <suggestions style="margin-bottom: -18px;" name="sellerTitle" v-validate :class="{'input': true, 'select-error': errors.has('sellerTitle')}"
+                                                 v-model="factorInput.seller"
+                                                 :options="sellerOptions"
+                                                 :onInputChange="onSellerInputChange">
+                                        <div slot="item" slot-scope="props" class="single-item">
+                                            <strong>{{props.item}}</strong>
+                                        </div>
+                                    </suggestions>
+                                </label>
+                            </div>
+                        </div>
+                        <div style="margin-top:15px;" class="grid-x">
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>مبلغ <span class="btn-red">(ریال)</span>
                                     <money v-model="factorInput.amount" name="factorAmount" v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('factorAmount')}"></money>
@@ -152,9 +166,12 @@
     </div>
 </template>
 <script>
-
+    import Suggestions from "v-suggestions/src/Suggestions";
     export default{
         props:['factors','requestId' , 'rCreditIsAccepted' , 'rCreditIsExist','isFromRefundCosts'],
+        components: {
+            Suggestions,
+        },
         data () {
             return {
                 showInsertFactorModal:false,
@@ -171,6 +188,13 @@
                     precision: 0,
                     masked: true
                 },
+                //contract input text
+                sellerItems:[],
+                seller: '',
+                sellerList: [],
+                selectedSeller: null,
+                sellerOptions: {},
+                //contract input text
             }
 
         },
@@ -188,6 +212,44 @@
         },
 
         methods : {
+
+            /*-----------------------------------------------------------------------------
+           ------------------ Seller Executor Start ------------------------------
+           -----------------------------------------------------------------------------*/
+            getAllSeller: function () {
+                axios.get('/financial/seller/fetchData')
+                    .then((response) => {
+                        this.sellerItems = response.data;
+                        this.sellerList= [];
+                        this.sellerItems.forEach(item=> {
+                            this.sellerList.push(item.sSubject)
+                        });
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                    });
+            },
+
+            onSellerInputChange(sellerInput) {
+                if (sellerInput.trim().length === 0) {
+                    return null
+                }
+                // return the matching countries as an array
+                return this.sellerList.filter((sellers) => {
+                    return sellers.toLowerCase().includes(sellerInput.toLowerCase())
+                })
+            },
+            onSellerSelected(item) {
+                this.selectedSeller = item
+            },
+            onSearchItemSelected(item) {
+                this.selectedSearchItem = item
+            },
+
+            /*-----------------------------------------------------------------------------
+            ------------------ Seller Executor End ------------------------------
+            -----------------------------------------------------------------------------*/
+
             getRefund: function () {
                 axios.get('/financial/request/get_all_refund')
                     .then((response) => {
@@ -264,14 +326,13 @@
                         this.showDialogModal = true;
                     }else{
                         this.getRefund();
+                        this.getAllSeller();
                         this.showInsertFactorModal=true;
                     }
-
                 }else{
                     this.dialogMessage = 'امکان ثبت فاکتور وجود ندارد. منابع تامین اعتبار برای این درخواست تعیین نشده است!';
                     this.showDialogModal = true;
                 }
-
             },
 
             addNewFactor:function () {
@@ -281,6 +342,7 @@
                             refundCostsId: this.refundId,
                             rId: this.requestId,
                             subject: this.factorInput.subject,
+                            seller: this.factorInput.seller,
                             amount: parseInt(this.factorInput.amount.split(',').join(''),10),
                             description: this.factorInput.description,
                         }).then((response) => {
