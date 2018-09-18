@@ -40,7 +40,7 @@
                             <th class="tbl-head-style-cell">ارسال کننده</th>
                             <th class="tbl-head-style-cell">نوع درخواست</th>
                             <th class="tbl-head-style-cell">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
-                            <th class="tbl-head-style-cell">مبلغ قرارداد <span class="btn-red small-font">(ریال)</span></th>
+                            <th class="tbl-head-style-cell">مبلغ نهایی <span class="btn-red small-font">(ریال)</span></th>
                             <th class="tbl-head-style-cell">شماره</th>
                             <th class="tbl-head-style-cell">تاریخ</th>
                             <th class="tbl-head-style-cell"></th>
@@ -100,11 +100,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div v-else>
+                                        <div v-else="">
                                             {{$parent.dispMoneyFormat(receiveRequest.rAcceptedAmount)}}
                                         </div>
                                     </td>
-                                    <td v-else class="text-center"><span class="reserved-label">فاقد قرارداد</span></td>
+                                    <td v-else-if="receiveRequest.request_type.rtType == 'BUY_SERVICES'" class="text-center"><span class="reserved-label">فاقد قرارداد</span></td>
+                                    <td v-else-if="receiveRequest.request_type.rtType == 'BUY_COMMODITY'" class="text-center"><span class="reserved-label">فاقد فاکتور</span></td>
                                 </template>
                                 <template v-else>
                                     <td colspan="2" class="text-center">{{$parent.dispMoneyFormat(receiveRequest.rCostEstimation)}}</td>
@@ -789,6 +790,7 @@
                     this.requestFill.rCostEstimation=request.rCostEstimation;
                     this.requestFill.rDescription=request.rDescription;
                     this.requestFill.rFurtherDetails=request.rFurtherDetails;
+                    this.requestFill.rAcceptedAmount=request.rAcceptedAmount;
                 }
                 else if (request.rRtId == 2){
                     var commodityTemp=[];
@@ -799,6 +801,7 @@
                     this.requestFill.rLetterDate=request.rLetterDate;
                     this.requestFill.rSubject=request.rSubject;
                     this.requestFill.rCostEstimation=request.rCostEstimation;
+                    this.requestFill.rAcceptedAmount=request.rAcceptedAmount;
                     commodityTemp.forEach(items => {
                         items.request_commodity.forEach(commodity => {
                             this.commodityList.push(commodity);
