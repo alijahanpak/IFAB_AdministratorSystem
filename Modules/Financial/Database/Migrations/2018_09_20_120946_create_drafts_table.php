@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAttachmentsTable extends Migration
+class CreateDraftsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,18 @@ class CreateAttachmentsTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('tbl_attachments')) {
-            Schema::create('tbl_attachments', function (Blueprint $table) {
+        if (!Schema::hasTable('tbl_drafts')) {
+            Schema::create('tbl_drafts', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->bigInteger('aRId')->length(20)->unsigned();
-                $table->string('aPath');
-                $table->string('aName');
-                $table->unsignedInteger('aSize');
+                $table->bigInteger('dRId')->length(20)->unsigned();
+                $table->string('dFor');
+                $table->string('dPayTo');
+                $table->unsignedBigInteger('dBaseAmount');
+                $table->string('dLetterNumber')->nullable();
+                $table->string('dLetterDate')->nullable();
                 $table->timestamps();
 
-                $table->foreign('aRId')
+                $table->foreign('dRId')
                     ->references('id')->on('tbl_requests')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
@@ -38,7 +40,7 @@ class CreateAttachmentsTable extends Migration
     public function down()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        Schema::dropIfExists('tbl_attachments');
+        Schema::dropIfExists('tbl_drafts');
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

@@ -19,7 +19,7 @@ class CreateFactorTable extends Migration
                 $table->bigInteger('fRId')->length(20)->unsigned();
                 $table->string('fSubject');
                 $table->boolean('fIsAccepted')->default(false);
-                $table->bigInteger('fAmount');
+                $table->unsignedBigInteger('fAmount');
                 $table->longText('fDescription');
                 $table->timestamps();
 

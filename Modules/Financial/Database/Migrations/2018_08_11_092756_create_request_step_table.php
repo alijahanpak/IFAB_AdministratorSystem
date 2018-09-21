@@ -18,7 +18,7 @@ class CreateRequestStepTable extends Migration
                 $table->bigIncrements('id');
                 $table->bigInteger('rstRtId')->length(20)->unsigned();
                 $table->bigInteger('rstCId')->length(20)->unsigned();
-                $table->tinyInteger('rstOrder');
+                $table->unsignedTinyInteger('rstOrder');
                 $table->boolean('rstIsRequire')->default(true);
                 $table->timestamps();
 

@@ -21,7 +21,7 @@ class CreateProvincialBudgetProposalsTable extends Migration
                 $table->bigInteger('pbpFyId')->length(20)->unsigned();
                 $table->string('pbpCode');
                 $table->string('pbpSubject');
-                $table->bigInteger('pbpAmount');
+                $table->unsignedBigInteger('pbpAmount');
                 $table->longText('pbpDescription')->nullable();
                 $table->timestamps();
 
