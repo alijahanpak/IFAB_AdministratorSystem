@@ -41,4 +41,17 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
     Route::prefix('commodity')->group(function () {
         Route::get('/fetchData', 'CommodityController@fetchAllCommodities');
     });
+
+    Route::prefix('executor')->group(function () {
+        Route::get('/fetchData', 'ExecutorController@fetchAllExecutors');
+    });
+
+    Route::prefix('seller')->group(function () {
+        Route::get('/fetchData', 'SellerController@fetchAllSellers');
+    });
+
+    Route::prefix('draft')->group(function () {
+        Route::get('/fetchPercentageIncreaseData', 'DraftController@getPercentageIncrease');
+        Route::post('/register', 'DraftController@register');
+    });
 });

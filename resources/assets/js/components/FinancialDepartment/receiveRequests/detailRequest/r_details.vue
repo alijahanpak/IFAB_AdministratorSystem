@@ -20,6 +20,11 @@
                     <td>{{$root.dispMoneyFormat(requestFill.rCostEstimation)}} <span class="btn-red">  ریال  </span></td>
                 </tr>
                 <tr>
+                    <td width="150px">مبلغ نهایی : </td>
+                    <td v-if="parseInt(requestFill.rAcceptedAmount) > 0">{{$root.dispMoneyFormat(requestFill.rAcceptedAmount)}} <span class="btn-red">  ریال  </span></td>
+                    <td v-else><span class="reserved-label">فاقد قرارداد</span></td>
+                </tr>
+                <tr>
                     <td width="150px">شرح کامل خدمات : </td>
                     <td class="text-justify">{{requestFill.rDescription}}</td>
                 </tr>
@@ -45,6 +50,11 @@
                 <tr>
                     <td width="150px">موضوع : </td>
                     <td>{{requestFill.rSubject}}</td>
+                </tr>
+                <tr>
+                    <td width="150px">مبلغ نهایی : </td>
+                    <td v-if="parseInt(requestFill.rAcceptedAmount) > 0">{{$root.dispMoneyFormat(requestFill.rAcceptedAmount)}} <span class="btn-red">  ریال  </span></td>
+                    <td v-else><span class="reserved-label">فاقد فاکتور</span></td>
                 </tr>
                 </tbody>
             </table>

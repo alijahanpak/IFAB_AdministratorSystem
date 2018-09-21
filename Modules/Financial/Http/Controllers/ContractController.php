@@ -12,6 +12,7 @@ use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\Contract;
+use Modules\Financial\Entities\Executor;
 use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\RequestHistory;
 use Modules\Financial\Entities\RequestState;
@@ -21,8 +22,10 @@ class ContractController extends Controller
     function addNewContract(Request $request)
     {
         DB::transaction(function () use($request){
+            $eId = Executor::firstOrCreate(['eSubject' => PublicSetting::checkPersianCharacters($request->executor)]);
             $contract = new Contract();
             $contract->cRId = $request->rId;
+            $contract->cEId = $eId->id;
             $contract->cSubject = PublicSetting::checkPersianCharacters($request->subject);
             $contract->cAmount = $request->amount;
             $contract->cPercentInAndDec = $request->percentIncAndDec;

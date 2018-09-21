@@ -17,6 +17,7 @@ class CreateContractTable extends Migration
             Schema::create('tbl_contracts', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->bigInteger('cRId')->length(20)->unsigned();
+                $table->bigInteger('cEId')->length(20)->unsigned();
                 $table->string('cSubject');
                 $table->unsignedBigInteger('cAmount');
                 $table->unsignedTinyInteger('cPercentInAndDec');
@@ -30,6 +31,11 @@ class CreateContractTable extends Migration
 
                 $table->foreign('cRId')
                     ->references('id')->on('tbl_requests')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+
+                $table->foreign('cEId')
+                    ->references('id')->on('tbl_executors')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
             });

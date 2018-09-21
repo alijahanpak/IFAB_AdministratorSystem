@@ -8,4 +8,9 @@ class Factor extends Model
 {
     protected $fillable = [];
     protected $table = 'tbl_factors';
+
+    public function seller()
+    {
+        return $this->belongsTo(Seller::class , 'fSId' , 'id');
+    }
 }

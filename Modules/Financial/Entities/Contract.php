@@ -8,4 +8,9 @@ class Contract extends Model
 {
     protected $fillable = ['cIsAccepted'];
     protected $table = 'tbl_contracts';
+
+    public function executor()
+    {
+        return $this->belongsTo(Executor::class , 'cEId' , 'id');
+    }
 }

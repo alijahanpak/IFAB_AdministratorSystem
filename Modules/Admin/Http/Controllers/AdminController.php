@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Mockery\Exception;
 use Modules\Admin\Entities\AmountUnit;
+use Modules\Admin\Entities\Category;
 use Modules\Admin\Entities\County;
 use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\Region;
@@ -163,6 +164,16 @@ class AdminController extends Controller
             return $q->where('rcCId' , '=' , $request->cId);
         })->where('id' , '<>' , Auth::user()->id)
             ->select('id' , 'rId' , 'name')
+            ->with('role')
+            ->get();
+        return \response()->json($result);
+    }
+
+    public function fetchDirectorGeneralUsers(Request $request)
+    {
+        $result = User::whereHas('role.category' , function ($q){
+            return $q->where('rcCId' , '=' , Category::where('cCategory' , '=' , 'DIRECTOR_GENERAL')->value('id'));
+        })->select('id' , 'rId' , 'name')
             ->with('role')
             ->get();
         return \response()->json($result);

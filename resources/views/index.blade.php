@@ -187,8 +187,7 @@
                                         <a class="right-mp right-menu-btm-border">درخواست ها</a>
                                         <ul class="menu vertical nested is-active">
                                             <li><router-link to="/financial_department/submissions">ارسالی</router-link></li>
-                                            <li><router-link to="/financial_department/received_requests">دریافتی (@{{ unReadRequestCount }})</router-link></li>
-                                            <li><router-link to="/financial_department/received_requests">دریافتی   <span class="notif-badage">4</span></router-link></li>
+                                            <li><router-link to="/financial_department/received_requests">دریافتی   <span class="notif-badage">@{{ unReadRequestCount }}</span></router-link></li>
                                             <li><router-link to="/financial_department/search_requests">جستجو</router-link></li>
                                         </ul>
                                     </li>
