@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreateRequestsTable extends Migration
 {
@@ -21,7 +22,7 @@ class CreateRequestsTable extends Migration
                 $table->bigInteger('rUId')->length(20)->unsigned();
                 $table->bigInteger('rFyId')->length(20)->unsigned();
                 $table->string('rSubject');
-                $table->bigInteger('rCostEstimation');
+                $table->unsignedBigInteger('rCostEstimation');
                 $table->longText('rDescription')->nullable();
                 $table->longText('rFurtherDetails')->nullable();
                 $table->string('rLetterNumber')->nullable();

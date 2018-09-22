@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreateRequestStepTable extends Migration
 {
@@ -18,7 +19,7 @@ class CreateRequestStepTable extends Migration
                 $table->bigIncrements('id');
                 $table->bigInteger('rstRtId')->length(20)->unsigned();
                 $table->bigInteger('rstCId')->length(20)->unsigned();
-                $table->tinyInteger('rstOrder');
+                $table->unsignedTinyInteger('rstOrder');
                 $table->boolean('rstIsRequire')->default(true);
                 $table->timestamps();
 

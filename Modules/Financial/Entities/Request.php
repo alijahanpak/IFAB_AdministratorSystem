@@ -27,6 +27,11 @@ class _Request extends Model
         return $this->hasMany(RequestCommodity::class , 'rcRId' , 'id')->orderBy('id', 'DESC');
     }
 
+    public function draft()
+    {
+        return $this->hasMany(Draft::class , 'dRId' , 'id')->orderBy('id', 'DESC');
+    }
+
     public function contract()
     {
         return $this->hasMany(Contract::class , 'cRId' , 'id')->orderBy('id', 'DESC');
@@ -76,9 +81,9 @@ class _Request extends Model
     public function getRAcceptedAmountAttribute()
     {
         $amount = Contract::where('cRId' , '=' , $this->id)
-            ->where('cIsAccepted' , true)->sum('cAmount');
+            ->where('cIsAccepted' , true)->get()->sum('cAmount');
         $amount += Factor::where('fRId' , '=' , $this->id)
-            ->where('fIsAccepted' , true)->sum('fAmount');
+            ->where('fIsAccepted' , true)->get()->sum('fAmount');
 
         return $amount;
     }

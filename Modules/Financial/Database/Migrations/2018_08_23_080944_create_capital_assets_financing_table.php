@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreateCapitalAssetsFinancingTable extends Migration
 {
@@ -19,7 +20,7 @@ class CreateCapitalAssetsFinancingTable extends Migration
                 $table->bigInteger('cafCaaId')->length(20)->unsigned();
                 $table->bigInteger('cafRId')->length(20)->unsigned();
                 $table->boolean('cafAccepted')->default(0);
-                $table->bigInteger('cafAmount');
+                $table->unsignedBigInteger('cafAmount');
                 $table->timestamps();
 
                 $table->foreign('cafRId')

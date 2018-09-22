@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreateAttachmentsTable extends Migration
 {
@@ -19,7 +20,7 @@ class CreateAttachmentsTable extends Migration
                 $table->bigInteger('aRId')->length(20)->unsigned();
                 $table->string('aPath');
                 $table->string('aName');
-                $table->integer('aSize');
+                $table->unsignedInteger('aSize');
                 $table->timestamps();
 
                 $table->foreign('aRId')

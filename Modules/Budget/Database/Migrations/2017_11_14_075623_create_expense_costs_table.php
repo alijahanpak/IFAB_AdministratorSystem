@@ -19,7 +19,7 @@ class CreateExpenseCostsTable extends Migration
                 $table->bigInteger('ecUId')->length(20)->unsigned();
                 $table->bigInteger('ecCaId')->length(20)->unsigned()->nullable();
                 $table->string('ecSubject');
-                $table->bigInteger('ecAmount');
+                $table->unsignedBigInteger('ecAmount');
                 $table->longText('ecDescription')->nullable();
                 $table->timestamps();
 

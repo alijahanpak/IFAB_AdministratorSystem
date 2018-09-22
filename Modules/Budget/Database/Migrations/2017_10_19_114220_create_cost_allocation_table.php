@@ -23,7 +23,7 @@ class CreateCostAllocationTable extends Migration
                 $table->string('caLetterNumber')->nullable();
                 $table->string('caLetterDate')->nullable();
                 $table->boolean('caFound')->default(false);
-                $table->bigInteger('caAmount');
+                $table->unsignedBigInteger('caAmount');
                 $table->longText('caDescription')->nullable();
                 $table->timestamps();
 

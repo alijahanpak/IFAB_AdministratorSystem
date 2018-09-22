@@ -32,6 +32,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::post('contract/insert', 'ContractController@addNewContract');
         Route::post('contract/accept', 'ContractController@accept');
         Route::post('contract/delete', 'ContractController@delete');
+        Route::get('contract/fetchPercentageIncreaseData', 'ContractController@getPercentageIncrease');
         Route::post('factor/insert', 'FactorController@addNewFactor');
         Route::post('factor/accept', 'FactorController@accept');
         Route::post('factor/delete', 'FactorController@delete');
@@ -48,5 +49,9 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
 
     Route::prefix('seller')->group(function () {
         Route::get('/fetchData', 'SellerController@fetchAllSellers');
+    });
+
+    Route::prefix('draft')->group(function () {
+        Route::post('/register', 'DraftController@register');
     });
 });

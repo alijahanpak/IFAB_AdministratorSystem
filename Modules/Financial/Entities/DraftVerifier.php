@@ -1,0 +1,17 @@
+<?php
+
+namespace Modules\Financial\Entities;
+
+use Illuminate\Database\Eloquent\Model;
+use Modules\Admin\Entities\User;
+
+class DraftVerifier extends Model
+{
+    protected $fillable = [];
+    protected $table = 'tbl_draft_verifiers';
+
+    public function user()
+    {
+        return $this->belongsTo(User::class , 'dvUId' , 'id')->select('id' , 'name' , 'rId' , 'avatarPath');
+    }
+}

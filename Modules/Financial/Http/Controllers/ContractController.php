@@ -14,6 +14,8 @@ use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\Contract;
 use Modules\Financial\Entities\Executor;
 use Modules\Financial\Entities\FinancialRequestQueue;
+use Modules\Financial\Entities\IncreaseContractAmount;
+use Modules\Financial\Entities\PercentageIncrease;
 use Modules\Financial\Entities\RequestHistory;
 use Modules\Financial\Entities\RequestState;
 
@@ -27,7 +29,7 @@ class ContractController extends Controller
             $contract->cRId = $request->rId;
             $contract->cEId = $eId->id;
             $contract->cSubject = PublicSetting::checkPersianCharacters($request->subject);
-            $contract->cAmount = $request->amount;
+            $contract->cAmount = $request->baseAmount;
             $contract->cPercentInAndDec = $request->percentIncAndDec;
             $contract->cLetterNumber = $request->letterNumber;
             $contract->cLetterDate = $request->letterDate;
@@ -35,6 +37,19 @@ class ContractController extends Controller
             $contract->cEndDate = $request->endDate;
             $contract->cDescription = PublicSetting::checkPersianCharacters($request->description);
             $contract->save();
+
+            //////////////////////// set increases items ////////////////////////////////
+            if (is_array($request->get('increaseItems')))
+            {
+                foreach ($request->get('increaseItems') as $item)
+                {
+                    $increaseContractAmount = new IncreaseContractAmount();
+                    $increaseContractAmount->icaCId = $contract->id;
+                    $increaseContractAmount->icaPiId = $item['piId'];
+                    $increaseContractAmount->icaAmount = $item['amount'];
+                    $increaseContractAmount->save();
+                }
+            }
 
             SystemLog::setFinancialSubSystemLog('ثبت قرارداد ' . $request->subject . ' برای درخواست ' . _Request::find($request->rId)->rSubject);
         });
@@ -93,5 +108,12 @@ class ContractController extends Controller
         return \response()->json(
             $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
         , $resultCode);
+    }
+
+    function getPercentageIncrease()
+    {
+        return \response()->json(
+            PercentageIncrease::where('piState' , '=' , true)->get()
+        );
     }
 }

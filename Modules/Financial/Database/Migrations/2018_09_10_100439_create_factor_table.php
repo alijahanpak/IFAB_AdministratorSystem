@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreateFactorTable extends Migration
 {
@@ -20,7 +21,7 @@ class CreateFactorTable extends Migration
                 $table->bigInteger('fSId')->length(20)->unsigned();
                 $table->string('fSubject');
                 $table->boolean('fIsAccepted')->default(false);
-                $table->bigInteger('fAmount');
+                $table->unsignedBigInteger('fAmount');
                 $table->longText('fDescription');
                 $table->timestamps();
 

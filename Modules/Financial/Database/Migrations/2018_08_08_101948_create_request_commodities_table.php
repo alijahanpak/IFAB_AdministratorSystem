@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreateRequestCommoditiesTable extends Migration
 {
@@ -20,7 +21,7 @@ class CreateRequestCommoditiesTable extends Migration
                 $table->bigInteger('rcCId')->length(20)->unsigned();
                 $table->integer('rcCount');
                 $table->integer('rcExistCount')->default(0);
-                $table->bigInteger('rcCostEstimation');
+                $table->unsignedBigInteger('rcCostEstimation');
                 $table->boolean('rcIsExist')->default(false);
                 $table->longText('rcDescription')->nullable();
                 $table->timestamps();
