@@ -157,7 +157,7 @@
                         <div style="margin-top:15px;"  class="grid-x">
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>مبلغ پایه<span class="btn-red">(ریال)</span>
-                                    <money v-model="contractInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('contractAmount')}"></money>
+                                    <money @change.native="calculteFinalContractAmount()" v-model="contractInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('contractAmount')}"></money>
                                 </label>
                                 <p v-show="errors.has('contractAmount')" class="error-font">لطفا مبلغ را برای قرارداد مورد نظر را وارد نمایید!</p>
                             </div>
@@ -236,7 +236,7 @@
                                             <div class="grid-x">
                                                 <div class="large-2 medium-3  small-12">
                                                     <div class="switch tiny">
-                                                        <input :checked="percentageCheckBox" v-on:change="calculteAmount(pItem.piPercent,pItem.id)" class="switch-input" v-model="contractInput['percentage' + pItem.id]" :id="'percentage'+pItem.id" type="checkbox">
+                                                        <input :checked="percentageCheckBox" v-on:change="calculteAmount(pItem.piPercent,pItem)" class="switch-input" v-model="contractInput['percentage' + pItem.id]" :id="'percentage'+pItem.id" type="checkbox">
                                                         <label class="switch-paddle" :for="'percentage'+pItem.id">
                                                             <span class="switch-active" aria-hidden="true">بلی</span>
                                                             <span class="switch-inactive" aria-hidden="true">خیر</span>
@@ -264,7 +264,7 @@
                                             </div>
                                         </div>
                                         <div class="large-3 medium-3  small-12">
-                                            <p class="btn-red">{{finalAmount}} ریال</p>
+                                            <p class="btn-red">{{$root.dispMoneyFormat(finalAmount)}} ریال</p>
                                         </div>
                                     </div>
                                 </div>
@@ -358,6 +358,7 @@
                 percentageIncreaseItems:[],
                 percentageCheckBox:false,
                 increaseItems:[],
+                increaseTemp:[],
                 increaseItemsValue:[],
                 finalAmount:0,
             }
@@ -424,21 +425,43 @@
                     });
             },
 
-            calculteAmount: function(percent,index){
+            calculteAmount: function(percent,index,){
                 var increaseItemsTemp={};
-                increaseItemsTemp.piId=index;
+                increaseItemsTemp.piId=index.id;
                 increaseItemsTemp.amount=(percent * parseInt(this.contractInput.amount.split(',').join(''),10)) / 100;
-                this.increaseItems.push(increaseItemsTemp);
-                this.increaseItemsValue[index]=increaseItemsTemp.amount;
+                /*if(this.increaseItems === undefined || this.increaseItems.length == 0){
+                    this.increaseItems.push(increaseItemsTemp);
+                    this.increaseItemsValue[index]=increaseItemsTemp.amount;
+                }
+                else{
+                    this.increaseItems.forEach(value =>{
+                        if(value.piId == increaseItemsTemp.piId){
+                            this.increaseItems.splice(index+1,1);
+                        }
+                        else{
+                            this.increaseItems.push(increaseItemsTemp);
+                            this.increaseItemsValue[index]=increaseItemsTemp.amount;
+                        }
+                    });
+
+                }*/
+                if(this.contractInput['percentage' + index.id] == false){
+                    this.increaseTemp[index.id-1]=0;
+                    this.increaseItemsValue[index.id]=0;
+                }else{
+                    this.increaseTemp[index.id-1]=increaseItemsTemp.amount;
+                    this.increaseItemsValue[index.id]=increaseItemsTemp.amount;
+                }
+
+                console.log(JSON.stringify(this.increaseTemp));
                 this.calculteFinalContractAmount();
             },
 
             calculteFinalContractAmount: function(){
                 var lastTemp=0;
-                lastTemp = (percent * parseInt(this.contractInput.amount.split(',').join(''),10)) / 100;
-                alert(lastTemp);
-                this.increaseItems.forEach(item =>{
-                    lastTemp += item.amount;
+                lastTemp = parseInt(this.contractInput.amount.split(',').join(''),10);
+                this.increaseTemp.forEach(item =>{
+                    lastTemp += item;
                 });
                 this.finalAmount =lastTemp;
 
@@ -513,6 +536,8 @@
                     }else{
                         this.contractPercentageIncrease();
                         this.contractInput={};
+                        this.increaseItems=[];
+                        this.increaseItemsValue=[];
                         this.getAllExecutors();
                         this.showInsertContractModal=true;
                     }
