@@ -157,7 +157,7 @@
                         </div>
                         <div style="margin-top:15px;"  class="grid-x">
                             <div class="large-6 medium-6 small-12 padding-lr">
-                                <label>مبلغ <span class="btn-red">(ریال)</span>
+                                <label>مبلغ پایه<span class="btn-red">(ریال)</span>
                                     <money v-model="contractInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('contractAmount')}"></money>
                                 </label>
                                 <p v-show="errors.has('contractAmount')" class="error-font">لطفا مبلغ را برای قرارداد مورد نظر را وارد نمایید!</p>
@@ -231,6 +231,48 @@
                         </div>
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
+                                <div class="panel-separator padding-lr">
+                                    <div  v-for="pItem in percentageIncreaseItems" class="grid-x">
+                                        <div class="large-9 medium-9  small-12">
+                                            <div class="grid-x">
+                                                <div class="large-2 medium-3  small-12">
+                                                    <div class="switch tiny">
+                                                        <input :checked="percentageCheckBox" v-on:change="calculteAmount(pItem.piPercent,pItem.id)" class="switch-input" v-model="contractInput['percentage' + pItem.id]" :id="'percentage'+pItem.id" type="checkbox">
+                                                        <label class="switch-paddle" :for="'percentage'+pItem.id">
+                                                            <span class="switch-active" aria-hidden="true">بلی</span>
+                                                            <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="large-10 medium-9  small-12">
+                                                    <p>{{pItem.piSubject}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="large-3 medium-3  small-12">
+                                            <p class="btn-red">{{$root.dispMoneyFormat(increaseItemsValue[pItem.id])}} ریال</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="margin-top: -16px;border-top: 1px solid #E0E0E0;" class="panel-separator padding-lr">
+                                    <div class="grid-x">
+                                        <div class="large-9 medium-9  small-12">
+                                            <div class="grid-x">
+                                                <div class="large-2 medium-3  small-12"></div>
+                                                <div class="large-10 medium-9  small-12">
+                                                    <p>مبلغ نهایی قرارداد : </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="large-3 medium-3  small-12">
+                                            <p class="btn-red">{{finalAmount}} ریال</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top:16px;" class="grid-x">
+                            <div class="large-12 medium-12 small-12 padding-lr">
                                 <label>شرح کامل خدمات
                                     <textarea style="min-height: 150px;" name="contractDescription" v-model="contractInput.description"   :class="{'input': true, 'error-border': errors.has('contractDescription')}"></textarea>
                                     <p v-show="errors.has('contractDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</p>
@@ -288,7 +330,7 @@
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     export default{
-        props:['contracts','requestId' , 'rCreditIsAccepted' , 'rCreditIsExist'],
+        props:['contracts','requestId' , 'rCreditIsAccepted' , 'rCreditIsExist',],
         components: {
             Suggestions,
         },
@@ -315,6 +357,10 @@
                 //contract input text
 
                 percentageIncreaseItems:[],
+                percentageCheckBox:false,
+                increaseItems:[],
+                increaseItemsValue:[],
+                finalAmount:0,
             }
 
         },
@@ -370,7 +416,7 @@
             ------------------ Contract Executor End ------------------------------
             -----------------------------------------------------------------------------*/
             contractPercentageIncrease: function () {
-                axios.get('/financial/contract/fetchPercentageIncreaseData')
+                axios.get('/financial/request/contract/fetchPercentageIncreaseData')
                     .then((response) => {
                         this.percentageIncreaseItems = response.data;
                         console.log(response);
@@ -378,6 +424,28 @@
                         console.log(error);
                     });
             },
+
+            calculteAmount: function(percent,index){
+                var increaseItemsTemp={};
+                increaseItemsTemp.piId=index;
+                increaseItemsTemp.amount=(percent * parseInt(this.contractInput.amount.split(',').join(''),10)) / 100;
+                this.increaseItems.push(increaseItemsTemp);
+                this.increaseItemsValue[index]=increaseItemsTemp.amount;
+                this.calculteFinalContractAmount();
+            },
+
+            calculteFinalContractAmount: function(){
+                var lastTemp=0;
+                lastTemp = (percent * parseInt(this.contractInput.amount.split(',').join(''),10)) / 100;
+                this.increaseItems.forEach(item =>{
+                    lastTemp += item.amount;
+                });
+                this.finalAmount =lastTemp;
+                alert(this.finalAmount);
+
+            },
+
+
             checkAcceptContract: function(){
                 var existNotAccepted = false;
                 this.contracts.forEach(item => {

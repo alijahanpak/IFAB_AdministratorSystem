@@ -2214,7 +2214,13 @@ input[type="search"]:valid + label {
     color: #ffffff;
 }
 
-
+.panel-separator{
+   background-color: #F5F5F5;
+   padding: 14px;
+   margin-top: 16px;
+   font-size: 0.875rem;
+   font-weight: normal;
+}
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
     display: block;
     width: 0;
