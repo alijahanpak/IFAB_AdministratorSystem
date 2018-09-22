@@ -15,6 +15,7 @@ use Modules\Financial\Entities\Contract;
 use Modules\Financial\Entities\Executor;
 use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\IncreaseContractAmount;
+use Modules\Financial\Entities\PercentageIncrease;
 use Modules\Financial\Entities\RequestHistory;
 use Modules\Financial\Entities\RequestState;
 
@@ -107,5 +108,12 @@ class ContractController extends Controller
         return \response()->json(
             $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
         , $resultCode);
+    }
+
+    function getPercentageIncrease()
+    {
+        return \response()->json(
+            PercentageIncrease::where('piState' , '=' , true)->get()
+        );
     }
 }
