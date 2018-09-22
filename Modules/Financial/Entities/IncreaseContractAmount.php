@@ -8,4 +8,9 @@ class IncreaseContractAmount extends Model
 {
     protected $fillable = [];
     protected $table = 'tbl_increase_contract_amount';
+
+    public function percentageIncrease()
+    {
+        return $this->belongsTo(PercentageIncrease::class , 'icaPiId' , 'id');
+    }
 }

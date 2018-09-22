@@ -43,7 +43,9 @@ class RequestController extends Controller
         })->whereHas('category' , function ($q) use($userCat){
             return $q->whereNotIn('id' , $userCat);
         })->where('rstOrder' , '<>' , 1)
-            ->with('category.roleCategory.role.user')
+            ->with(['category.roleCategory.role.user' => function($q){
+                return $q->where('isActive' , '=' , true);
+            }])
             ->orderBy('rstOrder')
             ->get();
         return \response()->json($rType);
@@ -68,6 +70,7 @@ class RequestController extends Controller
             ->with('history.destinationUserInfo.role')
             ->with('history.requestState')
             ->with('contract.executor')
+            ->with('contract.increaseAmount.percentageIncrease')
             ->with('factor.seller')
             ->with('draft.verifier.user')
             ->orderBy('id' , 'DESC')
@@ -233,6 +236,7 @@ class RequestController extends Controller
             ->with('contract.executor')
             ->with('factor.seller')
             ->with('draft.verifier.user')
+            ->with('contract.increaseAmount.percentageIncrease')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
     }

@@ -433,7 +433,7 @@ class PlanController extends Controller
 
     public function getAllTempProjectWithPlanId($pId)
     {
-        return \response()->json(CapitalAssetsApprovedPlanTemp::where('id' , '=' , $pId)
+        return CapitalAssetsApprovedPlanTemp::where('id' , '=' , $pId)
             ->with('capitalAssetsProject')
             ->with('creditDistributionTitle')
             ->with('creditDistributionTitle.county')
@@ -444,7 +444,7 @@ class PlanController extends Controller
             ->with('capitalAssetsProject.creditSource.tinySeason.seasonTitle.season')
             ->with('capitalAssetsProject.creditSource.howToRun')
             ->with('capitalAssetsProject.county')
-            ->first());
+            ->first();
     }
 
     /////////////////////////////// cost ////////////////////////////////////////////

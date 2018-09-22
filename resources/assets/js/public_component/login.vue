@@ -109,7 +109,7 @@
                         }
                     },(error) => {
                         console.log(error);
-                        this.displayNotif(error.response.status);
+                        this.$parent.displayNotif(error.response.status);
                     });
             },
 

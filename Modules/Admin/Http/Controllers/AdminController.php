@@ -141,6 +141,7 @@ class AdminController extends Controller
             $usersId = UserGroup::whereIn('ugGId' , $myGroups)->pluck('ugUId');
             $usersInfo = User::whereIn('id' , $usersId)
                 ->where('id' , '<>' , Auth::user()->id)
+                ->where('isActive' , '=' , true)
                 ->select('id' , 'name' , 'rId')
                 ->with('role')
                 ->get();
@@ -148,6 +149,7 @@ class AdminController extends Controller
             $usersId = UserGroup::pluck('ugUId');
             $usersInfo = User::whereIn('id' , $usersId)
                 ->where('id' , '<>' , Auth::user()->id)
+                ->where('isActive' , '=' , true)
                 ->select('id' , 'name' , 'rId')
                 ->with('role')
                 ->get();
@@ -163,6 +165,7 @@ class AdminController extends Controller
         $result = User::whereHas('role.category' , function ($q) use($request){
             return $q->where('rcCId' , '=' , $request->cId);
         })->where('id' , '<>' , Auth::user()->id)
+            ->where('isActive' , '=' , true)
             ->select('id' , 'rId' , 'name')
             ->with('role')
             ->get();
@@ -173,7 +176,8 @@ class AdminController extends Controller
     {
         $result = User::whereHas('role.category' , function ($q){
             return $q->where('rcCId' , '=' , Category::where('cCategory' , '=' , 'DIRECTOR_GENERAL')->value('id'));
-        })->select('id' , 'rId' , 'name')
+        })->where('isActive' , '=' , true)
+            ->select('id' , 'rId' , 'name')
             ->with('role')
             ->get();
         return \response()->json($result);
