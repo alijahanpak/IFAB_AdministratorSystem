@@ -2030,7 +2030,7 @@
                                 this.approvedAmendmentProjects = response.data;
                                 this.showModalAmendment = false;
                                 this.showModalAmendmentOfAgreement = true;
-                                console.log(response);
+                                console.log(response.data);
                             },(error) => {
                                 console.log(error);
                                 this.$parent.displayNotif(error.response.status);

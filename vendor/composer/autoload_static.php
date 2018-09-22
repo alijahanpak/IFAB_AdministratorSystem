@@ -2290,11 +2290,8 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         'Modules\\Financial\\Entities\\Commodity' => __DIR__ . '/../..' . '/Modules/Financial/Entities/Commodity.php',
         'Modules\\Financial\\Entities\\Contract' => __DIR__ . '/../..' . '/Modules/Financial/Entities/Contract.php',
         'Modules\\Financial\\Entities\\CostFinancing' => __DIR__ . '/../..' . '/Modules/Financial/Entities/CostFinancing.php',
-<<<<<<< HEAD
-=======
         'Modules\\Financial\\Entities\\Draft' => __DIR__ . '/../..' . '/Modules/Financial/Entities/Draft.php',
         'Modules\\Financial\\Entities\\DraftVerifier' => __DIR__ . '/../..' . '/Modules/Financial/Entities/DraftVerifier.php',
->>>>>>> developer
         'Modules\\Financial\\Entities\\Executor' => __DIR__ . '/../..' . '/Modules/Financial/Entities/Executor.php',
         'Modules\\Financial\\Entities\\Factor' => __DIR__ . '/../..' . '/Modules/Financial/Entities/Factor.php',
         'Modules\\Financial\\Entities\\FinancialRequestQueue' => __DIR__ . '/../..' . '/Modules/Financial/Entities/FinancialRequestQueue.php',
@@ -2314,10 +2311,7 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         'Modules\\Financial\\Entities\\_Request' => __DIR__ . '/../..' . '/Modules/Financial/Entities/Request.php',
         'Modules\\Financial\\Http\\Controllers\\CommodityController' => __DIR__ . '/../..' . '/Modules/Financial/Http/Controllers/CommodityController.php',
         'Modules\\Financial\\Http\\Controllers\\ContractController' => __DIR__ . '/../..' . '/Modules/Financial/Http/Controllers/ContractController.php',
-<<<<<<< HEAD
-=======
         'Modules\\Financial\\Http\\Controllers\\DraftController' => __DIR__ . '/../..' . '/Modules/Financial/Http/Controllers/DraftController.php',
->>>>>>> developer
         'Modules\\Financial\\Http\\Controllers\\ExecutorController' => __DIR__ . '/../..' . '/Modules/Financial/Http/Controllers/ExecutorController.php',
         'Modules\\Financial\\Http\\Controllers\\FactorController' => __DIR__ . '/../..' . '/Modules/Financial/Http/Controllers/FactorController.php',
         'Modules\\Financial\\Http\\Controllers\\FinanceController' => __DIR__ . '/../..' . '/Modules/Financial/Http/Controllers/FinanceController.php',

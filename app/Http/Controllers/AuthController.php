@@ -43,7 +43,9 @@ class AuthController extends Controller
 
     public function login_api(Request $request)
     {
-        $userInfo = User::where('email' , '=' , $request->email)->first();
+        $userInfo = User::where('email' , '=' , $request->email)
+            ->where('isActive' , '=' , true)
+            ->first();
         $http = new \GuzzleHttp\Client;
         if ($userInfo && Hash::check($request->password , $userInfo->password))
         {
