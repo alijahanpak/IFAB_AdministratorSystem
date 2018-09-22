@@ -34,24 +34,13 @@ class DraftController extends Controller
             $draft->dFor = PublicSetting::checkPersianCharacters($request->for);
             $draft->dPayTo = PublicSetting::checkPersianCharacters($request->payTo);
             $draft->dBaseAmount = $request->baseAmount;
+            $draft->dAmount = $request->amount;
             $draft->save();
 
             $verifier = new DraftVerifier();
             $verifier->dvUId = $request->verifierId;
             $verifier->dvDId = $draft->id;
             $verifier->save();
-            //////////////////////// set increases items ////////////////////////////////
-            if (is_array($request->get('increaseItems')))
-            {
-                foreach ($request->get('increaseItems') as $item)
-                {
-                    $increaseDraftAmount = new IncreaseDraftAmount();
-                    $increaseDraftAmount->idaDId = $draft->id;
-                    $increaseDraftAmount->idaPiId = $item['piId'];
-                    $increaseDraftAmount->idaAmount = $item['amount'];
-                    $increaseDraftAmount->save();
-                }
-            }
             ///////////////////////////////////////////////////////////////////////
             $reg = _Request::where('id' , '=' , $request->rId)->first();
             // make history for this request

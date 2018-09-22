@@ -199,8 +199,8 @@
                                             v-on:updateReceiveRequestData="updateReceiveRequestData"
                                             v-bind:requestId="requestId"
                                             v-bind:contracts="contracts"
-                                            v-bind:creditIsAccepted="creditIsAccepted"
-                                            v-bind:creditIsExist="creditIsExist">
+                                            v-bind:rCreditIsAccepted="rCreditIsAccepted"
+                                            v-bind:rCreditIsExist="rCreditIsExist">
                                     </rContract>
                                 </div>
                                 <!--Tab 4-->
@@ -764,8 +764,6 @@
                 });
 
                 this.lastVerifier=request.rLastRef.id;
-                this.creditIsAccepted = request.creditIsAccepted;
-                this.creditIsExist = request.creditIsExist;
 
                 this.rCreditIsAccepted = request.rCreditIsAccepted;
                 this.rCreditIsExist = request.rCreditIsExist;

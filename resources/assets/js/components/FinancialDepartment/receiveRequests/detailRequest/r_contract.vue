@@ -288,7 +288,7 @@
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     export default{
-        props:['contracts','requestId' , 'creditIsAccepted' , 'creditIsExist'],
+        props:['contracts','requestId' , 'rCreditIsAccepted' , 'rCreditIsExist'],
         components: {
             Suggestions,
         },
@@ -427,9 +427,9 @@
             },
 
             openInsertContractModal:function () {
-                if (this.creditIsExist == true)
+                if (this.rCreditIsExist == true)
                 {
-                    if (this.creditIsAccepted == false)
+                    if (this.rCreditIsAccepted == false)
                     {
                         this.dialogMessage = 'تامین اعتبار تایید نهایی نشده است!';
                         this.showDialogModal = true;
