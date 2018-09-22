@@ -1841,7 +1841,7 @@ return array(
     'Modules\\Financial\\Entities\\Executor' => $baseDir . '/Modules/Financial/Entities/Executor.php',
     'Modules\\Financial\\Entities\\Factor' => $baseDir . '/Modules/Financial/Entities/Factor.php',
     'Modules\\Financial\\Entities\\FinancialRequestQueue' => $baseDir . '/Modules/Financial/Entities/FinancialRequestQueue.php',
-    'Modules\\Financial\\Entities\\IncreaseDraftAmount' => $baseDir . '/Modules/Financial/Entities/IncreaseDraftAmount.php',
+    'Modules\\Financial\\Entities\\IncreaseContractAmount' => $baseDir . '/Modules/Financial/Entities/IncreaseContractAmount.php',
     'Modules\\Financial\\Entities\\PercentageIncrease' => $baseDir . '/Modules/Financial/Entities/PercentageIncrease.php',
     'Modules\\Financial\\Entities\\RefundCosts' => $baseDir . '/Modules/Financial/Entities/RefundCosts.php',
     'Modules\\Financial\\Entities\\RequestCommodity' => $baseDir . '/Modules/Financial/Entities/RequestCommodity.php',

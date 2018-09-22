@@ -774,8 +774,6 @@
                 });
 
                 this.lastVerifier=request.rLastRef.id;
-                this.creditIsAccepted = request.creditIsAccepted;
-                this.creditIsExist = request.creditIsExist;
 
                 this.rCreditIsAccepted = request.rCreditIsAccepted;
                 this.rCreditIsExist = request.rCreditIsExist;

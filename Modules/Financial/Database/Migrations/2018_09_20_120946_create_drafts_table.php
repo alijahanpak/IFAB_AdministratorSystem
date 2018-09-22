@@ -20,6 +20,7 @@ class CreateDraftsTable extends Migration
                 $table->string('dFor');
                 $table->string('dPayTo');
                 $table->unsignedBigInteger('dBaseAmount');
+                $table->unsignedBigInteger('dAmount');
                 $table->string('dLetterNumber')->nullable();
                 $table->string('dLetterDate')->nullable();
                 $table->timestamps();

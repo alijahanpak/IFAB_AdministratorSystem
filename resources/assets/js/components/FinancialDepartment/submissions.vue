@@ -778,7 +778,6 @@
                 this.showBuyCommodityModal=true;
                 this.fetchCommodity();
                 this.sumOfCommodityPrice=0;
-
             },
 
             addCommodityItem: function () {

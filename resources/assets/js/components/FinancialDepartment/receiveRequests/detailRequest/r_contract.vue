@@ -313,6 +313,8 @@
                 selectedExecutor: null,
                 executorOptions: {},
                 //contract input text
+
+                percentageIncreaseItems:[],
             }
 
         },
@@ -367,7 +369,15 @@
             /*-----------------------------------------------------------------------------
             ------------------ Contract Executor End ------------------------------
             -----------------------------------------------------------------------------*/
-
+            contractPercentageIncrease: function () {
+                axios.get('/financial/contract/fetchPercentageIncreaseData')
+                    .then((response) => {
+                        this.percentageIncreaseItems = response.data;
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                    });
+            },
             checkAcceptContract: function(){
                 var existNotAccepted = false;
                 this.contracts.forEach(item => {
@@ -434,6 +444,7 @@
                         this.dialogMessage = 'تامین اعتبار تایید نهایی نشده است!';
                         this.showDialogModal = true;
                     }else{
+                        this.contractPercentageIncrease();
                         this.contractInput={};
                         this.getAllExecutors();
                         this.showInsertContractModal=true;
@@ -452,7 +463,7 @@
                             rId: this.requestId,
                             subject: this.contractInput.subject,
                             executor: this.contractInput.executor,
-                            amount: parseInt(this.contractInput.amount.split(',').join(''),10),
+                            baseAmount: parseInt(this.contractInput.amount.split(',').join(''),10),
                             percentIncAndDec: this.contractInput.percentIncAndDec,
                             letterNumber: this.contractInput.letterNumber,
                             letterDate: this.contractInput.letterDate,

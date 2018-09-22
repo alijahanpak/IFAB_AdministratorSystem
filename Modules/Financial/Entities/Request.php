@@ -81,9 +81,9 @@ class _Request extends Model
     public function getRAcceptedAmountAttribute()
     {
         $amount = Contract::where('cRId' , '=' , $this->id)
-            ->where('cIsAccepted' , true)->sum('cAmount');
+            ->where('cIsAccepted' , true)->get()->sum('cAmount');
         $amount += Factor::where('fRId' , '=' , $this->id)
-            ->where('fIsAccepted' , true)->sum('fAmount');
+            ->where('fIsAccepted' , true)->get()->sum('fAmount');
 
         return $amount;
     }
