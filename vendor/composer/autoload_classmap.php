@@ -1836,8 +1836,11 @@ return array(
     'Modules\\Financial\\Entities\\Commodity' => $baseDir . '/Modules/Financial/Entities/Commodity.php',
     'Modules\\Financial\\Entities\\Contract' => $baseDir . '/Modules/Financial/Entities/Contract.php',
     'Modules\\Financial\\Entities\\CostFinancing' => $baseDir . '/Modules/Financial/Entities/CostFinancing.php',
+<<<<<<< HEAD
+=======
     'Modules\\Financial\\Entities\\Draft' => $baseDir . '/Modules/Financial/Entities/Draft.php',
     'Modules\\Financial\\Entities\\DraftVerifier' => $baseDir . '/Modules/Financial/Entities/DraftVerifier.php',
+>>>>>>> developer
     'Modules\\Financial\\Entities\\Executor' => $baseDir . '/Modules/Financial/Entities/Executor.php',
     'Modules\\Financial\\Entities\\Factor' => $baseDir . '/Modules/Financial/Entities/Factor.php',
     'Modules\\Financial\\Entities\\FinancialRequestQueue' => $baseDir . '/Modules/Financial/Entities/FinancialRequestQueue.php',
@@ -1857,7 +1860,10 @@ return array(
     'Modules\\Financial\\Entities\\_Request' => $baseDir . '/Modules/Financial/Entities/Request.php',
     'Modules\\Financial\\Http\\Controllers\\CommodityController' => $baseDir . '/Modules/Financial/Http/Controllers/CommodityController.php',
     'Modules\\Financial\\Http\\Controllers\\ContractController' => $baseDir . '/Modules/Financial/Http/Controllers/ContractController.php',
+<<<<<<< HEAD
+=======
     'Modules\\Financial\\Http\\Controllers\\DraftController' => $baseDir . '/Modules/Financial/Http/Controllers/DraftController.php',
+>>>>>>> developer
     'Modules\\Financial\\Http\\Controllers\\ExecutorController' => $baseDir . '/Modules/Financial/Http/Controllers/ExecutorController.php',
     'Modules\\Financial\\Http\\Controllers\\FactorController' => $baseDir . '/Modules/Financial/Http/Controllers/FactorController.php',
     'Modules\\Financial\\Http\\Controllers\\FinanceController' => $baseDir . '/Modules/Financial/Http/Controllers/FinanceController.php',
