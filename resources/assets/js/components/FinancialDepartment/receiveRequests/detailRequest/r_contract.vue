@@ -138,7 +138,6 @@
                                     <input type="text" name="contractSubject" v-model="contractInput.subject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('contractSubject')}">
                                 </label>
                                 <p v-show="errors.has('contractSubject')" class="error-font">لطفا عنوان را برای قرارداد مورد نظر را وارد نمایید!</p>
-                                <p v-show="errors.has('contractSubject')" class="error-font">لطفا عنوان را برای قرارداد مورد نظر را وارد نمایید!</p>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -437,11 +436,11 @@
             calculteFinalContractAmount: function(){
                 var lastTemp=0;
                 lastTemp = (percent * parseInt(this.contractInput.amount.split(',').join(''),10)) / 100;
+                alert(lastTemp);
                 this.increaseItems.forEach(item =>{
                     lastTemp += item.amount;
                 });
                 this.finalAmount =lastTemp;
-                alert(this.finalAmount);
 
             },
 
