@@ -19,13 +19,6 @@ use Modules\Financial\Entities\RequestType;
 
 class DraftController extends Controller
 {
-    function getPercentageIncrease()
-    {
-        return \response()->json(
-            PercentageIncrease::where('piState' , '=' , true)->get()
-        );
-    }
-
     function register(Request $request)
     {
         $resultCode = DB::transaction(function () use($request){
