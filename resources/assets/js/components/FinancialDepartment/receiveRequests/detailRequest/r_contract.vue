@@ -3,7 +3,7 @@
         <div v-if="$can('UNIT_OF_CONTRACT_ADD_NEW_CONTRACT')" class="large-12 medium-12 small-12">
             <div class="clearfix tool-bar">
                 <div class="button-group float-right report-mrg">
-                    <a class="my-button toolbox-btn small" @click="openInsertContractModal()">جدید</a>
+                    <a v-if="contracts.length == 0" class="my-button toolbox-btn small" @click="openInsertContractModal()">جدید</a>
                 </div>
             </div>
         </div>
@@ -288,7 +288,7 @@
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     export default{
-        props:['contracts','requestId' , 'creditIsAccepted' , 'creditIsExist'],
+        props:['contracts','requestId' , 'rCreditIsAccepted' , 'rCreditIsExist'],
         components: {
             Suggestions,
         },
@@ -427,9 +427,9 @@
             },
 
             openInsertContractModal:function () {
-                if (this.creditIsExist == true)
+                if (this.rCreditIsExist == true)
                 {
-                    if (this.creditIsAccepted == false)
+                    if (this.rCreditIsAccepted == false)
                     {
                         this.dialogMessage = 'تامین اعتبار تایید نهایی نشده است!';
                         this.showDialogModal = true;

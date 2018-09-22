@@ -1857,6 +1857,7 @@ return array(
     'Modules\\Financial\\Entities\\_Request' => $baseDir . '/Modules/Financial/Entities/Request.php',
     'Modules\\Financial\\Http\\Controllers\\CommodityController' => $baseDir . '/Modules/Financial/Http/Controllers/CommodityController.php',
     'Modules\\Financial\\Http\\Controllers\\ContractController' => $baseDir . '/Modules/Financial/Http/Controllers/ContractController.php',
+    'Modules\\Financial\\Http\\Controllers\\DraftController' => $baseDir . '/Modules/Financial/Http/Controllers/DraftController.php',
     'Modules\\Financial\\Http\\Controllers\\ExecutorController' => $baseDir . '/Modules/Financial/Http/Controllers/ExecutorController.php',
     'Modules\\Financial\\Http\\Controllers\\FactorController' => $baseDir . '/Modules/Financial/Http/Controllers/FactorController.php',
     'Modules\\Financial\\Http\\Controllers\\FinanceController' => $baseDir . '/Modules/Financial/Http/Controllers/FinanceController.php',

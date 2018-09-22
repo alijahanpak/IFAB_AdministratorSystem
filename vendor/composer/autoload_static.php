@@ -2311,6 +2311,7 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         'Modules\\Financial\\Entities\\_Request' => __DIR__ . '/../..' . '/Modules/Financial/Entities/Request.php',
         'Modules\\Financial\\Http\\Controllers\\CommodityController' => __DIR__ . '/../..' . '/Modules/Financial/Http/Controllers/CommodityController.php',
         'Modules\\Financial\\Http\\Controllers\\ContractController' => __DIR__ . '/../..' . '/Modules/Financial/Http/Controllers/ContractController.php',
+        'Modules\\Financial\\Http\\Controllers\\DraftController' => __DIR__ . '/../..' . '/Modules/Financial/Http/Controllers/DraftController.php',
         'Modules\\Financial\\Http\\Controllers\\ExecutorController' => __DIR__ . '/../..' . '/Modules/Financial/Http/Controllers/ExecutorController.php',
         'Modules\\Financial\\Http\\Controllers\\FactorController' => __DIR__ . '/../..' . '/Modules/Financial/Http/Controllers/FactorController.php',
         'Modules\\Financial\\Http\\Controllers\\FinanceController' => __DIR__ . '/../..' . '/Modules/Financial/Http/Controllers/FinanceController.php',

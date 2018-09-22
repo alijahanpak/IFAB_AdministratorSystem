@@ -140,7 +140,7 @@
                                 <li class="tabs-title"><a href="#creditsTab">اعتبارات</a></li>
                                 <li class="tabs-title" v-if="requestType == 'BUY_COMMODITY'"><a href="#factorTab">اطلاعات فاکتور</a></li>
                                 <li class="tabs-title" v-if="requestType == 'BUY_SERVICES'"><a href="#contractTab">اطلاعات قرارداد</a></li>
-
+                                <li class="tabs-title"><a href="#draftTab">پرداخت ها </a></li>
                                 <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
                                 <li class="tabs-title"><a href="#requestAttachmentsTab">پیوست ها </a></li>
                             </ul>
@@ -199,8 +199,8 @@
                                             v-on:updateReceiveRequestData="updateReceiveRequestData"
                                             v-bind:requestId="requestId"
                                             v-bind:contracts="contracts"
-                                            v-bind:creditIsAccepted="creditIsAccepted"
-                                            v-bind:creditIsExist="creditIsExist">
+                                            v-bind:rCreditIsAccepted="rCreditIsAccepted"
+                                            v-bind:rCreditIsExist="rCreditIsExist">
                                     </rContract>
                                 </div>
                                 <!--Tab 4-->
@@ -214,11 +214,19 @@
                                              v-bind:rCreditIsAccepted="rCreditIsAccepted"
                                              v-bind:rCreditIsExist="rCreditIsExist"
                                              v-bind:isFromRefundCosts="isFromRefundCosts">
-
                                     </rFactor>
                                 </div>
                                 <!--Tab 5-->
                                 <!--Tab 6-->
+                                <div class="tabs-panel table-mrg-btm" id="draftTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <rDraft  v-on:closeModal="showRequestDetailModal=false"
+                                             v-on:updateReceiveRequestData="updateReceiveRequestData"
+                                             v-bind:requestId="requestId"
+                                             v-bind:drafts="drafts">
+                                    </rDraft>
+                                </div>
+                                <!--Tab 6-->
+                                <!--Tab 7-->
                                 <div class="tabs-panel table-mrg-btm" id="requestHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 large-top-m">
@@ -266,9 +274,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--Tab 6-->
-
                                 <!--Tab 7-->
+
+                                <!--Tab 8-->
                                 <div class="tabs-panel table-mrg-btm" id="requestAttachmentsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <vue-element-loading :active="showLoaderProgress" spinner="spinner" color="#716aca"/>
@@ -325,7 +333,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--Tab 7-->
+                                <!--Tab 8-->
                             </div>
                         </div>
                         <div class="large-12 medium-12 small-12 medium-top-m">
@@ -516,6 +524,7 @@
     import rCredits from './detailRequest/r_credits.vue';
     import rContract from './detailRequest/r_contract.vue';
     import rFactor from './detailRequest/r_factor.vue';
+    import rDraft from './detailRequest/r_draft.vue';
     /* Import Local Components End*/
     export default {
         components: {
@@ -527,6 +536,7 @@
             rCredits,
             rContract,
             rFactor,
+            rDraft,
             VueElementLoading,
         },
         data () {
@@ -581,8 +591,6 @@
                 /*credits*/
 
                 contracts:[],
-                creditIsAccepted: true,
-                creditIsExist: false,
 
                 rCreditIsAccepted: true,
                 rCreditIsExist: false,
@@ -600,6 +608,8 @@
                 },
                 isFromRefund: false,
                 isFromRefundCosts:false,
+
+                drafts:[],
             }
         },
 

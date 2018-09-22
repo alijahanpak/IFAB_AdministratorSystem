@@ -112,7 +112,7 @@
                         <div style="margin-top: 16px;" class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <label>شرح
-                                    <textarea style="min-height: 150px;" name="factorDescription" v-model="factorInput.description"   :class="{'input': true, 'error-border': errors.has('factorDescription')}"></textarea>
+                                    <textarea style="min-height: 150px;" name="factorDescription" v-model="factorInput.description" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('factorDescription')}"></textarea>
                                     <p v-show="errors.has('factorDescription')" class="error-font">لطفا شرح کامل فاکتور را وارد کنید!</p>
                                 </label>
                             </div>
@@ -133,12 +133,12 @@
             {{dialogMessage}}
         </messageDialog>
 
-        <!-- accept Financing modal -->
+        <!-- Accept Factor modal -->
         <modal-tiny v-if="showAcceptConfirmModal" @close="showAcceptConfirmModal = false">
             <div slot="body">
                 <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
-                    <p class="large-offset-1 modal-text">تایید اطلاعات قرارداد به منزله ایجاد تعهد در محل های تامین اعتبار است، آیا صحت اطلاعات را تایید می کنید؟</p>
+                    <p class="large-offset-1 modal-text">تایید اطلاعات فاکتور به منزله ایجاد تعهد در محل های تامین اعتبار است، آیا صحت اطلاعات را تایید می کنید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
                             <button v-on:click="acceptFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
@@ -147,13 +147,13 @@
                 </div>
             </div>
         </modal-tiny>
-        <!-- accept Financing modal -->
+        <!-- Accept Factor modal -->
 
-        <!-- accept Financing modal -->
+        <!-- Delete Factor modal -->
         <modal-tiny v-if="showDeleteConfirmModal" @close="showDeleteConfirmModal = false">
             <div slot="body">
                 <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                    <p class="large-offset-1 modal-text">آیا مایل هستید قرارداد را حذف کنید؟</p>
+                    <p class="large-offset-1 modal-text">آیا مایل هستید فاکتور را حذف کنید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
                             <button v-on:click="deleteFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
@@ -162,7 +162,7 @@
                 </div>
             </div>
         </modal-tiny>
-        <!-- accept Financing modal -->
+        <!-- Delete Factor modal -->
     </div>
 </template>
 <script>
@@ -327,6 +327,7 @@
                     }else{
                         this.getRefund();
                         this.getAllSeller();
+                        this.factorInput={};
                         this.showInsertFactorModal=true;
                     }
                 }else{
