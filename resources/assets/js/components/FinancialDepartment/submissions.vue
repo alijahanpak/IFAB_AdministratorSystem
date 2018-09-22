@@ -778,7 +778,6 @@
                 this.showBuyCommodityModal=true;
                 this.fetchCommodity();
                 this.sumOfCommodityPrice=0;
-
             },
 
             addCommodityItem: function () {
@@ -917,7 +916,7 @@
                     });
                 });
 
-                if (submission.rRtId == 1){
+                if (submission.request_type.rtType == 'BUY_SERVICES'){
                     this.requestTypeDetail='SERVICES';
                     this.requestFill.rLetterNumber=submission.rLetterNumber;
                     this.requestFill.rLetterDate=submission.rLetterDate
@@ -926,7 +925,7 @@
                     this.requestFill.rDescription=submission.rDescription;
                     this.requestFill.rFurtherDetails=submission.rFurtherDetails;
                 }
-                else if (submission.rRtId == 2){
+                else if (submission.request_type.rtType == 'BUY_COMMODITY'){
                     var commodityTemp=[];
                     commodityTemp.push(submission);
                     this.commodityList=[];
@@ -941,7 +940,7 @@
                         });
                     });
                 }
-                else if (submission.rRtId == 3){
+                else if (submission.request_type.rtType == 'FUND'){
                     this.requestTypeDetail='FUND';
                     this.requestFill.rLetterNumber=submission.rLetterNumber;
                     this.requestFill.rLetterDate=submission.rLetterDate

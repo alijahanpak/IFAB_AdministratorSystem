@@ -199,8 +199,8 @@
                                             v-on:updateReceiveRequestData="updateReceiveRequestData"
                                             v-bind:requestId="requestId"
                                             v-bind:contracts="contracts"
-                                            v-bind:creditIsAccepted="creditIsAccepted"
-                                            v-bind:creditIsExist="creditIsExist">
+                                            v-bind:rCreditIsAccepted="rCreditIsAccepted"
+                                            v-bind:rCreditIsExist="rCreditIsExist">
                                     </rContract>
                                 </div>
                                 <!--Tab 4-->
@@ -584,6 +584,9 @@
                 creditIsAccepted: true,
                 creditIsExist: false,
 
+                rCreditIsAccepted: true,
+                rCreditIsExist: false,
+
                 factors:[],
 
                 maxInputValue:0,
@@ -761,8 +764,9 @@
                 });
 
                 this.lastVerifier=request.rLastRef.id;
-                this.creditIsAccepted = request.rCreditIsAccepted;
-                this.creditIsExist = request.rCreditIsExist;
+
+                this.rCreditIsAccepted = request.rCreditIsAccepted;
+                this.rCreditIsExist = request.rCreditIsExist;
 
                 this.requestType = request.request_type.rtType;
                 this.isFromRefund = request.isFromRefundCosts;
@@ -782,7 +786,7 @@
                 else
                     this.baseAmount= request.rCostEstimation;
 
-                if (request.rRtId == 1){
+                if (request.request_type.rtType == 'BUY_SERVICES'){
                     this.requestTypeDetail='SERVICES';
                     this.requestFill.rLetterNumber=request.rLetterNumber;
                     this.requestFill.rLetterDate=request.rLetterDate;
@@ -792,7 +796,7 @@
                     this.requestFill.rFurtherDetails=request.rFurtherDetails;
                     this.requestFill.rAcceptedAmount=request.rAcceptedAmount;
                 }
-                else if (request.rRtId == 2){
+                else if (request.request_type.rtType == 'BUY_COMMODITY'){
                     var commodityTemp=[];
                     commodityTemp.push(request);
                     this.commodityList=[];
@@ -808,7 +812,7 @@
                         });
                     });
                 }
-                else if (request.rRtId == 3){
+                else if (request.request_type.rtType == 'FUND'){
                     this.requestTypeDetail='FUND';
                     this.requestFill.rLetterNumber=request.rLetterNumber;
                     this.requestFill.rLetterDate=request.rLetterDate;
@@ -855,7 +859,6 @@
             },
 
             closeRequestDetailModal: function () {
-                alert('ali');
                 this.showRequestDetailModal=false;
             },
 

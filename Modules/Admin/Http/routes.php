@@ -35,4 +35,5 @@ Route::group(['middleware' => ['api' , 'auth_api:api'],'prefix' => 'admin/user',
     Route::post('/changeAmountBase ' , 'AdminController@changeAmountBase');
     Route::get('/getMyGroupUsers ' , 'AdminController@fetchMyGroupsUsers');
     Route::get('/getMyCategoryUsers ' , 'AdminController@fetchMyCategoryUsers');
+    Route::get('/getDirectorGeneralUsers ' , 'AdminController@fetchDirectorGeneralUsers');
 });

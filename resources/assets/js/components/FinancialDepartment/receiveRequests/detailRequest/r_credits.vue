@@ -2,8 +2,8 @@
     <div class="grid-x">
         <div class="large-12 medium-12 small-12">
             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="credit_tab_view">
-                <li class="tabs-title is-active"><a href="#creditCapitalAssetsTab" aria-selected="true">تملک دارایی های سرمایه ای</a></li>
-                <li class="tabs-title"><a href="#creditCostTab">هزینه ای </a></li>
+                <li class="tabs-title is-active"><a href="#creditCapitalAssetsTab" aria-selected="true"> تملک دارایی های سرمایه ای  <span v-show="requestCapFinancing.length > 0" class="notif-badge-purple">{{requestCapFinancing.length}}</span></a></li>
+                <li class="tabs-title"><a href="#creditCostTab"> هزینه ای <span v-show="requestCostFinancing.length > 0" class="notif-badge-purple">{{requestCostFinancing.length}}</span></a></li>
             </ul>
             <div class="tabs-content" data-tabs-content="credit_tab_view">
                 <div class="grid-x">
@@ -194,7 +194,7 @@
                             <div class="tabs-content" data-tabs-content="cost_credit_tab_view">
                                 <div class="grid-x">
                                     <div style="margin-top: 10px;" class="large-12 medium-12 small-12 direction-ltr">
-                                        <span class="cost-label">مبالغ : ریال</span>
+                                        <span class="cost-label size-14">مبالغ : ریال</span>
                                     </div>
                                 </div>
                                 <!--Tab 1-->
@@ -253,7 +253,7 @@
                                                                     <div class="grid-x">
                                                                         <!--Table Start-->
                                                                         <div class="tbl_body_style dynamic-height-level-modal3">
-                                                                            <table class="stack">
+                                                                            <table class="stack text-right">
                                                                                 <tbody>
                                                                                 <tr>
                                                                                     <td width="150" class="black-color">شماره موافقتنامه :</td>
@@ -266,7 +266,7 @@
                                                                                 <tr>
                                                                                     <td width="150" class="black-color">نوع موافقتنامه :</td>
                                                                                     <td v-show="plan.caProvinceOrNational == 0">استانی</td>
-                                                                                    <td v-show="plan.cpProvinceOrNational == 1">ملی</td>
+                                                                                    <td v-show="plan.caProvinceOrNational == 1">ملی</td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td width="150" class="black-color">شرح موافقتنامه :</td>
@@ -353,7 +353,7 @@
                                                                         <div class="grid-x">
                                                                             <!--Table Start-->
                                                                             <div class="tbl_body_style dynamic-height-level-modal2">
-                                                                                <table class="stack">
+                                                                                <table class="stack text-right">
                                                                                     <tbody>
                                                                                     <tr>
                                                                                         <td width="150" class="black-color">شماره موافقتنامه :</td>
@@ -366,7 +366,7 @@
                                                                                     <tr>
                                                                                         <td width="150" class="black-color">نوع موافقتنامه :</td>
                                                                                         <td v-show="plan.caProvinceOrNational == 0">استانی</td>
-                                                                                        <td v-show="plan.cpProvinceOrNational == 1">ملی</td>
+                                                                                        <td v-show="plan.caProvinceOrNational == 1">ملی</td>
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <td width="150" class="black-color">شرح موافقتنامه :</td>
@@ -469,7 +469,7 @@
                                                                             <div class="grid-x">
                                                                                 <!--Table Start-->
                                                                                 <div class="tbl_body_style dynamic-height-level-modal2">
-                                                                                    <table class="stack">
+                                                                                    <table class="stack text-right">
                                                                                         <tbody>
                                                                                         <tr>
                                                                                             <td width="150" class="black-color">شماره موافقتنامه :</td>
@@ -482,7 +482,7 @@
                                                                                         <tr>
                                                                                             <td width="150" class="black-color">نوع موافقتنامه :</td>
                                                                                             <td v-show="plan.caProvinceOrNational == 0">استانی</td>
-                                                                                            <td v-show="plan.cpProvinceOrNational == 1">ملی</td>
+                                                                                            <td v-show="plan.caProvinceOrNational == 1">ملی</td>
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <td width="150" class="black-color">شرح موافقتنامه :</td>
@@ -605,10 +605,10 @@
                                 <div class="large-6 medium-6 small-12">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12">
-                                            <p> مبلغ : <span class="btn-red"> {{$root.dispMoneyFormat(baseAmount)}} </span></p>
+                                            <p class="size-14"> مبلغ : <span class="btn-red"> {{$root.dispMoneyFormat(baseAmount)}} </span></p>
                                         </div>
                                         <div class="large-12 medium-12 small-12">
-                                            <p> مبلغ تامین اعتبار : <span class="btn-red"> {{$root.dispMoneyFormat(costReservedAmount)}} </span></p>
+                                            <p class="size-14"> مبلغ تامین اعتبار : <span class="btn-red"> {{$root.dispMoneyFormat(costReservedAmount)}} </span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -1314,10 +1314,10 @@
                                 <div class="large-6 medium-6 small-12">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12">
-                                            <p> مبلغ : <span class="btn-red"> {{$root.dispMoneyFormat(baseAmount)}} </span></p>
+                                            <p class="size-14"> مبلغ : <span class="btn-red"> {{$root.dispMoneyFormat(baseAmount)}} </span></p>
                                         </div>
                                         <div class="large-12 medium-12 small-12">
-                                            <p> مبلغ تامین اعتبار : <span class="btn-red"> {{$root.dispMoneyFormat(capReservedAmount)}} </span></p>
+                                            <p class="size-14"> مبلغ تامین اعتبار : <span class="btn-red"> {{$root.dispMoneyFormat(capReservedAmount)}} </span></p>
                                         </div>
                                     </div>
                                 </div>

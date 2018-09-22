@@ -69,6 +69,7 @@ class RequestController extends Controller
             ->with('history.requestState')
             ->with('contract.executor')
             ->with('factor.seller')
+            ->with('draft.verifier.user')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
     }
@@ -231,6 +232,7 @@ class RequestController extends Controller
             ->with('history.requestState')
             ->with('contract.executor')
             ->with('factor.seller')
+            ->with('draft.verifier.user')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
     }

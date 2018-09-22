@@ -20,8 +20,8 @@ class CreateContractTable extends Migration
                 $table->bigInteger('cRId')->length(20)->unsigned();
                 $table->bigInteger('cEId')->length(20)->unsigned();
                 $table->string('cSubject');
-                $table->bigInteger('cAmount');
-                $table->tinyInteger('cPercentInAndDec');
+                $table->unsignedBigInteger('cBaseAmount');
+                $table->unsignedTinyInteger('cPercentInAndDec');
                 $table->boolean('cIsAccepted')->default(false);
                 $table->string('cLetterNumber');
                 $table->string('cLetterDate');

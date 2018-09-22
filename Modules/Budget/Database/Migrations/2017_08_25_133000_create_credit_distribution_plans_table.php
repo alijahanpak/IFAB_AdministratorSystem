@@ -21,7 +21,7 @@ class CreateCreditDistributionPlansTable extends Migration
                 $table->bigInteger('cdpCdtId')->length(20)->unsigned();
                 $table->bigInteger('cdpCdrId')->length(20)->unsigned();
                 $table->bigInteger('cdpFyId')->length(20)->unsigned();
-                $table->bigInteger('cdpCredit');
+                $table->unsignedBigInteger('cdpCredit');
                 $table->longText('cdpDescription')->nullable();
                 $table->timestamps();
 

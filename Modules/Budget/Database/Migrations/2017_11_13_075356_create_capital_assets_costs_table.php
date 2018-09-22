@@ -19,7 +19,7 @@ class CreateCapitalAssetsCostsTable extends Migration
                 $table->bigInteger('cacUId')->length(20)->unsigned();
                 $table->bigInteger('cacCaaId')->length(20)->unsigned()->nullable();
                 $table->string('cacSubject');
-                $table->bigInteger('cacAmount');
+                $table->unsignedBigInteger('cacAmount');
                 $table->longText('cacDescription')->nullable();
                 $table->timestamps();
 
