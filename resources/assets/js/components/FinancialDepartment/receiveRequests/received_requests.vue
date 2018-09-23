@@ -222,6 +222,9 @@
                                     <rDraft  v-on:closeModal="showRequestDetailModal=false"
                                              v-on:updateReceiveRequestData="updateReceiveRequestData"
                                              v-bind:requestId="requestId"
+                                             v-bind:contracts="contracts"
+                                             v-bind:rAcceptedAmount="rAcceptedAmount"
+                                             v-bind:rCommitmentAmount="rCommitmentAmount"
                                              v-bind:drafts="drafts">
                                     </rDraft>
                                 </div>
@@ -611,6 +614,8 @@
                 isFromRefundCosts:false,
 
                 drafts:[],
+                rCostEstimation:0,
+                rAcceptedAmount:0,
             }
         },
 
@@ -782,6 +787,11 @@
                 this.requestType = request.request_type.rtType;
                 this.isFromRefund = request.isFromRefundCosts;
                 this.isFromRefundCosts=request.isFromRefundCosts;
+
+                /* Prop to Draft Component*/
+                this.rCommitmentAmount=request.rCommitmentAmount;
+                this.rAcceptedAmount=request.rAcceptedAmount;
+                /* Prop to Draft Component*/
 
                 if(request.rYouAreVerifiers.length != 0){
                     this.youAreVerifier=request.rYouAreVerifiers[0].id;

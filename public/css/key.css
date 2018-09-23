@@ -2221,6 +2221,11 @@ input[type="search"]:valid + label {
    font-size: 0.875rem;
    font-weight: normal;
 }
+
+.input-top-margin{
+    margin-top:16px;
+}
+
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
     display: block;
     width: 0;
