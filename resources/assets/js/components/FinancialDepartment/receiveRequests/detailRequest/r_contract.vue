@@ -130,7 +130,7 @@
         <!--Insert Contract Start-->
         <modal-small v-if="showInsertContractModal" @close="showInsertContractModal = false">
             <div  slot="body">
-                <form v-on:submit.prevent="createContract" >
+                <form v-on:submit.prevent="addNewContract" >
                     <div class="small-font">
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
@@ -236,7 +236,7 @@
                                             <div class="grid-x">
                                                 <div class="large-2 medium-3  small-12">
                                                     <div class="switch tiny">
-                                                        <input :checked="percentageCheckBox" v-on:change="calculteAmount(pItem.piPercent,pItem)" class="switch-input" v-model="contractInput['percentage' + pItem.id]" :id="'percentage'+pItem.id" type="checkbox">
+                                                        <input :checked="percentageCheckBox" v-on:change="calculteAmount(pItem.piPercent,pItem,contractInput['percentage' + pItem.id])" class="switch-input" v-model="contractInput['percentage' + pItem.id]" :id="'percentage'+pItem.id" type="checkbox">
                                                         <label class="switch-paddle" :for="'percentage'+pItem.id">
                                                             <span class="switch-active" aria-hidden="true">بلی</span>
                                                             <span class="switch-inactive" aria-hidden="true">خیر</span>
@@ -249,7 +249,7 @@
                                             </div>
                                         </div>
                                         <div class="large-3 medium-3  small-12">
-                                            <p class="btn-red">{{$root.dispMoneyFormat(increaseItemsValue[pItem.id])}} ریال</p>
+                                            <p class="btn-red" :id="'incValue'+pItem.id">0 ریال</p>
                                         </div>
                                     </div>
                                 </div>
@@ -281,7 +281,7 @@
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <div class="stacked-for-small button-group float-left">
-                                    <button @click="addNewContract" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
                                 </div>
                             </div>
                         </div>
@@ -361,6 +361,7 @@
                 increaseTemp:[],
                 increaseItemsValue:[],
                 finalAmount:0,
+                positionTemp:0,
             }
 
         },
@@ -425,43 +426,44 @@
                     });
             },
 
-            calculteAmount: function(percent,index,){
+            calculteAmount: function(percent,index,state){
                 var increaseItemsTemp={};
                 increaseItemsTemp.piId=index.id;
                 increaseItemsTemp.amount=(percent * parseInt(this.contractInput.amount.split(',').join(''),10)) / 100;
-                /*if(this.increaseItems === undefined || this.increaseItems.length == 0){
-                    this.increaseItems.push(increaseItemsTemp);
-                    this.increaseItemsValue[index]=increaseItemsTemp.amount;
-                }
-                else{
-                    this.increaseItems.forEach(value =>{
-                        if(value.piId == increaseItemsTemp.piId){
-                            this.increaseItems.splice(index+1,1);
-                        }
-                        else{
-                            this.increaseItems.push(increaseItemsTemp);
-                            this.increaseItemsValue[index]=increaseItemsTemp.amount;
-                        }
-                    });
 
-                }*/
-                if(this.contractInput['percentage' + index.id] == false){
-                    this.increaseTemp[index.id-1]=0;
-                    this.increaseItemsValue[index.id]=0;
-                }else{
-                    this.increaseTemp[index.id-1]=increaseItemsTemp.amount;
-                    this.increaseItemsValue[index.id]=increaseItemsTemp.amount;
+                this.increaseTemp.forEach((item,pos) =>{
+                    if(item.piId == increaseItemsTemp.piId ){
+                        this.increaseTemp.splice(pos,1);
+                    }
+                });
+                if(state == true){
+                    this.increaseTemp.push(increaseItemsTemp);
                 }
-
+                $('#incValue'+index.id).text(this.getIncreaseIndex(index.id) + ' ریال');
                 console.log(JSON.stringify(this.increaseTemp));
                 this.calculteFinalContractAmount();
+            },
+
+           getIncreaseIndex: function(piId) {
+                var amount=-1;
+                this.increaseTemp.forEach((item) =>{
+                   if(item.piId == piId) {
+                       amount=item.amount;
+                       return true;
+                   }
+                });
+                if(amount== -1)
+                    return 0;
+                else
+                    return amount;
+
             },
 
             calculteFinalContractAmount: function(){
                 var lastTemp=0;
                 lastTemp = parseInt(this.contractInput.amount.split(',').join(''),10);
                 this.increaseTemp.forEach(item =>{
-                    lastTemp += item;
+                    lastTemp += item.amount;
                 });
                 this.finalAmount =lastTemp;
 
@@ -555,15 +557,16 @@
                             rId: this.requestId,
                             subject: this.contractInput.subject,
                             executor: this.contractInput.executor,
-                            baseAmount: parseInt(this.contractInput.amount.split(',').join(''),10),
+                            baseAmount: this.finalAmount,
                             percentIncAndDec: this.contractInput.percentIncAndDec,
                             letterNumber: this.contractInput.letterNumber,
                             letterDate: this.contractInput.letterDate,
                             startDate: this.contractInput.startDate,
                             endDate: this.contractInput.endDate,
                             description: this.contractInput.description,
+                            increaseItems:this.increaseTemp,
                         }).then((response) => {
-                            this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                            this.$emit('updateReceiveRequestData', response.data, this.requestId);
                             this.showInsertContractModal = false;
                             this.$root.displayNotif(response.status);
                             console.log(response);

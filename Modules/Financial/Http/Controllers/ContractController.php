@@ -29,7 +29,7 @@ class ContractController extends Controller
             $contract->cRId = $request->rId;
             $contract->cEId = $eId->id;
             $contract->cSubject = PublicSetting::checkPersianCharacters($request->subject);
-            $contract->cAmount = $request->baseAmount;
+            $contract->cBaseAmount = $request->baseAmount;
             $contract->cPercentInAndDec = $request->percentIncAndDec;
             $contract->cLetterNumber = $request->letterNumber;
             $contract->cLetterDate = $request->letterDate;
