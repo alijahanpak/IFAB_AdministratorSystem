@@ -2285,6 +2285,7 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         'Modules\\Financial\\Database\\Seeders\\SeedRequestTableSeeder' => __DIR__ . '/../..' . '/Modules/Financial/Database/Seeders/SeedRequestTableSeeder.php',
         'Modules\\Financial\\Database\\Seeders\\SeedRequestTypeTableSeeder' => __DIR__ . '/../..' . '/Modules/Financial/Database/Seeders/SeedRequestTypeTableSeeder.php',
         'Modules\\Financial\\Database\\Seeders\\SeederPercentageIncreaseTableSeeder' => __DIR__ . '/../..' . '/Modules/Financial/Database/Seeders/SeederPercentageIncreaseTableSeeder.php',
+        'Modules\\Financial\\Entities\\AccountantRequestQueue' => __DIR__ . '/../..' . '/Modules/Financial/Entities/AccountantRequestQueue.php',
         'Modules\\Financial\\Entities\\Attachment' => __DIR__ . '/../..' . '/Modules/Financial/Entities/Attachment.php',
         'Modules\\Financial\\Entities\\CapitalAssetsFinancing' => __DIR__ . '/../..' . '/Modules/Financial/Entities/CapitalAssetsFinancing.php',
         'Modules\\Financial\\Entities\\Commodity' => __DIR__ . '/../..' . '/Modules/Financial/Entities/Commodity.php',

@@ -15,6 +15,7 @@ use Modules\Financial\Entities\AccountantRequestQueue;
 use Modules\Financial\Entities\Draft;
 use Modules\Financial\Entities\DraftVerifier;
 use Modules\Financial\Entities\IncreaseDraftAmount;
+use Modules\Financial\Entities\PercentageDecrease;
 use Modules\Financial\Entities\PercentageIncrease;
 use Modules\Financial\Entities\RequestHistory;
 use Modules\Financial\Entities\RequestState;
@@ -130,6 +131,13 @@ class DraftController extends Controller
         $rController = new RequestController();
         return \response()->json(
             $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+        );
+    }
+
+    public function getPercentageDecrease()
+    {
+        return \response()->json(
+            PercentageDecrease::where('pdState' , '=' , true)->get()
         );
     }
 }
