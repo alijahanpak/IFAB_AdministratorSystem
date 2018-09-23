@@ -23,7 +23,7 @@ class CreateIncreaseContractAmountTable extends Migration
 
                 $table->foreign('icaCId')
                     ->references('id')->on('tbl_contracts')
-                    ->onDelete('restrict')
+                    ->onDelete('cascade')
                     ->onUpdate('cascade');
 
                 $table->foreign('icaPiId')

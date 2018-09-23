@@ -94,5 +94,11 @@ class SeederRoleTableSeederTableSeeder extends Seeder
         $role->rRole = 'CONTRACT_ADMIN';
         $role->rOuId = 11;
         $role->save();
+
+        $role = new Role;
+        $role->rSubject = 'ذیحساب';
+        $role->rRole = 'ACCOUNTANT_ADMIN';
+        $role->rOuId = 11;
+        $role->save();
     }
 }

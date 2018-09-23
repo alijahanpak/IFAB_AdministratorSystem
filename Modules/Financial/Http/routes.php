@@ -53,5 +53,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
 
     Route::prefix('draft')->group(function () {
         Route::post('/register', 'DraftController@register');
+        Route::post('/accept', 'DraftController@accept');
+        Route::post('/numbering', 'DraftController@numbering');
     });
 });

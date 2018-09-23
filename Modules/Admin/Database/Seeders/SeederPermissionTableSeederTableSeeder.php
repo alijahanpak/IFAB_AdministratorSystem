@@ -607,5 +607,23 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
         $permission->pSubject = 'اضافه کردن پیوست جدید';
         $permission->pPermission = 'UNIT_OF_CONTRACT_ADD_NEW_ATTACHMENT';
         $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 13;
+        $permission->pSubject = 'ایجاد حواله';
+        $permission->pPermission = 'FINANCIAL_ADD_NEW_DRAFT';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 13;
+        $permission->pSubject = 'حذف حواله';
+        $permission->pPermission = 'FINANCIAL_DELETE_DRAFT';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 14;
+        $permission->pSubject = 'مشاهده صف ذیحسابی';
+        $permission->pPermission = 'ACCOUNTANT_QUEUE_DISPLAY';
+        $permission->save();
     }
 }
