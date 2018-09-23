@@ -14,18 +14,18 @@
                 <table class="tbl-head">
                     <colgroup>
                         <col width="300px"/>
-                        <col width="150px"/>
-                        <col width="300px"/>
-                        <col width="150px"/>
+                        <col width="200px"/>
+                        <col width="200px"/>
+                        <col width="200px"/>
                         <col width="60px"/>
                         <col width="12px"/>
                     </colgroup>
                     <tbody class="tbl-head-style ">
                     <tr class="tbl-head-style-cell">
-                        <th class="tbl-head-style-cell">عنوان</th>
-                        <th class="tbl-head-style-cell">مبلغ</th>
-                        <th class="tbl-head-style-cell">شرح</th>
-                        <th class="tbl-head-style-cell">وضعیت</th>
+                        <th class="tbl-head-style-cell">بابت</th>
+                        <th class="tbl-head-style-cell">در وجه</th>
+                        <th class="tbl-head-style-cell">مبلغ صورت وضعیت</th>
+                        <th class="tbl-head-style-cell">مبلغ حواله</th>
                         <th class="tbl-head-style-cell">عملیات</th>
                         <th class="tbl-head-style-cell"></th>
                     </tr>
@@ -37,19 +37,18 @@
                     <table class="tbl-body-contain">
                         <colgroup>
                             <col width="300px"/>
-                            <col width="150px"/>
-                            <col width="300px"/>
-                            <col width="150px"/>
+                            <col width="200px"/>
+                            <col width="200px"/>
+                            <col width="200px"/>
                             <col width="60px"/>
                         </colgroup>
                         <tbody class="tbl-head-style-cell">
-                        <tr class="table-row" v-for="factor in factors">
-                            <td>{{factor.fSubject}}</td>
-                            <td class="text-center">{{$root.dispMoneyFormat(factor.fAmount)}}</td>
-                            <td class="text-center">{{factor.fDescription}}</td>
-                            <td class="text-center" v-show="factor.fIsAccepted == 1"><span class="success-label">تایید شده</span></td>
-                            <td class="text-center" v-show="factor.fIsAccepted == 0"><span class="reserved-label">تایید نشده</span></td>
-                            <td class="text-center"><a @click="openConfirmDeleteContract(factor.id)"><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
+                        <tr class="table-row" v-for="draft in drafts">
+                            <td>{{draft.dFor}}</td>
+                            <td>{{draft.dPayTo}}</td>
+                            <td class="text-center">{{$root.dispMoneyFormat(draft.dBaseAmount)}}</td>
+                            <td class="text-center">{{$root.dispMoneyFormat(draft.dAmount)}}</td>
+                            <td class="text-center"><a @click=""><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
                         </tr>
                         </tbody>
                     </table>
@@ -66,7 +65,7 @@
         <!--Insert Factor Start-->
         <modal-small v-if="showInsertDraftModal" @close="showInsertDraftModal = false">
             <div  slot="body">
-                <form v-on:submit.prevent="createDraft" >
+                <form v-on:submit.prevent="addNewDraft" >
                     <div class="small-font">
                         <div class="large-12 medium-12 small-12">
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="draft_tab_view">
@@ -79,7 +78,7 @@
                                     <div class="grid-x">
                                         <div class="large-8 medium-8 small-12">
                                             <label>امضا کننده
-                                                <select name="verifierUser" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('verifierUser')}">
+                                                <select name="verifierUser" v-validate data-vv-rules="required"  v-model="draftInput.verifierId" :class="{'input': true, 'select-error': errors.has('verifierUser')}">
                                                     <option value=""></option>
                                                     <option v-for="user in directorGeneralUsers" :value="user.id">{{user.name}} - {{user.role.rSubject}}</option>
                                                 </select>
@@ -89,13 +88,13 @@
                                     </div>
                                 </div>
                                 <!--Tab 1-->
-                                <!--Tab 1-->
+                                <!--Tab 2-->
                                 <div class="tabs-panel table-mrg-btm" id="drafTab">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 padding-lr">
                                             <label>بابت
                                                 <suggestions style="margin-bottom: -18px;" name="forTitle" v-validate :class="{'input': true, 'select-error': errors.has('forTitle')}"
-                                                             v-model="DraftInput.for"
+                                                             v-model="draftInput.for"
                                                              :options="forOptions"
                                                              :onInputChange="onForInputChange">
                                                     <div slot="item" slot-scope="props" class="single-item">
@@ -109,7 +108,7 @@
                                         <div class="large-12 medium-12 small-12 padding-lr">
                                             <label>در وجه
                                                 <suggestions style="margin-bottom: -18px;" name="payToTitle" v-validate :class="{'input': true, 'select-error': errors.has('payToTitle')}"
-                                                             v-model="DraftInput.payTo"
+                                                             v-model="draftInput.payTo"
                                                              :options="payToOptions"
                                                              :onInputChange="onPayToInputChange">
                                                     <div slot="item" slot-scope="props" class="single-item">
@@ -122,19 +121,37 @@
                                     <div style="margin-top:15px;"  class="grid-x">
                                         <div class="large-6 medium-6 small-12 padding-lr">
                                             <label>مبلغ صورت وضعیت<span class="btn-red">(ریال)</span>
-                                                <money @change.native="calculteBaseAmount()" v-model="DraftInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
+                                                <money @change.native="calculateDraftAmount()" v-model="draftInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
                                             </label>
                                             <p v-show="errors.has('baseAmount')" class="error-font">لطفا مبلغ صورت وضعیت مورد نظر را وارد نمایید!</p>
                                         </div>
                                     </div>
+                                    <div class="panel-separator padding-lr">
+                                        <div class="grid-x">
+                                            <div class="large-9 medium-9  small-12 padding-lr">
+                                                <div class="grid-x">
+                                                    <div class="large-12 medium-12  small-12">
+                                                        <p>مبلغ نهایی قرارداد : </p>
+                                                        <p>حواله های ثبتی قرارداد تا کنون : </p>
+                                                        <p>مبلغ نهایی حواله : </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="large-3 medium-3  small-12">
+                                                <p class="btn-red">{{$root.dispMoneyFormat(rCommitmentAmount)}} ریال</p>
+                                                <p class="btn-red">{{$root.dispMoneyFormat(lastDrafts)}} ریال</p>
+                                                <p class="btn-red">{{$root.dispMoneyFormat(draftBaseAmount)}} ریال</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <!--Tab 1-->
+                                <!--Tab 2-->
                             </div>
                         </div>
                         <div class="grid-x small-top-m">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <div class="stacked-for-small button-group float-left">
-                                    <button @click="addNewFactor" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
                                 </div>
                             </div>
                         </div>
@@ -193,7 +210,7 @@
                 showDeleteConfirmModal: false,
                 showDialogModal: false,
                 dialogMessage: '',
-                DraftInput:{},
+                draftInput:{},
                 directorGeneralUsers:[],
                 money: {
                     thousands: ',',
@@ -209,8 +226,9 @@
                 selectedFor: null,
                 forOptions: {},
                 //for & PayTo input text
-                commitmentAmount:0,
                 draftBaseAmount:0,
+                lastDrafts:0,
+                initBaseAmount:0,
 
             }
 
@@ -290,6 +308,39 @@
             ------------------ For Draft End ------------------------------
             -----------------------------------------------------------------------------*/
 
+            calculateDraftAmount: function(){
+                var baseAmount=0;
+                var sumOfPrcents=0;
+                var draftBaseAmountTemp=0;
+                baseAmount=parseInt(this.draftInput.baseAmount.split(',').join(''),10);
+
+                this.contracts.forEach(item =>{
+                    item.increase_amount.forEach(percent =>{
+                        sumOfPrcents += baseAmount * (percent.percentage_increase.piPercent /100)
+                    });
+                    draftBaseAmountTemp = baseAmount + sumOfPrcents;
+
+                });
+                this.getSumOfLastDrafts();
+                this.draftBaseAmount = draftBaseAmountTemp - this.lastDrafts;
+
+            },
+
+            getSumOfLastDrafts: function (){
+                var lastDraftTemp=0;
+                this.drafts.forEach(item =>{
+                    lastDraftTemp += item.dAmount;
+                });
+                this.lastDrafts=lastDraftTemp;
+            },
+
+            setInitBaseAmount: function (){
+                this.getSumOfLastDrafts();
+                this.draftInput.baseAmount= this.$root.dispMoneyFormat(this.rCommitmentAmount - this.lastDrafts);
+                this.calculateDraftAmount();
+
+            },
+
             checkAcceptFactor: function(){
                 var existNotAccepted = false;
                 this.factors.forEach(item => {
@@ -356,30 +407,37 @@
                 else{
                     this.forItems=[];
                     this.getAllFor();
-                    this.DraftInput = {};
+                    this.draftInput = {};
+                    this.setInitBaseAmount();
                     this.showInsertDraftModal = true;
                 }
             },
 
-            addNewFactor:function () {
+            addNewDraft:function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        axios.post('/financial/request/factor/insert', {
-                            refundCostsId: this.refundId,
-                            rId: this.requestId,
-                            subject: this.factorInput.subject,
-                            seller: this.factorInput.seller,
-                            amount: parseInt(this.factorInput.amount.split(',').join(''),10),
-                            description: this.factorInput.description,
-                        }).then((response) => {
-                            this.$emit('updateReceiveRequestData' , response.data , this.requestId);
-                            this.showInsertFactorModal = false;
-                            this.$root.displayNotif(response.status);
-                            console.log(response);
-                        }, (error) => {
-                            console.log(error);
-                            this.$root.displayNotif(error.response.status);
-                        });
+                        if((this.draftBaseAmount + this.lastDrafts) > this.rCommitmentAmount){
+                            this.dialogMessage = 'مبلغ حواله نمی تواند از مبلغ قرارداد / فاکتور بیشتر باشد!';
+                            this.showDialogModal = true;
+                        }
+                        else{
+                            axios.post('financial/draft/register', {
+                                rId: this.requestId,
+                                for: this.draftInput.for,
+                                payTo: this.draftInput.payTo,
+                                baseAmount: parseInt(this.draftInput.baseAmount.split(',').join(''),10),
+                                amount: this.draftBaseAmount,
+                                verifierId: this.draftInput.verifierId
+                            }).then((response) => {
+                                this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                                this.showInsertDraftModal = false;
+                                this.$root.displayNotif(response.status);
+                                console.log(response);
+                            }, (error) => {
+                                console.log(error);
+                                this.$root.displayNotif(error.response.status);
+                            });
+                        }
                     }
                 });
             },

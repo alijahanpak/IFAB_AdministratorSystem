@@ -767,6 +767,12 @@
                     });
                 });
 
+                requestHistory.forEach(item => {
+                    item.draft.forEach(draf => {
+                        this.drafts.push(draf);
+                    });
+                });
+
                 requestHistory.forEach(remainUsers => {
                     remainUsers.rRemainingVerifiers.forEach(users => {
                         this.UserIsVerifier.push(users);
