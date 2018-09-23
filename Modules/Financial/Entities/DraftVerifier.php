@@ -7,7 +7,7 @@ use Modules\Admin\Entities\User;
 
 class DraftVerifier extends Model
 {
-    protected $fillable = [];
+    protected $fillable = ['dvSId'];
     protected $table = 'tbl_draft_verifiers';
 
     public function user()

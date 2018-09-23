@@ -506,8 +506,9 @@
             </div>
         </modal-tiny>
         <!-- RegisterAndNumbering End -->
-
-
+        <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
+            {{dialogMessage}}
+        </messageDialog>
 
     </div>
 </template>
@@ -551,7 +552,7 @@
                 showSubmitRequestModal:false,
                 showResponseRequestModal:false,
                 showRegisterAndNumberingModal:false,
-                showDialogModal: true,
+                showDialogModal: false,
                 showDeleteAttachmentConfirmModal: false,
                 dialogMessage: '',
                 receiveRequestSearchValue:'',

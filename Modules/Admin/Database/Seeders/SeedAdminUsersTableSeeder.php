@@ -153,5 +153,25 @@ class SeedAdminUsersTableSeeder extends Seeder
         $user->seDispAmount = 3;
         $user->rId = 13;
         $user->save();
+
+        $user = new User;
+        $user->seFiscalYear = 5;
+        $user->name = 'علی مرادی';
+        $user->email = 'a.moradi';
+        $user->password = Hash::make('1234');
+        $user->seInPutAmount = 3;
+        $user->seDispAmount = 3;
+        $user->rId = 14;
+        $user->save();
+
+        $user = new User;
+        $user->seFiscalYear = 5;
+        $user->name = 'خانم لطفی';
+        $user->email = 'k.lotfi';
+        $user->password = Hash::make('1234');
+        $user->seInPutAmount = 3;
+        $user->seDispAmount = 3;
+        $user->rId = 4;
+        $user->save();
     }
 }

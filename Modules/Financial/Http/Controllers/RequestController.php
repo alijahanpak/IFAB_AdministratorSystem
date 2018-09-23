@@ -14,6 +14,7 @@ use Modules\Admin\Entities\Signature;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Admin\Entities\UserPermission;
 use Modules\Financial\Entities\_Request;
+use Modules\Financial\Entities\AccountantRequestQueue;
 use Modules\Financial\Entities\Attachment;
 use Modules\Financial\Entities\Commodity;
 use Modules\Financial\Entities\FinancialRequestQueue;
@@ -389,6 +390,24 @@ class RequestController extends Controller
             });
         }
 
+        /////////// check access to accountant queue permission //////////////////////
+        $accessToAQPermission = UserPermission::where('upUId' , '=' , Auth::user()->id)
+            ->whereHas('permission' , function ($q){
+                return $q->where('pPermission' , '=' , 'ACCOUNTANT_QUEUE_DISPLAY');
+            })
+            ->count();
+        if ($accessToAQPermission)
+        {
+            DB::transaction(function () {
+                $accQueue = AccountantRequestQueue::all()->pluck('arqRId');
+                RequestHistory::whereIn('rhRId', $accQueue)
+                    ->where('rhRsId', '=', RequestState::where('rsState', '=', 'ACCOUNTANT_QUEUE')->value('id'))
+                    ->update(['rhDestUId' => Auth::user()->id, 'rhRsId' => RequestState::where('rsState', '=', 'ACTIVE')->value('id')]);
+                _Request::whereIn('id', $accQueue)->update(['rRsId' => RequestState::where('rsState', '=', 'ACTIVE')->value('id')]);
+                AccountantRequestQueue::whereIn('arqRId', $accQueue)->delete();
+            });
+        }
+        //////////////////////////////////////////////////////////////////////////////////////
         $rhIds = RequestHistory::selectRaw('rhRId , MAX(id) as id')
             ->groupBy('rhRId')
             ->pluck('id');
