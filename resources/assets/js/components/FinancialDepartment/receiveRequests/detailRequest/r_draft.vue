@@ -94,7 +94,7 @@
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 padding-lr">
                                             <label>بابت
-                                                <suggestions style="margin-bottom: -18px;" name="sellerTitle" v-validate :class="{'input': true, 'select-error': errors.has('sellerTitle')}"
+                                                <suggestions style="margin-bottom: -18px;" name="forTitle" v-validate :class="{'input': true, 'select-error': errors.has('forTitle')}"
                                                              v-model="DraftInput.for"
                                                              :options="forOptions"
                                                              :onInputChange="onForInputChange">
@@ -105,11 +105,33 @@
                                             </label>
                                         </div>
                                     </div>
+                                    <div class="grid-x input-margin-top">
+                                        <div class="large-12 medium-12 small-12 padding-lr">
+                                            <label>در وجه
+                                                <suggestions style="margin-bottom: -18px;" name="payToTitle" v-validate :class="{'input': true, 'select-error': errors.has('payToTitle')}"
+                                                             v-model="DraftInput.payTo"
+                                                             :options="payToOptions"
+                                                             :onInputChange="onPayToInputChange">
+                                                    <div slot="item" slot-scope="props" class="single-item">
+                                                        <strong>{{props.item}}</strong>
+                                                    </div>
+                                                </suggestions>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top:15px;"  class="grid-x">
+                                        <div class="large-6 medium-6 small-12 padding-lr">
+                                            <label>مبلغ صورت وضعیت<span class="btn-red">(ریال)</span>
+                                                <money @change.native="calculteBaseAmount()" v-model="DraftInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
+                                            </label>
+                                            <p v-show="errors.has('baseAmount')" class="error-font">لطفا مبلغ صورت وضعیت مورد نظر را وارد نمایید!</p>
+                                        </div>
+                                    </div>
                                 </div>
                                 <!--Tab 1-->
                             </div>
                         </div>
-                        <div class="grid-x">
+                        <div class="grid-x small-top-m">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <div class="stacked-for-small button-group float-left">
                                     <button @click="addNewFactor" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
@@ -160,7 +182,7 @@
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     export default{
-        props:['drafts','requestId',],
+        props:['drafts','requestId','rAcceptedAmount','rCommitmentAmount','contracts'],
         components: {
             Suggestions,
         },
@@ -178,6 +200,18 @@
                     precision: 0,
                     masked: true
                 },
+
+                //for & PayTo input text
+                forQuery: '',
+                forItems: [],
+                forList: [],
+                payToList: [],
+                selectedFor: null,
+                forOptions: {},
+                //for & PayTo input text
+                commitmentAmount:0,
+                draftBaseAmount:0,
+
             }
 
         },
@@ -210,31 +244,43 @@
             /*-----------------------------------------------------------------------------
           ------------------ For Draft Start ------------------------------
           -----------------------------------------------------------------------------*/
-            getAllSeller: function () {
-                axios.get('/financial/seller/fetchData')
-                    .then((response) => {
-                        this.sellerItems = response.data;
-                        this.sellerList= [];
-                        this.sellerItems.forEach(item=> {
-                            this.sellerList.push(item.sSubject)
-                        });
-                        console.log(response);
-                    }, (error) => {
-                        console.log(error);
-                    });
+            getAllFor: function () {
+                this.forItems = this.contracts;
+                this.forList= [];
+                this.payToList= [];
+                this.forItems.forEach(item=> {
+                    this.forList.push(item.cSubject +' - ' + item.cLetterNumber + ' - ' + item.cLetterDate);
+                    this.payToList.push(item.executor.eSubject);
+                });
             },
 
-            onSellerInputChange(sellerInput) {
-                if (sellerInput.trim().length === 0) {
+            onForInputChange(forInput) {
+                if (forInput.trim().length === 0) {
                     return null
                 }
                 // return the matching countries as an array
-                return this.sellerList.filter((sellers) => {
-                    return sellers.toLowerCase().includes(sellerInput.toLowerCase())
+                return this.forList.filter((fors) => {
+                    return fors.toLowerCase().includes(forInput.toLowerCase())
                 })
             },
-            onSellerSelected(item) {
-                this.selectedSeller = item
+            onForSelected(item) {
+                this.selectedFor = item
+            },
+            onSearchItemSelected(item) {
+                this.selectedSearchItem = item
+            },
+
+            onPayToInputChange(PayToInput) {
+                if (PayToInput.trim().length === 0) {
+                    return null
+                }
+                // return the matching countries as an array
+                return this.payToList.filter((payTOes) => {
+                    return payTOes.toLowerCase().includes(PayToInput.toLowerCase())
+                })
+            },
+            onForPayTOSelected(item) {
+                this.selectedPayTo = item
             },
             onSearchItemSelected(item) {
                 this.selectedSearchItem = item
@@ -303,8 +349,16 @@
             },
 
             openInsertDraftModal:function () {
-                this.DraftInput = {};
-                this.showInsertDraftModal = true;
+                if(this.rCommitmentAmount != this.rAcceptedAmount){
+                    this.dialogMessage = 'تامین اعتبار به درستی انجام نشده است!';
+                    this.showDialogModal = true;
+                }
+                else{
+                    this.forItems=[];
+                    this.getAllFor();
+                    this.DraftInput = {};
+                    this.showInsertDraftModal = true;
+                }
             },
 
             addNewFactor:function () {
