@@ -318,21 +318,29 @@
             },
 
             openInsertFactorModal:function () {
-                if (this.rCreditIsExist == true)
+                if (this.isFromRefundCosts == true)
                 {
-                    if (this.rCreditIsAccepted == false)
-                    {
-                        this.dialogMessage = 'تامین اعتبار تایید نهایی نشده است!';
-                        this.showDialogModal = true;
-                    }else{
-                        this.getRefund();
-                        this.getAllSeller();
-                        this.factorInput={};
-                        this.showInsertFactorModal=true;
-                    }
+                    this.getRefund();
+                    this.getAllSeller();
+                    this.factorInput={};
+                    this.showInsertFactorModal=true;
                 }else{
-                    this.dialogMessage = 'امکان ثبت فاکتور وجود ندارد. منابع تامین اعتبار برای این درخواست تعیین نشده است!';
-                    this.showDialogModal = true;
+                    if (this.rCreditIsExist == true)
+                    {
+                        if (this.rCreditIsAccepted == false)
+                        {
+                            this.dialogMessage = 'تامین اعتبار تایید نهایی نشده است!';
+                            this.showDialogModal = true;
+                        }else{
+                            this.getRefund();
+                            this.getAllSeller();
+                            this.factorInput={};
+                            this.showInsertFactorModal=true;
+                        }
+                    }else{
+                        this.dialogMessage = 'امکان ثبت فاکتور وجود ندارد. منابع تامین اعتبار برای این درخواست تعیین نشده است!';
+                        this.showDialogModal = true;
+                    }
                 }
             },
 

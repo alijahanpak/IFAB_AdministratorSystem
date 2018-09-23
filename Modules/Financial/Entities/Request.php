@@ -66,7 +66,6 @@ class _Request extends Model
             ->where('cafAccepted' , '=' , false)
             ->exists();
 
-
         return (!$capFinancingState) && (!$costFinancingState);
     }
 
