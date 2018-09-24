@@ -625,5 +625,11 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
         $permission->pSubject = 'مشاهده صف ذیحسابی';
         $permission->pPermission = 'ACCOUNTANT_QUEUE_DISPLAY';
         $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 1;
+        $permission->pSubject = 'امضاء حواله';
+        $permission->pPermission = 'FINANCIAL_ACCEPT_DRAFT';
+        $permission->save();
     }
 }

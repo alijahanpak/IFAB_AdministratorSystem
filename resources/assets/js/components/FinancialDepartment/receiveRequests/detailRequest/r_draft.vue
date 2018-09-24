@@ -43,7 +43,7 @@
                             <col width="60px"/>
                         </colgroup>
                         <tbody class="tbl-head-style-cell">
-                        <tr class="table-row" v-for="draft in drafts">
+                        <tr @click="openPdfModal(draft)" class="table-row" v-for="draft in drafts">
                             <td>{{draft.dFor}}</td>
                             <td>{{draft.dPayTo}}</td>
                             <td class="text-center">{{$root.dispMoneyFormat(draft.dBaseAmount)}}</td>
@@ -55,11 +55,6 @@
                 </div>
             </div>
             <!--Table Body End-->
-            <div class="large-12 medium-12 small-12" v-if='$can("SUPPLIER_ACCEPT_FACTOR")'>
-                <div class="stacked-for-small button-group float-left">
-                    <button @click="checkAcceptFactor()"  class="my-button my-success float-left"><span class="btn-txt-mrg">تایید اطلاعات فاکتور</span></button>
-                </div>
-            </div>
         </div>
 
         <!--Insert Factor Start-->
@@ -194,12 +189,31 @@
             </div>
         </modal-tiny>
         <!-- Delete Factor modal -->
+
+        <!-- pdf  modal -->
+        <modal-small v-if="showPdfModal" @close="showPdfModal = false">
+            <div style="height: 90vh;" slot="body">
+                <div class="grid-x">
+                    <div class="large-12">
+                        <embed style="width: 100%;height: 80vh;" src="attachments/8fvSVbLMdP5EwMUhOhEt2ahuwU7DWjvDsQiVJLil.pdf" />
+                    </div>
+                </div>
+                <div class="grid-x small-top-m">
+                    <div class="medium-12 column text-center">
+                        <button @click="acceptDraft()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
+                    </div>
+                </div>
+            </div>
+        </modal-small>
+        <!-- pdf Factor modal -->
+
+
     </div>
 </template>
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     export default{
-        props:['drafts','requestId','rAcceptedAmount','rCommitmentAmount','contracts'],
+        props:['drafts','requestId','rAcceptedAmount','rCommitmentAmount','contracts','requestType'],
         components: {
             Suggestions,
         },
@@ -208,6 +222,7 @@
                 showInsertDraftModal:false,
                 showAcceptConfirmModal: false,
                 showDeleteConfirmModal: false,
+                showPdfModal: false,
                 showDialogModal: false,
                 dialogMessage: '',
                 draftInput:{},
@@ -229,6 +244,8 @@
                 draftBaseAmount:0,
                 lastDrafts:0,
                 initBaseAmount:0,
+                requestBaseAmount:0,
+                draftId:'',
 
             }
 
@@ -248,6 +265,11 @@
         },
 
         methods : {
+
+            openPdfModal: function (draft){
+              this.draftId=draft.id;
+              this.showPdfModal=true;
+            },
 
             getDirectorGeneralUsers: function () {
                 axios.get('/admin/user/getDirectorGeneralUsers')
@@ -336,9 +358,24 @@
 
             setInitBaseAmount: function (){
                 this.getSumOfLastDrafts();
-                this.draftInput.baseAmount= this.$root.dispMoneyFormat(this.rCommitmentAmount - this.lastDrafts);
+                this.getBaseAmount();
+                this.draftInput.baseAmount= this.$root.dispMoneyFormat(this.requestBaseAmount - this.lastDrafts);
                 this.calculateDraftAmount();
 
+            },
+
+            getBaseAmount: function(){
+                if(this.requestType == 'BUY_SERVICES'){
+                    this.contracts.forEach(item =>{
+                        this.requestBaseAmount += item.cBaseAmount;
+                    });
+                }
+                if(this.requestType == 'BUY_COMMODITY'){
+
+                }
+                if(this.requestType == 'FUND'){
+
+                }
             },
 
             checkAcceptFactor: function(){
@@ -362,9 +399,10 @@
                 this.showDeleteConfirmModal = true;
             },
 
-            acceptFactor: function(){
-                axios.post('/financial/request/factor/accept', {
+            acceptDraft: function(){
+                axios.post('/financial/draft/accept', {
                     rId: this.requestId,
+
                 }).then((response) => {
                     this.$emit('updateReceiveRequestData' , response.data , this.requestId);
                     this.$emit('closeModal');

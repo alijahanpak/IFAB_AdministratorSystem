@@ -225,6 +225,7 @@
                                              v-bind:contracts="contracts"
                                              v-bind:rAcceptedAmount="rAcceptedAmount"
                                              v-bind:rCommitmentAmount="rCommitmentAmount"
+                                             v-bind:requestType="requestType"
                                              v-bind:drafts="drafts">
                                     </rDraft>
                                 </div>
@@ -582,6 +583,7 @@
                 registerDate: '',
                 requestId: '',
                 letterNumber: '',
+                requestType:'',
                 money: {
                     thousands: ',',
                     decimal:'.',
@@ -738,7 +740,7 @@
                 var requestHistory=[];
                 requestHistory.push(request);
                 this.requestId=request.id;
-
+                this.requestType= request.request_type.rtType ;
                 /*this.requestCostFinancing=[];
                 this.requestCapFinancing=[];
                 this.fetchRequestFinancing();*/
