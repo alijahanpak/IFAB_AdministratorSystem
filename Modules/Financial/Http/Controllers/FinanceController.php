@@ -18,6 +18,7 @@ use Modules\Financial\Entities\Factor;
 use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\RefundCosts;
 use Modules\Financial\Entities\RequestHistory;
+use Modules\Financial\Entities\RequestLevel;
 use Modules\Financial\Entities\RequestState;
 use Modules\Financial\Entities\SupplierRequestQueue;
 use Modules\Financial\Entities\UnitOfContractRequestQueue;
@@ -211,6 +212,7 @@ class FinanceController extends Controller
                 {
                     $req = _Request::find($request->rId);
                     $req->rRsId = RequestState::where('rsState' , '=' , 'SUPPLIER_QUEUE')->value('id');
+                    $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PURCHASE_AND_CONTRACT')->value('id');
                     $req->save();
 
                     $supReqQueue = new SupplierRequestQueue();
@@ -219,6 +221,7 @@ class FinanceController extends Controller
                 }else{
                     $req = _Request::find($request->rId);
                     $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
+                    $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
                     $req->save();
 
                     $finReqQueue = new FinancialRequestQueue();
@@ -229,6 +232,7 @@ class FinanceController extends Controller
                 if ($req->rAcceptedAmount == 0) {
                     $req = _Request::find($request->rId);
                     $req->rRsId = RequestState::where('rsState', '=', 'UNIT_OF_CONTRACT_QUEUE')->value('id');
+                    $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PURCHASE_AND_CONTRACT')->value('id');
                     $req->save();
 
                     $ufcReqQueue = new UnitOfContractRequestQueue();
@@ -237,6 +241,7 @@ class FinanceController extends Controller
                 }else{
                     $req = _Request::find($request->rId);
                     $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
+                    $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
                     $req->save();
 
                     $finReqQueue = new FinancialRequestQueue();
@@ -246,6 +251,7 @@ class FinanceController extends Controller
             }else if ($req->requestType->rtType == 'FUND'){
                 $req = _Request::find($request->rId);
                 $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
+                $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
                 $req->save();
 
                 $finReqQueue = new FinancialRequestQueue();
@@ -276,6 +282,7 @@ class FinanceController extends Controller
             $req = _Request::find($request->id);
             $req->isFromRefundCosts = true;
             $req->rRsId = RequestState::where('rsState' , '=' , 'SUPPLIER_QUEUE')->value('id');
+            $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PURCHASE_AND_CONTRACT')->value('id');
             $req->save();
 
             $supReqQueue = new SupplierRequestQueue();

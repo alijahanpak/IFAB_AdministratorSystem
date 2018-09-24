@@ -17,6 +17,11 @@ class _Request extends Model
         return $this->belongsTo(RequestState::class , 'rRsId' , 'id');
     }
 
+    public function requestLevel()
+    {
+        return $this->belongsTo(RequestLevel::class , 'rRlId' , 'id');
+    }
+
     public function requestType()
     {
         return $this->belongsTo(RequestType::class , 'rRtId' , 'id');

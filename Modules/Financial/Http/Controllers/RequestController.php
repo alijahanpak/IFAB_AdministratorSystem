@@ -20,6 +20,7 @@ use Modules\Financial\Entities\Commodity;
 use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\RequestCommodity;
 use Modules\Financial\Entities\RequestHistory;
+use Modules\Financial\Entities\RequestLevel;
 use Modules\Financial\Entities\RequestState;
 use Modules\Financial\Entities\RequestStep;
 use Modules\Financial\Entities\RequestType;
@@ -74,6 +75,7 @@ class RequestController extends Controller
             ->with('contract.increaseAmount.percentageIncrease')
             ->with('factor.seller')
             ->with('draft.verifier.user')
+            ->with('requestLevel')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
     }
@@ -84,6 +86,7 @@ class RequestController extends Controller
             $req = new _Request();
             $req->rRsId = RequestState::where('rsState' , '=' , 'ACTIVE')->value('id');
             $req->rRtId = $request->rtId;
+            $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'REQUEST')->value('id');
             $req->rUId = Auth::user()->id;
             $req->rFyId = Auth::user()->seFiscalYear;
             $req->rSubject = PublicSetting::checkPersianCharacters($request->subject);
@@ -237,6 +240,7 @@ class RequestController extends Controller
             ->with('contract.executor')
             ->with('factor.seller')
             ->with('draft.verifier.user')
+            ->with('requestLevel')
             ->with('contract.increaseAmount.percentageIncrease')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
@@ -544,6 +548,7 @@ class RequestController extends Controller
             $req->rLetterNumber = $request->letterNumber;
             $req->rLetterDate = $request->letterDate;
             $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
+            $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'FINANCIAL')->value('id');
             $req->save();
 
             SecretariatRequestQueue::where('srqRId' , '=' , $req->id)->delete();

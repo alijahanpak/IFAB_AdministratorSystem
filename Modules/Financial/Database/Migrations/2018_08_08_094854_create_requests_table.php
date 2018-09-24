@@ -21,6 +21,7 @@ class CreateRequestsTable extends Migration
                 $table->bigInteger('rRtId')->length(20)->unsigned();
                 $table->bigInteger('rUId')->length(20)->unsigned();
                 $table->bigInteger('rFyId')->length(20)->unsigned();
+                $table->bigInteger('rRlId')->length(20)->unsigned();
                 $table->string('rSubject');
                 $table->unsignedBigInteger('rCostEstimation');
                 $table->longText('rDescription')->nullable();
@@ -47,6 +48,11 @@ class CreateRequestsTable extends Migration
 
                 $table->foreign('rFyId')
                     ->references('id')->on('tbl_fiscal_years')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+
+                $table->foreign('rRlId')
+                    ->references('id')->on('tbl_request_levels')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
             });
