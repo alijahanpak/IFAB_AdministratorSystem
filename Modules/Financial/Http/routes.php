@@ -57,4 +57,8 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::post('/numbering', 'DraftController@numbering');
         Route::get('/get_percentage_decrease' , 'DraftController@getPercentageDecrease');
     });
+
+    Route::prefix('report')->group(function () {
+        Route::get('/draft' , 'ReportController@draft');
+    });
 });
