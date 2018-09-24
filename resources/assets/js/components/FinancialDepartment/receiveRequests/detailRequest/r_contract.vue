@@ -455,7 +455,7 @@
                 if(amount== -1)
                     return 0;
                 else
-                    return amount;
+                    return this.$root.dispMoneyFormat(amount);
 
             },
 
@@ -557,7 +557,7 @@
                             rId: this.requestId,
                             subject: this.contractInput.subject,
                             executor: this.contractInput.executor,
-                            baseAmount: this.finalAmount,
+                            baseAmount: parseInt(this.contractInput.amount.split(',').join(''),10),
                             percentIncAndDec: this.contractInput.percentIncAndDec,
                             letterNumber: this.contractInput.letterNumber,
                             letterDate: this.contractInput.letterDate,

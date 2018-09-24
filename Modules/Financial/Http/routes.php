@@ -59,6 +59,6 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
     });
 
     Route::prefix('report')->group(function () {
-        Route::get('/draft' , 'ReportController@draft');
+        Route::post('/draft' , 'ReportController@draft');
     });
 });
