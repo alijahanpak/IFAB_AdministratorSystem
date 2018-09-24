@@ -195,7 +195,7 @@
             <div style="height: 90vh;" slot="body">
                 <div class="grid-x">
                     <div class="large-12">
-                        <embed style="width: 100%;height: 80vh;" src="attachments/8fvSVbLMdP5EwMUhOhEt2ahuwU7DWjvDsQiVJLil.pdf" />
+                        <embed style="width: 100%;height: 80vh;" :src="draftPdfPath" />
                     </div>
                 </div>
                 <div class="grid-x small-top-m">
@@ -246,6 +246,7 @@
                 initBaseAmount:0,
                 requestBaseAmount:0,
                 draftId:'',
+                draftPdfPath:'',
 
             }
 
@@ -268,6 +269,7 @@
 
             openPdfModal: function (draft){
               this.draftId=draft.id;
+              this.openReportFile();
               this.showPdfModal=true;
             },
 
@@ -376,6 +378,16 @@
                 if(this.requestType == 'FUND'){
 
                 }
+            },
+
+            openReportFile: function () {
+                axios.post('/financial/report/draft' , {dId: this.draftId})
+                    .then((response) => {
+                        console.log(response.data);
+                        this.draftPdfPath=response.data;
+                    },(error) => {
+                        console.log(error);
+                    });
             },
 
             checkAcceptFactor: function(){
