@@ -51,7 +51,7 @@
                         <tbody class="tbl-head-style-cell">
                         <tr class="table-row" v-for="contract in contracts">
                             <td :data-toggle="'contract' + contract.id">{{contract.cSubject}}</td>
-                            <td :data-toggle="'contract' + contract.id" class="text-center">{{$root.dispMoneyFormat(contract.cAmount)}}
+                            <td :data-toggle="'contract' + contract.id" class="text-center">{{$root.dispMoneyFormat(contract.cBaseAmount)}}
                                 <div class="clearfix tool-bar">
                                     <div  style="width: 500px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="auto" :id="'contract' + contract.id" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font">
@@ -66,11 +66,15 @@
                                                             <td>{{contract.cSubject}}</td>
                                                         </tr>
                                                         <tr class="align-right">
-                                                            <td width="150" class="black-color">مجری  :</td>
+                                                            <td width="160" class="black-color">مجری  :</td>
                                                             <td>{{contract.executor.eSubject}}</td>
                                                         </tr>
                                                         <tr>
                                                             <td width="150" class="black-color">مبلغ  :</td>
+                                                            <td>{{$root.dispMoneyFormat(contract.cBaseAmount)}} ریال</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="150" class="black-color">مبلغ با در نظر گرفتن کسورات  :</td>
                                                             <td>{{$root.dispMoneyFormat(contract.cAmount)}} ریال</td>
                                                         </tr>
                                                         <tr>

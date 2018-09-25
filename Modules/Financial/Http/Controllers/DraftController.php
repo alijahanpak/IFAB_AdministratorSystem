@@ -18,6 +18,7 @@ use Modules\Financial\Entities\IncreaseDraftAmount;
 use Modules\Financial\Entities\PercentageDecrease;
 use Modules\Financial\Entities\PercentageIncrease;
 use Modules\Financial\Entities\RequestHistory;
+use Modules\Financial\Entities\RequestLevel;
 use Modules\Financial\Entities\RequestState;
 use Modules\Financial\Entities\RequestType;
 use Modules\Financial\Entities\SecretariatRequestQueue;
@@ -40,16 +41,18 @@ class DraftController extends Controller
             $verifier->dvDId = $draft->id;
             $verifier->save();
             ///////////////////////////////////////////////////////////////////////
-            $reg = _Request::where('id' , '=' , $request->rId)->first();
+            $req = _Request::where('id' , '=' , $request->rId)->first();
+            $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
+            $req->save();
             // make history for this request
             $history = new RequestHistory();
             $history->rhSrcUId = Auth::user()->id;
             $history->rhDestUId = $request->verifierId;
             $history->rhRId = $request->rId;
-            $history->rhRsId = $reg->rRsId;
+            $history->rhRsId = $req->rRsId;
             $history->save();
 
-            SystemLog::setFinancialSubSystemLog('ثبت حواله برای درخواست ' . $reg->rSubject);
+            SystemLog::setFinancialSubSystemLog('ثبت حواله برای درخواست ' . $req->rSubject);
 
             return 200;
         });
@@ -74,6 +77,7 @@ class DraftController extends Controller
 
                 $req = _Request::where('id' , '=' , $request->rId)->first();
                 $req->rRsId = RequestState::where('rsState' , '=' , 'SECRETARIAT_QUEUE')->value('id');
+                $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
                 $req->save();
                 // make history for this request
                 $history = new RequestHistory();
@@ -109,6 +113,7 @@ class DraftController extends Controller
 
             $req = _Request::find($request->rId);
             $req->rRsId = RequestState::where('rsState' , '=' , 'ACCOUNTANT_QUEUE')->value('id');
+            $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
             $req->save();
 
             SecretariatRequestQueue::where('srqRId' , '=' , $req->id)->delete();

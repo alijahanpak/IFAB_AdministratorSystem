@@ -8,7 +8,7 @@ use Modules\Admin\Entities\User;
 
 class _Request extends Model
 {
-    protected $fillable = [];
+    protected $fillable = ['rRlId'];
     protected $table = 'tbl_requests';
     protected $appends = ['rLastRef' , 'rYouAreVerifiers' , 'rRemainingVerifiers' , 'rCreditIsAccepted' , 'rCreditIsExist' , 'rAcceptedAmount' , 'rCommitmentAmount'];
 

@@ -62,7 +62,7 @@
                                 <col width="150px"/>
                             </colgroup>
                             <tbody class="tbl-head-style-cell">
-                            <tr class="table-row" @click="getRequestDetail(receiveRequest)" v-for="receiveRequest in receiveRequests">
+                            <tr class="table-row" @click="getRequestDetail(receiveRequest)" v-for="receiveRequest in receiveRequests_REQUEST">
                                 <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
                                 <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
                                 <td>{{receiveRequest.rSubject}}</td>
@@ -119,8 +119,8 @@
                 </div>
                 <div class="grid-x">
                     <div class="medium-12">
-                        <vue-pagination  v-bind:pagination="received_pagination"
-                                         v-on:click.native="fetchData(received_pagination.current_page)"
+                        <vue-pagination  v-bind:pagination="received_pagination_REQUEST"
+                                         v-on:click.native="fetchData(received_pagination_REQUEST.current_page)"
                                          :offset="4">
                         </vue-pagination>
                     </div>
@@ -549,7 +549,10 @@
                 attachments:[],
                 attachmentIdForDelete: 0,
                 showLoaderProgress:false,
-                receiveRequests:[],
+                receiveRequests_REQUEST:[],
+                receiveRequests_FINANCIAL:[],
+                receiveRequests_PURCHASE_AND_CONTRACT:[],
+                receiveRequests_PAYMENT:[],
                 costTemp:'',
                 showRequestDetailModal:false,
                 showReferralsModal:false,
@@ -606,7 +609,25 @@
                 maxInputValue:0,
                 updateDataThreadNowPlaying: null,
 
-                received_pagination: {
+                received_pagination_REQUEST: {
+                    total: 0,
+                    to: 0,
+                    current_page: 1,
+                    last_page: ''
+                },
+                received_pagination_FINANCIAL: {
+                    total: 0,
+                    to: 0,
+                    current_page: 1,
+                    last_page: ''
+                },
+                received_pagination_PURCHASE_AND_CONTRACT: {
+                    total: 0,
+                    to: 0,
+                    current_page: 1,
+                    last_page: ''
+                },
+                received_pagination_PAYMENT: {
                     total: 0,
                     to: 0,
                     current_page: 1,
@@ -645,19 +666,50 @@
             setRepoExistCount:function(cECount){
                 this.repoExistCount=cECount;
             },
+
             updateReceiveRequestData: function(requests , rId){
-                this.receiveRequests = requests.data;
-                this.receiveRequests.forEach(item => {
-                    if (item.id == rId)
-                    {
-                        this.getRequestDetail(item);
-                    }
+                this.loadReceivedData(requests);
+                requests.forEach(item => {
+                    item.forEach(rec => {
+                        if (rec.id == rId)
+                        {
+                            this.getRequestDetail(rec);
+                        }
+                    });
                 });
                 this.makePagination(requests);
             },
 
+            loadReceivedData: function(requests){
+                this.receiveRequests_REQUEST = requests.REQUEST.data;
+                this.receiveRequests_FINANCIAL = requests.FINANCIAL.data;
+                this.receiveRequests_PURCHASE_AND_CONTRACT = requests.PURCHASE_AND_CONTRACT.data;
+                this.receiveRequests_PAYMENT = requests.PAYMENT.data;
+            },
+
             updateCommitmentAmount: function(amount , rId){
-                this.receiveRequests.forEach(item => {
+                this.receiveRequests_REQUEST.forEach(item => {
+                    if (item.id == rId)
+                    {
+                        item.rCommitmentAmount = amount;
+                    }
+                });
+
+                this.receiveRequests_FINANCIAL.forEach(item => {
+                    if (item.id == rId)
+                    {
+                        item.rCommitmentAmount = amount;
+                    }
+                });
+
+                this.receiveRequests_PURCHASE_AND_CONTRACT.forEach(item => {
+                    if (item.id == rId)
+                    {
+                        item.rCommitmentAmount = amount;
+                    }
+                });
+
+                this.receiveRequests_PAYMENT.forEach(item => {
                     if (item.id == rId)
                     {
                         item.rCommitmentAmount = amount;
@@ -666,9 +718,21 @@
             },
 
             makePagination: function(data){
-                this.received_pagination.current_page = data.current_page;
-                this.received_pagination.to = data.to;
-                this.received_pagination.last_page = data.last_page;
+                this.received_pagination_REQUEST.current_page = data.REQUEST.current_page;
+                this.received_pagination_REQUEST.to = data.REQUEST.to;
+                this.received_pagination_REQUEST.last_page = data.REQUEST.last_page;
+
+                this.received_pagination_FINANCIAL.current_page = data.FINANCIAL.current_page;
+                this.received_pagination_FINANCIAL.to = data.FINANCIAL.to;
+                this.received_pagination_FINANCIAL.last_page = data.FINANCIAL.last_page;
+
+                this.received_pagination_PURCHASE_AND_CONTRACT.current_page = data.PURCHASE_AND_CONTRACT.current_page;
+                this.received_pagination_PURCHASE_AND_CONTRACT.to = data.PURCHASE_AND_CONTRACT.to;
+                this.received_pagination_PURCHASE_AND_CONTRACT.last_page = data.PURCHASE_AND_CONTRACT.last_page;
+
+                this.received_pagination_PAYMENT.current_page = data.PAYMENT.current_page;
+                this.received_pagination_PAYMENT.to = data.PAYMENT.to;
+                this.received_pagination_PAYMENT.last_page = data.PAYMENT.last_page;
             },
 
             setUpdateDataThread: function () {
@@ -686,7 +750,7 @@
             fetchData: function (page=1) {
                 axios.get('/financial/request/received/fetchData?page=' + page)
                     .then((response) => {
-                        this.receiveRequests = response.data.data;
+                        this.loadReceivedData(response.data);
                         this.$parent._getUnReadReceivedRequest();
                         this.makePagination(response.data);
                         console.log(response);
@@ -722,7 +786,7 @@
                     axios.post('/financial/request/received/was_seen', {
                         rhId: request.rLastRef.id
                     }).then((response) => {
-                        this.receiveRequests = response.data.data;
+                        this.loadReceivedData(response.data);
                         this.$parent._getUnReadReceivedRequest();
                         this.makePagination(response.data);
                         console.log(response);
@@ -867,7 +931,7 @@
                             description: this.referralInput.description,
                             verifierId:this.youAreVerifier
                         }).then((response) => {
-                            this.receiveRequests = response.data.data;
+                            this.loadReceivedData(response.data);
                             this.$parent._getUnReadReceivedRequest();
                             this.makePagination(response.data);
                             this.showReferralsModal = false;
@@ -903,7 +967,7 @@
                             verifierId: this.youAreVerifier,
                             itemExistCount: this.repoExistCount
                         }).then((response) => {
-                            this.receiveRequests = response.data.data;
+                            this.loadReceivedData(response.data);
                             this.$parent._getUnReadReceivedRequest();
                             this.makePagination(response.data);
                             this.showSubmitRequestModal = false;
@@ -928,7 +992,7 @@
                     lastRefId: this.lastVerifier,
                     description: this.responseDescription
                 }).then((response) => {
-                    this.receiveRequests = response.data.data;
+                    this.loadReceivedData(response.data);
                     this.$parent._getUnReadReceivedRequest();
                     this.makePagination(response.data);
                     this.showResponseRequestModal = false;
@@ -956,7 +1020,7 @@
                     letterDate: this.registerDate,
                     letterNumber: this.letterNumber
                 }).then((response) => {
-                    this.receiveRequests = response.data.data;
+                    this.loadReceivedData(response.data);
                     this.$parent._getUnReadReceivedRequest();
                     this.makePagination(response.data);
                     this.showRegisterAndNumberingModal = false;

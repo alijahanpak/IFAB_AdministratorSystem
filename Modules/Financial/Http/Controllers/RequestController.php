@@ -74,7 +74,7 @@ class RequestController extends Controller
             ->with('contract.executor')
             ->with('contract.increaseAmount.percentageIncrease')
             ->with('factor.seller')
-            ->with('draft.verifier.user')
+            ->with('draft.verifier.user.role')
             ->with('requestLevel')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
@@ -223,27 +223,35 @@ class RequestController extends Controller
 
     function getAllReceivedRequests($reqIds)
     {
-        return _Request::whereIn('id' , $reqIds)
-            ->where('rRsId' , '=' , RequestState::where('rsState' , '=' , 'ACTIVE')->value('id'))
-            ->where('rFyId' , '=' , Auth::user()->seFiscalYear)
-            ->with('requestState')
-            ->with('attachment')
-            ->with('requestType')
-            ->with('verifiers.user.role.officeUnit')
-            ->with(['requestCommodity' => function($q){
-                return $q->where('rcIsExist' , '=' , 0)
-                    ->with('commodity');
-            }])
-            ->with('history.sourceUserInfo.role')
-            ->with('history.destinationUserInfo.role')
-            ->with('history.requestState')
-            ->with('contract.executor')
-            ->with('factor.seller')
-            ->with('draft.verifier.user')
-            ->with('requestLevel')
-            ->with('contract.increaseAmount.percentageIncrease')
-            ->orderBy('id' , 'DESC')
-            ->paginate(20);
+        $requestLevels = RequestLevel::all();
+        $result = [];
+        foreach ($requestLevels as $level)
+        {
+            $result[$level->rlLevel] = _Request::whereIn('id' , $reqIds)
+                ->where('rRsId' , '=' , RequestState::where('rsState' , '=' , 'ACTIVE')->value('id'))
+                ->where('rRlId' , '=' , $level->id)
+                ->where('rFyId' , '=' , Auth::user()->seFiscalYear)
+                ->with('requestState')
+                ->with('attachment')
+                ->with('requestType')
+                ->with('verifiers.user.role.officeUnit')
+                ->with(['requestCommodity' => function($q){
+                    return $q->where('rcIsExist' , '=' , 0)
+                        ->with('commodity');
+                }])
+                ->with('history.sourceUserInfo.role')
+                ->with('history.destinationUserInfo.role')
+                ->with('history.requestState')
+                ->with('contract.executor')
+                ->with('factor.seller')
+                ->with('draft.verifier.user.role')
+                ->with('requestLevel')
+                ->with('contract.increaseAmount.percentageIncrease')
+                ->orderBy('id' , 'DESC')
+                ->paginate(20);;
+        }
+
+        return $result;
     }
 
     function getUnReadReceivedRequestCount(Request $request)

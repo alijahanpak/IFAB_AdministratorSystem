@@ -17,6 +17,7 @@ use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\IncreaseContractAmount;
 use Modules\Financial\Entities\PercentageIncrease;
 use Modules\Financial\Entities\RequestHistory;
+use Modules\Financial\Entities\RequestLevel;
 use Modules\Financial\Entities\RequestState;
 
 class ContractController extends Controller
@@ -68,6 +69,7 @@ class ContractController extends Controller
 
             $req = _Request::find($request->rId);
             $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
+            $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
             $req->save();
 
             // make history for this request

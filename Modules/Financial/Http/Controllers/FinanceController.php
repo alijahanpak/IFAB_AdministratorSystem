@@ -77,8 +77,8 @@ class FinanceController extends Controller
                         ->where('cfRId' ,'=', $request->rId)
                         ->value('cfAmount');
 
-                    $remainigAmount = $costAllocInfo['caAmount'] - ($costAllocInfo['caSumOfCost'] + (($costAllocInfo['caSumOfReserved']) - $lastReserve));
-                    if (($remainigAmount - $costFinanc['amount']) >= 0)
+                    $remainingAmount = $costAllocInfo['caAmount'] - ($costAllocInfo['caSumOfCost'] + (($costAllocInfo['caSumOfReserved']) - $lastReserve));
+                    if (($remainingAmount - $costFinanc['amount']) >= 0)
                     {
                         if (CostFinancing::where('cfCaId' , $costFinanc['aId'])
                             ->where('cfRId' , $request->rId)
@@ -118,8 +118,8 @@ class FinanceController extends Controller
                     $lastReserve = CapitalAssetsFinancing::where('cafCaaId' , '=' , $capFinanc['aId'])
                         ->where('cafRId' ,'=', $request->rId)
                         ->value('cafAmount');
-                    $remainigAmount = $capAllocInfo['caaAmount'] - ($capAllocInfo['caaSumOfCost'] + (($capAllocInfo['caaSumOfReserved']) - $lastReserve));
-                    if (($remainigAmount - $capFinanc['amount']) >= 0)
+                    $remainingAmount = $capAllocInfo['caaAmount'] - ($capAllocInfo['caaSumOfCost'] + (($capAllocInfo['caaSumOfReserved']) - $lastReserve));
+                    if (($remainingAmount - $capFinanc['amount']) >= 0)
                     {
                         if (CapitalAssetsFinancing::where('cafCaaId' , $capFinanc['aId'])
                             ->where('cafRId' , $request->rId)
@@ -149,6 +149,8 @@ class FinanceController extends Controller
             });
         }
 
+        _Request::where('id' , '=' , $request->rId)
+            ->update(['rRlId' => RequestLevel::where('rlLevel' , '=' , 'FINANCIAL')->value('id')]);
         return \response()->json($this->getAllFinancing($request->rId));
     }
 
