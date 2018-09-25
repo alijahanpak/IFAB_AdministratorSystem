@@ -69,7 +69,10 @@ class ContractController extends Controller
 
             $req = _Request::find($request->rId);
             $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
-            $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
+            if ($req->rAcceptedAmount != $req->rCommitmentAmount)
+                $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'FINANCIAL')->value('id');
+            else
+                $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
             $req->save();
 
             // make history for this request

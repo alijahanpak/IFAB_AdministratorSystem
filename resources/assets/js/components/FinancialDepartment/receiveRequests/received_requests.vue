@@ -1038,24 +1038,28 @@
                     if (rec.id == rId)
                     {
                         this.getRequestDetail(rec);
+                        return;
                     }
                 });
-                this.received_pagination_FINANCIAL.forEach(rec => {
+                this.receiveRequests_FINANCIAL.forEach(rec => {
                     if (rec.id == rId)
                     {
                         this.getRequestDetail(rec);
+                        return;
                     }
                 });
                 this.receiveRequests_PURCHASE_AND_CONTRACT.forEach(rec => {
                     if (rec.id == rId)
                     {
                         this.getRequestDetail(rec);
+                        return;
                     }
                 });
                 this.receiveRequests_PAYMENT.forEach(rec => {
                     if (rec.id == rId)
                     {
                         this.getRequestDetail(rec);
+                        return;
                     }
                 });
                 this.makePagination(requests);
@@ -1105,6 +1109,7 @@
                     if (item.id == rId)
                     {
                         item.rCommitmentAmount = amount;
+                        return;
                     }
                 });
 
@@ -1112,6 +1117,7 @@
                     if (item.id == rId)
                     {
                         item.rCommitmentAmount = amount;
+                        return;
                     }
                 });
 
@@ -1119,6 +1125,7 @@
                     if (item.id == rId)
                     {
                         item.rCommitmentAmount = amount;
+                        return;
                     }
                 });
 
@@ -1126,6 +1133,7 @@
                     if (item.id == rId)
                     {
                         item.rCommitmentAmount = amount;
+                        return;
                     }
                 });
             },
