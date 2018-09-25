@@ -17,16 +17,23 @@ class CreateDraftsTable extends Migration
             Schema::create('tbl_drafts', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->bigInteger('dRId')->length(20)->unsigned();
+                $table->bigInteger('dDsId')->length(20)->unsigned();
                 $table->string('dFor');
                 $table->string('dPayTo');
                 $table->unsignedBigInteger('dBaseAmount');
                 $table->unsignedBigInteger('dAmount');
                 $table->string('dLetterNumber')->nullable();
                 $table->string('dLetterDate')->nullable();
+                $table->boolean('dIsMinute')->default(true);
                 $table->timestamps();
 
                 $table->foreign('dRId')
                     ->references('id')->on('tbl_requests')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+
+                $table->foreign('dDsId')
+                    ->references('id')->on('tbl_draft_states')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
             });

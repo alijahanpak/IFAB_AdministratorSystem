@@ -669,13 +669,29 @@
 
             updateReceiveRequestData: function(requests , rId){
                 this.loadReceivedData(requests);
-                requests.forEach(item => {
-                    item.forEach(rec => {
-                        if (rec.id == rId)
-                        {
-                            this.getRequestDetail(rec);
-                        }
-                    });
+                this.receiveRequests_REQUEST.forEach(rec => {
+                    if (rec.id == rId)
+                    {
+                        this.getRequestDetail(rec);
+                    }
+                });
+                this.received_pagination_FINANCIAL.forEach(rec => {
+                    if (rec.id == rId)
+                    {
+                        this.getRequestDetail(rec);
+                    }
+                });
+                this.receiveRequests_PURCHASE_AND_CONTRACT.forEach(rec => {
+                    if (rec.id == rId)
+                    {
+                        this.getRequestDetail(rec);
+                    }
+                });
+                this.receiveRequests_PAYMENT.forEach(rec => {
+                    if (rec.id == rId)
+                    {
+                        this.getRequestDetail(rec);
+                    }
                 });
                 this.makePagination(requests);
             },

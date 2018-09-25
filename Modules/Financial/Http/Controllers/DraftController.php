@@ -13,7 +13,9 @@ use Modules\Admin\Entities\SystemLog;
 use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\AccountantRequestQueue;
 use Modules\Financial\Entities\Draft;
+use Modules\Financial\Entities\DraftState;
 use Modules\Financial\Entities\DraftVerifier;
+use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\IncreaseDraftAmount;
 use Modules\Financial\Entities\PercentageDecrease;
 use Modules\Financial\Entities\PercentageIncrease;
@@ -30,6 +32,7 @@ class DraftController extends Controller
         $resultCode = DB::transaction(function () use($request){
             $draft = new Draft();
             $draft->dRId = $request->rId;
+            $draft->dDsId = DraftState::where('dsState' , '=' , 'MINUTE')->value('id');
             $draft->dFor = PublicSetting::checkPersianCharacters($request->for);
             $draft->dPayTo = PublicSetting::checkPersianCharacters($request->payTo);
             $draft->dBaseAmount = $request->baseAmount;
@@ -42,15 +45,22 @@ class DraftController extends Controller
             $verifier->save();
             ///////////////////////////////////////////////////////////////////////
             $req = _Request::where('id' , '=' , $request->rId)->first();
+            $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
             $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
             $req->save();
+
             // make history for this request
             $history = new RequestHistory();
             $history->rhSrcUId = Auth::user()->id;
-            $history->rhDestUId = $request->verifierId;
-            $history->rhRId = $request->rId;
+            $history->rhDestUId = null; // for secretariat destination
+            $history->rhRId = $req->id;
             $history->rhRsId = $req->rRsId;
             $history->save();
+
+            $finReqQueue = new FinancialRequestQueue();
+            $finReqQueue->frqRId = $req->id;
+            $finReqQueue->save();
+
 
             SystemLog::setFinancialSubSystemLog('ثبت حواله برای درخواست ' . $req->rSubject);
 
@@ -61,6 +71,36 @@ class DraftController extends Controller
         return \response()->json(
             $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
         ,$resultCode);
+    }
+
+    function acceptMinute(Request $request)
+    {
+        DB::transaction(function () use($request){
+                $verifier = DraftVerifier::where('dvDId' , '=' , $request->dId)->first();
+
+                $req = _Request::where('id' , '=' , $request->rId)->first();
+                $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
+                $req->save();
+
+                $draft = Draft::find($request->dId);
+                $draft->dDsId = DraftState::where('dsState' , '=' , 'NEW')->value('id');
+                $draft->dIsMinute = false;
+                $draft->save();
+                // make history for this request
+                $history = new RequestHistory();
+                $history->rhSrcUId = Auth::user()->id;
+                $history->rhDestUId = $verifier->dvUId; // for secretariat destination
+                $history->rhRId = $req->id;
+                $history->rhRsId = $req->rRsId;
+                $history->save();
+
+                SystemLog::setFinancialSubSystemLog('تایید پیشنویس حواله پرداخت برای درخواست ' . $req->rSubject);
+        });
+
+        $rController = new RequestController();
+        return \response()->json(
+            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+        );
     }
 
     function accept(Request $request)
