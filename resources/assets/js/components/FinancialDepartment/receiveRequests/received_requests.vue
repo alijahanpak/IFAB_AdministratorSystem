@@ -19,113 +19,473 @@
             </div>
         </div>
         <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
+            <!--receive_Requests_tab_view Start-->
             <div class="medium-12 padding-lr table-mrg-top">
-                <div class="tbl-div-container">
-                    <table class="tbl-head">
-                        <colgroup>
-                            <col width="80px"/>
-                            <col width="150px"/>
-                            <col width="250px"/>
-                            <col width="150px"/>
-                            <col width="200px"/>
-                            <col width="200px"/>
-                            <col width="150px"/>
-                            <col width="150px"/>
-                            <col width="12px"/>
-                        </colgroup>
-                        <tbody class="tbl-head-style">
-                        <tr class="tbl-head-style-cell">
-                            <th class="tbl-head-style-cell">وضعیت</th>
-                            <th class="tbl-head-style-cell">عنوان</th>
-                            <th class="tbl-head-style-cell">ارسال کننده</th>
-                            <th class="tbl-head-style-cell">نوع درخواست</th>
-                            <th class="tbl-head-style-cell">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
-                            <th class="tbl-head-style-cell">مبلغ نهایی <span class="btn-red small-font">(ریال)</span></th>
-                            <th class="tbl-head-style-cell">شماره</th>
-                            <th class="tbl-head-style-cell">تاریخ</th>
-                            <th class="tbl-head-style-cell"></th>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <!--Table Head End-->
-                    <!--Table Body Start-->
-                    <div class="tbl_body_style dynamic-height-level2">
-                        <table class="tbl-body-contain">
-                            <colgroup>
-                                <col width="80px"/>
-                                <col width="300px"/>
-                                <col width="300px"/>
-                                <col width="150px"/>
-                                <col width="200px"/>
-                                <col width="200px"/>
-                                <col width="150px"/>
-                                <col width="150px"/>
-                            </colgroup>
-                            <tbody class="tbl-head-style-cell">
-                            <tr class="table-row" @click="getRequestDetail(receiveRequest)" v-for="receiveRequest in receiveRequests_REQUEST">
-                                <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
-                                <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
-                                <td>{{receiveRequest.rSubject}}</td>
-                                <td :data-toggle="'lastRef' + receiveRequest.id">{{receiveRequest.rLastRef.source_user_info.name}} - {{receiveRequest.rLastRef.source_user_info.role.rSubject}}
-                                    <div class="clearfix tool-bar" v-if="receiveRequest.rLastRef.rhDescription !== null">
-                                        <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'lastRef' + receiveRequest.id" data-dropdown data-auto-focus="true">
-                                            <ul class="my-menu small-font">
-                                                <div class="grid-x">
-                                                    <div class="medium-12">
-                                                        <p class="black-color">{{receiveRequest.rLastRef.source_user_info.name}} - {{receiveRequest.rLastRef.source_user_info.role.rSubject}}</p>
-                                                        <p class="gray-colors text-justify" style="margin-top: -10px">{{ receiveRequest.rLastRef.rhDescription }}</p>
-                                                        <p style="direction: ltr;margin-bottom: -10px;" class="gray-color small-font float-left"><i class="far fa-calendar-alt"></i><span> {{receiveRequest.rLastRef.rhShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{receiveRequest.rLastRef.rhShamsiTime}}</span></p>
+                <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="receive_Requests_tab_view">
+                    <li class="tabs-title is-active"><a href="#rr_REQUEST" aria-selected="true">  درخواست  <span v-show="rr_REQUEST_Unreads > 0" class="notif-badge-purple">{{rr_REQUEST_Unreads}}</span></a></li>
+                    <li class="tabs-title"><a href="#rr_FINANCIAL"> تامین اعتبار <span v-show="rr_FINANCIAL_Unreads > 0" class="notif-badge-purple">{{rr_FINANCIAL_Unreads}}</span></a></li>
+                    <li class="tabs-title"><a href="#rr_PURCHASE_AND_CONTRACT"> خرید / قرارداد<span v-show="rr_PURCHASE_AND_CONTRACT_Unreads > 0" class="notif-badge-purple">{{rr_PURCHASE_AND_CONTRACT_Unreads}}</span></a></li>
+                    <li class="tabs-title"><a href="#rr_PAYMENT"> پرداخت <span v-show="rr_PAYMENT_Unreads > 0" class="notif-badge-purple">{{rr_PAYMENT_Unreads}}</span></a></li>
+                </ul>
+                <div class="tabs-content" data-tabs-content="receive_Requests_tab_view">
+                    <!--receiveRequests_REQUEST Tab-->
+                    <div class="tabs-panel is-active table-mrg-btm" id="rr_REQUEST">
+                        <div class="grid-x">
+                            <div class="large-12 medium-12 small-12">
+                                <div class="tbl-div-container">
+                                    <table class="tbl-head">
+                                        <colgroup>
+                                            <col width="80px"/>
+                                            <col width="150px"/>
+                                            <col width="250px"/>
+                                            <col width="150px"/>
+                                            <col width="200px"/>
+                                            <col width="200px"/>
+                                            <col width="150px"/>
+                                            <col width="150px"/>
+                                            <col width="12px"/>
+                                        </colgroup>
+                                        <tbody class="tbl-head-style">
+                                        <tr class="tbl-head-style-cell">
+                                            <th class="tbl-head-style-cell">وضعیت</th>
+                                            <th class="tbl-head-style-cell">عنوان</th>
+                                            <th class="tbl-head-style-cell">ارسال کننده</th>
+                                            <th class="tbl-head-style-cell">نوع درخواست</th>
+                                            <th class="tbl-head-style-cell">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
+                                            <th class="tbl-head-style-cell">مبلغ نهایی <span class="btn-red small-font">(ریال)</span></th>
+                                            <th class="tbl-head-style-cell">شماره</th>
+                                            <th class="tbl-head-style-cell">تاریخ</th>
+                                            <th class="tbl-head-style-cell"></th>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <!--Table Head End-->
+                                    <!--Table Body Start-->
+                                    <div class="tbl_body_style dynamic-height-levelR">
+                                        <table class="tbl-body-contain">
+                                            <colgroup>
+                                                <col width="80px"/>
+                                                <col width="300px"/>
+                                                <col width="300px"/>
+                                                <col width="150px"/>
+                                                <col width="200px"/>
+                                                <col width="200px"/>
+                                                <col width="150px"/>
+                                                <col width="150px"/>
+                                            </colgroup>
+                                            <tbody class="tbl-head-style-cell">
+                                            <tr class="table-row" @click="getRequestDetail(receiveRequest)" v-for="receiveRequest in receiveRequests_REQUEST">
+                                                <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
+                                                <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
+                                                <td>{{receiveRequest.rSubject}}</td>
+                                                <td :data-toggle="'lastRef' + receiveRequest.id">{{receiveRequest.rLastRef.source_user_info.name}} - {{receiveRequest.rLastRef.source_user_info.role.rSubject}}
+                                                    <div class="clearfix tool-bar" v-if="receiveRequest.rLastRef.rhDescription !== null">
+                                                        <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'lastRef' + receiveRequest.id" data-dropdown data-auto-focus="true">
+                                                            <ul class="my-menu small-font">
+                                                                <div class="grid-x">
+                                                                    <div class="medium-12">
+                                                                        <p class="black-color">{{receiveRequest.rLastRef.source_user_info.name}} - {{receiveRequest.rLastRef.source_user_info.role.rSubject}}</p>
+                                                                        <p class="gray-colors text-justify" style="margin-top: -10px">{{ receiveRequest.rLastRef.rhDescription }}</p>
+                                                                        <p style="direction: ltr;margin-bottom: -10px;" class="gray-color small-font float-left"><i class="far fa-calendar-alt"></i><span> {{receiveRequest.rLastRef.rhShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{receiveRequest.rLastRef.rhShamsiTime}}</span></p>
+                                                                    </div>
+                                                                </div>
+                                                            </ul>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>{{ receiveRequest.request_type.rtSubject }}</td>
-                                <template v-if="receiveRequest.request_type.rtType == 'BUY_SERVICES' || receiveRequest.request_type.rtType == 'BUY_COMMODITY'">
-                                    <td class="text-center">{{$parent.dispMoneyFormat(receiveRequest.rCostEstimation)}}</td>
-                                    <td class="text-center" v-if="receiveRequest.rAcceptedAmount > 0">
-                                        <div v-if="parseInt(receiveRequest.rAcceptedAmount) != parseInt(receiveRequest.rCommitmentAmount)">
-                                            <span class="danger-label" :data-toggle="'needForEditFinancing' + receiveRequest.id">{{$parent.dispMoneyFormat(receiveRequest.rAcceptedAmount)}}</span>
-                                            <div class="clearfix tool-bar">
-                                                <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'needForEditFinancing' + receiveRequest.id" data-dropdown data-auto-focus="true">
-                                                    <ul class="my-menu small-font">
-                                                        <div class="grid-x">
-                                                            <div class="medium-12">
-                                                                <p class="black-color text-justify">کاربر گرامی:</p>
-                                                                <p class="gray-colors text-justify" style="margin-top: -10px">مبلغ قرارداد / فاکتور با مبلغ تعهد شده از محل های تامین اعتبار تفاوت دارد، لطفا نسبت به اصلاح تامین اعتبار اقدام کنید.</p>
+                                                </td>
+                                                <td>{{ receiveRequest.request_type.rtSubject }}</td>
+                                                <template v-if="receiveRequest.request_type.rtType == 'BUY_SERVICES' || receiveRequest.request_type.rtType == 'BUY_COMMODITY'">
+                                                    <td class="text-center">{{$parent.dispMoneyFormat(receiveRequest.rCostEstimation)}}</td>
+                                                    <td class="text-center" v-if="receiveRequest.rAcceptedAmount > 0">
+                                                        <div v-if="parseInt(receiveRequest.rAcceptedAmount) != parseInt(receiveRequest.rCommitmentAmount)">
+                                                            <span class="danger-label" :data-toggle="'needForEditFinancing' + receiveRequest.id">{{$parent.dispMoneyFormat(receiveRequest.rAcceptedAmount)}}</span>
+                                                            <div class="clearfix tool-bar">
+                                                                <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'needForEditFinancing' + receiveRequest.id" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font">
+                                                                        <div class="grid-x">
+                                                                            <div class="medium-12">
+                                                                                <p class="black-color text-justify">کاربر گرامی:</p>
+                                                                                <p class="gray-colors text-justify" style="margin-top: -10px">مبلغ قرارداد / فاکتور با مبلغ تعهد شده از محل های تامین اعتبار تفاوت دارد، لطفا نسبت به اصلاح تامین اعتبار اقدام کنید.</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </ul>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div v-else="">
-                                            {{$parent.dispMoneyFormat(receiveRequest.rAcceptedAmount)}}
-                                        </div>
-                                    </td>
-                                    <td v-else-if="receiveRequest.request_type.rtType == 'BUY_SERVICES'" class="text-center"><span class="reserved-label">فاقد قرارداد</span></td>
-                                    <td v-else-if="receiveRequest.request_type.rtType == 'BUY_COMMODITY'" class="text-center"><span class="reserved-label">فاقد فاکتور</span></td>
-                                </template>
-                                <template v-else>
-                                    <td colspan="2" class="text-center">{{$parent.dispMoneyFormat(receiveRequest.rCostEstimation)}}</td>
-                                </template>
-                                <td class="text-center">{{receiveRequest.rLetterNumber}}</td>
-                                <td class="text-center">{{receiveRequest.rLetterDate}}</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                                                        <div v-else="">
+                                                            {{$parent.dispMoneyFormat(receiveRequest.rAcceptedAmount)}}
+                                                        </div>
+                                                    </td>
+                                                    <td v-else-if="receiveRequest.request_type.rtType == 'BUY_SERVICES'" class="text-center"><span class="reserved-label">فاقد قرارداد</span></td>
+                                                    <td v-else-if="receiveRequest.request_type.rtType == 'BUY_COMMODITY'" class="text-center"><span class="reserved-label">فاقد فاکتور</span></td>
+                                                </template>
+                                                <template v-else>
+                                                    <td colspan="2" class="text-center">{{$parent.dispMoneyFormat(receiveRequest.rCostEstimation)}}</td>
+                                                </template>
+                                                <td class="text-center">{{receiveRequest.rLetterNumber}}</td>
+                                                <td class="text-center">{{receiveRequest.rLetterDate}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="grid-x">
+                                    <div class="medium-12">
+                                        <vue-pagination  v-bind:pagination="received_pagination_REQUEST"
+                                                         v-on:click.native="fetchData(received_pagination_REQUEST.current_page)"
+                                                         :offset="4">
+                                        </vue-pagination>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="grid-x">
-                    <div class="medium-12">
-                        <vue-pagination  v-bind:pagination="received_pagination_REQUEST"
-                                         v-on:click.native="fetchData(received_pagination_REQUEST.current_page)"
-                                         :offset="4">
-                        </vue-pagination>
+                    <!--receiveRequests_REQUEST Tab-->
+
+                    <!--receiveRequests_FINANCIAL Tab-->
+                    <div class="tabs-panel table-mrg-btm" id="rr_FINANCIAL">
+                        <div class="grid-x">
+                            <div class="large-12 medium-12 small-12">
+                                <div class="tbl-div-container">
+                                    <table class="tbl-head">
+                                        <colgroup>
+                                            <col width="80px"/>
+                                            <col width="150px"/>
+                                            <col width="250px"/>
+                                            <col width="150px"/>
+                                            <col width="200px"/>
+                                            <col width="200px"/>
+                                            <col width="150px"/>
+                                            <col width="150px"/>
+                                            <col width="12px"/>
+                                        </colgroup>
+                                        <tbody class="tbl-head-style">
+                                        <tr class="tbl-head-style-cell">
+                                            <th class="tbl-head-style-cell">وضعیت</th>
+                                            <th class="tbl-head-style-cell">عنوان</th>
+                                            <th class="tbl-head-style-cell">ارسال کننده</th>
+                                            <th class="tbl-head-style-cell">نوع درخواست</th>
+                                            <th class="tbl-head-style-cell">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
+                                            <th class="tbl-head-style-cell">مبلغ نهایی <span class="btn-red small-font">(ریال)</span></th>
+                                            <th class="tbl-head-style-cell">شماره</th>
+                                            <th class="tbl-head-style-cell">تاریخ</th>
+                                            <th class="tbl-head-style-cell"></th>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <!--Table Head End-->
+                                    <!--Table Body Start-->
+                                    <div class="tbl_body_style dynamic-height-levelR">
+                                        <table class="tbl-body-contain">
+                                            <colgroup>
+                                                <col width="80px"/>
+                                                <col width="300px"/>
+                                                <col width="300px"/>
+                                                <col width="150px"/>
+                                                <col width="200px"/>
+                                                <col width="200px"/>
+                                                <col width="150px"/>
+                                                <col width="150px"/>
+                                            </colgroup>
+                                            <tbody class="tbl-head-style-cell">
+                                            <tr class="table-row" @click="getRequestDetail(receiveFinancial)" v-for="receiveFinancial in receiveRequests_FINANCIAL">
+                                                <td v-show="receiveFinancial.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
+                                                <td v-show="receiveFinancial.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
+                                                <td>{{receiveFinancial.rSubject}}</td>
+                                                <td :data-toggle="'lastRef' + receiveFinancial.id">{{receiveFinancial.rLastRef.source_user_info.name}} - {{receiveFinancial.rLastRef.source_user_info.role.rSubject}}
+                                                    <div class="clearfix tool-bar" v-if="receiveFinancial.rLastRef.rhDescription !== null">
+                                                        <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'lastRef' + receiveFinancial.id" data-dropdown data-auto-focus="true">
+                                                            <ul class="my-menu small-font">
+                                                                <div class="grid-x">
+                                                                    <div class="medium-12">
+                                                                        <p class="black-color">{{receiveFinancial.rLastRef.source_user_info.name}} - {{receiveFinancial.rLastRef.source_user_info.role.rSubject}}</p>
+                                                                        <p class="gray-colors text-justify" style="margin-top: -10px">{{ receiveFinancial.rLastRef.rhDescription }}</p>
+                                                                        <p style="direction: ltr;margin-bottom: -10px;" class="gray-color small-font float-left"><i class="far fa-calendar-alt"></i><span> {{receiveFinancial.rLastRef.rhShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{receiveFinancial.rLastRef.rhShamsiTime}}</span></p>
+                                                                    </div>
+                                                                </div>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>{{ receiveFinancial.request_type.rtSubject }}</td>
+                                                <template v-if="receiveFinancial.request_type.rtType == 'BUY_SERVICES' || receiveFinancial.request_type.rtType == 'BUY_COMMODITY'">
+                                                    <td class="text-center">{{$parent.dispMoneyFormat(receiveFinancial.rCostEstimation)}}</td>
+                                                    <td class="text-center" v-if="receiveFinancial.rAcceptedAmount > 0">
+                                                        <div v-if="parseInt(receiveFinancial.rAcceptedAmount) != parseInt(receiveFinancial.rCommitmentAmount)">
+                                                            <span class="danger-label" :data-toggle="'needForEditFinancing' + receiveFinancial.id">{{$parent.dispMoneyFormat(receiveFinancial.rAcceptedAmount)}}</span>
+                                                            <div class="clearfix tool-bar">
+                                                                <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'needForEditFinancing' + receiveFinancial.id" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font">
+                                                                        <div class="grid-x">
+                                                                            <div class="medium-12">
+                                                                                <p class="black-color text-justify">کاربر گرامی:</p>
+                                                                                <p class="gray-colors text-justify" style="margin-top: -10px">مبلغ قرارداد / فاکتور با مبلغ تعهد شده از محل های تامین اعتبار تفاوت دارد، لطفا نسبت به اصلاح تامین اعتبار اقدام کنید.</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div v-else="">
+                                                            {{$parent.dispMoneyFormat(receiveFinancial.rAcceptedAmount)}}
+                                                        </div>
+                                                    </td>
+                                                    <td v-else-if="receiveFinancial.request_type.rtType == 'BUY_SERVICES'" class="text-center"><span class="reserved-label">فاقد قرارداد</span></td>
+                                                    <td v-else-if="receiveFinancial.request_type.rtType == 'BUY_COMMODITY'" class="text-center"><span class="reserved-label">فاقد فاکتور</span></td>
+                                                </template>
+                                                <template v-else>
+                                                    <td colspan="2" class="text-center">{{$parent.dispMoneyFormat(receiveFinancial.rCostEstimation)}}</td>
+                                                </template>
+                                                <td class="text-center">{{receiveFinancial.rLetterNumber}}</td>
+                                                <td class="text-center">{{receiveFinancial.rLetterDate}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="grid-x">
+                                    <div class="medium-12">
+                                        <vue-pagination  v-bind:pagination="received_pagination_FINANCIAL"
+                                                         v-on:click.native="fetchData(received_pagination_FINANCIAL.current_page)"
+                                                         :offset="4">
+                                        </vue-pagination>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <!--receiveRequests_FINANCIAL Tab-->
+
+                    <!--receiveRequests_PURCHASE_AND_CONTRACT Tab-->
+                    <div class="tabs-panel table-mrg-btm" id="rr_PURCHASE_AND_CONTRACT">
+                        <div class="grid-x">
+                            <div class="large-12 medium-12 small-12">
+                                <div class="tbl-div-container">
+                                    <table class="tbl-head">
+                                        <colgroup>
+                                            <col width="80px"/>
+                                            <col width="150px"/>
+                                            <col width="250px"/>
+                                            <col width="150px"/>
+                                            <col width="200px"/>
+                                            <col width="200px"/>
+                                            <col width="150px"/>
+                                            <col width="150px"/>
+                                            <col width="12px"/>
+                                        </colgroup>
+                                        <tbody class="tbl-head-style">
+                                        <tr class="tbl-head-style-cell">
+                                            <th class="tbl-head-style-cell">وضعیت</th>
+                                            <th class="tbl-head-style-cell">عنوان</th>
+                                            <th class="tbl-head-style-cell">ارسال کننده</th>
+                                            <th class="tbl-head-style-cell">نوع درخواست</th>
+                                            <th class="tbl-head-style-cell">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
+                                            <th class="tbl-head-style-cell">مبلغ نهایی <span class="btn-red small-font">(ریال)</span></th>
+                                            <th class="tbl-head-style-cell">شماره</th>
+                                            <th class="tbl-head-style-cell">تاریخ</th>
+                                            <th class="tbl-head-style-cell"></th>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <!--Table Head End-->
+                                    <!--Table Body Start-->
+                                    <div class="tbl_body_style dynamic-height-levelR">
+                                        <table class="tbl-body-contain">
+                                            <colgroup>
+                                                <col width="80px"/>
+                                                <col width="300px"/>
+                                                <col width="300px"/>
+                                                <col width="150px"/>
+                                                <col width="200px"/>
+                                                <col width="200px"/>
+                                                <col width="150px"/>
+                                                <col width="150px"/>
+                                            </colgroup>
+                                            <tbody class="tbl-head-style-cell">
+                                            <tr class="table-row" @click="getRequestDetail(receivePAndC)" v-for="receivePAndC in receiveRequests_PURCHASE_AND_CONTRACT">
+                                                <td v-show="receivePAndC.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
+                                                <td v-show="receivePAndC.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
+                                                <td>{{receivePAndC.rSubject}}</td>
+                                                <td :data-toggle="'lastRef' + receivePAndC.id">{{receivePAndC.rLastRef.source_user_info.name}} - {{receivePAndC.rLastRef.source_user_info.role.rSubject}}
+                                                    <div class="clearfix tool-bar" v-if="receivePAndC.rLastRef.rhDescription !== null">
+                                                        <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'lastRef' + receivePAndC.id" data-dropdown data-auto-focus="true">
+                                                            <ul class="my-menu small-font">
+                                                                <div class="grid-x">
+                                                                    <div class="medium-12">
+                                                                        <p class="black-color">{{receivePAndC.rLastRef.source_user_info.name}} - {{receivePAndC.rLastRef.source_user_info.role.rSubject}}</p>
+                                                                        <p class="gray-colors text-justify" style="margin-top: -10px">{{ receivePAndC.rLastRef.rhDescription }}</p>
+                                                                        <p style="direction: ltr;margin-bottom: -10px;" class="gray-color small-font float-left"><i class="far fa-calendar-alt"></i><span> {{receivePAndC.rLastRef.rhShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{receivePAndC.rLastRef.rhShamsiTime}}</span></p>
+                                                                    </div>
+                                                                </div>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>{{ receivePAndC.request_type.rtSubject }}</td>
+                                                <template v-if="receivePAndC.request_type.rtType == 'BUY_SERVICES' || receivePAndC.request_type.rtType == 'BUY_COMMODITY'">
+                                                    <td class="text-center">{{$parent.dispMoneyFormat(receivePAndC.rCostEstimation)}}</td>
+                                                    <td class="text-center" v-if="receivePAndC.rAcceptedAmount > 0">
+                                                        <div v-if="parseInt(receivePAndC.rAcceptedAmount) != parseInt(receivePAndC.rCommitmentAmount)">
+                                                            <span class="danger-label" :data-toggle="'needForEditFinancing' + receivePAndC.id">{{$parent.dispMoneyFormat(receivePAndC.rAcceptedAmount)}}</span>
+                                                            <div class="clearfix tool-bar">
+                                                                <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'needForEditFinancing' + receivePAndC.id" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font">
+                                                                        <div class="grid-x">
+                                                                            <div class="medium-12">
+                                                                                <p class="black-color text-justify">کاربر گرامی:</p>
+                                                                                <p class="gray-colors text-justify" style="margin-top: -10px">مبلغ قرارداد / فاکتور با مبلغ تعهد شده از محل های تامین اعتبار تفاوت دارد، لطفا نسبت به اصلاح تامین اعتبار اقدام کنید.</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div v-else="">
+                                                            {{$parent.dispMoneyFormat(receivePAndC.rAcceptedAmount)}}
+                                                        </div>
+                                                    </td>
+                                                    <td v-else-if="receivePAndC.request_type.rtType == 'BUY_SERVICES'" class="text-center"><span class="reserved-label">فاقد قرارداد</span></td>
+                                                    <td v-else-if="receivePAndC.request_type.rtType == 'BUY_COMMODITY'" class="text-center"><span class="reserved-label">فاقد فاکتور</span></td>
+                                                </template>
+                                                <template v-else>
+                                                    <td colspan="2" class="text-center">{{$parent.dispMoneyFormat(receivePAndC.rCostEstimation)}}</td>
+                                                </template>
+                                                <td class="text-center">{{receivePAndC.rLetterNumber}}</td>
+                                                <td class="text-center">{{receivePAndC.rLetterDate}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="grid-x">
+                                    <div class="medium-12">
+                                        <vue-pagination  v-bind:pagination="received_pagination_PURCHASE_AND_CONTRACT"
+                                                         v-on:click.native="fetchData(received_pagination_PURCHASE_AND_CONTRACT.current_page)"
+                                                         :offset="4">
+                                        </vue-pagination>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--receiveRequests_PURCHASE_AND_CONTRACT Tab-->
+
+                    <!--receiveRequests_PAYMENT Tab-->
+                    <div class="tabs-panel table-mrg-btm" id="rr_PAYMENT">
+                        <div class="grid-x">
+                            <div class="large-12 medium-12 small-12">
+                                <div class="tbl-div-container">
+                                    <table class="tbl-head">
+                                        <colgroup>
+                                            <col width="80px"/>
+                                            <col width="150px"/>
+                                            <col width="250px"/>
+                                            <col width="150px"/>
+                                            <col width="200px"/>
+                                            <col width="200px"/>
+                                            <col width="150px"/>
+                                            <col width="150px"/>
+                                            <col width="12px"/>
+                                        </colgroup>
+                                        <tbody class="tbl-head-style">
+                                        <tr class="tbl-head-style-cell">
+                                            <th class="tbl-head-style-cell">وضعیت</th>
+                                            <th class="tbl-head-style-cell">عنوان</th>
+                                            <th class="tbl-head-style-cell">ارسال کننده</th>
+                                            <th class="tbl-head-style-cell">نوع درخواست</th>
+                                            <th class="tbl-head-style-cell">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
+                                            <th class="tbl-head-style-cell">مبلغ نهایی <span class="btn-red small-font">(ریال)</span></th>
+                                            <th class="tbl-head-style-cell">شماره</th>
+                                            <th class="tbl-head-style-cell">تاریخ</th>
+                                            <th class="tbl-head-style-cell"></th>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <!--Table Head End-->
+                                    <!--Table Body Start-->
+                                    <div class="tbl_body_style dynamic-height-levelR">
+                                        <table class="tbl-body-contain">
+                                            <colgroup>
+                                                <col width="80px"/>
+                                                <col width="300px"/>
+                                                <col width="300px"/>
+                                                <col width="150px"/>
+                                                <col width="200px"/>
+                                                <col width="200px"/>
+                                                <col width="150px"/>
+                                                <col width="150px"/>
+                                            </colgroup>
+                                            <tbody class="tbl-head-style-cell">
+                                            <tr class="table-row" @click="getRequestDetail(receivePayment)" v-for="receivePayment in receiveRequests_PAYMENT">
+                                                <td v-show="receivePayment.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
+                                                <td v-show="receivePayment.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
+                                                <td>{{receivePayment.rSubject}}</td>
+                                                <td :data-toggle="'lastRef' + receivePayment.id">{{receivePayment.rLastRef.source_user_info.name}} - {{receivePayment.rLastRef.source_user_info.role.rSubject}}
+                                                    <div class="clearfix tool-bar" v-if="receivePayment.rLastRef.rhDescription !== null">
+                                                        <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'lastRef' + receivePayment.id" data-dropdown data-auto-focus="true">
+                                                            <ul class="my-menu small-font">
+                                                                <div class="grid-x">
+                                                                    <div class="medium-12">
+                                                                        <p class="black-color">{{receivePayment.rLastRef.source_user_info.name}} - {{receivePayment.rLastRef.source_user_info.role.rSubject}}</p>
+                                                                        <p class="gray-colors text-justify" style="margin-top: -10px">{{ receivePayment.rLastRef.rhDescription }}</p>
+                                                                        <p style="direction: ltr;margin-bottom: -10px;" class="gray-color small-font float-left"><i class="far fa-calendar-alt"></i><span> {{receivePayment.rLastRef.rhShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{receivePayment.rLastRef.rhShamsiTime}}</span></p>
+                                                                    </div>
+                                                                </div>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>{{ receivePayment.request_type.rtSubject }}</td>
+                                                <template v-if="receivePayment.request_type.rtType == 'BUY_SERVICES' || receivePayment.request_type.rtType == 'BUY_COMMODITY'">
+                                                    <td class="text-center">{{$parent.dispMoneyFormat(receivePayment.rCostEstimation)}}</td>
+                                                    <td class="text-center" v-if="receivePayment.rAcceptedAmount > 0">
+                                                        <div v-if="parseInt(receivePayment.rAcceptedAmount) != parseInt(receivePayment.rCommitmentAmount)">
+                                                            <span class="danger-label" :data-toggle="'needForEditFinancing' + receivePayment.id">{{$parent.dispMoneyFormat(receivePayment.rAcceptedAmount)}}</span>
+                                                            <div class="clearfix tool-bar">
+                                                                <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'needForEditFinancing' + receivePayment.id" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font">
+                                                                        <div class="grid-x">
+                                                                            <div class="medium-12">
+                                                                                <p class="black-color text-justify">کاربر گرامی:</p>
+                                                                                <p class="gray-colors text-justify" style="margin-top: -10px">مبلغ قرارداد / فاکتور با مبلغ تعهد شده از محل های تامین اعتبار تفاوت دارد، لطفا نسبت به اصلاح تامین اعتبار اقدام کنید.</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div v-else="">
+                                                            {{$parent.dispMoneyFormat(receivePayment.rAcceptedAmount)}}
+                                                        </div>
+                                                    </td>
+                                                    <td v-else-if="receivePayment.request_type.rtType == 'BUY_SERVICES'" class="text-center"><span class="reserved-label">فاقد قرارداد</span></td>
+                                                    <td v-else-if="receivePayment.request_type.rtType == 'BUY_COMMODITY'" class="text-center"><span class="reserved-label">فاقد فاکتور</span></td>
+                                                </template>
+                                                <template v-else>
+                                                    <td colspan="2" class="text-center">{{$parent.dispMoneyFormat(receivePayment.rCostEstimation)}}</td>
+                                                </template>
+                                                <td class="text-center">{{receivePayment.rLetterNumber}}</td>
+                                                <td class="text-center">{{receivePayment.rLetterDate}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="grid-x">
+                                    <div class="medium-12">
+                                        <vue-pagination  v-bind:pagination="received_pagination_PAYMENT"
+                                                         v-on:click.native="fetchData(received_pagination_PAYMENT.current_page)"
+                                                         :offset="4">
+                                        </vue-pagination>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--receiveRequests_PAYMENT Tab-->
                 </div>
             </div>
+            <!--receive_Requests_tab_view End-->
         </div>
 
         <!-- Request Detail Modal -->
@@ -639,6 +999,11 @@
                 drafts:[],
                 rCostEstimation:0,
                 rAcceptedAmount:0,
+
+                rr_REQUEST_Unreads:0,
+                rr_FINANCIAL_Unreads:0,
+                rr_PURCHASE_AND_CONTRACT_Unreads:0,
+                rr_PAYMENT_Unreads:0,
             }
         },
 
@@ -681,10 +1046,42 @@
             },
 
             loadReceivedData: function(requests){
+                var REQUEST_UnreadsTemp=0;
+                var FINANCIAL_UnreadsTemp=0;
+                var PURCHASE_AND_CONTRACT_UnreadsTemp=0;
+                var PAYMENT_UnreadsTemp=0;
+
                 this.receiveRequests_REQUEST = requests.REQUEST.data;
+                this.receiveRequests_REQUEST.forEach(item =>{
+                    if(item.rLastRef.rhHasBeenSeen == 0){
+                        REQUEST_UnreadsTemp += 1;
+                    }
+                });
+                this.rr_REQUEST_Unreads=REQUEST_UnreadsTemp;
+
                 this.receiveRequests_FINANCIAL = requests.FINANCIAL.data;
+                this.receiveRequests_FINANCIAL.forEach(item =>{
+                    if(item.rLastRef.rhHasBeenSeen == 0){
+                        FINANCIAL_UnreadsTemp += 1;
+                    }
+                });
+                this.rr_FINANCIAL_Unreads=FINANCIAL_UnreadsTemp;
+
                 this.receiveRequests_PURCHASE_AND_CONTRACT = requests.PURCHASE_AND_CONTRACT.data;
+                this.receiveRequests_PURCHASE_AND_CONTRACT.forEach(item =>{
+                    if(item.rLastRef.rhHasBeenSeen == 0){
+                        PURCHASE_AND_CONTRACT_UnreadsTemp += 1;
+                    }
+                });
+                this.rr_PURCHASE_AND_CONTRACT_Unreads=PURCHASE_AND_CONTRACT_UnreadsTemp;
+
                 this.receiveRequests_PAYMENT = requests.PAYMENT.data;
+                this.receiveRequests_PAYMENT.forEach(item =>{
+                    if(item.rLastRef.rhHasBeenSeen == 0){
+                        PAYMENT_UnreadsTemp += 1;
+                    }
+                });
+                this.rr_PAYMENT_Unreads=PAYMENT_UnreadsTemp;
             },
 
             updateCommitmentAmount: function(amount , rId){
