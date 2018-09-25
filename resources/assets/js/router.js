@@ -591,6 +591,7 @@ var app = new Vue({
             $('.dynamic-height-level1').css('height', ($.w.outerHeight() - 180) + 'px');
             var x = $(".dynamic-height-level1").height();
             $('.dynamic-height-level2').css('height', (x - 90 - (tabHeight  + toolBarHeight + paginationHeight)) + 'px');
+            $('.dynamic-height-levelR').css('height', (x - 100 - (tabHeight + paginationHeight)) + 'px');
         },
 
 /*        fixedLoginFrame: function() {
