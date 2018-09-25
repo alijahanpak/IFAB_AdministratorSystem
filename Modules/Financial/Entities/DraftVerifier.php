@@ -3,6 +3,7 @@
 namespace Modules\Financial\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Admin\Entities\Signature;
 use Modules\Admin\Entities\User;
 
 class DraftVerifier extends Model
@@ -13,5 +14,10 @@ class DraftVerifier extends Model
     public function user()
     {
         return $this->belongsTo(User::class , 'dvUId' , 'id')->select('id' , 'name' , 'rId' , 'avatarPath');
+    }
+
+    public function signature()
+    {
+        return $this->belongsTo(Signature::class , 'dvSId' , 'id');
     }
 }

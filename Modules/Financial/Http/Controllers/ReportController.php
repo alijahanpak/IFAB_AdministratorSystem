@@ -46,9 +46,9 @@ class ReportController extends Controller
             ->with('verifier')
             ->first();
         $verifierName = $draft['verifier'][0]['user']['name'];
-        //$verifierRole = $draft['verifier'][0]['role']['id'];
+        $verifierRole = $draft['verifier'][0]['user']['role']['rSubject'];
         $pdf = $this->initA5Pdf();
-        $pdf->loadHTML(view('financial::reports.draft.draftAccept' , ['draftInfo' => $draft , 'verifierName' => $verifierName]));
+        $pdf->loadHTML(view('financial::reports.draft.draftAccept' , ['draftInfo' => $draft , 'verifierName' => $verifierName ,'verifierRole' => $verifierRole]));
         $pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
         return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
     }

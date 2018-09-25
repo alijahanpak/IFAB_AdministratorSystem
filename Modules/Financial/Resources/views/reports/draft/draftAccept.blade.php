@@ -15,6 +15,12 @@
     </head>
     <body class="BZar">
         <div class="grid-x">
+            <div class="large-12">
+                <p class="size-12">شماره حواله : <span>{{$draftInfo['dLetterNumber']}}</span></p>
+                <p style="margin-top: -10px;" class="size-12">تاریخ : <span>{{$draftInfo['dLetterDate']}}</span></p>
+            </div>
+        </div>
+        <div style="margin-top: -60px;" class="grid-x">
             <div class="large-12 text-center">
                 <div>
                     <div class="text-center">
@@ -30,12 +36,13 @@
             </div>
             <div class="large-12 padding-lr">
                 <div class="grid-x">
-                    <div class="large-8">
+                    <div class="large-6">
 
                     </div>
-                    <div style="margin-right: 65%" class="large-4">
+                    <div style="margin-right: 50%" class="large-6 text-center BTitrBold size-10">
                         <p>{{$verifierName}}</p>
-                        <p>....</p>
+                        <p style="margin-top: -10px;" class="text-center">{{$verifierRole}}</p>
+                        <img style="margin-top: -80px;z-index: 99;" src="{{$draftInfo['verifier'][0]['signature']['sPath']}}" width="150px" height="150px">
                     </div>
                 </div>
             </div>

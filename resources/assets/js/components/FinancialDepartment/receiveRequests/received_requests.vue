@@ -737,6 +737,7 @@
                 this.attachments=[];
                 this.contracts=[];
                 this.factors=[];
+                this.drafts=[];
                 var requestHistory=[];
                 requestHistory.push(request);
                 this.requestId=request.id;

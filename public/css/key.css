@@ -13,7 +13,7 @@ input[type="file"] {
     display: none;
 }
 .select-error{
-                background-color: #fefefe;
+    background-color: #fefefe;
     border: 1px solid #cc4b37 !important;
     box-shadow: 0 0 5px #cc4b37;
     outline: medium none;
