@@ -23,7 +23,7 @@ class SeedSignatureTableSeeder extends Seeder
         {
             $sig = new Signature();
             $sig->sUId = $user->id;
-            $sig->sPath = asset('pic/signatures/test_signature.png');
+            $sig->sPath = 'http://127.0.0.1/IFAB_AdministratorSystem/public/pic/signatures/test_signature.png';
             $sig->save();
         }
     }

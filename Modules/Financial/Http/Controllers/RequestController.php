@@ -75,6 +75,7 @@ class RequestController extends Controller
             ->with('contract.increaseAmount.percentageIncrease')
             ->with('factor.seller')
             ->with('draft.verifier.user.role')
+            ->with('draft.verifier.signature')
             ->with('requestLevel')
             ->orderBy('id' , 'DESC')
             ->paginate(20);

@@ -270,7 +270,7 @@
                 {
                     this.showAcceptConfirmModal = true;
                 }else{
-                    this.dialogMessage = 'فاکتور تایید نشده ای موجود نیست! لطفا قبل از تایید اطلاعات قرارداد نسبت به ثبت فاکتور جدید اقدام کنید.';
+                    this.dialogMessage = 'فاکتور تایید نشده ای موجود نیست! لطفا قبل از تایید اطلاعات فاکتور نسبت به ثبت فاکتور جدید اقدام کنید.';
                     this.showDialogModal = true;
                 }
             },

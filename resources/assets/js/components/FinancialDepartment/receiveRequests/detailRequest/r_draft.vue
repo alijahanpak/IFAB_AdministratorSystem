@@ -13,11 +13,11 @@
             <div class="tbl-div-container">
                 <table class="tbl-head">
                     <colgroup>
-                        <col width="300px"/>
+                        <col width="450px"/>
                         <col width="200px"/>
-                        <col width="200px"/>
-                        <col width="200px"/>
-                        <col width="60px"/>
+                        <col width="150px"/>
+                        <col width="150px"/>
+                        <col width="100px"/>
                         <col width="12px"/>
                     </colgroup>
                     <tbody class="tbl-head-style ">
@@ -26,7 +26,7 @@
                         <th class="tbl-head-style-cell">در وجه</th>
                         <th class="tbl-head-style-cell">مبلغ صورت وضعیت</th>
                         <th class="tbl-head-style-cell">مبلغ حواله</th>
-                        <th class="tbl-head-style-cell">عملیات</th>
+                        <th class="tbl-head-style-cell">وضعیت</th>
                         <th class="tbl-head-style-cell"></th>
                     </tr>
                     </tbody>
@@ -36,19 +36,22 @@
                 <div class="tbl_body_style dynamic-height-level-modal2">
                     <table class="tbl-body-contain">
                         <colgroup>
-                            <col width="300px"/>
+                            <col width="450px"/>
                             <col width="200px"/>
-                            <col width="200px"/>
-                            <col width="200px"/>
-                            <col width="60px"/>
+                            <col width="150px"/>
+                            <col width="150px"/>
+                            <col width="100px"/>
                         </colgroup>
                         <tbody class="tbl-head-style-cell">
                         <tr @click="openPdfModal(draft)" class="table-row" v-for="draft in drafts">
-                            <td>{{draft.dFor}}</td>
-                            <td>{{draft.dPayTo}}</td>
-                            <td class="text-center">{{$root.dispMoneyFormat(draft.dBaseAmount)}}</td>
-                            <td class="text-center">{{$root.dispMoneyFormat(draft.dAmount)}}</td>
-                            <td class="text-center"><a @click=""><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
+                            <template v-for="draftState in draft.verifier">
+                                <td>{{draft.dFor}}</td>
+                                <td>{{draft.dPayTo}}</td>
+                                <td class="text-center">{{$root.dispMoneyFormat(draft.dBaseAmount)}}</td>
+                                <td class="text-center">{{$root.dispMoneyFormat(draft.dAmount)}}</td>
+                                <td v-show="draftState.dvSId != null"><span class="success-label">امضا شده</span></td>
+                                <td v-show="draftState.dvSId == null"><span class="reserved-label">امضا نشده</span></td>
+                            </template>
                         </tr>
                         </tbody>
                     </table>
@@ -88,7 +91,7 @@
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 padding-lr">
                                             <label>بابت
-                                                <suggestions style="margin-bottom: -18px;" name="forTitle" v-validate :class="{'input': true, 'select-error': errors.has('forTitle')}"
+                                                <suggestions autocomplete="off" style="margin-bottom: -18px;" name="forTitle" v-validate :class="{'input': true, 'select-error': errors.has('forTitle')}"
                                                              v-model="draftInput.for"
                                                              :options="forOptions"
                                                              :onInputChange="onForInputChange">
@@ -102,7 +105,7 @@
                                     <div class="grid-x input-margin-top">
                                         <div class="large-12 medium-12 small-12 padding-lr">
                                             <label>در وجه
-                                                <suggestions style="margin-bottom: -18px;" name="payToTitle" v-validate :class="{'input': true, 'select-error': errors.has('payToTitle')}"
+                                                <suggestions autocomplete="off" style="margin-bottom: -18px;" name="payToTitle" v-validate :class="{'input': true, 'select-error': errors.has('payToTitle')}"
                                                              v-model="draftInput.payTo"
                                                              :options="payToOptions"
                                                              :onInputChange="onPayToInputChange">
@@ -116,34 +119,39 @@
                                     <div style="margin-top:15px;"  class="grid-x">
                                         <div class="large-6 medium-6 small-12 padding-lr">
                                             <label>مبلغ صورت وضعیت<span class="btn-red">(ریال)</span>
-                                                <money @change.native="calculateDraftAmount()" v-model="draftInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
+                                                <money v-if="moneyState== 'none'" @change.native="calculateDraftAmount()" v-model="draftInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
+                                                <money v-if="moneyState== 'block'" @change.native="calculateDraftAmount()" v-model="draftInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm select-error"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
                                             </label>
-                                            <p v-show="errors.has('baseAmount')" class="error-font">لطفا مبلغ صورت وضعیت مورد نظر را وارد نمایید!</p>
+                                            <p v-show="errors.has('baseAmount')" class="error-font"> مبلغ صورت وضعیت مورد نظر نامعتبر است!</p>
+                                            <p style="margin-top: 10px;" v-show="moneyState== 'block'" class="btn-red">مبلغ صورت وضعیت مورد نظر نامعتبر است!</p>
                                         </div>
                                     </div>
-                                    <div class="panel-separator padding-lr">
-                                        <div class="grid-x">
-                                            <div class="large-9 medium-9  small-12 padding-lr">
-                                                <div class="grid-x">
-                                                    <div class="large-12 medium-12  small-12">
-                                                        <p>مبلغ نهایی قرارداد : </p>
-                                                        <p>حواله های ثبتی قرارداد تا کنون : </p>
-                                                        <p>مبلغ نهایی حواله : </p>
+                                    <div style="margin-top: 10px;" class="grid-x padding-lr">
+                                        <div class="large-12 medium-12 small-12 panel-separator">
+                                            <div class="grid-x">
+                                                <div class="large-9 medium-9  small-12">
+                                                    <div class="grid-x">
+                                                        <div class="large-12 medium-12 small-12">
+                                                            <p>مبلغ تعهد شده : </p>
+                                                            <p>مبلغ حواله های ثبت شده تا کنون : </p>
+                                                            <p>مبلغ نهایی حواله : </p>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="large-3 medium-3  small-12">
-                                                <p class="btn-red">{{$root.dispMoneyFormat(rCommitmentAmount)}} ریال</p>
-                                                <p class="btn-red">{{$root.dispMoneyFormat(lastDrafts)}} ریال</p>
-                                                <p class="btn-red">{{$root.dispMoneyFormat(draftBaseAmount)}} ریال</p>
+                                                <div class="large-3 medium-3 small-12">
+                                                    <p class="btn-red">{{$root.dispMoneyFormat(rCommitmentAmount)}} ریال</p>
+                                                    <p class="btn-red">{{$root.dispMoneyFormat(lastDrafts)}} ریال</p>
+                                                    <p class="btn-red">{{$root.dispMoneyFormat(draftBaseAmount)}} ریال</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                                 <!--Tab 2-->
                             </div>
                         </div>
-                        <div class="grid-x small-top-m">
+                        <div class="grid-x medium-top-m padding-lr">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <div class="stacked-for-small button-group float-left">
                                     <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
@@ -198,14 +206,53 @@
                         <embed style="width: 100%;height: 80vh;" :src="draftPdfPath" />
                     </div>
                 </div>
-                <div class="grid-x small-top-m">
-                    <div class="medium-12 column text-center">
-                        <button @click="acceptDraft()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
+                <div class="grid-x">
+                    <div style="padding: 0 17px 0 17px;" class="large-12 medium-12 small-12 small-top-m">
+                        <div class="stacked-for-small button-group float-left">
+                            <button @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
+                            <button @click="acceptDraft()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
+                        </div>
                     </div>
                 </div>
             </div>
         </modal-small>
         <!-- pdf Factor modal -->
+
+        <!-- Register And Numbering Draft Start -->
+        <modal-tiny v-if="showRegisterAndNumberingModal" @close="showRegisterAndNumberingModal = false">
+            <div  slot="body">
+                <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <div class="grid-x">
+                        <div class="large-12 medium-12 small-12 padding-lr">
+                            <label>تاریخ
+                                <input
+                                        type="text"
+                                        class="form-control form-control-lg"
+                                        v-model="registerDate"
+                                        id="my-custom-input"
+                                        placeholder="انتخاب تاریخ">
+
+                                <date-picker
+                                        v-model="registerDate"
+                                        :color="'#5c6bc0'"
+                                        element="my-custom-input">
+                                </date-picker>
+                            </label>
+                        </div>
+                        <div class="large-12 medium-12 small-12 padding-lr">
+                            <label> شماره
+                                <input class="form-element-margin-btm" type="text" name="letterNumber" v-model="letterNumber" v-validate="'required'" data-vv-as="field" :class="{'input': true, 'error-border': errors.has('letterNumber')}">
+                                <span v-show="errors.has('letterNumber')" class="error-font"></span>
+                            </label>
+                        </div>
+                        <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
+                            <button @click="registerAndNumberingDraft()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-tiny>
+        <!-- Register And Numbering Draft End -->
 
 
     </div>
@@ -222,6 +269,7 @@
                 showInsertDraftModal:false,
                 showAcceptConfirmModal: false,
                 showDeleteConfirmModal: false,
+                showRegisterAndNumberingModal:false,
                 showPdfModal: false,
                 showDialogModal: false,
                 dialogMessage: '',
@@ -245,8 +293,13 @@
                 lastDrafts:0,
                 initBaseAmount:0,
                 requestBaseAmount:0,
+                requestBaseAmountTemp:0,
+                requestCAmount:0,
                 draftId:'',
                 draftPdfPath:'',
+                registerDate: '',
+                letterNumber: '',
+                moneyState:'none',
 
             }
 
@@ -270,6 +323,7 @@
             openPdfModal: function (draft){
               this.draftId=draft.id;
               this.openReportFile();
+              this.draftPdfPath='';
               this.showPdfModal=true;
             },
 
@@ -336,18 +390,22 @@
                 var baseAmount=0;
                 var sumOfPrcents=0;
                 var draftBaseAmountTemp=0;
+
                 baseAmount=parseInt(this.draftInput.baseAmount.split(',').join(''),10);
 
                 this.contracts.forEach(item =>{
                     item.increase_amount.forEach(percent =>{
-                        sumOfPrcents += baseAmount * (percent.percentage_increase.piPercent /100)
+                        sumOfPrcents += (baseAmount * (percent.percentage_increase.piPercent /100));
                     });
-                    draftBaseAmountTemp = baseAmount + sumOfPrcents;
-
                 });
+                draftBaseAmountTemp = baseAmount + sumOfPrcents;
                 this.getSumOfLastDrafts();
                 this.draftBaseAmount = draftBaseAmountTemp - this.lastDrafts;
-
+                Math.round(this.draftBaseAmount);
+                if(((this.draftBaseAmount + this.lastDrafts) > this.requestCAmount) || (this.draftBaseAmount < 0))
+                    this.moneyState='block';
+                else
+                    this.moneyState='none';
             },
 
             getSumOfLastDrafts: function (){
@@ -361,7 +419,7 @@
             setInitBaseAmount: function (){
                 this.getSumOfLastDrafts();
                 this.getBaseAmount();
-                this.draftInput.baseAmount= this.$root.dispMoneyFormat(this.requestBaseAmount - this.lastDrafts);
+                this.draftInput.baseAmount= this.$root.dispMoneyFormat(this.requestBaseAmount);
                 this.calculateDraftAmount();
 
             },
@@ -370,6 +428,7 @@
                 if(this.requestType == 'BUY_SERVICES'){
                     this.contracts.forEach(item =>{
                         this.requestBaseAmount += item.cBaseAmount;
+                        this.requestCAmount += item.cAmount;
                     });
                 }
                 if(this.requestType == 'BUY_COMMODITY'){
@@ -390,7 +449,7 @@
                     });
             },
 
-            checkAcceptFactor: function(){
+            checkAcceptDraft: function(){
                 var existNotAccepted = false;
                 this.factors.forEach(item => {
                     if (item.fIsAccepted == false)
@@ -401,7 +460,7 @@
                 {
                     this.showAcceptConfirmModal = true;
                 }else{
-                    this.dialogMessage = 'فاکتور تایید نشده ای موجود نیست! لطفا قبل از تایید اطلاعات قرارداد نسبت به ثبت فاکتور جدید اقدام کنید.';
+                    this.dialogMessage = 'حواله تایید نشده ای موجود نیست! لطفا قبل از تایید اطلاعات حواله نسبت به ثبت حواله جدید اقدام کنید.';
                     this.showDialogModal = true;
                 }
             },
@@ -414,7 +473,7 @@
             acceptDraft: function(){
                 axios.post('/financial/draft/accept', {
                     rId: this.requestId,
-
+                    dId:this.draftId
                 }).then((response) => {
                     this.$emit('updateReceiveRequestData' , response.data , this.requestId);
                     this.$emit('closeModal');
@@ -455,6 +514,11 @@
                     this.showDialogModal = true;
                 }
                 else{
+                    this.draftBaseAmount=0,
+                    this.lastDrafts=0,
+                    this.initBaseAmount=0,
+                    this.requestBaseAmount=0,
+                    this.requestCAmount=0,
                     this.forItems=[];
                     this.getAllFor();
                     this.draftInput = {};
@@ -466,8 +530,8 @@
             addNewDraft:function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        if((this.draftBaseAmount + this.lastDrafts) > this.rCommitmentAmount){
-                            this.dialogMessage = 'مبلغ حواله نمی تواند از مبلغ قرارداد / فاکتور بیشتر باشد!';
+                        if(((this.draftBaseAmount + this.lastDrafts) > this.requestCAmount) || (this.draftBaseAmount < 0)){
+                            this.dialogMessage = 'مبلغ  صورت وضعیت نامعتبر است!';
                             this.showDialogModal = true;
                         }
                         else{
@@ -480,6 +544,7 @@
                                 verifierId: this.draftInput.verifierId
                             }).then((response) => {
                                 this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                                this.$emit('closeModal');
                                 this.showInsertDraftModal = false;
                                 this.$root.displayNotif(response.status);
                                 console.log(response);
@@ -491,6 +556,29 @@
                     }
                 });
             },
+
+            openRegisterAndNumberingModal:function(){
+                this.showRegisterAndNumberingModal=true;
+            },
+
+            registerAndNumberingDraft:function () {
+                axios.post('/financial/draft/numbering', {
+                    rId: this.requestId,
+                    dId:this.draftId,
+                    letterDate: this.registerDate,
+                    letterNumber: this.letterNumber
+                }).then((response) => {
+                    this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                    this.$emit('closeModal');
+                    this.showRegisterAndNumberingModal = false;
+                    this.$root.displayNotif(error.response.status);
+                    console.log(response);
+                }, (error) => {
+                    console.log(error);
+                    this.$root.displayNotif(error.response.status);
+                });
+            },
+
         }
     }
 </script>
