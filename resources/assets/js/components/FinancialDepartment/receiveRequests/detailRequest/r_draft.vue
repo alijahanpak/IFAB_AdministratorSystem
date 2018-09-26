@@ -118,7 +118,7 @@
                                     </div>
                                     <div v-if="requestType == 'BUY_SERVICES'" style="margin-top:15px;"  class="grid-x">
                                         <div class="large-6 medium-6 small-12 padding-lr">
-                                            <label v-show="requestType == 'BUY_COMMODITY'">مبلغ<span class="btn-red">(ریال)</span>
+                                            <label>مبلغ<span class="btn-red">(ریال)</span>
                                                 <money v-if="moneyState== 'none'" @change.native="calculateDraftAmount()" v-model="draftInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
                                                 <money v-if="moneyState== 'block'" @change.native="calculateDraftAmount()" v-model="draftInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm select-error"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
                                             </label>
