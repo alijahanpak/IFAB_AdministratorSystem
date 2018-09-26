@@ -220,8 +220,8 @@
                     <div style="padding: 0 17px 0 17px;" class="large-12 medium-12 small-12 small-top-m">
                         <div class="stacked-for-small button-group float-left">
                             <button v-if="$can('FINANCIAL_REGISTER_AND_NUMBERING_DRAFT')" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
-                            <button v-if="$can('FINANCIAL_ACCEPT_DRAFT') && drafts.dYouAreVerifier" @click="acceptDraft()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
-                            <button v-if="$can('FINANCIAL_ACCEPT_MINUTE_DRAFT')" @click="acceptDraftMinute()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید پیشنویس   </span></button>
+                            <button v-if="$can('FINANCIAL_ACCEPT_DRAFT') && draftYouAreVerifier" @click="acceptDraft()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
+                            <button v-if="$can('FINANCIAL_ACCEPT_MINUTE_DRAFT')" @click="openAcceptMinuteConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید پیشنویس   </span></button>
                         </div>
                     </div>
                 </div>
@@ -265,6 +265,21 @@
         </modal-tiny>
         <!-- Register And Numbering Draft End -->
 
+        <!-- Accept Draft Minute modal -->
+        <modal-tiny v-if="showAcceptMinuteConfirmModal" @close="showAcceptMinuteConfirmModal = false">
+            <div slot="body">
+                <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
+                    <p class="large-offset-1 modal-text">آیا پیشنویس مورد تایید است؟</p>
+                    <div class="grid-x">
+                        <div class="medium-12 column text-center">
+                            <button @click="acceptDraftMinute()"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-tiny>
+        <!-- Accept Draft Minute modal -->
 
     </div>
 </template>
@@ -280,6 +295,7 @@
                 showInsertDraftModal:false,
                 showAcceptConfirmModal: false,
                 showDeleteConfirmModal: false,
+                showAcceptMinuteConfirmModal: false,
                 showRegisterAndNumberingModal:false,
                 showPdfModal: false,
                 showDialogModal: false,
@@ -307,6 +323,7 @@
                 requestBaseAmountTemp:0,
                 requestCAmount:0,
                 draftId:'',
+                draftYouAreVerifier:'',
                 draftPdfPath:'',
                 registerDate: '',
                 letterNumber: '',
@@ -333,6 +350,7 @@
 
             openPdfModal: function (draft){
               this.draftId=draft.id;
+              this.draftYouAreVerifier=draft.dYouAreVerifier;
               this.openReportFile();
               this.draftPdfPath='';
               this.showPdfModal=true;
@@ -614,6 +632,26 @@
                     this.$emit('updateReceiveRequestData' , response.data , this.requestId);
                     this.$emit('closeModal');
                     this.showRegisterAndNumberingModal = false;
+                    this.$root.displayNotif(error.response.status);
+                    console.log(response);
+                }, (error) => {
+                    console.log(error);
+                    this.$root.displayNotif(error.response.status);
+                });
+            },
+
+            openAcceptMinuteConfirmModal:function(){
+                this.showAcceptMinuteConfirmModal=true;
+            },
+
+            acceptDraftMinute:function () {
+                axios.post('/financial/draft/accept_minute', {
+                    rId: this.requestId,
+                    dId:this.draftId,
+                }).then((response) => {
+                    this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                    this.$emit('closeModal');
+                    this.showAcceptMinuteConfirmModal = false;
                     this.$root.displayNotif(error.response.status);
                     console.log(response);
                 }, (error) => {
