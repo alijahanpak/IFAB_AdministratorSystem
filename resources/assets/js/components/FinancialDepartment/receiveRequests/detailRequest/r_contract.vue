@@ -434,7 +434,7 @@
                 var increaseItemsTemp={};
                 increaseItemsTemp.piId=index.id;
                 increaseItemsTemp.amount=(percent * parseInt(this.contractInput.amount.split(',').join(''),10)) / 100;
-
+                Math.round(increaseItemsTemp.amount);
                 this.increaseTemp.forEach((item,pos) =>{
                     if(item.piId == increaseItemsTemp.piId ){
                         this.increaseTemp.splice(pos,1);
@@ -470,6 +470,7 @@
                     lastTemp += item.amount;
                 });
                 this.finalAmount =lastTemp;
+                Math.round(this.finalAmount);
 
             },
 

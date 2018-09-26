@@ -583,6 +583,7 @@
                                              v-on:updateReceiveRequestData="updateReceiveRequestData"
                                              v-bind:requestId="requestId"
                                              v-bind:contracts="contracts"
+                                             v-bind:factors="factors"
                                              v-bind:rAcceptedAmount="rAcceptedAmount"
                                              v-bind:rCommitmentAmount="rCommitmentAmount"
                                              v-bind:requestType="requestType"
