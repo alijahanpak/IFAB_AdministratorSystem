@@ -209,8 +209,9 @@
                 <div class="grid-x">
                     <div style="padding: 0 17px 0 17px;" class="large-12 medium-12 small-12 small-top-m">
                         <div class="stacked-for-small button-group float-left">
-                            <button @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
-                            <button @click="acceptDraft()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
+                            <button v-if="$can('FINANCIAL_REGISTER_AND_NUMBERING_DRAFT')" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
+                            <button v-if="$can('FINANCIAL_ACCEPT_DRAFT') && drafts.dYouAreVerifier" @click="acceptDraft()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
+                            <button v-if="$can('FINANCIAL_ACCEPT_MINUTE_DRAFT')" @click="acceptDraftMinute()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید پیشنویس   </span></button>
                         </div>
                     </div>
                 </div>

@@ -523,7 +523,7 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
 
         $permission = new Permission;
         $permission->pSspId = 10;
-        $permission->pSubject = 'ثبت دبیرخانه';
+        $permission->pSubject = 'ثبت دبیرخانه درخواست';
         $permission->pPermission = 'SECRETARIAT_REGISTER_AND_NUMBERING';
         $permission->save();
 
@@ -630,6 +630,18 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
         $permission->pSspId = 1;
         $permission->pSubject = 'امضاء حواله';
         $permission->pPermission = 'FINANCIAL_ACCEPT_DRAFT';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 10;
+        $permission->pSubject = 'ثبت دبیرخانه حواله';
+        $permission->pPermission = 'FINANCIAL_REGISTER_AND_NUMBERING_DRAFT';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 6;
+        $permission->pSubject = 'تایید پیشنویس حواله';
+        $permission->pPermission = 'FINANCIAL_ACCEPT_MINUTE_DRAFT';
         $permission->save();
     }
 }

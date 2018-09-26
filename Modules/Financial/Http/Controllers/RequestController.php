@@ -74,6 +74,9 @@ class RequestController extends Controller
             ->with('contract.executor')
             ->with('contract.increaseAmount.percentageIncrease')
             ->with('factor.seller')
+            ->with(['draft.verifier' => function($q){
+                return $q->where('dvSId' ,'<>' , null);
+            }])
             ->with('draft.verifier.user.role')
             ->with('draft.verifier.signature')
             ->with('requestLevel')

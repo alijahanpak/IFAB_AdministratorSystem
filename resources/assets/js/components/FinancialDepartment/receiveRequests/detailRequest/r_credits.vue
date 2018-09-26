@@ -2404,7 +2404,6 @@ export default{
             else {
                 this.showAcceptFinancingModal = true;
             }
-
         },
 
         acceptFinancing: function(){

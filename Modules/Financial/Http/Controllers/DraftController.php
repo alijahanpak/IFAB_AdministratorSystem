@@ -89,7 +89,7 @@ class DraftController extends Controller
                 // make history for this request
                 $history = new RequestHistory();
                 $history->rhSrcUId = Auth::user()->id;
-                $history->rhDestUId = $verifier->dvUId; // for secretariat destination
+                $history->rhDestUId = $verifier->dvUId;
                 $history->rhRId = $req->id;
                 $history->rhRsId = $req->rRsId;
                 $history->save();

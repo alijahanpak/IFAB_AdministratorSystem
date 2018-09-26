@@ -3,6 +3,7 @@
 namespace Modules\Financial\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Modules\Admin\Entities\Signature;
 use Modules\Admin\Entities\User;
 
