@@ -180,7 +180,7 @@
                                             <tr>
                                                 <td></td>
                                                 <td>
-                                                    <suggestions style="margin-bottom: -18px;" name="commodityTitle" v-validate :class="{'input': true, 'select-error': errors.has('commodityTitle')}"
+                                                    <suggestions autocomplete="oxghff" style="margin-bottom: -18px;" name="commodityTitle" v-validate :class="{'input': true, 'select-error': errors.has('commodityTitle')}"
                                                                  v-model="commodityQuery"
                                                                  :options="commodityOptions"
                                                                  :onInputChange="onCommodityInputChange">

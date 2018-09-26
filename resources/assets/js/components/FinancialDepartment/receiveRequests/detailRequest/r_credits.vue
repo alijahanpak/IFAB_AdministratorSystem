@@ -2,8 +2,10 @@
     <div class="grid-x">
         <div class="large-12 medium-12 small-12">
             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="credit_tab_view">
-                <li class="tabs-title is-active"><a href="#creditCapitalAssetsTab" aria-selected="true"> تملک دارایی های سرمایه ای  <span v-show="requestCapFinancing.length > 0" class="notif-badge-purple">{{requestCapFinancing.length}}</span></a></li>
-                <li class="tabs-title"><a href="#creditCostTab"> هزینه ای <span v-show="requestCostFinancing.length > 0" class="notif-badge-purple">{{requestCostFinancing.length}}</span></a></li>
+                <li v-if="capitalAssetsCount > 0" class="tabs-title is-active"><a href="#creditCapitalAssetsTab" aria-selected="true"> تملک دارایی های سرمایه ای  <span v-show="requestCapFinancing.length > 0" class="notif-badge-reserved">{{requestCapFinancing.length}}</span></a></li>
+                <li v-if="capitalAssetsCount == 0" class="tabs-title is-active"><a href="#creditCapitalAssetsTab" aria-selected="true"> تملک دارایی های سرمایه ای  <span v-show="requestCapFinancing.length > 0" class="notif-badge-success">{{requestCapFinancing.length}}</span></a></li>
+                <li v-if="costCreditsCount > 0" class="tabs-title"><a href="#creditCostTab"> هزینه ای <span v-show="requestCostFinancing.length > 0" class="notif-badge-reserved">{{requestCostFinancing.length}}</span></a></li>
+                <li v-if="costCreditsCount == 0" class="tabs-title"><a href="#creditCostTab"> هزینه ای <span v-show="requestCostFinancing.length > 0" class="notif-badge-success">{{requestCostFinancing.length}}</span></a></li>
             </ul>
             <div class="tabs-content" data-tabs-content="credit_tab_view">
                 <div class="grid-x">
@@ -66,7 +68,7 @@
                                         <td class="text-center">{{$root.dispMoneyFormat(capFinancing.cafAmount)}}</td>
                                         <td v-show="capFinancing.cafAccepted == 1"><span class="success-label">تایید شده</span></td>
                                         <td v-show="capFinancing.cafAccepted == 0"><span class="reserved-label">رزرو شده</span></td>
-                                        <td v-if="$can('FINANCIAL_REMOVE_FINANCING_ITEM')" class="text-center"><a @click="openDeleteFinancingModal(capFinancing,1)"><i class="far fa-trash-alt size-21 btn-red"></i></a></i></td>
+                                        <td v-if="$can('FINANCIAL_REMOVE_FINANCING_ITEM')" class="text-center"><a @click="openDeleteFinancingModal(capFinancing,1)"><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -645,7 +647,7 @@
                             <div class="tabs-content" data-tabs-content="capital_assets_tab_view">
                                 <div class="grid-x">
                                     <div style="margin-top: 10px;" class="large-12 medium-12 small-12 direction-ltr">
-                                        <span class="cost-label">مبالغ : ریال</span>
+                                        <span class="cost-label size-14">مبالغ : ریال</span>
                                     </div>
                                 </div>
                                 <!--Tab 1-->
@@ -1432,6 +1434,9 @@ export default{
 
             delId:'',
             deleteType:'',
+
+            capitalAssetsCount:0,
+            costCreditsCount:0,
         }
 
     },
@@ -1444,6 +1449,7 @@ export default{
     updated: function () {
         $(this.$el).foundation(); //WORKS!
         this.myResizeModal();
+
     },
 
     mounted: function () {
@@ -1454,8 +1460,7 @@ export default{
         fetchRequestFinancing: function (){
             axios.get('/financial/request/financing' , {params:{rId:this.requestId}})
                 .then((response) => {
-                    this.requestCostFinancing = response.data.costFinancing;
-                    this.requestCapFinancing = response.data.capFinancing;
+                    this.getCapAndCostFinancing(response.data);
                     this.checkAcceptFinancingVisible();
                     this.getFinancingAmount();
                     //console.log(this.requestCostFinancing);
@@ -1463,6 +1468,28 @@ export default{
                 }, (error) => {
                     console.log(error);
                 });
+        },
+
+        getCapAndCostFinancing: function(financing){
+            this.requestCostFinancing =financing.costFinancing;
+            this.requestCapFinancing = financing.capFinancing;
+            this.calculateCapAndCostCount();
+        },
+
+        calculateCapAndCostCount:function(){
+            var caCount=0;
+            this.requestCapFinancing.forEach(item =>{
+                if(item.cafAccepted == 0)
+                    caCount +=1;
+            });
+            this.capitalAssetsCount=caCount;
+
+            var ccCount=0;
+            this.requestCostFinancing.forEach(item =>{
+                if(item.cfAccepted == 0)
+                    ccCount +=1;
+            });
+            this.costCreditsCount=ccCount;
         },
 
         getCompleteCostAgrement: function () {
@@ -2266,7 +2293,7 @@ export default{
                         rId: this.requestId,
                         costFinancing: costFinancing,
                     }).then((response) => {
-                        this.requestCostFinancing = response.data.costFinancing;
+                        this.getCapAndCostFinancing(response.data);
                         this.showCostCreditsModal = false;
                         this.$root.displayNotif(response.status);
                         this.getFinancingAmount();
@@ -2311,7 +2338,7 @@ export default{
                         rId: this.requestId,
                         capFinancing: capitalAssetsFinancing,
                     }).then((response) => {
-                        this.requestCapFinancing = response.data.capFinancing;
+                        this.getCapAndCostFinancing(response.data);
                         this.showCapitalAssetsModal = false;
                         this.$root.displayNotif(response.status);
                         this.getFinancingAmount();
@@ -2435,7 +2462,7 @@ export default{
                     rId:this.requestId,
                 }).then((response) => {
                     if (response.status != 204) {
-                        this.requestCapFinancing = response.data.capFinancing;
+                        this.getCapAndCostFinancing(response.data);
                         this.getFinancingAmount();
                     }
                     this.showDeleteFinancingModal = false;
@@ -2451,7 +2478,7 @@ export default{
                     rId:this.requestId,
                 }).then((response) => {
                     if (response.status != 204) {
-                        this.requestCostFinancing = response.data.costFinancing;
+                        this.getCapAndCostFinancing(response.data);
                         this.getFinancingAmount();
 
                     }

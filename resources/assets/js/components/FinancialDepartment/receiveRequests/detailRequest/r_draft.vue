@@ -116,9 +116,19 @@
                                             </label>
                                         </div>
                                     </div>
-                                    <div style="margin-top:15px;"  class="grid-x">
+                                    <div v-if="requestType == 'BUY_SERVICES'" style="margin-top:15px;"  class="grid-x">
                                         <div class="large-6 medium-6 small-12 padding-lr">
-                                            <label>مبلغ صورت وضعیت<span class="btn-red">(ریال)</span>
+                                            <label v-show="requestType == 'BUY_COMMODITY'">مبلغ<span class="btn-red">(ریال)</span>
+                                                <money v-if="moneyState== 'none'" @change.native="calculateDraftAmount()" v-model="draftInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
+                                                <money v-if="moneyState== 'block'" @change.native="calculateDraftAmount()" v-model="draftInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm select-error"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
+                                            </label>
+                                            <p v-show="errors.has('baseAmount')" class="error-font"> مبلغ صورت وضعیت مورد نظر نامعتبر است!</p>
+                                            <p style="margin-top: 10px;" v-show="moneyState== 'block'" class="btn-red">مبلغ صورت وضعیت مورد نظر نامعتبر است!</p>
+                                        </div>
+                                    </div>
+                                    <div v-if="requestType == 'BUY_COMMODITY'" style="margin-top:15px;"  class="grid-x">
+                                        <div class="large-6 medium-6 small-12 padding-lr">
+                                            <label v-show="requestType == 'BUY_COMMODITY'">مبلغ<span class="btn-red">(ریال)</span>
                                                 <money v-if="moneyState== 'none'" @change.native="calculateDraftAmount()" v-model="draftInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
                                                 <money v-if="moneyState== 'block'" @change.native="calculateDraftAmount()" v-model="draftInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm select-error"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
                                             </label>
@@ -260,7 +270,7 @@
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     export default{
-        props:['drafts','requestId','rAcceptedAmount','rCommitmentAmount','contracts','requestType'],
+        props:['drafts','requestId','rAcceptedAmount','rCommitmentAmount','contracts','factors','requestType'],
         components: {
             Suggestions,
         },
@@ -341,13 +351,25 @@
           ------------------ For Draft Start ------------------------------
           -----------------------------------------------------------------------------*/
             getAllFor: function () {
-                this.forItems = this.contracts;
+                if(this.contracts.length >0)
+                    this.forItems = this.contracts;
+                else
+                    this.forItems = this.factors;
                 this.forList= [];
                 this.payToList= [];
-                this.forItems.forEach(item=> {
-                    this.forList.push(item.cSubject +' - ' + item.cLetterNumber + ' - ' + item.cLetterDate);
-                    this.payToList.push(item.executor.eSubject);
-                });
+                if(this.contracts.length >0){
+                    this.forItems.forEach(item=> {
+                        this.forList.push(item.cSubject +' - ' + item.cLetterNumber + ' - ' + item.cLetterDate);
+                        this.payToList.push(item.executor.eSubject);
+                    });
+                }
+                else{
+                    this.forItems.forEach(item=> {
+                        this.forList.push(item.fSubject );
+                        this.payToList.push(item.seller.sSubject);
+                    });
+                }
+
             },
 
             onForInputChange(forInput) {
@@ -387,25 +409,37 @@
             -----------------------------------------------------------------------------*/
 
             calculateDraftAmount: function(){
-                var baseAmount=0;
-                var sumOfPrcents=0;
-                var draftBaseAmountTemp=0;
+                    var baseAmount=0;
+                    var sumOfPrcents=0;
+                    var draftBaseAmountTemp=0;
 
-                baseAmount=parseInt(this.draftInput.baseAmount.split(',').join(''),10);
-
-                this.contracts.forEach(item =>{
-                    item.increase_amount.forEach(percent =>{
-                        sumOfPrcents += (baseAmount * (percent.percentage_increase.piPercent /100));
-                    });
-                });
-                draftBaseAmountTemp = baseAmount + sumOfPrcents;
-                this.getSumOfLastDrafts();
-                this.draftBaseAmount = draftBaseAmountTemp - this.lastDrafts;
-                Math.round(this.draftBaseAmount);
-                if(((this.draftBaseAmount + this.lastDrafts) > this.requestCAmount) || (this.draftBaseAmount < 0))
-                    this.moneyState='block';
-                else
-                    this.moneyState='none';
+                    baseAmount=parseInt(this.draftInput.baseAmount.split(',').join(''),10);
+                    if(this.contracts.length > 0) {
+                        this.contracts.forEach(item => {
+                            item.increase_amount.forEach(percent => {
+                                sumOfPrcents += (baseAmount * (percent.percentage_increase.piPercent / 100));
+                            });
+                        });
+                        draftBaseAmountTemp = baseAmount + sumOfPrcents;
+                    }
+                    this.getSumOfLastDrafts();
+                    if(this.contracts.length > 0)
+                        this.draftBaseAmount = draftBaseAmountTemp - this.lastDrafts;
+                    else
+                        this.draftBaseAmount = baseAmount - this.lastDrafts;
+                    Math.round(this.draftBaseAmount);
+                    if(this.contracts.length > 0){
+                        if(((this.draftBaseAmount + this.lastDrafts) > this.requestCAmount) || (this.draftBaseAmount < 0))
+                            this.moneyState='block';
+                        else
+                            this.moneyState='none';
+                    }
+                    else{
+                        if(((this.draftBaseAmount + this.lastDrafts) > this.rAcceptedAmount) || (this.draftBaseAmount < 0))
+                            this.moneyState='block';
+                        else
+                            this.moneyState='none';
+                    }
             },
 
             getSumOfLastDrafts: function (){
@@ -425,17 +459,14 @@
             },
 
             getBaseAmount: function(){
-                if(this.requestType == 'BUY_SERVICES'){
+                if(this.contracts.length > 0){
                     this.contracts.forEach(item =>{
                         this.requestBaseAmount += item.cBaseAmount;
                         this.requestCAmount += item.cAmount;
                     });
                 }
-                if(this.requestType == 'BUY_COMMODITY'){
-
-                }
-                if(this.requestType == 'FUND'){
-
+                else{
+                    this.requestBaseAmount=this.rAcceptedAmount;
                 }
             },
 
@@ -530,11 +561,22 @@
             addNewDraft:function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        if(((this.draftBaseAmount + this.lastDrafts) > this.requestCAmount) || (this.draftBaseAmount < 0)){
-                            this.dialogMessage = 'مبلغ  صورت وضعیت نامعتبر است!';
-                            this.showDialogModal = true;
+                        var isValid=true;
+                        if(this.contracts.length > 0){
+                            if(((this.draftBaseAmount + this.lastDrafts) > this.requestCAmount) || (this.draftBaseAmount < 0)){
+                                this.dialogMessage = 'مبلغ  صورت وضعیت نامعتبر است!';
+                                this.showDialogModal = true;
+                                isValid=false;
+                            }
                         }
-                        else{
+                        else {
+                            if(((this.draftBaseAmount + this.lastDrafts) > this.rAcceptedAmount) || (this.draftBaseAmount < 0)){
+                                this.dialogMessage = 'مبلغ  صورت وضعیت نامعتبر است!';
+                                this.showDialogModal = true;
+                                isValid=false;
+                            }
+                        }
+                        if(isValid){
                             axios.post('financial/draft/register', {
                                 rId: this.requestId,
                                 for: this.draftInput.for,
