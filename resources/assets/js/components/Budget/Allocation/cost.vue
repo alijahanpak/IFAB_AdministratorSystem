@@ -524,10 +524,20 @@
                                     </label>
                                 </div>
                                 <div class="medium-4 padding-lr">
-                                    <p class="date-picker-lbl">تاریخ نامه
-                                        <!--<input class="form-element-margin-btm" type="text" name="letterDate" v-model="AllocationInput.date">-->
-                                        <pdatepicker id="datePicker" v-model="AllocationInput.date"  open-transition-animation="left-slide-fade"></pdatepicker>
-                                    </p>
+                                    <label>تاریخ
+                                        <input
+                                                type="text"
+                                                class="form-control form-control-lg"
+                                                v-model="AllocationInput.date"
+                                                id="AllocationInputDate"
+                                                placeholder="انتخاب تاریخ">
+
+                                        <date-picker
+                                                v-model="AllocationInput.date"
+                                                :color="'#5c6bc0'"
+                                                element="AllocationInputDate">
+                                        </date-picker>
+                                    </label>
                                 </div>
                             </div>
                             <div class="grid-x">
@@ -598,9 +608,20 @@
                                     </label>
                                 </div>
                                 <div class="medium-4 padding-lr">
-                                    <p class="date-picker-lbl">تاریخ نامه
-                                        <pdatepicker id="updateDatePicker" v-model="AllocationFill.date"  open-transition-animation="left-slide-fade"></pdatepicker>
-                                    </p>
+                                    <label>تاریخ
+                                        <input
+                                                type="text"
+                                                class="form-control form-control-lg"
+                                                v-model="AllocationFill.date"
+                                                id="AllocationFillDate"
+                                                placeholder="انتخاب تاریخ">
+
+                                        <date-picker
+                                                v-model="AllocationFill.date"
+                                                :color="'#5c6bc0'"
+                                                element="AllocationFillDate">
+                                        </date-picker>
+                                    </label>
                                 </div>
                             </div>
                             <div class="grid-x">
@@ -680,10 +701,21 @@
                     <div  slot="body">
                         <form v-on:submit.prevent="createProvincialFound">
                             <div class="grid-x">
-                                <div class="medium-6 padding-lr">
-                                    <p class="date-picker-lbl">تاریخ
-                                        <pdatepicker v-model="foundInput.date" v-on:closed="checkValidDate(foundInput)" errMessage="تاریخ دریافت تنخواه فراموش شده است!" :isValid="dateIsValid_found"  open-transition-animation="left-slide-fade"></pdatepicker>
-                                    </p>
+                                <div class="medium-12 padding-lr">
+                                    <label>تاریخ
+                                        <input v-on:closed="checkValidDate(foundInput)" errMessage="تاریخ دریافت تنخواه فراموش شده است!" :isValid="dateIsValid_found"
+                                                type="text"
+                                                class="form-control form-control-lg"
+                                                v-model="foundInput.date"
+                                                id="foundInputDate"
+                                                placeholder="انتخاب تاریخ">
+
+                                        <date-picker
+                                                v-model="foundInput.date"
+                                                :color="'#5c6bc0'"
+                                                element="foundInputDate">
+                                        </date-picker>
+                                    </label>
                                 </div>
                             </div>
                             <div class="grid-x">
@@ -713,10 +745,21 @@
                     <div  slot="body">
                         <form v-on:submit.prevent="updateProvincialFound">
                             <div class="grid-x">
-                                <div class="medium-6 padding-lr">
-                                    <p class="date-picker-lbl">تاریخ
-                                        <pdatepicker v-model="foundFill.date" v-on:closed="checkValidDate(foundFill)" errMessage="تاریخ دریافت تنخواه فراموش شده است!" :isValid="dateIsValid_found"  open-transition-animation="left-slide-fade"></pdatepicker>
-                                    </p>
+                                <div class="medium-12 padding-lr">
+                                    <label>تاریخ
+                                        <input v-on:closed="checkValidDate(foundFill)" errMessage="تاریخ دریافت تنخواه فراموش شده است!" :isValid="dateIsValid_found"
+                                                type="text"
+                                                class="form-control form-control-lg"
+                                                v-model="foundFill.date"
+                                                id="foundFillDate"
+                                                placeholder="انتخاب تاریخ">
+
+                                        <date-picker
+                                                v-model="foundFill.date"
+                                                :color="'#5c6bc0'"
+                                                element="foundFillDate">
+                                        </date-picker>
+                                    </label>
                                 </div>
                             </div>
                             <div class="grid-x">

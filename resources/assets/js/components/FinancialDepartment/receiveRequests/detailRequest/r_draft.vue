@@ -222,6 +222,7 @@
                             <button v-if="$can('FINANCIAL_REGISTER_AND_NUMBERING_DRAFT')" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
                             <button v-if="$can('FINANCIAL_ACCEPT_DRAFT') && draftYouAreVerifier" @click="acceptDraft()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
                             <button v-if="$can('FINANCIAL_ACCEPT_MINUTE_DRAFT')" @click="openAcceptMinuteConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید پیشنویس   </span></button>
+                            <button v-if="" @click="openAcceptMinuteConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   صدور چک   </span></button>
                         </div>
                     </div>
                 </div>

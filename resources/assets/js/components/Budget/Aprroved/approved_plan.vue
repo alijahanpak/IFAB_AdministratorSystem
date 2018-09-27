@@ -415,10 +415,21 @@
                                     </label>
                                     <span v-show="errors.has('capLetterNumber')" class="error-font">شماره فراموش شده است!</span>
                                 </div>
-                                <div class="medium-4 padding-lr">
-                                    <p class="date-picker-lbl">تاریخ ابلاغ
-                                        <pdatepicker v-model="approvedPlanInput.date" v-on:closed="checkValidDate('delivery' , approvedPlanInput)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery" open-transition-animation="left-slide-fade"></pdatepicker>
-                                    </p>
+                                <div class="medium-6 padding-lr">
+                                    <label>تاریخ ابلاغ
+                                        <input
+                                                type="text"
+                                                class="form-control form-control-lg"
+                                                v-model="approvedPlanInput.date"
+                                                id="approvedPlanInputDate"
+                                                placeholder="انتخاب تاریخ">
+
+                                        <date-picker v-on:closed="checkValidDate('delivery' , approvedPlanInput)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery"
+                                                v-model="approvedPlanInput.date"
+                                                :color="'#5c6bc0'"
+                                                element="approvedPlanInputDate">
+                                        </date-picker>
+                                    </label>
                                 </div>
                             </div>
                             <div class="grid-x">
@@ -428,10 +439,21 @@
                                     </label>
                                     <span v-show="errors.has('capExLetterNumber')" class="error-font">شماره فراموش شده است!</span>
                                 </div>
-                                <div class="medium-4 padding-lr">
-                                    <p class="date-picker-lbl">تاریخ مبادله
-                                        <pdatepicker v-model="approvedPlanInput.exDate" v-on:closed="checkValidDate('exchange' , approvedPlanInput)" errMessage="تاریخ مبادله فراموش شده است!" :isValid="dateIsValid_exchange" open-transition-animation="left-slide-fade"></pdatepicker>
-                                    </p>
+                                <div class="medium-6 padding-lr">
+                                    <label>تاریخ
+                                        <input
+                                                type="text"
+                                                class="form-control form-control-lg"
+                                                v-model="approvedPlanInput.exDate"
+                                                id="approvedPlanInputExDate"
+                                                placeholder="انتخاب تاریخ">
+
+                                        <date-picker v-on:closed="checkValidDate('exchange' , approvedPlanInput)" errMessage="تاریخ مبادله فراموش شده است!" :isValid="dateIsValid_exchange"
+                                                v-model="approvedPlanInput.exDate"
+                                                :color="'#5c6bc0'"
+                                                element="approvedPlanInputExDate">
+                                        </date-picker>
+                                    </label>
                                 </div>
                             </div>
                             <div class="grid-x">
@@ -470,10 +492,21 @@
                                 </label>
                                 <span v-show="errors.has('capLetterNumber')" class="error-font">شماره فراموش شده است!</span>
                             </div>
-                            <div class="medium-4 padding-lr">
-                                <p class="date-picker-lbl">تاریخ ابلاغ
-                                    <pdatepicker v-model="approvedPlanFill.date" v-on:closed="checkValidDate('delivery' , approvedPlanFill)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery" open-transition-animation="left-slide-fade"></pdatepicker>
-                                </p>
+                            <div class="medium-6 padding-lr">
+                                <label>تاریخ ابلاغ
+                                    <input
+                                            type="text"
+                                            class="form-control form-control-lg"
+                                            v-model="approvedPlanFill.date"
+                                            id="approvedPlanFillDate"
+                                            placeholder="انتخاب تاریخ">
+
+                                    <date-picker v-on:closed="checkValidDate('delivery' , approvedPlanFill)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery"
+                                            v-model="approvedPlanFill.date"
+                                            :color="'#5c6bc0'"
+                                            element="approvedPlanFillDate">
+                                    </date-picker>
+                                </label>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -483,10 +516,21 @@
                                 </label>
                                 <span v-show="errors.has('capExLetterNumber')" class="error-font">شماره فراموش شده است!</span>
                             </div>
-                            <div class="medium-4 padding-lr">
-                                <p class="date-picker-lbl">تاریخ مبادله
-                                    <pdatepicker v-model="approvedPlanFill.exDate" v-on:closed="checkValidDate('exchange' , approvedPlanFill)" errMessage="تاریخ مبادله فراموش شده است!" :isValid="dateIsValid_exchange" open-transition-animation="left-slide-fade"></pdatepicker>
-                                </p>
+                            <div class="medium-6 padding-lr">
+                                <label>تاریخ مبادله
+                                    <input
+                                            type="text"
+                                            class="form-control form-control-lg"
+                                            v-model="approvedPlanFill.exDate"
+                                            id="approvedPlanFillExDate"
+                                            placeholder="انتخاب تاریخ">
+
+                                    <date-picker v-on:closed="checkValidDate('exchange' , approvedPlanFill)" errMessage="تاریخ مبادله فراموش شده است!" :isValid="dateIsValid_exchange"
+                                            v-model="approvedPlanFill.exDate"
+                                            :color="'#5c6bc0'"
+                                            element="approvedPlanFillExDate">
+                                    </date-picker>
+                                </label>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -539,10 +583,21 @@
                                 </label>
                                 <span v-show="errors.has('capLetterNumber')" class="error-font">شماره ابلاغ فراموش شده است!</span>
                             </div>
-                            <div class="medium-4 padding-lr">
-                                <p class="date-picker-lbl">تاریخ ابلاغ
-                                    <pdatepicker v-model="approvedAmendmentInput.date" v-on:closed="checkValidDate('delivery_amendment' , approvedAmendmentInput)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery_amendment" open-transition-animation="left-slide-fade"></pdatepicker>
-                                </p>
+                            <div class="medium-6 padding-lr">
+                                <label>تاریخ ابلاغ
+                                    <input
+                                            type="text"
+                                            class="form-control form-control-lg"
+                                            v-model="approvedAmendmentInput.date"
+                                            id="approvedAmendmentInputDate"
+                                            placeholder="انتخاب تاریخ">
+
+                                    <date-picker v-on:closed="checkValidDate('delivery_amendment' , approvedAmendmentInput)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery_amendment"
+                                            v-model="approvedAmendmentInput.date"
+                                            :color="'#5c6bc0'"
+                                            element="approvedAmendmentInputDate">
+                                    </date-picker>
+                                </label>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -552,10 +607,21 @@
                                 </label>
                                 <span v-show="errors.has('capExLetterNumber')" class="error-font">شماره فراموش شده است!</span>
                             </div>
-                            <div class="medium-4 padding-lr">
-                                <p class="date-picker-lbl">تاریخ مبادله
-                                    <pdatepicker v-model="approvedAmendmentInput.exDate" v-on:closed="checkValidDate('exchange_amendment' , approvedAmendmentInput)" errMessage="تاریخ مبادله فراموش شده است!" :isValid="dateIsValid_exchange_amendment" open-transition-animation="left-slide-fade"></pdatepicker>
-                                </p>
+                            <div class="medium-6 padding-lr">
+                                <label>تاریخ مبادله
+                                    <input
+                                            type="text"
+                                            class="form-control form-control-lg"
+                                            v-model="approvedAmendmentInput.exDate"
+                                            id="approvedAmendmentInputExDate"
+                                            placeholder="انتخاب تاریخ">
+
+                                    <date-picker v-on:closed="checkValidDate('exchange_amendment' , approvedAmendmentInput)" errMessage="تاریخ مبادله فراموش شده است!" :isValid="dateIsValid_exchange_amendment"
+                                            v-model="approvedAmendmentInput.exDate"
+                                            :color="'#5c6bc0'"
+                                            element="approvedAmendmentInputExDate">
+                                    </date-picker>
+                                </label>
                             </div>
                         </div>
                         <div class="grid-x">
