@@ -22,10 +22,14 @@
             <!--receive_Requests_tab_view Start-->
             <div class="medium-12 padding-lr table-mrg-top">
                 <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="receive_Requests_tab_view">
-                    <li class="tabs-title is-active"><a href="#rr_REQUEST" aria-selected="true">  درخواست  <span v-show="rr_REQUEST_Unreads > 0" class="notif-badge-purple">{{rr_REQUEST_Unreads}}</span></a></li>
-                    <li class="tabs-title"><a href="#rr_FINANCIAL"> تامین اعتبار <span v-show="rr_FINANCIAL_Unreads > 0" class="notif-badge-purple">{{rr_FINANCIAL_Unreads}}</span></a></li>
-                    <li class="tabs-title"><a href="#rr_PURCHASE_AND_CONTRACT"> خرید / قرارداد<span v-show="rr_PURCHASE_AND_CONTRACT_Unreads > 0" class="notif-badge-purple">{{rr_PURCHASE_AND_CONTRACT_Unreads}}</span></a></li>
-                    <li class="tabs-title"><a href="#rr_PAYMENT"> پرداخت <span v-show="rr_PAYMENT_Unreads > 0" class="notif-badge-purple">{{rr_PAYMENT_Unreads}}</span></a></li>
+                    <li v-if="rr_REQUEST_Unreads > 0" class="tabs-title is-active"><a href="#rr_REQUEST" aria-selected="true">  درخواست  <span v-show="rr_REQUEST_Unreads > 0" class="notif-badge-purple">{{rr_REQUEST_Unreads}}</span></a></li>
+                    <li v-if="rr_REQUEST_Unreads == 0" class="tabs-title is-active"><a href="#rr_REQUEST" aria-selected="true">  درخواست  <span v-show="rr_REQUEST_Reads > 0" class="notif-badge-gray">{{rr_REQUEST_Reads}}</span></a></li>
+                    <li v-if="rr_FINANCIAL_Unreads > 0" class="tabs-title"><a href="#rr_FINANCIAL"> تامین اعتبار <span v-show="rr_FINANCIAL_Unreads > 0" class="notif-badge-purple">{{rr_FINANCIAL_Unreads}}</span></a></li>
+                    <li v-if="rr_FINANCIAL_Unreads == 0"class="tabs-title"><a href="#rr_FINANCIAL"> تامین اعتبار <span v-show="rr_FINANCIAL_Reads > 0" class="notif-badge-gray">{{rr_FINANCIAL_Reads}}</span></a></li>
+                    <li v-if="rr_PURCHASE_AND_CONTRACT_Unreads > 0" class="tabs-title"><a href="#rr_PURCHASE_AND_CONTRACT"> خرید / قرارداد<span v-show="rr_PURCHASE_AND_CONTRACT_Unreads > 0" class="notif-badge-purple">{{rr_PURCHASE_AND_CONTRACT_Unreads}}</span></a></li>
+                    <li v-if="rr_PURCHASE_AND_CONTRACT_Unreads == 0" class="tabs-title"><a href="#rr_PURCHASE_AND_CONTRACT"> خرید / قرارداد<span v-show="rr_PURCHASE_AND_CONTRACT_Reads > 0" class="notif-badge-gray">{{rr_PURCHASE_AND_CONTRACT_Reads}}</span></a></li>
+                    <li v-if="rr_PAYMENT_Unreads > 0" class="tabs-title"><a href="#rr_PAYMENT"> پرداخت <span v-show="rr_PAYMENT_Unreads > 0" class="notif-badge-purple">{{rr_PAYMENT_Unreads}}</span></a></li>
+                    <li v-if="rr_PAYMENT_Unreads == 0" class="tabs-title"><a href="#rr_PAYMENT"> پرداخت <span v-show="rr_PAYMENT_Reads > 0" class="notif-badge-gray">{{rr_PAYMENT_Reads}}</span></a></li>
                 </ul>
                 <div class="tabs-content" data-tabs-content="receive_Requests_tab_view">
                     <!--receiveRequests_REQUEST Tab-->
@@ -36,12 +40,12 @@
                                     <table class="tbl-head">
                                         <colgroup>
                                             <col width="80px"/>
+                                            <col width="400px"/>
+                                            <col width="400px"/>
                                             <col width="150px"/>
-                                            <col width="250px"/>
-                                            <col width="150px"/>
+                                            <col width="200x"/>
                                             <col width="200px"/>
                                             <col width="200px"/>
-                                            <col width="150px"/>
                                             <col width="150px"/>
                                             <col width="12px"/>
                                         </colgroup>
@@ -65,13 +69,14 @@
                                         <table class="tbl-body-contain">
                                             <colgroup>
                                                 <col width="80px"/>
-                                                <col width="300px"/>
-                                                <col width="300px"/>
+                                                <col width="400px"/>
+                                                <col width="400px"/>
                                                 <col width="150px"/>
+                                                <col width="200x"/>
                                                 <col width="200px"/>
                                                 <col width="200px"/>
                                                 <col width="150px"/>
-                                                <col width="150px"/>
+                                                <col width="12px"/>
                                             </colgroup>
                                             <tbody class="tbl-head-style-cell">
                                             <tr class="table-row" @click="getRequestDetail(receiveRequest)" v-for="receiveRequest in receiveRequests_REQUEST">
@@ -150,12 +155,12 @@
                                     <table class="tbl-head">
                                         <colgroup>
                                             <col width="80px"/>
+                                            <col width="400px"/>
+                                            <col width="400px"/>
                                             <col width="150px"/>
-                                            <col width="250px"/>
-                                            <col width="150px"/>
+                                            <col width="200x"/>
                                             <col width="200px"/>
                                             <col width="200px"/>
-                                            <col width="150px"/>
                                             <col width="150px"/>
                                             <col width="12px"/>
                                         </colgroup>
@@ -179,13 +184,14 @@
                                         <table class="tbl-body-contain">
                                             <colgroup>
                                                 <col width="80px"/>
-                                                <col width="300px"/>
-                                                <col width="300px"/>
+                                                <col width="400px"/>
+                                                <col width="400px"/>
                                                 <col width="150px"/>
+                                                <col width="200x"/>
                                                 <col width="200px"/>
                                                 <col width="200px"/>
                                                 <col width="150px"/>
-                                                <col width="150px"/>
+                                                <col width="12px"/>
                                             </colgroup>
                                             <tbody class="tbl-head-style-cell">
                                             <tr class="table-row" @click="getRequestDetail(receiveFinancial)" v-for="receiveFinancial in receiveRequests_FINANCIAL">
@@ -264,12 +270,12 @@
                                     <table class="tbl-head">
                                         <colgroup>
                                             <col width="80px"/>
+                                            <col width="400px"/>
+                                            <col width="400px"/>
                                             <col width="150px"/>
-                                            <col width="250px"/>
-                                            <col width="150px"/>
+                                            <col width="200x"/>
                                             <col width="200px"/>
                                             <col width="200px"/>
-                                            <col width="150px"/>
                                             <col width="150px"/>
                                             <col width="12px"/>
                                         </colgroup>
@@ -293,13 +299,14 @@
                                         <table class="tbl-body-contain">
                                             <colgroup>
                                                 <col width="80px"/>
-                                                <col width="300px"/>
-                                                <col width="300px"/>
+                                                <col width="400px"/>
+                                                <col width="400px"/>
                                                 <col width="150px"/>
+                                                <col width="200x"/>
                                                 <col width="200px"/>
                                                 <col width="200px"/>
                                                 <col width="150px"/>
-                                                <col width="150px"/>
+                                                <col width="12px"/>
                                             </colgroup>
                                             <tbody class="tbl-head-style-cell">
                                             <tr class="table-row" @click="getRequestDetail(receivePAndC)" v-for="receivePAndC in receiveRequests_PURCHASE_AND_CONTRACT">
@@ -378,12 +385,12 @@
                                     <table class="tbl-head">
                                         <colgroup>
                                             <col width="80px"/>
+                                            <col width="400px"/>
+                                            <col width="400px"/>
                                             <col width="150px"/>
-                                            <col width="250px"/>
-                                            <col width="150px"/>
+                                            <col width="200x"/>
                                             <col width="200px"/>
                                             <col width="200px"/>
-                                            <col width="150px"/>
                                             <col width="150px"/>
                                             <col width="12px"/>
                                         </colgroup>
@@ -407,13 +414,14 @@
                                         <table class="tbl-body-contain">
                                             <colgroup>
                                                 <col width="80px"/>
-                                                <col width="300px"/>
-                                                <col width="300px"/>
+                                                <col width="400px"/>
+                                                <col width="400px"/>
                                                 <col width="150px"/>
+                                                <col width="200x"/>
                                                 <col width="200px"/>
                                                 <col width="200px"/>
                                                 <col width="150px"/>
-                                                <col width="150px"/>
+                                                <col width="12px"/>
                                             </colgroup>
                                             <tbody class="tbl-head-style-cell">
                                             <tr class="table-row" @click="getRequestDetail(receivePayment)" v-for="receivePayment in receiveRequests_PAYMENT">
@@ -1006,6 +1014,10 @@
                 rr_FINANCIAL_Unreads:0,
                 rr_PURCHASE_AND_CONTRACT_Unreads:0,
                 rr_PAYMENT_Unreads:0,
+                rr_REQUEST_Reads:0,
+                rr_FINANCIAL_Reads:0,
+                rr_PURCHASE_AND_CONTRACT_Reads:0,
+                rr_PAYMENT_Reads:0,
             }
         },
 
@@ -1072,38 +1084,58 @@
                 var FINANCIAL_UnreadsTemp=0;
                 var PURCHASE_AND_CONTRACT_UnreadsTemp=0;
                 var PAYMENT_UnreadsTemp=0;
+                var REQUEST_ReadsTemp=0;
+                var FINANCIAL_ReadsTemp=0;
+                var PURCHASE_AND_CONTRACT_ReadsTemp=0;
+                var PAYMENT_ReadsTemp=0;
 
                 this.receiveRequests_REQUEST = requests.REQUEST.data;
                 this.receiveRequests_REQUEST.forEach(item =>{
                     if(item.rLastRef.rhHasBeenSeen == 0){
                         REQUEST_UnreadsTemp += 1;
                     }
+                    if(item.rLastRef.rhHasBeenSeen == 1){
+                        REQUEST_ReadsTemp += 1;
+                    }
                 });
                 this.rr_REQUEST_Unreads=REQUEST_UnreadsTemp;
+                this.rr_REQUEST_Reads=REQUEST_ReadsTemp;
 
                 this.receiveRequests_FINANCIAL = requests.FINANCIAL.data;
                 this.receiveRequests_FINANCIAL.forEach(item =>{
                     if(item.rLastRef.rhHasBeenSeen == 0){
                         FINANCIAL_UnreadsTemp += 1;
                     }
+                    if(item.rLastRef.rhHasBeenSeen == 1){
+                        FINANCIAL_ReadsTemp += 1;
+                    }
                 });
                 this.rr_FINANCIAL_Unreads=FINANCIAL_UnreadsTemp;
+                this.rr_FINANCIAL_Reads=FINANCIAL_ReadsTemp;
 
                 this.receiveRequests_PURCHASE_AND_CONTRACT = requests.PURCHASE_AND_CONTRACT.data;
                 this.receiveRequests_PURCHASE_AND_CONTRACT.forEach(item =>{
                     if(item.rLastRef.rhHasBeenSeen == 0){
                         PURCHASE_AND_CONTRACT_UnreadsTemp += 1;
                     }
+                    if(item.rLastRef.rhHasBeenSeen == 1){
+                        PURCHASE_AND_CONTRACT_ReadsTemp += 1;
+                    }
                 });
                 this.rr_PURCHASE_AND_CONTRACT_Unreads=PURCHASE_AND_CONTRACT_UnreadsTemp;
+                this.rr_PURCHASE_AND_CONTRACT_Reads=PURCHASE_AND_CONTRACT_ReadsTemp;
 
                 this.receiveRequests_PAYMENT = requests.PAYMENT.data;
                 this.receiveRequests_PAYMENT.forEach(item =>{
                     if(item.rLastRef.rhHasBeenSeen == 0){
                         PAYMENT_UnreadsTemp += 1;
                     }
+                    if(item.rLastRef.rhHasBeenSeen == 1){
+                        PAYMENT_ReadsTemp += 1;
+                    }
                 });
                 this.rr_PAYMENT_Unreads=PAYMENT_UnreadsTemp;
+                this.rr_PAYMENT_Reads=PAYMENT_ReadsTemp;
             },
 
             updateCommitmentAmount: function(amount , rId){
