@@ -164,7 +164,7 @@ class FinanceController extends Controller
 
             if ($existFund)
             {
-                return 207;
+                return 204;
             }else{
                 CostFinancing::where('id' , '=' , $request->id)
                     ->delete();
@@ -186,7 +186,7 @@ class FinanceController extends Controller
 
             if ($existFund)
             {
-                return 207;
+                return 204;
             }else{
                 CapitalAssetsFinancing::where('id' , '=' , $request->id)
                     ->delete();

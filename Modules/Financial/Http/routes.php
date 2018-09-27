@@ -59,6 +59,11 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::get('/get_percentage_decrease' , 'DraftController@getPercentageDecrease');
     });
 
+    Route::prefix('check')->group(function () {
+        Route::get('/get_check_verifier' , 'CheckController@getCheckVerifier');
+        Route::post('/generate' , 'CheckController@generateChecks');
+    });
+
     Route::prefix('report')->group(function () {
         Route::post('/draft' , 'ReportController@draft');
     });

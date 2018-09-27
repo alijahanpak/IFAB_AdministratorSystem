@@ -3,7 +3,7 @@
         <div class="large-12 medium-12 small-12" v-if="$can('FINANCIAL_ADD_NEW_DRAFT')">
             <div class="clearfix tool-bar">
                 <div class="button-group float-right report-mrg">
-                    <a class="my-button toolbox-btn small" @click="openInsertDraftModal()">جدید</a>
+                    <a class="my-button toolbox-btn small" @click="openInsertDraftModal()">پیشنویس حواله</a>
                 </div>
             </div>
         </div>
@@ -217,11 +217,11 @@
                     </div>
                 </div>
                 <div class="grid-x">
-                    <div style="padding: 0 17px 0 17px;" class="large-12 medium-12 small-12 small-top-m">
+                    <div class="large-12 medium-12 small-12 small-top-m">
                         <div class="stacked-for-small button-group float-left">
                             <button v-if="$can('FINANCIAL_REGISTER_AND_NUMBERING_DRAFT')" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
-                            <button v-if="$can('FINANCIAL_ACCEPT_DRAFT') && draftYouAreVerifier" @click="acceptDraft()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
-                            <button v-if="$can('FINANCIAL_ACCEPT_MINUTE_DRAFT')" @click="openAcceptMinuteConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید پیشنویس   </span></button>
+                            <button v-if="$can('FINANCIAL_ACCEPT_DRAFT') && youAreDraftVerifier" @click="acceptDraft()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
+                            <button v-if="$can('FINANCIAL_ACCEPT_MINUTE_DRAFT') && isMinute" @click="openAcceptMinuteConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید پیشنویس   </span></button>
                         </div>
                     </div>
                 </div>
@@ -323,7 +323,8 @@
                 requestBaseAmountTemp:0,
                 requestCAmount:0,
                 draftId:'',
-                draftYouAreVerifier:'',
+                youAreDraftVerifier:'',
+                isMinute: false,
                 draftPdfPath:'',
                 registerDate: '',
                 letterNumber: '',
@@ -347,10 +348,10 @@
         },
 
         methods : {
-
             openPdfModal: function (draft){
               this.draftId=draft.id;
-              this.draftYouAreVerifier=draft.dYouAreVerifier;
+              this.youAreDraftVerifier=draft.dYouAreVerifier;
+              this.isMinute=draft.dIsMinute;
               this.openReportFile();
               this.draftPdfPath='';
               this.showPdfModal=true;

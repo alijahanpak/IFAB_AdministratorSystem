@@ -495,18 +495,18 @@
                     <div class="grid-x">
                         <div class="large-12 medium-12 small-12">
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="request_tab_view">
-                                <li class="tabs-title is-active"><a href="#requestDetailTab" aria-selected="true">جزییات</a></li>
+                                <li class="tabs-title" :class="requestLevel == 'REQUEST' ? 'is-active' : ''"><a href="#requestDetailTab" aria-selected="true">جزییات</a></li>
                                 <li class="tabs-title"><a href="#requestVerifiersTab">تایید کنندگان </a></li>
-                                <li class="tabs-title"><a href="#creditsTab">اعتبارات</a></li>
-                                <li class="tabs-title" v-if="requestType == 'BUY_COMMODITY'"><a href="#factorTab">اطلاعات فاکتور</a></li>
-                                <li class="tabs-title" v-if="requestType == 'BUY_SERVICES'"><a href="#contractTab">اطلاعات قرارداد</a></li>
-                                <li class="tabs-title"><a href="#draftTab">پرداخت ها </a></li>
+                                <li class="tabs-title" :class="requestLevel == 'FINANCIAL' ? 'is-active' : ''"><a href="#creditsTab">اعتبارات</a></li>
+                                <li class="tabs-title" :class="requestLevel == 'PURCHASE_AND_CONTRACT' ? 'is-active' : ''" v-if="requestType == 'BUY_COMMODITY'"><a href="#factorTab">اطلاعات فاکتور</a></li>
+                                <li class="tabs-title" :class="requestLevel == 'PURCHASE_AND_CONTRACT' ? 'is-active' : ''" v-if="requestType == 'BUY_SERVICES'"><a href="#contractTab">اطلاعات قرارداد</a></li>
+                                <li class="tabs-title" :class="requestLevel == 'PAYMENT' ? 'is-active' : ''"><a href="#draftTab">پرداخت ها </a></li>
                                 <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
                                 <li class="tabs-title"><a href="#requestAttachmentsTab">پیوست ها </a></li>
                             </ul>
                             <div class="tabs-content" data-tabs-content="request_tab_view">
                                 <!--Tab 1-->
-                                <div class="tabs-panel is-active table-mrg-btm" id="requestDetailTab">
+                                <div class="tabs-panel table-mrg-btm" :class="requestLevel == 'REQUEST' ? 'is-active' : ''" id="requestDetailTab">
                                     <rDetails v-bind:requestTypeDetail="requestTypeDetail"
                                               v-bind:requestFill="requestFill"
                                               v-bind:commodityList="commodityList"
@@ -537,7 +537,7 @@
                                 </div>
                                 <!--Tab 2-->
                                 <!--Tab 3-->
-                                <div class="tabs-panel table-mrg-btm" id="creditsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div class="tabs-panel table-mrg-btm" :class="requestLevel == 'FINANCIAL' ? 'is-active' : ''" id="creditsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <rCredits v-if="isFromRefund != true" v-on:closeModal="showRequestDetailModal=false"
                                               v-on:updateReceiveRequestData="updateReceiveRequestData"
                                               v-on:updateCommitmentAmount="updateCommitmentAmount"
@@ -553,7 +553,7 @@
                                 </div>
                                 <!--Tab 3-->
                                 <!--Tab 4-->
-                                <div class="tabs-panel table-mrg-btm" id="contractTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div class="tabs-panel table-mrg-btm" :class="requestLevel == 'PURCHASE_AND_CONTRACT' ? 'is-active' : ''" id="contractTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <rContract v-if="requestType == 'BUY_SERVICES'"
                                             v-on:closeModal="showRequestDetailModal=false"
                                             v-on:updateReceiveRequestData="updateReceiveRequestData"
@@ -565,7 +565,7 @@
                                 </div>
                                 <!--Tab 4-->
                                 <!--Tab 5-->
-                                <div class="tabs-panel table-mrg-btm" id="factorTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div class="tabs-panel table-mrg-btm" :class="requestLevel == 'PURCHASE_AND_CONTRACT' ? 'is-active' : ''" id="factorTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <rFactor v-if="requestType == 'BUY_COMMODITY'"
                                              v-on:closeModal="showRequestDetailModal=false"
                                              v-on:updateReceiveRequestData="updateReceiveRequestData"
@@ -578,7 +578,7 @@
                                 </div>
                                 <!--Tab 5-->
                                 <!--Tab 6-->
-                                <div class="tabs-panel table-mrg-btm" id="draftTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div class="tabs-panel table-mrg-btm" :class="requestLevel == 'PAYMENT' ? 'is-active' : ''" id="draftTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <rDraft  v-on:closeModal="showRequestDetailModal=false"
                                              v-on:updateReceiveRequestData="updateReceiveRequestData"
                                              v-bind:requestId="requestId"
@@ -953,6 +953,7 @@
                     decimal:'.',
                     masked: true
                 },
+                requestLevel: '',
 
                 /*credits*/
 
@@ -1274,6 +1275,8 @@
                     });
                 });
 
+
+                this.requestLevel = request.request_level.rlLevel;
                 this.lastVerifier=request.rLastRef.id;
 
                 this.rCreditIsAccepted = request.rCreditIsAccepted;
