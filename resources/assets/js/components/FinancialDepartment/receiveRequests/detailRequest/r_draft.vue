@@ -220,15 +220,31 @@
                     <div class="large-12 medium-12 small-12 small-top-m">
                         <div class="stacked-for-small button-group float-left">
                             <button v-if="$can('FINANCIAL_REGISTER_AND_NUMBERING_DRAFT')" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
-                            <button v-if="$can('FINANCIAL_ACCEPT_DRAFT') && draftYouAreVerifier" @click="acceptDraft()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
+                            <button v-if="$can('FINANCIAL_ACCEPT_DRAFT') && youAreDraftVerifier" @click="acceptDraft()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
                             <button v-if="$can('FINANCIAL_ACCEPT_MINUTE_DRAFT')" @click="openAcceptMinuteConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید پیشنویس   </span></button>
-                            <button v-if="" @click="openAcceptMinuteConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   صدور چک   </span></button>
+                            <button v-if="" @click="openGenerateChecksModal()"  class="my-button my-success"><span class="btn-txt-mrg">   صدور چک   </span></button>
                         </div>
                     </div>
                 </div>
             </div>
         </modal-small>
         <!-- pdf Factor modal -->
+
+        <!-- Accept Draft Minute modal -->
+        <modal-tiny v-if="showAcceptMinuteConfirmModal" @close="showAcceptMinuteConfirmModal = false">
+            <div slot="body">
+                <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
+                    <p class="large-offset-1 modal-text">آیا پیش نویس حواله مورد تایید است؟</p>
+                    <div class="grid-x">
+                        <div class="medium-12 column text-center">
+                            <button v-on:click="acceptDraftMinute()"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-tiny>
+        <!-- Accept Draft Minute modal -->
 
         <!-- Register And Numbering Draft Start -->
         <modal-tiny v-if="showRegisterAndNumberingModal" @close="showRegisterAndNumberingModal = false">
@@ -266,21 +282,65 @@
         </modal-tiny>
         <!-- Register And Numbering Draft End -->
 
-        <!-- Accept Draft Minute modal -->
-        <modal-tiny v-if="showAcceptMinuteConfirmModal" @close="showAcceptMinuteConfirmModal = false">
+        <!-- Generate Checks  modal -->
+        <modal-small v-if="showGenerateChecksModal" @close="showGenerateChecksModal = false">
             <div slot="body">
                 <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                    <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
-                    <p class="large-offset-1 modal-text">آیا پیشنویس مورد تایید است؟</p>
                     <div class="grid-x">
-                        <div class="medium-12 column text-center">
-                            <button @click="acceptDraftMinute()"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                        <div class="large-12 medium-12 small-12 padding-lr">
+                            <div class="panel-separator padding-lr">
+                                <div  v-for="percentDec in percentageDecreases" class="grid-x">
+                                    <div class="large-9 medium-9  small-12">
+                                        <div class="grid-x">
+                                            <div class="large-2 medium-3  small-12">
+                                                <div class="switch tiny">
+                                                    <input :checked="false" v-on:change="calculteAmount()" class="switch-input" v-model="percentDecInput['percentage' + percentDec.id]" :id="'percentage'+percentDec.id" type="checkbox">
+                                                    <label class="switch-paddle" :for="'percentage'+percentDec.id">
+                                                        <span class="switch-active" aria-hidden="true">بلی</span>
+                                                        <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="large-10 medium-9  small-12">
+                                                <p>{{percentDec.pdSubject}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="large-3 medium-3  small-12">
+                                        <p class="btn-red">0 ریال</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-top: -16px;border-top: 1px solid #E0E0E0;" class="panel-separator padding-lr">
+                                <div class="grid-x">
+                                    <div class="large-9 medium-9  small-12">
+                                        <div class="grid-x">
+                                            <div class="large-2 medium-3  small-12"></div>
+                                            <div class="large-10 medium-9  small-12">
+                                                <p>مبلغ نهایی چک : </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="large-3 medium-3  small-12">
+                                        <p class="btn-red"> ریال</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-x small-top-m">
+                        <div class="large-12 medium-12 small-12 padding-lr">
+                            <div class="stacked-for-small button-group float-left">
+                                <button @click="generateChecks()" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </modal-tiny>
-        <!-- Accept Draft Minute modal -->
+        </modal-small>
+        <!-- Generate Checks  modal -->
+
+
 
     </div>
 </template>
@@ -300,6 +360,7 @@
                 showRegisterAndNumberingModal:false,
                 showPdfModal: false,
                 showDialogModal: false,
+                showGenerateChecksModal: false,
                 dialogMessage: '',
                 draftInput:{},
                 directorGeneralUsers:[],
@@ -330,6 +391,8 @@
                 registerDate: '',
                 letterNumber: '',
                 moneyState:'none',
+                percentageDecreases:[],
+                percentDecInput:{},
 
             }
 
@@ -660,6 +723,21 @@
                     console.log(error);
                     this.$root.displayNotif(error.response.status);
                 });
+            },
+
+            openGenerateChecksModal:function(){
+                this.getAllPercentageDecreases();
+                this.showGenerateChecksModal=true;
+            },
+
+            getAllPercentageDecreases:function () {
+                axios.get('/financial/draft/get_percentage_decrease')
+                    .then((response) => {
+                        this.percentageDecreases = response.data;
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                    });
             },
 
         }
