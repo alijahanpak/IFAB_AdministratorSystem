@@ -596,7 +596,8 @@
                                              v-bind:rAcceptedAmount="rAcceptedAmount"
                                              v-bind:rCommitmentAmount="rCommitmentAmount"
                                              v-bind:requestType="requestType"
-                                             v-bind:drafts="drafts">
+                                             v-bind:drafts="drafts"
+                                             v-bind:sumOfDraftAmount="rSumOfDraftAmount">
                                     </rDraft>
                                 </div>
                                 <!--Tab 6-->
@@ -1022,6 +1023,7 @@
                 referralDId: null,
                 rLetterNumber: null,
                 rLetterDate: null,
+                rSumOfDraftAmount: 0,
             }
         },
 
@@ -1265,6 +1267,7 @@
                 requestHistory.push(request);
                 this.requestId=request.id;
                 this.requestType= request.request_type.rtType ;
+                this.rSumOfDraftAmount = request.rSumOfDraftAmount;
                 /*this.requestCostFinancing=[];
                 this.requestCapFinancing=[];
                 this.fetchRequestFinancing();*/

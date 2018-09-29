@@ -16,7 +16,6 @@ class Draft extends Model
         return $this->hasMany(DraftVerifier::class, 'dvDId', 'id')->orderBy('id', 'DESC');
     }
 
-
     public function getDYouAreVerifierAttribute()
     {
         return DraftVerifier::where('dvDId', '=', $this->id)->value('dvUId') == Auth::user()->id ? true : false;
