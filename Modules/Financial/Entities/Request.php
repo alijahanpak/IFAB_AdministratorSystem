@@ -10,7 +10,7 @@ class _Request extends Model
 {
     protected $fillable = ['rRlId'];
     protected $table = 'tbl_requests';
-    protected $appends = ['rLastRef' , 'rYouAreVerifiers' , 'rRemainingVerifiers' , 'rCreditIsAccepted' , 'rCreditIsExist' , 'rAcceptedAmount' , 'rCommitmentAmount'];
+    protected $appends = ['rLastRef' , 'rYouAreVerifiers' , 'rRemainingVerifiers' , 'rCreditIsAccepted' , 'rCreditIsExist' , 'rAcceptedAmount' , 'rCommitmentAmount' , 'rSumOfDraftAmount'];
 
     public function requestState()
     {
@@ -84,12 +84,18 @@ class _Request extends Model
 
     public function getRAcceptedAmountAttribute()
     {
-        $amount = Contract::where('cRId' , '=' , $this->id)
-            ->where('cIsAccepted' , true)->get()->sum('cAmount');
-        $amount += Factor::where('fRId' , '=' , $this->id)
-            ->where('fIsAccepted' , true)->get()->sum('fAmount');
+        if (RequestType::find($this->attributes['rRtId'])->rtType == 'BUY_SERVICES' ||
+            RequestType::find($this->attributes['rRtId'])->rtType == 'BUY_COMMODITY')
+        {
+            $amount = Contract::where('cRId' , '=' , $this->id)
+                ->where('cIsAccepted' , true)->get()->sum('cAmount');
+            $amount += Factor::where('fRId' , '=' , $this->id)
+                ->where('fIsAccepted' , true)->get()->sum('fAmount');
 
-        return $amount;
+            return $amount;
+        }else{
+            return $this->getRCommitmentAmountAttribute();
+        }
     }
 
     public function getRCommitmentAmountAttribute()
@@ -154,5 +160,12 @@ class _Request extends Model
     public function creator()
     {
         return $this->belongsTo(User::class , 'rUId' , 'id')->select('name');
+    }
+
+    public function getRSumOfDraftAmountAttribute()
+    {
+        $sum = Draft::where('dRId' , '=' , $this->id)
+            ->where('dDsId' , '<>' , DraftState::where('dsState' , '=' , 'BLOCKED')->value('id'))->sum('dAmount');
+        return $sum;
     }
 }

@@ -190,9 +190,6 @@
             </div>
         </modal-small>
         <!--Insert Factor End-->
-        <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
-            {{dialogMessage}}
-        </messageDialog>
 
         <!-- Accept Factor modal -->
         <modal-tiny v-if="showAcceptConfirmModal" @close="showAcceptConfirmModal = false">
@@ -383,7 +380,7 @@
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     export default{
-        props:['drafts','requestId','rAcceptedAmount','rCommitmentAmount','contracts','factors','requestType'],
+        props:['drafts','requestId','rAcceptedAmount','rCommitmentAmount','contracts','factors','requestType' , 'sumOfDraftAmount'],
         components: {
             Suggestions,
         },
@@ -430,8 +427,6 @@
                 moneyState:'none',
                 percentageDecreases:[],
                 percentDecInput:{},
-                showDialogModal: false,
-                dialogMessage: '',
                 isAccepted: false,
 
                 decreases:[],
@@ -675,16 +670,22 @@
                     this.showDialogModal = true;
                 }
                 else{
-                    this.draftBaseAmount=0,
-                    this.lastDrafts=0,
-                    this.initBaseAmount=0,
-                    this.requestBaseAmount=0,
-                    this.requestCAmount=0,
-                    this.forItems=[];
-                    this.getAllFor();
-                    this.draftInput = {};
-                    this.setInitBaseAmount();
-                    this.showInsertDraftModal = true;
+                    if (this.sumOfDraftAmount < this.rCommitmentAmount)
+                    {
+                        this.draftBaseAmount=0,
+                        this.lastDrafts=0,
+                        this.initBaseAmount=0,
+                        this.requestBaseAmount=0,
+                        this.requestCAmount=0,
+                        this.forItems=[];
+                        this.getAllFor();
+                        this.draftInput = {};
+                        this.setInitBaseAmount();
+                        this.showInsertDraftModal = true;
+                    }else {
+                        this.dialogMessage = 'امکان تهیه پیشنویس حواله وجود ندارد، مجموع مبلغ حواله ها با مبلغ تعهد شده درخواست برابر است! در صورت نیاز درخواست های تایید نشده را مسدود کنید.';
+                        this.showDialogModal = true;
+                    }
                 }
             },
 
