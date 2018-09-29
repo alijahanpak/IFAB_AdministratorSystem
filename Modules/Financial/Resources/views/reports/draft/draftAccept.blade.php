@@ -16,7 +16,7 @@
     <body class="BZar">
         <div class="grid-x">
             <div class="large-12">
-                <p class="size-12">شماره حواله : <span>{{$draftInfo['dLetterNumber']}}</span></p>
+                <p class="size-12">شماره حواله : <span style="direction: rtl;">{{$draftInfo['dLetterNumber']}}</span></p>
                 <p style="margin-top: -10px;" class="size-12">تاریخ : <span>{{$draftInfo['dLetterDate']}}</span></p>
             </div>
         </div>
