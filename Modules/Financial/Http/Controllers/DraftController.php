@@ -55,6 +55,7 @@ class DraftController extends Controller
             $history->rhDestUId = null; // for secretariat destination
             $history->rhRId = $req->id;
             $history->rhRsId = $req->rRsId;
+            $history->rhDId = $draft->id;
             $history->save();
 
             $finReqQueue = new FinancialRequestQueue();
@@ -92,6 +93,7 @@ class DraftController extends Controller
                 $history->rhDestUId = $verifier->dvUId;
                 $history->rhRId = $req->id;
                 $history->rhRsId = $req->rRsId;
+                $history->rhDId = $draft->id;
                 $history->save();
 
                 SystemLog::setFinancialSubSystemLog('تایید پیشنویس حواله پرداخت برای درخواست ' . $req->rSubject);
@@ -119,12 +121,17 @@ class DraftController extends Controller
                 $req->rRsId = RequestState::where('rsState' , '=' , 'SECRETARIAT_QUEUE')->value('id');
                 $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
                 $req->save();
+
+                $draft = Draft::find($request->dId);
+                $draft->dDsId = DraftState::where('dsState' , '=' , 'ACCEPTED')->value('id');
+                $draft->save();
                 // make history for this request
                 $history = new RequestHistory();
                 $history->rhSrcUId = Auth::user()->id;
                 $history->rhDestUId = null; // for secretariat destination
                 $history->rhRId = $req->id;
                 $history->rhRsId = $req->rRsId;
+                $history->rhDId = $draft->id;
                 $history->save();
 
                 $srQueue = new SecretariatRequestQueue();
@@ -164,6 +171,7 @@ class DraftController extends Controller
             $history->rhDestUId = null; // for accountant destination
             $history->rhRId = $req->id;
             $history->rhRsId = $req->rRsId;
+            $history->rhDId = $draft->id;
             $history->save();
 
             $accReqQueue = new AccountantRequestQueue();

@@ -33,7 +33,7 @@ class SeedCreditDistributionPlanTableSeederTableSeeder extends Seeder
                     $cdp->cdpCdrId = $rows->id;
                     $cdp->cdpFyId = 5;
                     $cdp->cdpCoId = $county->id;
-                    $cdp->cdpCredit = rand(10000000 , 100000000);
+                    $cdp->cdpCredit = rand(1000000000 , 150000000000);
                     $cdp->cdpDescription = 'گربه پالاس (Pallas cat)، پستانداری است که غالبا در مناطق مرکزی آسیا یافت می‌شود.';
                     $cdp->save();
                 }

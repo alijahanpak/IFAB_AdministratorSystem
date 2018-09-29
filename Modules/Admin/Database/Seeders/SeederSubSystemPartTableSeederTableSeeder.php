@@ -103,5 +103,17 @@ class SeederSubSystemPartTableSeederTableSeeder extends Seeder
         $part->sspSubject = 'ذیحسابی';
         $part->sspPart = 'ACCOUNTANT';
         $part->save();
+
+        $part = new SubSystemPart;
+        $part->sspSsId = 3;
+        $part->sspSubject = 'واحد بررسی و تسجیل';
+        $part->sspPart = 'CHECK_OUT';
+        $part->save();
+
+        $part = new SubSystemPart;
+        $part->sspSsId = 3;
+        $part->sspSubject = 'واحد صدور چک';
+        $part->sspPart = 'EXPORT_CHECK';
+        $part->save();
     }
 }

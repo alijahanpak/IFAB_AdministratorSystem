@@ -24,7 +24,7 @@ class SeedProvincialBudgetProposalTableSeederTableSeeder extends Seeder
             $pbp->pbpUId = 1;
             $pbp->pbpCdpId = $plan->id;
             $pbp->pbpFyId = 5;
-            $pbp->pbpAmount = rand(1000000 , 100000000);
+            $pbp->pbpAmount = rand(1000000000 , 200000000000);
             $pbp->pbpSubject = 'پروژه پیشنهادی ' . $i;
             $pbp->pbpCode = '0012' . $i;
             $pbp->pbpDescription = 'گربه پالاس (Pallas cat)، پستانداری است که غالبا در مناطق مرکزی آسیا یافت می‌شود.';

@@ -13,10 +13,11 @@
             <div class="tbl-div-container">
                 <table class="tbl-head">
                     <colgroup>
-                        <col width="450px"/>
+                        <col width="350px"/>
                         <col width="200px"/>
-                        <col width="150px"/>
-                        <col width="150px"/>
+                        <col width="200px"/>
+                        <col width="100px"/>
+                        <col width="100px"/>
                         <col width="100px"/>
                         <col width="12px"/>
                     </colgroup>
@@ -24,6 +25,7 @@
                     <tr class="tbl-head-style-cell">
                         <th class="tbl-head-style-cell">بابت</th>
                         <th class="tbl-head-style-cell">در وجه</th>
+                        <th class="tbl-head-style-cell">ارسال کننده</th>
                         <th class="tbl-head-style-cell">مبلغ صورت وضعیت</th>
                         <th class="tbl-head-style-cell">مبلغ حواله</th>
                         <th class="tbl-head-style-cell">وضعیت</th>
@@ -36,22 +38,38 @@
                 <div class="tbl_body_style dynamic-height-level-modal2">
                     <table class="tbl-body-contain">
                         <colgroup>
-                            <col width="450px"/>
+                            <col width="350px"/>
                             <col width="200px"/>
-                            <col width="150px"/>
-                            <col width="150px"/>
+                            <col width="200px"/>
+                            <col width="100px"/>
+                            <col width="100px"/>
                             <col width="100px"/>
                         </colgroup>
                         <tbody class="tbl-head-style-cell">
                         <tr @click="openPdfModal(draft)" class="table-row" v-for="draft in drafts">
-                            <template v-for="draftState in draft.verifier">
-                                <td>{{draft.dFor}}</td>
-                                <td>{{draft.dPayTo}}</td>
-                                <td class="text-center">{{$root.dispMoneyFormat(draft.dBaseAmount)}}</td>
-                                <td class="text-center">{{$root.dispMoneyFormat(draft.dAmount)}}</td>
-                                <td v-show="draftState.dvSId != null"><span class="success-label">امضا شده</span></td>
-                                <td v-show="draftState.dvSId == null"><span class="reserved-label">امضا نشده</span></td>
-                            </template>
+                            <td>{{draft.dFor}}</td>
+                            <td>{{draft.dPayTo}}</td>
+                            <td :data-toggle="'dLastRef' + draft.id">{{draft.dLastRef.source_user_info.name}} - {{draft.dLastRef.source_user_info.role.rSubject}}
+                                <div class="clearfix tool-bar" v-if="draft.dLastRef.rhDescription !== null">
+                                    <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'dLastRef' + draft.id" data-dropdown data-auto-focus="true">
+                                        <ul class="my-menu small-font">
+                                            <div class="grid-x">
+                                                <div class="medium-12">
+                                                    <p class="black-color">{{draft.dLastRef.source_user_info.name}} - {{draft.dLastRef.source_user_info.role.rSubject}}</p>
+                                                    <p class="gray-colors text-justify" style="margin-top: -10px">{{ draft.dLastRef.rhDescription }}</p>
+                                                    <p style="direction: ltr;margin-bottom: -10px;" class="gray-color small-font float-left"><i class="far fa-calendar-alt"></i><span> {{draft.dLastRef.rhShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{draft.dLastRef.rhShamsiTime}}</span></p>
+                                                </div>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center">{{$root.dispMoneyFormat(draft.dBaseAmount)}}</td>
+                            <td class="text-center">{{$root.dispMoneyFormat(draft.dAmount)}}</td>
+                            <td v-show="draft.draft_state.dsState == 'MINUTE'" class="text-center"><span class="reserved-label">{{ draft.draft_state.dsSubject }}</span></td>
+                            <td v-show="draft.draft_state.dsState == 'NEW'" class="text-center"><span class="danger-label">{{ draft.draft_state.dsSubject }}</span></td>
+                            <td v-show="draft.draft_state.dsState == 'ACCEPTED'" class="text-center"><span class="success-label">{{ draft.draft_state.dsSubject }}</span></td>
+                            <td v-show="draft.draft_state.dsState == 'BLOCKED'" class="text-center"><span class="blocked-label">{{ draft.draft_state.dsSubject }}</span></td>
                         </tr>
                         </tbody>
                     </table>
@@ -59,7 +77,6 @@
             </div>
             <!--Table Body End-->
         </div>
-
         <!--Insert Factor Start-->
         <modal-small v-if="showInsertDraftModal" @close="showInsertDraftModal = false">
             <div  slot="body">
@@ -218,11 +235,12 @@
                 </div>
                 <div class="grid-x">
                     <div class="large-12 medium-12 small-12 small-top-m">
-                        <div class="stacked-for-small button-group float-left">
+                        <div class="stacked-for-small button-group float-right">
                             <button v-if="$can('FINANCIAL_REGISTER_AND_NUMBERING_DRAFT')" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
                             <button v-if="$can('FINANCIAL_ACCEPT_DRAFT') && youAreDraftVerifier" @click="acceptDraft()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
-                            <button v-if="$can('FINANCIAL_ACCEPT_MINUTE_DRAFT')" @click="openAcceptMinuteConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید پیشنویس   </span></button>
-                            <button v-if="" @click="openGenerateChecksModal()"  class="my-button my-success"><span class="btn-txt-mrg">   صدور چک   </span></button>
+                            <button v-if="$can('FINANCIAL_ACCEPT_MINUTE_DRAFT') && isMinute" @click="openAcceptMinuteConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید پیشنویس   </span></button>
+                            <button v-if="$can('FINANCIAL_DETERMINE_DECREASES_AND_MAKE_CHECKS') && isAccepted" @click="openGenerateChecksModal()"  class="my-button my-success"><span class="btn-txt-mrg">   صدور چک   </span></button>
+                            <button @click="openReferralModal(draftId)"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> ارجاع </span></button>
                         </div>
                     </div>
                 </div>
@@ -339,9 +357,9 @@
             </div>
         </modal-small>
         <!-- Generate Checks  modal -->
-
-
-
+        <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
+            {{dialogMessage}}
+        </messageDialog>
     </div>
 </template>
 <script>
@@ -393,6 +411,9 @@
                 moneyState:'none',
                 percentageDecreases:[],
                 percentDecInput:{},
+                showDialogModal: false,
+                dialogMessage: '',
+                isAccepted: false,
 
             }
 
@@ -416,6 +437,7 @@
               this.draftId=draft.id;
               this.youAreDraftVerifier=draft.dYouAreVerifier;
               this.isMinute=draft.dIsMinute;
+              this.isAccepted = draft.verifier[0].dvSId != null ? true : false;
               this.openReportFile();
               this.draftPdfPath='';
               this.showPdfModal=true;
@@ -684,7 +706,13 @@
             },
 
             openRegisterAndNumberingModal:function(){
-                this.showRegisterAndNumberingModal=true;
+                if (this.isAccepted)
+                    this.showRegisterAndNumberingModal=true;
+                else
+                {
+                    this.dialogMessage = 'حواله امضاء نشده است!';
+                    this.showDialogModal = true;
+                }
             },
 
             registerAndNumberingDraft:function () {
@@ -740,6 +768,9 @@
                     });
             },
 
+            openReferralModal:function () {
+                this.$emit('openReferralsModal' , this.draftId);
+            },
         }
     }
 </script>

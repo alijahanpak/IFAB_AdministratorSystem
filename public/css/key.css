@@ -2032,6 +2032,14 @@ input[type="search"]:valid + label {
     text-align: center;
 }
 
+.blocked-label{
+    background-color: #888888;
+    border-radius: 5px;
+    padding:8px;
+    color:#FFFFFF;
+    text-align: center;
+}
+
 .verifier-panel{
     background: #fff;
     padding: 20px;

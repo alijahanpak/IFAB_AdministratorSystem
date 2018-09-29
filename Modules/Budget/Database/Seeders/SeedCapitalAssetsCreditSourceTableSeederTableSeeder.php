@@ -28,7 +28,7 @@ class SeedCapitalAssetsCreditSourceTableSeederTableSeeder extends Seeder
             $apCs->ccsCdrId = CreditDistributionRow::where('cdPlanOrCost' , '=' , 0)->inRandomOrder()->first()->id;
             $apCs->ccsTsId = CapitalAssetsTinySeason::inRandomOrder()->first()->id;
             $apCs->ccsHtrId = HowToRun::inRandomOrder()->first()->id;
-            $apCs->ccsAmount = rand(1000000 , 200000000);
+            $apCs->ccsAmount = rand(1000000000 , 150000000000);
             $apCs->ccsDescription = 'گربه پالاس (Pallas cat)، پستانداری است که غالبا در مناطق مرکزی آسیا یافت می‌شود.';
             $apCs->save();
         }

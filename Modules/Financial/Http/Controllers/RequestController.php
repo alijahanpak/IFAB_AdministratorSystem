@@ -74,11 +74,11 @@ class RequestController extends Controller
             ->with('contract.executor')
             ->with('contract.increaseAmount.percentageIncrease')
             ->with('factor.seller')
-            ->with(['draft.verifier' => function($q){
-                return $q->where('dvSId' ,'<>' , null);
+            ->with(['draft' => function($q){
+                return $q->whereHas('verifier' , function ($q1){
+                    return $q1->where('dvSId' ,'<>' , null);
+                })->with('verifier.user.role')->with('verifier.signature');
             }])
-            ->with('draft.verifier.user.role')
-            ->with('draft.verifier.signature')
             ->with('requestLevel')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
@@ -249,6 +249,8 @@ class RequestController extends Controller
                 ->with('contract.executor')
                 ->with('factor.seller')
                 ->with('draft.verifier.user.role')
+                ->with('draft.check')
+                ->with('draft.draftState')
                 ->with('requestLevel')
                 ->with('contract.increaseAmount.percentageIncrease')
                 ->orderBy('id' , 'DESC')
@@ -294,6 +296,11 @@ class RequestController extends Controller
             ->with('history.sourceUserInfo.role')
             ->with('history.destinationUserInfo.role')
             ->with('history.requestState')
+            ->with(['draft' => function($q){
+                return $q->whereHas('verifier' , function ($q1){
+                    return $q1->where('dvSId' ,'<>' , null);
+                })->with('verifier.user.role')->with('verifier.signature');
+            }])
             ->with('attachment')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
@@ -316,6 +323,7 @@ class RequestController extends Controller
             $history->rhDestUId = $request->destUId;
             $history->rhRId = $rHis->rhRId;
             $history->rhRsId = $rHis->rhRsId;
+            $history->rhDId = $request->dId;
             $history->rhIsReferral = $request->acceptPermission ? false : true;
             $history->rhDescription = PublicSetting::checkPersianCharacters($request->description);
             $history->save();

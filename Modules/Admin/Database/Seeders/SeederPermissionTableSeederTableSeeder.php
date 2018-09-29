@@ -609,7 +609,7 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
         $permission->save();
 
         $permission = new Permission;
-        $permission->pSspId = 13;
+        $permission->pSspId = 15;
         $permission->pSubject = 'ایجاد حواله';
         $permission->pPermission = 'FINANCIAL_ADD_NEW_DRAFT';
         $permission->save();
@@ -642,6 +642,30 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
         $permission->pSspId = 6;
         $permission->pSubject = 'تایید پیشنویس حواله';
         $permission->pPermission = 'FINANCIAL_ACCEPT_MINUTE_DRAFT';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 15;
+        $permission->pSubject = 'تعیین کسورات قانونی و ایجاد چک';
+        $permission->pPermission = 'FINANCIAL_DETERMINE_DECREASES_AND_MAKE_CHECKS';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 16;
+        $permission->pSubject = 'پرینت چک';
+        $permission->pPermission = 'FINANCIAL_PRINT_CHECK';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 16;
+        $permission->pSubject = 'تحویل چک';
+        $permission->pPermission = 'FINANCIAL_DELIVER_CHECK';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 16;
+        $permission->pSubject = 'مشاهده صف چک';
+        $permission->pPermission = 'CHECK_LIST_DISPLAY';
         $permission->save();
     }
 }

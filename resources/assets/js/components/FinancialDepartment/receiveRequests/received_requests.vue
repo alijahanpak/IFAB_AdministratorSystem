@@ -589,6 +589,7 @@
                                 <div class="tabs-panel table-mrg-btm" :class="requestLevel == 'PAYMENT' ? 'is-active' : ''" id="draftTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <rDraft  v-on:closeModal="showRequestDetailModal=false"
                                              v-on:updateReceiveRequestData="updateReceiveRequestData"
+                                             v-on:openReferralsModal="openReferralsModal"
                                              v-bind:requestId="requestId"
                                              v-bind:contracts="contracts"
                                              v-bind:factors="factors"
@@ -714,7 +715,7 @@
                                 <button @click="openSubmitRequestModal()" v-if=" youAreVerifier != '' "  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
                                 <button @click="openReferralsModal()"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg">  ارجاع</span></button>
                                 <button @click="openResponseRequestModal()" v-show="canResponse == 1 " class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg">  پاسخ</span></button>
-                                <button v-show='$can("SECRETARIAT_REGISTER_AND_NUMBERING")' style="width:130px;" @click="openRegisterAndNumberingModal()" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت دبیرخانه</span></button>
+                                <button v-show='$can("SECRETARIAT_REGISTER_AND_NUMBERING") && rLetterNumber == null && rLetterDate == null' style="width:130px;" @click="openRegisterAndNumberingModal()" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت دبیرخانه</span></button>
                             </div>
                         </div>
                     </div>
@@ -1018,6 +1019,9 @@
                 rr_FINANCIAL_Reads:0,
                 rr_PURCHASE_AND_CONTRACT_Reads:0,
                 rr_PAYMENT_Reads:0,
+                referralDId: null,
+                rLetterNumber: null,
+                rLetterDate: null,
             }
         },
 
@@ -1308,6 +1312,8 @@
                 });
 
 
+                this.rLetterNumber = request.rLetterNumber;
+                this.rLetterDate = request.rLetterDate;
                 this.requestLevel = request.request_level.rlLevel;
                 this.lastVerifier=request.rLastRef.id;
 
@@ -1373,8 +1379,9 @@
                 }
             },
 
-            openReferralsModal: function () {
+            openReferralsModal: function (dId = null) {
                 this.showReferralsModal=true;
+                this.referralDId = dId;
                 this.getGroupUsers();
                 this.getMyCategoryUsers();
             },
@@ -1387,7 +1394,8 @@
                             destUId: this.referralInput.destUId,
                             lastRefId: this.lastVerifier,
                             description: this.referralInput.description,
-                            verifierId:this.youAreVerifier
+                            verifierId:this.youAreVerifier,
+                            dId:this.referralDId
                         }).then((response) => {
                             this.loadReceivedData(response.data);
                             this.$parent._getUnReadReceivedRequest();
