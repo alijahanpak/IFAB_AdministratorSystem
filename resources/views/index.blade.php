@@ -181,15 +181,11 @@
                             </li>
                             <!--Financial Department Start-->
                             <li>
+                                <a class="right-mp right-menu-btm-border">کارتابل</a>
                                 <ul class="menu vertical nested is-active">
-                                    <li>
-                                        <a class="right-mp right-menu-btm-border">کارتابل</a>
-                                        <ul class="menu vertical nested is-active">
-                                            <li><router-link to="/financial_department/submissions">ارسالی</router-link></li>
-                                            <li><router-link to="/financial_department/received_requests">دریافتی   <span v-show="unReadRequestCount > 0" class="notif-badage">@{{ unReadRequestCount }}</span></router-link></li>
-                                            <li><router-link to="/financial_department/search_requests">جستجو</router-link></li>
-                                        </ul>
-                                    </li>
+                                    <li><router-link to="/financial_department/submissions">ارسالی</router-link></li>
+                                    <li><router-link to="/financial_department/received_requests">دریافتی   <span v-show="unReadRequestCount > 0" class="notif-badage">@{{ unReadRequestCount }}</span></router-link></li>
+                                    <li><router-link to="/financial_department/search_requests">جستجو</router-link></li>
                                     <li><router-link to="/financial_department/received_requests">تنخواه گردان کارپردازی</router-link></li>
                                 </ul>
                             </li>
