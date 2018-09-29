@@ -312,7 +312,7 @@
                                         <div class="grid-x">
                                             <div class="large-2 medium-3  small-12">
                                                 <div class="switch tiny">
-                                                    <input :checked="false" v-on:change="calculteAmount()" class="switch-input" v-model="percentDecInput['percentage' + percentDec.id]" :id="'percentage'+percentDec.id" type="checkbox">
+                                                    <input :checked="percentDecInput['percentage' + percentDec.id] = percentDec.checked" :disabled="percentDec.isNeed == true" v-on:change="calcultePercentAmount(percentDec.pdPercent,percentDec,percentDecInput['percentage' + percentDec.id])" class="switch-input" v-model="percentDecInput['percentage' + percentDec.id]" :id="'percentage'+percentDec.id" type="checkbox">
                                                     <label class="switch-paddle" :for="'percentage'+percentDec.id">
                                                         <span class="switch-active" aria-hidden="true">بلی</span>
                                                         <span class="switch-inactive" aria-hidden="true">خیر</span>
@@ -325,7 +325,7 @@
                                         </div>
                                     </div>
                                     <div class="large-3 medium-3  small-12">
-                                        <p class="btn-red">0 ریال</p>
+                                        <p class="btn-red">{{$root.dispMoneyFormat(percentDec.amountDec)}} ریال</p>
                                     </div>
                                 </div>
                             </div>
@@ -335,12 +335,14 @@
                                         <div class="grid-x">
                                             <div class="large-2 medium-3  small-12"></div>
                                             <div class="large-10 medium-9  small-12">
-                                                <p>مبلغ نهایی چک : </p>
+                                                <p>مبلغ حواله : </p>
+                                                <p>مبلغ چک <span> {{draftFor}} </span> </p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="large-3 medium-3  small-12">
-                                        <p class="btn-red"> ریال</p>
+                                        <p class="btn-red">{{$root.dispMoneyFormat(draftAmount)}} ریال</p>
+                                        <p class="btn-red">{{$root.dispMoneyFormat(finalIncAmount)}} ریال</p>
                                     </div>
                                 </div>
                             </div>
@@ -349,7 +351,7 @@
                     <div class="grid-x small-top-m">
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <div class="stacked-for-small button-group float-left">
-                                <button @click="generateChecks()" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                <button @click="openAcceptGeneratecheckConfirmModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
                             </div>
                         </div>
                     </div>
@@ -360,6 +362,22 @@
         <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
             {{dialogMessage}}
         </messageDialog>
+
+        <!-- Accept Generate check modal -->
+        <modal-tiny v-if="showAcceptGeneratecheckConfirmModal" @close="showAcceptGeneratecheckConfirmModal = false">
+            <div slot="body">
+                <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
+                    <p class="large-offset-1 modal-text">آیا برای صدور چک اطمینان دارید؟</p>
+                    <div class="grid-x">
+                        <div class="medium-12 column text-center">
+                            <button v-on:click="generateChecks()"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-tiny>
+        <!-- Accept Generate check modal -->
     </div>
 </template>
 <script>
@@ -379,6 +397,7 @@
                 showPdfModal: false,
                 showDialogModal: false,
                 showGenerateChecksModal: false,
+                showAcceptGeneratecheckConfirmModal: false,
                 dialogMessage: '',
                 draftInput:{},
                 directorGeneralUsers:[],
@@ -415,8 +434,11 @@
                 dialogMessage: '',
                 isAccepted: false,
 
+                decreases:[],
+                draftAmount:0,
+                draftFor:'',
+                finalIncAmount:0,
             }
-
         },
 
         created: function () {
@@ -438,6 +460,8 @@
               this.youAreDraftVerifier=draft.dYouAreVerifier;
               this.isMinute=draft.dIsMinute;
               this.isAccepted = draft.verifier[0].dvSId != null ? true : false;
+              this.draftAmount=draft.dAmount;
+              this.draftFor=draft.dFor;
               this.openReportFile();
               this.draftPdfPath='';
               this.showPdfModal=true;
@@ -762,10 +786,105 @@
                 axios.get('/financial/draft/get_percentage_decrease')
                     .then((response) => {
                         this.percentageDecreases = response.data;
+
+                        this.percentageDecreases.forEach(item => {
+                            var isExist=false;
+                            this.contracts[0].increase_amount.forEach(incAM =>{
+                                if(item.pdPiId == incAM.icaPiId){
+                                    isExist= true;
+                                }
+                            });
+                            if(isExist){
+                                Vue.set(item,"amountDec",Math.round((item.pdPercent * this.draftAmount) / 100));
+                                Vue.set(item,"isNeed",true);
+                                Vue.set(item,"checked",true);
+                            }
+                            else{
+                                Vue.set(item,"amountDec",0);
+                                Vue.set(item,"isNeed",false);
+                                Vue.set(item,"checked",false);
+                    }
+                        });
                         console.log(response);
                     }, (error) => {
                         console.log(error);
                     });
+
+            },
+
+            calcultePercentAmount: function (percent,index,state) {
+                var decreasesTemp={};
+                decreasesTemp.id=index.id;
+                decreasesTemp.amount=(percent * parseInt(this.draftAmount,10)) / 100;
+                Math.round(decreasesTemp.amount);
+                if(state == false){
+                    this.percentageDecreases.forEach((item,pos) =>{
+                        if(item.id == decreasesTemp.id){
+                            this.percentageDecreases.forEach(item =>{
+                                if(index.id == item.id){
+                                    Vue.set(item,"amountDec",0);
+                                    Vue.set(item,"checked",false);
+                                }
+                            });
+                            //this.percentageDecreases.splice(pos,1);
+                        }
+                    });
+                }
+                if(state == true){
+                    this.percentageDecreases.forEach(item =>{
+                        if(index.id == item.id){
+                            Vue.set(item,"amountDec",decreasesTemp.amount);
+                            Vue.set(item,"checked",true);
+                        }
+                    });
+
+                }
+                console.log(JSON.stringify(this.percentageDecreases));
+                this.calculteFinalIncAmount();
+            },
+
+            calculteFinalIncAmount: function(){
+                var lastTemp=0;
+                this.percentageDecreases.forEach(item =>{
+                    lastTemp += item.amountDec;
+                });
+
+                this.finalIncAmount =this.draftAmount - lastTemp;
+                Math.round(this.finalIncAmount);
+
+            },
+
+            openAcceptGeneratecheckConfirmModal:function (){
+                this.showAcceptGeneratecheckConfirmModal=true;
+            },
+
+            generateChecks: function () {
+                var decreasesTemp={};
+                this.percentageDecreases.forEach(item => {
+                    if(item.checked){
+                        decreasesTemp.id=item.id;
+                        decreasesTemp.amount=item.amountDec;
+                        this.decreases.push(decreasesTemp);
+                    }
+                    console.log(JSON.stringify(this.decreases));
+
+                });
+                axios.post('/financial/check/generate', {
+                    rId: this.requestId,
+                    dId:this.draftId,
+                    decreases:this.decreases,
+                    baseCheckAmount:this.finalIncAmount
+                }).then((response) => {
+                    this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                    this.$emit('closeModal');
+                    this.showAcceptGeneratecheckConfirmModal = false;
+                    this.showPdfModal = false;
+                    this.$root.displayNotif(error.response.status);
+                    console.log(response);
+                }, (error) => {
+                    console.log(error);
+                    this.$root.displayNotif(error.response.status);
+                });
             },
 
             openReferralModal:function () {
