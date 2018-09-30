@@ -866,7 +866,6 @@
                 this.percentageDecreases.forEach(item => {
                     var decreasesTemp={};
                     if(item.checked){
-                        alert(item.amountDec);
                         decreasesTemp.id=item.id;
                         decreasesTemp.amount=item.amountDec;
                         this.decreases.push(decreasesTemp);

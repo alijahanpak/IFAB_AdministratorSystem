@@ -24,6 +24,7 @@ class CreateRequestHistoryTable extends Migration
                 $table->bigInteger('rhDId')->length(20)->unsigned()->nullable();
                 $table->boolean('rhIsReferral')->default(false);
                 $table->boolean('rhHasBeenSeen')->default(false);
+                $table->boolean('rhDHasBeenSeen')->default(false);
                 $table->longText('rhDescription')->nullable();
                 $table->timestamps();
 
