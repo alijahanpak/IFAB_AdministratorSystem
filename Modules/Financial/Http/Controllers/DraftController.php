@@ -193,4 +193,16 @@ class DraftController extends Controller
             PercentageDecrease::where('pdState' , '=' , true)->get()
         );
     }
+
+    public function wasSeen(Request $request)
+    {
+        $rHistory = RequestHistory::find($request->rhId);
+        $rHistory->rhDHasBeenSeen = true;
+        $rHistory->save();
+
+        $rController = new RequestController();
+        return \response()->json(
+            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+        );
+    }
 }

@@ -1,12 +1,5 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class="grid-x">
-        <div class="large-12 medium-12 small-12" v-if="$can('FINANCIAL_ADD_NEW_DRAFT')">
-            <div class="clearfix tool-bar">
-                <div class="button-group float-right report-mrg">
-                    <a class="my-button toolbox-btn small" @click="openInsertDraftModal()">پیشنویس حواله</a>
-                </div>
-            </div>
-        </div>
         <div class="large-12 medium-12 small-12 small-top-m">
             <!--Table Start-->
             <!--Table Head Start-->
@@ -17,7 +10,8 @@
                         <col width="200px"/>
                         <col width="200px"/>
                         <col width="150px"/>
-                        <col width="100px"/>
+                        <col width="150px"/>
+                        <col width="130px"/>
                         <col width="12px"/>
                     </colgroup>
                     <tbody class="tbl-head-style ">
@@ -25,7 +19,8 @@
                         <th class="tbl-head-style-cell">بابت</th>
                         <th class="tbl-head-style-cell">در وجه</th>
                         <th class="tbl-head-style-cell">ارسال کننده</th>
-                        <th class="tbl-head-style-cell">چک </th>
+                        <th class="tbl-head-style-cell">مبلغ صورت وضعیت </th>
+                        <th class="tbl-head-style-cell">مبلغ حواله </th>
                         <th class="tbl-head-style-cell">وضعیت</th>
                         <th class="tbl-head-style-cell"></th>
                     </tr>
@@ -40,7 +35,8 @@
                             <col width="200px"/>
                             <col width="200px"/>
                             <col width="150px"/>
-                            <col width="100px"/>
+                            <col width="150px"/>
+                            <col width="130px"/>
                         </colgroup>
                         <tbody class="tbl-head-style-cell">
                         <tr @click="openPdfModal(draft)" class="table-row" v-for="draft in drafts">
@@ -61,7 +57,8 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="text-center"><a style="margin-bottom: 0;" class="clear button" href="#">مشاهده چک</a></td>
+                            <td class="text-center">{{$root.dispMoneyFormat(draft.dBaseAmount)}}</td>
+                            <td class="text-center">{{$root.dispMoneyFormat(draft.dAmount)}}</td>
                             <td v-show="draft.draft_state.dsState == 'MINUTE'" class="text-center"><span class="reserved-label">{{ draft.draft_state.dsSubject }}</span></td>
                             <td v-show="draft.draft_state.dsState == 'NEW'" class="text-center"><span class="danger-label">{{ draft.draft_state.dsSubject }}</span></td>
                             <td v-show="draft.draft_state.dsState == 'ACCEPTED'" class="text-center"><span class="success-label">{{ draft.draft_state.dsSubject }}</span></td>
@@ -73,8 +70,9 @@
             </div>
             <!--Table Body End-->
         </div>
-        <!--Insert Factor Start-->
-        <modal-small v-if="showInsertDraftModal" @close="showInsertDraftModal = false">
+
+        <!--Insert Draft Start-->
+        <modal-Draft v-if="showInsertDraftModal" @close="showInsertDraftModal = false">
             <div  slot="body">
                 <form v-on:submit.prevent="addNewDraft" >
                     <div class="small-font">
@@ -184,10 +182,10 @@
                     </div>
                 </form>
             </div>
-        </modal-small>
+        </modal-Draft>
         <!--Insert Factor End-->
 
-        <!-- Accept Factor modal -->
+        <!-- Accept Draft modal -->
         <modal-tiny v-if="showAcceptConfirmModal" @close="showAcceptConfirmModal = false">
             <div slot="body">
                 <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
@@ -201,40 +199,92 @@
                 </div>
             </div>
         </modal-tiny>
-        <!-- Accept Factor modal -->
-
-        <!-- Delete Factor modal -->
-        <modal-tiny v-if="showDeleteConfirmModal" @close="showDeleteConfirmModal = false">
-            <div slot="body">
-                <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                    <p class="large-offset-1 modal-text">آیا مایل هستید فاکتور را حذف کنید؟</p>
-                    <div class="grid-x">
-                        <div class="medium-12 column text-center">
-                            <button v-on:click="deleteFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </modal-tiny>
-        <!-- Delete Factor modal -->
+        <!-- Accept Draft modal -->
 
         <!-- pdf  modal -->
         <modal-small v-if="showPdfModal" @close="showPdfModal = false">
             <div style="height: 90vh;" slot="body">
                 <div class="grid-x">
-                    <div class="large-12">
-                        <embed style="width: 100%;height: 80vh;" :src="draftPdfPath" />
-                    </div>
-                </div>
-                <div class="grid-x">
-                    <div class="large-12 medium-12 small-12 small-top-m">
-                        <div class="stacked-for-small button-group float-right">
-                            <button v-if="$can('FINANCIAL_REGISTER_AND_NUMBERING_DRAFT')" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
-                            <button v-if="$can('FINANCIAL_ACCEPT_DRAFT') && youAreDraftVerifier" @click="acceptDraft()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
-                            <button v-if="$can('FINANCIAL_ACCEPT_MINUTE_DRAFT') && isMinute" @click="openAcceptMinuteConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید پیشنویس   </span></button>
-                            <button v-if="$can('FINANCIAL_DETERMINE_DECREASES_AND_MAKE_CHECKS') && isAccepted" @click="openGenerateChecksModal()"  class="my-button my-success"><span class="btn-txt-mrg">   صدور چک   </span></button>
-                            <button @click="openReferralModal(draftId)"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> ارجاع </span></button>
+                    <div class="large-12 medium-12 small-12">
+                        <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="draftAndCheck_tab_view">
+                            <li class="tabs-title is-active"><a href="#DraftTab" aria-selected="true">حواله</a></li>
+                            <li class="tabs-title"><a href="#CheckTab">چک</a></li>
+                        </ul>
+                        <div class="tabs-content" data-tabs-content="draftAndCheck_tab_view">
+                            <!--Draft Tab -->
+                            <div class="tabs-panel is-active table-mrg-btm" id="DraftTab">
+                                <div class="grid-x">
+                                    <div class="large-12">
+                                        <vue-element-loading style="width: 100%;height: 74.5vh;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
+                                    </div>
+
+                                    <div class="large-12">
+                                        <embed style="width: 100%;height: 74.5vh;" :src="draftPdfPath" />
+                                    </div>
+                                </div>
+                                <div class="grid-x">
+                                    <div style="margin-bottom:-20px;margin-top: 5px;" class="large-12 medium-12 small-12">
+                                        <div class="stacked-for-small button-group float-right">
+                                            <button v-if="$can('FINANCIAL_REGISTER_AND_NUMBERING_DRAFT')" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
+                                            <button v-if="$can('FINANCIAL_ACCEPT_DRAFT') && youAreDraftVerifier" @click="acceptDraft()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
+                                            <button v-if="$can('FINANCIAL_ACCEPT_MINUTE_DRAFT') && isMinute" @click="openAcceptMinuteConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید پیشنویس   </span></button>
+                                            <button v-if="$can('FINANCIAL_DETERMINE_DECREASES_AND_MAKE_CHECKS') && isAccepted" @click="openGenerateChecksModal()"  class="my-button my-success"><span class="btn-txt-mrg">   صدور چک   </span></button>
+                                            <button @click="openReferralModal(draftId)"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> ارجاع </span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Draft Tab -->
+                            <!--Check Tab -->
+                            <div class="tabs-panel table-mrg-btm" id="CheckTab">
+                                <div class="grid-x">
+                                    <div class="large-12 medium-12 small-12 small-top-m">
+                                        <!--Table Start-->
+                                        <!--Table Head Start-->
+                                        <div class="tbl-div-container">
+                                            <table class="tbl-head">
+                                                <colgroup>
+                                                    <col width="400px"/>
+                                                    <col width="200px"/>
+                                                    <col width="200px"/>
+                                                    <col width="12px"/>
+                                                </colgroup>
+                                                <tbody class="tbl-head-style ">
+                                                <tr class="tbl-head-style-cell">
+                                                    <th class="tbl-head-style-cell">بابت</th>
+                                                    <th class="tbl-head-style-cell">مبلغ چک </th>
+                                                    <th class="tbl-head-style-cell">وضعیت</th>
+                                                    <th class="tbl-head-style-cell"></th>
+                                                </tr>
+                                                </tbody>
+                                                <!--Table Head End-->
+                                                <!--Table Body Start-->
+                                            </table>
+                                            <div class="tbl_body_style dynamic-height-level-modal1">
+                                                <table class="tbl-body-contain">
+                                                    <colgroup>
+                                                        <col width="400px"/>
+                                                        <col width="200px"/>
+                                                        <col width="200px"/>
+                                                    </colgroup>
+                                                    <tbody class="tbl-head-style-cell">
+                                                    <tr v-for="check in checks">
+                                                        <td v-if="check.percentage_decrease != null">{{check.percentage_decrease.pdSubject}}  ({{check.percentage_decrease.pdPercent}}%)</td>
+                                                        <td v-else>{{draftFor}}</td>
+                                                        <td class="text-center">{{$root.dispMoneyFormat(check.cAmount)}}</td>
+                                                        <td v-show="check.cDelivered" class="text-center"><span class="success-label">تحویل داده شده</span></td>
+                                                        <td v-show="!check.cDelivered" class="text-center"></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!--Table Body End-->
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        <!--Check Tab -->
                     </div>
                 </div>
             </div>
@@ -375,10 +425,12 @@
 </template>
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
+    import VueElementLoading from 'vue-element-loading'
     export default{
         props:['drafts','requestId','rAcceptedAmount','rCommitmentAmount','contracts','factors','requestType' , 'sumOfDraftAmount'],
         components: {
             Suggestions,
+            VueElementLoading,
         },
         data () {
             return {
@@ -429,6 +481,8 @@
                 draftAmount:0,
                 draftFor:'',
                 finalIncAmount:0,
+                checks:[],
+                showLoaderProgress:false,
             }
         },
 
@@ -438,7 +492,7 @@
         },
         updated: function () {
             $(this.$el).foundation(); //WORKS!
-            this.myResizeModal();
+            this.myResizeDraft();
         },
 
         mounted: function () {
@@ -447,6 +501,9 @@
 
         methods : {
             openPdfModal: function (draft){
+              this.checks=[];
+              var draftHistory=[];
+              draftHistory.push(draft)
               this.draftId=draft.id;
               this.youAreDraftVerifier=draft.dYouAreVerifier;
               this.isMinute=draft.dIsMinute;
@@ -456,6 +513,13 @@
               this.openReportFile();
               this.draftPdfPath='';
               this.showPdfModal=true;
+
+              draftHistory.forEach(item =>{
+                  item.check.forEach(ch =>{
+                      this.checks.push(ch);
+                  });
+              });
+              console.log(JSON.stringify(this.checks));
             },
 
             getDirectorGeneralUsers: function () {
@@ -592,12 +656,15 @@
             },
 
             openReportFile: function () {
+                this.showLoaderProgress = true;
                 axios.post('/financial/report/draft' , {dId: this.draftId})
                     .then((response) => {
                         console.log(response.data);
+                        this.showLoaderProgress = false;
                         this.draftPdfPath=response.data;
                     },(error) => {
                         console.log(error);
+                    this.showLoaderProgress = false;
                     });
             },
 
@@ -653,11 +720,9 @@
                 });
             },
 
-            myResizeModal: function() {
+            myResizeDraft: function() {
                 var x = $.w.outerHeight();
-                $('.dynamic-height-level-modal1').css('height', (x-320) + 'px');
-                $('.dynamic-height-level-modal2').css('height', (x-460) + 'px');
-                $('.dynamic-height-level-modal3').css('height', (x-580) + 'px');
+                $('.dynamic-height-level-modal1').css('height', (x-200) + 'px');
             },
 
             openInsertDraftModal:function () {

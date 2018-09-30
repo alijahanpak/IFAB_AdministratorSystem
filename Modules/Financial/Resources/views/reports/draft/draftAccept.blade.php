@@ -12,19 +12,25 @@
         <link rel="stylesheet" href="{{ asset('css/font.css') }}">
         <link rel="stylesheet" href="{{ asset('foundation-icons/foundation-icons.css') }}">
         <link rel="stylesheet" href="{{ asset('css/key.css') }}">
+        <style>
+            .number_ltr {
+                direction: ltr!important;
+                unicode-bidi: embed;
+            }
+        </style>
     </head>
     <body class="BZar">
         <div class="grid-x">
             <div class="large-12">
-                <p class="size-12">شماره حواله : <span style="direction: rtl;">{{$draftInfo['dLetterNumber']}}</span></p>
+                <p style="z-index: 999;" class="size-12">شماره حواله : <span class="number_ltr">{{$draftInfo['dLetterNumber']}}</span></p>
                 <p style="margin-top: -10px;" class="size-12">تاریخ : <span>{{$draftInfo['dLetterDate']}}</span></p>
             </div>
         </div>
-        <div style="margin-top: -60px;" class="grid-x">
+        <div style="margin-top: -45px;" class="grid-x">
             <div class="large-12 text-center">
                 <div>
                     <div class="text-center">
-                        <img src="{{ asset('pic/ir-logo.jpg') }}" width="200px" height="100px">
+                        <img style="z-index: 1;" src="{{ asset('pic/ir-logo.jpg') }}" width="170px" height="100px">
                         <p style="margin-top: 15px;">(( حواله ))</p>
                     </div>
                 </div>

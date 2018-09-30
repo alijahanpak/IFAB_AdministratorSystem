@@ -77,7 +77,9 @@ class RequestController extends Controller
             ->with(['draft' => function($q){
                 return $q->whereHas('verifier' , function ($q1){
                     return $q1->where('dvSId' ,'<>' , null);
-                })->with('verifier.user.role')->with('verifier.signature');
+                })->with('verifier.user.role')
+                    ->with('verifier.signature')
+                    ->with('check.percentageDecrease');
             }])
             ->with('requestLevel')
             ->orderBy('id' , 'DESC')
@@ -249,7 +251,7 @@ class RequestController extends Controller
                 ->with('contract.executor')
                 ->with('factor.seller')
                 ->with('draft.verifier.user.role')
-                ->with('draft.check')
+                ->with('draft.check.percentageDecrease')
                 ->with('draft.draftState')
                 ->with('requestLevel')
                 ->with('contract.increaseAmount.percentageIncrease')
@@ -299,7 +301,9 @@ class RequestController extends Controller
             ->with(['draft' => function($q){
                 return $q->whereHas('verifier' , function ($q1){
                     return $q1->where('dvSId' ,'<>' , null);
-                })->with('verifier.user.role')->with('verifier.signature');
+                })->with('verifier.user.role')
+                    ->with('verifier.signature')
+                    ->with('check.percentageDecrease');
             }])
             ->with('attachment')
             ->orderBy('id' , 'DESC')
