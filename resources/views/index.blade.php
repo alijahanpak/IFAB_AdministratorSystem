@@ -186,10 +186,19 @@
                                     <li><router-link to="/financial_department/submissions">ارسالی</router-link></li>
                                     <li><router-link to="/financial_department/received_requests">دریافتی   <span v-show="unReadRequestCount > 0" class="notif-badage">@{{ unReadRequestCount }}</span></router-link></li>
                                     <li><router-link to="/financial_department/search_requests">جستجو</router-link></li>
-                                    <li><router-link to="/financial_department/received_requests">تنخواه گردان کارپردازی</router-link></li>
                                 </ul>
                             </li>
                             <!--Financial Department End-->
+                            <!--checks list-->
+                            <li v-if='$can("CHECK_LIST_DISPLAY")'>
+                                <router-link class="right-mp right-menu-btm-border" to="/financial_department/checks/list">چک</router-link>
+                            </li>
+                            <!--checks list-->
+                            <!--fund-->
+                            <li>
+                                <a class="right-mp right-menu-btm-border">تنخواه گردان کارپردازی</a>
+                            </li>
+                            <!--fund-->
                         </ul>
                     </nav>
                 </div>

@@ -19,6 +19,7 @@ class CreateChecksTable extends Migration
                 $table->bigInteger('cDId')->length(20)->unsigned();
                 $table->bigInteger('cPdId')->length(20)->unsigned()->nullable();
                 $table->bigInteger('cCvId')->length(20)->unsigned()->nullable();
+                $table->bigInteger('cFyId')->length(20)->unsigned();
                 $table->string('cDate')->nullable();
                 $table->string('cIdNumber')->nullable();
                 $table->boolean('cDelivered')->default(false);
@@ -37,6 +38,11 @@ class CreateChecksTable extends Migration
 
                 $table->foreign('cCvId')
                     ->references('id')->on('tbl_check_verifier')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+
+                $table->foreign('cFyId')
+                    ->references('id')->on('tbl_fiscal_years')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
             });
