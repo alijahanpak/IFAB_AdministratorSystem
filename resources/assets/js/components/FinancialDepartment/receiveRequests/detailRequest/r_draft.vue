@@ -317,7 +317,7 @@
                                                 </div>
                                             </div>
                                             <div class="large-10 medium-9  small-12">
-                                                <p>{{percentDec.pdSubject}}</p>
+                                                <p>{{percentDec.pdSubject + '(' + percentDec.pdPercent + '%)'}}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -806,6 +806,7 @@
                                 Vue.set(item,"checked",false);
                     }
                         });
+                        this.calculteFinalIncAmount();
                         console.log(response);
                     }, (error) => {
                         console.log(error);
@@ -860,16 +861,18 @@
             },
 
             generateChecks: function () {
-                var decreasesTemp={};
+                this.decreases = [];
+                console.log(JSON.stringify(this.percentageDecreases));
                 this.percentageDecreases.forEach(item => {
+                    var decreasesTemp={};
                     if(item.checked){
+                        alert(item.amountDec);
                         decreasesTemp.id=item.id;
                         decreasesTemp.amount=item.amountDec;
                         this.decreases.push(decreasesTemp);
                     }
-                    console.log(JSON.stringify(this.decreases));
-
                 });
+                console.log(JSON.stringify(this.decreases));
                 axios.post('/financial/check/generate', {
                     rId: this.requestId,
                     dId:this.draftId,
