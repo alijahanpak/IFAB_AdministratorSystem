@@ -16,8 +16,7 @@
                         <col width="350px"/>
                         <col width="200px"/>
                         <col width="200px"/>
-                        <col width="100px"/>
-                        <col width="100px"/>
+                        <col width="150px"/>
                         <col width="100px"/>
                         <col width="12px"/>
                     </colgroup>
@@ -26,8 +25,7 @@
                         <th class="tbl-head-style-cell">بابت</th>
                         <th class="tbl-head-style-cell">در وجه</th>
                         <th class="tbl-head-style-cell">ارسال کننده</th>
-                        <th class="tbl-head-style-cell">مبلغ صورت وضعیت</th>
-                        <th class="tbl-head-style-cell">مبلغ حواله</th>
+                        <th class="tbl-head-style-cell">چک </th>
                         <th class="tbl-head-style-cell">وضعیت</th>
                         <th class="tbl-head-style-cell"></th>
                     </tr>
@@ -41,8 +39,7 @@
                             <col width="350px"/>
                             <col width="200px"/>
                             <col width="200px"/>
-                            <col width="100px"/>
-                            <col width="100px"/>
+                            <col width="150px"/>
                             <col width="100px"/>
                         </colgroup>
                         <tbody class="tbl-head-style-cell">
@@ -64,8 +61,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="text-center">{{$root.dispMoneyFormat(draft.dBaseAmount)}}</td>
-                            <td class="text-center">{{$root.dispMoneyFormat(draft.dAmount)}}</td>
+                            <td class="text-center"><a style="margin-bottom: 0;" class="clear button" href="#">مشاهده چک</a></td>
                             <td v-show="draft.draft_state.dsState == 'MINUTE'" class="text-center"><span class="reserved-label">{{ draft.draft_state.dsSubject }}</span></td>
                             <td v-show="draft.draft_state.dsState == 'NEW'" class="text-center"><span class="danger-label">{{ draft.draft_state.dsSubject }}</span></td>
                             <td v-show="draft.draft_state.dsState == 'ACCEPTED'" class="text-center"><span class="success-label">{{ draft.draft_state.dsSubject }}</span></td>
@@ -787,25 +783,31 @@
                 axios.get('/financial/draft/get_percentage_decrease')
                     .then((response) => {
                         this.percentageDecreases = response.data;
-
-                        this.percentageDecreases.forEach(item => {
-                            var isExist=false;
-                            this.contracts[0].increase_amount.forEach(incAM =>{
-                                if(item.pdPiId == incAM.icaPiId){
-                                    isExist= true;
+                        this.percentageDecreases.forEach(item =>{
+                            Vue.set(item,"amountDec",0);
+                        });
+                        console.log(JSON.stringify(this.percentageDecreases));
+                        if (this.contracts.length >0){
+                            this.percentageDecreases.forEach(item => {
+                                var isExist=false;
+                                this.contracts[0].increase_amount.forEach(incAM =>{
+                                    if(item.pdPiId == incAM.icaPiId){
+                                        isExist= true;
+                                    }
+                                });
+                                if(isExist){
+                                    Vue.set(item,"amountDec",Math.round((item.pdPercent * this.draftAmount) / 100));
+                                    Vue.set(item,"isNeed",true);
+                                    Vue.set(item,"checked",true);
+                                }
+                                else{
+                                    Vue.set(item,"amountDec",0);
+                                    Vue.set(item,"isNeed",false);
+                                    Vue.set(item,"checked",false);
                                 }
                             });
-                            if(isExist){
-                                Vue.set(item,"amountDec",Math.round((item.pdPercent * this.draftAmount) / 100));
-                                Vue.set(item,"isNeed",true);
-                                Vue.set(item,"checked",true);
-                            }
-                            else{
-                                Vue.set(item,"amountDec",0);
-                                Vue.set(item,"isNeed",false);
-                                Vue.set(item,"checked",false);
-                    }
-                        });
+                        }
+
                         this.calculteFinalIncAmount();
                         console.log(response);
                     }, (error) => {
@@ -820,7 +822,7 @@
                 decreasesTemp.amount=(percent * parseInt(this.draftAmount,10)) / 100;
                 Math.round(decreasesTemp.amount);
                 if(state == false){
-                    this.percentageDecreases.forEach((item,pos) =>{
+                    this.percentageDecreases.forEach(item =>{
                         if(item.id == decreasesTemp.id){
                             this.percentageDecreases.forEach(item =>{
                                 if(index.id == item.id){
@@ -846,6 +848,7 @@
             },
 
             calculteFinalIncAmount: function(){
+                console.log(JSON.stringify(this.percentageDecreases));
                 var lastTemp=0;
                 this.percentageDecreases.forEach(item =>{
                     lastTemp += item.amountDec;
@@ -853,7 +856,6 @@
 
                 this.finalIncAmount =this.draftAmount - lastTemp;
                 Math.round(this.finalIncAmount);
-
             },
 
             openAcceptGeneratecheckConfirmModal:function (){
@@ -866,7 +868,6 @@
                 this.percentageDecreases.forEach(item => {
                     var decreasesTemp={};
                     if(item.checked){
-                        alert(item.amountDec);
                         decreasesTemp.id=item.id;
                         decreasesTemp.amount=item.amountDec;
                         this.decreases.push(decreasesTemp);
