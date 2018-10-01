@@ -237,6 +237,7 @@
                                             <button v-if="$can('FINANCIAL_ACCEPT_MINUTE_DRAFT') && isMinute" @click="openAcceptMinuteConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید پیشنویس   </span></button>
                                             <button v-if="$can('FINANCIAL_DETERMINE_DECREASES_AND_MAKE_CHECKS') && isAccepted" @click="openGenerateChecksModal()"  class="my-button my-success"><span class="btn-txt-mrg">   صدور چک   </span></button>
                                             <button @click="openReferralModal(draftId)"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> ارجاع </span></button>
+                                            <button @click="openBlockModal(draftId)" class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> مسدود </span></button>
                                         </div>
                                     </div>
                                 </div>
@@ -428,6 +429,27 @@
             </div>
         </modal-tiny>
         <!-- Accept Generate check modal -->
+        <!-- Referral Detail Modal Start-->
+<!--        <modal-small v-if="showBlockModal" @close="showBlockModal = false">
+            <div  slot="body">
+                <form v-on:submit.prevent="requestBlock">
+                    <div class="small-font">
+                        <div class="grid-x">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <label>شرح
+                                    <textarea v-model="referralInput.description"  class="form-element-margin-btm"  style="min-height: 150px;" name="referralDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('referralDescription')}"></textarea>
+                                    <span v-show="errors.has('referralDescription')" class="error-font">لطفا دلیل مسدود کردن حواله را وارد کنید!</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="large-12 medium-12 small-12 padding-lr small-top-m">
+                        <button type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ارجاع</span></button>
+                    </div>
+                </form>
+            </div>
+        </modal-small>-->
+        <!-- Referral Detail Modal End-->
     </div>
 </template>
 <script>
@@ -450,6 +472,7 @@
                 showDialogModal: false,
                 showGenerateChecksModal: false,
                 showAcceptGeneratecheckConfirmModal: false,
+                showBlockModal: false,
                 dialogMessage: '',
                 draftInput:{},
                 directorGeneralUsers:[],
@@ -637,9 +660,10 @@
             getSumOfLastDrafts: function (){
                 var lastDraftTemp=0;
                 this.drafts.forEach(item =>{
-                    lastDraftTemp += item.dAmount;
+                    if (item.draft_state.dsState != 'BLOCKED')
+                        lastDraftTemp += item.dAmount;
                 });
-                this.lastDrafts=lastDraftTemp;
+                this.lastDrafts = lastDraftTemp;
             },
 
             setInitBaseAmount: function (){
@@ -966,6 +990,10 @@
 
             openReferralModal:function () {
                 this.$emit('openReferralsModal' , this.draftId);
+            },
+
+            openBlockModal: function (dId) {
+
             },
         }
     }

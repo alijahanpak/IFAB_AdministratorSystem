@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\Signature;
 use Modules\Admin\Entities\SystemLog;
+use Modules\Financial\Entities\_Check;
 use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\AccountantRequestQueue;
 use Modules\Financial\Entities\Draft;
@@ -199,6 +200,22 @@ class DraftController extends Controller
         $rHistory = RequestHistory::find($request->rhId);
         $rHistory->rhDHasBeenSeen = true;
         $rHistory->save();
+
+        $rController = new RequestController();
+        return \response()->json(
+            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+        );
+    }
+
+    public function block(Request $request)
+    {
+        DB::transaction(function () use($request){
+            $draft = Draft::find($request->dId);
+            $draft->dDsId = DraftState::where('dsState' , '=' , 'BLOCKED')->value('id');
+            $draft->save();
+
+            SystemLog::setFinancialSubSystemLog('مسدود کردن حواله با عنوان ' . $draft->dFor);
+        });
 
         $rController = new RequestController();
         return \response()->json(
