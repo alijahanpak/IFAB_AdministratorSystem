@@ -53,55 +53,54 @@
                             <td :data-toggle="'contract' + contract.id">{{contract.cSubject}}</td>
                             <td :data-toggle="'contract' + contract.id" class="text-center">{{$root.dispMoneyFormat(contract.cBaseAmount)}}
                                 <div class="clearfix tool-bar">
-                                    <div  style="width: 500px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="auto" :id="'contract' + contract.id" data-dropdown data-auto-focus="true">
+                                    <div  style="width: 35vw;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="auto" :id="'contract' + contract.id" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font">
                                             <div class="grid-x">
                                                 <div class="large-12">
                                                 <!--Table Start-->
-                                                <div class="tbl_body_style dynamic-height-level-modal3">
+                                                <div style="height: 30vh;" class="tbl_body_style">
                                                     <table class="stack text-right">
                                                         <tbody>
-                                                        <tr class="align-right">
-                                                            <td width="150" class="black-color">عنوان  :</td>
-                                                            <td>{{contract.cSubject}}</td>
-                                                        </tr>
-                                                        <tr class="align-right">
-                                                            <td width="160" class="black-color">مجری  :</td>
-                                                            <td>{{contract.executor.eSubject}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td width="150" class="black-color">مبلغ  :</td>
-                                                            <td>{{$root.dispMoneyFormat(contract.cBaseAmount)}} ریال</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td width="150" class="black-color">مبلغ با در نظر گرفتن کسورات  :</td>
-                                                            <td>{{$root.dispMoneyFormat(contract.cAmount)}} ریال</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td width="150" class="black-color">درصد افزایش و یا کاهش  :</td>
-                                                            <td>{{contract.cPercentInAndDec}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td width="150" class="black-color">شماره قرارداد  :</td>
-                                                            <td>{{contract.cLetterNumber}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td width="150" class="black-color">تاریخ قرارداد  :</td>
-                                                            <td>{{contract.cLetterDate}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td width="150" class="black-color">تاریخ شروع  :</td>
-                                                            <td>{{contract.cStartDate}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td width="150" class="black-color">تاریخ پایان  :</td>
-                                                            <td>{{contract.cEndDate}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td width="150" class="black-color">شرح  :</td>
-                                                            <td>{{contract.cDescription}}</td>
-                                                        </tr>
-
+                                                            <tr class="align-right">
+                                                                <td width="200" class="black-color">عنوان  :</td>
+                                                                <td width="400">{{contract.cSubject}}</td>
+                                                            </tr>
+                                                            <tr class="align-right">
+                                                                <td class="black-color">مجری  :</td>
+                                                                <td>{{contract.executor.eSubject}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="black-color">مبلغ  :</td>
+                                                                <td>{{$root.dispMoneyFormat(contract.cBaseAmount)}} ریال</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="black-color">مبلغ با در نظر گرفتن کسورات  :</td>
+                                                                <td>{{$root.dispMoneyFormat(contract.cAmount)}} ریال</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="black-color">درصد افزایش و یا کاهش  :</td>
+                                                                <td>{{contract.cPercentInAndDec}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="black-color">شماره قرارداد  :</td>
+                                                                <td>{{contract.cLetterNumber}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="black-color">تاریخ قرارداد  :</td>
+                                                                <td>{{contract.cLetterDate}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="black-color">تاریخ شروع  :</td>
+                                                                <td>{{contract.cStartDate}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="black-color">تاریخ پایان  :</td>
+                                                                <td>{{contract.cEndDate}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="black-color">شرح  :</td>
+                                                                <td>{{contract.cDescription}}</td>
+                                                            </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
