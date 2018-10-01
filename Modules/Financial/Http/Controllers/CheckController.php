@@ -22,22 +22,29 @@ class CheckController extends Controller
 
     public function generateChecks(Request $request)
     {
-        //return \response()->json(Auth::user()->seFiscalYear , 500);
         DB::transaction(function () use($request){
-            _Check::updateOrCreate(['cDId' => $request->dId , 'cPdId' => null , 'cFyId' => Auth::user()->seFiscalYear] , [
+            $insertedAId = array();
+            $i = 0;
+            $check = _Check::updateOrCreate(['cDId' => $request->dId , 'cPdId' => null , 'cFyId' => Auth::user()->seFiscalYear] , [
                 'cAmount' => $request->baseCheckAmount
             ]);
+            $insertedAId[$i++] = $check->id;
 
             //////////////////////// set decrease checks ////////////////////////////////
             if (is_array($request->get('decreases')))
             {
                 foreach ($request->get('decreases') as $item)
                 {
-                    _Check::updateOrCreate(['cDId' => $request->dId , 'cPdId' => $item['id'] , 'cFyId' => Auth::user()->seFiscalYear] , [
+                    $check = _Check::updateOrCreate(['cDId' => $request->dId , 'cPdId' => $item['id'] , 'cFyId' => Auth::user()->seFiscalYear] , [
                         'cAmount' => $item['amount']
                     ]);
+                    $insertedAId[$i++] = $check->id;
                 }
             }
+
+            _Check::whereNotIn('id' , $insertedAId)
+                ->where('cDId' , '=' , $request->dId)
+                ->delete();
 
             SystemLog::setFinancialSubSystemLog('صدور چک های حواله ' . Draft::find($request->dId)->dFor);
         });

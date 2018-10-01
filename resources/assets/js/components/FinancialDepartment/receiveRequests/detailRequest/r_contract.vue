@@ -541,6 +541,8 @@
                         this.dialogMessage = 'تامین اعتبار تایید نهایی نشده است!';
                         this.showDialogModal = true;
                     }else{
+                        this.increaseTemp=[];
+                        this.finalAmount=0;
                         this.contractPercentageIncrease();
                         this.contractInput={};
                         this.increaseItems=[];

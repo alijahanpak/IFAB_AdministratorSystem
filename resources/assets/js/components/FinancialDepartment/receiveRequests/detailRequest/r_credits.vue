@@ -714,7 +714,7 @@
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.capSumOfAllocation)}}</td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.capSumOfReserved)}}
                                                             <div class="clearfix tool-bar">
-                                                                <div  style="width: 600px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="auto" :id="'plan' + plan.id" data-dropdown data-auto-focus="true">
+                                                                <div  style="width: 40vw;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="auto" :id="'plan' + plan.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font">
                                                                         <div class="grid-x">
                                                                             <!--Table Start-->
@@ -723,7 +723,7 @@
                                                                                     <tbody>
                                                                                     <tr>
                                                                                         <td width="150" class="black-color">شماره موافقتنامه :</td>
-                                                                                        <td>{{plan.capLetterNumber}}</td>
+                                                                                        <td width="450">{{plan.capLetterNumber}}</td>
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <td width="150" class="black-color">تاریخ موافقتنامه :</td>
@@ -800,8 +800,8 @@
                                                     <col width="150px"/>
                                                     <col width="150px"/>
                                                     <col width="150px"/>
-                                                    <col width="400px"/>
-                                                    <col width="150px"/>
+                                                    <col width="350px"/>
+                                                    <col width="200px"/>
                                                     <col width="40px"/>
                                                     <col width="12px"/>
                                                 </colgroup>
@@ -831,9 +831,8 @@
                                                         <col width="150px"/>
                                                         <col width="150px"/>
                                                         <col width="150px"/>
-                                                        <col width="400px"/>
-                                                        <col width="150px"/>
-                                                        <col width="40px"/>
+                                                        <col width="350px"/>
+                                                        <col width="200px"/>
                                                         <col width="40px"/>
                                                     </colgroup>
                                                     <tbody class="tbl-head-style-cell">
@@ -852,7 +851,7 @@
                                                                                         <tbody>
                                                                                         <tr>
                                                                                             <td width="150" class="black-color">عنوان پروژه :</td>
-                                                                                            <td>{{project.cpSubject}}</td>
+                                                                                            <td width="450">{{project.cpSubject}}</td>
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <td width="150" class="black-color">کد پروژه :</td>
@@ -951,8 +950,8 @@
                                                     <col width="150px"/>
                                                     <col width="150px"/>
                                                     <col width="150px"/>
-                                                    <col width="400px"/>
-                                                    <col width="150px"/>
+                                                    <col width="350px"/>
+                                                    <col width="200px"/>
                                                     <col width="40px"/>
                                                     <col width="12px"/>
                                                 </colgroup>
@@ -982,8 +981,8 @@
                                                         <col width="150px"/>
                                                         <col width="150px"/>
                                                         <col width="150px"/>
-                                                        <col width="400px"/>
-                                                        <col width="150px"/>
+                                                        <col width="350px"/>
+                                                        <col width="200px"/>
                                                         <col width="40px"/>
                                                     </colgroup>
                                                     <tbody class="tbl-head-style-cell">
@@ -992,7 +991,7 @@
                                                             <tr class="table-row" v-for="creditSource in project.credit_source_has_allocation">
                                                                 <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{plan.credit_distribution_title.cdtIdNumber}}</td>
                                                                 <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{$root.dispMoneyFormat(creditSource.ccsAmount)}}</td>
-                                                                <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{$root.dispMoneyFormat(plan.capSumOfAllocation)}}</td>
+                                                                <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{$root.dispMoneyFormat(creditSource.ccsSumOfAllocation)}}</td>
                                                                 <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{$root.dispMoneyFormat(creditSource.ccsSumOfReserved)}}
                                                                     <div class="clearfix tool-bar">
                                                                         <div  style="width: 600px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true" data-h-offset="100px"  data-hover="true" data-hover-pane="true"  data-position="top" data-alignment="right" :id="'creditSource' + creditSource.id" data-dropdown data-auto-focus="true">
@@ -1119,8 +1118,8 @@
                                                     <col width="150px"/>
                                                     <col width="150px"/>
                                                     <col width="150px"/>
-                                                    <col width="400px"/>
-                                                    <col width="150px"/>
+                                                    <col width="350px"/>
+                                                    <col width="200px"/>
                                                     <col width="40px"/>
                                                     <col width="12px"/>
                                                 </colgroup>
@@ -1148,8 +1147,8 @@
                                                         <col width="150px"/>
                                                         <col width="150px"/>
                                                         <col width="150px"/>
-                                                        <col width="400px"/>
-                                                        <col width="150px"/>
+                                                        <col width="350px"/>
+                                                        <col width="200px"/>
                                                         <col width="40px"/>
                                                     </colgroup>
                                                     <tbody class="tbl-head-style-cell">
@@ -1265,8 +1264,8 @@
                                                     <col width="150px"/>
                                                     <col width="150px"/>
                                                     <col width="150px"/>
-                                                    <col width="400px"/>
-                                                    <col width="150px"/>
+                                                    <col width="350px"/>
+                                                    <col width="200px"/>
                                                     <col width="40px"/>
                                                     <col width="12px"/>
                                                 </colgroup>
@@ -1294,8 +1293,8 @@
                                                         <col width="150px"/>
                                                         <col width="150px"/>
                                                         <col width="150px"/>
-                                                        <col width="400px"/>
-                                                        <col width="150px"/>
+                                                        <col width="350px"/>
+                                                        <col width="200px"/>
                                                         <col width="40px"/>
                                                     </colgroup>
                                                     <tbody class="tbl-head-style-cell">
@@ -1936,7 +1935,7 @@ export default{
                 }else if (type == 1)
                 {
                     data.amount = 0;
-                    cs.allocation.forEach( alloc =>{
+                    data.allocation.forEach( alloc =>{
                         alloc.selected = true;
                         alloc.amount = 0;
                     });
@@ -2254,7 +2253,7 @@ export default{
                 }else if (type == 2)
                 {
                     data.amount = 0;
-                    data.allocation.forEach(cs => {
+                    data.allocation.forEach(alloc => {
                         alloc.selected = false;
                         alloc.amount = 0;
                     });
