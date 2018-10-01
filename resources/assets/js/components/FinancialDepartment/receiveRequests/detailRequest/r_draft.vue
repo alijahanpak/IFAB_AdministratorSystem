@@ -1,5 +1,12 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class="grid-x">
+        <div class="large-12 medium-12 small-12" v-if="$can('FINANCIAL_ADD_NEW_DRAFT')">
+            <div class="clearfix tool-bar">
+                <div class="button-group float-right report-mrg">
+                    <a class="my-button toolbox-btn small" @click="openInsertDraftModal()">پیشنویس حواله</a>
+                </div>
+            </div>
+        </div>
         <div class="large-12 medium-12 small-12 small-top-m">
             <!--Table Start-->
             <!--Table Head Start-->
@@ -72,7 +79,7 @@
         </div>
 
         <!--Insert Draft Start-->
-        <modal-Draft v-if="showInsertDraftModal" @close="showInsertDraftModal = false">
+        <modal-small v-if="showInsertDraftModal" @close="showInsertDraftModal = false">
             <div  slot="body">
                 <form v-on:submit.prevent="addNewDraft" >
                     <div class="small-font">
@@ -182,7 +189,7 @@
                     </div>
                 </form>
             </div>
-        </modal-Draft>
+        </modal-small>
         <!--Insert Factor End-->
 
         <!-- Accept Draft modal -->

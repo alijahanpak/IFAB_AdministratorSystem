@@ -800,8 +800,8 @@
                                                     <col width="150px"/>
                                                     <col width="150px"/>
                                                     <col width="150px"/>
-                                                    <col width="400px"/>
-                                                    <col width="150px"/>
+                                                    <col width="350px"/>
+                                                    <col width="200px"/>
                                                     <col width="40px"/>
                                                     <col width="12px"/>
                                                 </colgroup>
@@ -831,9 +831,8 @@
                                                         <col width="150px"/>
                                                         <col width="150px"/>
                                                         <col width="150px"/>
-                                                        <col width="400px"/>
-                                                        <col width="150px"/>
-                                                        <col width="40px"/>
+                                                        <col width="350px"/>
+                                                        <col width="200px"/>
                                                         <col width="40px"/>
                                                     </colgroup>
                                                     <tbody class="tbl-head-style-cell">
@@ -950,8 +949,8 @@
                                                     <col width="150px"/>
                                                     <col width="150px"/>
                                                     <col width="150px"/>
-                                                    <col width="400px"/>
-                                                    <col width="150px"/>
+                                                    <col width="350px"/>
+                                                    <col width="200px"/>
                                                     <col width="40px"/>
                                                     <col width="12px"/>
                                                 </colgroup>
@@ -981,8 +980,8 @@
                                                         <col width="150px"/>
                                                         <col width="150px"/>
                                                         <col width="150px"/>
-                                                        <col width="400px"/>
-                                                        <col width="150px"/>
+                                                        <col width="350px"/>
+                                                        <col width="200px"/>
                                                         <col width="40px"/>
                                                     </colgroup>
                                                     <tbody class="tbl-head-style-cell">
@@ -991,7 +990,7 @@
                                                             <tr class="table-row" v-for="creditSource in project.credit_source_has_allocation">
                                                                 <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{plan.credit_distribution_title.cdtIdNumber}}</td>
                                                                 <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{$root.dispMoneyFormat(creditSource.ccsAmount)}}</td>
-                                                                <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{$root.dispMoneyFormat(plan.capSumOfAllocation)}}</td>
+                                                                <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{$root.dispMoneyFormat(creditSource.ccsSumOfAllocation)}}</td>
                                                                 <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{$root.dispMoneyFormat(creditSource.ccsSumOfReserved)}}
                                                                     <div class="clearfix tool-bar">
                                                                         <div style="width: 39vw;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true" data-h-offset="100px"  data-hover="true" data-hover-pane="true"  data-position="top" data-alignment="right" :id="'creditSource' + creditSource.id" data-dropdown data-auto-focus="true">
@@ -1118,8 +1117,8 @@
                                                     <col width="150px"/>
                                                     <col width="150px"/>
                                                     <col width="150px"/>
-                                                    <col width="400px"/>
-                                                    <col width="150px"/>
+                                                    <col width="350px"/>
+                                                    <col width="200px"/>
                                                     <col width="40px"/>
                                                     <col width="12px"/>
                                                 </colgroup>
@@ -1147,8 +1146,8 @@
                                                         <col width="150px"/>
                                                         <col width="150px"/>
                                                         <col width="150px"/>
-                                                        <col width="400px"/>
-                                                        <col width="150px"/>
+                                                        <col width="350px"/>
+                                                        <col width="200px"/>
                                                         <col width="40px"/>
                                                     </colgroup>
                                                     <tbody class="tbl-head-style-cell">
@@ -1264,8 +1263,8 @@
                                                     <col width="150px"/>
                                                     <col width="150px"/>
                                                     <col width="150px"/>
-                                                    <col width="400px"/>
-                                                    <col width="150px"/>
+                                                    <col width="350px"/>
+                                                    <col width="200px"/>
                                                     <col width="40px"/>
                                                     <col width="12px"/>
                                                 </colgroup>
@@ -1293,8 +1292,8 @@
                                                         <col width="150px"/>
                                                         <col width="150px"/>
                                                         <col width="150px"/>
-                                                        <col width="400px"/>
-                                                        <col width="150px"/>
+                                                        <col width="350px"/>
+                                                        <col width="200px"/>
                                                         <col width="40px"/>
                                                     </colgroup>
                                                     <tbody class="tbl-head-style-cell">
@@ -1935,7 +1934,7 @@ export default{
                 }else if (type == 1)
                 {
                     data.amount = 0;
-                    cs.allocation.forEach( alloc =>{
+                    data.allocation.forEach( alloc =>{
                         alloc.selected = true;
                         alloc.amount = 0;
                     });
@@ -2253,7 +2252,7 @@ export default{
                 }else if (type == 2)
                 {
                     data.amount = 0;
-                    data.allocation.forEach(cs => {
+                    data.allocation.forEach(alloc => {
                         alloc.selected = false;
                         alloc.amount = 0;
                     });
