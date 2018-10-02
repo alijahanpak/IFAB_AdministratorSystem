@@ -995,6 +995,7 @@
             openBlockModal: function (dId) {
 
             },
+
         }
     }
 </script>

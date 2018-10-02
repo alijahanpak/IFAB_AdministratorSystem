@@ -177,6 +177,7 @@
                                             <li v-show='$can("BUDGET_ADMIN_TINY_SEASON_DISPLAY")'><router-link to="/budget/admin/season/tiny_seasons">ریز فصل</router-link></li>
                                         </ul>
                                     </li>
+                                    <li><router-link to="/financial_department/checks/templates">قالب چک</router-link></li>
                                 </ul>
                             </li>
                             <!--Financial Department Start-->
