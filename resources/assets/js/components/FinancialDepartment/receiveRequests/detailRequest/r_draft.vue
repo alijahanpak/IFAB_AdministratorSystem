@@ -458,7 +458,7 @@
 </template>
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
-    import VueElementLoading from 'vue-element-loading'
+    import VueElementLoading from 'vue-element-loading';
     export default{
         props:['drafts','requestId','rAcceptedAmount','rCommitmentAmount','contracts','factors','requestType' , 'sumOfDraftAmount'],
         components: {
@@ -520,6 +520,7 @@
                 draftIsBlocked: true,
                 showLoaderProgress:false,
                 checkEdited: false,
+                checkBaseDelivered: false,
             }
         },
 
@@ -540,7 +541,7 @@
             openPdfModal: function (draft){
               this.checks=[];
               var draftHistory=[];
-              draftHistory.push(draft)
+              draftHistory.push(draft);
               this.draftId=draft.id;
               this.youAreDraftVerifier=draft.dYouAreVerifier;
               this.isMinute=draft.dIsMinute;
@@ -552,9 +553,12 @@
               this.draftIsBlocked = draft.draft_state.dsState == 'BLOCKED' ? true : false;
               this.showPdfModal=true;
 
+              this.checkBaseDelivered = false;
               draftHistory.forEach(item =>{
                   item.check.forEach(ch =>{
                       this.checks.push(ch);
+                      if (ch.cPdId == null && ch.cDelivered)
+                          this.checkBaseDelivered = true;
                   });
               });
               console.log(JSON.stringify(this.checks));
@@ -640,7 +644,7 @@
                     if(this.contracts.length > 0) {
                         this.contracts.forEach(item => {
                             item.increase_amount.forEach(percent => {
-                                sumOfPrcents += (baseAmount * (percent.percentage_increase.piPercent / 100));
+                                sumOfPrcents += Math.round((baseAmount * percent.percentage_increase.piPercent) / 100);
                             });
                         });
                         draftBaseAmountTemp = baseAmount + sumOfPrcents;
@@ -881,7 +885,12 @@
             openGenerateChecksModal:function(){
                 this.getAllPercentageDecreases();
                 this.checkEdited = false;
-                this.showGenerateChecksModal=true;
+                if (!this.checkBaseDelivered)
+                    this.showGenerateChecksModal=true;
+                else{
+                    this.dialogMessage = 'با توجه به اینکه چک پیمانکار / فروشنده / ... تحویل داده شده است، امکان اصلاح وجود ندارد.';
+                    this.showDialogModal = true;
+                }
             },
 
             getAllPercentageDecreases:function () {
@@ -892,13 +901,14 @@
                             Vue.set(item,"amountDec",0);
                         });
                         console.log(JSON.stringify(this.percentageDecreases));
-                        if (this.contracts.length >0){
-                            this.percentageDecreases.forEach(item => {
-                                var isExist=false;
-                                var isNeed = false;
-                                var isChecked = false;
-                                var necessary = false;
-                                var delivered = false;
+                        this.percentageDecreases.forEach(item => {
+                            var isExist=false;
+                            var isNeed = false;
+                            var isChecked = false;
+                            var necessary = false;
+                            var delivered = false;
+                            if (this.contracts.length > 0)
+                            {
                                 this.contracts[0].increase_amount.forEach(incAM =>{
                                     if(item.pdPiId == incAM.icaPiId){
                                         isExist = true;
@@ -907,31 +917,30 @@
                                         necessary = true;
                                     }
                                 });
+                            }
 
-                                this.checks.forEach(check => {
-                                    if (check.cPdId == item.id)
+                            this.checks.forEach(check => {
+                                if (check.cPdId == item.id)
+                                {
+                                    isExist = true;
+                                    isChecked = true;
+                                    if (check.cDelivered)
                                     {
-                                        isExist = true;
-                                        isChecked = true;
-                                        if (check.cDelivered)
-                                        {
-                                            delivered = true;
-                                            isNeed = true;
-                                        }
+                                        delivered = true;
+                                        isNeed = true;
                                     }
-                                });
-
-                                if(isExist)
-                                    Vue.set(item,"amountDec",Math.round((item.pdPercent * this.draftAmount) / 100));
-                                else
-                                    Vue.set(item,"amountDec",0);
-
-                                Vue.set(item,"isNeed",isNeed);
-                                Vue.set(item,"checked",isChecked);
-                                Vue.set(item,"necessary",necessary);
-                                Vue.set(item,"delivered",delivered);
+                                }
                             });
-                        }
+
+                            if(isExist)
+                                Vue.set(item,"amountDec",Math.round((item.pdPercent * this.draftAmount) / 100));
+                            else
+                                Vue.set(item,"amountDec",0);
+                            Vue.set(item,"isNeed",isNeed);
+                            Vue.set(item,"checked",isChecked);
+                            Vue.set(item,"necessary",necessary);
+                            Vue.set(item,"delivered",delivered);
+                        });
 
                         this.calculteFinalIncAmount();
                         console.log(response);
@@ -945,7 +954,7 @@
                 var decreasesTemp={};
                 this.checkEdited = true;
                 decreasesTemp.id=index.id;
-                decreasesTemp.amount=(percent * parseInt(this.draftAmount,10)) / 100;
+                decreasesTemp.amount = Math.round((percent * parseInt(this.draftAmount,10)) / 100);
                 Math.round(decreasesTemp.amount);
                 if(state == false){
                     this.percentageDecreases.forEach(item =>{

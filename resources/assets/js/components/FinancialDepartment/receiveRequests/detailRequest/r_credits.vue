@@ -234,6 +234,7 @@
                                             <!--Table Head End-->
                                             <!--Table Body Start-->
                                             <div class="tbl_body_style dynamic-height-level-modal1">
+                                                <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
                                                         <col width="150px"/>
@@ -336,6 +337,7 @@
                                             <!--Table Head End-->
                                             <!--Table Body Start-->
                                             <div class="tbl_body_style dynamic-height-level-modal1">
+                                                <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
                                                         <col width="100px"/>
@@ -454,6 +456,7 @@
                                             <!--Table Head End-->
                                             <!--Table Body Start-->
                                             <div class="tbl_body_style dynamic-height-level-modal1">
+                                                <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
                                                         <col width="150px"/>
@@ -575,6 +578,7 @@
                                             <!--Table Head End-->
                                             <!--Table Body Start-->
                                             <div class="tbl_body_style dynamic-height-level-modal1">
+                                                <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
                                                         <col width="150px"/>
@@ -697,6 +701,7 @@
                                             <!--Table Head End-->
                                             <!--Table Body Start-->
                                             <div class="tbl_body_style dynamic-height-level-modal1">
+                                                <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
                                                         <col width="150px"/>
@@ -823,6 +828,7 @@
                                             <!--Table Head End-->
                                             <!--Table Body Start-->
                                             <div class="tbl_body_style dynamic-height-level-modal1">
+                                                <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
                                                         <col width="250px"/>
@@ -972,6 +978,7 @@
                                             <!--Table Head End-->
                                             <!--Table Body Start-->
                                             <div class="tbl_body_style dynamic-height-level-modal1">
+                                                <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
                                                         <col width="150px"/>
@@ -1102,8 +1109,6 @@
                                     </div>
                                 </div>
                                 <!--Tab 3-->
-
-
                                 <!--Tab 4-->
                                 <div class="tabs-panel table-mrg-btm" id="caAllocationTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
@@ -1139,6 +1144,7 @@
                                             <!--Table Head End-->
                                             <!--Table Body Start-->
                                             <div class="tbl_body_style dynamic-height-level-modal1">
+                                                <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
                                                         <col width="150px"/>
@@ -1249,7 +1255,6 @@
                                     </div>
                                 </div>
                                 <!--Tab 4-->
-
                                 <!--Tab 5-->
                                 <div class="tabs-panel table-mrg-btm" id="caFundTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
@@ -1285,6 +1290,7 @@
                                             <!--Table Head End-->
                                             <!--Table Body Start-->
                                             <div class="tbl_body_style dynamic-height-level-modal1">
+                                                <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
                                                         <col width="150px"/>
@@ -1405,16 +1411,19 @@
 
 </template>
 <script>
-
+    import VueElementLoading from 'vue-element-loading';
 export default{
     props:['baseAmount','UserIsVerifier','requestFill','requestId','requestType' , 'updateReceiveRequestData'],
-
+    components: {
+        VueElementLoading,
+    },
     data () {
         return {
             showCostCreditsModal:false,
             showCapitalAssetsModal:false,
             showAcceptFinancingModal: false,
             showAcceptApplyFromRefundModal: false,
+            showLoaderProgress: false,
             requestCostFinancing:[],
             requestCapFinancing:[],
             financingDataIsLoaded: false,
@@ -1504,12 +1513,13 @@ export default{
         },
 
         getCompleteCostAgrement: function () {
+            this.showLoaderProgress = true;
             axios.get('/budget/approved_plan/cost/fetchCompleteData')
                 .then((response) => {
                     this.completeCostAgrement = response.data.costAgreement;
                     this.costFound = response.data.costFound;
-
                     this.addNewFieldInCollection();
+                    this.showLoaderProgress = false;
                     console.log(response);
                 }, (error) => {
                     console.log(error);
@@ -1607,11 +1617,13 @@ export default{
         },
 
         getCompleteCapitalAssetsApproved: function () {
+            this.showLoaderProgress = true;
             axios.get('/budget/approved_plan/capital_assets/fetchCompleteData')
                 .then((response) => {
                     this.completeCapitalAssetsAgrement = response.data.caApprovedPlan;
                     this.capitalAssetsFound = response.data.capFound;
                     this.addNewFieldInCapitalAssetsCollection();
+                    this.showLoaderProgress = false;
                     console.log(JSON.stringify(this.completeCapitalAssetsAgrement));
                     console.log(response);
                 }, (error) => {

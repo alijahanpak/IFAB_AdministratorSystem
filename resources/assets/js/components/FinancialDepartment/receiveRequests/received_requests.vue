@@ -654,7 +654,7 @@
                                 <!--Tab 8-->
                                 <div class="tabs-panel table-mrg-btm" id="requestAttachmentsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
-                                        <vue-element-loading :active="showLoaderProgress" spinner="spinner" color="#716aca"/>
+                                        <vue-element-loading :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                         <div class="medium-12 padding-lr">
                                             <label v-show='$can("UNIT_OF_CONTRACT_ADD_NEW_ATTACHMENT")' class="my-button toolbox-btn"> انتخاب فایل
                                                 <input @change="addNewAttachment" accept=".jpg,.jpeg,.png,.doc,.docx,.doc,.xls,.xlsx,.pdf" id="File" type="file">
@@ -1676,7 +1676,19 @@
             },
 
             requestTerminate: function () {
-
+                axios.post('/financial/request/terminate' , {
+                    rId: this.requestId,
+                    description: this.terminateInput.description
+                }).then((response) => {
+                    this.loadReceivedData(response.data);
+                    this.$parent._getUnReadReceivedRequest();
+                    this.makePagination(response.data);
+                    this.showTerminateModal = false;
+                    this.showRequestDetailModal = false;
+                    this.$parent.displayNotif(response.status);
+                },(error) => {
+                    console.log(error);
+                });
             },
         }
     }

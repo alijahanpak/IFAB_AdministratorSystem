@@ -21,6 +21,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::post('referral', 'RequestController@referral');
         Route::post('response', 'RequestController@response');
         Route::post('block', 'RequestController@block');
+        Route::post('terminate', 'RequestController@terminate');
         Route::post('accept', 'RequestController@accept');
         Route::post('secretariat/numbering/register', 'RequestController@numbering');
         Route::get('/get_all_refund', 'RequestController@fetchAllRefund');

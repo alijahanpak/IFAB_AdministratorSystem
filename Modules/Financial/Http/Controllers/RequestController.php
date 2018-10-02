@@ -647,4 +647,29 @@ class RequestController extends Controller
             $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
         );
     }
+
+    public function terminate(Request $request)
+    {
+        DB::transaction(function () use($request){
+            $req = _Request::find($request->rId);
+            $req->rRsId = RequestState::where('rsState' , '=' , 'CLOSED')->value('id');
+            $req->save();
+
+            // make history for this request
+            $history = new RequestHistory();
+            $history->rhSrcUId = Auth::user()->id;
+            $history->rhDestUId = Auth::user()->id; // for accountant destination
+            $history->rhRId = $req->id;
+            $history->rhRsId = $req->rRsId;
+            $history->rhHasBeenSeen = true;
+            $history->rhDescription = PublicSetting::checkPersianCharacters($request->description);
+            $history->save();
+
+            SystemLog::setFinancialSubSystemLog('خاتمه دادن به درخواست ' . $req->rSubject);
+        });
+
+        return \response()->json(
+            $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+        );
+    }
 }
