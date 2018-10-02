@@ -20,6 +20,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::get('search/normal/fetchData', 'RequestController@normalSearch');
         Route::post('referral', 'RequestController@referral');
         Route::post('response', 'RequestController@response');
+        Route::post('block', 'RequestController@block');
         Route::post('accept', 'RequestController@accept');
         Route::post('secretariat/numbering/register', 'RequestController@numbering');
         Route::get('/get_all_refund', 'RequestController@fetchAllRefund');

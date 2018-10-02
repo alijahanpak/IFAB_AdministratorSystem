@@ -16,7 +16,9 @@ use Modules\Admin\Entities\UserPermission;
 use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\AccountantRequestQueue;
 use Modules\Financial\Entities\Attachment;
+use Modules\Financial\Entities\CapitalAssetsFinancing;
 use Modules\Financial\Entities\Commodity;
+use Modules\Financial\Entities\CostFinancing;
 use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\RequestCommodity;
 use Modules\Financial\Entities\RequestHistory;
@@ -616,5 +618,33 @@ class RequestController extends Controller
             })->get();
 
         return \response()->json($refund);
+    }
+
+    public function block(Request $request)
+    {
+        DB::transaction(function () use($request){
+            $req = _Request::find($request->rId);
+            $req->rRsId = RequestState::where('rsState' , '=' , 'BLOCKED')->value('id');
+            $req->save();
+
+            CostFinancing::where('cfRId' , '=' , $req->id)->update(['cfDeleted' => true]);
+            CapitalAssetsFinancing::where('cafRId' , '=' , $req->id)->update(['cafDeleted' => true]);
+
+            // make history for this request
+            $history = new RequestHistory();
+            $history->rhSrcUId = Auth::user()->id;
+            $history->rhDestUId = Auth::user()->id; // for accountant destination
+            $history->rhRId = $req->id;
+            $history->rhRsId = $req->rRsId;
+            $history->rhHasBeenSeen = true;
+            $history->rhDescription = PublicSetting::checkPersianCharacters($request->description);
+            $history->save();
+
+            SystemLog::setFinancialSubSystemLog('مسدود کردن درخواست با عنوان ' . $req->rSubject);
+        });
+
+        return \response()->json(
+            $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+        );
     }
 }

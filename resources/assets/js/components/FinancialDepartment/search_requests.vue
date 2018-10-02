@@ -232,10 +232,10 @@
                                                                     <p class="small-top-m text-justify gray-colors">
                                                                         {{recipientUser.rhDescription}}
                                                                     </p>
-                                                                    <p style="margin-bottom: 0" class="small-top-m">گیرنده:</p>
-                                                                    <div class="grid-x">
+                                                                    <p v-if="recipientUser.source_user_info.id != recipientUser.destination_user_info.id" style="margin-bottom: 0" class="small-top-m">گیرنده:</p>
+                                                                    <div v-if="recipientUser.source_user_info.id != recipientUser.destination_user_info.id" class="grid-x">
                                                                         <div class="large-1 medium-2 small-12">
-                                                                            <img style="width: 40px;height: 40px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="(recipientUser.destination_user_info != null && recipientUser.destination_user_info.avatarPath != null) ? baseURL + recipientUser.destination_user_info.avatarPath : $parent.baseAvatar">
+                                                                            <img style="width: 40px;height: 40px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="recipientUser.destination_user_info.avatarPath != null ? baseURL + recipientUser.destination_user_info.avatarPath : $parent.baseAvatar">
                                                                         </div>
                                                                         <div class="large-11 medium-10 small-12 padding-lr">
                                                                             <p class="small-top-m" v-if="recipientUser.destination_user_info != null">

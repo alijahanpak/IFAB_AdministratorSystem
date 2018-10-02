@@ -10,7 +10,15 @@ class _Request extends Model
 {
     protected $fillable = ['rRlId'];
     protected $table = 'tbl_requests';
-    protected $appends = ['rLastRef' , 'rYouAreVerifiers' , 'rRemainingVerifiers' , 'rCreditIsAccepted' , 'rCreditIsExist' , 'rAcceptedAmount' , 'rCommitmentAmount' , 'rSumOfDraftAmount'];
+    protected $appends = ['rLastRef' ,
+        'rYouAreVerifiers' ,
+        'rRemainingVerifiers' ,
+        'rCreditIsAccepted' ,
+        'rCreditIsExist' ,
+        'rAcceptedAmount' ,
+        'rCommitmentAmount' ,
+        'rSumOfDraftAmount' ,
+        'rIsPaid'];
 
     public function requestState()
     {
@@ -167,5 +175,14 @@ class _Request extends Model
         $sum = Draft::where('dRId' , '=' , $this->id)
             ->where('dDsId' , '<>' , DraftState::where('dsState' , '=' , 'BLOCKED')->value('id'))->sum('dAmount');
         return $sum;
+    }
+
+    public function getRIsPaidAttribute()
+    {
+        $draftsId = Draft::where('dRId' , '=' , $this->id)->pluck('id');
+        $sumOfChecksAmount = _Check::whereIn('cDId' , $draftsId)
+            ->where('cDelivered' , '=' , true)
+            ->sum('cAmount');
+        return $sumOfChecksAmount < $this->getRCommitmentAmountAttribute() ? false : true;
     }
 }

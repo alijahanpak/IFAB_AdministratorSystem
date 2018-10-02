@@ -625,8 +625,8 @@
                                                                     <p class="small-top-m text-justify gray-colors">
                                                                         {{recipientUser.rhDescription}}
                                                                     </p>
-                                                                    <p style="margin-bottom: 0" class="small-top-m">گیرنده:</p>
-                                                                    <div class="grid-x">
+                                                                    <p v-if="recipientUser.source_user_info.id != recipientUser.destination_user_info.id" style="margin-bottom: 0" class="small-top-m">گیرنده:</p>
+                                                                    <div v-if="recipientUser.source_user_info.id != recipientUser.destination_user_info.id" class="grid-x">
                                                                         <div class="large-1 medium-2 small-12">
                                                                             <img style="width: 40px;height: 40px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="recipientUser.destination_user_info.avatarPath != null ? baseURL + recipientUser.destination_user_info.avatarPath : $parent.baseAvatar">
                                                                         </div>
@@ -714,9 +714,11 @@
                         <div class="large-12 medium-12 small-12 medium-top-m">
                             <div style="margin-bottom:-10px;" class="stacked-for-small button-group">
                                 <button @click="openSubmitRequestModal()" v-if=" youAreVerifier != '' "  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
-                                <button @click="openReferralsModal()"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg">  ارجاع</span></button>
-                                <button @click="openResponseRequestModal()" v-show="canResponse == 1 " class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg">  پاسخ</span></button>
-                                <button v-show='$can("SECRETARIAT_REGISTER_AND_NUMBERING") && rLetterNumber == null && rLetterDate == null' style="width:130px;" @click="openRegisterAndNumberingModal()" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت دبیرخانه</span></button>
+                                <button @click="openReferralsModal()"  class="my-button toolbox-btn"><span class="btn-txt-mrg">  ارجاع</span></button>
+                                <button @click="openResponseRequestModal()" v-show="canResponse == 1 " class="my-button toolbox-btn"><span class="btn-txt-mrg">  پاسخ</span></button>
+                                <button @click="openTerminateModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">خاتمه</span></button>
+                                <button @click="openBlockModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">مسدود</span></button>
+                                <button v-show='$can("SECRETARIAT_REGISTER_AND_NUMBERING") && rLetterNumber == null && rLetterDate == null' style="width:130px;" @click="openRegisterAndNumberingModal()" class="my-button my-success"><span class="btn-txt-mrg">  ثبت دبیرخانه</span></button>
                             </div>
                         </div>
                     </div>
@@ -884,7 +886,51 @@
         <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
             {{dialogMessage}}
         </messageDialog>
-
+        <!-- block Detail Modal Start-->
+        <modal-tiny v-if="showBlockModal" @close="showBlockModal = false">
+            <div  slot="body">
+                <form v-on:submit.prevent="requestBlock">
+                    <div class="small-font">
+                        <div class="grid-x">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
+                                <p class="large-offset-1 modal-text">توجه داشته باشید که در صورت مسدود کردن درخواست دیگر امکان بازگشت آن به حالت فعال وجود ندارد، با مسدود کردن درخواست محل های تامین اعتبار آزاد می گردد. </p>
+                                <label>شرح
+                                    <textarea v-model="blockInput.description"  class="form-element-margin-btm"  style="min-height: 150px;" name="blockDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('blockDescription')}"></textarea>
+                                    <span v-show="errors.has('blockDescription')" class="error-font">لطفا دلیل مسدود کردن درخواست را وارد کنید!</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
+                        <button type="submit"  class="my-button my-success"><span class="btn-txt-mrg">  مسدود</span></button>
+                    </div>
+                </form>
+            </div>
+        </modal-tiny>
+        <!-- block Detail Modal End-->
+        <!-- block Detail Modal Start-->
+        <modal-tiny v-if="showTerminateModal" @close="showTerminateModal = false">
+            <div  slot="body">
+                <form v-on:submit.prevent="requestTerminate">
+                    <div class="small-font">
+                        <div class="grid-x">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
+                                <p class="large-offset-1 modal-text">توجه داشته باشید که در صورت خاتمه درخواست دیگر امکان بازگشت آن به حالت فعال وجود ندارد. </p>
+                                <label>شرح
+                                    <textarea v-model="terminateInput.description"  class="form-element-margin-btm"  style="min-height: 150px;"></textarea>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
+                        <button type="submit"  class="my-button my-success"><span class="btn-txt-mrg">  خاتمه</span></button>
+                    </div>
+                </form>
+            </div>
+        </modal-tiny>
+        <!-- block Detail Modal End-->
     </div>
 </template>
 
@@ -932,10 +978,14 @@
                 showRegisterAndNumberingModal:false,
                 showDialogModal: false,
                 showDeleteAttachmentConfirmModal: false,
+                showBlockModal: false,
+                showTerminateModal: false,
                 dialogMessage: '',
                 receiveRequestSearchValue:'',
                 requestTypeDetail:'',
                 requestFill:{},
+                blockInput:{},
+                terminateInput: {},
                 commodityList:[],
                 recipientUsers:[],
                 UserIsVerifier:[],
@@ -945,6 +995,7 @@
                 groupUsersByCId:[],
                 referralPermission:false,
                 referralInput:{},
+                isPaid: false,
                 lastVerifier:'',
                 youAreVerifier:'',
                 youAreVerifierCId:'',
@@ -1009,6 +1060,7 @@
                 isFromRefundCosts:false,
 
                 drafts:[],
+                draftIsExist: false,
                 rCostEstimation:0,
                 rAcceptedAmount:0,
 
@@ -1314,6 +1366,14 @@
                     });
                 });
 
+                this.isPaid = request.rIsPaid;
+                this.draftIsExist = false;
+                this.drafts.forEach(draft => {
+                    if (draft.draft_state.dsState != 'BLOCKED')
+                    {
+                        this.draftIsExist = true;
+                    }
+                });
 
                 this.rLetterNumber = request.rLetterNumber;
                 this.rLetterDate = request.rLetterDate;
@@ -1571,6 +1631,52 @@
                     console.log(error);
                     this.$parent.displayNotif(error.response.status);
                 });
+            },
+
+            openBlockModal: function () {
+                this.blockInput = {};
+                if (!this.draftIsExist)
+                    this.showBlockModal = true;
+                else
+                {
+                    this.dialogMessage = 'با توجه به اینکه برای درخواست حواله صادر شده است، امکان مسدود کردن درخواست وجود ندارد.';
+                    this.showDialogModal = true;
+                }
+            },
+
+            requestBlock: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/financial/request/block' , {
+                            rId: this.requestId,
+                            description: this.blockInput.description
+                        }).then((response) => {
+                            this.loadReceivedData(response.data);
+                            this.$parent._getUnReadReceivedRequest();
+                            this.makePagination(response.data);
+                            this.showBlockModal = false;
+                            this.showRequestDetailModal = false;
+                            this.$parent.displayNotif(response.status);
+                        },(error) => {
+                            console.log(error);
+                        });
+                    }
+                });
+            },
+
+            openTerminateModal: function () {
+                this.terminateInput = {};
+                if (this.isPaid)
+                    this.showTerminateModal = true;
+                else
+                {
+                    this.dialogMessage = 'پرداخت مبالغ درخواست، نهایی نشده است، پرداخت نهایی به معنای تحویل کلیه چک ها می باشد.';
+                    this.showDialogModal = true;
+                }
+            },
+
+            requestTerminate: function () {
+
             },
         }
     }

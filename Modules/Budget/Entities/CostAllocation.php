@@ -29,12 +29,16 @@ class CostAllocation extends Model
 
     public function sumOfReserve()
     {
-        return $this->hasMany(CostFinancing::class , 'cfCaId' , 'id')->where('cfAccepted' , '=' , false);
+        return $this->hasMany(CostFinancing::class , 'cfCaId' , 'id')
+            ->where('cfDeleted' , '=' , false)
+            ->where('cfAccepted' , '=' , false);
     }
 
     public function sumOfCommitment()
     {
-        return $this->hasMany(CostFinancing::class , 'cfCaId' , 'id')->where('cfAccepted' , '=' , true);
+        return $this->hasMany(CostFinancing::class , 'cfCaId' , 'id')
+            ->where('cfDeleted' , '=' , false)
+            ->where('cfAccepted' , '=' , true);
     }
 
     public function getCaConvertedAllocAmountAttribute()

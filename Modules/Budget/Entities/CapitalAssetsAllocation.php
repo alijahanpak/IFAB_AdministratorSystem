@@ -28,12 +28,16 @@ class CapitalAssetsAllocation extends Model
 
     public function sumOfReserve()
     {
-        return $this->hasMany(CapitalAssetsFinancing::class , 'cafCaaId' , 'id')->where('cafAccepted' , '=' , false);
+        return $this->hasMany(CapitalAssetsFinancing::class , 'cafCaaId' , 'id')
+            ->where('cafDeleted' , '=' , false)
+            ->where('cafAccepted' , '=' , false);
     }
 
     public function sumOfCommitment()
     {
-        return $this->hasMany(CapitalAssetsFinancing::class , 'cafCaaId' , 'id')->where('cafAccepted' , '=' , true);
+        return $this->hasMany(CapitalAssetsFinancing::class , 'cafCaaId' , 'id')
+            ->where('cafDeleted' , '=' , false)
+            ->where('cafAccepted' , '=' , true);
     }
 
     public function getCaaConvertedAllocAmountAttribute()

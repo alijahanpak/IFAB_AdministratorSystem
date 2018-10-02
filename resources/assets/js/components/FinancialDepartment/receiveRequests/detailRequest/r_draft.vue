@@ -220,16 +220,13 @@
                         <div class="tabs-content" data-tabs-content="draftAndCheck_tab_view">
                             <!--Draft Tab -->
                             <div class="tabs-panel is-active table-mrg-btm" id="DraftTab">
-                                <div class="grid-x">
+                                <div class="grid-x" :style="{ width: '100%' , height: !draftIsBlocked ? '74.5vh' : '81vh'}">
                                     <div class="large-12">
-                                        <vue-element-loading style="width: 100%;height: 74.5vh;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
-                                    </div>
-
-                                    <div class="large-12">
-                                        <embed style="width: 100%;height: 74.5vh;" :src="draftPdfPath" />
+                                        <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
+                                        <embed style="width: 100%;height: 100%" :src="draftPdfPath" />
                                     </div>
                                 </div>
-                                <div class="grid-x">
+                                <div class="grid-x" v-if="!draftIsBlocked">
                                     <div style="margin-bottom:-20px;margin-top: 5px;" class="large-12 medium-12 small-12">
                                         <div class="stacked-for-small button-group float-right">
                                             <button v-if="$can('FINANCIAL_REGISTER_AND_NUMBERING_DRAFT')" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
@@ -237,7 +234,7 @@
                                             <button v-if="$can('FINANCIAL_ACCEPT_MINUTE_DRAFT') && isMinute" @click="openAcceptMinuteConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید پیشنویس   </span></button>
                                             <button v-if="$can('FINANCIAL_DETERMINE_DECREASES_AND_MAKE_CHECKS') && isAccepted" @click="openGenerateChecksModal()"  class="my-button my-success"><span class="btn-txt-mrg">   صدور چک   </span></button>
                                             <button @click="openReferralModal(draftId)"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> ارجاع </span></button>
-                                            <button @click="openBlockModal(draftId)" class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> مسدود </span></button>
+                                            <button @click="openBlockModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">مسدود</span></button>
                                         </div>
                                     </div>
                                 </div>
@@ -363,7 +360,7 @@
                                         <div class="grid-x">
                                             <div class="large-2 medium-3  small-12">
                                                 <div class="switch tiny">
-                                                    <input :checked="percentDecInput['percentage' + percentDec.id] = percentDec.checked" :disabled="percentDec.isNeed == true" v-on:change="calcultePercentAmount(percentDec.pdPercent,percentDec,percentDecInput['percentage' + percentDec.id])" class="switch-input" v-model="percentDecInput['percentage' + percentDec.id]" :id="'percentage'+percentDec.id" type="checkbox">
+                                                    <input :checked="percentDecInput['percentage' + percentDec.id] = percentDec.checked" :disabled="percentDec.isNeed == true" v-on:change="calculatePercentAmount(percentDec.pdPercent,percentDec,percentDecInput['percentage' + percentDec.id])" class="switch-input" v-model="percentDecInput['percentage' + percentDec.id]" :id="'percentage'+percentDec.id" type="checkbox">
                                                     <label class="switch-paddle" :for="'percentage'+percentDec.id">
                                                         <span class="switch-active" aria-hidden="true">بلی</span>
                                                         <span class="switch-inactive" aria-hidden="true">خیر</span>
@@ -371,7 +368,12 @@
                                                 </div>
                                             </div>
                                             <div class="large-10 medium-9  small-12">
-                                                <p>{{percentDec.pdSubject + '(' + percentDec.pdPercent + '%)'}}</p>
+                                                <p>
+                                                    {{percentDec.pdSubject}}
+                                                    <span class="btn-red size-12" v-if="percentDec.necessary"> - الزامی</span>
+                                                    <span class="btn-red size-12" v-if="percentDec.delivered"> - تحویل داده شده</span>
+                                                    {{'(' + percentDec.pdPercent + '%)'}}
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -429,27 +431,29 @@
             </div>
         </modal-tiny>
         <!-- Accept Generate check modal -->
-        <!-- Referral Detail Modal Start-->
-<!--        <modal-small v-if="showBlockModal" @close="showBlockModal = false">
+        <!-- block Detail Modal Start-->
+        <modal-tiny v-if="showBlockModal" @close="showBlockModal = false">
             <div  slot="body">
                 <form v-on:submit.prevent="requestBlock">
                     <div class="small-font">
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
+                                <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
+                                <p class="large-offset-1 modal-text">توجه داشته باشید که در صورت مسدود کردن حواله دیگر امکان بازگشت آن به حالت فعال وجود ندارد، با مسدود شدن حواله مبلغ حواله در محاسبات در نظر گرفته نخواهد شد.</p>
                                 <label>شرح
-                                    <textarea v-model="referralInput.description"  class="form-element-margin-btm"  style="min-height: 150px;" name="referralDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('referralDescription')}"></textarea>
-                                    <span v-show="errors.has('referralDescription')" class="error-font">لطفا دلیل مسدود کردن حواله را وارد کنید!</span>
+                                    <textarea v-model="blockInput.description"  class="form-element-margin-btm"  style="min-height: 150px;" name="blockDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('blockDescription')}"></textarea>
+                                    <span v-show="errors.has('blockDescription')" class="error-font">لطفا دلیل مسدود کردن حواله را وارد کنید!</span>
                                 </label>
                             </div>
                         </div>
                     </div>
-                    <div class="large-12 medium-12 small-12 padding-lr small-top-m">
-                        <button type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ارجاع</span></button>
+                    <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
+                        <button type="submit"  class="my-button my-success"><span class="btn-txt-mrg">  مسدود</span></button>
                     </div>
                 </form>
             </div>
-        </modal-small>-->
-        <!-- Referral Detail Modal End-->
+        </modal-tiny>
+        <!-- block Detail Modal End-->
     </div>
 </template>
 <script>
@@ -475,6 +479,7 @@
                 showBlockModal: false,
                 dialogMessage: '',
                 draftInput:{},
+                blockInput:{},
                 directorGeneralUsers:[],
                 money: {
                     thousands: ',',
@@ -512,7 +517,9 @@
                 draftFor:'',
                 finalIncAmount:0,
                 checks:[],
+                draftIsBlocked: true,
                 showLoaderProgress:false,
+                checkEdited: false,
             }
         },
 
@@ -542,6 +549,7 @@
               this.draftFor=draft.dFor;
               this.openReportFile();
               this.draftPdfPath='';
+              this.draftIsBlocked = draft.draft_state.dsState == 'BLOCKED' ? true : false;
               this.showPdfModal=true;
 
               draftHistory.forEach(item =>{
@@ -872,6 +880,7 @@
 
             openGenerateChecksModal:function(){
                 this.getAllPercentageDecreases();
+                this.checkEdited = false;
                 this.showGenerateChecksModal=true;
             },
 
@@ -886,21 +895,41 @@
                         if (this.contracts.length >0){
                             this.percentageDecreases.forEach(item => {
                                 var isExist=false;
+                                var isNeed = false;
+                                var isChecked = false;
+                                var necessary = false;
+                                var delivered = false;
                                 this.contracts[0].increase_amount.forEach(incAM =>{
                                     if(item.pdPiId == incAM.icaPiId){
-                                        isExist= true;
+                                        isExist = true;
+                                        isNeed = true;
+                                        isChecked = true;
+                                        necessary = true;
                                     }
                                 });
-                                if(isExist){
+
+                                this.checks.forEach(check => {
+                                    if (check.cPdId == item.id)
+                                    {
+                                        isExist = true;
+                                        isChecked = true;
+                                        if (check.cDelivered)
+                                        {
+                                            delivered = true;
+                                            isNeed = true;
+                                        }
+                                    }
+                                });
+
+                                if(isExist)
                                     Vue.set(item,"amountDec",Math.round((item.pdPercent * this.draftAmount) / 100));
-                                    Vue.set(item,"isNeed",true);
-                                    Vue.set(item,"checked",true);
-                                }
-                                else{
+                                else
                                     Vue.set(item,"amountDec",0);
-                                    Vue.set(item,"isNeed",false);
-                                    Vue.set(item,"checked",false);
-                                }
+
+                                Vue.set(item,"isNeed",isNeed);
+                                Vue.set(item,"checked",isChecked);
+                                Vue.set(item,"necessary",necessary);
+                                Vue.set(item,"delivered",delivered);
                             });
                         }
 
@@ -912,8 +941,9 @@
 
             },
 
-            calcultePercentAmount: function (percent,index,state) {
+            calculatePercentAmount: function (percent,index,state) {
                 var decreasesTemp={};
+                this.checkEdited = true;
                 decreasesTemp.id=index.id;
                 decreasesTemp.amount=(percent * parseInt(this.draftAmount,10)) / 100;
                 Math.round(decreasesTemp.amount);
@@ -955,7 +985,12 @@
             },
 
             openAcceptGeneratecheckConfirmModal:function (){
-                this.showAcceptGeneratecheckConfirmModal=true;
+                if (this.checkEdited)
+                    this.showAcceptGeneratecheckConfirmModal=true;
+                else{
+                    this.dialogMessage = 'تغییری در مبلغ چک ها ایجاد نشده است!';
+                    this.showDialogModal = true;
+                }
             },
 
             generateChecks: function () {
@@ -992,8 +1027,33 @@
                 this.$emit('openReferralsModal' , this.draftId);
             },
 
-            openBlockModal: function (dId) {
+            openBlockModal: function () {
+                this.blockInput = {};
+                if (this.checks.length == 0)
+                    this.showBlockModal = true;
+                else
+                {
+                    this.dialogMessage = 'با توجه به اینکه برای حواله چک صادر شده است، امکان مسدود کردن حواله وجود ندارد.';
+                    this.showDialogModal = true;
+                }
+            },
 
+            requestBlock: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/financial/draft/block' , {
+                            dId: this.draftId,
+                            description: this.blockInput.description
+                        })
+                            .then((response) => {
+                                this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                                this.draftIsBlocked = true;
+                                this.showBlockModal = false;
+                            },(error) => {
+                                console.log(error);
+                            });
+                    }
+                });
             },
         }
     }

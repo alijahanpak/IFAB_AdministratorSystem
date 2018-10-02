@@ -214,6 +214,18 @@ class DraftController extends Controller
             $draft->dDsId = DraftState::where('dsState' , '=' , 'BLOCKED')->value('id');
             $draft->save();
 
+            $req = _Request::find($draft->dRId);
+            // make history for this request
+            $history = new RequestHistory();
+            $history->rhSrcUId = Auth::user()->id;
+            $history->rhDestUId = Auth::user()->id; // for accountant destination
+            $history->rhRId = $req->id;
+            $history->rhRsId = $req->rRsId;
+            $history->rhDId = $draft->id;
+            $history->rhDHasBeenSeen = true;
+            $history->rhDescription = PublicSetting::checkPersianCharacters($request->description) . ' (حواله: ' . $draft->dFor . ')';
+            $history->save();
+
             SystemLog::setFinancialSubSystemLog('مسدود کردن حواله با عنوان ' . $draft->dFor);
         });
 
