@@ -28,12 +28,14 @@ import cost_allocation from './components/Budget/Allocation/cost.vue'
 import credit_distribution_plan from './components/Budget/CreditDistribution/plan.vue'
 import budget_proposal from './components/Budget/CreditDistribution/proposal.vue'
 
+
 /////////////////////// Financial Department Start//////////////////////////
 
 import submissions from './components/FinancialDepartment/submissions.vue'
 import received_requests from './components/FinancialDepartment/receiveRequests/received_requests.vue'
 import search_requests from './components/FinancialDepartment/search_requests.vue'
 import checks_list from './components/FinancialDepartment/checks_list.vue'
+import checks_template from './components/FinancialDepartment/admin/check_template.vue'
 
 
 /////////////////////// Financial Department End//////////////////////////
@@ -66,6 +68,7 @@ const routes = [
     { path: '/financial_department/received_requests', component: received_requests , meta:{permission: 'public'}},
     { path: '/financial_department/search_requests', component: search_requests , meta:{permission: 'public'}},
     { path: '/financial_department/checks/list', component: checks_list , meta:{permission: 'CHECK_LIST_DISPLAY'}},
+    { path: '/financial_department/checks/templates', component: checks_template , meta:{permission: 'public'}},
 
 ]
 
