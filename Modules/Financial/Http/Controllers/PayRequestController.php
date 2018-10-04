@@ -83,6 +83,7 @@ class PayRequestController extends Controller
             $history->rhDestUId = $request->get('verifiers')[0]['uId'];
             $history->rhRId = $request->rId;
             $history->rhRsId = $req->rRsId;
+            $history->rhPrId = $payRequest->id;
             $history->save();
 
             SystemLog::setFinancialSubSystemLog('ثبت درخواست پرداخت برای درخواست ' . $req->rSubject);

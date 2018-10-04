@@ -256,7 +256,7 @@ class RequestController extends Controller
                 ->with('draft.verifier.user.role')
                 ->with('draft.check.percentageDecrease')
                 ->with('draft.draftState')
-                ->with('payRequest')
+                ->with('payRequest.verifiers.user.role.officeUnit')
                 ->with('requestLevel')
                 ->with('contract.increaseAmount.percentageIncrease')
                 ->orderBy('id' , 'DESC')
