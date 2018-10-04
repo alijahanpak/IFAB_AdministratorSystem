@@ -617,9 +617,11 @@
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 padding-lr">
                                             <label>قرارداد
-                                                <select name="contract_input" v-validate data-vv-rules="required"  v-model="paymentInput.contract" :class="{'input': true, 'select-error': errors.has('contract_input')}">
+                                                <select name="contract_input" @change="getContractInfo(contractTemp)" v-validate data-vv-rules="required"  v-model="contractTemp" :class="{'input': true, 'select-error': errors.has('contract_input')}">
                                                     <option value=""></option>
-                                                    <option @change="getContractInfo(contract)" v-for="contract in contracts" :value="contract.id">{{contract.cSubject}} - {{contract.cLetterNumber}} - {{contract.cLetterDate}}</option>
+                                                    <template v-for="contract in contracts">
+                                                        <option :value="contract">{{contract.cSubject}} - {{contract.cLetterNumber}} - {{contract.cLetterDate}}</option>
+                                                    </template>
                                                 </select>
                                                 <p v-show="errors.has('contract_input')" class="error-font">لطفا قرارداد را انتخاب کنید!</p>
                                             </label>
@@ -628,13 +630,13 @@
                                     <div class="grid-x">
                                         <div class="large-6 medium-6 small-6 padding-lr">
                                             <label>درصد پیشرفت فیزیکی
-                                                <input type="text" name="physical_progress" v-model="paymentInput.physicalProgress" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('physical_progress')}">
+                                                <input type="text" name="physical_progress" v-model="paymentInput.physicalProgress" v-validate="'required','min_value:0','max_value:'+ contractPercent " :class="{'input': true, 'error-border': errors.has('physical_progress')}">
                                             </label>
-                                            <p v-show="errors.has('physical_progress')" class="error-font">لطفا درصد پیشرفت فیزیکی را وارد نمایید!</p>
+                                            <p v-show="errors.has('physical_progress')" class="error-font">لطفا درصد پیشرفت فیزیکی را وارد / اصلاح نمایید!</p>
                                         </div>
                                         <div class="large-6 medium-6 small-6 padding-lr">
                                             <label>درصد پیشرفت ریالی
-                                                <input type="text" @change="calculateRialProgress()" name="rial_progress" v-model="paymentInput.rialProgress" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('rial_progress')}">
+                                                <input type="text" @keyup="calculatePaymentRialProgress()" name="rial_progress" v-model="paymentInput.rialProgress" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('rial_progress')}">
                                             </label>
                                             <p v-show="errors.has('rial_progress')" class="error-font">لطفا درصد پیشرفت ریالی را وارد نمایید!</p>
                                         </div>
@@ -642,7 +644,7 @@
                                     <div style="margin-top:8px;"  class="grid-x">
                                         <div class="large-6 medium-6 small-12 padding-lr">
                                             <label>مبلغ <span class="btn-red">(ریال)  </span>
-                                                <money @change.native="calculateDraftAmount()" v-model="paymentInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('paymentAmount')}"></money>
+                                                <money @change.native="calculatePaymentAmount()" v-model="paymentInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('paymentAmount')}"></money>
                                             </label>
                                             <p v-show="errors.has('baseAmount')" class="error-font"> مبلغ صورت وضعیت مورد نظر نامعتبر است!</p>
                                         </div>
@@ -655,7 +657,7 @@
                                                         <div class="grid-x">
                                                             <div class="large-3 medium-4 small-12">
                                                                 <div class="switch tiny">
-                                                                    <input class="switch-input" v-model="paymentInput.finalPaymentState" id="finalPayment_state" type="checkbox">
+                                                                    <input :checked="paymentInput.finalPaymentState" :disabled="paymentInput.finalPaymentState" class="switch-input" v-model="paymentInput.finalPaymentState" id="finalPayment_state" type="checkbox">
                                                                     <label class="switch-paddle" for="finalPayment_state">
                                                                         <span class="switch-active" aria-hidden="true">بلی</span>
                                                                         <span class="switch-inactive" aria-hidden="true">خیر</span>
@@ -668,7 +670,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="large-6 medium-6 small-12 padding-lr input-bottom-margin">
-                                                        <p class="input-bottom-margin">درصد افزایش و کاهش :<span class="btn-red">10٪</span></p>
+                                                        <p v-show="paymentInput.finalPaymentState" class="input-bottom-margin">درصد افزایش و کاهش :<span class="btn-red">{{incAndDecPercent}} %</span></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -762,7 +764,11 @@
 
                 paymentInput:{},
                 contracts:[],
+                contractTemp:[],
                 contractPercent:0,
+                cBaseAmount:0,
+                cBaseAmountTemp:0,
+                incAndDecPercent:0,
             }
         },
 
@@ -1088,17 +1094,41 @@
             },
 
             openInsertPaymentRequestModal: function(){
+                this.paymentInput={};
+                this.contractTemp=[];
+                this.paymentInput.finalPaymentState=false;
                 this.showInsertPaymentRequestModal=true;
             },
 
             getContractInfo:function(contract){
+               console.log(JSON.stringify(contract));
                 this.contractPercent=0;
-                this.contractPercent=contract.cPercentInAndDec;
+                this.contractPercent=contract.cPercentInAndDec + 100;
+                this.cBaseAmount=contract.cBaseAmount;
+                this.paymentInput.amount=contract.cBaseAmount;
+                this.calculatePaymentAmount();
             },
 
-            calculateRialProgress:function(){
+            calculatePaymentAmount:function(){
+                this.paymentInput.rialProgress=0;
+                this.paymentInput.rialProgress=Math.round((parseInt(this.paymentInput.amount.split(',').join(''),10) / this.cBaseAmount ) * 100);
+                if(this.paymentInput.rialProgress > 100){
+                    this.paymentInput.finalPaymentState=true;
+                    this.incAndDecPercent=0;
+                    this.incAndDecPercent=this.paymentInput.rialProgress - 100;
 
+                }
+                else{
+                    this.paymentInput.finalPaymentState = false;
+                    this.incAndDecPercent=0;
+                }
             },
+
+            calculatePaymentRialProgress:function(){
+                this.paymentInput.amount=Math.round(this.cBaseAmount * (this.paymentInput.rialProgress / 100));
+            },
+
+
 
             /*--------------------------- File Upload Start--------------------------------------*/
             getAttachmentSize() {
