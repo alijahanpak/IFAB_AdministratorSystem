@@ -34,8 +34,13 @@ class SeederRequestLevelTableSeeder extends Seeder
         $requestLevel->save();
 
         $requestLevel = new RequestLevel();
-        $requestLevel->rlSubject = 'پرداخت';
+        $requestLevel->rlSubject = 'درخواست پرداخت';
         $requestLevel->rlLevel = 'PAYMENT';
+        $requestLevel->save();
+
+        $requestLevel = new RequestLevel();
+        $requestLevel->rlSubject = 'حواله';
+        $requestLevel->rlLevel = 'DRAFT';
         $requestLevel->save();
 
     }

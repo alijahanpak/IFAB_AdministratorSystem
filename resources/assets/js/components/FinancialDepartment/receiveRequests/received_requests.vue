@@ -28,8 +28,10 @@
                     <li v-if="rr_FINANCIAL_Unreads == 0"class="tabs-title"><a href="#rr_FINANCIAL"> تامین اعتبار <span v-show="rr_FINANCIAL_Reads > 0" class="notif-badge-gray">{{rr_FINANCIAL_Reads}}</span></a></li>
                     <li v-if="rr_PURCHASE_AND_CONTRACT_Unreads > 0" class="tabs-title"><a href="#rr_PURCHASE_AND_CONTRACT"> خرید / قرارداد<span v-show="rr_PURCHASE_AND_CONTRACT_Unreads > 0" class="notif-badge-purple">{{rr_PURCHASE_AND_CONTRACT_Unreads}}</span></a></li>
                     <li v-if="rr_PURCHASE_AND_CONTRACT_Unreads == 0" class="tabs-title"><a href="#rr_PURCHASE_AND_CONTRACT"> خرید / قرارداد<span v-show="rr_PURCHASE_AND_CONTRACT_Reads > 0" class="notif-badge-gray">{{rr_PURCHASE_AND_CONTRACT_Reads}}</span></a></li>
-                    <li v-if="rr_PAYMENT_Unreads > 0" class="tabs-title"><a href="#rr_PAYMENT"> پرداخت <span v-show="rr_PAYMENT_Unreads > 0" class="notif-badge-purple">{{rr_PAYMENT_Unreads}}</span></a></li>
-                    <li v-if="rr_PAYMENT_Unreads == 0" class="tabs-title"><a href="#rr_PAYMENT"> پرداخت <span v-show="rr_PAYMENT_Reads > 0" class="notif-badge-gray">{{rr_PAYMENT_Reads}}</span></a></li>
+                    <li v-if="rr_PAYMENT_Unreads > 0" class="tabs-title"><a href="#rr_PAYMENT"> درخواست پرداخت <span v-show="rr_PAYMENT_Unreads > 0" class="notif-badge-purple">{{rr_PAYMENT_Unreads}}</span></a></li>
+                    <li v-if="rr_PAYMENT_Unreads == 0" class="tabs-title"><a href="#rr_PAYMENT"> درخواست پرداخت <span v-show="rr_PAYMENT_Reads > 0" class="notif-badge-gray">{{rr_PAYMENT_Reads}}</span></a></li>
+                    <li v-if="rr_DRAFT_Unreads > 0" class="tabs-title"><a href="#rr_DRAFT"> حواله <span v-show="rr_DRAFT_Unreads > 0" class="notif-badge-purple">{{rr_DRAFT_Unreads}}</span></a></li>
+                    <li v-if="rr_DRAFT_Unreads == 0" class="tabs-title"><a href="#rr_DRAFT"> حواله <span v-show="rr_DRAFT_Reads > 0" class="notif-badge-gray">{{rr_DRAFT_Reads}}</span></a></li>
                 </ul>
                 <div class="tabs-content" data-tabs-content="receive_Requests_tab_view">
                     <!--receiveRequests_REQUEST Tab-->
@@ -491,6 +493,121 @@
                         </div>
                     </div>
                     <!--receiveRequests_PAYMENT Tab-->
+
+                    <!--receiveRequests_DRAFT Tab-->
+                    <div class="tabs-panel table-mrg-btm" id="rr_DRAFT">
+                        <div class="grid-x">
+                            <div class="large-12 medium-12 small-12">
+                                <div class="tbl-div-container">
+                                    <table class="tbl-head">
+                                        <colgroup>
+                                            <col width="80px"/>
+                                            <col width="400px"/>
+                                            <col width="400px"/>
+                                            <col width="150px"/>
+                                            <col width="200x"/>
+                                            <col width="200px"/>
+                                            <col width="200px"/>
+                                            <col width="150px"/>
+                                            <col width="12px"/>
+                                        </colgroup>
+                                        <tbody class="tbl-head-style">
+                                        <tr class="tbl-head-style-cell">
+                                            <th class="tbl-head-style-cell">وضعیت</th>
+                                            <th class="tbl-head-style-cell">عنوان</th>
+                                            <th class="tbl-head-style-cell">ارسال کننده</th>
+                                            <th class="tbl-head-style-cell">نوع درخواست</th>
+                                            <th class="tbl-head-style-cell">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
+                                            <th class="tbl-head-style-cell">مبلغ نهایی <span class="btn-red small-font">(ریال)</span></th>
+                                            <th class="tbl-head-style-cell">شماره</th>
+                                            <th class="tbl-head-style-cell">تاریخ</th>
+                                            <th class="tbl-head-style-cell"></th>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <!--Table Head End-->
+                                    <!--Table Body Start-->
+                                    <div class="tbl_body_style dynamic-height-levelR">
+                                        <table class="tbl-body-contain">
+                                            <colgroup>
+                                                <col width="80px"/>
+                                                <col width="400px"/>
+                                                <col width="400px"/>
+                                                <col width="150px"/>
+                                                <col width="200x"/>
+                                                <col width="200px"/>
+                                                <col width="200px"/>
+                                                <col width="150px"/>
+                                                <col width="12px"/>
+                                            </colgroup>
+                                            <tbody class="tbl-head-style-cell">
+                                            <tr class="table-row" @click="getRequestDetail(receiveDraft)" v-for="receiveDraft in receiveRequests_DRAFT">
+                                                <td v-show="receiveDraft.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
+                                                <td v-show="receiveDraft.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
+                                                <td>{{receiveDraft.rSubject}}</td>
+                                                <td :data-toggle="'lastRef' + receiveDraft.id">{{receiveDraft.rLastRef.source_user_info.name}} - {{receiveDraft.rLastRef.source_user_info.role.rSubject}}
+                                                    <div class="clearfix tool-bar" v-if="receiveDraft.rLastRef.rhDescription !== null">
+                                                        <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'lastRef' + receiveDraft.id" data-dropdown data-auto-focus="true">
+                                                            <ul class="my-menu small-font">
+                                                                <div class="grid-x">
+                                                                    <div class="medium-12">
+                                                                        <p class="black-color">{{receiveDraft.rLastRef.source_user_info.name}} - {{receiveDraft.rLastRef.source_user_info.role.rSubject}}</p>
+                                                                        <p class="gray-colors text-justify" style="margin-top: -10px">{{ receiveDraft.rLastRef.rhDescription }}</p>
+                                                                        <p style="direction: ltr;margin-bottom: -10px;" class="gray-color small-font float-left"><i class="far fa-calendar-alt"></i><span> {{receiveDraft.rLastRef.rhShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{receiveDraft.rLastRef.rhShamsiTime}}</span></p>
+                                                                    </div>
+                                                                </div>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>{{ receiveDraft.request_type.rtSubject }}</td>
+                                                <template v-if="receiveDraft.request_type.rtType == 'BUY_SERVICES' || receiveDraft.request_type.rtType == 'BUY_COMMODITY'">
+                                                    <td class="text-center">{{$parent.dispMoneyFormat(receiveDraft.rCostEstimation)}}</td>
+                                                    <td class="text-center" v-if="receiveDraft.rAcceptedAmount > 0">
+                                                        <div v-if="parseInt(receiveDraft.rAcceptedAmount) != parseInt(receiveDraft.rCommitmentAmount)">
+                                                            <span class="danger-label" :data-toggle="'needForEditFinancing' + receivePayment.id">{{$parent.dispMoneyFormat(receiveDraft.rAcceptedAmount)}}</span>
+                                                            <div class="clearfix tool-bar">
+                                                                <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'needForEditFinancing' + receiveDraft.id" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font">
+                                                                        <div class="grid-x">
+                                                                            <div class="medium-12">
+                                                                                <p class="black-color text-justify">کاربر گرامی:</p>
+                                                                                <p class="gray-colors text-justify" style="margin-top: -10px">مبلغ قرارداد / فاکتور با مبلغ تعهد شده از محل های تامین اعتبار تفاوت دارد، لطفا نسبت به اصلاح تامین اعتبار اقدام کنید.</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div v-else="">
+                                                            {{$parent.dispMoneyFormat(receiveDraft.rAcceptedAmount)}}
+                                                        </div>
+                                                    </td>
+                                                    <td v-else-if="receiveDraft.request_type.rtType == 'BUY_SERVICES'" class="text-center"><span class="reserved-label">فاقد قرارداد</span></td>
+                                                    <td v-else-if="receiveDraft.request_type.rtType == 'BUY_COMMODITY'" class="text-center"><span class="reserved-label">فاقد فاکتور</span></td>
+                                                </template>
+                                                <template v-else>
+                                                    <td colspan="2" class="text-center">{{$parent.dispMoneyFormat(receiveDraft.rCostEstimation)}}</td>
+                                                </template>
+                                                <td class="text-center">{{receiveDraft.rLetterNumber}}</td>
+                                                <td class="text-center">{{receiveDraft.rLetterDate}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="grid-x">
+                                    <div class="medium-12">
+                                        <vue-pagination  v-bind:pagination="received_pagination_PAYMENT"
+                                                         v-on:click.native="fetchData(received_pagination_PAYMENT.current_page)"
+                                                         :offset="4">
+                                        </vue-pagination>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--receiveRequests_DRAFT Tab-->
                 </div>
             </div>
             <!--receive_Requests_tab_view End-->
@@ -714,11 +831,11 @@
                         <div class="large-12 medium-12 small-12 medium-top-m">
                             <div style="margin-bottom:-10px;" class="stacked-for-small button-group">
                                 <button @click="openSubmitRequestModal()" v-if=" youAreVerifier != '' "  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
+                                <button v-show='$can("SECRETARIAT_REGISTER_AND_NUMBERING") && rLetterNumber == null && rLetterDate == null' style="width:130px;" @click="openRegisterAndNumberingModal()" class="my-button my-success"><span class="btn-txt-mrg">  ثبت دبیرخانه</span></button>
                                 <button @click="openReferralsModal()"  class="my-button toolbox-btn"><span class="btn-txt-mrg">  ارجاع</span></button>
                                 <button @click="openResponseRequestModal()" v-show="canResponse == 1 " class="my-button toolbox-btn"><span class="btn-txt-mrg">  پاسخ</span></button>
                                 <button @click="openTerminateModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">خاتمه</span></button>
                                 <button @click="openBlockModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">مسدود</span></button>
-                                <button v-show='$can("SECRETARIAT_REGISTER_AND_NUMBERING") && rLetterNumber == null && rLetterDate == null' style="width:130px;" @click="openRegisterAndNumberingModal()" class="my-button my-success"><span class="btn-txt-mrg">  ثبت دبیرخانه</span></button>
                             </div>
                         </div>
                     </div>
@@ -970,6 +1087,7 @@
                 receiveRequests_FINANCIAL:[],
                 receiveRequests_PURCHASE_AND_CONTRACT:[],
                 receiveRequests_PAYMENT:[],
+                receiveRequests_DRAFT:[],
                 costTemp:'',
                 showRequestDetailModal:false,
                 showReferralsModal:false,
@@ -1072,6 +1190,8 @@
                 rr_FINANCIAL_Reads:0,
                 rr_PURCHASE_AND_CONTRACT_Reads:0,
                 rr_PAYMENT_Reads:0,
+                rr_DRAFT_Unreads: 0,
+                rr_DRAFT_Reads: 0,
                 referralDId: null,
                 rLetterNumber: null,
                 rLetterDate: null,
@@ -1134,6 +1254,13 @@
                         return;
                     }
                 });
+                this.receiveRequests_DRAFT.forEach(rec => {
+                    if (rec.id == rId)
+                    {
+                        this.getRequestDetail(rec);
+                        return;
+                    }
+                });
                 this.makePagination(requests);
             },
 
@@ -1146,6 +1273,8 @@
                 var FINANCIAL_ReadsTemp=0;
                 var PURCHASE_AND_CONTRACT_ReadsTemp=0;
                 var PAYMENT_ReadsTemp=0;
+                var DRAFT_ReadsTemp=0;
+                var DRAFT_UnreadsTemp=0;
 
                 this.receiveRequests_REQUEST = requests.REQUEST.data;
                 this.receiveRequests_REQUEST.forEach(item =>{
@@ -1194,6 +1323,18 @@
                 });
                 this.rr_PAYMENT_Unreads=PAYMENT_UnreadsTemp;
                 this.rr_PAYMENT_Reads=PAYMENT_ReadsTemp;
+
+                this.receiveRequests_DRAFT = requests.DRAFT.data;
+                this.receiveRequests_DRAFT.forEach(item =>{
+                    if(item.rLastRef.rhHasBeenSeen == 0){
+                        DRAFT_UnreadsTemp += 1;
+                    }
+                    if(item.rLastRef.rhHasBeenSeen == 1){
+                        DRAFT_ReadsTemp += 1;
+                    }
+                });
+                this.rr_DRAFT_Unreads=DRAFT_UnreadsTemp;
+                this.rr_DRAFT_Reads=DRAFT_ReadsTemp;
             },
 
             updateCommitmentAmount: function(amount , rId){
@@ -1222,6 +1363,14 @@
                 });
 
                 this.receiveRequests_PAYMENT.forEach(item => {
+                    if (item.id == rId)
+                    {
+                        item.rCommitmentAmount = amount;
+                        return;
+                    }
+                });
+
+                this.receiveRequests_DRAFT.forEach(item => {
                     if (item.id == rId)
                     {
                         item.rCommitmentAmount = amount;

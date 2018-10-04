@@ -61,5 +61,10 @@ class SeedRequestStateTableSeeder extends Seeder
         $rState->rsSubject = 'در صف ذیحسابی';
         $rState->rsState = 'ACCOUNTANT_QUEUE';
         $rState->save();
+
+        $rState = new RequestState();
+        $rState->rsSubject = 'در انتظار درخواست پرداخت';
+        $rState->rsState = 'WAITING_FOR_PAY_REQUEST';
+        $rState->save();
     }
 }

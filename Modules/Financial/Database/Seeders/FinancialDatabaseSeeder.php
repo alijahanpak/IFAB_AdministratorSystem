@@ -26,5 +26,7 @@ class FinancialDatabaseSeeder extends Seeder
         $this->call(SeederPercentageDecreaseTableSeeder::class);
         $this->call(SeederDraftStateTableSeeder::class);
         $this->call(SeederCheckVerifierTableSeeder::class);
+        $this->call(SeederPayRequestStatesTableSeeder::class);
+        $this->call(SeederPayRequestStepsTableSeeder::class);
     }
 }

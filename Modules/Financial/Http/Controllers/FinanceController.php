@@ -223,7 +223,7 @@ class FinanceController extends Controller
                 }else{
                     $req = _Request::find($request->rId);
                     $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
-                    $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
+                    $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'DRAFT')->value('id');
                     $req->save();
 
                     $finReqQueue = new FinancialRequestQueue();
@@ -242,18 +242,14 @@ class FinanceController extends Controller
                     $ufcReqQueue->save();
                 }else{
                     $req = _Request::find($request->rId);
-                    $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
+                    $req->rRsId = RequestState::where('rsState' , '=' , 'WAITING_FOR_PAY_REQUEST')->value('id');
                     $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
                     $req->save();
-
-                    $finReqQueue = new FinancialRequestQueue();
-                    $finReqQueue->frqRId = $req->id;
-                    $finReqQueue->save();
                 }
             }else if ($req->requestType->rtType == 'FUND'){
                 $req = _Request::find($request->rId);
                 $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
-                $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
+                $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'DRAFT')->value('id');
                 $req->save();
 
                 $finReqQueue = new FinancialRequestQueue();
@@ -264,7 +260,7 @@ class FinanceController extends Controller
             // make history for this request
             $history = new RequestHistory();
             $history->rhSrcUId = Auth::user()->id;
-            $history->rhDestUId = null; // for financial destination
+            $history->rhDestUId = null;
             $history->rhRId = $req->id;
             $history->rhRsId = $req->rRsId;
             $history->rhDescription = 'با سلام، تامین اعتبار، تایید شد. به نحو مقتضی اقدام شود.';

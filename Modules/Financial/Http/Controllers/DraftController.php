@@ -47,7 +47,7 @@ class DraftController extends Controller
             ///////////////////////////////////////////////////////////////////////
             $req = _Request::where('id' , '=' , $request->rId)->first();
             $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
-            $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
+            $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'DRAFT')->value('id');
             $req->save();
 
             // make history for this request
@@ -81,7 +81,7 @@ class DraftController extends Controller
                 $verifier = DraftVerifier::where('dvDId' , '=' , $request->dId)->first();
 
                 $req = _Request::where('id' , '=' , $request->rId)->first();
-                $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
+                $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'DRAFT')->value('id');
                 $req->save();
 
                 $draft = Draft::find($request->dId);
@@ -120,7 +120,7 @@ class DraftController extends Controller
 
                 $req = _Request::where('id' , '=' , $request->rId)->first();
                 $req->rRsId = RequestState::where('rsState' , '=' , 'SECRETARIAT_QUEUE')->value('id');
-                $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
+                $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'DRAFT')->value('id');
                 $req->save();
 
                 $draft = Draft::find($request->dId);
@@ -161,7 +161,7 @@ class DraftController extends Controller
 
             $req = _Request::find($request->rId);
             $req->rRsId = RequestState::where('rsState' , '=' , 'ACCOUNTANT_QUEUE')->value('id');
-            $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
+            $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'DRAFT')->value('id');
             $req->save();
 
             SecretariatRequestQueue::where('srqRId' , '=' , $req->id)->delete();

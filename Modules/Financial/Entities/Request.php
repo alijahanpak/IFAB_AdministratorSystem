@@ -45,6 +45,11 @@ class _Request extends Model
         return $this->hasMany(Draft::class , 'dRId' , 'id')->orderBy('id', 'DESC');
     }
 
+    public function payRequest()
+    {
+        return $this->hasMany(PayRequest::class , 'prRId' , 'id')->orderBy('id', 'DESC');
+    }
+
     public function contract()
     {
         return $this->hasMany(Contract::class , 'cRId' , 'id')->orderBy('id', 'DESC');
