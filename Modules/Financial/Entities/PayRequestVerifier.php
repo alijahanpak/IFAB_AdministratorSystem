@@ -3,6 +3,7 @@
 namespace Modules\Financial\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Admin\Entities\Signature;
 use Modules\Admin\Entities\User;
 
 class PayRequestVerifier extends Model
@@ -18,5 +19,10 @@ class PayRequestVerifier extends Model
     public function requestStep()
     {
         return $this->belongsTo(PayRequestSteps::class , 'prvPrstId' , 'id');
+    }
+
+    public function signature()
+    {
+        return $this->belongsTo(Signature::class , 'prvSId' , 'id');
     }
 }

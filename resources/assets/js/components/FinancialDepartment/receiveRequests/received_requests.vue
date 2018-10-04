@@ -625,7 +625,8 @@
                                 <li class="tabs-title" :class="requestLevel == 'FINANCIAL' ? 'is-active' : ''"><a href="#creditsTab">اعتبارات</a></li>
                                 <li class="tabs-title" :class="requestLevel == 'PURCHASE_AND_CONTRACT' ? 'is-active' : ''" v-if="requestType == 'BUY_COMMODITY'"><a href="#factorTab">اطلاعات فاکتور</a></li>
                                 <li class="tabs-title" :class="requestLevel == 'PURCHASE_AND_CONTRACT' ? 'is-active' : ''" v-if="requestType == 'BUY_SERVICES'"><a href="#contractTab">اطلاعات قرارداد</a></li>
-                                <li class="tabs-title" :class="requestLevel == 'PAYMENT' ? 'is-active' : ''"><a href="#draftTab">پرداخت ها </a></li>
+                                <li class="tabs-title" :class="requestLevel == 'PAYMENT' ? 'is-active' : ''"><a href="#payRequestTab">درخواست پرداخت </a></li>
+                                <li class="tabs-title" :class="requestLevel == 'DRAFT' ? 'is-active' : ''"><a href="#draftTab">حواله </a></li>
                                 <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
                                 <li class="tabs-title"><a href="#requestAttachmentsTab">پیوست ها </a></li>
                             </ul>
@@ -703,7 +704,15 @@
                                 </div>
                                 <!--Tab 5-->
                                 <!--Tab 6-->
-                                <div class="tabs-panel table-mrg-btm" :class="requestLevel == 'PAYMENT' ? 'is-active' : ''" id="draftTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div class="tabs-panel table-mrg-btm" :class="requestLevel == 'PAYMENT' ? 'is-active' : ''" id="payRequestTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <r-pay-request
+                                             v-bind:requestId="requestId"
+                                             v-bind:payRequests="payRequests">
+                                    </r-pay-request>
+                                </div>
+                                <!--Tab 6-->
+                                <!--Tab 6-->
+                                <div class="tabs-panel table-mrg-btm" :class="requestLevel == 'DRAFT' ? 'is-active' : ''" id="draftTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <rDraft  v-on:closeModal="showRequestDetailModal=false"
                                              v-on:updateReceiveRequestData="updateReceiveRequestData"
                                              v-on:openReferralsModal="openReferralsModal"
@@ -742,16 +751,22 @@
                                                                     <p class="small-top-m text-justify gray-colors">
                                                                         {{recipientUser.rhDescription}}
                                                                     </p>
-                                                                    <p v-if="recipientUser.source_user_info.id != recipientUser.destination_user_info.id" style="margin-bottom: 0" class="small-top-m">گیرنده:</p>
-                                                                    <div v-if="recipientUser.source_user_info.id != recipientUser.destination_user_info.id" class="grid-x">
-                                                                        <div class="large-1 medium-2 small-12">
-                                                                            <img style="width: 40px;height: 40px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="recipientUser.destination_user_info.avatarPath != null ? baseURL + recipientUser.destination_user_info.avatarPath : $parent.baseAvatar">
+                                                                    <div v-if="recipientUser.destination_user_info != null">
+                                                                        <p v-if="recipientUser.source_user_info.id != recipientUser.destination_user_info.id" style="margin-bottom: 0" class="small-top-m">گیرنده:</p>
+                                                                        <div v-if="recipientUser.source_user_info.id != recipientUser.destination_user_info.id" class="grid-x">
+                                                                            <div class="large-1 medium-2 small-12">
+                                                                                <img style="width: 40px;height: 40px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="recipientUser.destination_user_info.avatarPath != null ? baseURL + recipientUser.destination_user_info.avatarPath : $parent.baseAvatar">
+                                                                            </div>
+                                                                            <div class="large-11 medium-10 small-12 padding-lr">
+                                                                                <p class="small-top-m">
+                                                                                    {{recipientUser.destination_user_info.name}} - {{recipientUser.destination_user_info.role.rSubject}}
+                                                                                </p>
+                                                                            </div>
                                                                         </div>
-                                                                        <div class="large-11 medium-10 small-12 padding-lr">
-                                                                            <p class="small-top-m">
-                                                                                {{recipientUser.destination_user_info.name}} - {{recipientUser.destination_user_info.role.rSubject}}
-                                                                            </p>
-                                                                        </div>
+                                                                    </div>
+                                                                    <div v-else>
+                                                                        <p>گیرنده:</p>
+                                                                        <p class="btn-red">در انتظار مشاهده</p>
                                                                     </div>
                                                                     <p style="direction: ltr;margin-bottom: -15px;" class="gray-color small-font"><i class="far fa-calendar-alt"></i><span> {{recipientUser.rhShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{recipientUser.rhShamsiTime}}</span></p>
                                                                 </div>
@@ -1064,6 +1079,7 @@
     import rContract from './detailRequest/r_contract.vue';
     import rFactor from './detailRequest/r_factor.vue';
     import rDraft from './detailRequest/r_draft.vue';
+    import rPayRequest from './detailRequest/r_pay_request.vue';
     /* Import Local Components End*/
     export default {
         components: {
@@ -1076,6 +1092,7 @@
             rContract,
             rFactor,
             rDraft,
+            rPayRequest,
             VueElementLoading,
         },
         data () {
@@ -1178,6 +1195,7 @@
                 isFromRefundCosts:false,
 
                 drafts:[],
+                payRequests: [],
                 draftIsExist: false,
                 rCostEstimation:0,
                 rAcceptedAmount:0,
@@ -1464,6 +1482,7 @@
                 this.contracts=[];
                 this.factors=[];
                 this.drafts=[];
+                this.payRequests =[];
                 var requestHistory=[];
                 requestHistory.push(request);
                 this.requestId=request.id;
@@ -1500,6 +1519,12 @@
                 requestHistory.forEach(item => {
                     item.draft.forEach(draf => {
                         this.drafts.push(draf);
+                    });
+                });
+
+                requestHistory.forEach(item => {
+                    item.pay_request.forEach(payment => {
+                        this.payRequests.push(payment);
                     });
                 });
 

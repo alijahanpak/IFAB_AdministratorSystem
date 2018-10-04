@@ -71,9 +71,10 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
 
     Route::prefix('report')->group(function () {
         Route::post('/draft' , 'ReportController@draft');
+        Route::post('/payment_request' , 'ReportController@paymentRequest');
     });
 
-    Route::prefix('payment')->group(function () {
+    Route::prefix('payment_request')->group(function () {
         Route::post('/register', 'PayRequestController@register');
         Route::get('/get_pay_request_steps' , 'PayRequestController@fetchPayRequestSteps');
 /*        Route::post('/accept', 'DraftController@accept');
