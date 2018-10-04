@@ -68,11 +68,16 @@ class ContractController extends Controller
                 ->update(['cIsAccepted' => true]);
 
             $req = _Request::find($request->rId);
-            $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
             if ($req->rAcceptedAmount != $req->rCommitmentAmount)
+            {
+                $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
                 $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'FINANCIAL')->value('id');
+            }
             else
+            {
+                $req->rRsId = RequestState::where('rsState' , '=' , 'WAITING_FOR_PAY_REQUEST')->value('id');
                 $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
+            }
             $req->save();
 
             // make history for this request
@@ -83,9 +88,12 @@ class ContractController extends Controller
             $history->rhRsId = $req->rRsId;
             $history->save();
 
-            $finReqQueue = new FinancialRequestQueue();
-            $finReqQueue->frqRId = $req->id;
-            $finReqQueue->save();
+            if ($req->rAcceptedAmount != $req->rCommitmentAmount)
+            {
+                $finReqQueue = new FinancialRequestQueue();
+                $finReqQueue->frqRId = $req->id;
+                $finReqQueue->save();
+            }
 
             SystemLog::setFinancialSubSystemLog('تایید قرارداد های درخواست ' . _Request::find($request->rId)->rSubject);
         });

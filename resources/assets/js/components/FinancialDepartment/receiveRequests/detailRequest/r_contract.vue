@@ -62,7 +62,7 @@
                                                     <table class="stack text-right">
                                                         <tbody>
                                                             <tr class="align-right">
-                                                                <td width="200" class="black-color">عنوان  :</td>
+                                                                <td width="300" class="black-color">عنوان  :</td>
                                                                 <td width="400">{{contract.cSubject}}</td>
                                                             </tr>
                                                             <tr class="align-right">
@@ -78,7 +78,7 @@
                                                                 <td>{{$root.dispMoneyFormat(contract.cAmount)}} ریال</td>
                                                             </tr>
                                                             <tr>
-                                                                <td class="black-color">درصد افزایش و یا کاهش  :</td>
+                                                                <td class="black-color">حداکثر درصد افزایش / کاهش  :</td>
                                                                 <td>{{contract.cPercentInAndDec}}</td>
                                                             </tr>
                                                             <tr>

@@ -83,6 +83,7 @@ class RequestController extends Controller
                     ->with('verifier.signature')
                     ->with('check.percentageDecrease');
             }])
+            ->with('payRequest')
             ->with('requestLevel')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
@@ -255,10 +256,11 @@ class RequestController extends Controller
                 ->with('draft.verifier.user.role')
                 ->with('draft.check.percentageDecrease')
                 ->with('draft.draftState')
+                ->with('payRequest.verifiers.user.role.officeUnit')
                 ->with('requestLevel')
                 ->with('contract.increaseAmount.percentageIncrease')
                 ->orderBy('id' , 'DESC')
-                ->paginate(20);;
+                ->paginate(20);
         }
 
         return $result;
@@ -443,6 +445,7 @@ class RequestController extends Controller
             ->pluck('id');
         $req = RequestHistory::whereIn('id' , $rhIds)
             ->where('rhDestUId' , '=' , Auth::user()->id)
+            ->where('rhRsId' , '<>' , RequestState::where('rsState' , '=' , 'WAITING_FOR_PAY_REQUEST')->value('id'))
             ->orderBy('id' , 'DESC')
             ->pluck('rhRId');
         return $req;

@@ -22,9 +22,11 @@ class CreateRequestHistoryTable extends Migration
                 $table->bigInteger('rhRId')->length(20)->unsigned();
                 $table->bigInteger('rhRsId')->length(20)->unsigned();
                 $table->bigInteger('rhDId')->length(20)->unsigned()->nullable();
+                $table->bigInteger('rhPrId')->length(20)->unsigned()->nullable();
                 $table->boolean('rhIsReferral')->default(false);
                 $table->boolean('rhHasBeenSeen')->default(false);
                 $table->boolean('rhDHasBeenSeen')->default(false);
+                $table->boolean('rhPrHasBeenSeen')->default(false);
                 $table->longText('rhDescription')->nullable();
                 $table->timestamps();
 
@@ -50,6 +52,11 @@ class CreateRequestHistoryTable extends Migration
 
                 $table->foreign('rhDId')
                     ->references('id')->on('tbl_drafts')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+
+                $table->foreign('rhPrId')
+                    ->references('id')->on('tbl_pay_requests')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
             });
