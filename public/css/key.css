@@ -2268,7 +2268,9 @@ input[type="search"]:valid + label {
 .input-top-margin{
     margin-top:16px;
 }
-
+.input-bottom-margin{
+    margin-bottom:-16px;
+}
 
 
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {

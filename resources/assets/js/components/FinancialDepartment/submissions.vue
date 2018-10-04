@@ -335,6 +335,7 @@
                                 <li class="tabs-title is-active"><a href="#requestDetailTab" aria-selected="true">جزییات</a></li>
                                 <li class="tabs-title"><a href="#requestVerifiersTab">تایید کنندگان </a></li>
                                 <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
+                                <li v-if="requestTypeDetail == 'SERVICES'" class="tabs-title"><a href="#requestPaymentTab"> درخواست پرداخت </a></li>
                                 <li class="tabs-title"><a href="#requestAttachmentsTab">پیوست ها </a></li>
                             </ul>
                             <div class="tabs-content" data-tabs-content="request_tab_view">
@@ -491,19 +492,22 @@
                                                                     <p class="small-top-m text-justify gray-colors">
                                                                         {{recipientUser.rhDescription}}
                                                                     </p>
-                                                                    <p v-if="recipientUser.source_user_info.id != recipientUser.destination_user_info.id" style="margin-bottom: 0" class="small-top-m">گیرنده:</p>
-                                                                    <div v-if="recipientUser.source_user_info.id != recipientUser.destination_user_info.id" class="grid-x">
-                                                                        <div class="large-1 medium-2 small-12">
-                                                                            <img style="width: 40px;height: 40px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="recipientUser.destination_user_info.avatarPath != null ? baseURL + recipientUser.destination_user_info.avatarPath : $parent.baseAvatar">
+                                                                    <div v-if="recipientUser.destination_user_info != null">
+                                                                        <p v-if="recipientUser.source_user_info.id != recipientUser.destination_user_info.id" style="margin-bottom: 0" class="small-top-m">گیرنده:</p>
+                                                                        <div v-if="recipientUser.source_user_info.id != recipientUser.destination_user_info.id" class="grid-x">
+                                                                            <div class="large-1 medium-2 small-12">
+                                                                                <img style="width: 40px;height: 40px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="recipientUser.destination_user_info.avatarPath != null ? baseURL + recipientUser.destination_user_info.avatarPath : $parent.baseAvatar">
+                                                                            </div>
+                                                                            <div class="large-11 medium-10 small-12 padding-lr">
+                                                                                <p class="small-top-m">
+                                                                                    {{recipientUser.destination_user_info.name}} - {{recipientUser.destination_user_info.role.rSubject}}
+                                                                                </p>
+                                                                            </div>
                                                                         </div>
-                                                                        <div class="large-11 medium-10 small-12 padding-lr">
-                                                                            <p class="small-top-m" v-if="recipientUser.destination_user_info != null">
-                                                                                {{recipientUser.destination_user_info.name}} - {{recipientUser.destination_user_info.role.rSubject}}
-                                                                            </p>
-                                                                            <p class="small-top-m btn-red" v-else>
-                                                                                در انتظار مشاهده
-                                                                            </p>
-                                                                        </div>
+                                                                    </div>
+                                                                    <div v-else>
+                                                                        <p>گیرنده: </p>
+                                                                        <p class="btn-red">در انتظار مشاهده</p>
                                                                     </div>
                                                                     <p style="direction: ltr;margin-bottom: -15px;" class="gray-color small-font"><i class="far fa-calendar-alt"></i><span> {{recipientUser.rhShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{recipientUser.rhShamsiTime}}</span></p>
                                                                 </div>
@@ -521,6 +525,16 @@
                                 <!--Tab 3-->
 
                                 <!--Tab 4-->
+                                <div v-if="requestTypeDetail == 'SERVICES'" class="tabs-panel table-mrg-btm" id="requestPaymentTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <div class="grid-x">
+                                        <div class="medium-12 padding-lr">
+                                            <button @click="openInsertPaymentRequestModal()" class="my-button toolbox-btn small sm-btn-align"  type="button">جدید</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Tab 4-->
+
+                                <!--Tab 5-->
                                 <div class="tabs-panel table-mrg-btm" id="requestAttachmentsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x" style="margin-bottom: 30px;margin-top: 20px">
                                         <div class="medium-12">
@@ -563,7 +577,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--Tab 4-->
+                                <!--Tab 5-->
                             </div>
                         </div>
                     </div>
@@ -571,6 +585,122 @@
             </div>
         </modal-large>
         <!-- Submission Detail Modal -->
+
+        <!--Insert Payment Request End-->
+        <modal-small v-if="showInsertPaymentRequestModal" @close="showInsertPaymentRequestModal = false">
+            <div  slot="body">
+                <form v-on:submit.prevent="addNewPaymentRequest" >
+                    <div class="small-font">
+                        <div class="large-12 medium-12 small-12">
+                            <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="payment_request_tab_view">
+                                <li class="tabs-title is-active"><a href="#peymentVerifiersTab" aria-selected="true">امضا کنندگان</a></li>
+                                <li class="tabs-title"><a href="#paymentTab">پرداخت </a></li>
+                            </ul>
+                            <div class="tabs-content" data-tabs-content="payment_request_tab_view">
+                                <!--Tab 1-->
+                                <div class="tabs-panel is-active table-mrg-btm" id="peymentVerifiersTab">
+                                    <div class="grid-x">
+                                        <div class="large-8 medium-8 small-12">
+                                            <!--<label>امضا کننده
+                                                <select name="verifierUser" v-validate data-vv-rules="required"  v-model="draftInput.verifierId" :class="{'input': true, 'select-error': errors.has('verifierUser')}">
+                                                    <option value=""></option>
+                                                    <option v-for="user in directorGeneralUsers" :value="user.id">{{user.name}} - {{user.role.rSubject}}</option>
+                                                </select>
+                                                <p v-show="errors.has('verifierUser')" class="error-font">لطفا امضا کننده را انتخاب کنید!</p>
+                                            </label>-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Tab 1-->
+                                <!--Tab 2-->
+                                <div class="tabs-panel table-mrg-btm" id="paymentTab">
+                                    <div class="grid-x">
+                                        <div class="large-12 medium-12 small-12 padding-lr">
+                                            <label>قرارداد
+                                                <select name="contract_input" @change="getContractInfo(contractTemp)" v-validate data-vv-rules="required"  v-model="contractTemp" :class="{'input': true, 'select-error': errors.has('contract_input')}">
+                                                    <option value=""></option>
+                                                    <template v-for="contract in contracts">
+                                                        <option :value="contract">{{contract.cSubject}} - {{contract.cLetterNumber}} - {{contract.cLetterDate}}</option>
+                                                    </template>
+                                                </select>
+                                                <p v-show="errors.has('contract_input')" class="error-font">لطفا قرارداد را انتخاب کنید!</p>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x">
+                                        <div class="large-6 medium-6 small-6 padding-lr">
+                                            <label>درصد پیشرفت فیزیکی
+                                                <input type="text" name="physical_progress" v-model="paymentInput.physicalProgress" v-validate="'required','min_value:0','max_value:'+ contractPercent " :class="{'input': true, 'error-border': errors.has('physical_progress')}">
+                                            </label>
+                                            <p v-show="errors.has('physical_progress')" class="error-font">لطفا درصد پیشرفت فیزیکی را وارد / اصلاح نمایید!</p>
+                                        </div>
+                                        <div class="large-6 medium-6 small-6 padding-lr">
+                                            <label>درصد پیشرفت ریالی
+                                                <input type="text" @keyup="calculatePaymentRialProgress()" name="rial_progress" v-model="paymentInput.rialProgress" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('rial_progress')}">
+                                            </label>
+                                            <p v-show="errors.has('rial_progress')" class="error-font">لطفا درصد پیشرفت ریالی را وارد نمایید!</p>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top:8px;"  class="grid-x">
+                                        <div class="large-6 medium-6 small-12 padding-lr">
+                                            <label>مبلغ <span class="btn-red">(ریال)  </span>
+                                                <money @change.native="calculatePaymentAmount()" v-model="paymentInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('paymentAmount')}"></money>
+                                            </label>
+                                            <p v-show="errors.has('baseAmount')" class="error-font"> مبلغ صورت وضعیت مورد نظر نامعتبر است!</p>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top: 8px;" class="grid-x">
+                                        <div class="large-12 medium-12 small-12 padding-lr">
+                                            <div class="panel-separator padding-lr">
+                                                <div class="grid-x">
+                                                    <div class="large-6 medium-6 small-12 padding-lr input-bottom-margin">
+                                                        <div class="grid-x">
+                                                            <div class="large-3 medium-4 small-12">
+                                                                <div class="switch tiny">
+                                                                    <input :checked="paymentInput.finalPaymentState" :disabled="paymentInput.finalPaymentState" class="switch-input" v-model="paymentInput.finalPaymentState" id="finalPayment_state" type="checkbox">
+                                                                    <label class="switch-paddle" for="finalPayment_state">
+                                                                        <span class="switch-active" aria-hidden="true">بلی</span>
+                                                                        <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="large-9 medium-8  small-12">
+                                                                <p class="input-bottom-margin">پرداخت نهایی</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="large-6 medium-6 small-12 padding-lr input-bottom-margin">
+                                                        <p v-show="paymentInput.finalPaymentState" class="input-bottom-margin">درصد افزایش و کاهش :<span class="btn-red">{{incAndDecPercent}} %</span></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid-x">
+                                        <div class="large-12 medium-12 small-12 padding-lr input-top-margin">
+                                            <label>شرح
+                                                <textarea class="form-element-margin-btm"  style="min-height: 150px;" name="furtherDescription" v-model="paymentInput.description"></textarea>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Tab 2-->
+                            </div>
+                        </div>
+                        <div class="grid-x medium-top-m padding-lr input-bottom-margin">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <div class="stacked-for-small button-group float-left">
+                                    <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </modal-small>
+        <!--Insert Payment Request End-->
+
     </div>
 </template>
 
@@ -599,6 +729,7 @@
                 requestFill:{},
                 showBuyCommodityModal:false,
                 showSubmissionDeatilModal:false,
+                showInsertPaymentRequestModal:false,
                 //commodity input text
                 commodityQuery: '',
                 commodityList: [],
@@ -631,7 +762,13 @@
                     last_page: ''
                 },
 
-
+                paymentInput:{},
+                contracts:[],
+                contractTemp:[],
+                contractPercent:0,
+                cBaseAmount:0,
+                cBaseAmountTemp:0,
+                incAndDecPercent:0,
             }
         },
 
@@ -916,6 +1053,12 @@
                     });
                 });
 
+                requestHistory.forEach(item => {
+                    item.contract.forEach(cont=> {
+                        this.contracts.push(cont);
+                    });
+                });
+
                 if (submission.request_type.rtType == 'BUY_SERVICES'){
                     this.requestTypeDetail='SERVICES';
                     this.requestFill.rLetterNumber=submission.rLetterNumber;
@@ -949,6 +1092,43 @@
                     this.requestFill.rDescription=submission.rDescription;
                 }
             },
+
+            openInsertPaymentRequestModal: function(){
+                this.paymentInput={};
+                this.contractTemp=[];
+                this.paymentInput.finalPaymentState=false;
+                this.showInsertPaymentRequestModal=true;
+            },
+
+            getContractInfo:function(contract){
+               console.log(JSON.stringify(contract));
+                this.contractPercent=0;
+                this.contractPercent=contract.cPercentInAndDec + 100;
+                this.cBaseAmount=contract.cBaseAmount;
+                this.paymentInput.amount=contract.cBaseAmount;
+                this.calculatePaymentAmount();
+            },
+
+            calculatePaymentAmount:function(){
+                this.paymentInput.rialProgress=0;
+                this.paymentInput.rialProgress=Math.round((parseInt(this.paymentInput.amount.split(',').join(''),10) / this.cBaseAmount ) * 100);
+                if(this.paymentInput.rialProgress > 100){
+                    this.paymentInput.finalPaymentState=true;
+                    this.incAndDecPercent=0;
+                    this.incAndDecPercent=this.paymentInput.rialProgress - 100;
+
+                }
+                else{
+                    this.paymentInput.finalPaymentState = false;
+                    this.incAndDecPercent=0;
+                }
+            },
+
+            calculatePaymentRialProgress:function(){
+                this.paymentInput.amount=Math.round(this.cBaseAmount * (this.paymentInput.rialProgress / 100));
+            },
+
+
 
             /*--------------------------- File Upload Start--------------------------------------*/
             getAttachmentSize() {

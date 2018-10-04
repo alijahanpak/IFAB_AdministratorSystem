@@ -190,7 +190,7 @@
                 </form>
             </div>
         </modal-small>
-        <!--Insert Factor End-->
+        <!--Insert Draft End-->
 
         <!-- Accept Draft modal -->
         <modal-tiny v-if="showAcceptConfirmModal" @close="showAcceptConfirmModal = false">
