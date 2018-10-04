@@ -166,7 +166,7 @@
                             </div>
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>درصد افزایش و یا کاهش
-                                    <input type="text" name="contractPercent" v-model="contractInput.percentIncAndDec" v-validate="'required','min_value:0','max_value:100'" :class="{'input': true, 'error-border': errors.has('contractPercent')}">
+                                    <input type="text" name="contractPercent" v-model="contractInput.percentIncAndDec" v-validate="'required','min_value:0','max_value:25'" :class="{'input': true, 'error-border': errors.has('contractPercent')}">
                                 </label>
                                 <p v-show="errors.has('contractPercent')" class="error-font">مقدار نا معتبر است!</p>
                             </div>
