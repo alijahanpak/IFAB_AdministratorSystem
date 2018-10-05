@@ -77,11 +77,10 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
     Route::prefix('payment_request')->group(function () {
         Route::post('/register', 'PayRequestController@register');
         Route::get('/get_pay_request_steps' , 'PayRequestController@fetchPayRequestSteps');
-/*        Route::post('/accept', 'DraftController@accept');
-        Route::post('/accept_minute', 'DraftController@acceptMinute');
-        Route::post('/numbering', 'DraftController@numbering');
-        Route::get('/get_percentage_decrease' , 'DraftController@getPercentageDecrease');
-        Route::post('/was_seen', 'DraftController@wasSeen');
+        Route::post('/accept', 'PayRequestController@accept');
+        Route::post('/numbering', 'PayRequestController@numbering');
+        Route::post('/was_seen', 'PayRequestController@wasSeen');
+/*        Route::get('/get_percentage_decrease' , 'DraftController@getPercentageDecrease');
         Route::post('/block', 'DraftController@block');*/
     });
 });
