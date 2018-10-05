@@ -11,12 +11,16 @@ use Modules\Admin\Entities\RoleCategory;
 use Modules\Admin\Entities\Signature;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Financial\Entities\_Request;
+use Modules\Financial\Entities\AccountantRequestQueue;
+use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\PayRequest;
 use Modules\Financial\Entities\PayRequestState;
 use Modules\Financial\Entities\PayRequestSteps;
 use Modules\Financial\Entities\PayRequestVerifier;
 use Modules\Financial\Entities\RequestHistory;
+use Modules\Financial\Entities\RequestLevel;
 use Modules\Financial\Entities\RequestState;
+use Modules\Financial\Entities\SecretariatRequestQueue;
 
 class PayRequestController extends Controller
 {
@@ -97,4 +101,120 @@ class PayRequestController extends Controller
             $result
         );
     }
+    public function accept(Request $request)
+    {
+        $sig = Signature::where('sUId' , '=' , Auth::user()->id)->first();
+        $currentVerifier = PayRequestVerifier::find($request->prvId);
+        $payReq = PayRequest::find($currentVerifier->prvPrId);
+
+        if ($currentVerifier->prvUId == Auth::user()->id)
+        {
+            if (count($payReq->prRemainingVerifiers) == 0)
+            {
+                DB::transaction(function () use($request , $currentVerifier , $sig , $payReq){
+
+                    PayRequestVerifier::where('prvPrId' , '=' , $currentVerifier->prvPrId)
+                        ->where('prvUId' , '=' , $currentVerifier->prvUId)
+                        ->update(['prvSId' => $sig->id]);
+
+                    $nextVerifier = PayRequestVerifier::where('prvPrId' , '=' , $currentVerifier->prvPrId)
+                        ->where('id' , '>' , $currentVerifier->id)
+                        ->where('prvSId' , '=' , null)
+                        ->first();
+
+                    $req = _Request::find($request->rId);
+                    $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
+                    $req->save();
+                    if ($nextVerifier)
+                    {
+                        // make history for this request
+                        $history = new RequestHistory();
+                        $history->rhSrcUId = Auth::user()->id;
+                        $history->rhDestUId = $nextVerifier->prvUId;
+                        $history->rhRId = $req->id;
+                        $history->rhRsId = $req->rRsId;
+                        $history->rhPrId = $currentVerifier->prvPrId;
+                        $history->save();
+                    }else{
+                        $req->rRsId = RequestState::where('rsState' , '=' , 'SECRETARIAT_QUEUE')->value('id');
+                        $req->save();
+                        // make history for this request
+                        $history = new RequestHistory();
+                        $history->rhSrcUId = Auth::user()->id;
+                        $history->rhDestUId = null; // for secretariat destination
+                        $history->rhRId = $req->id;
+                        $history->rhRsId = $req->rRsId;
+                        $history->rhPrId = $currentVerifier->prvPrId;
+                        $history->save();
+
+                        $srQueue = new SecretariatRequestQueue();
+                        $srQueue->srqRId = $req->id;
+                        $srQueue->save();
+                    }
+
+                    SystemLog::setFinancialSubSystemLog('تایید درخواست پرداخت توسط ' . Auth::user()->name);
+                });
+
+                $rController = new RequestController();
+                return \response()->json(
+                    $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+                );
+
+            }else{
+                return response()->json([] , 406); //Exist verifiers before you
+            }
+        }else{
+            return response()->json([] , 405);
+        }
+    }
+
+    public function numbering(Request $request)
+    {
+        DB::transaction(function () use($request){
+            $payRequest = PayRequest::find($request->prId);
+            $payRequest->prLetterNumber = $request->letterNumber;
+            $payRequest->prLetterDate = $request->letterDate;
+            $payRequest->save();
+
+            $req = _Request::find($request->rId);
+            $req->rRsId = RequestState::where('rsState' , '=' , 'ACCOUNTANT_QUEUE')->value('id');
+            $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
+            $req->save();
+
+            SecretariatRequestQueue::where('srqRId' , '=' , $req->id)->delete();
+
+            // make history for this request
+            $history = new RequestHistory();
+            $history->rhSrcUId = Auth::user()->id;
+            $history->rhDestUId = null; // for accountant destination
+            $history->rhRId = $req->id;
+            $history->rhRsId = $req->rRsId;
+            $history->rhPrId = $payRequest->id;
+            $history->save();
+
+            $finReqQueue = new FinancialRequestQueue();
+            $finReqQueue->frqRId = $req->id;
+            $finReqQueue->save();
+
+            SystemLog::setFinancialSubSystemLog('ثبت درخواست پرداخت در دبیرخانه برای درخواست ' . $req->rSubject . ' در دبیرخانه');
+        });
+
+        $rController = new RequestController();
+        return \response()->json(
+            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+        );
+    }
+
+    public function wasSeen(Request $request)
+    {
+        $rHistory = RequestHistory::find($request->rhId);
+        $rHistory->rhPrHasBeenSeen = true;
+        $rHistory->save();
+
+        $rController = new RequestController();
+        return \response()->json(
+            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+        );
+    }
+
 }

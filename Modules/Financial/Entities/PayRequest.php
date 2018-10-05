@@ -12,7 +12,8 @@ class PayRequest extends Model
     protected $appends = [
         'prLastRef' ,
         'prYouAreVerifiers' ,
-        'prRemainingVerifiers'
+        'prRemainingVerifiers',
+        'prOfficeUnit'
     ];
 
     public function verifiers()
@@ -69,5 +70,14 @@ class PayRequest extends Model
     {
         $lastHistoryId = RequestHistory::where('rhPrId' , '=' , $this->id)->max('id');
         return RequestHistory::with('sourceUserInfo.role.officeUnit')->find($lastHistoryId);
+    }
+
+    public function getPrOfficeUnitAttribute()
+    {
+        $officeUnit = PayRequestVerifier::where('prvPrId' , '=' , $this->id)
+            ->with('user.role.officeUnit')
+            ->orderBy('id')
+            ->first();
+        return $officeUnit['user']['role']['officeUnit']['ouSubject'];
     }
 }

@@ -32,7 +32,7 @@
     <body class="BZar">
         <div class="grid-x">
             <div class="large-12">
-                <p style="z-index: 999;" class="size-12">شماره حواله : <span class="number_ltr">{{$payRequestInfo['prLetterNumber']}}</span></p>
+                <p style="z-index: 999;" class="size-12">شماره درخواست : <span class="number_ltr">{{$payRequestInfo['prLetterNumber']}}</span></p>
                 <p style="margin-top: -10px;" class="size-12">تاریخ : <span>{{$payRequestInfo['prLetterDate']}}</span></p>
             </div>
         </div>
@@ -50,11 +50,11 @@
             <tbody>
                 <tr>
                     <td>
-                        <p class="BTitrBold">نام واحد: </p>
-                        <p>{{$payRequestInfo['']}}</p>
+                        <span class="BTitrBold">واحد: </span>
+                        <span class="BZar size-14">{{$payRequestInfo['prOfficeUnit']}}</span>
                     </td>
                     <td>
-                        <span class="BTitrBold">نام پیمانکار: </span>
+                        <span class="BTitrBold">پیمانکار: </span>
                         <span class="BZar size-14"> {{$payRequestInfo['contract']['executor']['eSubject']}}</span>
                     </td>
                 </tr>
@@ -97,7 +97,7 @@
                 <tr>
                     <td colspan="2" style="padding-bottom: 40px">
                         <span class="BTitrBold">مبلغ پرداختی به حروف: </span>
-                        <span class="BZar size-14">{{\Modules\Financial\Http\Controllers\ReportController::digit_to_persain_letters(2000001)}}</span>
+                        <span class="BZar size-14">{{\Modules\Financial\Http\Controllers\ReportController::digit_to_persain_letters($payRequestInfo['prAmount'])}}</span>
                     </td>
                 </tr>
                 <?php
