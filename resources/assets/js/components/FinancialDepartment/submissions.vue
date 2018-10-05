@@ -600,14 +600,24 @@
                                 <!--Tab 1-->
                                 <div class="tabs-panel is-active table-mrg-btm" id="peymentVerifiersTab">
                                     <div class="grid-x">
-                                        <div class="large-8 medium-8 small-12">
-                                            <!--<label>امضا کننده
-                                                <select name="verifierUser" v-validate data-vv-rules="required"  v-model="draftInput.verifierId" :class="{'input': true, 'select-error': errors.has('verifierUser')}">
-                                                    <option value=""></option>
-                                                    <option v-for="user in directorGeneralUsers" :value="user.id">{{user.name}} - {{user.role.rSubject}}</option>
-                                                </select>
-                                                <p v-show="errors.has('verifierUser')" class="error-font">لطفا امضا کننده را انتخاب کنید!</p>
-                                            </label>-->
+                                        <div class="large-9 medium-9 small-12">
+                                            <div class="grid-x tbl_body_style">
+                                                <div v-for="payVerifier in payRequestVerifiers"  class="large-12 medium-12 small-12">
+                                                    <div class="grid-x">
+                                                        <div class="large-12 medium-12 small-12">
+                                                            <label>{{payVerifier.category.cSubject}}
+                                                                <select :name="'payVerifier'+payVerifier.id" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('payVerifier'+payVerifier.id)}">
+                                                                    <option value=""></option>
+                                                                    <template v-for="rolCat in payVerifier.category.role_category">
+                                                                        <option v-for="users in rolCat.role.user" :value="payVerifier.id">{{users.name}} - {{rolCat.role.rSubject}}</option>
+                                                                    </template>
+                                                                </select>
+                                                                <p v-show="errors.has('payVerifier'+payVerifier.id)" class="error-font">لطفا فیلد {{payVerifier.category.cSubject}}  را انتخاب کنید!</p>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -769,6 +779,7 @@
                 cBaseAmount:0,
                 cBaseAmountTemp:0,
                 incAndDecPercent:0,
+                payRequestVerifiers:[],
             }
         },
 
@@ -855,6 +866,16 @@
                         });
 
                         console.log(JSON.stringify(this.recipientsUsers));*/
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                    });
+            },
+
+            getPayRequestVerifiers: function () {
+                axios.get('/financial/payment_request/get_pay_request_steps')
+                    .then((response) => {
+                        this.payRequestVerifiers = response.data;
                         console.log(response);
                     }, (error) => {
                         console.log(error);
@@ -1094,6 +1115,7 @@
             },
 
             openInsertPaymentRequestModal: function(){
+                this.getPayRequestVerifiers();
                 this.paymentInput={};
                 this.contractTemp=[];
                 this.paymentInput.finalPaymentState=false;
