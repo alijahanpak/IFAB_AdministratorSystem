@@ -178,7 +178,7 @@ class PayRequestController extends Controller
             $payRequest->save();
 
             $req = _Request::find($request->rId);
-            $req->rRsId = RequestState::where('rsState' , '=' , 'ACCOUNTANT_QUEUE')->value('id');
+            $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
             $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
             $req->save();
 

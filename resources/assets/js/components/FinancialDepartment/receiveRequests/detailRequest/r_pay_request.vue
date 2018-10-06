@@ -87,7 +87,7 @@
                         <div class="grid-x" v-if="!payRequestIsBlocked">
                             <div style="margin-bottom:-20px;margin-top: 5px;" class="large-12 medium-12 small-12">
                                 <div class="stacked-for-small button-group float-right">
-                                    <button v-show="$can('FINANCIAL_REGISTER_AND_NUMBERING_PAY_REQUEST')" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
+                                    <button v-show="$can('FINANCIAL_REGISTER_AND_NUMBERING_PAY_REQUEST') && prLetterNumber == null && prLetterDate == null" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
                                     <button v-if="youArePayRequestVerifier" @click="checkAccept()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
                                     <button @click="openReferralModal(payRequestId)"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> ارجاع </span></button>
                                     <button @click="openResponseRequestModal(payRequestId)" v-show="canResponse == true"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> پاسخ </span></button>
@@ -188,6 +188,9 @@
             </div>
         </modal-tiny>
         <!-- Register And Numbering Draft End -->
+        <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
+            {{dialogMessage}}
+        </messageDialog>
     </div>
 </template>
 <script>
@@ -209,6 +212,8 @@
                 dialogMessage: '',
                 blockInput:{},
                 drafts:[],
+                prLetterNumber: '',
+                prLetterDate: '',
                 //for & PayTo input text
                 forQuery: '',
                 forItems: [],
@@ -271,6 +276,8 @@
                   this.canResponse = payRequest.prLastRef.rhIsReferral;
                   this.existRemainingVerifiers = payRequest.prRemainingVerifiers.length > 0 ? true : false;
                   this.drafts = payRequest.draft;
+                  this.prLetterDate = payRequest.prLetterDate;
+                  this.prLetterNumber = payRequest.prLetterNumber;
                   if (this.youArePayRequestVerifier)
                     this.verifierId = payRequest.prYouAreVerifiers[0].id;
                   this.openReportFile();
@@ -381,7 +388,7 @@
             registerAndNumberingPayRequest: function () {
                 axios.post('/financial/payment_request/numbering', {
                     rId: this.requestId,
-                    prId:this.draftId,
+                    prId:this.payRequestId,
                     letterDate: this.registerDate,
                     letterNumber: this.letterNumber
                 }).then((response) => {
