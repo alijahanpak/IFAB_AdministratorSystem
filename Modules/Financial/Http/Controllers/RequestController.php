@@ -83,7 +83,7 @@ class RequestController extends Controller
                     ->with('verifier.signature')
                     ->with('check.percentageDecrease');
             }])
-            ->with('payRequest')
+            ->with('payRequest.payRequestState')
             ->with('requestLevel')
             ->orderBy('id' , 'DESC')
             ->paginate(20);

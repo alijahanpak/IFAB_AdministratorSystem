@@ -527,8 +527,58 @@
                                 <!--Tab 4-->
                                 <div v-if="requestTypeDetail == 'SERVICES'" class="tabs-panel table-mrg-btm" id="requestPaymentTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
-                                        <div class="medium-12 padding-lr">
+                                        <div class="medium-12">
                                             <button @click="openInsertPaymentRequestModal()" class="my-button toolbox-btn small sm-btn-align"  type="button">جدید</button>
+                                        </div>
+                                        <div style="margin-top: -5px;" class="large-12 medium-12 small-12 small-top-m">
+                                            <!--Table Start-->
+                                            <!--Table Head Start-->
+                                            <div class="tbl-div-container">
+                                                <table class="tbl-head">
+                                                    <colgroup>
+                                                        <col width="200px"/>
+                                                        <col width="200px"/>
+                                                        <col width="200px"/>
+                                                        <col width="200px"/>
+                                                        <col width="200px"/>
+                                                        <col width="12px"/>
+                                                    </colgroup>
+                                                    <tbody class="tbl-head-style ">
+                                                    <tr class="tbl-head-style-cell">
+                                                        <th class="tbl-head-style-cell">درصد کل پیشرفت فیزیکی</th>
+                                                        <th class="tbl-head-style-cell">درصد افزایش / کاهش</th>
+                                                        <th class="tbl-head-style-cell">درصد پیشرفت ریالی</th>
+                                                        <th class="tbl-head-style-cell">مبلغ</th>
+                                                        <th class="tbl-head-style-cell">وضعیت</th>
+                                                        <th class="tbl-head-style-cell"></th>
+                                                    </tr>
+                                                    </tbody>
+                                                    <!--Table Head End-->
+                                                    <!--Table Body Start-->
+                                                </table>
+                                                <div class="tbl_body_style dynamic-height-level-modal2">
+                                                    <table class="tbl-body-contain">
+                                                        <colgroup>
+                                                            <col width="200px"/>
+                                                            <col width="200px"/>
+                                                            <col width="200px"/>
+                                                            <col width="200px"/>
+                                                            <col width="200px"/>
+                                                        </colgroup>
+                                                        <tbody class="tbl-head-style-cell">
+                                                        <tr @click="openPdfModal(payRequest)" class="table-row" v-for="payRequest in payRequests">
+                                                            <td class="text-center">{{'%' + payRequest.prPhysicalProgress}}</td>
+                                                            <td class="text-center">{{payRequest.prIsFinal == true ? (payRequest.prPhysicalProgress - 100 > 0 ? (payRequest.prPhysicalProgress - 100) + '% افزایش' : ((payRequest.prPhysicalProgress - 100) * (-1)) + '% کاهش') : '--'}}</td>
+                                                            <td class="text-center">{{'%' + payRequest.prAmountProgress}}</td>
+                                                            <td class="text-center">{{$root.dispMoneyFormat(payRequest.prAmount)}}</td>
+                                                            <td v-show="payRequest.pay_request_state.prsState == 'ACTIVE'" class="text-center"><span class="success-label">{{ payRequest.pay_request_state.prsSubject }}</span></td>
+                                                            <td v-show="payRequest.pay_request_state.prsState == 'BLOCKED'" class="text-center"><span class="blocked-label">{{ payRequest.pay_request_state.prsSubject }}</span></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <!--Table Body End-->
                                         </div>
                                     </div>
                                 </div>
@@ -589,7 +639,7 @@
         <!--Insert Payment Request End-->
         <modal-small v-if="showInsertPaymentRequestModal" @close="showInsertPaymentRequestModal = false">
             <div  slot="body">
-                <form v-on:submit.prevent="addNewPaymentRequest" >
+                <form v-on:submit.prevent="registerPayRequest" >
                     <div class="small-font">
                         <div class="large-12 medium-12 small-12">
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="payment_request_tab_view">
@@ -606,10 +656,10 @@
                                                     <div class="grid-x">
                                                         <div class="large-12 medium-12 small-12">
                                                             <label>{{payVerifier.category.cSubject}}
-                                                                <select :name="'payVerifier'+payVerifier.id" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('payVerifier'+payVerifier.id)}">
+                                                                <select :name="'payVerifier'+payVerifier.id"  v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('payVerifier'+payVerifier.id)}">
                                                                     <option value=""></option>
                                                                     <template v-for="rolCat in payVerifier.category.role_category">
-                                                                        <option v-for="users in rolCat.role.user" :value="payVerifier.id">{{users.name}} - {{rolCat.role.rSubject}}</option>
+                                                                        <option v-for="users in rolCat.role.user" :value="payVerifier.id" @click="calculateVerifiers(payVerifier.id,users.id)">{{users.name}} - {{rolCat.role.rSubject}}</option>
                                                                     </template>
                                                                 </select>
                                                                 <p v-show="errors.has('payVerifier'+payVerifier.id)" class="error-font">لطفا فیلد {{payVerifier.category.cSubject}}  را انتخاب کنید!</p>
@@ -667,7 +717,7 @@
                                                         <div class="grid-x">
                                                             <div class="large-3 medium-4 small-12">
                                                                 <div class="switch tiny">
-                                                                    <input :checked="paymentInput.finalPaymentState" :disabled="paymentInput.finalPaymentState" class="switch-input" v-model="paymentInput.finalPaymentState" id="finalPayment_state" type="checkbox">
+                                                                    <input :checked="paymentInput.finalPaymentState" :disabled="finalPaymentDisable" v-on:change="finalPaymentCheck(paymentInput.finalPaymentState)" class="switch-input" v-model="paymentInput.finalPaymentState" id="finalPayment_state" type="checkbox">
                                                                     <label class="switch-paddle" for="finalPayment_state">
                                                                         <span class="switch-active" aria-hidden="true">بلی</span>
                                                                         <span class="switch-inactive" aria-hidden="true">خیر</span>
@@ -711,17 +761,36 @@
         </modal-small>
         <!--Insert Payment Request End-->
 
+        <!-- PDF Payment modal -->
+        <modal-small v-if="showPdfModal" @close="showPdfModal = false">
+            <div style="height: 90vh;" slot="body">
+                <div class="grid-x">
+                    <div class="large-12 medium-12 small-12">
+                        <div class="grid-x" style="width:100%;height :91vh">
+                            <div class="large-12">
+                                <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
+                                <embed style="width: 100%;height: 100%" :src="payRequestPdfPath" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-small>
+        <!-- PDF Payment modal -->
+
     </div>
 </template>
 
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     import VuePagination from '../../public_component/pagination.vue';
+    import VueElementLoading from 'vue-element-loading';
     export default {
         components: {
             Suggestions,
             "vue-select": require("vue-select"),
             'vue-pagination' : VuePagination,
+            VueElementLoading,
         },
         data () {
             return {
@@ -740,6 +809,7 @@
                 showBuyCommodityModal:false,
                 showSubmissionDeatilModal:false,
                 showInsertPaymentRequestModal:false,
+                showPdfModal:false,
                 //commodity input text
                 commodityQuery: '',
                 commodityList: [],
@@ -780,6 +850,13 @@
                 cBaseAmountTemp:0,
                 incAndDecPercent:0,
                 payRequestVerifiers:[],
+                payVerifiers:[],
+                requestId:'',
+                contractId:'',
+                payRequests:[],
+                payRequestId:'',
+                payRequestPdfPath:'',
+                finalPaymentDisable:false,
             }
         },
 
@@ -1053,7 +1130,9 @@
                 this.recipientUsers=[];
                 this.verifiers=[];
                 this.attachments=[];
+                this.payRequests=[];
                 var requestHistory=[];
+                this.requestId=submission.id;
                 requestHistory.push(submission);
                 console.log(JSON.stringify(requestHistory));
                 requestHistory.forEach(users => {
@@ -1077,6 +1156,12 @@
                 requestHistory.forEach(item => {
                     item.contract.forEach(cont=> {
                         this.contracts.push(cont);
+                    });
+                });
+
+                requestHistory.forEach(item => {
+                    item.pay_request.forEach(pay=> {
+                        this.payRequests.push(pay);
                     });
                 });
 
@@ -1116,6 +1201,7 @@
 
             openInsertPaymentRequestModal: function(){
                 this.getPayRequestVerifiers();
+                this.paymentInput.rialProgress=0;
                 this.paymentInput={};
                 this.contractTemp=[];
                 this.paymentInput.finalPaymentState=false;
@@ -1123,7 +1209,8 @@
             },
 
             getContractInfo:function(contract){
-               console.log(JSON.stringify(contract));
+                console.log(JSON.stringify(contract));
+                this.contractId=contract.id;
                 this.contractPercent=0;
                 this.contractPercent=contract.cPercentInAndDec + 100;
                 this.cBaseAmount=contract.cBaseAmount;
@@ -1132,25 +1219,103 @@
             },
 
             calculatePaymentAmount:function(){
-                this.paymentInput.rialProgress=0;
-                this.paymentInput.rialProgress=Math.round((parseInt(this.paymentInput.amount.split(',').join(''),10) / this.cBaseAmount ) * 100);
-                if(this.paymentInput.rialProgress > 100){
-                    this.paymentInput.finalPaymentState=true;
-                    this.incAndDecPercent=0;
-                    this.incAndDecPercent=this.paymentInput.rialProgress - 100;
-
+                if(this.contractTemp.length == 0){
+                    this.paymentInput.rialProgress=0;
                 }
                 else{
-                    this.paymentInput.finalPaymentState = false;
-                    this.incAndDecPercent=0;
+                    this.paymentInput.rialProgress=0;
+                    this.paymentInput.rialProgress=Math.round((parseInt(this.paymentInput.amount.split(',').join(''),10) / this.cBaseAmount ) * 100);
+                    if(this.paymentInput.rialProgress > 100){
+                        this.paymentInput.finalPaymentState=true;
+                        this.finalPaymentDisable=true;
+                        this.incAndDecPercent=0;
+                        this.incAndDecPercent=this.paymentInput.rialProgress - 100;
+
+                    }
+                    else {
+                        this.paymentInput.finalPaymentState = false;
+                        this.finalPaymentDisable=false;
+                        this.incAndDecPercent=0;
+                    }
                 }
+
             },
 
             calculatePaymentRialProgress:function(){
                 this.paymentInput.amount=Math.round(this.cBaseAmount * (this.paymentInput.rialProgress / 100));
             },
 
+            finalPaymentCheck:function(state){
+                this.incAndDecPercent=0;
+                if(state){
+                    this.incAndDecPercent=this.paymentInput.rialProgress - 100;
+                    this.finalPaymentDisable=false;
+                }
+                else
+                    this.incAndDecPercent=0;
 
+            },
+
+            calculateVerifiers:function(prstId,uId){
+                var verifiersTemp={};
+                verifiersTemp.prstId=prstId;
+                verifiersTemp.uId=uId;
+                this.payVerifiers.forEach((item,pos) =>{
+                    if(item.prstId == verifiersTemp.prstId ){
+                        this.payVerifiers.splice(pos,1);
+                    }
+                });
+                if(prstId != ''){
+                    this.payVerifiers.push(verifiersTemp);
+                }
+                console.log(JSON.stringify(this.payVerifiers));
+            },
+
+            registerPayRequest:function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/financial/payment_request/register', {
+                            rId: this.requestId,
+                            cId: this.contractId,
+                            physicalProgress: this.paymentInput.physicalProgress,
+                            amountProgress: this.paymentInput.rialProgress,
+                            amount: parseInt(this.paymentInput.amount.split(',').join(''),10),
+                            isFinal: this.paymentInput.finalPaymentState == true ? 1 : 0,
+                            description: this.paymentInput.description,
+                            verifiers:this.payVerifiers,
+                        }).then((response) => {
+                            this.showInsertPaymentRequestModal = false;
+                            this.submissions = response.data.data;
+                            this.getSubmissionDetail();
+                            this.$root.displayNotif(response.status);
+                            console.log(response);
+                        }, (error) => {
+                            console.log(error);
+                            this.$root.displayNotif(error.response.status);
+                        });
+                    }
+                });
+            },
+
+            openPdfModal: function (payRequest){
+                this.payRequestId=payRequest.id;
+                this.openReportFile();
+                this.payRequestPdfPath='';
+                this.showPdfModal=true;
+            },
+
+            openReportFile: function () {
+                this.showLoaderProgress = true;
+                axios.post('/financial/report/payment_request' , {prId: this.payRequestId})
+                    .then((response) => {
+                        console.log(response.data);
+                        this.showLoaderProgress = false;
+                        this.payRequestPdfPath=response.data;
+                    },(error) => {
+                        console.log(error);
+                        this.showLoaderProgress = false;
+                    });
+            },
 
             /*--------------------------- File Upload Start--------------------------------------*/
             getAttachmentSize() {
