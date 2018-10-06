@@ -256,6 +256,7 @@ class RequestController extends Controller
                 ->with('draft.verifier.user.role')
                 ->with('draft.check.percentageDecrease')
                 ->with('draft.draftState')
+                ->with('payRequest.payRequestState')
                 ->with('payRequest.verifiers.user.role.officeUnit')
                 ->with('payRequest.verifiers.signature')
                 ->with('payRequest.contract.executor')
@@ -334,6 +335,7 @@ class RequestController extends Controller
             $history->rhRId = $rHis->rhRId;
             $history->rhRsId = $rHis->rhRsId;
             $history->rhDId = $request->dId;
+            $history->rhPrId = $request->prId;
             $history->rhIsReferral = $request->acceptPermission ? false : true;
             $history->rhDescription = PublicSetting::checkPersianCharacters($request->description);
             $history->save();

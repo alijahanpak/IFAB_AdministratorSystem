@@ -26,6 +26,11 @@ class PayRequest extends Model
         return $this->belongsTo(Contract::class , 'prCId' , 'id');
     }
 
+    public function payRequestState()
+    {
+        return $this->belongsTo(PayRequestState::class , 'prPrsId' , 'id');
+    }
+
     public function getPrRemainingVerifiersAttribute()
     {
         $myOrder = PayRequestSteps::whereHas('requestVerifiers' , function ($q){
