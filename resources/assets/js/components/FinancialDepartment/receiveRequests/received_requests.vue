@@ -706,6 +706,9 @@
                                 <!--Tab 6-->
                                 <div class="tabs-panel table-mrg-btm" :class="requestLevel == 'PAYMENT' ? 'is-active' : ''" id="payRequestTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <r-pay-request
+                                            v-on:closeModal="showRequestDetailModal=false"
+                                            v-on:updateReceiveRequestData="updateReceiveRequestData"
+                                            v-on:openReferralsModal="openReferralsModal"
                                              v-bind:requestId="requestId"
                                              v-bind:payRequests="payRequests">
                                     </r-pay-request>
@@ -1211,6 +1214,7 @@
                 rr_DRAFT_Unreads: 0,
                 rr_DRAFT_Reads: 0,
                 referralDId: null,
+                referralPrId: null,
                 rLetterNumber: null,
                 rLetterDate: null,
                 rSumOfDraftAmount: 0,
@@ -1452,7 +1456,6 @@
             getMyCategoryUsers: function () {
                 axios.get('/admin/user/getMyCategoryUsers',{params:{cId:this.youAreVerifierCId}})
                     .then((response) => {
-
                         this.groupUsersByCId = response.data;
                         console.log(response);
                     }, (error) => {
@@ -1616,9 +1619,10 @@
                 }
             },
 
-            openReferralsModal: function (dId = null) {
+            openReferralsModal: function (dId = null , prId = null) {
                 this.showReferralsModal=true;
                 this.referralDId = dId;
+                this.referralPrId = prId;
                 this.getGroupUsers();
                 this.getMyCategoryUsers();
             },
@@ -1632,7 +1636,8 @@
                             lastRefId: this.lastVerifier,
                             description: this.referralInput.description,
                             verifierId:this.youAreVerifier,
-                            dId:this.referralDId
+                            dId:this.referralDId,
+                            prId:this.referralPrId
                         }).then((response) => {
                             this.loadReceivedData(response.data);
                             this.$parent._getUnReadReceivedRequest();

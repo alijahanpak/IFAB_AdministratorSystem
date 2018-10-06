@@ -1033,7 +1033,7 @@
             },
 
             openReferralModal:function () {
-                this.$emit('openReferralsModal' , this.draftId);
+                this.$emit('openReferralsModal' , this.draftId , null);
             },
 
             openBlockModal: function () {
