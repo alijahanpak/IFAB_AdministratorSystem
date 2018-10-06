@@ -625,7 +625,7 @@
                                 <li class="tabs-title" :class="requestLevel == 'FINANCIAL' ? 'is-active' : ''"><a href="#creditsTab">اعتبارات</a></li>
                                 <li class="tabs-title" :class="requestLevel == 'PURCHASE_AND_CONTRACT' ? 'is-active' : ''" v-if="requestType == 'BUY_COMMODITY'"><a href="#factorTab">اطلاعات فاکتور</a></li>
                                 <li class="tabs-title" :class="requestLevel == 'PURCHASE_AND_CONTRACT' ? 'is-active' : ''" v-if="requestType == 'BUY_SERVICES'"><a href="#contractTab">اطلاعات قرارداد</a></li>
-                                <li class="tabs-title" :class="requestLevel == 'PAYMENT' ? 'is-active' : ''"><a href="#payRequestTab">درخواست پرداخت </a></li>
+                                <li v-if="requestType == 'BUY_SERVICES'" class="tabs-title" :class="requestLevel == 'PAYMENT' ? 'is-active' : ''"><a href="#payRequestTab">درخواست پرداخت </a></li>
                                 <li class="tabs-title" :class="requestLevel == 'DRAFT' ? 'is-active' : ''"><a href="#draftTab">حواله </a></li>
                                 <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
                                 <li class="tabs-title"><a href="#requestAttachmentsTab">پیوست ها </a></li>
@@ -704,7 +704,7 @@
                                 </div>
                                 <!--Tab 5-->
                                 <!--Tab 6-->
-                                <div class="tabs-panel table-mrg-btm" :class="requestLevel == 'PAYMENT' ? 'is-active' : ''" id="payRequestTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div v-if="requestType == 'BUY_SERVICES'" class="tabs-panel table-mrg-btm" :class="requestLevel == 'PAYMENT' ? 'is-active' : ''" id="payRequestTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <r-pay-request
                                             v-on:closeModal="showRequestDetailModal=false"
                                             v-on:updateReceiveRequestData="updateReceiveRequestData"
@@ -855,8 +855,8 @@
                                 <button v-show='$can("SECRETARIAT_REGISTER_AND_NUMBERING") && rLetterNumber == null && rLetterDate == null' style="width:130px;" @click="openRegisterAndNumberingModal()" class="my-button my-success"><span class="btn-txt-mrg">  ثبت دبیرخانه</span></button>
                                 <button @click="openReferralsModal()"  class="my-button toolbox-btn"><span class="btn-txt-mrg">  ارجاع</span></button>
                                 <button @click="openResponseRequestModal()" v-show="canResponse == true" class="my-button toolbox-btn"><span class="btn-txt-mrg">  پاسخ</span></button>
-                                <button @click="openTerminateModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">خاتمه</span></button>
-                                <button @click="openBlockModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">مسدود</span></button>
+                                <button v-show="$can('REQUEST_CLOSED')" @click="openTerminateModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">خاتمه</span></button>
+                                <button v-show="$can('REQUEST_BLOCK')" @click="openBlockModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">مسدود</span></button>
                             </div>
                         </div>
                     </div>
@@ -1469,7 +1469,7 @@
 
 
             getRequestDetail: function (request) {
-                if(request.rLastRef.rhHasBeenSeen==0) {
+                if(request.rLastRef.rhHasBeenSeen==false) {
                     axios.post('/financial/request/received/was_seen', {
                         rhId: request.rLastRef.id
                     }).then((response) => {

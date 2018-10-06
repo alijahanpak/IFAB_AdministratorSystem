@@ -240,7 +240,7 @@ class PayRequestController extends Controller
             $history->rhRsId = $req->rRsId;
             $history->rhPrId = $payRequest->id;
             $history->rhDHasBeenSeen = true;
-            $history->rhDescription = PublicSetting::checkPersianCharacters($request->description) . ' (درخواست پرداخت: ' . $payRequest->contract->cSubject . ')';
+            $history->rhDescription = PublicSetting::checkPersianCharacters($request->description) . ' (مسدود کردن درخواست پرداخت: ' . $payRequest->contract->cSubject . ')';
             $history->save();
 
             SystemLog::setFinancialSubSystemLog('مسدود کردن درخواست پرداخت برای قرارداد ' . $payRequest->contract->cSubject);

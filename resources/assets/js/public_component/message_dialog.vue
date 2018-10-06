@@ -5,7 +5,7 @@
                     <div class="grid-x">
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
-                            <p class="large-offset-1 modal-text"><slot></slot></p>
+                            <p class="large-offset-1 modal-text text-justify"><slot></slot></p>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
                             <button @click="$emit('close')" class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  بله</span></button>

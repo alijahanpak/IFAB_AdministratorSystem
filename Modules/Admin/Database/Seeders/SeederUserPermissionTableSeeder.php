@@ -40,6 +40,26 @@ class SeederUserPermissionTableSeeder extends Seeder
         $gPermission->upPId = 101;
         $gPermission->save();
 
+        $gPermission = new UserPermission();
+        $gPermission->upUId = 1;
+        $gPermission->upPId = 106;
+        $gPermission->save();
+
+        $gPermission = new UserPermission();
+        $gPermission->upUId = 1;
+        $gPermission->upPId = 107;
+        $gPermission->save();
+
+        $gPermission = new UserPermission();
+        $gPermission->upUId = 1;
+        $gPermission->upPId = 108;
+        $gPermission->save();
+
+        $gPermission = new UserPermission();
+        $gPermission->upUId = 1;
+        $gPermission->upPId = 110;
+        $gPermission->save();
+
         for ($i = 1 ; $i <= 75 ;$i++)
         {
             $gPermission = new UserPermission();
@@ -116,6 +136,11 @@ class SeederUserPermissionTableSeeder extends Seeder
         $gPermission->upUId = 6;
         $gPermission->upPId = 100;
         $gPermission->save();
+
+        $gPermission = new UserPermission();
+        $gPermission->upUId = 6;
+        $gPermission->upPId = 109;
+        $gPermission->save();
         /////////////////////////////////
         for ($i = 1 ; $i <= 75 ;$i++)
         {
@@ -136,8 +161,63 @@ class SeederUserPermissionTableSeeder extends Seeder
         $gPermission->save();
 
         $gPermission = new UserPermission();
+        $gPermission->upUId = 7;
+        $gPermission->upPId = 106;
+        $gPermission->save();
+
+        $gPermission = new UserPermission();
+        $gPermission->upUId = 7;
+        $gPermission->upPId = 107;
+        $gPermission->save();
+
+        $gPermission = new UserPermission();
+        $gPermission->upUId = 7;
+        $gPermission->upPId = 108;
+        $gPermission->save();
+
+        $gPermission = new UserPermission();
+        $gPermission->upUId = 7;
+        $gPermission->upPId = 110;
+        $gPermission->save();
+
+        $gPermission = new UserPermission();
+        $gPermission->upUId = 8;
+        $gPermission->upPId = 106;
+        $gPermission->save();
+
+        $gPermission = new UserPermission();
+        $gPermission->upUId = 9;
+        $gPermission->upPId = 106;
+        $gPermission->save();
+
+        $gPermission = new UserPermission();
+        $gPermission->upUId = 9;
+        $gPermission->upPId = 110;
+        $gPermission->save();
+
+        $gPermission = new UserPermission();
         $gPermission->upUId = 10;
         $gPermission->upPId = 99;
+        $gPermission->save();
+
+        $gPermission = new UserPermission();
+        $gPermission->upUId = 10;
+        $gPermission->upPId = 106;
+        $gPermission->save();
+
+        $gPermission = new UserPermission();
+        $gPermission->upUId = 10;
+        $gPermission->upPId = 107;
+        $gPermission->save();
+
+        $gPermission = new UserPermission();
+        $gPermission->upUId = 10;
+        $gPermission->upPId = 108;
+        $gPermission->save();
+
+        $gPermission = new UserPermission();
+        $gPermission->upUId = 10;
+        $gPermission->upPId = 110;
         $gPermission->save();
 
         $gPermission = new UserPermission();
@@ -196,8 +276,23 @@ class SeederUserPermissionTableSeeder extends Seeder
         $gPermission->save();
 
         $gPermission = new UserPermission();
+        $gPermission->upUId = 13;
+        $gPermission->upPId = 110;
+        $gPermission->save();
+
+        $gPermission = new UserPermission();
         $gPermission->upUId = 14;
         $gPermission->upPId = 98;
+        $gPermission->save();
+
+        $gPermission = new UserPermission();
+        $gPermission->upUId = 14;
+        $gPermission->upPId = 107;
+        $gPermission->save();
+
+        $gPermission = new UserPermission();
+        $gPermission->upUId = 14;
+        $gPermission->upPId = 110;
         $gPermission->save();
 
         $gPermission = new UserPermission();
@@ -213,6 +308,11 @@ class SeederUserPermissionTableSeeder extends Seeder
         $gPermission = new UserPermission();
         $gPermission->upUId = 15;
         $gPermission->upPId = 102;
+        $gPermission->save();
+
+        $gPermission = new UserPermission();
+        $gPermission->upUId = 15;
+        $gPermission->upPId = 107;
         $gPermission->save();
 
         $gPermission = new UserPermission();

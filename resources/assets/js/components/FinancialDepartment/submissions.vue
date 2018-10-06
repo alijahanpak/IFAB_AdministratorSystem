@@ -777,7 +777,10 @@
             </div>
         </modal-small>
         <!-- PDF Payment modal -->
-
+        <!-- Generate Checks  modal -->
+        <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
+            {{dialogMessage}}
+        </messageDialog>
     </div>
 </template>
 
@@ -810,6 +813,8 @@
                 showSubmissionDeatilModal:false,
                 showInsertPaymentRequestModal:false,
                 showPdfModal:false,
+                showDialogModal: false,
+                dialogMessage: '',
                 //commodity input text
                 commodityQuery: '',
                 commodityList: [],
@@ -857,6 +862,7 @@
                 payRequestId:'',
                 payRequestPdfPath:'',
                 finalPaymentDisable:false,
+                requestState: '',
             }
         },
 
@@ -1133,6 +1139,7 @@
                 this.payRequests=[];
                 var requestHistory=[];
                 this.requestId=submission.id;
+                this.requestState = submission.request_state.rsState;
                 requestHistory.push(submission);
                 console.log(JSON.stringify(requestHistory));
                 requestHistory.forEach(users => {
@@ -1200,12 +1207,18 @@
             },
 
             openInsertPaymentRequestModal: function(){
-                this.getPayRequestVerifiers();
-                this.paymentInput.rialProgress=0;
-                this.paymentInput={};
-                this.contractTemp=[];
-                this.paymentInput.finalPaymentState=false;
-                this.showInsertPaymentRequestModal=true;
+                if (this.requestState == 'WAITING_FOR_PAY_REQUEST')
+                {
+                    this.getPayRequestVerifiers();
+                    this.paymentInput.rialProgress=0;
+                    this.paymentInput={};
+                    this.contractTemp=[];
+                    this.paymentInput.finalPaymentState=false;
+                    this.showInsertPaymentRequestModal=true;
+                }else{
+                    this.dialogMessage = 'ثبت درخواست پرداخت هنگامی امکان پذیر است که درخواست در انتظار درخواست پرداخت باشد. شما می توانید وضعیت درخواست را در بخش تاریخچه مشاهده کنید.';
+                    this.showDialogModal = true;
+                }
             },
 
             getContractInfo:function(contract){

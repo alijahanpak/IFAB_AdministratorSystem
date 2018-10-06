@@ -87,11 +87,11 @@
                         <div class="grid-x" v-if="!payRequestIsBlocked">
                             <div style="margin-bottom:-20px;margin-top: 5px;" class="large-12 medium-12 small-12">
                                 <div class="stacked-for-small button-group float-right">
-                                    <button @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
+                                    <button v-show="$can('FINANCIAL_REGISTER_AND_NUMBERING_PAY_REQUEST')" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
                                     <button v-if="youArePayRequestVerifier" @click="checkAccept()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
                                     <button @click="openReferralModal(payRequestId)"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> ارجاع </span></button>
                                     <button @click="openResponseRequestModal(payRequestId)" v-show="canResponse == true"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> پاسخ </span></button>
-                                    <button @click="openBlockModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">مسدود</span></button>
+                                    <button v-show="$can('PAY_REQUEST_BLOCK')" @click="openBlockModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">مسدود</span></button>
                                 </div>
                             </div>
                         </div>
@@ -153,6 +153,41 @@
             </div>
         </modal-tiny>
         <!-- block Detail Modal End-->
+        <!-- Register And Numbering Draft Start -->
+        <modal-tiny v-if="showRegisterAndNumberingModal" @close="showRegisterAndNumberingModal = false">
+            <div  slot="body">
+                <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <div class="grid-x">
+                        <div class="large-12 medium-12 small-12 padding-lr">
+                            <label>تاریخ
+                                <input
+                                        type="text"
+                                        class="form-control form-control-lg"
+                                        v-model="registerDate"
+                                        id="my-custom-input"
+                                        placeholder="انتخاب تاریخ">
+
+                                <date-picker
+                                        v-model="registerDate"
+                                        :color="'#5c6bc0'"
+                                        element="my-custom-input">
+                                </date-picker>
+                            </label>
+                        </div>
+                        <div class="large-12 medium-12 small-12 padding-lr">
+                            <label> شماره
+                                <input class="form-element-margin-btm" type="text" name="letterNumber" v-model="letterNumber" v-validate="'required'" data-vv-as="field" :class="{'input': true, 'error-border': errors.has('letterNumber')}">
+                                <span v-show="errors.has('letterNumber')" class="error-font"></span>
+                            </label>
+                        </div>
+                        <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
+                            <button @click="registerAndNumberingPayRequest()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-tiny>
+        <!-- Register And Numbering Draft End -->
     </div>
 </template>
 <script>
@@ -230,17 +265,27 @@
 
         methods : {
             openPdfModal: function (payRequest){
-              this.payRequestId=payRequest.id;
-              this.youArePayRequestVerifier = payRequest.prYouAreVerifiers.length > 0 ? true : false;
-              this.payRequestIsBlocked = payRequest.pay_request_state.prsState == 'BLOCKED' ? true : false;
-              this.canResponse = payRequest.prLastRef.rhIsReferral;
-              this.existRemainingVerifiers = payRequest.prRemainingVerifiers.length > 0 ? true : false;
-              this.drafts = payRequest.draft;
-              if (this.youArePayRequestVerifier)
-                this.verifierId = payRequest.prYouAreVerifiers[0].id;
-              this.openReportFile();
-              this.payRequestPdfPath='';
-              this.showPdfModal=true;
+                  this.payRequestId=payRequest.id;
+                  this.youArePayRequestVerifier = payRequest.prYouAreVerifiers.length > 0 ? true : false;
+                  this.payRequestIsBlocked = payRequest.pay_request_state.prsState == 'BLOCKED' ? true : false;
+                  this.canResponse = payRequest.prLastRef.rhIsReferral;
+                  this.existRemainingVerifiers = payRequest.prRemainingVerifiers.length > 0 ? true : false;
+                  this.drafts = payRequest.draft;
+                  if (this.youArePayRequestVerifier)
+                    this.verifierId = payRequest.prYouAreVerifiers[0].id;
+                  this.openReportFile();
+                  this.payRequestPdfPath='';
+                  this.showPdfModal=true;
+                if(payRequest.prLastRef.rhPrHasBeenSeen == false) {
+                    axios.post('/financial/payment_request/was_seen', {
+                        rhId: payRequest.prLastRef.id
+                    }).then((response) => {
+                        this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                    });
+                }
             },
 
             openReportFile: function () {
@@ -322,6 +367,34 @@
                     }
                 });
             },
+
+            openRegisterAndNumberingModal:function(){
+                if (!this.existRemainingVerifiers)
+                    this.showRegisterAndNumberingModal=true;
+                else
+                {
+                    this.dialogMessage = 'درخواست باید توسط کلیه تایید کنندگان امضاء شده باشد!';
+                    this.showDialogModal = true;
+                }
+            },
+
+            registerAndNumberingPayRequest: function () {
+                axios.post('/financial/payment_request/numbering', {
+                    rId: this.requestId,
+                    prId:this.draftId,
+                    letterDate: this.registerDate,
+                    letterNumber: this.letterNumber
+                }).then((response) => {
+                    this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                    this.$emit('closeModal');
+                    this.showRegisterAndNumberingModal = false;
+                    this.$root.displayNotif(response.status);
+                    console.log(response);
+                }, (error) => {
+                    console.log(error);
+                    this.$root.displayNotif(error.response.status);
+                });
+            }
         }
     }
 </script>

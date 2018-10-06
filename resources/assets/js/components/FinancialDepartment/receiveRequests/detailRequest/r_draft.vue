@@ -235,7 +235,7 @@
                                             <button v-if="$can('FINANCIAL_DETERMINE_DECREASES_AND_MAKE_CHECKS') && isAccepted" @click="openGenerateChecksModal()"  class="my-button my-success"><span class="btn-txt-mrg">   صدور چک   </span></button>
                                             <button @click="openReferralModal(draftId)"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> ارجاع </span></button>
                                             <button @click="openResponseRequestModal(draftId)" v-show="canResponse == true" class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> ارجاع </span></button>
-                                            <button @click="openBlockModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">مسدود</span></button>
+                                            <button v-show="$can('DRAFT_BLOCK')" @click="openBlockModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">مسدود</span></button>
                                         </div>
                                     </div>
                                 </div>
