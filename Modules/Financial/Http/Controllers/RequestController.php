@@ -261,6 +261,7 @@ class RequestController extends Controller
                 ->with('payRequest.verifiers.signature')
                 ->with('payRequest.contract.executor')
                 ->with('requestLevel')
+                ->with('payRequest.draft')
                 ->with('contract.increaseAmount.percentageIncrease')
                 ->orderBy('id' , 'DESC')
                 ->paginate(20);
@@ -563,6 +564,8 @@ class RequestController extends Controller
         $history->rhDestUId = $rHis->rhSrcUId;
         $history->rhRId = $rHis->rhRId;
         $history->rhRsId = $rHis->rhRsId;
+        $history->rhDId = $request->dId;
+        $history->rhPrId = $request->prId;
         $history->rhIsReferral = true;
         $history->rhDescription = PublicSetting::checkPersianCharacters($request->description);
         $history->save();

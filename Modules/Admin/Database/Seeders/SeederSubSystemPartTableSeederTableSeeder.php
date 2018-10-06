@@ -115,5 +115,11 @@ class SeederSubSystemPartTableSeederTableSeeder extends Seeder
         $part->sspSubject = 'واحد صدور چک';
         $part->sspPart = 'EXPORT_CHECK';
         $part->save();
+
+        $part = new SubSystemPart;
+        $part->sspSsId = 5;
+        $part->sspSubject = 'عمومی';
+        $part->sspPart = 'PUBLIC';
+        $part->save();
     }
 }

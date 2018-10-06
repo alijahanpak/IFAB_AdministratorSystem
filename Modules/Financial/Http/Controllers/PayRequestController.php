@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\RoleCategory;
 use Modules\Admin\Entities\Signature;
 use Modules\Admin\Entities\SystemLog;
@@ -210,6 +211,40 @@ class PayRequestController extends Controller
         $rHistory = RequestHistory::find($request->rhId);
         $rHistory->rhPrHasBeenSeen = true;
         $rHistory->save();
+
+        $rController = new RequestController();
+        return \response()->json(
+            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+        );
+    }
+
+    public function block(Request $request)
+    {
+        DB::transaction(function () use($request){
+            $payRequest = PayRequest::with('contract')->find($request->prId);
+            $payRequest->prPrsId = PayRequestState::where('prsState' , '=' , 'BLOCKED')->value('id');
+            $payRequest->save();
+
+            $req = _Request::find($payRequest->prRId);
+            if ($request->prId == $request->lastRefPrId)
+            {
+                $req->rRsId = RequestState::where('rsState' , '=' , 'WAITING_FOR_PAY_REQUEST')->value('id');
+                $req->save();
+            }
+
+            // make history for this request
+            $history = new RequestHistory();
+            $history->rhSrcUId = Auth::user()->id;
+            $history->rhDestUId = Auth::user()->id; // for accountant destination
+            $history->rhRId = $req->id;
+            $history->rhRsId = $req->rRsId;
+            $history->rhPrId = $payRequest->id;
+            $history->rhDHasBeenSeen = true;
+            $history->rhDescription = PublicSetting::checkPersianCharacters($request->description) . ' (درخواست پرداخت: ' . $payRequest->contract->cSubject . ')';
+            $history->save();
+
+            SystemLog::setFinancialSubSystemLog('مسدود کردن درخواست پرداخت برای قرارداد ' . $payRequest->contract->cSubject);
+        });
 
         $rController = new RequestController();
         return \response()->json(

@@ -709,8 +709,10 @@
                                             v-on:closeModal="showRequestDetailModal=false"
                                             v-on:updateReceiveRequestData="updateReceiveRequestData"
                                             v-on:openReferralsModal="openReferralsModal"
+                                            v-on:openResponseRequestModal="openResponseRequestModal"
                                              v-bind:requestId="requestId"
-                                             v-bind:payRequests="payRequests">
+                                             v-bind:payRequests="payRequests"
+                                            v-bind:lastRefPrId="lastRefPrId">
                                     </r-pay-request>
                                 </div>
                                 <!--Tab 6-->
@@ -719,6 +721,7 @@
                                     <rDraft  v-on:closeModal="showRequestDetailModal=false"
                                              v-on:updateReceiveRequestData="updateReceiveRequestData"
                                              v-on:openReferralsModal="openReferralsModal"
+                                             v-on:openResponseRequestModal="openResponseRequestModal"
                                              v-bind:requestId="requestId"
                                              v-bind:contracts="contracts"
                                              v-bind:factors="factors"
@@ -851,7 +854,7 @@
                                 <button @click="openSubmitRequestModal()" v-if=" youAreVerifier != '' "  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
                                 <button v-show='$can("SECRETARIAT_REGISTER_AND_NUMBERING") && rLetterNumber == null && rLetterDate == null' style="width:130px;" @click="openRegisterAndNumberingModal()" class="my-button my-success"><span class="btn-txt-mrg">  ثبت دبیرخانه</span></button>
                                 <button @click="openReferralsModal()"  class="my-button toolbox-btn"><span class="btn-txt-mrg">  ارجاع</span></button>
-                                <button @click="openResponseRequestModal()" v-show="canResponse == 1 " class="my-button toolbox-btn"><span class="btn-txt-mrg">  پاسخ</span></button>
+                                <button @click="openResponseRequestModal()" v-show="canResponse == true" class="my-button toolbox-btn"><span class="btn-txt-mrg">  پاسخ</span></button>
                                 <button @click="openTerminateModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">خاتمه</span></button>
                                 <button @click="openBlockModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">مسدود</span></button>
                             </div>
@@ -1218,6 +1221,7 @@
                 rLetterNumber: null,
                 rLetterDate: null,
                 rSumOfDraftAmount: 0,
+                lastRefPrId: -1,
             }
         },
 
@@ -1556,6 +1560,7 @@
                 this.rLetterDate = request.rLetterDate;
                 this.requestLevel = request.request_level.rlLevel;
                 this.lastVerifier=request.rLastRef.id;
+                this.lastRefPrId = request.rLastRef.rhPrId;
 
                 this.rCreditIsAccepted = request.rCreditIsAccepted;
                 this.rCreditIsExist = request.rCreditIsExist;
@@ -1690,7 +1695,9 @@
                 });
             },
 
-            openResponseRequestModal: function () {
+            openResponseRequestModal: function (dId = null , prId = null) {
+                this.referralDId = dId;
+                this.referralPrId = prId;
                 this.showResponseRequestModal=true;
             },
 
@@ -1698,7 +1705,9 @@
             responseRequest: function () {
                 axios.post('/financial/request/response', {
                     lastRefId: this.lastVerifier,
-                    description: this.responseDescription
+                    description: this.responseDescription,
+                    dId: this.referralDId,
+                    prId: this.referralPrId
                 }).then((response) => {
                     this.loadReceivedData(response.data);
                     this.$parent._getUnReadReceivedRequest();

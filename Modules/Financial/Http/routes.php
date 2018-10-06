@@ -80,7 +80,6 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::post('/accept', 'PayRequestController@accept');
         Route::post('/numbering', 'PayRequestController@numbering');
         Route::post('/was_seen', 'PayRequestController@wasSeen');
-/*        Route::get('/get_percentage_decrease' , 'DraftController@getPercentageDecrease');
-        Route::post('/block', 'DraftController@block');*/
+        Route::post('/block', 'PayRequestController@block');
     });
 });

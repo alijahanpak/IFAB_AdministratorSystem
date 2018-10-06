@@ -2305,6 +2305,7 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         'Modules\\Financial\\Entities\\Factor' => __DIR__ . '/../..' . '/Modules/Financial/Entities/Factor.php',
         'Modules\\Financial\\Entities\\FinancialRequestQueue' => __DIR__ . '/../..' . '/Modules/Financial/Entities/FinancialRequestQueue.php',
         'Modules\\Financial\\Entities\\IncreaseContractAmount' => __DIR__ . '/../..' . '/Modules/Financial/Entities/IncreaseContractAmount.php',
+        'Modules\\Financial\\Entities\\NumberToWord' => __DIR__ . '/../..' . '/Modules/Financial/Entities/NumberToWord.php',
         'Modules\\Financial\\Entities\\PayRequest' => __DIR__ . '/../..' . '/Modules/Financial/Entities/PayRequest.php',
         'Modules\\Financial\\Entities\\PayRequestState' => __DIR__ . '/../..' . '/Modules/Financial/Entities/PayRequestState.php',
         'Modules\\Financial\\Entities\\PayRequestSteps' => __DIR__ . '/../..' . '/Modules/Financial/Entities/PayRequestSteps.php',

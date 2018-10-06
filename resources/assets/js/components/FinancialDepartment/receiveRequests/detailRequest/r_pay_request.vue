@@ -88,8 +88,9 @@
                             <div style="margin-bottom:-20px;margin-top: 5px;" class="large-12 medium-12 small-12">
                                 <div class="stacked-for-small button-group float-right">
                                     <button @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
-                                    <button v-if="youArePayRequestVerifier" @click="accept()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
+                                    <button v-if="youArePayRequestVerifier" @click="checkAccept()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
                                     <button @click="openReferralModal(payRequestId)"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> ارجاع </span></button>
+                                    <button @click="openResponseRequestModal(payRequestId)" v-show="canResponse == true"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> پاسخ </span></button>
                                     <button @click="openBlockModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">مسدود</span></button>
                                 </div>
                             </div>
@@ -99,39 +100,80 @@
             </div>
         </modal-small>
         <!-- pdf Factor modal -->
+        <!-- Submit Request modal -->
+        <modal-tiny v-if="showSubmitRequestModal" @close="showSubmitRequestModal = false">
+            <div  slot="body">
+                <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <div class="grid-x">
+                        <template v-if="!existRemainingVerifiers">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <p class="black-color size-14">آیا برای تایید درخواست اطمینان دارید؟ </p>
+                            </div>
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <p class="btn-red size-14">تایید شما به منزله امضا درخواست می باشد.</p>
+                            </div>
+                            <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
+                                <button @click="accept()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
+                            </div>
+                        </template>
+                        <template v-else>
+                            <div class="large-12 medium-12 small-12 padding-lr text-center">
+                                <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
+                                <p class="large-offset-1 modal-text">باتوجه به در نظر گرفتن اولویت برای امضاء کنندگان درخواست. در حال حاضر شما امکان تایید درخواست را ندارید. </p>
+                            </div>
+                            <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
+                                <button @click="hideSubmitRequestModal()" class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  بله</span></button>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </modal-tiny>
+        <!-- Submit Request modal -->
+        <!-- block Detail Modal Start-->
+        <modal-tiny v-if="showBlockModal" @close="showBlockModal = false">
+            <div  slot="body">
+                <form v-on:submit.prevent="requestBlock">
+                    <div class="small-font">
+                        <div class="grid-x">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
+                                <p class="large-offset-1 modal-text text-justify">توجه داشته باشید که در صورت مسدود کردن درخواست دیگر امکان بازگشت آن به حالت فعال وجود ندارد، با مسدود شدن درخواست مبلغ درخواست در محاسبات در نظر گرفته نخواهد شد.</p>
+                                <label>شرح
+                                    <textarea v-model="blockInput.description"  class="form-element-margin-btm"  style="min-height: 150px;" name="blockDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('blockDescription')}"></textarea>
+                                    <span v-show="errors.has('blockDescription')" class="error-font">لطفا دلیل مسدود کردن درخواست را وارد کنید!</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
+                        <button type="submit"  class="my-button my-success"><span class="btn-txt-mrg">  مسدود</span></button>
+                    </div>
+                </form>
+            </div>
+        </modal-tiny>
+        <!-- block Detail Modal End-->
     </div>
 </template>
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     import VueElementLoading from 'vue-element-loading';
     export default{
-        props:['payRequests','requestId'],
+        props:['payRequests','requestId' , 'lastRefPrId'],
         components: {
             Suggestions,
             VueElementLoading,
         },
         data () {
             return {
-                showInsertDraftModal:false,
-                showAcceptConfirmModal: false,
-                showDeleteConfirmModal: false,
-                showAcceptMinuteConfirmModal: false,
+                showSubmitRequestModal: false,
                 showRegisterAndNumberingModal:false,
                 showPdfModal: false,
                 showDialogModal: false,
-                showGenerateChecksModal: false,
-                showAcceptGeneratecheckConfirmModal: false,
                 showBlockModal: false,
                 dialogMessage: '',
-                draftInput:{},
                 blockInput:{},
-                directorGeneralUsers:[],
-                money: {
-                    thousands: ',',
-                    precision: 0,
-                    masked: true
-                },
-
+                drafts:[],
                 //for & PayTo input text
                 forQuery: '',
                 forItems: [],
@@ -149,6 +191,8 @@
                 verifierId: -1,
                 payRequestId:'',
                 youArePayRequestVerifier:false,
+                existRemainingVerifiers: true,
+                canResponse:'',
                 isMinute: false,
                 payRequestPdfPath:'',
                 registerDate: '',
@@ -167,6 +211,7 @@
                 showLoaderProgress:false,
                 checkEdited: false,
                 checkBaseDelivered: false,
+
             }
         },
 
@@ -188,6 +233,9 @@
               this.payRequestId=payRequest.id;
               this.youArePayRequestVerifier = payRequest.prYouAreVerifiers.length > 0 ? true : false;
               this.payRequestIsBlocked = payRequest.pay_request_state.prsState == 'BLOCKED' ? true : false;
+              this.canResponse = payRequest.prLastRef.rhIsReferral;
+              this.existRemainingVerifiers = payRequest.prRemainingVerifiers.length > 0 ? true : false;
+              this.drafts = payRequest.draft;
               if (this.youArePayRequestVerifier)
                 this.verifierId = payRequest.prYouAreVerifiers[0].id;
               this.openReportFile();
@@ -208,6 +256,10 @@
                     });
             },
 
+            checkAccept: function(){
+                this.showSubmitRequestModal = true;
+            },
+
             accept: function () {
                 axios.post('/financial/payment_request/accept', {
                     rId: this.requestId,
@@ -225,6 +277,50 @@
 
             openReferralModal:function () {
                 this.$emit('openReferralsModal' , null , this.payRequestId);
+            },
+
+            openResponseRequestModal:function () {
+                this.$emit('openResponseRequestModal' , null , this.payRequestId);
+            },
+
+            hideSubmitRequestModal: function () {
+                this.showSubmitRequestModal = false;
+            },
+
+            openBlockModal: function () {
+                this.blockInput = {};
+                if (this.drafts == null)
+                    this.showBlockModal = true;
+                else
+                {
+                    this.dialogMessage = 'برای این درخواست حواله صادر شده است! امکان مسدود کردن درخواست وجود ندارد.';
+                    this.showDialogModal = true;
+                }
+            },
+
+            requestBlock: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/financial/payment_request/block' , {
+                            prId: this.payRequestId,
+                            lastRefPrId: this.lastRefPrId,
+                            description: this.blockInput.description
+                        })
+                            .then((response) => {
+                                this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                                if (this.payRequestId == this.lastRefPrId)
+                                    this.$emit('closeModal');
+                                else{
+                                    this.payRequestIsBlocked = true;
+                                    this.showBlockModal = false;
+                                }
+                                this.$root.displayNotif(response.status);
+                            },(error) => {
+                                console.log(error);
+                                this.$root.displayNotif(error.response.status);
+                            });
+                    }
+                });
             },
         }
     }

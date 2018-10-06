@@ -667,5 +667,36 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
         $permission->pSubject = 'مشاهده صف چک';
         $permission->pPermission = 'CHECK_LIST_DISPLAY';
         $permission->save();
+
+
+        $permission = new Permission;
+        $permission->pSspId = 17;
+        $permission->pSubject = 'مسدود کردن درخواست';
+        $permission->pPermission = 'REQUEST_BLOCK';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 17;
+        $permission->pSubject = 'مسدود کردن حواله';
+        $permission->pPermission = 'DRAFT_BLOCK';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 17;
+        $permission->pSubject = 'مختوم کردن درخواست';
+        $permission->pPermission = 'REQUEST_CLOSED';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 10;
+        $permission->pSubject = 'ثبت دبیرخانه درخواست پرداخت';
+        $permission->pPermission = 'FINANCIAL_REGISTER_AND_NUMBERING_PAY_REQUEST';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 17;
+        $permission->pSubject = 'مسدود کردن درخواست پرداخت';
+        $permission->pPermission = 'PAY_REQUEST_BLOCK';
+        $permission->save();
     }
 }

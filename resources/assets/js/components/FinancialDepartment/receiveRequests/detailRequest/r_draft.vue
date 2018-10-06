@@ -234,6 +234,7 @@
                                             <button v-if="$can('FINANCIAL_ACCEPT_MINUTE_DRAFT') && isMinute" @click="openAcceptMinuteConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید پیشنویس   </span></button>
                                             <button v-if="$can('FINANCIAL_DETERMINE_DECREASES_AND_MAKE_CHECKS') && isAccepted" @click="openGenerateChecksModal()"  class="my-button my-success"><span class="btn-txt-mrg">   صدور چک   </span></button>
                                             <button @click="openReferralModal(draftId)"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> ارجاع </span></button>
+                                            <button @click="openResponseRequestModal(draftId)" v-show="canResponse == true" class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> ارجاع </span></button>
                                             <button @click="openBlockModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">مسدود</span></button>
                                         </div>
                                     </div>
@@ -431,7 +432,7 @@
             </div>
         </modal-tiny>
         <!-- Accept Generate check modal -->
-        <!-- block Detail Modal Start-->
+        <!-- block Detail Modal Start -->
         <modal-tiny v-if="showBlockModal" @close="showBlockModal = false">
             <div  slot="body">
                 <form v-on:submit.prevent="requestBlock">
@@ -453,7 +454,7 @@
                 </form>
             </div>
         </modal-tiny>
-        <!-- block Detail Modal End-->
+        <!-- block Detail Modal End -->
     </div>
 </template>
 <script>
@@ -521,6 +522,7 @@
                 showLoaderProgress:false,
                 checkEdited: false,
                 checkBaseDelivered: false,
+                canResponse:'',
             }
         },
 
@@ -548,6 +550,7 @@
               this.isAccepted = draft.verifier[0].dvSId != null ? true : false;
               this.draftAmount=draft.dAmount;
               this.draftFor=draft.dFor;
+                this.canResponse = draft.dLastRef.rhIsReferral;
               this.openReportFile();
               this.draftPdfPath='';
               this.draftIsBlocked = draft.draft_state.dsState == 'BLOCKED' ? true : false;
@@ -854,7 +857,7 @@
                     this.$emit('updateReceiveRequestData' , response.data , this.requestId);
                     this.$emit('closeModal');
                     this.showRegisterAndNumberingModal = false;
-                    this.$root.displayNotif(error.response.status);
+                    this.$root.displayNotif(response.status);
                     console.log(response);
                 }, (error) => {
                     console.log(error);
@@ -874,7 +877,7 @@
                     this.$emit('updateReceiveRequestData' , response.data , this.requestId);
                     this.$emit('closeModal');
                     this.showAcceptMinuteConfirmModal = false;
-                    this.$root.displayNotif(error.response.status);
+                    this.$root.displayNotif(response.status);
                     console.log(response);
                 }, (error) => {
                     console.log(error);
@@ -1024,7 +1027,7 @@
                     this.$emit('closeModal');
                     this.showAcceptGeneratecheckConfirmModal = false;
                     this.showPdfModal = false;
-                    this.$root.displayNotif(error.response.status);
+                    this.$root.displayNotif(response.status);
                     console.log(response);
                 }, (error) => {
                     console.log(error);
@@ -1058,11 +1061,17 @@
                                 this.$emit('updateReceiveRequestData' , response.data , this.requestId);
                                 this.draftIsBlocked = true;
                                 this.showBlockModal = false;
+                                this.$root.displayNotif(response.status);
                             },(error) => {
                                 console.log(error);
+                                this.$root.displayNotif(error.response.status);
                             });
                     }
                 });
+            },
+
+            openResponseRequestModal:function () {
+                this.$emit('openResponseRequestModal' , this.draftId , null);
             },
 
         }

@@ -1851,6 +1851,7 @@ return array(
     'Modules\\Financial\\Entities\\Factor' => $baseDir . '/Modules/Financial/Entities/Factor.php',
     'Modules\\Financial\\Entities\\FinancialRequestQueue' => $baseDir . '/Modules/Financial/Entities/FinancialRequestQueue.php',
     'Modules\\Financial\\Entities\\IncreaseContractAmount' => $baseDir . '/Modules/Financial/Entities/IncreaseContractAmount.php',
+    'Modules\\Financial\\Entities\\NumberToWord' => $baseDir . '/Modules/Financial/Entities/NumberToWord.php',
     'Modules\\Financial\\Entities\\PayRequest' => $baseDir . '/Modules/Financial/Entities/PayRequest.php',
     'Modules\\Financial\\Entities\\PayRequestState' => $baseDir . '/Modules/Financial/Entities/PayRequestState.php',
     'Modules\\Financial\\Entities\\PayRequestSteps' => $baseDir . '/Modules/Financial/Entities/PayRequestSteps.php',
