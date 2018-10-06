@@ -589,7 +589,7 @@
         <!--Insert Payment Request End-->
         <modal-small v-if="showInsertPaymentRequestModal" @close="showInsertPaymentRequestModal = false">
             <div  slot="body">
-                <form v-on:submit.prevent="addNewPaymentRequest" >
+                <form v-on:submit.prevent="registerPayRequest" >
                     <div class="small-font">
                         <div class="large-12 medium-12 small-12">
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="payment_request_tab_view">
@@ -606,10 +606,10 @@
                                                     <div class="grid-x">
                                                         <div class="large-12 medium-12 small-12">
                                                             <label>{{payVerifier.category.cSubject}}
-                                                                <select :name="'payVerifier'+payVerifier.id" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('payVerifier'+payVerifier.id)}">
+                                                                <select :name="'payVerifier'+payVerifier.id"  v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('payVerifier'+payVerifier.id)}">
                                                                     <option value=""></option>
                                                                     <template v-for="rolCat in payVerifier.category.role_category">
-                                                                        <option v-for="users in rolCat.role.user" :value="payVerifier.id">{{users.name}} - {{rolCat.role.rSubject}}</option>
+                                                                        <option v-for="users in rolCat.role.user" :value="payVerifier.id" @click="calculateVerifiers(payVerifier.id,users.id)">{{users.name}} - {{rolCat.role.rSubject}}</option>
                                                                     </template>
                                                                 </select>
                                                                 <p v-show="errors.has('payVerifier'+payVerifier.id)" class="error-font">لطفا فیلد {{payVerifier.category.cSubject}}  را انتخاب کنید!</p>
@@ -780,6 +780,9 @@
                 cBaseAmountTemp:0,
                 incAndDecPercent:0,
                 payRequestVerifiers:[],
+                payVerifiers:[],
+                requestId:'',
+                contractId:'',
             }
         },
 
@@ -1054,6 +1057,7 @@
                 this.verifiers=[];
                 this.attachments=[];
                 var requestHistory=[];
+                this.requestId=submission.id;
                 requestHistory.push(submission);
                 console.log(JSON.stringify(requestHistory));
                 requestHistory.forEach(users => {
@@ -1124,6 +1128,7 @@
 
             getContractInfo:function(contract){
                console.log(JSON.stringify(contract));
+                this.contractId=contract.id;
                 this.contractPercent=0;
                 this.contractPercent=contract.cPercentInAndDec + 100;
                 this.cBaseAmount=contract.cBaseAmount;
@@ -1150,7 +1155,45 @@
                 this.paymentInput.amount=Math.round(this.cBaseAmount * (this.paymentInput.rialProgress / 100));
             },
 
+            calculateVerifiers:function(prstId,uId){
+                var verifiersTemp={};
+                verifiersTemp.prstId=prstId;
+                verifiersTemp.uId=uId;
+                this.payVerifiers.forEach((item,pos) =>{
+                    if(item.prstId == verifiersTemp.prstId ){
+                        this.payVerifiers.splice(pos,1);
+                    }
+                });
+                if(prstId != ''){
+                    this.payVerifiers.push(verifiersTemp);
+                }
+                console.log(JSON.stringify(this.payVerifiers));
+            },
 
+            registerPayRequest:function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/financial/payment_request/register', {
+                            rId: this.requestId,
+                            cId: this.contractId,
+                            physicalProgress: this.paymentInput.physicalProgress,
+                            amountProgress: this.paymentInput.rialProgress,
+                            amount: parseInt(this.paymentInput.amount.split(',').join(''),10),
+                            isFinal: this.paymentInput.finalPaymentState == true ? 1 : 0,
+                            description: this.paymentInput.description,
+                            verifiers:this.payVerifiers,
+                        }).then((response) => {
+                            this.submissions = response.data.data;
+                            this.showInsertPaymentRequestModal = false;
+                            this.$root.displayNotif(response.status);
+                            console.log(response);
+                        }, (error) => {
+                            console.log(error);
+                            this.$root.displayNotif(error.response.status);
+                        });
+                    }
+                });
+            },
 
             /*--------------------------- File Upload Start--------------------------------------*/
             getAttachmentSize() {
