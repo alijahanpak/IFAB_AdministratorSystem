@@ -276,7 +276,7 @@
                         <div style="margin-top:16px;" class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <label>شرح کامل خدمات
-                                    <textarea style="min-height: 150px;" name="contractDescription" v-model="contractInput.description"   :class="{'input': true, 'error-border': errors.has('contractDescription')}"></textarea>
+                                    <textarea style="min-height: 150px;" name="contractDescription" v-model="contractInput.description" v-validate="'required'"  :class="{'input': true, 'error-border': errors.has('contractDescription')}"></textarea>
                                     <p v-show="errors.has('contractDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</p>
                                 </label>
                             </div>

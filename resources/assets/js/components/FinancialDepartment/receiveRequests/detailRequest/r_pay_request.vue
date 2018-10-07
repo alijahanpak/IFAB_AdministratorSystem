@@ -89,7 +89,7 @@
                                 <div class="stacked-for-small button-group float-right">
                                     <button v-show="$can('FINANCIAL_REGISTER_AND_NUMBERING_PAY_REQUEST') && prLetterNumber == null && prLetterDate == null" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
                                     <button v-if="youArePayRequestVerifier" @click="checkAccept()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
-                                    <button @click="openInsertDraftModal()"  class="my-button toolbox-btn"><span class="btn-txt-mrg">   تهیه پیشنویس حواله  </span></button>
+                                    <button v-show="$can('FINANCIAL_ADD_NEW_DRAFT')" @click="openInsertDraftModal()"  class="my-button toolbox-btn"><span class="btn-txt-mrg">   تهیه پیشنویس حواله  </span></button>
                                     <button @click="openReferralModal(payRequestId)"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> ارجاع </span></button>
                                     <button @click="openResponseRequestModal(payRequestId)" v-show="canResponse == true"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> پاسخ </span></button>
                                     <button v-show="$can('PAY_REQUEST_BLOCK')" @click="openBlockModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">مسدود</span></button>
@@ -641,21 +641,21 @@
                     this.showDialogModal = true;
                 }
                 else{
-                    if (this.sumOfDraftAmount < this.rCommitmentAmount)
+                    if (this.sumOfDraftAmount == 0)
                     {
                         this.getDirectorGeneralUsers();
-                        this.draftBaseAmount=0,
-                            this.lastDrafts=0,
-                            this.initBaseAmount=0,
-                            this.requestBaseAmount=0,
-                            this.requestCAmount=0,
-                            this.forItems=[];
+                        this.draftBaseAmount = 0;
+                        this.lastDrafts = 0;
+                        this.initBaseAmount = 0;
+                        this.requestBaseAmount = 0;
+                        this.requestCAmount = 0;
+                        this.forItems = [];
                         this.getAllFor();
                         this.draftInput = {};
                         this.setInitBaseAmount();
                         this.showInsertDraftModal = true;
                     }else {
-                        this.dialogMessage = 'امکان تهیه پیشنویس حواله وجود ندارد، مجموع مبلغ حواله ها با مبلغ تعهد شده درخواست برابر است! در صورت نیاز درخواست های تایید نشده را مسدود کنید.';
+                        this.dialogMessage = 'امکان تهیه پیشنویس حواله وجود ندارد، برای این درخواست، قبلا حواله ثبت شده است.';
                         this.showDialogModal = true;
                     }
                 }
