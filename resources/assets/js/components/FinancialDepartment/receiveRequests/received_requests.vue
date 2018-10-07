@@ -719,7 +719,9 @@
                                             v-bind:rCommitmentAmount="rCommitmentAmount"
                                             v-bind:requestType="requestType"
                                             v-bind:drafts="drafts"
-                                            v-bind:sumOfDraftAmount="rSumOfDraftAmount">
+                                            v-bind:sumOfDraftAmount="rSumOfDraftAmount"
+                                            v-bind:paymentRequestAmount="paymentRequestAmount"
+                                                >
                                     </r-pay-request>
                                 </div>
                                 <!--Tab 6-->
@@ -737,7 +739,7 @@
                                              v-bind:requestType="requestType"
                                              v-bind:drafts="drafts"
                                              v-bind:sumOfDraftAmount="rSumOfDraftAmount"
-                                            v-bind:lastRefDId="lastRefDId">
+                                             v-bind:lastRefDId="lastRefDId">
                                     </rDraft>
                                 </div>
                                 <!--Tab 6-->
@@ -1230,6 +1232,7 @@
                 rSumOfDraftAmount: 0,
                 lastRefPrId: -1,
                 lastRefDId: -1,
+                paymentRequestAmount:0,
             }
         },
 
