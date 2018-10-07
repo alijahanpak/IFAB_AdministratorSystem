@@ -75,16 +75,16 @@
         </div>
         <!-- pdf  modal -->
         <modal-small v-if="showPdfModal" @close="showPdfModal = false">
-            <div style="height: 90vh;" slot="body">
+            <div style="height: 88vh;" slot="body">
                 <div class="grid-x">
                     <div class="large-12 medium-12 small-12">
-                        <div class="grid-x" :style="{ width: '100%' , height: !payRequestIsBlocked ? '85.5vh' : '91vh'}">
+                        <div class="grid-x" :style="{ width: '100%' , height: !payRequestIsBlocked ? '82vh' : '91vh'}">
                             <div class="large-12">
                                 <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                 <embed style="width: 100%;height: 100%" :src="payRequestPdfPath" />
                             </div>
                         </div>
-                        <div class="grid-x" v-if="!payRequestIsBlocked">
+                        <div class="grid-x" v-if="!payRequestIsBlocked" style="margin-top: 0.5rem">
                             <div style="margin-bottom:-20px;margin-top: 5px;" class="large-12 medium-12 small-12">
                                 <div class="stacked-for-small button-group float-right">
                                     <button v-show="$can('FINANCIAL_REGISTER_AND_NUMBERING_PAY_REQUEST') && prLetterNumber == null && prLetterDate == null" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
@@ -265,10 +265,20 @@
         },
 
         mounted: function () {
-
+            this.checkOpenLastRef();
         },
 
         methods : {
+            checkOpenLastRef: function(){
+                this.payRequests.forEach(payment => {
+                    if (payment.prLastRef.rhPrId == this.lastRefPrId)
+                    {
+                        this.openPdfModal(payment);
+                        return;
+                    }
+                });
+            },
+
             openPdfModal: function (payRequest){
                   this.payRequestId=payRequest.id;
                   this.youArePayRequestVerifier = payRequest.prYouAreVerifiers.length > 0 ? true : false;

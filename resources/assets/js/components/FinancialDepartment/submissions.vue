@@ -61,7 +61,7 @@
                                     <col width="200px"/>
                                 </colgroup>
                                 <tbody class="tbl-head-style-cell">
-                                <tr class="table-row" @click="getSubmissionDetail(allSubmissions)" v-for="allSubmissions in submissions">
+                                <tr class="table-row" @click="openSubmissionDetail(allSubmissions)" v-for="allSubmissions in submissions">
                                     <td>{{allSubmissions.rSubject}}</td>
                                     <td>{{allSubmissions.request_type.rtSubject}}</td>
                                     <td>{{ $parent.dispMoneyFormat(allSubmissions.rCostEstimation) }}</td>
@@ -696,9 +696,9 @@
                                         </div>
                                         <div class="large-6 medium-6 small-6 padding-lr">
                                             <label>درصد پیشرفت ریالی
-                                                <input type="text" @keyup="calculatePaymentRialProgress()" name="rial_progress" v-model="paymentInput.rialProgress" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('rial_progress')}">
+                                                <input type="text" @keyup="calculatePaymentRialProgress()" name="rial_progress" v-model="paymentInput.rialProgress" v-validate="'required','min_value:0','max_value:'+ contractPercent " :class="{'input': true, 'error-border': errors.has('rial_progress')}">
                                             </label>
-                                            <p v-show="errors.has('rial_progress')" class="error-font">لطفا درصد پیشرفت ریالی را وارد نمایید!</p>
+                                            <p v-show="errors.has('rial_progress')" class="error-font">لطفا درصد پیشرفت ریالی را وارد / hwghp نمایید!</p>
                                         </div>
                                     </div>
                                     <div style="margin-top:8px;"  class="grid-x">
@@ -730,7 +730,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="large-6 medium-6 small-12 padding-lr input-bottom-margin">
-                                                        <p v-show="paymentInput.finalPaymentState" class="input-bottom-margin">درصد افزایش و کاهش :<span class="btn-red">{{incAndDecPercent}} %</span></p>
+                                                        <p v-show="paymentInput.finalPaymentState" class="input-bottom-margin">درصد افزایش و کاهش :<span class="btn-red">{{incAndDecPercent > 0 ? incAndDecPercent + '% افزایش' : (incAndDecPercent * (-1)) + '% کاهش'}}</span></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1130,10 +1130,14 @@
                 }
              },
 
+            openSubmissionDetail: function(requests){
+                this.getSubmissionDetail(requests);
+                this.showSubmissionDeatilModal=true;
+            },
 
             getSubmissionDetail: function (submission) {
-                this.showSubmissionDeatilModal=true;
                 this.recipientUsers=[];
+                this.contracts = [];
                 this.verifiers=[];
                 this.attachments=[];
                 this.payRequests=[];
@@ -1297,15 +1301,26 @@
                             description: this.paymentInput.description,
                             verifiers:this.payVerifiers,
                         }).then((response) => {
+                            this.updateRequestData(response.data.data , this.requestId);
+                            this.makePagination(response.data);
                             this.showInsertPaymentRequestModal = false;
-                            this.submissions = response.data.data;
-                            this.getSubmissionDetail();
                             this.$root.displayNotif(response.status);
                             console.log(response);
                         }, (error) => {
                             console.log(error);
                             this.$root.displayNotif(error.response.status);
                         });
+                    }
+                });
+            },
+
+            updateRequestData: function(requests , rId){
+                this.submissions = requests;
+                this.submissions.forEach(rec => {
+                    if (rec.id == rId)
+                    {
+                        this.getSubmissionDetail(rec);
+                        return;
                     }
                 });
             },

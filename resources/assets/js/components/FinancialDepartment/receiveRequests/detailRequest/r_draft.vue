@@ -461,7 +461,7 @@
     import Suggestions from "v-suggestions/src/Suggestions";
     import VueElementLoading from 'vue-element-loading';
     export default{
-        props:['drafts','requestId','rAcceptedAmount','rCommitmentAmount','contracts','factors','requestType' , 'sumOfDraftAmount'],
+        props:['drafts','requestId','rAcceptedAmount','rCommitmentAmount','contracts','factors','requestType' , 'sumOfDraftAmount' , 'lastRefDId'],
         components: {
             Suggestions,
             VueElementLoading,
@@ -536,10 +536,20 @@
         },
 
         mounted: function () {
-
+            this.checkOpenLastRef();
         },
 
         methods : {
+            checkOpenLastRef: function(){
+                this.drafts.forEach(draft => {
+                    if (draft.dLastRef.rhDId == this.lastRefDId)
+                    {
+                        this.openPdfModal(draft);
+                        return;
+                    }
+                });
+            },
+
             openPdfModal: function (draft){
               this.checks=[];
               var draftHistory=[];

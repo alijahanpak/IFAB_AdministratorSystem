@@ -223,6 +223,7 @@ class DraftController extends Controller
             $history->rhRsId = $req->rRsId;
             $history->rhDId = $draft->id;
             $history->rhDHasBeenSeen = true;
+            $history->rhHasBeenSeen = true;
             $history->rhDescription = PublicSetting::checkPersianCharacters($request->description) . ' (حواله: ' . $draft->dFor . ')';
             $history->save();
 

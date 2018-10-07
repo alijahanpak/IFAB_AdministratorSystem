@@ -729,7 +729,8 @@
                                              v-bind:rCommitmentAmount="rCommitmentAmount"
                                              v-bind:requestType="requestType"
                                              v-bind:drafts="drafts"
-                                             v-bind:sumOfDraftAmount="rSumOfDraftAmount">
+                                             v-bind:sumOfDraftAmount="rSumOfDraftAmount"
+                                            v-bind:lastRefDId="lastRefDId">
                                     </rDraft>
                                 </div>
                                 <!--Tab 6-->
@@ -1222,6 +1223,7 @@
                 rLetterDate: null,
                 rSumOfDraftAmount: 0,
                 lastRefPrId: -1,
+                lastRefDId: -1,
             }
         },
 
@@ -1561,7 +1563,7 @@
                 this.requestLevel = request.request_level.rlLevel;
                 this.lastVerifier=request.rLastRef.id;
                 this.lastRefPrId = request.rLastRef.rhPrId;
-
+                this.lastRefDId = request.rLastRef.rhDId;
                 this.rCreditIsAccepted = request.rCreditIsAccepted;
                 this.rCreditIsExist = request.rCreditIsExist;
 
