@@ -178,7 +178,7 @@ class PayRequestController extends Controller
             $payRequest->save();
 
             $req = _Request::find($request->rId);
-            $req->rRsId = RequestState::where('rsState' , '=' , 'ACCOUNTANT_QUEUE')->value('id');
+            $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
             $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
             $req->save();
 
@@ -239,7 +239,8 @@ class PayRequestController extends Controller
             $history->rhRId = $req->id;
             $history->rhRsId = $req->rRsId;
             $history->rhPrId = $payRequest->id;
-            $history->rhDHasBeenSeen = true;
+            $history->rhPrHasBeenSeen = true;
+            $history->rhHasBeenSeen = true;
             $history->rhDescription = PublicSetting::checkPersianCharacters($request->description) . ' (مسدود کردن درخواست پرداخت: ' . $payRequest->contract->cSubject . ')';
             $history->save();
 

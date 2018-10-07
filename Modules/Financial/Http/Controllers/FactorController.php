@@ -60,7 +60,7 @@ class FactorController extends Controller
             if ($req->rAcceptedAmount != $req->rCommitmentAmount)
                 $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'FINANCIAL')->value('id');
             else
-                $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
+                $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'DRAFT')->value('id');
             $req->save();
 
             // make history for this request

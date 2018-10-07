@@ -18,7 +18,8 @@ class _Request extends Model
         'rAcceptedAmount' ,
         'rCommitmentAmount' ,
         'rSumOfDraftAmount' ,
-        'rIsPaid'];
+        'rIsPaid',
+        'rIsPayRequestClosed'];
 
     public function requestState()
     {
@@ -189,5 +190,12 @@ class _Request extends Model
             ->where('cDelivered' , '=' , true)
             ->sum('cAmount');
         return $sumOfChecksAmount < $this->getRCommitmentAmountAttribute() ? false : true;
+    }
+
+    public function getRIsPayRequestClosedAttribute()
+    {
+        return PayRequest::where('prRId' , '=' , $this->id)
+            ->where('prIsFinal' , '=' , true)
+            ->exists();
     }
 }

@@ -36,7 +36,7 @@
                 <p style="margin-top: -10px;" class="size-12">تاریخ : <span>{{$payRequestInfo['prLetterDate']}}</span></p>
             </div>
         </div>
-        <div style="margin-top: -45px;" class="grid-x">
+        <div style="margin-top: 20px;" class="grid-x">
             <div class="large-12 text-center">
                 <div>
                     <div class="text-center">
@@ -46,9 +46,26 @@
                 </div>
             </div>
         </div>
+        <div style="width: 100%; padding: 2rem" class="text-justify">
+            <span class="black-color BZar size-18">بدینوسیله ضمن تایید انجام عملیات </span>
+            <span class="gray-color BZar size-18">{{$payRequestInfo['contract']['cSubject']}}</span>
+            <span class="black-color BZar size-18"> با پیشرفت فیزیکی / ریالی: </span>
+            <span class="gray-color BZar size-18">{{$payRequestInfo['prPhysicalProgress'] . '%'}}</span>
+            <span class="black-color BZar size-18"> / </span>
+            <span class="gray-color BZar size-18">{{$payRequestInfo['prAmountProgress'] . '%'}}</span>
+            <span class="black-color BZar size-18"> ، پرداخت مبلغ  </span>
+            <span class="gray-color BZar size-18">{{number_format($payRequestInfo['prAmount']) . ' ریال'}}</span>
+            <span class="black-color BZar size-18"> به خانم / آقا / شرکت  </span>
+            <span class="gray-color BZar size-18">{{$payRequestInfo['contract']['executor']['eSubject']}}</span>
+            <span class="black-color BZar size-18"> بابت قراداد شماره  </span>
+            <span class="gray-color BZar size-18">{{$payRequestInfo['contract']['cLetterNumber']}}</span>
+            <span class="black-color BZar size-18"> مورخ  </span>
+            <span class="gray-color BZar size-18">{{$payRequestInfo['contract']['cLetterDate']}}</span>
+            <span class="black-color BZar size-18"> بلا مانع است.  </span>
+        </div>
         <table style="width: 100%" class="unstriped">
             <tbody>
-                <tr>
+{{--                <tr>
                     <td>
                         <span class="BTitrBold">واحد: </span>
                         <span class="BZar size-14">{{$payRequestInfo['prOfficeUnit']}}</span>
@@ -99,7 +116,7 @@
                         <span class="BTitrBold">مبلغ پرداختی به حروف: </span>
                         <span class="BZar size-14">{{\Modules\Financial\Http\Controllers\ReportController::digit_to_persain_letters($payRequestInfo['prAmount'])}}</span>
                     </td>
-                </tr>
+                </tr>--}}
                 <?php
                    $row = 0;
                 ?>

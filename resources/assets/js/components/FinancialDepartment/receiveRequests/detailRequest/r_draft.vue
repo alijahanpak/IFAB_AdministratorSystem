@@ -210,7 +210,7 @@
 
         <!-- pdf  modal -->
         <modal-small v-if="showPdfModal" @close="showPdfModal = false">
-            <div style="height: 90vh;" slot="body">
+            <div style="height: 88vh;" slot="body">
                 <div class="grid-x">
                     <div class="large-12 medium-12 small-12">
                         <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="draftAndCheck_tab_view">
@@ -220,13 +220,13 @@
                         <div class="tabs-content" data-tabs-content="draftAndCheck_tab_view">
                             <!--Draft Tab -->
                             <div class="tabs-panel is-active table-mrg-btm" id="DraftTab">
-                                <div class="grid-x" :style="{ width: '100%' , height: !draftIsBlocked ? '74.5vh' : '81vh'}">
+                                <div class="grid-x" :style="{ width: '100%' , height: !draftIsBlocked ? '72.5vh' : '76vh'}">
                                     <div class="large-12">
                                         <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                         <embed style="width: 100%;height: 100%" :src="draftPdfPath" />
                                     </div>
                                 </div>
-                                <div class="grid-x" v-if="!draftIsBlocked">
+                                <div class="grid-x" v-if="!draftIsBlocked" style="margin-top: 0.5rem">
                                     <div style="margin-bottom:-20px;margin-top: 5px;" class="large-12 medium-12 small-12">
                                         <div class="stacked-for-small button-group float-right">
                                             <button v-if="$can('FINANCIAL_REGISTER_AND_NUMBERING_DRAFT')" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
@@ -266,7 +266,7 @@
                                                 <!--Table Head End-->
                                                 <!--Table Body Start-->
                                             </table>
-                                            <div class="tbl_body_style dynamic-height-level-modal1">
+                                            <div class="tbl_body_style" style="height: 70vh">
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
                                                         <col width="400px"/>
@@ -461,7 +461,7 @@
     import Suggestions from "v-suggestions/src/Suggestions";
     import VueElementLoading from 'vue-element-loading';
     export default{
-        props:['drafts','requestId','rAcceptedAmount','rCommitmentAmount','contracts','factors','requestType' , 'sumOfDraftAmount'],
+        props:['drafts','requestId','rAcceptedAmount','rCommitmentAmount','contracts','factors','requestType' , 'sumOfDraftAmount' , 'lastRefDId'],
         components: {
             Suggestions,
             VueElementLoading,
@@ -536,10 +536,20 @@
         },
 
         mounted: function () {
-
+            this.checkOpenLastRef();
         },
 
         methods : {
+            checkOpenLastRef: function(){
+                this.drafts.forEach(draft => {
+                    if (draft.dLastRef.rhDId == this.lastRefDId)
+                    {
+                        this.openPdfModal(draft);
+                        return;
+                    }
+                });
+            },
+
             openPdfModal: function (draft){
               this.checks=[];
               var draftHistory=[];
@@ -581,25 +591,13 @@
           ------------------ For Draft Start ------------------------------
           -----------------------------------------------------------------------------*/
             getAllFor: function () {
-                if(this.contracts.length >0)
-                    this.forItems = this.contracts;
-                else
-                    this.forItems = this.factors;
+                this.forItems = this.factors;
                 this.forList= [];
                 this.payToList= [];
-                if(this.contracts.length >0){
-                    this.forItems.forEach(item=> {
-                        this.forList.push(item.cSubject +' - ' + item.cLetterNumber + ' - ' + item.cLetterDate);
-                        this.payToList.push(item.executor.eSubject);
-                    });
-                }
-                else{
-                    this.forItems.forEach(item=> {
-                        this.forList.push(item.fSubject );
-                        this.payToList.push(item.seller.sSubject);
-                    });
-                }
-
+                this.forItems.forEach(item=> {
+                    this.forList.push(item.fSubject );
+                    this.payToList.push(item.seller.sSubject);
+                });
             },
 
             onForInputChange(forInput) {
@@ -640,36 +638,15 @@
 
             calculateDraftAmount: function(){
                     var baseAmount=0;
-                    var sumOfPrcents=0;
-                    var draftBaseAmountTemp=0;
-
                     baseAmount=parseInt(this.draftInput.baseAmount.split(',').join(''),10);
-                    if(this.contracts.length > 0) {
-                        this.contracts.forEach(item => {
-                            item.increase_amount.forEach(percent => {
-                                sumOfPrcents += Math.round((baseAmount * percent.percentage_increase.piPercent) / 100);
-                            });
-                        });
-                        draftBaseAmountTemp = baseAmount + sumOfPrcents;
-                    }
                     this.getSumOfLastDrafts();
-                    if(this.contracts.length > 0)
-                        this.draftBaseAmount = draftBaseAmountTemp - this.lastDrafts;
-                    else
-                        this.draftBaseAmount = baseAmount - this.lastDrafts;
+                    this.draftBaseAmount = baseAmount - this.lastDrafts;
                     Math.round(this.draftBaseAmount);
-                    if(this.contracts.length > 0){
-                        if(((this.draftBaseAmount + this.lastDrafts) > this.requestCAmount) || (this.draftBaseAmount < 0))
-                            this.moneyState='block';
-                        else
-                            this.moneyState='none';
-                    }
-                    else{
-                        if(((this.draftBaseAmount + this.lastDrafts) > this.rAcceptedAmount) || (this.draftBaseAmount < 0))
-                            this.moneyState='block';
-                        else
-                            this.moneyState='none';
-                    }
+                    if(((this.draftBaseAmount + this.lastDrafts) > this.rAcceptedAmount) || (this.draftBaseAmount < 0))
+                        this.moneyState='block';
+                    else
+                        this.moneyState='none';
+
             },
 
             getSumOfLastDrafts: function (){
@@ -690,15 +667,7 @@
             },
 
             getBaseAmount: function(){
-                if(this.contracts.length > 0){
-                    this.contracts.forEach(item =>{
-                        this.requestBaseAmount += item.cBaseAmount;
-                        this.requestCAmount += item.cAmount;
-                    });
-                }
-                else{
-                    this.requestBaseAmount=this.rAcceptedAmount;
-                }
+                this.requestBaseAmount=this.rAcceptedAmount;
             },
 
             openReportFile: function () {
@@ -799,22 +768,11 @@
             addNewDraft:function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        var isValid=true;
-                        if(this.contracts.length > 0){
-                            if(((this.draftBaseAmount + this.lastDrafts) > this.requestCAmount) || (this.draftBaseAmount < 0)){
-                                this.dialogMessage = 'مبلغ  صورت وضعیت نامعتبر است!';
-                                this.showDialogModal = true;
-                                isValid=false;
-                            }
+                        if(((this.draftBaseAmount + this.lastDrafts) > this.rAcceptedAmount) || (this.draftBaseAmount < 0)){
+                            this.dialogMessage = 'مبلغ  صورت وضعیت نامعتبر است!';
+                            this.showDialogModal = true;
                         }
-                        else {
-                            if(((this.draftBaseAmount + this.lastDrafts) > this.rAcceptedAmount) || (this.draftBaseAmount < 0)){
-                                this.dialogMessage = 'مبلغ  صورت وضعیت نامعتبر است!';
-                                this.showDialogModal = true;
-                                isValid=false;
-                            }
-                        }
-                        if(isValid){
+                        else{
                             axios.post('financial/draft/register', {
                                 rId: this.requestId,
                                 for: this.draftInput.for,

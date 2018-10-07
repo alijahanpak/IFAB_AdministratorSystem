@@ -75,20 +75,21 @@
         </div>
         <!-- pdf  modal -->
         <modal-small v-if="showPdfModal" @close="showPdfModal = false">
-            <div style="height: 90vh;" slot="body">
+            <div style="height: 88vh;" slot="body">
                 <div class="grid-x">
                     <div class="large-12 medium-12 small-12">
-                        <div class="grid-x" :style="{ width: '100%' , height: !payRequestIsBlocked ? '85.5vh' : '91vh'}">
+                        <div class="grid-x" :style="{ width: '100%' , height: !payRequestIsBlocked ? '82vh' : '91vh'}">
                             <div class="large-12">
                                 <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                 <embed style="width: 100%;height: 100%" :src="payRequestPdfPath" />
                             </div>
                         </div>
-                        <div class="grid-x" v-if="!payRequestIsBlocked">
+                        <div class="grid-x" v-if="!payRequestIsBlocked" style="margin-top: 0.5rem">
                             <div style="margin-bottom:-20px;margin-top: 5px;" class="large-12 medium-12 small-12">
                                 <div class="stacked-for-small button-group float-right">
-                                    <button v-show="$can('FINANCIAL_REGISTER_AND_NUMBERING_PAY_REQUEST')" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
+                                    <button v-show="$can('FINANCIAL_REGISTER_AND_NUMBERING_PAY_REQUEST') && prLetterNumber == null && prLetterDate == null" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
                                     <button v-if="youArePayRequestVerifier" @click="checkAccept()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
+                                    <button @click="openInsertDraftModal()"  class="my-button toolbox-btn"><span class="btn-txt-mrg">   تهیه پیشنویس حواله  </span></button>
                                     <button @click="openReferralModal(payRequestId)"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> ارجاع </span></button>
                                     <button @click="openResponseRequestModal(payRequestId)" v-show="canResponse == true"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> پاسخ </span></button>
                                     <button v-show="$can('PAY_REQUEST_BLOCK')" @click="openBlockModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">مسدود</span></button>
@@ -188,13 +189,121 @@
             </div>
         </modal-tiny>
         <!-- Register And Numbering Draft End -->
+
+        <!--Insert Draft Start-->
+        <modal-small v-if="showInsertDraftModal" @close="showInsertDraftModal = false">
+            <div  slot="body">
+                <form v-on:submit.prevent="addNewDraft" >
+                    <div class="small-font">
+                        <div class="large-12 medium-12 small-12">
+                            <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="draft_tab_view">
+                                <li class="tabs-title is-active"><a href="#verTab" aria-selected="true">امضا کننده</a></li>
+                                <li class="tabs-title"><a href="#drafTab">حواله </a></li>
+                            </ul>
+                            <div class="tabs-content" data-tabs-content="draft_tab_view">
+                                <!--Tab 1-->
+                                <div class="tabs-panel is-active table-mrg-btm" id="verTab">
+                                    <div class="grid-x">
+                                        <div class="large-8 medium-8 small-12">
+                                            <label>امضا کننده
+                                                <select name="verifierUser" v-validate data-vv-rules="required"  v-model="draftInput.verifierId" :class="{'input': true, 'select-error': errors.has('verifierUser')}">
+                                                    <option value=""></option>
+                                                    <option v-for="user in directorGeneralUsers" :value="user.id">{{user.name}} - {{user.role.rSubject}}</option>
+                                                </select>
+                                                <p v-show="errors.has('verifierUser')" class="error-font">لطفا امضا کننده را انتخاب کنید!</p>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Tab 1-->
+                                <!--Tab 2-->
+                                <div class="tabs-panel table-mrg-btm" id="drafTab">
+                                    <div class="grid-x">
+                                        <div class="large-12 medium-12 small-12 padding-lr">
+                                            <label>بابت
+                                                <suggestions autocomplete="off" style="margin-bottom: -18px;" name="forTitle" v-validate :class="{'input': true, 'select-error': errors.has('forTitle')}"
+                                                             v-model="draftInput.for"
+                                                             :options="forOptions"
+                                                             :onInputChange="onForInputChange">
+                                                    <div slot="item" slot-scope="props" class="single-item">
+                                                        <strong>{{props.item}}</strong>
+                                                    </div>
+                                                </suggestions>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x input-margin-top">
+                                        <div class="large-12 medium-12 small-12 padding-lr">
+                                            <label>در وجه
+                                                <suggestions autocomplete="off" style="margin-bottom: -18px;" name="payToTitle" v-validate :class="{'input': true, 'select-error': errors.has('payToTitle')}"
+                                                             v-model="draftInput.payTo"
+                                                             :options="payToOptions"
+                                                             :onInputChange="onPayToInputChange">
+                                                    <div slot="item" slot-scope="props" class="single-item">
+                                                        <strong>{{props.item}}</strong>
+                                                    </div>
+                                                </suggestions>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top:15px;"  class="grid-x">
+                                        <div class="large-6 medium-6 small-12 padding-lr">
+                                            <label>مبلغ<span class="btn-red">(ریال)</span>
+                                                <money v-if="moneyState== 'none'" @change.native="calculateDraftAmount()" v-model="draftInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
+                                                <money v-if="moneyState== 'block'" @change.native="calculateDraftAmount()" v-model="draftInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm select-error"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
+                                            </label>
+                                            <p v-show="errors.has('baseAmount')" class="error-font"> مبلغ صورت وضعیت مورد نظر نامعتبر است!</p>
+                                            <p style="margin-top: 10px;" v-show="moneyState== 'block'" class="btn-red">مبلغ صورت وضعیت مورد نظر نامعتبر است!</p>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top: 10px;" class="grid-x padding-lr">
+                                        <div class="large-12 medium-12 small-12 panel-separator">
+                                            <div class="grid-x">
+                                                <div class="large-9 medium-9  small-12">
+                                                    <div class="grid-x">
+                                                        <div class="large-12 medium-12 small-12">
+                                                            <p>مبلغ تعهد شده : </p>
+                                                            <p>مبلغ حواله های ثبت شده تا کنون : </p>
+                                                            <p>مبلغ نهایی حواله : </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="large-3 medium-3 small-12">
+                                                    <p class="btn-red">{{$root.dispMoneyFormat(rCommitmentAmount)}} ریال</p>
+                                                    <p class="btn-red">{{$root.dispMoneyFormat(lastDrafts)}} ریال</p>
+                                                    <p class="btn-red">{{$root.dispMoneyFormat(draftBaseAmount)}} ریال</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!--Tab 2-->
+                            </div>
+                        </div>
+                        <div class="grid-x medium-top-m padding-lr">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <div class="stacked-for-small button-group float-left">
+                                    <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </modal-small>
+        <!--Insert Draft End-->
+
+        <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
+            {{dialogMessage}}
+        </messageDialog>
     </div>
 </template>
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     import VueElementLoading from 'vue-element-loading';
     export default{
-        props:['payRequests','requestId' , 'lastRefPrId'],
+        props:['payRequests','requestId' , 'lastRefPrId','drafts','rAcceptedAmount','rCommitmentAmount','contracts','factors','requestType' , 'sumOfDraftAmount'],
         components: {
             Suggestions,
             VueElementLoading,
@@ -206,9 +315,12 @@
                 showPdfModal: false,
                 showDialogModal: false,
                 showBlockModal: false,
+                showInsertDraftModal:false,
                 dialogMessage: '',
                 blockInput:{},
                 drafts:[],
+                prLetterNumber: '',
+                prLetterDate: '',
                 //for & PayTo input text
                 forQuery: '',
                 forItems: [],
@@ -247,6 +359,16 @@
                 checkEdited: false,
                 checkBaseDelivered: false,
 
+                draftInput:{},
+                directorGeneralUsers:[],
+                //Draft
+
+                money: {
+                    thousands: ',',
+                    decimal:'.',
+                    masked: true
+                },
+
             }
         },
 
@@ -255,15 +377,33 @@
             this.getDirectorGeneralUsers();
         },
         updated: function () {
-            $(this.$el).foundation(); //WORKS!
-            this.myResizeDraft();
+            $(this.$el).foundation(); //WORKS!showInsertDraftModal
         },
 
         mounted: function () {
-
+            this.checkOpenLastRef();
         },
 
         methods : {
+            checkOpenLastRef: function() {
+                this.payRequests.forEach(payment => {
+                    if (payment.prLastRef.rhPrId == this.lastRefPrId) {
+                        this.openPdfModal(payment);
+                        return;
+                    }
+                });
+            },
+
+            getDirectorGeneralUsers: function () {
+                axios.get('/admin/user/getDirectorGeneralUsers')
+                    .then((response) => {
+                        this.directorGeneralUsers = response.data;
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                    });
+            },
+
             openPdfModal: function (payRequest){
                   this.payRequestId=payRequest.id;
                   this.youArePayRequestVerifier = payRequest.prYouAreVerifiers.length > 0 ? true : false;
@@ -271,6 +411,8 @@
                   this.canResponse = payRequest.prLastRef.rhIsReferral;
                   this.existRemainingVerifiers = payRequest.prRemainingVerifiers.length > 0 ? true : false;
                   this.drafts = payRequest.draft;
+                  this.prLetterDate = payRequest.prLetterDate;
+                  this.prLetterNumber = payRequest.prLetterNumber;
                   if (this.youArePayRequestVerifier)
                     this.verifierId = payRequest.prYouAreVerifiers[0].id;
                   this.openReportFile();
@@ -381,7 +523,7 @@
             registerAndNumberingPayRequest: function () {
                 axios.post('/financial/payment_request/numbering', {
                     rId: this.requestId,
-                    prId:this.draftId,
+                    prId:this.payRequestId,
                     letterDate: this.registerDate,
                     letterNumber: this.letterNumber
                 }).then((response) => {
@@ -394,7 +536,162 @@
                     console.log(error);
                     this.$root.displayNotif(error.response.status);
                 });
-            }
+            },
+
+            /*-----------------------------------------------------------------------------
+        ------------------ For Draft Start ------------------------------
+        -----------------------------------------------------------------------------*/
+            getAllFor: function () {
+                this.forItems = this.contracts;
+                this.forList= [];
+                this.payToList= [];
+                this.forItems.forEach(item=> {
+                    this.forList.push(item.cSubject +' - ' + item.cLetterNumber + ' - ' + item.cLetterDate);
+                    this.payToList.push(item.executor.eSubject);
+                });
+            },
+
+            onForInputChange(forInput) {
+                if (forInput.trim().length === 0) {
+                    return null
+                }
+                // return the matching countries as an array
+                return this.forList.filter((fors) => {
+                    return fors.toLowerCase().includes(forInput.toLowerCase())
+                })
+            },
+            onForSelected(item) {
+                this.selectedFor = item
+            },
+            onSearchItemSelected(item) {
+                this.selectedSearchItem = item
+            },
+
+            onPayToInputChange(PayToInput) {
+                if (PayToInput.trim().length === 0) {
+                    return null
+                }
+                // return the matching countries as an array
+                return this.payToList.filter((payTOes) => {
+                    return payTOes.toLowerCase().includes(PayToInput.toLowerCase())
+                })
+            },
+            onForPayTOSelected(item) {
+                this.selectedPayTo = item
+            },
+            onSearchItemSelected(item) {
+                this.selectedSearchItem = item
+            },
+
+            /*-----------------------------------------------------------------------------
+            ------------------ For Draft End ------------------------------
+            -----------------------------------------------------------------------------*/
+
+            calculateDraftAmount: function(){
+                var baseAmount=0;
+                var sumOfPrcents=0;
+                var draftBaseAmountTemp=0;
+
+                baseAmount=parseInt(this.draftInput.baseAmount.split(',').join(''),10);
+                this.contracts.forEach(item => {
+                    item.increase_amount.forEach(percent => {
+                        sumOfPrcents += Math.round((baseAmount * percent.percentage_increase.piPercent) / 100);
+                    });
+                });
+                draftBaseAmountTemp = baseAmount + sumOfPrcents;
+
+                this.getSumOfLastDrafts();
+                this.draftBaseAmount = draftBaseAmountTemp - this.lastDrafts;
+                Math.round(this.draftBaseAmount);
+                if(((this.draftBaseAmount + this.lastDrafts) > this.requestCAmount) || (this.draftBaseAmount < 0))
+                    this.moneyState='block';
+                else
+                    this.moneyState='none';
+            },
+
+            getSumOfLastDrafts: function (){
+                var lastDraftTemp=0;
+                if(this.drafts != null){
+                    this.drafts.forEach(item =>{
+                        if (item.draft_state.dsState != 'BLOCKED')
+                            lastDraftTemp += item.dAmount;
+                    });
+                }
+                this.lastDrafts = lastDraftTemp;
+            },
+
+            setInitBaseAmount: function (){
+                this.getSumOfLastDrafts();
+                this.getBaseAmount();
+                this.draftInput.baseAmount= this.$root.dispMoneyFormat(this.requestBaseAmount);
+                this.calculateDraftAmount();
+
+            },
+
+            getBaseAmount: function(){
+                this.contracts.forEach(item =>{
+                    this.requestBaseAmount += item.cBaseAmount;
+                    this.requestCAmount += item.cAmount;
+                });
+            },
+
+            openInsertDraftModal:function () {
+                if(this.rCommitmentAmount != this.rAcceptedAmount){
+                    this.dialogMessage = 'تامین اعتبار به درستی انجام نشده است!';
+                    this.showDialogModal = true;
+                }
+                else{
+                    if (this.sumOfDraftAmount < this.rCommitmentAmount)
+                    {
+                        this.getDirectorGeneralUsers();
+                        this.draftBaseAmount=0,
+                            this.lastDrafts=0,
+                            this.initBaseAmount=0,
+                            this.requestBaseAmount=0,
+                            this.requestCAmount=0,
+                            this.forItems=[];
+                        this.getAllFor();
+                        this.draftInput = {};
+                        this.setInitBaseAmount();
+                        this.showInsertDraftModal = true;
+                    }else {
+                        this.dialogMessage = 'امکان تهیه پیشنویس حواله وجود ندارد، مجموع مبلغ حواله ها با مبلغ تعهد شده درخواست برابر است! در صورت نیاز درخواست های تایید نشده را مسدود کنید.';
+                        this.showDialogModal = true;
+                    }
+                }
+            },
+
+            addNewDraft:function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        if(((this.draftBaseAmount + this.lastDrafts) > this.requestCAmount) || (this.draftBaseAmount < 0)) {
+                            this.dialogMessage = 'مبلغ  صورت وضعیت نامعتبر است!';
+                            this.showDialogModal = true;
+                        }
+
+                        else{
+                            axios.post('financial/draft/register', {
+                                rId: this.requestId,
+                                for: this.draftInput.for,
+                                payTo: this.draftInput.payTo,
+                                baseAmount: parseInt(this.draftInput.baseAmount.split(',').join(''),10),
+                                amount: this.draftBaseAmount,
+                                verifierId: this.draftInput.verifierId
+                            }).then((response) => {
+                                this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                                this.$emit('closeModal');
+                                this.showInsertDraftModal = false;
+                                this.$root.displayNotif(response.status);
+                                console.log(response);
+                            }, (error) => {
+                                console.log(error);
+                                this.$root.displayNotif(error.response.status);
+                            });
+                        }
+                    }
+                });
+            },
+
         }
     }
 </script>
