@@ -766,7 +766,7 @@
             <div style="height: 90vh;" slot="body">
                 <div class="grid-x">
                     <div class="large-12 medium-12 small-12">
-                        <div class="grid-x" style="width:100%;height :91vh">
+                        <div class="grid-x" style="width:100%;height :85.5vh">
                             <div class="large-12">
                                 <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                 <embed style="width: 100%;height: 100%" :src="payRequestPdfPath" />
@@ -777,6 +777,7 @@
             </div>
         </modal-small>
         <!-- PDF Payment modal -->
+
         <!-- Generate Checks  modal -->
         <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
             {{dialogMessage}}
@@ -814,6 +815,7 @@
                 showInsertPaymentRequestModal:false,
                 showPdfModal:false,
                 showDialogModal: false,
+                showInsertDraftModal:false,
                 dialogMessage: '',
                 //commodity input text
                 commodityQuery: '',
@@ -863,6 +865,7 @@
                 payRequestPdfPath:'',
                 finalPaymentDisable:false,
                 requestState: '',
+
             }
         },
 

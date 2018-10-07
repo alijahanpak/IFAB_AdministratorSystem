@@ -710,9 +710,16 @@
                                             v-on:updateReceiveRequestData="updateReceiveRequestData"
                                             v-on:openReferralsModal="openReferralsModal"
                                             v-on:openResponseRequestModal="openResponseRequestModal"
-                                             v-bind:requestId="requestId"
-                                             v-bind:payRequests="payRequests"
-                                            v-bind:lastRefPrId="lastRefPrId">
+                                            v-bind:requestId="requestId"
+                                            v-bind:payRequests="payRequests"
+                                            v-bind:lastRefPrId="lastRefPrId"
+                                            v-bind:contracts="contracts"
+                                            v-bind:factors="factors"
+                                            v-bind:rAcceptedAmount="rAcceptedAmount"
+                                            v-bind:rCommitmentAmount="rCommitmentAmount"
+                                            v-bind:requestType="requestType"
+                                            v-bind:drafts="drafts"
+                                            v-bind:sumOfDraftAmount="rSumOfDraftAmount">
                                     </r-pay-request>
                                 </div>
                                 <!--Tab 6-->
@@ -1070,6 +1077,7 @@
             </div>
         </modal-tiny>
         <!-- block Detail Modal End-->
+
     </div>
 </template>
 
@@ -1078,8 +1086,6 @@
     import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
     import VuePagination from '../../../public_component/pagination.vue';
     import VueElementLoading from 'vue-element-loading'
-
-
     /* Import Local Components Start*/
     import rDetails from './detailRequest/r_details.vue';
     import rCredits from './detailRequest/r_credits.vue';
