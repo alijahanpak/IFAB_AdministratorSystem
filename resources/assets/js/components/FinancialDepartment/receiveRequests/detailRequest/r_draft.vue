@@ -581,25 +581,13 @@
           ------------------ For Draft Start ------------------------------
           -----------------------------------------------------------------------------*/
             getAllFor: function () {
-                if(this.contracts.length >0)
-                    this.forItems = this.contracts;
-                else
-                    this.forItems = this.factors;
+                this.forItems = this.factors;
                 this.forList= [];
                 this.payToList= [];
-                if(this.contracts.length >0){
-                    this.forItems.forEach(item=> {
-                        this.forList.push(item.cSubject +' - ' + item.cLetterNumber + ' - ' + item.cLetterDate);
-                        this.payToList.push(item.executor.eSubject);
-                    });
-                }
-                else{
-                    this.forItems.forEach(item=> {
-                        this.forList.push(item.fSubject );
-                        this.payToList.push(item.seller.sSubject);
-                    });
-                }
-
+                this.forItems.forEach(item=> {
+                    this.forList.push(item.fSubject );
+                    this.payToList.push(item.seller.sSubject);
+                });
             },
 
             onForInputChange(forInput) {
@@ -640,36 +628,15 @@
 
             calculateDraftAmount: function(){
                     var baseAmount=0;
-                    var sumOfPrcents=0;
-                    var draftBaseAmountTemp=0;
-
                     baseAmount=parseInt(this.draftInput.baseAmount.split(',').join(''),10);
-                    if(this.contracts.length > 0) {
-                        this.contracts.forEach(item => {
-                            item.increase_amount.forEach(percent => {
-                                sumOfPrcents += Math.round((baseAmount * percent.percentage_increase.piPercent) / 100);
-                            });
-                        });
-                        draftBaseAmountTemp = baseAmount + sumOfPrcents;
-                    }
                     this.getSumOfLastDrafts();
-                    if(this.contracts.length > 0)
-                        this.draftBaseAmount = draftBaseAmountTemp - this.lastDrafts;
-                    else
-                        this.draftBaseAmount = baseAmount - this.lastDrafts;
+                    this.draftBaseAmount = baseAmount - this.lastDrafts;
                     Math.round(this.draftBaseAmount);
-                    if(this.contracts.length > 0){
-                        if(((this.draftBaseAmount + this.lastDrafts) > this.requestCAmount) || (this.draftBaseAmount < 0))
-                            this.moneyState='block';
-                        else
-                            this.moneyState='none';
-                    }
-                    else{
-                        if(((this.draftBaseAmount + this.lastDrafts) > this.rAcceptedAmount) || (this.draftBaseAmount < 0))
-                            this.moneyState='block';
-                        else
-                            this.moneyState='none';
-                    }
+                    if(((this.draftBaseAmount + this.lastDrafts) > this.rAcceptedAmount) || (this.draftBaseAmount < 0))
+                        this.moneyState='block';
+                    else
+                        this.moneyState='none';
+
             },
 
             getSumOfLastDrafts: function (){
@@ -690,15 +657,7 @@
             },
 
             getBaseAmount: function(){
-                if(this.contracts.length > 0){
-                    this.contracts.forEach(item =>{
-                        this.requestBaseAmount += item.cBaseAmount;
-                        this.requestCAmount += item.cAmount;
-                    });
-                }
-                else{
-                    this.requestBaseAmount=this.rAcceptedAmount;
-                }
+                this.requestBaseAmount=this.rAcceptedAmount;
             },
 
             openReportFile: function () {
@@ -799,22 +758,11 @@
             addNewDraft:function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        var isValid=true;
-                        if(this.contracts.length > 0){
-                            if(((this.draftBaseAmount + this.lastDrafts) > this.requestCAmount) || (this.draftBaseAmount < 0)){
-                                this.dialogMessage = 'مبلغ  صورت وضعیت نامعتبر است!';
-                                this.showDialogModal = true;
-                                isValid=false;
-                            }
+                        if(((this.draftBaseAmount + this.lastDrafts) > this.rAcceptedAmount) || (this.draftBaseAmount < 0)){
+                            this.dialogMessage = 'مبلغ  صورت وضعیت نامعتبر است!';
+                            this.showDialogModal = true;
                         }
-                        else {
-                            if(((this.draftBaseAmount + this.lastDrafts) > this.rAcceptedAmount) || (this.draftBaseAmount < 0)){
-                                this.dialogMessage = 'مبلغ  صورت وضعیت نامعتبر است!';
-                                this.showDialogModal = true;
-                                isValid=false;
-                            }
-                        }
-                        if(isValid){
+                        else{
                             axios.post('financial/draft/register', {
                                 rId: this.requestId,
                                 for: this.draftInput.for,
