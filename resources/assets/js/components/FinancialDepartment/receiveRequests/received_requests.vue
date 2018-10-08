@@ -201,14 +201,17 @@
                                                 <td v-show="receiveFinancial.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
                                                 <td>{{receiveFinancial.rSubject}}</td>
                                                 <td :data-toggle="'lastRef' + receiveFinancial.id">{{receiveFinancial.rLastRef.source_user_info.name}} - {{receiveFinancial.rLastRef.source_user_info.role.rSubject}}
-                                                    <div class="clearfix tool-bar" v-if="receiveFinancial.rLastRef.rhDescription !== null">
+                                                    <div class="clearfix tool-bar" v-if="receiveFinancial.rLastRef.rhDescription !== null || receiveFinancial.request_history_last_point.length > 0">
                                                         <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'lastRef' + receiveFinancial.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font">
                                                                 <div class="grid-x">
                                                                     <div class="medium-12">
-                                                                        <p class="black-color">{{receiveFinancial.rLastRef.source_user_info.name}} - {{receiveFinancial.rLastRef.source_user_info.role.rSubject}}</p>
-                                                                        <p class="gray-colors text-justify" style="margin-top: -10px">{{ receiveFinancial.rLastRef.rhDescription }}</p>
-                                                                        <p style="direction: ltr;margin-bottom: -10px;" class="gray-color small-font float-left"><i class="far fa-calendar-alt"></i><span> {{receiveFinancial.rLastRef.rhShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{receiveFinancial.rLastRef.rhShamsiTime}}</span></p>
+                                                                        <p class="black-color" v-if="receiveFinancial.rLastRef.rhDescription !== null">{{receiveFinancial.rLastRef.source_user_info.name}} - {{receiveFinancial.rLastRef.source_user_info.role.rSubject}}</p>
+                                                                        <p class="gray-colors text-justify" style="margin-top: -10px" v-if="receiveFinancial.rLastRef.rhDescription !== null">{{ receiveFinancial.rLastRef.rhDescription }}</p>
+                                                                        <p style="direction: ltr;margin-bottom: -10px;" class="gray-color small-font float-left" v-if="receiveFinancial.rLastRef.rhDescription !== null"><i class="far fa-calendar-alt"></i><span> {{receiveFinancial.rLastRef.rhShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{receiveFinancial.rLastRef.rhShamsiTime}}</span></p>
+                                                                        <br v-if="receiveFinancial.request_history_last_point.length > 0"/>
+                                                                        <p class="btn-red" v-if="receiveFinancial.request_history_last_point.length > 0">نکته:</p>
+                                                                        <p class="gray-colors text-justify" style="margin-top: -10px" v-if="receiveFinancial.request_history_last_point.length > 0">{{ receiveFinancial.request_history_last_point[0].rhlpDescription }}</p>
                                                                     </div>
                                                                 </div>
                                                             </ul>
@@ -565,7 +568,7 @@
                                                     <td class="text-center">{{$parent.dispMoneyFormat(receiveDraft.rCostEstimation)}}</td>
                                                     <td class="text-center" v-if="receiveDraft.rAcceptedAmount > 0">
                                                         <div v-if="parseInt(receiveDraft.rAcceptedAmount) != parseInt(receiveDraft.rCommitmentAmount)">
-                                                            <span class="danger-label" :data-toggle="'needForEditFinancing' + receivePayment.id">{{$parent.dispMoneyFormat(receiveDraft.rAcceptedAmount)}}</span>
+                                                            <span class="danger-label" :data-toggle="'needForEditFinancing' + receiveDraft.id">{{$parent.dispMoneyFormat(receiveDraft.rAcceptedAmount)}}</span>
                                                             <div class="clearfix tool-bar">
                                                                 <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'needForEditFinancing' + receiveDraft.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font">

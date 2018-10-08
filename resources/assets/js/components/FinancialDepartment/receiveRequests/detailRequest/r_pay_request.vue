@@ -318,7 +318,7 @@
                 showInsertDraftModal:false,
                 dialogMessage: '',
                 blockInput:{},
-                drafts:[],
+                prDrafts:[],
                 prLetterNumber: '',
                 prLetterDate: '',
                 //for & PayTo input text
@@ -412,7 +412,7 @@
                   this.payRequestIsBlocked = payRequest.pay_request_state.prsState == 'BLOCKED' ? true : false;
                   this.canResponse = payRequest.prLastRef.rhIsReferral;
                   this.existRemainingVerifiers = payRequest.prRemainingVerifiers.length > 0 ? true : false;
-                  this.drafts = payRequest.draft;
+                  this.prDrafts = payRequest.draft;
                   this.prLetterDate = payRequest.prLetterDate;
                   this.prLetterNumber = payRequest.prLetterNumber;
                   if (this.youArePayRequestVerifier)
@@ -478,7 +478,7 @@
 
             openBlockModal: function () {
                 this.blockInput = {};
-                if (this.drafts == null)
+                if (this.prDrafts.length == 0)
                     this.showBlockModal = true;
                 else
                 {
@@ -643,7 +643,7 @@
                     this.showDialogModal = true;
                 }
                 else{
-                    if (this.sumOfDraftAmount == 0)
+                    if (this.prDrafts.length == 0)
                     {
                         this.getDirectorGeneralUsers();
                         this.draftBaseAmount = 0;
@@ -674,6 +674,7 @@
                         else{
                             axios.post('financial/draft/register', {
                                 rId: this.requestId,
+                                prId: this.payRequestId,
                                 for: this.draftInput.for,
                                 payTo: this.draftInput.payTo,
                                 baseAmount: parseInt(this.draftInput.baseAmount.split(',').join(''),10),

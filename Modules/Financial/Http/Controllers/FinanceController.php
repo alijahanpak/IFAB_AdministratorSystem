@@ -208,6 +208,7 @@ class FinanceController extends Controller
             CapitalAssetsFinancing::where('cafRId' , '=' , $request->rId)
                 ->update(['cafAccepted' => true]);
 
+            $prId = null;
             $req = _Request::where('id' , '=' , $request->rId)->with('requestType')->first();
             if ($req->requestType->rtType == 'BUY_COMMODITY')
             {
@@ -223,6 +224,7 @@ class FinanceController extends Controller
                     $supReqQueue->save();
                 }else{
                     $rhlp = RequestHistoryLastPoint::where('rhlpRId' , '=' , $req->id)->first();
+                    $prId = $rhlp->rhlpPrId;
 
                     $req = _Request::find($request->rId);
                     $req->rRsId = $rhlp->rhlpRsId;
@@ -247,6 +249,7 @@ class FinanceController extends Controller
                     $ufcReqQueue->save();
                 }else{
                     $rhlp = RequestHistoryLastPoint::where('rhlpRId' , '=' , $req->id)->first();
+                    $prId = $rhlp->rhlpPrId;
 
                     $req = _Request::find($request->rId);
                     $req->rRsId = $rhlp->rhlpRsId;
@@ -254,6 +257,13 @@ class FinanceController extends Controller
                     $req->save();
 
                     RequestHistoryLastPoint::where('rhlpRId' , '=' , $req->id)->delete();
+
+                    if ($rhlp->rhlpRsId == RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id'))
+                    {
+                        $finReqQueue = new FinancialRequestQueue();
+                        $finReqQueue->frqRId = $req->id;
+                        $finReqQueue->save();
+                    }
                 }
             }else if ($req->requestType->rtType == 'FUND'){
                 $req = _Request::find($request->rId);
@@ -272,6 +282,7 @@ class FinanceController extends Controller
             $history->rhDestUId = null;
             $history->rhRId = $req->id;
             $history->rhRsId = $req->rRsId;
+            $history->rhPrId = $prId;
             $history->rhDescription = 'با سلام، تامین اعتبار، تایید شد. به نحو مقتضی اقدام شود.';
             $history->save();
 

@@ -36,6 +36,8 @@ class DraftController extends Controller
             $draft->dDsId = DraftState::where('dsState' , '=' , 'MINUTE')->value('id');
             $draft->dFor = PublicSetting::checkPersianCharacters($request->for);
             $draft->dPayTo = PublicSetting::checkPersianCharacters($request->payTo);
+            if (isset($request->prId))
+                $draft->dPrId = $request->prId;
             $draft->dBaseAmount = $request->baseAmount;
             $draft->dAmount = $request->amount;
             $draft->save();

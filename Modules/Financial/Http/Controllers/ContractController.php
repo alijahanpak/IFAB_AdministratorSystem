@@ -78,7 +78,7 @@ class ContractController extends Controller
                     'rhlpRlId' => RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id'),
                     'rhlpRsId' => RequestState::where('rsState' , '=' , 'WAITING_FOR_PAY_REQUEST')->value('id'),
                     'rhlpPrId' => null,
-                    'rhlpDescription' => 'با توجه به تفاوت مبلغ قرارداد / فاکتور با مبلغ تعهد شده، درخواست نیاز به اصلاح تامین اعتبار دارد.'
+                    'rhlpDescription' => 'با توجه به تفاوت مبلغ قرارداد با مبلغ تعهد شده، درخواست نیاز به اصلاح تامین اعتبار دارد.'
                 ]);
             }
             else

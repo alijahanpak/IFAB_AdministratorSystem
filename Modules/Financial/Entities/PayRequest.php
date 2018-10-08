@@ -28,7 +28,7 @@ class PayRequest extends Model
 
     public function draft()
     {
-        return $this->belongsTo(Draft::class , 'dPrId' , 'id');
+        return $this->hasMany(Draft::class , 'dPrId' , 'id');
     }
 
     public function payRequestState()

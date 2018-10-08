@@ -182,13 +182,13 @@ class PayRequestController extends Controller
             if ($req->rAcceptedAmount != $req->rCommitmentAmount)
             {
                 $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
-                $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'DRAFT')->value('id');
+                $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'FINANCIAL')->value('id');
 
                 RequestHistoryLastPoint::updateOrCreate(['rhlpRId' => $req->id] , [
                     'rhlpRlId' => RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id'),
                     'rhlpRsId' => RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id'),
                     'rhlpPrId' => $payRequest->id,
-                    'rhlpDescription' => 'با توجه به درصد افزایش / کاهش مبلغ قرارداد با مبلغ تعهد شده، درخواست نیاز به اصلاح تامین اعتبار دارد.'
+                    'rhlpDescription' => 'با توجه به درصد افزایش / کاهش مبلغ قرارداد و تفاوت مبلغ جدید با مبلغ تعهد شده، درخواست نیاز به اصلاح تامین اعتبار دارد.'
                 ]);
             }else{
                 $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
