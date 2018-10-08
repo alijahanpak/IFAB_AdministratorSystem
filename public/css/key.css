@@ -2,7 +2,7 @@
 [type="text"],[type="password"]{
     line-height: 1px;
     }
-[type="text"]:focus,[type="number"]:focus,[type="password"]:focus,textarea:focus,select:focus{
+[type="text"]:focus,[type="number"]:focus,[type="tel"]:focus,[type="password"]:focus,textarea:focus,select:focus{
     background-color: #fefefe;
     border: 1px solid #8a8a8a;
     box-shadow: 0 0 5px #1E90FF;

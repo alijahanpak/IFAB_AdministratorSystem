@@ -212,6 +212,11 @@
                                     <!--Service Start-->
                                     <div v-show="requestTypeSend == 'BUY_SERVICES'" class="large-12 medium-12 small-12">
                                         <div class="grid-x">
+                                            <div class="large-12 medium-12 small-12">
+                                                <p style="margin-bottom: 5px;" class="btn-red"><span><i style="margin-left:8px;margin-top:2px;" class="fas fa-exclamation-circle btn-red size-21"></i></span>کارشناس محترم، لطفا هنگام محاسبه مبلغ برآورد، کسورات قانونی مانند: مالیات بر ارزش افزوده و ... را در نظر بگیرید.</p>
+                                            </div>
+                                        </div>
+                                        <div class="grid-x">
                                             <div class="large-4 medium-4 small-12">
                                                 <label>برآورد تقریبی اعتبار مورد نیاز <span class="btn-red">(ریال)</span>
                                                     <money v-model="requestInput.serviceEstimated"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('serviceEstimated')}"></money>
