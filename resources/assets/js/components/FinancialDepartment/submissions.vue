@@ -180,7 +180,7 @@
                                             <tr>
                                                 <td></td>
                                                 <td>
-                                                    <suggestions autocomplete="oxghff" style="margin-bottom: -18px;" name="commodityTitle" v-validate :class="{'input': true, 'select-error': errors.has('commodityTitle')}"
+                                                    <suggestions autocomplete="off" style="margin-bottom: -18px;" name="commodityTitle" v-validate :class="{'input': true, 'select-error': errors.has('commodityTitle')}"
                                                                  v-model="commodityQuery"
                                                                  :options="commodityOptions"
                                                                  :onInputChange="onCommodityInputChange">
@@ -400,18 +400,18 @@
                                                 <thead>
                                                 <th width="50">ردیف</th>
                                                 <th>شرح و نوع جنس</th>
-                                                <th width="100">تعداد</th>
+                                                <th width="80">تعداد</th>
                                                 <th width="150">موجود در انبار</th>
-                                                <th width="200">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
+                                                <th width="300">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
                                                 <th>توضیحات (موارد مصرف)</th>
                                                 </thead>
                                                 <tbody>
                                                 <tr v-for="(lists,index) in commodityList">
-                                                    <td>{{index+1}}</td>
+                                                    <td class="text-center">>{{index+1}}</td>
                                                     <td>{{lists.commodity.cSubject}}</td>
-                                                    <td>{{lists.rcCount}}</td>
-                                                    <td>{{lists.rcExistCount}}</td>
-                                                    <td>{{$parent.dispMoneyFormat(lists.rcCostEstimation)}}</td>
+                                                    <td class="text-center">{{lists.rcCount}}</td>
+                                                    <td class="text-center">{{lists.rcExistCount}}</td>
+                                                    <td class="text-center">{{$parent.dispMoneyFormat(lists.rcCostEstimation)}}</td>
                                                     <td>{{lists.rcDescription}}</td>
                                                 </tr>
                                                 <tr>
@@ -1085,8 +1085,8 @@
                             this.data.append('subject', this.requestInput.rSubject );
                             this.data.append('rtId', this.requestTypeId );
                             this.data.append('costEstimation', this.sumOfCommodityPrice);
-                            this.data.append('description', this.requestInput.fullDescription);
-                            this.data.append('furtherDetails', this.requestInput.furtherDescription);
+                            this.data.append('description', this.requestInput.fullDescription == undefined ? '' : this.requestInput.fullDescription );
+                            this.data.append('furtherDetails', this.requestInput.furtherDescription == undefined ? '' : this.requestInput.furtherDescription);
                             if(this.requestTypeSend == 'BUY_COMMODITY'){
                                 this.commodityRequest.forEach ((items,index) => {
                                     this.data.append('items['+index+'][subject]', items.commodityName );
