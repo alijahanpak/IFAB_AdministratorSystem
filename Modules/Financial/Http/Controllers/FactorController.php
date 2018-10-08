@@ -14,6 +14,7 @@ use Modules\Financial\Entities\Factor;
 use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\RefundCosts;
 use Modules\Financial\Entities\RequestHistory;
+use Modules\Financial\Entities\RequestHistoryLastPoint;
 use Modules\Financial\Entities\RequestLevel;
 use Modules\Financial\Entities\RequestState;
 use Modules\Financial\Entities\Seller;
@@ -58,7 +59,16 @@ class FactorController extends Controller
             $req = _Request::find($request->rId);
             $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
             if ($req->rAcceptedAmount != $req->rCommitmentAmount)
+            {
                 $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'FINANCIAL')->value('id');
+
+                RequestHistoryLastPoint::updateOrCreate(['rhlpRId' => $req->id] , [
+                    'rhlpRlId' => RequestLevel::where('rlLevel' , '=' , 'DRAFT')->value('id'),
+                    'rhlpRsId' => RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id'),
+                    'rhlpPrId' => null,
+                    'rhlpDescription' => 'با توجه به تفاوت مجموع مبلغ فاکتور ها با مبلغ تعهد شده، درخواست نیاز به اصلاح تامین اعتبار دارد.'
+                ]);
+            }
             else
                 $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'DRAFT')->value('id');
             $req->save();

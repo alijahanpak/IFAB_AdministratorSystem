@@ -14,6 +14,8 @@ use Modules\Financial\Entities\Draft;
 use Modules\Financial\Entities\RequestHistory;
 use Modules\Financial\Entities\RequestLevel;
 use Modules\Financial\Entities\RequestState;
+use Modules\Financial\Entities\RequestStep;
+use Modules\Financial\Entities\RequestType;
 
 class CheckController extends Controller
 {
@@ -50,14 +52,15 @@ class CheckController extends Controller
                 ->where('cDId' , '=' , $request->dId)
                 ->delete();
 
-            $req = _Request::with('requestType')->find(Draft::find($request->dId)->dRId);
-            if ($req['request_type']['rtType'] == 'BUY_SERVICES')
+            $req = _Request::with('requestType')->find($request->rId);
+            if ($req->rRtId == RequestType::where('rtType' , '=' ,'BUY_SERVICES')->value('id'))
             {
                 if (!$req->rIsPayRequestClosed)
                 {
                     $req->rRsId = RequestState::where('rsState' , '=' , 'WAITING_FOR_PAY_REQUEST')->value('id');
                     $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
                     $req->save();
+
                     // make history for this request
                     $history = new RequestHistory();
                     $history->rhSrcUId = Auth::user()->id;

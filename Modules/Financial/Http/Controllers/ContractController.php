@@ -17,6 +17,7 @@ use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\IncreaseContractAmount;
 use Modules\Financial\Entities\PercentageIncrease;
 use Modules\Financial\Entities\RequestHistory;
+use Modules\Financial\Entities\RequestHistoryLastPoint;
 use Modules\Financial\Entities\RequestLevel;
 use Modules\Financial\Entities\RequestState;
 
@@ -72,6 +73,13 @@ class ContractController extends Controller
             {
                 $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
                 $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'FINANCIAL')->value('id');
+
+                RequestHistoryLastPoint::updateOrCreate(['rhlpRId' => $req->id] , [
+                    'rhlpRlId' => RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id'),
+                    'rhlpRsId' => RequestState::where('rsState' , '=' , 'WAITING_FOR_PAY_REQUEST')->value('id'),
+                    'rhlpPrId' => null,
+                    'rhlpDescription' => 'با توجه به تفاوت مبلغ قرارداد / فاکتور با مبلغ تعهد شده، درخواست نیاز به اصلاح تامین اعتبار دارد.'
+                ]);
             }
             else
             {

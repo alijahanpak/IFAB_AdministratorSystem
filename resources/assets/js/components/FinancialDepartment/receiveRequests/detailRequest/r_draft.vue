@@ -192,22 +192,6 @@
         </modal-small>
         <!--Insert Draft End-->
 
-        <!-- Accept Draft modal -->
-        <modal-tiny v-if="showAcceptConfirmModal" @close="showAcceptConfirmModal = false">
-            <div slot="body">
-                <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                    <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
-                    <p class="large-offset-1 modal-text">تایید اطلاعات فاکتور به منزله ایجاد تعهد در محل های تامین اعتبار است، آیا صحت اطلاعات را تایید می کنید؟</p>
-                    <div class="grid-x">
-                        <div class="medium-12 column text-center">
-                            <button v-on:click="acceptFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </modal-tiny>
-        <!-- Accept Draft modal -->
-
         <!-- pdf  modal -->
         <modal-small v-if="showPdfModal" @close="showPdfModal = false">
             <div style="height: 88vh;" slot="body">
@@ -230,7 +214,7 @@
                                     <div style="margin-bottom:-20px;margin-top: 5px;" class="large-12 medium-12 small-12">
                                         <div class="stacked-for-small button-group float-right">
                                             <button v-if="$can('FINANCIAL_REGISTER_AND_NUMBERING_DRAFT')" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
-                                            <button v-if="$can('FINANCIAL_ACCEPT_DRAFT') && youAreDraftVerifier" @click="acceptDraft()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
+                                            <button v-if="$can('FINANCIAL_ACCEPT_DRAFT') && youAreDraftVerifier" @click="checkAcceptDraftConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
                                             <button v-if="$can('FINANCIAL_ACCEPT_MINUTE_DRAFT') && isMinute" @click="openAcceptMinuteConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید پیشنویس   </span></button>
                                             <button v-if="$can('FINANCIAL_DETERMINE_DECREASES_AND_MAKE_CHECKS') && isAccepted" @click="openGenerateChecksModal()"  class="my-button my-success"><span class="btn-txt-mrg">   صدور چک   </span></button>
                                             <button @click="openReferralModal(draftId)"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> ارجاع </span></button>
@@ -296,6 +280,22 @@
             </div>
         </modal-small>
         <!-- pdf Factor modal -->
+
+        <!-- Accept Draft modal -->
+        <modal-tiny v-if="showCheckAcceptDraftModal" @close="showCheckAcceptDraftModal = false">
+            <div slot="body">
+                <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
+                    <p class="large-offset-1 modal-text">آیا برای تایید حوله اطمینان دارید؟</p>
+                    <div class="grid-x">
+                        <div class="medium-12 column text-center">
+                            <button v-on:click="acceptDraft()"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-tiny>
+        <!-- Accept Draft modal -->
 
         <!-- Accept Draft Minute modal -->
         <modal-tiny v-if="showAcceptMinuteConfirmModal" @close="showAcceptMinuteConfirmModal = false">
@@ -478,6 +478,7 @@
                 showGenerateChecksModal: false,
                 showAcceptGeneratecheckConfirmModal: false,
                 showBlockModal: false,
+                showCheckAcceptDraftModal: false,
                 dialogMessage: '',
                 draftInput:{},
                 blockInput:{},
@@ -683,25 +684,13 @@
                     });
             },
 
-            checkAcceptDraft: function(){
-                var existNotAccepted = false;
-                this.factors.forEach(item => {
-                    if (item.fIsAccepted == false)
-                        existNotAccepted = true;
-                });
-
-                if (existNotAccepted)
-                {
-                    this.showAcceptConfirmModal = true;
-                }else{
-                    this.dialogMessage = 'حواله تایید نشده ای موجود نیست! لطفا قبل از تایید اطلاعات حواله نسبت به ثبت حواله جدید اقدام کنید.';
-                    this.showDialogModal = true;
-                }
-            },
-
             openConfirmDeleteContract: function(cId){
                 this.fIdForDelete = cId;
                 this.showDeleteConfirmModal = true;
+            },
+
+            checkAcceptDraftConfirmModal: function(){
+              this.showCheckAcceptDraftModal=true;
             },
 
             acceptDraft: function(){

@@ -19,6 +19,7 @@ use Modules\Financial\Entities\PayRequestState;
 use Modules\Financial\Entities\PayRequestSteps;
 use Modules\Financial\Entities\PayRequestVerifier;
 use Modules\Financial\Entities\RequestHistory;
+use Modules\Financial\Entities\RequestHistoryLastPoint;
 use Modules\Financial\Entities\RequestLevel;
 use Modules\Financial\Entities\RequestState;
 use Modules\Financial\Entities\SecretariatRequestQueue;
@@ -178,8 +179,21 @@ class PayRequestController extends Controller
             $payRequest->save();
 
             $req = _Request::find($request->rId);
-            $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
-            $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
+            if ($req->rAcceptedAmount != $req->rCommitmentAmount)
+            {
+                $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
+                $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'DRAFT')->value('id');
+
+                RequestHistoryLastPoint::updateOrCreate(['rhlpRId' => $req->id] , [
+                    'rhlpRlId' => RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id'),
+                    'rhlpRsId' => RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id'),
+                    'rhlpPrId' => $payRequest->id,
+                    'rhlpDescription' => 'با توجه به درصد افزایش / کاهش مبلغ قرارداد با مبلغ تعهد شده، درخواست نیاز به اصلاح تامین اعتبار دارد.'
+                ]);
+            }else{
+                $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
+                $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
+            }
             $req->save();
 
             SecretariatRequestQueue::where('srqRId' , '=' , $req->id)->delete();

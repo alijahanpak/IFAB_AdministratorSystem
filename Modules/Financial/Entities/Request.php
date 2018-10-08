@@ -26,6 +26,11 @@ class _Request extends Model
         return $this->belongsTo(RequestState::class , 'rRsId' , 'id');
     }
 
+    public function requestHistoryLastPoint()
+    {
+        return $this->hasMany(RequestHistoryLastPoint::class , 'rhlpRId' , 'id');
+    }
+
     public function requestLevel()
     {
         return $this->belongsTo(RequestLevel::class , 'rRlId' , 'id');
@@ -212,6 +217,7 @@ class _Request extends Model
     public function getRIsPayRequestClosedAttribute()
     {
         return PayRequest::where('prRId' , '=' , $this->id)
+            ->where('prPrsId' , '<>' , PayRequestState::where('prsState' , '=' , 'BLOCKED')->value('id'))
             ->where('prIsFinal' , '=' , true)
             ->exists();
     }

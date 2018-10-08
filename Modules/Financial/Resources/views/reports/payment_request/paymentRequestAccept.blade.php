@@ -46,7 +46,7 @@
                 </div>
             </div>
         </div>
-        <div style="width: 100%; padding: 2rem" class="text-justify">
+        <div style="width: 100%; padding: 2rem" class="text-justify report-line-height">
             <span class="black-color BZar size-18">بدینوسیله ضمن تایید انجام عملیات </span>
             <span class="gray-color BZar size-18">{{$payRequestInfo['contract']['cSubject']}}</span>
             <span class="black-color BZar size-18"> با پیشرفت فیزیکی / ریالی: </span>

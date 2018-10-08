@@ -260,6 +260,7 @@ class RequestController extends Controller
                 ->with('payRequest.verifiers.user.role.officeUnit')
                 ->with('payRequest.verifiers.signature')
                 ->with('payRequest.contract.executor')
+                ->with('requestHistoryLastPoint')
                 ->with('requestLevel')
                 ->with('payRequest.draft')
                 ->with('contract.increaseAmount.percentageIncrease')

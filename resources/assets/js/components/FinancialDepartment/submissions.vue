@@ -698,7 +698,7 @@
                                             <label>درصد پیشرفت ریالی
                                                 <input type="text" @keyup="calculatePaymentRialProgress()" name="rial_progress" v-model="paymentInput.rialProgress" v-validate="'required','min_value:0','max_value:'+ contractPercent " :class="{'input': true, 'error-border': errors.has('rial_progress')}">
                                             </label>
-                                            <p v-show="errors.has('rial_progress')" class="error-font">لطفا درصد پیشرفت ریالی را وارد / hwghp نمایید!</p>
+                                            <p v-show="errors.has('rial_progress')" class="error-font">لطفا درصد پیشرفت ریالی را وارد / اصلاح نمایید!</p>
                                         </div>
                                     </div>
                                     <div style="margin-top:8px;"  class="grid-x">

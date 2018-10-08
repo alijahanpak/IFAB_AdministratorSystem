@@ -368,6 +368,7 @@
                     precision: 0,
                     masked: true
                 },
+                payAmount:0,
 
             }
         },
@@ -405,6 +406,7 @@
             },
 
             openPdfModal: function (payRequest){
+                  this.payAmount=payRequest.prAmount;
                   this.payRequestId=payRequest.id;
                   this.youArePayRequestVerifier = payRequest.prYouAreVerifiers.length > 0 ? true : false;
                   this.payRequestIsBlocked = payRequest.pay_request_state.prsState == 'BLOCKED' ? true : false;
@@ -623,7 +625,7 @@
             setInitBaseAmount: function (){
                 this.getSumOfLastDrafts();
                 this.getBaseAmount();
-                this.draftInput.baseAmount= this.$root.dispMoneyFormat(this.requestBaseAmount);
+                this.draftInput.baseAmount= this.$root.dispMoneyFormat(this.payAmount);
                 this.calculateDraftAmount();
 
             },

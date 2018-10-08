@@ -18,6 +18,7 @@ use Modules\Financial\Entities\Factor;
 use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\RefundCosts;
 use Modules\Financial\Entities\RequestHistory;
+use Modules\Financial\Entities\RequestHistoryLastPoint;
 use Modules\Financial\Entities\RequestLevel;
 use Modules\Financial\Entities\RequestState;
 use Modules\Financial\Entities\SupplierRequestQueue;
@@ -221,10 +222,14 @@ class FinanceController extends Controller
                     $supReqQueue->srqRId = $req->id;
                     $supReqQueue->save();
                 }else{
+                    $rhlp = RequestHistoryLastPoint::where('rhlpRId' , '=' , $req->id)->first();
+
                     $req = _Request::find($request->rId);
-                    $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
-                    $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'DRAFT')->value('id');
+                    $req->rRsId = $rhlp->rhlpRsId;
+                    $req->rRlId = $rhlp->rhlpRlId;
                     $req->save();
+
+                    RequestHistoryLastPoint::where('rhlpRId' , '=' , $req->id)->delete();
 
                     $finReqQueue = new FinancialRequestQueue();
                     $finReqQueue->frqRId = $req->id;
@@ -241,10 +246,14 @@ class FinanceController extends Controller
                     $ufcReqQueue->ufcrqRId = $req->id;
                     $ufcReqQueue->save();
                 }else{
+                    $rhlp = RequestHistoryLastPoint::where('rhlpRId' , '=' , $req->id)->first();
+
                     $req = _Request::find($request->rId);
-                    $req->rRsId = RequestState::where('rsState' , '=' , 'WAITING_FOR_PAY_REQUEST')->value('id');
-                    $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
+                    $req->rRsId = $rhlp->rhlpRsId;
+                    $req->rRlId = $rhlp->rhlpRlId;
                     $req->save();
+
+                    RequestHistoryLastPoint::where('rhlpRId' , '=' , $req->id)->delete();
                 }
             }else if ($req->requestType->rtType == 'FUND'){
                 $req = _Request::find($request->rId);
