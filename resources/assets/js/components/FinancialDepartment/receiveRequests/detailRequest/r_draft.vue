@@ -1,6 +1,6 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class="grid-x">
-        <div class="large-12 medium-12 small-12" v-if="$can('FINANCIAL_ADD_NEW_DRAFT')">
+        <div class="large-12 medium-12 small-12" v-if="$can('FINANCIAL_ADD_NEW_DRAFT') && requestType != 'BUY_SERVICES'">
             <div class="clearfix tool-bar">
                 <div class="button-group float-right report-mrg">
                     <a class="my-button toolbox-btn small" @click="openInsertDraftModal()">پیشنویس حواله</a>
@@ -26,7 +26,7 @@
                         <th class="tbl-head-style-cell">بابت</th>
                         <th class="tbl-head-style-cell">در وجه</th>
                         <th class="tbl-head-style-cell">ارسال کننده</th>
-                        <th class="tbl-head-style-cell">مبلغ صورت وضعیت </th>
+                        <th class="tbl-head-style-cell">درخواست پرداخت </th>
                         <th class="tbl-head-style-cell">مبلغ حواله </th>
                         <th class="tbl-head-style-cell">وضعیت</th>
                         <th class="tbl-head-style-cell"></th>
@@ -218,7 +218,7 @@
                                             <button v-if="$can('FINANCIAL_ACCEPT_MINUTE_DRAFT') && isMinute" @click="openAcceptMinuteConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید پیشنویس   </span></button>
                                             <button v-if="$can('FINANCIAL_DETERMINE_DECREASES_AND_MAKE_CHECKS') && isAccepted" @click="openGenerateChecksModal()"  class="my-button my-success"><span class="btn-txt-mrg">   صدور چک   </span></button>
                                             <button @click="openReferralModal(draftId)"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> ارجاع </span></button>
-                                            <button @click="openResponseRequestModal(draftId)" v-show="canResponse == true" class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> ارجاع </span></button>
+                                            <button @click="openResponseRequestModal(draftId)" v-show="canResponse == true" class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> پاسخ </span></button>
                                             <button v-show="$can('DRAFT_BLOCK')" @click="openBlockModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">مسدود</span></button>
                                         </div>
                                     </div>

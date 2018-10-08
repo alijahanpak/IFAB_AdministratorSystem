@@ -106,25 +106,8 @@ class _Request extends Model
         if (RequestType::find($this->attributes['rRtId'])->rtType == 'BUY_SERVICES' ||
             RequestType::find($this->attributes['rRtId'])->rtType == 'BUY_COMMODITY')
         {
-            $contracts = Contract::where('cRId' , '=' , $this->id)
-                ->where('cIsAccepted' , true)
-                ->get();
-            $amount = 0;
-            foreach ($contracts as $contract)
-            {
-                $closedPayRequest = PayRequest::where('prCId' , '=' , $contract->id)
-                    ->where('prPrsId' , '<>' , PayRequestState::where('prsState' , '=' , 'BLOCKED')->value('id'))
-                    ->where('prIsFinal' , true)
-                    ->first();
-
-                if ($closedPayRequest && $closedPayRequest->prLetterNumber != null && $closedPayRequest->prLetterDate)
-                {
-                    $amount += $closedPayRequest->prAmount;
-                }else{
-                    $amount += $contract->cAmount;
-                }
-
-            }
+            $amount = Contract::where('cRId' , '=' , $this->id)
+                ->where('cIsAccepted' , true)->get()->sum('cAmount');
             $amount += Factor::where('fRId' , '=' , $this->id)
                 ->where('fIsAccepted' , true)->get()->sum('fAmount');
 
