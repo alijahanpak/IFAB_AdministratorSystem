@@ -160,9 +160,10 @@
                         <div style="margin-top:15px;"  class="grid-x">
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>مبلغ پایه<span class="btn-red">(ریال)</span>
-                                    <money @change.native="calculteFinalContractAmount()" v-model="contractInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('contractAmount')}"></money>
+                                    <money :class="checkInputAmount == true ? 'select-error' : ''" @change.native="calculteFinalContractAmount()" v-model="contractInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'"></money>
                                 </label>
                                 <p v-show="errors.has('contractAmount')" class="error-font">لطفا مبلغ را برای قرارداد مورد نظر را وارد نمایید!</p>
+                                <p style="margin-top: 8px;" v-show="checkInputAmount" class="btn-red">مبلغ قرارداد نمی تواند کمتر از صفر باشد! </p>
                             </div>
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>درصد افزایش و یا کاهش
@@ -239,7 +240,7 @@
                                             <div class="grid-x">
                                                 <div class="large-2 medium-3  small-12">
                                                     <div class="switch tiny">
-                                                        <input :checked="percentageCheckBox" v-on:change="calculteAmount(pItem.piPercent,pItem,contractInput['percentage' + pItem.id])" class="switch-input" v-model="contractInput['percentage' + pItem.id]" :id="'percentage'+pItem.id" type="checkbox">
+                                                        <input :checked="percentageCheckBox" v-on:change="calculteAmount(pItem.piPercent,pItem.id,contractInput['percentage' + pItem.id])" class="switch-input" v-model="contractInput['percentage' + pItem.id]" :id="'percentage'+pItem.id" type="checkbox">
                                                         <label class="switch-paddle" :for="'percentage'+pItem.id">
                                                             <span class="switch-active" aria-hidden="true">بلی</span>
                                                             <span class="switch-inactive" aria-hidden="true">خیر</span>
@@ -365,6 +366,7 @@
                 increaseItemsValue:[],
                 finalAmount:0,
                 positionTemp:0,
+                checkInputAmount:false,
             }
 
         },
@@ -423,6 +425,7 @@
                 axios.get('/financial/request/contract/fetchPercentageIncreaseData')
                     .then((response) => {
                         this.percentageIncreaseItems = response.data;
+                        console.log(JSON.stringify(this.percentageIncreaseItems));
                         console.log(response);
                     }, (error) => {
                         console.log(error);
@@ -430,20 +433,7 @@
             },
 
             calculteAmount: function(percent,index,state){
-                var increaseItemsTemp={};
-                increaseItemsTemp.piId=index.id;
-                increaseItemsTemp.amount=(percent * parseInt(this.contractInput.amount.split(',').join(''),10)) / 100;
-                Math.round(increaseItemsTemp.amount);
-                this.increaseTemp.forEach((item,pos) =>{
-                    if(item.piId == increaseItemsTemp.piId ){
-                        this.increaseTemp.splice(pos,1);
-                    }
-                });
-                if(state == true){
-                    this.increaseTemp.push(increaseItemsTemp);
-                }
-                $('#incValue'+index.id).text(this.getIncreaseIndex(index.id) + ' ریال');
-                console.log(JSON.stringify(this.increaseTemp));
+                this.calculateChangeInputAmount(percent,index,state);
                 this.calculteFinalContractAmount();
             },
 
@@ -462,15 +452,41 @@
 
             },
 
-            calculteFinalContractAmount: function(){
-                var lastTemp=0;
-                lastTemp = parseInt(this.contractInput.amount.split(',').join(''),10);
-                this.increaseTemp.forEach(item =>{
-                    lastTemp += item.amount;
+            calculateChangeInputAmount:function(percent,index,state){
+                var increaseItemsTemp={};
+                increaseItemsTemp.piId=index;
+                increaseItemsTemp.amount=Math.round(percent * parseInt(this.contractInput.amount.split(',').join(''),10)) / 100;
+                this.increaseTemp.forEach((item,pos) =>{
+                    if(item.piId == increaseItemsTemp.piId ){
+                        this.increaseTemp.splice(pos,1);
+                    }
                 });
-                this.finalAmount =lastTemp;
-                Math.round(this.finalAmount);
+                if(state == true){
+                    this.increaseTemp.push(increaseItemsTemp);
+                }
+                $('#incValue'+index).text(this.getIncreaseIndex(index) + ' ریال');
+                console.log(JSON.stringify(this.increaseTemp));
 
+            },
+
+            calculteFinalContractAmount: function(){
+                if(parseInt(this.contractInput.amount.split(',').join(''),10) < 0){
+                    this.checkInputAmount=true;
+                }
+                else{
+                    this.checkInputAmount=false;
+                    this.percentageIncreaseItems.forEach(item =>{
+                        this.calculateChangeInputAmount(item.piPercent,item.id,this.contractInput['percentage' + item.id]);
+
+                    });
+                    var lastTemp=0;
+                    lastTemp = parseInt(this.contractInput.amount.split(',').join(''),10);
+                    this.increaseTemp.forEach(item =>{
+                        lastTemp += item.amount;
+                    });
+                    this.finalAmount =lastTemp;
+                    Math.round(this.finalAmount);
+                }
             },
 
 
