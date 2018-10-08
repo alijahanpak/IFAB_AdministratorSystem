@@ -61,24 +61,24 @@
 
             <table>
                 <thead>
-                <th width="50">ردیف</th>
-                <th>شرح و نوع جنس</th>
-                <th width="100">تعداد</th>
-                <th v-if='$can("DETERMINE_EXIST_COMMODITY_IN_REPOSITORY")' width="100">موجودی انبار</th>
-                <th width="200">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
-                <th>توضیحات (موارد مصرف)</th>
+                <th class="text-center" width="50">ردیف</th>
+                <th class="text-center">شرح و نوع جنس</th>
+                <th class="text-center" width="100">تعداد</th>
+                <th class="text-center" v-if='$can("DETERMINE_EXIST_COMMODITY_IN_REPOSITORY")' width="120">موجودی انبار</th>
+                <th class="text-center" width="150">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
+                <th class="text-center" width="300">توضیحات (موارد مصرف)</th>
                 </thead>
                 <tbody>
 
                 <tr v-for="(lists,index) in commodityList">
-                    <td>{{index+1}}</td>
+                    <td  align="center">{{index+1}}</td>
                     <td>{{lists.commodity.cSubject}}</td>
-                    <td>{{lists.rcCount - lists.rcExistCount}}</td>
-                    <td v-if='$can("DETERMINE_EXIST_COMMODITY_IN_REPOSITORY")'>
+                    <td  align="center">{{lists.rcCount - lists.rcExistCount}}</td>
+                    <td  align="center" v-if='$can("DETERMINE_EXIST_COMMODITY_IN_REPOSITORY")'>
                         <input v-on:change="setRepoExistCount(lists.id,commodityCountInput['existCount' + lists.id])" v-model="commodityCountInput['existCount' + lists.id]"  style="margin-bottom: 0px;" class="form-element-margin-btm" type="text" :name="'repoCount' + lists.id" v-validate="'required','min_value:0','max_value:'+lists.rcCount " data-vv-as="field" :class="{'input': true, 'error-border': errors.has('repoCount' + lists.id)}">
                         <span v-show="errors.has('repoCount' + lists.id)" class="error-font"></span>
                     </td>
-                    <td>{{$root.dispMoneyFormat(lists.rcCostEstimation)}}</td>
+                    <td  align="center">{{$root.dispMoneyFormat(lists.rcCostEstimation)}}</td>
                     <td>{{lists.rcDescription}}</td>
                 </tr>
                 <tr>
