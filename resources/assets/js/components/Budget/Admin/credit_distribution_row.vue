@@ -29,7 +29,7 @@
                     <div class="tabs-panel is-active table-mrg-btm" id="capital_assets"
                          xmlns:v-on="http://www.w3.org/1999/xhtml">
                         <div class="medium-12 bottom-mrg">
-                            <div class="clearfix tool-bar">
+                            <div v-show="$can('BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_INSERT')" class="clearfix tool-bar">
                                 <div style="margin-bottom: 4px;" class="button-group float-right">
                                     <a class="my-button toolbox-btn small" @click="openInsertModal(0)">جدید</a>
                                 </div>
@@ -65,12 +65,12 @@
                                                     <div class="medium-11 text-justify">
                                                         {{ plan.cdDescription }}
                                                     </div>
-                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                    <div v-show="$can('BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_EDIT') || $can('BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                         <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'rdcRowDistributionCredit' + plan.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'rdcRowDistributionCredit' + plan.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
-                                                                <li><a v-on:click.prevent="openUpdateCreditDistributionRow(plan , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                <li><a v-on:click.prevent="openDeleteRowDistributionCreditConfirm(plan.id , 0)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                <li v-show="$can('BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_EDIT')"><a v-on:click.prevent="openUpdateCreditDistributionRow(plan , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                <li v-show="$can('BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_DELETE')"><a v-on:click.prevent="openDeleteRowDistributionCreditConfirm(plan.id , 0)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -88,7 +88,7 @@
                     <div class="tabs-panel table-mrg-btm" id="cost" xmlns:v-on="http://www.w3.org/1999/xhtml">
                         <div class="">
                             <div class="medium-12 bottom-mrg">
-                                <div class="clearfix tool-bar">
+                                <div v-show="$can('BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_INSERT')" class="clearfix tool-bar">
                                     <div style="margin-bottom: 4px;" class="button-group float-right">
                                         <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
                                     </div>
@@ -124,12 +124,12 @@
                                                         <div class="medium-11 text-justify">
                                                             {{ cost.cdDescription }}
                                                         </div>
-                                                        <div class="medium-1 cell-vertical-center text-left">
+                                                        <div v-show="$can('BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_EDIT') || $can('BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                             <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'rdcRowDistributionCredit_cost' + cost.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'rdcRowDistributionCredit_cost' + cost.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent="openUpdateCreditDistributionRow(cost , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent="openDeleteRowDistributionCreditConfirm(cost.id , 1)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                    <li v-show="$can('BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_EDIT')"><a v-on:click.prevent="openUpdateCreditDistributionRow(cost , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                    <li v-show="$can('BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_DELETE')"><a v-on:click.prevent="openDeleteRowDistributionCreditConfirm(cost.id , 1)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>

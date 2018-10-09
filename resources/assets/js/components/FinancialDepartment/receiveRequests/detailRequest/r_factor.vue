@@ -1,6 +1,6 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class="grid-x">
-        <div v-if="$can('SUPPLIER_DELETE_FACTOR')" class="large-12 medium-12 small-12">
+        <div v-show="$can('SUPPLIER_DELETE_FACTOR')" class="large-12 medium-12 small-12">
             <div class="clearfix tool-bar">
                 <div class="button-group float-right report-mrg">
                     <a class="my-button toolbox-btn small" @click="openInsertFactorModal()">جدید</a>
@@ -17,7 +17,7 @@
                         <col width="150px"/>
                         <col width="300px"/>
                         <col width="150px"/>
-                        <col v-if="$can('SUPPLIER_DELETE_FACTOR')" width="60px"/>
+                        <col v-show="$can('SUPPLIER_DELETE_FACTOR')" width="60px"/>
                         <col width="12px"/>
                     </colgroup>
                     <tbody class="tbl-head-style ">
@@ -26,7 +26,7 @@
                         <th class="tbl-head-style-cell">مبلغ</th>
                         <th class="tbl-head-style-cell">شرح</th>
                         <th class="tbl-head-style-cell">وضعیت</th>
-                        <th v-if="$can('SUPPLIER_DELETE_FACTOR')" class="tbl-head-style-cell">عملیات</th>
+                        <th v-show="$can('SUPPLIER_DELETE_FACTOR')" class="tbl-head-style-cell">عملیات</th>
                         <th class="tbl-head-style-cell"></th>
                     </tr>
                     </tbody>
@@ -40,7 +40,7 @@
                             <col width="150px"/>
                             <col width="300px"/>
                             <col width="150px"/>
-                            <col v-if="$can('SUPPLIER_DELETE_FACTOR')" width="60px"/>
+                            <col v-show="$can('SUPPLIER_DELETE_FACTOR')" width="60px"/>
                         </colgroup>
                         <tbody class="tbl-head-style-cell">
                         <tr class="table-row" v-for="factor in factors">
@@ -49,14 +49,14 @@
                             <td class="text-center">{{factor.fDescription}}</td>
                             <td class="text-center" v-show="factor.fIsAccepted == 1"><span class="success-label">تایید شده</span></td>
                             <td class="text-center" v-show="factor.fIsAccepted == 0"><span class="reserved-label">تایید نشده</span></td>
-                            <td v-if="$can('SUPPLIER_DELETE_FACTOR')" class="text-center"><a @click="openConfirmDeleteContract(factor.id)"><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
+                            <td v-show="$can('SUPPLIER_DELETE_FACTOR')" class="text-center"><a @click="openConfirmDeleteContract(factor.id)"><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
             <!--Table Body End-->
-            <div class="large-12 medium-12 small-12" v-if='$can("SUPPLIER_ACCEPT_FACTOR")'>
+            <div class="large-12 medium-12 small-12" v-show='$can("SUPPLIER_ACCEPT_FACTOR")'>
                 <div class="stacked-for-small button-group float-left">
                     <button @click="checkAcceptFactor()"  class="my-button my-success float-left"><span class="btn-txt-mrg">تایید اطلاعات فاکتور</span></button>
                 </div>

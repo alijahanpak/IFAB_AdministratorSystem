@@ -22,7 +22,7 @@
             <div class="medium-12 padding-lr" style="margin-top: 15px;">
                 <div class="clearfix tool-bar">
                     <div style="margin-top: 2px;" class="button-group float-right report-mrg">
-                        <a class="my-button toolbox-btn small" @click="openInsertModal">جدید</a>
+                        <a v-show="$can('BUDGET_ADMIN_PLAN_RO_COST_TITLE_INSERT')" class="my-button toolbox-btn small" @click="openInsertModal">جدید</a>
                         <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
                             <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(planOrCosts)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
                         </div>
@@ -113,12 +113,12 @@
                                             <div class="medium-11 text-justify">
                                                 {{ planOrCost.cdtDescription }}
                                             </div>
-                                            <div class="medium-1 cell-vertical-center text-left">
+                                            <div v-show="$can('BUDGET_ADMIN_PLAN_RO_COST_TITLE_EDIT') || $can('BUDGET_ADMIN_PLAN_RO_COST_TITLE_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                 <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'planOrCostTitles' + planOrCost.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'planOrCostTitles' + planOrCost.id" data-dropdown data-auto-focus="true">
                                                     <ul class="my-menu small-font text-right">
-                                                        <li><a v-on:click.prevent="openUpdateModal(planOrCost)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                        <li><a v-on:click.prevent="openDeleteModal(planOrCost.id)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                        <li v-show="$can('BUDGET_ADMIN_PLAN_RO_COST_TITLE_EDIT')"><a v-on:click.prevent="openUpdateModal(planOrCost)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                        <li v-show="$can('BUDGET_ADMIN_PLAN_RO_COST_TITLE_DELETE')"><a v-on:click.prevent="openDeleteModal(planOrCost.id)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                     </ul>
                                                 </div>
                                             </div>

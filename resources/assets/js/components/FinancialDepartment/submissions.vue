@@ -497,22 +497,21 @@
                                                                     <p class="small-top-m text-justify gray-colors">
                                                                         {{recipientUser.rhDescription}}
                                                                     </p>
-                                                                    <div v-if="recipientUser.destination_user_info != null">
+                                                                    <div v-if="recipientUser.destination_user_info != null && requestState != 'WAITING_FOR_PAY_REQUEST'">
                                                                         <p v-if="recipientUser.source_user_info.id != recipientUser.destination_user_info.id" style="margin-bottom: 0" class="small-top-m">گیرنده:</p>
                                                                         <div v-if="recipientUser.source_user_info.id != recipientUser.destination_user_info.id" class="grid-x">
                                                                             <div class="large-1 medium-2 small-12">
                                                                                 <img style="width: 40px;height: 40px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="recipientUser.destination_user_info.avatarPath != null ? baseURL + recipientUser.destination_user_info.avatarPath : $parent.baseAvatar">
                                                                             </div>
                                                                             <div class="large-11 medium-10 small-12 padding-lr">
-                                                                                <p class="small-top-m">
+                                                                                <p class="small-top-m" v-if="recipientUser.destination_user_info != null">
                                                                                     {{recipientUser.destination_user_info.name}} - {{recipientUser.destination_user_info.role.rSubject}}
+                                                                                </p>
+                                                                                <p class="small-top-m btn-red" v-else>
+                                                                                    در انتظار مشاهده
                                                                                 </p>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div v-else>
-                                                                        <p>گیرنده: </p>
-                                                                        <p class="btn-red">در انتظار مشاهده</p>
                                                                     </div>
                                                                     <p style="direction: ltr;margin-bottom: -15px;" class="gray-color small-font"><i class="far fa-calendar-alt"></i><span> {{recipientUser.rhShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{recipientUser.rhShamsiTime}}</span></p>
                                                                 </div>

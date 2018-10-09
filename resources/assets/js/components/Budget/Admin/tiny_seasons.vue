@@ -31,7 +31,7 @@
                         <div class="medium-12 bottom-mrg">
                             <div class="clearfix tool-bar">
                                 <div class="button-group float-right report-mrg">
-                                    <a class="my-button toolbox-btn small" @click="openInsertModal(0)">جدید</a>
+                                    <a v-show="$can('BUDGET_ADMIN_TINY_SEASON_INSERT')" class="my-button toolbox-btn small" @click="openInsertModal(0)">جدید</a>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="assetsDropDown">تعداد نمایش<span> {{ itemInPage }} </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="assetsDropDown" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
@@ -94,12 +94,12 @@
                                                             <div class="medium-11 text-justify">
                                                                 {{ season.capital_assets_season_title_has_tiny_season[0].capital_assets_tiny_season[0].catsDescription }}
                                                             </div>
-                                                            <div class="medium-1 cell-vertical-center text-left">
+                                                            <div v-show="$can('BUDGET_ADMIN_TINY_SEASON_EDIT') || $can('BUDGET_ADMIN_TINY_SEASON_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                                 <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + season.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + season.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
-                                                                        <li><a v-on:click.prevent="openUpdateModal(season.capital_assets_season_title_has_tiny_season[0].capital_assets_tiny_season[0] , season.id , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                        <li><a v-on:click.prevent="openDeleteModal(season.capital_assets_season_title_has_tiny_season[0].capital_assets_tiny_season[0].id , 0)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                        <li v-show="$can('BUDGET_ADMIN_TINY_SEASON_EDIT')"><a v-on:click.prevent="openUpdateModal(season.capital_assets_season_title_has_tiny_season[0].capital_assets_tiny_season[0] , season.id , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                        <li v-show="$can('BUDGET_ADMIN_TINY_SEASON_DELETE')"><a v-on:click.prevent="openDeleteModal(season.capital_assets_season_title_has_tiny_season[0].capital_assets_tiny_season[0].id , 0)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -115,12 +115,12 @@
                                                                 <div class="medium-11 text-justify">
                                                                     {{seasonTitle.capital_assets_tiny_season[0].catsDescription}}
                                                                 </div>
-                                                                <div class="medium-1 cell-vertical-center text-left">
+                                                                <div v-show="$can('BUDGET_ADMIN_TINY_SEASON_EDIT') || $can('BUDGET_ADMIN_TINY_SEASON_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                                     <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + season.id + seasonTitle.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + season.id + seasonTitle.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
-                                                                            <li><a v-on:click.prevent="openUpdateModal(seasonTitle.capital_assets_tiny_season[0] , season.id , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                            <li><a v-on:click.prevent="openDeleteModal(seasonTitle.capital_assets_tiny_season[0].id , 0)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                            <li v-show="$can('BUDGET_ADMIN_TINY_SEASON_EDIT')"><a v-on:click.prevent="openUpdateModal(seasonTitle.capital_assets_tiny_season[0] , season.id , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                            <li v-show="$can('BUDGET_ADMIN_TINY_SEASON_DELETE')"><a v-on:click.prevent="openDeleteModal(seasonTitle.capital_assets_tiny_season[0].id , 0)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                                         </ul>
                                                                     </div>
                                                                 </div>
@@ -135,12 +135,12 @@
                                                                     <div class="medium-11 text-justify">
                                                                         {{seasonTiny.catsDescription}}
                                                                     </div>
-                                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                                    <div v-show="$can('BUDGET_ADMIN_TINY_SEASON_EDIT') || $can('BUDGET_ADMIN_TINY_SEASON_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                                         <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + season.id + seasonTitle.id + seasonTiny.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + season.id + seasonTitle.id + seasonTiny.id" data-dropdown data-auto-focus="true">
                                                                             <ul class="my-menu small-font text-right">
-                                                                                <li><a v-on:click.prevent="openUpdateModal(seasonTiny , season.id  , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                                <li><a v-on:click.prevent="openDeleteModal(seasonTiny.id , 0)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                                <li v-show="$can('BUDGET_ADMIN_TINY_SEASON_EDIT')"><a v-on:click.prevent="openUpdateModal(seasonTiny , season.id  , 0)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                                <li v-show="$can('BUDGET_ADMIN_TINY_SEASON_DELETE')"><a v-on:click.prevent="openDeleteModal(seasonTiny.id , 0)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                                             </ul>
                                                                         </div>
                                                                     </div>
@@ -172,7 +172,7 @@
                             <div class="medium-12 bottom-mrg">
                                 <div class="clearfix tool-bar">
                                     <div class="button-group float-right report-mrg">
-                                        <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
+                                        <a v-show="$can('BUDGET_ADMIN_TINY_SEASON_INSERT')" class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
                                         <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="costDropDown">تعداد نمایش<span> {{ costItemInPage }} </span></button>
                                         <div style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="costDropDown" data-dropdown data-auto-focus="true">
                                             <ul class="my-menu small-font ltr-dir">
@@ -235,12 +235,12 @@
                                                                 <div class="medium-11 text-justify">
                                                                     {{ cSeason.cost_season_title_has_tiny_season[0].cost_tiny_season[0].ctsDescription }}
                                                                 </div>
-                                                                <div class="medium-1 cell-vertical-center text-left">
+                                                                <div v-show="$can('BUDGET_ADMIN_TINY_SEASON_EDIT') || $can('BUDGET_ADMIN_TINY_SEASON_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                                     <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'ctsTinySeason' + cSeason.id "><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'ctsTinySeason' + cSeason.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
-                                                                            <li><a v-on:click.prevent="openUpdateModal(cSeason.cost_season_title_has_tiny_season[0].cost_tiny_season[0] , cSeason.id , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                            <li><a v-on:click.prevent="openDeleteModal(cSeason.cost_season_title_has_tiny_season[0].cost_tiny_season[0].id , 1)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                            <li v-show="$can('BUDGET_ADMIN_TINY_SEASON_EDIT')"><a v-on:click.prevent="openUpdateModal(cSeason.cost_season_title_has_tiny_season[0].cost_tiny_season[0] , cSeason.id , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                            <li v-show="$can('BUDGET_ADMIN_TINY_SEASON_DELETE')"><a v-on:click.prevent="openDeleteModal(cSeason.cost_season_title_has_tiny_season[0].cost_tiny_season[0].id , 1)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                                         </ul>
                                                                     </div>
                                                                 </div>
@@ -256,12 +256,12 @@
                                                                     <div class="medium-11 text-justify">
                                                                         {{cSeasonTitle.cost_tiny_season[0].ctsDescription}}
                                                                     </div>
-                                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                                    <div v-show="$can('BUDGET_ADMIN_TINY_SEASON_EDIT') || $can('BUDGET_ADMIN_TINY_SEASON_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                                         <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'ctsTinySeason' + cSeason.id + cSeasonTitle.id "><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'ctsTinySeason' + cSeason.id + cSeasonTitle.id" data-dropdown data-auto-focus="true">
                                                                             <ul class="my-menu small-font text-right">
-                                                                                <li><a v-on:click.prevent="openUpdateModal(cSeasonTitle.cost_tiny_season[0] , cSeason.id , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                                <li><a v-on:click.prevent="openDeleteModal(cSeasonTitle.cost_tiny_season[0].id , 1)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                                <li v-show="$can('BUDGET_ADMIN_TINY_SEASON_EDIT')"><a v-on:click.prevent="openUpdateModal(cSeasonTitle.cost_tiny_season[0] , cSeason.id , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                                <li v-show="$can('BUDGET_ADMIN_TINY_SEASON_DELETE')"><a v-on:click.prevent="openDeleteModal(cSeasonTitle.cost_tiny_season[0].id , 1)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                                             </ul>
                                                                         </div>
                                                                     </div>
@@ -276,12 +276,12 @@
                                                                         <div class="medium-11 text-justify">
                                                                             {{cSeasonTiny.ctsDescription}}
                                                                         </div>
-                                                                        <div class="medium-1 cell-vertical-center text-left">
+                                                                        <div v-show="$can('BUDGET_ADMIN_TINY_SEASON_EDIT') || $can('BUDGET_ADMIN_TINY_SEASON_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                                             <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'tsTinySeason' + cSeason.id + cSeasonTitle.id + cSeasonTiny.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'tsTinySeason' + cSeason.id + cSeasonTitle.id + cSeasonTiny.id" data-dropdown data-auto-focus="true">
                                                                                 <ul class="my-menu small-font text-right">
-                                                                                    <li><a v-on:click.prevent="openUpdateModal(cSeasonTiny , cSeason.id , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                                    <li><a v-on:click.prevent="openDeleteModal(cSeasonTiny.id , 1)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                                    <li v-show="$can('BUDGET_ADMIN_TINY_SEASON_EDIT')"><a v-on:click.prevent="openUpdateModal(cSeasonTiny , cSeason.id , 1)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                                    <li v-show="$can('BUDGET_ADMIN_TINY_SEASON_DELETE')"><a v-on:click.prevent="openDeleteModal(cSeasonTiny.id , 1)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </div>

@@ -20,7 +20,7 @@
         </div>
         <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
             <div class="medium-12 padding-lr" style="margin-top: 15px;">
-                <div class="clearfix tool-bar">
+                <div v-show="$can('BUDGET_ADMIN_BUDGET_SEASON_INSERT')" class="clearfix tool-bar">
                     <div style="margin-bottom: 0;" class="button-group float-right">
                         <a class="my-button toolbox-btn small" @click="openInsertModal">جدید</a>
                     </div>
@@ -58,12 +58,12 @@
                                             <div class="medium-11">
                                                 {{ budgetSeason.bsDescription }}
                                             </div>
-                                            <div class="medium-1 cell-vertical-center text-left">
+                                            <div v-show="$can('BUDGET_ADMIN_BUDGET_SEASON_EDIT') || $can('BUDGET_ADMIN_BUDGET_SEASON_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                 <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'budgetSeason' + budgetSeason.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'budgetSeason' + budgetSeason.id" data-dropdown data-auto-focus="true">
                                                     <ul class="my-menu small-font text-right">
-                                                        <li><a @click="openUpdateModal(budgetSeason)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                        <li><a @click="openDeleteModal(budgetSeason.id)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                        <li v-show="$can('BUDGET_ADMIN_BUDGET_SEASON_EDIT')"><a @click="openUpdateModal(budgetSeason)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                        <li v-show="$can('BUDGET_ADMIN_BUDGET_SEASON_DELETE')"><a @click="openDeleteModal(budgetSeason.id)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                     </ul>
                                                 </div>
                                             </div>

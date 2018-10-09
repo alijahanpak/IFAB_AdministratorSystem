@@ -28,7 +28,7 @@
             <div class="medium-12 padding-lr" style="margin-top: 15px;">
                 <div class="clearfix tool-bar">
                     <div class="button-group float-right report-mrg">
-                        <a class="my-button toolbox-btn small" @click="openInsertModal">جدید</a>
+                        <a v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_INSERT')" class="my-button toolbox-btn small" @click="openInsertModal">جدید</a>
                         <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
                             <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(proposals)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
                         </div>
@@ -117,12 +117,12 @@
                                             <div class="medium-11 text-justify">
                                                 {{ county.credit_distribution_plan_has_proposal[0].proposal[0].pbpDescription }}
                                             </div>
-                                            <div class="medium-1 cell-vertical-center text-left">
+                                            <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                 <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'pProposal' + county.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'pProposal' + county.id" data-dropdown data-auto-focus="true">
                                                     <ul class="my-menu small-font text-right">
-                                                        <li><a v-on:click.prevent="openUpdateModal(county.credit_distribution_plan_has_proposal[0].proposal[0] , county.credit_distribution_plan_has_proposal[0].cdpCoId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                        <li><a v-on:click.prevent="openDeleteModal(county.credit_distribution_plan_has_proposal[0].proposal[0].id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                        <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_EDIT')"><a v-on:click.prevent="openUpdateModal(county.credit_distribution_plan_has_proposal[0].proposal[0] , county.credit_distribution_plan_has_proposal[0].cdpCoId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                        <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_DELETE')"><a v-on:click.prevent="openDeleteModal(county.credit_distribution_plan_has_proposal[0].proposal[0].id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -143,12 +143,12 @@
                                                 <div class="medium-11 text-justify">
                                                     {{ plan.proposal[0].pbpDescription }}
                                                 </div>
-                                                <div class="medium-1 cell-vertical-center text-left">
+                                                <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                     <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'ppProposal' + county.id + plan.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'ppProposal' + county.id + plan.id" data-dropdown data-auto-focus="true">
                                                         <ul class="my-menu small-font text-right">
-                                                            <li><a v-on:click.prevent="openUpdateModal(plan.proposal[0] , plan.cdpCoId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                            <li><a v-on:click.prevent="openDeleteModal(plan.proposal[0].id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                            <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_EDIT')"><a v-on:click.prevent="openUpdateModal(plan.proposal[0] , plan.cdpCoId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                            <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_DELETE')"><a v-on:click.prevent="openDeleteModal(plan.proposal[0].id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -168,12 +168,12 @@
                                                     <div class="medium-11 text-justify">
                                                         {{ proposal.pbpDescription }}
                                                     </div>
-                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                    <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                         <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'proposal' + county.id + plan.id + proposal.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'proposal' + county.id + plan.id + proposal.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
-                                                                <li><a v-on:click.prevent="openUpdateModal(proposal , plan.cdpCoId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                <li><a v-on:click.prevent="openDeleteModal(proposal.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_EDIT')"><a v-on:click.prevent="openUpdateModal(proposal , plan.cdpCoId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_DELETE')"><a v-on:click.prevent="openDeleteModal(proposal.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                             </ul>
                                                         </div>
                                                     </div>

@@ -37,7 +37,7 @@
                             <!--Tab 1-->
                             <div class="clearfix tool-bar">
                                 <div class="button-group float-right report-mrg">
-                                    <a class="my-button toolbox-btn small" @click="openApprovedPlanInsertModal(0)">جدید</a>
+                                    <a v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_INSERT')" class="my-button toolbox-btn small" @click="openApprovedPlanInsertModal(0)">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
                                         <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(approvedPlan_prov)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
                                     </div>
@@ -135,13 +135,13 @@
                                                             <div class="medium-11 text-justify">
                                                                 {{ plans.capDescription }}
                                                             </div>
-                                                            <div class="medium-1 cell-vertical-center text-left auto-margin">
+                                                            <div v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_EDIT') || $can('BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_DELETE') || $can('BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_AMENDMENT_INSERT')" class="medium-1 cell-vertical-center text-left auto-margin">
                                                                 <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
-                                                                        <li><a v-on:click.prevent="openUpdateModal(plans , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                        <li><a v-on:click.prevent="openDeleteModal(plans.id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                        <li><a v-on:click.prevent="openApprovedAmendmentTempModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
+                                                                        <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(plans , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_DELETE')"><a v-on:click.prevent="openDeleteModal(plans.id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_AMENDMENT_INSERT')"><a v-on:click.prevent="openApprovedAmendmentTempModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -218,7 +218,7 @@
                             <!--Tab 1-->
                             <div class="clearfix tool-bar">
                                 <div class="button-group float-right report-mrg">
-                                    <a class="my-button toolbox-btn small" @click="openApprovedPlanInsertModal(1)">جدید</a>
+                                    <a v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_INSERT')" class="my-button toolbox-btn small" @click="openApprovedPlanInsertModal(1)">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
                                         <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(approvedPlan_nat)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
                                     </div>
@@ -311,13 +311,13 @@
                                                         <div class="medium-11 text-justify">
                                                             {{ plans.capDescription }}
                                                         </div>
-                                                        <div class="medium-1 cell-vertical-center text-left auto-margin">
+                                                        <div v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_EDIT') || $can('BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_DELETE') || $can('BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_AMENDMENT_INSERT')" class="medium-1 cell-vertical-center text-left auto-margin">
                                                             <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent="openUpdateModal(plans , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent="openDeleteModal(plans.id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                    <li><a v-on:click.prevent="openApprovedAmendmentTempModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
+                                                                    <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(plans , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_DELETE')"><a v-on:click.prevent="openDeleteModal(plans.id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_AMENDMENT_INSERT')"><a v-on:click.prevent="openApprovedAmendmentTempModal(plans)"><i class="fa fa-newspaper-o size-16"></i>  اصلاحیه</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>

@@ -1,6 +1,6 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class="grid-x">
-        <div v-if="$can('UNIT_OF_CONTRACT_ADD_NEW_CONTRACT')" class="large-12 medium-12 small-12">
+        <div v-show="$can('UNIT_OF_CONTRACT_ADD_NEW_CONTRACT')" class="large-12 medium-12 small-12">
             <div class="clearfix tool-bar">
                 <div class="button-group float-right report-mrg">
                     <a v-if="contracts.length == 0" class="my-button toolbox-btn small" @click="openInsertContractModal()">جدید</a>
@@ -19,7 +19,7 @@
                         <col width="110px"/>
                         <col width="300px"/>
                         <col width="150px"/>
-                        <col v-if="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" width="60px"/>
+                        <col v-show="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" width="60px"/>
                         <col width="12px"/>
                     </colgroup>
                     <tbody class="tbl-head-style ">
@@ -30,7 +30,7 @@
                         <th class="tbl-head-style-cell">تاریخ نامه</th>
                         <th class="tbl-head-style-cell">شرح</th>
                         <th class="tbl-head-style-cell">وضعیت</th>
-                        <th v-if="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" class="tbl-head-style-cell">عملیات</th>
+                        <th v-show="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" class="tbl-head-style-cell">عملیات</th>
                         <th class="tbl-head-style-cell"></th>
                     </tr>
                     </tbody>
@@ -46,7 +46,7 @@
                             <col width="110px"/>
                             <col width="300px"/>
                             <col width="150px"/>
-                            <col v-if="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" width="60px"/>
+                            <col v-show="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" width="60px"/>
                         </colgroup>
                         <tbody class="tbl-head-style-cell">
                         <tr class="table-row" v-for="contract in contracts">
@@ -116,14 +116,14 @@
                             <td :data-toggle="'contract' + contract.id" class="one-line">{{contract.cDescription}}</td>
                             <td :data-toggle="'contract' + contract.id" class="text-center" v-show="contract.cIsAccepted == 1"><span class="success-label">تایید شده</span></td>
                             <td :data-toggle="'contract' + contract.id" class="text-center" v-show="contract.cIsAccepted == 0"><span class="reserved-label">تایید نشده</span></td>
-                            <td v-if="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" class="text-center"><a @click="openConfirmDeleteContract(contract.id)"><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
+                            <td v-show="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" class="text-center"><a @click="openConfirmDeleteContract(contract.id)"><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
             <!--Table Body End-->
-            <div class="large-12 medium-12 small-12" v-if='$can("UNIT_OF_CONTRACT_ACCEPT_CONTRACT")'>
+            <div class="large-12 medium-12 small-12" v-show='$can("UNIT_OF_CONTRACT_ACCEPT_CONTRACT")'>
                 <div class="stacked-for-small button-group float-left">
                     <button @click="checkAcceptContract()"  class="my-button my-success float-left"><span class="btn-txt-mrg">تایید اطلاعات قرارداد</span></button>
                 </div>
@@ -160,7 +160,7 @@
                         <div style="margin-top:15px;"  class="grid-x">
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>مبلغ پایه<span class="btn-red">(ریال)</span>
-                                    <money :class="checkInputAmount == true ? 'select-error' : ''" @change.native="calculteFinalContractAmount()" v-model="contractInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'"></money>
+                                    <money :class="checkInputAmount == true ? 'select-error' : ''" @keyup.native="calculteFinalContractAmount()" v-model="contractInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'"></money>
                                 </label>
                                 <p v-show="errors.has('contractAmount')" class="error-font">لطفا مبلغ را برای قرارداد مورد نظر را وارد نمایید!</p>
                                 <p style="margin-top: 8px;" v-show="checkInputAmount" class="btn-red">مبلغ قرارداد نمی تواند کمتر از صفر باشد! </p>
@@ -240,7 +240,7 @@
                                             <div class="grid-x">
                                                 <div class="large-2 medium-3  small-12">
                                                     <div class="switch tiny">
-                                                        <input :checked="percentageCheckBox" v-on:change="calculteAmount(pItem.piPercent,pItem.id,contractInput['percentage' + pItem.id])" class="switch-input" v-model="contractInput['percentage' + pItem.id]" :id="'percentage'+pItem.id" type="checkbox">
+                                                        <input :checked="percentageCheckBox" v-on:change="calculateAmount(pItem.piPercent,pItem.id,contractInput['percentage' + pItem.id])" class="switch-input" v-model="contractInput['percentage' + pItem.id]" :id="'percentage'+pItem.id" type="checkbox">
                                                         <label class="switch-paddle" :for="'percentage'+pItem.id">
                                                             <span class="switch-active" aria-hidden="true">بلی</span>
                                                             <span class="switch-inactive" aria-hidden="true">خیر</span>
@@ -432,7 +432,7 @@
                     });
             },
 
-            calculteAmount: function(percent,index,state){
+            calculateAmount: function(percent,index,state){
                 this.calculateChangeInputAmount(percent,index,state);
                 this.calculteFinalContractAmount();
             },
@@ -466,7 +466,6 @@
                 }
                 $('#incValue'+index).text(this.getIncreaseIndex(index) + ' ریال');
                 console.log(JSON.stringify(this.increaseTemp));
-
             },
 
             calculteFinalContractAmount: function(){
