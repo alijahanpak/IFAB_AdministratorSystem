@@ -10,7 +10,7 @@
         <div class="large-12 medium-12 small-12 small-top-m">
             <!--Table Start-->
             <!--Table Head Start-->
-            <div class="tbl-div-container">
+            <div style="height: 65vh;" class="tbl-div-container inner-vh-unsize">
                 <table class="tbl-head">
                     <colgroup>
                         <col width="300px"/>
@@ -33,7 +33,7 @@
                     <!--Table Head End-->
                     <!--Table Body Start-->
                 </table>
-                <div class="tbl_body_style dynamic-height-level-modal2">
+                <div class="tbl_body_style inner-vh-2">
                     <table class="tbl-body-contain">
                         <colgroup>
                             <col width="300px"/>
@@ -43,14 +43,14 @@
                             <col v-if="$can('SUPPLIER_DELETE_FACTOR')" width="60px"/>
                         </colgroup>
                         <tbody class="tbl-head-style-cell">
-                        <tr class="table-row" v-for="factor in factors">
-                            <td>{{factor.fSubject}}</td>
-                            <td class="text-center">{{$root.dispMoneyFormat(factor.fAmount)}}</td>
-                            <td class="text-center">{{factor.fDescription}}</td>
-                            <td class="text-center" v-show="factor.fIsAccepted == 1"><span class="success-label">تایید شده</span></td>
-                            <td class="text-center" v-show="factor.fIsAccepted == 0"><span class="reserved-label">تایید نشده</span></td>
-                            <td v-if="$can('SUPPLIER_DELETE_FACTOR')" class="text-center"><a @click="openConfirmDeleteContract(factor.id)"><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
-                        </tr>
+                            <tr class="table-row" v-for="factor in factors">
+                                <td>{{factor.fSubject}}</td>
+                                <td class="text-center">{{$root.dispMoneyFormat(factor.fAmount)}}</td>
+                                <td class="text-center">{{factor.fDescription}}</td>
+                                <td class="text-center" v-show="factor.fIsAccepted == 1"><span class="success-label">تایید شده</span></td>
+                                <td class="text-center" v-show="factor.fIsAccepted == 0"><span class="reserved-label">تایید نشده</span></td>
+                                <td v-if="$can('SUPPLIER_DELETE_FACTOR')" class="text-center"><a @click="openConfirmDeleteContract(factor.id)"><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

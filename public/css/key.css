@@ -2275,6 +2275,38 @@ input[type="search"]:valid + label {
 .report-line-height{
     line-height: 2.5em
 }
+.container-vh {
+    width: 100%;
+    height: 75vh;
+    position: relative;
+}
+
+.inner-vh {
+    height: 95%;
+    position: absolute;
+    width: 100%;
+
+}
+
+.inner-vh-2 {
+    width: 100%;
+    overflow-x: auto;
+    height: 68vh;
+    position: relative;
+}
+
+.inner-vh-credit{
+    width: 100%;
+    overflow-x: auto;
+    height: 40vh;
+    position: relative;
+}
+
+.inner-vh-unsize{
+    width: 100%;
+    overflow-x: auto;
+    position: relative;
+}
 
 
 /*.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {

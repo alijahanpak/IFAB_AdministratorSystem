@@ -35,7 +35,7 @@
                     <!--Table Head End-->
                     <!--Table Body Start-->
                 </table>
-                <div class="tbl_body_style dynamic-height-level-modal2">
+                <div style="height: 55vh" class="tbl_body_style inner-vh-unsize">
                     <table class="tbl-body-contain">
                         <colgroup>
                             <col width="350px"/>
@@ -524,6 +524,7 @@
                 checkEdited: false,
                 checkBaseDelivered: false,
                 canResponse:'',
+                checkSize:false,
             }
         },
 
@@ -553,6 +554,7 @@
 
             openPdfModal: function (draft){
               this.checks=[];
+              this.checkSize=false;
               var draftHistory=[];
               draftHistory.push(draft);
               this.draftId=draft.id;
@@ -560,13 +562,16 @@
               this.isMinute=draft.dIsMinute;
               this.isAccepted = draft.verifier[0].dvSId != null ? true : false;
               this.draftAmount=draft.dAmount;
-              this.draftFor=draft.dFor;
-                this.canResponse = draft.dLastRef.rhIsReferral;
+              this.draftFor=draft.dFor;this.canResponse = draft.dLastRef.rhIsReferral;
               this.openReportFile();
               this.draftPdfPath='';
               this.draftIsBlocked = draft.draft_state.dsState == 'BLOCKED' ? true : false;
               this.showPdfModal=true;
 
+              draftHistory.forEach(item =>{
+                  if (item.check.lenght == null)
+                      this.checkSize=true;
+              });
               this.checkBaseDelivered = false;
               draftHistory.forEach(item =>{
                   item.check.forEach(ch =>{
@@ -944,7 +949,7 @@
             },
 
             openAcceptGeneratecheckConfirmModal:function (){
-                if (this.checkEdited)
+                if (this.checkEdited || this.checkSize)
                     this.showAcceptGeneratecheckConfirmModal=true;
                 else{
                     this.dialogMessage = 'تغییری در مبلغ چک ها ایجاد نشده است!';

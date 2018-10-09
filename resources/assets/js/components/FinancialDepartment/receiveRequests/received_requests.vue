@@ -618,10 +618,10 @@
 
         <!-- Request Detail Modal -->
         <modal-large v-if="showRequestDetailModal" @close="showRequestDetailModal = false">
-            <div  slot="body">
+            <div slot="body">
                 <div class="small-font">
                     <div class="grid-x">
-                        <div class="large-12 medium-12 small-12">
+                        <div class="large-12 medium-12 small-12 container-vh">
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="request_tab_view">
                                 <li class="tabs-title" :class="requestLevel == 'REQUEST' ? 'is-active' : ''"><a href="#requestDetailTab" aria-selected="true">جزییات</a></li>
                                 <li class="tabs-title"><a href="#requestVerifiersTab">تایید کنندگان </a></li>
@@ -633,7 +633,7 @@
                                 <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
                                 <li class="tabs-title"><a href="#requestAttachmentsTab">پیوست ها </a></li>
                             </ul>
-                            <div class="tabs-content" data-tabs-content="request_tab_view">
+                            <div class="tabs-content inner-vh" data-tabs-content="request_tab_view">
                                 <!--Tab 1-->
                                 <div class="tabs-panel table-mrg-btm" :class="requestLevel == 'REQUEST' ? 'is-active' : ''" id="requestDetailTab">
                                     <rDetails v-bind:requestTypeDetail="requestTypeDetail"
@@ -645,7 +645,7 @@
                                 </div>
                                 <!--Tab 1-->
                                 <!--Tab 2-->
-                                <div class="tabs-panel table-mrg-btm" id="requestVerifiersTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div class="tabs-panel table-mrg-btm inner-vh-2" id="requestVerifiersTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <div v-for="verifier in verifiers" class="large-12 medium-12 small-12 verifier-panel">
                                             <div class="grid-x">
@@ -747,7 +747,7 @@
                                 </div>
                                 <!--Tab 6-->
                                 <!--Tab 7-->
-                                <div class="tabs-panel table-mrg-btm" id="requestHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div class="tabs-panel table-mrg-btm inner-vh-2" id="requestHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 large-top-m">
                                             <div style="margin-top:-50px;" v-for="recipientUser in recipientUsers" class="grid-x timeline">
@@ -803,7 +803,7 @@
                                 <!--Tab 7-->
 
                                 <!--Tab 8-->
-                                <div class="tabs-panel table-mrg-btm" id="requestAttachmentsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div class="tabs-panel table-mrg-btm inner-vh-2" id="requestAttachmentsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <vue-element-loading :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                         <div class="medium-12 padding-lr">
