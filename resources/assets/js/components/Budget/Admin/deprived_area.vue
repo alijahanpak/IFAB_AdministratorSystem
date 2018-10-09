@@ -28,7 +28,7 @@
                 <div class="medium-12 padding-lr" style="margin-top: 15px;">
                     <div class="clearfix tool-bar">
                         <div style="margin-bottom: 0px;" class="button-group float-right">
-                            <a class="my-button toolbox-btn small" @click="openInsertModal">جدید</a>
+                            <a class="my-button toolbox-btn small" @click="openInsertModal" v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_INSERT')">جدید</a>
                             <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
                                 <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(deprivedArea)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
                             </div>
@@ -94,12 +94,12 @@
                                                     <div class="medium-11 text-justify">
                                                         {{ da.daDescription }}
                                                     </div>
-                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                    <div v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_EDIT') || $can('BUDGET_ADMIN_DEPRIVED_AREA_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                         <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown' + da.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown' + da.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
-                                                                <li><a @click="openUpdateModal(da)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                <li><a @click="openDeleteModal(da.id)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                <li v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_EDIT')"><a @click="openUpdateModal(da)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                <li v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_DELETE')"><a @click="openDeleteModal(da.id)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -155,12 +155,12 @@
                                                     <div class="medium-11 text-justify">
                                                         {{ da.daDescription }}
                                                     </div>
-                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                    <div v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_EDIT') || $can('BUDGET_ADMIN_DEPRIVED_AREA_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                         <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown_county' + da.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown_county' + da.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
-                                                                <li><a @click="openUpdateModal(da)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                <li><a @click="openDeleteModal(da.id)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                <li v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_EDIT')"><a @click="openUpdateModal(da)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                <li v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_DELETE')"><a @click="openDeleteModal(da.id)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -211,12 +211,12 @@
                                                     <div class="medium-11 text-justify">
                                                         {{ da.daDescription }}
                                                     </div>
-                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                    <div v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_EDIT') || $can('BUDGET_ADMIN_DEPRIVED_AREA_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                         <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown_region' + da.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown_region' + da.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
-                                                                <li><a @click="openUpdateModal(da)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                <li><a @click="openDeleteModal(da.id)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                <li v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_EDIT')"><a @click="openUpdateModal(da)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                <li v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_DELETE')"><a @click="openDeleteModal(da.id)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -271,12 +271,12 @@
                                                     <div class="medium-11 text-justify">
                                                         {{ da.daDescription }}
                                                     </div>
-                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                    <div v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_EDIT') || $can('BUDGET_ADMIN_DEPRIVED_AREA_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                         <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown_ruralDistrict' + da.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown_ruralDistrict' + da.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
-                                                                <li><a @click="openUpdateModal(da)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                <li><a @click="openDeleteModal(da.id)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                <li v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_EDIT')"><a @click="openUpdateModal(da)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                <li v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_DELETE')"><a @click="openDeleteModal(da.id)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -335,12 +335,12 @@
                                                     <div class="medium-11 text-justify">
                                                         {{ da.daDescription }}
                                                     </div>
-                                                    <div class="medium-1 cell-vertical-center text-left">
+                                                    <div v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_EDIT') || $can('BUDGET_ADMIN_DEPRIVED_AREA_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                         <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown_village' + da.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown_village' + da.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
-                                                                <li><a @click="openUpdateModal(da)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
-                                                                <li><a @click="openDeleteModal(da.id)"><i class="fi-trash size-16"></i>  حذف</a></li>
+                                                                <li v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_EDIT')"><a @click="openUpdateModal(da)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
+                                                                <li v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_DELETE')"><a @click="openDeleteModal(da.id)"><i class="fi-trash size-16"></i>  حذف</a></li>
                                                             </ul>
                                                         </div>
                                                     </div>

@@ -1,6 +1,6 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class="grid-x">
-        <div class="large-12 medium-12 small-12" v-if="$can('FINANCIAL_ADD_NEW_DRAFT') && requestType != 'BUY_SERVICES'">
+        <div class="large-12 medium-12 small-12" v-show="$can('FINANCIAL_ADD_NEW_DRAFT') && requestType != 'BUY_SERVICES'">
             <div class="clearfix tool-bar">
                 <div class="button-group float-right report-mrg">
                     <a class="my-button toolbox-btn small" @click="openInsertDraftModal()">پیشنویس حواله</a>
@@ -213,10 +213,10 @@
                                 <div class="grid-x" v-if="!draftIsBlocked" style="margin-top: 0.5rem">
                                     <div style="margin-bottom:-20px;margin-top: 5px;" class="large-12 medium-12 small-12">
                                         <div class="stacked-for-small button-group float-right">
-                                            <button v-if="$can('FINANCIAL_REGISTER_AND_NUMBERING_DRAFT')" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
-                                            <button v-if="$can('FINANCIAL_ACCEPT_DRAFT') && youAreDraftVerifier" @click="checkAcceptDraftConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
-                                            <button v-if="$can('FINANCIAL_ACCEPT_MINUTE_DRAFT') && isMinute" @click="openAcceptMinuteConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید پیشنویس   </span></button>
-                                            <button v-if="$can('FINANCIAL_DETERMINE_DECREASES_AND_MAKE_CHECKS') && isAccepted" @click="openGenerateChecksModal()"  class="my-button my-success"><span class="btn-txt-mrg">   صدور چک   </span></button>
+                                            <button v-show="$can('FINANCIAL_REGISTER_AND_NUMBERING_DRAFT')" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
+                                            <button v-show="$can('FINANCIAL_ACCEPT_DRAFT') && youAreDraftVerifier" @click="checkAcceptDraftConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
+                                            <button v-show="$can('FINANCIAL_ACCEPT_MINUTE_DRAFT') && isMinute" @click="openAcceptMinuteConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید پیشنویس   </span></button>
+                                            <button v-show="$can('FINANCIAL_DETERMINE_DECREASES_AND_MAKE_CHECKS') && isAccepted" @click="openGenerateChecksModal()"  class="my-button my-success"><span class="btn-txt-mrg">   صدور چک   </span></button>
                                             <button @click="openReferralModal(draftId)"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> ارجاع </span></button>
                                             <button @click="openResponseRequestModal(draftId)" v-show="canResponse == true" class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> پاسخ </span></button>
                                             <button v-show="$can('DRAFT_BLOCK')" @click="openBlockModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">مسدود</span></button>

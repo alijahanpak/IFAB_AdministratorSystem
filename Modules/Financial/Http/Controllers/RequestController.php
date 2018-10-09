@@ -22,6 +22,7 @@ use Modules\Financial\Entities\CostFinancing;
 use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\RequestCommodity;
 use Modules\Financial\Entities\RequestHistory;
+use Modules\Financial\Entities\RequestHistoryLastPoint;
 use Modules\Financial\Entities\RequestLevel;
 use Modules\Financial\Entities\RequestState;
 use Modules\Financial\Entities\RequestStep;
@@ -650,6 +651,8 @@ class RequestController extends Controller
             $history->rhHasBeenSeen = true;
             $history->rhDescription = PublicSetting::checkPersianCharacters($request->description);
             $history->save();
+
+            RequestHistoryLastPoint::where('rhlpRId' , '=' , $request->rId)->delete();
 
             SystemLog::setFinancialSubSystemLog('مسدود کردن درخواست با عنوان ' . $req->rSubject);
         });

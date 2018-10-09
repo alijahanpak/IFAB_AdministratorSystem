@@ -27,8 +27,8 @@
                             <col width="100px"/>
                             <col width="300px"/>
                             <col width="100px"/>
-                            <col width="100px"/>
-                            <col width="100px"/>
+                            <col v-show="$can('BUDGET_ADMIN_FISCAL_YEARS_EDIT_PERMISSIONS')" width="100px"/>
+                            <col v-show="$can('BUDGET_ADMIN_ACTIVE_FISCAL_YEARS')" width="100px"/>
                             <col width="12px"/>
                         </colgroup>
                         <tbody class="tbl-head-style">
@@ -36,8 +36,8 @@
                             <th class="tbl-head-style-cell">سال مالی</th>
                             <th class="tbl-head-style-cell">شرح</th>
                             <th class="tbl-head-style-cell">وضعیت</th>
-                            <th class="tbl-head-style-cell">مجوزها</th>
-                            <th class="tbl-head-style-cell">فعالسازی</th>
+                            <th v-show="$can('BUDGET_ADMIN_FISCAL_YEARS_EDIT_PERMISSIONS')" class="tbl-head-style-cell">مجوزها</th>
+                            <th v-show="$can('BUDGET_ADMIN_ACTIVE_FISCAL_YEARS')" class="tbl-head-style-cell">فعالسازی</th>
                             <th class="tbl-head-style-cell"></th>
                         </tr>
                         </tbody>
@@ -50,19 +50,19 @@
                                 <col width="100px"/>
                                 <col width="300px"/>
                                 <col width="100px"/>
-                                <col width="100px"/>
-                                <col width="100px"/>
+                                <col v-show="$can('BUDGET_ADMIN_FISCAL_YEARS_EDIT_PERMISSIONS')" width="100px"/>
+                                <col v-show="$can('BUDGET_ADMIN_ACTIVE_FISCAL_YEARS')" width="100px"/>
                             </colgroup>
                             <tbody class="tbl-head-style-cell">
                                 <tr v-for="fiscalYear in fiscalYears">
                                     <td>{{ fiscalYear.fyLabel }}</td>
                                     <td>{{ fiscalYear.fyDescription }}</td>
-                                    <td class="text-center" v-show="fiscalYear.fyStatus != 2">{{ getFiscalYearStatus(fiscalYear.fyStatus) }}</td>
-                                    <td class="text-center btn-red" v-show="fiscalYear.fyStatus == 2">{{ getFiscalYearStatus(fiscalYear.fyStatus) }}</td>
-                                    <td class="text-center">
+                                    <td class="text-center" v-if="fiscalYear.fyStatus != 2">{{ getFiscalYearStatus(fiscalYear.fyStatus) }}</td>
+                                    <td v-else class="text-center btn-red">{{ getFiscalYearStatus(fiscalYear.fyStatus) }}</td>
+                                    <td class="text-center" v-show="$can('BUDGET_ADMIN_FISCAL_YEARS_EDIT_PERMISSIONS')">
                                         <a v-show="fiscalYear.fyStatus == 1" @click="openChangePermissionDialog(fiscalYear.id)"><i class="fi-clipboard-pencil size-21 blue-color"></i></a>
                                     </td>
-                                    <td class="text-center">
+                                    <td v-show="$can('BUDGET_ADMIN_ACTIVE_FISCAL_YEARS')" class="text-center">
                                         <a v-show="fiscalYear.fyStatus == 0" @click="openFyActiveRequestDialog(fiscalYear.fyLabel , fiscalYear.id)"><i class="fi-checkbox size-21 edit-pencil"></i></a>
                                     </td>
                                 </tr>

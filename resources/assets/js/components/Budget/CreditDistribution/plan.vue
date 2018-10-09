@@ -41,7 +41,7 @@
                         <div class="medium-12 bottom-mrg">
                             <div class="clearfix tool-bar">
                                 <div class="button-group float-right report-mrg">
-                                    <a class="my-button toolbox-btn small" @click="openInsertModal(0)">جدید</a>
+                                    <a v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_INSERT')" class="my-button toolbox-btn small" @click="openInsertModal(0)">جدید</a>
                                     <div v-if="!selectColumn" class="input-group-button toggle-icon-change">
                                         <button type="button" class="my-button my-icon-brand tiny" @click="showSelectColumn(cdPlans)"><i class="fa fa-check-square-o size-14" aria-hidden="true"></i></button>
                                     </div>
@@ -122,12 +122,12 @@
                                                             <div class="medium-11 text-justify">
                                                                 {{ plans.credit_distribution_plan[0].cdpDescription }}
                                                             </div>
-                                                            <div class="medium-1 cell-vertical-center text-left">
+                                                            <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                                 <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlan' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlan' + plans.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
-                                                                        <li><a v-on:click.prevent="openUpdateModal(plans.credit_distribution_plan[0] , plans.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                        <li><a v-on:click.prevent="openDeleteModal(plans.credit_distribution_plan[0].id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(plans.credit_distribution_plan[0] , plans.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')"><a v-on:click.prevent="openDeleteModal(plans.credit_distribution_plan[0].id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -147,12 +147,12 @@
                                                                 <div class="medium-11 text-justify">
                                                                     {{ cdPlan.cdpDescription }}
                                                                 </div>
-                                                                <div class="medium-1 cell-vertical-center text-left">
+                                                                <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                                     <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlan' + plans.id + cdPlan.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlan' + plans.id + cdPlan.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
-                                                                            <li><a v-on:click.prevent="openUpdateModal(cdPlan , plans.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                            <li><a v-on:click.prevent="openDeleteModal(cdPlan.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                            <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(cdPlan , plans.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                            <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')"><a v-on:click.prevent="openDeleteModal(cdPlan.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                         </ul>
                                                                     </div>
                                                                 </div>
@@ -190,7 +190,7 @@
                         <div class="medium-12 bottom-mrg">
                             <div class="clearfix tool-bar">
                                 <div class="button-group float-right report-mrg">
-                                    <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
+                                    <a v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_INSERT')" class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="rowDropDown">تعداد نمایش<span> {{ rowItemInPage }} </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="rowDropDown" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
@@ -255,12 +255,12 @@
                                                         <div class="medium-11 text-justify">
                                                             {{ rows.credit_distribution_plan[0].cdpDescription }}
                                                         </div>
-                                                        <div class="medium-1 cell-vertical-center text-left">
+                                                        <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                             <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlanRows' + rows.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanRows' + rows.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent="openUpdateModal(rows.credit_distribution_plan[0] , rows.credit_distribution_plan[0].credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent="openDeleteModal(rows.credit_distribution_plan[0].id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(rows.credit_distribution_plan[0] , rows.credit_distribution_plan[0].credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')"><a v-on:click.prevent="openDeleteModal(rows.credit_distribution_plan[0].id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -277,12 +277,12 @@
                                                             <div class="medium-11 text-justify">
                                                                 {{ cdPlan.cdpDescription }}
                                                             </div>
-                                                            <div class="medium-1 cell-vertical-center text-left">
+                                                            <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                                 <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlanRows' + rows.id + cdPlan.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanRows' + rows.id + cdPlan.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
-                                                                        <li><a v-on:click.prevent="openUpdateModal(cdPlan , cdPlan.credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                        <li><a v-on:click.prevent="openDeleteModal(cdPlan.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(cdPlan , cdPlan.credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')"><a v-on:click.prevent="openDeleteModal(cdPlan.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -311,7 +311,7 @@
                         <div class="medium-12 bottom-mrg">
                             <div class="clearfix tool-bar">
                                 <div class="button-group float-right report-mrg">
-                                    <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
+                                    <a v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_INSERT')" class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="budgetSeasonDropDown">تعداد نمایش<span> {{ budgetSeasonItemInPage }} </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="budgetSeasonDropDown" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
@@ -380,12 +380,12 @@
                                                         <div class="medium-11 text-justify">
                                                             {{ bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].cdpDescription }}
                                                         </div>
-                                                        <div class="medium-1 cell-vertical-center text-left">
+                                                        <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                             <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlanBudget' + bs.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanBudget' + bs.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent="openUpdateModal(bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0] , bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent="openDeleteModal(bs.cdp_title_has_credit_distribution_plan[0].id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0] , bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')"><a v-on:click.prevent="openDeleteModal(bs.cdp_title_has_credit_distribution_plan[0].id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -403,12 +403,12 @@
                                                             <div class="medium-11 text-justify">
                                                                 {{ cdTitle.credit_distribution_plan[0].cdpDescription }}
                                                             </div>
-                                                            <div class="medium-1 cell-vertical-center text-left">
+                                                            <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                                 <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlanBudget' + bs.id + cdTitle.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanBudget' + bs.id + cdTitle.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
-                                                                        <li><a v-on:click.prevent="openUpdateModal(cdTitle.credit_distribution_plan[0] , cdTitle.credit_distribution_plan[0].credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                        <li><a v-on:click.prevent="openDeleteModal(cdTitle.credit_distribution_plan[0].id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(cdTitle.credit_distribution_plan[0] , cdTitle.credit_distribution_plan[0].credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')"><a v-on:click.prevent="openDeleteModal(cdTitle.credit_distribution_plan[0].id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -425,12 +425,12 @@
                                                                 <div class="medium-11 text-justify">
                                                                     {{ cdPlan.cdpDescription }}
                                                                 </div>
-                                                                <div class="medium-1 cell-vertical-center text-left">
+                                                                <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                                     <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlanBudget' + bs.id + cdTitle.id + cdPlan.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanBudget' + bs.id + cdTitle.id + cdPlan.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
-                                                                            <li><a v-on:click.prevent="openUpdateModal(cdPlan , cdTitle.credit_distribution_plan[0].credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                            <li><a v-on:click.prevent="openDeleteModal(cdPlan.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                            <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(cdPlan , cdTitle.credit_distribution_plan[0].credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                            <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')"><a v-on:click.prevent="openDeleteModal(cdPlan.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                         </ul>
                                                                     </div>
                                                                 </div>
@@ -460,7 +460,7 @@
                         <div class="medium-12 bottom-mrg">
                             <div class="clearfix tool-bar">
                                 <div class="button-group float-right report-mrg">
-                                    <a class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
+                                    <a v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_INSERT')" class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
                                     <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="countyDropDown">تعداد نمایش<span> {{ countyItemInPage }} </span></button>
                                     <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="countyDropDown" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font ltr-dir">
@@ -525,12 +525,12 @@
                                                         <div class="medium-11 text-justify">
                                                             {{ county.credit_distribution_plan[0].cdpDescription }}
                                                         </div>
-                                                        <div class="medium-1 cell-vertical-center text-left">
+                                                        <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                             <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlanCounty' + county.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanCounty' + county.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
-                                                                    <li><a v-on:click.prevent="openUpdateModal(county.credit_distribution_plan[0] , county.credit_distribution_plan[0].credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li><a v-on:click.prevent="openDeleteModal(county.credit_distribution_plan[0].id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(county.credit_distribution_plan[0] , county.credit_distribution_plan[0].credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')"><a v-on:click.prevent="openDeleteModal(county.credit_distribution_plan[0].id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -547,12 +547,12 @@
                                                             <div class="medium-11 text-justify">
                                                                 {{ cdPlan.cdpDescription }}
                                                             </div>
-                                                            <div class="medium-1 cell-vertical-center text-left">
+                                                            <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                                 <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlanCounty' + county.id + cdPlan.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanCounty' + county.id + cdPlan.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
-                                                                        <li><a v-on:click.prevent="openUpdateModal(cdPlan , cdPlan.credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                        <li><a v-on:click.prevent="openDeleteModal(cdPlan.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(cdPlan , cdPlan.credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')"><a v-on:click.prevent="openDeleteModal(cdPlan.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
