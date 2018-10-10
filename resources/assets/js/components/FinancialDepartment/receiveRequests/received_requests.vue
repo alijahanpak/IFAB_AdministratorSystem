@@ -688,6 +688,7 @@
                                             v-on:updateReceiveRequestData="updateReceiveRequestData"
                                             v-bind:requestId="requestId"
                                             v-bind:contracts="contracts"
+                                            v-bind:requestSubject="requestSubject"
                                             v-bind:rCreditIsAccepted="rCreditIsAccepted"
                                             v-bind:rCreditIsExist="rCreditIsExist">
                                     </rContract>
@@ -1235,6 +1236,7 @@
                 lastRefPrId: -1,
                 lastRefDId: -1,
                 paymentRequestAmount:0,
+                requestSubject:'',
             }
         },
 
@@ -1506,6 +1508,7 @@
                 var requestHistory=[];
                 requestHistory.push(request);
                 this.requestId=request.id;
+                this.requestSubject = request.rSubject;
                 this.requestType= request.request_type.rtType ;
                 this.rSumOfDraftAmount = request.rSumOfDraftAmount;
                 /*this.requestCostFinancing=[];
@@ -1871,7 +1874,7 @@
                     this.showTerminateModal = true;
                 else
                 {
-                    this.dialogMessage = 'پرداخت مبالغ درخواست، نهایی نشده است، پرداخت نهایی به معنای تحویل کلیه چک ها می باشد.';
+                    this.dialogMessage = 'درخواست پرداخت نهایی نشده است، پرداخت نهایی به معنای تحویل کلیه چک ها است.';
                     this.showDialogModal = true;
                 }
             },

@@ -17,6 +17,7 @@ class CreatePermissionTable extends Migration
             Schema::create('tbl_permissions', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->bigInteger('pSspId')->length(20)->unsigned();
+                $table->unsignedTinyInteger('pAllowDispInFyList')->default(false);
                 $table->string('pSubject');
                 $table->string('pPermission')->unique();
                 $table->timestamps();

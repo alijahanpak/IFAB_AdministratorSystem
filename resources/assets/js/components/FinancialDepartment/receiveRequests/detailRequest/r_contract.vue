@@ -138,7 +138,7 @@
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <label>عنوان
-                                    <input type="text" name="contractSubject" v-model="contractInput.subject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('contractSubject')}">
+                                    <input type="text" name="contractSubject" v-model="contractInput.subject = requestSubject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('contractSubject')}">
                                 </label>
                                 <p v-show="errors.has('contractSubject')" class="error-font">لطفا عنوان را برای قرارداد مورد نظر را وارد نمایید!</p>
                             </div>
@@ -167,7 +167,7 @@
                             </div>
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>درصد افزایش و یا کاهش
-                                    <input type="text" name="contractPercent" v-model="contractInput.percentIncAndDec" v-validate="'required','min_value:0','max_value:25'" :class="{'input': true, 'error-border': errors.has('contractPercent')}">
+                                    <input type="text" name="contractPercent" v-model="contractInput.percentIncAndDec = 25" readonly v-validate="'required','min_value:0','max_value:25'" :class="{'input': true, 'error-border': errors.has('contractPercent')}">
                                 </label>
                                 <p v-show="errors.has('contractPercent')" class="error-font">مقدار نا معتبر است!</p>
                             </div>
@@ -333,7 +333,7 @@
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     export default{
-        props:['contracts','requestId' , 'rCreditIsAccepted' , 'rCreditIsExist',],
+        props:['contracts','requestId' , 'rCreditIsAccepted' , 'rCreditIsExist', 'requestSubject'],
         components: {
             Suggestions,
         },

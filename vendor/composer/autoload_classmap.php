@@ -1861,6 +1861,7 @@ return array(
     'Modules\\Financial\\Entities\\RefundCosts' => $baseDir . '/Modules/Financial/Entities/RefundCosts.php',
     'Modules\\Financial\\Entities\\RequestCommodity' => $baseDir . '/Modules/Financial/Entities/RequestCommodity.php',
     'Modules\\Financial\\Entities\\RequestHistory' => $baseDir . '/Modules/Financial/Entities/RequestHistory.php',
+    'Modules\\Financial\\Entities\\RequestHistoryLastPoint' => $baseDir . '/Modules/Financial/Entities/RequestHistoryLastPoint.php',
     'Modules\\Financial\\Entities\\RequestLevel' => $baseDir . '/Modules/Financial/Entities/RequestLevel.php',
     'Modules\\Financial\\Entities\\RequestState' => $baseDir . '/Modules/Financial/Entities/RequestState.php',
     'Modules\\Financial\\Entities\\RequestStep' => $baseDir . '/Modules/Financial/Entities/RequestStep.php',
