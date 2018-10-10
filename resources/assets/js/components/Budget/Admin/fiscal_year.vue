@@ -102,49 +102,46 @@
             <div class="small-font">
                 <div class="grid-x">
                     <div class="medium-12 column">
-                        <ul class="accordion" data-accordion>
-                            <li class="accordion-item is-active" data-accordion-item>
-                                <a href="#" class="accordion-title">بودجه</a>
-                                <div class="accordion-content" data-tab-content >
-                                    <div style="margin-bottom: 20px;" class="grid-x column">
-                                        <div class="medium-12">
-                                            <div class="grid-x padding-lr">
-                                                <div class="medium-1">
-                                                    <div class="switch tiny">
-                                                        <input class="switch-input" id="budgetPermissionAllId" type="checkbox" autocomplete="off" :checked="allSelected(fyPermissionInBudget)"  @click="toggleSelect(fyPermissionInBudget , 'budget')">
-                                                        <label class="switch-paddle" for="budgetPermissionAllId">
-                                                            <span class="switch-active" aria-hidden="true">بلی</span>
-                                                            <span class="switch-inactive" aria-hidden="true">خیر</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="medium-11">
-                                                    <p>همه موارد</p>
-                                                </div>
-                                            </div>
+                        <div style="margin-bottom: 20px;" class="grid-x column">
+                            <div class="medium-12">
+                                <div class="grid-x padding-lr">
+                                    <div class="medium-1">
+                                        <div class="switch tiny">
+                                            <input class="switch-input" id="budgetPermissionAllId" type="checkbox" autocomplete="off" :checked="allSelected(fyPermission)"  @click="toggleSelect(fyPermission , fyPermission)">
+                                            <label class="switch-paddle" for="budgetPermissionAllId">
+                                                <span class="switch-active" aria-hidden="true">بلی</span>
+                                                <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                            </label>
                                         </div>
                                     </div>
-                                    <div v-for="(fyPIB , index) in fyPermissionInBudget" class="grid-x column">
-                                        <div class="medium-12">
-                                            <div class="grid-x padding-lr">
-                                                <div class="medium-2">
-                                                    <div class="switch tiny">
-                                                        <input class="switch-input" type="checkbox" v-model="fyPIB.pbStatus" :id="'budgetPermission' + fyPIB.id" @change="changeBudgetItemPermissionState(fyPIB)">
-                                                        <label class="switch-paddle" :for="'budgetPermission' + fyPIB.id">
-                                                            <span class="switch-active" aria-hidden="true">بلی</span>
-                                                            <span class="switch-inactive" aria-hidden="true">خیر</span>
-                                                        </label>
-                                                    </div>
+                                    <div class="medium-11">
+                                        <p>همه موارد</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <template v-for="(subSystem , index) in fyPermission">
+                            <template v-for="subSystemPart in subSystem.sub_system_part">
+                                <div v-for="(permission , index) in subSystemPart.permission" class="grid-x column">
+                                    <div class="medium-12">
+                                        <div class="grid-x padding-lr">
+                                            <div class="medium-2">
+                                                <div class="switch tiny">
+                                                    <input class="switch-input" type="checkbox" v-model="permission.pFyLimiterState" :id="'permission' + permission.id" @change="changeBudgetItemPermissionState(permission)">
+                                                    <label class="switch-paddle" :for="'permission' + permission.id">
+                                                        <span class="switch-active" aria-hidden="true">بلی</span>
+                                                        <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                    </label>
                                                 </div>
-                                                <div class="medium-10">
-                                                    <p>{{ fyPIB.pbLabel }}</p>
-                                                </div>
+                                            </div>
+                                            <div class="medium-10">
+                                                <p>{{ permission.pSubject }}</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </li>
-                        </ul>
+                            </template>
+                        </template>
                     </div>
                 </div>
             </div>
@@ -159,7 +156,7 @@
         data(){
             return {
                 fiscalYears: [],
-                fyPermissionInBudget: [],
+                fyPermission: [],
                 showFyActiveModal: false,
                 showChangePermissionDialog: false,
                 allPermissionSelectedSection: {budget: ''},
@@ -255,28 +252,14 @@
 
             openChangePermissionDialog: function (fyId) {
                 this.fyActiveId = fyId;
-                this.getFyPermissionInBudget();
+                this.getFyPermission();
                 this.showChangePermissionDialog = true;
             },
 
-            getFyPermissionInBudget: function () {
-                axios.get('/budget/admin/fiscal_year/getFyPermissionInBudget' , {params:{fyId: this.fyActiveId}})
+            getFyPermission: function () {
+                axios.get('/budget/admin/fiscal_year/getFyPermission')
                     .then((response) => {
-                        //var BPA_state = false;
-                        this.fyPermissionInBudget = response.data;
-/*                        this.fyPermissionInBudget.forEach(item => {
-                            Vue.set(this.budgetPermissionState , item.id , item.pbStatus);
-                            if (item.pbStatus == 0)
-                            {
-                                this.allPermissionSelectedSection.budget = false;
-                                BPA_state = true;
-                            }
-                        });
-
-                        if (BPA_state == false)
-                        {
-                            this.allPermissionSelectedSection.budget = true;
-                        }*/
+                        this.fyPermission = response.data;
                         console.log(response.data);
                     },(error) => {
                         console.log(error);
@@ -289,9 +272,9 @@
                         axios.post('/budget/admin/fiscal_year/changeSectionPermissionState',{
                             fyId: this.fyActiveId,
                             section: section,
-                            state: this.allSelected(this.fyPermissionInBudget)
+                            state: this.allSelected(this.fyPermission)
                         }).then((response) => {
-                                this.fyPermissionInBudget = response.data;
+                                this.fyPermission = response.data;
                                 console.log(response.data);
                             },(error) => {
                                 console.log(error);
@@ -300,12 +283,12 @@
                 }
             },
 
-            changeBudgetItemPermissionState: function (pb) {
-                axios.post('/budget/admin/fiscal_year/changeBudgetItemPermissionState',{
-                    pbId: pb.id,
-                    state: pb.pbStatus
+            changeBudgetItemPermissionState: function (permission) {
+                axios.post('/budget/admin/fiscal_year/changePermissionState',{
+                    pId: permission.id,
+                    state: permission.pFyLimiterState
                 }).then((response) => {
-                    this.fyPermissionInBudget = response.data;
+                    this.fyPermission = response.data;
                     console.log(response.data);
                 },(error) => {
                     console.log(error);
@@ -313,9 +296,9 @@
             },
 
             allSelected: function(permissions) {
-                return permissions.every(function(perm){
+/*                return permissions.every(function(perm){
                     return perm.pbStatus;
-                });
+                });*/
             },
 
             toggleSelect: function(permissions , section) {
@@ -325,7 +308,7 @@
                     permissions.forEach(perm => perm.pbStatus = true)
                 }
                 this.changeFySectionPermissionState(section);
-                console.log(JSON.stringify(this.fyPermissionInBudget));
+                console.log(JSON.stringify(this.fyPermission));
             },
 
             setUpdateDataThread: function () {

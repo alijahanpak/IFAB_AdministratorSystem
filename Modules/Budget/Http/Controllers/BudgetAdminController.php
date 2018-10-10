@@ -13,8 +13,11 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\Rules\In;
 use Modules\Admin\Entities\County;
 use Modules\Admin\Entities\FiscalYear;
+use Modules\Admin\Entities\Permission;
 use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\Season;
+use Modules\Admin\Entities\SubSystem;
+use Modules\Admin\Entities\SubSystemPart;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Admin\Entities\User;
 use Modules\Admin\Entities\Village;
@@ -28,6 +31,7 @@ use Modules\Budget\Entities\DeprivedArea;
 use Modules\Budget\Entities\FyPermissionInBudget;
 use Modules\Budget\Entities\HowToRun;
 use Modules\Budget\Entities\CapitalAssetsTinySeason;
+use Modules\Budget\Entities\PermissionLimiter;
 use Ramsey\Uuid\Uuid;
 
 class BudgetAdminController extends Controller
@@ -448,14 +452,25 @@ class BudgetAdminController extends Controller
         return \request()->json([]);
     }
 
-    public function getFyPermissionInBudget(Request $request)
+    public function getFyPermission(Request $request)
     {
-        return \response()->json($this->getBudgetPermissionWithFyId($request->fyId));
+        return \response()->json($this->getPermissionWithFyId(Auth::user()->seFiscalYear));
     }
 
-    public function getBudgetPermissionWithFyId($fyId)
+    public function getPermissionWithFyId($fyId)
     {
-        return FyPermissionInBudget::where('pbFyId' , '=' , $fyId)->get();
+        $sspListId = Permission::where('pAllowDispInFyList' , '=' , true)->pluck('pSspId');
+        $ssListId = SubSystemPart::whereIn('id' , $sspListId)->pluck('sspSsId');
+        $subsystem = SubSystem::whereIn('id' , $ssListId)
+            ->with(['subSystemPart' => function($q) use($sspListId){
+                return $q->whereIn('id' , $sspListId)
+                    ->with(['permission' => function($q1){
+                        return $q1->where('pAllowDispInFyList' , '=' , true);
+                    }]);
+            }])
+            ->get();
+
+        return $subsystem;
     }
 
     function changeSectionPermissionState(Request $request)
@@ -465,17 +480,27 @@ class BudgetAdminController extends Controller
             case 'budget':
                 FyPermissionInBudget::where('pbFyId' , '=' , $request->fyId)->update(['pbStatus' => $request->state]);
                 SystemLog::setBudgetSubSystemAdminLog('تغییر مجوز های سال مالی ' . FiscalYear::where('id' , '=' , $request->fyId)->value('fyLabel') . ' در زیر سیستم بودجه.');
-                return \response()->json($this->getBudgetPermissionWithFyId($request->fyId));
+                return \response()->json($this->getPermissionWithFyId(Auth::user()->seFiscalYear));
         }
     }
 
-    function changeBudgetItemPermissionState(Request $request)
+    function changePermissionState(Request $request)
     {
-        $fyBudgetPermission = FyPermissionInBudget::find($request->pbId);
-        $fyBudgetPermission->pbStatus = $request->state;
-        $fyBudgetPermission->save();
-        SystemLog::setBudgetSubSystemAdminLog('تغییر مجوز ' . $fyBudgetPermission->pbLabel . ' در سال مالی ' . FiscalYear::where('id' , '=' , $fyBudgetPermission->pbFyId)->value('fyLabel') . ' برای زیر سیستم بودجه.');
-        return \response()->json($this->getBudgetPermissionWithFyId($fyBudgetPermission->pbFyId));
+        DB::transaction(function () use($request){
+            if ($request->state)
+            {
+                PermissionLimiter::where('plFyId' , '=' , Auth::user()->seFiscalYear)
+                    ->where('plPId' , '=' , $request->pId)
+                    ->delete();
+            }else{
+                $pLimiter = new PermissionLimiter();
+                $pLimiter->plFyId = Auth::user()->seFiscalYear;
+                $pLimiter->plPId = $request->pId;
+                $pLimiter->save();
+            }
+        });
+        SystemLog::setBudgetSubSystemAdminLog('محدود کردن مجوز ' . Permission::find($request->pId)->pSubject . ' در سال مالی ' . FiscalYear::find(Auth::user()->seFiscalYear)->fyLabel);
+        return \response()->json($this->getPermissionWithFyId(Auth::user()->seFiscalYear));
     }
 
     /////////////////////////////// deprived area ///////////////////////////////////////////

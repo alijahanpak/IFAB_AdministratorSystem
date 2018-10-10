@@ -22,7 +22,7 @@
             <!--receive_Requests_tab_view Start-->
             <div class="medium-12 padding-lr table-mrg-top">
                 <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="receive_Requests_tab_view">
-                    <li v-if="rr_REQUEST_Unreads > 0" class="tabs-title is-active"><a href="#rr_REQUEST" aria-selected="true">  درخواست  <span v-show="rr_REQUEST_Unreads > 0" class="notif-badge-purple">{{rr_REQUEST_Unreads}}</span></a></li>
+                        <li v-if="rr_REQUEST_Unreads > 0" class="tabs-title is-active"><a href="#rr_REQUEST" aria-selected="true">  درخواست  <span v-show="rr_REQUEST_Unreads > 0" class="notif-badge-purple">{{rr_REQUEST_Unreads}}</span></a></li>
                     <li v-if="rr_REQUEST_Unreads == 0" class="tabs-title is-active"><a href="#rr_REQUEST" aria-selected="true">  درخواست  <span v-show="rr_REQUEST_Reads > 0" class="notif-badge-gray">{{rr_REQUEST_Reads}}</span></a></li>
                     <li v-if="rr_FINANCIAL_Unreads > 0" class="tabs-title"><a href="#rr_FINANCIAL"> تامین اعتبار <span v-show="rr_FINANCIAL_Unreads > 0" class="notif-badge-purple">{{rr_FINANCIAL_Unreads}}</span></a></li>
                     <li v-if="rr_FINANCIAL_Unreads == 0"class="tabs-title"><a href="#rr_FINANCIAL"> تامین اعتبار <span v-show="rr_FINANCIAL_Reads > 0" class="notif-badge-gray">{{rr_FINANCIAL_Reads}}</span></a></li>

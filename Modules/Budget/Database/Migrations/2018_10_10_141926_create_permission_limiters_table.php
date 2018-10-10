@@ -21,7 +21,7 @@ class CreatePermissionLimitersTable extends Migration
                 $table->timestamps();
 
                 $table->foreign('plPId')
-                    ->references('id')->on('tbl_tbl_permissions')
+                    ->references('id')->on('tbl_permissions')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
 
