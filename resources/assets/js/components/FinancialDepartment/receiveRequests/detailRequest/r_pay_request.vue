@@ -30,7 +30,7 @@
                     <!--Table Head End-->
                     <!--Table Body Start-->
                 </table>
-                <div class="tbl_body_style dynamic-height-level-modal2">
+                <div style="height: 56vh;" class="tbl_body_style inner-vh-unsize">
                     <table class="tbl-body-contain">
                         <colgroup>
                             <col width="50px"/>

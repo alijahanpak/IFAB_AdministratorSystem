@@ -70,7 +70,7 @@
                                     <div class="tbl_body_style dynamic-height-levelR">
                                         <table class="tbl-body-contain">
                                             <colgroup>
-                                                <col width="80px"/>
+                                                <col width="15vw"/>
                                                 <col width="400px"/>
                                                 <col width="400px"/>
                                                 <col width="150px"/>

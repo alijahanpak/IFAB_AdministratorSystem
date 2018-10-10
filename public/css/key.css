@@ -58,7 +58,7 @@ select,[type="text"],[type="password"],textarea{
 }
 td {
     color: #555555;
-    font-size: 12px;
+    font-size: 0.8em;
     border: solid 1.5px  #D8DEE2;
 }
 th {
@@ -1547,7 +1547,7 @@ button.purple-btn {
 .tbl-head-style{
     color: #575962;
     background-color: #F4F3FB;
-    font-size: small;
+    font-size: 0.8em;
 
 }
 .tbl-head-style-cell{
@@ -2295,6 +2295,14 @@ input[type="search"]:valid + label {
     position: relative;
 }
 
+.inner-vh-3 {
+    width: 100%;
+    overflow-x: auto;
+    height: 57vh;
+    position: relative;
+}
+
+
 .inner-vh-credit{
     width: 100%;
     overflow-x: auto;
@@ -2329,4 +2337,22 @@ input[type="search"]:valid + label {
     top: 40%;
     left: 1rem;
 }*/
+
+/*Media Queries*/
+
+@media only screen and (max-width: 1024px) {
+
+    td {
+        font-size: 12px;
+    }
+    .tbl-head-style{
+        font-size: 12px;
+    }
+    .user-verifier-label,.success-label,.reserved-label,.danger-label,.blocked-label{
+        padding:4px;
+    }
+
+
+}
+/*Media Queries*/
 

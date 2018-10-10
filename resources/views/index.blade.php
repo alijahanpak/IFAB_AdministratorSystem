@@ -111,7 +111,7 @@
 
         <!--Body system-->
         <div class="grid-x">
-            <div id="leftmenuinner" style="background-color: #2C2E3E;z-index: 10;" class="medium-2 cell small-font">
+            <div id="leftmenuinner" style="background-color: #2C2E3E;z-index: 10;" class="large-2 medium-4 cell small-font">
                 <div  id="leftmenuinnerinner ">
                     <div class="large-12">
                         <img class="float-center" src="{{ asset('pic\pallas.png') }}" width="150px" height="15px">
@@ -209,7 +209,7 @@
                     </div>
                 </div>
             </div>
-            <div class="medium-10 main-margin my-callout-box">
+            <div class="large-10 medium-9 main-margin my-callout-box">
                 <!--Top Menu Start-->
                 <div style="z-index: 11;" data-sticky-container>
                     <div style="background-color: #FFFFFF;" class="top-bar top-menu-color" data-sticky data-margin-top="0">
