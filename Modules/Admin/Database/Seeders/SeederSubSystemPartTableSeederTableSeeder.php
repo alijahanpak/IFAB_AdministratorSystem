@@ -121,5 +121,11 @@ class SeederSubSystemPartTableSeederTableSeeder extends Seeder
         $part->sspSubject = 'عمومی';
         $part->sspPart = 'PUBLIC';
         $part->save();
+
+        $part = new SubSystemPart;
+        $part->sspSsId = 3;
+        $part->sspSubject = 'حقوق و دستمزد';
+        $part->sspPart = 'SALARY';
+        $part->save();
     }
 }

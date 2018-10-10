@@ -194,7 +194,10 @@ class _Request extends Model
         $sumOfChecksAmount = _Check::whereIn('cDId' , $draftsId)
             ->where('cDelivered' , '=' , true)
             ->sum('cAmount');
-        return $sumOfChecksAmount < $this->getRCommitmentAmountAttribute() ? false : true;
+        if (count($draftsId) == 0)
+            return false;
+        else
+            return $sumOfChecksAmount < $this->getRCommitmentAmountAttribute() ? false : true;
     }
 
     public function getRIsPayRequestClosedAttribute()

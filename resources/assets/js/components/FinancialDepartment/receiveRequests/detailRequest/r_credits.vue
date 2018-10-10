@@ -1721,9 +1721,16 @@ export default{
             this.capReservedAmount = 0;
             if (this.UserIsVerifier.length == 0 && (this.requestFill.rLetterNumber != '' && this.requestFill.rLetterDate != ''))
             {
-                this.getFinancingAmount();
-                this.getCompleteCapitalAssetsApproved ();
-                this.showCapitalAssetsModal=true;
+                if (this.baseAmount >= _financingAmount)
+                {
+                    this.getFinancingAmount();
+                    this.getCompleteCapitalAssetsApproved ();
+                    this.showCapitalAssetsModal=true;
+                }else{
+                    this.dialogMessage = 'مبلغ تعهد شده از مبلغ درخواست بیشتر است، لطفا نصب به حذف محل های تامین ااعتبار از لیست انتخاب شده ها اقدام و یا مبالغ را اصلاح کنید.';
+                    this.showDialogModal = true;
+                }
+
             }else{
                 this.dialogMessage = 'با توجه به اینکه درخواست تایید نهایی یا ثبت دبیرخانه نشده است! امکان تامین اعتبار وجود ندارد.';
                 this.showDialogModal = true;
@@ -2312,19 +2319,25 @@ export default{
                         }
                     });
                     console.log(JSON.stringify(costFinancing));
-                    axios.post('/financial/request/financing/reservation', {
-                        rId: this.requestId,
-                        costFinancing: costFinancing,
-                    }).then((response) => {
-                        this.getCapAndCostFinancing(response.data);
-                        this.showCostCreditsModal = false;
-                        this.$root.displayNotif(response.status);
-                        this.getFinancingAmount();
-                        console.log(response);
-                    }, (error) => {
-                        console.log(error);
-                        this.$root.displayNotif(error.response.status);
-                    });
+                    if (costFinancing.length == 0)
+                    {
+                        this.dialogMessage = 'تامین اعتبار با انتخاب آیتم های لیست انجام می شود.';
+                        this.showDialogModal = true;
+                    }else{
+                        axios.post('/financial/request/financing/reservation', {
+                            rId: this.requestId,
+                            costFinancing: costFinancing,
+                        }).then((response) => {
+                            this.getCapAndCostFinancing(response.data);
+                            this.showCostCreditsModal = false;
+                            this.$root.displayNotif(response.status);
+                            this.getFinancingAmount();
+                            console.log(response);
+                        }, (error) => {
+                            console.log(error);
+                            this.$root.displayNotif(error.response.status);
+                        });
+                    }
                 }
             });
         },
@@ -2357,19 +2370,25 @@ export default{
                         }
                     });
                     console.log(JSON.stringify(capitalAssetsFinancing));
-                    axios.post('/financial/request/financing/reservation', {
-                        rId: this.requestId,
-                        capFinancing: capitalAssetsFinancing,
-                    }).then((response) => {
-                        this.getCapAndCostFinancing(response.data);
-                        this.showCapitalAssetsModal = false;
-                        this.$root.displayNotif(response.status);
-                        this.getFinancingAmount();
-                        console.log(response);
-                    }, (error) => {
-                        console.log(error);
-                        this.$root.displayNotif(error.response.status);
-                    });
+                    if (capitalAssetsFinancing.length == 0)
+                    {
+                        this.dialogMessage = 'تامین اعتبار با انتخاب آیتم های لیست انجام می شود.';
+                        this.showDialogModal = true;
+                    }else{
+                        axios.post('/financial/request/financing/reservation', {
+                            rId: this.requestId,
+                            capFinancing: capitalAssetsFinancing,
+                        }).then((response) => {
+                            this.getCapAndCostFinancing(response.data);
+                            this.showCapitalAssetsModal = false;
+                            this.$root.displayNotif(response.status);
+                            this.getFinancingAmount();
+                            console.log(response);
+                        }, (error) => {
+                            console.log(error);
+                            this.$root.displayNotif(error.response.status);
+                        });
+                    }
                 }
             });
         },

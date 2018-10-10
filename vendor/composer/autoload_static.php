@@ -2315,6 +2315,7 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         'Modules\\Financial\\Entities\\RefundCosts' => __DIR__ . '/../..' . '/Modules/Financial/Entities/RefundCosts.php',
         'Modules\\Financial\\Entities\\RequestCommodity' => __DIR__ . '/../..' . '/Modules/Financial/Entities/RequestCommodity.php',
         'Modules\\Financial\\Entities\\RequestHistory' => __DIR__ . '/../..' . '/Modules/Financial/Entities/RequestHistory.php',
+        'Modules\\Financial\\Entities\\RequestHistoryLastPoint' => __DIR__ . '/../..' . '/Modules/Financial/Entities/RequestHistoryLastPoint.php',
         'Modules\\Financial\\Entities\\RequestLevel' => __DIR__ . '/../..' . '/Modules/Financial/Entities/RequestLevel.php',
         'Modules\\Financial\\Entities\\RequestState' => __DIR__ . '/../..' . '/Modules/Financial/Entities/RequestState.php',
         'Modules\\Financial\\Entities\\RequestStep' => __DIR__ . '/../..' . '/Modules/Financial/Entities/RequestStep.php',

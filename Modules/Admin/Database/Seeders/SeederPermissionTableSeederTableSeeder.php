@@ -701,7 +701,7 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
 
         $permission = new Permission;
         $permission->pSspId = 1;
-        $permission->pSubject = 'فعالسازی سال های';
+        $permission->pSubject = 'فعالسازی سال مالی';
         $permission->pPermission = 'BUDGET_ADMIN_ACTIVE_FISCAL_YEARS';
         $permission->save();
 
@@ -709,6 +709,34 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
         $permission->pSspId = 7;
         $permission->pSubject = 'حذف موارد تامین اعتبار شده هزینه ای';
         $permission->pPermission = 'FINANCIAL_REMOVE_COST_FINANCING_ITEM';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 17;
+        $permission->pSubject = 'ثبت درخواست خرید خدمات';
+        $permission->pPermission = 'BUY_SERVICES_REQUEST_REGISTER‌';
+        $permission->pAllowDispInFyList = true;
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 17;
+        $permission->pSubject = 'ثبت درخواست خرید کالا';
+        $permission->pPermission = 'BUY_COMMODITY_REQUEST_REGISTER‌';
+        $permission->pAllowDispInFyList = true;
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 12;
+        $permission->pSubject = 'ثبت درخواست تنخواه';
+        $permission->pPermission = 'REFUND_REQUEST_REGISTER‌';
+        $permission->pAllowDispInFyList = true;
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 18;
+        $permission->pSubject = 'ثبت درخواست حقوق و دستمزد';
+        $permission->pPermission = 'SALARY_REQUEST_REGISTER‌';
+        $permission->pAllowDispInFyList = true;
         $permission->save();
     }
 }
