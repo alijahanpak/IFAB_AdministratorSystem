@@ -14,7 +14,7 @@ class Permission extends Model
 
     public function getPFyLimiterStateAttribute()
     {
-        return PermissionLimiter::where('plFyId' , '=' , Auth::user()->seFiscalYear)
-            ->where('plPId' , '=' , $this->id)->exists();
+        return !(PermissionLimiter::where('plFyId' , '=' , Auth::user()->seFiscalYear)
+            ->where('plPId' , '=' , $this->id)->exists());
     }
 }

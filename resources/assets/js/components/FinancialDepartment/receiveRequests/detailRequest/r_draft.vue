@@ -207,7 +207,7 @@
                                 <div class="grid-x" :style="{ width: '100%' , height: !draftIsBlocked ? '72.5vh' : '76vh'}">
                                     <div class="large-12">
                                         <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
-                                        <embed style="width: 100%;height: 100%" :src="draftPdfPath" />
+                                        <embed style="width: 100%;height: 100%" :src="draftPdfPath + '#page=1&zoom=65'" />
                                     </div>
                                 </div>
                                 <div class="grid-x" v-if="!draftIsBlocked" style="margin-top: 0.5rem">

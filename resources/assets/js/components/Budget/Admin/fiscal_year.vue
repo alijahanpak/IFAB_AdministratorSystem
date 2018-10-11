@@ -107,7 +107,7 @@
                                 <div class="grid-x padding-lr">
                                     <div class="medium-1">
                                         <div class="switch tiny">
-                                            <input class="switch-input" id="budgetPermissionAllId" type="checkbox" autocomplete="off" :checked="allSelected(fyPermission)"  @click="toggleSelect(fyPermission , fyPermission)">
+                                            <input class="switch-input" id="budgetPermissionAllId" type="checkbox" autocomplete="off" v-model="fiscalYearState"  @change="toggleSelect(fiscalYearState)">
                                             <label class="switch-paddle" for="budgetPermissionAllId">
                                                 <span class="switch-active" aria-hidden="true">بلی</span>
                                                 <span class="switch-inactive" aria-hidden="true">خیر</span>
@@ -115,7 +115,7 @@
                                         </div>
                                     </div>
                                     <div class="medium-11">
-                                        <p>همه موارد</p>
+                                        <p>سال مالی</p>
                                     </div>
                                 </div>
                             </div>
@@ -127,7 +127,7 @@
                                         <div class="grid-x padding-lr">
                                             <div class="medium-2">
                                                 <div class="switch tiny">
-                                                    <input class="switch-input" type="checkbox" v-model="permission.pFyLimiterState" :id="'permission' + permission.id" @change="changeBudgetItemPermissionState(permission)">
+                                                    <input class="switch-input" type="checkbox" v-model="permission.pFyLimiterState" :id="'permission' + permission.id" @change="changePermissionState(permission)">
                                                     <label class="switch-paddle" :for="'permission' + permission.id">
                                                         <span class="switch-active" aria-hidden="true">بلی</span>
                                                         <span class="switch-inactive" aria-hidden="true">خیر</span>
@@ -164,6 +164,7 @@
                 fyActiveId: '',
                 updateDataThreadNowPlaying: null,
                 budgetPermissionState: {},
+                fiscalYearState: false,
                 pagination: {
                     total: 0,
                     to: 0,
@@ -260,54 +261,62 @@
                 axios.get('/budget/admin/fiscal_year/getFyPermission')
                     .then((response) => {
                         this.fyPermission = response.data;
+                        this.allSelected(this.fyPermission);
                         console.log(response.data);
                     },(error) => {
                         console.log(error);
                     });
             },
 
-            changeFySectionPermissionState: function (section) {
-                switch (section){
-                    case "budget":
-                        axios.post('/budget/admin/fiscal_year/changeSectionPermissionState',{
-                            fyId: this.fyActiveId,
-                            section: section,
-                            state: this.allSelected(this.fyPermission)
-                        }).then((response) => {
-                                this.fyPermission = response.data;
-                                console.log(response.data);
-                            },(error) => {
-                                console.log(error);
-                            });
-                        break;
-                }
-            },
-
-            changeBudgetItemPermissionState: function (permission) {
-                axios.post('/budget/admin/fiscal_year/changePermissionState',{
-                    pId: permission.id,
-                    state: permission.pFyLimiterState
+            changeAllPermissionState: function () {
+                axios.post('/budget/admin/fiscal_year/changeAllPermissionState',{
+                    state: this.fiscalYearState
                 }).then((response) => {
                     this.fyPermission = response.data;
+                    this.allSelected(this.fyPermission);
                     console.log(response.data);
                 },(error) => {
                     console.log(error);
                 });
             },
 
-            allSelected: function(permissions) {
-/*                return permissions.every(function(perm){
-                    return perm.pbStatus;
-                });*/
+            changePermissionState: function (permission) {
+                axios.post('/budget/admin/fiscal_year/changePermissionState',{
+                    pId: permission.id,
+                    state: permission.pFyLimiterState
+                }).then((response) => {
+                    this.fyPermission = response.data;
+                    this.allSelected(this.fyPermission);
+                    console.log(response.data);
+                },(error) => {
+                    console.log(error);
+                });
             },
 
-            toggleSelect: function(permissions , section) {
-                if(permissions.find(perm => perm.pbStatus)){
-                    permissions.forEach(perm => perm.pbStatus = false)
-                } else {
-                    permissions.forEach(perm => perm.pbStatus = true)
-                }
-                this.changeFySectionPermissionState(section);
+            allSelected: function(subSystem) {
+                var aSelected = false;
+                subSystem.forEach(ss => {
+                    ss.sub_system_part.forEach(ssp => {
+                        ssp.permission.forEach(per => {
+                            if (per.pFyLimiterState)
+                            {
+                                aSelected = per.pFyLimiterState;
+                            }
+                        });
+                    });
+                });
+                this.fiscalYearState = aSelected;
+            },
+
+            toggleSelect: function(state) {
+                this.fyPermission.forEach(ss => {
+                    ss.sub_system_part.forEach(ssp => {
+                        ssp.permission.forEach(per => {
+                            per.pFyLimiterState = state;
+                        });
+                    });
+                });
+                this.changeAllPermissionState();
                 console.log(JSON.stringify(this.fyPermission));
             },
 

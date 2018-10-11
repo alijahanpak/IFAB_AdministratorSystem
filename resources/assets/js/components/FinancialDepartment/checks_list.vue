@@ -32,20 +32,22 @@
                     <div class="tbl-div-container">
                         <table class="tbl-head">
                             <colgroup>
-                                <col width="400px"/>
-                                <col width="200px"/>
+                                <col width="300px"/>
                                 <col width="150px"/>
-                                <col width="200px"/>
-                                <col width="200px"/>
+                                <col width="150px"/>
+                                <col width="150px"/>
+                                <col width="250px"/>
+                                <col width="150px"/>
                                 <col width="12px"/>
                             </colgroup>
                             <tbody class="tbl-head-style">
                             <tr class="tbl-head-style-cell">
-                                <th class="tbl-head-style-cell">عنوان</th>
-                                <th class="tbl-head-style-cell">نوع درخواست</th>
+                                <th class="tbl-head-style-cell">بابت</th>
+                                <th class="tbl-head-style-cell">در وجه</th>
                                 <th class="tbl-head-style-cell">مبلغ <span class="btn-red small-font">(ریال)</span></th>
-                                <th class="tbl-head-style-cell">شماره</th>
-                                <th class="tbl-head-style-cell">تاریخ</th>
+                                <th class="tbl-head-style-cell">تاریخ چک</th>
+                                <th class="tbl-head-style-cell">تاریخ تحویل</th>
+                                <th class="tbl-head-style-cell">وضعیت</th>
                                 <th class="tbl-head-style-cell"></th>
                             </tr>
                             </tbody>
@@ -55,21 +57,22 @@
                         <div class="tbl_body_style dynamic-height-level2">
                             <table class="tbl-body-contain">
                                 <colgroup>
-                                    <col width="400px"/>
-                                    <col width="200px"/>
+                                    <col width="300px"/>
                                     <col width="150px"/>
-                                    <col width="200px"/>
-                                    <col width="200px"/>
+                                    <col width="150px"/>
+                                    <col width="150px"/>
+                                    <col width="250px"/>
+                                    <col width="150px"/>
                                 </colgroup>
                                 <tbody class="tbl-head-style-cell">
-                                <tr class="table-row" @click="getRequestDetail(allRequest)" v-for="allRequest in allRequests">
-                                    <td>{{allRequest.rSubject}}</td>
-                                    <td class="text-center" v-if="allRequest.rRtId==1"> خدمات</td>
-                                    <td class="text-center" v-else-if="allRequest.rRtId==2"> کالا</td>
-                                    <td class="text-center" v-else="allRequest.rRtId==3"> تنخواه</td>
-                                    <td class="text-center">{{$parent.dispMoneyFormat(allRequest.rCostEstimation)}}</td>
-                                    <td class="text-center">{{allRequest.rLetterNumber}}</td>
-                                    <td class="text-center">{{allRequest.rLetterDate}}</td>
+                                <tr class="table-row" @click="getRequestDetail(allRequest)" v-for="allCheck in allChecks">
+                                    <td>{{allCheck.draft.dFor}}</td>
+                                    <td class="text-center">{{allCheck.draft.dPayTo}}</td>
+                                    <td class="text-center">{{$parent.dispMoneyFormat(allCheck.cAmount)}}</td>
+                                    <td class="text-center">{{allCheck.cDate}}</td>
+                                    <td class="text-center">{{ allCheck.cDeliveryShamsiDate != '' ? allCheck.cDeliveryShamsiTime + ' - ' + allCheck.cDeliveryShamsiDate : '' }}</td>
+                                    <td v-if="allCheck.cDelivered == true" class="text-center"><span class="success-label">تحویل داده شده</span></td>
+                                    <td v-else class="text-center"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -327,7 +330,7 @@
         data () {
             return {
                 attachments: [],
-                allRequests:[],
+                allChecks:[],
                 requestSearchValue:'',
                 showRequestDetailModal:false,
                 recipientUsers:[],
@@ -388,9 +391,9 @@
             },
 
             fetchData: function (page=1) {
-                axios.get('/financial/request/search/normal/fetchData?page=' + page , {params:{searchValue:this.requestSearchValue}})
+                axios.get('financial/check/list/get_all_data?page=' + page , {params:{searchValue:this.requestSearchValue}})
                     .then((response) => {
-                        this.allRequests = response.data.data;
+                        this.allChecks = response.data.data;
                         this.makePagination(response.data);
                         console.log(response);
                     }, (error) => {

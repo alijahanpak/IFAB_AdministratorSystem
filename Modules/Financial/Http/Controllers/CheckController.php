@@ -119,7 +119,6 @@ class CheckController extends Controller
     {
         return response()->json(
             _Check::where('cFyId' , '=' , Auth::user()->seFiscalYear)
-                ->where('cDelivered' , '=' , false)
                 ->with('percentageDecrease')
                 ->with('draft')
                 ->paginate(20)

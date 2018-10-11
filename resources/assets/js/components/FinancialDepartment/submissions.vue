@@ -781,7 +781,7 @@
                         <div class="grid-x" style="width:100%;height :85.5vh">
                             <div class="large-12">
                                 <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
-                                <embed style="width: 100%;height: 100%" :src="payRequestPdfPath" />
+                                <embed style="width: 100%;height: 100%" :src="payRequestPdfPath + '#page=1&zoom=50'" />
                             </div>
                         </div>
                     </div>
