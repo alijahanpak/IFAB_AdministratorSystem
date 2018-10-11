@@ -1,8 +1,8 @@
 <template>
 <!--Body system-->
-    <div class="medium-10 border-right-line inner-body-pad main-margin">
+    <div class="border-right-line inner-body-pad">
         <div class="grid-x padding-lr breadcrumbs-pos">
-            <div class="medium-12">
+            <div class="large-12 medium-12 small-12">
                 <div class="grid-x">
                     <nav aria-label="You are here:" role="navigation">
                         <ul class="breadcrumbs">
