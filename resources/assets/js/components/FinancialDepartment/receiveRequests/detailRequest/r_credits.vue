@@ -1706,9 +1706,15 @@ export default{
             this.costReservedAmount = 0;
             if (this.UserIsVerifier.length == 0 && (this.requestFill.rLetterNumber != '' && this.requestFill.rLetterDate != ''))
             {
-                this.getFinancingAmount();
-                this.getCompleteCostAgrement();
-                this.showCostCreditsModal=true;
+                if (this.baseAmount >= this._financingAmount)
+                {
+                    this.getFinancingAmount();
+                    this.getCompleteCostAgrement();
+                    this.showCostCreditsModal=true;
+                }else{
+                    this.dialogMessage = 'مبلغ تعهد شده از مبلغ درخواست بیشتر است، لطفا نصب به حذف محل های تامین ااعتبار از لیست انتخاب شده ها اقدام و یا مبالغ را اصلاح کنید.';
+                    this.showDialogModal = true;
+                }
             }else{
                 this.dialogMessage = 'با توجه به اینکه درخواست تایید نهایی یا ثبت دبیرخانه نشده است! امکان تامین اعتبار وجود ندارد.';
                 this.showDialogModal = true;
@@ -1721,7 +1727,7 @@ export default{
             this.capReservedAmount = 0;
             if (this.UserIsVerifier.length == 0 && (this.requestFill.rLetterNumber != '' && this.requestFill.rLetterDate != ''))
             {
-                if (this.baseAmount >= _financingAmount)
+                if (this.baseAmount >= this._financingAmount)
                 {
                     this.getFinancingAmount();
                     this.getCompleteCapitalAssetsApproved ();

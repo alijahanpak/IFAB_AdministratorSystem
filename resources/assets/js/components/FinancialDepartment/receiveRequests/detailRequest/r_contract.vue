@@ -248,7 +248,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="large-10 medium-9  small-12">
-                                                    <p>{{pItem.piSubject}}</p>
+                                                    <p>{{pItem.piSubject + ' (%' + pItem.piPercent + ')'}}</p>
                                                 </div>
                                             </div>
                                         </div>

@@ -473,15 +473,25 @@ class BudgetAdminController extends Controller
         return $subsystem;
     }
 
-    function changeSectionPermissionState(Request $request)
+    function changeAllPermissionState(Request $request)
     {
-        switch ($request->section)
-        {
-            case 'budget':
-                FyPermissionInBudget::where('pbFyId' , '=' , $request->fyId)->update(['pbStatus' => $request->state]);
-                SystemLog::setBudgetSubSystemAdminLog('تغییر مجوز های سال مالی ' . FiscalYear::where('id' , '=' , $request->fyId)->value('fyLabel') . ' در زیر سیستم بودجه.');
-                return \response()->json($this->getPermissionWithFyId(Auth::user()->seFiscalYear));
-        }
+        DB::transaction(function () use($request){
+            if ($request->state)
+            {
+                PermissionLimiter::where('plFyId' , Auth::user()->seFiscalYear)
+                    ->delete();
+            }else{
+                $pers = Permission::where('pAllowDispInFyList' , '=' , true)->get();
+                foreach ($pers as $per)
+                {
+                    $pLimiter = new PermissionLimiter();
+                    $pLimiter->plFyId = Auth::user()->seFiscalYear;
+                    $pLimiter->plPId = $per->id;
+                    $pLimiter->save();
+                }
+            }
+        });
+        return \response()->json($this->getPermissionWithFyId(Auth::user()->seFiscalYear));
     }
 
     function changePermissionState(Request $request)
