@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Financial\Entities\_Check;
 use Modules\Financial\Entities\_Request;
@@ -117,10 +118,23 @@ class CheckController extends Controller
 
     public function fetchAllChecks(Request $request)
     {
+        $searchValue = PublicSetting::checkPersianCharacters($request->searchValue);
         return response()->json(
             _Check::where('cFyId' , '=' , Auth::user()->seFiscalYear)
-                ->with('percentageDecrease')
+                ->where(function ($q) use($searchValue){
+                    return $q->where('cDate' , 'LIKE' , '%' . $searchValue . '%')
+                        ->orWhere('cAmount' , '=' , $searchValue)
+                        ->orWhere('cIdNumber' , '=' , $searchValue)
+                        ->orWhereHas('percentageDecrease' , function ($query) use($searchValue){
+                            return $query->where('pdSubject' , 'LIKE' , '%' . $searchValue . '%');
+                        })
+                        ->orWhereHas('draft' , function ($query) use($searchValue){
+                            return $query->where('dFor' , 'LIKE' , '%' . $searchValue . '%')
+                                ->orWhere('dPayTo' , '=' , $searchValue);
+                        });
+                })
                 ->with('draft')
+                ->with('percentageDecrease')
                 ->paginate(20)
         );
     }
