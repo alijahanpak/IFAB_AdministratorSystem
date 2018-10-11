@@ -111,205 +111,211 @@
 
         <!--Body system-->
         <div class="grid-x">
-            <div id="leftmenuinner" style="background-color: #2C2E3E;z-index: 10;" class="large-2 medium-4 cell small-font">
-                <div  id="leftmenuinnerinner ">
-                    <div class="large-12">
-                        <img class="float-center" src="{{ asset('pic\pallas.png') }}" width="150px" height="15px">
-                    </div>
-                    <nav class="accordion"  data-margin-top="4.2" v-cloak>
-                        <ul style="background-color: #2C2E3E;" class="vertical menu sub-menu accordion-menu" data-accordion-menu data-multi-open="false" >
-                            <li v-show='$can("BUDGET_CREDIT_DISTRIBUTION_PLAN_DISPLAY|BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_DISPLAY")'>
-                                <a class="right-menu-btm-border">توزیع اعتبار</a>
-                                <ul class="menu vertical nested">
-                                    <li v-show='$can("BUDGET_CREDIT_DISTRIBUTION_PLAN_DISPLAY|BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_DISPLAY")'><a>تملک دارایی سرمایه ای</a>
+            <div class="large-12 medium-12 small-12">
+                <div class="off-canvas-wrapper" v-cloak>
+                    <!--Right sidebar start-->
+                    <div class="off-canvas position-right" id="my-info" data-off-canvas>
+                        <div style="background-color: #2C2E3E;z-index: 10;height: 100%;position: relative;" class="row column small-font">
+                            <div class="large-12 medium-12 small-12">
+                                <img class="float-center" src="{{ asset('pic\pallas.png') }}" width="150px" height="15px">
+                            </div>
+                            <nav class="accordion"  data-margin-top="4.2" v-cloak>
+                                <ul style="background-color: #2C2E3E;" class="vertical menu sub-menu accordion-menu" data-accordion-menu data-multi-open="false" >
+                                    <li v-show='$can("BUDGET_CREDIT_DISTRIBUTION_PLAN_DISPLAY|BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_DISPLAY")'>
+                                        <a class="right-menu-btm-border">توزیع اعتبار</a>
                                         <ul class="menu vertical nested">
-                                            <li><a>استانی</a>
+                                            <li v-show='$can("BUDGET_CREDIT_DISTRIBUTION_PLAN_DISPLAY|BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_DISPLAY")'><a>تملک دارایی سرمایه ای</a>
                                                 <ul class="menu vertical nested">
-                                                    <li v-show='$can("BUDGET_CREDIT_DISTRIBUTION_PLAN_DISPLAY")'><router-link to="/budget/admin/credit_distribution/plan">طرح های توزیع اعتبار</router-link></li>
-                                                    <li v-show='$can("BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_DISPLAY")'><router-link to="/budget/admin/credit_distribution/proposal">پیشنهاد دستگاه</router-link></li>
+                                                    <li><a>استانی</a>
+                                                        <ul class="menu vertical nested">
+                                                            <li data-close v-show='$can("BUDGET_CREDIT_DISTRIBUTION_PLAN_DISPLAY")'><router-link to="/budget/admin/credit_distribution/plan">طرح های توزیع اعتبار</router-link></li>
+                                                            <li data-close v-show='$can("BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_DISPLAY")'><router-link to="/budget/admin/credit_distribution/proposal">پیشنهاد دستگاه</router-link></li>
+                                                        </ul>
+                                                    </li>
                                                 </ul>
                                             </li>
                                         </ul>
                                     </li>
-                                </ul>
-                            </li>
-                            <li v-show='$can("BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_DISPLAY|BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DISPLAY|BUDGET_COST_APPROVED_PROG_DISPLAY")'>
-                                <a class="right-mp right-menu-btm-border">  موافقتنامه</a>
-                                <ul class="menu vertical nested">
-                                    <li v-show='$can("BUDGET_COST_APPROVED_PROG_DISPLAY")'><a>هزینه ای</a>
+                                    <li v-show='$can("BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_DISPLAY|BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DISPLAY|BUDGET_COST_APPROVED_PROG_DISPLAY")'>
+                                        <a class="right-mp right-menu-btm-border">  موافقتنامه</a>
                                         <ul class="menu vertical nested">
-                                            <li v-show='$can("BUDGET_COST_APPROVED_PROG_DISPLAY")'><router-link to="/budget/approved/capital_assets/approved/program">برنامه ها</router-link></li>
-                                        </ul>
-                                    </li>
-                                    <li v-show='$can("BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_DISPLAY|BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DISPLAY")'><a>تملک دارایی سرمایه ای</a>
-                                        <ul class="menu vertical nested">
-                                            <li v-show='$can("BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_DISPLAY")'><router-link to="/budget/approved/capital_assets/approved/plan">طرح ها</router-link></li>
-                                            <li v-show='$can("BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DISPLAY")'><router-link to="/budget/approved/capital_assets/approved/project">پروژه ها</router-link></li>
-                                        </ul>
-                                    </li>
+                                            <li v-show='$can("BUDGET_COST_APPROVED_PROG_DISPLAY")'><a>هزینه ای</a>
+                                                <ul class="menu vertical nested">
+                                                    <li v-show='$can("BUDGET_COST_APPROVED_PROG_DISPLAY")'><router-link to="/budget/approved/capital_assets/approved/program">برنامه ها</router-link></li>
+                                                </ul>
+                                            </li>
+                                            <li v-show='$can("BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_DISPLAY|BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DISPLAY")'><a>تملک دارایی سرمایه ای</a>
+                                                <ul class="menu vertical nested">
+                                                    <li data-close v-show='$can("BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_DISPLAY")'><router-link to="/budget/approved/capital_assets/approved/plan">طرح ها</router-link></li>
+                                                    <li data-close v-show='$can("BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DISPLAY")'><router-link to="/budget/approved/capital_assets/approved/project">پروژه ها</router-link></li>
+                                                </ul>
+                                            </li>
 
-                                </ul>
-                            </li>
-                            <li v-show='$can("BUDGET_CAPITAL_ASSETS_ALLOCATION_DISPLAY|BUDGET_COST_ALLOCATION_DISPLAY|BUDGET_CAPITAL_ASSETS_FOUND_DISPLAY|BUDGET_COST_FOUND_DISPLAY")'>
-                                <a class="right-mp right-menu-btm-border">تخصیص اعتبار</a>
-                                <ul class="menu vertical nested">
-                                    <li v-show='$can("BUDGET_COST_ALLOCATION_DISPLAY|BUDGET_COST_FOUND_DISPLAY")'><router-link to="/budget/Allocation/cost">هزینه ای</router-link></li>
-                                    <li v-show='$can("BUDGET_CAPITAL_ASSETS_ALLOCATION_DISPLAY|BUDGET_CAPITAL_ASSETS_FOUND_DISPLAY")'><router-link to="/budget/allocation/capital_assets">تملک دارایی سرمایه ای</router-link></li>
-                                </ul>
-                            </li>
-                            <li v-show='$can("BUDGET_ADMIN_FISCAL_YEARS_DISPLAY|BUDGET_ADMIN_DEPRIVED_AREA_DISPLAY|BUDGET_ADMIN_BUDGET_SEASON_DISPLAY|BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_DISPLAY|BUDGET_ADMIN_PLAN_RO_COST_TITLE_DISPLAY|BUDGET_ADMIN_SEASON_TITLE_DISPLAY|BUDGET_ADMIN_TINY_SEASON_DISPLAY")'>
-                                <a class="right-mp right-menu-btm-border">مدیریت</a>
-                                <ul class="menu vertical nested">
-                                    <li v-show='$can("BUDGET_ADMIN_FISCAL_YEARS_DISPLAY")'><router-link to="/budget/admin/fiscal_year">سال مالی</router-link></li>
-                                    <li v-show='$can("BUDGET_ADMIN_DEPRIVED_AREA_DISPLAY")'><router-link to="/budget/admin/deprived_area">مناطق محروم</router-link></li>
-                                    <li v-show='$can("BUDGET_ADMIN_BUDGET_SEASON_DISPLAY|BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_DISPLAY|BUDGET_ADMIN_PLAN_RO_COST_TITLE_DISPLAY")'>
-                                        <a>توزیع اعتبار</a>
-                                        <ul class="menu vertical nested">
-                                            <li v-show='$can("BUDGET_ADMIN_BUDGET_SEASON_DISPLAY")'><router-link to="/budget/admin/credit_distribution_def/budget_season">فصل بودجه</router-link></li>
-                                            <li v-show='$can("BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_DISPLAY")'><router-link to="/budget/admin/credit_distribution_def/row">ردیف توزیع اعتبار</router-link></li>
-                                            <li v-show='$can("BUDGET_ADMIN_PLAN_RO_COST_TITLE_DISPLAY")'><router-link to="/budget/admin/credit_distribution_def/plan_cost_title">عنوان طرح / برنامه</router-link></li>
                                         </ul>
                                     </li>
-                                    <li v-show='$can("BUDGET_ADMIN_SEASON_TITLE_DISPLAY|BUDGET_ADMIN_TINY_SEASON_DISPLAY")'>
-                                        <a>فصول</a>
+                                    <li v-show='$can("BUDGET_CAPITAL_ASSETS_ALLOCATION_DISPLAY|BUDGET_COST_ALLOCATION_DISPLAY|BUDGET_CAPITAL_ASSETS_FOUND_DISPLAY|BUDGET_COST_FOUND_DISPLAY")'>
+                                        <a class="right-mp right-menu-btm-border">تخصیص اعتبار</a>
                                         <ul class="menu vertical nested">
-                                            <li v-show='$can("BUDGET_ADMIN_SEASON_TITLE_DISPLAY")'><router-link to="/budget/admin/season/season_title">عنوان فصل</router-link></li>
-                                            <li v-show='$can("BUDGET_ADMIN_TINY_SEASON_DISPLAY")'><router-link to="/budget/admin/season/tiny_seasons">ریز فصل</router-link></li>
+                                            <li data-close v-show='$can("BUDGET_COST_ALLOCATION_DISPLAY|BUDGET_COST_FOUND_DISPLAY")'><router-link to="/budget/Allocation/cost">هزینه ای</router-link></li>
+                                            <li data-close v-show='$can("BUDGET_CAPITAL_ASSETS_ALLOCATION_DISPLAY|BUDGET_CAPITAL_ASSETS_FOUND_DISPLAY")'><router-link to="/budget/allocation/capital_assets">تملک دارایی سرمایه ای</router-link></li>
                                         </ul>
                                     </li>
-                                    <li><router-link to="/financial_department/checks/templates">قالب چک</router-link></li>
+                                    <li v-show='$can("BUDGET_ADMIN_FISCAL_YEARS_DISPLAY|BUDGET_ADMIN_DEPRIVED_AREA_DISPLAY|BUDGET_ADMIN_BUDGET_SEASON_DISPLAY|BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_DISPLAY|BUDGET_ADMIN_PLAN_RO_COST_TITLE_DISPLAY|BUDGET_ADMIN_SEASON_TITLE_DISPLAY|BUDGET_ADMIN_TINY_SEASON_DISPLAY")'>
+                                        <a class="right-mp right-menu-btm-border">مدیریت</a>
+                                        <ul class="menu vertical nested">
+                                            <li data-close v-show='$can("BUDGET_ADMIN_FISCAL_YEARS_DISPLAY")'><router-link to="/budget/admin/fiscal_year">سال مالی</router-link></li>
+                                            <li data-close v-show='$can("BUDGET_ADMIN_DEPRIVED_AREA_DISPLAY")'><router-link to="/budget/admin/deprived_area">مناطق محروم</router-link></li>
+                                            <li data-close v-show='$can("BUDGET_ADMIN_BUDGET_SEASON_DISPLAY|BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_DISPLAY|BUDGET_ADMIN_PLAN_RO_COST_TITLE_DISPLAY")'>
+                                                <a>توزیع اعتبار</a>
+                                                <ul class="menu vertical nested">
+                                                    <li data-close v-show='$can("BUDGET_ADMIN_BUDGET_SEASON_DISPLAY")'><router-link to="/budget/admin/credit_distribution_def/budget_season">فصل بودجه</router-link></li>
+                                                    <li data-close v-show='$can("BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_DISPLAY")'><router-link to="/budget/admin/credit_distribution_def/row">ردیف توزیع اعتبار</router-link></li>
+                                                    <li data-close v-show='$can("BUDGET_ADMIN_PLAN_RO_COST_TITLE_DISPLAY")'><router-link to="/budget/admin/credit_distribution_def/plan_cost_title">عنوان طرح / برنامه</router-link></li>
+                                                </ul>
+                                            </li>
+                                            <li v-show='$can("BUDGET_ADMIN_SEASON_TITLE_DISPLAY|BUDGET_ADMIN_TINY_SEASON_DISPLAY")'>
+                                                <a>فصول</a>
+                                                <ul class="menu vertical nested">
+                                                    <li data-close v-show='$can("BUDGET_ADMIN_SEASON_TITLE_DISPLAY")'><router-link to="/budget/admin/season/season_title">عنوان فصل</router-link></li>
+                                                    <li data-close v-show='$can("BUDGET_ADMIN_TINY_SEASON_DISPLAY")'><router-link to="/budget/admin/season/tiny_seasons">ریز فصل</router-link></li>
+                                                </ul>
+                                            </li>
+                                            <li data-close><router-link to="/financial_department/checks/templates">قالب چک</router-link></li>
+                                        </ul>
+                                    </li>
+                                    <!--Financial Department Start-->
+                                    <li>
+                                        <a class="right-mp right-menu-btm-border">کارتابل</a>
+                                        <ul class="menu vertical nested is-active">
+                                            <li data-close><router-link to="/financial_department/submissions">ارسالی</router-link></li>
+                                            <li data-close><router-link to="/financial_department/received_requests">دریافتی   <span v-show="unReadRequestCount > 0" class="notif-badage">@{{ unReadRequestCount }}</span></router-link></li>
+                                            <li data-close><router-link to="/financial_department/search_requests">جستجو</router-link></li>
+                                        </ul>
+                                    </li>
+                                    <!--Financial Department End-->
+                                    <!--checks list-->
+                                    <li data-close v-if='$can("CHECK_LIST_DISPLAY")'>
+                                        <router-link class="right-mp right-menu-btm-border" to="/financial_department/checks/list">چک</router-link>
+                                    </li>
+                                    <!--checks list-->
+                                    <!--fund-->
+                                    <li data-close>
+                                        <a class="right-mp right-menu-btm-border">تنخواه گردان کارپردازی</a>
+                                    </li>
+                                    <!--fund-->
                                 </ul>
-                            </li>
-                            <!--Financial Department Start-->
-                            <li>
-                                <a class="right-mp right-menu-btm-border">کارتابل</a>
-                                <ul class="menu vertical nested is-active">
-                                    <li><router-link to="/financial_department/submissions">ارسالی</router-link></li>
-                                    <li><router-link to="/financial_department/received_requests">دریافتی   <span v-show="unReadRequestCount > 0" class="notif-badage">@{{ unReadRequestCount }}</span></router-link></li>
-                                    <li><router-link to="/financial_department/search_requests">جستجو</router-link></li>
-                                </ul>
-                            </li>
-                            <!--Financial Department End-->
-                            <!--checks list-->
-                            <li v-if='$can("CHECK_LIST_DISPLAY")'>
-                                <router-link class="right-mp right-menu-btm-border" to="/financial_department/checks/list">چک</router-link>
-                            </li>
-                            <!--checks list-->
-                            <!--fund-->
-                            <li>
-                                <a class="right-mp right-menu-btm-border">تنخواه گردان کارپردازی</a>
-                            </li>
-                            <!--fund-->
-                        </ul>
-                    </nav>
-                </div>
-                <div class="grid-x">
-                    <div class="medium-12">
-                        <p style="margin-bottom: 5px;"  class="version-software text-center small-font">V:2576.1</p>
-                    </div>
-                </div>
-            </div>
-            <div class="large-10 medium-9 main-margin my-callout-box">
-                <!--Top Menu Start-->
-                <div style="z-index: 11;" data-sticky-container>
-                    <div style="background-color: #FFFFFF;" class="top-bar top-menu-color" data-sticky data-margin-top="0">
-                        <div class="top-bar-left"  v-cloak>
-                            <button style="margin-bottom: 0;font-size: 0.9em;" class="my-button my-drop-down-btn-clear dropdown small sm-btn-align"  type="button" data-toggle="example-dropdown-bottom-left">سال مالی<span class="comlpleted-badage">@{{ currentFyLabel }}</span></button>
-                            <div style="width: 120px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="example-dropdown-bottom-left" data-dropdown data-auto-focus="true">
-                                <ul class="my-menu small-font ltr-dir">
-                                    <li v-for="fiscalYear in fiscalYears"><a @click="changeFiscalYear(fiscalYear.id)">@{{ fiscalYear.fyLabel }} <span v-show="fiscalYear.id == currentFyId()" class="fi-check checked-color size-14"></span></a></li>
-                                </ul>
+                            </nav>
+                            <div class="grid-x">
+                                <div class="medium-12">
+                                    <p style="margin-bottom: 5px;"  class="version-software text-center small-font">V:2576.1</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="top-bar-right"  v-cloak>
-                            <ul style="background-color: #FFFFFF;" data-dropdown-menu class="dropdown  menu user-menu">
-                                <li>
-                                    <a style="margin-top: -3px;"><i class="fa fa-bell-o size-20 icon-gradient" aria-hidden="true"></i></a>
-                                    <ul style="background-color:#FFFFFF;" class="top-menu-style menu vertical">
+                    </div>
+                    <div class="off-canvas-content large-12 medium-12 small-12 my-callout-box"  data-off-canvas-content>
+                        <!--Top Menu Start-->
+                        <div style="z-index: 11;" data-sticky-container>
+                            <div style="background-color: #FFFFFF;" class="top-bar top-menu-color" data-sticky data-margin-top="0">
+                                <div class="top-bar-left"  v-cloak>
+                                    <button class="menu-icon " type="button" data-toggle="my-info"></button>
+                                    <button style="margin-bottom: 0;font-size: 0.9em;" class="my-button my-drop-down-btn-clear dropdown small sm-btn-align"  type="button" data-toggle="example-dropdown-bottom-left">سال مالی<span class="comlpleted-badage">@{{ currentFyLabel }}</span></button>
+                                    <div style="width: 120px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="example-dropdown-bottom-left" data-dropdown data-auto-focus="true">
+                                        <ul class="my-menu small-font ltr-dir">
+                                            <li v-for="fiscalYear in fiscalYears"><a @click="changeFiscalYear(fiscalYear.id)">@{{ fiscalYear.fyLabel }} <span v-show="fiscalYear.id == currentFyId()" class="fi-check checked-color size-14"></span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="top-bar-right"  v-cloak>
+                                    <ul style="background-color: #FFFFFF;" data-dropdown-menu class="dropdown  menu user-menu">
                                         <li>
-                                            <div class="top-menu-bg">
-                                                <div class="grid-x cover-color">
-                                                    <div class="medium-12">
-                                                        <h5 class="text-center BYekan">9 پیام جدید</h5>
+                                            <a style="margin-top: -3px;"><i class="fa fa-bell-o size-20 icon-gradient" aria-hidden="true"></i></a>
+                                            <ul style="background-color:#FFFFFF;" class="top-menu-style menu vertical">
+                                                <li>
+                                                    <div class="top-menu-bg">
+                                                        <div class="grid-x cover-color">
+                                                            <div class="medium-12">
+                                                                <h5 class="text-center BYekan">9 پیام جدید</h5>
+                                                            </div>
+                                                            <div class="medium-12">
+                                                                <p class="text-center">پیام های کاربر</p>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="medium-12">
-                                                        <p class="text-center">پیام های کاربر</p>
+                                                </li>
+                                                <li class="border-btm-line-dash">
+                                                    <a style="padding-bottom: -5px;">
+                                                        <div>
+                                                            <strong style="color: #000000;">علیرضا طاهری</strong>
+                                                            <span style="color: #777;" class="message-time large-offset-7">41 دقیقه قبل</span>
+                                                        </div>
+                                                        <div>
+                                                            <p style="color:  #333;margin-top: 12px;"> موافقت نامه سال 1396 در مورد پروژه های عمرانی در دست اقدام پیگیری از سازمان</p>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li class="border-btm-line">
+                                                    <a style="padding-bottom: -5px;">
+                                                        <div>
+                                                            <strong style="color: #000000;">علیرضا طاهری</strong>
+                                                            <span style="color: #777;" class="message-time large-offset-7">دو روز پیش</span>
+                                                        </div>
+                                                        <div>
+                                                            <p style="color:  #333;margin-top: 12px;"> موافقت نامه سال 1396 در مورد پروژه های عمرانی در دست اقدام پیگیری از سازمان</p>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a><span style="font-size: 14px;color: #666;"> @{{ userInfo.name }} </span></a>
+                                            <ul style="background-color: #ffffff;" class="top-menu-style menu menu vertical small-font white-color">
+                                                <li>
+                                                    <div class="top-menu-bg">
+                                                        <div class="grid-x cover-color">
+                                                            <div class="medium-12">
+                                                                <img style="width: 60px;height: 60px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos float-center" :src="imgDataUrl">
+                                                                <h5 class="text-center BYekan">@{{ userInfo.name }}</h5>
+                                                            </div>
+                                                            <div class="medium-12">
+                                                                <p class="text-center" style="margin-bottom: 0">@{{ userInfo.role.rSubject }}</p>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="border-btm-line-dash">
-                                            <a style="padding-bottom: -5px;">
-                                                <div>
-                                                    <strong style="color: #000000;">علیرضا طاهری</strong>
-                                                    <span style="color: #777;" class="message-time large-offset-7">41 دقیقه قبل</span>
-                                                </div>
-                                                <div>
-                                                    <p style="color:  #333;margin-top: 12px;"> موافقت نامه سال 1396 در مورد پروژه های عمرانی در دست اقدام پیگیری از سازمان</p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li class="border-btm-line">
-                                            <a style="padding-bottom: -5px;">
-                                                <div>
-                                                    <strong style="color: #000000;">علیرضا طاهری</strong>
-                                                    <span style="color: #777;" class="message-time large-offset-7">دو روز پیش</span>
-                                                </div>
-                                                <div>
-                                                    <p style="color:  #333;margin-top: 12px;"> موافقت نامه سال 1396 در مورد پروژه های عمرانی در دست اقدام پیگیری از سازمان</p>
-                                                </div>
-                                            </a>
+                                                </li>
+                                                <li class="menu-top"><a v-on:click="openModalUserSetting"><i class="tbl-menu fa fa-sliders"></i> <span>تنظیمات</span></a></li>
+                                                <li class="menu-top"><a v-on:click="beforeLogout"><i class="tbl-menu fa fa-sign-out"></i> <span>خروج</span></a></li>
+                                            </ul>
                                         </li>
                                     </ul>
-                                </li>
-                                <li>
-                                    <a><span style="font-size: 14px;color: #666;"> @{{ userInfo.name }} </span></a>
-                                    <ul style="background-color: #ffffff;" class="top-menu-style menu menu vertical small-font white-color">
-                                        <li>
-                                            <div class="top-menu-bg">
-                                                <div class="grid-x cover-color">
-                                                    <div class="medium-12">
-                                                        <img style="width: 60px;height: 60px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos float-center" :src="imgDataUrl">
-                                                        <h5 class="text-center BYekan">@{{ userInfo.name }}</h5>
-                                                    </div>
-                                                    <div class="medium-12">
-                                                        <p class="text-center" style="margin-bottom: 0">@{{ userInfo.role.rSubject }}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="menu-top"><a v-on:click="openModalUserSetting"><i class="tbl-menu fa fa-sliders"></i> <span>تنظیمات</span></a></li>
-                                        <li class="menu-top"><a v-on:click="beforeLogout"><i class="tbl-menu fa fa-sign-out"></i> <span>خروج</span></a></li>
-                                    </ul>
-                                </li>
-                            </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Top Menu End-->
+                    </div>
+                    <router-view></router-view>
+                    <!-- set progressbar -->
+                    <vue-progress-bar></vue-progress-bar>
+                    <audio ref="successAlarm" src="{{ asset('alarms/success.mp3') }}"></audio>
+                    <audio ref="errorAlarm" src="{{ asset('alarms/error.mp3') }}"></audio>
+                    <div class="medium-12 my-footer">
+                        <div class="grid-x">
+                            <div style="padding-top: 4px;" class="medium-12">
+                                <div class="small button-group float-left footer-menu">
+                                    <a class="clear button menu-color" href="{{ url('/help_center') }}" target="_blank">راهنمای سامانه</a>
+                                    <a class="clear button menu-color">درباره ما</a>
+                                    <a class="clear button menu-color">ارتباط با ما</a>
+                                    <a class="clear button menu-color">دیدگاه</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!--Top Menu End-->
-            </div>
-            <router-view></router-view>
-            <!-- set progressbar -->
-            <vue-progress-bar></vue-progress-bar>
-            <audio ref="successAlarm" src="{{ asset('alarms/success.mp3') }}"></audio>
-            <audio ref="errorAlarm" src="{{ asset('alarms/error.mp3') }}"></audio>
-            <div class="medium-12 my-footer">
-                <div class="grid-x">
-                    <div style="padding-top: 4px;" class="medium-12">
-                        <div class="small button-group float-left footer-menu">
-                            <a class="clear button menu-color" href="{{ url('/help_center') }}" target="_blank">راهنمای سامانه</a>
-                            <a class="clear button menu-color">درباره ما</a>
-                            <a class="clear button menu-color">ارتباط با ما</a>
-                            <a class="clear button menu-color">دیدگاه</a>
-                        </div>
                     </div>
+                    <notifications position="bottom right"
+                                   animation-type="velocity"
+                                   :speed="700" />
                 </div>
             </div>
         </div>
-        <notifications position="bottom right"
-                       animation-type="velocity"
-                       :speed="700" />
-    </div>
     <script type="text/x-template" id="modal-tiny-template">
         <transition name="modal-tiny">
             <div class="modal-mask">

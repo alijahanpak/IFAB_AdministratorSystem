@@ -1,6 +1,6 @@
 <template>
 <!--Body system-->
-    <div class="medium-10 border-right-line inner-body-pad main-margin">
+    <div class="medium-10 border-right-line inner-body-pad">
         <div class="grid-x padding-lr breadcrumbs-pos">
             <div class="medium-12">
                 <div class="grid-x">
