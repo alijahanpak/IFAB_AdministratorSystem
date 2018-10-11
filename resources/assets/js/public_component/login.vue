@@ -3,17 +3,18 @@
         <div slot="body">
             <div class="login-frame">
                 <div class="grid-x">
-                    <div class="medium-12">
+                    <div class="large-12 medium-12 small-10 small-offset-1">
                         <img class="float-center" :src="'pic/logom.jpg'" width="74px" height="74px">
                     </div>
                 </div>
                 <div class="grid-x">
-                    <div class="medium-12">
+                    <div class="large-12 medium-12 small-10 small-offset-1">
                         <h5 class="BYekan text-center  login-txt">سامانه یکپارچه اداری، مالی و بودجه</h5>
                     </div>
                 </div>
                 <div style="margin-top:20px;" class="grid-x">
-                    <div style="margin:0 auto;" class="large-3 cell callout ">
+                    <div class="large-offset-1 medium-offset-1"></div>
+                    <div style="margin:0 auto;" class="large-3 medium-5 medium-offset-1 small-10 small-offset-1 cell callout ">
                         <form v-on:submit.prevent="login">
                             <div class="columns padding-lr">
                                 <label>نام کاربری
@@ -21,30 +22,30 @@
                                 </label>
                                 <span v-show="errors.has('user')" class="error-font">لطفا نام کاربری را وارد کنید!</span>
                             </div>
-                            <div style="margin-top: 20px;" class="medium-12 columns padding-lr">
+                            <div style="margin-top: 20px;" class="large-12 medium-12 small-12 columns padding-lr">
                                 <label>رمز عبور
                                     <input style="font-family: FontAwesome;" class="form-element-margin-btm" type="password" placeholder="کلمه عبور" name="pass" v-model="authInfo.password"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('pass')}">
                                 </label>
                                 <span v-show="errors.has('pass')" class="error-font">لطفا رمز عبور را وارد کنید!</span>
                             </div>
-                            <div class="medium-12 padding-lr top-margin-element">
+                            <div class="large-12 medium-12 small-10 padding-lr top-margin-element">
                                 <button style="margin-top: 20px;"  name="submit" class="my-button my-success expanded">ورود</button>
                             </div>
                         </form>
                     </div>
                 </div>
                 <div class="grid-x">
-                    <div class="large-12">
+                    <div class="large-12 medium-12 small-10 small-offset-1">
                         <ul class="menu small-font align-center ul-margin">
                             <li><a class="footer-menu" :href="'/help_center'" target="_blank">راهنمای سامانه</a></li>
                             <li><a class="footer-menu" href="#">درباره ما</a></li>
                             <li><a class="footer-menu" href="#">دیدگاه</a></li>
                         </ul>
                     </div>
-                    <div class="large-12">
+                    <div class="large-12 medium-12 small-10 small-offset-1">
                         <p class="small-font footer-txt-size">تمامی حقوق این وب سایت متعلق یه اداره کل میراث فرهنگی، صنایع دستی و گردشگری استان همدان می باشد</p>
                     </div>
-                    <div style="margin-top: 20px;" class="large-12">
+                    <div style="margin-top: 20px;" class="large-12  medium-12 small-10 small-offset-1">
                         <img class="float-center" :src="'pic/keylogo.png'" width="130px" height="20px">
                     </div>
                 </div>

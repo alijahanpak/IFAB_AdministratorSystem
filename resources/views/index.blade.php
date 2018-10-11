@@ -166,7 +166,7 @@
                                             <li data-close v-show='$can("BUDGET_ADMIN_FISCAL_YEARS_DISPLAY")'><router-link to="/budget/admin/fiscal_year">سال مالی</router-link></li>
                                             <li data-close v-show='$can("BUDGET_ADMIN_DEPRIVED_AREA_DISPLAY")'><router-link to="/budget/admin/deprived_area">مناطق محروم</router-link></li>
                                             <li data-close v-show='$can("BUDGET_ADMIN_BUDGET_SEASON_DISPLAY|BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_DISPLAY|BUDGET_ADMIN_PLAN_RO_COST_TITLE_DISPLAY")'>
-                                                <a>توزیع اعتبار</a>
+                                                <a data-open>توزیع اعتبار</a>
                                                 <ul class="menu vertical nested">
                                                     <li data-close v-show='$can("BUDGET_ADMIN_BUDGET_SEASON_DISPLAY")'><router-link to="/budget/admin/credit_distribution_def/budget_season">فصل بودجه</router-link></li>
                                                     <li data-close v-show='$can("BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_DISPLAY")'><router-link to="/budget/admin/credit_distribution_def/row">ردیف توزیع اعتبار</router-link></li>
