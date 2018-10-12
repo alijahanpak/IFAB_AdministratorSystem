@@ -31,6 +31,7 @@
     "axios-base-url": "^0.2.0",
     "pdfvuer": "^1.0.3",
     "persian-datepicker": "^0.5.11",
+    "print-js": "^1.0.52",
     "v-money": "^0.8.1",
     "v-selectpage": "^1.0.15",
     "v-suggestions": "^1.0.6",

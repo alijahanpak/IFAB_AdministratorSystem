@@ -1712,7 +1712,7 @@ export default{
                     this.getCompleteCostAgrement();
                     this.showCostCreditsModal=true;
                 }else{
-                    this.dialogMessage = 'مبلغ تعهد شده از مبلغ درخواست بیشتر است، لطفا نصب به حذف محل های تامین ااعتبار از لیست انتخاب شده ها اقدام و یا مبالغ را اصلاح کنید.';
+                    this.dialogMessage = 'مبلغ تعهد شده از مبلغ درخواست بیشتر است، لطفا از طریق حذف و یا اصلاح موارد انتخاب شده، نسبت به اصلاح مبلغ تعهد شده اقدام کنید.';
                     this.showDialogModal = true;
                 }
             }else{

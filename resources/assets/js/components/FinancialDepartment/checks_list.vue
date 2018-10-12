@@ -100,6 +100,7 @@
     import Suggestions from "v-suggestions/src/Suggestions";
     import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
     import VuePagination from '../../public_component/pagination.vue';
+    import printJS from 'print-js';
     export default {
         components: {
             Suggestions,
