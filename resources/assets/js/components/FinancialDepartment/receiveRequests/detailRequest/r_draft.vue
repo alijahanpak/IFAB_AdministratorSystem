@@ -35,7 +35,7 @@
                     <!--Table Head End-->
                     <!--Table Body Start-->
                 </table>
-                <div style="height: 55vh" class="tbl_body_style inner-vh-unsize">
+                <div style="height: 51vh" class="tbl_body_style inner-vh-unsize">
                     <table class="tbl-body-contain">
                         <colgroup>
                             <col width="350px"/>

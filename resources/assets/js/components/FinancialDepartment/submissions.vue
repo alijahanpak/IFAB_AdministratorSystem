@@ -343,7 +343,7 @@
             <div  slot="body">
                 <div class="small-font">
                     <div class="grid-x">
-                        <div class="large-12 medium-12 small-12">
+                        <div class="large-12 medium-12 small-12 container-vh">
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="request_tab_view">
                                 <li class="tabs-title is-active"><a href="#requestDetailTab" aria-selected="true">جزییات</a></li>
                                 <li class="tabs-title"><a href="#requestVerifiersTab">تایید کنندگان </a></li>
@@ -351,9 +351,9 @@
                                 <li v-if="requestTypeDetail == 'SERVICES'" class="tabs-title"><a href="#requestPaymentTab"> درخواست پرداخت </a></li>
                                 <li class="tabs-title"><a href="#requestAttachmentsTab">پیوست ها </a></li>
                             </ul>
-                            <div class="tabs-content" data-tabs-content="request_tab_view">
+                            <div class="tabs-content inner-vh" data-tabs-content="request_tab_view">
                                 <!--Tab 1-->
-                                <div class="tabs-panel is-active table-mrg-btm" id="requestDetailTab">
+                                <div style="height: 58vh;" class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="requestDetailTab">
                                     <div class="grid-x">
                                         <div v-if="requestTypeDetail == 'SERVICES'" class="large-12 medium-12 small-12">
                                             <table>
@@ -461,7 +461,7 @@
                                 </div>
                                 <!--Tab 1-->
                                 <!--Tab 2-->
-                                <div class="tabs-panel table-mrg-btm" id="requestVerifiersTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div style="height: 60vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="requestVerifiersTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <div v-for="verifier in verifiers" class="large-12 medium-12 small-12 verifier-panel">
                                             <div class="grid-x">
@@ -482,7 +482,7 @@
                                 </div>
                                 <!--Tab 2-->
                                 <!--Tab 3-->
-                                <div class="tabs-panel table-mrg-btm" id="requestHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div style="height: 60vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="requestHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 large-top-m">
                                             <div style="margin-top:-50px;" v-for="recipientUser in recipientUsers" class="grid-x timeline">
@@ -568,7 +568,7 @@
                                                     <!--Table Head End-->
                                                     <!--Table Body Start-->
                                                 </table>
-                                                <div class="tbl_body_style dynamic-height-level-modal2">
+                                                <div style="height: 43vh;" class="tbl_body_style inner-vh-unsize">
                                                     <table class="tbl-body-contain">
                                                         <colgroup>
                                                             <col width="200px"/>
@@ -597,7 +597,7 @@
                                 <!--Tab 4-->
 
                                 <!--Tab 5-->
-                                <div class="tabs-panel table-mrg-btm" id="requestAttachmentsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div style="height: 60vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="requestAttachmentsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x" style="margin-bottom: 30px;margin-top: 20px">
                                         <div class="medium-12">
                                             <div class="grid-x">

@@ -645,7 +645,7 @@
                                 </div>
                                 <!--Tab 1-->
                                 <!--Tab 2-->
-                                <div class="tabs-panel table-mrg-btm inner-vh-2" id="requestVerifiersTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div style="height: 63vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="requestVerifiersTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <div v-for="verifier in verifiers" class="large-12 medium-12 small-12 verifier-panel">
                                             <div class="grid-x">
@@ -748,7 +748,7 @@
                                 </div>
                                 <!--Tab 6-->
                                 <!--Tab 7-->
-                                <div class="tabs-panel table-mrg-btm inner-vh-2" id="requestHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div style="height: 63vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="requestHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 large-top-m">
                                             <div style="margin-top:-50px;" v-for="recipientUser in recipientUsers" class="grid-x timeline">
