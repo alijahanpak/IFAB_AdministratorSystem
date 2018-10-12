@@ -1843,6 +1843,7 @@ return array(
     'Modules\\Financial\\Entities\\Commodity' => $baseDir . '/Modules/Financial/Entities/Commodity.php',
     'Modules\\Financial\\Entities\\Contract' => $baseDir . '/Modules/Financial/Entities/Contract.php',
     'Modules\\Financial\\Entities\\CostFinancing' => $baseDir . '/Modules/Financial/Entities/CostFinancing.php',
+    'Modules\\Financial\\Entities\\CostSpent' => $baseDir . '/Modules/Financial/Entities/CostSpent.php',
     'Modules\\Financial\\Entities\\Draft' => $baseDir . '/Modules/Financial/Entities/Draft.php',
     'Modules\\Financial\\Entities\\DraftState' => $baseDir . '/Modules/Financial/Entities/DraftState.php',
     'Modules\\Financial\\Entities\\DraftVerifier' => $baseDir . '/Modules/Financial/Entities/DraftVerifier.php',

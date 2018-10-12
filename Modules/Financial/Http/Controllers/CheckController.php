@@ -135,6 +135,7 @@ class CheckController extends Controller
                 })
                 ->with('draft')
                 ->with('percentageDecrease')
+                ->orderBy('id' , 'DESC')
                 ->paginate(20)
         );
     }

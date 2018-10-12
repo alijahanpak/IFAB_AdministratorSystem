@@ -2297,6 +2297,7 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         'Modules\\Financial\\Entities\\Commodity' => __DIR__ . '/../..' . '/Modules/Financial/Entities/Commodity.php',
         'Modules\\Financial\\Entities\\Contract' => __DIR__ . '/../..' . '/Modules/Financial/Entities/Contract.php',
         'Modules\\Financial\\Entities\\CostFinancing' => __DIR__ . '/../..' . '/Modules/Financial/Entities/CostFinancing.php',
+        'Modules\\Financial\\Entities\\CostSpent' => __DIR__ . '/../..' . '/Modules/Financial/Entities/CostSpent.php',
         'Modules\\Financial\\Entities\\Draft' => __DIR__ . '/../..' . '/Modules/Financial/Entities/Draft.php',
         'Modules\\Financial\\Entities\\DraftState' => __DIR__ . '/../..' . '/Modules/Financial/Entities/DraftState.php',
         'Modules\\Financial\\Entities\\DraftVerifier' => __DIR__ . '/../..' . '/Modules/Financial/Entities/DraftVerifier.php',
