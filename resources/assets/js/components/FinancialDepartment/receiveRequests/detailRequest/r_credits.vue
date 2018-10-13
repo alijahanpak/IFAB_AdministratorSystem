@@ -701,7 +701,9 @@
                                             <!--Table Head End-->
                                             <!--Table Body Start-->
                                             <div class="tbl_body_style dynamic-height-level-modal1">
-                                                <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
+                                                <vue-element-loading style="width: 100%;z-index: 2" :active="showLoaderProgress"  color="#716aca">
+                                                    <img src="http://127.0.0.1/IFAB_AdministratorSystem/public/pic/palas-loader.svg" width="200px" height="150px">
+                                                </vue-element-loading>
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
                                                         <col width="150px"/>

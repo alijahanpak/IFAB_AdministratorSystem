@@ -59,10 +59,10 @@ select,[type="text"],[type="password"],textarea{
 td {
     color: #555555;
     font-size: 12px;
-    border: solid 1.5px  #D8DEE2;
+    border: solid 1px  #D8DEE2;
 }
 th {
-    border: solid 1.5px #C7CDD1;
+    border: solid 1px #C7CDD1;
 }
 input:checked ~ .switch-paddle {
     background: #d9534f none repeat scroll 0 0;
@@ -2358,7 +2358,9 @@ input[type="search"]:valid + label {
     background: #cacaca;
     box-shadow: 0 7px 0 #cacaca, 0 14px 0 #cacaca; }
 
-
+.mt-none-label{
+    margin-top:25px;
+}
 /*Media Queries*/
 
 @media only screen and (max-width: 1024px) {
