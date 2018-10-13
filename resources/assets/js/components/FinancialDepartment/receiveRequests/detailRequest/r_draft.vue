@@ -262,8 +262,9 @@
                                                         <td v-if="check.percentage_decrease != null">{{check.percentage_decrease.pdSubject}}  ({{check.percentage_decrease.pdPercent}}%)</td>
                                                         <td v-else>{{draftFor}}</td>
                                                         <td class="text-center">{{$root.dispMoneyFormat(check.cAmount)}}</td>
-                                                        <td v-show="check.cDelivered" class="text-center"><span class="success-label">تحویل داده شده</span></td>
-                                                        <td v-show="!check.cDelivered" class="text-center"></td>
+                                                        <td v-show="check.check_state.csState == 'WAITING_FOR_PRINT'" class="text-center"><span class="danger-label">{{ check.check_state.csSubject }}</span></td>
+                                                        <td v-show="check.check_state.csState == 'WAITING_FOR_DELIVERY'" class="text-center"><span class="reserved-label">{{ check.check_state.csSubject }}</span></td>
+                                                        <td v-show="check.check_state.csState == 'DELIVERED'" class="text-center"><span class="success-label">{{ check.check_state.csSubject }}</span></td>
                                                     </tr>
                                                     </tbody>
                                                 </table>

@@ -8,7 +8,7 @@ use Morilog\Jalali\jDate;
 class _Check extends Model
 {
     protected $appends = ['cDeliveryShamsiDate' , 'cDeliveryShamsiTime' , 'cDelivered'];
-    protected $fillable = ['cDId' , 'cPdId' , 'cAmount' ,'cFyId'];
+    protected $fillable = ['cDId' , 'cPdId' , 'cAmount' ,'cFyId' , 'cCsId'];
     protected $table = 'tbl_checks';
 
     public function percentageDecrease()
@@ -19,6 +19,16 @@ class _Check extends Model
     public function draft()
     {
         return $this->belongsTo(Draft::class , 'cDId' , 'id');
+    }
+
+    public function checkState()
+    {
+        return $this->belongsTo(CheckState::class , 'cCsId' , 'id');
+    }
+
+    public function printHistory()
+    {
+        return $this->hasMany(PrintHistory::class , 'phCId' , 'id')->orderBy('id' , 'DESC');
     }
 
     public function getCDeliveryShamsiDateAttribute()

@@ -8,11 +8,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\SystemLog;
+use Modules\Admin\Entities\User;
 use Modules\Financial\Entities\_Check;
 use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\CheckFormat;
+use Modules\Financial\Entities\CheckState;
 use Modules\Financial\Entities\CheckVerifier;
 use Modules\Financial\Entities\Draft;
+use Modules\Financial\Entities\PrintHistory;
 use Modules\Financial\Entities\RequestHistory;
 use Modules\Financial\Entities\RequestLevel;
 use Modules\Financial\Entities\RequestState;
@@ -34,7 +37,8 @@ class CheckController extends Controller
             $insertedAId = array();
             $i = 0;
             $check = _Check::updateOrCreate(['cDId' => $request->dId , 'cPdId' => null , 'cFyId' => Auth::user()->seFiscalYear] , [
-                'cAmount' => $request->baseCheckAmount
+                'cAmount' => $request->baseCheckAmount,
+                'cCsId' => CheckState::where('csState' , 'WAITING_FOR_PRINT')->value('id')
             ]);
             $insertedAId[$i++] = $check->id;
 
@@ -44,7 +48,8 @@ class CheckController extends Controller
                 foreach ($request->get('decreases') as $item)
                 {
                     $check = _Check::updateOrCreate(['cDId' => $request->dId , 'cPdId' => $item['id'] , 'cFyId' => Auth::user()->seFiscalYear] , [
-                        'cAmount' => $item['amount']
+                        'cAmount' => $item['amount'],
+                        'cCsId' => CheckState::where('csState' , 'WAITING_FOR_PRINT')->value('id')
                     ]);
                     $insertedAId[$i++] = $check->id;
                 }
@@ -119,26 +124,36 @@ class CheckController extends Controller
 
     public function fetchAllChecks(Request $request)
     {
-        $searchValue = PublicSetting::checkPersianCharacters($request->searchValue);
         return response()->json(
-            _Check::where('cFyId' , '=' , Auth::user()->seFiscalYear)
-                ->where(function ($q) use($searchValue){
-                    return $q->where('cDate' , 'LIKE' , '%' . $searchValue . '%')
-                        ->orWhere('cAmount' , '=' , $searchValue)
-                        ->orWhere('cIdNumber' , '=' , $searchValue)
-                        ->orWhereHas('percentageDecrease' , function ($query) use($searchValue){
-                            return $query->where('pdSubject' , 'LIKE' , '%' . $searchValue . '%');
-                        })
-                        ->orWhereHas('draft' , function ($query) use($searchValue){
-                            return $query->where('dFor' , 'LIKE' , '%' . $searchValue . '%')
-                                ->orWhere('dPayTo' , '=' , $searchValue);
-                        });
-                })
-                ->with('draft')
-                ->with('percentageDecrease')
-                ->orderBy('id' , 'DESC')
-                ->paginate(20)
+            $this->getAllChecks($request->searchValue)
         );
+    }
+
+    private function getAllChecks($searchValue)
+    {
+        $searchValue = PublicSetting::checkPersianCharacters($searchValue);
+        return _Check::where('cFyId' , '=' , Auth::user()->seFiscalYear)
+            ->where(function ($q) use($searchValue){
+                return $q->where('cDate' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cAmount' , '=' , $searchValue)
+                    ->orWhere('cIdNumber' , '=' , $searchValue)
+                    ->orWhereHas('percentageDecrease' , function ($query) use($searchValue){
+                        return $query->where('pdSubject' , 'LIKE' , '%' . $searchValue . '%');
+                    })
+                    ->orWhereHas('checkState' , function ($query) use($searchValue){
+                        return $query->where('csSubject' , 'LIKE' , '%' . $searchValue . '%');
+                    })
+                    ->orWhereHas('draft' , function ($query) use($searchValue){
+                        return $query->where('dFor' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhere('dPayTo' , '=' , $searchValue);
+                    });
+            })
+            ->with('draft')
+            ->with('percentageDecrease')
+            ->with('checkState')
+            ->with('printHistory')
+            ->orderBy('id' , 'DESC')
+            ->paginate(20);
     }
 
     public function registerNewFormat(Request $request)
@@ -188,5 +203,35 @@ class CheckController extends Controller
     public function getActiveCheckFormat()
     {
         return CheckFormat::where('cfState' , '=' , true)->get();
+    }
+
+    public function updateCheckFields(Request $request)
+    {
+        DB::transaction(function () use($request){
+            $checkVerifier = CheckVerifier::find($request->cvId);
+            $user = User::where('id' , $checkVerifier->cvUId)->with('role')->first();
+
+            $check = _Check::where('id' , $request->cId)->first();
+            $check->cDate = $request->date;
+            $check->cCvId = $checkVerifier->id;
+            $check->cCsId = $check->cCsId == CheckState::where('csState' , 'WAITING_FOR_PRINT')->value('id') ? CheckState::where('csState' , 'WAITING_FOR_DELIVERY')->value('id') : $check->cCsId;
+            $check->cIdNumber = $request->idNumber;
+            $check->save();
+
+            $printHistory = new PrintHistory();
+            $printHistory->phCId = $request->cId;
+            $printHistory->phDate = $check->cDate;
+            $printHistory->phIdNumber = $check->cIdNumber;
+            $printHistory->phVerifierName = $user->name . ' - ' . $user->role->rSubject;
+            $printHistory->phCheckFormat = $request->cfSubject;
+            $printHistory->phAmount = $check->cAmount;
+            $printHistory->save();
+
+            SystemLog::setFinancialSubSystemLog('چاپ چک شماره ' .  $request->idNumber);
+        });
+
+        return response()->json(
+            $this->getAllChecks($request->searchValue)
+        );
     }
 }

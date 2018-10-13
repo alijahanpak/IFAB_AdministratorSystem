@@ -33,9 +33,9 @@
                         <table class="tbl-head">
                             <colgroup>
                                 <col width="150px"/>
+                                <col width="150px"/>
+                                <col width="150px"/>
                                 <col width="300px"/>
-                                <col width="150px"/>
-                                <col width="150px"/>
                                 <col width="150px"/>
                                 <col width="250px"/>
                                 <col width="150px"/>
@@ -43,11 +43,11 @@
                             </colgroup>
                             <tbody class="tbl-head-style">
                             <tr class="tbl-head-style-cell">
-                                <th class="tbl-head-style-cell">شماره</th>
+                                <th class="tbl-head-style-cell">شماره چک</th>
+                                <th class="tbl-head-style-cell">تاریخ چک</th>
+                                <th class="tbl-head-style-cell">مبلغ <span class="btn-red small-font">(ریال)</span></th>
                                 <th class="tbl-head-style-cell">بابت</th>
                                 <th class="tbl-head-style-cell">در وجه</th>
-                                <th class="tbl-head-style-cell">مبلغ <span class="btn-red small-font">(ریال)</span></th>
-                                <th class="tbl-head-style-cell">تاریخ چک</th>
                                 <th class="tbl-head-style-cell">تاریخ تحویل</th>
                                 <th class="tbl-head-style-cell">وضعیت</th>
                                 <th class="tbl-head-style-cell"></th>
@@ -60,23 +60,24 @@
                             <table class="tbl-body-contain">
                                 <colgroup>
                                     <col width="150px"/>
+                                    <col width="150px"/>
+                                    <col width="150px"/>
                                     <col width="300px"/>
-                                    <col width="150px"/>
-                                    <col width="150px"/>
                                     <col width="150px"/>
                                     <col width="250px"/>
                                     <col width="150px"/>
                                 </colgroup>
                                 <tbody class="tbl-head-style-cell">
                                 <tr class="table-row" @click="getRequestDetail(allRequest)" v-for="allCheck in allChecks">
-                                    <td>{{allCheck.cIdNumber}}</td>
+                                    <td class="text-center">{{allCheck.cIdNumber}}</td>
+                                    <td class="text-center">{{allCheck.cDate}}</td>
+                                    <td class="text-center">{{$parent.dispMoneyFormat(allCheck.cAmount)}}</td>
                                     <td>{{allCheck.cPdId != null ? allCheck.percentage_decrease.pdSubject + ' - ' + allCheck.draft.dFor : allCheck.draft.dFor}}</td>
                                     <td class="text-center">{{allCheck.draft.dPayTo}}</td>
-                                    <td class="text-center">{{$parent.dispMoneyFormat(allCheck.cAmount)}}</td>
-                                    <td class="text-center">{{allCheck.cDate}}</td>
                                     <td class="text-center">{{ allCheck.cDeliveryShamsiDate != '' ? allCheck.cDeliveryShamsiTime + ' - ' + allCheck.cDeliveryShamsiDate : '' }}</td>
-                                    <td v-if="allCheck.cDelivered == true" class="text-center"><span class="success-label">تحویل داده شده</span></td>
-                                    <td v-else class="text-center"></td>
+                                    <td v-show="allCheck.check_state.csState == 'WAITING_FOR_PRINT'" class="text-center"><span class="danger-label">{{ allCheck.check_state.csSubject }}</span></td>
+                                    <td v-show="allCheck.check_state.csState == 'WAITING_FOR_DELIVERY'" class="text-center"><span class="reserved-label">{{ allCheck.check_state.csSubject }}</span></td>
+                                    <td v-show="allCheck.check_state.csState == 'DELIVERED'" class="text-center"><span class="success-label">{{ allCheck.check_state.csSubject }}</span></td>
                                 </tr>
                                 </tbody>
                             </table>

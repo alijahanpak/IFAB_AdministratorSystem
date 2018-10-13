@@ -256,6 +256,7 @@ class RequestController extends Controller
                 ->with('factor.seller')
                 ->with('draft.verifier.user.role')
                 ->with('draft.check.percentageDecrease')
+                ->with('draft.check.checkState')
                 ->with('draft.draftState')
                 ->with('payRequest.payRequestState')
                 ->with('payRequest.verifiers.user.role.officeUnit')
