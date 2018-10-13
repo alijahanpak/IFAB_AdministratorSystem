@@ -192,6 +192,7 @@ class _Request extends Model
     {
         $draftsId = Draft::where('dRId' , '=' , $this->id)->pluck('id');
         $sumOfChecksAmount = _Check::whereIn('cDId' , $draftsId)
+            ->get()
             ->where('cDelivered' , '=' , true)
             ->sum('cAmount');
         if (count($draftsId) == 0)

@@ -1838,6 +1838,7 @@ return array(
     'Modules\\Financial\\Database\\Seeders\\SeederRequestLevelTableSeeder' => $baseDir . '/Modules/Financial/Database/Seeders/SeederRequestLevelTableSeeder.php',
     'Modules\\Financial\\Entities\\AccountantRequestQueue' => $baseDir . '/Modules/Financial/Entities/AccountantRequestQueue.php',
     'Modules\\Financial\\Entities\\Attachment' => $baseDir . '/Modules/Financial/Entities/Attachment.php',
+    'Modules\\Financial\\Entities\\CapSpent' => $baseDir . '/Modules/Financial/Entities/CapSpent.php',
     'Modules\\Financial\\Entities\\CapitalAssetsFinancing' => $baseDir . '/Modules/Financial/Entities/CapitalAssetsFinancing.php',
     'Modules\\Financial\\Entities\\CheckVerifier' => $baseDir . '/Modules/Financial/Entities/CheckVerifier.php',
     'Modules\\Financial\\Entities\\Commodity' => $baseDir . '/Modules/Financial/Entities/Commodity.php',
