@@ -22,7 +22,7 @@ class CreateChecksTable extends Migration
                 $table->bigInteger('cFyId')->length(20)->unsigned();
                 $table->string('cDate')->nullable();
                 $table->string('cIdNumber')->nullable()->unique();
-                $table->boolean('cDelivered')->default(false);
+                //$table->boolean('cDelivered')->default(false);
                 $table->unsignedBigInteger('cAmount');
                 $table->timestamps();
 

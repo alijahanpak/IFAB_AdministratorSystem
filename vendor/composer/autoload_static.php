@@ -2292,6 +2292,7 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         'Modules\\Financial\\Database\\Seeders\\SeederRequestLevelTableSeeder' => __DIR__ . '/../..' . '/Modules/Financial/Database/Seeders/SeederRequestLevelTableSeeder.php',
         'Modules\\Financial\\Entities\\AccountantRequestQueue' => __DIR__ . '/../..' . '/Modules/Financial/Entities/AccountantRequestQueue.php',
         'Modules\\Financial\\Entities\\Attachment' => __DIR__ . '/../..' . '/Modules/Financial/Entities/Attachment.php',
+        'Modules\\Financial\\Entities\\CapSpent' => __DIR__ . '/../..' . '/Modules/Financial/Entities/CapSpent.php',
         'Modules\\Financial\\Entities\\CapitalAssetsFinancing' => __DIR__ . '/../..' . '/Modules/Financial/Entities/CapitalAssetsFinancing.php',
         'Modules\\Financial\\Entities\\CheckVerifier' => __DIR__ . '/../..' . '/Modules/Financial/Entities/CheckVerifier.php',
         'Modules\\Financial\\Entities\\Commodity' => __DIR__ . '/../..' . '/Modules/Financial/Entities/Commodity.php',

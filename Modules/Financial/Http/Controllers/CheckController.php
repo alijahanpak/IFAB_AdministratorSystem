@@ -10,6 +10,7 @@ use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Financial\Entities\_Check;
 use Modules\Financial\Entities\_Request;
+use Modules\Financial\Entities\CheckFormat;
 use Modules\Financial\Entities\CheckVerifier;
 use Modules\Financial\Entities\Draft;
 use Modules\Financial\Entities\RequestHistory;
@@ -138,5 +139,54 @@ class CheckController extends Controller
                 ->orderBy('id' , 'DESC')
                 ->paginate(20)
         );
+    }
+
+    public function registerNewFormat(Request $request)
+    {
+        DB::transaction(function () use($request){
+            $format = new CheckFormat();
+            $format->cfSubject = PublicSetting::checkPersianCharacters($request->subject);
+            $format->cfState = $request->state;
+            $format->cfDateTop = $request->dateTop;
+            $format->cfDateRight = $request->dateRight;
+            $format->cfDateWidth = $request->dateWidth;
+            $format->cfForTop = $request->forTop;
+            $format->cfForRight = $request->forRight;
+            $format->cfForWidth = $request->forWidth;
+            $format->cfPayToTop = $request->payToTop;
+            $format->cfPayToRight = $request->payToRight;
+            $format->cfPayToWidth = $request->payToWidth;
+            $format->cfStringAmountTop = $request->stringAmountTop;
+            $format->cfStringAmountRight = $request->stringAmountRight;
+            $format->cfStringAmountWidth = $request->stringAmountWidth;
+            $format->cfAmountTop = $request->amountTop;
+            $format->cfAmountRight = $request->amountRight;
+            $format->cfAmountWidth = $request->amountWidth;
+            $format->cfSignatureTop = $request->signatureTop;
+            $format->cfSignatureRight = $request->signatureRight;
+            $format->cfSignatureWidth = $request->signatureWidth;
+            $format->cfWidth = $request->width;
+            $format->cfHeight = $request->height;
+            $format->save();
+
+            SystemLog::setFinancialSubSystemLog('ایجاد قالب چک جدید با عنوان ' . $request->subject);
+        });
+
+        return response()->json($this->getAllCheckFormat());
+    }
+
+    public function fetchAllCheckFormat()
+    {
+        return response()->json($this->getAllCheckFormat());
+    }
+
+    public function getAllCheckFormat()
+    {
+        return CheckFormat::paginate(20);
+    }
+
+    public function getActiveCheckFormat()
+    {
+        return CheckFormat::where('cfState' , '=' , true)->get();
     }
 }

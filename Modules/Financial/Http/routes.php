@@ -82,4 +82,10 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::post('/was_seen', 'PayRequestController@wasSeen');
         Route::post('/block', 'PayRequestController@block');
     });
+
+    Route::prefix('admin')->group(function () {
+        Route::post('/check/format/register' , 'CheckController@registerNewFormat');
+        Route::get('/check/format/fetch' , 'CheckController@fetchAllCheckFormat');
+        Route::get('/check/format/fetch_active_format' , 'CheckController@getActiveCheckFormat');
+    });
 });
