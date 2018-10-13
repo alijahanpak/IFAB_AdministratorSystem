@@ -20,11 +20,17 @@ class CreateChecksTable extends Migration
                 $table->bigInteger('cPdId')->length(20)->unsigned()->nullable();
                 $table->bigInteger('cCvId')->length(20)->unsigned()->nullable();
                 $table->bigInteger('cFyId')->length(20)->unsigned();
+                $table->bigInteger('cCsId')->length(20)->unsigned();
                 $table->string('cDate')->nullable();
                 $table->string('cIdNumber')->nullable()->unique();
-                //$table->boolean('cDelivered')->default(false);
+                $table->dateTime('cDeliveryDate')->nullable();
                 $table->unsignedBigInteger('cAmount');
                 $table->timestamps();
+
+                $table->foreign('cCsId')
+                    ->references('id')->on('tbl_check_states')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
 
                 $table->foreign('cDId')
                     ->references('id')->on('tbl_drafts')

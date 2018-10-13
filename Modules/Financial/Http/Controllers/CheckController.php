@@ -182,7 +182,7 @@ class CheckController extends Controller
 
     public function getAllCheckFormat()
     {
-        return CheckFormat::paginate(20);
+        return CheckFormat::all();
     }
 
     public function getActiveCheckFormat()

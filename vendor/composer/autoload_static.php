@@ -2294,6 +2294,8 @@ class ComposerStaticInit9ce9549855501dd1d47d41f841fe814e
         'Modules\\Financial\\Entities\\Attachment' => __DIR__ . '/../..' . '/Modules/Financial/Entities/Attachment.php',
         'Modules\\Financial\\Entities\\CapSpent' => __DIR__ . '/../..' . '/Modules/Financial/Entities/CapSpent.php',
         'Modules\\Financial\\Entities\\CapitalAssetsFinancing' => __DIR__ . '/../..' . '/Modules/Financial/Entities/CapitalAssetsFinancing.php',
+        'Modules\\Financial\\Entities\\CheckFormat' => __DIR__ . '/../..' . '/Modules/Financial/Entities/CheckFormat.php',
+        'Modules\\Financial\\Entities\\CheckState' => __DIR__ . '/../..' . '/Modules/Financial/Entities/CheckState.php',
         'Modules\\Financial\\Entities\\CheckVerifier' => __DIR__ . '/../..' . '/Modules/Financial/Entities/CheckVerifier.php',
         'Modules\\Financial\\Entities\\Commodity' => __DIR__ . '/../..' . '/Modules/Financial/Entities/Commodity.php',
         'Modules\\Financial\\Entities\\Contract' => __DIR__ . '/../..' . '/Modules/Financial/Entities/Contract.php',

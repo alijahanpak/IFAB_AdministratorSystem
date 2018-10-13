@@ -24,7 +24,7 @@ class _Check extends Model
     public function getCDeliveryShamsiDateAttribute()
     {
         if ($this->getCDeliveredAttribute() == true)
-            return jDate::forge($this->updated_at)->format('Y/m/d');
+            return jDate::forge($this->attributes['cDeliveryDate'])->format('Y/m/d');
         else
             return '';
     }
@@ -32,7 +32,7 @@ class _Check extends Model
     public function getCDeliveryShamsiTimeAttribute()
     {
         if ($this->getCDeliveredAttribute() == true)
-            return jDate::forge($this->updated_at)->format('time');
+            return jDate::forge($this->attributes['cDeliveryDate'])->format('time');
         else
             return '';
     }

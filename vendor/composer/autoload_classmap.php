@@ -1840,6 +1840,8 @@ return array(
     'Modules\\Financial\\Entities\\Attachment' => $baseDir . '/Modules/Financial/Entities/Attachment.php',
     'Modules\\Financial\\Entities\\CapSpent' => $baseDir . '/Modules/Financial/Entities/CapSpent.php',
     'Modules\\Financial\\Entities\\CapitalAssetsFinancing' => $baseDir . '/Modules/Financial/Entities/CapitalAssetsFinancing.php',
+    'Modules\\Financial\\Entities\\CheckFormat' => $baseDir . '/Modules/Financial/Entities/CheckFormat.php',
+    'Modules\\Financial\\Entities\\CheckState' => $baseDir . '/Modules/Financial/Entities/CheckState.php',
     'Modules\\Financial\\Entities\\CheckVerifier' => $baseDir . '/Modules/Financial/Entities/CheckVerifier.php',
     'Modules\\Financial\\Entities\\Commodity' => $baseDir . '/Modules/Financial/Entities/Commodity.php',
     'Modules\\Financial\\Entities\\Contract' => $baseDir . '/Modules/Financial/Entities/Contract.php',
