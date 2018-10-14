@@ -11,9 +11,13 @@ use Modules\Admin\Entities\SystemLog;
 use Modules\Admin\Entities\User;
 use Modules\Financial\Entities\_Check;
 use Modules\Financial\Entities\_Request;
+use Modules\Financial\Entities\CapitalAssetsFinancing;
+use Modules\Financial\Entities\CapSpent;
 use Modules\Financial\Entities\CheckFormat;
 use Modules\Financial\Entities\CheckState;
 use Modules\Financial\Entities\CheckVerifier;
+use Modules\Financial\Entities\CostFinancing;
+use Modules\Financial\Entities\CostSpent;
 use Modules\Financial\Entities\Draft;
 use Modules\Financial\Entities\PrintHistory;
 use Modules\Financial\Entities\RequestHistory;
@@ -228,6 +232,7 @@ class CheckController extends Controller
             $printHistory->phVerifierName = $user->name . ' - ' . $user->role->rSubject;
             $printHistory->phCheckFormat = $request->cfSubject;
             $printHistory->phAmount = $check->cAmount;
+            $printHistory->phDescription = PublicSetting::checkPersianCharacters($request->description);
             $printHistory->save();
 
             SystemLog::setFinancialSubSystemLog('چاپ چک شماره ' .  $request->idNumber);
@@ -240,17 +245,71 @@ class CheckController extends Controller
 
     public function deliver(Request $request)
     {
-        DB::transaction(function () use($request){
+        $result = DB::transaction(function () use($request){
             $check = _Check::where('id' , $request->cId)->with('draft')->first();
             $check->cCsId = CheckState::where('csState' , 'DELIVERED')->value('id');
             $check->cDeliveryDate = $request->date;
             $check->save();
 
-            SystemLog::setFinancialSubSystemLog('تحویل چک ' .  $check->draft->dFor);
+            $costFinancing = CostFinancing::where('cfRId' , $check->draft->dRId)->get()->sortBy('cfRemainingAmount');
+            $capFinancing = CapitalAssetsFinancing::where('cafRId' , $check->draft->dRId)->get()->sortBy('cafRemainingAmount');
+            $financingCount = count($costFinancing) + count($capFinancing);
+
+            $pieceOfAmount = round($check->cAmount / $financingCount);
+            $remainingAmount = $check->cAmount - ($pieceOfAmount * $financingCount);
+
+            foreach ($costFinancing as $cf)
+            {
+                if ($cf->cfRemainingAmount >= ($pieceOfAmount + $remainingAmount))
+                {
+                    $tempAmount = $pieceOfAmount + $remainingAmount;
+                    $remainingAmount = 0;
+                }else if ($cf->cfRemainingAmount >= $pieceOfAmount){
+                    $tempAmount = $pieceOfAmount;
+                }else{
+                    $tempAmount = $cf->cfRemainingAmount;
+                    $remainingAmount += $pieceOfAmount - $cf->cfRemainingAmount;
+                }
+
+                $costSpent = new CostSpent();
+                $costSpent->csCfId = $cf->id;
+                $costSpent->csCId = $check->id;
+                $costSpent->csAmount = $tempAmount;
+                $costSpent->save();
+            }
+
+            foreach ($capFinancing as $caf)
+            {
+                if ($caf->cafRemainingAmount >= ($pieceOfAmount + $remainingAmount))
+                {
+                    $tempAmount = $pieceOfAmount + $remainingAmount;
+                    $remainingAmount = 0;
+                }else if ($caf->cafRemainingAmount >= $pieceOfAmount){
+                    $tempAmount = $pieceOfAmount;
+                }else{
+                    $tempAmount = $caf->cafRemainingAmount;
+                    $remainingAmount += $pieceOfAmount - $caf->cafRemainingAmount;
+                }
+
+                $capSpent = new CapSpent();
+                $capSpent->csCafId = $caf->id;
+                $capSpent->csCId = $check->id;
+                $capSpent->csAmount = $tempAmount;
+                $capSpent->save();
+            }
+
+            if ($remainingAmount != 0)
+                return 500;
+            else{
+                SystemLog::setFinancialSubSystemLog('تحویل چک ' .  $check->draft->dFor);
+                return 200;
+            }
+
         });
 
         return response()->json(
-            $this->getAllChecks($request->searchValue)
+            $this->getAllChecks($request->searchValue),
+            $result
         );
     }
 }
