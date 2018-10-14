@@ -54,13 +54,13 @@
                                 <col v-show="$can('BUDGET_ADMIN_ACTIVE_FISCAL_YEARS')" width="100px"/>
                             </colgroup>
                             <tbody class="tbl-head-style-cell">
-                                <tr v-for="fiscalYear in fiscalYears">
+                                <tr v-for="(fiscalYear , index) in fiscalYears">
                                     <td>{{ fiscalYear.fyLabel }}</td>
                                     <td>{{ fiscalYear.fyDescription }}</td>
                                     <td class="text-center" v-if="fiscalYear.fyStatus != 2">{{ getFiscalYearStatus(fiscalYear.fyStatus) }}</td>
                                     <td v-else class="text-center btn-red">{{ getFiscalYearStatus(fiscalYear.fyStatus) }}</td>
                                     <td class="text-center" v-show="$can('BUDGET_ADMIN_FISCAL_YEARS_EDIT_PERMISSIONS')">
-                                        <a v-show="fiscalYear.fyStatus == 1" @click="openChangePermissionDialog(fiscalYear.id)"><i class="fi-clipboard-pencil size-21 blue-color"></i></a>
+                                        <a v-show="fiscalYear.fyStatus == 1" @click="openChangePermissionDialog(index)"><i class="fi-clipboard-pencil size-21 blue-color"></i></a>
                                     </td>
                                     <td v-show="$can('BUDGET_ADMIN_ACTIVE_FISCAL_YEARS')" class="text-center">
                                         <a v-show="fiscalYear.fyStatus == 0" @click="openFyActiveRequestDialog(fiscalYear.fyLabel , fiscalYear.id)"><i class="fi-checkbox size-21 edit-pencil"></i></a>
@@ -120,28 +120,24 @@
                                 </div>
                             </div>
                         </div>
-                        <template v-for="(subSystem , index) in fyPermission">
-                            <template v-for="subSystemPart in subSystem.sub_system_part">
-                                <div v-for="(permission , index) in subSystemPart.permission" class="grid-x column">
-                                    <div class="medium-12">
-                                        <div class="grid-x padding-lr">
-                                            <div class="medium-2">
-                                                <div class="switch tiny">
-                                                    <input class="switch-input" type="checkbox" v-model="permission.pFyLimiterState" :id="'permission' + permission.id" @change="changePermissionState(permission)">
-                                                    <label class="switch-paddle" :for="'permission' + permission.id">
-                                                        <span class="switch-active" aria-hidden="true">بلی</span>
-                                                        <span class="switch-inactive" aria-hidden="true">خیر</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="medium-10">
-                                                <p>{{ permission.pSubject }}</p>
-                                            </div>
+                        <div v-for="(permission , index) in fiscalYears[selectedFyIndex].fyPermissions" class="grid-x column">
+                            <div class="medium-12">
+                                <div class="grid-x padding-lr">
+                                    <div class="medium-2">
+                                        <div class="switch tiny">
+                                            <input class="switch-input" type="checkbox" v-model="permission.pFyLimiterState" :id="'permission' + permission.id" @change="changePermissionState(permission)">
+                                            <label class="switch-paddle" :for="'permission' + permission.id">
+                                                <span class="switch-active" aria-hidden="true">بلی</span>
+                                                <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                            </label>
                                         </div>
                                     </div>
+                                    <div class="medium-10">
+                                        <p>{{ permission.pSubject }}</p>
+                                    </div>
                                 </div>
-                            </template>
-                        </template>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -155,8 +151,8 @@
     export default {
         data(){
             return {
+                selectedFyIndex: -1,
                 fiscalYears: [],
-                fyPermission: [],
                 showFyActiveModal: false,
                 showChangePermissionDialog: false,
                 allPermissionSelectedSection: {budget: ''},
@@ -251,21 +247,11 @@
                     });
             },
 
-            openChangePermissionDialog: function (fyId) {
-                this.fyActiveId = fyId;
-                this.getFyPermission();
+            openChangePermissionDialog: function (index) {
+                this.fyActiveId = this.fiscalYears[index].id;
+                this.selectedFyIndex = index;
+                this.allSelected(this.fiscalYears[this.selectedFyIndex].fyPermissions);
                 this.showChangePermissionDialog = true;
-            },
-
-            getFyPermission: function () {
-                axios.get('/budget/admin/fiscal_year/getFyPermission')
-                    .then((response) => {
-                        this.fyPermission = response.data;
-                        this.allSelected(this.fyPermission);
-                        console.log(response.data);
-                    },(error) => {
-                        console.log(error);
-                    });
             },
 
             changeAllPermissionState: function () {
@@ -273,8 +259,8 @@
                     fyId: this.fyActiveId,
                     state: this.fiscalYearState
                 }).then((response) => {
-                    this.fyPermission = response.data;
-                    this.allSelected(this.fyPermission);
+                    this.fiscalYears = response.data.data;
+                    this.allSelected(this.fiscalYears[this.selectedFyIndex].fyPermissions);
                     console.log(response.data);
                 },(error) => {
                     console.log(error);
@@ -287,39 +273,31 @@
                     pId: permission.id,
                     state: permission.pFyLimiterState
                 }).then((response) => {
-                    this.fyPermission = response.data;
-                    this.allSelected(this.fyPermission);
+                    this.fiscalYears = response.data.data;
+                    this.allSelected(this.fiscalYears[this.selectedFyIndex].fyPermissions);
                     console.log(response.data);
                 },(error) => {
                     console.log(error);
                 });
             },
 
-            allSelected: function(subSystem) {
+            allSelected: function(permission) {
                 var aSelected = false;
-                subSystem.forEach(ss => {
-                    ss.sub_system_part.forEach(ssp => {
-                        ssp.permission.forEach(per => {
-                            if (per.pFyLimiterState)
-                            {
-                                aSelected = per.pFyLimiterState;
-                            }
-                        });
-                    });
+                permission.forEach(per => {
+                    if (per.pFyLimiterState)
+                    {
+                        aSelected = per.pFyLimiterState;
+                    }
                 });
+
                 this.fiscalYearState = aSelected;
             },
 
             toggleSelect: function(state) {
-                this.fyPermission.forEach(ss => {
-                    ss.sub_system_part.forEach(ssp => {
-                        ssp.permission.forEach(per => {
-                            per.pFyLimiterState = state;
-                        });
-                    });
+                this.fiscalYears[this.selectedFyIndex].fyPermissions.forEach(per => {
+                    per.pFyLimiterState = state;
                 });
                 this.changeAllPermissionState();
-                console.log(JSON.stringify(this.fyPermission));
             },
 
             setUpdateDataThread: function () {

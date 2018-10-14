@@ -10,11 +10,4 @@ class Permission extends Model
 {
     protected $table = 'tbl_permissions';
     protected $fillable = [];
-    protected $appends = ['pFyLimiterState'];
-
-    public function getPFyLimiterStateAttribute()
-    {
-        return !(PermissionLimiter::where('plFyId' , '=' , Auth::user()->seFiscalYear)
-            ->where('plPId' , '=' , $this->id)->exists());
-    }
 }

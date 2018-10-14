@@ -452,27 +452,6 @@ class BudgetAdminController extends Controller
         return \request()->json([]);
     }
 
-    public function getFyPermission(Request $request)
-    {
-        return \response()->json($this->getPermissionWithFyId(Auth::user()->seFiscalYear));
-    }
-
-    public function getPermissionWithFyId($fyId)
-    {
-        $sspListId = Permission::where('pAllowDispInFyList' , '=' , true)->pluck('pSspId');
-        $ssListId = SubSystemPart::whereIn('id' , $sspListId)->pluck('sspSsId');
-        $subsystem = SubSystem::whereIn('id' , $ssListId)
-            ->with(['subSystemPart' => function($q) use($sspListId){
-                return $q->whereIn('id' , $sspListId)
-                    ->with(['permission' => function($q1){
-                        return $q1->where('pAllowDispInFyList' , '=' , true);
-                    }]);
-            }])
-            ->get();
-
-        return $subsystem;
-    }
-
     function changeAllPermissionState(Request $request)
     {
         DB::transaction(function () use($request){
@@ -490,9 +469,24 @@ class BudgetAdminController extends Controller
                     $pLimiter->save();
                 }
             }
+            $permLimitId = PermissionLimiter::where('plFyId' , $request->fyId)
+                ->pluck('plPId');
+            $openCount = Permission::whereNotIn('id' , $permLimitId)
+                ->where('pAllowDispInFyList' , true)
+                ->exists();
+            if ($openCount == 0)
+            {
+                $fy = FiscalYear::where('id' , $request->fyId)->first();
+                $fy->fyStatus = 2;
+                $fy->save();
+            }else{
+                $fy = FiscalYear::where('id' , $request->fyId)->first();
+                $fy->fyStatus = 1;
+                $fy->save();
+            }
         });
         SystemLog::setBudgetSubSystemAdminLog('محدود کردن کلیه مجوز های سال مالی ' . FiscalYear::find($request->fyId)->fyLabel);
-        return \response()->json($this->getPermissionWithFyId($request->fyId));
+        return \response()->json($this->getAllFiscalYears());
     }
 
     function changePermissionState(Request $request)
@@ -510,16 +504,24 @@ class BudgetAdminController extends Controller
                 $pLimiter->save();
             }
 
-            $permissionsId = Permission::where('pAllowDispInFyList' , true)->pluck('id');
-            $openCount = PermissionLimiter::whereNotIn('plPId' , $permissionsId)->exists();
+            $permLimitId = PermissionLimiter::where('plFyId' , $request->fyId)
+                ->pluck('plPId');
+            $openCount = Permission::whereNotIn('id' , $permLimitId)
+                ->where('pAllowDispInFyList' , true)
+                ->exists();
             if ($openCount == 0)
             {
-
+                $fy = FiscalYear::where('id' , $request->fyId)->first();
+                $fy->fyStatus = 2;
+                $fy->save();
+            }else{
+                $fy = FiscalYear::where('id' , $request->fyId)->first();
+                $fy->fyStatus = 1;
+                $fy->save();
             }
-
+            SystemLog::setBudgetSubSystemAdminLog('محدود کردن مجوز ' . Permission::find($request->pId)->pSubject . ' در سال مالی ' . FiscalYear::find($request->fyId)->fyLabel);
         });
-        SystemLog::setBudgetSubSystemAdminLog('محدود کردن مجوز ' . Permission::find($request->pId)->pSubject . ' در سال مالی ' . FiscalYear::find($request->fyId)->fyLabel);
-        return \response()->json($this->getPermissionWithFyId($request->fyId));
+        return \response()->json($this->getAllFiscalYears());
     }
 
     /////////////////////////////// deprived area ///////////////////////////////////////////
