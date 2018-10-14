@@ -55,10 +55,11 @@
                                     <col width="200px"/>
                                 </colgroup>
                                 <tbody class="tbl-head-style-cell">
-                                <tr class="table-row" @click="getCheckTemplate()">
-                                    <td>1</td>
-                                    <td>چک یک</td>
-                                    <td>فعال</td>
+                                <tr class="table-row" @click="getCheckTemplate(checkFormat)" v-for="(checkFormat,index) in allCheckFormat">
+                                    <td class="text-center">{{index +1}}</td>
+                                    <td class="text-center">{{checkFormat.cfSubject}}</td>
+                                    <td class="text-center" v-show="checkFormat.cfState"><span class="success-label">فعال</span></td>
+                                    <td class="text-center" v-show="!checkFormat.cfState"><span class="reserved-label">غیر فعال</span></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -246,7 +247,7 @@
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <p  v-show="inputCheck.height != null" class="small-top-m">قالب چک</p>
                                 <div v-show="inputCheck.height != null" :style="{'width':inputCheck.height +'cm','height':inputCheck.width +'cm'}" style="border: solid 1px #D8DEE2;position: relative" >
-                                    <p v-show="inputCheck.dateTop != null" class="check-element" :style="{'margin-top': inputCheck.dateTop +'cm','margin-right': inputCheck.dateRight +'cm','width': inputCheck.dateWidth +'cm'}">####/##/##</p>
+                                    <p v-show="inputCheck.dateTop != null" class="check-element" :style="{'margin-top': inputCheck.dateTop +'cm','margin-right': inputCheck.dateRight +'cm','width': inputCheck.dateWidth +'cm'}" style="direction: ltr">####/##/##</p>
                                     <p v-show="inputCheck.stringDateTop != null" class="check-element" :style="{'margin-top': inputCheck.stringDateTop +'cm','margin-right': inputCheck.stringDateRight +'cm','width': inputCheck.stringDateWidth +'cm'}">تاریخ به حروف</p>
                                     <p v-show="inputCheck.forTop != null" class="check-element" :style="{'margin-top': inputCheck.forTop +'cm','margin-right': inputCheck.forRight +'cm','width': inputCheck.forWidth +'cm'}">بابت</p>
                                     <p v-show="inputCheck.payToTop != null" class="check-element" :style="{'margin-top': inputCheck.payToTop +'cm','margin-right': inputCheck.payToRight +'cm','width': inputCheck.payToWidth +'cm'}">در وجه</p>
@@ -268,34 +269,33 @@
         <!-- Add New Check Template modal -->
 
         <!-- Show Check Template modal -->
-        <modal-small v-if="showGetCheckModal" @close="showGetCheckModal = false">
+        <modal-large v-if="showGetCheckModal" @close="showGetCheckModal = false">
             <div slot="body">
                 <div class="small-font">
                     <div class="grid-x">
-                        <div class="large-12">
-                            <template>
-                                <div class="printJSClass" id="printJS-form">
-                                    <div style="border: 1px solid #000000;background-color: antiquewhite;width: 17cm;height: 8.5cm;padding-right: 0.9cm;padding-top: 1cm">
-                                        <p style="margin-right: 1cm">1397/07/11</p>
-                                        <p style="margin-right: 2cm">یازده- هفت - یکهزار و سیصد و نود و هفت</p>
-                                        <p style="margin-top: 1.5cm;margin-right:3.5cm">دویست و پنجاه میلیون </p>
-                                        <p style="margin-right:1cm">شرکت ایمن بنیان </p>
-                                    </div>
-                                </div>
-                            </template>
-
+                        <div style="margin: auto" class="large-12 medium-12 small-12 padding-lr">
+                            <p  class="small-top-m">قالب چک</p>
+                            <div :style="{'width':fillCheck.height +'cm','height':fillCheck.width +'cm'}" style="border: solid 1px #D8DEE2;position: relative" >
+                                <p class="check-element" :style="{'margin-top': fillCheck.dateTop +'cm','margin-right': fillCheck.dateRight +'cm','width': fillCheck.dateWidth +'cm'}" style="direction: ltr">####/##/##</p>
+                                <p class="check-element" :style="{'margin-top': fillCheck.stringDateTop +'cm','margin-right': fillCheck.stringDateRight +'cm','width': fillCheck.stringDateWidth +'cm'}">تاریخ به حروف</p>
+                                <p class="check-element" :style="{'margin-top': fillCheck.forTop +'cm','margin-right': fillCheck.forRight +'cm','width': fillCheck.forWidth +'cm'}">بابت</p>
+                                <p class="check-element" :style="{'margin-top': fillCheck.payToTop +'cm','margin-right': fillCheck.payToRight +'cm','width': fillCheck.payToWidth +'cm'}">در وجه</p>
+                                <p class="check-element" :style="{'margin-top': fillCheck.stringAmountTop +'cm','margin-right': fillCheck.stringAmountRight +'cm','width': fillCheck.stringAmountWidth +'cm'}">مبلغ به حروف</p>
+                                <p class="check-element" :style="{'margin-top': fillCheck.amountTop +'cm','margin-right': fillCheck.amountRight +'cm','width': fillCheck.amountWidth +'cm'}" style="direction: ltr">مبلغ به عدد</p>
+                                <p class="check-element" :style="{'margin-top': fillCheck.signatureTop +'cm','margin-right': fillCheck.signatureRight +'cm','width': fillCheck.signatureWidth +'cm'}">امضا</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="grid-x small-top-m">
+                <!--<div class="grid-x small-top-m">
                     <div class="large-12 medium-12 small-12 padding-lr">
                         <div class="stacked-for-small button-group float-left">
                             <button onclick="printJS({ printable: 'printJS-form', type: 'html',targetStyles:['direction','font-family']})" class="my-button my-success float-left"><span class="btn-txt-mrg">  چاپ </span></button>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
-        </modal-small>
+        </modal-large>
         <!-- Show Check Template modal -->
     </div>
 </template>
@@ -313,11 +313,13 @@
                 showAddNewCheckModal:false,
                 showGetCheckModal:false,
                 inputCheck:{},
-                AllCheckFormat:[],
+                fillCheck:{},
+                allCheckFormat:[],
             }
         },
 
         created: function(){
+            this.fetchAllCheckFormat();
         },
 
         updated: function () {
@@ -334,7 +336,7 @@
             fetchAllCheckFormat: function () {
                 axios.get('/financial/admin/check/format/fetch')
                     .then((response) => {
-                        this.AllCheckFormat = response.data;
+                        this.allCheckFormat = response.data;
                         console.log(response);
                     }, (error) => {
                         console.log(error);
@@ -401,19 +403,35 @@
 
             },*/
 
-            getCheckTemplate: function () {
-               this.showGetCheckModal=true;
+            getCheckTemplate: function (checkFormat) {
+                this.fillCheck.subject=checkFormat.cfSubject;
+                this.fillCheck.dateTop=checkFormat.cfDateTop;
+                this.fillCheck.dateRight=checkFormat.cfDateRight;
+                this.fillCheck.dateWidth=checkFormat.cfDateWidth;
+                this.fillCheck.stringDateTop=checkFormat.cfStringDateTop;
+                this.fillCheck.stringDateRight=checkFormat.cfStringDateRight;
+                this.fillCheck.stringDateWidth=checkFormat.cfStringDateWidth;
+                this.fillCheck.forTop=checkFormat.cfForTop;
+                this.fillCheck.forRight=checkFormat.cfForRight;
+                this.fillCheck.forWidth=checkFormat.cfForWidth;
+                this.fillCheck.payToTop=checkFormat.cfPayToTop;
+                this.fillCheck.payToRight=checkFormat.cfPayToRight;
+                this.fillCheck.payToWidth=checkFormat.cfPayToWidth;
+                this.fillCheck.stringAmountTop=checkFormat.cfStringAmountTop;
+                this.fillCheck.stringAmountRight=checkFormat.cfStringAmountRight;
+                this.fillCheck.stringAmountWidth=checkFormat.cfStringAmountWidth;
+                this.fillCheck.amountTop=checkFormat.cfAmountTop;
+                this.fillCheck.amountRight=checkFormat.cfAmountRight;
+                this.fillCheck.amountWidth=checkFormat.cfAmountWidth;
+                this.fillCheck.signatureTop=checkFormat.cfSignatureTop;
+                this.fillCheck.signatureRight=checkFormat.cfSignatureRight;
+                this.fillCheck.signatureWidth=checkFormat.cfSignatureWidth;
+                this.fillCheck.width=checkFormat.cfWidth;
+                this.fillCheck.height=checkFormat.cfHeight;
+
+                this.showGetCheckModal=true;
             },
 
-            printCheckTemplate: function (divName) {
-                var printContents = document.getElementById(divName).innerHTML;
-                var originalContents = document.body.innerHTML;
-                document.body.innerHTML = "<html><head><title></title></head><body>" +
-                    printContents + "</body>";
-
-                window.print();
-                document.body.innerHTML = originalContents;
-            },
     }
 }
 </script>
