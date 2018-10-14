@@ -2361,6 +2361,13 @@ input[type="search"]:valid + label {
 .mt-none-label{
     margin-top:25px;
 }
+
+.check-element{
+    top: 0;
+    position: absolute;
+    border:solid 1px #D8DEE2;
+}
+
 /*Media Queries*/
 
 @media only screen and (max-width: 1024px) {
