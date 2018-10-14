@@ -270,6 +270,7 @@
 
             changeAllPermissionState: function () {
                 axios.post('/budget/admin/fiscal_year/changeAllPermissionState',{
+                    fyId: this.fyActiveId,
                     state: this.fiscalYearState
                 }).then((response) => {
                     this.fyPermission = response.data;
@@ -282,6 +283,7 @@
 
             changePermissionState: function (permission) {
                 axios.post('/budget/admin/fiscal_year/changePermissionState',{
+                    fyId: this.fyActiveId,
                     pId: permission.id,
                     state: permission.pFyLimiterState
                 }).then((response) => {

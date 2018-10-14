@@ -22,6 +22,7 @@ class CreatePrintHistoryTable extends Migration
                 $table->string('phIdNumber');
                 $table->string('phVerifierName');
                 $table->string('phCheckFormat');
+                $table->longText('phDescription')->nullable();
                 $table->timestamps();
 
                 $table->foreign('phCId')
