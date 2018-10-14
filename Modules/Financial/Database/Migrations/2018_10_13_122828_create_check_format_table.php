@@ -21,6 +21,9 @@ class CreateCheckFormatTable extends Migration
                 $table->unsignedTinyInteger('cfDateTop');
                 $table->unsignedTinyInteger('cfDateRight');
                 $table->unsignedTinyInteger('cfDateWidth');
+                $table->unsignedTinyInteger('cfStringDateTop');
+                $table->unsignedTinyInteger('cfStringDateRight');
+                $table->unsignedTinyInteger('cfStringDateWidth');
                 $table->unsignedTinyInteger('cfForTop');
                 $table->unsignedTinyInteger('cfForRight');
                 $table->unsignedTinyInteger('cfForWidth');

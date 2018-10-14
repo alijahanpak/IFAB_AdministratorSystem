@@ -68,6 +68,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::post('/generate' , 'CheckController@generateChecks');
         Route::post('/print/update' , 'CheckController@updateCheckFields');
         Route::get('/list/get_all_data' , 'CheckController@fetchAllChecks');
+        Route::post('/deliver' , 'CheckController@deliver');
     });
 
     Route::prefix('report')->group(function () {

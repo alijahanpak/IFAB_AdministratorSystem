@@ -165,6 +165,9 @@ class CheckController extends Controller
             $format->cfDateTop = $request->dateTop;
             $format->cfDateRight = $request->dateRight;
             $format->cfDateWidth = $request->dateWidth;
+            $format->cfStringDateTop = $request->stringDateTop;
+            $format->cfStringDateRight = $request->stringDateRight;
+            $format->cfStringDateWidth = $request->stringDateWidth;
             $format->cfForTop = $request->forTop;
             $format->cfForRight = $request->forRight;
             $format->cfForWidth = $request->forWidth;
@@ -228,6 +231,22 @@ class CheckController extends Controller
             $printHistory->save();
 
             SystemLog::setFinancialSubSystemLog('چاپ چک شماره ' .  $request->idNumber);
+        });
+
+        return response()->json(
+            $this->getAllChecks($request->searchValue)
+        );
+    }
+
+    public function deliver(Request $request)
+    {
+        DB::transaction(function () use($request){
+            $check = _Check::where('id' , $request->cId)->with('draft')->first();
+            $check->cCsId = CheckState::where('csState' , 'DELIVERED')->value('id');
+            $check->cDeliveryDate = $request->date;
+            $check->save();
+
+            SystemLog::setFinancialSubSystemLog('تحویل چک ' .  $check->draft->dFor);
         });
 
         return response()->json(
