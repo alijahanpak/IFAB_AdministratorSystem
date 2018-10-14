@@ -68,7 +68,7 @@
                                     <col width="150px"/>
                                 </colgroup>
                                 <tbody class="tbl-head-style-cell">
-                                <tr class="table-row" @click="getRequestDetail(allRequest)" v-for="allCheck in allChecks">
+                                <tr class="table-row" @click="getRequestDetail(allCheck)" v-for="allCheck in allChecks">
                                     <td class="text-center">{{allCheck.cIdNumber}}</td>
                                     <td class="text-center">{{allCheck.cDate}}</td>
                                     <td class="text-center">{{$parent.dispMoneyFormat(allCheck.cAmount)}}</td>
@@ -94,9 +94,105 @@
                 </div>
             </div>
         </div>
+
+        <!-- Show Check Print modal -->
+        <modal-small v-if="showPrintCheckModal" @close="showPrintCheckModal = false">
+            <div slot="body">
+                <div class="small-font">
+                    <div class="grid-x">
+                        <div class="large-12 medium-12 small-12 container-vh">
+                            <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="request_print_check_tab_view">
+                                <li class="tabs-title is-active"><a href="#checkTab" aria-selected="true">چک</a></li>
+                                <li class="tabs-title"><a href="#historyCheckTab">تاریخچه پرینت </a></li>
+                            </ul>
+                            <div class="tabs-content inner-vh" data-tabs-content="request_print_check_tab_view">
+                                <!--Tab 1-->
+                                <div style="height: 58vh;" class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="checkTab">
+                                    <div class="grid-x">
+                                        <div class="large-6 medium-6 small-12 padding-lr">
+                                            <label>شماره چک
+                                                <input type="text" name="idNumber" v-model="inputCheck.idNumber" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('idNumber')}">
+                                            </label>
+                                            <p v-show="errors.has('checkSubject')" class="error-font">لطفا شماره چک مورد نظر را وارد نمایید!</p>
+                                        </div>
+                                        <div class="large-6 medium-6 small-12 padding-lr">
+                                            <label>تاریخ پایان
+                                                <input
+                                                        type="text"
+                                                        class="form-control form-control-lg"
+                                                        v-model="inputCheck.date"
+                                                        id="inputCheck-Date"
+                                                        placeholder="انتخاب تاریخ">
+
+                                                <date-picker
+                                                        v-model="inputCheck.date"
+                                                        :color="'#5c6bc0'"
+                                                        element="inputCheck-Date">
+                                                </date-picker>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x">
+                                        <div class="large-12 medium-12 small-12 padding-lr">
+                                            <label>امضا کننده
+                                                <select name="verifierUser" v-validate data-vv-rules="required"  v-model="inputCheck.verifierId" :class="{'input': true, 'select-error': errors.has('verifierUser')}">
+                                                    <option value=""></option>
+                                                    <option v-for="cvUser in allCheckVerifiers" :value="cvUser.user.id">{{cvUser.user.name}} - {{cvUser.user.role.rSubject}}</option>
+                                                </select>
+                                                <p v-show="errors.has('verifierUser')" class="error-font">لطفا امضا کننده را انتخاب کنید!</p>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid-x">
+                                        <div class="large-12 medium-12 small-12 padding-lr">
+                                            <label>قالب چک
+                                                <select name="verifierUser" v-validate data-vv-rules="required"  v-model="inputCheck.verifierId" :class="{'input': true, 'select-error': errors.has('verifierUser')}">
+                                                    <option value=""></option>
+                                                    <option v-for="activeCheckFormat in allActiveCheckFormat" :value="activeCheckFormat.id">{{activeCheckFormat.cfSubject}}</option>
+                                                </select>
+                                                <p v-show="errors.has('verifierUser')" class="error-font">لطفا امضا کننده را انتخاب کنید!</p>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x small-top-m">
+                                        <div class="large-12 medium-12 small-12 padding-lr">
+                                            <div class="stacked-for-small button-group float-left">
+                                                <button class="my-button my-success float-left"><span class="btn-txt-mrg">  تحویل </span></button>
+                                                <button onclick="printJS({ printable: 'printJS-form', type: 'html',targetStyles:['direction','font-family']})" class="my-button my-success float-left"><span class="btn-txt-mrg">  پیش نمایش چک </span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Tab 1-->
+                                <!--Tab 2-->
+                                <div style="height: 58vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="historyCheckTab">
+                                    <div class="grid-x">
+                                    </div>
+                                </div>
+                                <!--Tab 2-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="grid-x small-top-m">
+                    <div class="large-12 medium-12 small-12 padding-lr">
+                        <div class="stacked-for-small button-group float-left">
+                            <button onclick="printJS({ printable: 'printJS-form', type: 'html',targetStyles:['direction','font-family']})" class="my-button my-success float-left"><span class="btn-txt-mrg">  چاپ </span></button>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+        </modal-small>
+        <!-- Show Check Print modal -->
     </div>
 </template>
-
+<style>
+    .printJSClass{
+        direction: rtl;
+        font-family: BZar;
+    }
+</style>
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
@@ -116,6 +212,7 @@
                 allChecks:[],
                 requestSearchValue:'',
                 showRequestDetailModal:false,
+                showPrintCheckModal:false,
                 baseURL:window.hostname+'/',
                 updateDataThreadNowPlaying:null,
                 result_pagination: {
@@ -124,6 +221,9 @@
                     current_page: 1,
                     last_page: ''
                 },
+                allActiveCheckFormat:[],
+                allCheckVerifiers:[],
+                inputCheck:{},
 
             }
         },
@@ -174,6 +274,32 @@
                     }, (error) => {
                         console.log(error);
                     });
+            },
+
+            fetchAllActiveCheckFormat: function () {
+                axios.get('/financial/admin/check/format/fetch_active_format')
+                .then((response) => {
+                    this.allActiveCheckFormat = response.data;
+                    console.log(response);
+                }, (error) => {
+                    console.log(error);
+                });
+            },
+
+            getAllCheckVerifiers: function () {
+                axios.get('/financial/check/get_check_verifier')
+                    .then((response) => {
+                        this.allCheckVerifiers = response.data;
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                    });
+            },
+
+            getRequestDetail:function(check){
+                this.getAllCheckVerifiers();
+                this.fetchAllActiveCheckFormat();
+                this.showPrintCheckModal=true;
             },
 
             removeFilter: function () {
