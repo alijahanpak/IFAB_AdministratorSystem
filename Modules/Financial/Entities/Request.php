@@ -191,14 +191,26 @@ class _Request extends Model
     public function getRIsPaidAttribute()
     {
         $draftsId = Draft::where('dRId' , '=' , $this->id)->pluck('id');
-        $sumOfChecksAmount = _Check::whereIn('cDId' , $draftsId)
-            ->get()
-            ->where('cDelivered' , '=' , true)
-            ->sum('cAmount');
-        if (count($draftsId) == 0)
-            return false;
-        else
-            return $sumOfChecksAmount < $this->getRCommitmentAmountAttribute() ? false : true;
+        if ($this->attributes['rRtId'] == RequestType::where('rtType' , 'FUND')->value('id'))
+        {
+            $sumOfChecksAmount = _Check::whereIn('cDId' , $draftsId)
+                ->has('printHistory')
+                ->get()
+                ->sum('cAmount');
+            if (count($draftsId) == 0)
+                return false;
+            else
+                return $sumOfChecksAmount < $this->getRCommitmentAmountAttribute() ? false : true;
+        }else{
+            $sumOfChecksAmount = _Check::whereIn('cDId' , $draftsId)
+                ->get()
+                ->where('cDelivered' , '=' , true)
+                ->sum('cAmount');
+            if (count($draftsId) == 0)
+                return false;
+            else
+                return $sumOfChecksAmount < $this->getRCommitmentAmountAttribute() ? false : true;
+        }
     }
 
     public function getRIsPayRequestClosedAttribute()

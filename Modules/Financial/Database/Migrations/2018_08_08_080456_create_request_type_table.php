@@ -19,6 +19,7 @@ class CreateRequestTypeTable extends Migration
                 $table->bigIncrements('id');
                 $table->string('rtSubject');
                 $table->string('rtType');
+                $table->string('rtPermission');
                 $table->timestamps();
             });
         }

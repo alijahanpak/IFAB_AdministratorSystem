@@ -251,7 +251,7 @@
             -----------------------------------------------------------------------------*/
 
             getRefund: function () {
-                axios.get('/financial/request/get_all_refund')
+                axios.get('/financial/refund/get_all_refund')
                     .then((response) => {
                         this.refunds = response.data;
                         console.log(response);

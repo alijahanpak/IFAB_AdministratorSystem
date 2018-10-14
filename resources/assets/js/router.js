@@ -28,7 +28,6 @@ import cost_allocation from './components/Budget/Allocation/cost.vue'
 import credit_distribution_plan from './components/Budget/CreditDistribution/plan.vue'
 import budget_proposal from './components/Budget/CreditDistribution/proposal.vue'
 
-
 /////////////////////// Financial Department Start//////////////////////////
 
 import submissions from './components/FinancialDepartment/submissions.vue'
@@ -36,9 +35,7 @@ import received_requests from './components/FinancialDepartment/receiveRequests/
 import search_requests from './components/FinancialDepartment/search_requests.vue'
 import checks_list from './components/FinancialDepartment/checks_list.vue'
 import checks_template from './components/FinancialDepartment/admin/check_template.vue'
-
-
-/////////////////////// Financial Department End//////////////////////////
+import refund from './components/FinancialDepartment/refund.vue'
 
 ////////////////////////////////////////////////////////////////////////////
 import fdDashboard from './components/FinancialDepartment/Dashboard.vue'
@@ -68,8 +65,8 @@ const routes = [
     { path: '/financial_department/received_requests', component: received_requests , meta:{permission: 'public'}},
     { path: '/financial_department/search_requests', component: search_requests , meta:{permission: 'public'}},
     { path: '/financial_department/checks/list', component: checks_list , meta:{permission: 'CHECK_LIST_DISPLAY'}},
-    { path: '/financial_department/checks/templates', component: checks_template , meta:{permission: 'public'}},
-
+    { path: '/financial_department/checks/templates', component: checks_template , meta:{permission: 'CREATE_NEW_CHECK_TEMPLATE'}},
+    { path: '/financial_department/refund', component: refund , meta:{permission: 'DISPLAY_REFUNDS'}},
 ]
 
 const router = new VueRouter({
@@ -272,6 +269,7 @@ var app = new Vue({
             this.getAmountBase();
             this.getAllAmountBase();
             this._getUnReadReceivedRequest();
+            this.getAllPermission();
         },
 
         getAllPermission: function(){
@@ -285,6 +283,7 @@ var app = new Vue({
                     });
                     console.log('.......................... permission' + accessPermissions);
                     this.access = accessPermissions;
+                    console.log(this.access);
                     axios.get('/api/getAuthUserInfo')
                         .then((response) => {
                             console.log(response);
@@ -302,7 +301,6 @@ var app = new Vue({
                         });
                 },(error) => {
                     console.log(error);
-                    this.displayNotif(error.response.status);
                 });
         },
 
@@ -397,6 +395,7 @@ var app = new Vue({
                     console.log(error);
                 });
         },
+
         getAllAmountBase: function () {
             axios.get('/admin/getAllAmountBase')
                 .then((response) => {

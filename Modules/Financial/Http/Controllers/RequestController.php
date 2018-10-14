@@ -623,16 +623,6 @@ class RequestController extends Controller
         );
     }
 
-    public function fetchAllRefund(Request $request)
-    {
-        $refund = _Request::where('rFyId' ,'=' , Auth::user()->seFiscalYear)
-            ->whereHas('requestType' , function ($q){
-                return $q->where('rtType' , '=' , 'FUND');
-            })->get();
-
-        return \response()->json($refund);
-    }
-
     public function block(Request $request)
     {
         DB::transaction(function () use($request){

@@ -160,7 +160,7 @@
                                             <li data-close v-show='$can("BUDGET_CAPITAL_ASSETS_ALLOCATION_DISPLAY|BUDGET_CAPITAL_ASSETS_FOUND_DISPLAY")'><router-link to="/budget/allocation/capital_assets">تملک دارایی سرمایه ای</router-link></li>
                                         </ul>
                                     </li>
-                                    <li v-show='$can("BUDGET_ADMIN_FISCAL_YEARS_DISPLAY|BUDGET_ADMIN_DEPRIVED_AREA_DISPLAY|BUDGET_ADMIN_BUDGET_SEASON_DISPLAY|BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_DISPLAY|BUDGET_ADMIN_PLAN_RO_COST_TITLE_DISPLAY|BUDGET_ADMIN_SEASON_TITLE_DISPLAY|BUDGET_ADMIN_TINY_SEASON_DISPLAY")'>
+                                    <li v-show='$can("BUDGET_ADMIN_FISCAL_YEARS_DISPLAY|BUDGET_ADMIN_DEPRIVED_AREA_DISPLAY|BUDGET_ADMIN_BUDGET_SEASON_DISPLAY|BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_DISPLAY|BUDGET_ADMIN_PLAN_RO_COST_TITLE_DISPLAY|BUDGET_ADMIN_SEASON_TITLE_DISPLAY|BUDGET_ADMIN_TINY_SEASON_DISPLAY|CREATE_NEW_CHECK_TEMPLATE")'>
                                         <a class="right-mp right-menu-btm-border">مدیریت</a>
                                         <ul class="menu vertical nested">
                                             <li data-close v-show='$can("BUDGET_ADMIN_FISCAL_YEARS_DISPLAY")'><router-link to="/budget/admin/fiscal_year">سال مالی</router-link></li>
@@ -180,7 +180,7 @@
                                                     <li data-close v-show='$can("BUDGET_ADMIN_TINY_SEASON_DISPLAY")'><router-link to="/budget/admin/season/tiny_seasons">ریز فصل</router-link></li>
                                                 </ul>
                                             </li>
-                                            <li data-close><router-link to="/financial_department/checks/templates">قالب چک</router-link></li>
+                                            <li data-close v-show='$can("CREATE_NEW_CHECK_TEMPLATE")'><router-link to="/financial_department/checks/templates">قالب چک</router-link></li>
                                         </ul>
                                     </li>
                                     <!--Financial Department Start-->
@@ -194,13 +194,13 @@
                                     </li>
                                     <!--Financial Department End-->
                                     <!--checks list-->
-                                    <li data-close v-if='$can("CHECK_LIST_DISPLAY")'>
+                                    <li data-close v-show='$can("CHECK_LIST_DISPLAY")'>
                                         <router-link class="right-mp right-menu-btm-border" to="/financial_department/checks/list">چک</router-link>
                                     </li>
                                     <!--checks list-->
                                     <!--fund-->
-                                    <li data-close>
-                                        <a class="right-mp right-menu-btm-border">تنخواه گردان کارپردازی</a>
+                                    <li data-close v-show='$can("DISPLAY_REFUNDS")'>
+                                        <router-link class="right-mp right-menu-btm-border" to="/financial_department/refund">تنخواه گردان کارپردازی</router-link>
                                     </li>
                                     <!--fund-->
                                 </ul>

@@ -738,5 +738,29 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
         $permission->pPermission = 'SALARY_REQUEST_REGISTER‌';
         $permission->pAllowDispInFyList = true;
         $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 12;
+        $permission->pSubject = 'مشاهده تنخواه گردان های کارپردازی';
+        $permission->pPermission = 'DISPLAY_REFUNDS‌';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 12;
+        $permission->pSubject = 'ثبت فاکتور برای تنخواه گردان کارپردازی';
+        $permission->pPermission = 'REGISTER_FACTOR_IN_REFUND‌';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 12;
+        $permission->pSubject = 'بررسی وتایید فاکتور های ثبت شده برای تنخواه گردان کارپردازی';
+        $permission->pPermission = 'ACCEPT_FACTOR_IN_REFUND‌';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 6;
+        $permission->pSubject = 'تعریف قالب جدید چک';
+        $permission->pPermission = 'CREATE_NEW_CHECK_TEMPLATE';
+        $permission->save();
     }
 }

@@ -19,6 +19,8 @@ use Modules\Admin\Entities\User;
 use Modules\Admin\Entities\UserGroup;
 use Modules\Admin\Entities\UserPermission;
 use Modules\Admin\Entities\Village;
+use Modules\Budget\Entities\PermissionLimiter;
+
 /**
  * @resource admin controller
  *
@@ -89,10 +91,12 @@ class AdminController extends Controller
     public function getRoleAndPermissions()
     {
         $role = Role::where('id' , '=' , Auth::user()->rId)->first();
+        $permissionLimiter = PermissionLimiter::where('plFyId' , Auth::user()->seFiscalYear)->pluck('plPId');
 
         return \response()->json(
             ["rRole" => $role->rRole,
                 "permissions" => UserPermission::where('upUId' , '=' , Auth::user()->id)
+                    ->whereNotIn('upPId' , $permissionLimiter)
                     ->with('permission')
                     ->get()
             ]

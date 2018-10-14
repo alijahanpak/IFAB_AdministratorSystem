@@ -24,7 +24,6 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::post('terminate', 'RequestController@terminate');
         Route::post('accept', 'RequestController@accept');
         Route::post('secretariat/numbering/register', 'RequestController@numbering');
-        Route::get('/get_all_refund', 'RequestController@fetchAllRefund');
         Route::get('financing', 'FinanceController@fetchAllFinancing');
         Route::post('financing/reservation', 'FinanceController@reserveFinancing');
         Route::post('financing/accept', 'FinanceController@acceptFinancing');
@@ -39,6 +38,10 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::post('factor/accept', 'FactorController@accept');
         Route::post('factor/delete', 'FactorController@delete');
 
+    });
+
+    Route::prefix('refund')->group(function () {
+        Route::get('/get_all_refund', 'RefundController@fetchAllRefund');
     });
 
     Route::prefix('commodity')->group(function () {
