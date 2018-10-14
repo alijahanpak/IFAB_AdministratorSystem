@@ -287,24 +287,11 @@
                         </div>
                     </div>
                 </div>
-                <!--<div class="grid-x small-top-m">
-                    <div class="large-12 medium-12 small-12 padding-lr">
-                        <div class="stacked-for-small button-group float-left">
-                            <button onclick="printJS({ printable: 'printJS-form', type: 'html',targetStyles:['direction','font-family']})" class="my-button my-success float-left"><span class="btn-txt-mrg">  چاپ </span></button>
-                        </div>
-                    </div>
-                </div>-->
             </div>
         </modal-large>
         <!-- Show Check Template modal -->
     </div>
 </template>
-<style>
-    .printJSClass{
-        direction: rtl;
-        font-family: BZar;
-    }
-</style>
 <script>
 
     export default {
