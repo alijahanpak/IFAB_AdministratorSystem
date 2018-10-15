@@ -2368,6 +2368,11 @@ input[type="search"]:valid + label {
     border:solid 1px #D8DEE2;
 }
 
+.check-element-print{
+    top: 0;
+    position: absolute;
+}
+
 /*Media Queries*/
 
 @media only screen and (max-width: 1024px) {
