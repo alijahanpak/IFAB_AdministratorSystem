@@ -25,6 +25,7 @@ use Modules\Financial\Entities\RequestLevel;
 use Modules\Financial\Entities\RequestState;
 use Modules\Financial\Entities\RequestStep;
 use Modules\Financial\Entities\RequestType;
+use Modules\Financial\Entities\SelectedCheckVerifier;
 
 class CheckController extends Controller
 {
@@ -224,21 +225,31 @@ class CheckController extends Controller
     public function updateCheckFields(Request $request)
     {
         DB::transaction(function () use($request){
-            $checkVerifier = CheckVerifier::find($request->cvId);
-            $user = User::where('id' , $checkVerifier->cvUId)->with('role')->first();
+            $checkVerifiers = CheckVerifier::whereIn($request->verifiers)->with('user.role')->orderBy('cvOrder')->get();
+            //$user = User::where('id' , $checkVerifier->cvUId)->with('role')->first();
 
             $check = _Check::where('id' , $request->cId)->first();
             $check->cDate = $request->date;
-            $check->cCvId = $checkVerifier->id;
             $check->cCsId = $check->cCsId == CheckState::where('csState' , 'WAITING_FOR_PRINT')->value('id') ? CheckState::where('csState' , 'WAITING_FOR_DELIVERY')->value('id') : $check->cCsId;
             $check->cIdNumber = $request->idNumber;
             $check->save();
+
+            foreach ($checkVerifiers as $cv)
+            {
+                $selectedCheckVerifier = new SelectedCheckVerifier();
+                $selectedCheckVerifier->scvCId = $check->id;
+                $selectedCheckVerifier->scvCvId = $cv->id;
+                $selectedCheckVerifier->save();
+
+            }
 
             $printHistory = new PrintHistory();
             $printHistory->phCId = $request->cId;
             $printHistory->phDate = $check->cDate;
             $printHistory->phIdNumber = $check->cIdNumber;
-            $printHistory->phVerifierName = $user->name . ' - ' . $user->role->rSubject;
+            $printHistory->phVerifierName = $checkVerifiers[0]->user->name . ' - ' . $checkVerifiers[0]->user->role->rSubject;
+            if (count($checkVerifiers) > 1)
+                $printHistory->phSecondVerifierName = $checkVerifiers[1]->user->name . ' - ' . $checkVerifiers[1]->user->role->rSubject;
             $printHistory->phCheckFormat = $request->cfSubject;
             $printHistory->phAmount = $check->cAmount;
             $printHistory->phDescription = PublicSetting::checkPersianCharacters($request->description);
