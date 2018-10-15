@@ -31,6 +31,11 @@ class _Check extends Model
         return $this->hasMany(PrintHistory::class , 'phCId' , 'id')->orderBy('id' , 'DESC');
     }
 
+    public function selectedVerifiers()
+    {
+        return $this->hasMany(SelectedCheckVerifier::class , 'scvCId' , 'id')->orderBy('id');
+    }
+
     public function getCDeliveryShamsiDateAttribute()
     {
         if ($this->getCDeliveredAttribute() == true)

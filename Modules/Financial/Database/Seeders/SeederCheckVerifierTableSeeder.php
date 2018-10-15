@@ -18,7 +18,7 @@ class SeederCheckVerifierTableSeeder extends Seeder
         Model::unguard();
 
         $checkVerifier = new CheckVerifier();
-        $checkVerifier->cvUId = 7;
+        $checkVerifier->cvUId = 14;
         $checkVerifier->cvOrder = 1;
         $checkVerifier->save();
 

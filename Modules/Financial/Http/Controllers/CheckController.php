@@ -161,6 +161,7 @@ class CheckController extends Controller
             ->with('percentageDecrease')
             ->with('checkState')
             ->with('printHistory')
+            ->with('selectedVerifiers.verifier.user.role')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
     }
@@ -223,7 +224,7 @@ class CheckController extends Controller
     public function updateCheckFields(Request $request)
     {
         DB::transaction(function () use($request){
-            $checkVerifiers = CheckVerifier::whereIn($request->verifiers)->with('user.role')->orderBy('cvOrder')->get();
+            $checkVerifiers = CheckVerifier::whereIn('id' , $request->verifiers)->with('user.role')->orderBy('cvOrder')->get();
             //$user = User::where('id' , $checkVerifier->cvUId)->with('role')->first();
 
             $check = _Check::where('id' , $request->cId)->first();
@@ -231,6 +232,8 @@ class CheckController extends Controller
             $check->cCsId = $check->cCsId == CheckState::where('csState' , 'WAITING_FOR_PRINT')->value('id') ? CheckState::where('csState' , 'WAITING_FOR_DELIVERY')->value('id') : $check->cCsId;
             $check->cIdNumber = $request->idNumber;
             $check->save();
+
+            SelectedCheckVerifier::where('scvCId' , $check->id)->delete();
 
             foreach ($checkVerifiers as $cv)
             {
