@@ -31,7 +31,11 @@ class CheckController extends Controller
     public function getCheckVerifier(Request $request)
     {
         return \response()->json(
-            CheckVerifier::with('user.role')->has('user')->get()
+            CheckVerifier::with(['user' => function($q){
+                return $q->where('isActive' , true)->with('role');
+            }])
+                ->orderBy('cvOrder')
+                ->get()
         );
     }
 
@@ -187,6 +191,9 @@ class CheckController extends Controller
             $format->cfSignatureTop = $request->signatureTop;
             $format->cfSignatureRight = $request->signatureRight;
             $format->cfSignatureWidth = $request->signatureWidth;
+            $format->cfSecondSignatureTop = $request->secondSignatureTop;
+            $format->cfSecondSignatureRight = $request->secondSignatureRight;
+            $format->cfSecondSignatureWidth = $request->secondSignatureWidth;
             $format->cfWidth = $request->width;
             $format->cfHeight = $request->height;
             $format->save();

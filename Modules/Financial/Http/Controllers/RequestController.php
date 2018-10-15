@@ -86,6 +86,7 @@ class RequestController extends Controller
             }])
             ->with('payRequest.payRequestState')
             ->with('requestLevel')
+            ->with('refundFactor')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
     }
@@ -265,6 +266,7 @@ class RequestController extends Controller
                 ->with('requestHistoryLastPoint')
                 ->with('requestLevel')
                 ->with('payRequest.draft')
+                ->with('refundFactor')
                 ->with('contract.increaseAmount.percentageIncrease')
                 ->orderBy('id' , 'DESC')
                 ->paginate(20);

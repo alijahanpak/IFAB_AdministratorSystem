@@ -21,6 +21,7 @@ class CreatePrintHistoryTable extends Migration
                 $table->unsignedBigInteger('phAmount');
                 $table->string('phIdNumber');
                 $table->string('phVerifierName');
+                $table->string('phSecondVerifierName')->nullable();
                 $table->string('phCheckFormat');
                 $table->longText('phDescription')->nullable();
                 $table->timestamps();

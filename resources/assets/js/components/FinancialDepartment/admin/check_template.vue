@@ -244,18 +244,17 @@
                                     </div>
                                     <div class="large-2 medium-2 small-12 padding-lr">
                                         <label>امضا دوم<span class="btn-red small-font">(چک های دو امضا)</span>
-                                            <input placeholder="فاصله از بالا" type="text" name="secondSignatureTop" v-model="inputCheck.secondSignatureTop">
-                                        </label>
-                                        <p v-show="errors.has('secondSignatureTop')" class="error-font"></p>
-                                    </div>
-                                    <div class="large-2 medium-2 small-12 mt-none-label padding-lr">
-                                        <label>
-                                            <input placeholder="فاصله از راست" type="text" name="secondSignatureRight" v-model="inputCheck.secondSignatureRight">
+                                            <input placeholder="فاصله از بالا" type="text" name="secondSignatureTop" v-model="inputCheck.secondSignatureTop = 0">
                                         </label>
                                     </div>
                                     <div class="large-2 medium-2 small-12 mt-none-label padding-lr">
                                         <label>
-                                            <input placeholder="اندازه" type="text" name="secondSignatureWidth" v-model="inputCheck.secondSignatureWidth">
+                                            <input placeholder="فاصله از راست" type="text" name="secondSignatureRight" v-model="inputCheck.secondSignatureRight = 0">
+                                        </label>
+                                    </div>
+                                    <div class="large-2 medium-2 small-12 mt-none-label padding-lr">
+                                        <label>
+                                            <input placeholder="اندازه" type="text" name="secondSignatureWidth" v-model="inputCheck.secondSignatureWidth = 0">
                                         </label>
                                     </div>
                                 </div>

@@ -320,7 +320,7 @@ var app = new Vue({
         },
 
         setUpdateAllPermissionThread: function () {
-            //console.log("...................................................... set cost approved prog update thread");
+            console.log("...................................................... set cost approved prog update thread");
             if (this.updateAllPermissionThreadNowPlaying)
                 clearInterval(this.updateAllPermissionThreadNowPlaying);
             this.updateAllPermissionThreadNowPlaying = setInterval(this.updateAllPermissions, 90000);

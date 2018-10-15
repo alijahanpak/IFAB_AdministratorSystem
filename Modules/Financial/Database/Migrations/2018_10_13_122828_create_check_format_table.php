@@ -39,6 +39,9 @@ class CreateCheckFormatTable extends Migration
                 $table->unsignedTinyInteger('cfSignatureTop');
                 $table->unsignedTinyInteger('cfSignatureRight');
                 $table->unsignedTinyInteger('cfSignatureWidth');
+                $table->unsignedTinyInteger('cfSecondSignatureTop')->default(0);
+                $table->unsignedTinyInteger('cfSecondSignatureRight')->default(0);
+                $table->unsignedTinyInteger('cfSecondSignatureWidth')->default(0);
                 $table->unsignedTinyInteger('cfWidth');
                 $table->unsignedTinyInteger('cfHeight');
                 $table->timestamps();

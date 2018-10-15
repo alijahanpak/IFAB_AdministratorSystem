@@ -19,6 +19,12 @@ class SeederCheckVerifierTableSeeder extends Seeder
 
         $checkVerifier = new CheckVerifier();
         $checkVerifier->cvUId = 7;
+        $checkVerifier->cvOrder = 1;
+        $checkVerifier->save();
+
+        $checkVerifier = new CheckVerifier();
+        $checkVerifier->cvUId = 7;
+        $checkVerifier->cvOrder = 2;
         $checkVerifier->save();
     }
 }
