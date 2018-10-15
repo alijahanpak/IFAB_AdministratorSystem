@@ -13,6 +13,7 @@ use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\Factor;
 use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\RefundCosts;
+use Modules\Financial\Entities\RefundFactor;
 use Modules\Financial\Entities\RequestHistory;
 use Modules\Financial\Entities\RequestHistoryLastPoint;
 use Modules\Financial\Entities\RequestLevel;
@@ -33,12 +34,12 @@ class FactorController extends Controller
             $factor->fDescription = PublicSetting::checkPersianCharacters($request->description);
             $factor->save();
 
-            if ($request->refundCostsId)
+            if ($request->refundId)
             {
-                $refundCost = new RefundCosts();
-                $refundCost->rcFId = $factor->id;
-                $refundCost->rcRId = $request->refundCostsId;
-                $refundCost->save();
+                $refundFactor = new RefundFactor();
+                $refundFactor->rfFId = $factor->id;
+                $refundFactor->rfRId = $request->refundId;
+                $refundFactor->save();
             }
 
             SystemLog::setFinancialSubSystemLog('ثبت فاکتور ' . $request->subject . ' برای درخواست ' . _Request::find($request->rId)->rSubject);

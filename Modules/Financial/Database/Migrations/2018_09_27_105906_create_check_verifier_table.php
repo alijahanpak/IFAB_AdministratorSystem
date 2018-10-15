@@ -17,6 +17,7 @@ class CreateCheckVerifierTable extends Migration
             Schema::create('tbl_check_verifier', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->bigInteger('cvUId')->length(20)->unsigned();
+                $table->unsignedTinyInteger('cvOrder');
                 $table->timestamps();
 
                 $table->foreign('cvUId')

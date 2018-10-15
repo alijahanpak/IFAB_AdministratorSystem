@@ -69,7 +69,7 @@
                 <form v-on:submit.prevent="createFactor" >
                     <div class="small-font">
                         <div v-if="isFromRefundCosts == true" class="grid-x">
-                            <div class="large-6 medium-6 small-12 padding-lr">
+                            <div class="large-12 medium-12 small-12 padding-lr">
                                 <label>تنخواه گردان
                                     <select class="form-element-margin-btm" v-model="refundId" name="selectRefunds" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('selectRefunds')}">
                                         <option value=""></option>
@@ -323,6 +323,7 @@
                     this.getRefund();
                     this.getAllSeller();
                     this.factorInput={};
+                    this.refundId= '';
                     this.showInsertFactorModal=true;
                 }else{
                     if (this.rCreditIsExist == true)
@@ -348,7 +349,7 @@
                 this.$validator.validateAll().then((result) => {
                     if (result) {
                         axios.post('/financial/request/factor/insert', {
-                            refundCostsId: this.refundId,
+                            refundId: this.refundId,
                             rId: this.requestId,
                             subject: this.factorInput.subject,
                             seller: this.factorInput.seller,

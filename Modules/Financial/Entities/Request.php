@@ -66,6 +66,11 @@ class _Request extends Model
         return $this->hasMany(Factor::class , 'fRId' , 'id')->orderBy('id', 'DESC');
     }
 
+    public function refundFactor()
+    {
+        return $this->hasMany(RefundFactor::class , 'rfRId' , 'id')->orderBy('id', 'DESC');
+    }
+
     public function attachment()
     {
         return $this->hasMany(Attachment::class , 'aRId' , 'id')->orderBy('id', 'DESC');
