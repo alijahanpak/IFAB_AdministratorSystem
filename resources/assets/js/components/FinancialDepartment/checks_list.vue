@@ -111,19 +111,18 @@
                                     <div class="grid-x">
                                         <div class="large-6 medium-6 small-12 padding-lr">
                                             <label>شماره چک
-                                                <input type="text" name="idNumber" v-model="inputCheck.idNumber" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('idNumber')}">
+                                                <input type="text" name="idNumber" v-model="inputCheck.idNumber" v-validate="'required','numeric'" :class="{'input': true, 'error-border': errors.has('idNumber')}">
                                             </label>
-                                            <p v-show="errors.has('checkSubject')" class="error-font">لطفا شماره چک مورد نظر را وارد نمایید!</p>
+                                            <p v-show="errors.has('idNumber')" class="error-font">لطفا شماره چک مورد نظر را فقط عدد وارد نمایید!</p>
                                         </div>
                                         <div class="large-6 medium-6 small-12 padding-lr">
-                                            <label>تاریخ پایان
+                                            <label>تاریخ چک
                                                 <input
                                                         type="text"
                                                         class="form-control form-control-lg"
                                                         v-model="inputCheck.date"
                                                         id="inputCheck-Date"
                                                         placeholder="انتخاب تاریخ">
-
                                                 <date-picker
                                                         v-model="inputCheck.date"
                                                         :color="'#5c6bc0'"
@@ -137,7 +136,7 @@
                                             <label>امضا کننده
                                                 <select name="verifierUser" v-validate data-vv-rules="required"  v-model="inputCheck.verifierId" :class="{'input': true, 'select-error': errors.has('verifierUser')}">
                                                     <option value=""></option>
-                                                    <option v-for="cvUser in allCheckVerifiers" :value="cvUser.user.id">{{cvUser.user.name}} - {{cvUser.user.role.rSubject}}</option>
+                                                    <option v-for="cvUser in allCheckVerifiers" :value="cvUser.id">{{cvUser.user.name}} - {{cvUser.user.role.rSubject}}</option>
                                                 </select>
                                                 <p v-show="errors.has('verifierUser')" class="error-font">لطفا امضا کننده را انتخاب کنید!</p>
                                             </label>
@@ -147,19 +146,19 @@
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 padding-lr">
                                             <label>قالب چک
-                                                <select name="verifierUser" v-validate data-vv-rules="required"  v-model="inputCheck.verifierId" :class="{'input': true, 'select-error': errors.has('verifierUser')}">
+                                                <select name="checkTemplate" v-validate data-vv-rules="required"  v-model="inputCheck.cId" :class="{'input': true, 'select-error': errors.has('checkTemplate')}">
                                                     <option value=""></option>
-                                                    <option v-for="activeCheckFormat in allActiveCheckFormat" :value="activeCheckFormat.id">{{activeCheckFormat.cfSubject}}</option>
+                                                    <option v-for="activeCheckFormat in allActiveCheckFormat" @click="selectCheckTemplate(activeCheckFormat)" :value="activeCheckFormat.id">{{activeCheckFormat.cfSubject}}</option>
                                                 </select>
-                                                <p v-show="errors.has('verifierUser')" class="error-font">لطفا امضا کننده را انتخاب کنید!</p>
+                                                <p v-show="errors.has('checkTemplate')" class="error-font">لطفا قالب چک را انتخاب کنید!</p>
                                             </label>
                                         </div>
                                     </div>
                                     <div class="grid-x small-top-m">
                                         <div class="large-12 medium-12 small-12 padding-lr">
                                             <div class="stacked-for-small button-group float-left">
-                                                <button class="my-button my-success float-left"><span class="btn-txt-mrg">  تحویل </span></button>
-                                                <button onclick="printJS({ printable: 'printJS-form', type: 'html',targetStyles:['direction','font-family']})" class="my-button my-success float-left"><span class="btn-txt-mrg">  پیش نمایش چک </span></button>
+                                                <button v-show="deliverBtn" @click="openCheckDeliverModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">  تحویل </span></button>
+                                                <button v-show="previewBtn" @click="showCheckPreview()" class="my-button my-success float-left"><span class="btn-txt-mrg">  پیش نمایش چک </span></button>
                                             </div>
                                         </div>
                                     </div>
@@ -185,6 +184,87 @@
             </div>
         </modal-small>
         <!-- Show Check Print modal -->
+
+        <!-- Show Check Template Preview modal -->
+        <modal-large v-if="showGetCheckPreviewModal" @close="showGetCheckPreviewModal = false">
+            <div slot="body">
+                <div class="small-font">
+                    <div class="grid-x">
+                        <div class="large-12 medium-12 small-12 padding-lr text-center">
+                            <p class="small-top-m"> قالب چک <span class="btn-red"> '{{ this.fillCheck.subject }}' </span> </p>
+                            <div :style="{'width':fillCheck.height +'cm','height':fillCheck.width +'cm'}" style="border: solid 1px #D8DEE2;position: relative;margin:0 auto;" >
+                                <p class="check-element text-left" :style="{'margin-top': fillCheck.dateTop +'cm','margin-right': fillCheck.dateRight +'cm','width': fillCheck.dateWidth +'cm'}">####/##/##</p>
+                                <p class="check-element text-right" :style="{'margin-top': fillCheck.stringDateTop +'cm','margin-right': fillCheck.stringDateRight +'cm','width': fillCheck.stringDateWidth +'cm'}">تاریخ به حروف</p>
+                                <p class="check-element text-right" :style="{'margin-top': fillCheck.forTop +'cm','margin-right': fillCheck.forRight +'cm','width': fillCheck.forWidth +'cm'}">بابت</p>
+                                <p class="check-element text-right" :style="{'margin-top': fillCheck.payToTop +'cm','margin-right': fillCheck.payToRight +'cm','width': fillCheck.payToWidth +'cm'}">در وجه</p>
+                                <p class="check-element text-right" :style="{'margin-top': fillCheck.stringAmountTop +'cm','margin-right': fillCheck.stringAmountRight +'cm','width': fillCheck.stringAmountWidth +'cm'}">مبلغ به حروف</p>
+                                <p class="check-element text-left" :style="{'margin-top': fillCheck.amountTop +'cm','margin-right': fillCheck.amountRight +'cm','width': fillCheck.amountWidth +'cm'}">مبلغ به عدد</p>
+                                <p class="check-element" :style="{'margin-top': fillCheck.signatureTop +'cm','margin-right': fillCheck.signatureRight +'cm','width': fillCheck.signatureWidth +'cm'}">امضا</p>
+                            </div>
+                        </div>
+                        <div style="display: none;">
+                            <div id="printJS-form" class="large-12 medium-12 small-12 padding-lr text-center printJSClass">
+                                <div :style="{'width':fillCheck.height +'cm','height':fillCheck.width +'cm'}" style="position: relative;margin:0 auto;" >
+                                    <p class="check-element-print text-left" :style="{'margin-top': fillCheck.dateTop +'cm','margin-right': fillCheck.dateRight +'cm','width': fillCheck.dateWidth +'cm'}">####/##/##</p>
+                                    <p class="check-element-print text-right" :style="{'margin-top': fillCheck.stringDateTop +'cm','margin-right': fillCheck.stringDateRight +'cm','width': fillCheck.stringDateWidth +'cm'}">تاریخ به حروف</p>
+                                    <p class="check-element-print text-right" :style="{'margin-top': fillCheck.forTop +'cm','margin-right': fillCheck.forRight +'cm','width': fillCheck.forWidth +'cm'}">بابت</p>
+                                    <p class="check-element-print text-right" :style="{'margin-top': fillCheck.payToTop +'cm','margin-right': fillCheck.payToRight +'cm','width': fillCheck.payToWidth +'cm'}">در وجه</p>
+                                    <p class="check-element-print text-right" :style="{'margin-top': fillCheck.stringAmountTop +'cm','margin-right': fillCheck.stringAmountRight +'cm','width': fillCheck.stringAmountWidth +'cm'}">مبلغ به حروف</p>
+                                    <p class="check-element-print text-left" :style="{'margin-top': fillCheck.amountTop +'cm','margin-right': fillCheck.amountRight +'cm','width': fillCheck.amountWidth +'cm'}">مبلغ به عدد</p>
+                                    <p class="check-element-print text-right" :style="{'margin-top': fillCheck.signatureTop +'cm','margin-right': fillCheck.signatureRight +'cm','width': fillCheck.signatureWidth +'cm'}">امضا</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-x small-top-m">
+                        <div class="large-12 medium-12 small-12 padding-lr">
+                            <div class="stacked-for-small button-group float-left">
+                                <button @click="updateCheckValueInPrintAction()" class="my-button my-success float-left"><span class="btn-txt-mrg">  چاپ </span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-large>
+        <!-- Show Check Template Preview modal -->
+
+        <!-- Show Check Deliver modal -->
+        <modal-tiny v-if="showCheckDeliverModal" @close="showCheckDeliverModal = false">
+            <div slot="body">
+                <form v-on:submit.prevent="checkDeliver" >
+                    <div class="small-font">
+                        <div class="grid-x">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <label>تاریخ تحویل
+                                    <input
+                                            type="text"
+                                            class="form-control form-control-lg"
+                                            v-model="checkDeliverTime"
+                                            id="checkDeliver-Date"
+                                            placeholder="انتخاب تاریخ">
+
+                                    <date-picker
+                                            type="datetime"
+                                            v-model="checkDeliverTime"
+                                            :color="'#5c6bc0'"
+                                            element="checkDeliver-Date">
+                                    </date-picker>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x small-top-m">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <div class="stacked-for-small button-group float-left">
+                                    <button @click="" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </modal-tiny>
+        <!-- Show Check Deliver modal -->
+
     </div>
 </template>
 <style>
@@ -213,6 +293,8 @@
                 requestSearchValue:'',
                 showRequestDetailModal:false,
                 showPrintCheckModal:false,
+                showGetCheckPreviewModal:false,
+                showCheckDeliverModal:false,
                 baseURL:window.hostname+'/',
                 updateDataThreadNowPlaying:null,
                 result_pagination: {
@@ -224,6 +306,12 @@
                 allActiveCheckFormat:[],
                 allCheckVerifiers:[],
                 inputCheck:{},
+                fillCheck:{},
+                checkActiveFormatSelect:[],
+                checkDeliverTime:'',
+                checkId:'',
+                deliverBtn:false,
+                previewBtn:false,
 
             }
         },
@@ -297,10 +385,90 @@
             },
 
             getRequestDetail:function(check){
+                this.deliverBtn=false;
+                this.checkId=check.id;
                 this.getAllCheckVerifiers();
                 this.fetchAllActiveCheckFormat();
                 this.showPrintCheckModal=true;
             },
+
+            selectCheckTemplate:function(check){
+                this.previewBtn=true;
+                this.fillCheck={};
+                this.checkActiveFormatSelect=[];
+                this.checkActiveFormatSelect=check;
+                console.log(JSON.stringify(this.checkActiveFormatSelect));
+            },
+
+            showCheckPreview:function(){
+                this.fillCheck.subject=this.checkActiveFormatSelect.cfSubject;
+                this.fillCheck.dateTop=this.checkActiveFormatSelect.cfDateTop;
+                this.fillCheck.dateRight=this.checkActiveFormatSelect.cfDateRight;
+                this.fillCheck.dateWidth=this.checkActiveFormatSelect.cfDateWidth;
+                this.fillCheck.stringDateTop=this.checkActiveFormatSelect.cfStringDateTop;
+                this.fillCheck.stringDateRight=this.checkActiveFormatSelect.cfStringDateRight;
+                this.fillCheck.stringDateWidth=this.checkActiveFormatSelect.cfStringDateWidth;
+                this.fillCheck.forTop=this.checkActiveFormatSelect.cfForTop;
+                this.fillCheck.forRight=this.checkActiveFormatSelect.cfForRight;
+                this.fillCheck.forWidth=this.checkActiveFormatSelect.cfForWidth;
+                this.fillCheck.payToTop=this.checkActiveFormatSelect.cfPayToTop;
+                this.fillCheck.payToRight=this.checkActiveFormatSelect.cfPayToRight;
+                this.fillCheck.payToWidth=this.checkActiveFormatSelect.cfPayToWidth;
+                this.fillCheck.stringAmountTop=this.checkActiveFormatSelect.cfStringAmountTop;
+                this.fillCheck.stringAmountRight=this.checkActiveFormatSelect.cfStringAmountRight;
+                this.fillCheck.stringAmountWidth=this.checkActiveFormatSelect.cfStringAmountWidth;
+                this.fillCheck.amountTop=this.checkActiveFormatSelect.cfAmountTop;
+                this.fillCheck.amountRight=this.checkActiveFormatSelect.cfAmountRight;
+                this.fillCheck.amountWidth=this.checkActiveFormatSelect.cfAmountWidth;
+                this.fillCheck.signatureTop=this.checkActiveFormatSelect.cfSignatureTop;
+                this.fillCheck.signatureRight=this.checkActiveFormatSelect.cfSignatureRight;
+                this.fillCheck.signatureWidth=this.checkActiveFormatSelect.cfSignatureWidth;
+                this.fillCheck.width=this.checkActiveFormatSelect.cfWidth;
+                this.fillCheck.height=this.checkActiveFormatSelect.cfHeight;
+
+                this.showGetCheckPreviewModal=true;
+            },
+
+            updateCheckValueInPrintAction : function(){
+                printJS({ printable: 'printJS-form', type: 'html',targetStyles:['direction','font-family','margin-top','margin-right','width','height','position','top']});
+                axios.post('/financial/check/print/update', {
+                    cvId:this.inputCheck.verifierId,
+                    cId:this.checkId,
+                    date:this.inputCheck.date,
+                    idNumber:this.inputCheck.idNumber,
+                    cfSubject:this.fillCheck.subject,
+                    //description:this.inputCheck.description = undefined ? '' : this.inputCheck.description,
+                    searchValue:"",
+                }).then((response) => {
+                    this.showGetCheckPreviewModal=false;
+                    this.$parent.displayNotif(response.status);
+                    console.log(response);
+                }, (error) => {
+                    console.log(error);
+                    this.$parent.displayNotif(error.response.status);
+                });
+            },
+
+            openCheckDeliverModal:function(){
+                this.showCheckDeliverModal=true;
+            },
+
+            checkDeliver:function(){
+                axios.post('/financial/check/deliver', {
+                    cId:this.checkId,
+                    date:this.checkDeliverTime,
+                    searchValue:"",
+                }).then((response) => {
+                    this.showCheckDeliverModal=false;
+                    this.$parent.displayNotif(response.status);
+                    console.log(response);
+                }, (error) => {
+                    console.log(error);
+                    this.$parent.displayNotif(error.response.status);
+                });
+            },
+
+
 
             removeFilter: function () {
                 this.requestSearchValue = '';

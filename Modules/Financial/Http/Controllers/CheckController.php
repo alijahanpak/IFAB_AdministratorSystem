@@ -192,11 +192,9 @@ class CheckController extends Controller
             $format->cfSignatureTop = $request->signatureTop;
             $format->cfSignatureRight = $request->signatureRight;
             $format->cfSignatureWidth = $request->signatureWidth;
-            if ($request->secondSignatureWidth){
-                $format->cfSignatureTop = $request->secondSignatureTop;
-                $format->cfSignatureRight = $request->secondSignatureRight;
-                $format->cfSignatureWidth = $request->secondSignatureWidth;
-            }
+            $format->cfSecondSignatureTop = $request->secondSignatureTop;
+            $format->cfSecondSignatureRight = $request->secondSignatureRight;
+            $format->cfSecondSignatureWidth = $request->secondSignatureWidth;
             $format->cfWidth = $request->width;
             $format->cfHeight = $request->height;
             $format->save();
