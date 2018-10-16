@@ -109,7 +109,7 @@
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 padding-lr">
                                             <label>بابت
-                                                <suggestions autocomplete="off" style="margin-bottom: -18px;" name="forTitle" v-validate :class="{'input': true, 'select-error': errors.has('forTitle')}"
+                                                <suggestions autocomplete="off" style="margin-bottom: -18px;" name="forTitle" v-validate="'required'" :class="{'input': true, 'select-error': errors.has('forTitle')}"
                                                              v-model="draftInput.for"
                                                              :options="forOptions"
                                                              :onInputChange="onForInputChange">
@@ -118,12 +118,13 @@
                                                     </div>
                                                 </suggestions>
                                             </label>
+                                            <p v-show="errors.has('forTitle')" class="error-font">لطفا فیلد بابت را وارد نمایید!</p>
                                         </div>
                                     </div>
                                     <div class="grid-x input-margin-top">
                                         <div class="large-12 medium-12 small-12 padding-lr">
                                             <label>در وجه
-                                                <suggestions autocomplete="off" style="margin-bottom: -18px;" name="payToTitle" v-validate :class="{'input': true, 'select-error': errors.has('payToTitle')}"
+                                                <suggestions autocomplete="off" style="margin-bottom: -18px;" name="payToTitle" v-validate="'required'" :class="{'input': true, 'select-error': errors.has('payToTitle')}"
                                                              v-model="draftInput.payTo"
                                                              :options="payToOptions"
                                                              :onInputChange="onPayToInputChange">
@@ -132,6 +133,7 @@
                                                     </div>
                                                 </suggestions>
                                             </label>
+                                            <p v-show="errors.has('payToTitle')" class="error-font">لطفا فیلد در وجه را وارد نمایید!</p>
                                         </div>
                                     </div>
                                     <div v-if="requestType == 'BUY_SERVICES'" style="margin-top:15px;"  class="grid-x">

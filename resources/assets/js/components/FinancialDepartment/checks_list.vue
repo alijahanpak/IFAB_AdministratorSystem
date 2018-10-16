@@ -133,17 +133,31 @@
                                     </div>
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 padding-lr">
-                                            <label>امضا کننده
-                                                <select name="verifierUser" v-validate data-vv-rules="required"  v-model="inputCheck.verifierId" :class="{'input': true, 'select-error': errors.has('verifierUser')}">
-                                                    <option value=""></option>
-                                                    <option v-for="cvUser in allCheckVerifiers" :value="cvUser.id">{{cvUser.user.name}} - {{cvUser.user.role.rSubject}}</option>
-                                                </select>
-                                                <p v-show="errors.has('verifierUser')" class="error-font">لطفا امضا کننده را انتخاب کنید!</p>
-                                            </label>
+                                            <p class="input-bottom-margin">امضا</p>
+                                            <div class="panel-separator padding-lr">
+                                                <div  v-for="(cvUser,index) in allCheckVerifiers" class="grid-x">
+                                                    <div class="large-9 medium-8  small-12">
+                                                        <div class="grid-x">
+                                                            <div class="large-2 medium-4  small-12">
+                                                                <div class="switch tiny">
+                                                                    <input :checked="inputCheck['verifierId' + cvUser.id] = cvUser.checked" class="switch-input" v-on:change="selectVerifiersSignature(cvUser,index,inputCheck['verifierId' + cvUser.id])" v-model="inputCheck['verifierId' + cvUser.id]" :id="'verifierId'+cvUser.id" type="checkbox">
+                                                                    <label class="switch-paddle" :for="'verifierId'+cvUser.id">
+                                                                        <span class="switch-active" aria-hidden="true">بلی</span>
+                                                                        <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="large-10 medium-9  small-12">
+                                                                <p>{{cvUser.user.name}} - {{cvUser.user.role.rSubject}}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="grid-x">
+                                    <div class="grid-x input-top-margin">
                                         <div class="large-12 medium-12 small-12 padding-lr">
                                             <label>قالب چک
                                                 <select name="checkTemplate" v-validate data-vv-rules="required"  v-model="inputCheck.cId" :class="{'input': true, 'select-error': errors.has('checkTemplate')}">
@@ -151,6 +165,7 @@
                                                     <option v-for="activeCheckFormat in allActiveCheckFormat" @click="selectCheckTemplate(activeCheckFormat)" :value="activeCheckFormat.id">{{activeCheckFormat.cfSubject}}</option>
                                                 </select>
                                                 <p v-show="errors.has('checkTemplate')" class="error-font">لطفا قالب چک را انتخاب کنید!</p>
+                                                <p v-show="checkVerifierCountAlert" class="error-font">کاربر گرامی: با توجه به تعداد امضا کنندگان، شما نمی توانید قالب چک با دو امضا انتخاب کنید!</p>
                                             </label>
                                         </div>
                                     </div>
@@ -193,25 +208,27 @@
                         <div class="large-12 medium-12 small-12 padding-lr text-center">
                             <p class="small-top-m"> قالب چک <span class="btn-red"> '{{ this.fillCheck.subject }}' </span> </p>
                             <div :style="{'width':fillCheck.height +'cm','height':fillCheck.width +'cm'}" style="border: solid 1px #D8DEE2;position: relative;margin:0 auto;" >
-                                <p class="check-element text-left" :style="{'margin-top': fillCheck.dateTop +'cm','margin-right': fillCheck.dateRight +'cm','width': fillCheck.dateWidth +'cm'}">####/##/##</p>
+                                <p class="check-element text-left" :style="{'margin-top': fillCheck.dateTop +'cm','margin-right': fillCheck.dateRight +'cm','width': fillCheck.dateWidth +'cm'}">{{inputCheck.date}}</p>
                                 <p class="check-element text-right" :style="{'margin-top': fillCheck.stringDateTop +'cm','margin-right': fillCheck.stringDateRight +'cm','width': fillCheck.stringDateWidth +'cm'}">تاریخ به حروف</p>
-                                <p class="check-element text-right" :style="{'margin-top': fillCheck.forTop +'cm','margin-right': fillCheck.forRight +'cm','width': fillCheck.forWidth +'cm'}">بابت</p>
-                                <p class="check-element text-right" :style="{'margin-top': fillCheck.payToTop +'cm','margin-right': fillCheck.payToRight +'cm','width': fillCheck.payToWidth +'cm'}">در وجه</p>
+                                <p class="check-element text-right" :style="{'margin-top': fillCheck.forTop +'cm','margin-right': fillCheck.forRight +'cm','width': fillCheck.forWidth +'cm'}">{{dFor}}</p>
+                                <p class="check-element text-right" :style="{'margin-top': fillCheck.payToTop +'cm','margin-right': fillCheck.payToRight +'cm','width': fillCheck.payToWidth +'cm'}">{{dPayTo}}</p>
                                 <p class="check-element text-right" :style="{'margin-top': fillCheck.stringAmountTop +'cm','margin-right': fillCheck.stringAmountRight +'cm','width': fillCheck.stringAmountWidth +'cm'}">مبلغ به حروف</p>
-                                <p class="check-element text-left" :style="{'margin-top': fillCheck.amountTop +'cm','margin-right': fillCheck.amountRight +'cm','width': fillCheck.amountWidth +'cm'}">مبلغ به عدد</p>
+                                <p class="check-element text-left" :style="{'margin-top': fillCheck.amountTop +'cm','margin-right': fillCheck.amountRight +'cm','width': fillCheck.amountWidth +'cm'}">{{$root.dispMoneyFormat(cAmount)}}</p>
                                 <p class="check-element" :style="{'margin-top': fillCheck.signatureTop +'cm','margin-right': fillCheck.signatureRight +'cm','width': fillCheck.signatureWidth +'cm'}">امضا</p>
+                                <p v-show="fillCheck.secondSignatureWidth != 0" class="check-element text-center" :style="{'margin-top': fillCheck.secondSignatureTop +'cm','margin-right': fillCheck.secondSignatureRight +'cm','width': fillCheck.secondSignatureWidth +'cm'}"> امضا دوم</p>
                             </div>
                         </div>
                         <div style="display: none;">
                             <div id="printJS-form" class="large-12 medium-12 small-12 padding-lr text-center printJSClass">
                                 <div :style="{'width':fillCheck.height +'cm','height':fillCheck.width +'cm'}" style="position: relative;margin:0 auto;" >
-                                    <p class="check-element-print text-left" :style="{'margin-top': fillCheck.dateTop +'cm','margin-right': fillCheck.dateRight +'cm','width': fillCheck.dateWidth +'cm'}">####/##/##</p>
+                                    <p class="check-element-print text-left" :style="{'margin-top': fillCheck.dateTop +'cm','margin-right': fillCheck.dateRight +'cm','width': fillCheck.dateWidth +'cm'}">{{inputCheck.date}}</p>
                                     <p class="check-element-print text-right" :style="{'margin-top': fillCheck.stringDateTop +'cm','margin-right': fillCheck.stringDateRight +'cm','width': fillCheck.stringDateWidth +'cm'}">تاریخ به حروف</p>
                                     <p class="check-element-print text-right" :style="{'margin-top': fillCheck.forTop +'cm','margin-right': fillCheck.forRight +'cm','width': fillCheck.forWidth +'cm'}">بابت</p>
                                     <p class="check-element-print text-right" :style="{'margin-top': fillCheck.payToTop +'cm','margin-right': fillCheck.payToRight +'cm','width': fillCheck.payToWidth +'cm'}">در وجه</p>
                                     <p class="check-element-print text-right" :style="{'margin-top': fillCheck.stringAmountTop +'cm','margin-right': fillCheck.stringAmountRight +'cm','width': fillCheck.stringAmountWidth +'cm'}">مبلغ به حروف</p>
                                     <p class="check-element-print text-left" :style="{'margin-top': fillCheck.amountTop +'cm','margin-right': fillCheck.amountRight +'cm','width': fillCheck.amountWidth +'cm'}">مبلغ به عدد</p>
                                     <p class="check-element-print text-right" :style="{'margin-top': fillCheck.signatureTop +'cm','margin-right': fillCheck.signatureRight +'cm','width': fillCheck.signatureWidth +'cm'}">امضا</p>
+                                    <p v-show="fillCheck.secondSignatureWidth != 0" class="check-element-print text-center" :style="{'margin-top': fillCheck.secondSignatureTop +'cm','margin-right': fillCheck.secondSignatureRight +'cm','width': fillCheck.secondSignatureWidth +'cm'}"> امضا دوم</p>
                                 </div>
                             </div>
                         </div>
@@ -308,10 +325,17 @@
                 inputCheck:{},
                 fillCheck:{},
                 checkActiveFormatSelect:[],
+                checkSelectTemp:[],
+                dPayTo:'',
+                dFor:'',
+                cAmount:0,
                 checkDeliverTime:'',
                 checkId:'',
                 deliverBtn:false,
                 previewBtn:false,
+                verifierInput:{},
+                checkVerifierCount:0,
+                checkVerifierCountAlert:false,
 
             }
         },
@@ -385,6 +409,14 @@
             },
 
             getRequestDetail:function(check){
+                this.checkSelectTemp=[];
+                this.checkSelectTemp.push(check);
+                console.log(JSON.stringify(this.checkSelectTemp));
+                this.checkSelectTemp.forEach(item =>{
+                    this.dPayTo=item.draft.dPayTo;
+                    this.dFor=item.draft.dFor;
+                    this.cAmount=item.cAmount;
+                });
                 this.deliverBtn=false;
                 this.checkId=check.id;
                 this.getAllCheckVerifiers();
@@ -393,14 +425,30 @@
             },
 
             selectCheckTemplate:function(check){
-                this.previewBtn=true;
+                var checkTemp=[];
+                checkTemp=check;
+                this.checkVerifierCount=checkTemp.cfSecondSignatureWidth;
+                var checkedCount=0
+                this.allCheckVerifiers.forEach(item =>{
+                    if(item.checked ==  true){
+                        checkedCount +=1;
+                    }
+                });
+                if(this.checkVerifierCount == 0 && checkedCount >1) {
+                    this.checkVerifierCountAlert = true;
+                    this.previewBtn=false;
+                }
+                else{
+                    this.previewBtn=true;
+                    this.checkVerifierCountAlert = false;
+                }
                 this.fillCheck={};
                 this.checkActiveFormatSelect=[];
                 this.checkActiveFormatSelect=check;
-                console.log(JSON.stringify(this.checkActiveFormatSelect));
             },
 
             showCheckPreview:function(){
+
                 this.fillCheck.subject=this.checkActiveFormatSelect.cfSubject;
                 this.fillCheck.dateTop=this.checkActiveFormatSelect.cfDateTop;
                 this.fillCheck.dateRight=this.checkActiveFormatSelect.cfDateRight;
@@ -423,16 +471,61 @@
                 this.fillCheck.signatureTop=this.checkActiveFormatSelect.cfSignatureTop;
                 this.fillCheck.signatureRight=this.checkActiveFormatSelect.cfSignatureRight;
                 this.fillCheck.signatureWidth=this.checkActiveFormatSelect.cfSignatureWidth;
+                this.fillCheck.signatureWidth=this.checkActiveFormatSelect.cfSignatureWidth;
+                this.fillCheck.secondSignatureTop=this.checkActiveFormatSelect.cfSecondSignatureTop;
+                this.fillCheck.secondSignatureRight=this.checkActiveFormatSelect.cfSecondSignatureRight;
+                this.fillCheck.secondSignatureWidth=this.checkActiveFormatSelect.cfSecondSignatureWidth;
                 this.fillCheck.width=this.checkActiveFormatSelect.cfWidth;
                 this.fillCheck.height=this.checkActiveFormatSelect.cfHeight;
 
                 this.showGetCheckPreviewModal=true;
             },
 
+            selectVerifiersSignature: function (verifier,index,state) {
+                var verifierTemp={};
+                verifierTemp.id=verifier.id;
+                verifierTemp.name = verifier.user.name;
+                verifierTemp.rSubject = verifier.user.role.rSubject;
+                verifierTemp.index = index;
+                if(state == false){
+                    this.allCheckVerifiers.forEach(item =>{
+                        if(item.id == verifierTemp.id){
+                            this.allCheckVerifiers.forEach(item =>{
+                                if(verifier.id == item.id){
+                                    Vue.set(item,"name","");
+                                    Vue.set(item,"rSubject","");
+                                    Vue.set(item,"index","");
+                                    Vue.set(item,"checked",false);
+                                }
+                            });
+                        }
+                    });
+                }
+                if(state == true){
+                    this.allCheckVerifiers.forEach(item =>{
+                        if(verifierTemp.id == item.id){
+                            Vue.set(item,"name",verifierTemp.name);
+                            Vue.set(item,"rSubject",verifierTemp.rSubject);
+                            Vue.set(item,"index",verifierTemp.index);
+                            Vue.set(item,"checked",true);
+                        }
+                    });
+
+                }
+                console.log(JSON.stringify(this.allCheckVerifiers));
+            },
+
             updateCheckValueInPrintAction : function(){
+                var verifierTempForCheck=[];
+                this.allCheckVerifiers.forEach(item =>{
+                    if(item.checked ==  true){
+                        verifierTempForCheck.push(item.id);
+                    }
+                });
+                console.log(JSON.stringify(verifierTempForCheck));
                 printJS({ printable: 'printJS-form', type: 'html',targetStyles:['direction','font-family','margin-top','margin-right','width','height','position','top']});
-                axios.post('/financial/check/print/update', {
-                    cvId:this.inputCheck.verifierId,
+                /*axios.post('/financial/check/print/update', {
+                    verifiers:verifierTempForCheck,
                     cId:this.checkId,
                     date:this.inputCheck.date,
                     idNumber:this.inputCheck.idNumber,
@@ -446,7 +539,7 @@
                 }, (error) => {
                     console.log(error);
                     this.$parent.displayNotif(error.response.status);
-                });
+                });*/
             },
 
             openCheckDeliverModal:function(){

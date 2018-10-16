@@ -57,7 +57,7 @@
                                 <tbody class="tbl-head-style-cell">
                                 <tr class="table-row" @click="getCheckTemplate(checkFormat)" v-for="(checkFormat,index) in allCheckFormat">
                                     <td class="text-center">{{index +1}}</td>
-                                    <td class="text-center">{{checkFormat.cfSubject}}</td>
+                                    <td>{{checkFormat.cfSubject}}</td>
                                     <td class="text-center" v-show="checkFormat.cfState"><span class="success-label">فعال</span></td>
                                     <td class="text-center" v-show="!checkFormat.cfState"><span class="reserved-label">غیر فعال</span></td>
                                 </tr>
