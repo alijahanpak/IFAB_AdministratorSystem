@@ -16,6 +16,7 @@ class FinancialDatabaseSeeder extends Seeder
     {
         Model::unguard();
         $this->call(SeedRequestTypeTableSeeder::class);
+        $this->call(SeederFactorStateTableSeeder::class);
         $this->call(SeederRequestLevelTableSeeder::class);
         $this->call(SeedRequestStateTableSeeder::class);
         $this->call(SeederCheckStateTableSeeder::class);

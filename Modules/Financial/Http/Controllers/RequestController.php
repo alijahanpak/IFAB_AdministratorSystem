@@ -255,6 +255,7 @@ class RequestController extends Controller
                 ->with('history.requestState')
                 ->with('contract.executor')
                 ->with('factor.seller')
+                ->with('factor.factorState')
                 ->with('draft.verifier.user.role')
                 ->with('draft.check.percentageDecrease')
                 ->with('draft.check.checkState')

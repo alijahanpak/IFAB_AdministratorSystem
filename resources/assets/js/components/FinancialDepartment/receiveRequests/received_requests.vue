@@ -674,10 +674,18 @@
                                             v-bind:requestType="requestType"
                                             v-bind:requestFill="requestFill"
                                             v-bind:UserIsVerifier="UserIsVerifier"
-                                            v-bind:requestId="requestId">
+                                            v-bind:requestId="requestId"
+                                            v-bind:factorCount="factors.length">
                                     </rCredits>
-                                    <div v-else>
-                                        <p>از تنخواه گردان کارپردازی</p>
+                                    <div v-else class="text-center inner-vh-unsize" style="height: 60vh;display: table">
+                                        <div style="display: table-cell; vertical-align: middle;">
+                                            <div class="grid-x">
+                                                <div style="margin:0 auto;" class="large-4 medium-4 small-12">
+                                                    <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
+                                                    <p class="large-offset-1 modal-text text-justify">تامین اعتبار این درخواست از تنخواه گردان کارپردازی در نظر گرفته شده است.</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <!--Tab 3-->
@@ -703,7 +711,7 @@
                                              v-bind:factors="factors"
                                              v-bind:rCreditIsAccepted="rCreditIsAccepted"
                                              v-bind:rCreditIsExist="rCreditIsExist"
-                                             v-bind:isFromRefundCosts="isFromRefundCosts">
+                                             v-bind:isFromRefundCosts="isFromRefund">
                                     </rFactor>
                                 </div>
                                 <!--Tab 5-->
@@ -1210,7 +1218,6 @@
                     last_page: ''
                 },
                 isFromRefund: false,
-                isFromRefundCosts:false,
 
                 drafts:[],
                 payRequests: [],
@@ -1505,8 +1512,8 @@
                 this.factors=[];
                 this.drafts=[];
                 this.payRequests =[];
-                var requestHistory=[];
-                requestHistory.push(request);
+                //var requestHistory=[];
+                //requestHistory.push(request);
                 this.requestId=request.id;
                 this.requestSubject = request.rSubject;
                 this.requestType= request.request_type.rtType ;
@@ -1515,53 +1522,63 @@
                 this.requestCapFinancing=[];
                 this.fetchRequestFinancing();*/
 
-                requestHistory.forEach(users => {
+                this.recipientUsers = request.history;
+/*                requestHistory.forEach(users => {
                     users.history.forEach(userHistory => {
                         this.recipientUsers.push(userHistory);
                     });
-                });
+                });*/
 
-                requestHistory.forEach(users => {
+                this.verifiers = request.verifiers;
+/*                requestHistory.forEach(users => {
                     users.verifiers.forEach(verify => {
                         this.verifiers.push(verify);
                     });
-                });
+                });*/
 
-                requestHistory.forEach(item => {
+                this.contracts = request.contract;
+/*                requestHistory.forEach(item => {
                     item.contract.forEach(con => {
                         this.contracts.push(con);
                     });
-                });
+                });*/
 
-                requestHistory.forEach(item => {
-                    item.factor.forEach(fac => {
-                        this.factors.push(fac);
-                    });
-                });
+                this.factors = request.factor;
 
-                requestHistory.forEach(item => {
+                // requestHistory.forEach(item => {
+                //     item.factor.forEach(fac => {
+                //         this.factors.push(fac);
+                //     });
+                // });
+
+                this.drafts = request.draft;
+/*                requestHistory.forEach(item => {
                     item.draft.forEach(draf => {
                         this.drafts.push(draf);
                     });
-                });
+                });*/
 
-                requestHistory.forEach(item => {
+                this.payRequests = request.pay_request;
+
+/*                requestHistory.forEach(item => {
                     item.pay_request.forEach(payment => {
                         this.payRequests.push(payment);
                     });
-                });
+                });*/
 
-                requestHistory.forEach(remainUsers => {
+                this.UserIsVerifier = request.rRemainingVerifiers;
+/*                requestHistory.forEach(remainUsers => {
                     remainUsers.rRemainingVerifiers.forEach(users => {
                         this.UserIsVerifier.push(users);
                     });
-                });
+                });*/
 
-                requestHistory.forEach(attach => {
+                this.attachments = request.attachment;
+/*                requestHistory.forEach(attach => {
                     attach.attachment.forEach(item => {
                         this.attachments.push(item);
                     });
-                });
+                });*/
 
                 this.isPaid = request.rIsPaid;
                 this.draftIsExist = false;
@@ -1583,7 +1600,6 @@
 
                 this.requestType = request.request_type.rtType;
                 this.isFromRefund = request.isFromRefundCosts;
-                this.isFromRefundCosts=request.isFromRefundCosts;
 
                 /* Prop to Draft Component*/
                 this.rCommitmentAmount=request.rCommitmentAmount;

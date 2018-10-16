@@ -50,8 +50,8 @@ class ReportController extends Controller
         $verifierRole = $draft['verifier'][0]['user']['role']['rSubject'];
         $pdf = $this->initA5Pdf();
         $pdf->loadHTML(view('financial::reports.draft.draftAccept' , ['draftInfo' => $draft , 'verifierName' => $verifierName ,'verifierRole' => $verifierRole]));
-        $pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
-        return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
+        $pdf->save('pdfFiles/draft' . Auth::user()->id . '.pdf', true);
+        return url('pdfFiles/draft' . Auth::user()->id . '.pdf');
     }
 
     public function paymentRequest(Request $request)
@@ -63,8 +63,8 @@ class ReportController extends Controller
             ->first();
         $pdf = $this->initA4Pdf();
         $pdf->loadHTML(view('financial::reports.payment_request.paymentRequestAccept' , ['payRequestInfo' => $payRequestInfo]));
-        $pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
-        return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
+        $pdf->save('pdfFiles/pay_request' . Auth::user()->id . '.pdf', true);
+        return url('pdfFiles/pay_request' . Auth::user()->id . '.pdf');
     }
 
     public static function digit_to_persain_letters($money)

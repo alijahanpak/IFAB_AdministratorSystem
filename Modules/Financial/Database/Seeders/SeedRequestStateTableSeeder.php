@@ -66,5 +66,10 @@ class SeedRequestStateTableSeeder extends Seeder
         $rState->rsSubject = 'در انتظار درخواست پرداخت';
         $rState->rsState = 'WAITING_FOR_PAY_REQUEST';
         $rState->save();
+
+        $rState = new RequestState();
+        $rState->rsSubject = 'در انتظار بررسی';
+        $rState->rsState = 'WAITING_REVIEW';
+        $rState->save();
     }
 }
