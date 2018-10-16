@@ -213,12 +213,8 @@ var app = new Vue({
     },
 
     created: function () {
-        this.setExpireTokenThread();
         var tokenInfo = JSON.parse(sessionStorage.getItem("ifab_token_info"));
         this.headers.Authorization = tokenInfo.Authorization;
-
-        this.setUpdateAllPermissionThread();
-        this.setUpdateUnReadReceivedCountThread();
     },
 
     mounted: function () {
@@ -264,24 +260,25 @@ var app = new Vue({
 
     methods:{
         init: function(){
+            this.setExpireTokenThread();
+            this.setUpdateAllPermissionThread();
+            this.setUpdateUnReadReceivedCountThread();
             this.getFiscalYear();
             this.getPublicParams();
             this.getAmountBase();
             this.getAllAmountBase();
             this._getUnReadReceivedRequest();
-            this.getAllPermission();
         },
 
         getAllPermission: function(){
             axios.get('/admin/user/getRoleAndPermissions')
                 .then((response) => {
                     this.userPermission = response.data;
-                    var accessPermissions = '';
-                    this.userPermission.permissions.forEach((per) => {
-                        console.log('..................' + per.permission.pPermission);
-                        accessPermissions += per.permission.pPermission + '&';
+                    var accessPermissions = [];
+                    this.userPermission.permissions.forEach(per => {
+                        accessPermissions.push(per.permission.pPermission);
                     });
-                    console.log('.......................... permission' + accessPermissions);
+                    //console.log('.......................... permission' + accessPermissions);
                     this.access = accessPermissions;
                     console.log(this.access);
                     axios.get('/api/getAuthUserInfo')
@@ -305,22 +302,24 @@ var app = new Vue({
         },
 
         updateAllPermissions: function () {
+            alert(this.$can('DISPLAY_REFUNDS'));
             console.log('.................. update all permissions');
             axios.get('/admin/user/getRoleAndPermissions')
                 .then((response) => {
                     this.userPermission = response.data;
-                    var accessPermissions = '';
-                    this.userPermission.permissions.forEach((pre) => {
-                        accessPermissions += pre.permission.pPermission + '&';
+                    var accessPermissions = [];
+                    this.userPermission.permissions.forEach(per => {
+                        accessPermissions.push(per.permission.pPermission);
                     });
                     this.access = accessPermissions;
+                    console.log(this.access);
                 },(error) => {
                     console.log(error);
                 });
         },
 
         setUpdateAllPermissionThread: function () {
-            console.log("...................................................... set cost approved prog update thread");
+            console.log("...................................................... set permission update thread");
             if (this.updateAllPermissionThreadNowPlaying)
                 clearInterval(this.updateAllPermissionThreadNowPlaying);
             this.updateAllPermissionThreadNowPlaying = setInterval(this.updateAllPermissions, 90000);

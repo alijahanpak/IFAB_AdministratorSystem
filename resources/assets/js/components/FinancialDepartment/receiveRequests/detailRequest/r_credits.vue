@@ -175,7 +175,7 @@
         <div style="padding: 0 17px 0 17px;" class="large-12 medium-12 small-12 small-top-m">
             <div style="margin-bottom:-10px;margin-top: 5px" class="stacked-for-small button-group float-left">
                 <button v-show='$can("FINANCIAL_ACCEPT_FINANCING") && acceptBtn' @click="checkAcceptFinancing()"  class="my-button my-success float-left"><span class="btn-txt-mrg">تایید تامین اعتبار</span></button>
-                <button v-show="$can('FINANCIAL_ACCEPT_PAY_FROM_REFUND') && requestCostFinancing.length == 0 && requestCapFinancing.length == 0 && requestType == 'BUY_COMMODITY' && financingDataIsLoaded" @click="checkApplyFromRefund()" class="my-button toolbox-btn float-left"><span class="btn-txt-mrg">  تامین از تنخواه گردان کارپردازی</span></button>
+                <button v-show="$can('FINANCIAL_ACCEPT_PAY_FROM_REFUND') && requestCostFinancing.length == 0 && requestCapFinancing.length == 0 && requestType == 'BUY_COMMODITY' && financingDataIsLoaded && factorCount == 0" @click="checkApplyFromRefund()" class="my-button toolbox-btn float-left"><span class="btn-txt-mrg">  تامین از تنخواه گردان کارپردازی</span></button>
                 <button v-show='$can("FINANCIAL_CAPITAL_ASSETS_FINANCING")' @click="openCapitalAssetsModal()" class="my-button toolbox-btn float-left"><span class="btn-txt-mrg">  اعتبارات تملک دارایی های سرمایه ای</span></button>
                 <button v-show='$can("FINANCIAL_COST_FINANCING")' @click="openCostCreditsModal()" class="my-button toolbox-btn float-left"><span class="btn-txt-mrg">  اعتبارات هزینه ای</span></button>
             </div>
@@ -1415,7 +1415,7 @@
 <script>
     import VueElementLoading from 'vue-element-loading';
 export default{
-    props:['baseAmount','UserIsVerifier','requestFill','requestId','requestType' , 'updateReceiveRequestData'],
+    props:['baseAmount','UserIsVerifier','requestFill','requestId','requestType' , 'updateReceiveRequestData' , 'factorCount'],
     components: {
         VueElementLoading,
     },

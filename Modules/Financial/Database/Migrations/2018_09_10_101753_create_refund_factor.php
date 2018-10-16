@@ -18,7 +18,6 @@ class CreateRefundFactor extends Migration
                 $table->bigIncrements('id');
                 $table->bigInteger('rfFId')->length(20)->unsigned();
                 $table->bigInteger('rfRId')->length(20)->unsigned();
-                $table->boolean('rfIsAccepted')->default(false);
                 $table->timestamps();
 
                 $table->foreign('rfFId')

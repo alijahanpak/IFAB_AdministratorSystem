@@ -19,8 +19,8 @@ class CreateFactorTable extends Migration
                 $table->bigIncrements('id');
                 $table->bigInteger('fRId')->length(20)->unsigned();
                 $table->bigInteger('fSId')->length(20)->unsigned();
+                $table->bigInteger('fFsId')->length(20)->unsigned();
                 $table->string('fSubject');
-                $table->boolean('fIsAccepted')->default(false);
                 $table->unsignedBigInteger('fAmount');
                 $table->longText('fDescription');
                 $table->timestamps();
@@ -32,6 +32,11 @@ class CreateFactorTable extends Migration
 
                 $table->foreign('fSId')
                     ->references('id')->on('tbl_sellers')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+
+                $table->foreign('fFsId')
+                    ->references('id')->on('tbl_factor_states')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
             });

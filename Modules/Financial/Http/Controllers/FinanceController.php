@@ -158,7 +158,7 @@ class FinanceController extends Controller
     public function deleteCostFinancing(Request $request)
     {
         $resultCode = DB::transaction(function () use($request){
-            $existFund = Contract::where('cRId' , '=' , $request->rId)
+/*            $existFund = Contract::where('cRId' , '=' , $request->rId)
                 ->exists();
             $existFund = Factor::where('fRId' , '=' , $request->rId)
                 ->exists();
@@ -170,7 +170,11 @@ class FinanceController extends Controller
                 CostFinancing::where('id' , '=' , $request->id)
                     ->delete();
                 return 200;
-            }
+            }*/
+
+            CostFinancing::where('id' , '=' , $request->id)
+                ->delete();
+            return 200;
 
         });
 
@@ -180,7 +184,7 @@ class FinanceController extends Controller
     public function deleteCapFinancing(Request $request)
     {
         $resultCode = DB::transaction(function () use($request){
-            $existFund = Contract::where('cRId' , '=' , $request->rId)
+/*            $existFund = Contract::where('cRId' , '=' , $request->rId)
                 ->exists();
             $existFund = Factor::where('fRId' , '=' , $request->rId)
                 ->exists();
@@ -192,7 +196,11 @@ class FinanceController extends Controller
                 CapitalAssetsFinancing::where('id' , '=' , $request->id)
                     ->delete();
                 return 200;
-            }
+            }*/
+
+            CapitalAssetsFinancing::where('id' , '=' , $request->id)
+                ->delete();
+            return 200;
 
         });
 

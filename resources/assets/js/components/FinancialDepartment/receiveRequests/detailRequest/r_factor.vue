@@ -47,8 +47,10 @@
                             <td>{{factor.fSubject}}</td>
                             <td class="text-center">{{$root.dispMoneyFormat(factor.fAmount)}}</td>
                             <td class="text-center">{{factor.fDescription}}</td>
-                            <td class="text-center" v-show="factor.fIsAccepted == 1"><span class="success-label">تایید شده</span></td>
-                            <td class="text-center" v-show="factor.fIsAccepted == 0"><span class="reserved-label">تایید نشده</span></td>
+                            <td class="text-center" v-show="factor.factor_state.fsState == 'TEMPORARY'"><span class="danger-label">{{ factor.factor_state.fsSubject }}</span></td>
+                            <td class="text-center" v-show="factor.factor_state.fsState == 'PENDING_REVIEW'"><span class="reserved-label">{{ factor.factor_state.fsSubject }}</span></td>
+                            <td class="text-center" v-show="factor.factor_state.fsState == 'NOT_ACCEPTED'"><span class="blocked-label">{{ factor.factor_state.fsSubject }}</span></td>
+                            <td class="text-center" v-show="factor.factor_state.fsState == 'ACCEPTED'"><span class="success-label">{{ factor.factor_state.fsSubject }}</span></td>
                             <td v-show="$can('SUPPLIER_DELETE_FACTOR')" class="text-center"><a @click="openConfirmDeleteContract(factor.id)"><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
                         </tr>
                         </tbody>
@@ -262,7 +264,7 @@
             checkAcceptFactor: function(){
                 var existNotAccepted = false;
                 this.factors.forEach(item => {
-                    if (item.fIsAccepted == false)
+                    if (item.factor_state.fsState == 'TEMPORARY')
                         existNotAccepted = true;
                 });
 

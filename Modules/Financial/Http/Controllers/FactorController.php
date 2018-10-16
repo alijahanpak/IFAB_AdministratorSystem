@@ -11,6 +11,7 @@ use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\Factor;
+use Modules\Financial\Entities\FactorState;
 use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\RefundCosts;
 use Modules\Financial\Entities\RefundFactor;
@@ -18,6 +19,7 @@ use Modules\Financial\Entities\RequestHistory;
 use Modules\Financial\Entities\RequestHistoryLastPoint;
 use Modules\Financial\Entities\RequestLevel;
 use Modules\Financial\Entities\RequestState;
+use Modules\Financial\Entities\RequestType;
 use Modules\Financial\Entities\Seller;
 
 class FactorController extends Controller
@@ -31,6 +33,7 @@ class FactorController extends Controller
             $factor->fSId = $sId->id;
             $factor->fSubject = PublicSetting::checkPersianCharacters($request->subject);
             $factor->fAmount = $request->amount;
+            $factor->fFsId = FactorState::where('fsState' , 'TEMPORARY')->value('id');
             $factor->fDescription = PublicSetting::checkPersianCharacters($request->description);
             $factor->save();
 
@@ -54,37 +57,54 @@ class FactorController extends Controller
     function accept(Request $request)
     {
         DB::transaction(function () use($request){
-            Factor::where('fRId' , '=' , $request->rId)
-                ->update(['fIsAccepted' => true]);
-
             $req = _Request::find($request->rId);
-            $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
-            if ($req->rAcceptedAmount != $req->rCommitmentAmount)
+
+            if ($req->isFromRefundCosts == true)
             {
-                $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'FINANCIAL')->value('id');
+                Factor::where('fRId' , '=' , $request->rId)
+                    ->update(['fFsId' => FactorState::where('fsState' , 'PENDING_REVIEW')->value('id')]);
+                $req->rRsId = RequestState::where('rsState' , '=' , 'WAITING_REVIEW')->value('id');
+                $req->save();
 
-                RequestHistoryLastPoint::updateOrCreate(['rhlpRId' => $req->id] , [
-                    'rhlpRlId' => RequestLevel::where('rlLevel' , '=' , 'DRAFT')->value('id'),
-                    'rhlpRsId' => RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id'),
-                    'rhlpPrId' => null,
-                    'rhlpDescription' => 'با توجه به تفاوت مجموع مبلغ فاکتور ها با مبلغ تعهد شده، درخواست نیاز به اصلاح تامین اعتبار دارد.'
-                ]);
+                // make history for this request
+                $history = new RequestHistory();
+                $history->rhSrcUId = Auth::user()->id;
+                $history->rhDestUId = Auth::user()->id; // for secretariat destination
+                $history->rhRId = $req->id;
+                $history->rhRsId = $req->rRsId;
+                $history->rhDescription = 'فاکتور های خرید ثبت شده و برای بررسی و تایید به امور مالی ارائه گردید.';
+                $history->save();
+            }else{
+                Factor::where('fRId' , '=' , $request->rId)
+                    ->update(['fFsId' => FactorState::where('fsState' , 'ACCEPTED')->value('id')]);
+                $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
+                if ($req->rAcceptedAmount != $req->rCommitmentAmount)
+                {
+                    $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'FINANCIAL')->value('id');
+
+                    RequestHistoryLastPoint::updateOrCreate(['rhlpRId' => $req->id] , [
+                        'rhlpRlId' => RequestLevel::where('rlLevel' , '=' , 'DRAFT')->value('id'),
+                        'rhlpRsId' => RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id'),
+                        'rhlpPrId' => null,
+                        'rhlpDescription' => 'با توجه به تفاوت مجموع مبلغ فاکتور ها با مبلغ تعهد شده، درخواست نیاز به اصلاح تامین اعتبار دارد.'
+                    ]);
+                }
+                else
+                    $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'DRAFT')->value('id');
+                $req->save();
+
+                // make history for this request
+                $history = new RequestHistory();
+                $history->rhSrcUId = Auth::user()->id;
+                $history->rhDestUId = null; // for secretariat destination
+                $history->rhRId = $req->id;
+                $history->rhRsId = $req->rRsId;
+                $history->save();
+
+                $finReqQueue = new FinancialRequestQueue();
+                $finReqQueue->frqRId = $req->id;
+                $finReqQueue->save();
             }
-            else
-                $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'DRAFT')->value('id');
-            $req->save();
-
-            // make history for this request
-            $history = new RequestHistory();
-            $history->rhSrcUId = Auth::user()->id;
-            $history->rhDestUId = null; // for secretariat destination
-            $history->rhRId = $req->id;
-            $history->rhRsId = $req->rRsId;
-            $history->save();
-
-            $finReqQueue = new FinancialRequestQueue();
-            $finReqQueue->frqRId = $req->id;
-            $finReqQueue->save();
             SystemLog::setFinancialSubSystemLog('تایید فاکتور های درخواست ' . _Request::find($request->rId)->rSubject);
         });
 
@@ -98,7 +118,7 @@ class FactorController extends Controller
     {
         $resultCode = DB::transaction(function () use($request){
             $factor = Factor::where('id' , '=' , $request->fId)->first();
-            if ($factor->fIsAccepted == false)
+            if ($factor->fFsId == FactorState::where('fsState' , 'TEMPORARY')->value('id'))
             {
                 $factor->delete();
                 return 200;

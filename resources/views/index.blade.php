@@ -121,66 +121,66 @@
                             </div>
                             <nav class="accordion"  data-margin-top="4.2" v-cloak>
                                 <ul style="background-color: #2C2E3E;" class="vertical menu sub-menu accordion-menu" data-accordion-menu data-multi-open="false" >
-                                    <li v-show='$can("BUDGET_CREDIT_DISTRIBUTION_PLAN_DISPLAY|BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_DISPLAY")'>
+                                    <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DISPLAY|BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_DISPLAY')">
                                         <a class="right-menu-btm-border">توزیع اعتبار</a>
                                         <ul class="menu vertical nested">
-                                            <li v-show='$can("BUDGET_CREDIT_DISTRIBUTION_PLAN_DISPLAY|BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_DISPLAY")'><a>تملک دارایی سرمایه ای</a>
+                                            <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DISPLAY|BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_DISPLAY')"><a>تملک دارایی سرمایه ای</a>
                                                 <ul class="menu vertical nested">
                                                     <li><a>استانی</a>
                                                         <ul class="menu vertical nested">
-                                                            <li data-close v-show='$can("BUDGET_CREDIT_DISTRIBUTION_PLAN_DISPLAY")'><router-link to="/budget/admin/credit_distribution/plan">طرح های توزیع اعتبار</router-link></li>
-                                                            <li data-close v-show='$can("BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_DISPLAY")'><router-link to="/budget/admin/credit_distribution/proposal">پیشنهاد دستگاه</router-link></li>
+                                                            <li data-close v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DISPLAY')"><router-link to="/budget/admin/credit_distribution/plan">طرح های توزیع اعتبار</router-link></li>
+                                                            <li data-close v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PROPOSAL_DISPLAY')"><router-link to="/budget/admin/credit_distribution/proposal">پیشنهاد دستگاه</router-link></li>
                                                         </ul>
                                                     </li>
                                                 </ul>
                                             </li>
                                         </ul>
                                     </li>
-                                    <li v-show='$can("BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_DISPLAY|BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DISPLAY|BUDGET_COST_APPROVED_PROG_DISPLAY")'>
+                                    <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_DISPLAY|BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DISPLAY|BUDGET_COST_APPROVED_PROG_DISPLAY')">
                                         <a class="right-mp right-menu-btm-border">  موافقتنامه</a>
                                         <ul class="menu vertical nested">
-                                            <li v-show='$can("BUDGET_COST_APPROVED_PROG_DISPLAY")'><a>هزینه ای</a>
+                                            <li v-show="$can('BUDGET_COST_APPROVED_PROG_DISPLAY')"><a>هزینه ای</a>
                                                 <ul class="menu vertical nested">
-                                                    <li v-show='$can("BUDGET_COST_APPROVED_PROG_DISPLAY")'><router-link to="/budget/approved/capital_assets/approved/program">برنامه ها</router-link></li>
+                                                    <li v-show="$can('BUDGET_COST_APPROVED_PROG_DISPLAY')"><router-link to="/budget/approved/capital_assets/approved/program">برنامه ها</router-link></li>
                                                 </ul>
                                             </li>
-                                            <li v-show='$can("BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_DISPLAY|BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DISPLAY")'><a>تملک دارایی سرمایه ای</a>
+                                            <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_DISPLAY|BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DISPLAY')"><a>تملک دارایی سرمایه ای</a>
                                                 <ul class="menu vertical nested">
-                                                    <li data-close v-show='$can("BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_DISPLAY")'><router-link to="/budget/approved/capital_assets/approved/plan">طرح ها</router-link></li>
-                                                    <li data-close v-show='$can("BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DISPLAY")'><router-link to="/budget/approved/capital_assets/approved/project">پروژه ها</router-link></li>
+                                                    <li data-close v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_DISPLAY')"><router-link to="/budget/approved/capital_assets/approved/plan">طرح ها</router-link></li>
+                                                    <li data-close v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DISPLAY')"><router-link to="/budget/approved/capital_assets/approved/project">پروژه ها</router-link></li>
                                                 </ul>
                                             </li>
 
                                         </ul>
                                     </li>
-                                    <li v-show='$can("BUDGET_CAPITAL_ASSETS_ALLOCATION_DISPLAY|BUDGET_COST_ALLOCATION_DISPLAY|BUDGET_CAPITAL_ASSETS_FOUND_DISPLAY|BUDGET_COST_FOUND_DISPLAY")'>
+                                    <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DISPLAY|BUDGET_COST_ALLOCATION_DISPLAY|BUDGET_CAPITAL_ASSETS_FOUND_DISPLAY|BUDGET_COST_FOUND_DISPLAY')">
                                         <a class="right-mp right-menu-btm-border">تخصیص اعتبار</a>
                                         <ul class="menu vertical nested">
-                                            <li data-close v-show='$can("BUDGET_COST_ALLOCATION_DISPLAY|BUDGET_COST_FOUND_DISPLAY")'><router-link to="/budget/Allocation/cost">هزینه ای</router-link></li>
-                                            <li data-close v-show='$can("BUDGET_CAPITAL_ASSETS_ALLOCATION_DISPLAY|BUDGET_CAPITAL_ASSETS_FOUND_DISPLAY")'><router-link to="/budget/allocation/capital_assets">تملک دارایی سرمایه ای</router-link></li>
+                                            <li data-close v-show="$can('BUDGET_COST_ALLOCATION_DISPLAY|BUDGET_COST_FOUND_DISPLAY')"><router-link to="/budget/Allocation/cost">هزینه ای</router-link></li>
+                                            <li data-close v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DISPLAY|BUDGET_CAPITAL_ASSETS_FOUND_DISPLAY')"><router-link to="/budget/allocation/capital_assets">تملک دارایی سرمایه ای</router-link></li>
                                         </ul>
                                     </li>
-                                    <li v-show='$can("BUDGET_ADMIN_FISCAL_YEARS_DISPLAY|BUDGET_ADMIN_DEPRIVED_AREA_DISPLAY|BUDGET_ADMIN_BUDGET_SEASON_DISPLAY|BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_DISPLAY|BUDGET_ADMIN_PLAN_RO_COST_TITLE_DISPLAY|BUDGET_ADMIN_SEASON_TITLE_DISPLAY|BUDGET_ADMIN_TINY_SEASON_DISPLAY|CREATE_NEW_CHECK_TEMPLATE")'>
+                                    <li v-show="$can('BUDGET_ADMIN_FISCAL_YEARS_DISPLAY|BUDGET_ADMIN_DEPRIVED_AREA_DISPLAY|BUDGET_ADMIN_BUDGET_SEASON_DISPLAY|BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_DISPLAY|BUDGET_ADMIN_PLAN_RO_COST_TITLE_DISPLAY|BUDGET_ADMIN_SEASON_TITLE_DISPLAY|BUDGET_ADMIN_TINY_SEASON_DISPLAY|CREATE_NEW_CHECK_TEMPLATE')">
                                         <a class="right-mp right-menu-btm-border">مدیریت</a>
                                         <ul class="menu vertical nested">
-                                            <li data-close v-show='$can("BUDGET_ADMIN_FISCAL_YEARS_DISPLAY")'><router-link to="/budget/admin/fiscal_year">سال مالی</router-link></li>
-                                            <li data-close v-show='$can("BUDGET_ADMIN_DEPRIVED_AREA_DISPLAY")'><router-link to="/budget/admin/deprived_area">مناطق محروم</router-link></li>
-                                            <li data-close v-show='$can("BUDGET_ADMIN_BUDGET_SEASON_DISPLAY|BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_DISPLAY|BUDGET_ADMIN_PLAN_RO_COST_TITLE_DISPLAY")'>
+                                            <li data-close v-show="$can('BUDGET_ADMIN_FISCAL_YEARS_DISPLAY')"><router-link to="/budget/admin/fiscal_year">سال مالی</router-link></li>
+                                            <li data-close v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_DISPLAY')"><router-link to="/budget/admin/deprived_area">مناطق محروم</router-link></li>
+                                            <li data-close v-show="$can('BUDGET_ADMIN_BUDGET_SEASON_DISPLAY|BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_DISPLAY|BUDGET_ADMIN_PLAN_RO_COST_TITLE_DISPLAY')">
                                                 <a data-open>توزیع اعتبار</a>
                                                 <ul class="menu vertical nested">
-                                                    <li data-close v-show='$can("BUDGET_ADMIN_BUDGET_SEASON_DISPLAY")'><router-link to="/budget/admin/credit_distribution_def/budget_season">فصل بودجه</router-link></li>
-                                                    <li data-close v-show='$can("BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_DISPLAY")'><router-link to="/budget/admin/credit_distribution_def/row">ردیف توزیع اعتبار</router-link></li>
-                                                    <li data-close v-show='$can("BUDGET_ADMIN_PLAN_RO_COST_TITLE_DISPLAY")'><router-link to="/budget/admin/credit_distribution_def/plan_cost_title">عنوان طرح / برنامه</router-link></li>
+                                                    <li data-close v-show="$can('BUDGET_ADMIN_BUDGET_SEASON_DISPLAY')"><router-link to="/budget/admin/credit_distribution_def/budget_season">فصل بودجه</router-link></li>
+                                                    <li data-close v-show="$can('BUDGET_ADMIN_CREDIT_DISTRIBUTION_ROW_DISPLAY')"><router-link to="/budget/admin/credit_distribution_def/row">ردیف توزیع اعتبار</router-link></li>
+                                                    <li data-close v-show="$can('BUDGET_ADMIN_PLAN_RO_COST_TITLE_DISPLAY')"><router-link to="/budget/admin/credit_distribution_def/plan_cost_title">عنوان طرح / برنامه</router-link></li>
                                                 </ul>
                                             </li>
-                                            <li v-show='$can("BUDGET_ADMIN_SEASON_TITLE_DISPLAY|BUDGET_ADMIN_TINY_SEASON_DISPLAY")'>
+                                            <li v-show="$can('BUDGET_ADMIN_SEASON_TITLE_DISPLAY|BUDGET_ADMIN_TINY_SEASON_DISPLAY')">
                                                 <a>فصول</a>
                                                 <ul class="menu vertical nested">
-                                                    <li data-close v-show='$can("BUDGET_ADMIN_SEASON_TITLE_DISPLAY")'><router-link to="/budget/admin/season/season_title">عنوان فصل</router-link></li>
-                                                    <li data-close v-show='$can("BUDGET_ADMIN_TINY_SEASON_DISPLAY")'><router-link to="/budget/admin/season/tiny_seasons">ریز فصل</router-link></li>
+                                                    <li data-close v-show="$can('BUDGET_ADMIN_SEASON_TITLE_DISPLAY')"><router-link to="/budget/admin/season/season_title">عنوان فصل</router-link></li>
+                                                    <li data-close v-show="$can('BUDGET_ADMIN_TINY_SEASON_DISPLAY')"><router-link to="/budget/admin/season/tiny_seasons">ریز فصل</router-link></li>
                                                 </ul>
                                             </li>
-                                            <li data-close v-show='$can("CREATE_NEW_CHECK_TEMPLATE")'><router-link to="/financial_department/checks/templates">قالب چک</router-link></li>
+                                            <li data-close v-show="$can('CREATE_NEW_CHECK_TEMPLATE')"><router-link to="/financial_department/checks/templates">قالب چک</router-link></li>
                                         </ul>
                                     </li>
                                     <!--Financial Department Start-->
@@ -194,12 +194,12 @@
                                     </li>
                                     <!--Financial Department End-->
                                     <!--checks list-->
-                                    <li data-close v-show='$can("CHECK_LIST_DISPLAY")'>
+                                    <li data-close v-show="$can('CHECK_LIST_DISPLAY')">
                                         <router-link class="right-mp right-menu-btm-border" to="/financial_department/checks/list">چک</router-link>
                                     </li>
                                     <!--checks list-->
                                     <!--fund-->
-                                    <li data-close v-show='$can("DISPLAY_REFUNDS")'>
+                                    <li data-close v-show="$can('DISPLAY_REFUNDS')">
                                         <router-link class="right-mp right-menu-btm-border" to="/financial_department/refund">تنخواه گردان کارپردازی</router-link>
                                     </li>
                                     <!--fund-->
