@@ -12,7 +12,9 @@ use Modules\Admin\Entities\SystemLog;
 use Modules\Financial\Entities\_Check;
 use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\CapitalAssetsFinancing;
+use Modules\Financial\Entities\CapSpent;
 use Modules\Financial\Entities\CostFinancing;
+use Modules\Financial\Entities\CostSpent;
 use Modules\Financial\Entities\Draft;
 use Modules\Financial\Entities\Factor;
 use Modules\Financial\Entities\FactorState;
@@ -98,6 +100,7 @@ class FactorController extends Controller
                 $history->rhDestUId = Auth::user()->id; // for secretariat destination
                 $history->rhRId = $req->id;
                 $history->rhRsId = $req->rRsId;
+                $history->rhHasBeenSeen = true;
                 $history->rhDescription = 'فاکتور های خرید ثبت شده و برای بررسی و تایید به امور مالی ارائه گردید.';
                 $history->save();
             }else{
@@ -147,62 +150,96 @@ class FactorController extends Controller
             $factor->fFsId = FactorState::where('fsState' , 'ACCEPTED')->value('id');
             $factor->save();
 
-            $costFinancing = CostFinancing::where('cfRId' , $factor->fRId)->get()->sortBy('cfRemainingAmount');
-            $capFinancing = CapitalAssetsFinancing::where('cafRId' , $factor->fRId)->get()->sortBy('cafRemainingAmount');
+            $costFinancing = CostFinancing::where('cfRId' , $request->rId)->get()->sortBy('cfRemainingAmount');
+            $capFinancing = CapitalAssetsFinancing::where('cafRId' , $request->rId)->get()->sortBy('cafRemainingAmount');
             $financingCount = count($costFinancing) + count($capFinancing);
 
-            $pieceOfAmount = round($factor->fAmount / $financingCount);
-            $remainingAmount = $factor->fAmount - ($pieceOfAmount * $financingCount);
-
-            foreach ($costFinancing as $cf)
+            $draftIds = Draft::where('dRId' , $request->rId)->pluck('id');
+            $checks = _Check::whereIn('cDId' , $draftIds)->get();
+            $factorRemainingAmount = $factor->fAmount;
+            $remainingAmount = 0;
+            foreach ($checks as $check)
             {
-                if ($cf->cfRemainingAmount >= ($pieceOfAmount + $remainingAmount))
+                $calcAmount = 0;
+                $checkRemainingAmount = $check->cAmount - $check->cSpentAmount;
+                if ($checkRemainingAmount >= $factorRemainingAmount)
                 {
-                    $tempAmount = $pieceOfAmount + $remainingAmount;
-                    $remainingAmount = 0;
-                }else if ($cf->cfRemainingAmount >= $pieceOfAmount){
-                    $tempAmount = $pieceOfAmount;
+                    $calcAmount = $factorRemainingAmount;
                 }else{
-                    $tempAmount = $cf->cfRemainingAmount;
-                    $remainingAmount += $pieceOfAmount - $cf->cfRemainingAmount;
+                    $calcAmount = $factorRemainingAmount - $checkRemainingAmount;
                 }
+                $factorRemainingAmount -= $calcAmount;
 
-                $draftIds = Draft::where('dRId' , $factor->fRId)->pluck('id');
-                $checks = _Check::whereId('cDId' , $draftIds)->get();
-                foreach ($checks as $check)
+                $pieceOfAmount = round($calcAmount / $financingCount);
+                $remainingAmount = $calcAmount - ($pieceOfAmount * $financingCount);
+
+                foreach ($costFinancing as $cf)
                 {
-                    //if ()
+                    if ($cf->cfRemainingAmount >= ($pieceOfAmount + $remainingAmount))
+                    {
+                        $tempAmount = $pieceOfAmount + $remainingAmount;
+                        $remainingAmount = 0;
+                    }else if ($cf->cfRemainingAmount >= $pieceOfAmount){
+                        $tempAmount = $pieceOfAmount;
+                    }else{
+                        $tempAmount = $cf->cfRemainingAmount;
+                        $remainingAmount += $pieceOfAmount - $cf->cfRemainingAmount;
+                    }
+
                     $costSpent = new CostSpent();
                     $costSpent->csCfId = $cf->id;
                     $costSpent->csCId = $check->id;
                     $costSpent->csAmount = $tempAmount;
                     $costSpent->save();
                 }
-            }
 
-            foreach ($capFinancing as $caf)
-            {
-                if ($caf->cafRemainingAmount >= ($pieceOfAmount + $remainingAmount))
+
+                foreach ($capFinancing as $caf)
                 {
-                    $tempAmount = $pieceOfAmount + $remainingAmount;
-                    $remainingAmount = 0;
-                }else if ($caf->cafRemainingAmount >= $pieceOfAmount){
-                    $tempAmount = $pieceOfAmount;
-                }else{
-                    $tempAmount = $caf->cafRemainingAmount;
-                    $remainingAmount += $pieceOfAmount - $caf->cafRemainingAmount;
+                    if ($caf->cafRemainingAmount >= ($pieceOfAmount + $remainingAmount))
+                    {
+                        $tempAmount = $pieceOfAmount + $remainingAmount;
+                        $remainingAmount = 0;
+                    }else if ($caf->cafRemainingAmount >= $pieceOfAmount){
+                        $tempAmount = $pieceOfAmount;
+                    }else{
+                        $tempAmount = $caf->cafRemainingAmount;
+                        $remainingAmount += $pieceOfAmount - $caf->cafRemainingAmount;
+                    }
+
+                    $capSpent = new CapSpent();
+                    $capSpent->csCafId = $caf->id;
+                    $capSpent->csCId = $check->id;
+                    $capSpent->csAmount = $tempAmount;
+                    $capSpent->save();
                 }
 
-                $capSpent = new CapSpent();
-                $capSpent->csCafId = $caf->id;
-                $capSpent->csCId = $check->id;
-                $capSpent->csAmount = $tempAmount;
-                $capSpent->save();
+                if ($factorRemainingAmount == 0)
+                    break;
+            }
+
+            if ($remainingAmount != 0)
+                return 500;
+            else{
+                SystemLog::setFinancialSubSystemLog('تایید فاکتور کارپردازی با عنوان ' .  $factor->fSubject . ' برای درخواست ' . _Request::find($request->rId)->rSubject);
+                return 200;
             }
         });
 
         $rController = new RefundController();
         return \response()->json($rController->getAllRefundData() , $result);
+    }
+
+    function reject(Request $request)
+    {
+        DB::transaction(function () use($request) {
+            $factor = Factor::find($request->fId);
+            $factor->fFsId = FactorState::where('fsState', 'NOT_ACCEPTED')->value('id');
+            $factor->save();
+        });
+
+        $rController = new RefundController();
+        return \response()->json($rController->getAllRefundData());
     }
 
     function delete(Request $request)

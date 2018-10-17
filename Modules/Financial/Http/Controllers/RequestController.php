@@ -77,6 +77,7 @@ class RequestController extends Controller
             ->with('contract.executor')
             ->with('contract.increaseAmount.percentageIncrease')
             ->with('factor.seller')
+            ->with('factor.factorState')
             ->with(['draft' => function($q){
                 return $q->whereHas('verifier' , function ($q1){
                     return $q1->where('dvSId' ,'<>' , null);
@@ -86,7 +87,7 @@ class RequestController extends Controller
             }])
             ->with('payRequest.payRequestState')
             ->with('requestLevel')
-            ->with('refundFactor')
+            ->with('refundFactor.factor')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
     }
