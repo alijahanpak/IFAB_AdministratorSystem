@@ -17,7 +17,7 @@ class CreatePrintHistoryTable extends Migration
             Schema::create('tbl_print_history', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->bigInteger('phCId')->length(20)->unsigned();
-                $table->dateTime('phDate');
+                $table->string('phDate');
                 $table->unsignedBigInteger('phAmount');
                 $table->string('phIdNumber');
                 $table->string('phVerifierName');

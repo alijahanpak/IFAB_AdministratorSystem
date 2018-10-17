@@ -7,7 +7,7 @@ use Morilog\Jalali\jDate;
 
 class _Check extends Model
 {
-    protected $appends = ['cDeliveryShamsiDate' , 'cDeliveryShamsiTime' , 'cDelivered'];
+    protected $appends = ['cDeliveryShamsiDate' , 'cDeliveryShamsiTime' , 'cDelivered' , 'cSpentAmount'];
     protected $fillable = ['cDId' , 'cPdId' , 'cAmount' ,'cFyId' , 'cCsId'];
     protected $table = 'tbl_checks';
 
@@ -60,5 +60,12 @@ class _Check extends Model
             return true;
         else
             return false;
+    }
+
+    public function getCSpentAmountAttribute()
+    {
+        $sumCost = CostSpent::where('csCId' , '=' , $this->id)->get()->sum('csAmount');
+        $sumCost += CapSpent::where('csCId' , '=' , $this->id)->get()->sum('csAmount');
+        return $sumCost;
     }
 }

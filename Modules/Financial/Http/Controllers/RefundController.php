@@ -15,8 +15,26 @@ class RefundController extends Controller
         $refund = _Request::where('rFyId' ,'=' , Auth::user()->seFiscalYear)
             ->whereHas('requestType' , function ($q){
                 return $q->where('rtType' , '=' , 'FUND');
-            })->get()->where('rIsPaid' , true);
+            })
+            ->get()
+            ->where('rIsPaid' , true);
 
         return \response()->json($refund);
+    }
+
+    public function fetchAllRefundData()
+    {
+        return \response()->json($this->getAllRefundData());
+    }
+
+    function getAllRefundData()
+    {
+        return _Request::where('rFyId' ,'=' , Auth::user()->seFiscalYear)
+            ->whereHas('requestType' , function ($q){
+                return $q->where('rtType' , '=' , 'FUND');
+            })
+            ->with('factor.factorState')
+            ->get()
+            ->where('rIsPaid' , true);
     }
 }

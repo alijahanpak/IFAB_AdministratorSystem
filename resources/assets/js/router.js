@@ -279,7 +279,7 @@ var app = new Vue({
                         accessPermissions.push(per.permission.pPermission);
                     });
                     //console.log('.......................... permission' + accessPermissions);
-                    this.access = accessPermissions;
+                    //this.access = accessPermissions;
                     console.log(this.access);
                     axios.get('/api/getAuthUserInfo')
                         .then((response) => {
@@ -302,7 +302,6 @@ var app = new Vue({
         },
 
         updateAllPermissions: function () {
-            alert(this.$can('DISPLAY_REFUNDS'));
             console.log('.................. update all permissions');
             axios.get('/admin/user/getRoleAndPermissions')
                 .then((response) => {
@@ -311,7 +310,7 @@ var app = new Vue({
                     this.userPermission.permissions.forEach(per => {
                         accessPermissions.push(per.permission.pPermission);
                     });
-                    this.access = accessPermissions;
+                    //this.access = accessPermissions;
                     console.log(this.access);
                 },(error) => {
                     console.log(error);
