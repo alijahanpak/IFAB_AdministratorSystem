@@ -449,6 +449,7 @@
 {{--<script src="{{ asset('js/persian-date.min.js') }}"></script>
     <script src="{{ asset('js/persian-datepicker.min.js') }}"></script>
     <script src="{{ asset('js/jquery.scrollbar.min.js') }}"></script>--}}
+    <script src="{{ asset('js/num2persian.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/key.js') }}"></script>
 

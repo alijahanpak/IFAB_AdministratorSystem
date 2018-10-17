@@ -20,25 +20,25 @@ class SeedRequestTypeTableSeeder extends Seeder
         $rType = new RequestType();
         $rType->rtSubject = 'خرید خدمات';
         $rType->rtType = 'BUY_SERVICES';
-        $rType->rtPermission = 'BUY_SERVICES_REQUEST_REGISTER‌';
+        $rType->rtPermission = 'BUY_SERVICES_REQUEST_REGISTER';
         $rType->save();
 
         $rType = new RequestType();
         $rType->rtSubject = 'خرید کالا';
         $rType->rtType = 'BUY_COMMODITY';
-        $rType->rtPermission = 'BUY_COMMODITY_REQUEST_REGISTER‌';
+        $rType->rtPermission = 'c';
         $rType->save();
 
         $rType = new RequestType();
         $rType->rtSubject = 'تنخواه';
         $rType->rtType = 'FUND';
-        $rType->rtPermission = 'REFUND_REQUEST_REGISTER‌';
+        $rType->rtPermission = 'REFUND_REQUEST_REGISTER';
         $rType->save();
 
         $rType = new RequestType();
         $rType->rtSubject = 'حقوق و مزایا';
         $rType->rtType = 'SALARY';
-        $rType->rtPermission = 'SALARY_REQUEST_REGISTER‌';
+        $rType->rtPermission = 'SALARY_REQUEST_REGISTER';
         $rType->save();
     }
 }
