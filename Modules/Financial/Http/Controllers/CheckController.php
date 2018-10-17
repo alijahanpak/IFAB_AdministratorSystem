@@ -272,51 +272,56 @@ class CheckController extends Controller
             $check->cDeliveryDate = $request->date;
             $check->save();
 
-            $costFinancing = CostFinancing::where('cfRId' , $check->draft->dRId)->get()->sortBy('cfRemainingAmount');
-            $capFinancing = CapitalAssetsFinancing::where('cafRId' , $check->draft->dRId)->get()->sortBy('cafRemainingAmount');
-            $financingCount = count($costFinancing) + count($capFinancing);
-
-            $pieceOfAmount = round($check->cAmount / $financingCount);
-            $remainingAmount = $check->cAmount - ($pieceOfAmount * $financingCount);
-
-            foreach ($costFinancing as $cf)
+            $remainingAmount = 0;
+            $req = _Request::find($check->draft->dRId);
+            if ($req->rRtId != RequestType::where('rtType' , 'FUND')->value('id'))
             {
-                if ($cf->cfRemainingAmount >= ($pieceOfAmount + $remainingAmount))
+                $costFinancing = CostFinancing::where('cfRId' , $check->draft->dRId)->get()->sortBy('cfRemainingAmount');
+                $capFinancing = CapitalAssetsFinancing::where('cafRId' , $check->draft->dRId)->get()->sortBy('cafRemainingAmount');
+                $financingCount = count($costFinancing) + count($capFinancing);
+
+                $pieceOfAmount = round($check->cAmount / $financingCount);
+                $remainingAmount = $check->cAmount - ($pieceOfAmount * $financingCount);
+
+                foreach ($costFinancing as $cf)
                 {
-                    $tempAmount = $pieceOfAmount + $remainingAmount;
-                    $remainingAmount = 0;
-                }else if ($cf->cfRemainingAmount >= $pieceOfAmount){
-                    $tempAmount = $pieceOfAmount;
-                }else{
-                    $tempAmount = $cf->cfRemainingAmount;
-                    $remainingAmount += $pieceOfAmount - $cf->cfRemainingAmount;
+                    if ($cf->cfRemainingAmount >= ($pieceOfAmount + $remainingAmount))
+                    {
+                        $tempAmount = $pieceOfAmount + $remainingAmount;
+                        $remainingAmount = 0;
+                    }else if ($cf->cfRemainingAmount >= $pieceOfAmount){
+                        $tempAmount = $pieceOfAmount;
+                    }else{
+                        $tempAmount = $cf->cfRemainingAmount;
+                        $remainingAmount += $pieceOfAmount - $cf->cfRemainingAmount;
+                    }
+
+                    $costSpent = new CostSpent();
+                    $costSpent->csCfId = $cf->id;
+                    $costSpent->csCId = $check->id;
+                    $costSpent->csAmount = $tempAmount;
+                    $costSpent->save();
                 }
 
-                $costSpent = new CostSpent();
-                $costSpent->csCfId = $cf->id;
-                $costSpent->csCId = $check->id;
-                $costSpent->csAmount = $tempAmount;
-                $costSpent->save();
-            }
-
-            foreach ($capFinancing as $caf)
-            {
-                if ($caf->cafRemainingAmount >= ($pieceOfAmount + $remainingAmount))
+                foreach ($capFinancing as $caf)
                 {
-                    $tempAmount = $pieceOfAmount + $remainingAmount;
-                    $remainingAmount = 0;
-                }else if ($caf->cafRemainingAmount >= $pieceOfAmount){
-                    $tempAmount = $pieceOfAmount;
-                }else{
-                    $tempAmount = $caf->cafRemainingAmount;
-                    $remainingAmount += $pieceOfAmount - $caf->cafRemainingAmount;
-                }
+                    if ($caf->cafRemainingAmount >= ($pieceOfAmount + $remainingAmount))
+                    {
+                        $tempAmount = $pieceOfAmount + $remainingAmount;
+                        $remainingAmount = 0;
+                    }else if ($caf->cafRemainingAmount >= $pieceOfAmount){
+                        $tempAmount = $pieceOfAmount;
+                    }else{
+                        $tempAmount = $caf->cafRemainingAmount;
+                        $remainingAmount += $pieceOfAmount - $caf->cafRemainingAmount;
+                    }
 
-                $capSpent = new CapSpent();
-                $capSpent->csCafId = $caf->id;
-                $capSpent->csCId = $check->id;
-                $capSpent->csAmount = $tempAmount;
-                $capSpent->save();
+                    $capSpent = new CapSpent();
+                    $capSpent->csCafId = $caf->id;
+                    $capSpent->csCId = $check->id;
+                    $capSpent->csAmount = $tempAmount;
+                    $capSpent->save();
+                }
             }
 
             if ($remainingAmount != 0)

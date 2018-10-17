@@ -714,47 +714,47 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
         $permission = new Permission;
         $permission->pSspId = 17;
         $permission->pSubject = 'ثبت درخواست خرید خدمات';
-        $permission->pPermission = 'BUY_SERVICES_REQUEST_REGISTER‌';
+        $permission->pPermission = 'BUY_SERVICES_REQUEST_REGISTER';
         $permission->pAllowDispInFyList = true;
         $permission->save();
 
         $permission = new Permission;
         $permission->pSspId = 17;
         $permission->pSubject = 'ثبت درخواست خرید کالا';
-        $permission->pPermission = 'BUY_COMMODITY_REQUEST_REGISTER‌';
+        $permission->pPermission = 'BUY_COMMODITY_REQUEST_REGISTER';
         $permission->pAllowDispInFyList = true;
         $permission->save();
 
         $permission = new Permission;
         $permission->pSspId = 12;
         $permission->pSubject = 'ثبت درخواست تنخواه';
-        $permission->pPermission = 'REFUND_REQUEST_REGISTER‌';
+        $permission->pPermission = 'REFUND_REQUEST_REGISTER';
         $permission->pAllowDispInFyList = true;
         $permission->save();
 
         $permission = new Permission;
         $permission->pSspId = 18;
         $permission->pSubject = 'ثبت درخواست حقوق و دستمزد';
-        $permission->pPermission = 'SALARY_REQUEST_REGISTER‌';
+        $permission->pPermission = 'SALARY_REQUEST_REGISTER';
         $permission->pAllowDispInFyList = true;
         $permission->save();
 
         $permission = new Permission;
         $permission->pSspId = 12;
         $permission->pSubject = 'مشاهده تنخواه گردان های کارپردازی';
-        $permission->pPermission = 'DISPLAY_REFUNDS‌';
+        $permission->pPermission = 'DISPLAY_REFUNDS';
         $permission->save();
 
         $permission = new Permission;
         $permission->pSspId = 12;
         $permission->pSubject = 'ثبت فاکتور برای تنخواه گردان کارپردازی';
-        $permission->pPermission = 'REGISTER_FACTOR_IN_REFUND‌';
+        $permission->pPermission = 'REGISTER_FACTOR_IN_REFUND';
         $permission->save();
 
         $permission = new Permission;
         $permission->pSspId = 12;
         $permission->pSubject = 'بررسی وتایید فاکتور های ثبت شده برای تنخواه گردان کارپردازی';
-        $permission->pPermission = 'ACCEPT_FACTOR_IN_REFUND‌';
+        $permission->pPermission = 'ACCEPT_FACTOR_IN_REFUND';
         $permission->save();
 
         $permission = new Permission;

@@ -19,7 +19,8 @@ class _Request extends Model
         'rCommitmentAmount' ,
         'rSumOfDraftAmount' ,
         'rIsPaid',
-        'rIsPayRequestClosed'];
+        'rIsPayRequestClosed',
+        'rRelativeFactor'];
 
     public function requestState()
     {
@@ -199,26 +200,14 @@ class _Request extends Model
     public function getRIsPaidAttribute()
     {
         $draftsId = Draft::where('dRId' , '=' , $this->id)->pluck('id');
-        if ($this->attributes['rRtId'] == RequestType::where('rtType' , 'FUND')->value('id'))
-        {
-            $sumOfChecksAmount = _Check::whereIn('cDId' , $draftsId)
-                ->has('printHistory')
-                ->get()
-                ->sum('cAmount');
-            if (count($draftsId) == 0)
-                return false;
-            else
-                return $sumOfChecksAmount < $this->getRCommitmentAmountAttribute() ? false : true;
-        }else{
-            $sumOfChecksAmount = _Check::whereIn('cDId' , $draftsId)
-                ->get()
-                ->where('cDelivered' , '=' , true)
-                ->sum('cAmount');
-            if (count($draftsId) == 0)
-                return false;
-            else
-                return $sumOfChecksAmount < $this->getRCommitmentAmountAttribute() ? false : true;
-        }
+        $sumOfChecksAmount = _Check::whereIn('cDId' , $draftsId)
+            ->get()
+            ->where('cCsId' , '=' , CheckState::where('csState' , 'DELIVERED')->value('id'))
+            ->sum('cAmount');
+        if (count($draftsId) == 0)
+            return false;
+        else
+            return $sumOfChecksAmount < $this->getRCommitmentAmountAttribute() ? false : true;
     }
 
     public function getRIsPayRequestClosedAttribute()
@@ -227,5 +216,15 @@ class _Request extends Model
             ->where('prPrsId' , '<>' , PayRequestState::where('prsState' , '=' , 'BLOCKED')->value('id'))
             ->where('prIsFinal' , '=' , true)
             ->exists();
+    }
+
+    public function getRRelativeFactorAttribute()
+    {
+        return Factor::whereHas('refundFactor' , function ($q){
+                return $q->where('rfRId' , $this->id);
+            })
+            ->with('refundFactor')
+            ->with('request')
+            ->get();
     }
 }

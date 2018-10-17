@@ -18,4 +18,14 @@ class Factor extends Model
     {
         return $this->belongsTo(FactorState::class , 'fFsId' , 'id');
     }
+
+    public function refundFactor()
+    {
+        return $this->hasMany(RefundFactor::class , 'rfFId' , 'id');
+    }
+
+    public function request()
+    {
+        return $this->belongsTo(_Request::class , 'fRId' , 'id');
+    }
 }

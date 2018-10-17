@@ -9,7 +9,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\SystemLog;
+use Modules\Financial\Entities\_Check;
 use Modules\Financial\Entities\_Request;
+use Modules\Financial\Entities\CapitalAssetsFinancing;
+use Modules\Financial\Entities\CostFinancing;
+use Modules\Financial\Entities\Draft;
 use Modules\Financial\Entities\Factor;
 use Modules\Financial\Entities\FactorState;
 use Modules\Financial\Entities\FinancialRequestQueue;
@@ -51,6 +55,28 @@ class FactorController extends Controller
         $rController = new RequestController();
         return \response()->json(
             $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+        );
+    }
+
+    function addNewRefundFactor(Request $request)
+    {
+        DB::transaction(function () use($request){
+            $sId = Seller::firstOrCreate(['sSubject' => PublicSetting::checkPersianCharacters($request->seller)]);
+            $factor = new Factor();
+            $factor->fRId = $request->rId;
+            $factor->fSId = $sId->id;
+            $factor->fSubject = PublicSetting::checkPersianCharacters($request->subject);
+            $factor->fAmount = $request->amount;
+            $factor->fFsId = FactorState::where('fsState' , 'TEMPORARY')->value('id');
+            $factor->fDescription = PublicSetting::checkPersianCharacters($request->description);
+            $factor->save();
+
+            SystemLog::setFinancialSubSystemLog('ثبت فاکتور ' . $request->subject . ' برای درخواست ' . _Request::find($request->rId)->rSubject);
+        });
+
+        $rController = new RequestController();
+        return \response()->json(
+            $rController->getAllPostedRequests(Auth::user()->id)
         );
     }
 
@@ -112,6 +138,71 @@ class FactorController extends Controller
         return \response()->json(
             $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
         );
+    }
+
+    function acceptAndCalculate(Request $request)
+    {
+        $result = DB::transaction(function () use($request){
+            $factor = Factor::find($request->fId);
+            $factor->fFsId = FactorState::where('fsState' , 'ACCEPTED')->value('id');
+            $factor->save();
+
+            $costFinancing = CostFinancing::where('cfRId' , $factor->fRId)->get()->sortBy('cfRemainingAmount');
+            $capFinancing = CapitalAssetsFinancing::where('cafRId' , $factor->fRId)->get()->sortBy('cafRemainingAmount');
+            $financingCount = count($costFinancing) + count($capFinancing);
+
+            $pieceOfAmount = round($factor->fAmount / $financingCount);
+            $remainingAmount = $factor->fAmount - ($pieceOfAmount * $financingCount);
+
+            foreach ($costFinancing as $cf)
+            {
+                if ($cf->cfRemainingAmount >= ($pieceOfAmount + $remainingAmount))
+                {
+                    $tempAmount = $pieceOfAmount + $remainingAmount;
+                    $remainingAmount = 0;
+                }else if ($cf->cfRemainingAmount >= $pieceOfAmount){
+                    $tempAmount = $pieceOfAmount;
+                }else{
+                    $tempAmount = $cf->cfRemainingAmount;
+                    $remainingAmount += $pieceOfAmount - $cf->cfRemainingAmount;
+                }
+
+                $draftIds = Draft::where('dRId' , $factor->fRId)->pluck('id');
+                $checks = _Check::whereId('cDId' , $draftIds)->get();
+                foreach ($checks as $check)
+                {
+                    //if ()
+                    $costSpent = new CostSpent();
+                    $costSpent->csCfId = $cf->id;
+                    $costSpent->csCId = $check->id;
+                    $costSpent->csAmount = $tempAmount;
+                    $costSpent->save();
+                }
+            }
+
+            foreach ($capFinancing as $caf)
+            {
+                if ($caf->cafRemainingAmount >= ($pieceOfAmount + $remainingAmount))
+                {
+                    $tempAmount = $pieceOfAmount + $remainingAmount;
+                    $remainingAmount = 0;
+                }else if ($caf->cafRemainingAmount >= $pieceOfAmount){
+                    $tempAmount = $pieceOfAmount;
+                }else{
+                    $tempAmount = $caf->cafRemainingAmount;
+                    $remainingAmount += $pieceOfAmount - $caf->cafRemainingAmount;
+                }
+
+                $capSpent = new CapSpent();
+                $capSpent->csCafId = $caf->id;
+                $capSpent->csCId = $check->id;
+                $capSpent->csAmount = $tempAmount;
+                $capSpent->save();
+            }
+        });
+
+        $rController = new RefundController();
+        return \response()->json($rController->getAllRefundData() , $result);
     }
 
     function delete(Request $request)
