@@ -170,10 +170,10 @@
                                         </div>
                                     </div>
 
-                                    <div class="grid-x">
+                                    <div v-if="checkHistoryState" class="grid-x">
                                         <div class="large-12 medium-12 small-12 padding-lr">
                                             <label>علت پرینت مجدد
-                                                <textarea v-if="checkHistoryState" v-model="inputCheck.description"  class="form-element-margin-btm"  style="min-height: 150px;" name="description"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('description')}"></textarea>
+                                                <textarea v-model="inputCheck.description"  class="form-element-margin-btm"  style="min-height: 150px;" name="description"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('description')}"></textarea>
                                                 <span v-show="errors.has('description')" class="error-font">لطفا علت پرینت مجدد چک را وارد کنید!</span>
                                             </label>
                                         </div>
@@ -537,7 +537,6 @@
                     }
                 });
 
-                this.deliverBtn=false;
                 this.checkId=check.id;
                 this.getAllCheckVerifiers();
                 this.fetchAllActiveCheckFormat();
@@ -664,6 +663,7 @@
                 }).then((response) => {
                     printJS({ printable: 'printJS-form', type: 'html',targetStyles:['direction','font-family','margin-top','margin-right','width','height','position','top','text-align']});
                     this.showGetCheckPreviewModal=false;
+                    this.showPrintCheckModal=false;
                     this.$parent.displayNotif(response.status);
                     console.log(response);
                 }, (error) => {

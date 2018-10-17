@@ -279,7 +279,7 @@ var app = new Vue({
                         accessPermissions.push(per.permission.pPermission);
                     });
                     //console.log('.......................... permission' + accessPermissions);
-                    //this.access = accessPermissions;
+                    this.access = accessPermissions;
                     console.log(this.access);
                     axios.get('/api/getAuthUserInfo')
                         .then((response) => {

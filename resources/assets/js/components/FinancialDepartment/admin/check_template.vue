@@ -244,17 +244,17 @@
                                     </div>
                                     <div class="large-2 medium-2 small-12 padding-lr">
                                         <label>امضا دوم<span class="btn-red small-font">(چک های دو امضا)</span>
-                                            <input placeholder="فاصله از بالا" type="text" name="secondSignatureTop" v-model="inputCheck.secondSignatureTop = 0">
+                                            <input placeholder="فاصله از بالا" type="text" name="secondSignatureTop" v-model="inputCheck.secondSignatureTop">
                                         </label>
                                     </div>
                                     <div class="large-2 medium-2 small-12 mt-none-label padding-lr">
                                         <label>
-                                            <input placeholder="فاصله از راست" type="text" name="secondSignatureRight" v-model="inputCheck.secondSignatureRight = 0">
+                                            <input placeholder="فاصله از راست" type="text" name="secondSignatureRight" v-model="inputCheck.secondSignatureRight">
                                         </label>
                                     </div>
                                     <div class="large-2 medium-2 small-12 mt-none-label padding-lr">
                                         <label>
-                                            <input placeholder="اندازه" type="text" name="secondSignatureWidth" v-model="inputCheck.secondSignatureWidth = 0">
+                                            <input placeholder="اندازه" type="text" name="secondSignatureWidth" v-model="inputCheck.secondSignatureWidth">
                                         </label>
                                     </div>
                                 </div>
@@ -269,7 +269,7 @@
                                     <p v-show="inputCheck.stringAmountTop != null" class="check-element text-right" :style="{'margin-top': inputCheck.stringAmountTop +'cm','margin-right': inputCheck.stringAmountRight +'cm','width': inputCheck.stringAmountWidth +'cm'}">مبلغ به حروف</p>
                                     <p v-show="inputCheck.amountTop != null" class="check-element text-left" :style="{'margin-top': inputCheck.amountTop +'cm','margin-right': inputCheck.amountRight +'cm','width': inputCheck.amountWidth +'cm'}" style="direction: ltr">مبلغ به عدد</p>
                                     <p v-show="inputCheck.signatureTop != null" class="check-element text-center" :style="{'margin-top': inputCheck.signatureTop +'cm','margin-right': inputCheck.signatureRight +'cm','width': inputCheck.signatureWidth +'cm'}">امضا اول</p>
-                                    <p v-show="inputCheck.secondSignatureTop != 0" class="check-element text-center" :style="{'margin-top': inputCheck.secondSignatureTop +'cm','margin-right': inputCheck.secondSignatureRight +'cm','width': inputCheck.secondSignatureWidth +'cm'}"> امضا دوم</p>
+                                    <p v-show="inputCheck.secondSignatureTop != null" class="check-element text-center" :style="{'margin-top': inputCheck.secondSignatureTop +'cm','margin-right': inputCheck.secondSignatureRight +'cm','width': inputCheck.secondSignatureWidth +'cm'}"> امضا دوم</p>
                                 </div>
                             </div>
                             <div class="large-12 medium-12 small-12 padding-lr small-top-m">
@@ -386,9 +386,9 @@
                             signatureTop:this.inputCheck.signatureTop,
                             signatureRight:this.inputCheck.signatureRight,
                             signatureWidth:this.inputCheck.signatureWidth,
-                            secondSignatureTop:this.inputCheck.secondSignatureTop,
-                            secondSignatureRight:this.inputCheck.secondSignatureRight,
-                            secondSignatureWidth:this.inputCheck.secondSignatureWidth,
+                            secondSignatureTop:this.inputCheck.secondSignatureTop == '' ? 0 :this.inputCheck.secondSignatureTop,
+                            secondSignatureRight:this.inputCheck.secondSignatureRight == '' ? 0 :this.inputCheck.secondSignatureRight,
+                            secondSignatureWidth:this.inputCheck.secondSignatureWidth == '' ? 0 :this.inputCheck.secondSignatureWidth,
                             width:this.inputCheck.width,
                             height:this.inputCheck.height,
                         }).then((response) => {
