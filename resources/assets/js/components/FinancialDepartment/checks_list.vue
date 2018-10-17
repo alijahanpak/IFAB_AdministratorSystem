@@ -169,6 +169,16 @@
                                             </label>
                                         </div>
                                     </div>
+
+                                    <div class="grid-x">
+                                        <div class="large-12 medium-12 small-12 padding-lr">
+                                            <label>علت پرینت مجدد
+                                                <textarea v-if="checkHistoryState" v-model="inputCheck.description"  class="form-element-margin-btm"  style="min-height: 150px;" name="description"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('description')}"></textarea>
+                                                <span v-show="errors.has('description')" class="error-font">لطفا علت پرینت مجدد چک را وارد کنید!</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
                                     <div class="grid-x small-top-m">
                                         <div class="large-12 medium-12 small-12 padding-lr">
                                             <div class="stacked-for-small button-group float-left">
@@ -182,6 +192,97 @@
                                 <!--Tab 2-->
                                 <div style="height: 58vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="historyCheckTab">
                                     <div class="grid-x">
+                                        <div class="tbl-div-container">
+                                            <table class="tbl-head">
+                                                <colgroup>
+                                                    <col width="250px"/>
+                                                    <col width="250px"/>
+                                                    <col width="250px"/>
+                                                    <col width="250px"/>
+                                                    <col width="12px"/>
+                                                </colgroup>
+                                                <tbody class="tbl-head-style ">
+                                                <tr class="tbl-head-style-cell">
+                                                    <th class="tbl-head-style-cell">شماره چک</th>
+                                                    <th class="tbl-head-style-cell">تاریخ چک</th>
+                                                    <th class="tbl-head-style-cell">مبلغ</th>
+                                                    <th class="tbl-head-style-cell">تاریخ پرینت</th>
+                                                    <th class="tbl-head-style-cell"></th>
+                                                </tr>
+                                                </tbody>
+                                                <!--Table Head End-->
+                                                <!--Table Body Start-->
+                                            </table>
+                                            <div style="height: 45vh;" class="tbl_body_style inner-vh-unsize">
+                                                <table class="tbl-body-contain">
+                                                    <colgroup>
+                                                        <col width="250px"/>
+                                                        <col width="250px"/>
+                                                        <col width="250px"/>
+                                                        <col width="250px"/>
+                                                        <col width="12px"/>
+                                                    </colgroup>
+                                                    <tbody class="tbl-head-style-cell">
+                                                    <template v-for="checkSelect in checkSelectTemp">
+                                                        <tr class="table-row" v-for="pHistory in checkSelect.print_history">
+                                                            <td :data-toggle="'pHistory' + pHistory.id">{{pHistory.phIdNumber}}</td>
+                                                            <td :data-toggle="'pHistory' + pHistory.id">{{pHistory.phDate}}
+                                                                <div style="width: 30vw;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="auto" data-alignment="auto" :id="'pHistory' + pHistory.id" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font">
+                                                                        <div class="grid-x">
+                                                                            <!--Table Start-->
+                                                                            <div style="height: 25vh;" class="tbl_body_style">
+                                                                                <table class="stack text-right">
+                                                                                    <tbody>
+                                                                                    <tr>
+                                                                                        <td width="200" class="black-color">قالب چک :</td>
+                                                                                        <td width="400">{{pHistory.phCheckFormat}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="black-color">شماره چک :</td>
+                                                                                        <td>{{pHistory.phIdNumber}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="black-color">تاریخ چک:</td>
+                                                                                        <td>{{pHistory.phDate}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="black-color">مبلغ :</td>
+                                                                                        <td>{{pHistory.phAmount}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="black-color">امضا کننده :</td>
+                                                                                        <td class="text-justify">{{pHistory.phVerifierName}}</td>
+                                                                                    </tr>
+                                                                                    <tr v-show="pHistory.phSecondVerifierName != null">
+                                                                                        <td class="black-color">امضا کننده دوم :</td>
+                                                                                        <td class="text-justify">{{pHistory.phSecondVerifierName}}</td>
+                                                                                    </tr>
+                                                                                    <tr v-show="pHistory.phDescription != null">
+                                                                                        <td class="black-color">دلیل پرینت مجدد :</td>
+                                                                                        <td class="text-justify">{{pHistory.phDescription}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="black-color">تاریخ پرینت :</td>
+                                                                                        <td class="text-justify"></td>
+                                                                                    </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <!--Table Body End-->
+                                                                        </div>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                            <td :data-toggle="'pHistory' + pHistory.id">{{pHistory.phAmount}}</td>
+                                                            <td :data-toggle="'pHistory' + pHistory.id"></td>
+                                                        </tr>
+                                                    </template>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!--Table Body End-->
                                     </div>
                                 </div>
                                 <!--Tab 2-->
@@ -209,26 +310,30 @@
                             <p class="small-top-m"> قالب چک <span class="btn-red"> '{{ this.fillCheck.subject }}' </span> </p>
                             <div :style="{'width':fillCheck.height +'cm','height':fillCheck.width +'cm'}" style="border: solid 1px #D8DEE2;position: relative;margin:0 auto;" >
                                 <p class="check-element text-left" :style="{'margin-top': fillCheck.dateTop +'cm','margin-right': fillCheck.dateRight +'cm','width': fillCheck.dateWidth +'cm'}">{{inputCheck.date}}</p>
-                                <p class="check-element text-right" :style="{'margin-top': fillCheck.stringDateTop +'cm','margin-right': fillCheck.stringDateRight +'cm','width': fillCheck.stringDateWidth +'cm'}">تاریخ به حروف</p>
+                                <p class="check-element text-right" :style="{'margin-top': fillCheck.stringDateTop +'cm','margin-right': fillCheck.stringDateRight +'cm','width': fillCheck.stringDateWidth +'cm'}">{{letterDatePersian}}</p>
                                 <p class="check-element text-right" :style="{'margin-top': fillCheck.forTop +'cm','margin-right': fillCheck.forRight +'cm','width': fillCheck.forWidth +'cm'}">{{dFor}}</p>
                                 <p class="check-element text-right" :style="{'margin-top': fillCheck.payToTop +'cm','margin-right': fillCheck.payToRight +'cm','width': fillCheck.payToWidth +'cm'}">{{dPayTo}}</p>
-                                <p class="check-element text-right" :style="{'margin-top': fillCheck.stringAmountTop +'cm','margin-right': fillCheck.stringAmountRight +'cm','width': fillCheck.stringAmountWidth +'cm'}">مبلغ به حروف</p>
+                                <p class="check-element text-right" :style="{'margin-top': fillCheck.stringAmountTop +'cm','margin-right': fillCheck.stringAmountRight +'cm','width': fillCheck.stringAmountWidth +'cm'}">{{cAmount.toPersian()}}</p>
                                 <p class="check-element text-left" :style="{'margin-top': fillCheck.amountTop +'cm','margin-right': fillCheck.amountRight +'cm','width': fillCheck.amountWidth +'cm'}">{{$root.dispMoneyFormat(cAmount)}}</p>
-                                <p class="check-element" :style="{'margin-top': fillCheck.signatureTop +'cm','margin-right': fillCheck.signatureRight +'cm','width': fillCheck.signatureWidth +'cm'}">امضا</p>
-                                <p v-show="fillCheck.secondSignatureWidth != 0" class="check-element text-center" :style="{'margin-top': fillCheck.secondSignatureTop +'cm','margin-right': fillCheck.secondSignatureRight +'cm','width': fillCheck.secondSignatureWidth +'cm'}"> امضا دوم</p>
+                                <p class="check-element" :style="{'margin-top': fillCheck.signatureTop +'cm','margin-right': fillCheck.signatureRight +'cm','width': fillCheck.signatureWidth +'cm'}">{{checkVerifierName[0]}}</p>
+                                <p class="check-element" :style="{'margin-top': fillCheck.signatureTop +0.5+'cm','margin-right': fillCheck.signatureRight +'cm','width': fillCheck.signatureWidth +'cm'}">{{checkVerifierName[1]}}</p>
+                                <p v-show="fillCheck.secondSignatureWidth != 0" class="check-element text-center" :style="{'margin-top': fillCheck.secondSignatureTop +'cm','margin-right': fillCheck.secondSignatureRight +'cm','width': fillCheck.secondSignatureWidth +'cm'}">{{checkVerifierName[2]}}</p>
+                                <p v-show="fillCheck.secondSignatureWidth != 0" class="check-element text-center" :style="{'margin-top': fillCheck.secondSignatureTop +0.5+'cm','margin-right': fillCheck.secondSignatureRight +'cm','width': fillCheck.secondSignatureWidth +'cm'}"> {{checkVerifierName[3]}}</p>
                             </div>
                         </div>
                         <div style="display: none;">
                             <div id="printJS-form" class="large-12 medium-12 small-12 padding-lr text-center printJSClass">
                                 <div :style="{'width':fillCheck.height +'cm','height':fillCheck.width +'cm'}" style="position: relative;margin:0 auto;" >
                                     <p class="check-element-print text-left" :style="{'margin-top': fillCheck.dateTop +'cm','margin-right': fillCheck.dateRight +'cm','width': fillCheck.dateWidth +'cm'}">{{inputCheck.date}}</p>
-                                    <p class="check-element-print text-right" :style="{'margin-top': fillCheck.stringDateTop +'cm','margin-right': fillCheck.stringDateRight +'cm','width': fillCheck.stringDateWidth +'cm'}">تاریخ به حروف</p>
-                                    <p class="check-element-print text-right" :style="{'margin-top': fillCheck.forTop +'cm','margin-right': fillCheck.forRight +'cm','width': fillCheck.forWidth +'cm'}">بابت</p>
-                                    <p class="check-element-print text-right" :style="{'margin-top': fillCheck.payToTop +'cm','margin-right': fillCheck.payToRight +'cm','width': fillCheck.payToWidth +'cm'}">در وجه</p>
-                                    <p class="check-element-print text-right" :style="{'margin-top': fillCheck.stringAmountTop +'cm','margin-right': fillCheck.stringAmountRight +'cm','width': fillCheck.stringAmountWidth +'cm'}">مبلغ به حروف</p>
-                                    <p class="check-element-print text-left" :style="{'margin-top': fillCheck.amountTop +'cm','margin-right': fillCheck.amountRight +'cm','width': fillCheck.amountWidth +'cm'}">مبلغ به عدد</p>
-                                    <p class="check-element-print text-right" :style="{'margin-top': fillCheck.signatureTop +'cm','margin-right': fillCheck.signatureRight +'cm','width': fillCheck.signatureWidth +'cm'}">امضا</p>
-                                    <p v-show="fillCheck.secondSignatureWidth != 0" class="check-element-print text-center" :style="{'margin-top': fillCheck.secondSignatureTop +'cm','margin-right': fillCheck.secondSignatureRight +'cm','width': fillCheck.secondSignatureWidth +'cm'}"> امضا دوم</p>
+                                    <p class="check-element-print text-right" :style="{'margin-top': fillCheck.stringDateTop +'cm','margin-right': fillCheck.stringDateRight +'cm','width': fillCheck.stringDateWidth +'cm'}">{{letterDatePersian}}</p>
+                                    <p class="check-element-print text-right" :style="{'margin-top': fillCheck.forTop +'cm','margin-right': fillCheck.forRight +'cm','width': fillCheck.forWidth +'cm'}">{{dFor}}</p>
+                                    <p class="check-element-print text-right" :style="{'margin-top': fillCheck.payToTop +'cm','margin-right': fillCheck.payToRight +'cm','width': fillCheck.payToWidth +'cm'}">{{dPayTo}}</p>
+                                    <p class="check-element-print text-right" :style="{'margin-top': fillCheck.stringAmountTop +'cm','margin-right': fillCheck.stringAmountRight +'cm','width': fillCheck.stringAmountWidth +'cm'}">{{cAmount.toPersian()}}</p>
+                                    <p class="check-element-print text-center" :style="{'margin-top': fillCheck.amountTop +'cm','margin-right': fillCheck.amountRight +'cm','width': fillCheck.amountWidth +'cm'}">{{$root.dispMoneyFormat(cAmount)}}</p>
+                                    <p class="check-element-print" :style="{'margin-top': fillCheck.signatureTop +'cm','margin-right': fillCheck.signatureRight +'cm','width': fillCheck.signatureWidth +'cm'}">{{checkVerifierName[0]}}</p>
+                                    <p class="check-element-print" :style="{'margin-top': fillCheck.signatureTop +0.5+'cm','margin-right': fillCheck.signatureRight +'cm','width': fillCheck.signatureWidth +'cm'}">{{checkVerifierName[1]}}</p>
+                                    <p v-show="fillCheck.secondSignatureWidth != 0" class="check-element-print text-center" :style="{'margin-top': fillCheck.secondSignatureTop +'cm','margin-right': fillCheck.secondSignatureRight +'cm','width': fillCheck.secondSignatureWidth +'cm'}">{{checkVerifierName[2]}}</p>
+                                    <p v-show="fillCheck.secondSignatureWidth != 0" class="check-element-print text-center" :style="{'margin-top': fillCheck.secondSignatureTop +0.5+'cm','margin-right': fillCheck.secondSignatureRight +'cm','width': fillCheck.secondSignatureWidth +'cm'}"> {{checkVerifierName[3]}}</p>
                                 </div>
                             </div>
                         </div>
@@ -287,7 +392,7 @@
 <style>
     .printJSClass{
         direction: rtl;
-        font-family: BZar;
+        font-family: "B Zar";
     }
 </style>
 <script>
@@ -326,6 +431,7 @@
                 fillCheck:{},
                 checkActiveFormatSelect:[],
                 checkSelectTemp:[],
+                checkVerifierName:[],
                 dPayTo:'',
                 dFor:'',
                 cAmount:0,
@@ -336,6 +442,8 @@
                 verifierInput:{},
                 checkVerifierCount:0,
                 checkVerifierCountAlert:false,
+                letterDatePersian:'',
+                checkHistoryState:false,
 
             }
         },
@@ -417,6 +525,18 @@
                     this.dFor=item.draft.dFor;
                     this.cAmount=item.cAmount;
                 });
+
+                this.checkSelectTemp.forEach(item =>{
+                    if(item.print_history.length > 0){
+                        this.checkHistoryState=true;
+                        this.deliverBtn=true;
+                    }
+                    else{
+                        this.checkHistoryState=false;
+                        this.deliverBtn=false;
+                    }
+                });
+
                 this.deliverBtn=false;
                 this.checkId=check.id;
                 this.getAllCheckVerifiers();
@@ -477,7 +597,15 @@
                 this.fillCheck.secondSignatureWidth=this.checkActiveFormatSelect.cfSecondSignatureWidth;
                 this.fillCheck.width=this.checkActiveFormatSelect.cfWidth;
                 this.fillCheck.height=this.checkActiveFormatSelect.cfHeight;
-
+                this.checkVerifierName=[];
+                this.allCheckVerifiers.forEach(item =>{
+                    if(item.checked ==  true){
+                        this.checkVerifierName.push(item.user.name);
+                        this.checkVerifierName.push(item.user.role.rSubject)
+                    }
+                    console.log(JSON.stringify(this.checkVerifierName));
+                });
+                this.convertDateToLetter();
                 this.showGetCheckPreviewModal=true;
             },
 
@@ -517,29 +645,41 @@
 
             updateCheckValueInPrintAction : function(){
                 var verifierTempForCheck=[];
+
                 this.allCheckVerifiers.forEach(item =>{
                     if(item.checked ==  true){
                         verifierTempForCheck.push(item.id);
                     }
                 });
                 console.log(JSON.stringify(verifierTempForCheck));
-                printJS({ printable: 'printJS-form', type: 'html',targetStyles:['direction','font-family','margin-top','margin-right','width','height','position','top']});
-                /*axios.post('/financial/check/print/update', {
+
+                axios.post('/financial/check/print/update', {
                     verifiers:verifierTempForCheck,
                     cId:this.checkId,
                     date:this.inputCheck.date,
                     idNumber:this.inputCheck.idNumber,
                     cfSubject:this.fillCheck.subject,
-                    //description:this.inputCheck.description = undefined ? '' : this.inputCheck.description,
+                    description:this.inputCheck.description = undefined ? '' : this.inputCheck.description,
                     searchValue:"",
                 }).then((response) => {
+                    printJS({ printable: 'printJS-form', type: 'html',targetStyles:['direction','font-family','margin-top','margin-right','width','height','position','top','text-align']});
                     this.showGetCheckPreviewModal=false;
                     this.$parent.displayNotif(response.status);
                     console.log(response);
                 }, (error) => {
                     console.log(error);
                     this.$parent.displayNotif(error.response.status);
-                });*/
+                });
+            },
+
+            convertDateToLetter : function(){
+                var dateTemp=[];
+                //var day=["یکم","دوم","سوم","چهارم","پنجم","ششم","هفتم","هشتم","نهم","دهم","یازده","دوازده","سیزده","چهارده","پانزده","شانزده","هفده","هجده","نوزده","بیست","بیست و یک","بیست و دو","بیست و سه","بیست و چهار","بیست و پنج","بیست و شش","بیست و هفت","بیست و هشت","بیست و نه","سی","سی و یک"];
+                var month=["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
+                //var year=["هزار و سیصد و نود","","","","","","","","","","","","",];
+                dateTemp= this.inputCheck.date.split('/');
+
+                this.letterDatePersian=  dateTemp[2].toPersian() + ' ' + month[dateTemp[1]-1] + ' ' + dateTemp[0].toPersian();
             },
 
             openCheckDeliverModal:function(){
@@ -560,8 +700,6 @@
                     this.$parent.displayNotif(error.response.status);
                 });
             },
-
-
 
             removeFilter: function () {
                 this.requestSearchValue = '';

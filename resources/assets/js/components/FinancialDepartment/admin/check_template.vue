@@ -269,7 +269,7 @@
                                     <p v-show="inputCheck.stringAmountTop != null" class="check-element text-right" :style="{'margin-top': inputCheck.stringAmountTop +'cm','margin-right': inputCheck.stringAmountRight +'cm','width': inputCheck.stringAmountWidth +'cm'}">مبلغ به حروف</p>
                                     <p v-show="inputCheck.amountTop != null" class="check-element text-left" :style="{'margin-top': inputCheck.amountTop +'cm','margin-right': inputCheck.amountRight +'cm','width': inputCheck.amountWidth +'cm'}" style="direction: ltr">مبلغ به عدد</p>
                                     <p v-show="inputCheck.signatureTop != null" class="check-element text-center" :style="{'margin-top': inputCheck.signatureTop +'cm','margin-right': inputCheck.signatureRight +'cm','width': inputCheck.signatureWidth +'cm'}">امضا اول</p>
-                                    <p v-show="inputCheck.secondSignatureTop != null" class="check-element text-center" :style="{'margin-top': inputCheck.secondSignatureTop +'cm','margin-right': inputCheck.secondSignatureRight +'cm','width': inputCheck.secondSignatureWidth +'cm'}"> امضا دوم</p>
+                                    <p v-show="inputCheck.secondSignatureTop != 0" class="check-element text-center" :style="{'margin-top': inputCheck.secondSignatureTop +'cm','margin-right': inputCheck.secondSignatureRight +'cm','width': inputCheck.secondSignatureWidth +'cm'}"> امضا دوم</p>
                                 </div>
                             </div>
                             <div class="large-12 medium-12 small-12 padding-lr small-top-m">
