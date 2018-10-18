@@ -30,7 +30,7 @@ import budget_proposal from './components/Budget/CreditDistribution/proposal.vue
 
 /////////////////////// Financial Department Start//////////////////////////
 
-import submissions from './components/FinancialDepartment/submissions.vue'
+import submissions from './components/FinancialDepartment/submission/submissions.vue'
 import received_requests from './components/FinancialDepartment/receiveRequests/received_requests.vue'
 import search_requests from './components/FinancialDepartment/search_requests.vue'
 import checks_list from './components/FinancialDepartment/checks_list.vue'
