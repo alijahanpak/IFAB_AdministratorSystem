@@ -100,14 +100,14 @@
             <div slot="body">
                 <div class="small-font">
                     <div class="grid-x">
-                        <div class="large-12 medium-12 small-12 container-vh">
+                        <div class="large-12 medium-12 small-12 container-vh-check-list">
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="request_print_check_tab_view">
                                 <li class="tabs-title is-active"><a href="#checkTab" aria-selected="true">چک</a></li>
                                 <li class="tabs-title"><a href="#historyCheckTab">تاریخچه پرینت </a></li>
                             </ul>
                             <div class="tabs-content inner-vh" data-tabs-content="request_print_check_tab_view">
                                 <!--Tab 1-->
-                                <div style="height: 58vh;" class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="checkTab">
+                                <div style="height: 53vh;" class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="checkTab">
                                     <div class="grid-x">
                                         <div class="large-6 medium-6 small-12 padding-lr">
                                             <label>شماره چک
@@ -170,15 +170,6 @@
                                         </div>
                                     </div>
 
-                                    <div v-if="checkHistoryState" class="grid-x">
-                                        <div class="large-12 medium-12 small-12 padding-lr">
-                                            <label>علت پرینت مجدد
-                                                <textarea v-model="inputCheck.description"  class="form-element-margin-btm"  style="min-height: 150px;" name="description"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('description')}"></textarea>
-                                                <span v-show="errors.has('description')" class="error-font">لطفا علت پرینت مجدد چک را وارد کنید!</span>
-                                            </label>
-                                        </div>
-                                    </div>
-
                                     <div class="grid-x small-top-m">
                                         <div class="large-12 medium-12 small-12 padding-lr">
                                             <div class="stacked-for-small button-group float-left">
@@ -190,7 +181,7 @@
                                 </div>
                                 <!--Tab 1-->
                                 <!--Tab 2-->
-                                <div style="height: 58vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="historyCheckTab">
+                                <div style="height: 53vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="historyCheckTab">
                                     <div class="grid-x">
                                         <div class="tbl-div-container">
                                             <table class="tbl-head">
@@ -205,7 +196,7 @@
                                                 <tr class="tbl-head-style-cell">
                                                     <th class="tbl-head-style-cell">شماره چک</th>
                                                     <th class="tbl-head-style-cell">تاریخ چک</th>
-                                                    <th class="tbl-head-style-cell">مبلغ</th>
+                                                    <th class="tbl-head-style-cell">مبلغ <span class="btn-red">(ریال)</span></th>
                                                     <th class="tbl-head-style-cell">تاریخ پرینت</th>
                                                     <th class="tbl-head-style-cell"></th>
                                                 </tr>
@@ -213,7 +204,7 @@
                                                 <!--Table Head End-->
                                                 <!--Table Body Start-->
                                             </table>
-                                            <div style="height: 45vh;" class="tbl_body_style inner-vh-unsize">
+                                            <div style="height: 40vh;" class="tbl_body_style inner-vh-unsize">
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
                                                         <col width="250px"/>
@@ -225,8 +216,8 @@
                                                     <tbody class="tbl-head-style-cell">
                                                     <template v-for="checkSelect in checkSelectTemp">
                                                         <tr class="table-row" v-for="pHistory in checkSelect.print_history">
-                                                            <td :data-toggle="'pHistory' + pHistory.id">{{pHistory.phIdNumber}}</td>
-                                                            <td :data-toggle="'pHistory' + pHistory.id">{{pHistory.phDate}}
+                                                            <td :data-toggle="'pHistory' + pHistory.id" class="text-center">{{pHistory.phIdNumber}}</td>
+                                                            <td :data-toggle="'pHistory' + pHistory.id" >{{pHistory.phDate}}
                                                                 <div style="width: 30vw;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="auto" data-alignment="auto" :id="'pHistory' + pHistory.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font">
                                                                         <div class="grid-x">
@@ -274,8 +265,8 @@
                                                                     </ul>
                                                                 </div>
                                                             </td>
-                                                            <td :data-toggle="'pHistory' + pHistory.id">{{pHistory.phAmount}}</td>
-                                                            <td :data-toggle="'pHistory' + pHistory.id"></td>
+                                                            <td :data-toggle="'pHistory' + pHistory.id" class="text-center">{{$root.dispMoneyFormat(pHistory.phAmount)}}</td>
+                                                            <td :data-toggle="'pHistory' + pHistory.id" class="text-center"></td>
                                                         </tr>
                                                     </template>
                                                     </tbody>
@@ -341,7 +332,7 @@
                     <div class="grid-x small-top-m">
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <div class="stacked-for-small button-group float-left">
-                                <button @click="updateCheckValueInPrintAction()" class="my-button my-success float-left"><span class="btn-txt-mrg">  چاپ </span></button>
+                                <button @click="getReprintingCause()" class="my-button my-success float-left"><span class="btn-txt-mrg">  چاپ </span></button>
                             </div>
                         </div>
                     </div>
@@ -387,6 +378,31 @@
         </modal-tiny>
         <!-- Show Check Deliver modal -->
 
+        <!-- Show Reprinting cause modal -->
+        <modal-tiny v-if="showReprintingCauseModal" @close="showReprintingCauseModal = false">
+            <div slot="body">
+                <div class="small-font">
+                    <div class="grid-x">
+                        <div class="large-12 medium-12 small-12 padding-lr">
+                            <p class="btn-red">کاربر گرامی : شما قبلا این چک را تحویل داده اید! برای پرینت مجدد باید علت پرینت چک را وارد نمایید.</p>
+                            <label>علت پرینت مجدد
+                                <textarea v-model="inputCheck.description"  class="form-element-margin-btm"  style="min-height: 150px;" name="description"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('description')}"></textarea>
+                                <span v-show="errors.has('description')" class="error-font">لطفا علت پرینت مجدد چک را وارد کنید!</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="grid-x small-top-m">
+                        <div class="large-12 medium-12 small-12 padding-lr">
+                            <div class="stacked-for-small button-group float-left">
+                                <button @click="closeReprintingCauseModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-tiny>
+        <!-- Show Reprinting cause modal -->
+
     </div>
 </template>
 <style>
@@ -417,6 +433,7 @@
                 showPrintCheckModal:false,
                 showGetCheckPreviewModal:false,
                 showCheckDeliverModal:false,
+                showReprintingCauseModal:false,
                 baseURL:window.hostname+'/',
                 updateDataThreadNowPlaying:null,
                 result_pagination: {
@@ -518,6 +535,7 @@
 
             getRequestDetail:function(check){
                 this.checkSelectTemp=[];
+                this.previewBtn=false;
                 this.checkSelectTemp.push(check);
                 console.log(JSON.stringify(this.checkSelectTemp));
                 this.checkSelectTemp.forEach(item =>{
@@ -528,8 +546,11 @@
 
                 this.checkSelectTemp.forEach(item =>{
                     if(item.print_history.length > 0){
-                        this.checkHistoryState=true;
-                        this.deliverBtn=true;
+                        if(item.check_state.csState == 'DELIVERED'){
+                            this.checkHistoryState=true;
+                            this.deliverBtn=false;
+                        }
+                        else this.deliverBtn=true;
                     }
                     else{
                         this.checkHistoryState=false;
@@ -538,6 +559,7 @@
                 });
 
                 this.checkId=check.id;
+                this.inputCheck={};
                 this.getAllCheckVerifiers();
                 this.fetchAllActiveCheckFormat();
                 this.showPrintCheckModal=true;
@@ -642,9 +664,25 @@
                 console.log(JSON.stringify(this.allCheckVerifiers));
             },
 
+            getReprintingCause : function(){
+                if(this.checkHistoryState){
+                    this.showReprintingCauseModal=true;
+                }
+                else this.updateCheckValueInPrintAction();
+
+            },
+
+            closeReprintingCauseModal : function(){
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        this.showReprintingCauseModal=false;
+                        this.updateCheckValueInPrintAction();
+                    }
+                });
+            },
+
             updateCheckValueInPrintAction : function(){
                 var verifierTempForCheck=[];
-
                 this.allCheckVerifiers.forEach(item =>{
                     if(item.checked ==  true){
                         verifierTempForCheck.push(item.id);
@@ -662,6 +700,8 @@
                     searchValue:"",
                 }).then((response) => {
                     printJS({ printable: 'printJS-form', type: 'html',targetStyles:['direction','font-family','margin-top','margin-right','width','height','position','top','text-align']});
+                    this.allChecks = response.data.data;
+                    this.makePagination(response.data);
                     this.showGetCheckPreviewModal=false;
                     this.showPrintCheckModal=false;
                     this.$parent.displayNotif(response.status);
@@ -692,7 +732,10 @@
                     date:this.checkDeliverTime,
                     searchValue:"",
                 }).then((response) => {
+                    this.allChecks = response.data.data;
+                    this.makePagination(response.data);
                     this.showCheckDeliverModal=false;
+                    this.showPrintCheckModal=false;
                     this.$parent.displayNotif(response.status);
                     console.log(response);
                 }, (error) => {
