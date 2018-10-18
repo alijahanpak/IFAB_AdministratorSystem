@@ -649,8 +649,7 @@
                     var baseAmount=0;
                     baseAmount=parseInt(this.draftInput.baseAmount.split(',').join(''),10);
                     this.getSumOfLastDrafts();
-                    this.draftBaseAmount = baseAmount - this.lastDrafts;
-                    Math.round(this.draftBaseAmount);
+                    this.draftBaseAmount = Math.round(baseAmount - this.lastDrafts);
                     if(((this.draftBaseAmount + this.lastDrafts) > this.rAcceptedAmount) || (this.draftBaseAmount < 0))
                         this.moneyState='block';
                     else
@@ -913,7 +912,6 @@
                 this.checkEdited = true;
                 decreasesTemp.id=index.id;
                 decreasesTemp.amount = Math.round((percent * parseInt(this.draftAmount,10)) / 100);
-                Math.round(decreasesTemp.amount);
                 if(state == false){
                     this.percentageDecreases.forEach(item =>{
                         if(item.id == decreasesTemp.id){
@@ -947,8 +945,7 @@
                     lastTemp += item.amountDec;
                 });
 
-                this.finalIncAmount =this.draftAmount - lastTemp;
-                Math.round(this.finalIncAmount);
+                this.finalIncAmount = Math.round(this.draftAmount - lastTemp);
             },
 
             openAcceptGeneratecheckConfirmModal:function (){

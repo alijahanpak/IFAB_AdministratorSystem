@@ -90,7 +90,9 @@ class FactorController extends Controller
             if ($req->isFromRefundCosts == true)
             {
                 Factor::where('fRId' , '=' , $request->rId)
+                    ->where('fFsId' , FactorState::where('fsState' , 'TEMPORARY')->value('id'))
                     ->update(['fFsId' => FactorState::where('fsState' , 'PENDING_REVIEW')->value('id')]);
+
                 $req->rRsId = RequestState::where('rsState' , '=' , 'WAITING_REVIEW')->value('id');
                 $req->save();
 
@@ -101,7 +103,7 @@ class FactorController extends Controller
                 $history->rhRId = $req->id;
                 $history->rhRsId = $req->rRsId;
                 $history->rhHasBeenSeen = true;
-                $history->rhDescription = 'فاکتور های خرید ثبت شده و برای بررسی و تایید به امور مالی ارائه گردید.';
+                $history->rhDescription = 'فاکتور ها ثبت شد و برای بررسی و تایید به امور مالی ارائه گردید.';
                 $history->save();
             }else{
                 Factor::where('fRId' , '=' , $request->rId)
@@ -236,6 +238,14 @@ class FactorController extends Controller
             $factor = Factor::find($request->fId);
             $factor->fFsId = FactorState::where('fsState', 'NOT_ACCEPTED')->value('id');
             $factor->save();
+
+            $req = _Request::find($factor->fRId);
+            if ($req->rRtId == RequestType::where('rtType' , 'BUY_COMMODITY')->value('id'))
+            {
+                $reqHis = RequestHistory::find(RequestHistory::where('rhRId' , '=' , $req->id)->max('id'));
+                $reqHis->rhHasBeenSeen = false;
+                $reqHis->save();
+            }
         });
 
         $rController = new RefundController();

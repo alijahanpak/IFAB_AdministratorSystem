@@ -26,7 +26,7 @@ class SeedRequestTypeTableSeeder extends Seeder
         $rType = new RequestType();
         $rType->rtSubject = 'خرید کالا';
         $rType->rtType = 'BUY_COMMODITY';
-        $rType->rtPermission = 'c';
+        $rType->rtPermission = 'BUY_COMMODITY_REQUEST_REGISTER';
         $rType->save();
 
         $rType = new RequestType();

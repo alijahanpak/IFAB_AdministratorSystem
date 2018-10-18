@@ -104,7 +104,7 @@
                                                 <template v-if="receiveRequest.request_type.rtType == 'BUY_SERVICES' || receiveRequest.request_type.rtType == 'BUY_COMMODITY'">
                                                     <td class="text-center">{{$parent.dispMoneyFormat(receiveRequest.rCostEstimation)}}</td>
                                                     <td class="text-center" v-if="receiveRequest.rAcceptedAmount > 0">
-                                                        <div v-if="parseInt(receiveRequest.rAcceptedAmount) != parseInt(receiveRequest.rCommitmentAmount)">
+                                                        <div v-if="(parseInt(receiveRequest.rAcceptedAmount) != parseInt(receiveRequest.rCommitmentAmount)) && receiveRequest.isFromRefundCosts == false">
                                                             <span class="danger-label" :data-toggle="'needForEditFinancing' + receiveRequest.id">{{$parent.dispMoneyFormat(receiveRequest.rAcceptedAmount)}}</span>
                                                             <div class="clearfix tool-bar">
                                                                 <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'needForEditFinancing' + receiveRequest.id" data-dropdown data-auto-focus="true">
@@ -119,7 +119,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div v-else="">
+                                                        <div v-else>
                                                             {{$parent.dispMoneyFormat(receiveRequest.rAcceptedAmount)}}
                                                         </div>
                                                     </td>
@@ -222,7 +222,7 @@
                                                 <template v-if="receiveFinancial.request_type.rtType == 'BUY_SERVICES' || receiveFinancial.request_type.rtType == 'BUY_COMMODITY'">
                                                     <td class="text-center">{{$parent.dispMoneyFormat(receiveFinancial.rCostEstimation)}}</td>
                                                     <td class="text-center" v-if="receiveFinancial.rAcceptedAmount > 0">
-                                                        <div v-if="parseInt(receiveFinancial.rAcceptedAmount) != parseInt(receiveFinancial.rCommitmentAmount)">
+                                                        <div v-if="(parseInt(receiveFinancial.rAcceptedAmount) != parseInt(receiveFinancial.rCommitmentAmount)) && receiveFinancial.isFromRefundCosts == false">
                                                             <span class="danger-label" :data-toggle="'needForEditFinancing' + receiveFinancial.id">{{$parent.dispMoneyFormat(receiveFinancial.rAcceptedAmount)}}</span>
                                                             <div class="clearfix tool-bar">
                                                                 <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'needForEditFinancing' + receiveFinancial.id" data-dropdown data-auto-focus="true">
@@ -237,7 +237,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div v-else="">
+                                                        <div v-else>
                                                             {{$parent.dispMoneyFormat(receiveFinancial.rAcceptedAmount)}}
                                                         </div>
                                                     </td>
@@ -337,7 +337,7 @@
                                                 <template v-if="receivePAndC.request_type.rtType == 'BUY_SERVICES' || receivePAndC.request_type.rtType == 'BUY_COMMODITY'">
                                                     <td class="text-center">{{$parent.dispMoneyFormat(receivePAndC.rCostEstimation)}}</td>
                                                     <td class="text-center" v-if="receivePAndC.rAcceptedAmount > 0">
-                                                        <div v-if="parseInt(receivePAndC.rAcceptedAmount) != parseInt(receivePAndC.rCommitmentAmount)">
+                                                        <div v-if="(parseInt(receivePAndC.rAcceptedAmount) != parseInt(receivePAndC.rCommitmentAmount)) && receivePAndC.isFromRefundCosts == false">
                                                             <span class="danger-label" :data-toggle="'needForEditFinancing' + receivePAndC.id">{{$parent.dispMoneyFormat(receivePAndC.rAcceptedAmount)}}</span>
                                                             <div class="clearfix tool-bar">
                                                                 <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'needForEditFinancing' + receivePAndC.id" data-dropdown data-auto-focus="true">
@@ -352,7 +352,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div v-else="">
+                                                        <div v-else>
                                                             {{$parent.dispMoneyFormat(receivePAndC.rAcceptedAmount)}}
                                                         </div>
                                                     </td>
@@ -452,7 +452,7 @@
                                                 <template v-if="receivePayment.request_type.rtType == 'BUY_SERVICES' || receivePayment.request_type.rtType == 'BUY_COMMODITY'">
                                                     <td class="text-center">{{$parent.dispMoneyFormat(receivePayment.rCostEstimation)}}</td>
                                                     <td class="text-center" v-if="receivePayment.rAcceptedAmount > 0">
-                                                        <div v-if="parseInt(receivePayment.rAcceptedAmount) != parseInt(receivePayment.rCommitmentAmount)">
+                                                        <div v-if="(parseInt(receivePayment.rAcceptedAmount) != parseInt(receivePayment.rCommitmentAmount)) && receivePayment.isFromRefundCosts == false">
                                                             <span class="danger-label" :data-toggle="'needForEditFinancing' + receivePayment.id">{{$parent.dispMoneyFormat(receivePayment.rAcceptedAmount)}}</span>
                                                             <div class="clearfix tool-bar">
                                                                 <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'needForEditFinancing' + receivePayment.id" data-dropdown data-auto-focus="true">
@@ -467,7 +467,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div v-else="">
+                                                        <div v-else>
                                                             {{$parent.dispMoneyFormat(receivePayment.rAcceptedAmount)}}
                                                         </div>
                                                     </td>
@@ -567,7 +567,7 @@
                                                 <template v-if="receiveDraft.request_type.rtType == 'BUY_SERVICES' || receiveDraft.request_type.rtType == 'BUY_COMMODITY'">
                                                     <td class="text-center">{{$parent.dispMoneyFormat(receiveDraft.rCostEstimation)}}</td>
                                                     <td class="text-center" v-if="receiveDraft.rAcceptedAmount > 0">
-                                                        <div v-if="parseInt(receiveDraft.rAcceptedAmount) != parseInt(receiveDraft.rCommitmentAmount)">
+                                                        <div v-if="(parseInt(receiveDraft.rAcceptedAmount) != parseInt(receiveDraft.rCommitmentAmount)) && receiveDraft.isFromRefundCosts == false">
                                                             <span class="danger-label" :data-toggle="'needForEditFinancing' + receiveDraft.id">{{$parent.dispMoneyFormat(receiveDraft.rAcceptedAmount)}}</span>
                                                             <div class="clearfix tool-bar">
                                                                 <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'needForEditFinancing' + receiveDraft.id" data-dropdown data-auto-focus="true">
@@ -619,7 +619,7 @@
         <!-- Request Detail Modal -->
         <modal-large v-if="showRequestDetailModal" @close="showRequestDetailModal = false">
             <div slot="body">
-                <div class="small-font">
+                <div class="small-font" style="z-index: 2">
                     <div class="grid-x">
                         <div class="large-12 medium-12 small-12 container-vh">
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="request_tab_view">
@@ -698,6 +698,7 @@
                                             v-bind:contracts="contracts"
                                             v-bind:requestSubject="requestSubject"
                                             v-bind:rCreditIsAccepted="rCreditIsAccepted"
+                                            v-bind:rCostEstimation="requestFill.rCostEstimation"
                                             v-bind:rCreditIsExist="rCreditIsExist">
                                     </rContract>
                                 </div>
@@ -870,7 +871,7 @@
                                 <!--Tab 8-->
                             </div>
                         </div>
-                        <div class="large-12 medium-12 small-12 medium-top-m">
+                        <div class="large-12 medium-12 small-12 medium-top-m" style="z-index: 4;">
                             <div style="margin-bottom:-10px;" class="stacked-for-small button-group">
                                 <button @click="openSubmitRequestModal()" v-if=" youAreVerifier != '' "  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
                                 <button v-show='$can("SECRETARIAT_REGISTER_AND_NUMBERING") && rLetterNumber == null && rLetterDate == null' style="width:130px;" @click="openRegisterAndNumberingModal()" class="my-button my-success"><span class="btn-txt-mrg">  ثبت دبیرخانه</span></button>
@@ -1523,63 +1524,13 @@
                 this.fetchRequestFinancing();*/
 
                 this.recipientUsers = request.history;
-/*                requestHistory.forEach(users => {
-                    users.history.forEach(userHistory => {
-                        this.recipientUsers.push(userHistory);
-                    });
-                });*/
-
                 this.verifiers = request.verifiers;
-/*                requestHistory.forEach(users => {
-                    users.verifiers.forEach(verify => {
-                        this.verifiers.push(verify);
-                    });
-                });*/
-
                 this.contracts = request.contract;
-/*                requestHistory.forEach(item => {
-                    item.contract.forEach(con => {
-                        this.contracts.push(con);
-                    });
-                });*/
-
                 this.factors = request.factor;
-
-                // requestHistory.forEach(item => {
-                //     item.factor.forEach(fac => {
-                //         this.factors.push(fac);
-                //     });
-                // });
-
                 this.drafts = request.draft;
-/*                requestHistory.forEach(item => {
-                    item.draft.forEach(draf => {
-                        this.drafts.push(draf);
-                    });
-                });*/
-
                 this.payRequests = request.pay_request;
-
-/*                requestHistory.forEach(item => {
-                    item.pay_request.forEach(payment => {
-                        this.payRequests.push(payment);
-                    });
-                });*/
-
                 this.UserIsVerifier = request.rRemainingVerifiers;
-/*                requestHistory.forEach(remainUsers => {
-                    remainUsers.rRemainingVerifiers.forEach(users => {
-                        this.UserIsVerifier.push(users);
-                    });
-                });*/
-
                 this.attachments = request.attachment;
-/*                requestHistory.forEach(attach => {
-                    attach.attachment.forEach(item => {
-                        this.attachments.push(item);
-                    });
-                });*/
-
                 this.isPaid = request.rIsPaid;
                 this.draftIsExist = false;
                 this.drafts.forEach(draft => {

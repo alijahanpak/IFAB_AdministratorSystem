@@ -82,6 +82,10 @@
                                                                 <td>{{contract.cPercentInAndDec}}</td>
                                                             </tr>
                                                             <tr>
+                                                                <td class="black-color">ضریب پیمان: </td>
+                                                                <td dir="ltr">{{contract.cCoefficient}}</td>
+                                                            </tr>
+                                                            <tr>
                                                                 <td class="black-color">شماره قرارداد  :</td>
                                                                 <td>{{contract.cLetterNumber}}</td>
                                                             </tr>
@@ -144,7 +148,7 @@
                             </div>
                         </div>
                         <div class="grid-x">
-                            <div class="large-12 medium-12 small-12 padding-lr">
+                            <div class="large-8 medium-8 small-12 padding-lr">
                                 <label>مجری
                                     <suggestions style="margin-bottom: -18px;" name="executorTitle" v-validate :class="{'input': true, 'select-error': errors.has('executorTitle')}"
                                                  v-model="contractInput.executor"
@@ -156,26 +160,38 @@
                                     </suggestions>
                                 </label>
                             </div>
+                            <div class="large-4 medium-4 small-12 padding-lr">
+                                <label>ضریب پیمان
+                                    <input type="text" dir="ltr" name="contractCoefficient" v-model="contractInput.coefficient" v-validate="'required|integer'" :class="{'input': true, 'error-border': errors.has('contractCoefficient')}">
+                                </label>
+                                <p v-show="errors.has('contractCoefficient')" class="error-font">مقدار نامعتبر است!</p>
+                            </div>
                         </div>
                         <div style="margin-top:15px;"  class="grid-x">
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>مبلغ پایه<span class="btn-red">(ریال)</span>
-                                    <money :class="checkInputAmount == true ? 'select-error' : ''" @keyup.native="calculteFinalContractAmount()" v-model="contractInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'"></money>
+                                    <money dir="ltr" :class="checkInputAmount == true ? 'select-error' : ''" @keyup.native="calculateFinalContractAmount()" v-model="contractInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'"></money>
                                 </label>
                                 <p v-show="errors.has('contractAmount')" class="error-font">لطفا مبلغ را برای قرارداد مورد نظر را وارد نمایید!</p>
                                 <p style="margin-top: 8px;" v-show="checkInputAmount" class="btn-red">مبلغ قرارداد نمی تواند کمتر از صفر باشد! </p>
                             </div>
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>درصد افزایش و یا کاهش
-                                    <input type="text" name="contractPercent" v-model="contractInput.percentIncAndDec = 25" readonly v-validate="'required','min_value:0','max_value:25'" :class="{'input': true, 'error-border': errors.has('contractPercent')}">
+                                    <input dir="ltr" type="text" name="contractPercent" v-model="contractInput.percentIncAndDec = 25" readonly v-validate="'required','min_value:0','max_value:25'" :class="{'input': true, 'error-border': errors.has('contractPercent')}">
                                 </label>
                                 <p v-show="errors.has('contractPercent')" class="error-font">مقدار نا معتبر است!</p>
+                            </div>
+                        </div>
+                        <div v-show="displayWarning" class="grid-x"  style="margin-top: -10px; margin-bottom: 10px">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <span class="btn-red size-12">اخطار! </span>
+                                <span class="black-color size-12">کارشناس محترم، مبلغ نهایی قرارداد از مبلغ براورد بیشتر است.</span>
                             </div>
                         </div>
                         <div class="grid-x">
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>شماره قرارداد
-                                    <input type="text" name="letterNumber" v-model="contractInput.letterNumber" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('letterNumber')}">
+                                    <input dir="ltr" type="text" name="letterNumber" v-model="contractInput.letterNumber" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('letterNumber')}">
                                 </label>
                                 <p v-show="errors.has('letterNumber')" class="error-font">لطفا شماره قرارداد مورد نظر را وارد نمایید!</p>
                             </div>
@@ -266,6 +282,13 @@
                                                     <p>مبلغ نهایی قرارداد : </p>
                                                 </div>
                                             </div>
+                                            <div v-show="displayWarning" class="grid-x"  style="margin-top: -10px">
+                                                <div class="large-2 medium-3  small-12"></div>
+                                                <div class="large-10 medium-9  small-12">
+                                                    <span class="btn-red size-12">اخطار! </span>
+                                                    <span class="black-color size-12">کارشناس محترم، مبلغ نهایی قرارداد از مبلغ براورد بیشتر است.</span>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="large-3 medium-3  small-12">
                                             <p class="btn-red">{{$root.dispMoneyFormat(finalAmount)}} ریال</p>
@@ -333,7 +356,7 @@
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     export default{
-        props:['contracts','requestId' , 'rCreditIsAccepted' , 'rCreditIsExist', 'requestSubject'],
+        props:['contracts','requestId' , 'rCreditIsAccepted' , 'rCreditIsExist', 'requestSubject' , 'rCostEstimation'],
         components: {
             Suggestions,
         },
@@ -343,6 +366,7 @@
                 showAcceptConfirmModal: false,
                 showDeleteConfirmModal: false,
                 showDialogModal: false,
+                displayWarning: false,
                 cIdForDelete: 0,
                 dialogMessage: '',
                 contractInput:{},
@@ -368,7 +392,15 @@
                 positionTemp:0,
                 checkInputAmount:false,
             }
+        },
 
+        watch: {
+            finalAmount: function (newValue , oldValue) {
+                if (newValue > this.rCostEstimation)
+                    this.displayWarning = true;
+                else
+                    this.displayWarning = false;
+            }
         },
 
         created: function () {
@@ -434,7 +466,7 @@
 
             calculateAmount: function(percent,index,state){
                 this.calculateChangeInputAmount(percent,index,state);
-                this.calculteFinalContractAmount();
+                this.calculateFinalContractAmount();
             },
 
            getIncreaseIndex: function(piId) {
@@ -468,7 +500,7 @@
                 console.log(JSON.stringify(this.increaseTemp));
             },
 
-            calculteFinalContractAmount: function(){
+            calculateFinalContractAmount: function(){
                 if(parseInt(this.contractInput.amount.split(',').join(''),10) < 0){
                     this.checkInputAmount=true;
                 }
@@ -483,8 +515,7 @@
                     this.increaseTemp.forEach(item =>{
                         lastTemp += item.amount;
                     });
-                    this.finalAmount =lastTemp;
-                    Math.round(this.finalAmount);
+                    this.finalAmount = Math.round(lastTemp);
                 }
             },
 
@@ -580,6 +611,7 @@
                             executor: this.contractInput.executor,
                             baseAmount: parseInt(this.contractInput.amount.split(',').join(''),10),
                             percentIncAndDec: this.contractInput.percentIncAndDec,
+                            coefficient: this.contractInput.coefficient,
                             letterNumber: this.contractInput.letterNumber,
                             letterDate: this.contractInput.letterDate,
                             startDate: this.contractInput.startDate,

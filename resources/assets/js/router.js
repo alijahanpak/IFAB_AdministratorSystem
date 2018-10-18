@@ -270,6 +270,16 @@ var app = new Vue({
             this._getUnReadReceivedRequest();
         },
 
+        clearAllThreads: function()
+        {
+            if (this.updateAllPermissionThreadNowPlaying)
+                clearInterval(this.updateAllPermissionThreadNowPlaying);
+            if (this.updateUnReadReceivedRequestThreadNowPlaying)
+                clearInterval(this.updateUnReadReceivedRequestThreadNowPlaying);
+            if (this.prevNowPlaying)
+                clearInterval(this.prevNowPlaying);
+        },
+
         getAllPermission: function(){
             axios.get('/admin/user/getRoleAndPermissions')
                 .then((response) => {
@@ -620,8 +630,10 @@ var app = new Vue({
         },
 
         logout: function () {
+            this.clearAllThreads();
             this.$store.dispatch("logout");
             this.$router.go('/login');
+
         },
 
         setExpireTokenThread: function () {

@@ -237,10 +237,13 @@ class RequestController extends Controller
     {
         $requestLevels = RequestLevel::all();
         $result = [];
+        $allowRequestStates = RequestState::where('rsState' , '=' , 'ACTIVE')
+            ->orWhere('rsState' , '=' , 'WAITING_REVIEW')
+            ->pluck('id');
         foreach ($requestLevels as $level)
         {
             $result[$level->rlLevel] = _Request::whereIn('id' , $reqIds)
-                ->where('rRsId' , '=' , RequestState::where('rsState' , '=' , 'ACTIVE')->value('id'))
+                ->whereIn('rRsId' , $allowRequestStates)
                 ->where('rRlId' , '=' , $level->id)
                 ->where('rFyId' , '=' , Auth::user()->seFiscalYear)
                 ->with('requestState')
@@ -455,6 +458,7 @@ class RequestController extends Controller
         $rhIds = RequestHistory::selectRaw('rhRId , MAX(id) as id')
             ->groupBy('rhRId')
             ->pluck('id');
+
         $req = RequestHistory::whereIn('id' , $rhIds)
             ->where('rhDestUId' , '=' , Auth::user()->id)
             ->where('rhRsId' , '<>' , RequestState::where('rsState' , '=' , 'WAITING_FOR_PAY_REQUEST')->value('id'))

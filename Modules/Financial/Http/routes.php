@@ -43,6 +43,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
     Route::prefix('refund')->group(function () {
         Route::post('/factor/new', 'FactorController@addNewRefundFactor');
         Route::post('/factor/accept', 'FactorController@acceptAndCalculate');
+        Route::post('/factor/reject', 'FactorController@reject');
         Route::get('/get_all_refund', 'RefundController@fetchAllRefund');
         Route::get('/fetch_all_refund', 'RefundController@fetchAllRefundData');
     });

@@ -114,12 +114,8 @@ class _Request extends Model
         {
             $amount = Contract::where('cRId' , '=' , $this->id)
                 ->where('cIsAccepted' , true)->get()->sum('cAmount');
-            if (!$this->isFromRefundCosts)
-            {
-                $amount += Factor::where('fRId' , '=' , $this->id)
-                    ->where('fFsId' , FactorState::where('fsState' , 'ACCEPTED')->value('id'))->get()->sum('fAmount');
-            }
-
+            $amount += Factor::where('fRId' , '=' , $this->id)
+                ->where('fFsId' , FactorState::where('fsState' , 'ACCEPTED')->value('id'))->get()->sum('fAmount');
             return $amount;
         }else{
             return $this->getRCommitmentAmountAttribute();

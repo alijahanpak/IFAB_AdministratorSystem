@@ -33,6 +33,7 @@ class ContractController extends Controller
             $contract->cSubject = PublicSetting::checkPersianCharacters($request->subject);
             $contract->cBaseAmount = $request->baseAmount;
             $contract->cPercentInAndDec = $request->percentIncAndDec;
+            $contract->cCoefficient = $request->coefficient;
             $contract->cLetterNumber = $request->letterNumber;
             $contract->cLetterDate = $request->letterDate;
             $contract->cStartDate = $request->startDate;
