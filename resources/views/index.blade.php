@@ -141,7 +141,7 @@
                                         <ul class="menu vertical nested">
                                             <li v-show="$can('BUDGET_COST_APPROVED_PROG_DISPLAY')"><a>هزینه ای</a>
                                                 <ul class="menu vertical nested">
-                                                    <li v-show="$can('BUDGET_COST_APPROVED_PROG_DISPLAY')"><router-link to="/budget/approved/capital_assets/approved/program">برنامه ها</router-link></li>
+                                                    <li data-close v-show="$can('BUDGET_COST_APPROVED_PROG_DISPLAY')"><router-link to="/budget/approved/capital_assets/approved/program">برنامه ها</router-link></li>
                                                 </ul>
                                             </li>
                                             <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PLAN_DISPLAY|BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DISPLAY')"><a>تملک دارایی سرمایه ای</a>

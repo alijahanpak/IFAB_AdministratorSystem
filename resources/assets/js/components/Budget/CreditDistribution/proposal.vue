@@ -251,7 +251,7 @@
                             </div>
                             <div class="medium-6 columns padding-lr">
                                 <label><span>مبلغ اعتبار</span><span style="color: #D9534F;"></span>
-                                    <input class="form-element-margin-btm" type="text" name="pAmount" v-model="cdpProposalInput.pAmount" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('pAmount')}">
+                                    <input class="form-element-margin-btm" type="text" name="pAmount" v-model="cdpProposalInput.pAmount" v-validate data-vv-rules="required|decimal" :class="{'input': true, 'select-error': errors.has('pAmount')}">
                                 </label>
                                 <span v-show="errors.has('pAmount')" class="error-font">مبلغ اعتبار فراموش شده است!</span>
                             </div>

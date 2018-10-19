@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Modules\Admin\Entities\AmountUnit;
 use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\SystemLog;
@@ -61,16 +62,19 @@ class AllocationOfCapitalAssetsController extends Controller
 
     public function registerCapitalAssetsAllocation(Request $request)
     {
-        $alloc = new CapitalAssetsAllocation;
-        $alloc->caaUId = Auth::user()->id;
-        $alloc->caaCcsId = $request->pcsId;
-        $alloc->caaLetterNumber = $request->idNumber;
-        $alloc->caaLetterDate = $request->date;
-        $alloc->caaDescription = PublicSetting::checkPersianCharacters($request->description);
-        $alloc->caaAmount = AmountUnit::convertInputAmount($request->amount);
-        $alloc->save();
+        DB::transaction(function () use($request){
+            $alloc = new CapitalAssetsAllocation;
+            $alloc->caaUId = Auth::user()->id;
+            $alloc->caaCcsId = $request->pcsId;
+            $alloc->caaLetterNumber = $request->idNumber;
+            $alloc->caaLetterDate = $request->date;
+            $alloc->caaDescription = PublicSetting::checkPersianCharacters($request->description);
+            $alloc->caaAmount = AmountUnit::convertInputAmount($request->amount);
+            $alloc->save();
 
-        SystemLog::setBudgetSubSystemLog('ثبت تخصیص اعتبار تملک داریی های سرمایه ای');
+            SystemLog::setBudgetSubSystemLog('ثبت تخصیص اعتبار تملک داریی های سرمایه ای');
+        });
+
         return \response()->json(
             $this->getAllCapitalAssetsAllocates($request->pOrN , $request->searchValue , $request->itemInPage)
         );
@@ -78,16 +82,19 @@ class AllocationOfCapitalAssetsController extends Controller
 
     public function updateCapitalAssetsAllocation(Request $request)
     {
-        $alloc = CapitalAssetsAllocation::find($request->id);
-        $alloc->caaUId = Auth::user()->id;
-        $alloc->caaCcsId = $request->pcsId;
-        $alloc->caaLetterNumber = $request->idNumber;
-        $alloc->caaLetterDate = $request->date;
-        $alloc->caaDescription = PublicSetting::checkPersianCharacters($request->description);
-        $alloc->caaAmount = AmountUnit::convertInputAmount($request->amount);
-        $alloc->save();
+        DB::transaction(function () use($request){
+            $alloc = CapitalAssetsAllocation::find($request->id);
+            $alloc->caaUId = Auth::user()->id;
+            $alloc->caaCcsId = $request->pcsId;
+            $alloc->caaLetterNumber = $request->idNumber;
+            $alloc->caaLetterDate = $request->date;
+            $alloc->caaDescription = PublicSetting::checkPersianCharacters($request->description);
+            $alloc->caaAmount = AmountUnit::convertInputAmount($request->amount);
+            $alloc->save();
 
-        SystemLog::setBudgetSubSystemLog('تغییر تخصیص اعتبار تملک داریی های سرمایه ای');
+            SystemLog::setBudgetSubSystemLog('تغییر تخصیص اعتبار تملک داریی های سرمایه ای');
+        });
+
         return \response()->json(
             $this->getAllCapitalAssetsAllocates($request->pOrN , $request->searchValue , $request->itemInPage)
         );
@@ -95,17 +102,21 @@ class AllocationOfCapitalAssetsController extends Controller
 
     public function deleteCapitalAssetsAllocation(Request $request)
     {
-        $caa = CapitalAssetsAllocation::find($request->id);
-        try {
-            $caa->delete();
-            SystemLog::setBudgetSubSystemLog('حذف تخصیص اعتبار تملک داریی های سرمایه ای');
-            return \response()->json($this->getAllCapitalAssetsAllocates($request->pOrN , $request->searchValue , $request->itemInPage));
-        }
-        catch (\Illuminate\Database\QueryException $e) {
-            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return \response()->json([] , 204);
+        $result = DB::transaction(function () use($request){
+            $caa = CapitalAssetsAllocation::find($request->id);
+            try {
+                $caa->delete();
+                SystemLog::setBudgetSubSystemLog('حذف تخصیص اعتبار تملک داریی های سرمایه ای');
+                return \response()->json($this->getAllCapitalAssetsAllocates($request->pOrN , $request->searchValue , $request->itemInPage));
             }
-        }
+            catch (\Illuminate\Database\QueryException $e) {
+                if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                    return \response()->json([] , 204);
+                }
+            }
+        });
+
+        return $result;
     }
 
     public function getCapitalAssetsCreditSourceInfo(Request $request)
@@ -126,16 +137,19 @@ class AllocationOfCapitalAssetsController extends Controller
 
     public function registerCapitalAssetsFound(Request $request)
     {
-        $alloc = new CapitalAssetsAllocation;
-        $alloc->caaUId = Auth::user()->id;
-        $alloc->caaFyId = Auth::user()->seFiscalYear;
-        $alloc->caaFound = true;
-        $alloc->caaLetterDate = $request->date;
-        $alloc->caaDescription = PublicSetting::checkPersianCharacters($request->description);
-        $alloc->caaAmount = AmountUnit::convertInputAmount($request->amount);
-        $alloc->save();
+        DB::transaction(function () use($request){
+            $alloc = new CapitalAssetsAllocation;
+            $alloc->caaUId = Auth::user()->id;
+            $alloc->caaFyId = Auth::user()->seFiscalYear;
+            $alloc->caaFound = true;
+            $alloc->caaLetterDate = $request->date;
+            $alloc->caaDescription = PublicSetting::checkPersianCharacters($request->description);
+            $alloc->caaAmount = AmountUnit::convertInputAmount($request->amount);
+            $alloc->save();
 
-        SystemLog::setBudgetSubSystemLog('ثبت تنخواه تملک داریی های سرمایه ای');
+            SystemLog::setBudgetSubSystemLog('ثبت تنخواه تملک داریی های سرمایه ای');
+        });
+
         return \response()->json(
             $this->getAllCapitalAssetsFound()
         );
@@ -143,14 +157,17 @@ class AllocationOfCapitalAssetsController extends Controller
 
     public function updateCapitalAssetsFound(Request $request)
     {
-        $alloc = CapitalAssetsAllocation::find($request->id);
-        $alloc->caaUId = Auth::user()->id;
-        $alloc->caaLetterDate = $request->date;
-        $alloc->caaDescription = PublicSetting::checkPersianCharacters($request->description);
-        $alloc->caaAmount = AmountUnit::convertInputAmount($request->amount);
-        $alloc->save();
+        DB::transaction(function () use($request) {
+            $alloc = CapitalAssetsAllocation::find($request->id);
+            $alloc->caaUId = Auth::user()->id;
+            $alloc->caaLetterDate = $request->date;
+            $alloc->caaDescription = PublicSetting::checkPersianCharacters($request->description);
+            $alloc->caaAmount = AmountUnit::convertInputAmount($request->amount);
+            $alloc->save();
 
-        SystemLog::setBudgetSubSystemLog('تغییر تنخواه تملک داریی های سرمایه ای');
+            SystemLog::setBudgetSubSystemLog('تغییر تنخواه تملک داریی های سرمایه ای');
+        });
+
         return \response()->json(
             $this->getAllCapitalAssetsFound()
         );
@@ -158,23 +175,28 @@ class AllocationOfCapitalAssetsController extends Controller
 
     public function deleteCapitalAssetsFound(Request $request)
     {
-        if (CapitalAssetsAllocation::where('caaFoundId' , '=' , $request->id)->exists())
-        {
-            return \response()->json([] , 204);
-        }else{
-            try {
-                CapitalAssetsAllocation::where('id' , '=' , $request->id)->delete();
-                SystemLog::setBudgetSubSystemLog('حذف تنخواه تملک داریی های سرمایه ای');
-                return \response()->json(
-                    $this->getAllCapitalAssetsFound()
-                );
-            }
-            catch (\Illuminate\Database\QueryException $e) {
-                if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                    return \response()->json([] , 204);
+        $result = DB::transaction(function () use($request){
+            if (CapitalAssetsAllocation::where('caaFoundId' , '=' , $request->id)->exists())
+            {
+                return \response()->json([] , 204);
+            }else{
+                try {
+                    CapitalAssetsAllocation::where('id' , '=' , $request->id)->delete();
+                    SystemLog::setBudgetSubSystemLog('حذف تنخواه تملک داریی های سرمایه ای');
+                    return \response()->json(
+                        $this->getAllCapitalAssetsFound()
+                    );
+                }
+                catch (\Illuminate\Database\QueryException $e) {
+                    if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                        return \response()->json([] , 204);
+                    }
                 }
             }
-        }
+        });
+
+        return $result;
+
     }
 
     public function getAllCapitalAssetsCosts(Request $request) // for test convert found to allocation
@@ -186,26 +208,29 @@ class AllocationOfCapitalAssetsController extends Controller
 
     public function convertCapitalAssetsFoundToAllocation(Request $request)
     {
-        $sumOfCost = 0;
-        $costsId = array();
-        $i = 0;
-        foreach ($request['selectedCosts'] as $cost)
-        {
-            $sumOfCost += $cost['cacAmount'];
-            $costsId[$i++] = $cost['id'];
-        }
+        DB::transaction(function () use($request){
+            $sumOfCost = 0;
+            $costsId = array();
+            $i = 0;
+            foreach ($request['selectedCosts'] as $cost)
+            {
+                $sumOfCost += $cost['cacAmount'];
+                $costsId[$i++] = $cost['id'];
+            }
 
-        $alloc = new CapitalAssetsAllocation;
-        $alloc->caaUId = Auth::user()->id;
-        $alloc->caaCcsId = $request->pcsId;
-        $alloc->caaLetterDate = jDate::forge()->format('%Y/%m/%d');
-        $alloc->caaDescription = PublicSetting::checkPersianCharacters($request->description);
-        $alloc->caaAmount = $sumOfCost;
-        $alloc->caaFoundId = $request->id;
-        $alloc->save();
+            $alloc = new CapitalAssetsAllocation;
+            $alloc->caaUId = Auth::user()->id;
+            $alloc->caaCcsId = $request->pcsId;
+            $alloc->caaLetterDate = jDate::forge()->format('%Y/%m/%d');
+            $alloc->caaDescription = PublicSetting::checkPersianCharacters($request->description);
+            $alloc->caaAmount = $sumOfCost;
+            $alloc->caaFoundId = $request->id;
+            $alloc->save();
 
-        CapitalAssetsCost::whereIn('id' , $costsId)->update(['cacCaaId' => $alloc->id]);
-        SystemLog::setBudgetSubSystemLog('تبدیل تنخواه تملک دارایی های سرمایه ای به تخصیص');
+            CapitalAssetsCost::whereIn('id' , $costsId)->update(['cacCaaId' => $alloc->id]);
+            SystemLog::setBudgetSubSystemLog('تبدیل تنخواه تملک دارایی های سرمایه ای به تخصیص');
+        });
+
         return \response()->json([
             'found' => $this->getAllCapitalAssetsFound(),
             'allocation_prov' => $this->getAllCapitalAssetsAllocates(0 , $request->searchValue , $request->itemInPage)
@@ -215,16 +240,19 @@ class AllocationOfCapitalAssetsController extends Controller
     ////////////////////////// cost ////////////////////////////////
     public function registerCostAllocation(Request $request)
     {
-        $caAlloc = new CostAllocation;
-        $caAlloc->caUId = Auth::user()->id;
-        $caAlloc->caCcsId = $request->caCsId;
-        $caAlloc->caLetterNumber = $request->idNumber;
-        $caAlloc->caLetterDate = $request->date;
-        $caAlloc->caAmount = AmountUnit::convertInputAmount($request->amount);
-        $caAlloc->caDescription = PublicSetting::checkPersianCharacters($request->description);
-        $caAlloc->save();
+        DB::transaction(function () use($request){
+            $caAlloc = new CostAllocation;
+            $caAlloc->caUId = Auth::user()->id;
+            $caAlloc->caCcsId = $request->caCsId;
+            $caAlloc->caLetterNumber = $request->idNumber;
+            $caAlloc->caLetterDate = $request->date;
+            $caAlloc->caAmount = AmountUnit::convertInputAmount($request->amount);
+            $caAlloc->caDescription = PublicSetting::checkPersianCharacters($request->description);
+            $caAlloc->save();
 
-        SystemLog::setBudgetSubSystemLog('ثبت تخصیص اعتبار هزینه ای');
+            SystemLog::setBudgetSubSystemLog('ثبت تخصیص اعتبار هزینه ای');
+        });
+
         return \response()->json(
             $this->getAllCostAllocates($request->pOrN , $request->searchValue , $request->itemInPage)
         );
@@ -232,16 +260,19 @@ class AllocationOfCapitalAssetsController extends Controller
 
     public function updateCostAllocation(Request $request)
     {
-        $caAlloc = CostAllocation::find($request->id);
-        $caAlloc->caUId = Auth::user()->id;
-        $caAlloc->caCcsId = $request->caCsId;
-        $caAlloc->caLetterNumber = $request->idNumber;
-        $caAlloc->caLetterDate = $request->date;
-        $caAlloc->caAmount = AmountUnit::convertInputAmount($request->amount);
-        $caAlloc->caDescription = PublicSetting::checkPersianCharacters($request->description);
-        $caAlloc->save();
+        DB::transaction(function () use($request){
+            $caAlloc = CostAllocation::find($request->id);
+            $caAlloc->caUId = Auth::user()->id;
+            $caAlloc->caCcsId = $request->caCsId;
+            $caAlloc->caLetterNumber = $request->idNumber;
+            $caAlloc->caLetterDate = $request->date;
+            $caAlloc->caAmount = AmountUnit::convertInputAmount($request->amount);
+            $caAlloc->caDescription = PublicSetting::checkPersianCharacters($request->description);
+            $caAlloc->save();
 
-        SystemLog::setBudgetSubSystemLog('تغییر تخصیص اعتبار هزینه ای');
+            SystemLog::setBudgetSubSystemLog('تغییر تخصیص اعتبار هزینه ای');
+        });
+
         return \response()->json(
             $this->getAllCostAllocates($request->pOrN , $request->searchValue , $request->itemInPage)
         );
@@ -249,17 +280,21 @@ class AllocationOfCapitalAssetsController extends Controller
 
     public function deleteCostAllocation(Request $request)
     {
-        $ca = CostAllocation::find($request->id);
-        try {
-            $ca->delete();
-            SystemLog::setBudgetSubSystemLog('حذف تخصیص اعتبار هزینه ای');
-            return \response()->json($this->getAllCostAllocates($request->pOrN , $request->searchValue , $request->itemInPage));
-        }
-        catch (\Illuminate\Database\QueryException $e) {
-            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return \response()->json([] , 204);
+        $result = DB::transaction(function () use($request){
+            $ca = CostAllocation::find($request->id);
+            try {
+                $ca->delete();
+                SystemLog::setBudgetSubSystemLog('حذف تخصیص اعتبار هزینه ای');
+                return \response()->json($this->getAllCostAllocates($request->pOrN , $request->searchValue , $request->itemInPage));
             }
-        }
+            catch (\Illuminate\Database\QueryException $e) {
+                if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                    return \response()->json([] , 204);
+                }
+            }
+        });
+        return $result;
+
     }
 
     public function getCostCreditSourceInfo(Request $request)
@@ -269,8 +304,7 @@ class AllocationOfCapitalAssetsController extends Controller
         return \response()->json($info);
     }
 
-    public function
-    getAllCostAllocates($pOrN , $searchValue , $itemInPage)
+    public function getAllCostAllocates($pOrN , $searchValue , $itemInPage)
     {
         $searchValue = PublicSetting::checkPersianCharacters($searchValue);
         return CostAgreement::where('caFyId' , '=' , Auth::user()->seFiscalYear)
@@ -319,16 +353,19 @@ class AllocationOfCapitalAssetsController extends Controller
 
     public function registerCostFound(Request $request)
     {
-        $alloc = new CostAllocation;
-        $alloc->caUId = Auth::user()->id;
-        $alloc->caFyId = Auth::user()->seFiscalYear;
-        $alloc->caFound = true;
-        $alloc->caLetterDate = $request->date;
-        $alloc->caDescription = PublicSetting::checkPersianCharacters($request->description);
-        $alloc->caAmount = AmountUnit::convertInputAmount($request->amount);
-        $alloc->save();
+        DB::transaction(function () use($request){
+            $alloc = new CostAllocation;
+            $alloc->caUId = Auth::user()->id;
+            $alloc->caFyId = Auth::user()->seFiscalYear;
+            $alloc->caFound = true;
+            $alloc->caLetterDate = $request->date;
+            $alloc->caDescription = PublicSetting::checkPersianCharacters($request->description);
+            $alloc->caAmount = AmountUnit::convertInputAmount($request->amount);
+            $alloc->save();
 
-        SystemLog::setBudgetSubSystemLog('ثبت تنخواه هزینه ای');
+            SystemLog::setBudgetSubSystemLog('ثبت تنخواه هزینه ای');
+        });
+
         return \response()->json(
             $this->getAllCostFound()
         );
@@ -336,14 +373,17 @@ class AllocationOfCapitalAssetsController extends Controller
 
     public function updateCostFound(Request $request)
     {
-        $alloc = CostAllocation::find($request->id);
-        $alloc->caUId = Auth::user()->id;
-        $alloc->caLetterDate = $request->date;
-        $alloc->caDescription = PublicSetting::checkPersianCharacters($request->description);
-        $alloc->caAmount = AmountUnit::convertInputAmount($request->amount);
-        $alloc->save();
+        DB::transaction(function () use($request){
+            $alloc = CostAllocation::find($request->id);
+            $alloc->caUId = Auth::user()->id;
+            $alloc->caLetterDate = $request->date;
+            $alloc->caDescription = PublicSetting::checkPersianCharacters($request->description);
+            $alloc->caAmount = AmountUnit::convertInputAmount($request->amount);
+            $alloc->save();
 
-        SystemLog::setBudgetSubSystemLog('تغییر تنخواه هزینه ای');
+            SystemLog::setBudgetSubSystemLog('تغییر تنخواه هزینه ای');
+        });
+
         return \response()->json(
             $this->getAllCostFound()
         );
@@ -351,47 +391,53 @@ class AllocationOfCapitalAssetsController extends Controller
 
     public function deleteCostFound(Request $request)
     {
-        if (CostAllocation::where('caFoundId' , '=' , $request->id)->exists())
-        {
-            return \response()->json([] , 204);
-        }else{
-            try {
-                CostAllocation::where('id' , '=' , $request->id)->delete();
-                SystemLog::setBudgetSubSystemLog('حذف تنخواه هزینه ای');
-                return \response()->json(
-                    $this->getAllCostFound()
-                );
-            }
-            catch (\Illuminate\Database\QueryException $e) {
-                if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                    return \response()->json([] , 204);
+        $result = DB::transaction(function () use($request){
+            if (CostAllocation::where('caFoundId' , '=' , $request->id)->exists())
+            {
+                return \response()->json([] , 204);
+            }else{
+                try {
+                    CostAllocation::where('id' , '=' , $request->id)->delete();
+                    SystemLog::setBudgetSubSystemLog('حذف تنخواه هزینه ای');
+                    return \response()->json(
+                        $this->getAllCostFound()
+                    );
+                }
+                catch (\Illuminate\Database\QueryException $e) {
+                    if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                        return \response()->json([] , 204);
+                    }
                 }
             }
-        }
+        });
+        return $result;
     }
 
     public function convertCostFoundToAllocation(Request $request)
     {
-        $sumOfCost = 0;
-        $costsId = array();
-        $i = 0;
-        foreach ($request['selectedCosts'] as $cost)
-        {
-            $sumOfCost += $cost['ecAmount'];
-            $costsId[$i++] = $cost['id'];
-        }
+        DB::transaction(function () use($request){
+            $sumOfCost = 0;
+            $costsId = array();
+            $i = 0;
+            foreach ($request['selectedCosts'] as $cost)
+            {
+                $sumOfCost += $cost['ecAmount'];
+                $costsId[$i++] = $cost['id'];
+            }
 
-        $alloc = new CostAllocation;
-        $alloc->caUId = Auth::user()->id;
-        $alloc->caCcsId = $request->caCsId;
-        $alloc->caLetterDate = jDate::forge()->format('%Y/%m/%d');
-        $alloc->caDescription = PublicSetting::checkPersianCharacters($request->description);
-        $alloc->caAmount = $sumOfCost;
-        $alloc->caFoundId = $request->id;
-        $alloc->save();
+            $alloc = new CostAllocation;
+            $alloc->caUId = Auth::user()->id;
+            $alloc->caCcsId = $request->caCsId;
+            $alloc->caLetterDate = jDate::forge()->format('%Y/%m/%d');
+            $alloc->caDescription = PublicSetting::checkPersianCharacters($request->description);
+            $alloc->caAmount = $sumOfCost;
+            $alloc->caFoundId = $request->id;
+            $alloc->save();
 
-        ExpenseCosts::whereIn('id' , $costsId)->update(['ecCaId' => $alloc->id]);
-        SystemLog::setBudgetSubSystemLog('تبدیل تنخواه هزینه ای به تخصیص');
+            ExpenseCosts::whereIn('id' , $costsId)->update(['ecCaId' => $alloc->id]);
+            SystemLog::setBudgetSubSystemLog('تبدیل تنخواه هزینه ای به تخصیص');
+        });
+
         return \response()->json([
             'found' => $this->getAllCostFound(),
             'allocation_prov' => $this->getAllCostAllocates(0 , $request->searchValue , $request->itemInPage)

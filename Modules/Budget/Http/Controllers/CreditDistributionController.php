@@ -5,6 +5,7 @@ namespace Modules\Budget\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Modules\Admin\Entities\AmountUnit;
 use Modules\Admin\Entities\County;
 use Modules\Admin\Entities\PublicSetting;
@@ -49,74 +50,79 @@ class CreditDistributionController extends Controller
     
     public function registerCreditDistributionPlan(Request $request)
     {
-        if (CreditDistributionPlan::where('cdpCdtId' , '=' , $request->cdtId)
-            ->where('cdpCdrId' , '=' , $request->cdrId)
-            ->where('cdpCoId' , '=' , $request->coId)->exists())
-        {
-            return \response()->json([] , 409);
-        }
-        else
-        {
-            $cdp = new CreditDistributionPlan;
-            $cdp->cdpUId = Auth::user()->id;
-            $cdp->cdpCdtId = $request->cdtId;
-            $cdp->cdpCdrId = $request->cdrId;
-            $cdp->cdpFyId = Auth::user()->seFiscalYear;
-            $cdp->cdpCoId = $request->coId;
-            $cdp->cdpCredit = AmountUnit::convertInputAmount($request->amount);
-            $cdp->cdpDescription = PublicSetting::checkPersianCharacters($request->description);
-            $cdp->save();
+        $result = DB::transaction(function () use($request){
+            if (CreditDistributionPlan::where('cdpCdtId' , '=' , $request->cdtId)
+                ->where('cdpCdrId' , '=' , $request->cdrId)
+                ->where('cdpCoId' , '=' , $request->coId)->exists())
+            {
+                return \response()->json([] , 409);
+            }
+            else
+            {
+                $cdp = new CreditDistributionPlan;
+                $cdp->cdpUId = Auth::user()->id;
+                $cdp->cdpCdtId = $request->cdtId;
+                $cdp->cdpCdrId = $request->cdrId;
+                $cdp->cdpFyId = Auth::user()->seFiscalYear;
+                $cdp->cdpCoId = $request->coId;
+                $cdp->cdpCredit = AmountUnit::convertInputAmount($request->amount);
+                $cdp->cdpDescription = PublicSetting::checkPersianCharacters($request->description);
+                $cdp->save();
 
-            SystemLog::setBudgetSubSystemLog('اضافه کردن طرح توزیع اعتبار با عنوان ' . $cdp->creditDistributionTitle->cdtSubject . ' در ' . $cdp->creditDistributionRow->cdrSubject);
-            return \response()->json(
-                $this->getAllCdPlans($request->searchValue , $request->itemInPage)
-            );
-        }
+                SystemLog::setBudgetSubSystemLog('اضافه کردن طرح توزیع اعتبار با عنوان ' . $cdp->creditDistributionTitle->cdtSubject . ' در ' . $cdp->creditDistributionRow->cdrSubject);
+                return \response()->json(
+                    $this->getAllCdPlans($request->searchValue , $request->itemInPage)
+                );
+            }
+        });
+        return $result;
     }
 
     public function updateCreditDistributionPlan(Request $request)
     {
-        if (CreditDistributionPlan::where('id' , '<>' , $request->id)
-            ->where('cdpCdtId' , '=' , $request->cdtId)
-            ->where('cdpCdrId' , '=' , $request->cdrId)
-            ->where('cdpCoId' , '=' , $request->coId)->exists())
-        {
-            return \response()->json([] , 409);
-        }
-        else
-        {
-            $cdp = CreditDistributionPlan::find($request->id);
-            $cdp->cdpUId = Auth::user()->id;
-            $cdp->cdpCdtId = $request->cdtId;
-            $cdp->cdpCdrId = $request->cdrId;
-            $cdp->cdpFyId = Auth::user()->seFiscalYear;
-            $cdp->cdpCoId = $request->coId;
-            $cdp->cdpCredit = AmountUnit::convertInputAmount($request->amount);
-            $cdp->cdpDescription = PublicSetting::checkPersianCharacters($request->description);
-            $cdp->save();
+        $result = DB::transaction(function () use($request) {
+            if (CreditDistributionPlan::where('id', '<>', $request->id)
+                ->where('cdpCdtId', '=', $request->cdtId)
+                ->where('cdpCdrId', '=', $request->cdrId)
+                ->where('cdpCoId', '=', $request->coId)->exists()) {
+                return \response()->json([], 409);
+            } else {
+                $cdp = CreditDistributionPlan::find($request->id);
+                $cdp->cdpUId = Auth::user()->id;
+                $cdp->cdpCdtId = $request->cdtId;
+                $cdp->cdpCdrId = $request->cdrId;
+                $cdp->cdpFyId = Auth::user()->seFiscalYear;
+                $cdp->cdpCoId = $request->coId;
+                $cdp->cdpCredit = AmountUnit::convertInputAmount($request->amount);
+                $cdp->cdpDescription = PublicSetting::checkPersianCharacters($request->description);
+                $cdp->save();
 
-            SystemLog::setBudgetSubSystemLog('بروز رسانی طرح توزیع اعتبار تملک داریی های سرمایه ای استانی');
-            return \response()->json(
-                $this->getAllCdPlans($request->searchValue , $request->itemInPage)
-            );
-        }
+                SystemLog::setBudgetSubSystemLog('بروز رسانی طرح توزیع اعتبار تملک داریی های سرمایه ای استانی');
+                return \response()->json(
+                    $this->getAllCdPlans($request->searchValue, $request->itemInPage)
+                );
+            }
+        });
+        return $result;
     }
 
     public function deleteCreditDistributionPlan(Request $request)
     {
-        try {
-            CreditDistributionPlan::where('id' , '=' , $request->id)->delete();
-            SystemLog::setBudgetSubSystemLog('حذف طرح توزیع اعتبار تملک دارییی های سرمایه ای استانی');
-            return \response()->json(
-                $this->getAllCdPlans($request->searchValue , $request->itemInPage)
-            );
-        }
-        catch (\Illuminate\Database\QueryException $e) {
+        $result = DB::transaction(function () use($request) {
+            try {
+                CreditDistributionPlan::where('id', '=', $request->id)->delete();
+                SystemLog::setBudgetSubSystemLog('حذف طرح توزیع اعتبار تملک دارییی های سرمایه ای استانی');
+                return \response()->json(
+                    $this->getAllCdPlans($request->searchValue, $request->itemInPage)
+                );
+            } catch (\Illuminate\Database\QueryException $e) {
 
-            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return \response()->json([] , 204);
+                if ($e->getCode() == "23000") { //23000 is sql code for integrity constraint violation
+                    return \response()->json([], 204);
+                }
             }
-        }
+        });
+        return $result;
 
     }
 
@@ -189,7 +195,7 @@ class CreditDistributionController extends Controller
 
     public function getPlansWithCountyId(Request $request)
     {
-        $temp =CreditDistributionPlan::with(['creditDistributionTitle' , 'creditDistributionRow' , 'creditDistributionTitle.budgetSeason'])
+        $temp = CreditDistributionPlan::with(['creditDistributionTitle' , 'creditDistributionRow' , 'creditDistributionTitle.budgetSeason'])
             ->where('cdpFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('cdpCoId' , '=' , $request->coId)
             ->orderBy('id', 'DESC')->get();
@@ -233,63 +239,66 @@ class CreditDistributionController extends Controller
 
     public function registerProvincialBudgetProposal(Request $request)
     {
-        if (ProvincialBudgetProposal::where('pbpCode' , '=' , $request->pCode)->exists()){
-            return \response()->json([] , 409);
-        }
-        else{
-            $pbp = new ProvincialBudgetProposal;
-            $pbp->pbpUId = Auth::user()->id;
-            $pbp->pbpCdpId = $request->cdpId;
-            $pbp->pbpFyId = Auth::user()->seFiscalYear;
-            $pbp->pbpAmount = AmountUnit::convertInputAmount($request->pAmount);
-            $pbp->pbpSubject = PublicSetting::checkPersianCharacters($request->pSubject);
-            $pbp->pbpCode = $request->pCode;
-            $pbp->pbpDescription = PublicSetting::checkPersianCharacters($request->pDescription);
-            $pbp->save();
+        $result = DB::transaction(function () use($request) {
+            if (ProvincialBudgetProposal::where('pbpCode', '=', $request->pCode)->exists()) {
+                return \response()->json([], 409);
+            } else {
+                $pbp = new ProvincialBudgetProposal;
+                $pbp->pbpUId = Auth::user()->id;
+                $pbp->pbpCdpId = $request->cdpId;
+                $pbp->pbpFyId = Auth::user()->seFiscalYear;
+                $pbp->pbpAmount = AmountUnit::convertInputAmount($request->pAmount);
+                $pbp->pbpSubject = PublicSetting::checkPersianCharacters($request->pSubject);
+                $pbp->pbpCode = $request->pCode;
+                $pbp->pbpDescription = PublicSetting::checkPersianCharacters($request->pDescription);
+                $pbp->save();
 
-            SystemLog::setBudgetSubSystemLog('ثبت پیشنهاد بودجه تملک داریی های سرمایه ای استانی برای پروژه ' . $pbp->pbpSubject);
-            return \response()->json($this->getAllProvincialBudgetProposal($request->searchValue , $request->itemInPage));
-        }
-
+                SystemLog::setBudgetSubSystemLog('ثبت پیشنهاد بودجه تملک داریی های سرمایه ای استانی برای پروژه ' . $pbp->pbpSubject);
+                return \response()->json($this->getAllProvincialBudgetProposal($request->searchValue, $request->itemInPage));
+            }
+        });
+        return $result;
     }
 
     public function updateProvincialBudgetProposal(Request $request)
     {
-        if (ProvincialBudgetProposal::where('id' , '<>' , $request->id)
-            ->where('pbpCode' , '=' , $request->pCode)->exists())
-        {
-            return \response()->json([] , 409);
-        }
-        else
-        {
-            $old = ProvincialBudgetProposal::find($request->id);
-            $pbp = ProvincialBudgetProposal::find($request->id);
-            $pbp->pbpUId = Auth::user()->id;
-            $pbp->pbpCdpId = $request->cdpId;
-            $pbp->pbpAmount = AmountUnit::convertInputAmount($request->pAmount);
-            $pbp->pbpSubject = PublicSetting::checkPersianCharacters($request->pSubject);
-            $pbp->pbpCode = $request->pCode;
-            $pbp->pbpDescription = PublicSetting::checkPersianCharacters($request->pDescription);
-            $pbp->save();
+        $result = DB::transaction(function () use($request) {
+            if (ProvincialBudgetProposal::where('id', '<>', $request->id)
+                ->where('pbpCode', '=', $request->pCode)->exists()) {
+                return \response()->json([], 409);
+            } else {
+                $old = ProvincialBudgetProposal::find($request->id);
+                $pbp = ProvincialBudgetProposal::find($request->id);
+                $pbp->pbpUId = Auth::user()->id;
+                $pbp->pbpCdpId = $request->cdpId;
+                $pbp->pbpAmount = AmountUnit::convertInputAmount($request->pAmount);
+                $pbp->pbpSubject = PublicSetting::checkPersianCharacters($request->pSubject);
+                $pbp->pbpCode = $request->pCode;
+                $pbp->pbpDescription = PublicSetting::checkPersianCharacters($request->pDescription);
+                $pbp->save();
 
-            SystemLog::setBudgetSubSystemLog('تغییر در پیشنهاد بودجه تملک داریی های سرمایه ای استانی برای پروژه ' . $old->pbpSubject);
-            return \response()->json($this->getAllProvincialBudgetProposal($request->searchValue , $request->itemInPage));
-        }
+                SystemLog::setBudgetSubSystemLog('تغییر در پیشنهاد بودجه تملک داریی های سرمایه ای استانی برای پروژه ' . $old->pbpSubject);
+                return \response()->json($this->getAllProvincialBudgetProposal($request->searchValue, $request->itemInPage));
+            }
+        });
+        return $result;
     }
 
     public function deleteProvincialBudgetProposal(Request $request)
     {
-        try {
-            $cdp = ProvincialBudgetProposal::find($request->id);
-            $cdp->delete();
+        $result = DB::transaction(function () use($request) {
+            try {
+                $cdp = ProvincialBudgetProposal::find($request->id);
+                $cdp->delete();
 
-            SystemLog::setBudgetSubSystemLog('حذف پیشنهاد بودجه تملک داریی های سرمایه ای استانی');
-            return \response()->json($this->getAllProvincialBudgetProposal($request->searchValue , $request->itemInPage));
-        }
-        catch (\Illuminate\Database\QueryException $e) {
-            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return \response()->json([] , 204);
+                SystemLog::setBudgetSubSystemLog('حذف پیشنهاد بودجه تملک داریی های سرمایه ای استانی');
+                return \response()->json($this->getAllProvincialBudgetProposal($request->searchValue, $request->itemInPage));
+            } catch (\Illuminate\Database\QueryException $e) {
+                if ($e->getCode() == "23000") { //23000 is sql code for integrity constraint violation
+                    return \response()->json([], 204);
+                }
             }
-        }
+        });
+        return $result;
     }
 }

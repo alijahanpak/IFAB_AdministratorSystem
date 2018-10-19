@@ -8,9 +8,6 @@
                         <ul class="breadcrumbs">
                             <li><router-link to="/budget">داشبورد</router-link></li>
                             <li>
-                                <a class="disabled">مدیریت</a>
-                            </li>
-                            <li>
                                 <a class="disabled">تخصیص اعتبار</a>
                             </li>
                             <li>

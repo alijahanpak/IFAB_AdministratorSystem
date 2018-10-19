@@ -5,6 +5,7 @@ namespace Modules\Budget\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Modules\Admin\Entities\AmountUnit;
 use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\SystemLog;
@@ -53,69 +54,76 @@ class ProjectController extends Controller
 
     public function registerApprovedProject(Request $request)
     {
-        if (CapitalAssetsProject::where('cpCode' , '=' , $request->code)->exists())
-        {
-            return \response()->json([] , 409);
-        }else{
-            $project = new CapitalAssetsProject;
-            $project->cpUId = Auth::user()->id;
-            $project->cpCapId = $request->pId;
-            $project->cpCoId = $request->coId;
-            $project->cpSubject = PublicSetting::checkPersianCharacters($request->subject);
-            $project->cpCode = $request->code;
-            $project->cpStartYear = $request->startYear;
-            $project->cpEndOfYear = $request->endYear;
-            $project->cpPhysicalProgress = $request->pProgress;
-            $project->cpDescription = PublicSetting::checkPersianCharacters($request->description);
-            $project->save();
+        $result = DB::transaction(function () use($request){
+            if (CapitalAssetsProject::where('cpCode' , '=' , $request->code)->exists())
+            {
+                return \response()->json([] , 409);
+            }else{
+                $project = new CapitalAssetsProject;
+                $project->cpUId = Auth::user()->id;
+                $project->cpCapId = $request->pId;
+                $project->cpCoId = $request->coId;
+                $project->cpSubject = PublicSetting::checkPersianCharacters($request->subject);
+                $project->cpCode = $request->code;
+                $project->cpStartYear = $request->startYear;
+                $project->cpEndOfYear = $request->endYear;
+                $project->cpPhysicalProgress = $request->pProgress;
+                $project->cpDescription = PublicSetting::checkPersianCharacters($request->description);
+                $project->save();
 
-            SystemLog::setBudgetSubSystemLog('ثبت پروژه تملک داریی های سرمایه ای ' . $request->subject);
-            return \response()->json(
-                $this->getAllProject($request->pOrN , $request->searchValue , $request->itemInPage)
-            );
-        }
+                SystemLog::setBudgetSubSystemLog('ثبت پروژه تملک داریی های سرمایه ای ' . $request->subject);
+                return \response()->json(
+                    $this->getAllProject($request->pOrN , $request->searchValue , $request->itemInPage)
+                );
+            }
+        });
+        return $result;
     }
 
     public function deleteApprovedProject(Request $request)
     {
-        $cap = CapitalAssetsProject::find($request->id);
-        try {
-            $cap->delete();
-            SystemLog::setBudgetSubSystemLog('حذف پروژه تملک داریی های سرمایه ای');
-            return \response()->json($this->getAllProject($request->pOrN , $request->searchValue , $request->itemInPage));
-        }
-        catch (\Illuminate\Database\QueryException $e) {
-            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return \response()->json([] , 204);
+        $result = DB::transaction(function () use($request) {
+            $cap = CapitalAssetsProject::find($request->id);
+            try {
+                $cap->delete();
+                SystemLog::setBudgetSubSystemLog('حذف پروژه تملک داریی های سرمایه ای');
+                return \response()->json($this->getAllProject($request->pOrN, $request->searchValue, $request->itemInPage));
+            } catch (\Illuminate\Database\QueryException $e) {
+                if ($e->getCode() == "23000") { //23000 is sql code for integrity constraint violation
+                    return \response()->json([], 204);
+                }
             }
-        }
+        });
+        return $result;
     }
 
     public function updateApprovedProject(Request $request)
     {
-        if (CapitalAssetsProject::where('id' , '<>' , $request->id)
-            ->where('cpCode' , '=' , $request->code)->exists())
-        {
-            return \response()->json([] , 409);
-        }else {
-            $old = CapitalAssetsProject::find($request->id);
-            $project = CapitalAssetsProject::find($request->id);
-            $project->cpUId = Auth::user()->id;
-            $project->cpCapId = $request->pId;
-            $project->cpCoId = $request->coId;
-            $project->cpSubject = PublicSetting::checkPersianCharacters($request->subject);
-            $project->cpCode = $request->code;
-            $project->cpStartYear = $request->startYear;
-            $project->cpEndOfYear = $request->endYear;
-            $project->cpPhysicalProgress = $request->pProgress;
-            $project->cpDescription = PublicSetting::checkPersianCharacters($request->description);
-            $project->save();
+        $result = DB::transaction(function () use($request) {
+            if (CapitalAssetsProject::where('id', '<>', $request->id)
+                ->where('cpCode', '=', $request->code)->exists()) {
+                return \response()->json([], 409);
+            } else {
+                $old = CapitalAssetsProject::find($request->id);
+                $project = CapitalAssetsProject::find($request->id);
+                $project->cpUId = Auth::user()->id;
+                $project->cpCapId = $request->pId;
+                $project->cpCoId = $request->coId;
+                $project->cpSubject = PublicSetting::checkPersianCharacters($request->subject);
+                $project->cpCode = $request->code;
+                $project->cpStartYear = $request->startYear;
+                $project->cpEndOfYear = $request->endYear;
+                $project->cpPhysicalProgress = $request->pProgress;
+                $project->cpDescription = PublicSetting::checkPersianCharacters($request->description);
+                $project->save();
 
-            SystemLog::setBudgetSubSystemLog('تغییر در پروژه تملک داریی های سرمایه ای ' . $old->cpSubject);
-            return \response()->json(
-                $this->getAllProject($request->pOrN , $request->searchValue , $request->itemInPage)
-            );
-        }
+                SystemLog::setBudgetSubSystemLog('تغییر در پروژه تملک داریی های سرمایه ای ' . $old->cpSubject);
+                return \response()->json(
+                    $this->getAllProject($request->pOrN, $request->searchValue, $request->itemInPage)
+                );
+            }
+        });
+        return $result;
     }
 
     public function getAllApprovedProjects(Request $request)
@@ -127,69 +135,75 @@ class ProjectController extends Controller
 
     public function registerApCreditSource(Request $request)
     {
-        if (CapCreditSource::where('ccsCapId' , '=' , $request->capId)
-            ->where('ccsCdrId' , '=' , $request->crId)
-            ->where('ccsTsId' , '=' , $request->tsId)
-            ->where('ccsHtrId' , '=' , $request->htrId)->exists())
-        {
-            return \response()->json([] , 409);
-        }else{
-            $apCs = new CapCreditSource;
-            $apCs->ccsUId = Auth::user()->id;
-            $apCs->ccsCapId = $request->capId;
-            $apCs->ccsCdrId = $request->crId;
-            $apCs->ccsTsId = $request->tsId;
-            $apCs->ccsHtrId = $request->htrId;
-            $apCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
-            $apCs->ccsDescription = PublicSetting::checkPersianCharacters($request->description);
-            $apCs->save();
+        $result = DB::transaction(function () use($request) {
+            if (CapCreditSource::where('ccsCapId', '=', $request->capId)
+                ->where('ccsCdrId', '=', $request->crId)
+                ->where('ccsTsId', '=', $request->tsId)
+                ->where('ccsHtrId', '=', $request->htrId)->exists()) {
+                return \response()->json([], 409);
+            } else {
+                $apCs = new CapCreditSource;
+                $apCs->ccsUId = Auth::user()->id;
+                $apCs->ccsCapId = $request->capId;
+                $apCs->ccsCdrId = $request->crId;
+                $apCs->ccsTsId = $request->tsId;
+                $apCs->ccsHtrId = $request->htrId;
+                $apCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
+                $apCs->ccsDescription = PublicSetting::checkPersianCharacters($request->description);
+                $apCs->save();
 
-            SystemLog::setBudgetSubSystemLog('ثبت تامین اعتبار پروژه تملک داریی های سرمایه ای ' . $request->subject);
-            return \response()->json(
-                $this->getAllProject($request->pOrN , $request->searchValue , $request->itemInPage)
-            );
-        }
+                SystemLog::setBudgetSubSystemLog('ثبت تامین اعتبار پروژه تملک داریی های سرمایه ای ' . $request->subject);
+                return \response()->json(
+                    $this->getAllProject($request->pOrN, $request->searchValue, $request->itemInPage)
+                );
+            }
+        });
+        return $result;
     }
 
     public function updateApCreditSource(Request $request)
     {
-        if (CapCreditSource::where('id' , '=' , $request->id)
-            ->where('ccsCapId' , '=' , $request->capId)
-            ->where('ccsCdrId' , '=' , $request->crId)
-            ->where('ccsTsId' , '=' , $request->tsId)
-            ->where('ccsHtrId' , '=' , $request->htrId)->exists())
-        {
-            return \response()->json([] , 409);
-        }else {
-            $apCs = CapCreditSource::find($request->id);
-            $apCs->ccsUId = Auth::user()->id;
-            $apCs->ccsCdrId = $request->crId;
-            $apCs->ccsTsId = $request->tsId;
-            $apCs->ccsHtrId = $request->htrId;
-            $apCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
-            $apCs->ccsDescription = PublicSetting::checkPersianCharacters($request->description);
-            $apCs->save();
+        $result = DB::transaction(function () use($request) {
+            if (CapCreditSource::where('id', '=', $request->id)
+                ->where('ccsCapId', '=', $request->capId)
+                ->where('ccsCdrId', '=', $request->crId)
+                ->where('ccsTsId', '=', $request->tsId)
+                ->where('ccsHtrId', '=', $request->htrId)->exists()) {
+                return \response()->json([], 409);
+            } else {
+                $apCs = CapCreditSource::find($request->id);
+                $apCs->ccsUId = Auth::user()->id;
+                $apCs->ccsCdrId = $request->crId;
+                $apCs->ccsTsId = $request->tsId;
+                $apCs->ccsHtrId = $request->htrId;
+                $apCs->ccsAmount = AmountUnit::convertInputAmount($request->amount);
+                $apCs->ccsDescription = PublicSetting::checkPersianCharacters($request->description);
+                $apCs->save();
 
-            SystemLog::setBudgetSubSystemLog('تغییر در تامین اعتبار پروژه تملک داریی های سرمایه ای ');
-            return \response()->json(
-                $this->getAllProject($request->pOrN , $request->searchValue , $request->itemInPage)
-            );
-        }
+                SystemLog::setBudgetSubSystemLog('تغییر در تامین اعتبار پروژه تملک داریی های سرمایه ای ');
+                return \response()->json(
+                    $this->getAllProject($request->pOrN, $request->searchValue, $request->itemInPage)
+                );
+            }
+        });
+        return $result;
     }
 
     public function deleteApCreditSource(Request $request)
     {
-        $cs = CapCreditSource::find($request->id);
-        try {
-            $cs->delete();
-            SystemLog::setBudgetSubSystemLog('حذف تامین اعتبار پروژه تملک داریی های سرمایه ای');
-            return \response()->json($this->getAllProject($request->pOrN , $request->searchValue , $request->itemInPage));
-        }
-        catch (\Illuminate\Database\QueryException $e) {
-            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                return \response()->json([] , 204);
+        $result = DB::transaction(function () use($request) {
+            $cs = CapCreditSource::find($request->id);
+            try {
+                $cs->delete();
+                SystemLog::setBudgetSubSystemLog('حذف تامین اعتبار پروژه تملک داریی های سرمایه ای');
+                return \response()->json($this->getAllProject($request->pOrN, $request->searchValue, $request->itemInPage));
+            } catch (\Illuminate\Database\QueryException $e) {
+                if ($e->getCode() == "23000") { //23000 is sql code for integrity constraint violation
+                    return \response()->json([], 204);
+                }
             }
-        }
+        });
+        return $result;
     }
 
     public function getAllApCreditSourceItems(Request $request)

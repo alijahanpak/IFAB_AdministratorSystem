@@ -546,7 +546,7 @@ var app = new Vue({
                     break;
                 case 409:
                     this.$notify({title: 'پیام سیستم', text: 'رکورد تکراری است!' , type: 'error'});
-                    this.$refs.successAlarm.play();
+                    this.$refs.errorAlarm.play();
                     break;
                 case 401:
                     this.$notify({title: 'پیام سیستم', text: 'نام کاربر یا کلمه عبور اشتباه است!' , type: 'error'});
