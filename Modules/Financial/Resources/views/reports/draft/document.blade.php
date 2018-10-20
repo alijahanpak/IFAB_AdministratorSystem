@@ -25,9 +25,11 @@
             tr{
                 page-break-inside: avoid;
             }
+            td{
+                padding: 0;
+            }
             thead{
                 font-size: small;
-
             }
         </style>
     </head>
@@ -65,7 +67,7 @@
                             </tr>
                             <tr style="min-height: 50px">
                                 <td class="BZar size-10">پرداخت های قبلی</td>
-                                <td class="BZar size-10">{{ number_format ($req['rSumOfDraftAmount'] , 0 , "." , "," ) }}</td>
+                                <td class="BZar size-10">{{ number_format ($draft->rSumOfLastDraftAmount , 0 , "." , "," ) }}</td>
                                 <td class="BZar size-10"></td>
                                 <td class="BZar size-10"></td>
                             </tr>
@@ -79,30 +81,30 @@
                             @endforeach
                             <tr>
                                 <td class="BTitrBold size-10">مجموع</td>
-                                <td class="BZar size-10">{{ number_format($draft->dBaseAmount - $req['rSumOfDraftAmount'] , 0 , "." ,",") }}</td>
+                                <td class="BZar size-10">{{ number_format($draft->dBaseAmount - $draft->rSumOfLastDraftAmount , 0 , "." ,",") }}</td>
                                 <td class="BZar size-10">{{ number_format($checks->sum('cAmount') , 0 , "." ,",") }}</td>
-                                <td class="BZar size-10">{{ number_format(($draft->dAmount - $req['rSumOfDraftAmount']) - $checks->sum('cAmount') , 0 , "." ,",") }}</td>
+                                <td class="BZar size-10">{{ number_format(($draft->dAmount - $draft->rSumOfLastDraftAmount) - $checks->sum('cAmount') , 0 , "." ,",") }}</td>
                             </tr>
                             </tbody>
                         </table>
-                        <div class="text-right" style="width: 100%; margin-top: 5px; margin-right: 2px">
-                            <p class="BTitrBold">گواهی و رسید گیرنده وجه:</p>
-                            <span class="BZar size-14" style="margin-top: -5px">امضا کننده گواهی می نمایم که بابت کالا / خدمات مشروحه بالا مبلغ (بحروف) </span>
+                        <div class="text-right" style="width: 100%; margin-top: 5px;">
+                            <p class="BTitrBold size-12" style="margin-bottom: 5px">گواهی و رسید گیرنده وجه:</p>
+                            <span class="BZar size-14" style="margin-right: 5px">امضا کننده گواهی می نمایم که بابت کالا / خدمات مشروحه بالا مبلغ (بحروف) </span>
                             <span class="BZar size-14">{{ ' ' . \Modules\Financial\Http\Controllers\ReportController::digit_to_persain_letters($draft->dAmount) . ' ریال ' }}</span>
                             <span class="BZar size-14"> دریافت نموده ام.</span>
                         </div>
                         <div class="text-left" style="width: 100%; margin-top: 5px">
-                            <span class="BTitrBold">امضاء </span>
+                            <span class="BTitrBold size-12">امضاء </span>
                             <span class="BZar size-14">..............................</span>
-                            <span class="BTitrBold">تاریخ </span>
+                            <span class="BTitrBold size-12">تاریخ </span>
                             <span class="BZar size-14">..............................</span>
                         </div>
                         <div style="width: 100%; margin-top: 10px; border-bottom: 4px black groove"></div>
-                        <div class="text-right" style="width: 100%; margin-top: 5px">
-                            <p class="BTitrBold">گواهی تنظیم کننده سند:</p>
+                        <div class="text-right" style="width: 100%; margin-top: 5px;margin-bottom: 0">
+                            <p class="BTitrBold size-12">گواهی تنظیم کننده سند:</p>
                             <p class="BZar size-14" style="margin-top: -10px">گواهی می شود که این سند هزینه بموجب اسناد و املاک به پیوست طبق مقررات مالی و معاملاتی موسسات پژوهشی وزارت متبوع تنظیم گردید.</p>
                         </div>
-                        <table style="margin-top: 5px;border:none !important">
+                        <table style="border:none !important; margin-top: 0">
                             <tbody style="border:none !important">
                             <tr style="border:none !important">
                                 <td style="border:none !important">
@@ -126,7 +128,7 @@
                         </table>
                         <div style="width: 100%; margin-top: -10px; border-bottom: 4px black groove"></div>
                         <div class="text-right" style="width: 100%; margin-top: 5px">
-                            <p class="BTitrBold" style="margin-bottom: 0px">تامین اعتبار:</p>
+                            <p class="BTitrBold size-12" style="margin-bottom: 0px">تامین اعتبار:</p>
                             @foreach($capFinancing as $item)
                                 <div class="size-14" style="padding-right: 20px">
                                     <span class="BTitrBold size-10">{{ $item['creditDistributionTitle']['cdtIdNumber'] . ' - ' }}</span>

@@ -201,7 +201,7 @@
                     <div class="large-12 medium-12 small-12">
                         <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="draftAndCheck_tab_view">
                             <li class="tabs-title is-active"><a href="#DraftTab" aria-selected="true">حواله</a></li>
-                            <li v-show="letterNumber != ''" class="tabs-title"><a href="#DocumentTab">سند هزینه</a></li>
+                            <li class="tabs-title"><a href="#DocumentTab">سند هزینه</a></li>
                             <li class="tabs-title"><a href="#CheckTab">چک</a></li>
                         </ul>
                         <div class="tabs-content" data-tabs-content="draftAndCheck_tab_view">
@@ -229,11 +229,11 @@
                             </div>
                             <!--Draft Tab -->
                             <!--Document Tab -->
-                            <div v-show="letterNumber != ''" class="tabs-panel table-mrg-btm" id="DocumentTab">
+                            <div class="tabs-panel table-mrg-btm" id="DocumentTab">
                                 <div class="grid-x" style="width: 100%;height: 76vh">
                                     <div class="large-12">
                                         <vue-element-loading style="width: 100%;" :active="showDocumentLoaderProgress" spinner="line-down" color="#716aca"/>
-                                        <embed style="width: 100%;height: 100%" :src="documentPdfPath + '#page=1&zoom=65'" />
+                                        <embed style="width: 100%;height: 100%" :src="documentPdfPath + '#page=1&zoom=50'" />
                                     </div>
                                 </div>
                             </div>
@@ -564,19 +564,16 @@
             },
 
             fetchDocument: function(){
-                if (this.letterNumber != '')
-                {
-                    this.showDocumentLoaderProgress = true;
-                    axios.post('/financial/report/document' , {dId: this.draftId})
-                        .then((response) => {
-                            console.log(response.data);
-                            this.showDocumentLoaderProgress = false;
-                            this.documentPdfPath=response.data;
-                        },(error) => {
-                            console.log(error);
-                            this.showDocumentLoaderProgress = false;
-                        });
-                }
+                this.showDocumentLoaderProgress = true;
+                axios.post('/financial/report/document' , {dId: this.draftId})
+                    .then((response) => {
+                        console.log(response.data);
+                        this.documentPdfPath=response.data;
+                        this.showDocumentLoaderProgress = false;
+                    },(error) => {
+                        console.log(error);
+                        this.showDocumentLoaderProgress = false;
+                    });
             },
 
             openPdfModal: function (draft){

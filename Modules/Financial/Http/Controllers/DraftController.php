@@ -31,6 +31,7 @@ class DraftController extends Controller
     function register(Request $request)
     {
         $resultCode = DB::transaction(function () use($request){
+            $req = _Request::where('id' , '=' , $request->rId)->first();
             $draft = new Draft();
             $draft->dRId = $request->rId;
             $draft->dDsId = DraftState::where('dsState' , '=' , 'MINUTE')->value('id');
@@ -40,6 +41,7 @@ class DraftController extends Controller
                 $draft->dPrId = $request->prId;
             $draft->dBaseAmount = $request->baseAmount;
             $draft->dAmount = $request->amount;
+            $draft->dSumOfLastDraftAmount = $req->rSumOfDraftAmount;
             $draft->save();
 
             $verifier = new DraftVerifier();
@@ -47,7 +49,6 @@ class DraftController extends Controller
             $verifier->dvDId = $draft->id;
             $verifier->save();
             ///////////////////////////////////////////////////////////////////////
-            $req = _Request::where('id' , '=' , $request->rId)->first();
             $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
             $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'DRAFT')->value('id');
             $req->save();

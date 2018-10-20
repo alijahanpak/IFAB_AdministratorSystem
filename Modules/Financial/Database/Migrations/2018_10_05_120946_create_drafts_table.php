@@ -23,6 +23,7 @@ class CreateDraftsTable extends Migration
                 $table->string('dPayTo');
                 $table->unsignedBigInteger('dBaseAmount');
                 $table->unsignedBigInteger('dAmount');
+                $table->unsignedBigInteger('dSumOfLastDraftAmount');
                 $table->string('dLetterNumber')->nullable();
                 $table->string('dLetterDate')->nullable();
                 $table->boolean('dIsMinute')->default(true);

@@ -27,9 +27,9 @@ class ReportController extends Controller
         $pdf->setOption('encoding', 'UTF-8');
         $pdf->setOption('page-size', 'a4');
         $pdf->setOption('title', 'report');
-        $pdf->setOption('margin-bottom', 25);
+        $pdf->setOption('margin-bottom', 10);
         $pdf->setOrientation('portrait');
-        $pdf->setOption('margin-top', 20);
+        $pdf->setOption('margin-top', 10);
         $pdf->setOption('lowquality', true);
         $pdf->setOption('zoom', 1.2);
         return $pdf;
@@ -84,7 +84,7 @@ class ReportController extends Controller
     public function document(Request $request)
     {
         $draft = Draft::where('id' , $request->dId)->with('payRequest')->first();
-        $req = _Request::where('id' , $draft->id)->first();
+        //$req = _Request::where('id' , $draft->id)->first();
         $checks = _Check::where('cDId' , $draft->id)
             ->with('percentageDecrease')
             ->where('cPdId' , '<>' , null)
@@ -115,10 +115,10 @@ class ReportController extends Controller
         $pdf->loadHTML(view('financial::reports.draft.document' , ['draft' => $draft ,
             'costFinancing' => $cost ,
             'capFinancing' => $cap ,
-            'checks' => $checks ,
-            'req' => $req]));
-        $pdf->save('pdfFiles/document' . Auth::user()->id . '.pdf', true);
-        return url('pdfFiles/document' . Auth::user()->id . '.pdf');
+            'checks' => $checks]));
+        //return $pdf->download('invoice.pdf');
+        $pdf->save('pdfFiles/' . uniqid('document_') . '.pdf', true);
+        return url('pdfFiles/' . uniqid('document_') . '.pdf');
     }
 
 }

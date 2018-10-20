@@ -1365,7 +1365,7 @@
                 });
             },
 
-            /*updateRequestData: function(requests , rId){
+            updateRequestData: function(requests , rId){
                 this.submissions = requests;
                 this.submissions.forEach(rec => {
                     if (rec.id == rId)
@@ -1374,7 +1374,7 @@
                         return;
                     }
                 });
-            },*/
+            },
 
             openPdfModal: function (payRequest){
                 this.payRequestId=payRequest.id;
