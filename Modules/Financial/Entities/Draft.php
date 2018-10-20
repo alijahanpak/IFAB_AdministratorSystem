@@ -31,6 +31,11 @@ class Draft extends Model
         return $this->belongsTo(DraftState::class, 'dDsId', 'id');
     }
 
+    function payRequest()
+    {
+        return $this->belongsTo(PayRequest::class, 'dPrId', 'id');
+    }
+
     function getDLastRefAttribute()
     {
         $lastHistoryId = RequestHistory::where('rhDId', '=', $this->id)->max('id');

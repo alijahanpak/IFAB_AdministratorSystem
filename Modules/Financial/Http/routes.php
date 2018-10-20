@@ -80,6 +80,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
 
     Route::prefix('report')->group(function () {
         Route::post('/draft' , 'ReportController@draft');
+        Route::post('/document' , 'ReportController@document');
         Route::post('/payment_request' , 'ReportController@paymentRequest');
     });
 

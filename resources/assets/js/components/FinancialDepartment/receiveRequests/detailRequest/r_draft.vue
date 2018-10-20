@@ -201,6 +201,7 @@
                     <div class="large-12 medium-12 small-12">
                         <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="draftAndCheck_tab_view">
                             <li class="tabs-title is-active"><a href="#DraftTab" aria-selected="true">حواله</a></li>
+                            <li v-show="letterNumber != ''" class="tabs-title"><a href="#DocumentTab">سند هزینه</a></li>
                             <li class="tabs-title"><a href="#CheckTab">چک</a></li>
                         </ul>
                         <div class="tabs-content" data-tabs-content="draftAndCheck_tab_view">
@@ -227,6 +228,16 @@
                                 </div>
                             </div>
                             <!--Draft Tab -->
+                            <!--Document Tab -->
+                            <div v-show="letterNumber != ''" class="tabs-panel table-mrg-btm" id="DocumentTab">
+                                <div class="grid-x" style="width: 100%;height: 76vh">
+                                    <div class="large-12">
+                                        <vue-element-loading style="width: 100%;" :active="showDocumentLoaderProgress" spinner="line-down" color="#716aca"/>
+                                        <embed style="width: 100%;height: 100%" :src="documentPdfPath + '#page=1&zoom=65'" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Document Tab -->
                             <!--Check Tab -->
                             <div class="tabs-panel table-mrg-btm" id="CheckTab">
                                 <div class="grid-x">
@@ -276,8 +287,8 @@
                                     </div>
                                 </div>
                             </div>
+                            <!--Check Tab -->
                         </div>
-                        <!--Check Tab -->
                     </div>
                 </div>
             </div>
@@ -510,6 +521,7 @@
                 youAreDraftVerifier:'',
                 isMinute: false,
                 draftPdfPath:'',
+                documentPdfPath:'',
                 registerDate: '',
                 letterNumber: '',
                 moneyState:'none',
@@ -524,6 +536,7 @@
                 checks:[],
                 draftIsBlocked: true,
                 showLoaderProgress:false,
+                showDocumentLoaderProgress: false,
                 checkEdited: false,
                 checkBaseDelivered: false,
                 canResponse:'',
@@ -555,21 +568,39 @@
                 });
             },
 
+            fetchDocument: function(){
+                if (this.letterNumber != '')
+                {
+                    this.showDocumentLoaderProgress = true;
+                    axios.post('/financial/report/document' , {dId: this.draftId})
+                        .then((response) => {
+                            console.log(response.data);
+                            this.showDocumentLoaderProgress = false;
+                            this.documentPdfPath=response.data;
+                        },(error) => {
+                            console.log(error);
+                            this.showDocumentLoaderProgress = false;
+                        });
+                }
+            },
+
             openPdfModal: function (draft){
-              this.checks=[];
-              this.checkSize=false;
-              var draftHistory=[];
+              this.checks = [];
+              this.checkSize = false;
+              var draftHistory = [];
               draftHistory.push(draft);
-              this.draftId=draft.id;
-              this.youAreDraftVerifier=draft.dYouAreVerifier;
-              this.isMinute=draft.dIsMinute;
+              this.draftId = draft.id;
+              this.youAreDraftVerifier = draft.dYouAreVerifier;
+              this.isMinute = draft.dIsMinute;
               this.isAccepted = draft.verifier[0].dvSId != null ? true : false;
-              this.draftAmount=draft.dAmount;
-              this.draftFor=draft.dFor;this.canResponse = draft.dLastRef.rhIsReferral;
+              this.draftAmount = draft.dAmount;
+              this.draftFor = draft.dFor;this.canResponse = draft.dLastRef.rhIsReferral;
+              this.letterNumber = draft.dLetterNumber;
               this.openReportFile();
-              this.draftPdfPath='';
+              this.fetchDocument();
+              this.draftPdfPath = '';
               this.draftIsBlocked = draft.draft_state.dsState == 'BLOCKED' ? true : false;
-              this.showPdfModal=true;
+              this.showPdfModal = true;
 
               draftHistory.forEach(item =>{
                   if (item.check.lenght == null)
@@ -658,12 +689,13 @@
             },
 
             getSumOfLastDrafts: function (){
-                var lastDraftTemp=0;
+/*                var lastDraftTemp=0;
                 this.drafts.forEach(item =>{
                     if (item.draft_state.dsState != 'BLOCKED')
                         lastDraftTemp += item.dAmount;
                 });
-                this.lastDrafts = lastDraftTemp;
+                this.lastDrafts = lastDraftTemp;*/
+                this.lastDrafts = this.sumOfDraftAmount;
             },
 
             setInitBaseAmount: function (){
