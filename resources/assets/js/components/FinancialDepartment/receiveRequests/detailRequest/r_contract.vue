@@ -197,18 +197,12 @@
                             </div>
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>تاریخ قرارداد
-                                    <input
-                                            type="text"
-                                            name="letterDate"
-                                            class="form-control form-control-lg"
+                                    <date-picker
+                                            :color="'#5c6bc0'"
                                             v-model="contractInput.letterDate"
+                                            input-class="form-control form-control-lg date-picker-bottom-margin"
                                             id="contract-letterDate"
                                             placeholder="انتخاب تاریخ">
-
-                                    <date-picker
-                                            v-model="contractInput.letterDate"
-                                            :color="'#5c6bc0'"
-                                            element="contract-letterDate">
                                     </date-picker>
                                 </label>
                                 <p v-show="errors.has('letterDate')" class="error-font">لطفا تاریخ قرارداد مورد نظر را وارد نمایید!</p>
@@ -217,33 +211,23 @@
                         <div class="grid-x">
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>تاریخ شروع
-                                    <input
-                                            type="text"
-                                            class="form-control form-control-lg"
+                                    <date-picker
+                                            :color="'#5c6bc0'"
                                             v-model="contractInput.startDate"
+                                            input-class="form-control form-control-lg date-picker-bottom-margin"
                                             id="contract-startDate"
                                             placeholder="انتخاب تاریخ">
-
-                                    <date-picker
-                                            v-model="contractInput.startDate"
-                                            :color="'#5c6bc0'"
-                                            element="contract-startDate">
                                     </date-picker>
                                 </label>
                             </div>
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>تاریخ پایان
-                                    <input
-                                            type="text"
-                                            class="form-control form-control-lg"
+                                    <date-picker
+                                            :color="'#5c6bc0'"
                                             v-model="contractInput.endDate"
+                                            input-class="form-control form-control-lg date-picker-bottom-margin"
                                             id="contract-endDate"
                                             placeholder="انتخاب تاریخ">
-
-                                    <date-picker
-                                            v-model="contractInput.endDate"
-                                            :color="'#5c6bc0'"
-                                            element="contract-endDate">
                                     </date-picker>
                                 </label>
                             </div>

@@ -63,7 +63,7 @@
                                     <col width="200px"/>
                                 </colgroup>
                                 <tbody class="tbl-head-style-cell">
-                                <tr class="table-row" @click="openSubmissionDetail(allSubmissions)" v-for="allSubmissions in submissions">
+                                <tr class="table-row" @click="openSubmissionDetail(allSubmissions,index)" v-for="(allSubmissions,index) in submissions">
                                     <td>{{allSubmissions.rSubject}}</td>
                                     <td>{{allSubmissions.request_type.rtSubject}}</td>
                                     <td>{{ $parent.dispMoneyFormat(allSubmissions.rCostEstimation) }}</td>
@@ -487,9 +487,11 @@
                                 <!--Tab 3 Factor-->
                                 <div class="tabs-panel table-mrg-btm" id="requestFactorTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <sFactor
+                                            v-on:updateSubmissionData="updateSubmissionData"
                                              v-on:closeModal="showRequestDetailModal=false"
                                              v-bind:requestId="requestId"
                                              v-bind:factors="factors"
+                                             v-bind:data="submissions[selectedSubmissionIndex]"
                                              v-bind:refundFactor="refundFactor">
                                     </sFactor>
                                 </div>
@@ -896,6 +898,7 @@
                 payRequestPdfPath:'',
                 finalPaymentDisable:false,
                 requestState: '',
+                selectedSubmissionIndex:'',
 
                 //submission Factor Component
                 refundFactor:[],
@@ -953,15 +956,8 @@
                 this.fetchData();
             },
 
-            updateSubmissionData: function(requests , rId){
+            updateSubmissionData: function(requests){
                 this.submissions=requests.data;
-                this.submissions.forEach(sub => {
-                    if (sub.id == rId)
-                    {
-                        this.getSubmissionDetail(sub);
-                        return;
-                    }
-                });
                 this.makePagination(requests);
             },
 
@@ -1181,12 +1177,13 @@
                 }
              },
 
-            openSubmissionDetail: function(requests){
-                this.getSubmissionDetail(requests);
+            openSubmissionDetail: function(requests,index){
+                this.selectedSubmissionIndex=index;
+                this.getSubmissionDetail(requests,index);
                 this.showSubmissionDeatilModal=true;
             },
 
-            getSubmissionDetail: function (submission) {
+            getSubmissionDetail: function (submission,index) {
                 this.recipientUsers=[];
                 this.contracts = [];
                 this.verifiers=[];
@@ -1229,14 +1226,6 @@
                     });
                 });
 
-                requestHistory.forEach(item => {
-                    item.factor.forEach(fa=> {
-                        this.factors.push(fa);
-                    });
-                    item.refund_factor.forEach(rFac=> {
-                        this.factors.push(rFac);
-                    });
-                });
 
                 if (submission.request_type.rtType == 'BUY_SERVICES'){
                     this.requestTypeDetail='SERVICES';
@@ -1376,7 +1365,7 @@
                 });
             },
 
-            updateRequestData: function(requests , rId){
+            /*updateRequestData: function(requests , rId){
                 this.submissions = requests;
                 this.submissions.forEach(rec => {
                     if (rec.id == rId)
@@ -1385,7 +1374,7 @@
                         return;
                     }
                 });
-            },
+            },*/
 
             openPdfModal: function (payRequest){
                 this.payRequestId=payRequest.id;

@@ -1015,17 +1015,12 @@
                     <div class="grid-x">
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <label>تاریخ
-                                <input
-                                        type="text"
-                                        class="form-control form-control-lg"
-                                        v-model="registerDate"
-                                        id="my-custom-input"
-                                        placeholder="انتخاب تاریخ">
-
                                 <date-picker
-                                        v-model="registerDate"
-                                        :color="'#5c6bc0'"
-                                        element="my-custom-input">
+                                    :color="'#5c6bc0'"
+                                    v-model="registerDate"
+                                    input-class="form-control form-control-lg date-picker-bottom-margin"
+                                    id="my-custom-input"
+                                    placeholder="انتخاب تاریخ">
                                 </date-picker>
                             </label>
                         </div>

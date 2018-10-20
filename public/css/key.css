@@ -2271,6 +2271,11 @@ input[type="search"]:valid + label {
     margin-bottom:-16px;
 }
 
+.date-picker-bottom-margin{
+    margin-bottom:0px;
+}
+
+
 .report-line-height{
     line-height: 2.5em
 }
