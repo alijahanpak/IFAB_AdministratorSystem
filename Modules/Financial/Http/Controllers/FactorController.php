@@ -82,6 +82,26 @@ class FactorController extends Controller
         );
     }
 
+    function deleteRefundFactor(Request $request)
+    {
+        $resultCode = DB::transaction(function () use($request){
+            $factor = Factor::where('id' , '=' , $request->fId)->first();
+            if ($factor->fFsId == FactorState::where('fsState' , 'TEMPORARY')->value('id'))
+            {
+                $factor->delete();
+                return 200;
+            }else{
+                return 204; //cannot delete contract
+            }
+        });
+
+        $rController = new RequestController();
+        return \response()->json(
+            $rController->getAllPostedRequests(Auth::user()->id),
+            $resultCode
+        );
+    }
+
     function accept(Request $request)
     {
         DB::transaction(function () use($request){

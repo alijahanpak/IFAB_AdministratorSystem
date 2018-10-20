@@ -43,7 +43,7 @@
                             <col v-show="$can('SUPPLIER_DELETE_FACTOR')" width="60px"/>
                         </colgroup>
                         <tbody class="tbl-head-style-cell">
-                        <tr class="table-row" v-for="factor in factors">
+                        <tr class="table-row" v-for="factor in data.factor">
                             <td>{{factor.fSubject}}</td>
                             <td class="text-center">{{$root.dispMoneyFormat(factor.fAmount)}}</td>
                             <td class="text-center">{{factor.fDescription}}</td>
@@ -51,6 +51,7 @@
                             <td class="text-center" v-show="factor.factor_state.fsState == 'PENDING_REVIEW'"><span class="reserved-label">{{ factor.factor_state.fsSubject }}</span></td>
                             <td class="text-center" v-show="factor.factor_state.fsState == 'NOT_ACCEPTED'"><span class="blocked-label">{{ factor.factor_state.fsSubject }}</span></td>
                             <td class="text-center" v-show="factor.factor_state.fsState == 'ACCEPTED'"><span class="success-label">{{ factor.factor_state.fsSubject }}</span></td>
+                            <td class="text-center" v-show="factor.factor_state == 'REFUNDFACTOR'"><span class="success-label">درخواست خرید کالا</span></td>
                             <td v-show="$can('SUPPLIER_DELETE_FACTOR')" class="text-center"><a @click="openConfirmDeleteContract(factor.id)"><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
                         </tr>
                         </tbody>
@@ -159,7 +160,7 @@
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     export default{
-        props:['factors','refundFactor','requestId'],
+        props:['factors','refundFactor','requestId','data'],
         components: {
             Suggestions,
         },
@@ -185,12 +186,14 @@
                 selectedSeller: null,
                 sellerOptions: {},
                 //contract input text
+
             }
 
         },
 
         created: function () {
             $(this.$el).foundation(); //WORKS!
+            this.getFactorDetail();
         },
         updated: function () {
             $(this.$el).foundation(); //WORKS!
@@ -239,7 +242,15 @@
             /*-----------------------------------------------------------------------------
             ------------------ Seller Executor End ------------------------------
             -----------------------------------------------------------------------------*/
+            getFactorDetail: function(){
+                this.data.refund_factor.forEach(item => {
+                    Vue.set(item.factor,"refundFactor",true);
+                    Vue.set(item.factor,"factor_state","REFUNDFACTOR");
+                    this.data.factor.push(item.factor);
+                });
+                console.log(JSON.stringify(this.data.factor));
 
+            },
             checkAcceptFactor: function(){
                 var existNotAccepted = false;
                 this.factors.forEach(item => {
@@ -265,7 +276,7 @@
                 axios.post('/financial/request/factor/accept', {
                     rId: this.requestId,
                 }).then((response) => {
-                    this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                    this.$emit('updateSubmissionData' , response.data);
                     this.$emit('closeModal');
                     this.$root.displayNotif(response.status);
                     console.log(response);
@@ -276,12 +287,11 @@
             },
 
             deleteFactor: function() {
-                axios.post('/financial/request/factor/delete', {
-                    rId: this.requestId,
+                axios.post('/financial/refund/factor/delete', {
                     fId: this.fIdForDelete,
                 }).then((response) => {
                     if (response.status == 200)
-                        this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                        this.$emit('updateSubmissionData' , response.data);
                     this.showDeleteConfirmModal = false;
                     this.$root.displayNotif(response.status);
                     console.log(response);
@@ -314,7 +324,7 @@
                             amount: parseInt(this.factorInput.amount.split(',').join(''),10),
                             description: this.factorInput.description,
                         }).then((response) => {
-                            this.$emit('updateSubmissionData' , response.data , this.requestId);
+                            this.$emit('updateSubmissionData' , response.data);
                             this.showInsertFactorModal = false;
                             this.$root.displayNotif(response.status);
                             console.log(response);

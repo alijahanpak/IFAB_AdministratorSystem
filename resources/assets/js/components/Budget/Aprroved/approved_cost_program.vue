@@ -484,18 +484,15 @@
                             </div>
                             <div class="medium-6 padding-lr">
                                 <label>تاریخ ابلاغ
-                                    <input
-                                            type="text"
-                                            class="form-control form-control-lg"
-                                            v-model="costAgreementInput.date"
-                                            id="costAgreementInputDate"
-                                            placeholder="انتخاب تاریخ">
-
-                                    <date-picker v-on:closed="checkValidDate('delivery' , costAgreementInput)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery"
-                                            v-model="costAgreementInput.date"
+                                    <!--<date-picker v-on:closed="checkValidDate('delivery' , costAgreementInput)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery"-->
+                                    <date-picker
                                             :color="'#5c6bc0'"
-                                            element="costAgreementInputDate">
+                                            v-model="costAgreementInput.date"
+                                            input-class="form-control form-control-lg date-picker-bottom-margin"
+                                            name="costAgreementInputDate"
+                                            placeholder="انتخاب تاریخ">
                                     </date-picker>
+
                                 </label>
                             </div>
                             <div class="medium-6 columns padding-lr" v-if="provOrNat == 0">
@@ -506,17 +503,13 @@
                             </div>
                             <div class="medium-6 padding-lr"  v-if="provOrNat == 0">
                                 <label>تاریخ مبادله
-                                    <input
-                                            type="text"
-                                            class="form-control form-control-lg"
+                                    <!--<date-picker v-on:closed="provOrNat == 0 ? checkValidDate('exchange' , costAgreementInput) : null" errMessage="تاریخ مبادله فراموش شده است!" :isValid="provOrNat == 0 ? dateIsValid_exchange : true"-->
+                                    <date-picker
+                                            :color="'#5c6bc0'"
                                             v-model="costAgreementInput.exDate"
+                                            input-class="form-control form-control-lg date-picker-bottom-margin"
                                             id="costAgreementInputExDate"
                                             placeholder="انتخاب تاریخ">
-
-                                    <date-picker v-on:closed="provOrNat == 0 ? checkValidDate('exchange' , costAgreementInput) : null" errMessage="تاریخ مبادله فراموش شده است!" :isValid="provOrNat == 0 ? dateIsValid_exchange : true"
-                                                 v-model="costAgreementInput.exDate"
-                                                 :color="'#5c6bc0'"
-                                                 element="costAgreementInputExDate">
                                     </date-picker>
                                 </label>
                             </div>
@@ -549,17 +542,13 @@
                             </div>
                             <div class="medium-6 padding-lr">
                                 <label>تاریخ ابلاغ
-                                    <input
-                                            type="text"
-                                            class="form-control form-control-lg"
-                                            v-model="costAgreementFill.date"
-                                            id="costAgreementFillDate"
-                                            placeholder="انتخاب تاریخ">
-
-                                    <date-picker v-on:closed="checkValidDate('delivery' , costAgreementFill)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery"
-                                                 v-model="costAgreementFill.date"
+                                    <!--<date-picker v-on:closed="checkValidDate('delivery' , costAgreementFill.date)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery"-->
+                                    <date-picker
                                             :color="'#5c6bc0'"
-                                            element="costAgreementFillDate">
+                                            v-model="costAgreementFill.date"
+                                            input-class="form-control form-control-lg date-picker-bottom-margin"
+                                            name="costAgreementFillDate"
+                                            placeholder="انتخاب تاریخ">
                                     </date-picker>
                                 </label>
                             </div>
@@ -571,17 +560,13 @@
                             </div>
                             <div class="medium-6 padding-lr" v-if="provOrNat == 0">
                                 <label>تاریخ مبادله
-                                    <input
-                                            type="text"
-                                            class="form-control form-control-lg"
-                                            v-model="costAgreementFill.exDate"
-                                            id="costAgreementFillExDate"
-                                            placeholder="انتخاب تاریخ">
-
-                                    <date-picker v-on:closed="provOrNat == 0 ? checkValidDate('exchange' , costAgreementFill) : null" errMessage="تاریخ مبادله فراموش شده است!" :isValid="provOrNat == 0 ? dateIsValid_exchange : true"
-                                            v-model="costAgreementFill.exDate"
+                                    <!--<date-picker v-on:closed="provOrNat == 0 ? checkValidDate('exchange' , costAgreementFill) : null" errMessage="تاریخ مبادله فراموش شده است!" :isValid="provOrNat == 0 ? dateIsValid_exchange : true"-->
+                                    <date-picker
                                             :color="'#5c6bc0'"
-                                            element="costAgreementFillExDate">
+                                            v-model="costAgreementFill.exDate"
+                                            input-class="form-control form-control-lg date-picker-bottom-margin"
+                                            name="costAgreementFillExDate"
+                                            placeholder="انتخاب تاریخ">
                                     </date-picker>
                                 </label>
                             </div>
@@ -802,17 +787,13 @@
                             </div>
                             <div class="medium-6 padding-lr">
                                 <label>تاریخ مبادله
-                                    <input
-                                            type="text"
-                                            class="form-control form-control-lg"
-                                            v-model="caAmendmentInput.date"
-                                            id="caAmendmentInputDate"
-                                            placeholder="انتخاب تاریخ">
-
-                                    <date-picker v-on:closed="checkValidDate('delivery_amendment' , caAmendmentInput)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery_amendment"
-                                            v-model="caAmendmentInput.date"
+                                    <!--<date-picker v-on:closed="checkValidDate('delivery_amendment' , caAmendmentInput)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery_amendment"-->
+                                    <date-picker
                                             :color="'#5c6bc0'"
-                                            element="caAmendmentInputDate">
+                                            v-model="caAmendmentInput.date"
+                                            input-class="form-control form-control-lg date-picker-bottom-margin"
+                                            name="caAmendmentInputDate"
+                                            placeholder="انتخاب تاریخ">
                                     </date-picker>
                                 </label>
                             </div>
@@ -824,17 +805,13 @@
                             </div>
                             <div class="medium-6 padding-lr">
                                 <label>تاریخ مبادله
-                                    <input
-                                            type="text"
-                                            class="form-control form-control-lg"
-                                            v-model="caAmendmentInput.exDate"
-                                            id="caAmendmentInputExDate"
-                                            placeholder="انتخاب تاریخ">
-
-                                    <date-picker v-on:closed="checkValidDate('exchange_amendment' , caAmendmentInput)" errMessage="تاریخ مبادله فراموش شده است!" :isValid="dateIsValid_exchange_amendment"
-                                            v-model="caAmendmentInput.exDate"
+                                    <!--<date-picker v-on:closed="checkValidDate('exchange_amendment' , caAmendmentInput)" errMessage="تاریخ مبادله فراموش شده است!" :isValid="dateIsValid_exchange_amendment"-->
+                                    <date-picker
                                             :color="'#5c6bc0'"
-                                            element="caAmendmentInputExDate">
+                                            v-model="caAmendmentInput.exDate"
+                                            input-class="form-control form-control-lg date-picker-bottom-margin"
+                                            name="caAmendmentInputExDate"
+                                            placeholder="انتخاب تاریخ">
                                     </date-picker>
                                 </label>
                             </div>
@@ -869,18 +846,15 @@
                             </div>
                             <div class="medium-6 padding-lr">
                                 <label>تاریخ مبادله
-                                    <input
-                                            type="text"
-                                            class="form-control form-control-lg"
-                                            v-model="caAmendmentInput.date"
-                                            id="caAmendmentInputDate2"
-                                            placeholder="انتخاب تاریخ">
-
-                                    <date-picker v-on:closed="checkValidDate('delivery_amendment' , caAmendmentInput)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery_amendment"
-                                                 v-model="caAmendmentInput.date"
+                                    <!--<date-picker v-on:closed="checkValidDate('delivery_amendment' , caAmendmentInput)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery_amendment"-->
+                                    <date-picker
                                             :color="'#5c6bc0'"
-                                            element="caAmendmentInputDate2">
+                                            v-model="caAmendmentInput.date"
+                                            input-class="form-control form-control-lg date-picker-bottom-margin"
+                                            name="caAmendmentInputDate2"
+                                            placeholder="انتخاب تاریخ">
                                     </date-picker>
+
                                 </label>
                             </div>
                         </div>
@@ -1462,13 +1436,13 @@
         created: function () {
             this.fetchProvincialData();
             this.fetchNationalData();
-
             this.setUpdateDataThread();
+
         },
 
         updated: function () {
             $(this.$el).foundation(); //WORKS!
-
+            this.myResizeModal();
             this.costTemp =  ' مبالغ: ' + this.$parent.getDispAmountBaseLabel();
         },
 
