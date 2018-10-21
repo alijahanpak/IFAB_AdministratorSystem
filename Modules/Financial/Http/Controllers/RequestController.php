@@ -87,7 +87,7 @@ class RequestController extends Controller
             }])
             ->with('payRequest.payRequestState')
             ->with('requestLevel')
-            ->with('refundFactor.factor')
+            ->with('refundFactor.factor.factorState')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
     }
