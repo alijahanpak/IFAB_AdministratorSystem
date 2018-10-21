@@ -4,6 +4,7 @@ namespace Modules\Budget\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Modules\Financial\Entities\CapitalAssetsFinancing;
+use Modules\Financial\Entities\CapSpent;
 
 class CapitalAssetsAllocation extends Model
 {
@@ -18,12 +19,11 @@ class CapitalAssetsAllocation extends Model
 
     public function getCaaSumOfCostAttribute()
     {
-        return $this->sumOfCost()->sum('cacAmount');
-    }
-
-    public function sumOfCost()
-    {
-        return $this->hasMany(CapitalAssetsCost::class , 'cacCaaId' , 'id');
+        $capFinancingIds = CapitalAssetsFinancing::where('cafCaaId' , $this->id)
+            ->where('cafDeleted' , false)
+            ->pluck('id');
+        $sumCapSpent = CapSpent::whereIn('csCafId' , $capFinancingIds)->sum('csAmount');
+        return (int)$sumCapSpent;
     }
 
     public function sumOfReserve()

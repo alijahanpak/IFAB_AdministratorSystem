@@ -74,7 +74,7 @@
                                     <td class="text-center">{{$parent.dispMoneyFormat(allCheck.cAmount)}}</td>
                                     <td>{{allCheck.cPdId != null ? allCheck.percentage_decrease.pdSubject + ' - ' + allCheck.draft.dFor : allCheck.draft.dFor}}</td>
                                     <td class="text-center">{{allCheck.draft.dPayTo}}</td>
-                                    <td class="text-center">{{ allCheck.cDeliveryShamsiDate != '' ? allCheck.cDeliveryShamsiTime + ' - ' + allCheck.cDeliveryShamsiDate : '' }}</td>
+                                    <td class="text-center">{{ allCheck.cDeliveryDate }}</td>
                                     <td v-show="allCheck.check_state.csState == 'WAITING_FOR_PRINT'" class="text-center"><span class="danger-label">{{ allCheck.check_state.csSubject }}</span></td>
                                     <td v-show="allCheck.check_state.csState == 'WAITING_FOR_DELIVERY'" class="text-center"><span class="reserved-label">{{ allCheck.check_state.csSubject }}</span></td>
                                     <td v-show="allCheck.check_state.csState == 'DELIVERED'" class="text-center"><span class="success-label">{{ allCheck.check_state.csSubject }}</span></td>

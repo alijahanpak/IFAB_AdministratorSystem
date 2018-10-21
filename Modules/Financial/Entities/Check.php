@@ -7,7 +7,7 @@ use Morilog\Jalali\jDate;
 
 class _Check extends Model
 {
-    protected $appends = ['cDeliveryShamsiDate' , 'cDeliveryShamsiTime' , 'cDelivered' , 'cSpentAmount'];
+    protected $appends = ['cDelivered' , 'cSpentAmount'];
     protected $fillable = ['cDId' , 'cPdId' , 'cAmount' ,'cFyId' , 'cCsId'];
     protected $table = 'tbl_checks';
 
@@ -36,20 +36,14 @@ class _Check extends Model
         return $this->hasMany(SelectedCheckVerifier::class , 'scvCId' , 'id')->orderBy('id');
     }
 
-    public function getCDeliveryShamsiDateAttribute()
+    public function costSpent()
     {
-        if ($this->getCDeliveredAttribute() == true)
-            return jDate::forge($this->attributes['cDeliveryDate'])->format('Y/m/d');
-        else
-            return '';
+        return $this->hasMany(CostSpent::class , 'csCfId' , 'id');
     }
 
-    public function getCDeliveryShamsiTimeAttribute()
+    public function capSpent()
     {
-        if ($this->getCDeliveredAttribute() == true)
-            return jDate::forge($this->attributes['cDeliveryDate'])->format('time');
-        else
-            return '';
+        return $this->hasMany(CapSpent::class , 'csCafId' , 'id');
     }
 
     public function getCDeliveredAttribute()

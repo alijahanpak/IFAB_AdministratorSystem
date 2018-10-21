@@ -21,6 +21,9 @@ use Modules\Budget\Entities\CostAgreement;
 use Modules\Budget\Entities\CostAllocation;
 use Modules\Budget\Entities\CreditDistributionRow;
 use Modules\Budget\Entities\ExpenseCosts;
+use Modules\Financial\Entities\_Check;
+use Modules\Financial\Entities\CapitalAssetsFinancing;
+use Modules\Financial\Entities\CostFinancing;
 use Morilog\Jalali\Facades\jDate;
 
 class AllocationOfCapitalAssetsController extends Controller
@@ -206,6 +209,19 @@ class AllocationOfCapitalAssetsController extends Controller
         );
     }
 
+    public function getAllFundCapSpents(Request $request)
+    {
+        $capFinancingIds = CapitalAssetsFinancing::where('cafCaaId' , $request->fId)
+            ->where('cafDeleted' , false)
+            ->pluck('id');
+        $checks = _Check::whereHas('capSpent' , function ($q) use($capFinancingIds){
+            return $q->whereIn('csCafId' , $capFinancingIds);
+        })->with('draft')
+            ->with('percentageDecrease')
+            ->get();
+        return \response()->json($checks);
+    }
+
     public function convertCapitalAssetsFoundToAllocation(Request $request)
     {
         DB::transaction(function () use($request){
@@ -341,6 +357,19 @@ class AllocationOfCapitalAssetsController extends Controller
         return \response()->json(
             ExpenseCosts::where('ecCaId' , '=' , $request->fId)->get()
         );
+    }
+
+    public function getAllFundCostSpents(Request $request)
+    {
+        $costFinancingIds = CostFinancing::where('cfCaId' , $request->fId)
+            ->where('cfDeleted' , false)
+            ->pluck('id');
+        $checks = _Check::whereHas('costSpent' , function ($q) use($costFinancingIds){
+            return $q->whereIn('csCfId' , $costFinancingIds);
+        })->with('draft')
+            ->with('percentageDecrease')
+            ->get();
+        return \response()->json($checks);
     }
 
     public function getAllCostFound()

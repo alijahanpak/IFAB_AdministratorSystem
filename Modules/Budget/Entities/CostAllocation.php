@@ -5,6 +5,7 @@ namespace Modules\Budget\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Financial\Entities\Contract;
 use Modules\Financial\Entities\CostFinancing;
+use Modules\Financial\Entities\CostSpent;
 
 class CostAllocation extends Model
 {
@@ -19,12 +20,11 @@ class CostAllocation extends Model
 
     public function getCaSumOfCostAttribute()
     {
-        return $this->sumOfCost()->sum('ecAmount');
-    }
-
-    public function sumOfCost()
-    {
-        return $this->hasMany(ExpenseCosts::class , 'ecCaId' , 'id');
+        $costFinancingIds = CostFinancing::where('cfCaId' , $this->id)
+            ->where('cfDeleted' , false)
+            ->pluck('id');
+        $sumCostSpent = CostSpent::whereIn('csCfId' , $costFinancingIds)->sum('csAmount');
+        return (int)$sumCostSpent;
     }
 
     public function sumOfReserve()
