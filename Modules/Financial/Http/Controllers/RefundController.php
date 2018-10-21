@@ -34,6 +34,7 @@ class RefundController extends Controller
                 return $q->where('rtType' , '=' , 'FUND');
             })
             ->with('factor.factorState')
+            ->with('factor.seller')
             ->get()
             ->where('rIsPaid' , true);
     }

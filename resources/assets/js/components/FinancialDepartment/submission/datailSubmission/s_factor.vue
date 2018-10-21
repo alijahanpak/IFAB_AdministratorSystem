@@ -33,7 +33,7 @@
                     <!--Table Head End-->
                     <!--Table Body Start-->
                 </table>
-                <div style="height: 46vh;" class="tbl_body_style inner-vh-unsize">
+                <div style="height: 43vh;" class="tbl_body_style inner-vh-unsize">
                     <table class="tbl-body-contain">
                         <colgroup>
                             <col width="300px"/>
@@ -60,6 +60,11 @@
                 </div>
             </div>
             <!--Table Body End-->
+            <div class="large-12 medium-12 small-12" v-show='$can("SUPPLIER_ACCEPT_FACTOR")'>
+                <div class="stacked-for-small button-group float-left">
+                    <button @click="checkAcceptFactor()"  class="my-button my-success float-left"><span class="btn-txt-mrg">درخواست بررسی</span></button>
+                </div>
+            </div>
         </div>
 
         <!--Insert Factor Start-->
@@ -126,7 +131,7 @@
             <div slot="body">
                 <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
-                    <p class="large-offset-1 modal-text">تایید اطلاعات فاکتور به منزله ایجاد تعهد در محل های تامین اعتبار است، آیا صحت اطلاعات را تایید می کنید؟</p>
+                    <p class="large-offset-1 modal-text">آیا برای ارسال درخواست بررسی اطمینان دارید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
                             <button v-on:click="acceptFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
@@ -260,7 +265,7 @@
 
             checkAcceptFactor: function(){
                 var existNotAccepted = false;
-                this.factors.forEach(item => {
+                this.data.factor.forEach(item => {
                     if (item.factor_state.fsState == 'TEMPORARY')
                         existNotAccepted = true;
                 });
@@ -280,11 +285,12 @@
             },
 
             acceptFactor: function(){
-                axios.post('/financial/request/factor/accept', {
+                axios.post('/financial/refund/factor/check_request', {
                     rId: this.requestId,
                 }).then((response) => {
                     this.$emit('updateSubmissionData' , response.data);
                     this.$emit('closeModal');
+                    this.showAcceptConfirmModal=false;
                     this.$root.displayNotif(response.status);
                     console.log(response);
                 }, (error) => {
