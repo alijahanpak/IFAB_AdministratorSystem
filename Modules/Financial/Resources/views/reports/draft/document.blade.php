@@ -67,7 +67,7 @@
                             </tr>
                             <tr style="min-height: 50px">
                                 <td class="BZar size-10">پرداخت های قبلی</td>
-                                <td class="BZar size-10">{{ number_format ($draft->rSumOfLastDraftAmount , 0 , "." , "," ) }}</td>
+                                <td class="BZar size-10">{{ number_format ($draft->dSumOfLastDraftAmount , 0 , "." , "," ) }}</td>
                                 <td class="BZar size-10"></td>
                                 <td class="BZar size-10"></td>
                             </tr>
@@ -81,9 +81,9 @@
                             @endforeach
                             <tr>
                                 <td class="BTitrBold size-10">مجموع</td>
-                                <td class="BZar size-10">{{ number_format($draft->dBaseAmount - $draft->rSumOfLastDraftAmount , 0 , "." ,",") }}</td>
+                                <td class="BZar size-10">{{ number_format($draft->dBaseAmount - $draft->dSumOfLastDraftAmount , 0 , "." ,",") }}</td>
                                 <td class="BZar size-10">{{ number_format($checks->sum('cAmount') , 0 , "." ,",") }}</td>
-                                <td class="BZar size-10">{{ number_format(($draft->dAmount - $draft->rSumOfLastDraftAmount) - $checks->sum('cAmount') , 0 , "." ,",") }}</td>
+                                <td class="BZar size-10">{{ number_format($draft->dAmount - $checks->sum('cAmount') , 0 , "." ,",") }}</td>
                             </tr>
                             </tbody>
                         </table>

@@ -404,8 +404,9 @@
                   this.prLetterNumber = payRequest.prLetterNumber;
                   if (this.youArePayRequestVerifier)
                     this.verifierId = payRequest.prYouAreVerifiers[0].id;
-                  this.openReportFile();
+
                   this.payRequestPdfPath='';
+                  this.openReportFile();
                   this.showPdfModal=true;
                 if(payRequest.prLastRef.rhPrHasBeenSeen == false) {
                     axios.post('/financial/payment_request/was_seen', {
@@ -421,11 +422,13 @@
 
             openReportFile: function () {
                 this.showLoaderProgress = true;
-                axios.post('/financial/report/payment_request' , {prId: this.payRequestId})
+                axios.post('/financial/report/payment_request' , {prId: this.payRequestId} , {responseType: 'blob'})
                     .then((response) => {
                         console.log(response.data);
+                        var file = new Blob([response.data], {type: 'application/pdf'});
+                        var fileURL = window.URL.createObjectURL(file);
+                        this.payRequestPdfPath=fileURL;
                         this.showLoaderProgress = false;
-                        this.payRequestPdfPath=response.data;
                     },(error) => {
                         console.log(error);
                         this.showLoaderProgress = false;

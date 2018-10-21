@@ -139,8 +139,8 @@
                                     <div v-if="requestType == 'BUY_SERVICES'" style="margin-top:15px;"  class="grid-x">
                                         <div class="large-6 medium-6 small-12 padding-lr">
                                             <label>مبلغ<span class="btn-red">(ریال)</span>
-                                                <money v-if="moneyState== 'none'" @change.native="calculateDraftAmount()" v-model="draftInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
-                                                <money v-if="moneyState== 'block'" @change.native="calculateDraftAmount()" v-model="draftInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm select-error"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
+                                                <money v-if="moneyState== 'none'" @keyup.native="calculateDraftAmount()" v-model="draftInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
+                                                <money v-if="moneyState== 'block'" @keyup.native="calculateDraftAmount()" v-model="draftInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm select-error"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
                                             </label>
                                             <p v-show="errors.has('baseAmount')" class="error-font"> مبلغ صورت وضعیت مورد نظر نامعتبر است!</p>
                                             <p style="margin-top: 10px;" v-show="moneyState== 'block'" class="btn-red">مبلغ صورت وضعیت مورد نظر نامعتبر است!</p>
@@ -149,8 +149,8 @@
                                     <div v-if="requestType == 'BUY_COMMODITY'" style="margin-top:15px;"  class="grid-x">
                                         <div class="large-6 medium-6 small-12 padding-lr">
                                             <label v-show="requestType == 'BUY_COMMODITY'">مبلغ<span class="btn-red">(ریال)</span>
-                                                <money v-if="moneyState== 'none'" @change.native="calculateDraftAmount()" v-model="draftInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
-                                                <money v-if="moneyState== 'block'" @change.native="calculateDraftAmount()" v-model="draftInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm select-error"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
+                                                <money v-if="moneyState== 'none'" @keyup.native="calculateDraftAmount()" v-model="draftInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
+                                                <money v-if="moneyState== 'block'" @keyup.native="calculateDraftAmount()" v-model="draftInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm select-error"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
                                             </label>
                                             <p v-show="errors.has('baseAmount')" class="error-font"> مبلغ صورت وضعیت مورد نظر نامعتبر است!</p>
                                             <p style="margin-top: 10px;" v-show="moneyState== 'block'" class="btn-red">مبلغ صورت وضعیت مورد نظر نامعتبر است!</p>
@@ -233,7 +233,7 @@
                                 <div class="grid-x" style="width: 100%;height: 76vh">
                                     <div class="large-12">
                                         <vue-element-loading style="width: 100%;" :active="showDocumentLoaderProgress" spinner="line-down" color="#716aca"/>
-                                        <embed style="width: 100%;height: 100%" :src="documentPdfPath" />
+                                        <embed style="width: 100%;height: 100%" :src="documentPdfPath + '#page=1&zoom=50'" />
                                     </div>
                                 </div>
                             </div>
@@ -565,10 +565,10 @@
 
             fetchDocument: function(){
                 this.showDocumentLoaderProgress = true;
-                axios.post('/financial/report/document' , {dId: this.draftId , responseType: 'arraybuffer'})
+                axios.post('/financial/report/document' , {dId: this.draftId} , {responseType:'blob'})
                     .then((response) => {
                         console.log(response.data);
-                        var file = new Blob([response.data], { type: 'application/pdf' });
+                        var file = new Blob([response.data], {type: 'application/pdf'});
                         var fileURL = window.URL.createObjectURL(file);
                         this.documentPdfPath = fileURL;
                         this.showDocumentLoaderProgress = false;
@@ -576,20 +576,6 @@
                         console.log(error);
                         this.showDocumentLoaderProgress = false;
                     });
-/*                var xhr = new XMLHttpRequest();
-                xhr.open('GET', 'http://127.0.0.1/IFAB_AdministratorSystem/public/financial/report/document?dId=' + this.draftId, true);
-                xhr.responseType = 'arraybuffer';
-                xhr.onload = function(e) {
-                    if (this.status == 200) {
-                        var file = new Blob([this.response], { type: 'application/pdf' });
-                        var fileURL = URL.createObjectURL(file);
-                        this.documentPdfPath = fileURL;
-                        //var viewer = $('#viewpdf');
-                        //PDFObject.embed(fileURL, viewer);
-                    }
-                    this.showDocumentLoaderProgress = false;
-                };
-                xhr.send();*/
             },
 
             openPdfModal: function (draft){
@@ -697,13 +683,7 @@
             },
 
             getSumOfLastDrafts: function (){
-/*                var lastDraftTemp=0;
-                this.drafts.forEach(item =>{
-                    if (item.draft_state.dsState != 'BLOCKED')
-                        lastDraftTemp += item.dAmount;
-                });
-                this.lastDrafts = lastDraftTemp;*/
-                this.lastDrafts = this.sumOfDraftAmount;
+                this.lastDrafts = parseInt(this.sumOfDraftAmount,10);
             },
 
             setInitBaseAmount: function (){
@@ -720,11 +700,13 @@
 
             openReportFile: function () {
                 this.showLoaderProgress = true;
-                axios.post('/financial/report/draft' , {dId: this.draftId})
+                axios.post('/financial/report/draft' , {dId: this.draftId} , {responseType:'blob'})
                     .then((response) => {
                         console.log(response.data);
+                        var file = new Blob([response.data], {type: 'application/pdf'});
+                        var fileURL = window.URL.createObjectURL(file);
+                        this.draftPdfPath=fileURL;
                         this.showLoaderProgress = false;
-                        this.draftPdfPath=response.data;
                     },(error) => {
                         console.log(error);
                     this.showLoaderProgress = false;
