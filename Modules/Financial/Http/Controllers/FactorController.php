@@ -102,6 +102,21 @@ class FactorController extends Controller
         );
     }
 
+    function checkRefundFactorRequest(Request $request)
+    {
+        DB::transaction(function () use($request){
+            Factor::where('fRId' , '=' , $request->rId)
+                ->where('fFsId' , FactorState::where('fsState' , 'TEMPORARY')->value('id'))
+                ->update(['fFsId' => FactorState::where('fsState' , 'PENDING_REVIEW')->value('id')]);
+            SystemLog::setFinancialSubSystemLog('درخواست بررسی فاکتور های تنخواه گردان کارپردازی برای درخواست ' . _Request::find($request->rId)->rSubject);
+        });
+
+        $rController = new RequestController();
+        return \response()->json(
+            $rController->getAllPostedRequests(Auth::user()->id)
+        );
+    }
+
     function accept(Request $request)
     {
         DB::transaction(function () use($request){
