@@ -10,7 +10,7 @@
         <div class="large-12 medium-12 small-12 small-top-m">
             <!--Table Start-->
             <!--Table Head Start-->
-            <div style="height: 43vh;" class="tbl-div-container inner-vh-unsize">
+            <div class="tbl-div-container">
                 <table class="tbl-head">
                     <colgroup>
                         <col width="300px"/>
@@ -33,7 +33,7 @@
                     <!--Table Head End-->
                     <!--Table Body Start-->
                 </table>
-                <div class="tbl_body_style inner-vh-2">
+                <div style="height: 46vh;" class="tbl_body_style inner-vh-unsize">
                     <table class="tbl-body-contain">
                         <colgroup>
                             <col width="300px"/>
@@ -43,7 +43,7 @@
                             <col v-show="$can('SUPPLIER_DELETE_FACTOR')" width="60px"/>
                         </colgroup>
                         <tbody class="tbl-head-style-cell">
-                        <tr class="table-row" v-for="factor in data.factor">
+                        <tr v-for="factor in data.factor">
                             <td>{{factor.fSubject}}</td>
                             <td class="text-center">{{$root.dispMoneyFormat(factor.fAmount)}}</td>
                             <td class="text-center">{{factor.fDescription}}</td>
@@ -52,18 +52,14 @@
                             <td class="text-center" v-show="factor.factor_state.fsState == 'NOT_ACCEPTED'"><span class="blocked-label">{{ factor.factor_state.fsSubject }}</span></td>
                             <td class="text-center" v-show="factor.factor_state.fsState == 'ACCEPTED'"><span class="success-label">{{ factor.factor_state.fsSubject }}</span></td>
                             <td class="text-center" v-show="factor.factor_state == 'REFUNDFACTOR'"><span class="success-label">درخواست خرید کالا</span></td>
-                            <td v-show="$can('SUPPLIER_DELETE_FACTOR')" class="text-center"><a @click="openConfirmDeleteContract(factor.id)"><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
+                            <td v-show="$can('SUPPLIER_DELETE_FACTOR')" v-if="!factor.refundFactor" class="text-center"><a @click="openConfirmDeleteContract(factor.id)"><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
+                            <td v-if="factor.refundFactor" class="text-center"><i style="color: #BDBDBD" class="far fa-trash-alt size-21"></i></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
             <!--Table Body End-->
-            <div class="large-12 medium-12 small-12" v-show='$can("SUPPLIER_ACCEPT_FACTOR")'>
-                <div class="stacked-for-small button-group float-left">
-                    <button @click="checkAcceptFactor()"  class="my-button my-success float-left"><span class="btn-txt-mrg">تایید اطلاعات فاکتور</span></button>
-                </div>
-            </div>
         </div>
 
         <!--Insert Factor Start-->
@@ -187,6 +183,8 @@
                 sellerOptions: {},
                 //contract input text
 
+                sumOfFactors:0,
+
             }
 
         },
@@ -202,6 +200,13 @@
 
         mounted: function () {
 
+        },
+
+        watch: {
+            // whenever question changes, this function will run
+            data: function (newQuestion, oldQuestion) {
+                this.getFactorDetail();
+            }
         },
 
         methods : {
@@ -250,7 +255,9 @@
                 });
                 console.log(JSON.stringify(this.data.factor));
 
+
             },
+
             checkAcceptFactor: function(){
                 var existNotAccepted = false;
                 this.factors.forEach(item => {
@@ -309,29 +316,50 @@
             },
 
             openInsertFactorModal:function () {
-                this.getAllSeller();
-                this.factorInput={};
-                this.showInsertFactorModal=true;
+                var sumTemp=0;
+                this.sumOfFactors=0;
+                this.data.factor.forEach(item => {
+                    if(item.factor_state.fsState != 'NOT_ACCEPTED')
+                        sumTemp += item.fAmount;
+                });
+                this.sumOfFactors=sumTemp;
+                if(this.sumOfFactors > this.data.rAcceptedAmount){
+                    this.dialogMessage = 'مبلغ فاکتور نمیتواند از مبلغ تنخواه بیشتر باشد!';
+                    this.showDialogModal = true;
+                }
+                else{
+                    this.getAllSeller();
+                    this.factorInput={};
+                    this.showInsertFactorModal=true;
+                }
             },
 
             addNewFactor:function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        axios.post('/financial/refund/factor/new', {
-                            rId: this.requestId,
-                            subject: this.factorInput.subject,
-                            seller: this.factorInput.seller,
-                            amount: parseInt(this.factorInput.amount.split(',').join(''),10),
-                            description: this.factorInput.description,
-                        }).then((response) => {
-                            this.$emit('updateSubmissionData' , response.data);
-                            this.showInsertFactorModal = false;
-                            this.$root.displayNotif(response.status);
-                            console.log(response);
-                        }, (error) => {
-                            console.log(error);
-                            this.$root.displayNotif(error.response.status);
-                        });
+                        var sumTemp=0;
+                        sumTemp= parseInt(this.factorInput.amount.split(',').join(''),10);
+                        if((this.sumOfFactors + sumTemp) > this.data.rAcceptedAmount){
+                            this.dialogMessage = 'مبلغ فاکتور نمیتواند از مبلغ تنخواه بیشتر باشد!';
+                            this.showDialogModal = true;
+                        }
+                        else{
+                            axios.post('/financial/refund/factor/new', {
+                                rId: this.requestId,
+                                subject: this.factorInput.subject,
+                                seller: this.factorInput.seller,
+                                amount: parseInt(this.factorInput.amount.split(',').join(''),10),
+                                description: this.factorInput.description,
+                            }).then((response) => {
+                                this.$emit('updateSubmissionData' , response.data);
+                                this.showInsertFactorModal = false;
+                                this.$root.displayNotif(response.status);
+                                console.log(response);
+                            }, (error) => {
+                                console.log(error);
+                                this.$root.displayNotif(error.response.status);
+                            });
+                        }
                     }
                 });
             },

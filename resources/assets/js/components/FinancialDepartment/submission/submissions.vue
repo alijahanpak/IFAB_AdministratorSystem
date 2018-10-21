@@ -1227,10 +1227,19 @@
                 });
 
 
+                /*requestHistory.forEach(item => {
+                    item.refund_factor.forEach(reFac=> {
+                        Vue.set(reFac.factor,"refundFactor",true);
+                        Vue.set(reFac.factor,"factor_state","REFUNDFACTOR");
+                        item.factor.push(reFac.factor);
+                    });
+                });*/
+
+
                 if (submission.request_type.rtType == 'BUY_SERVICES'){
                     this.requestTypeDetail='SERVICES';
                     this.requestFill.rLetterNumber=submission.rLetterNumber;
-                    this.requestFill.rLetterDate=submission.rLetterDate
+                    this.requestFill.rLetterDate=submission.rLetterDate;
                     this.requestFill.rSubject=submission.rSubject;
                     this.requestFill.rCostEstimation=submission.rCostEstimation;
                     this.requestFill.rDescription=submission.rDescription;
