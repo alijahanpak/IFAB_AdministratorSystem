@@ -116,9 +116,9 @@ class ReportController extends Controller
             'costFinancing' => $cost ,
             'capFinancing' => $cap ,
             'checks' => $checks]));
-        //return $pdf->download('invoice.pdf');
-        $pdf->save('pdfFiles/' . uniqid('document_') . '.pdf', true);
-        return url('pdfFiles/' . uniqid('document_') . '.pdf');
+        return $pdf->output();
+        //$pdf->save('pdfFiles/' . uniqid('document_') . '.pdf', true);
+        //return url('pdfFiles/' . uniqid('document_') . '.pdf');
     }
 
 }

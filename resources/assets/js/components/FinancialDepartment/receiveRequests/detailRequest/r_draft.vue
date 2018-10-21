@@ -233,7 +233,7 @@
                                 <div class="grid-x" style="width: 100%;height: 76vh">
                                     <div class="large-12">
                                         <vue-element-loading style="width: 100%;" :active="showDocumentLoaderProgress" spinner="line-down" color="#716aca"/>
-                                        <embed style="width: 100%;height: 100%" :src="documentPdfPath + '#page=1&zoom=50'" />
+                                        <embed style="width: 100%;height: 100%" :src="documentPdfPath" />
                                     </div>
                                 </div>
                             </div>
@@ -565,15 +565,31 @@
 
             fetchDocument: function(){
                 this.showDocumentLoaderProgress = true;
-                axios.post('/financial/report/document' , {dId: this.draftId})
+                axios.post('/financial/report/document' , {dId: this.draftId , responseType: 'arraybuffer'})
                     .then((response) => {
                         console.log(response.data);
-                        this.documentPdfPath=response.data;
+                        var file = new Blob([response.data], { type: 'application/pdf' });
+                        var fileURL = window.URL.createObjectURL(file);
+                        this.documentPdfPath = fileURL;
                         this.showDocumentLoaderProgress = false;
                     },(error) => {
                         console.log(error);
                         this.showDocumentLoaderProgress = false;
                     });
+/*                var xhr = new XMLHttpRequest();
+                xhr.open('GET', 'http://127.0.0.1/IFAB_AdministratorSystem/public/financial/report/document?dId=' + this.draftId, true);
+                xhr.responseType = 'arraybuffer';
+                xhr.onload = function(e) {
+                    if (this.status == 200) {
+                        var file = new Blob([this.response], { type: 'application/pdf' });
+                        var fileURL = URL.createObjectURL(file);
+                        this.documentPdfPath = fileURL;
+                        //var viewer = $('#viewpdf');
+                        //PDFObject.embed(fileURL, viewer);
+                    }
+                    this.showDocumentLoaderProgress = false;
+                };
+                xhr.send();*/
             },
 
             openPdfModal: function (draft){
