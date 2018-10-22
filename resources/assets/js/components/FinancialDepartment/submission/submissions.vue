@@ -717,13 +717,13 @@
                                     <div class="grid-x">
                                         <div class="large-6 medium-6 small-6 padding-lr">
                                             <label>درصد پیشرفت فیزیکی
-                                                <input type="text" name="physical_progress" v-model="paymentInput.physicalProgress" v-validate="'required','min_value:0','max_value:'+ contractPercent " :class="{'input': true, 'error-border': errors.has('physical_progress')}">
+                                                <input type="text" name="physical_progress" v-model="paymentInput.physicalProgress" v-validate="'min_value:0|max_value:' + contractPercent + '|required'" :class="{'input': true, 'error-border': errors.has('physical_progress')}">
                                             </label>
                                             <p v-show="errors.has('physical_progress')" class="error-font">لطفا درصد پیشرفت فیزیکی را وارد / اصلاح نمایید!</p>
                                         </div>
                                         <div class="large-6 medium-6 small-6 padding-lr">
                                             <label>درصد پیشرفت ریالی
-                                                <input type="text" @keyup="calculatePaymentRialProgress()" name="rial_progress" v-model="paymentInput.rialProgress" v-validate="'required','min_value:0','max_value:'+ contractPercent " :class="{'input': true, 'error-border': errors.has('rial_progress')}">
+                                                <input type="text" @keyup="calculatePaymentRialProgress()" name="rial_progress" v-model="paymentInput.rialProgress" v-validate="'min_value:0|max_value:' + contractPercent + '|required'" :class="{'input': true, 'error-border': errors.has('rial_progress')}">
                                             </label>
                                             <p v-show="errors.has('rial_progress')" class="error-font">لطفا درصد پیشرفت ریالی را وارد / اصلاح نمایید!</p>
                                         </div>
@@ -1288,8 +1288,8 @@
             getContractInfo:function(contract){
                 console.log(JSON.stringify(contract));
                 this.contractId=contract.id;
-                this.contractPercent=0;
-                this.contractPercent=contract.cPercentInAndDec + 100;
+                this.contractPercent = 0;
+                this.contractPercent = contract.cPercentInAndDec + 100;
                 this.cBaseAmount=contract.cBaseAmount;
                 this.paymentInput.amount=contract.cBaseAmount;
                 this.calculatePaymentAmount();

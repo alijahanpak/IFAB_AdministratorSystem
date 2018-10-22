@@ -369,32 +369,17 @@
                                     <div class="large-8 medium-8  small-12">
                                         <div class="grid-x">
                                             <div class="large-12 medium-12  small-12">
-<!--                                                <div class="switch tiny">
-                                                    <input :checked="percentDecInput['percentage' + percentDec.id] = percentDec.checked" :disabled="percentDec.isNeed == true" v-on:change="calculatePercentAmount(percentDec.pdPercent,percentDec,percentDecInput['percentage' + percentDec.id])" class="switch-input" v-model="percentDecInput['percentage' + percentDec.id]" :id="'percentage'+percentDec.id" type="checkbox">
-                                                    <label class="switch-paddle" :for="'percentage'+percentDec.id">
-                                                        <span class="switch-active" aria-hidden="true">بلی</span>
-                                                        <span class="switch-inactive" aria-hidden="true">خیر</span>
-                                                    </label>
-                                                </div>-->
-                                                <label>{{ percentDecCategory.pdcSubject }}
-                                                    <select name="percentageDecrease" v-model="percentDecInput['percentage' + percentDecCategory.id]" :disabled="requestType == 'FUND'" v-on:change="calculatePercentAmount(percentDecInput['percentage' + percentDecCategory.id], index)">
+                                                <label>{{ percentDecCategory.pdcSubject }}<span class="btn-red size-12" v-if="percentDecCategory.necessary"> - الزامی</span><span class="btn-red size-12" v-if="percentDecCategory.delivered"> - تحویل داده شده</span>
+                                                    <select v-model="percentDecInput['percentage' + percentDecCategory.id]" :disabled="percentDecCategory.isNeed == true || requestType == 'FUND'" v-on:change="calculatePercentAmount(percentDecInput['percentage' + percentDecCategory.id], index)">
                                                         <option value=""></option>
-                                                        <option v-for="pd in percentDecCategory.percentage_decrease" :value="pd.id" :selected="pd.checked == true" >{{pd.pdSubject}} - {{'(' + pd.pdPercent + '%)'}}</option>
+                                                        <option v-for="pd in percentDecCategory.percentage_decrease" :value="pd.id" selected="selected" >{{pd.pdSubject}} - {{'(' + pd.pdPercent + '%)'}}</option>
                                                     </select>
                                                 </label>
                                             </div>
-<!--                                            <div class="large-10 medium-9  small-12">
-                                                <p>
-                                                    {{percentDec.pdSubject}}
-                                                    <span class="btn-red size-12" v-if="percentDec.necessary"> - الزامی</span>
-                                                    <span class="btn-red size-12" v-if="percentDec.delivered"> - تحویل داده شده</span>
-                                                    {{'(' + percentDec.pdPercent + '%)'}}
-                                                </p>
-                                            </div>-->
                                         </div>
                                     </div>
-                                    <div style="display: table" class="large-4 medium-4  small-12">
-                                        <p style="display: table-cell; vertical-align: middle" class="btn-red">{{$root.dispMoneyFormat(percentDecCategory.amountDec)}} ریال</p>
+                                    <div style="display: table" class="large-4 medium-4 small-12 text-left">
+                                        <p style="display: table-cell; vertical-align: middle" class="btn-red text-left">{{$root.dispMoneyFormat(percentDecCategory.amountDec)}} ریال</p>
                                     </div>
                                 </div>
                             </div>
@@ -402,16 +387,15 @@
                                 <div class="grid-x">
                                     <div class="large-9 medium-9  small-12">
                                         <div class="grid-x">
-                                            <div class="large-2 medium-3  small-12"></div>
-                                            <div class="large-10 medium-9  small-12">
+                                            <div class="large-12 medium-2 small-12">
                                                 <p>مبلغ حواله : </p>
                                                 <p>مبلغ چک <span> {{draftFor}} </span> </p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="large-3 medium-3  small-12">
-                                        <p class="btn-red">{{$root.dispMoneyFormat(draftAmount)}} ریال</p>
-                                        <p class="btn-red">{{$root.dispMoneyFormat(finalIncAmount)}} ریال</p>
+                                    <div class="large-3 medium-3  small-12 text-left">
+                                        <p class="btn-red text-left">{{$root.dispMoneyFormat(draftAmount)}} ریال</p>
+                                        <p class="btn-red text-left">{{$root.dispMoneyFormat(finalIncAmount)}} ریال</p>
                                     </div>
                                 </div>
                             </div>
@@ -527,7 +511,7 @@
                 letterNumber: '',
                 moneyState:'none',
                 percentageDecreasesCategory:[],
-                percentDecInput:{},
+                percentDecInput:[],
                 isAccepted: false,
 
                 decreases:[],
@@ -868,9 +852,9 @@
             },
 
             openGenerateChecksModal:function(){
+                this.percentDecInput = [];
                 this.getAllPercentageDecreases();
                 this.checkEdited = false;
-                this.percentDecInput = {};
                 if (!this.checkBaseDelivered)
                     this.showGenerateChecksModal=true;
                 else{
@@ -890,20 +874,21 @@
                             });
                         });
                         console.log(JSON.stringify(this.percentageDecreasesCategory));
-                        this.percentageDecreasesCategory.forEach(category => {
+                        this.percentageDecreasesCategory.forEach((category , index) => {
+                            var _isNeed = false;
+                            var _necessary = false;
+                            var _isChecked = false;
+                            var _delivered = false;
+                            var selectedValue = '';
                             category.percentage_decrease.forEach(item => {
                                 var isExist = false;
-                                var isNeed = false;
-                                var isChecked = false;
-                                var necessary = false;
-                                var delivered = false;
                                 if (this.contracts.length > 0) {
                                     this.contracts[0].increase_amount.forEach(incAM => {
                                         if (item.pdPiId == incAM.icaPiId) {
                                             isExist = true;
-                                            isNeed = true;
-                                            isChecked = true;
-                                            necessary = true;
+                                            _isChecked = true;
+                                            _necessary = true;
+                                            _isNeed = true;
                                         }
                                     });
                                 }
@@ -911,10 +896,10 @@
                                 this.checks.forEach(check => {
                                     if (check.cPdId == item.id) {
                                         isExist = true;
-                                        isChecked = true;
+                                        _isChecked = true;
                                         if (check.cDelivered) {
-                                            delivered = true;
-                                            isNeed = true;
+                                            _delivered = true;
+                                            _isNeed = true;
                                         }
                                     }
                                 });
@@ -923,11 +908,16 @@
                                     Vue.set(item, "amountDec", Math.round((item.pdPercent * this.draftAmount) / 100));
                                 else
                                     Vue.set(item, "amountDec", 0);
-                                Vue.set(item, "isNeed", isNeed);
-                                Vue.set(item, "checked", isChecked);
-                                Vue.set(item, "necessary", necessary);
-                                Vue.set(item, "delivered", delivered);
+                                Vue.set(item, "checked", _isChecked);
+                                Vue.set(item, "delivered", _delivered);
+                                selectedValue = _isChecked == true ? item.id : '';
                             });
+                            Vue.set(category, "isNeed", _isNeed);
+                            Vue.set(category, "necessary", _necessary);
+                            Vue.set(category, "delivered", _delivered);
+                            this.percentDecInput['percentage' + category.id] = selectedValue;
+                            if (_isChecked)
+                                this.calculatePercentAmount(selectedValue , index);
                         });
 
                         this.calculateFinalIncAmount();

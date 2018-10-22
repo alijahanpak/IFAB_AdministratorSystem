@@ -258,30 +258,28 @@
                                                 </div>-->
                                             </div>
                                         </div>
-                                        <div class="large-4 medium-4  small-12">
-                                            <p class="btn-red">{{$root.dispMoneyFormat(category.amountInc)}} ریال</p>
+                                        <div class="large-4 medium-4  small-12 text-left">
+                                            <p class="btn-red text-left">{{$root.dispMoneyFormat(category.amountInc)}} ریال</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div style="margin-top: -16px;border-top: 1px solid #E0E0E0;" class="panel-separator padding-lr">
                                     <div class="grid-x">
-                                        <div class="large-9 medium-9  small-12">
+                                        <div class="large-9 medium-9 small-12">
                                             <div class="grid-x">
-                                                <div class="large-2 medium-3  small-12"></div>
-                                                <div class="large-10 medium-9  small-12">
+                                                <div class="large-12 medium-12  small-12">
                                                     <p>مبلغ نهایی قرارداد : </p>
                                                 </div>
                                             </div>
                                             <div v-show="displayWarning" class="grid-x"  style="margin-top: -10px">
-                                                <div class="large-2 medium-3  small-12"></div>
-                                                <div class="large-10 medium-9  small-12">
+                                                <div class="large-12 medium-12  small-12">
                                                     <span class="btn-red size-12">اخطار! </span>
                                                     <span class="black-color size-12">کارشناس محترم، مبلغ نهایی قرارداد از مبلغ براورد بیشتر است.</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="large-3 medium-3  small-12">
-                                            <p class="btn-red">{{$root.dispMoneyFormat(finalAmount)}} ریال</p>
+                                        <div class="large-3 medium-3  small-12 text-left">
+                                            <p class="btn-red text-left">{{$root.dispMoneyFormat(finalAmount)}} ریال</p>
                                         </div>
                                     </div>
                                 </div>
@@ -505,7 +503,7 @@
                         Vue.set(this.percentageIncreaseCategory[catIndex], "amountInc", amountInc);
                     }
                 }else{
-                    this.percentageDecreasesCategory[catIndex].percentage_decrease.forEach(item => {
+                    this.percentageIncreaseCategory[catIndex].percentage_increase.forEach(item => {
                         Vue.set(item,"amountInc",0);
                         Vue.set(item,"checked",false);
                     });
@@ -522,7 +520,8 @@
                     this.checkInputAmount=false;
                     this.percentageIncreaseCategory.forEach((category , index) =>{
                         category.percentage_increase.forEach(item => {
-                            this.calculateChangeInputAmount(item.id, index);
+                            if (item.checked == true)
+                                this.calculateChangeInputAmount(item.id, index);
                         });
                     });
                     var lastTemp=0;
