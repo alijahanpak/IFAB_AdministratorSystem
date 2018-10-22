@@ -51,7 +51,7 @@
                                     <col width="250px"/>
                                 </colgroup>
                                 <tbody class="tbl-head-style-cell">
-                                <tr class="table-row" @click="getFactorDetail(refund)" v-for="(refund,index) in refunds">
+                                <tr class="table-row" @click="openFactorDetailModal(index)" v-for="(refund,index) in refunds">
                                     <td>{{refund.rSubject}}</td>
                                     <td class="text-center">{{$root.dispMoneyFormat(refund.rAcceptedAmount)}}</td>
                                     <td class="text-center">{{refund.rLetterNumber}}</td>
@@ -83,7 +83,6 @@
                                        <col width="200px"/>
                                        <col width="300px"/>
                                        <col width="150px"/>
-                                       <col width="70px"/>
                                        <col width="80px"/>
                                        <col width="120px"/>
                                        <col width="12px"/>
@@ -94,6 +93,7 @@
                                        <th class="tbl-head-style-cell">مبلغ</th>
                                        <th class="tbl-head-style-cell">فروشنده</th>
                                        <th class="tbl-head-style-cell">شرح</th>
+                                       <th class="tbl-head-style-cell"></th>
                                        <th class="tbl-head-style-cell">وضعیت</th>
                                        <th class="tbl-head-style-cell"></th>
                                        <th class="tbl-head-style-cell"> </th>
@@ -121,15 +121,20 @@
                                            <td class="text-center">{{$root.dispMoneyFormat(factor.fAmount)}}</td>
                                            <td class="text-center">{{factor.seller.sSubject}}</td>
                                            <td class="text-justify">{{factor.fDescription}}</td>
-                                           <td class="text-center" v-show="factor.factor_state.fsState == 'PENDING_REVIEW'"><span class="reserved-label">{{ factor.factor_state.fsSubject }}</span></td>
-                                           <td class="text-center" v-show="factor.factor_state.fsState == 'NOT_ACCEPTED'"><span class="blocked-label">{{ factor.factor_state.fsSubject }}</span></td>
-                                           <td class="text-center" v-show="factor.factor_state.fsState == 'ACCEPTED'"><span class="success-label">{{ factor.factor_state.fsSubject }}</span></td>
-                                           <td class="text-center">
-                                               <a style="margin-bottom: 0px" class="my-button my-success small" @click="openConfirmFactor(factor.id)">تایید</a>
-                                           </td>
-                                           <td class="text-center">
-                                               <a style="margin-bottom: 0px" class="my-button toolbox-btn small" @click="openRejectFactor(factor.id)">عدم تایید</a>
-                                           </td>
+                                           <template v-if="factor.factor_state.fsState == 'PENDING_REVIEW'">
+                                               <td class="text-center" v-show="factor.factor_state.fsState == 'PENDING_REVIEW'"><span class="reserved-label">{{ factor.factor_state.fsSubject }}</span></td>
+                                               <td class="text-center">
+                                                   <a style="margin-bottom: 0px" class="my-button my-success small" @click="openConfirmFactor(factor.id)">تایید</a>
+                                               </td>
+                                               <td class="text-center">
+                                                   <a style="margin-bottom: 0px" class="my-button toolbox-btn small" @click="openRejectFactor(factor.id)">عدم تایید</a>
+                                               </td>
+                                           </template>
+                                           <template v-else>
+                                               <td colspan="3" class="text-center" v-show="factor.factor_state.fsState == 'NOT_ACCEPTED'"><span class="blocked-label">{{ factor.factor_state.fsSubject }}</span></td>
+                                               <td colspan="3" class="text-center" v-show="factor.factor_state.fsState == 'ACCEPTED'"><span class="success-label">{{ factor.factor_state.fsSubject }}</span></td>
+
+                                           </template>
                                        </tr>
                                        </tbody>
                                    </table>
@@ -138,6 +143,21 @@
                            <!--Table Body End-->
                        </div>
                    </div>
+                    <div class="grid-x">
+                        <div style="background-color:#F1F1F1;padding: 10px;margin-top: -12px;border: solid 1.5px #D8DEE2;" class="large-12 medium-12 small-12">
+                            <div class="grid-x">
+                                <div class="large-4 medium-4 small-12">
+                                    <p class="p-margin-btm"> مبلغ تنخواه : <span class="btn-red"> {{$root.dispMoneyFormat(100000)}} </span></p>
+                                </div>
+                                <div class="large-4 medium-4 small-12">
+                                    <p class="p-margin-btm"> مبلغ هزینه شده : <span class="btn-red"> {{$root.dispMoneyFormat(1000000)}} </span></p>
+                                </div>
+                                <div class="large-4 medium-4 small-12">
+                                    <p class="p-margin-btm"> مبلغ باقی مانده : <span class="btn-red"> {{$root.dispMoneyFormat(100000)}} </span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </modal-large>
@@ -206,7 +226,9 @@
                 pendingFactors:[],
                 factorTemp:[],
                 requestId:'',
-                factorId:','
+                factorId:'',
+                selectedRefund:[],
+                selectedIndex:'',
 
             }
         },
@@ -227,6 +249,13 @@
         beforeDestroy: function () {
             clearInterval(this.updateDataThreadNowPlaying);
             console.log('...................................... kill update data thread');
+        },
+
+        watch: {
+            // whenever question changes, this function will run
+            refunds: function (newQuestion, oldQuestion) {
+                this.selectedRefund=this.refunds[this.selectedIndex];
+            }
         },
 
         methods: {
@@ -261,13 +290,21 @@
                     });
             },
 
-            getFactorDetail : function (refund) {
-                this.requestId=refund.id;
-                this.factorTemp=refund.factor;
-
-                //alert(this.factorTemp[0].factor_state.fsState);
-                console.log(JSON.stringify(this.factorTemp));
+            openFactorDetailModal : function(index){
+                this.selectedIndex=index;
+                this.getFactorDetail();
                 this.showAcceptFactorModal=true;
+            },
+
+            getFactorDetail : function () {
+                this.factorTemp=[];
+                this.selectedRefund=this.refunds[this.selectedIndex]
+                this.factorTemp=this.selectedRefund.factor;
+                this.selectedRefund.rRelativeFactor.forEach(item => {
+                    this.factorTemp.push(item);
+                });
+;                console.log(JSON.stringify(this.factorTemp));
+
             },
 
             openConfirmFactor: function(fId){
@@ -278,9 +315,10 @@
             acceptRefundFactor: function(){
                 axios.post('/financial/refund/factor/accept', {
                     fId:this.factorId,
-                    rId: this.requestId
+                    rId: this.selectedRefund.id
                 }).then((response) => {
-                    this.refunds=response.data;
+                    this.refunds = response.data;
+                    this.getFactorDetail();
                     this.$emit('closeModal');
                     this.showAcceptRefundFactor=false;
                     this.$root.displayNotif(response.status);
@@ -300,7 +338,8 @@
                 axios.post('/financial/refund/factor/reject', {
                     fId:this.factorId,
                 }).then((response) => {
-                    this.refunds=response.data;
+                    this.refunds = response.data;
+                    this.getFactorDetail();
                     this.$emit('closeModal');
                     this.showRejectRefundFactor=false;
                     this.$root.displayNotif(response.status);
