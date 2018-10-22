@@ -19,6 +19,7 @@ use Modules\Financial\Entities\DraftVerifier;
 use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\IncreaseDraftAmount;
 use Modules\Financial\Entities\PercentageDecrease;
+use Modules\Financial\Entities\PercentageDecreaseCategory;
 use Modules\Financial\Entities\PercentageIncrease;
 use Modules\Financial\Entities\RequestHistory;
 use Modules\Financial\Entities\RequestLevel;
@@ -194,7 +195,11 @@ class DraftController extends Controller
     public function getPercentageDecrease()
     {
         return \response()->json(
-            PercentageDecrease::where('pdState' , '=' , true)->get()
+            PercentageDecreaseCategory::whereHas('percentageDecrease' , function ($q){
+                return $q->where('pdState' , '=' , true);
+            })->where('pdcState' , true)
+                ->with('percentageDecrease')
+                ->get()
         );
     }
 

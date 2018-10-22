@@ -17,6 +17,7 @@ class CreatePercentageDecreaseTable extends Migration
             Schema::create('tbl_percentage_decreases', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->bigInteger('pdPiId')->length(20)->unsigned()->nullable();
+                $table->bigInteger('pdPdcId')->length(20)->unsigned();
                 $table->string('pdSubject');
                 $table->unsignedTinyInteger('pdPercent');
                 $table->boolean('pdState')->default(true);
@@ -24,6 +25,11 @@ class CreatePercentageDecreaseTable extends Migration
 
                 $table->foreign('pdPiId')
                     ->references('id')->on('tbl_percentage_increases')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+
+                $table->foreign('pdPdcId')
+                    ->references('id')->on('tbl_pd_category')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
             });

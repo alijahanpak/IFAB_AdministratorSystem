@@ -16,10 +16,16 @@ class CreatePercentageIncreaseTable extends Migration
         if (!Schema::hasTable('tbl_percentage_increases')) {
             Schema::create('tbl_percentage_increases', function (Blueprint $table) {
                 $table->bigIncrements('id');
+                $table->bigInteger('piPicId')->length(20)->unsigned();
                 $table->string('piSubject');
                 $table->unsignedTinyInteger('piPercent');
                 $table->boolean('piState')->default(true);
                 $table->timestamps();
+
+                $table->foreign('piPicId')
+                    ->references('id')->on('tbl_pi_category')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
             });
         }
     }

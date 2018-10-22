@@ -365,30 +365,36 @@
                     <div class="grid-x">
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <div class="panel-separator padding-lr">
-                                <div  v-for="percentDec in percentageDecreases" class="grid-x">
-                                    <div class="large-9 medium-9  small-12">
+                                <div  v-for="(percentDecCategory , index) in percentageDecreasesCategory" class="grid-x">
+                                    <div class="large-8 medium-8  small-12">
                                         <div class="grid-x">
-                                            <div class="large-2 medium-3  small-12">
-                                                <div class="switch tiny">
+                                            <div class="large-12 medium-12  small-12">
+<!--                                                <div class="switch tiny">
                                                     <input :checked="percentDecInput['percentage' + percentDec.id] = percentDec.checked" :disabled="percentDec.isNeed == true" v-on:change="calculatePercentAmount(percentDec.pdPercent,percentDec,percentDecInput['percentage' + percentDec.id])" class="switch-input" v-model="percentDecInput['percentage' + percentDec.id]" :id="'percentage'+percentDec.id" type="checkbox">
                                                     <label class="switch-paddle" :for="'percentage'+percentDec.id">
                                                         <span class="switch-active" aria-hidden="true">بلی</span>
                                                         <span class="switch-inactive" aria-hidden="true">خیر</span>
                                                     </label>
-                                                </div>
+                                                </div>-->
+                                                <label>{{ percentDecCategory.pdcSubject }}
+                                                    <select name="percentageDecrease" v-model="percentDecInput['percentage' + percentDecCategory.id]" :disabled="requestType == 'FUND'" v-on:change="calculatePercentAmount(percentDecInput['percentage' + percentDecCategory.id], index)">
+                                                        <option value=""></option>
+                                                        <option v-for="pd in percentDecCategory.percentage_decrease" :value="pd.id" :selected="pd.checked == true" >{{pd.pdSubject}} - {{'(' + pd.pdPercent + '%)'}}</option>
+                                                    </select>
+                                                </label>
                                             </div>
-                                            <div class="large-10 medium-9  small-12">
+<!--                                            <div class="large-10 medium-9  small-12">
                                                 <p>
                                                     {{percentDec.pdSubject}}
                                                     <span class="btn-red size-12" v-if="percentDec.necessary"> - الزامی</span>
                                                     <span class="btn-red size-12" v-if="percentDec.delivered"> - تحویل داده شده</span>
                                                     {{'(' + percentDec.pdPercent + '%)'}}
                                                 </p>
-                                            </div>
+                                            </div>-->
                                         </div>
                                     </div>
-                                    <div class="large-3 medium-3  small-12">
-                                        <p class="btn-red">{{$root.dispMoneyFormat(percentDec.amountDec)}} ریال</p>
+                                    <div style="display: table" class="large-4 medium-4  small-12">
+                                        <p style="display: table-cell; vertical-align: middle" class="btn-red">{{$root.dispMoneyFormat(percentDecCategory.amountDec)}} ریال</p>
                                     </div>
                                 </div>
                             </div>
@@ -520,7 +526,7 @@
                 registerDate: '',
                 letterNumber: '',
                 moneyState:'none',
-                percentageDecreases:[],
+                percentageDecreasesCategory:[],
                 percentDecInput:{},
                 isAccepted: false,
 
@@ -864,6 +870,7 @@
             openGenerateChecksModal:function(){
                 this.getAllPercentageDecreases();
                 this.checkEdited = false;
+                this.percentDecInput = {};
                 if (!this.checkBaseDelivered)
                     this.showGenerateChecksModal=true;
                 else{
@@ -875,53 +882,55 @@
             getAllPercentageDecreases:function () {
                 axios.get('/financial/draft/get_percentage_decrease')
                     .then((response) => {
-                        this.percentageDecreases = response.data;
-                        this.percentageDecreases.forEach(item =>{
-                            Vue.set(item,"amountDec",0);
+                        this.percentageDecreasesCategory = response.data;
+                        this.percentageDecreasesCategory.forEach(category =>{
+                            Vue.set(category,"amountDec",0);
+                            category.percentage_decrease.forEach(item =>{
+                                Vue.set(item,"amountDec",0);
+                            });
                         });
-                        console.log(JSON.stringify(this.percentageDecreases));
-                        this.percentageDecreases.forEach(item => {
-                            var isExist=false;
-                            var isNeed = false;
-                            var isChecked = false;
-                            var necessary = false;
-                            var delivered = false;
-                            if (this.contracts.length > 0)
-                            {
-                                this.contracts[0].increase_amount.forEach(incAM =>{
-                                    if(item.pdPiId == incAM.icaPiId){
+                        console.log(JSON.stringify(this.percentageDecreasesCategory));
+                        this.percentageDecreasesCategory.forEach(category => {
+                            category.percentage_decrease.forEach(item => {
+                                var isExist = false;
+                                var isNeed = false;
+                                var isChecked = false;
+                                var necessary = false;
+                                var delivered = false;
+                                if (this.contracts.length > 0) {
+                                    this.contracts[0].increase_amount.forEach(incAM => {
+                                        if (item.pdPiId == incAM.icaPiId) {
+                                            isExist = true;
+                                            isNeed = true;
+                                            isChecked = true;
+                                            necessary = true;
+                                        }
+                                    });
+                                }
+
+                                this.checks.forEach(check => {
+                                    if (check.cPdId == item.id) {
                                         isExist = true;
-                                        isNeed = true;
                                         isChecked = true;
-                                        necessary = true;
+                                        if (check.cDelivered) {
+                                            delivered = true;
+                                            isNeed = true;
+                                        }
                                     }
                                 });
-                            }
 
-                            this.checks.forEach(check => {
-                                if (check.cPdId == item.id)
-                                {
-                                    isExist = true;
-                                    isChecked = true;
-                                    if (check.cDelivered)
-                                    {
-                                        delivered = true;
-                                        isNeed = true;
-                                    }
-                                }
+                                if (isExist)
+                                    Vue.set(item, "amountDec", Math.round((item.pdPercent * this.draftAmount) / 100));
+                                else
+                                    Vue.set(item, "amountDec", 0);
+                                Vue.set(item, "isNeed", isNeed);
+                                Vue.set(item, "checked", isChecked);
+                                Vue.set(item, "necessary", necessary);
+                                Vue.set(item, "delivered", delivered);
                             });
-
-                            if(isExist)
-                                Vue.set(item,"amountDec",Math.round((item.pdPercent * this.draftAmount) / 100));
-                            else
-                                Vue.set(item,"amountDec",0);
-                            Vue.set(item,"isNeed",isNeed);
-                            Vue.set(item,"checked",isChecked);
-                            Vue.set(item,"necessary",necessary);
-                            Vue.set(item,"delivered",delivered);
                         });
 
-                        this.calculteFinalIncAmount();
+                        this.calculateFinalIncAmount();
                         console.log(response);
                     }, (error) => {
                         console.log(error);
@@ -929,42 +938,50 @@
 
             },
 
-            calculatePercentAmount: function (percent,index,state) {
-                var decreasesTemp={};
-                this.checkEdited = true;
-                decreasesTemp.id=index.id;
-                decreasesTemp.amount = Math.round((percent * parseInt(this.draftAmount,10)) / 100);
-                if(state == false){
-                    this.percentageDecreases.forEach(item =>{
-                        if(item.id == decreasesTemp.id){
-                            this.percentageDecreases.forEach(item =>{
-                                if(index.id == item.id){
-                                    Vue.set(item,"amountDec",0);
-                                    Vue.set(item,"checked",false);
+            calculatePercentAmount: function (pdId, catIndex) {
+                if (pdId != '')
+                {
+                    var selectedPercent = null;
+                    this.percentageDecreasesCategory.forEach(percentageDecrease =>{
+                        percentageDecrease.percentage_decrease.forEach(item =>{
+                            if (item.id == pdId)
+                                selectedPercent = item;
+                        });
+                    });
+                    if (selectedPercent != null)
+                    {
+                        this.checkEdited = true;
+                        var tempAmount = Math.round((selectedPercent.pdPercent * parseInt(this.draftAmount,10)) / 100);
+                        var amountDec = 0;
+                        this.percentageDecreasesCategory.forEach(category =>{
+                            category.percentage_decrease.forEach(item => {
+                                if (selectedPercent.id == item.id) {
+                                    Vue.set(item, "amountDec", tempAmount);
+                                    Vue.set(item, "checked", true);
+                                    amountDec = tempAmount;
                                 }
                             });
-                            //this.percentageDecreases.splice(pos,1);
-                        }
+                        });
+                        Vue.set(this.percentageDecreasesCategory[catIndex], "amountDec", amountDec);
+                        console.log(JSON.stringify(this.percentageDecreasesCategory));
+                    }
+                }else{
+                    this.percentageDecreasesCategory[catIndex].percentage_decrease.forEach(item => {
+                        Vue.set(item,"amountDec",0);
+                        Vue.set(item,"checked",false);
                     });
+                    Vue.set(this.percentageDecreasesCategory[catIndex], "amountDec", 0);
                 }
-                if(state == true){
-                    this.percentageDecreases.forEach(item =>{
-                        if(index.id == item.id){
-                            Vue.set(item,"amountDec",decreasesTemp.amount);
-                            Vue.set(item,"checked",true);
-                        }
-                    });
-
-                }
-                console.log(JSON.stringify(this.percentageDecreases));
-                this.calculteFinalIncAmount();
+                this.calculateFinalIncAmount();
             },
 
-            calculteFinalIncAmount: function(){
-                console.log(JSON.stringify(this.percentageDecreases));
+            calculateFinalIncAmount: function(){
+                console.log(JSON.stringify(this.percentageDecreasesCategory));
                 var lastTemp=0;
-                this.percentageDecreases.forEach(item =>{
-                    lastTemp += item.amountDec;
+                this.percentageDecreasesCategory.forEach(category =>{
+                    category.percentage_decrease.forEach(item => {
+                        lastTemp += item.amountDec;
+                    });
                 });
 
                 this.finalIncAmount = Math.round(this.draftAmount - lastTemp);
@@ -981,14 +998,16 @@
 
             generateChecks: function () {
                 this.decreases = [];
-                console.log(JSON.stringify(this.percentageDecreases));
-                this.percentageDecreases.forEach(item => {
-                    var decreasesTemp={};
-                    if(item.checked){
-                        decreasesTemp.id=item.id;
-                        decreasesTemp.amount=item.amountDec;
-                        this.decreases.push(decreasesTemp);
-                    }
+                console.log(JSON.stringify(this.percentageDecreasesCategory));
+                this.percentageDecreasesCategory.forEach(category => {
+                    category.percentage_decrease.forEach(item => {
+                        var decreasesTemp={};
+                        if(item.checked){
+                            decreasesTemp.id=item.id;
+                            decreasesTemp.amount=item.amountDec;
+                            this.decreases.push(decreasesTemp);
+                        }
+                    });
                 });
                 console.log(JSON.stringify(this.decreases));
                 axios.post('/financial/check/generate', {

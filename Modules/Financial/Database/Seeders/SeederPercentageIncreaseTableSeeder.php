@@ -20,11 +20,13 @@ class SeederPercentageIncreaseTableSeeder extends Seeder
         $percentageIncrease = new PercentageIncrease();
         $percentageIncrease->piSubject = 'مالیات بر ارزش افزوده';
         $percentageIncrease->piPercent = 9;
+        $percentageIncrease->piPicId = 1;
         $percentageIncrease->save();
 
         $percentageIncrease = new PercentageIncrease();
         $percentageIncrease->piSubject = 'بیمه حق کارفرما';
         $percentageIncrease->piPercent = 5;
+        $percentageIncrease->piPicId = 2;
         $percentageIncrease->save();
     }
 }

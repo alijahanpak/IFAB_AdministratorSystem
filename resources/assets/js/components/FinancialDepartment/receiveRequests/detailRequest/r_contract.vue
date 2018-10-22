@@ -235,25 +235,31 @@
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <div class="panel-separator padding-lr">
-                                    <div  v-for="pItem in percentageIncreaseItems" class="grid-x">
-                                        <div class="large-9 medium-9  small-12">
+                                    <div  v-for="(category , index) in percentageIncreaseCategory" class="grid-x">
+                                        <div class="large-8 medium-8  small-12">
                                             <div class="grid-x">
-                                                <div class="large-2 medium-3  small-12">
-                                                    <div class="switch tiny">
+                                                <div class="large-12 medium-12  small-12">
+<!--                                                    <div class="switch tiny">
                                                         <input :checked="percentageCheckBox" v-on:change="calculateAmount(pItem.piPercent,pItem.id,contractInput['percentage' + pItem.id])" class="switch-input" v-model="contractInput['percentage' + pItem.id]" :id="'percentage'+pItem.id" type="checkbox">
                                                         <label class="switch-paddle" :for="'percentage'+pItem.id">
                                                             <span class="switch-active" aria-hidden="true">بلی</span>
                                                             <span class="switch-inactive" aria-hidden="true">خیر</span>
                                                         </label>
-                                                    </div>
+                                                    </div>-->
+                                                    <label>{{ category.picSubject }}
+                                                        <select name="percentageIncrease" v-model="contractInput['percentage' + category.id]" v-on:change="calculateAmount(contractInput['percentage' + category.id] , index)">
+                                                            <option value=""></option>
+                                                            <option v-for="pi in category.percentage_increase" :value="pi.id">{{pi.piSubject}} - {{'(' + pi.piPercent + '%)'}}</option>
+                                                        </select>
+                                                    </label>
                                                 </div>
-                                                <div class="large-10 medium-9  small-12">
+<!--                                                <div class="large-10 medium-9  small-12">
                                                     <p>{{pItem.piSubject + ' (%' + pItem.piPercent + ')'}}</p>
-                                                </div>
+                                                </div>-->
                                             </div>
                                         </div>
-                                        <div class="large-3 medium-3  small-12">
-                                            <p class="btn-red" :id="'incValue'+pItem.id">0 ریال</p>
+                                        <div class="large-4 medium-4  small-12">
+                                            <p class="btn-red">{{$root.dispMoneyFormat(category.amountInc)}} ریال</p>
                                         </div>
                                     </div>
                                 </div>
@@ -367,10 +373,9 @@
                 executorOptions: {},
                 //contract input text
 
-                percentageIncreaseItems:[],
+                percentageIncreaseCategory:[],
                 percentageCheckBox:false,
                 increaseItems:[],
-                increaseTemp:[],
                 increaseItemsValue:[],
                 finalAmount:0,
                 positionTemp:0,
@@ -440,20 +445,26 @@
             contractPercentageIncrease: function () {
                 axios.get('/financial/request/contract/fetchPercentageIncreaseData')
                     .then((response) => {
-                        this.percentageIncreaseItems = response.data;
-                        console.log(JSON.stringify(this.percentageIncreaseItems));
+                        this.percentageIncreaseCategory = response.data;
+                        this.percentageIncreaseCategory.forEach(category =>{
+                            Vue.set(category,"amountInc",0);
+                            category.percentage_increase.forEach(item =>{
+                                Vue.set(item,"amountInc",0);
+                            });
+                        });
+                        console.log(JSON.stringify(this.percentageIncreaseCategory));
                         console.log(response);
                     }, (error) => {
                         console.log(error);
                     });
             },
 
-            calculateAmount: function(percent,index,state){
-                this.calculateChangeInputAmount(percent,index,state);
+            calculateAmount: function(piId , catIndex){
+                this.calculateChangeInputAmount(piId , catIndex);
                 this.calculateFinalContractAmount();
             },
 
-           getIncreaseIndex: function(piId) {
+/*           getIncreaseIndex: function(piId) {
                 var amount=-1;
                 this.increaseTemp.forEach((item) =>{
                    if(item.piId == piId) {
@@ -466,22 +477,41 @@
                 else
                     return this.$root.dispMoneyFormat(amount);
 
-            },
+            },*/
 
-            calculateChangeInputAmount:function(percent,index,state){
-                var increaseItemsTemp={};
-                increaseItemsTemp.piId=index;
-                increaseItemsTemp.amount=Math.round(percent * parseInt(this.contractInput.amount.split(',').join(''),10)) / 100;
-                this.increaseTemp.forEach((item,pos) =>{
-                    if(item.piId == increaseItemsTemp.piId ){
-                        this.increaseTemp.splice(pos,1);
+            calculateChangeInputAmount:function(piId , catIndex){
+                if (piId != '')
+                {
+                    var selectedPercent = null;
+                    this.percentageIncreaseCategory.forEach(category => {
+                        category.percentage_increase.forEach(item => {
+                            if (item.id == piId)
+                                selectedPercent = item;
+                        });
+                    });
+                    if (selectedPercent != null)
+                    {
+                        var tempAmount = Math.round(selectedPercent.piPercent * parseInt(this.contractInput.amount.split(',').join(''),10)) / 100;
+                        var amountInc = 0;
+                        this.percentageIncreaseCategory.forEach(category =>{
+                            category.percentage_increase.forEach(item => {
+                                if (selectedPercent.id == item.id) {
+                                    Vue.set(item, "amountInc", tempAmount);
+                                    Vue.set(item,"checked",true);
+                                    amountInc = tempAmount;
+                                }
+                            });
+                        });
+                        Vue.set(this.percentageIncreaseCategory[catIndex], "amountInc", amountInc);
                     }
-                });
-                if(state == true){
-                    this.increaseTemp.push(increaseItemsTemp);
+                }else{
+                    this.percentageDecreasesCategory[catIndex].percentage_decrease.forEach(item => {
+                        Vue.set(item,"amountInc",0);
+                        Vue.set(item,"checked",false);
+                    });
+                    Vue.set(this.percentageIncreaseCategory[catIndex], "amountInc", 0);
                 }
-                $('#incValue'+index).text(this.getIncreaseIndex(index) + ' ریال');
-                console.log(JSON.stringify(this.increaseTemp));
+
             },
 
             calculateFinalContractAmount: function(){
@@ -490,14 +520,17 @@
                 }
                 else{
                     this.checkInputAmount=false;
-                    this.percentageIncreaseItems.forEach(item =>{
-                        this.calculateChangeInputAmount(item.piPercent,item.id,this.contractInput['percentage' + item.id]);
-
+                    this.percentageIncreaseCategory.forEach((category , index) =>{
+                        category.percentage_increase.forEach(item => {
+                            this.calculateChangeInputAmount(item.id, index);
+                        });
                     });
                     var lastTemp=0;
                     lastTemp = parseInt(this.contractInput.amount.split(',').join(''),10);
-                    this.increaseTemp.forEach(item =>{
-                        lastTemp += item.amount;
+                    this.percentageIncreaseCategory.forEach(category =>{
+                        category.percentage_increase.forEach(item => {
+                            lastTemp += item.amountInc;
+                        });
                     });
                     this.finalAmount = Math.round(lastTemp);
                 }
@@ -570,7 +603,7 @@
                         this.dialogMessage = 'تامین اعتبار تایید نهایی نشده است!';
                         this.showDialogModal = true;
                     }else{
-                        this.increaseTemp=[];
+                        //this.increaseTemp=[];
                         this.finalAmount=0;
                         this.contractPercentageIncrease();
                         this.contractInput={};
@@ -589,6 +622,17 @@
             addNewContract:function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var increaseTemp = [];
+                        this.percentageIncreaseCategory.forEach(category => {
+                            category.percentage_increase.forEach(item => {
+                                var temp={};
+                                if(item.checked){
+                                    temp.piId = item.id;
+                                    temp.amount = item.amountInc;
+                                    increaseTemp.push(temp);
+                                }
+                            });
+                        });
                         axios.post('/financial/request/contract/insert', {
                             rId: this.requestId,
                             subject: this.contractInput.subject,
@@ -601,7 +645,7 @@
                             startDate: this.contractInput.startDate,
                             endDate: this.contractInput.endDate,
                             description: this.contractInput.description,
-                            increaseItems:this.increaseTemp,
+                            increaseItems: increaseTemp,
                         }).then((response) => {
                             this.$emit('updateReceiveRequestData', response.data, this.requestId);
                             this.showInsertContractModal = false;

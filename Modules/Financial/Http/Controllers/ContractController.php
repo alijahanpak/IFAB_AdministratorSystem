@@ -16,6 +16,7 @@ use Modules\Financial\Entities\Executor;
 use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\IncreaseContractAmount;
 use Modules\Financial\Entities\PercentageIncrease;
+use Modules\Financial\Entities\PercentageIncreaseCategory;
 use Modules\Financial\Entities\RequestHistory;
 use Modules\Financial\Entities\RequestHistoryLastPoint;
 use Modules\Financial\Entities\RequestLevel;
@@ -135,7 +136,11 @@ class ContractController extends Controller
     function getPercentageIncrease()
     {
         return \response()->json(
-            PercentageIncrease::where('piState' , '=' , true)->get()
+            PercentageIncreaseCategory::whereHas('percentageIncrease' , function ($q){
+                return $q->where('piState' , '=' , true);
+            })->where('picState' , true)
+                ->with('percentageIncrease')
+                ->get()
         );
     }
 }

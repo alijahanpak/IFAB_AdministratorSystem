@@ -20,7 +20,8 @@ class _Request extends Model
         'rSumOfDraftAmount' ,
         'rIsPaid',
         'rIsPayRequestClosed',
-        'rRelativeFactor'];
+        'rRelativeFactor' ,
+        'rFinalSpent'];
 
     public function requestState()
     {
@@ -222,5 +223,15 @@ class _Request extends Model
             ->with('refundFactor')
             ->with('request')
             ->get();
+    }
+
+    public function getRFinalSpentAttribute()
+    {
+        $checkIds = _Check::whereHas('draft' , function ($q){
+                return $q->where('dRId' , $this->id);
+            })->pluck('id');
+        $sumAmount = CostSpent::whereIn('csCId' , $checkIds)->sum('csAmount');
+        $sumAmount += CapSpent::whereIn('csCId' , $checkIds)->sum('csAmount');
+        return (int)$sumAmount;
     }
 }

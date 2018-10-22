@@ -49,7 +49,7 @@
                         <div class="text-right" style="width: 100%; margin-top: 5px">
                             <span class="BZar size-14">گیرنده وجه:</span><span>{{ ' ' . $draft->dPayTo }}</span>
                         </div>
-                        <table style="margin-top: 5px">
+                        <table style="margin-top: 5px" class="unstriped">
                             <thead align="center" class="BTitrBold">
                             <tr class="small-font">
                                 <th class="text-center BTitrBold">شرح پرداخت</th>
