@@ -221,6 +221,9 @@ class _Request extends Model
             })
             ->with('refundFactor')
             ->with('request')
+            ->with('factorState')
+            ->with('seller')
+
             ->get();
     }
 }
