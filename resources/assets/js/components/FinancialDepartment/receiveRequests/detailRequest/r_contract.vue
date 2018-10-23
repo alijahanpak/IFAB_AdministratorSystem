@@ -239,13 +239,6 @@
                                         <div class="large-8 medium-8  small-12">
                                             <div class="grid-x">
                                                 <div class="large-12 medium-12  small-12">
-<!--                                                    <div class="switch tiny">
-                                                        <input :checked="percentageCheckBox" v-on:change="calculateAmount(pItem.piPercent,pItem.id,contractInput['percentage' + pItem.id])" class="switch-input" v-model="contractInput['percentage' + pItem.id]" :id="'percentage'+pItem.id" type="checkbox">
-                                                        <label class="switch-paddle" :for="'percentage'+pItem.id">
-                                                            <span class="switch-active" aria-hidden="true">بلی</span>
-                                                            <span class="switch-inactive" aria-hidden="true">خیر</span>
-                                                        </label>
-                                                    </div>-->
                                                     <label>{{ category.picSubject }}
                                                         <select name="percentageIncrease" v-model="contractInput['percentage' + category.id]" v-on:change="calculateAmount(contractInput['percentage' + category.id] , index)">
                                                             <option value=""></option>
@@ -253,13 +246,10 @@
                                                         </select>
                                                     </label>
                                                 </div>
-<!--                                                <div class="large-10 medium-9  small-12">
-                                                    <p>{{pItem.piSubject + ' (%' + pItem.piPercent + ')'}}</p>
-                                                </div>-->
                                             </div>
                                         </div>
                                         <div class="large-4 medium-4  small-12 text-left">
-                                            <p class="btn-red text-left">{{$root.dispMoneyFormat(category.amountInc)}} ریال</p>
+                                            <p class="btn-red text-left" style="margin-top: 35px">{{$root.dispMoneyFormat(category.amountInc)}} ریال</p>
                                         </div>
                                     </div>
                                 </div>
@@ -461,21 +451,6 @@
                 this.calculateChangeInputAmount(piId , catIndex);
                 this.calculateFinalContractAmount();
             },
-
-/*           getIncreaseIndex: function(piId) {
-                var amount=-1;
-                this.increaseTemp.forEach((item) =>{
-                   if(item.piId == piId) {
-                       amount=item.amount;
-                       return true;
-                   }
-                });
-                if(amount== -1)
-                    return 0;
-                else
-                    return this.$root.dispMoneyFormat(amount);
-
-            },*/
 
             calculateChangeInputAmount:function(piId , catIndex){
                 if (piId != '')
