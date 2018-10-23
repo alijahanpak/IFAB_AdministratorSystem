@@ -165,7 +165,7 @@
                                                     <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costFinancing' + costFinancing.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'costFinancing' + costFinancing.id" data-dropdown data-auto-focus="true">
                                                         <ul class="my-menu small-font text-right">
-                                                            <li><a v-on:click.prevent="openUpdateModal()"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                            <li><a v-on:click.prevent="openCostEditModal(costFinancing)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                             <li><a v-on:click.prevent="openDeleteFinancingModal(costFinancing,2)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                         </ul>
                                                     </div>
@@ -1431,6 +1431,56 @@
         </modal-tiny>
         <!-- accept supplay from refund modal -->
 
+        <!-- cost Edit -->
+        <modal-small v-if="showCostEditModal" @close="showCostEditModal = false">
+            <div  slot="body">
+                <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <div class="grid-x">
+                        <div class="large-12 medium-12 small-12 column">
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td width="150px">شماره طرح / برنامه: </td>
+                                    <td>{{costEditFill.cdtIdNumber}} - {{costEditFill.cdtSubject}} </td>
+                                </tr>
+                                <tr>
+                                    <td>مبلغ تخصیص : </td>
+                                    <td>{{$root.dispMoneyFormat(costEditFill.caAmount)}} <span class="btn-red"> ریال</span></td>
+                                </tr>
+                                <tr>
+                                    <td>مبلغ رزرو شده : </td>
+                                    <td>{{$root.dispMoneyFormat(costEditFill.caSumOfReserved)}} <span class="btn-red"> ریال</span></td>
+                                </tr>
+                                <tr>
+                                    <td>مبلغ تعهد شده : </td>
+                                    <td>{{$root.dispMoneyFormat(costEditFill.caSumOfCommitment)}} <span class="btn-red"> ریال</span></td>
+                                </tr>
+                                <tr>
+                                    <td>باقیمانده تخصیص : </td>
+                                    <td>{{$root.dispMoneyFormat(costEditFill.caRemaingAmount)}} <span class="btn-red"> ریال</span></td>
+                                </tr>
+                                <tr>
+                                    <td>مبلغ تامین اعتبار: </td>
+                                    <td>{{$root.dispMoneyFormat(costEditFill.cfAmount)}} <span class="btn-red"> ریال</span></td>
+                                </tr>
+                                <tr>
+                                    <td>مبلغ هزینه شده: </td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="grid-x">
+                        <div class="large-12 medium-12 small-12 column text-left">
+                            <button v-on:click="applyFromRefund"   class="my-button my-success"><span class="btn-txt-mrg">   تایید   </span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-small>
+        <!-- cost Edit -->
+
         <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
             {{dialogMessage}}
         </messageDialog>
@@ -1459,6 +1509,7 @@ export default{
             dialogMessage:'',
             showDialogModal:false,
             showDeleteFinancingModal:false,
+            showCostEditModal:false,
 
             /*credits*/
             completeCostAgrement:[],
@@ -1484,6 +1535,9 @@ export default{
 
             capitalAssetsCount:0,
             costCreditsCount:0,
+
+            costEditSelected:[],
+            costEditFill:{},
         }
 
     },
@@ -2564,6 +2618,18 @@ export default{
                 });
             }
 
+        },
+
+        openCostEditModal: function(cost){
+            this.costEditFill.cdtIdNumber=cost.allocation.credit_source.credit_distribution_title.cdtIdNumber;
+            this.costEditFill.cdtSubject=cost.allocation.credit_source.credit_distribution_title.cdtSubject;
+            this.costEditFill.caAmount=cost.allocation.caAmount;
+            this.costEditFill.caSumOfReserved=cost.allocation.caSumOfReserved;
+            this.costEditFill.caSumOfCommitment=cost.allocation.caSumOfCommitment;
+            this.costEditFill.caRemaingAmount=this.costEditFill.caAmount - (this.costEditFill.caSumOfReserved +this.costEditFill.caSumOfCommitment )
+            this.costEditFill.cfAmount=cost.cfAmount;
+            console.log(JSON.stringify(this.costEditSelected));
+            this.showCostEditModal=true;
         },
 
         myResizeModal: function() {
