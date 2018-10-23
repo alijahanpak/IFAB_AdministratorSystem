@@ -49,7 +49,7 @@
                     <div class="small-offset-1"></div>
                     <div class="small-offset-1"></div>
                     <div class="large-12 medium-12 small-10">
-                        <p class="small-font footer-txt-size">تمامی حقوق این وب سایت متعلق یه اداره کل میراث فرهنگی، صنایع دستی و گردشگری استان همدان می باشد</p>
+                        <p class="small-font footer-txt-size">تمامی حقوق این سامانه متعلق یه اداره کل میراث فرهنگی، صنایع دستی و گردشگری استان همدان می باشد</p>
                     </div>
                     <div class="small-offset-1"></div>
                     <div class="small-offset-1"></div>

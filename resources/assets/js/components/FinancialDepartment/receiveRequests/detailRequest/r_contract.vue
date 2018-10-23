@@ -259,7 +259,7 @@
                                             </div>
                                         </div>
                                         <div class="large-4 medium-4  small-12 text-left">
-                                            <p class="btn-red text-left">{{$root.dispMoneyFormat(category.amountInc)}} ریال</p>
+                                            <p style="margin-top: 30px;" class="btn-red text-left">{{$root.dispMoneyFormat(category.amountInc)}} ریال</p>
                                         </div>
                                     </div>
                                 </div>

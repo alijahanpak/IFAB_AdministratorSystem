@@ -150,8 +150,8 @@
 
                             <!--Tab 2-->
                             <div class="tabs-panel table-mrg-btm" id="commodityTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                <div style="margin-top: 25px" class="grid-x tbl_body_style">
-                                    <div class="medium-6">
+                                <div style="margin-top: 25px" class="grid-x">
+                                    <div class="large-6 medium-6 small-12">
                                         <label>موضوع
                                             <input type="text" name="requestSubject" v-model="requestInput.rSubject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('requestSubject')}">
                                         </label>
@@ -275,12 +275,12 @@
                             <!--Tab 3 - Attachment Tab-->
                             <div class="tabs-panel table-mrg-btm" id="attachmentTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                 <div class="grid-x tbl_body_style">
-                                    <div class="medium-12 padding-lr">
+                                    <div class="large-12 medium-12 small-12 padding-lr">
                                         <label class="my-button toolbox-btn"> انتخاب فایل
                                             <input @change="uploadFieldChange" accept=".jpg,.jpeg,.png,.doc,.docx,.doc,.xls,.xlsx,.pdf" id="File" type="file">
                                         </label>
                                     </div>
-                                    <div class="medium-12">
+                                    <div class="large-12 medium-12 small-12">
                                         <div class="grid-x">
                                             <div style="margin-top: 15px;margin-bottom: 15px;" v-for="(attachment, index) in attachments" class="large-3 medium-4 small-12 padding-lr">
                                                 <div class="format-card">
@@ -307,11 +307,11 @@
                                                             </div>
                                                         </div>
                                                         <div class="grid-x">
-                                                            <div class="large-10">
+                                                            <div class="large-10 medium-10">
                                                                 <p v-if="Number((attachment.size / 1000).toFixed(1)) < 1024 " class="gray-colors">{{  Number((attachment.size / 1000).toFixed(1)) + ' کیلوبایت'}}</p>
                                                                 <p v-if="Number((attachment.size / 1000).toFixed(1)) > 1024" class="gray-colors">{{  Number(((attachment.size / 1000)/1024).toFixed(1)) + ' مگابایت'}}</p>
                                                             </div>
-                                                            <div style="direction:rtl;" class="large-2">
+                                                            <div style="direction:rtl;" class="large-2 medium-2">
                                                                 <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'attachmentDel' + index"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'attachmentDel' + index" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
@@ -744,7 +744,7 @@
                                                         <div class="grid-x">
                                                             <div class="large-3 medium-4 small-12">
                                                                 <div class="switch tiny">
-                                                                    <input :checked="paymentInput.finalPaymentState" :disabled="finalPaymentDisable" v-on:change="finalPaymentCheck(paymentInput.finalPaymentState)" class="switch-input" v-model="paymentInput.finalPaymentState" id="finalPayment_state" type="checkbox">
+                                                                    <input :disabled="finalPaymentDisable" v-on:change="finalPaymentCheck(finalPaymentState)" class="switch-input" v-model="finalPaymentState" id="finalPayment_state" type="checkbox">
                                                                     <label class="switch-paddle" for="finalPayment_state">
                                                                         <span class="switch-active" aria-hidden="true">بلی</span>
                                                                         <span class="switch-inactive" aria-hidden="true">خیر</span>
@@ -757,7 +757,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="large-6 medium-6 small-12 padding-lr input-bottom-margin">
-                                                        <p v-show="paymentInput.finalPaymentState" class="input-bottom-margin">درصد افزایش و کاهش :<span class="btn-red">{{incAndDecPercent > 0 ? incAndDecPercent + '% افزایش' : (incAndDecPercent * (-1)) + '% کاهش'}}</span></p>
+                                                        <p v-show="incAndDecPercentMsg" class="input-bottom-margin">درصد افزایش و کاهش :<span class="btn-red">{{incAndDecPercent > 0 ? incAndDecPercent + '% افزایش' : (incAndDecPercent * (-1)) + '% کاهش'}}</span></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -846,6 +846,7 @@
                 showBuyCommodityModal:false,
                 showSubmissionDeatilModal:false,
                 showInsertPaymentRequestModal:false,
+                finalPaymentState: false,
                 showPdfModal:false,
                 showDialogModal: false,
                 showInsertDraftModal:false,
@@ -899,6 +900,7 @@
                 finalPaymentDisable:false,
                 requestState: '',
                 selectedSubmissionIndex:'',
+                incAndDecPercentMsg:false,
 
                 //submission Factor Component
                 refundFactor:[],
@@ -1277,7 +1279,7 @@
                     this.paymentInput.rialProgress=0;
                     this.paymentInput={};
                     this.contractTemp=[];
-                    this.paymentInput.finalPaymentState=false;
+                    this.incAndDecPercentMsg=false;
                     this.showInsertPaymentRequestModal=true;
                 }else{
                     this.dialogMessage = 'ثبت درخواست پرداخت هنگامی امکان پذیر است که درخواست در انتظار درخواست پرداخت باشد. شما می توانید وضعیت درخواست را در بخش تاریخچه مشاهده کنید.';
@@ -1303,14 +1305,16 @@
                     this.paymentInput.rialProgress=0;
                     this.paymentInput.rialProgress=Math.round((parseInt(this.paymentInput.amount.split(',').join(''),10) / this.cBaseAmount ) * 100);
                     if(this.paymentInput.rialProgress > 100){
-                        this.paymentInput.finalPaymentState=true;
+                        this.finalPaymentState=true;
+                        this.incAndDecPercentMsg=true;
                         this.finalPaymentDisable=true;
                         this.incAndDecPercent=0;
                         this.incAndDecPercent=this.paymentInput.rialProgress - 100;
 
                     }
                     else {
-                        this.paymentInput.finalPaymentState = false;
+                        this.finalPaymentState = false;
+                        this.incAndDecPercentMsg=false;
                         this.finalPaymentDisable=false;
                         this.incAndDecPercent=0;
                     }
@@ -1325,11 +1329,15 @@
             finalPaymentCheck:function(state){
                 this.incAndDecPercent=0;
                 if(state){
+                    this.incAndDecPercentMsg=true;
                     this.incAndDecPercent=this.paymentInput.rialProgress - 100;
                     this.finalPaymentDisable=false;
                 }
-                else
+                else{
+                    this.incAndDecPercentMsg=false;
                     this.incAndDecPercent=0;
+                }
+
 
             },
 
@@ -1357,7 +1365,7 @@
                             physicalProgress: this.paymentInput.physicalProgress,
                             amountProgress: this.paymentInput.rialProgress,
                             amount: parseInt(this.paymentInput.amount.split(',').join(''),10),
-                            isFinal: this.paymentInput.finalPaymentState == true ? 1 : 0,
+                            isFinal: this.finalPaymentState == true ? 1 : 0,
                             description: this.paymentInput.description,
                             verifiers:this.payVerifiers,
                         }).then((response) => {
