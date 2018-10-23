@@ -147,13 +147,13 @@
                         <div style="background-color:#F1F1F1;padding: 10px;margin-top: -12px;border: solid 1.5px #D8DEE2;" class="large-12 medium-12 small-12">
                             <div class="grid-x">
                                 <div class="large-4 medium-4 small-12">
-                                    <p class="p-margin-btm"> مبلغ تنخواه : <span class="btn-red"> {{$root.dispMoneyFormat(100000)}} </span></p>
+                                    <p class="p-margin-btm"> مبلغ تنخواه : <span class="btn-red"> {{$root.dispMoneyFormat(refunds[selectedIndex].rAcceptedAmount)}} </span></p>
                                 </div>
                                 <div class="large-4 medium-4 small-12">
-                                    <p class="p-margin-btm"> مبلغ هزینه شده : <span class="btn-red"> {{$root.dispMoneyFormat(1000000)}} </span></p>
+                                    <p class="p-margin-btm"> مبلغ هزینه شده : <span class="btn-red"> {{$root.dispMoneyFormat(refunds[selectedIndex].rFinalSpent)}} </span></p>
                                 </div>
                                 <div class="large-4 medium-4 small-12">
-                                    <p class="p-margin-btm"> مبلغ باقی مانده : <span class="btn-red"> {{$root.dispMoneyFormat(100000)}} </span></p>
+                                    <p class="p-margin-btm"> مبلغ باقی مانده : <span class="btn-red"> {{$root.dispMoneyFormat(refunds[selectedIndex].rAcceptedAmount - refunds[selectedIndex].rFinalSpent)}} </span></p>
                                 </div>
                             </div>
                         </div>
