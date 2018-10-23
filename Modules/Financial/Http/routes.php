@@ -29,6 +29,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::post('financing/cost/delete', 'FinanceController@deleteCostFinancing');
         Route::post('financing/cost/update', 'FinanceController@updateCostFinancing');
         Route::post('financing/cap/delete', 'FinanceController@deleteCapFinancing');
+        Route::post('financing/cap/update', 'FinanceController@updateCapFinancing');
         Route::post('financing/supply_from_refund', 'FinanceController@supplyFromRefund');
         Route::post('contract/insert', 'ContractController@addNewContract');
         Route::post('contract/accept', 'ContractController@accept');

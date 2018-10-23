@@ -12,6 +12,7 @@ use Modules\Budget\Entities\CapitalAssetsAllocation;
 use Modules\Budget\Entities\CostAllocation;
 use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\CapitalAssetsFinancing;
+use Modules\Financial\Entities\CapSpent;
 use Modules\Financial\Entities\Contract;
 use Modules\Financial\Entities\CostFinancing;
 use Modules\Financial\Entities\CostSpent;
@@ -186,16 +187,23 @@ class FinanceController extends Controller
     {
         $resultCode = DB::transaction(function () use($request){
             $costFinancing = CostFinancing::find($request->cfId);
+            $req = _Request::find($costFinancing->cfRId);
             $costAllocation = CostAllocation::find($costFinancing->cfCaId);
-            $costSpent = CostSpent::where('csCfId' , $costFinancing->id)->get();
-            if (((int)$costSpent->sum('csAmount') <= $request->amount))
+            $minAmountLimiter = CostSpent::where('csCfId' , $costFinancing->id)->get()->sum('csAmount');
+            $maxAmountLimiter = $costAllocation->caAmount - ((int)$costAllocation->caSumOfCommitment + (int)$costAllocation->caSumOfReserved) + $costFinancing->cfAmount;
+            $currentFinancingAmount = CostFinancing::where('cfRId' , $req->id)->get()->sum('cfAmount');
+            $currentFinancingAmount += CapitalAssetsFinancing::where('cafRId' , $req->id)->get()->sum('cafAmount');
+            if (($request->amount >= (int)$minAmountLimiter) && ($request->amount <= (int)$maxAmountLimiter))
             {
-
-            }else{
-
+                if (((int)$currentFinancingAmount - $costFinancing->cfAmount + $request->amount) <= $req->rAcceptedAmount)
+                {
+                    $costFinancing->cfAmount = $request->amount;
+                    $costFinancing->save();
+                    return 200;
+                }
             }
+            return 420;
         });
-
         return \response()->json($this->getAllFinancing($request->rId) , $resultCode);
     }
 
@@ -222,6 +230,30 @@ class FinanceController extends Controller
 
         });
 
+        return \response()->json($this->getAllFinancing($request->rId) , $resultCode);
+    }
+
+    public function updateCapFinancing(Request $request)
+    {
+        $resultCode = DB::transaction(function () use($request){
+            $capFinancing = CapitalAssetsFinancing::find($request->cafId);
+            $req = _Request::find($capFinancing->cafRId);
+            $capAllocation = CapitalAssetsAllocation::find($capFinancing->cafCaaId);
+            $minAmountLimiter = CapSpent::where('csCafId' , $capFinancing->id)->get()->sum('csAmount');
+            $maxAmountLimiter = $capAllocation->caaAmount - ((int)$capAllocation->caaSumOfCommitment + (int)$capAllocation->caaSumOfReserved) + $capFinancing->cafAmount;
+            $currentFinancingAmount = CostFinancing::where('cfRId' , $req->id)->get()->sum('cfAmount');
+            $currentFinancingAmount += CapitalAssetsFinancing::where('cafRId' , $req->id)->get()->sum('cafAmount');
+            if (($request->amount >= (int)$minAmountLimiter) && ($request->amount <= (int)$maxAmountLimiter))
+            {
+                if (((int)$currentFinancingAmount - $capFinancing->cafAmount + $request->amount) <= $req->rAcceptedAmount)
+                {
+                    $capFinancing->cafAmount = $request->amount;
+                    $capFinancing->save();
+                    return 200;
+                }
+            }
+            return 420;
+        });
         return \response()->json($this->getAllFinancing($request->rId) , $resultCode);
     }
 
