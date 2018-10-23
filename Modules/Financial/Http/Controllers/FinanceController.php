@@ -14,6 +14,7 @@ use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\CapitalAssetsFinancing;
 use Modules\Financial\Entities\Contract;
 use Modules\Financial\Entities\CostFinancing;
+use Modules\Financial\Entities\CostSpent;
 use Modules\Financial\Entities\Factor;
 use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\RefundCosts;
@@ -176,6 +177,23 @@ class FinanceController extends Controller
                 ->delete();
             return 200;
 
+        });
+
+        return \response()->json($this->getAllFinancing($request->rId) , $resultCode);
+    }
+
+    public function updateCostFinancing(Request $request)
+    {
+        $resultCode = DB::transaction(function () use($request){
+            $costFinancing = CostFinancing::find($request->cfId);
+            $costAllocation = CostAllocation::find($costFinancing->cfCaId);
+            $costSpent = CostSpent::where('csCfId' , $costFinancing->id)->get();
+            if (((int)$costSpent->sum('csAmount') <= $request->amount))
+            {
+
+            }else{
+
+            }
         });
 
         return \response()->json($this->getAllFinancing($request->rId) , $resultCode);

@@ -12,7 +12,6 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::post('register', 'RequestController@register');
         Route::post('attachment/new', 'RequestController@addNewAttachments');
         Route::post('attachment/delete', 'RequestController@deleteAttachment');
-
         Route::get('received/fetchData', 'RequestController@fetchReceivedRequestsData');
         Route::get('received/unread_count', 'RequestController@getUnReadReceivedRequestCount');
         Route::post('received/was_seen', 'RequestController@wasSeen');
@@ -28,6 +27,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::post('financing/reservation', 'FinanceController@reserveFinancing');
         Route::post('financing/accept', 'FinanceController@acceptFinancing');
         Route::post('financing/cost/delete', 'FinanceController@deleteCostFinancing');
+        Route::post('financing/cost/update', 'FinanceController@updateCostFinancing');
         Route::post('financing/cap/delete', 'FinanceController@deleteCapFinancing');
         Route::post('financing/supply_from_refund', 'FinanceController@supplyFromRefund');
         Route::post('contract/insert', 'ContractController@addNewContract');

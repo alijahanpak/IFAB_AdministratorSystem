@@ -24,10 +24,9 @@
                                     <col width="200px"/>
                                     <col width="120px"/>
                                     <col width="250px"/>
-                                    <col width="320px"/>
                                     <col width="150px"/>
                                     <col width="120px"/>
-                                    <col v-show="$can('FINANCIAL_REMOVE_CAPITAL_ASSETS_FINANCING_ITEM')" width="60px"/>
+                                    <col width="320px"/>
                                     <col width="12px"/>
                                 </colgroup>
                                 <tbody class="tbl-head-style ">
@@ -35,10 +34,9 @@
                                     <th class="tbl-head-style-cell">شماره طرح</th>
                                     <th class="tbl-head-style-cell">کد پروژه</th>
                                     <th class="tbl-head-style-cell">عنوان پروژه</th>
-                                    <th class="tbl-head-style-cell">شرح</th>
                                     <th class="tbl-head-style-cell">مبلغ رزرو شده</th>
                                     <th class="tbl-head-style-cell">وضعیت</th>
-                                    <th v-show="$can('FINANCIAL_REMOVE_CAPITAL_ASSETS_FINANCING_ITEM')" class="tbl-head-style-cell">عملیات</th>
+                                    <th class="tbl-head-style-cell">شرح</th>
                                     <th class="tbl-head-style-cell"></th>
                                 </tr>
                                 </tbody>
@@ -51,24 +49,39 @@
                                         <col width="200px"/>
                                         <col width="120px"/>
                                         <col width="250px"/>
-                                        <col width="320px"/>
                                         <col width="150px"/>
                                         <col width="120px"/>
-                                        <col v-show="$can('FINANCIAL_REMOVE_CAPITAL_ASSETS_FINANCING_ITEM')" width="60px"/>
+                                        <col width="320px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style-cell">
                                     <tr v-for="capFinancing in requestCapFinancing">
                                         <td v-if="capFinancing.allocation.credit_source != null">{{capFinancing.allocation.credit_source.capital_assets_project.capital_assets_approved_plan.credit_distribution_title.cdtSubject}}</td>
                                         <td v-if="capFinancing.allocation.credit_source != null">{{capFinancing.allocation.credit_source.capital_assets_project.cpCode}}</td>
                                         <td v-if="capFinancing.allocation.credit_source != null">{{capFinancing.allocation.credit_source.capital_assets_project.cpSubject}}</td>
-                                        <td v-if="capFinancing.allocation.credit_source != null">{{capFinancing.allocation.credit_source.capital_assets_project.cpDescription}}</td>
                                         <template v-if="capFinancing.allocation.credit_source == null">
                                             <td colspan="4" class="text-center"><span class="user-verifier-label">تنخواه</span></td>
                                         </template>
                                         <td class="text-center">{{$root.dispMoneyFormat(capFinancing.cafAmount)}}</td>
-                                        <td v-show="capFinancing.cafAccepted == 1"><span class="success-label">تایید شده</span></td>
-                                        <td v-show="capFinancing.cafAccepted == 0"><span class="reserved-label">رزرو شده</span></td>
-                                        <td v-show="$can('FINANCIAL_REMOVE_CAPITAL_ASSETS_FINANCING_ITEM')" class="text-center"><a @click="openDeleteFinancingModal(capFinancing,1)"><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
+                                        <td v-if="capFinancing.allocation.credit_source != null">
+                                            <span v-show="capFinancing.cafAccepted == false" class="reserved-label">رزرو شده</span>
+                                            <span v-show="capFinancing.cafAccepted == true" class="success-label">تایید شده</span>
+                                        </td>
+                                        <td v-show="capFinancing.cafAccepted == 1">
+                                            <div class="grid-x">
+                                                <div class="medium-11">
+                                                    {{capFinancing.allocation.credit_source.capital_assets_project.cpDescription}}
+                                                </div>
+                                                <div v-show="$can('FINANCIAL_MODIFY_CAPITAL_ASSETS_FINANCING_ITEM')" class="medium-1 cell-vertical-center text-left">
+                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'capitalAssetsFinancing' + capFinancing.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'capitalAssetsFinancing' + capFinancing.id" data-dropdown data-auto-focus="true">
+                                                        <ul class="my-menu small-font text-right">
+                                                            <li><a v-on:click.prevent="openUpdateModal()"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                            <li><a v-on:click.prevent="openDeleteFinancingModal(capFinancing,1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -104,20 +117,18 @@
                                 <colgroup>
                                     <col width="200px"/>
                                     <col width="200px"/>
-                                    <col width="350px"/>
                                     <col width="150px"/>
                                     <col width="100px"/>
-                                    <col v-show="$can('FINANCIAL_REMOVE_COST_FINANCING_ITEM')" width="60px"/>
+                                    <col width="350px"/>
                                     <col width="12px"/>
                                 </colgroup>
                                 <tbody class="tbl-head-style ">
                                 <tr class="tbl-head-style-cell">
                                     <th class="tbl-head-style-cell">شماره برنامه</th>
                                     <th class="tbl-head-style-cell">شماره موافقتنامه</th>
-                                    <th class="tbl-head-style-cell">شرح</th>
                                     <th class="tbl-head-style-cell">مبلغ رزرو شده</th>
                                     <th class="tbl-head-style-cell">وضعیت</th>
-                                    <th v-show="$can('FINANCIAL_REMOVE_COST_FINANCING_ITEM')" class="tbl-head-style-cell">عملیات</th>
+                                    <th class="tbl-head-style-cell">شرح</th>
                                     <th class="tbl-head-style-cell"></th>
                                 </tr>
                                 </tbody>
@@ -129,23 +140,38 @@
                                     <colgroup>
                                         <col width="200px"/>
                                         <col width="200px"/>
-                                        <col width="350px"/>
                                         <col width="150px"/>
                                         <col width="100px"/>
-                                        <col v-show="$can('FINANCIAL_REMOVE_COST_FINANCING_ITEM')" width="60px"/>
+                                        <col width="350px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style-cell">
                                     <tr v-for="costFinancing in requestCostFinancing">
                                         <td v-if="costFinancing.allocation.credit_source != null">{{costFinancing.allocation.credit_source.credit_distribution_title.cdtIdNumber}}</td>
                                         <td v-if="costFinancing.allocation.credit_source != null">{{costFinancing.allocation.credit_source.cost_agreement.caLetterNumber}}</td>
-                                        <td v-if="costFinancing.allocation.credit_source != null">{{costFinancing.allocation.credit_source.cost_agreement.caDescription}}</td>
                                         <template v-if="costFinancing.allocation.credit_source == null">
                                             <td colspan="3" class="text-center"><span class="user-verifier-label">تنخواه</span></td>
                                         </template>
                                         <td class="text-center">{{$root.dispMoneyFormat(costFinancing.cfAmount)}}</td>
-                                        <td v-show="costFinancing.cfAccepted == 1"><span class="success-label">تایید شده</span></td>
-                                        <td v-show="costFinancing.cfAccepted == 0"><span class="reserved-label">رزرو شده</span></td>
-                                        <td v-show="$can('FINANCIAL_REMOVE_COST_FINANCING_ITEM')" class="text-center"><a @click="openDeleteFinancingModal(costFinancing,2)"><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
+                                        <td v-if="costFinancing.allocation.credit_source != null">
+                                            <span v-show="costFinancing.cfAccepted == false" class="reserved-label">رزرو شده</span>
+                                            <span v-show="costFinancing.cfAccepted == true" class="success-label">تایید شده</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="grid-x">
+                                                <div class="medium-11">
+                                                    {{costFinancing.allocation.credit_source.cost_agreement.caDescription}}
+                                                </div>
+                                                <div v-show="$can('FINANCIAL_MODIFY_COST_FINANCING_ITEM')" class="medium-1 cell-vertical-center text-left">
+                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costFinancing' + costFinancing.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'costFinancing' + costFinancing.id" data-dropdown data-auto-focus="true">
+                                                        <ul class="my-menu small-font text-right">
+                                                            <li><a v-on:click.prevent="openUpdateModal()"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                            <li><a v-on:click.prevent="openDeleteFinancingModal(costFinancing,2)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -1790,7 +1816,7 @@ export default{
                         cs.selected = true;
                         cs.allocation.forEach( alloc =>{
                             alloc.selected = true;
-                            var remainingAmount = parseInt(alloc.caAmount) - (parseInt(alloc.caSumOfCost) + parseInt(alloc.caSumOfReserved) + parseInt(alloc.caSumOfCommitment));
+                            var remainingAmount = parseInt(alloc.caAmount) - (parseInt(alloc.caSumOfReserved) + parseInt(alloc.caSumOfCommitment));
                             if( remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
                                 alloc.amount = (piceOfAmount + piceOfDivRemAmount);
                                 piceOfDivRemAmount = 0;
@@ -1821,7 +1847,7 @@ export default{
                     piceOfDivRemAmount = parseInt(value) % aCount;
                     data.allocation.forEach( alloc =>{
                         alloc.selected = true;
-                        var remainingAmount = parseInt(alloc.caAmount) - (parseInt(alloc.caSumOfCost) + parseInt(alloc.caSumOfReserved) + parseInt(alloc.caSumOfCommitment));
+                        var remainingAmount = parseInt(alloc.caAmount) - (parseInt(alloc.caSumOfReserved) + parseInt(alloc.caSumOfCommitment));
                         if (remainingAmount > 0) {
                             if (remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
                                 alloc.amount = (piceOfAmount + piceOfDivRemAmount);
@@ -1847,7 +1873,7 @@ export default{
                 }
                 else if(type == 2){ //allocation level
                     data.selected = true;
-                    var remainingAmount = parseInt(data.caAmount) - (parseInt(data.caSumOfCost) + parseInt(data.caSumOfReserved) + parseInt(data.caSumOfCommitment));
+                    var remainingAmount = parseInt(data.caAmount) - (parseInt(data.caSumOfReserved) + parseInt(data.caSumOfCommitment));
                     if (remainingAmount > 0) {
                         if (remainingAmount >= value) {
                             data.amount = value;
@@ -1868,7 +1894,7 @@ export default{
                 }else if(type == 3) //found level
                 {
                     data.selected = true;
-                    var remainingAmount = parseInt(data.caAmount) - (parseInt(data.caSumOfCost) + parseInt(data.caSumOfReserved) + parseInt(data.caSumOfCommitment));
+                    var remainingAmount = parseInt(data.caAmount) - (parseInt(data.caSumOfReserved) + parseInt(data.caSumOfCommitment));
                     if (remainingAmount > 0)
                     {
                         if(remainingAmount >= value) {
@@ -2006,7 +2032,7 @@ export default{
                             cs.selected = true;
                             cs.allocation.forEach( alloc =>{
                                 alloc.selected = true;
-                                var remainingAmount = parseInt(alloc.caaAmount) - (parseInt(alloc.caaSumOfCost) + parseInt(alloc.caaSumOfReserved) + parseInt(alloc.caaSumOfCommitment));
+                                var remainingAmount = parseInt(alloc.caaAmount) - (parseInt(alloc.caaSumOfReserved) + parseInt(alloc.caaSumOfCommitment));
                                 if( remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
                                     alloc.amount = (piceOfAmount + piceOfDivRemAmount);
                                     piceOfDivRemAmount = 0;
@@ -2041,7 +2067,7 @@ export default{
                         cs.selected = true;
                         cs.allocation.forEach( alloc =>{
                             alloc.selected = true;
-                            var remainingAmount = parseInt(alloc.caaAmount) - (parseInt(alloc.caaSumOfCost) + parseInt(alloc.caaSumOfReserved) + parseInt(alloc.caaSumOfCommitment));
+                            var remainingAmount = parseInt(alloc.caaAmount) - (parseInt(alloc.caaSumOfReserved) + parseInt(alloc.caaSumOfCommitment));
                             if( remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
                                 alloc.amount = (piceOfAmount + piceOfDivRemAmount);
                                 piceOfDivRemAmount = 0;
@@ -2071,7 +2097,7 @@ export default{
                     piceOfDivRemAmount = parseInt(value) % aCount;
                     data.allocation.forEach( alloc =>{
                         alloc.selected = true;
-                        var remainingAmount = parseInt(alloc.caaAmount) - (parseInt(alloc.caaSumOfCost) + parseInt(alloc.caaSumOfReserved) + parseInt(alloc.caaSumOfCommitment));
+                        var remainingAmount = parseInt(alloc.caaAmount) - (parseInt(alloc.caaSumOfReserved) + parseInt(alloc.caaSumOfCommitment));
                         if( remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
                             alloc.amount = (piceOfAmount + piceOfDivRemAmount);
                             piceOfDivRemAmount = 0;
@@ -2097,7 +2123,7 @@ export default{
                 }
                 else if(type == 3){ //allocation level
                     data.selected = true;
-                    var remainingAmount = parseInt(data.caaAmount) - (parseInt(data.caaSumOfCost) + parseInt(data.caaSumOfReserved) + parseInt(data.caaSumOfCommitment));
+                    var remainingAmount = parseInt(data.caaAmount) - (parseInt(data.caaSumOfReserved) + parseInt(data.caaSumOfCommitment));
                     if (remainingAmount > 0) {
                         if (remainingAmount >= value) {
                             data.amount = value;
@@ -2118,7 +2144,7 @@ export default{
                 }else if(type == 4) //found level
                 {
                     data.selected = true;
-                    var remainingAmount = parseInt(data.caaAmount) - (parseInt(data.caaSumOfCost) + parseInt(data.caaSumOfReserved) + parseInt(data.caaSumOfCommitment));
+                    var remainingAmount = parseInt(data.caaAmount) - (parseInt(data.caaSumOfReserved) + parseInt(data.caaSumOfCommitment));
                     if (remainingAmount > 0)
                     {
                         if(remainingAmount >= value) {
@@ -2407,17 +2433,17 @@ export default{
             {
                 data.ca_credit_source_has_allocation.forEach(alloc =>{
                     alloc.allocation.forEach(item =>{
-                        remainingAmount = item.caAmount - (parseInt(item.caSumOfCost , 10) + parseInt(item.caSumOfReserved , 10) + parseInt(item.caSumOfCommitment , 10));
+                        remainingAmount = item.caAmount - (parseInt(item.caSumOfReserved , 10) + parseInt(item.caSumOfCommitment , 10));
 
                     });
                 });
             }else if(type == 2)
             {
                 data.allocation.forEach(item =>{
-                    remainingAmount = item.caAmount - (parseInt(item.caSumOfCost , 10) + parseInt(item.caSumOfReserved , 10) + parseInt(item.caSumOfCommitment , 10));
+                    remainingAmount = item.caAmount - (parseInt(item.caSumOfReserved , 10) + parseInt(item.caSumOfCommitment , 10));
                 });
             }else if(type == 3){
-                remainingAmount = data.caAmount - (parseInt(data.caSumOfCost , 10) + parseInt(data.caSumOfReserved , 10) + parseInt(data.caSumOfCommitment , 10));
+                remainingAmount = data.caAmount - (parseInt(data.caSumOfReserved , 10) + parseInt(data.caSumOfCommitment , 10));
             }
 
             var temp = (this.baseAmount - this.costReservedAmount);
@@ -2431,7 +2457,7 @@ export default{
                 data.capital_assets_project_has_credit_source.forEach(project =>{
                     project.credit_source_has_allocation.forEach(cs => {
                         cs.allocation.forEach(alloc => {
-                            remainingCapAmount += alloc.caaAmount - (parseInt(alloc.caaSumOfCost ,10) + parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment , 10));
+                            remainingCapAmount += alloc.caaAmount - (parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment , 10));
                         });
                     });
                 });
@@ -2439,16 +2465,16 @@ export default{
             {
                 data.credit_source_has_allocation.forEach(cs => {
                     cs.allocation.forEach(alloc => {
-                        remainingCapAmount += alloc.caaAmount - (parseInt(alloc.caaSumOfCost ,10) + parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment , 10));
+                        remainingCapAmount += alloc.caaAmount - (parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment , 10));
                     });
                 });
 
             }else if(type == 3){
                 data.allocation.forEach(alloc => {
-                    remainingCapAmount += alloc.caaAmount - (parseInt(alloc.caaSumOfCost , 10) + parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment));
+                    remainingCapAmount += alloc.caaAmount - (parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment));
                 });
             }else if(type == 4){
-                remainingCapAmount += data.caaAmount - (parseInt(data.caaSumOfCost , 10) + parseInt(data.caaSumOfReserved , 10) + parseInt(data.caaSumOfCommitment , 10));
+                remainingCapAmount += data.caaAmount - (parseInt(data.caaSumOfReserved , 10) + parseInt(data.caaSumOfCommitment , 10));
             }
 
             var temp = (this.baseAmount - this.capReservedAmount);

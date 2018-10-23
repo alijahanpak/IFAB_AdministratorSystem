@@ -556,8 +556,8 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
 
         $permission = new Permission;
         $permission->pSspId = 7;
-        $permission->pSubject = 'حذف موارد تامین اعتبار شده';
-        $permission->pPermission = 'FINANCIAL_REMOVE_CAPITAL_ASSETS_FINANCING_ITEM';
+        $permission->pSubject = 'اصلاح موارد تامین اعتبار شده تملک دارایی های سرمایه ای (حذف و تغییر)';
+        $permission->pPermission = 'FINANCIAL_MODIFY_CAPITAL_ASSETS_FINANCING_ITEM';
         $permission->save();
 
         $permission = new Permission;
@@ -707,8 +707,8 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
 
         $permission = new Permission;
         $permission->pSspId = 7;
-        $permission->pSubject = 'حذف موارد تامین اعتبار شده هزینه ای';
-        $permission->pPermission = 'FINANCIAL_REMOVE_COST_FINANCING_ITEM';
+        $permission->pSubject = 'اصلاح موارد تامین اعتبار شده هزینه ای (حذف و تغییر)';
+        $permission->pPermission = 'FINANCIAL_MODIFY_COST_FINANCING_ITEM';
         $permission->save();
 
         $permission = new Permission;
