@@ -15,6 +15,11 @@ class CostFinancing extends Model
         return $this->belongsTo(CostAllocation::class , 'cfCaId' , 'id');
     }
 
+    public function request()
+    {
+        return $this->belongsTo(_Request::class , 'cfRId' , 'id');
+    }
+
     public function getCfSpentAttribute()
     {
         return CostSpent::where('csCfId' , $this->id)->get()->sum('csAmount');

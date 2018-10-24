@@ -210,24 +210,9 @@ class FinanceController extends Controller
     public function deleteCapFinancing(Request $request)
     {
         $resultCode = DB::transaction(function () use($request){
-/*            $existFund = Contract::where('cRId' , '=' , $request->rId)
-                ->exists();
-            $existFund = Factor::where('fRId' , '=' , $request->rId)
-                ->exists();
-
-            if ($existFund)
-            {
-                return 204;
-            }else{
-                CapitalAssetsFinancing::where('id' , '=' , $request->id)
-                    ->delete();
-                return 200;
-            }*/
-
             CapitalAssetsFinancing::where('id' , '=' , $request->id)
                 ->delete();
             return 200;
-
         });
 
         return \response()->json($this->getAllFinancing($request->rId) , $resultCode);

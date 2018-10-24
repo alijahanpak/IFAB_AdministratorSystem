@@ -24,6 +24,7 @@ use Modules\Budget\Entities\ExpenseCosts;
 use Modules\Financial\Entities\_Check;
 use Modules\Financial\Entities\CapitalAssetsFinancing;
 use Modules\Financial\Entities\CostFinancing;
+use Modules\Financial\Entities\CostSpent;
 use Morilog\Jalali\Facades\jDate;
 
 class AllocationOfCapitalAssetsController extends Controller
@@ -361,15 +362,11 @@ class AllocationOfCapitalAssetsController extends Controller
 
     public function getAllFundCostSpents(Request $request)
     {
-        $costFinancingIds = CostFinancing::where('cfCaId' , $request->fId)
+        $costFinancing = CostFinancing::where('cfCaId' , $request->fId)
             ->where('cfDeleted' , false)
-            ->pluck('id');
-        $checks = _Check::whereHas('costSpent' , function ($q) use($costFinancingIds){
-            return $q->whereIn('csCfId' , $costFinancingIds);
-        })->with('draft')
-            ->with('percentageDecrease')
-            ->get();
-        return \response()->json($checks);
+            ->with('request')
+            ->get()->where('cfRemainingAmount' , 0);
+        return \response()->json($costFinancing);
     }
 
     public function getAllCostFound()
@@ -448,9 +445,9 @@ class AllocationOfCapitalAssetsController extends Controller
             $sumOfCost = 0;
             $costsId = array();
             $i = 0;
-            foreach ($request['selectedCosts'] as $cost)
+            foreach ($request['costSpents'] as $cost)
             {
-                $sumOfCost += $cost['ecAmount'];
+                $sumOfCost += $cost['csAmount'];
                 $costsId[$i++] = $cost['id'];
             }
 

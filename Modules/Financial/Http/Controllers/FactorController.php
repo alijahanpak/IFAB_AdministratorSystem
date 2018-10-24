@@ -209,7 +209,6 @@ class FactorController extends Controller
 
                 $pieceOfAmount = round($calcAmount / $financingCount);
                 $remainingAmount = $calcAmount - ($pieceOfAmount * $financingCount);
-
                 foreach ($costFinancing as $cf)
                 {
                     if ($cf->cfRemainingAmount >= ($pieceOfAmount + $remainingAmount))
@@ -229,7 +228,6 @@ class FactorController extends Controller
                     $costSpent->csAmount = $tempAmount;
                     $costSpent->save();
                 }
-
 
                 foreach ($capFinancing as $caf)
                 {

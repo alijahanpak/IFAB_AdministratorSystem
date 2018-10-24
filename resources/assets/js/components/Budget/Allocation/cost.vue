@@ -802,7 +802,7 @@
                                 </div>
                             </div>
                             <div style="margin-top: 10px;" class="grid-x padding-lr" v-show="creditSourceInfo.approvedAmount">
-                                <div class="medium-12 my-callout-bg-color">
+                                <div class="medium-6 my-callout-bg-color">
                                     <div class="medium-12 ">
                                         <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount) }}</span>
                                     </div>
@@ -813,16 +813,23 @@
                                         <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.approvedAmount , creditSourceInfo.sumAllocation) }}</span>
                                     </div>
                                 </div>
+                                <div class="medium-6 my-callout-bg-color">
+                                    <div class="medium-12 ">
+                                        <span class="btn-red">مجموع مبالغ انتخاب شده:</span><span>{{ ' ' + $parent.calcDispAmount(sumOfSelectedAmount) }}</span>
+                                    </div>
+                                    <div class="medium-12 ">
+                                        <span class="btn-red">باقی مانده:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount - creditSourceInfo.sumAllocation - sumOfSelectedAmount) }}</span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="grid-x" style="margin-top: 10px">
-                                <div class="medium-12 cell padding-lr">
+                                <div class="medium-8 cell padding-lr">
                                     <label>هزینه <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                        <div class="tbl-div-container form-element-margin-btm">
+                                        <div class="tbl-div-container form-element-margin-btm inner-vh-unsize"  style="height: 40vh;">
                                             <table class="tbl-head">
                                                 <colgroup>
-                                                    <col width="250px"/>
-                                                    <col width="150px"/>
-                                                    <col width="600px"/>
+                                                    <col width="750px"/>
+                                                    <col width="200px"/>
                                                     <col v-show="selectColumn" width="15px"/>
                                                     <col width="12px"/>
                                                 </colgroup>
@@ -830,41 +837,37 @@
                                                 <tr class="tbl-head-style-cell">
                                                     <th class="tbl-head-style-cell">عنوان</th>
                                                     <th class="tbl-head-style-cell">مبلغ</th>
-                                                    <th class="tbl-head-style-cell">شرح</th>
                                                     <th class="tbl-head-style-checkbox" v-show="selectColumn"></th>
                                                     <th class="tbl-head-style-cell"></th>
                                                 </tr>
                                                 </tbody>
                                             </table>
-                                            <div class="tbl_body_style">
+                                            <div class="tbl_body_style inner-vh-2">
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
-                                                        <col width="250px"/>
-                                                        <col width="150px"/>
-                                                        <col width="600px"/>
+                                                        <col width="750px"/>
+                                                        <col width="200px"/>
                                                         <col v-show="selectColumn" width="15px"/>
                                                     </colgroup>
                                                     <tbody class="tbl-head-style-cell">
-                                                    <tr class="tbl-head-style-cell" v-for="exCost in expenseCosts">
-                                                        <td>{{ exCost.ecSubject }}</td>
-                                                        <td class="text-center">{{ $parent.calcDispAmount(exCost.ecAmount , false) }}</td>
-                                                        <td>{{ exCost.ecDescription }}</td>
-                                                        <td>
-                                                            <input class="auto-margin" v-model="exCost.checked" type="checkbox">
-                                                        </td>
-                                                    </tr>
+                                                        <tr class="tbl-head-style-cell" v-for="costSpent in costSpents">
+                                                            <td>{{ costSpent.check.draft.dFor + (costSpent.check.percentage_decrease != null ? ' - ' + costSpent.check.percentage_decrease.pdSubject : '') }}</td>
+                                                            <td class="text-center">{{ $parent.calcDispAmount(costSpent.csAmount , false) }}</td>
+                                                            <td>
+                                                                <input class="auto-margin" v-model="costSpent.checked" @change="checkSelectedAmount(costSpent.checked ,costSpent.csAmount)" type="checkbox">
+                                                            </td>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
                                         <span class="error-font" v-show="unSelectedCost">حداقل یک مورد را از لیست هزینه انتخاب کنید!</span>
+                                        <span class="error-font" v-show="overflowError">مجموع مبالغ انتخاب شده از باقی مانده بیشتر است!</span>
                                     </label>
                                 </div>
-                            </div>
-                            <div class="grid-x">
-                                <div class="small-12 columns padding-lr">
+                                <div class="small-4 columns padding-lr">
                                     <label>شرح
-                                        <textarea name="csDescription" style="min-height: 150px;" v-model="AllocationInput.description"></textarea>
+                                        <textarea name="csDescription" style="height: 40vh;" v-model="AllocationInput.description"></textarea>
                                     </label>
                                 </div>
                             </div>
@@ -1045,8 +1048,8 @@
                 provCostAllocations: [],
                 natCostAllocations: [],
                 provCostFounds: [],
-                expenseCosts: [],
-                selectedCosts: [],
+                costSpents: [],
+                selectedCostSpents: [],
                 AllocationInput: {},
                 foundInput: {},
                 foundFill: {},
@@ -1094,6 +1097,8 @@
                     current_page: 1,
                     last_page: ''
                 },
+                sumOfSelectedAmount: 0,
+                overflowError: false,
             }
         },
 
@@ -1421,12 +1426,12 @@
             },
 
             ////////////// this method created for test convert found to allocation ///////////////////
-            getExpenseCosts: function () {
-                axios.get('/budget/allocation/cost/found/getAllExpenseCosts' , {params:{fId: this.foundIdForConvertTo}})
+            getCostSpents: function () {
+                axios.get('/budget/allocation/cost/found/get_all_fund_cost_spent' , {params:{fId: this.foundIdForConvertTo}})
                     .then((response) => {
-                        this.expenseCosts = response.data;
-                        this.expenseCosts.forEach(cost => {
-                            this.$set(cost , 'checked' , true);
+                        this.costSpents = response.data;
+                        this.costSpents.forEach(cost => {
+                            this.$set(cost , 'checked' , false);
                         });
                         console.log(response);
                     },(error) => {
@@ -1518,38 +1523,52 @@
             convertToAllocation: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        if (this.checkSelectedCosts(this.expenseCosts))
+                        if (this.checkSelectedCosts(this.costSpents))
                         {
-                            this.selectedCosts = [];
-                            this.expenseCosts.forEach(cost => {
-                                if (cost.checked)
-                                    this.selectedCosts.push(cost);
-                            });
-                            axios.post('/budget/allocation/cost/found/convert_to_allocation' , {
-                                id: this.foundIdForConvertTo,
-                                caCsId: this.AllocationInput.caCsId,
-                                amount: this.AllocationInput.amount,
-                                description: this.AllocationInput.description,
-                                selectedCosts: this.selectedCosts,
-                                searchValue: this.provSearchValue,
-                                itemInPage: this.itemInPage
-                            })
-                                .then((response) => {
-                                    this.provCostFounds = response.data.found;
-                                    this.provCostAllocations = response.data.allocation_prov.data;
-                                    this.showConvertToModal = false;
-                                    this.$parent.displayNotif(response.status);
-                                    console.log(response);
-                                },(error) => {
-                                    console.log(error);
+                            if (this.checkOverflowFundAmount())
+                            {
+                                this.selectedCostSpents = [];
+                                this.costSpents.forEach(cost => {
+                                    if (cost.checked)
+                                        this.selectedCostSpents.push(cost);
                                 });
-                            console.log(JSON.stringify(this.selectedCosts));
+                                axios.post('/budget/allocation/cost/found/convert_to_allocation' , {
+                                    id: this.foundIdForConvertTo,
+                                    caCsId: this.AllocationInput.caCsId,
+                                    amount: this.AllocationInput.amount,
+                                    description: this.AllocationInput.description,
+                                    costSpents: this.selectedCostSpents,
+                                    searchValue: this.provSearchValue,
+                                    itemInPage: this.itemInPage
+                                })
+                                    .then((response) => {
+                                        this.provCostFounds = response.data.found;
+                                        this.provCostAllocations = response.data.allocation_prov.data;
+                                        this.showConvertToModal = false;
+                                        this.$parent.displayNotif(response.status);
+                                        console.log(response);
+                                    },(error) => {
+                                        console.log(error);
+                                    });
+                                console.log(JSON.stringify(this.selectedCostSpents));
+                            }else{
+                                this.overflowError = true;
+                            }
                         }
                         else{
                             this.unSelectedCost = true;
                         }
                     }
                 });
+            },
+
+            checkOverflowFundAmount: function(){
+                if ((this.creditSourceInfo.approvedAmount - this.creditSourceInfo.sumAllocation - this.sumOfSelectedAmount) >= 0)
+                {
+                    return true
+                }else{
+                    return false;
+                }
             },
 
             checkSelectedCosts: function (costs) {
@@ -1571,7 +1590,7 @@
                 this.creditSourceInfo = [];
                 this.showConvertToModal = true;
                 this.foundIdForConvertTo = fId;
-                this.getExpenseCosts();
+                this.getCostSpents();
                 this.getAllCostAgreements(0);
             },
 
@@ -1822,6 +1841,15 @@
                 this.fetchProvincialFoundData();
                 this.fetchNationalData();
             },
+
+            checkSelectedAmount: function (state , amount) {
+                if (state == true)
+                {
+                    this.sumOfSelectedAmount += amount;
+                }else{
+                    this.sumOfSelectedAmount -= amount;
+                }
+            }
 
         }
     }
