@@ -54,7 +54,7 @@
                                         <col width="320px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style-cell">
-                                    <tr v-for="capFinancing in requestCapFinancing">
+                                    <tr v-for="(capFinancing,index) in requestCapFinancing">
                                         <td v-if="capFinancing.allocation.credit_source != null">{{capFinancing.allocation.credit_source.capital_assets_project.capital_assets_approved_plan.credit_distribution_title.cdtSubject}}</td>
                                         <td v-if="capFinancing.allocation.credit_source != null">{{capFinancing.allocation.credit_source.capital_assets_project.cpCode}}</td>
                                         <td v-if="capFinancing.allocation.credit_source != null">{{capFinancing.allocation.credit_source.capital_assets_project.cpSubject}}</td>
@@ -66,7 +66,7 @@
                                             <span v-show="capFinancing.cafAccepted == false" class="reserved-label">رزرو شده</span>
                                             <span v-show="capFinancing.cafAccepted == true" class="success-label">تایید شده</span>
                                         </td>
-                                        <td v-show="capFinancing.cafAccepted == 1">
+                                        <td class="text-justify">
                                             <div class="grid-x">
                                                 <div class="medium-11">
                                                     {{capFinancing.allocation.credit_source.capital_assets_project.cpDescription}}
@@ -75,7 +75,7 @@
                                                     <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'capitalAssetsFinancing' + capFinancing.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'capitalAssetsFinancing' + capFinancing.id" data-dropdown data-auto-focus="true">
                                                         <ul class="my-menu small-font text-right">
-                                                            <li><a v-on:click.prevent="openUpdateModal()"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                            <li><a v-on:click.prevent="setCapEditSelectedIndex(index)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                             <li><a v-on:click.prevent="openDeleteFinancingModal(capFinancing,1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                         </ul>
                                                     </div>
@@ -145,7 +145,7 @@
                                         <col width="350px"/>
                                     </colgroup>
                                     <tbody class="tbl-head-style-cell">
-                                    <tr v-for="costFinancing in requestCostFinancing">
+                                    <tr v-for="(costFinancing,index) in requestCostFinancing">
                                         <td v-if="costFinancing.allocation.credit_source != null">{{costFinancing.allocation.credit_source.credit_distribution_title.cdtIdNumber}}</td>
                                         <td v-if="costFinancing.allocation.credit_source != null">{{costFinancing.allocation.credit_source.cost_agreement.caLetterNumber}}</td>
                                         <template v-if="costFinancing.allocation.credit_source == null">
@@ -156,7 +156,7 @@
                                             <span v-show="costFinancing.cfAccepted == false" class="reserved-label">رزرو شده</span>
                                             <span v-show="costFinancing.cfAccepted == true" class="success-label">تایید شده</span>
                                         </td>
-                                        <td class="text-center">
+                                        <td class="text-justify">
                                             <div class="grid-x">
                                                 <div class="medium-11">
                                                     {{costFinancing.allocation.credit_source.cost_agreement.caDescription}}
@@ -165,7 +165,7 @@
                                                     <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costFinancing' + costFinancing.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'costFinancing' + costFinancing.id" data-dropdown data-auto-focus="true">
                                                         <ul class="my-menu small-font text-right">
-                                                            <li><a v-on:click.prevent="openCostEditModal(costFinancing)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                            <li><a v-on:click.prevent="setCostEditSelectedIndex(index)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                             <li><a v-on:click.prevent="openDeleteFinancingModal(costFinancing,2)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                         </ul>
                                                     </div>
@@ -1465,21 +1465,83 @@
                                 </tr>
                                 <tr>
                                     <td>مبلغ هزینه شده: </td>
-                                    <td></td>
+                                    <td>....</td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
+                        <div class="large-8 medium-8 small-12 column">
+                            <label>مبلغ <span class="btn-red">(ریال)</span>
+                                <money dir="ltr" :class="checkEditCostAmount == true ? 'select-error' : ''"  v-model="EditCostAmountFill"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'"></money>
+                            </label>
+                            <p style="margin-top: 8px;" v-show="checkEditCostAmount" class="btn-red">مبلغ معتبر نیست! </p>
+                        </div>
                     </div>
-                    <div class="grid-x">
+                    <div class="grid-x small-top-m">
                         <div class="large-12 medium-12 small-12 column text-left">
-                            <button v-on:click="applyFromRefund"   class="my-button my-success"><span class="btn-txt-mrg">   تایید   </span></button>
+                            <button v-on:click="updateCostFinancing"   class="my-button my-success"><span class="btn-txt-mrg">   تایید   </span></button>
                         </div>
                     </div>
                 </div>
             </div>
         </modal-small>
         <!-- cost Edit -->
+
+        <!-- capital Assets Edit -->
+        <modal-small v-if="showCapitalAssetsEditModal" @close="showCapitalAssetsEditModal = false">
+            <div  slot="body">
+                <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <div class="grid-x">
+                        <div class="large-12 medium-12 small-12 column">
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td width="150px">شماره طرح / برنامه: </td>
+                                    <td>{{capEditFill.cdtIdNumber}} - {{capEditFill.cdtSubject}} </td>
+                                </tr>
+                                <tr>
+                                    <td>مبلغ تخصیص : </td>
+                                    <td>{{$root.dispMoneyFormat(capEditFill.caaAmount)}} <span class="btn-red"> ریال</span></td>
+                                </tr>
+                                <tr>
+                                    <td>مبلغ رزرو شده : </td>
+                                    <td>{{$root.dispMoneyFormat(capEditFill.caaSumOfReserved)}} <span class="btn-red"> ریال</span></td>
+                                </tr>
+                                <tr>
+                                    <td>مبلغ تعهد شده : </td>
+                                    <td>{{$root.dispMoneyFormat(capEditFill.caaSumOfCommitment)}} <span class="btn-red"> ریال</span></td>
+                                </tr>
+                                <tr>
+                                    <td>باقیمانده تخصیص : </td>
+                                    <td>{{$root.dispMoneyFormat(capEditFill.cafRemainingAmount)}} <span class="btn-red"> ریال</span></td>
+                                </tr>
+                                <tr>
+                                    <td>مبلغ تامین اعتبار: </td>
+                                    <td>{{$root.dispMoneyFormat(capEditFill.cafAmount)}} <span class="btn-red"> ریال</span></td>
+                                </tr>
+                                <tr>
+                                    <td>مبلغ هزینه شده: </td>
+                                    <td>....</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="large-8 medium-8 small-12 column">
+                            <label>مبلغ <span class="btn-red">(ریال)</span>
+                                <money dir="ltr" :class="checkEditCapAmount == true ? 'select-error' : ''"  v-model="editCapAmountFill"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'"></money>
+                            </label>
+                            <p style="margin-top: 8px;" v-show="checkEditCapAmount" class="btn-red">مبلغ معتبر نیست! </p>
+                        </div>
+                    </div>
+                    <div class="grid-x small-top-m">
+                        <div class="large-12 medium-12 small-12 column text-left">
+                            <button v-on:click="updateCapFinancing"   class="my-button my-success"><span class="btn-txt-mrg">   تایید   </span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-small>
+        <!-- capital Assets Edit -->
 
         <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
             {{dialogMessage}}
@@ -1510,6 +1572,7 @@ export default{
             showDialogModal:false,
             showDeleteFinancingModal:false,
             showCostEditModal:false,
+            showCapitalAssetsEditModal:false,
 
             /*credits*/
             completeCostAgrement:[],
@@ -1538,6 +1601,22 @@ export default{
 
             costEditSelected:[],
             costEditFill:{},
+            checkEditCostAmount:false,
+            EditCostAmountFill:0,
+            costEditMin:0,
+            costEditMax:0,
+            costEditSelectedIndex:'',
+            money: {
+                thousands: ',',
+                precision: 0,
+                masked: true
+            },
+            capEditSelected:[],
+            capEditFill:{},
+            checkEditCapAmount:false,
+            editCapAmountFill:0,
+            capEditSelectedIndex:'',
+
         }
 
     },
@@ -1555,6 +1634,13 @@ export default{
 
     mounted: function () {
 
+    },
+
+    watch: {
+        // whenever question changes, this function will run
+        requestCapFinancing: function (newQuestion, oldQuestion) {
+            this.costEditSelected=this.requestCapFinancing[this.costEditSelectedIndex];
+        }
     },
 
     methods : {
@@ -2620,16 +2706,136 @@ export default{
 
         },
 
-        openCostEditModal: function(cost){
-            this.costEditFill.cdtIdNumber=cost.allocation.credit_source.credit_distribution_title.cdtIdNumber;
-            this.costEditFill.cdtSubject=cost.allocation.credit_source.credit_distribution_title.cdtSubject;
-            this.costEditFill.caAmount=cost.allocation.caAmount;
-            this.costEditFill.caSumOfReserved=cost.allocation.caSumOfReserved;
-            this.costEditFill.caSumOfCommitment=cost.allocation.caSumOfCommitment;
-            this.costEditFill.caRemaingAmount=this.costEditFill.caAmount - (this.costEditFill.caSumOfReserved +this.costEditFill.caSumOfCommitment )
-            this.costEditFill.cfAmount=cost.cfAmount;
+        setCostEditSelectedIndex:function(index){
+            this.costEditSelectedIndex=index;
+            this.openCostEditModal();
+
+        },
+
+        openCostEditModal: function(){
+            this.costEditSelected=this.requestCostFinancing[this.costEditSelectedIndex];
+            this.costEditFill={};
+            this.costEditFill.id=this.costEditSelected.id;
+            this.costEditFill.cdtIdNumber=this.costEditSelected.allocation.credit_source.credit_distribution_title.cdtIdNumber;
+            this.costEditFill.cdtSubject=this.costEditSelected.allocation.credit_source.credit_distribution_title.cdtSubject;
+            this.costEditFill.caAmount=this.costEditSelected.allocation.caAmount;
+            this.costEditFill.caSumOfReserved=this.costEditSelected.allocation.caSumOfReserved;
+            this.costEditFill.caSumOfCommitment=this.costEditSelected.allocation.caSumOfCommitment;
+            this.costEditFill.caRemaingAmount=this.costEditFill.caAmount - (this.costEditFill.caSumOfReserved +this.costEditFill.caSumOfCommitment );
+            this.costEditFill.cfAmount=this.costEditSelected.cfAmount;
+            this.costEditFill.cfSpent=this.costEditSelected.cfSpent;
+            this.EditCostAmountFill= this.costEditFill.cfAmount;
             console.log(JSON.stringify(this.costEditSelected));
             this.showCostEditModal=true;
+        },
+
+        costInputValidator:function(){
+            var EditCostAmountFillTemp = parseInt(this.EditCostAmountFill.split(',').join(''),10);
+            this.costEditMin = this.costEditFill.cfSpent + 1;
+            this.costEditMax = (this.costEditFill.caAmount - (parseInt(this.costEditFill.caSumOfCommitment,10) + parseInt(this.costEditFill.caSumOfReserved,10)) - this.costEditFill.cfAmount);
+            var currentFinance=this._financingAmount + this._reservedAmount;
+            if((EditCostAmountFillTemp >= this.costEditMin) && (EditCostAmountFillTemp <= this.costEditMax)){
+                if((currentFinance - this.costEditFill.cfAmount + EditCostAmountFillTemp) <= this.baseAmount)
+                    return true;
+            }
+            return false;
+        },
+
+        updateCostFinancing : function(){
+           if(this.costInputValidator() == true ){
+               this.checkEditCostAmount=false;
+               axios.post('/financial/request/financing/cost/update', {
+                   rId:this.requestId,
+                   cfId:this.costEditFill.id,
+                   amount:parseInt(this.EditCostAmountFill.split(',').join(''),10)
+               }).then((response) => {
+                   if (response.status == 200) {
+                       this.requestCostFinancing=response.data.costFinancing;
+                       this.getFinancingAmount();
+                       this.openCostEditModal();
+                       this.showCostEditModal = false;
+                       this.$root.displayNotif(response.status);
+                   }
+                   else if (response.status == 420){
+                       this.requestCostFinancing=response.data.costFinancing;
+                       this.openCostEditModal();
+                   }
+                   console.log(response);
+               }, (error) => {
+                   console.log(error);
+                   this.$parent.displayNotif(error.response.status);
+               });
+           }
+           else{
+               this.checkEditCostAmount=true;
+           }
+        },
+
+        setCapEditSelectedIndex:function(index){
+            this.capEditSelectedIndex=index;
+            this.openCapEditModal();
+
+        },
+
+        openCapEditModal: function(){
+            this.capEditSelected=this.requestCapFinancing[this.capEditSelectedIndex];
+            this.capEditFill={};
+            this.capEditFill.id=this.capEditSelected.id;
+            this.capEditFill.cdtIdNumber=this.capEditSelected.allocation.credit_source.capital_assets_project.capital_assets_approved_plan.credit_distribution_title.cdtIdNumber;
+            this.capEditFill.cdtSubject=this.capEditSelected.allocation.credit_source.capital_assets_project.capital_assets_approved_plan.credit_distribution_title.cdtSubject;
+            this.capEditFill.caaAmount=this.capEditSelected.allocation.caaAmount;
+            this.capEditFill.caaSumOfReserved=this.capEditSelected.allocation.caaSumOfReserved;
+            this.capEditFill.caaSumOfCommitment=this.capEditSelected.allocation.caaSumOfCommitment;
+            this.capEditFill.cafRemainingAmount=this.capEditSelected.caaAmount - (this.capEditFill.caaSumOfReserved +this.capEditFill.caaSumOfCommitment );
+            this.capEditFill.cafAmount	=this.capEditSelected.cafAmount	;
+            this.capEditFill.cafSpent=this.capEditSelected.cafSpent;
+            this.EditCapAmountFill= this.capEditSelected.cafAmount;
+            console.log(JSON.stringify(this.capEditSelected));
+            this.showCapitalAssetsEditModal=true;
+        },
+
+        CapInputValidator:function(){
+            var capEditMin=0;
+            var capEditMax=0;
+            var EditCapAmountFillTemp = parseInt(this.EditCapAmountFill.split(',').join(''),10);
+            capEditMin = this.capEditFill.cafSpent + 1;
+            capEditMax = (this.capEditFill.caaAmount - (parseInt(this.capEditFill.caaSumOfCommitment,10) + parseInt(this.capEditFill.caaSumOfReserved,10)) - this.capEditFill.cafAmount);
+            var currentFinance=this._financingAmount + this._reservedAmount;
+            if((EditCapAmountFillTemp >= capEditMin) && (EditCapAmountFillTemp <= capEditMax)){
+                if((currentFinance - this.capEditFill.cafAmount + EditCapAmountFillTemp) <= this.baseAmount)
+                    return true;
+            }
+            return false;
+        },
+
+        updateCapFinancing : function(){
+            if(this.CapInputValidator() == true ){
+                this.checkEditCostAmount=false;
+                axios.post('/financial/request/financing/cap/update', {
+                    rId:this.requestId,
+                    cafRId:this.capEditFill.id,
+                    amount:parseInt(this.EditCapAmountFill.split(',').join(''),10)
+                }).then((response) => {
+                    if (response.status == 200) {
+                        this.requestCapFinancing=response.data.capFinancing;
+                        this.getFinancingAmount();
+                        this.openCostEditModal();
+                        this.showCapitalAssetsEditModal = false;
+                        this.$root.displayNotif(response.status);
+                    }
+                    else if (response.status == 420){
+                        this.requestCapFinancing=response.data.capFinancing;
+                        this.openCostEditModal();
+                    }
+                    console.log(response);
+                }, (error) => {
+                    console.log(error);
+                    this.$parent.displayNotif(error.response.status);
+                });
+            }
+            else{
+                this.checkEditCostAmount=true;
+            }
         },
 
         myResizeModal: function() {

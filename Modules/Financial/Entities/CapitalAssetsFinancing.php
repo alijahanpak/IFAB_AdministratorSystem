@@ -7,7 +7,8 @@ use Modules\Budget\Entities\CapitalAssetsAllocation;
 
 class CapitalAssetsFinancing extends Model
 {
-    protected $fillable = ['cafAccepted' , 'cafCaaId' , 'cafRId' , 'cafAmount' , 'cafSpent' , 'cafRemainingAmount'];
+    protected $fillable = ['cafAccepted' , 'cafCaaId' , 'cafRId' , 'cafAmount'];
+    protected $appends = ['cafSpent' , 'cafRemainingAmount'];
     protected $table = 'tbl_capital_assets_financing';
 
     public function allocation()

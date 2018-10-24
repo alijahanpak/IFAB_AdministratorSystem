@@ -368,6 +368,7 @@
                 finalAmount:0,
                 positionTemp:0,
                 checkInputAmount:false,
+
             }
         },
 

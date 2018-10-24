@@ -7,7 +7,8 @@ use Modules\Budget\Entities\CostAllocation;
 
 class CostFinancing extends Model
 {
-    protected $fillable = ['cfCaId' , 'cfRId' , 'cfAmount' , 'cfAccepted' , 'cfSpent' , 'cfRemainingAmount'];
+    protected $fillable = ['cfCaId' , 'cfRId' , 'cfAmount' , 'cfAccepted'];
+    protected $appends = ['cfSpent' , 'cfRemainingAmount'];
     protected $table = 'tbl_cost_financing';
 
     public function allocation()

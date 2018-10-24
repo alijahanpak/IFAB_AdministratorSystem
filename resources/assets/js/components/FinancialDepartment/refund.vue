@@ -303,7 +303,7 @@
                 this.selectedRefund.rRelativeFactor.forEach(item => {
                     this.factorTemp.push(item);
                 });
-;                console.log(JSON.stringify(this.factorTemp));
+                console.log(JSON.stringify(this.factorTemp));
 
             },
 
