@@ -16,6 +16,11 @@ class CapitalAssetsFinancing extends Model
         return $this->belongsTo(CapitalAssetsAllocation::class , 'cafCaaId' , 'id');
     }
 
+    public function request()
+    {
+        return $this->belongsTo(_Request::class , 'cafRId' , 'id');
+    }
+
     public function getCafSpentAttribute()
     {
         return CapSpent::where('csCafId' , $this->id)->get()->sum('csAmount');

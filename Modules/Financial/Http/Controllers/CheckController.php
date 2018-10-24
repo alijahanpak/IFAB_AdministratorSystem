@@ -295,12 +295,14 @@ class CheckController extends Controller
                         $tempAmount = $cf->cfRemainingAmount;
                         $remainingAmount += $pieceOfAmount - $cf->cfRemainingAmount;
                     }
-
-                    $costSpent = new CostSpent();
-                    $costSpent->csCfId = $cf->id;
-                    $costSpent->csCId = $check->id;
-                    $costSpent->csAmount = $tempAmount;
-                    $costSpent->save();
+                    if ($tempAmount > 0)
+                    {
+                        $costSpent = new CostSpent();
+                        $costSpent->csCfId = $cf->id;
+                        $costSpent->csCId = $check->id;
+                        $costSpent->csAmount = $tempAmount;
+                        $costSpent->save();
+                    }
                 }
 
                 foreach ($capFinancing as $caf)
@@ -316,11 +318,14 @@ class CheckController extends Controller
                         $remainingAmount += $pieceOfAmount - $caf->cafRemainingAmount;
                     }
 
-                    $capSpent = new CapSpent();
-                    $capSpent->csCafId = $caf->id;
-                    $capSpent->csCId = $check->id;
-                    $capSpent->csAmount = $tempAmount;
-                    $capSpent->save();
+                    if ($tempAmount > 0)
+                    {
+                        $capSpent = new CapSpent();
+                        $capSpent->csCafId = $caf->id;
+                        $capSpent->csCId = $check->id;
+                        $capSpent->csAmount = $tempAmount;
+                        $capSpent->save();
+                    }
                 }
             }
 

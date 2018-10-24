@@ -878,27 +878,34 @@
                                 </div>
                             </div>
                             <div style="margin-top: 10px;" class="grid-x padding-lr" v-show="creditSourceInfo.approvedAmount">
-                                    <div class="medium-12 my-callout-bg-color">
-                                        <div class="medium-12">
-                                            <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount) }}</span>
-                                        </div>
-                                        <div class="medium-12">
-                                            <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.sumAllocation) }}</span>
-                                        </div>
-                                        <div class="medium-12">
-                                            <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.approvedAmount , creditSourceInfo.sumAllocation) }}</span>
-                                        </div>
+                                <div class="medium-6 my-callout-bg-color">
+                                    <div class="medium-12">
+                                        <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount) }}</span>
                                     </div>
+                                    <div class="medium-12">
+                                        <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.sumAllocation) }}</span>
+                                    </div>
+                                    <div class="medium-12">
+                                        <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.approvedAmount , creditSourceInfo.sumAllocation) }}</span>
+                                    </div>
+                                </div>
+                                <div class="medium-6 my-callout-bg-color">
+                                    <div class="medium-12 ">
+                                        <span class="btn-red">مجموع مبالغ انتخاب شده:</span><span>{{ ' ' + $parent.calcDispAmount(sumOfSelectedAmount) }}</span>
+                                    </div>
+                                    <div class="medium-12 ">
+                                        <span class="btn-red">باقی مانده:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount - creditSourceInfo.sumAllocation - sumOfSelectedAmount) }}</span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="grid-x" style="margin-top: 10px">
-                                <div class="medium-12 cell padding-lr">
+                                <div class="medium-8 cell padding-lr">
                                     <label>هزینه <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                        <div class="tbl-div-container form-element-margin-btm">
+                                        <div class="tbl-div-container form-element-margin-btm inner-vh-unsize"  style="height: 30vh;">
                                             <table class="tbl-head">
                                                 <colgroup>
-                                                    <col width="250px"/>
-                                                    <col width="150px"/>
-                                                    <col width="600px"/>
+                                                    <col width="750px"/>
+                                                    <col width="200px"/>
                                                     <col v-show="selectColumn" width="15px"/>
                                                     <col width="12px"/>
                                                 </colgroup>
@@ -906,41 +913,37 @@
                                                 <tr class="tbl-head-style-cell">
                                                     <th class="tbl-head-style-cell">عنوان</th>
                                                     <th class="tbl-head-style-cell">مبلغ</th>
-                                                    <th class="tbl-head-style-cell">شرح</th>
                                                     <th class="tbl-head-style-checkbox" v-show="selectColumn"></th>
                                                     <th class="tbl-head-style-cell"></th>
                                                 </tr>
                                                 </tbody>
                                             </table>
-                                            <div class="tbl_body_style">
+                                            <div class="tbl_body_style inner-vh-2">
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
-                                                        <col width="250px"/>
-                                                        <col width="150px"/>
-                                                        <col width="600px"/>
+                                                        <col width="750px"/>
+                                                        <col width="200px"/>
                                                         <col v-show="selectColumn" width="15px"/>
                                                     </colgroup>
                                                     <tbody class="tbl-head-style-cell">
-                                                    <tr class="tbl-head-style-cell" v-for="capCost in capitalAssetsCosts">
-                                                        <td>{{ capCost.cacSubject }}</td>
-                                                        <td class="text-center">{{ $parent.calcDispAmount(capCost.cacAmount , false) }}</td>
-                                                        <td>{{ capCost.cacDescription }}</td>
+                                                    <tr class="tbl-head-style-cell" v-for="capFinancing in capFinancings">
+                                                        <td>{{ capFinancing.request.rSubject + ' - ' + capFinancing.request.rLetterNumber + ' - ' + capFinancing.request.rLetterDate }}</td>
+                                                        <td class="text-center">{{ $parent.calcDispAmount(capFinancing.cafAmount , false) }}</td>
                                                         <td>
-                                                            <input class="auto-margin" v-model="capCost.checked" type="checkbox">
+                                                            <input class="auto-margin" v-model="capFinancing.checked" @change="checkSelectedAmount(capFinancing.checked ,capFinancing.cafAmount)" type="checkbox">
                                                         </td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
-                                        <span class="error-font" v-show="unSelectedCost">حداقل یک مورد از لیست هزینه انتخاب کنید!</span>
+                                        <span class="error-font" v-show="unSelectedCost">حداقل یک مورد را از لیست هزینه انتخاب کنید!</span>
+                                        <span class="error-font" v-show="overflowError">مجموع مبالغ انتخاب شده از باقی مانده بیشتر است!</span>
                                     </label>
                                 </div>
-                            </div>
-                            <div class="grid-x">
-                                <div class="small-12 columns padding-lr">
+                                <div class="small-4 columns padding-lr">
                                     <label>شرح
-                                        <textarea name="csDescription" style="min-height: 150px;" v-model="AllocationInput.description"></textarea>
+                                        <textarea name="csDescription" style="height: 30vh;" v-model="AllocationInput.description"></textarea>
                                     </label>
                                 </div>
                             </div>
@@ -1121,8 +1124,8 @@
                 provCapitalAssetsAllocations: [],
                 provCapitalAssetsFounds: [],
                 natCapitalAssetsAllocations: [],
-                selectedCosts: [],
-                capitalAssetsCosts: [],
+                selectedCapFinancings: [],
+                capFinancings: [],
                 AllocationInput: {},
                 foundInput: {},
                 foundFill: {},
@@ -1171,6 +1174,8 @@
                     current_page: 1,
                     last_page: ''
                 },
+                sumOfSelectedAmount: 0,
+                overflowError: false,
             }
         },
         created: function () {
@@ -1585,11 +1590,11 @@
 
             ////////////// this method created for test convert found to allocation ///////////////////
             getCapitalAssetsCosts: function () {
-                axios.get('/budget/allocation/capital_assets/found/getAllCapitalAssetsCosts' , {params:{fId: this.foundIdForConvertTo}})
+                axios.get('/budget/allocation/capital_assets/found/get_all_fund_cap_spent' , {params:{fId: this.foundIdForConvertTo}})
                     .then((response) => {
-                        this.capitalAssetsCosts = response.data;
-                        this.capitalAssetsCosts.forEach(cost => {
-                            this.$set(cost , 'checked' , true);
+                        this.capFinancings = response.data;
+                        this.capFinancings.forEach(cost => {
+                            this.$set(cost , 'checked' , false);
                         });
                         console.log(response);
                     },(error) => {
@@ -1600,32 +1605,36 @@
             convertToAllocation: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        if (this.checkSelectedCosts(this.capitalAssetsCosts))
+                        if (this.checkSelectedCosts(this.capFinancings))
                         {
-                            this.selectedCosts = [];
-                            this.capitalAssetsCosts.forEach(cost => {
-                                if (cost.checked)
-                                    this.selectedCosts.push(cost);
-                            });
-                            axios.post('/budget/allocation/capital_assets/found/convert_to_allocation' , {
-                                id: this.foundIdForConvertTo,
-                                pcsId: this.AllocationInput.pcsId,
-                                amount: this.AllocationInput.amount,
-                                description: this.AllocationInput.description,
-                                selectedCosts: this.selectedCosts,
-                                searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
-                                itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                            })
-                                .then((response) => {
-                                    this.provCapitalAssetsFounds = response.data.found;
-                                    this.provCapitalAssetsAllocations = response.data.allocation_prov.data;
-                                    this.showConvertToModal = false;
-                                    this.$parent.displayNotif(response.status);
-                                    console.log(response);
-                                },(error) => {
-                                    console.log(error);
+                            if (this.checkOverflowFundAmount()) {
+                                this.selectedCapFinancings = [];
+                                this.capFinancings.forEach(cost => {
+                                    if (cost.checked)
+                                        this.selectedCapFinancings.push(cost);
                                 });
-                            console.log(JSON.stringify(this.selectedCosts));
+                                axios.post('/budget/allocation/capital_assets/found/convert_to_allocation', {
+                                    id: this.foundIdForConvertTo,
+                                    pcsId: this.AllocationInput.pcsId,
+                                    amount: this.AllocationInput.amount,
+                                    description: this.AllocationInput.description,
+                                    capFinancings: this.selectedCapFinancings,
+                                    searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
+                                    itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
+                                })
+                                    .then((response) => {
+                                        this.provCapitalAssetsFounds = response.data.found;
+                                        this.provCapitalAssetsAllocations = response.data.allocation_prov.data;
+                                        this.showConvertToModal = false;
+                                        this.$parent.displayNotif(response.status);
+                                        console.log(response);
+                                    }, (error) => {
+                                        console.log(error);
+                                    });
+                                console.log(JSON.stringify(this.selectedCapFinancings));
+                            }else{
+                                this.overflowError = true;
+                            }
                         }
                         else{
                             this.unSelectedCost = true;
@@ -1644,7 +1653,17 @@
                 return state;
             },
 
+            checkOverflowFundAmount: function(){
+                if ((this.creditSourceInfo.approvedAmount - this.creditSourceInfo.sumAllocation - this.sumOfSelectedAmount) >= 0)
+                {
+                    return true
+                }else{
+                    return false;
+                }
+            },
+
             openConvertToModal: function (fId) {
+                this.capFinancings = [];
                 this.approvedPlans = [];
                 this.approvedProjects =[];
                 this.projectCreditSources = [];
@@ -1942,6 +1961,15 @@
                 this.fetchNationalData();
                 this.fetchProvincialFoundData();
             },
+
+            checkSelectedAmount: function (state , amount) {
+                if (state == true)
+                {
+                    this.sumOfSelectedAmount += amount;
+                }else{
+                    this.sumOfSelectedAmount -= amount;
+                }
+            }
         }
     }
 </script>

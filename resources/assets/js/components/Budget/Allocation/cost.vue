@@ -850,11 +850,11 @@
                                                         <col v-show="selectColumn" width="15px"/>
                                                     </colgroup>
                                                     <tbody class="tbl-head-style-cell">
-                                                        <tr class="tbl-head-style-cell" v-for="costSpent in costSpents">
-                                                            <td>{{ costSpent.check.draft.dFor + (costSpent.check.percentage_decrease != null ? ' - ' + costSpent.check.percentage_decrease.pdSubject : '') }}</td>
-                                                            <td class="text-center">{{ $parent.calcDispAmount(costSpent.csAmount , false) }}</td>
+                                                        <tr class="tbl-head-style-cell" v-for="costFinancing in costFinancings">
+                                                            <td>{{ costFinancing.request.rSubject + ' - ' + costFinancing.request.rLetterNumber + ' - ' + costFinancing.request.rLetterDate }}</td>
+                                                            <td class="text-center">{{ $parent.calcDispAmount(costFinancing.cfAmount , false) }}</td>
                                                             <td>
-                                                                <input class="auto-margin" v-model="costSpent.checked" @change="checkSelectedAmount(costSpent.checked ,costSpent.csAmount)" type="checkbox">
+                                                                <input class="auto-margin" v-model="costFinancing.checked" @change="checkSelectedAmount(costFinancing.checked ,costFinancing.cfAmount)" type="checkbox">
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -1048,8 +1048,8 @@
                 provCostAllocations: [],
                 natCostAllocations: [],
                 provCostFounds: [],
-                costSpents: [],
-                selectedCostSpents: [],
+                costFinancings: [],
+                selectedCostFinance: [],
                 AllocationInput: {},
                 foundInput: {},
                 foundFill: {},
@@ -1429,8 +1429,8 @@
             getCostSpents: function () {
                 axios.get('/budget/allocation/cost/found/get_all_fund_cost_spent' , {params:{fId: this.foundIdForConvertTo}})
                     .then((response) => {
-                        this.costSpents = response.data;
-                        this.costSpents.forEach(cost => {
+                        this.costFinancings = response.data;
+                        this.costFinancings.forEach(cost => {
                             this.$set(cost , 'checked' , false);
                         });
                         console.log(response);
@@ -1523,21 +1523,21 @@
             convertToAllocation: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        if (this.checkSelectedCosts(this.costSpents))
+                        if (this.checkSelectedCosts(this.costFinancings))
                         {
                             if (this.checkOverflowFundAmount())
                             {
-                                this.selectedCostSpents = [];
-                                this.costSpents.forEach(cost => {
+                                this.selectedCostFinance = [];
+                                this.costFinancings.forEach(cost => {
                                     if (cost.checked)
-                                        this.selectedCostSpents.push(cost);
+                                        this.selectedCostFinance.push(cost);
                                 });
                                 axios.post('/budget/allocation/cost/found/convert_to_allocation' , {
                                     id: this.foundIdForConvertTo,
                                     caCsId: this.AllocationInput.caCsId,
                                     amount: this.AllocationInput.amount,
                                     description: this.AllocationInput.description,
-                                    costSpents: this.selectedCostSpents,
+                                    costFinancings: this.selectedCostFinance,
                                     searchValue: this.provSearchValue,
                                     itemInPage: this.itemInPage
                                 })
@@ -1550,7 +1550,7 @@
                                     },(error) => {
                                         console.log(error);
                                     });
-                                console.log(JSON.stringify(this.selectedCostSpents));
+                                console.log(JSON.stringify(this.selectedCostFinance));
                             }else{
                                 this.overflowError = true;
                             }
@@ -1582,6 +1582,7 @@
             },
 
             openConvertToModal: function (fId) {
+                this.costFinancings = [];
                 this.costAgreements = [];
                 this.caCreditSources = [];
                 this.unSelectedCost = false;

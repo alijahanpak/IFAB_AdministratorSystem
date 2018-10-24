@@ -178,7 +178,6 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('/update', 'AllocationOfCapitalAssetsController@updateCapitalAssetsFound');
         Route::post('/delete', 'AllocationOfCapitalAssetsController@deleteCapitalAssetsFound');
         Route::get('/fetchData', 'AllocationOfCapitalAssetsController@fetchFound');
-        Route::get('/getAllCapitalAssetsCosts', 'AllocationOfCapitalAssetsController@getAllCapitalAssetsCosts'); // for test convert found to allocation
         Route::get('/get_all_fund_cap_spent', 'AllocationOfCapitalAssetsController@getAllFundCapSpents');
         Route::post('/convert_to_allocation', 'AllocationOfCapitalAssetsController@convertCapitalAssetsFoundToAllocation'); // for test convert found to allocation
         Route::post('/report', 'BudgetReportController@capitalFoundProvincial');
@@ -198,7 +197,6 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
         Route::post('/update', 'AllocationOfCapitalAssetsController@updateCostFound');
         Route::post('/delete', 'AllocationOfCapitalAssetsController@deleteCostFound');
         Route::get('/fetchData', 'AllocationOfCapitalAssetsController@fetchCostFound');
-        Route::get('/getAllExpenseCosts', 'AllocationOfCapitalAssetsController@getAllExpenseCosts'); // for test convert found to allocation
         Route::get('/get_all_fund_cost_spent', 'AllocationOfCapitalAssetsController@getAllFundCostSpents');
         Route::post('/convert_to_allocation', 'AllocationOfCapitalAssetsController@convertCostFoundToAllocation'); // for test convert found to allocation
         Route::post('/report', 'BudgetReportController@costFoundProvincial');

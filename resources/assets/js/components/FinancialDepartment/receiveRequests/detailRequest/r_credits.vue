@@ -55,33 +55,53 @@
                                     </colgroup>
                                     <tbody class="tbl-head-style-cell">
                                     <tr v-for="(capFinancing,index) in requestCapFinancing">
-                                        <td v-if="capFinancing.allocation.credit_source != null">{{capFinancing.allocation.credit_source.capital_assets_project.capital_assets_approved_plan.credit_distribution_title.cdtSubject}}</td>
-                                        <td v-if="capFinancing.allocation.credit_source != null">{{capFinancing.allocation.credit_source.capital_assets_project.cpCode}}</td>
-                                        <td v-if="capFinancing.allocation.credit_source != null">{{capFinancing.allocation.credit_source.capital_assets_project.cpSubject}}</td>
-                                        <template v-if="capFinancing.allocation.credit_source == null">
-                                            <td colspan="4" class="text-center"><span class="user-verifier-label">تنخواه</span></td>
-                                        </template>
-                                        <td class="text-center">{{$root.dispMoneyFormat(capFinancing.cafAmount)}}</td>
-                                        <td v-if="capFinancing.allocation.credit_source != null">
-                                            <span v-show="capFinancing.cafAccepted == false" class="reserved-label">رزرو شده</span>
-                                            <span v-show="capFinancing.cafAccepted == true" class="success-label">تایید شده</span>
-                                        </td>
-                                        <td class="text-justify">
-                                            <div class="grid-x">
-                                                <div class="medium-11">
-                                                    {{capFinancing.allocation.credit_source.capital_assets_project.cpDescription}}
-                                                </div>
-                                                <div v-show="$can('FINANCIAL_MODIFY_CAPITAL_ASSETS_FINANCING_ITEM')" class="medium-1 cell-vertical-center text-left">
-                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'capitalAssetsFinancing' + capFinancing.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'capitalAssetsFinancing' + capFinancing.id" data-dropdown data-auto-focus="true">
-                                                        <ul class="my-menu small-font text-right">
-                                                            <li><a v-on:click.prevent="setCapEditSelectedIndex(index)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                            <li><a v-on:click.prevent="openDeleteFinancingModal(capFinancing,1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                        </ul>
+                                        <template v-if="capFinancing.allocation.credit_source != null">
+                                            <td>{{capFinancing.allocation.credit_source.capital_assets_project.capital_assets_approved_plan.credit_distribution_title.cdtSubject}}</td>
+                                            <td>{{capFinancing.allocation.credit_source.capital_assets_project.cpCode}}</td>
+                                            <td>{{capFinancing.allocation.credit_source.capital_assets_project.cpSubject}}</td>
+                                            <td class="text-center">{{$root.dispMoneyFormat(capFinancing.cafAmount)}}</td>
+                                            <td>
+                                                <span v-show="capFinancing.cafAccepted == false" class="reserved-label">رزرو شده</span>
+                                                <span v-show="capFinancing.cafAccepted == true" class="success-label">تایید شده</span>
+                                            </td>
+                                            <td class="text-justify">
+                                                <div class="grid-x">
+                                                    <div class="medium-11">
+                                                        {{capFinancing.allocation.credit_source.capital_assets_project.cpDescription}}
+                                                    </div>
+                                                    <div v-show="$can('FINANCIAL_MODIFY_CAPITAL_ASSETS_FINANCING_ITEM')" class="medium-1 cell-vertical-center text-left">
+                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'capitalAssetsFinancing' + capFinancing.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'capitalAssetsFinancing' + capFinancing.id" data-dropdown data-auto-focus="true">
+                                                            <ul class="my-menu small-font text-right">
+                                                                <li><a v-on:click.prevent="setCapEditSelectedIndex(index)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                <li><a v-on:click.prevent="openDeleteFinancingModal(capFinancing,1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </td>
+                                            </td>
+                                        </template>
+                                        <template v-else>
+                                            <td colspan="3" class="text-center"><span class="user-verifier-label">تنخواه</span></td>
+                                            <td class="text-center">{{$root.dispMoneyFormat(capFinancing.cafAmount)}}</td>
+                                            <td class="text-justify" colspan="2">
+                                                <div class="grid-x">
+                                                    <div class="medium-11">
+                                                        <span v-show="capFinancing.cafAccepted == false" class="reserved-label">رزرو شده</span>
+                                                        <span v-show="capFinancing.cafAccepted == true" class="success-label">تایید شده</span>
+                                                    </div>
+                                                    <div v-show="$can('FINANCIAL_MODIFY_CAPITAL_ASSETS_FINANCING_ITEM')" class="medium-1 cell-vertical-center text-left">
+                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'capitalAssetsFinancing' + capFinancing.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'capitalAssetsFinancing' + capFinancing.id" data-dropdown data-auto-focus="true">
+                                                            <ul class="my-menu small-font text-right">
+                                                                <li><a v-on:click.prevent="setCapEditSelectedIndex(index)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                <li><a v-on:click.prevent="openDeleteFinancingModal(capFinancing,1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </template>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -146,32 +166,52 @@
                                     </colgroup>
                                     <tbody class="tbl-head-style-cell">
                                     <tr v-for="(costFinancing,index) in requestCostFinancing">
-                                        <td v-if="costFinancing.allocation.credit_source != null">{{costFinancing.allocation.credit_source.credit_distribution_title.cdtIdNumber}}</td>
-                                        <td v-if="costFinancing.allocation.credit_source != null">{{costFinancing.allocation.credit_source.cost_agreement.caLetterNumber}}</td>
-                                        <template v-if="costFinancing.allocation.credit_source == null">
-                                            <td colspan="3" class="text-center"><span class="user-verifier-label">تنخواه</span></td>
-                                        </template>
-                                        <td class="text-center">{{$root.dispMoneyFormat(costFinancing.cfAmount)}}</td>
-                                        <td v-if="costFinancing.allocation.credit_source != null">
-                                            <span v-show="costFinancing.cfAccepted == false" class="reserved-label">رزرو شده</span>
-                                            <span v-show="costFinancing.cfAccepted == true" class="success-label">تایید شده</span>
-                                        </td>
-                                        <td class="text-justify">
-                                            <div class="grid-x">
-                                                <div class="medium-11">
-                                                    {{costFinancing.allocation.credit_source.cost_agreement.caDescription}}
-                                                </div>
-                                                <div v-show="$can('FINANCIAL_MODIFY_COST_FINANCING_ITEM')" class="medium-1 cell-vertical-center text-left">
-                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costFinancing' + costFinancing.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'costFinancing' + costFinancing.id" data-dropdown data-auto-focus="true">
-                                                        <ul class="my-menu small-font text-right">
-                                                            <li><a v-on:click.prevent="setCostEditSelectedIndex(index)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                            <li><a v-on:click.prevent="openDeleteFinancingModal(costFinancing,2)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                        </ul>
+                                        <template v-if="costFinancing.allocation.caFound == false">
+                                            <td>{{costFinancing.allocation.credit_source.credit_distribution_title.cdtIdNumber}}</td>
+                                            <td>{{costFinancing.allocation.credit_source.cost_agreement.caLetterNumber}}</td>
+                                            <td class="text-center">{{$root.dispMoneyFormat(costFinancing.cfAmount)}}</td>
+                                            <td>
+                                                <span v-show="costFinancing.cfAccepted == false" class="reserved-label">رزرو شده</span>
+                                                <span v-show="costFinancing.cfAccepted == true" class="success-label">تایید شده</span>
+                                            </td>
+                                            <td class="text-justify">
+                                                <div class="grid-x">
+                                                    <div class="medium-11">
+                                                        {{costFinancing.allocation.credit_source.cost_agreement.caDescription}}
+                                                    </div>
+                                                    <div v-show="$can('FINANCIAL_MODIFY_COST_FINANCING_ITEM')" class="medium-1 cell-vertical-center text-left">
+                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costFinancing' + costFinancing.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'costFinancing' + costFinancing.id" data-dropdown data-auto-focus="true">
+                                                            <ul class="my-menu small-font text-right">
+                                                                <li><a v-on:click.prevent="setCostEditSelectedIndex(index)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                <li><a v-on:click.prevent="openDeleteFinancingModal(costFinancing,2)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </td>
+                                            </td>
+                                        </template>
+                                        <template v-else>
+                                            <td colspan="2" class="text-center"><span class="user-verifier-label">تنخواه</span></td>
+                                            <td class="text-center">{{$root.dispMoneyFormat(costFinancing.cfAmount)}}</td>
+                                            <td colspan="2" class="text-justify">
+                                                <div class="grid-x">
+                                                    <div class="medium-11">
+                                                        <span v-show="costFinancing.cfAccepted == false" class="reserved-label">رزرو شده</span>
+                                                        <span v-show="costFinancing.cfAccepted == true" class="success-label">تایید شده</span>
+                                                    </div>
+                                                    <div v-show="$can('FINANCIAL_MODIFY_COST_FINANCING_ITEM')" class="medium-1 cell-vertical-center text-left">
+                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costFinancing' + costFinancing.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'costFinancing' + costFinancing.id" data-dropdown data-auto-focus="true">
+                                                            <ul class="my-menu small-font text-right">
+                                                                <li><a v-on:click.prevent="setCostEditSelectedIndex(index)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                <li><a v-on:click.prevent="openDeleteFinancingModal(costFinancing,2)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </template>
                                     </tr>
                                     </tbody>
                                 </table>

@@ -35,7 +35,5 @@ class BudgetDatabaseSeeder extends Seeder
         $this->call(SeedProvincialBudgetProposalTableSeederTableSeeder::class);
         $this->call(SeederCapitalAssetsFoundTableSeederTableSeeder::class);
         $this->call(SeederCostFoundTableSeederTableSeeder::class);
-        //$this->call(SeederCapitalAssetsCostTableSeederTableSeeder::class);
-        //$this->call(SeederExpenseCostTableSeederTableSeeder::class);
     }
 }

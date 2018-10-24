@@ -14,15 +14,14 @@ use Modules\Budget\Entities\CaCreditSource;
 use Modules\Budget\Entities\CapCreditSource;
 use Modules\Budget\Entities\CapitalAssetsAllocation;
 use Modules\Budget\Entities\CapitalAssetsApprovedPlan;
-use Modules\Budget\Entities\CapitalAssetsCost;
 use Modules\Budget\Entities\CapitalAssetsProject;
 use Modules\Budget\Entities\CdrCaa;
 use Modules\Budget\Entities\CostAgreement;
 use Modules\Budget\Entities\CostAllocation;
 use Modules\Budget\Entities\CreditDistributionRow;
-use Modules\Budget\Entities\ExpenseCosts;
 use Modules\Financial\Entities\_Check;
 use Modules\Financial\Entities\CapitalAssetsFinancing;
+use Modules\Financial\Entities\CapSpent;
 use Modules\Financial\Entities\CostFinancing;
 use Modules\Financial\Entities\CostSpent;
 use Morilog\Jalali\Facades\jDate;
@@ -203,36 +202,25 @@ class AllocationOfCapitalAssetsController extends Controller
 
     }
 
-    public function getAllCapitalAssetsCosts(Request $request) // for test convert found to allocation
-    {
-        return \response()->json(
-            CapitalAssetsCost::where('cacCaaId' , '=' , $request->fId)->get()
-        );
-    }
-
     public function getAllFundCapSpents(Request $request)
     {
-        $capFinancingIds = CapitalAssetsFinancing::where('cafCaaId' , $request->fId)
+        $capFinancing = CapitalAssetsFinancing::where('cafCaaId' , $request->fId)
             ->where('cafDeleted' , false)
-            ->pluck('id');
-        $checks = _Check::whereHas('capSpent' , function ($q) use($capFinancingIds){
-            return $q->whereIn('csCafId' , $capFinancingIds);
-        })->with('draft')
-            ->with('percentageDecrease')
-            ->get();
-        return \response()->json($checks);
+            ->with('request')
+            ->get()->where('cafRemainingAmount' , 0);
+        return \response()->json($capFinancing);
     }
 
     public function convertCapitalAssetsFoundToAllocation(Request $request)
     {
         DB::transaction(function () use($request){
             $sumOfCost = 0;
-            $costsId = array();
+            $capFinancingIds = array();
             $i = 0;
-            foreach ($request['selectedCosts'] as $cost)
+            foreach ($request['capFinancings'] as $cost)
             {
-                $sumOfCost += $cost['cacAmount'];
-                $costsId[$i++] = $cost['id'];
+                $sumOfCost += $cost['cafAmount'];
+                $capFinancingIds[$i++] = $cost['id'];
             }
 
             $alloc = new CapitalAssetsAllocation;
@@ -244,7 +232,7 @@ class AllocationOfCapitalAssetsController extends Controller
             $alloc->caaFoundId = $request->id;
             $alloc->save();
 
-            CapitalAssetsCost::whereIn('id' , $costsId)->update(['cacCaaId' => $alloc->id]);
+            CapitalAssetsFinancing::whereIn('id' , $capFinancingIds)->update(['cafCaaId' => $alloc->id]);
             SystemLog::setBudgetSubSystemLog('تبدیل تنخواه تملک دارایی های سرمایه ای به تخصیص');
         });
 
@@ -353,13 +341,6 @@ class AllocationOfCapitalAssetsController extends Controller
         );
     }
 
-    public function getAllExpenseCosts(Request $request) // for test convert found to allocation
-    {
-        return \response()->json(
-            ExpenseCosts::where('ecCaId' , '=' , $request->fId)->get()
-        );
-    }
-
     public function getAllFundCostSpents(Request $request)
     {
         $costFinancing = CostFinancing::where('cfCaId' , $request->fId)
@@ -443,12 +424,12 @@ class AllocationOfCapitalAssetsController extends Controller
     {
         DB::transaction(function () use($request){
             $sumOfCost = 0;
-            $costsId = array();
+            $costFinancingIds = array();
             $i = 0;
-            foreach ($request['costSpents'] as $cost)
+            foreach ($request['costFinancings'] as $cost)
             {
-                $sumOfCost += $cost['csAmount'];
-                $costsId[$i++] = $cost['id'];
+                $sumOfCost += $cost['cfAmount'];
+                $costFinancingIds[$i++] = $cost['id'];
             }
 
             $alloc = new CostAllocation;
@@ -460,7 +441,7 @@ class AllocationOfCapitalAssetsController extends Controller
             $alloc->caFoundId = $request->id;
             $alloc->save();
 
-            ExpenseCosts::whereIn('id' , $costsId)->update(['ecCaId' => $alloc->id]);
+            CostFinancing::whereIn('id' , $costFinancingIds)->update(['cfCaId' => $alloc->id]);
             SystemLog::setBudgetSubSystemLog('تبدیل تنخواه هزینه ای به تخصیص');
         });
 
