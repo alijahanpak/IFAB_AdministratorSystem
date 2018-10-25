@@ -897,16 +897,22 @@
                                 <input id="checkbox1"  v-model="referralPermission" type="checkbox"><label for="checkbox1">ارجاع با انتقال مجوز تایید</label>
                             </div>
                             <div v-if="referralPermission == false" class="large-12 medium-12 small-12 padding-lr">
-                                <select v-model="referralInput.destUId">
-                                    <option value=""></option>
-                                    <option v-for="groupUser in groupUsers" :value="groupUser.id">{{groupUser.name}} - {{groupUser.role.rSubject}}</option>
-                                </select>
+                                <label>دریافت کننده
+                                    <select name="selectUser" v-model="referralInput.destUId"  v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('selectUser')}">
+                                        <option value=""></option>
+                                        <option v-for="groupUser in groupUsers" :value="groupUser.id">{{groupUser.name}} - {{groupUser.role.rSubject}}</option>
+                                    </select>
+                                    <p v-show="errors.has('selectUser')" class="error-font">لطفا دریافت کننده را انتخاب کنید!</p>
+                                </label>
                             </div>
-                            <div v-if="referralPermission == true" class="large-12 medium-12 small-12 padding-lr">
-                                <select v-model="referralInput.destUId">
-                                    <option value=""></option>
-                                    <option v-for="groupUsersByCIds in groupUsersByCId" :value="groupUsersByCIds.id">{{groupUsersByCIds.name}} - {{groupUsersByCIds.role.rSubject}}</option>
-                                </select>
+                            <div name="selectUser" v-if="referralPermission == true" class="large-12 medium-12 small-12 padding-lr">
+                                <label>دریافت کننده
+                                    <select v-model="referralInput.destUId">
+                                        <option value=""></option>
+                                        <option v-for="groupUsersByCIds in groupUsersByCId" :value="groupUsersByCIds.id">{{groupUsersByCIds.name}} - {{groupUsersByCIds.role.rSubject}}</option>
+                                    </select>
+                                    <p v-show="errors.has('selectUser')" class="error-font">لطفا دریافت کننده را انتخاب کنید!</p>
+                                </label>
                             </div>
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <label>شرح ارجاع

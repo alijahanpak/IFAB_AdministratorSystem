@@ -111,23 +111,20 @@
                                     <div class="grid-x">
                                         <div class="large-6 medium-6 small-12 padding-lr">
                                             <label>شماره چک
-                                                <input type="text" name="idNumber" v-model="inputCheck.idNumber" v-validate="'required','numeric'" :class="{'input': true, 'error-border': errors.has('idNumber')}">
+                                                <input type="text" name="idNumber" v-model="inputCheck.idNumber" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('idNumber')}">
                                             </label>
                                             <p v-show="errors.has('idNumber')" class="error-font">لطفا شماره چک مورد نظر را فقط عدد وارد نمایید!</p>
                                         </div>
                                         <div class="large-6 medium-6 small-12 padding-lr">
                                             <label>تاریخ چک
-                                                <input
-                                                        type="text"
-                                                        class="form-control form-control-lg"
+                                                <date-picker
+                                                        :color="'#5c6bc0'"
                                                         v-model="inputCheck.date"
+                                                        input-class="form-control form-control-lg date-picker-bottom-margin"
                                                         id="inputCheck-Date"
                                                         placeholder="انتخاب تاریخ">
-                                                <date-picker
-                                                        v-model="inputCheck.date"
-                                                        :color="'#5c6bc0'"
-                                                        element="inputCheck-Date">
                                                 </date-picker>
+                                                <p style="margin-top:3px !important;" v-show="checkDateValid" class="error-font">لطفا تاریخ چک مورد نظر را انتخاب نمایید!</p>
                                             </label>
                                         </div>
                                     </div>
@@ -138,7 +135,7 @@
                                                 <div  v-for="(cvUser,index) in allCheckVerifiers" class="grid-x">
                                                     <div class="large-9 medium-8  small-12">
                                                         <div class="grid-x">
-                                                            <div class="large-2 medium-4  small-12">
+                                                            <div class="large-3 medium-5  small-12">
                                                                 <div class="switch tiny">
                                                                     <input :checked="inputCheck['verifierId' + cvUser.id] = cvUser.checked" class="switch-input" v-on:change="selectVerifiersSignature(cvUser,index,inputCheck['verifierId' + cvUser.id])" v-model="inputCheck['verifierId' + cvUser.id]" :id="'verifierId'+cvUser.id" type="checkbox">
                                                                     <label class="switch-paddle" :for="'verifierId'+cvUser.id">
@@ -147,7 +144,7 @@
                                                                     </label>
                                                                 </div>
                                                             </div>
-                                                            <div class="large-10 medium-9  small-12">
+                                                            <div class="large-9 medium-7  small-12">
                                                                 <p>{{cvUser.user.name}} - {{cvUser.user.role.rSubject}}</p>
                                                             </div>
                                                         </div>
@@ -349,18 +346,12 @@
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <label>تاریخ تحویل
-                                    <input
-                                            type="text"
-                                            class="form-control form-control-lg"
+                                    <date-picker
+                                            :color="'#5c6bc0'"
                                             v-model="checkDeliverTime"
+                                            input-class="form-control form-control-lg date-picker-bottom-margin"
                                             id="checkDeliver-Date"
                                             placeholder="انتخاب تاریخ">
-
-                                    <date-picker
-                                            type="datetime"
-                                            v-model="checkDeliverTime"
-                                            :color="'#5c6bc0'"
-                                            element="checkDeliver-Date">
                                     </date-picker>
                                 </label>
                             </div>
@@ -461,7 +452,7 @@
                 checkVerifierCountAlert:false,
                 letterDatePersian:'',
                 checkHistoryState:false,
-
+                checkDateValid:false,
             }
         },
 
@@ -481,6 +472,14 @@
         beforeDestroy: function () {
             clearInterval(this.updateDataThreadNowPlaying);
             console.log('...................................... kill update data thread');
+        },
+
+        watch: {
+            // whenever question changes, this function will run
+            inputCheck: function (newQuestion, oldQuestion) {
+                if(this.inputCheck.date != null)
+                    this.checkDateValid=false;
+            }
         },
 
         methods: {
@@ -589,45 +588,55 @@
             },
 
             showCheckPreview:function(){
-
-                this.fillCheck.subject=this.checkActiveFormatSelect.cfSubject;
-                this.fillCheck.dateTop=this.checkActiveFormatSelect.cfDateTop;
-                this.fillCheck.dateRight=this.checkActiveFormatSelect.cfDateRight;
-                this.fillCheck.dateWidth=this.checkActiveFormatSelect.cfDateWidth;
-                this.fillCheck.stringDateTop=this.checkActiveFormatSelect.cfStringDateTop;
-                this.fillCheck.stringDateRight=this.checkActiveFormatSelect.cfStringDateRight;
-                this.fillCheck.stringDateWidth=this.checkActiveFormatSelect.cfStringDateWidth;
-                this.fillCheck.forTop=this.checkActiveFormatSelect.cfForTop;
-                this.fillCheck.forRight=this.checkActiveFormatSelect.cfForRight;
-                this.fillCheck.forWidth=this.checkActiveFormatSelect.cfForWidth;
-                this.fillCheck.payToTop=this.checkActiveFormatSelect.cfPayToTop;
-                this.fillCheck.payToRight=this.checkActiveFormatSelect.cfPayToRight;
-                this.fillCheck.payToWidth=this.checkActiveFormatSelect.cfPayToWidth;
-                this.fillCheck.stringAmountTop=this.checkActiveFormatSelect.cfStringAmountTop;
-                this.fillCheck.stringAmountRight=this.checkActiveFormatSelect.cfStringAmountRight;
-                this.fillCheck.stringAmountWidth=this.checkActiveFormatSelect.cfStringAmountWidth;
-                this.fillCheck.amountTop=this.checkActiveFormatSelect.cfAmountTop;
-                this.fillCheck.amountRight=this.checkActiveFormatSelect.cfAmountRight;
-                this.fillCheck.amountWidth=this.checkActiveFormatSelect.cfAmountWidth;
-                this.fillCheck.signatureTop=this.checkActiveFormatSelect.cfSignatureTop;
-                this.fillCheck.signatureRight=this.checkActiveFormatSelect.cfSignatureRight;
-                this.fillCheck.signatureWidth=this.checkActiveFormatSelect.cfSignatureWidth;
-                this.fillCheck.signatureWidth=this.checkActiveFormatSelect.cfSignatureWidth;
-                this.fillCheck.secondSignatureTop=this.checkActiveFormatSelect.cfSecondSignatureTop;
-                this.fillCheck.secondSignatureRight=this.checkActiveFormatSelect.cfSecondSignatureRight;
-                this.fillCheck.secondSignatureWidth=this.checkActiveFormatSelect.cfSecondSignatureWidth;
-                this.fillCheck.width=this.checkActiveFormatSelect.cfWidth;
-                this.fillCheck.height=this.checkActiveFormatSelect.cfHeight;
-                this.checkVerifierName=[];
-                this.allCheckVerifiers.forEach(item =>{
-                    if(item.checked ==  true){
-                        this.checkVerifierName.push(item.user.name);
-                        this.checkVerifierName.push(item.user.role.rSubject)
+                this.checkDateValid=false;
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        if(this.inputCheck.date != null) {
+                            this.checkDateValid = false;
+                            this.fillCheck.subject=this.checkActiveFormatSelect.cfSubject;
+                            this.fillCheck.dateTop=this.checkActiveFormatSelect.cfDateTop;
+                            this.fillCheck.dateRight=this.checkActiveFormatSelect.cfDateRight;
+                            this.fillCheck.dateWidth=this.checkActiveFormatSelect.cfDateWidth;
+                            this.fillCheck.stringDateTop=this.checkActiveFormatSelect.cfStringDateTop;
+                            this.fillCheck.stringDateRight=this.checkActiveFormatSelect.cfStringDateRight;
+                            this.fillCheck.stringDateWidth=this.checkActiveFormatSelect.cfStringDateWidth;
+                            this.fillCheck.forTop=this.checkActiveFormatSelect.cfForTop;
+                            this.fillCheck.forRight=this.checkActiveFormatSelect.cfForRight;
+                            this.fillCheck.forWidth=this.checkActiveFormatSelect.cfForWidth;
+                            this.fillCheck.payToTop=this.checkActiveFormatSelect.cfPayToTop;
+                            this.fillCheck.payToRight=this.checkActiveFormatSelect.cfPayToRight;
+                            this.fillCheck.payToWidth=this.checkActiveFormatSelect.cfPayToWidth;
+                            this.fillCheck.stringAmountTop=this.checkActiveFormatSelect.cfStringAmountTop;
+                            this.fillCheck.stringAmountRight=this.checkActiveFormatSelect.cfStringAmountRight;
+                            this.fillCheck.stringAmountWidth=this.checkActiveFormatSelect.cfStringAmountWidth;
+                            this.fillCheck.amountTop=this.checkActiveFormatSelect.cfAmountTop;
+                            this.fillCheck.amountRight=this.checkActiveFormatSelect.cfAmountRight;
+                            this.fillCheck.amountWidth=this.checkActiveFormatSelect.cfAmountWidth;
+                            this.fillCheck.signatureTop=this.checkActiveFormatSelect.cfSignatureTop;
+                            this.fillCheck.signatureRight=this.checkActiveFormatSelect.cfSignatureRight;
+                            this.fillCheck.signatureWidth=this.checkActiveFormatSelect.cfSignatureWidth;
+                            this.fillCheck.signatureWidth=this.checkActiveFormatSelect.cfSignatureWidth;
+                            this.fillCheck.secondSignatureTop=this.checkActiveFormatSelect.cfSecondSignatureTop;
+                            this.fillCheck.secondSignatureRight=this.checkActiveFormatSelect.cfSecondSignatureRight;
+                            this.fillCheck.secondSignatureWidth=this.checkActiveFormatSelect.cfSecondSignatureWidth;
+                            this.fillCheck.width=this.checkActiveFormatSelect.cfWidth;
+                            this.fillCheck.height=this.checkActiveFormatSelect.cfHeight;
+                            this.checkVerifierName=[];
+                            this.allCheckVerifiers.forEach(item =>{
+                                if(item.checked ==  true){
+                                    this.checkVerifierName.push(item.user.name);
+                                    this.checkVerifierName.push(item.user.role.rSubject)
+                                }
+                                console.log(JSON.stringify(this.checkVerifierName));
+                            });
+                            this.convertDateToLetter();
+                            this.showGetCheckPreviewModal=true;
+                        }
+                        else{
+                            this.checkDateValid=true;
+                        }
                     }
-                    console.log(JSON.stringify(this.checkVerifierName));
                 });
-                this.convertDateToLetter();
-                this.showGetCheckPreviewModal=true;
             },
 
             selectVerifiersSignature: function (verifier,index,state) {
@@ -689,27 +698,26 @@
                     }
                 });
                 console.log(JSON.stringify(verifierTempForCheck));
-
-                axios.post('/financial/check/print/update', {
-                    verifiers:verifierTempForCheck,
-                    cId:this.checkId,
-                    date:this.inputCheck.date,
-                    idNumber:this.inputCheck.idNumber,
-                    cfSubject:this.fillCheck.subject,
-                    description:this.inputCheck.description = undefined ? '' : this.inputCheck.description,
-                    searchValue:"",
-                }).then((response) => {
-                    printJS({ printable: 'printJS-form', type: 'html',targetStyles:['direction','font-family','margin-top','margin-right','width','height','position','top','text-align']});
-                    this.allChecks = response.data.data;
-                    this.makePagination(response.data);
-                    this.showGetCheckPreviewModal=false;
-                    this.showPrintCheckModal=false;
-                    this.$parent.displayNotif(response.status);
-                    console.log(response);
-                }, (error) => {
-                    console.log(error);
-                    this.$parent.displayNotif(error.response.status);
-                });
+                    axios.post('/financial/check/print/update', {
+                        verifiers:verifierTempForCheck,
+                        cId:this.checkId,
+                        date:this.inputCheck.date,
+                        idNumber:this.inputCheck.idNumber,
+                        cfSubject:this.fillCheck.subject,
+                        description:this.inputCheck.description = undefined ? '' : this.inputCheck.description,
+                        searchValue:"",
+                    }).then((response) => {
+                        printJS({ printable: 'printJS-form', type: 'html',targetStyles:['direction','font-family','margin-top','margin-right','width','height','position','top','text-align']});
+                        this.allChecks = response.data.data;
+                        this.makePagination(response.data);
+                        this.showGetCheckPreviewModal=false;
+                        this.showPrintCheckModal=false;
+                        this.$parent.displayNotif(response.status);
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                        this.$parent.displayNotif(error.response.status);
+                    });
             },
 
             convertDateToLetter : function(){
@@ -723,7 +731,7 @@
             },
 
             openCheckDeliverModal:function(){
-                this.showCheckDeliverModal=true;
+                this.showCheckDeliverModal = true;
             },
 
             checkDeliver:function(){
