@@ -21,9 +21,14 @@ class CostFinancing extends Model
         return $this->belongsTo(_Request::class , 'cfRId' , 'id');
     }
 
+    public function spent()
+    {
+        return $this->hasMany(CostSpent::class , 'csCfId' , 'id');
+    }
+
     public function getCfSpentAttribute()
     {
-        return CostSpent::where('csCfId' , $this->id)->get()->sum('csAmount');
+        return $this->spent()->sum('csAmount');
     }
 
     public function getCfRemainingAmountAttribute()
