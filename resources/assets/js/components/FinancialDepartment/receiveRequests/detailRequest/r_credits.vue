@@ -1519,7 +1519,7 @@
                                 </tr>
                                 <tr>
                                     <td>مبلغ هزینه شده: </td>
-                                    <td>....</td>
+                                    <td>{{$root.dispMoneyFormat(costEditFill.cfSpent)}} <span class="btn-red"> ریال</span></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -1530,10 +1530,8 @@
                             </label>
                             <p style="margin-top: 8px;" v-show="checkEditCostAmount" class="btn-red">مبلغ معتبر نیست! </p>
                         </div>
-                    </div>
-                    <div class="grid-x small-top-m">
-                        <div class="large-12 medium-12 small-12 column text-left">
-                            <button v-on:click="updateCostFinancing"   class="my-button my-success"><span class="btn-txt-mrg">   تایید   </span></button>
+                        <div class="large-4 medium-4 small-12 column text-left">
+                            <button style="margin-top: 23px;" v-on:click="updateCostFinancing"   class="my-button my-success"><span class="btn-txt-mrg">   تایید   </span></button>
                         </div>
                     </div>
                 </div>
@@ -1575,7 +1573,7 @@
                                 </tr>
                                 <tr>
                                     <td>مبلغ هزینه شده: </td>
-                                    <td>....</td>
+                                    <td>{{$root.dispMoneyFormat(capEditFill.cafSpent)}} <span class="btn-red"> ریال</span></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -1586,10 +1584,8 @@
                             </label>
                             <p style="margin-top: 8px;" v-show="checkEditCapAmount" class="btn-red">مبلغ معتبر نیست! </p>
                         </div>
-                    </div>
-                    <div class="grid-x small-top-m">
-                        <div class="large-12 medium-12 small-12 column text-left">
-                            <button v-on:click="updateCapFinancing"   class="my-button my-success"><span class="btn-txt-mrg">   تایید   </span></button>
+                        <div class="large-4 medium-4 small-12 column text-left">
+                            <button style="margin-top: 23px;" v-on:click="updateCapFinancing"   class="my-button my-success"><span class="btn-txt-mrg">   تایید   </span></button>
                         </div>
                     </div>
                 </div>
@@ -2769,9 +2765,15 @@ export default{
         openCostEditModal: function(){
             this.costEditSelected=this.requestCostFinancing[this.costEditSelectedIndex];
             this.costEditFill={};
+            if(this.costEditSelected.allocation.caFound == 1){
+                this.costEditFill.cdtIdNumber= '--';
+                this.costEditFill.cdtSubject='--';
+            }
+            else if(this.costEditSelected.allocation.caFound == 0){
+                this.costEditFill.cdtIdNumber=this.costEditSelected.allocation.credit_source.credit_distribution_title.cdtIdNumber;
+                this.costEditFill.cdtSubject=this.costEditSelected.allocation.credit_source.credit_distribution_title.cdtSubject;
+            }
             this.costEditFill.id=this.costEditSelected.id;
-            this.costEditFill.cdtIdNumber=this.costEditSelected.allocation.credit_source.credit_distribution_title.cdtIdNumber;
-            this.costEditFill.cdtSubject=this.costEditSelected.allocation.credit_source.credit_distribution_title.cdtSubject;
             this.costEditFill.caAmount=this.costEditSelected.allocation.caAmount;
             this.costEditFill.caSumOfReserved=this.costEditSelected.allocation.caSumOfReserved;
             this.costEditFill.caSumOfCommitment=this.costEditSelected.allocation.caSumOfCommitment;
@@ -2834,24 +2836,29 @@ export default{
         openCapEditModal: function(){
             this.capEditSelected=this.requestCapFinancing[this.capEditSelectedIndex];
             this.capEditFill={};
+            if(this.capEditSelected.caaFound == 1){
+                this.capEditFill.cdtIdNumber= '--';
+                this.capEditFill.cdtSubject='--';
+            }
+            else if(this.capEditSelected.allocation.caaFound == 0){
+                this.capEditFill.cdtIdNumber=this.capEditSelected.allocation.credit_source.capital_assets_project.capital_assets_approved_plan.credit_distribution_title.cdtIdNumber;
+                this.capEditFill.cdtSubject=this.capEditSelected.allocation.credit_source.capital_assets_project.capital_assets_approved_plan.credit_distribution_title.cdtSubject;
+            }
             this.capEditFill.id=this.capEditSelected.id;
-            this.capEditFill.cdtIdNumber=this.capEditSelected.allocation.credit_source.capital_assets_project.capital_assets_approved_plan.credit_distribution_title.cdtIdNumber;
-            this.capEditFill.cdtSubject=this.capEditSelected.allocation.credit_source.capital_assets_project.capital_assets_approved_plan.credit_distribution_title.cdtSubject;
+            this.capEditFill.cafAmount	=this.capEditSelected.cafAmount	;
+            this.capEditFill.cafSpent=this.capEditSelected.cafSpent;
             this.capEditFill.caaAmount=this.capEditSelected.allocation.caaAmount;
             this.capEditFill.caaSumOfReserved=this.capEditSelected.allocation.caaSumOfReserved;
             this.capEditFill.caaSumOfCommitment=this.capEditSelected.allocation.caaSumOfCommitment;
-            this.capEditFill.cafRemainingAmount=this.capEditSelected.caaAmount - (this.capEditFill.caaSumOfReserved +this.capEditFill.caaSumOfCommitment );
-            this.capEditFill.cafAmount	=this.capEditSelected.cafAmount	;
-            this.capEditFill.cafSpent=this.capEditSelected.cafSpent;
-            this.EditCapAmountFill= this.capEditSelected.cafAmount;
-            console.log(JSON.stringify(this.capEditSelected));
+            this.capEditFill.cafRemainingAmount=this.capEditFill.caaAmount - (this.capEditFill.caaSumOfReserved +this.capEditFill.caaSumOfCommitment );
+            this.editCapAmountFill= this.capEditFill.cafAmount;
             this.showCapitalAssetsEditModal=true;
         },
 
-        CapInputValidator:function(){
+        capInputValidator:function(){
             var capEditMin=0;
             var capEditMax=0;
-            var EditCapAmountFillTemp = parseInt(this.EditCapAmountFill.split(',').join(''),10);
+            var EditCapAmountFillTemp = parseInt(this.editCapAmountFill.split(',').join(''),10);
             capEditMin = this.capEditFill.cafSpent + 1;
             capEditMax = (this.capEditFill.caaAmount - (parseInt(this.capEditFill.caaSumOfCommitment,10) + parseInt(this.capEditFill.caaSumOfReserved,10)) - this.capEditFill.cafAmount);
             var currentFinance=this._financingAmount + this._reservedAmount;
@@ -2863,23 +2870,23 @@ export default{
         },
 
         updateCapFinancing : function(){
-            if(this.CapInputValidator() == true ){
-                this.checkEditCostAmount=false;
+            if(this.capInputValidator() == true ){
+                this.checkEditCapAmount=false;
                 axios.post('/financial/request/financing/cap/update', {
                     rId:this.requestId,
-                    cafRId:this.capEditFill.id,
-                    amount:parseInt(this.EditCapAmountFill.split(',').join(''),10)
+                    cafId:this.capEditFill.id,
+                    amount:parseInt(this.editCapAmountFill.split(',').join(''),10)
                 }).then((response) => {
                     if (response.status == 200) {
                         this.requestCapFinancing=response.data.capFinancing;
                         this.getFinancingAmount();
-                        this.openCostEditModal();
+                        this.openCapEditModal();
                         this.showCapitalAssetsEditModal = false;
                         this.$root.displayNotif(response.status);
                     }
                     else if (response.status == 420){
                         this.requestCapFinancing=response.data.capFinancing;
-                        this.openCostEditModal();
+                        this.openCapEditModal();
                     }
                     console.log(response);
                 }, (error) => {
@@ -2888,7 +2895,7 @@ export default{
                 });
             }
             else{
-                this.checkEditCostAmount=true;
+                this.checkEditCapAmount=true;
             }
         },
 

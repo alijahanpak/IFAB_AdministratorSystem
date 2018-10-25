@@ -767,7 +767,7 @@
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 padding-lr input-top-margin">
                                             <label>شرح
-                                                <textarea class="form-element-margin-btm"  style="min-height: 150px;" name="furtherDescription" v-model="paymentInput.description"></textarea>
+                                                <textarea class="form-element-margin-btm"  style="min-height: 150px;" name="paymentDescription" v-model="paymentDescription"></textarea>
                                             </label>
                                         </div>
                                     </div>
@@ -906,6 +906,8 @@
                 refundFactor:[],
                 factors:[],
                 //submission Factor Component
+
+                paymentDescription:'',
 
             }
         },
@@ -1366,7 +1368,7 @@
                             amountProgress: this.paymentInput.rialProgress,
                             amount: parseInt(this.paymentInput.amount.split(',').join(''),10),
                             isFinal: this.finalPaymentState == true ? 1 : 0,
-                            description: this.paymentInput.description,
+                            description: this.paymentDescription,
                             verifiers:this.payVerifiers,
                         }).then((response) => {
                             this.updateRequestData(response.data.data , this.requestId);
