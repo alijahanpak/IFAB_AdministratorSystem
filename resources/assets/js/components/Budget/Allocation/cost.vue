@@ -555,15 +555,15 @@
                                 </div>
                                 <div class="medium-6 cell padding-lr">
                                     <label>مبلغ تخصیص <span class="btn-red">(میلیون ریال)</span>
-                                        <input class="form-element-margin-btm" type="text"  v-model="AllocationInput.amount" name="creditCost" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('creditCost')}"/>
+                                        <input class="form-element-margin-btm" type="text"  v-model="AllocationInput.amount" name="creditCost" v-validate="'required|decimal|min_value:1|max_value:' + maxInputAmount" :class="{'input': true, 'select-error': errors.has('creditCost')}"/>
                                     </label>
-                                    <span v-show="errors.has('creditCost')" class="error-font">لطفا مبلغ تخصیص انتخاب کنید!</span>
+                                    <span v-show="errors.has('creditCost')" class="error-font">مبلغ تخصیص فراموش شده / نا معتبر است!</span>
                                 </div>
                             </div>
                             <div style="margin-top: 5px" class="grid-x padding-lr" v-show="creditSourceInfo.approvedAmount">
                                 <div class="medium-12 my-callout-bg-color">
                                     <div class="grid-x">
-                                        <div class="medium-12">
+                                        <div class="medium-12 ">
                                             <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount) }}</span>
                                         </div>
                                         <div class="medium-12">
@@ -571,6 +571,9 @@
                                         </div>
                                         <div class="medium-12">
                                             <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.approvedAmount , creditSourceInfo.sumAllocation) }}</span>
+                                        </div>
+                                        <div class="medium-12 ">
+                                            <span class="btn-red">باقی مانده:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount - creditSourceInfo.sumAllocation) }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -634,9 +637,9 @@
                                 </div>
                                 <div class="medium-6 cell padding-lr">
                                     <label>مبلغ تخصیص <span class="btn-red">(میلیون ریال)</span>
-                                        <input :disabled="AllocationFill.isFound" class="form-element-margin-btm" type="text"  v-model="AllocationFill.amount" name="creditCost" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('creditCost')}"/>
+                                        <input :disabled="AllocationFill.isFound" class="form-element-margin-btm" type="text"  v-model="AllocationFill.amount" name="creditCost" v-validate="'required|decimal|min_value:1|max_value:' + maxInputAmount" :class="{'input': true, 'select-error': errors.has('creditCost')}"/>
                                     </label>
-                                    <span v-show="errors.has('creditCost')" class="error-font">لطفا مبلغ تخصیص انتخاب کنید!</span>
+                                    <span v-show="errors.has('creditCost')" class="error-font">مبلغ تخصیص فراموش شده / نا معتبر است!</span>
                                 </div>
                             </div>
                             <div style="margin-top: 10px" class="grid-x padding-lr" v-show="creditSourceInfo.approvedAmount">
@@ -650,6 +653,9 @@
                                         </div>
                                         <div class="medium-12">
                                             <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.approvedAmount , creditSourceInfo.sumAllocation) }}</span>
+                                        </div>
+                                        <div class="medium-12 ">
+                                            <span class="btn-red">باقی مانده:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount - creditSourceInfo.sumAllocation) }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -704,9 +710,9 @@
                             <div class="grid-x">
                                 <div class="medium-12 cell padding-lr">
                                     <label>مبلغ تنخواه <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                        <input class="form-element-margin-btm" type="text"  v-model="foundInput.amount" name="foundAmount" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('foundAmount')}"/>
+                                        <input class="form-element-margin-btm" type="text"  v-model="foundInput.amount" name="foundAmount" v-validate="'required|min_value:1'" :class="{'input': true, 'select-error': errors.has('foundAmount')}"/>
                                     </label>
-                                    <span v-show="errors.has('foundAmount')" class="error-font">لطفا مبلغ تنخواه را وارد کنید!</span>
+                                    <span v-show="errors.has('foundAmount')" class="error-font">مبلغ تنخواه فراموش شده / نا معتبر است!</span>
                                 </div>
                             </div>
                             <div class="grid-x">
@@ -743,9 +749,9 @@
                             <div class="grid-x">
                                 <div class="medium-12 cell padding-lr">
                                     <label>مبلغ تنخواه <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                        <input class="form-element-margin-btm" type="text"  v-model="foundFill.amount" name="foundAmount" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('foundAmount')}"/>
+                                        <input class="form-element-margin-btm" type="text"  v-model="foundFill.amount" name="foundAmount" v-validate="'required|min_value:1'" :class="{'input': true, 'select-error': errors.has('foundAmount')}"/>
                                     </label>
-                                    <span v-show="errors.has('foundAmount')" class="error-font">لطفا مبلغ تنخواه را وارد کنید!</span>
+                                    <span v-show="errors.has('foundAmount')" class="error-font">مبلغ تنخواه فراموش شده / نا معتبر است!</span>
                                 </div>
                             </div>
                             <div class="grid-x">
@@ -1069,6 +1075,9 @@
                 showDeleteFoundModal: false,
                 showConvertToModal: false,
                 showModalReportFound:false,
+                maxInputAmount: 0,
+                lastCdpId: 0,
+                lastAmount: 0,
                 AllocationFill: {},
                 creditSourceInfo: {},
                 caIdForDelete: '',
@@ -1242,6 +1251,11 @@
                 axios.get('/budget/allocation/cost/getCostCreditSourceInfo' , {params:{caCsId: caCsId}})
                     .then((response) => {
                         this.creditSourceInfo = response.data;
+                        this.maxInputAmount = parseFloat(this.$parent.calcDispAmount(this.creditSourceInfo.approvedAmount - this.creditSourceInfo.sumAllocation , false , false));
+                        if (this.lastCaCsId == caCsId)
+                        {
+                            this.maxInputAmount += parseFloat(this.lastAmount);
+                        }
                         console.log(response);
                     },(error) => {
                         console.log(error);
@@ -1283,6 +1297,7 @@
             },
 
             openInsertModal: function (type) {
+                this.lastCaCsId = 0;
                 this.creditSourceInfo = [];
                 this.AllocationInput = [];
                 this.costAgreements = [];
@@ -1342,7 +1357,9 @@
                 this.AllocationFill.idNumber = item.caLetterNumber;
                 this.AllocationFill.date = item.caLetterDate;
                 this.AllocationFill.caCsId = item.caCcsId;
+                this.lastCaCsId = this.AllocationFill.caCsId;
                 this.AllocationFill.amount = this.$parent.calcDispAmount(item.caAmount , false , false);
+                this.lastAmount = this.AllocationFill.amount;
                 this.AllocationFill.description = item.caDescription;
                 this.selectedCostAgreement = progId;
                 this.showUpdateModal = true;

@@ -12,13 +12,18 @@ class AmountUnit extends Model
 
     public static function convertInputAmount($amount)
     {
-        $amountUnit = (User::find(Auth::user()->id)->first()->inPutAmountUnit->auAmount);
-        return $amount * $amountUnit;
+        $amountUnit = User::where('id' , Auth::user()->id)
+            ->with('inPutAmountUnit')
+            ->first();
+        return $amount * $amountUnit->inPutAmountUnit->auAmount;
     }
 
     public static function convertDispAmount($amount)
     {
-        $tempAmount = ($amount / (User::where('id' , '=' , Auth::user()->id)->first()->dispAmountUnit->auAmount));
+        $amountUnit = User::where('id' , Auth::user()->id)
+            ->with('inPutAmountUnit')
+            ->first();
+        $tempAmount = ($amount / ($amountUnit->dispAmountUnit->auAmount));
         $numberAr = explode('.', (string)$tempAmount);
         if(isset($numberAr[1]))
         {
@@ -33,8 +38,10 @@ class AmountUnit extends Model
 
     public static function convertDispAmountWithoutSplliter($amount)
     {
-        $tempAmount = ($amount / (User::where('id' , '=' , Auth::user()->id)->first()->dispAmountUnit->auAmount));
-        return $tempAmount;
+        $amountUnit = User::where('id' , Auth::user()->id)
+            ->with('inPutAmountUnit')
+            ->first();
+        return ($amount / ($amountUnit->dispAmountUnit->auAmount));
     }
 
     public function userInPutAmountUnit()

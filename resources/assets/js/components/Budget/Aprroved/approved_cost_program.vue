@@ -660,9 +660,9 @@
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
                                 <label>مبلغ اعتبار <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="caCreditSourceInput.amount" v-validate="'required|decimal'" :class="{'input': true, 'error-border': errors.has('amount')}">
+                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="caCreditSourceInput.amount" v-validate="'required|decimal|min_value:1'" :class="{'input': true, 'error-border': errors.has('amount')}">
                                 </label>
-                                <span v-show="errors.has('amount')" class="error-font">لطفا مبلغ اعتبار را وارد کنید!</span>
+                                <span v-show="errors.has('amount')" class="error-font">مبلغ اعتبار فراموش شده / نامعتبر است!</span>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -738,9 +738,9 @@
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
                                 <label>مبلغ اعتبار <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="caCreditSourceFill.amount" v-validate="'required|decimal'" :class="{'input': true, 'error-border': errors.has('amount')}">
+                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="caCreditSourceFill.amount" v-validate="'required|decimal|min_value:1'" :class="{'input': true, 'error-border': errors.has('amount')}">
                                 </label>
-                                <span v-show="errors.has('amount')" class="error-font">لطفا مبلغ اعتبار را وارد کنید!</span>
+                                <span v-show="errors.has('amount')" class="error-font">مبلغ اعتبار فراموش شده / نامعتبر است!</span>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -1052,9 +1052,9 @@
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
                                 <label>مبلغ اعتبار <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="acaCreditSourceInput.amount" v-validate="'required|decimal'" :class="{'input': true, 'error-border': errors.has('amount')}">
+                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="acaCreditSourceInput.amount" v-validate="'required|decimal|min_value:1'" :class="{'input': true, 'error-border': errors.has('amount')}">
                                 </label>
-                                <span v-show="errors.has('amount')" class="error-font">لطفا مبلغ اعتبار را وارد کنید!</span>
+                                <span v-show="errors.has('amount')" class="error-font">مبلغ اعتبار فراموش شده / نامعتبر است!</span>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -1130,9 +1130,9 @@
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
                                 <label>مبلغ اعتبار <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="acaCreditSourceFill.amount" v-validate="'required|decimal'" :class="{'input': true, 'error-border': errors.has('amount')}">
+                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="acaCreditSourceFill.amount" v-validate="'required|decimal|min_value:1'" :class="{'input': true, 'error-border': errors.has('amount')}">
                                 </label>
-                                <span v-show="errors.has('amount')" class="error-font">لطفا مبلغ اعتبار را وارد کنید!</span>
+                                <span v-show="errors.has('amount')" class="error-font">مبلغ اعتبار فراموش شده / نامعتبر است!</span>
                             </div>
                         </div>
                         <div class="grid-x">

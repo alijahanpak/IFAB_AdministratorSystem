@@ -1024,9 +1024,9 @@
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
                                 <label>مبلغ اعتبار <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="apCreditSourceFill.csAmount" v-validate="'required|decimal'" :class="{'input': true, 'error-border': errors.has('amount')}">
+                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="apCreditSourceFill.csAmount" v-validate="'required|decimal|min_value:1'" :class="{'input': true, 'error-border': errors.has('amount')}">
                                 </label>
-                                <span v-show="errors.has('amount')" class="error-font">لطفا مبلغ اعتبار پروژه را وارد کنید!</span>
+                                <span v-show="errors.has('amount')" class="error-font">مبلغ اعتبار پروژه فراموش شده / نا معتبر است!</span>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -1102,9 +1102,9 @@
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
                                 <label>مبلغ اعتبار <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="apCreditSourceInput.csAmount" v-validate="'required|decimal'" :class="{'input': true, 'error-border': errors.has('amount')}">
+                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="apCreditSourceInput.csAmount" v-validate="'required|decimal|min_value:1'" :class="{'input': true, 'error-border': errors.has('amount')}">
                                 </label>
-                                <span v-show="errors.has('amount')" class="error-font">لطفا مبلغ اعتبار پروژه را وارد کنید!</span>
+                                <span v-show="errors.has('amount')" class="error-font">مبلغ اعتبار پروژه فراموش شده / نا معتبر است!</span>
                             </div>
                         </div>
                         <div class="grid-x">
