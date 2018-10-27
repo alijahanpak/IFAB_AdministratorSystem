@@ -124,9 +124,7 @@ class AllocationOfCapitalAssetsController extends Controller
 
     public function getCapitalAssetsCreditSourceInfo(Request $request)
     {
-        $info['approvedAmount'] = CapCreditSource::where('id' , '=' , $request->pcsId)->value('ccsAmount');
-        $info['sumAllocation'] = CapitalAssetsAllocation::where('caaCcsId' , '=' , $request->pcsId)->sum('caaAmount');
-        return \response()->json($info);
+        return CapCreditSource::where('id' , $request->pcsId)->first();
     }
 
 
@@ -304,9 +302,7 @@ class AllocationOfCapitalAssetsController extends Controller
 
     public function getCostCreditSourceInfo(Request $request)
     {
-        $info['approvedAmount'] = CaCreditSource::where('id' , '=' , $request->caCsId)->value('ccsAmount');
-        $info['sumAllocation'] = CostAllocation::where('caCcsId' , '=' , $request->caCsId)->sum('caAmount');
-        return \response()->json($info);
+        return CaCreditSource::where('id' , $request->caCsId)->first();
     }
 
     public function getAllCostAllocates($pOrN , $searchValue , $itemInPage)

@@ -146,7 +146,7 @@
                                                                 <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
                                                                         <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_EDIT')"><a v-on:click.prevent="openUpdateModal(plans.capital_assets_project[0] , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                        <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DELETE')"><a v-on:click.prevent="openDeleteModal(plans.capital_assets_project[0].id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DELETE')"><a v-on:click.prevent="openDeleteModal(plans.capital_assets_project[0] , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                         <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_INSERT')"><a v-on:click.prevent="openApCreditSourceInsertModal(plans.capital_assets_project[0].id ,0)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
                                                                     </ul>
                                                                 </div>
@@ -189,7 +189,7 @@
                                                                             <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedProjectCs' + plans.id + creditSource.id" data-dropdown data-auto-focus="true">
                                                                                 <ul class="my-menu small-font text-right">
                                                                                     <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_EDIT')"><a v-on:click.prevent="openApCsUpdateModal(creditSource , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                                    <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_DELETE')"><a v-on:click.prevent="openApCsDeleteModal(creditSource.id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                                    <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_DELETE')"><a v-on:click.prevent="openApCsDeleteModal(creditSource , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </div>
@@ -232,7 +232,7 @@
                                                                     <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id + project.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
                                                                             <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_EDIT')"><a v-on:click.prevent="openUpdateModal(project , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                            <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DELETE')"><a v-on:click.prevent="openDeleteModal(project.id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                            <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DELETE')"><a v-on:click.prevent="openDeleteModal(project , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                             <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_INSERT')"><a v-on:click.prevent="openApCreditSourceInsertModal(project.id ,0)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
                                                                         </ul>
                                                                     </div>
@@ -275,7 +275,7 @@
                                                                                 <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedProjectCs' + plans.id + creditSource.id" data-dropdown data-auto-focus="true">
                                                                                     <ul class="my-menu small-font text-right">
                                                                                         <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_EDIT')"><a v-on:click.prevent="openApCsUpdateModal(creditSource , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                                        <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_DELETE')"><a v-on:click.prevent="openApCsDeleteModal(creditSource.id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                                        <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_DELETE')"><a v-on:click.prevent="openApCsDeleteModal(creditSource , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                                     </ul>
                                                                                 </div>
                                                                             </div>
@@ -421,7 +421,7 @@
                                                             <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
                                                                     <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_EDIT')"><a v-on:click.prevent="openUpdateModal(plans.capital_assets_project[0] , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DELETE')"><a v-on:click.prevent="openDeleteModal(plans.capital_assets_project[0].id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DELETE')"><a v-on:click.prevent="openDeleteModal(plans.capital_assets_project[0] , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                     <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_INSERT')"><a v-on:click.prevent="openApCreditSourceInsertModal(plans.capital_assets_project[0].id ,1)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
                                                                 </ul>
                                                             </div>
@@ -464,7 +464,7 @@
                                                                         <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedProjectCs' + plans.id + creditSource.id" data-dropdown data-auto-focus="true">
                                                                             <ul class="my-menu small-font text-right">
                                                                                 <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_EDIT')"><a v-on:click.prevent="openApCsUpdateModal(creditSource , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                                <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_DELETE')"><a v-on:click.prevent="openApCsDeleteModal(creditSource.id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                                <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_DELETE')"><a v-on:click.prevent="openApCsDeleteModal(creditSource , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                             </ul>
                                                                         </div>
                                                                     </div>
@@ -507,7 +507,7 @@
                                                                 <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id + project.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
                                                                         <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_EDIT')"><a v-on:click.prevent="openUpdateModal(project , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                        <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DELETE')"><a v-on:click.prevent="openDeleteModal(project.id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DELETE')"><a v-on:click.prevent="openDeleteModal(project , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                         <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_INSERT')"><a v-on:click.prevent="openApCreditSourceInsertModal(project.id ,1)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
                                                                     </ul>
                                                                 </div>
@@ -550,7 +550,7 @@
                                                                             <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedProjectCs' + plans.id + creditSource.id" data-dropdown data-auto-focus="true">
                                                                                 <ul class="my-menu small-font text-right">
                                                                                     <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_EDIT')"><a v-on:click.prevent="openApCsUpdateModal(creditSource , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                                    <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_DELETE')"><a v-on:click.prevent="openApCsDeleteModal(creditSource.id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                                    <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_DELETE')"><a v-on:click.prevent="openApCsDeleteModal(creditSource , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </div>
@@ -584,7 +584,6 @@
                         </div><!--Tab nat End-->
                     </div>
                 </div>
-            </div>
             </div>
             <!--Forms Start-->
             <!--Insert Modal Start-->
@@ -901,10 +900,25 @@
                                 </label>
                             </div>
                         </div>
+                        <div style="margin-top: 5px" class="grid-x padding-lr">
+                            <div class="medium-12 my-callout-bg-color">
+                                <div class="grid-x">
+                                    <div class="medium-12 ">
+                                        <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(apCreditSourceFill.lastAmount) }}</span>
+                                    </div>
+                                    <div class="medium-12 ">
+                                        <span class="btn-red">مجموع تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(apCreditSourceFill.sumOfAllocation) }}</span>
+                                    </div>
+                                    <div class="medium-12 ">
+                                        <span class="btn-red">باقی مانده:</span><span>{{ ' ' + $parent.calcDispAmount(apCreditSourceFill.lastAmount - apCreditSourceFill.sumOfAllocation) }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
                                 <label>مبلغ اعتبار <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="apCreditSourceFill.csAmount" v-validate="'required|decimal|min_value:1'" :class="{'input': true, 'error-border': errors.has('amount')}">
+                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="apCreditSourceFill.csAmount" v-validate="'required|decimal|min_value:' + minInputAmount" :class="{'input': true, 'error-border': errors.has('amount')}">
                                 </label>
                                 <span v-show="errors.has('amount')" class="error-font">مبلغ اعتبار پروژه فراموش شده / نا معتبر است!</span>
                             </div>
@@ -1017,10 +1031,11 @@
                     </div>
                 </div>
             </modal-tiny>
-
             <!--Report Modal End-->
-
             <!--Forms End-->
+            <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
+                {{dialogMessage}}
+            </messageDialog>
         </div>
     </div>
 </template>
@@ -1084,13 +1099,15 @@
                     current_page: 1,
                     last_page: ''
                 },
+                minInputAmount: 1,
+                dialogMessage:'',
+                showDialogModal: false,
             }
         },
 
         created: function () {
             this.fetchProvincialData();
             this.fetchNationalData();
-
             this.setUpdateDataThread();
         },
 
@@ -1375,6 +1392,9 @@
                 this.selectedSeason = item.tiny_season.season_title.castSId;
                 this.selectedSeasonTitle = item.tiny_season.catsCastId;
                 this.provOrNat = type;
+                this.apCreditSourceFill.lastAmount = item.ccsAmount;
+                this.apCreditSourceFill.sumOfAllocation = item.ccsSumOfAllocation;
+                this.minInputAmount = this.apCreditSourceFill.sumOfAllocation == 0 ? 1 : (this.$parent.calcDispAmount(this.apCreditSourceFill.sumOfAllocation, false, false));
                 this.showApCsUpdateModal = true;
                 this.getHowToRun();
                 this.getSeasons();
@@ -1496,10 +1516,16 @@
                 });
             },
 
-            openDeleteModal: function (apId , type) {
-                this.apIdForDelete = apId;
-                this.provOrNat = type;
-                this.showDeleteModal = true;
+            openDeleteModal: function (project , type) {
+                if (project.cpSumOfAllocation == 0)
+                {
+                    this.apIdForDelete = project.id;
+                    this.provOrNat = type;
+                    this.showDeleteModal = true;
+                }else{
+                    this.dialogMessage = 'با توجه به اینکه برای پروژه انتخاب شده تخصیص ابلاغ شده است، امکان حذف وجود ندارد.';
+                    this.showDialogModal = true;
+                }
             },
 
             deleteApprovedProject: function () {
@@ -1531,10 +1557,16 @@
                 });
             },
 
-            openApCsDeleteModal: function (csId , type) {
-                this.csIdForDelete = csId;
-                this.provOrNat = type;
-                this.showApCsDeleteModal = true;
+            openApCsDeleteModal: function (creditSource , type) {
+                if (creditSource.ccsSumOfAllocation == 0)
+                {
+                    this.csIdForDelete = creditSource.if;
+                    this.provOrNat = type;
+                    this.showApCsDeleteModal = true;
+                }else{
+                    this.dialogMessage = 'با توجه به اینکه برای منبع تامین اعتبار انتخاب شده تخصیص ابلاغ شده است، امکان حذف وجود ندارد.';
+                    this.showDialogModal = true;
+                }
             },
 
             deleteApprovedProjectCreditSource: function () {

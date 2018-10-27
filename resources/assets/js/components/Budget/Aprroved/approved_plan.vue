@@ -723,7 +723,7 @@
                                                         <a class="dropdown small sm-btn-align" :data-toggle="'project' + project.id"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'project' + project.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
-                                                                <li><a v-on:click.prevent="openDeleteTempProjectModal(project.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                <li><a v-on:click.prevent="openDeleteTempProjectModal(project)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                 <li><a v-on:click.prevent="openAPCreditInsertModal(project.id)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
                                                                 <li><a v-on:click.prevent="openEditTempProjectModal(project)"><i class="fa fa-newspaper-o size-16"></i>  اصلاح</a></li>
                                                             </ul>
@@ -765,7 +765,7 @@
                                                                     <a class="dropdown small sm-btn-align" :data-toggle="'projectCs' + credit_source.id"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'projectCs' + credit_source.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
-                                                                            <li><a v-on:click.prevent="openDeleteTempCreditSourceModal(credit_source.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                            <li><a v-on:click.prevent="openDeleteTempCreditSourceModal(credit_source)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                             <li><a v-on:click.prevent="openAPCreditEditModal(credit_source)"><i class="fa fa-newspaper-o size-16"></i>  اصلاح</a></li>
                                                                         </ul>
                                                                     </div>
@@ -874,7 +874,7 @@
                 <div  slot="body">
                     <div class="small-font">
                         <p>کاربر گرامی</p>
-                        <p class="large-offset-1 modal-text">با حذف پروژه انتخاب شده، تخصیص های اعتبار این پروژه صفر می گردد و لازم است محل های هزینه کرد اصلاح شود.</p>
+                        <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
                         <div class="grid-x">
                             <div class="medium-12 column text-center">
                                 <button v-on:click="deleteTempProject" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
@@ -1021,10 +1021,25 @@
                                 </label>
                             </div>
                         </div>
+                        <div style="margin-top: 5px" class="grid-x padding-lr">
+                            <div class="medium-12 my-callout-bg-color">
+                                <div class="grid-x">
+                                    <div class="medium-12 ">
+                                        <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(apCreditSourceFill.lastAmount) }}</span>
+                                    </div>
+                                    <div class="medium-12 ">
+                                        <span class="btn-red">مجموع تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(apCreditSourceFill.sumOfAllocation) }}</span>
+                                    </div>
+                                    <div class="medium-12 ">
+                                        <span class="btn-red">باقی مانده:</span><span>{{ ' ' + $parent.calcDispAmount(apCreditSourceFill.lastAmount - apCreditSourceFill.sumOfAllocation) }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="grid-x">
                             <div class="medium-6 cell padding-lr">
                                 <label>مبلغ اعتبار <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="apCreditSourceFill.csAmount" v-validate="'required|decimal|min_value:1'" :class="{'input': true, 'error-border': errors.has('amount')}">
+                                    <input class="form-element-margin-btm" type="text" name="amount" v-model="apCreditSourceFill.csAmount" v-validate="'required|decimal|min_value:' + minInputAmount" :class="{'input': true, 'error-border': errors.has('amount')}">
                                 </label>
                                 <span v-show="errors.has('amount')" class="error-font">مبلغ اعتبار پروژه فراموش شده / نا معتبر است!</span>
                             </div>
@@ -1204,7 +1219,7 @@
                 <div  slot="body">
                     <div class="small-font">
                         <p>کاربر گرامی</p>
-                        <p class="large-offset-1 modal-text">با حذف منبع اعتبار انتخاب شده، تخصیص های اعتبار صفر می گردد و لازم است محل های هزینه کرد اصلاح شود.</p>
+                        <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
                         <div class="grid-x">
                             <div class="medium-12 column text-center">
                                 <button v-on:click="deleteTempCreditSource" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
@@ -1358,6 +1373,9 @@
                 </div>
             </modal-large>
             <!--amendment plan info-->
+            <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
+                {{dialogMessage}}
+            </messageDialog>
         </div>
     </div>
 </template>
@@ -1441,6 +1459,9 @@
                     current_page: 1,
                     last_page: ''
                 },
+                minInputAmount: 1,
+                dialogMessage:'',
+                showDialogModal: false,
             }
         },
 
@@ -2004,6 +2025,9 @@
                 this.apCreditSourceFill.htrId = creditSource.ccsHtrId;
                 this.apCreditSourceFill.csAmount = this.$parent.calcDispAmount(creditSource.ccsAmount , false , false);
                 this.apCreditSourceFill.csDescription = creditSource.ccsDescription;
+                this.apCreditSourceFill.lastAmount = creditSource.ccsAmount;
+                this.apCreditSourceFill.sumOfAllocation = creditSource.ccsSumOfAllocation;
+                this.minInputAmount = this.apCreditSourceFill.sumOfAllocation == 0 ? 1 : (this.$parent.calcDispAmount(this.apCreditSourceFill.sumOfAllocation, false, false));
                 this.showApCreditEditModal=true;
             },
 
@@ -2020,14 +2044,26 @@
                 this.showModalAmendment = true;
             },
 
-            openDeleteTempProjectModal: function (pId) {
-                this.tempProjectSelectedId_delete = pId;
-                this.showDeleteTempProjectModal = true;
+            openDeleteTempProjectModal: function (project) {
+                if (project.cpSumOfAllocation == 0)
+                {
+                    this.tempProjectSelectedId_delete = project.id;
+                    this.showDeleteTempProjectModal = true;
+                }else{
+                    this.dialogMessage = 'با توجه به اینکه برای پروژه انتخاب شده تخصیص ابلاغ شده است، امکان حذف وجود ندارد.';
+                    this.showDialogModal = true;
+                }
             },
 
-            openDeleteTempCreditSourceModal: function (csId) {
-                this.tempCreditSourceSelectedId_delete = csId;
-                this.showDeleteTempCreditSourceModal = true;
+            openDeleteTempCreditSourceModal: function (creditSource) {
+                if (creditSource.ccsSumOfAllocation == 0)
+                {
+                    this.tempCreditSourceSelectedId_delete = creditSource.id;
+                    this.showDeleteTempCreditSourceModal = true;
+                }else{
+                    this.dialogMessage = 'با توجه به اینکه برای منبع تامین اعتبار انتخاب شده تخصیص ابلاغ شده است، امکان حذف وجود ندارد.';
+                    this.showDialogModal = true;
+                }
             },
 
             openAmendmentPlanInfoModal: function (amendment) {

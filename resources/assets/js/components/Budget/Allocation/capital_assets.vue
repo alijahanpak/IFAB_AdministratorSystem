@@ -134,7 +134,7 @@
                                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCapitalAssetsAllocation' + plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
                                                                         <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT')"><a v-on:click.prevent="openUpdateModal(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0] , plans.id , plans.capital_assets_project_has_credit_source[0].id , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                        <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')"><a v-on:click.prevent="openDeleteModal(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')"><a v-on:click.prevent="openDeleteModal(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0] , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -165,7 +165,7 @@
                                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCapitalAssetsAllocation' + projects.credit_source_has_allocation[0].allocation[0].id" data-dropdown data-auto-focus="true">
                                                                        <ul class="my-menu small-font text-right">
                                                                            <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT')"><a v-on:click.prevent="openUpdateModal(projects.credit_source_has_allocation[0].allocation[0] , plans.id , projects.id , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                           <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')"><a v-on:click.prevent="openDeleteModal(projects.credit_source_has_allocation[0].allocation[0].id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                           <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')"><a v-on:click.prevent="openDeleteModal(projects.credit_source_has_allocation[0].allocation[0] , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                        </ul>
                                                                    </div>
                                                                </div>
@@ -191,7 +191,7 @@
                                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCapitalAssetsAllocation' + credit_source.allocation[0].id" data-dropdown data-auto-focus="true">
                                                                             <ul class="my-menu small-font text-right">
                                                                                 <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT')"><a v-on:click.prevent="openUpdateModal(credit_source.allocation[0] , plans.id , projects.id , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                                <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')"><a v-on:click.prevent="openDeleteModal(credit_source.allocation[0].id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                                <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')"><a v-on:click.prevent="openDeleteModal(credit_source.allocation[0] , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                             </ul>
                                                                         </div>
                                                                     </div>
@@ -216,7 +216,7 @@
                                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCapitalAssetsAllocation' + alloc.id" data-dropdown data-auto-focus="true">
                                                                                 <ul class="my-menu small-font text-right">
                                                                                     <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT')"><a v-on:click.prevent="openUpdateModal(alloc , plans.id , projects.id , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                                    <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')"><a v-on:click.prevent="openDeleteModal(alloc.id , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                                    <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')"><a v-on:click.prevent="openDeleteModal(alloc , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </div>
@@ -355,7 +355,7 @@
                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'natCapitalAssetsAllocation' + plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
                                                                     <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT')"><a v-on:click.prevent="openUpdateModal(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0] , plans.id , plans.capital_assets_project_has_credit_source[0].id , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')"><a v-on:click.prevent="openDeleteModal(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')"><a v-on:click.prevent="openDeleteModal(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0] , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -385,7 +385,7 @@
                                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'natCapitalAssetsAllocation' + projects.credit_source_has_allocation[0].allocation[0].id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
                                                                         <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT')"><a v-on:click.prevent="openUpdateModal(projects.credit_source_has_allocation[0].allocation[0] , plans.id , projects.id , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                        <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')"><a v-on:click.prevent="openDeleteModal(projects.credit_source_has_allocation[0].allocation[0].id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                        <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')"><a v-on:click.prevent="openDeleteModal(projects.credit_source_has_allocation[0].allocation[0] , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -410,7 +410,7 @@
                                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'natCapitalAssetsAllocation' + credit_source.allocation[0].id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
                                                                             <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT')"><a v-on:click.prevent="openUpdateModal(credit_source.allocation[0] , plans.id , projects.id , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                            <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')"><a v-on:click.prevent="openDeleteModal(credit_source.allocation[0].id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                            <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')"><a v-on:click.prevent="openDeleteModal(credit_source.allocation[0] , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                         </ul>
                                                                     </div>
                                                                 </div>
@@ -434,7 +434,7 @@
                                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'natCapitalAssetsAllocation' + alloc.id" data-dropdown data-auto-focus="true">
                                                                             <ul class="my-menu small-font text-right">
                                                                                 <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT')"><a v-on:click.prevent="openUpdateModal(alloc , plans.id , projects.id , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                                <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')"><a v-on:click.prevent="openDeleteModal(alloc.id , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                                <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')"><a v-on:click.prevent="openDeleteModal(alloc , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                             </ul>
                                                                         </div>
                                                                     </div>
@@ -540,8 +540,8 @@
                                                             <a class="dropdown small sm-btn-align" :data-toggle="'capitalAssetsFound' + found.id"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div style="width: 170px" class="dropdown-pane dropdown-pane-sm" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'capitalAssetsFound' + found.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
-                                                                    <li v-show="$can('BUDGET_CAPITAL_ASSETS_FOUND_EDIT')"><a v-on:click.prevent="openFoundUpdateModal(found)"><i class="fa fa-newspaper-o size-16"></i>  ویراش</a></li>
-                                                                    <li v-show="$can('BUDGET_CAPITAL_ASSETS_FOUND_DELETE')"><a v-on:click.prevent="openFoundDeleteModal(found.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                                    <li v-show="$can('BUDGET_CAPITAL_ASSETS_FOUND_EDIT')"><a v-on:click.prevent="openFoundUpdateModal(found)"><i class="fa fa-newspaper-o size-16"></i>  ویرایش</a></li>
+                                                                    <li v-show="$can('BUDGET_CAPITAL_ASSETS_FOUND_DELETE')"><a v-on:click.prevent="openFoundDeleteModal(found)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                     <li v-show="$can('BUDGET_CAPITAL_ASSETS_FOUND_CONVERT_TO_ALLOCATION')"><a v-on:click.prevent="openConvertToModal(found.id)"><i class="fa fa-trash-o size-16"></i>  تبدیل به تخصیص</a></li>
                                                                 </ul>
                                                             </div>
@@ -615,21 +615,24 @@
                                 </div>
                                 <div class="medium-6 cell padding-lr">
                                     <label>مبلغ تخصیص <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                        <input class="form-element-margin-btm" type="text"  v-model="AllocationInput.amount" name="creditCost" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('creditCost')}"/>
+                                        <input class="form-element-margin-btm" type="text"  v-model="AllocationInput.amount" name="creditCost" v-validate="'required|min_value:1|max_value:' + maxInputAmount" :class="{'input': true, 'select-error': errors.has('creditCost')}"/>
                                     </label>
-                                    <span v-show="errors.has('creditCost')" class="error-font">لطفا مبلغ تخصیص را وارد کنید!</span>
+                                    <span v-show="errors.has('creditCost')" class="error-font">مبلغ تخصیص فراموش شده / نا معتبر است!</span>
                                 </div>
                             </div>
-                            <div class="grid-x padding-lr" style="margin-top: 10px" v-show="creditSourceInfo.approvedAmount">
+                            <div class="grid-x padding-lr" style="margin-top: 10px" v-show="creditSourceInfo != ''">
                                 <div class="medium-12 my-callout-bg-color">
                                     <div class="medium-12">
-                                        <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount) }}</span>
+                                        <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsAmount) }}</span>
                                     </div>
                                     <div class="medium-12">
-                                        <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.sumAllocation) }}</span>
+                                        <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsSumOfAllocation) }}</span>
                                     </div>
                                     <div class="medium-12">
-                                        <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.approvedAmount , creditSourceInfo.sumAllocation) }}</span>
+                                        <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.ccsAmount , creditSourceInfo.ccsSumOfAllocation) }}</span>
+                                    </div>
+                                    <div class="medium-12 ">
+                                        <span class="btn-red">باقی مانده:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsAmount - creditSourceInfo.ccsSumOfAllocation) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -701,21 +704,36 @@
                                 </div>
                                 <div class="medium-6 cell padding-lr">
                                     <label>مبلغ تخصیص <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                        <input :disabled="AllocationFill.isFound" class="form-element-margin-btm" type="text"  v-model="AllocationFill.amount" name="creditCost" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('creditCost')}"/>
+                                        <input :disabled="AllocationFill.isFound" class="form-element-margin-btm" type="text"  v-model="AllocationFill.amount" name="creditCost" v-validate="'required|min_value:' + minInputAmount + '|max_value:' + maxInputAmount" :class="{'input': true, 'select-error': errors.has('creditCost')}"/>
                                     </label>
-                                    <span v-show="errors.has('creditCost')" class="error-font">لطفا مبلغ تخصیص را وارد کنید!</span>
+                                    <span v-show="errors.has('creditCost')" class="error-font">مبلغ تخصیص فراموش شده / نا معتبر است!</span>
                                 </div>
                             </div>
-                            <div class="grid-x padding-lr" style="margin-top: 10px" v-show="creditSourceInfo.approvedAmount">
+                            <div style="margin-top: 10px" class="grid-x padding-lr" v-show="creditSourceInfo != ''">
                                 <div class="medium-12 my-callout-bg-color">
-                                    <div class="medium-12">
-                                        <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount) }}</span>
-                                    </div>
-                                    <div class="medium-12">
-                                        <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.sumAllocation) }}</span>
-                                    </div>
-                                    <div class="medium-12">
-                                        <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.approvedAmount , creditSourceInfo.sumAllocation) }}</span>
+                                    <div class="grid-x">
+                                        <div class="large-6 medium-6 small-12">
+                                            <div class="medium-12">
+                                                <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsAmount) }}</span>
+                                            </div>
+                                            <div class="medium-12">
+                                                <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsSumOfAllocation) }}</span>
+                                            </div>
+                                            <div class="medium-12">
+                                                <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.ccsAmount , creditSourceInfo.ccsSumOfAllocation) }}</span>
+                                            </div>
+                                            <div class="medium-12 ">
+                                                <span class="btn-red">باقی مانده:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsAmount - creditSourceInfo.ccsSumOfAllocation) }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="large-6 medium-6 small-12">
+                                            <div class="medium-12">
+                                                <span class="btn-red">رزرو شده:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsSumOfReserved) }}</span>
+                                            </div>
+                                            <div class="medium-12">
+                                                <span class="btn-red">تعهد شده:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsSumOfCommitment) }}</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -769,9 +787,9 @@
                             <div class="grid-x">
                                 <div class="medium-12 cell padding-lr">
                                     <label>مبلغ تنخواه <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                        <input class="form-element-margin-btm" type="text"  v-model="foundInput.amount" name="foundAmount" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('foundAmount')}"/>
+                                        <input class="form-element-margin-btm" type="text"  v-model="foundInput.amount" name="foundAmount" v-validate="'required|min_value:1'" :class="{'input': true, 'select-error': errors.has('foundAmount')}"/>
                                     </label>
-                                    <span v-show="errors.has('foundAmount')" class="error-font">لطفا مبلغ تنخواه را وارد کنید!</span>
+                                    <span v-show="errors.has('foundAmount')" class="error-font">مبلغ تنخواه فراموش شده / نا معتبر است!</span>
                                 </div>
                             </div>
                             <div class="grid-x">
@@ -805,12 +823,30 @@
                                     </label>
                                 </div>
                             </div>
+                            <div style="margin-top: 5px" class="grid-x padding-lr">
+                                <div class="medium-12 my-callout-bg-color">
+                                    <div class="grid-x">
+                                        <div class="medium-12 ">
+                                            <span class="btn-red">مبلغ تنخواه:</span><span>{{ ' ' + $parent.calcDispAmount(foundFill.lastAmount) }}</span>
+                                        </div>
+                                        <div class="medium-12 ">
+                                            <span class="btn-red">تعهد شده:</span><span>{{ ' ' + $parent.calcDispAmount(foundFill.sumOfCommitment) }}</span>
+                                        </div>
+                                        <div class="medium-12 ">
+                                            <span class="btn-red">رزرو شده:</span><span>{{ ' ' + $parent.calcDispAmount(foundFill.sumOfReserved) }}</span>
+                                        </div>
+                                        <div class="medium-12 ">
+                                            <span class="btn-red">تبدیل شده:</span><span>{{ ' ' + $parent.calcDispAmount(foundFill.convertedAllocAmount) }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="grid-x">
                                 <div class="medium-12 cell padding-lr">
                                     <label>مبلغ تنخواه <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                        <input class="form-element-margin-btm" type="text"  v-model="foundFill.amount" name="foundAmount" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('foundAmount')}"/>
+                                        <input class="form-element-margin-btm" type="text"  v-model="foundFill.amount" name="foundAmount" v-validate="'required|min_value:' + minInputAmount" :class="{'input': true, 'select-error': errors.has('foundAmount')}"/>
                                     </label>
-                                    <span v-show="errors.has('foundAmount')" class="error-font">لطفا مبلغ تنخواه را وارد کنید!</span>
+                                    <span v-show="errors.has('foundAmount')" class="error-font">مبلغ تنخواه فراموش شده / نا معتبر است!</span>
                                 </div>
                             </div>
                             <div class="grid-x">
@@ -877,16 +913,16 @@
                                     </label>
                                 </div>
                             </div>
-                            <div style="margin-top: 10px;" class="grid-x padding-lr" v-show="creditSourceInfo.approvedAmount">
+                            <div style="margin-top: 10px;" class="grid-x padding-lr" v-show="creditSourceInfo != ''">
                                 <div class="medium-6 my-callout-bg-color">
                                     <div class="medium-12">
-                                        <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount) }}</span>
+                                        <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsAmount) }}</span>
                                     </div>
                                     <div class="medium-12">
-                                        <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.sumAllocation) }}</span>
+                                        <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsSumOfAllocation) }}</span>
                                     </div>
                                     <div class="medium-12">
-                                        <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.approvedAmount , creditSourceInfo.sumAllocation) }}</span>
+                                        <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.ccsAmount , creditSourceInfo.ccsSumOfAllocation) }}</span>
                                     </div>
                                 </div>
                                 <div class="medium-6 my-callout-bg-color">
@@ -894,7 +930,7 @@
                                         <span class="btn-red">مجموع مبالغ انتخاب شده:</span><span>{{ ' ' + $parent.calcDispAmount(sumOfSelectedAmount) }}</span>
                                     </div>
                                     <div class="medium-12 ">
-                                        <span class="btn-red">باقی مانده:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.approvedAmount - creditSourceInfo.sumAllocation - sumOfSelectedAmount) }}</span>
+                                        <span class="btn-red">باقی مانده:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsAmount - creditSourceInfo.ccsSumOfAllocation - sumOfSelectedAmount) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -1111,7 +1147,9 @@
                 </modal-tiny>
                 <!--Report Found Modal End-->
                 <!--Forms End-->
-
+                <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
+                    {{dialogMessage}}
+                </messageDialog>
             </div>
         </div>
     </div>
@@ -1148,7 +1186,7 @@
                 unSelectedCost: false,
                 dateIsValid_found: true,
                 AllocationFill: {},
-                creditSourceInfo: {},
+                creditSourceInfo: '',
                 aIdForDelete: '',
                 fIdForDelete: '',
                 approvedPlans: {},
@@ -1176,6 +1214,12 @@
                 },
                 sumOfSelectedAmount: 0,
                 overflowError: false,
+                maxInputAmount: 1,
+                minInputAmount: 1,
+                lastPcsId: 0,
+                lastAmount: 0,
+                dialogMessage:'',
+                showDialogModal: false,
             }
         },
         created: function () {
@@ -1329,6 +1373,15 @@
                 axios.get('/budget/allocation/capital_assets/getCapitalAssetsCreditSourceInfo' , {params:{pcsId: pcsId}})
                     .then((response) => {
                         this.creditSourceInfo = response.data;
+                        this.maxInputAmount = parseFloat(this.$parent.calcDispAmount(this.creditSourceInfo.ccsAmount - this.creditSourceInfo.ccsSumOfAllocation , false , false));
+                        if (this.lastPcsId == pcsId)
+                        {
+                            this.maxInputAmount += parseFloat(this.lastAmount);
+                        }
+                        if (this.creditSourceInfo.ccsSumOfReserved + this.creditSourceInfo.ccsSumOfCommitment == 0)
+                            this.minInputAmount = 1;
+                        else
+                            this.minInputAmount = parseFloat(this.$parent.calcDispAmount(this.creditSourceInfo.ccsSumOfReserved + this.creditSourceInfo.ccsSumOfCommitment , false , false));
                         console.log(response);
                     },(error) => {
                         console.log(error);
@@ -1365,6 +1418,7 @@
             },
 
             openInsertModal: function (type) {
+                this.lastPcsId = 0;
                 this.approvedPlans = [];
                 this.approvedProjects = [];
                 this.projectCreditSources = [];
@@ -1413,7 +1467,7 @@
             },
 
             openUpdateModal: function (item , planId , projectId , type) {
-                this.creditSourceInfo = [];
+                this.creditSourceInfo = '';
                 this.AllocationFill.id = item.id;
                 if (item.caaFoundId == null)
                 {
@@ -1425,6 +1479,8 @@
                 this.AllocationFill.date = item.caaLetterDate;
                 this.AllocationFill.pcsId = item.caaCcsId;
                 this.AllocationFill.amount = this.$parent.calcDispAmount(item.caaAmount , false , false);
+                this.lastPcsId = this.AllocationFill.caaCcsId;
+                this.lastAmount = this.AllocationFill.amount;
                 this.AllocationFill.description = item.caaDescription;
                 this.selectedPlan = planId;
                 this.selectedProject = projectId;
@@ -1473,10 +1529,16 @@
                 });
             },
 
-            openDeleteModal: function (aId , type) {
-                this.aIdForDelete = aId;
-                this.provOrNat = type;
-                this.showDeleteModal = true;
+            openDeleteModal: function (allocation , type) {
+                if (allocation.caaSumOfCommitment == 0 && allocation.caaSumOfReserved == 0)
+                {
+                    this.aIdForDelete = allocation.id;
+                    this.provOrNat = type;
+                    this.showDeleteModal = true;
+                }else{
+                    this.dialogMessage = 'با توجه به اینکه از این محل تعهد و یا مبلغی برای تامین اعتبار رزرو شده است، امکان حذف وجود ندارد.';
+                    this.showDialogModal = true;
+                }
             },
 
             deleteCapitalAssetsAllocation: function () {
@@ -1538,6 +1600,11 @@
                 this.foundFill.date = item.caaLetterDate;
                 this.foundFill.amount = this.$parent.calcDispAmount(item.caaAmount , false , false);
                 this.foundFill.description = item.caaDescription;
+                this.foundFill.lastAmount =  item.caaAmount;
+                this.foundFill.sumOfCommitment = item.caaSumOfCommitment;
+                this.foundFill.sumOfReserved = item.caaSumOfReserved;
+                this.foundFill.convertedAllocAmount = item.caaConvertedAllocAmount;
+                this.minInputAmount = (this.foundFill.sumOfCommitment + this.foundFill.sumOfReserved + this.foundFill.convertedAllocAmount) == 0 ? 1 : (this.$parent.calcDispAmount((this.foundFill.sumOfCommitment + this.foundFill.sumOfReserved + this.foundFill.convertedAllocAmount), false, false));
                 this.showUpdateFoundModal = true;
             },
 
@@ -1565,9 +1632,15 @@
                 });
             },
 
-            openFoundDeleteModal: function (fId) {
-                this.fIdForDelete = fId;
-                this.showDeleteFoundModal = true;
+            openFoundDeleteModal: function (fund) {
+                if (fund.caaConvertedAllocAmount == 0 && fund.caaSumOfReserved == 0 && fund.caaSumOfCommitment == 0)
+                {
+                    this.fIdForDelete = fund.id;
+                    this.showDeleteFoundModal = true;
+                }else{
+                    this.dialogMessage = 'در محل تنخواه انتخاب شده تعهد / رزرو / تبدیل به تخصیص، ایجاد شده است، بنابراین امکان حذف وجود ندارد.';
+                    this.showDialogModal = true;
+                }
             },
 
             deleteProvincialFound: function () {
@@ -1654,7 +1727,7 @@
             },
 
             checkOverflowFundAmount: function(){
-                if ((this.creditSourceInfo.approvedAmount - this.creditSourceInfo.sumAllocation - this.sumOfSelectedAmount) >= 0)
+                if ((this.creditSourceInfo.ccsAmount - this.creditSourceInfo.ccsSumOfAllocation - this.sumOfSelectedAmount) >= 0)
                 {
                     return true
                 }else{
@@ -1671,7 +1744,7 @@
                 this.selectedPlan = '';
                 this.selectedProject = '';
                 this.AllocationInput = [];
-                this.creditSourceInfo = [];
+                this.creditSourceInfo = '';
                 this.showConvertToModal = true;
                 this.foundIdForConvertTo = fId;
                 this.getCapitalAssetsCosts();

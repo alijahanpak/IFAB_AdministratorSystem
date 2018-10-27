@@ -8,6 +8,7 @@ class CapCreditSourceTemp extends Model
 {
     protected $table = 'tbl_cap_credit_source_temp';
     protected $fillable = [];
+    protected $appends = ['ccsSumOfCost' , 'ccsSumOfReserved' , 'ccsSumOfCommitment' , 'ccsSumOfAllocation'];
 
     public function creditDistributionRow()
     {
@@ -27,5 +28,30 @@ class CapCreditSourceTemp extends Model
     public function capitalAssetsProject()
     {
         return $this->belongsTo(CapitalAssetsProjectTemp::class , 'ccsCapId' , 'id');
+    }
+
+    public function allocation()
+    {
+        return $this->hasMany(CapitalAssetsAllocation::class , 'caaCcsId' , 'id')->orderBy('id', 'DESC');
+    }
+
+    public function getCcsSumOfCostAttribute()
+    {
+        return $this->allocation()->get()->sum('caaSumOfCost');
+    }
+
+    public function getCcsSumOfReservedAttribute()
+    {
+        return $this->allocation()->get()->sum('caaSumOfReserved');
+    }
+
+    public function getCcsSumOfCommitmentAttribute()
+    {
+        return $this->allocation()->get()->sum('caaSumOfCommitment');
+    }
+
+    public function getCcsSumOfAllocationAttribute()
+    {
+        return $this->allocation()->get()->sum('caaAmount');
     }
 }
