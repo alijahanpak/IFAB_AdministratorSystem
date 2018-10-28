@@ -353,7 +353,7 @@
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.caSumOfCost)}}</td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{plan.caDescription}}</td>
                                                         <td>
-                                                            <input :disabled="plan.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, plan, 0, plan.amount)" style="margin-bottom:0px;" v-if="plan.selected == true" type="text"  v-model="plan.amount" :name="plan.id" :value="plan.amount"  v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCostAmount(plan , 1) + parseInt(plan.amount , 10))" :class="{'input': true, 'error-border': errors.has(plan.id)}" />
+                                                            <input :disabled="plan.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, plan, 0, plan.amount)" style="margin-bottom:0px;" v-if="plan.selected == true" type="text"  v-model="plan.amount" :name="plan.id" :value="plan.amount"  v-validate="'numeric|min_value:0|max_value:' + (getRemainingCostAmount(plan , 1) + parseInt(plan.amount , 10))" :class="{'input': true, 'error-border': errors.has(plan.id)}" />
                                                             <span v-show="errors.has(plan.id)" class="error-font"></span>
                                                         </td>
                                                         <td><input :disabled="plan.isHistory" v-on:change="setTextBoxValueCost(plan,plan,0)" v-model="plan.selected" type="checkbox"></td>
@@ -471,7 +471,7 @@
                                                             <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{ $root.dispMoneyFormat(creditSource.ccsAmount) }}</td>
                                                             <td :data-toggle="'creditSource' + creditSource.id" class="text-justify">{{creditSource.ccsDescription}}</td>
                                                             <td>
-                                                                <input :disabled="creditSource.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, creditSource, 1, creditSource.amount)" style="margin-bottom:0px;" v-if="creditSource.selected == true" type="text" v-model="creditSource.amount"  :value="creditSource.amount" :name="creditSource.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCostAmount(creditSource , 2) + parseInt(creditSource.amount , 10))" :class="{'input': true, 'error-border': errors.has(creditSource.id)}" />
+                                                                <input :disabled="creditSource.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, creditSource, 1, creditSource.amount)" style="margin-bottom:0px;" v-if="creditSource.selected == true" type="text" v-model="creditSource.amount"  :value="creditSource.amount" :name="creditSource.id" v-validate="'numeric|min_value:0|max_value:' + (getRemainingCostAmount(creditSource , 2) + parseInt(creditSource.amount , 10))" :class="{'input': true, 'error-border': errors.has(creditSource.id)}" />
                                                                 <span v-show="errors.has(creditSource.id)" class="error-font"></span>
                                                             </td>
                                                             <td><input :disabled="creditSource.isHistory" v-on:change="setTextBoxValueCost(plan,creditSource,1)" v-model="creditSource.selected" type="checkbox"></td>
@@ -539,7 +539,10 @@
                                                     <template v-for="plan in completeCostAgrement">
                                                         <template v-for="creditSource in plan.ca_credit_source_has_allocation">
                                                             <tr class="table-row"  v-for="allocation in creditSource.allocation">
-                                                                <td :data-toggle="'allocation' + allocation.id" class="text-center">{{allocation.caLetterNumber}}</td>
+                                                                <td v-if="allocation.caFoundId == null" :data-toggle="'allocation' + allocation.id" class="text-center">{{allocation.caLetterNumber}}</td>
+                                                                <td v-else :data-toggle="'allocation' + allocation.id" class="text-center">
+                                                                    <i class="fa fa-exchange btn-red has-tip top" data-tooltip aria-haspopup="true" data-disable-hover="false" title="تبدیل شده از تنخواه"></i>
+                                                                </td>
                                                                 <td :data-toggle="'allocation' + allocation.id" class="text-center">{{allocation.caLetterDate}}</td>
                                                                 <td :data-toggle="'allocation' + allocation.id" class="text-center">{{$root.dispMoneyFormat(allocation.caAmount)}}</td>
                                                                 <td :data-toggle="'allocation' + allocation.id" class="text-center">{{$root.dispMoneyFormat(allocation.caSumOfReserved)}}
@@ -591,7 +594,7 @@
                                                                 <td :data-toggle="'allocation' + allocation.id" class="text-center">{{$root.dispMoneyFormat(allocation.caSumOfCost)}}</td>
                                                                 <td :data-toggle="'allocation' + allocation.id" class="text-justify">{{allocation.caDescription}}</td>
                                                                 <td>
-                                                                    <input :disabled="allocation.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan,allocation,2,allocation.amount)" style="margin-bottom:0px;" v-if="allocation.selected == true" type="text" v-model="allocation.amount" :value="allocation.amount" :name="allocation.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCostAmount(allocation , 3)  + parseInt(allocation.amount , 10))" :class="{'input': true, 'error-border': errors.has(allocation.id)}"/>
+                                                                    <input :disabled="allocation.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan,allocation,2,allocation.amount)" style="margin-bottom:0px;" v-if="allocation.selected == true" type="text" v-model="allocation.amount" :value="allocation.amount" :name="allocation.id" v-validate="'numeric|min_value:0|max_value:' + (getRemainingCostAmount(allocation , 3)  + parseInt(allocation.amount , 10))" :class="{'input': true, 'error-border': errors.has(allocation.id)}"/>
                                                                     <span v-show="errors.has(allocation.id)" class="error-font"></span>
                                                                 </td>
                                                                 <td><input :disabled="allocation.isHistory" v-on:change="setTextBoxValueCost(plan,allocation,2)" v-model="allocation.selected" type="checkbox"></td>
@@ -615,13 +618,14 @@
                                         <div class="tbl-div-container">
                                             <table class="tbl-head">
                                                 <colgroup>
-                                                    <col width="150px"/>
                                                     <col width="125px"/>
                                                     <col width="125px"/>
                                                     <col width="125px"/>
                                                     <col width="125px"/>
                                                     <col width="125px"/>
-                                                    <col width="375px"/>
+                                                    <col width="125px"/>
+                                                    <col width="125px"/>
+                                                    <col width="275px"/>
                                                     <col width="150px"/>
                                                     <col width="40px"/>
                                                     <col width="12px"/>
@@ -634,8 +638,9 @@
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
                                                     <th class="tbl-head-style-cell">هزینه شده</th>
-                                                    <th class="tbl-head-style-cell">اعتبار پیشنهادی</th>
+                                                    <th class="tbl-head-style-cell">تبدیل شده</th>
                                                     <th class="tbl-head-style-cell">شرح</th>
+                                                    <th class="tbl-head-style-cell">اعتبار پیشنهادی</th>
                                                     <th class="tbl-head-style-cell"></th>
                                                     <th class="tbl-head-style-cell"></th>
                                                 </tr>
@@ -647,13 +652,14 @@
                                                 <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
-                                                        <col width="150px"/>
                                                         <col width="125px"/>
                                                         <col width="125px"/>
                                                         <col width="125px"/>
                                                         <col width="125px"/>
                                                         <col width="125px"/>
-                                                        <col width="375px"/>
+                                                        <col width="125px"/>
+                                                        <col width="125px"/>
+                                                        <col width="275px"/>
                                                         <col width="150px"/>
                                                         <col width="40px"/>
                                                     </colgroup>
@@ -665,9 +671,10 @@
                                                         <td class="text-center">{{$root.dispMoneyFormat(found.caSumOfReserved)}}</td>
                                                         <td class="text-center">{{$root.dispMoneyFormat(found.caSumOfCommitment)}}</td>
                                                         <td class="text-center">{{$root.dispMoneyFormat(found.caSumOfCost)}}</td>
+                                                        <td class="text-center">{{$root.dispMoneyFormat(found.caConvertedAllocAmount)}}</td>
                                                         <td class="text-justify">{{found.caDescription}}</td>
                                                         <td>
-                                                            <input :disabled="found.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(null,found,3,found.amount)" style="margin-bottom:0px;" v-if="found.selected == true" type="text" v-model="found.amount" :value="found.amount" :name="found.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCostAmount(found , 3) + parseInt(found.amount , 10))" :class="{'input': true, 'error-border': errors.has(found.id)}" />
+                                                            <input :disabled="found.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(null,found,3,found.amount)" style="margin-bottom:0px;" v-if="found.selected == true" type="text" v-model="found.amount" :value="found.amount" :name="found.id" v-validate="'numeric|min_value:0|max_value:' + (getRemainingCostAmount(found , 3) + parseInt(found.amount , 10))" :class="{'input': true, 'error-border': errors.has(found.id)}" />
                                                             <span v-show="errors.has(found.id)" class="error-font"></span>
                                                         </td>
                                                         <td><input  :disabled="found.isHistory" v-on:change="setTextBoxValueCost(null,found,3)" v-model="found.selected" type="checkbox"></td>
@@ -994,7 +1001,7 @@
                                                             <td :data-toggle="'project' + project.id" class="text-center">{{$root.dispMoneyFormat(project.cpSumOfCost)}}</td>
                                                             <td :data-toggle="'project' + project.id">{{project.cpDescription}}</td>
                                                             <td>
-                                                                <input :disabled="project.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(plan, project, 1, project.amount)" style="margin-bottom:0px;" v-if="project.selected == true" type="text" v-model="project.amount"  :value="project.amount" :name="'project'+project.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCapitalAssetsAmount(project , 2) + parseInt(project.amount , 10))" :class="{'input': true, 'error-border': errors.has('project'+project.id)}"/>
+                                                                <input :disabled="project.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(plan, project, 1, project.amount)" style="margin-bottom:0px;" v-if="project.selected == true" type="text" v-model="project.amount"  :value="project.amount" :name="'project'+project.id" v-validate="'numeric|min_value:0|max_value:' + (getRemainingCapitalAssetsAmount(project , 2) + parseInt(project.amount , 10))" :class="{'input': true, 'error-border': errors.has('project'+project.id)}"/>
                                                                 <span v-show="errors.has('project'+project.id)" class="error-font"></span>
                                                             </td>
                                                             <td><input :disabled="project.isHistory" v-on:change="setTextBoxValueCap(plan,project,1)" v-model="project.selected" type="checkbox"></td>
@@ -1229,7 +1236,10 @@
                                                         <template v-for="creditSource in plan.capital_assets_project_has_credit_source">
                                                             <template v-for="allocations in creditSource.credit_source_has_allocation">
                                                                 <tr class="table-row" v-for="alloc in allocations.allocation">
-                                                                    <td :data-toggle="'allocation' + alloc.id" class="text-center">{{alloc.caaLetterNumber}}</td>
+                                                                    <td v-if="alloc.caaFoundId == null" :data-toggle="'allocation' + alloc.id" class="text-center">{{alloc.caaLetterNumber}}</td>
+                                                                    <td v-else :data-toggle="'allocation' + alloc.id" class="text-center">
+                                                                        <i class="fa fa-exchange btn-red has-tip top" data-tooltip aria-haspopup="true" data-disable-hover="false" title="تبدیل شده از تنخواه"></i>
+                                                                    </td>
                                                                     <td :data-toggle="'allocation' + alloc.id" class="text-center">{{$root.dispMoneyFormat(alloc.caaAmount)}}</td>
                                                                     <td :data-toggle="'allocation' + alloc.id" class="text-center">{{$root.dispMoneyFormat(alloc.caaSumOfReserved)}}
                                                                         <div class="clearfix tool-bar">
@@ -1307,7 +1317,7 @@
                                                                     <td :data-toggle="'allocation' + alloc.id" class="text-center">{{$root.dispMoneyFormat(alloc.caaSumOfCost)}}</td>
                                                                     <td :data-toggle="'allocation' + alloc.id" >{{alloc.caaDescription}}</td>
                                                                     <td>
-                                                                        <input :disabled="alloc.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(plan, alloc, 3, alloc.amount)" style="margin-bottom:0px;" v-if="alloc.selected == true" type="text" v-model="alloc.amount"  :value="alloc.amount" :name="'alloc'+alloc.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCapitalAssetsAmount(alloc , 4) + parseInt(alloc.amount , 10))" :class="{'input': true, 'error-border': errors.has('alloc'+alloc.id)}" />
+                                                                        <input :disabled="alloc.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(plan, alloc, 3, alloc.amount)" style="margin-bottom:0px;" v-if="alloc.selected == true" type="text" v-model="alloc.amount"  :value="alloc.amount" :name="'alloc'+alloc.id" v-validate="'numeric|min_value:0|max_value:' + (getRemainingCapitalAssetsAmount(alloc , 4) + parseInt(alloc.amount , 10))" :class="{'input': true, 'error-border': errors.has('alloc'+alloc.id)}" />
                                                                         <span v-show="errors.has('alloc'+alloc.id)" class="error-font"></span>
                                                                     </td>
                                                                     <td><input :disabled="alloc.isHistory" v-on:change="setTextBoxValueCap(plan,alloc,3)" v-model="alloc.selected" type="checkbox"></td>
@@ -1333,10 +1343,11 @@
                                                 <colgroup>
                                                     <col width="150px"/>
                                                     <col width="150px"/>
-                                                    <col width="150px"/>
-                                                    <col width="150px"/>
-                                                    <col width="150px"/>
-                                                    <col width="350px"/>
+                                                    <col width="125px"/>
+                                                    <col width="125px"/>
+                                                    <col width="125px"/>
+                                                    <col width="125px"/>
+                                                    <col width="275px"/>
                                                     <col width="200px"/>
                                                     <col width="40px"/>
                                                     <col width="12px"/>
@@ -1348,6 +1359,7 @@
                                                     <th class="tbl-head-style-cell">رزرو شده</th>
                                                     <th class="tbl-head-style-cell">تعهد</th>
                                                     <th class="tbl-head-style-cell">هزینه شده</th>
+                                                    <th class="tbl-head-style-cell">تبدیل شده</th>
                                                     <th class="tbl-head-style-cell">شرح</th>
                                                     <th class="tbl-head-style-cell">اعتبار پیشنهادی</th>
                                                     <th class="tbl-head-style-cell"></th>
@@ -1363,10 +1375,11 @@
                                                     <colgroup>
                                                         <col width="150px"/>
                                                         <col width="150px"/>
-                                                        <col width="150px"/>
-                                                        <col width="150px"/>
-                                                        <col width="150px"/>
-                                                        <col width="350px"/>
+                                                        <col width="125px"/>
+                                                        <col width="125px"/>
+                                                        <col width="125px"/>
+                                                        <col width="125px"/>
+                                                        <col width="275px"/>
                                                         <col width="200px"/>
                                                         <col width="40px"/>
                                                     </colgroup>
@@ -1377,9 +1390,10 @@
                                                         <td class="text-center">{{found.caaSumOfReserved}}</td>
                                                         <td class="text-center">{{$root.dispMoneyFormat(found.caaSumOfCommitment)}}</td>
                                                         <td class="text-center">{{$root.dispMoneyFormat(found.caaSumOfCost)}}</td>
+                                                        <td class="text-center">{{$root.dispMoneyFormat(found.caaConvertedAllocAmount)}}</td>
                                                         <td>{{found.caaDescription}}</td>
                                                         <td>
-                                                            <input :disabled="found.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(null, found, 4, found.amount)" style="margin-bottom:0px;" v-if="found.selected == true" type="text" v-model="found.amount"  :value="found.amount" :name="'found'+found.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCapitalAssetsAmount(found , 4) + parseInt(found.amount , 10))" :class="{'input': true, 'error-border': errors.has('found'+found.id)}"/>
+                                                            <input :disabled="found.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(null, found, 4, found.amount)" style="margin-bottom:0px;" v-if="found.selected == true" type="text" v-model="found.amount"  :value="found.amount" :name="'found'+found.id" v-validate="'numeric|min_value:0|max_value:' + (getRemainingCapitalAssetsAmount(found , 4) + parseInt(found.amount , 10))" :class="{'input': true, 'error-border': errors.has('found'+found.id)}"/>
                                                             <span v-show="errors.has('found'+found.id)" class="error-font"></span>
                                                         </td>
                                                         <td><input :disabled="found.isHistory" v-on:change="setTextBoxValueCap(null,found,4)" v-model="found.selected" type="checkbox"></td>
@@ -1986,13 +2000,13 @@ export default{
                     data.ca_credit_source_has_allocation.forEach(cs => {
                         aCount += cs.allocation.length;
                     });
-                    piceOfAmount = ((parseInt(value) - (parseInt(value) % aCount)) / aCount);
-                    piceOfDivRemAmount = parseInt(value) % aCount;
+                    piceOfAmount = ((parseInt(value , 10) - (parseInt(value , 10) % aCount)) / aCount);
+                    piceOfDivRemAmount = parseInt(value , 10) % aCount;
                     data.ca_credit_source_has_allocation.forEach(cs => {
                         cs.selected = true;
                         cs.allocation.forEach( alloc =>{
                             alloc.selected = true;
-                            var remainingAmount = parseInt(alloc.caAmount) - (parseInt(alloc.caSumOfReserved) + parseInt(alloc.caSumOfCommitment));
+                            var remainingAmount = parseInt(alloc.caAmount , 10) - (parseInt(alloc.caSumOfReserved , 10) + parseInt(alloc.caSumOfCommitment , 10));
                             if( remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
                                 alloc.amount = (piceOfAmount + piceOfDivRemAmount);
                                 piceOfDivRemAmount = 0;
@@ -2019,11 +2033,11 @@ export default{
                 }
                 else if(type == 1){ //credit source level
                     aCount = data.allocation.length;
-                    piceOfAmount = ((parseInt(value) - (parseInt(value) % aCount)) / aCount);
+                    piceOfAmount = ((parseInt(value , 10) - (parseInt(value , 10) % aCount)) / aCount);
                     piceOfDivRemAmount = parseInt(value) % aCount;
                     data.allocation.forEach( alloc =>{
                         alloc.selected = true;
-                        var remainingAmount = parseInt(alloc.caAmount) - (parseInt(alloc.caSumOfReserved) + parseInt(alloc.caSumOfCommitment));
+                        var remainingAmount = parseInt(alloc.caAmount , 10) - (parseInt(alloc.caSumOfReserved , 10) + parseInt(alloc.caSumOfCommitment , 10));
                         if (remainingAmount > 0) {
                             if (remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
                                 alloc.amount = (piceOfAmount + piceOfDivRemAmount);
@@ -2049,7 +2063,7 @@ export default{
                 }
                 else if(type == 2){ //allocation level
                     data.selected = true;
-                    var remainingAmount = parseInt(data.caAmount) - (parseInt(data.caSumOfReserved) + parseInt(data.caSumOfCommitment));
+                    var remainingAmount = parseInt(data.caAmount , 10) - (parseInt(data.caSumOfReserved , 10) + parseInt(data.caSumOfCommitment , 10));
                     if (remainingAmount > 0) {
                         if (remainingAmount >= value) {
                             data.amount = value;
@@ -2070,7 +2084,7 @@ export default{
                 }else if(type == 3) //found level
                 {
                     data.selected = true;
-                    var remainingAmount = parseInt(data.caAmount) - (parseInt(data.caSumOfReserved) + parseInt(data.caSumOfCommitment));
+                    var remainingAmount = parseInt(data.caAmount , 10) - (parseInt(data.caSumOfReserved , 10) + parseInt(data.caSumOfCommitment , 10) + parseInt(data.caConvertedAllocAmount , 10));
                     if (remainingAmount > 0)
                     {
                         if(remainingAmount >= value) {
@@ -2200,7 +2214,7 @@ export default{
                             aCount += cs.allocation.length;
                         });
                     });
-                    piceOfAmount = ((parseInt(value) - (parseInt(value) % aCount)) / aCount);
+                    piceOfAmount = ((parseInt(value , 10) - (parseInt(value , 10) % aCount)) / aCount);
                     piceOfDivRemAmount = parseInt(value) % aCount;
                     data.capital_assets_project_has_credit_source.forEach(project => {
                         project.selected = true;
@@ -2208,7 +2222,7 @@ export default{
                             cs.selected = true;
                             cs.allocation.forEach( alloc =>{
                                 alloc.selected = true;
-                                var remainingAmount = parseInt(alloc.caaAmount) - (parseInt(alloc.caaSumOfReserved) + parseInt(alloc.caaSumOfCommitment));
+                                var remainingAmount = parseInt(alloc.caaAmount , 10) - (parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment , 10));
                                 if( remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
                                     alloc.amount = (piceOfAmount + piceOfDivRemAmount);
                                     piceOfDivRemAmount = 0;
@@ -2237,13 +2251,13 @@ export default{
                     data.credit_source_has_allocation.forEach(cs => {
                         aCount += cs.allocation.length;
                     });
-                    piceOfAmount = ((parseInt(value) - (parseInt(value) % aCount)) / aCount);
-                    piceOfDivRemAmount = parseInt(value) % aCount;
+                    piceOfAmount = ((parseInt(value , 10) - (parseInt(value , 10) % aCount)) / aCount);
+                    piceOfDivRemAmount = parseInt(value , 10) % aCount;
                     data.credit_source_has_allocation.forEach(cs => {
                         cs.selected = true;
                         cs.allocation.forEach( alloc =>{
                             alloc.selected = true;
-                            var remainingAmount = parseInt(alloc.caaAmount) - (parseInt(alloc.caaSumOfReserved) + parseInt(alloc.caaSumOfCommitment));
+                            var remainingAmount = parseInt(alloc.caaAmount , 10) - (parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment , 10));
                             if( remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
                                 alloc.amount = (piceOfAmount + piceOfDivRemAmount);
                                 piceOfDivRemAmount = 0;
@@ -2269,11 +2283,11 @@ export default{
                 }
                 else if(type == 2) { //allocation level
                     aCount += data.allocation.length;
-                    piceOfAmount = ((parseInt(value) - (parseInt(value) % aCount)) / aCount);
-                    piceOfDivRemAmount = parseInt(value) % aCount;
+                    piceOfAmount = ((parseInt(value , 10) - (parseInt(value , 10) % aCount)) / aCount);
+                    piceOfDivRemAmount = parseInt(value , 10) % aCount;
                     data.allocation.forEach( alloc =>{
                         alloc.selected = true;
-                        var remainingAmount = parseInt(alloc.caaAmount) - (parseInt(alloc.caaSumOfReserved) + parseInt(alloc.caaSumOfCommitment));
+                        var remainingAmount = parseInt(alloc.caaAmount , 10) - (parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment , 10));
                         if( remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
                             alloc.amount = (piceOfAmount + piceOfDivRemAmount);
                             piceOfDivRemAmount = 0;
@@ -2299,7 +2313,7 @@ export default{
                 }
                 else if(type == 3){ //allocation level
                     data.selected = true;
-                    var remainingAmount = parseInt(data.caaAmount) - (parseInt(data.caaSumOfReserved) + parseInt(data.caaSumOfCommitment));
+                    var remainingAmount = parseInt(data.caaAmount , 10) - (parseInt(data.caaSumOfReserved , 10) + parseInt(data.caaSumOfCommitment , 10));
                     if (remainingAmount > 0) {
                         if (remainingAmount >= value) {
                             data.amount = value;
@@ -2320,7 +2334,7 @@ export default{
                 }else if(type == 4) //found level
                 {
                     data.selected = true;
-                    var remainingAmount = parseInt(data.caaAmount) - (parseInt(data.caaSumOfReserved) + parseInt(data.caaSumOfCommitment));
+                    var remainingAmount = parseInt(data.caaAmount , 10) - (parseInt(data.caaSumOfReserved , 10) + parseInt(data.caaSumOfCommitment , 10) + parseInt(data.caaConvertedAllocAmount , 10));
                     if (remainingAmount > 0)
                     {
                         if(remainingAmount >= value) {
@@ -2619,7 +2633,7 @@ export default{
                     remainingAmount = item.caAmount - (parseInt(item.caSumOfReserved , 10) + parseInt(item.caSumOfCommitment , 10));
                 });
             }else if(type == 3){
-                remainingAmount = data.caAmount - (parseInt(data.caSumOfReserved , 10) + parseInt(data.caSumOfCommitment , 10));
+                remainingAmount = data.caAmount - (parseInt(data.caSumOfReserved , 10) + parseInt(data.caSumOfCommitment , 10) + parseInt(data.caConvertedAllocAmount , 10));
             }
 
             var temp = (this.baseAmount - this.costReservedAmount);
@@ -2650,7 +2664,7 @@ export default{
                     remainingCapAmount += alloc.caaAmount - (parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment));
                 });
             }else if(type == 4){
-                remainingCapAmount += data.caaAmount - (parseInt(data.caaSumOfReserved , 10) + parseInt(data.caaSumOfCommitment , 10));
+                remainingCapAmount += data.caaAmount - (parseInt(data.caaSumOfReserved , 10) + parseInt(data.caaSumOfCommitment , 10) + parseInt(data.caaConvertedAllocAmount , 10));
             }
 
             var temp = (this.baseAmount - this.capReservedAmount);

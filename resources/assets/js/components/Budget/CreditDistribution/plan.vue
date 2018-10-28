@@ -625,10 +625,10 @@
                             </div>
                             <div class="grid-x">
                                 <div class="medium-4 cell padding-lr">
-                                    <label><span class="padding-lr">مبلغ</span><span style="color: #D9534F;">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                        <input class="form-element-margin-btm" type="text"  v-model="CdPlanInput.amount" name="amount" v-validate data-vv-rules="required|decimal" :class="{'input': true, 'select-error': errors.has('amount')}"/>
+                                    <label><span>مبلغ</span><span style="color: #D9534F;">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
+                                        <input class="form-element-margin-btm" type="text"  v-model="CdPlanInput.amount" name="amount" v-validate data-vv-rules="required|decimal|min_value:1" :class="{'input': true, 'select-error': errors.has('amount')}"/>
                                     </label>
-                                    <span v-show="errors.has('amount')" class="error-font">مبلغ فراموش شده است!</span>
+                                    <span v-show="errors.has('amount')" class="error-font">مبلغ فراموش شده / معتبر نمی باشد!</span>
                                 </div>
                             </div>
                             <div class="grid-x">
@@ -692,10 +692,10 @@
                             </div>
                             <div class="grid-x">
                                 <div class="medium-4 cell padding-lr">
-                                    <label><span class="padding-lr">مبلغ</span><span style="color: #D9534F;">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                        <input class="form-element-margin-btm" type="text"  v-model="CdPlanFill.amount" name="amount" v-validate data-vv-rules="required|decimal" :class="{'input': true, 'select-error': errors.has('amount')}"/>
+                                    <label><span>مبلغ</span><span style="color: #D9534F;">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
+                                        <input class="form-element-margin-btm" type="text"  v-model="CdPlanFill.amount" name="amount" v-validate data-vv-rules="required|decimal|min_value:1" :class="{'input': true, 'select-error': errors.has('amount')}"/>
                                     </label>
-                                    <span v-show="errors.has('amount')" class="error-font">مبلغ فراموش شده است!</span>
+                                    <span v-show="errors.has('amount')" class="error-font">مبلغ فراموش شده / معتبر نمی باشد!</span>
                                 </div>
                             </div>
                             <div class="grid-x">
@@ -1046,8 +1046,9 @@
                             console.log(error);
                         });
                 }
-                else
+                else{
                     this.creditDistributionTitles = [];
+                }
             },
 
             getCreditDistributionRow: function () {
@@ -1078,7 +1079,7 @@
                 return count;
             },
 
-            openInsertModal: function (type) {
+            openInsertModal: function () {
                 this.CdPlanInput = [];
                 this.selectedBs = '';
                 this.getBudgetSeason();

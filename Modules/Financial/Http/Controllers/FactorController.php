@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Mockery\Exception;
 use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Financial\Entities\_Check;
@@ -182,87 +183,81 @@ class FactorController extends Controller
 
     function acceptAndCalculate(Request $request)
     {
-        $result = DB::transaction(function () use($request){
+        DB::transaction(function () use($request){
             $factor = Factor::find($request->fId);
             $factor->fFsId = FactorState::where('fsState' , 'ACCEPTED')->value('id');
             $factor->save();
 
             $costFinancing = CostFinancing::where('cfRId' , $request->rId)->get()->sortBy('cfRemainingAmount');
             $capFinancing = CapitalAssetsFinancing::where('cafRId' , $request->rId)->get()->sortBy('cafRemainingAmount');
-            $financingCount = count($costFinancing) + count($capFinancing);
 
             $draftIds = Draft::where('dRId' , $request->rId)->pluck('id');
             $checks = _Check::whereIn('cDId' , $draftIds)->get();
             $factorRemainingAmount = $factor->fAmount;
-            $remainingAmount = 0;
-            foreach ($checks as $check)
-            {
-                $calcAmount = 0;
-                $checkRemainingAmount = $check->cAmount - $check->cSpentAmount;
-                if ($checkRemainingAmount >= $factorRemainingAmount)
+            do{
+                foreach ($checks as $check)
                 {
-                    $calcAmount = $factorRemainingAmount;
-                }else{
-                    $calcAmount = $factorRemainingAmount - $checkRemainingAmount;
-                }
-                $factorRemainingAmount -= $calcAmount;
-
-                $pieceOfAmount = round($calcAmount / $financingCount);
-                $remainingAmount = $calcAmount - ($pieceOfAmount * $financingCount);
-                foreach ($costFinancing as $cf)
-                {
-                    if ($cf->cfRemainingAmount >= ($pieceOfAmount + $remainingAmount))
+                    $lastModifyCheck = _Check::find($check->id);
+                    $checkRemainingAmount = $check->cAmount - $lastModifyCheck->cSpentAmount;
+                    foreach ($costFinancing as $cf)
                     {
-                        $tempAmount = $pieceOfAmount + $remainingAmount;
-                        $remainingAmount = 0;
-                    }else if ($cf->cfRemainingAmount >= $pieceOfAmount){
-                        $tempAmount = $pieceOfAmount;
-                    }else{
-                        $tempAmount = $cf->cfRemainingAmount;
-                        $remainingAmount += $pieceOfAmount - $cf->cfRemainingAmount;
+                        $lastModifyCostFinancing = CostFinancing::where('id' , $cf->id)->first();
+                        $calcAmount = $lastModifyCostFinancing->cfRemainingAmount <= $factorRemainingAmount ? $lastModifyCostFinancing->cfRemainingAmount : $factorRemainingAmount;
+                        if ($calcAmount <= $checkRemainingAmount)
+                        {
+                            $tempAmount = $calcAmount;
+                        }else{
+                            $tempAmount = $checkRemainingAmount;
+                        }
+
+                        if ($tempAmount > 0)
+                        {
+                            $costSpent = new CostSpent();
+                            $costSpent->csCfId = $cf->id;
+                            $costSpent->csCId = $check->id;
+                            $costSpent->csAmount = $tempAmount;
+                            $costSpent->save();
+
+                            $factorRemainingAmount -= $tempAmount;
+                            $checkRemainingAmount -= $tempAmount;
+                        }
                     }
 
-                    $costSpent = new CostSpent();
-                    $costSpent->csCfId = $cf->id;
-                    $costSpent->csCId = $check->id;
-                    $costSpent->csAmount = $tempAmount;
-                    $costSpent->save();
-                }
-
-                foreach ($capFinancing as $caf)
-                {
-                    if ($caf->cafRemainingAmount >= ($pieceOfAmount + $remainingAmount))
+                    foreach ($capFinancing as $caf)
                     {
-                        $tempAmount = $pieceOfAmount + $remainingAmount;
-                        $remainingAmount = 0;
-                    }else if ($caf->cafRemainingAmount >= $pieceOfAmount){
-                        $tempAmount = $pieceOfAmount;
-                    }else{
-                        $tempAmount = $caf->cafRemainingAmount;
-                        $remainingAmount += $pieceOfAmount - $caf->cafRemainingAmount;
+                        $lastModifyCapFinancing = CapitalAssetsFinancing::find($caf->id);
+                        $calcAmount = $lastModifyCapFinancing->cafRemainingAmount <= $factorRemainingAmount ? $lastModifyCapFinancing->cafRemainingAmount : $factorRemainingAmount;
+                        if ($calcAmount <= $checkRemainingAmount)
+                        {
+                            $tempAmount = $calcAmount;
+                        }else{
+                            $tempAmount = $checkRemainingAmount;
+                        }
+
+                        if ($tempAmount > 0)
+                        {
+                            $capSpent = new CapSpent();
+                            $capSpent->csCafId = $caf->id;
+                            $capSpent->csCId = $check->id;
+                            $capSpent->csAmount = $tempAmount;
+                            $capSpent->save();
+
+                            $factorRemainingAmount -= $tempAmount;
+                            $checkRemainingAmount -= $tempAmount;
+                        }
                     }
-
-                    $capSpent = new CapSpent();
-                    $capSpent->csCafId = $caf->id;
-                    $capSpent->csCId = $check->id;
-                    $capSpent->csAmount = $tempAmount;
-                    $capSpent->save();
                 }
+            }while($factorRemainingAmount > 0);
 
-                if ($factorRemainingAmount == 0)
-                    break;
-            }
-
-            if ($remainingAmount != 0)
-                return 500;
+            if ($factorRemainingAmount != 0)
+                throw new \Exception(500);
             else{
                 SystemLog::setFinancialSubSystemLog('تایید فاکتور کارپردازی با عنوان ' .  $factor->fSubject . ' برای درخواست ' . _Request::find($request->rId)->rSubject);
-                return 200;
             }
         });
 
         $rController = new RefundController();
-        return \response()->json($rController->getAllRefundData() , $result);
+        return \response()->json($rController->getAllRefundData());
     }
 
     function reject(Request $request)

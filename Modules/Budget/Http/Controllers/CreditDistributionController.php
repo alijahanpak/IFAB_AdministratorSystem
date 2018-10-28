@@ -10,6 +10,7 @@ use Modules\Admin\Entities\AmountUnit;
 use Modules\Admin\Entities\County;
 use Modules\Admin\Entities\PublicSetting;
 use Modules\Admin\Entities\SystemLog;
+use Modules\Admin\Entities\User;
 use Modules\Budget\Entities\BudgetSeason;
 use Modules\Budget\Entities\CreditDistributionPlan;
 use Modules\Budget\Entities\CreditDistributionRow;

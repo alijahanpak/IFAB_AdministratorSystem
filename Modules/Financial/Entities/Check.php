@@ -48,8 +48,8 @@ class _Check extends Model
 
     public function getCDeliveredAttribute()
     {
-        $sumCost = CostSpent::where('csCId' , '=' , $this->id)->get()->sum('csAmount');
-        $sumCost += CapSpent::where('csCId' , '=' , $this->id)->get()->sum('csAmount');
+        $sumCost = $this->costSpent()->sum('csAmount');
+        $sumCost += $this->capSpent()->sum('csAmount');
         if ($sumCost == $this->attributes['cAmount'])
             return true;
         else
@@ -58,8 +58,8 @@ class _Check extends Model
 
     public function getCSpentAmountAttribute()
     {
-        $sumCost = CostSpent::where('csCId' , '=' , $this->id)->get()->sum('csAmount');
-        $sumCost += CapSpent::where('csCId' , '=' , $this->id)->get()->sum('csAmount');
+        $sumCost = $this->costSpent()->sum('csAmount');
+        $sumCost += $this->capSpent()->sum('csAmount');
         return $sumCost;
     }
 }

@@ -251,9 +251,9 @@
                             </div>
                             <div class="medium-6 columns padding-lr">
                                 <label><span>مبلغ اعتبار</span><span style="color: #D9534F;"></span>
-                                    <input class="form-element-margin-btm" type="text" name="pAmount" v-model="cdpProposalInput.pAmount" v-validate data-vv-rules="required|decimal" :class="{'input': true, 'select-error': errors.has('pAmount')}">
+                                    <input class="form-element-margin-btm" type="text" name="pAmount" v-model="cdpProposalInput.pAmount" v-validate="'required|decimal|min_value:1|max_value:' + maxInputAmount" :class="{'input': true, 'select-error': errors.has('pAmount')}">
                                 </label>
-                                <span v-show="errors.has('pAmount')" class="error-font">مبلغ اعتبار فراموش شده است!</span>
+                                <span v-show="errors.has('pAmount')" class="error-font">مبلغ اعتبار فراموش شده / معتبر نمی باشد!</span>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -316,9 +316,9 @@
                             </div>
                             <div class="medium-6 columns padding-lr">
                                 <label><span>مبلغ اعتبار</span><span style="color: #D9534F;"></span>
-                                    <input class="form-element-margin-btm" type="text" name="pAmount" v-model="cdpProposalFill.pAmount" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('pAmount')}">
+                                    <input class="form-element-margin-btm" type="text" name="pAmount" v-model="cdpProposalFill.pAmount" v-validate="'required|decimal|min_value:1|max_value:' + maxInputAmount" :class="{'input': true, 'select-error': errors.has('pAmount')}">
                                 </label>
-                                <span v-show="errors.has('pAmount')" class="error-font">مبلغ اعتبار فراموش شده است!</span>
+                                <span v-show="errors.has('pAmount')" class="error-font">مبلغ اعتبار فراموش شده / معتبر نمی باشد!</span>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -443,6 +443,8 @@
                 proposals: [],
                 cdpProposalInput: {},
                 cdpProposalFill: {},
+                lastCaCsId: 0,
+                lastAmount: 0,
                 showInsertModal: false,
                 showUpdateModal: false,
                 showDeleteModal: false,
@@ -454,6 +456,7 @@
                 costTemp:'',
                 selectedProposalIdForDelete: '',
                 remainingAmount: 0,
+                maxInputAmount: 0,
                 selectedItems: [],
                 selectedCount: 0,
                 reportOptions: {title:'' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true ,costLabel: true},
@@ -534,6 +537,11 @@
                     axios.get('/budget/credit_distribution/capital_assets/provincial/plans/getPlanRemainingAmount' , {params:{cdpId: cdpId}})
                         .then((response) => {
                             this.remainingAmount = this.$parent.calcDispAmount(response.data.remainingAmount , false);
+                            this.maxInputAmount = parseFloat(this.$parent.calcDispAmount(response.data.remainingAmount , false , false));
+                            if (this.lastCdpId == cdpId)
+                            {
+                                this.maxInputAmount += parseFloat(this.lastAmount);
+                            }
                             console.log(response);
                         },(error) => {
                             console.log(error);
@@ -554,8 +562,9 @@
                             console.log(error);
                         });
                 }
-                else
+                else{
                     this.creditDistributionPlans = [];
+                }
             },
 
             getCounties: function () {
@@ -577,6 +586,7 @@
             },
 
             openInsertModal: function () {
+                this.lastCdpId = 0;
                 this.selectedCounty = '';
                 this.cdpProposalInput = [];
                 this.creditDistributionPlans = [];
@@ -611,19 +621,21 @@
             },
 
             openUpdateModal: function (proposal , coId) {
+                this.remainingAmount = 0;
                 this.selectedCounty = '';
                 this.cdpProposalFill = [];
                 this.getCounties();
                 this.cdpProposalFill.id = proposal.id;
                 this.cdpProposalFill.cdpId = proposal.pbpCdpId;
+                this.lastCdpId = proposal.pbpCdpId;
+                this.cdpProposalFill.pAmount = this.$parent.calcDispAmount(proposal.pbpAmount , false , false);
+                this.lastAmount = this.cdpProposalFill.pAmount;
                 this.getRemianingAmount(this.cdpProposalFill.cdpId);
                 this.cdpProposalFill.pSubject = proposal.pbpSubject;
                 this.cdpProposalFill.pCode = proposal.pbpCode;
-                this.cdpProposalFill.pAmount = this.$parent.calcDispAmount(proposal.pbpAmount , false , false);
                 this.cdpProposalFill.pDescription = proposal.pbpDescription;
                 this.selectedCounty = coId;
                 this.getCDPWithCoId();
-
                 this.showUpdateModal = true;
             },
 

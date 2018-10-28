@@ -21,9 +21,14 @@ class CapitalAssetsFinancing extends Model
         return $this->belongsTo(_Request::class , 'cafRId' , 'id');
     }
 
+    public function spent()
+    {
+        return $this->hasMany(CapSpent::class , 'csCafId' , 'id');
+    }
+
     public function getCafSpentAttribute()
     {
-        return CapSpent::where('csCafId' , $this->id)->get()->sum('csAmount');
+        return $this->spent()->sum('csAmount');
     }
 
     public function getCafRemainingAmountAttribute()
