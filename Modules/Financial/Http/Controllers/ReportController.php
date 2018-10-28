@@ -49,6 +49,23 @@ class ReportController extends Controller
         return $pdf;
     }
 
+    private function initCustomSize($width , $height)
+    {
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->setOption('encoding', 'UTF-8');
+        $pdf->setOption('title', 'report');
+        $pdf->setOption('page-width', $width);
+        $pdf->setOption('page-height', $height);
+        $pdf->setOrientation('portrait');
+        $pdf->setOption('margin-top', 0);
+        $pdf->setOption('margin-bottom', 0);
+        $pdf->setOption('margin-right', 0);
+        $pdf->setOption('margin-left', 0);
+        $pdf->setOption('lowquality', true);
+        $pdf->setOption('zoom', 1.2);
+        return $pdf;
+    }
+
     public function draft(Request $request)
     {
         $draft = Draft::where('id' , '=' , $request->dId)
@@ -121,6 +138,13 @@ class ReportController extends Controller
         return $pdf->inline();
         //$pdf->save('pdfFiles/document_' . Auth::user()->id . '.pdf', true);
         //return url('pdfFiles/document_' . Auth::user()->id . '.pdf');
+    }
+
+    public function check(Request $request)
+    {
+        $pdf = $this->initCustomSize(170 , 85);
+        $pdf->loadHTML(view('financial::reports.draft.check'));
+        return $pdf->inline();
     }
 
 }

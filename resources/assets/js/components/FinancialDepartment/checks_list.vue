@@ -309,6 +309,9 @@
                                 <p v-show="fillCheck.secondSignatureWidth != 0" class="check-element text-center" :style="{'margin-top': fillCheck.secondSignatureTop +0.5+'cm','margin-right': fillCheck.secondSignatureRight +'cm','width': fillCheck.secondSignatureWidth +'cm'}"> {{checkVerifierName[3]}}</p>
                             </div>
                         </div>
+                        <div style="height: 12cm;" class="large-12 medium-12 small-12">
+                            <embed style="width: 100%;height: 100%" :src="checkPdfPath" />
+                        </div>
                         <div style="display: none;">
                             <div id="printJS-form" class="large-12 medium-12 small-12 padding-lr text-center printJSClass">
                                 <div :style="{'width':fillCheck.height +'cm','height':fillCheck.width +'cm'}" style="position: relative;margin:0 auto;" >
@@ -453,6 +456,7 @@
                 letterDatePersian:'',
                 checkHistoryState:false,
                 checkDateValid:false,
+                checkPdfPath:'',
             }
         },
 
@@ -588,6 +592,8 @@
             },
 
             showCheckPreview:function(){
+                this.checkPdfPath='';
+                this.openReportFile();
                 this.checkDateValid=false;
                 this.$validator.validateAll().then((result) => {
                     if (result) {
@@ -707,7 +713,10 @@
                         description:this.inputCheck.description = undefined ? '' : this.inputCheck.description,
                         searchValue:"",
                     }).then((response) => {
-                        printJS({ printable: 'printJS-form', type: 'html',targetStyles:['direction','font-family','margin-top','margin-right','width','height','position','top','text-align']});
+                        printJS({ printable: 'printJS-form',
+                            type: 'html',
+                            documentTitle:'',
+                            targetStyles:['direction','font-family','margin-top','margin-right','width','height','position','top','text-align']});
                         this.allChecks = response.data.data;
                         this.makePagination(response.data);
                         this.showGetCheckPreviewModal=false;
@@ -726,7 +735,6 @@
                 var month=["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
                 //var year=["هزار و سیصد و نود","","","","","","","","","","","","",];
                 dateTemp= this.inputCheck.date.split('/');
-
                 this.letterDatePersian=  dateTemp[2].toPersian() + ' ' + month[dateTemp[1]-1] + ' ' + dateTemp[0].toPersian();
             },
 
@@ -750,6 +758,18 @@
                     console.log(error);
                     this.$parent.displayNotif(error.response.status);
                 });
+            },
+
+            openReportFile: function () {
+                axios.post('/financial/report/check' , {} ,{responseType:'blob'})
+                    .then((response) => {
+                        console.log(response.data);
+                        var file = new Blob([response.data], {type: 'application/pdf'});
+                        var fileURL = window.URL.createObjectURL(file);
+                        this.checkPdfPath=fileURL;
+                    },(error) => {
+                        console.log(error);
+                    });
             },
 
             removeFilter: function () {
