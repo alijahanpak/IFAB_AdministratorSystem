@@ -331,8 +331,7 @@
                                 </div>
                             </div>
                             <!--Tab 3 - Attachment Tab-->
-
-                            <div class="large-12 medium-12 small-12 medium-top-m padding-lr">
+                            <div class="large-12 medium-12 small-12 padding-lr" style="margin-top: 10px">
                                 <button type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
                             </div>
                         </div>

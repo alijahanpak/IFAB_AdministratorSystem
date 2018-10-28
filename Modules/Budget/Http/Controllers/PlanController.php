@@ -236,14 +236,17 @@ class PlanController extends Controller
                             $cs->ccsDescription = PublicSetting::checkPersianCharacters($csTemp->ccsDescription);
                             $cs->save();
 
-                            CapitalAssetsAllocation::where('caaCcsId', '=', $csTemp->ccsCcsId)
-                                ->update(['caaCcsId' => $cs->id]);
-                        } elseif ($csTemp->ccsCcsId != null) {
+                            if ($csTemp->ccsCcsId != null)
+                            {
+                                CapitalAssetsAllocation::where('caaCcsId', '=', $csTemp->ccsCcsId)
+                                    ->update(['caaCcsId' => $cs->id]);
+                            }
+                        } else if ($csTemp->ccsCcsId != null) {
                             CapCreditSource::where('id', '=', $csTemp->ccsCcsId)->update(['ccsDeleted' => 1]);
                             CapitalAssetsAllocation::where('caaCcsId', $csTemp->ccsCcsId)->update(['caaAmount' => 0]);
                         }
                     }
-                } elseif ($pTemp->cpCpId != null) {
+                } else if ($pTemp->cpCpId != null) {
                     CapitalAssetsProject::where('id', '=', $pTemp->cpCpId)->update(['cpDeleted' => 1, 'cpActive' => 0]);
                     CapCreditSource::where('ccsCapId', '=', $pTemp->cpCpId)->update(['ccsDeleted' => 1]);
                     CapitalAssetsAllocation::whereIn('caaCcsId', CapCreditSource::where('ccsCapId', '=', $pTemp->cpCpId)->pluck('id'))->update(['caaAmount' => 0]);
@@ -691,9 +694,12 @@ class PlanController extends Controller
                     $cs->ccsDescription = PublicSetting::checkPersianCharacters($csTemp->ccsDescription);
                     $cs->save();
 
-                    CostAllocation::where('caCcsId', '=', $csTemp->ccsCcsId)
-                        ->update(['caCcsId' => $cs->id]);
-                } elseif ($csTemp->ccsCcsId != null) {
+                    if ($csTemp->ccsCcsId != null)
+                    {
+                        CostAllocation::where('caCcsId', '=', $csTemp->ccsCcsId)
+                            ->update(['caCcsId' => $cs->id]);
+                    }
+                } else if ($csTemp->ccsCcsId != null) {
                     CaCreditSource::where('id', '=', $csTemp->ccsCcsId)->update(['ccsDeleted' => 1]);
                     CostAllocation::where('caCcsId', $csTemp->ccsCcsId)->update(['caAmount' => 0]);
                 }
