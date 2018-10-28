@@ -26,7 +26,7 @@ class SeedCostAllocationTableSeederTableSeeder extends Seeder
             $alloc->caLetterNumber = '196/265-' . (4000 + $i);
             $alloc->caLetterDate = '1396/10/' . rand(1 , 30);
             $alloc->caDescription = 'گربه پالاس (Pallas cat)، پستانداری است که غالبا در مناطق مرکزی آسیا یافت می‌شود.';
-            $alloc->caAmount = rand(1000000000 , 10000000000);
+            $alloc->caAmount = rand(8000000000 , 10000000000);
             $alloc->save();
         }
     }
