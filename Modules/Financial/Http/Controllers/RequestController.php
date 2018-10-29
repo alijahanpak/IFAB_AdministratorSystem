@@ -92,6 +92,52 @@ class RequestController extends Controller
             ->paginate(20);
     }
 
+    function update(Request $request)
+    {
+        $result = DB::transaction(function () use($request){
+            $req = _Request::find($request->id);
+            $req->rSubject = PublicSetting::checkPersianCharacters($request->subject);
+            $req->rCostEstimation = $request->costEstimation;
+            $req->rDescription = PublicSetting::checkPersianCharacters($request->description);
+            $req->rFurtherDetails = PublicSetting::checkPersianCharacters($request->furtherDetails);
+            $req->save();
+
+            if (is_array($request->get('items')))
+            {
+                $i =0;
+                $reqCommodityIds = [];
+                foreach ($request->get('items') as $item)
+                {
+                    $cId = Commodity::firstOrCreate(['cSubject' => PublicSetting::checkPersianCharacters(trim($item['subject']))]);
+                    $reqCom = RequestCommodity::updateOrCreate(['rcRId' => $req->id , 'rcCId' => $cId->id],[
+                        'rcCount' => $item['count'],
+                        'rcCostEstimation' => $item['costEstimation'],
+                        'rcDescription' => PublicSetting::checkPersianCharacters($item['description'])
+                    ]);
+                    $reqCommodityIds[$i++] = $reqCom->id;
+                }
+
+                if (count($reqCommodityIds) > 0)
+                {
+                    RequestCommodity::whereNotIn('id' , $reqCommodityIds)
+                        ->where('rcRId' , $req->id)
+                        ->delete();
+                }
+            }
+
+            SystemLog::setFinancialSubSystemLog('تغییر درخواست ' . $req->rSubject);
+            if ($request->resultType == 'POSTED')
+            {
+                return \response()->json($this->getAllPostedRequests(Auth::user()->id));
+            }else if ($request->resultType == 'RECEIVED')
+            {
+                return \response()->json($this->getAllReceivedRequests($this->getLastReceivedRequestIdList()));
+            }
+        });
+
+        return $result;
+    }
+
     function register(Request $request)
     {
         $resultCode = DB::transaction(function () use($request){
@@ -125,7 +171,7 @@ class RequestController extends Controller
             {
                 foreach ($request->get('items') as $item)
                 {
-                    $cId = Commodity::firstOrCreate(['cSubject' => PublicSetting::checkPersianCharacters($item['subject'])]);
+                    $cId = Commodity::firstOrCreate(['cSubject' => PublicSetting::checkPersianCharacters(trim($item['subject']))]);
                     $reqComm = new RequestCommodity();
                     $reqComm->rcRId = $req->id;
                     $reqComm->rcCId = $cId->id;

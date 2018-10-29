@@ -419,7 +419,7 @@
                                                 </thead>
                                                 <tbody>
                                                 <tr v-for="(lists,index) in commodityList">
-                                                    <td class="text-center">>{{index+1}}</td>
+                                                    <td class="text-center">{{index+1}}</td>
                                                     <td>{{lists.commodity.cSubject}}</td>
                                                     <td class="text-center">{{lists.rcCount}}</td>
                                                     <td class="text-center">{{lists.rcExistCount}}</td>
