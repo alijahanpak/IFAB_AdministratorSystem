@@ -267,7 +267,7 @@
                                     <p v-show="inputCheck.forTop != null" class="check-element text-right" :style="{'margin-top': inputCheck.forTop +'cm','margin-right': inputCheck.forRight +'cm','width': inputCheck.forWidth +'cm'}">بابت</p>
                                     <p v-show="inputCheck.payToTop != null" class="check-element text-right" :style="{'margin-top': inputCheck.payToTop +'cm','margin-right': inputCheck.payToRight +'cm','width': inputCheck.payToWidth +'cm'}">در وجه</p>
                                     <p v-show="inputCheck.stringAmountTop != null" class="check-element text-right" :style="{'margin-top': inputCheck.stringAmountTop +'cm','margin-right': inputCheck.stringAmountRight +'cm','width': inputCheck.stringAmountWidth +'cm'}">مبلغ به حروف</p>
-                                    <p v-show="inputCheck.amountTop != null" class="check-element text-left" :style="{'margin-top': inputCheck.amountTop +'cm','margin-right': inputCheck.amountRight +'cm','width': inputCheck.amountWidth +'cm'}" style="direction: ltr">مبلغ به عدد</p>
+                                    <p v-show="inputCheck.amountTop != null" class="check-element text-left" :style="{'margin-top': inputCheck.amountTop +'cm','margin-right': (inputCheck.amountRight -inputCheck.amountWidth)+'cm','width': inputCheck.amountWidth +'cm'}" style="direction: ltr">مبلغ به عدد</p>
                                     <p v-show="inputCheck.signatureTop != null" class="check-element text-center" :style="{'margin-top': inputCheck.signatureTop +'cm','margin-right': inputCheck.signatureRight +'cm','width': inputCheck.signatureWidth +'cm'}">امضا اول</p>
                                     <p v-show="inputCheck.secondSignatureTop != null" class="check-element text-center" :style="{'margin-top': inputCheck.secondSignatureTop +'cm','margin-right': inputCheck.secondSignatureRight +'cm','width': inputCheck.secondSignatureWidth +'cm'}"> امضا دوم</p>
                                 </div>
@@ -381,14 +381,14 @@
                             stringAmountRight:this.inputCheck.stringAmountRight,
                             stringAmountWidth:this.inputCheck.stringAmountWidth,
                             amountTop:this.inputCheck.amountTop,
-                            amountRight:this.inputCheck.amountRight,
+                            amountRight:(this.inputCheck.amountRight - this.inputCheck.amountWidth),
                             amountWidth:this.inputCheck.amountWidth,
                             signatureTop:this.inputCheck.signatureTop,
                             signatureRight:this.inputCheck.signatureRight,
                             signatureWidth:this.inputCheck.signatureWidth,
-                            secondSignatureTop:this.inputCheck.secondSignatureTop == '' ? 0 :this.inputCheck.secondSignatureTop,
-                            secondSignatureRight:this.inputCheck.secondSignatureRight == '' ? 0 :this.inputCheck.secondSignatureRight,
-                            secondSignatureWidth:this.inputCheck.secondSignatureWidth == '' ? 0 :this.inputCheck.secondSignatureWidth,
+                            secondSignatureTop:this.inputCheck.secondSignatureTop == null ? 0 :this.inputCheck.secondSignatureTop,
+                            secondSignatureRight:this.inputCheck.secondSignatureRight == null ? 0 :this.inputCheck.secondSignatureRight,
+                            secondSignatureWidth:this.inputCheck.secondSignatureWidth == null ? 0 :this.inputCheck.secondSignatureWidth,
                             width:this.inputCheck.width,
                             height:this.inputCheck.height,
                         }).then((response) => {
