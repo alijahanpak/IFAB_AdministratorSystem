@@ -158,6 +158,7 @@ class ReportController extends Controller
             ->with('selectedVerifiers.verifier.user')
             ->first();
         $check['amountText'] = self::digit_to_persain_letters($check->cAmount);
+        $check['dateText'] = self::convertDateToText($check->cDate);
         $pdf = $this->initCustomSize($checkFormat->cfHeight * 10 , $checkFormat-> cfWidth* 10);
         $pdf->loadHTML(view('financial::reports.draft.check' , ['checkFormat' => $checkFormat , 'check' => $check , 'baseMargin' =>$baseMargin]));
         return $pdf->inline();
