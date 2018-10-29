@@ -157,7 +157,7 @@
                                     <div class="grid-x input-top-margin">
                                         <div class="large-12 medium-12 small-12 padding-lr">
                                             <label>قالب چک
-                                                <select name="checkTemplate" v-validate data-vv-rules="required"  v-model="inputCheck.cId" :class="{'input': true, 'select-error': errors.has('checkTemplate')}">
+                                                <select name="checkTemplate" v-validate data-vv-rules="required"  v-model="inputCheck.id" :class="{'input': true, 'select-error': errors.has('checkTemplate')}">
                                                     <option value=""></option>
                                                     <option v-for="activeCheckFormat in allActiveCheckFormat" @click="selectCheckTemplate(activeCheckFormat)" :value="activeCheckFormat.id">{{activeCheckFormat.cfSubject}}</option>
                                                 </select>
@@ -309,9 +309,9 @@
                                 <p v-show="fillCheck.secondSignatureWidth != 0" class="check-element text-center" :style="{'margin-top': fillCheck.secondSignatureTop +0.5+'cm','margin-right': fillCheck.secondSignatureRight +'cm','width': fillCheck.secondSignatureWidth +'cm'}"> {{checkVerifierName[3]}}</p>
                             </div>
                         </div>
-                        <div style="height: 12cm;" class="large-12 medium-12 small-12">
+                       <!-- <div style="height: 12cm;" class="large-12 medium-12 small-12">
                             <embed style="width: 100%;height: 100%" :src="checkPdfPath" />
-                        </div>
+                        </div>-->
                         <div style="display: none;">
                             <div id="printJS-form" class="large-12 medium-12 small-12 padding-lr text-center printJSClass">
                                 <div :style="{'width':fillCheck.height +'cm','height':fillCheck.width +'cm'}" style="position: relative;margin:0 auto;" >
@@ -593,7 +593,6 @@
 
             showCheckPreview:function(){
                 this.checkPdfPath='';
-                this.openReportFile();
                 this.checkDateValid=false;
                 this.$validator.validateAll().then((result) => {
                     if (result) {
@@ -713,15 +712,18 @@
                         description:this.inputCheck.description = undefined ? '' : this.inputCheck.description,
                         searchValue:"",
                     }).then((response) => {
-                        printJS({ printable: 'printJS-form',
+                        if(response.status == 200){
+                            this.openReportFile(this.inputCheck.id,this.checkId);
+                            this.allChecks = response.data.data;
+                            this.makePagination(response.data);
+                            this.showGetCheckPreviewModal=false;
+                            this.showPrintCheckModal=false;
+                            this.$parent.displayNotif(response.status);
+                        }
+                        /*printJS({ printable: 'printJS-form',
                             type: 'html',
                             documentTitle:'',
-                            targetStyles:['direction','font-family','margin-top','margin-right','width','height','position','top','text-align']});
-                        this.allChecks = response.data.data;
-                        this.makePagination(response.data);
-                        this.showGetCheckPreviewModal=false;
-                        this.showPrintCheckModal=false;
-                        this.$parent.displayNotif(response.status);
+                            targetStyles:['direction','font-family','margin-top','margin-right','width','height','position','top','text-align']});*/
                         console.log(response);
                     }, (error) => {
                         console.log(error);
@@ -760,13 +762,14 @@
                 });
             },
 
-            openReportFile: function () {
-                axios.post('/financial/report/check' , {} ,{responseType:'blob'})
+            openReportFile: function (fId,cId) {
+                axios.post('/financial/report/check' , {fId:fId,id:cId} ,{responseType:'blob'})
                     .then((response) => {
                         console.log(response.data);
                         var file = new Blob([response.data], {type: 'application/pdf'});
                         var fileURL = window.URL.createObjectURL(file);
                         this.checkPdfPath=fileURL;
+                        printJS(this.checkPdfPath);
                     },(error) => {
                         console.log(error);
                     });

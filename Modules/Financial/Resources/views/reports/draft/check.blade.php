@@ -22,23 +22,23 @@
                 page-break-after: always;
                 margin: 0;
                 padding: 0;
-                width: 180mm;
-                height: 85mm;
                 overflow: hidden;
-                background-color: #fff9ed;
             }
 
         </style>
     </head>
-    <body style="font-size: 21px;background-color: #00c5dc;"  class="BZar">
-        <div class="page">
-            <p class="check-element-print" style="margin-top:10mm;margin-right:20mm;width:30mm;background-color: #ffffff;">1397/08/06</p>
-            <p class="check-element-print" style="margin-top:18mm;margin-right:28mm;width:100mm;background-color: #ffffff;">شش آبان ماه یکهزار و سیصد و نود و هفت</p>
-            <p class="check-element-print" style="margin-top:30mm;margin-right:42mm;width:100mm;background-color: #ffffff;">پنجاه میلیارد و دویست و چهل و هشت میلیون و چهارصد هزار</p>
-            <p class="check-element-print" style="margin-top:38mm;margin-right:20mm;width:80mm;background-color: #ffffff;">شرکت ایمن بنیان اکباتان</p>
-            <p class="check-element-print" style="margin-top:45mm;margin-right:20mm;width:80mm;background-color: #ffffff;">بهسازی مسجد جامع</p>
-            <p class="check-element-print" style="margin-top:57mm;margin-right:145mm;width:50mm;background-color: #ffffff;">52484000000</p>
-            <p class="check-element-print" style="margin-top:57mm;margin-right:30mm;width:30mm;background-color: #ffffff;">مدیر کل</p>
+    <body style="font-size: 21px;"  class="BZar">
+        <div  style="{{'width:' . ($checkFormat->cfHeight * 10) . 'mm;height:' . ($checkFormat->cfWidth * 10).'mm;'}}" class="page">
+            <p class="check-element-print" style="{{'margin-top:' . (($checkFormat->cfDateTop * 10) - $baseMargin) . 'mm;margin-right:' . ($checkFormat->cfDateRight * 10) . 'mm;width:' . ($checkFormat->cfDateWidth * 10) .'mm;'}}">{{$check['draft']['dLetterDate']}}</p>
+            <p class="check-element-print" style="{{'margin-top:' . (($checkFormat->cfStringDateTop * 10) - $baseMargin) . 'mm;margin-right:' . ($checkFormat->cfStringDateRight * 10) . 'mm;width:' . ($checkFormat->cfStringDateWidth * 10) .'mm;'}}">{{$check['draft']['dLetterDate']}}</p>
+            <p class="check-element-print" style="{{'margin-top:' . (($checkFormat->cfForTop * 10) - $baseMargin) . 'mm;margin-right:' . ($checkFormat->cfForRight * 10) . 'mm;width:' . ($checkFormat->cfForWidth * 10) .'mm;'}}">{{$check['cPdId'] != null ? $check['percentageDecrease']['pdSubject'] . ' - ' . $check['draft']['dFor'] : $check['draft']['dFor']}}</p>
+            <p class="check-element-print" style="{{'margin-top:' . (($checkFormat->cfPayToTop * 10) - $baseMargin) . 'mm;margin-right:' . ($checkFormat->cfPayToRight * 10) . 'mm;width:' . ($checkFormat->cfPayToWidth * 10) .'mm;'}}">{{$check['draft']['dPayTo']}}</p>
+            <p class="check-element-print" style="{{'margin-top:' . (($checkFormat->cfStringAmountTop * 10) - $baseMargin) . 'mm;margin-right:' . ($checkFormat->cfStringAmountRight * 10) . 'mm;width:' . ($checkFormat->cfStringAmountWidth * 10) .'mm;'}}">{{($check['amountText'])}}</p>
+            <p class="check-element-print" style="{{'margin-top:' . (($checkFormat->cfAmountTop * 10) - $baseMargin) . 'mm;margin-right:' . ($checkFormat->cfAmountRight * 10) . 'mm;width:' . ($checkFormat->cfAmountWidth * 10) .'mm;'}}">{{$check['cAmount']}}</p>
+            <p class="check-element-print text-center" style="{{'margin-top:' . (($checkFormat->cfSignatureTop * 10) - $baseMargin) . 'mm;margin-right:' . ($checkFormat->cfSignatureRight * 10) . 'mm;width:' . ($checkFormat->cfSignatureWidth * 10) .'mm;'}}">{{$check['selectedVerifiers'][0]['verifier']['user']['name']}}</p>
+            <p class="check-element-print text-center" style="{{'margin-top:' . ((($checkFormat->cfSignatureTop * 10) - $baseMargin) + 5) . 'mm;margin-right:' . ($checkFormat->cfSignatureRight * 10) . 'mm;width:' . ($checkFormat->cfSignatureWidth * 10) .'mm;'}}">{{$check['selectedVerifiers'][0]['verifier']['user']['role']['rSubject']}}</p>
+            <p class="check-element-print text-center"  style="{{'margin-top:' . (($checkFormat->cfSecondSignatureTop * 10) - $baseMargin) . 'mm;margin-right:' . ($checkFormat->cfSecondSignatureRight * 10) . 'mm;width:' . ($checkFormat->cfSecondSignatureWidth * 10) .'mm;'}}">{{count($check['selectedVerifiers']) > 1 ? $check['selectedVerifiers'][1]['verifier']['user']['name'] : ''}}</p>
+            <p class="check-element-print text-center"  style="{{'margin-top:' . ((($checkFormat->cfSecondSignatureTop * 10) - $baseMargin) + 5) . 'mm;margin-right:' . ($checkFormat->cfSecondSignatureRight * 10) . 'mm;width:' . ($checkFormat->cfSecondSignatureWidth * 10) .'mm;'}}">{{count($check['selectedVerifiers']) > 1 ? $check['selectedVerifiers'][1]['verifier']['user']['role']['rSubject'] : ''}}</p>
         </div>
     </body>
 </html>

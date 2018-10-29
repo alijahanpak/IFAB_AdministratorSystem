@@ -14,6 +14,7 @@ use Modules\Budget\Entities\CostAgreement;
 use Modules\Financial\Entities\_Check;
 use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\CapitalAssetsFinancing;
+use Modules\Financial\Entities\CheckFormat;
 use Modules\Financial\Entities\CostFinancing;
 use Modules\Financial\Entities\Draft;
 use Modules\Financial\Entities\NumberToWord;
@@ -142,8 +143,16 @@ class ReportController extends Controller
 
     public function check(Request $request)
     {
-        $pdf = $this->initCustomSize(170 , 85);
-        $pdf->loadHTML(view('financial::reports.draft.check'));
+        $baseMargin=8;
+        $checkFormat = CheckFormat::find($request->fId);
+        $check = _Check::where('id' , $request->id)
+            ->with('draft')
+            ->with('percentageDecrease')
+            ->with('selectedVerifiers.verifier.user')
+            ->first();
+        $check['amountText'] = self::digit_to_persain_letters($check->cAmount);
+        $pdf = $this->initCustomSize($checkFormat->cfHeight * 10 , $checkFormat-> cfWidth* 10);
+        $pdf->loadHTML(view('financial::reports.draft.check' , ['checkFormat' => $checkFormat , 'check' => $check , 'baseMargin' =>$baseMargin]));
         return $pdf->inline();
     }
 
