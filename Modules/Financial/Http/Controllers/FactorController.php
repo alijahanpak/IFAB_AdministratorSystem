@@ -34,7 +34,7 @@ class FactorController extends Controller
     function addNewFactor(Request $request)
     {
         DB::transaction(function () use($request){
-            $sId = Seller::firstOrCreate(['sSubject' => PublicSetting::checkPersianCharacters($request->seller)]);
+            $sId = Seller::firstOrCreate(['sSubject' => PublicSetting::checkPersianCharacters(trim($request->seller))]);
             $factor = new Factor();
             $factor->fRId = $request->rId;
             $factor->fSId = $sId->id;
@@ -56,9 +56,38 @@ class FactorController extends Controller
         });
 
         $rController = new RequestController();
-        return \response()->json(
-            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
-        );
+        return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList()));
+
+    }
+
+    public function update(Request $request)
+    {
+        $result = DB::transaction(function () use($request){
+            $sId = Seller::firstOrCreate(['sSubject' => PublicSetting::checkPersianCharacters(trim($request->seller))]);
+            $factor = Factor::find($request->id);
+            $factor->fSId = $sId->id;
+            $factor->fSubject = PublicSetting::checkPersianCharacters($request->subject);
+            $factor->fAmount = $request->amount;
+            $factor->fDescription = PublicSetting::checkPersianCharacters($request->description);
+            $factor->save();
+
+            if ($request->refundId)
+            {
+                RefundFactor::updateOrCreate(['rfFId' => $factor->id], ['rfRId' => $request->refundId]);
+            }
+
+            SystemLog::setFinancialSubSystemLog('اصلاح فاکتور ' . $factor->fSubject . ' برای درخواست ' . _Request::find($factor->fRId)->rSubject);
+            $rController = new RequestController();
+            if ($request->resultType == 'POSTED')
+            {
+                return \response()->json($rController->getAllPostedRequests(Auth::user()->id));
+            }else if ($request->resultType == 'RECEIVED')
+            {
+                return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList()));
+            }
+        });
+
+        return $result;
     }
 
     function addNewRefundFactor(Request $request)

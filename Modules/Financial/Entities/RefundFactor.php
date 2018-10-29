@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RefundFactor extends Model
 {
-    protected $fillable = [];
+    protected $fillable = ['rfFId' , 'rfRId'];
     protected $table = 'tbl_refund_factors';
 
     public function factor()

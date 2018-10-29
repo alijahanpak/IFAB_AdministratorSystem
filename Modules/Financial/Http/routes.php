@@ -35,10 +35,12 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::post('contract/insert', 'ContractController@addNewContract');
         Route::post('contract/accept', 'ContractController@accept');
         Route::post('contract/delete', 'ContractController@delete');
+        Route::post('contract/update', 'ContractController@update');
         Route::get('contract/fetchPercentageIncreaseData', 'ContractController@getPercentageIncrease');
         Route::post('factor/insert', 'FactorController@addNewFactor');
         Route::post('factor/accept', 'FactorController@accept');
         Route::post('factor/delete', 'FactorController@delete');
+        Route::post('factor/update', 'FactorController@update');
 
     });
 

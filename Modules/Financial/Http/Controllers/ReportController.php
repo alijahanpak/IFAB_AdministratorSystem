@@ -76,8 +76,6 @@ class ReportController extends Controller
         $pdf = $this->initA5Pdf();
         $pdf->loadHTML(view('financial::reports.draft.draftAccept' , ['draftInfo' => $draft , 'verifierName' => $verifierName ,'verifierRole' => $verifierRole]));
         return $pdf->inline();
-        //$pdf->save('pdfFiles/draft' . Auth::user()->id . '.pdf', true);
-        //return url('pdfFiles/draft' . Auth::user()->id . '.pdf');
     }
 
     public function paymentRequest(Request $request)
@@ -90,8 +88,6 @@ class ReportController extends Controller
         $pdf = $this->initA4Pdf();
         $pdf->loadHTML(view('financial::reports.payment_request.paymentRequestAccept' , ['payRequestInfo' => $payRequestInfo]));
         return $pdf->inline();
-        //$pdf->save('pdfFiles/pay_request' . Auth::user()->id . '.pdf', true);
-        //return url('pdfFiles/pay_request' . Auth::user()->id . '.pdf');
     }
 
     public static function digit_to_persain_letters($money)

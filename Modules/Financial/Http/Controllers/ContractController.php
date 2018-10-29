@@ -27,7 +27,7 @@ class ContractController extends Controller
     function addNewContract(Request $request)
     {
         DB::transaction(function () use($request){
-            $eId = Executor::firstOrCreate(['eSubject' => PublicSetting::checkPersianCharacters($request->executor)]);
+            $eId = Executor::firstOrCreate(['eSubject' => PublicSetting::checkPersianCharacters(trim($request->executor))]);
             $contract = new Contract();
             $contract->cRId = $request->rId;
             $contract->cEId = $eId->id;
@@ -62,6 +62,52 @@ class ContractController extends Controller
         return \response()->json(
             $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
         );
+    }
+
+    public function update(Request $request)
+    {
+        $result = DB::transaction(function () use($request){
+            $eId = Executor::firstOrCreate(['eSubject' => PublicSetting::checkPersianCharacters(trim($request->executor))]);
+            $contract = Contract::find($request->id);
+            $contract->cEId = $eId->id;
+            $contract->cSubject = PublicSetting::checkPersianCharacters($request->subject);
+            $contract->cBaseAmount = $request->baseAmount;
+            $contract->cPercentInAndDec = $request->percentIncAndDec;
+            $contract->cCoefficient = $request->coefficient;
+            $contract->cLetterNumber = $request->letterNumber;
+            $contract->cLetterDate = $request->letterDate;
+            $contract->cStartDate = $request->startDate;
+            $contract->cEndDate = $request->endDate;
+            $contract->cDescription = PublicSetting::checkPersianCharacters($request->description);
+            $contract->save();
+
+            //////////////////////// set increases items ////////////////////////////////
+            if (is_array($request->get('increaseItems')))
+            {
+                $increaseItemIds = [];
+                $i = 0;
+                foreach ($request->get('increaseItems') as $item)
+                {
+                    $inc = IncreaseContractAmount::updateOrCreate(['icaCId' => $contract->id , 'icaPiId' => $item['piId']], [
+                        'icaAmount' => $item['amount']
+                    ]);
+                    $increaseItemIds[$i++] = $inc->id;
+                }
+
+                if (count($increaseItemIds) > 0)
+                {
+                    IncreaseContractAmount::whereNotIn('id' , $increaseItemIds)
+                        ->where('icaCId' , $contract->id)
+                        ->delete();
+                }
+            }
+
+            SystemLog::setFinancialSubSystemLog('اصلاح قرارداد ' . $request->subject . ' برای درخواست ' . _Request::find($request->rId)->rSubject);
+            $rController = new RequestController();
+            return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList()));
+        });
+
+        return $result;
     }
 
     function accept(Request $request)
