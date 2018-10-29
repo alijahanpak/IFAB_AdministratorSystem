@@ -101,6 +101,13 @@ class ReportController extends Controller
         return $numToWord->numberToWords($money);
     }
 
+    public static function convertDateToText($date)
+    {
+        $month = array("فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند");
+        $dateTemp = explode('/' , $date);
+        return self::digit_to_persain_letters($dateTemp[2]) . ' ' . $month[$dateTemp[1]-1] . ' ' . self::digit_to_persain_letters($dateTemp[0]);
+    }
+
     public function document(Request $request)
     {
         $draft = Draft::where('id' , $request->dId)->with('payRequest')->first();

@@ -1996,49 +1996,62 @@ export default{
             var allocIsNotExist = true;
             if (!isNaN(value))
             {
+                value = parseInt(value , 10);
                 if(type == 0){ //plan level
                     data.ca_credit_source_has_allocation.forEach(cs => {
-                        aCount += cs.allocation.length;
-                    });
-                    piceOfAmount = ((parseInt(value , 10) - (parseInt(value , 10) % aCount)) / aCount);
-                    piceOfDivRemAmount = parseInt(value , 10) % aCount;
-                    data.ca_credit_source_has_allocation.forEach(cs => {
-                        cs.selected = true;
                         cs.allocation.forEach( alloc =>{
-                            alloc.selected = true;
-                            var remainingAmount = parseInt(alloc.caAmount , 10) - (parseInt(alloc.caSumOfReserved , 10) + parseInt(alloc.caSumOfCommitment , 10));
-                            if( remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
-                                alloc.amount = (piceOfAmount + piceOfDivRemAmount);
-                                piceOfDivRemAmount = 0;
-                                allocIsNotExist = false;
-                            }
-                            else if (remainingAmount >= piceOfAmount){
-                                alloc.amount = piceOfAmount;
-                                allocIsNotExist = false;
-                            }else{
-                                if (remainingAmount <= 0)
-                                {
-                                    alloc.amount = 0;
-                                }else{
-                                    alloc.amount = remainingAmount;
-                                    allocIsNotExist = false;
-                                }
-                            }
-                            console.log(JSON.stringify(alloc));
+                            if ((parseInt(alloc.caAmount , 10) - (parseInt(alloc.caSumOfReserved , 10) + parseInt(alloc.caSumOfCommitment , 10))) > 0)
+                                aCount++;
                         });
+                    });
+                    piceOfAmount = ((value - (value % aCount)) / aCount);
+                    piceOfDivRemAmount = value % aCount;
+                    data.ca_credit_source_has_allocation.forEach(cs => {
+                        if ((parseInt(cs.ccsSumOfAllocation , 10) - (parseInt(cs.ccsSumOfReserved , 10) + parseInt(cs.ccsSumOfCommitment , 10))) > 0)
+                        {
+                            cs.selected = true;
+                            cs.allocation.forEach( alloc =>{
+                                if ((parseInt(alloc.caAmount , 10) - (parseInt(alloc.caSumOfReserved , 10) + parseInt(alloc.caSumOfCommitment , 10))) > 0)
+                                {
+                                    alloc.selected = true;
+                                    var remainingAmount = parseInt(alloc.caAmount , 10) - (parseInt(alloc.caSumOfReserved , 10) + parseInt(alloc.caSumOfCommitment , 10));
+                                    if( remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
+                                        alloc.amount = (piceOfAmount + piceOfDivRemAmount);
+                                        piceOfDivRemAmount = 0;
+                                        allocIsNotExist = false;
+                                    }
+                                    else if (remainingAmount >= piceOfAmount){
+                                        alloc.amount = piceOfAmount;
+                                        allocIsNotExist = false;
+                                    }else{
+                                        if (remainingAmount <= 0)
+                                        {
+                                            alloc.amount = 0;
+                                        }else{
+                                            alloc.amount = remainingAmount;
+                                            allocIsNotExist = false;
+                                        }
+                                    }
+                                    console.log(JSON.stringify(alloc));
+                                }
+                            });
+                        }
                     });
                     this.calculationOfCostCreditEdit(rootData);
                     this.calculateCostReservedAmount();
 
                 }
                 else if(type == 1){ //credit source level
-                    aCount = data.allocation.length;
-                    piceOfAmount = ((parseInt(value , 10) - (parseInt(value , 10) % aCount)) / aCount);
-                    piceOfDivRemAmount = parseInt(value) % aCount;
                     data.allocation.forEach( alloc =>{
-                        alloc.selected = true;
+                        if ((parseInt(alloc.caAmount , 10) - (parseInt(alloc.caSumOfReserved , 10) + parseInt(alloc.caSumOfCommitment , 10))) > 0)
+                            aCount++;
+                    });
+                    piceOfAmount = ((value - (value % aCount)) / aCount);
+                    piceOfDivRemAmount = value % aCount;
+                    data.allocation.forEach( alloc =>{
                         var remainingAmount = parseInt(alloc.caAmount , 10) - (parseInt(alloc.caSumOfReserved , 10) + parseInt(alloc.caSumOfCommitment , 10));
                         if (remainingAmount > 0) {
+                            alloc.selected = true;
                             if (remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
                                 alloc.amount = (piceOfAmount + piceOfDivRemAmount);
                                 piceOfDivRemAmount = 0;
@@ -2062,9 +2075,9 @@ export default{
                     this.calculateCostReservedAmount();
                 }
                 else if(type == 2){ //allocation level
-                    data.selected = true;
                     var remainingAmount = parseInt(data.caAmount , 10) - (parseInt(data.caSumOfReserved , 10) + parseInt(data.caSumOfCommitment , 10));
                     if (remainingAmount > 0) {
+                        data.selected = true;
                         if (remainingAmount >= value) {
                             data.amount = value;
                             allocIsNotExist = false;
@@ -2083,10 +2096,10 @@ export default{
                     this.calculateCostReservedAmount();
                 }else if(type == 3) //found level
                 {
-                    data.selected = true;
                     var remainingAmount = parseInt(data.caAmount , 10) - (parseInt(data.caSumOfReserved , 10) + parseInt(data.caSumOfCommitment , 10) + parseInt(data.caConvertedAllocAmount , 10));
                     if (remainingAmount > 0)
                     {
+                        data.selected = true;
                         if(remainingAmount >= value) {
                             data.amount = value;
                             allocIsNotExist = false;
@@ -2208,104 +2221,127 @@ export default{
 
             if (!isNaN(value))
             {
+                value = parseInt(value , 10);
                 if(type == 0){ //plan level
                     data.capital_assets_project_has_credit_source.forEach(project => {
                         project.credit_source_has_allocation.forEach(cs => {
-                            aCount += cs.allocation.length;
-                        });
-                    });
-                    piceOfAmount = ((parseInt(value , 10) - (parseInt(value , 10) % aCount)) / aCount);
-                    piceOfDivRemAmount = parseInt(value) % aCount;
-                    data.capital_assets_project_has_credit_source.forEach(project => {
-                        project.selected = true;
-                        project.credit_source_has_allocation.forEach(cs => {
-                            cs.selected = true;
                             cs.allocation.forEach( alloc =>{
-                                alloc.selected = true;
-                                var remainingAmount = parseInt(alloc.caaAmount , 10) - (parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment , 10));
-                                if( remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
-                                    alloc.amount = (piceOfAmount + piceOfDivRemAmount);
-                                    piceOfDivRemAmount = 0;
-                                    allocIsNotExist = false;
-                                }
-                                else if (remainingAmount >= piceOfAmount){
-                                    alloc.amount = piceOfAmount;
-                                    allocIsNotExist = false;
-                                }else{
-                                    if (remainingAmount <= 0)
-                                    {
-                                        alloc.amount = 0;
-                                    }else{
-                                        alloc.amount = remainingAmount;
-                                        allocIsNotExist = false;
-                                    }
-                                }
-                                console.log(JSON.stringify(alloc));
+                                if ((parseInt(alloc.caaAmount , 10) - (parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment , 10))) > 0)
+                                    aCount ++;
                             });
                         });
+                    });
+                    piceOfAmount = ((value - (value % aCount)) / aCount);
+                    piceOfDivRemAmount = value % aCount;
+                    data.capital_assets_project_has_credit_source.forEach(project => {
+                        if ((parseInt(project.cpSumOfAllocation , 10) - (parseInt(project.cpSumOfReserved , 10) + parseInt(project.cpSumOfCommitment , 10))) > 0)
+                        {
+                            project.selected = true;
+                            project.credit_source_has_allocation.forEach(cs => {
+                                if ((parseInt(cs.ccsSumOfAllocation , 10) - (parseInt(cs.ccsSumOfReserved , 10) + parseInt(cs.ccsSumOfCommitment , 10))) > 0)
+                                {
+                                    cs.selected = true;
+                                    cs.allocation.forEach( alloc =>{
+                                        if ((parseInt(alloc.caaAmount , 10) - (parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment , 10))) > 0)
+                                        {
+                                            alloc.selected = true;
+                                            var remainingAmount = parseInt(alloc.caaAmount , 10) - (parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment , 10));
+                                            if(remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
+                                                alloc.amount = (piceOfAmount + piceOfDivRemAmount);
+                                                piceOfDivRemAmount = 0;
+                                                allocIsNotExist = false;
+                                            }
+                                            else if (remainingAmount >= piceOfAmount){
+                                                alloc.amount = piceOfAmount;
+                                                allocIsNotExist = false;
+                                            }else{
+                                                if (remainingAmount <= 0)
+                                                {
+                                                    alloc.amount = 0;
+                                                }else{
+                                                    alloc.amount = remainingAmount;
+                                                    allocIsNotExist = false;
+                                                }
+                                            }
+                                            console.log(JSON.stringify(alloc));
+                                        }
+                                    });
+                                }
+                            });
+                        }
                     });
                     this.calculationOfCapCreditEdit(rootData);
                     this.calculateCapReservedAmount();
                 }
                 else if(type == 1){ //credit source level
                     data.credit_source_has_allocation.forEach(cs => {
-                        aCount += cs.allocation.length;
-                    });
-                    piceOfAmount = ((parseInt(value , 10) - (parseInt(value , 10) % aCount)) / aCount);
-                    piceOfDivRemAmount = parseInt(value , 10) % aCount;
-                    data.credit_source_has_allocation.forEach(cs => {
-                        cs.selected = true;
                         cs.allocation.forEach( alloc =>{
-                            alloc.selected = true;
-                            var remainingAmount = parseInt(alloc.caaAmount , 10) - (parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment , 10));
-                            if( remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
-                                alloc.amount = (piceOfAmount + piceOfDivRemAmount);
-                                piceOfDivRemAmount = 0;
-                                allocIsNotExist = false;
-                            }
-                            else if (remainingAmount >= piceOfAmount){
-                                alloc.amount = piceOfAmount;
-                                allocIsNotExist = false;
-                            }else{
-                                if (remainingAmount <= 0)
-                                {
-                                    alloc.amount = 0;
-                                }else{
-                                    alloc.amount = remainingAmount;
-                                    allocIsNotExist = false;
-                                }
-                            }
-                            console.log(JSON.stringify(alloc));
+                            if ((parseInt(alloc.caaAmount , 10) - (parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment , 10))) > 0)
+                                aCount ++;
                         });
+                    });
+                    piceOfAmount = ((value - (value % aCount)) / aCount);
+                    piceOfDivRemAmount = value % aCount;
+                    data.credit_source_has_allocation.forEach(cs => {
+                        if ((parseInt(cs.ccsSumOfAllocation , 10) - (parseInt(cs.ccsSumOfReserved , 10) + parseInt(cs.ccsSumOfCommitment , 10))) > 0) {
+                            cs.selected = true;
+                            cs.allocation.forEach(alloc => {
+                                if ((parseInt(alloc.caaAmount , 10) - (parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment , 10))) > 0) {
+                                    alloc.selected = true;
+                                    var remainingAmount = parseInt(alloc.caaAmount, 10) - (parseInt(alloc.caaSumOfReserved, 10) + parseInt(alloc.caaSumOfCommitment, 10));
+                                    if (remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
+                                        alloc.amount = (piceOfAmount + piceOfDivRemAmount);
+                                        piceOfDivRemAmount = 0;
+                                        allocIsNotExist = false;
+                                    }
+                                    else if (remainingAmount >= piceOfAmount) {
+                                        alloc.amount = piceOfAmount;
+                                        allocIsNotExist = false;
+                                    } else {
+                                        if (remainingAmount <= 0) {
+                                            alloc.amount = 0;
+                                        } else {
+                                            alloc.amount = remainingAmount;
+                                            allocIsNotExist = false;
+                                        }
+                                    }
+                                    console.log(JSON.stringify(alloc));
+                                }
+                            });
+                        }
                     });
                     this.calculationOfCapCreditEdit(rootData);
                     this.calculateCapReservedAmount();
                 }
                 else if(type == 2) { //allocation level
-                    aCount += data.allocation.length;
-                    piceOfAmount = ((parseInt(value , 10) - (parseInt(value , 10) % aCount)) / aCount);
-                    piceOfDivRemAmount = parseInt(value , 10) % aCount;
                     data.allocation.forEach( alloc =>{
-                        alloc.selected = true;
-                        var remainingAmount = parseInt(alloc.caaAmount , 10) - (parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment , 10));
-                        if( remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
-                            alloc.amount = (piceOfAmount + piceOfDivRemAmount);
-                            piceOfDivRemAmount = 0;
-                            allocIsNotExist = false;
-                        }
-                        else if (remainingAmount >= piceOfAmount){
-                            alloc.amount = piceOfAmount;
-                            allocIsNotExist = false;
-                        }else{
-                            if (remainingAmount <= 0)
-                            {
-                                alloc.amount = 0;
-                            }else{
-                                alloc.amount = remainingAmount;
+                        if ((parseInt(alloc.caaAmount , 10) - (parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment , 10))) > 0)
+                            aCount ++;
+                    });
+                    piceOfAmount = ((value - (value % aCount)) / aCount);
+                    piceOfDivRemAmount = value % aCount;
+                    data.allocation.forEach( alloc =>{
+                        if ((parseInt(alloc.caaAmount , 10) - (parseInt(alloc.caaSumOfReserved , 10) + parseInt(alloc.caaSumOfCommitment , 10))) > 0) {
+                            alloc.selected = true;
+                            var remainingAmount = parseInt(alloc.caaAmount, 10) - (parseInt(alloc.caaSumOfReserved, 10) + parseInt(alloc.caaSumOfCommitment, 10));
+                            if (remainingAmount >= (piceOfAmount + piceOfDivRemAmount)) {
+                                alloc.amount = (piceOfAmount + piceOfDivRemAmount);
+                                piceOfDivRemAmount = 0;
                                 allocIsNotExist = false;
                             }
+                            else if (remainingAmount >= piceOfAmount) {
+                                alloc.amount = piceOfAmount;
+                                allocIsNotExist = false;
+                            } else {
+                                if (remainingAmount <= 0) {
+                                    alloc.amount = 0;
+                                } else {
+                                    alloc.amount = remainingAmount;
+                                    allocIsNotExist = false;
+                                }
+                            }
+                            console.log(JSON.stringify(alloc));
                         }
-                        console.log(JSON.stringify(alloc));
                     });
 
                     this.calculationOfCapCreditEdit(rootData);
@@ -2885,7 +2921,7 @@ export default{
                         this.$root.displayNotif(response.status);
                     }
                     else if (response.status == 420){
-                        this.requestCapFinancing=response.data.capFinancing;
+                        this.requestCapFinancing = response.data.capFinancing;
                         this.openCapEditModal();
                     }
                     console.log(response);

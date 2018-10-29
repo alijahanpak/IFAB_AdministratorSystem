@@ -29,7 +29,7 @@ class SeedCostCreditSourceTableSeederTableSeeder extends Seeder
             $caCs->ccsCdrId = CreditDistributionRow::where('cdPlanOrCost' , '=' , 0)->inRandomOrder()->first()->id;
             $caCs->ccsTsId = CostTinySeason::inRandomOrder()->first()->id;
             $caCs->ccsCdtId = CreditDistributionTitle::where('cdtCdtId' , '=' , null)->inRandomOrder()->first()->id;
-            $caCs->ccsAmount = rand(1000000000 , 150000000000);
+            $caCs->ccsAmount = rand(10000000000 , 15000000000);
             $caCs->ccsDescription = 'گربه پالاس (Pallas cat)، پستانداری است که غالبا در مناطق مرکزی آسیا یافت می‌شود.';
             $caCs->save();
         }
@@ -42,7 +42,7 @@ class SeedCostCreditSourceTableSeederTableSeeder extends Seeder
             $caCs->ccsCdrId = CreditDistributionRow::where('cdPlanOrCost' , '=' , 1)->inRandomOrder()->first()->id;
             $caCs->ccsTsId = CostTinySeason::inRandomOrder()->first()->id;
             $caCs->ccsCdtId = CreditDistributionTitle::where('cdtCdtId' , '=' , null)->inRandomOrder()->first()->id;
-            $caCs->ccsAmount = rand(1000000000 , 150000000000);
+            $caCs->ccsAmount = rand(10000000000 , 15000000000);
             $caCs->ccsDescription = 'گربه پالاس (Pallas cat)، پستانداری است که غالبا در مناطق مرکزی آسیا یافت می‌شود.';
             $caCs->save();
         }

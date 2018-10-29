@@ -233,16 +233,18 @@
                                                 </label>
                                                 <p v-show="errors.has('serviceEstimated')" class="error-font">لطفا مبلغ تقریبی را برای درخواست مورد نظر را وارد نمایید!</p>
                                             </div>
-                                            <div style="margin-top:16px;" class="large-12 medium-12 small-12">
+                                        </div>
+                                        <div style="margin-top:16px;" class="grid-x">
+                                            <div style="padding-left: 10px" class="large-6 medium-6 small-12">
                                                 <label>شرح کامل خدمات
-                                                    <textarea v-if="requestTypeSend == 'BUY_SERVICES'"  style="min-height: 150px;" name="fullDescription" v-model="requestInput.fullDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
-                                                    <textarea v-else="" class="form-element-margin-btm"  style="min-height: 150px;" name="fullDescription" v-model="requestInput.fullDescription"   :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
+                                                    <textarea v-if="requestTypeSend == 'BUY_SERVICES'"  style="min-height: 170px;" name="fullDescription" v-model="requestInput.fullDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
+                                                    <textarea v-else="" class="form-element-margin-btm"  style="min-height: 170px;" name="fullDescription" v-model="requestInput.fullDescription"   :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
                                                     <p v-show="errors.has('fullDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</p>
                                                 </label>
                                             </div>
-                                            <div class="large-12 medium-12 small-12">
+                                            <div style="padding-right: 10px" class="large-6 medium-6 small-12">
                                                 <label>توضیحات تکمیلی
-                                                    <textarea class="form-element-margin-btm"  style="min-height: 150px;" name="furtherDescription" v-model="requestInput.furtherDescription"></textarea>
+                                                    <textarea class="form-element-margin-btm"  style="min-height: 170px;" name="furtherDescription" v-model="requestInput.furtherDescription"></textarea>
                                                 </label>
                                             </div>
                                         </div>
@@ -329,8 +331,7 @@
                                 </div>
                             </div>
                             <!--Tab 3 - Attachment Tab-->
-
-                            <div class="large-12 medium-12 small-12 medium-top-m padding-lr">
+                            <div class="large-12 medium-12 small-12 padding-lr" style="margin-top: 10px">
                                 <button type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
                             </div>
                         </div>
@@ -418,7 +419,7 @@
                                                 </thead>
                                                 <tbody>
                                                 <tr v-for="(lists,index) in commodityList">
-                                                    <td class="text-center">>{{index+1}}</td>
+                                                    <td class="text-center">{{index+1}}</td>
                                                     <td>{{lists.commodity.cSubject}}</td>
                                                     <td class="text-center">{{lists.rcCount}}</td>
                                                     <td class="text-center">{{lists.rcExistCount}}</td>
