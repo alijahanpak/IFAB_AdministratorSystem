@@ -117,11 +117,11 @@ class RequestController extends Controller
                 $reqCommodityIds = [];
                 foreach ($request->get('items') as $item)
                 {
-                    $cId = Commodity::firstOrCreate(['cSubject' => PublicSetting::checkPersianCharacters(trim($item['subject']))]);
+                    $cId = Commodity::firstOrCreate(['cSubject' => PublicSetting::checkPersianCharacters(trim($item['commodityName']))]);
                     $reqCom = RequestCommodity::updateOrCreate(['rcRId' => $req->id , 'rcCId' => $cId->id],[
-                        'rcCount' => $item['count'],
-                        'rcCostEstimation' => $item['costEstimation'],
-                        'rcDescription' => PublicSetting::checkPersianCharacters($item['description'])
+                        'rcCount' => $item['commodityCount'],
+                        'rcCostEstimation' => $item['commodityPrice'],
+                        'rcDescription' => PublicSetting::checkPersianCharacters($item['commodityDescription'])
                     ]);
                     $reqCommodityIds[$i++] = $reqCom->id;
                 }
