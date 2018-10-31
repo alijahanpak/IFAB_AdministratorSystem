@@ -96,6 +96,15 @@ class RequestController extends Controller
     {
         $result = DB::transaction(function () use($request){
             $req = _Request::find($request->id);
+            if ($request->resultType == 'POSTED')
+            {
+                if ($req->rAllowUpdateInPosted == false)
+                    return \response()->json($this->getAllPostedRequests(Auth::user()->id) , 400);
+            }else if ($request->resultType == 'RECEIVED')
+            {
+                if ($req->rAllowUpdateInReceived == false)
+                    return \response()->json($this->getAllReceivedRequests($this->getLastReceivedRequestIdList()) , 400);
+            }
             $req->rSubject = PublicSetting::checkPersianCharacters($request->subject);
             $req->rCostEstimation = $request->costEstimation;
             $req->rDescription = PublicSetting::checkPersianCharacters($request->description);
@@ -140,7 +149,7 @@ class RequestController extends Controller
 
     function register(Request $request)
     {
-        $resultCode = DB::transaction(function () use($request){
+        $result = DB::transaction(function () use($request){
             $req = new _Request();
             $req->rRsId = RequestState::where('rsState' , '=' , 'ACTIVE')->value('id');
             $req->rRtId = $request->rtId;
@@ -220,12 +229,11 @@ class RequestController extends Controller
             $reqType = RequestType::find($request->rtId);
             SystemLog::setFinancialSubSystemLog('ثبت درخواست ' . $reqType->rtSubject);
 
-            return 200;
+            return \response()->json($this->getAllPostedRequests(Auth::user()->id));
         });
 
-        return \response()->json(
-            $this->getAllPostedRequests(Auth::user()->id)
-        , $resultCode);
+        return $result;
+
     }
 
     function addNewAttachments(Request $request)

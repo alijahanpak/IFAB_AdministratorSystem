@@ -544,6 +544,10 @@ var app = new Vue({
                     this.$notify({title: 'پیام سیستم', text: 'درخواست با موفقیت انجام شد.' , type: 'success'});
                     this.$refs.successAlarm.play();
                     break;
+                case 400:
+                    this.$notify({title: 'پیام سیستم', text: 'بروزرسانی امکان پذیر نمی باشد!' , type: 'error'});
+                    this.$refs.errorAlarm.play();
+                    break;
                 case 409:
                     this.$notify({title: 'پیام سیستم', text: 'رکورد تکراری است!' , type: 'error'});
                     this.$refs.errorAlarm.play();
