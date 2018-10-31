@@ -543,7 +543,7 @@
                 console.log(JSON.stringify(this.checkSelectTemp));
                 this.checkSelectTemp.forEach(item =>{
                     this.dPayTo=item.draft.dPayTo;
-                    this.dFor=item.draft.dFor;
+                    this.dFor=item.cPdId != null ? item.percentage_decrease.pdSubject + ' - ' + item.draft.dFor : item.draft.dFor;
                     this.cAmount=item.cAmount;
                 });
 

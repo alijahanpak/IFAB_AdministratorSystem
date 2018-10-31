@@ -200,7 +200,7 @@
                                                 <td>
                                                     <input v-model="commodityItem.commodityDescription" class="text-margin-btm" type="text">
                                                 </td>
-                                                <td class="text-center"><a v-if="commodityQuery != '' && commodityItem.commodityCount != '' && commodityItem.commodityPrice" @click="addCommodityItem()"><i class="fas fa-check btn-green size-18"></i></a></td>
+                                                <td class="text-center"><a v-if="commodityQuery != '' && commodityItem.commodityCount != null && commodityItem.commodityPrice != 0" @click="addCommodityItem()"><i class="fas fa-check btn-green size-18"></i></a></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="4" class="text-center font-wei-bold"> مجموع برآورد</td>
@@ -359,6 +359,9 @@
                                 <!--Tab 1-->
                                 <div style="height: 58vh;" class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="requestDetailTab">
                                     <div class="grid-x">
+                                        <div class="large-12 medium-12 small-12">
+                                            <a class="my-button toolbox-btn small" @click="openUpdateRequestModal(selectedSubmisson)">ویرایش</a>
+                                        </div>
                                         <div v-if="requestTypeDetail == 'SERVICES'" class="large-12 medium-12 small-12">
                                             <table>
                                                 <tbody>
@@ -418,7 +421,7 @@
                                                 <th>توضیحات (موارد مصرف)</th>
                                                 </thead>
                                                 <tbody>
-                                                <tr v-for="(lists,index) in commodityList">
+                                                <tr v-for="(lists,index) in commodityListEdit">
                                                     <td class="text-center">{{index+1}}</td>
                                                     <td>{{lists.commodity.cSubject}}</td>
                                                     <td class="text-center">{{lists.rcCount}}</td>
@@ -664,6 +667,139 @@
         </modal-large>
         <!-- Submission Detail Modal -->
 
+        <!-- Submission Edit Modal -->
+        <modal-large v-if="showEditRequestModal" @close="showEditRequestModal = false">
+            <div  slot="body">
+                <form v-on:submit.prevent="updateRequest" >
+                    <div style="margin-top: 25px" class="grid-x">
+                        <div class="large-6 medium-6 small-12">
+                            <label>موضوع
+                                <input type="text" name="requestSubject" v-model="requestFill.rSubject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('requestSubject')}">
+                            </label>
+                            <p v-show="errors.has('requestSubject')" class="error-font">لطفا موضوع را برای درخواست مورد نظر را وارد نمایید!</p>
+                        </div>
+                        <!--Commodity Start-->
+                        <div  v-show="requestType == 'BUY_COMMODITY'" style="margin-top: 20px;" class="large-12 medium-12 small-12">
+                            <table class="stack">
+                                <thead>
+                                <tr style="color: #575962;">
+                                    <th width="50">ردیف</th>
+                                    <th>شرح و نوع جنس</th>
+                                    <th width="100">تعداد</th>
+                                    <th width="200">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
+                                    <th>توضیحات (موارد مصرف)</th>
+                                    <th>عملیات</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="(commodityRequests,index) in commodityRequest">
+                                    <td>{{index+1}}</td>
+                                    <td>{{commodityRequests.commodityName}}</td>
+                                    <td>{{commodityRequests.commodityCount}}</td>
+                                    <td>{{commodityRequests.commodityPrice}}</td>
+                                    <td>{{commodityRequests.commodityDescription}}</td>
+                                    <td class="text-center"><a @click="deleteCommodityItem(index)"><i class="far fa-trash-alt btn-red size-18"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <suggestions autocomplete="off" style="margin-bottom: -18px;" name="commodityTitle" v-validate :class="{'input': true, 'select-error': errors.has('commodityTitle')}"
+                                                     v-model="commodityQuery"
+                                                     :options="commodityOptions"
+                                                     :onInputChange="onCommodityInputChange">
+                                            <div slot="item" slot-scope="props" class="single-item">
+                                                <strong>{{props.item}}</strong>
+                                            </div>
+                                        </suggestions>
+                                    </td>
+                                    <td>
+                                        <input id="numberEdit" v-model="commodityItem.commodityCount" class="text-margin-btm" type="number" value="1">
+                                    </td>
+                                    <td>
+                                        <money v-model="commodityItem.commodityPrice"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('price')}"></money>
+                                    </td>
+                                    <td>
+                                        <input v-model="commodityItem.commodityDescription" class="text-margin-btm" type="text">
+                                    </td>
+                                    <td class="text-center"><a v-if="commodityQuery != '' && commodityItem.commodityCount != null && commodityItem.commodityPrice != 0" @click="addCommodityItem()"><i class="fas fa-check btn-green size-18"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-center font-wei-bold"> مجموع برآورد</td>
+                                    <td colspan="2" class="text-center font-wei-bold">{{$parent.dispMoneyFormat(sumOfCommodityPrice)}} <span class="btn-red">{{  'ریال'  }}</span> </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--Commodity End-->
+
+                        <!--Service Start-->
+                        <div v-show="requestType == 'BUY_SERVICES'" class="large-12 medium-12 small-12">
+                            <div class="grid-x">
+                                <div class="large-12 medium-12 small-12">
+                                    <p style="margin-bottom: 5px;" class="btn-red"><span><i style="margin-left:8px;margin-top:2px;" class="fas fa-exclamation-circle btn-red size-21"></i></span>
+                                        <span class="black-color">کارشناس محترم، لطفا هنگام محاسبه مبلغ برآورد، کسورات قانونی سهم دولت (</span>
+                                        <span class="btn-red">کارفرما</span>
+                                        <span class="black-color">) را در نظر بگیرید، شامل: </span>
+                                        <span class="btn-red">مالیات بر ارزش افزوده</span>
+                                        <span class="black-color">، </span>
+                                        <span class="btn-red">بیمه سهم کارفرما </span>
+                                        <span class="black-color">و ...</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="grid-x">
+                                <div class="large-4 medium-4 small-12">
+                                    <label>برآورد تقریبی اعتبار مورد نیاز <span class="btn-red">(ریال)</span>
+                                        <money v-model="requestFill.serviceEstimated"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('serviceEstimated')}"></money>
+                                    </label>
+                                    <p v-show="errors.has('serviceEstimated')" class="error-font">لطفا مبلغ تقریبی را برای درخواست مورد نظر را وارد نمایید!</p>
+                                </div>
+                            </div>
+                            <div style="margin-top:16px;" class="grid-x">
+                                <div style="padding-left: 10px" class="large-6 medium-6 small-12">
+                                    <label>شرح کامل خدمات
+                                        <textarea v-if="requestTypeSend == 'BUY_SERVICES'"  style="min-height: 170px;" name="fullDescription" v-model="requestFill.fullDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
+                                        <textarea v-else="" class="form-element-margin-btm"  style="min-height: 170px;" name="fullDescription" v-model="requestFill.fullDescription"   :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
+                                        <p v-show="errors.has('fullDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</p>
+                                    </label>
+                                </div>
+                                <div style="padding-right: 10px" class="large-6 medium-6 small-12">
+                                    <label>توضیحات تکمیلی
+                                        <textarea class="form-element-margin-btm"  style="min-height: 170px;" name="furtherDescription" v-model="requestFill.furtherDescription"></textarea>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Service End-->
+
+                        <!--Fund Start-->
+                        <div v-show="requestType == 'FUND'" class="large-12 medium-12 small-12">
+                            <div class="grid-x">
+                                <div class="large-4 medium-4 small-12">
+                                    <label> مبلغ تنخواه <span class="btn-red">(ریال)</span>
+                                        <money v-model="requestFill.fundEstimated"  v-bind="money"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fundEstimated')}"></money>
+                                    </label>
+                                    <p v-show="errors.has('fundEstimated')" class="error-font">لطفا مبلغ تنخواه را برای درخواست مورد نظر را وارد نمایید!</p>
+                                </div>
+                                <div class="large-12 medium-12 small-12">
+                                    <label>متن درخواست
+                                        <textarea v-if="requestTypeSend == 'FUND'"  style="min-height: 150px;" name="requestText" v-model="requestInput.fullDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
+                                        <textarea v-else="" class="form-element-margin-btm"  style="min-height: 150px;" name="requestText" v-model="requestInput.fullDescription" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
+                                        <p v-show="errors.has('fullDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</p>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Fund End-->
+                        <div class="large-12 medium-12 small-12" style="margin-top: 10px">
+                            <button type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </modal-large>
+        <!-- Submission Edit Modal -->
+
         <!--Insert Payment Request End-->
         <modal-small v-if="showInsertPaymentRequestModal" @close="showInsertPaymentRequestModal = false">
             <div  slot="body">
@@ -851,10 +987,12 @@
                 showPdfModal:false,
                 showDialogModal: false,
                 showInsertDraftModal:false,
+                showEditRequestModal:false,
                 dialogMessage: '',
                 //commodity input text
                 commodityQuery: '',
                 commodityList: [],
+                commodityListEdit: [],
                 selectedCommodity: null,
                 commodityOptions: {},
                 //commodity input text
@@ -909,6 +1047,7 @@
                 //submission Factor Component
 
                 paymentDescription:'',
+                selectedSubmisson:[],
 
             }
         },
@@ -1028,6 +1167,7 @@
                         this.commodity.forEach(subject=> {
                             this.commodityList.push(subject.cSubject)
                         });
+                        console.log(JSON.stringify(this.commodityList));
                         console.log(response);
                     }, (error) => {
                         console.log(error);
@@ -1057,6 +1197,7 @@
             openSubmissionsModal: function (st) {
                 this.submitBtnState=true;
                 this.requestInput={};
+                this.commodityItem={};
                 this.commodityList=[];
                 this.commodityRequest=[];
                 this.isRequireChangeState=false;
@@ -1075,6 +1216,8 @@
 
             addCommodityItem: function () {
                 this.commodityItem.commodityName=this.commodityQuery;
+                this.commodityItem.commodityDescription=this.commodityItem.commodityDescription != null ? this.commodityItem.commodityDescription : '',
+                console.log(JSON.stringify(this.commodityItem));
                 this.commodityRequest.push(this.commodityItem);
                 console.log(JSON.stringify(this.commodityRequest));
                 this.commodityQuery='';
@@ -1196,11 +1339,13 @@
                 this.payRequests=[];
                 this.refundFactor=[];
                 this.factors=[];
+                this.selectedSubmisson=[];
                 var requestHistory=[];
                 this.requestId=submission.id;
                 this.requestState = submission.request_state.rsState;
                 requestHistory.push(submission);
-                console.log(JSON.stringify(requestHistory));
+                this.selectedSubmisson=submission;
+                console.log(JSON.stringify(this.selectedSubmisson));
                 requestHistory.forEach(users => {
                     users.history.forEach(userHistory => {
                         this.recipientUsers.push(userHistory);
@@ -1261,14 +1406,15 @@
                     this.requestFill.rCostEstimation=submission.rCostEstimation;
                     commodityTemp.forEach(items => {
                         items.request_commodity.forEach(commodity => {
-                            this.commodityList.push(commodity);
+                            this.commodityListEdit.push(commodity);
                         });
+                        console.log(JSON.stringify(this.commodityList));
                     });
                 }
                 else if (submission.request_type.rtType == 'FUND'){
                     this.requestTypeDetail='FUND';
                     this.requestFill.rLetterNumber=submission.rLetterNumber;
-                    this.requestFill.rLetterDate=submission.rLetterDate
+                    this.requestFill.rLetterDate=submission.rLetterDate;
                     this.requestFill.rSubject=submission.rSubject;
                     this.requestFill.rCostEstimation=submission.rCostEstimation;
                     this.requestFill.rDescription=submission.rDescription;
@@ -1416,6 +1562,71 @@
                         console.log(error);
                         this.showLoaderProgress = false;
                     });
+            },
+
+            openUpdateRequestModal:function(submission){
+                this.sumOfCommodityPrice=0;
+                this.commodityRequest=[];
+                this.requestFill={};
+                this.commodityItem=[];
+                this.commodityQuery='';
+                this.requestType=submission.request_type.rtType;
+                this.requestFill.rSubject=submission.rSubject;
+                this.requestFill.serviceEstimated=submission.rCostEstimation;
+                this.requestFill.fullDescription=submission.rDescription;
+                this.requestFill.furtherDescription=submission.rFurtherDetails;
+                this.sumOfCommodityPrice=this.requestFill.serviceEstimated;
+                submission.request_commodity.forEach(com =>{
+                    var commodityTemp={};
+                    commodityTemp.commodityName=com.commodity.cSubject;
+                    commodityTemp.commodityCount=com.rcCount;
+                    commodityTemp.commodityPrice=this.$root.dispMoneyFormat(com.rcCostEstimation);
+                    commodityTemp.commodityDescription=com.rcDescription;
+                    this.commodityRequest.push(commodityTemp);
+                });
+                console.log('-----------------------------------------------------1');
+                console.log(JSON.stringify(this.commodityRequest));
+                console.log('-----------------------------------------------------2');
+                this.fetchCommodity();
+                console.log(JSON.stringify(this.commodityList));
+                this.showEditRequestModal=true;
+            },
+
+            updateRequest: function(){
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        this.commodityRequest.forEach (items => {
+                            items.commodityPrice= items.commodityPrice.split(',').join('');
+
+                        });
+                        if(this.requestType == 'BUY_SERVICES'){
+                            this.sumOfCommodityPrice=this.requestFill.serviceEstimated.split(',').join('');
+
+                        }
+                        if(this.requestType == 'FUND'){
+                            this.sumOfCommodityPrice=this.requestFill.fundEstimated.split(',').join('');
+
+                        }
+                        console.log(JSON.stringify(this.commodityRequest));
+                        axios.post('/financial/request/update', {
+                            id:this.requestId,
+                            subject:this.requestFill.rSubject,
+                            costEstimation: this.sumOfCommodityPrice,
+                            description:this.requestFill.fullDescription,
+                            furtherDescription:this.requestFill.furtherDescription,
+                            resultType:'POSTED',
+                            items:this.requestType == 'BUY_COMMODITY' ? this.commodityRequest : null,
+                        }).then((response) => {
+                           this.submissions=response.data.data;
+                            this.showEditRequestModal= false;
+                            this.$root.displayNotif(response.status);
+                            console.log(response);
+                        }, (error) => {
+                            console.log(error);
+                            this.$root.displayNotif(error.response.status);
+                        });
+                    }
+                });
             },
 
             /*--------------------------- File Upload Start--------------------------------------*/
