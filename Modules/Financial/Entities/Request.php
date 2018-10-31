@@ -21,7 +21,9 @@ class _Request extends Model
         'rIsPaid',
         'rIsPayRequestClosed',
         'rRelativeFactor' ,
-        'rFinalSpent'];
+        'rFinalSpent',
+        'rAllowUpdateInPosted',
+        'rAllowUpdateInReceived'];
 
     public function requestState()
     {
@@ -224,7 +226,6 @@ class _Request extends Model
             ->with('request')
             ->with('factorState')
             ->with('seller')
-
             ->get();
     }
 
@@ -236,5 +237,37 @@ class _Request extends Model
         $sumAmount = CostSpent::whereIn('csCId' , $checkIds)->sum('csAmount');
         $sumAmount += CapSpent::whereIn('csCId' , $checkIds)->sum('csAmount');
         return (int)$sumAmount;
+    }
+
+    public function getRAllowUpdateInPostedAttribute()
+    {
+        $rHistory = RequestHistory::where('rhRId' , $this->id)->orderBy('id')->first();
+        return $rHistory->rhHasBeenSeen == true ? false : true;
+    }
+
+    public function getRAllowUpdateInReceivedAttribute()
+    {
+        if (RequestVerifiers::where('rvRId' , $this->id)->where('rvUId' , Auth::user()->id)->exists())
+        {
+            $nextStep = RequestStep::whereIn('id' , RequestVerifiers::where('rvRId' , $this->id)->pluck('rvRstId'))
+                ->where('rstOrder' , '>' , RequestStep::where('id' , RequestVerifiers::where('rvUId' , Auth::user()->id)->where('rvRId' , $this->id)->value('rvRstId'))->value('rstOrder'))
+                ->where('rstRtId' , $this->rRtId)
+                ->orderBy('rstOrder')
+                ->first();
+            if ($nextStep)
+            {
+                return RequestVerifiers::where('rvRId' , $this->id)
+                    ->where('rvRstId' , $nextStep->id)
+                    ->where('rvSId' , null)
+                    ->exists();
+            }else{
+                return RequestVerifiers::where('rvUId' , Auth::user()->id)
+                    ->where('rvRId' , $this->id)
+                    ->where('rvSId' , null)
+                    ->exists();
+            }
+        }else{
+            return false;
+        }
     }
 }
