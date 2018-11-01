@@ -1653,8 +1653,6 @@ export default{
             costEditFill:{},
             checkEditCostAmount:false,
             EditCostAmountFill:0,
-            costEditMin:0,
-            costEditMax:0,
             costEditSelectedIndex:'',
             money: {
                 thousands: ',',
@@ -2822,11 +2820,13 @@ export default{
         },
 
         costInputValidator:function(){
+            var costEditMin;
+            var costEditMax;
             var EditCostAmountFillTemp = parseInt(this.EditCostAmountFill.split(',').join(''),10);
-            this.costEditMin = this.costEditFill.cfSpent + 1;
-            this.costEditMax = (this.costEditFill.caAmount - (parseInt(this.costEditFill.caSumOfCommitment,10) + parseInt(this.costEditFill.caSumOfReserved,10)) - this.costEditFill.cfAmount);
+            costEditMin = this.costEditFill.cfSpent + 1;
+            costEditMax = (this.costEditFill.caAmount - (parseInt(this.costEditFill.caSumOfCommitment,10) + parseInt(this.costEditFill.caSumOfReserved,10)) + this.costEditFill.cfAmount);
             var currentFinance=this._financingAmount + this._reservedAmount;
-            if((EditCostAmountFillTemp >= this.costEditMin) && (EditCostAmountFillTemp <= this.costEditMax)){
+            if((EditCostAmountFillTemp >= costEditMin) && (EditCostAmountFillTemp <= costEditMax)){
                 if((currentFinance - this.costEditFill.cfAmount + EditCostAmountFillTemp) <= this.baseAmount)
                     return true;
             }
@@ -2896,7 +2896,7 @@ export default{
             var capEditMax=0;
             var EditCapAmountFillTemp = parseInt(this.editCapAmountFill.split(',').join(''),10);
             capEditMin = this.capEditFill.cafSpent + 1;
-            capEditMax = (this.capEditFill.caaAmount - (parseInt(this.capEditFill.caaSumOfCommitment,10) + parseInt(this.capEditFill.caaSumOfReserved,10)) - this.capEditFill.cafAmount);
+            capEditMax = (this.capEditFill.caaAmount - (parseInt(this.capEditFill.caaSumOfCommitment,10) + parseInt(this.capEditFill.caaSumOfReserved,10)) + this.capEditFill.cafAmount);
             var currentFinance=this._financingAmount + this._reservedAmount;
             if((EditCapAmountFillTemp >= capEditMin) && (EditCapAmountFillTemp <= capEditMax)){
                 if((currentFinance - this.capEditFill.cafAmount + EditCapAmountFillTemp) <= this.baseAmount)

@@ -45,12 +45,19 @@ class CheckController extends Controller
         DB::transaction(function () use($request){
             $insertedAId = array();
             $i = 0;
-            $check = _Check::updateOrCreate(['cDId' => $request->dId , 'cPdId' => null , 'cFyId' => Auth::user()->seFiscalYear] , [
-                'cAmount' => $request->baseCheckAmount,
-                'cCsId' => CheckState::where('csState' , 'WAITING_FOR_PRINT')->value('id')
-            ]);
-            $insertedAId[$i++] = $check->id;
-
+            //////////////////////// set base checks ////////////////////////////////
+            if (is_array($request->get('baseCheckAmounts')))
+            {
+                foreach ($request->get('baseCheckAmounts') as $item)
+                {
+                    $check = _Check::updateOrCreate(['cDId' => $request->dId , 'cPayTo' => $item['payTo'] , 'cFyId' => Auth::user()->seFiscalYear] , [
+                        'cAmount' => $item['amount'],
+                        'cFor' => $item['for'],
+                        'cCsId' => CheckState::where('csState' , 'WAITING_FOR_PRINT')->value('id')
+                    ]);
+                    $insertedAId[$i++] = $check->id;
+                }
+            }
             //////////////////////// set decrease checks ////////////////////////////////
             if (is_array($request->get('decreases')))
             {

@@ -24,6 +24,8 @@ class CreateChecksTable extends Migration
                 $table->string('cDate')->nullable();
                 $table->string('cIdNumber')->nullable()->unique();
                 $table->dateTime('cDeliveryDate')->nullable();
+                $table->string('cPayTo')->nullable();
+                $table->string('cFor')->nullable();
                 $table->unsignedBigInteger('cAmount');
                 $table->timestamps();
 

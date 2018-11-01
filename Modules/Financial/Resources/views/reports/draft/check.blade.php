@@ -29,7 +29,7 @@
     </head>
     <body style="font-size: 16px;"  class="BZar">
         <div  style="{{'width:' . ($checkFormat->cfHeight * 10) . 'mm;height:' . ($checkFormat->cfWidth * 10).'mm;'}}" class="page">
-            <p class="check-element-print size-21" style="{{'margin-top:' . (($checkFormat->cfDateTop * 10) - $baseMargin) . 'mm;margin-right:' . ($checkFormat->cfDateRight * 10) . 'mm;width:' . ($checkFormat->cfDateWidth * 10) .'mm;'}}">{{$check['draft']['dLetterDate']}}</p>
+            <p class="check-element-print size-21" style="{{'margin-top:' . (($checkFormat->cfDateTop * 10) - $baseMargin) . 'mm;margin-right:' . ($checkFormat->cfDateRight * 10) . 'mm;width:' . ($checkFormat->cfDateWidth * 10) .'mm;'}}">{{$check['cDate']}}</p>
             <p class="check-element-print" style="{{'margin-top:' . (($checkFormat->cfStringDateTop * 10) - $baseMargin) . 'mm;margin-right:' . ($checkFormat->cfStringDateRight * 10) . 'mm;width:' . ($checkFormat->cfStringDateWidth * 10) .'mm;'}}">{{$check['dateText']}}</p>
             <p class="check-element-print" style="{{'margin-top:' . (($checkFormat->cfForTop * 10) - $baseMargin) . 'mm;margin-right:' . ($checkFormat->cfForRight * 10) . 'mm;width:' . ($checkFormat->cfForWidth * 10) .'mm;'}}">{{$check['cPdId'] != null ? $check['percentageDecrease']['pdSubject'] . ' - ' . $check['draft']['dFor'] : $check['draft']['dFor']}}</p>
             <p class="check-element-print" style="{{'margin-top:' . (($checkFormat->cfPayToTop * 10) - $baseMargin) . 'mm;margin-right:' . ($checkFormat->cfPayToRight * 10) . 'mm;width:' . ($checkFormat->cfPayToWidth * 10) .'mm;'}}">{{$check['draft']['dPayTo']}}</p>

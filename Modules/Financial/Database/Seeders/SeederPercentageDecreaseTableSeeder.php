@@ -19,6 +19,7 @@ class SeederPercentageDecreaseTableSeeder extends Seeder
 
         $percentageDecrease = new PercentageDecrease();
         $percentageDecrease->pdSubject = 'مالیات بر ارزش افزوده';
+        $percentageDecrease->pdPayTo = 'سازمان امور مالیاتی استان همدان';
         $percentageDecrease->pdPercent = 0; //because 9 percent exist in increase table
         $percentageDecrease->pdPiId = 1;
         $percentageDecrease->pdPdcId = 1;
@@ -26,6 +27,7 @@ class SeederPercentageDecreaseTableSeeder extends Seeder
 
         $percentageDecrease = new PercentageDecrease();
         $percentageDecrease->pdSubject = 'بیمه تامین اجتماعی';
+        $percentageDecrease->pdPayTo = 'سازمان تامین اجتماعی استان همدان';
         $percentageDecrease->pdPercent = 2; //because 5 percent exist in increase table
         $percentageDecrease->pdPiId = 2;
         $percentageDecrease->pdPdcId = 2;
@@ -33,6 +35,7 @@ class SeederPercentageDecreaseTableSeeder extends Seeder
 
         $percentageDecrease = new PercentageDecrease();
         $percentageDecrease->pdSubject = 'کسورات شماره ۳';
+        $percentageDecrease->pdPayTo = 'سازمان کسورات شماره ۳ استان همدان';
         $percentageDecrease->pdPercent = 6;
         $percentageDecrease->pdPdcId = 3;
         $percentageDecrease->save();

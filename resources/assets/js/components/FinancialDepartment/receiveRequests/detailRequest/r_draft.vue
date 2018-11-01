@@ -254,7 +254,7 @@
                                                 </colgroup>
                                                 <tbody class="tbl-head-style ">
                                                 <tr class="tbl-head-style-cell">
-                                                    <th class="tbl-head-style-cell">بابت</th>
+                                                    <th class="tbl-head-style-cell">در وجه - بابت</th>
                                                     <th class="tbl-head-style-cell">مبلغ چک </th>
                                                     <th class="tbl-head-style-cell">وضعیت</th>
                                                     <th class="tbl-head-style-cell"></th>
@@ -272,8 +272,8 @@
                                                     </colgroup>
                                                     <tbody class="tbl-head-style-cell">
                                                     <tr v-for="check in checks">
-                                                        <td v-if="check.percentage_decrease != null">{{check.percentage_decrease.pdSubject}}  ({{check.percentage_decrease.pdPercent}}%)</td>
-                                                        <td v-else>{{draftFor}}</td>
+                                                        <td v-if="check.percentage_decrease != null">{{check.percentage_decrease.pdPayTo + ' - ' + check.percentage_decrease.pdSubject}}  ({{check.percentage_decrease.pdPercent}}%)</td>
+                                                        <td v-else>{{check.cPayTo + ' - ' + check.cFor}}</td>
                                                         <td class="text-center">{{$root.dispMoneyFormat(check.cAmount)}}</td>
                                                         <td v-show="check.check_state.csState == 'WAITING_FOR_PRINT'" class="text-center"><span class="danger-label">{{ check.check_state.csSubject }}</span></td>
                                                         <td v-show="check.check_state.csState == 'WAITING_FOR_DELIVERY'" class="text-center"><span class="reserved-label">{{ check.check_state.csSubject }}</span></td>
@@ -389,13 +389,55 @@
                                         <div class="grid-x">
                                             <div class="large-12 medium-2 small-12">
                                                 <p>مبلغ حواله : </p>
-                                                <p>مبلغ چک <span> {{draftFor}} </span> </p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="large-3 medium-3  small-12 text-left">
                                         <p class="btn-red text-left">{{$root.dispMoneyFormat(draftAmount)}} ریال</p>
-                                        <p class="btn-red text-left">{{$root.dispMoneyFormat(finalIncAmount)}} ریال</p>
+                                    </div>
+                                </div>
+                                <div class="grid-x">
+                                    <div class="large-9 medium-9  small-12">
+                                        <div class="grid-x">
+                                            <div class="large-12 medium-2 small-12">
+                                                <p>مبلغ باقی مانده : </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="large-3 medium-3  small-12 text-left">
+                                        <p class="btn-red text-left">{{$root.dispMoneyFormat(remainingBaseAmount)}} ریال</p>
+                                    </div>
+                                </div>
+                                <div class="grid-x" v-for="(baseAmount , index) in baseAmounts">
+                                    <div class="large-9 medium-9  small-12">
+                                        <div class="grid-x">
+                                            <div class="large-12 medium-2 small-12">
+                                                <p><span> {{baseAmount.payTo}} - {{baseAmount.for}} </span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div v-if="requestType == 'BUY_COMMODITY'" class="large-3 medium-3  small-12 text-left">
+                                        <div class="grid-x">
+                                            <div class="medium-11 btn-red text-left">
+                                                {{$root.dispMoneyFormat(baseAmount.amount)}} ریال
+                                            </div>
+                                            <div class="medium-1 cell-vertical-center text-left">
+                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'removeNewCheck' + index"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'removeNewCheck' + index" data-dropdown data-auto-focus="true">
+                                                    <ul class="my-menu small-font text-right">
+                                                        <li><a v-on:click.prevent="deleteNewCheck(index)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div v-else class="large-3 medium-3 small-12 text-left">
+                                        <p class="btn-red text-left">{{$root.dispMoneyFormat(baseAmount.amount)}} ریال</p>
+                                    </div>
+                                </div>
+                                <div class="grid-x" v-show="requestType == 'BUY_COMMODITY'">
+                                    <div class="large-12 medium-12 small-12 text-left">
+                                        <button v-show="remainingBaseAmount > 0" @click="openAddNewCheckModal()"  class="my-button toolbox-btn float-left"><span class="btn-txt-mrg"> دریافت کننده جدید </span></button>
                                     </div>
                                 </div>
                             </div>
@@ -454,6 +496,74 @@
             </div>
         </modal-tiny>
         <!-- block Detail Modal End -->
+        <!-- add new base check Modal Start -->
+        <modal-tiny v-if="showAddNewCheckModal" @close="showAddNewCheckModal = false">
+            <div  slot="body">
+                <form v-on:submit.prevent="addNewCheck">
+                    <div class="grid-x">
+                        <div class="large-12 medium-12 small-12 padding-lr">
+                            <div class="panel-separator padding-lr">
+                                <div class="grid-x">
+                                    <div class="large-4 medium-4  small-12">
+                                        <div class="grid-x">
+                                            <div class="large-12 medium-2 small-12">
+                                                <p>باقی مانده: </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="large-8 medium-8  small-12 text-left">
+                                        <p class="btn-red text-left">{{$root.dispMoneyFormat(remainingBaseAmountDisp)}} ریال</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top:15px;"  class="grid-x">
+                        <div class="large-12 medium-12 small-12 padding-lr">
+                            <label>مبلغ<span class="btn-red">(ریال)</span>
+                                <money v-if="moneyState== 'none'" @keyup.native="calculateRemainingBaseAmount()" v-model="addNewCheckInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
+                                <money v-if="moneyState== 'block'" @keyup.native="calculateRemainingBaseAmount()" v-model="addNewCheckInput.baseAmount"  v-bind="money" class="form-input input-lg text-margin-btm select-error"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('baseAmount')}"></money>
+                            </label>
+                            <p style="margin-top: 10px;" v-show="moneyState== 'block'" class="btn-red">مبلغ صورت وضعیت مورد نظر نامعتبر است!</p>
+                        </div>
+                    </div>
+                    <div class="grid-x input-margin-top">
+                        <div class="large-12 medium-12 small-12 padding-lr">
+                            <label>بابت
+                                <suggestions autocomplete="off" style="margin-bottom: -18px;" name="forTitle" v-validate="'required'" :class="{'input': true, 'select-error': errors.has('forTitle')}"
+                                             v-model="addNewCheckInput.for"
+                                             :options="forOptions"
+                                             :onInputChange="onForInputChange">
+                                    <div slot="item" slot-scope="props" class="single-item">
+                                        <strong>{{props.item}}</strong>
+                                    </div>
+                                </suggestions>
+                            </label>
+                            <p v-show="errors.has('forTitle')" class="error-font">لطفا فیلد بابت را وارد نمایید!</p>
+                        </div>
+                    </div>
+                    <div class="grid-x input-margin-top">
+                        <div class="large-12 medium-12 small-12 padding-lr">
+                            <label>در وجه
+                                <suggestions autocomplete="off" style="margin-bottom: -18px;" name="payToTitle" v-validate="'required'" :class="{'input': true, 'select-error': errors.has('payToTitle')}"
+                                             v-model="addNewCheckInput.payTo"
+                                             :options="payToOptions"
+                                             :onInputChange="onPayToInputChange">
+                                    <div slot="item" slot-scope="props" class="single-item">
+                                        <strong>{{props.item}}</strong>
+                                    </div>
+                                </suggestions>
+                            </label>
+                            <p v-show="errors.has('payToTitle')" class="error-font">لطفا فیلد در وجه را وارد نمایید!</p>
+                        </div>
+                    </div>
+                    <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
+                        <button type="submit"  class="my-button my-success"><span class="btn-txt-mrg">ثبت</span></button>
+                    </div>
+                </form>
+            </div>
+        </modal-tiny>
+        <!-- add new base check Modal End -->
     </div>
 </template>
 <script>
@@ -478,9 +588,13 @@
                 showAcceptGeneratecheckConfirmModal: false,
                 showBlockModal: false,
                 showCheckAcceptDraftModal: false,
+                showAddNewCheckModal: false,
+                remainingBaseAmount: 0,
+                remainingBaseAmountDisp: 0,
                 dialogMessage: '',
                 draftInput:{},
                 blockInput:{},
+                addNewCheckInput: {},
                 directorGeneralUsers:[],
                 money: {
                     thousands: ',',
@@ -494,7 +608,8 @@
                 forList: [],
                 payToList: [],
                 selectedFor: null,
-                forOptions: {},
+                forOptions: [],
+                payToOptions: [],
                 //for & PayTo input text
                 draftBaseAmount:0,
                 lastDrafts:0,
@@ -517,7 +632,8 @@
                 decreases:[],
                 draftAmount:0,
                 draftFor:'',
-                finalIncAmount:0,
+                draftPayTo: '',
+                baseAmounts:[],
                 checks:[],
                 draftIsBlocked: true,
                 showLoaderProgress:false,
@@ -578,7 +694,9 @@
               this.isMinute = draft.dIsMinute;
               this.isAccepted = draft.verifier[0].dvSId != null ? true : false;
               this.draftAmount = draft.dAmount;
-              this.draftFor = draft.dFor;this.canResponse = draft.dLastRef.rhIsReferral;
+              this.draftFor = draft.dFor;
+              this.draftPayTo = draft.dPayTo;
+              this.canResponse = draft.dLastRef.rhIsReferral;
               this.letterNumber = draft.dLetterNumber;
               this.openReportFile();
               this.fetchDocument();
@@ -608,7 +726,7 @@
                         console.log(response);
                     }, (error) => {
                         console.log(error);
-                    });
+                });
             },
 
             /*-----------------------------------------------------------------------------
@@ -863,6 +981,19 @@
                 }
             },
 
+            getAllBaseChecks: function(){
+                this.checks.forEach(check => {
+                    if (check.cPdId == null) {
+                        var obj={};
+                        Vue.set(obj,"payTo",check.cPayTo);
+                        Vue.set(obj,"for",check.cFor);
+                        Vue.set(obj,"amount",check.cAmount);
+                        this.baseAmounts.push(obj);
+                        this.remainingBaseAmount -= check.cAmount;
+                    }
+                });
+            },
+
             getAllPercentageDecreases:function () {
                 axios.get('/financial/draft/get_percentage_decrease')
                     .then((response) => {
@@ -966,6 +1097,7 @@
             },
 
             calculateFinalIncAmount: function(){
+                this.baseAmounts = [];
                 console.log(JSON.stringify(this.percentageDecreasesCategory));
                 var lastTemp=0;
                 this.percentageDecreasesCategory.forEach(category =>{
@@ -974,7 +1106,26 @@
                     });
                 });
 
-                this.finalIncAmount = Math.round(this.draftAmount - lastTemp);
+                this.remainingBaseAmount = Math.round(this.draftAmount - lastTemp);
+                this.getAllBaseChecks();
+                if (this.remainingBaseAmount < 0)
+                {
+                    this.baseAmounts = [];
+                    this.remainingBaseAmount = Math.round(this.draftAmount - lastTemp);
+                }
+
+                if (this.baseAmounts.length == 0)
+                {
+                    if (this.requestType != 'BUY_COMMODITY')
+                    {
+                        var obj={};
+                        Vue.set(obj,"payTo",this.draftPayTo);
+                        Vue.set(obj,"for",this.draftFor);
+                        Vue.set(obj,"amount",this.remainingBaseAmount);
+                        this.baseAmounts.push(obj);
+                        this.remainingBaseAmount = 0;
+                    }
+                }
             },
 
             openAcceptGeneratecheckConfirmModal:function (){
@@ -1004,7 +1155,7 @@
                     rId: this.requestId,
                     dId:this.draftId,
                     decreases:this.decreases,
-                    baseCheckAmount:this.finalIncAmount
+                    baseCheckAmounts:this.baseAmounts
                 }).then((response) => {
                     this.$emit('updateReceiveRequestData' , response.data , this.requestId);
                     this.$emit('closeModal');
@@ -1056,6 +1207,33 @@
             openResponseRequestModal:function () {
                 this.$emit('openResponseRequestModal' , this.draftId , null);
             },
+
+            openAddNewCheckModal: function () {
+                this.addNewCheckInput.baseAmount = this.remainingBaseAmount;
+                this.remainingBaseAmountDisp = 0;
+                this.addNewCheckInput.for = this.draftFor;
+                this.addNewCheckInput.payTo = this.draftPayTo;
+                this.showAddNewCheckModal = true;
+            },
+
+            addNewCheck: function () {
+                var obj={};
+                Vue.set(obj,"payTo",this.addNewCheckInput.payTo);
+                Vue.set(obj,"for",this.addNewCheckInput.for);
+                Vue.set(obj,"amount",parseInt(this.addNewCheckInput.baseAmount.split(',').join(''),10));
+                this.baseAmounts.push(obj);
+                this.remainingBaseAmount -= parseInt(this.addNewCheckInput.baseAmount.split(',').join(''),10);
+                this.showAddNewCheckModal = false;
+            },
+
+            calculateRemainingBaseAmount: function () {
+                this.remainingBaseAmountDisp = this.remainingBaseAmount - parseInt(this.addNewCheckInput.baseAmount.split(',').join(''),10);
+            },
+
+            deleteNewCheck: function (index) {
+                this.remainingBaseAmount += this.baseAmounts[index].amount;
+                this.baseAmounts.splice(index , 1);
+            }
 
         }
     }

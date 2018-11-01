@@ -19,6 +19,7 @@ class CreatePercentageDecreaseTable extends Migration
                 $table->bigInteger('pdPiId')->length(20)->unsigned()->nullable();
                 $table->bigInteger('pdPdcId')->length(20)->unsigned();
                 $table->string('pdSubject');
+                $table->string('pdPayTo');
                 $table->unsignedTinyInteger('pdPercent');
                 $table->boolean('pdState')->default(true);
                 $table->timestamps();
