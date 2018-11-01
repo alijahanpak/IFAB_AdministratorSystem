@@ -8,7 +8,7 @@ use Morilog\Jalali\jDate;
 class _Check extends Model
 {
     protected $appends = ['cDelivered' , 'cSpentAmount'];
-    protected $fillable = ['cDId' , 'cPdId' , 'cAmount' ,'cFyId' , 'cCsId'];
+    protected $fillable = ['cDId' , 'cPdId' , 'cAmount' ,'cFyId' , 'cCsId' , 'cFor' , 'cPayTo'];
     protected $table = 'tbl_checks';
 
     public function percentageDecrease()
