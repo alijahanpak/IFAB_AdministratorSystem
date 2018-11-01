@@ -63,7 +63,7 @@
                                     <col width="200px"/>
                                 </colgroup>
                                 <tbody class="tbl-head-style-cell">
-                                <tr class="table-row" @click="openSubmissionDetail(allSubmissions,index)" v-for="(allSubmissions,index) in submissions">
+                                <tr class="table-row" @click="openSubmissionDetail(index)" v-for="(allSubmissions,index) in submissions">
                                     <td>{{allSubmissions.rSubject}}</td>
                                     <td>{{allSubmissions.request_type.rtSubject}}</td>
                                     <td>{{ $parent.dispMoneyFormat(allSubmissions.rCostEstimation) }}</td>
@@ -360,34 +360,34 @@
                                 <div style="height: 58vh;" class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="requestDetailTab">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12">
-                                            <a class="my-button toolbox-btn small" @click="openUpdateRequestModal(selectedSubmisson)">ویرایش</a>
+                                            <a class="my-button toolbox-btn small" @click="openUpdateRequestModal()">ویرایش</a>
                                         </div>
                                         <div v-if="requestTypeDetail == 'SERVICES'" class="large-12 medium-12 small-12">
                                             <table>
                                                 <tbody>
                                                 <tr>
                                                     <td width="150px">شماره : </td>
-                                                    <td>{{requestFill.rLetterNumber}}</td>
+                                                    <td>{{submissions[selectedIndex].rLetterNumber}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">تاریخ : </td>
-                                                    <td>{{requestFill.rLetterDate}}</td>
+                                                    <td>{{submissions[selectedIndex].rLetterDate}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">موضوع : </td>
-                                                    <td>{{requestFill.rSubject}}</td>
+                                                    <td>{{submissions[selectedIndex].rSubject}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">مبلغ برآوردی : </td>
-                                                    <td>{{$parent.dispMoneyFormat(requestFill.rCostEstimation)}} <span class="btn-red">  ریال  </span></td>
+                                                    <td>{{$parent.dispMoneyFormat(submissions[selectedIndex].rCostEstimation)}} <span class="btn-red">  ریال  </span></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">شرح کامل خدمات : </td>
-                                                    <td class="text-justify">{{requestFill.rDescription}}</td>
+                                                    <td class="text-justify">{{submissions[selectedIndex].rDescription}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">توضیحات تکمیلی : </td>
-                                                    <td class="text-justify">{{requestFill.rFurtherDetails}}</td>
+                                                    <td class="text-justify">{{submissions[selectedIndex].rFurtherDetails}}</td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -398,15 +398,15 @@
                                                 <tbody>
                                                 <tr>
                                                     <td width="150px">شماره : </td>
-                                                    <td>{{requestFill.rLetterNumber}}</td>
+                                                    <td>{{submissions[selectedIndex].rLetterNumber}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">تاریخ : </td>
-                                                    <td>{{requestFill.rLetterDate}}</td>
+                                                    <td>{{submissions[selectedIndex].rLetterDate}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">موضوع : </td>
-                                                    <td>{{requestFill.rSubject}}</td>
+                                                    <td>{{submissions[selectedIndex].rSubject}}</td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -431,7 +431,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td colspan="4" class="text-center font-wei-bold"> مجموع برآورد</td>
-                                                    <td colspan="2" class="text-center font-wei-bold">{{$parent.dispMoneyFormat(requestFill.rCostEstimation)}} <span class="btn-red">{{  'ریال'  }}</span> </td>
+                                                    <td colspan="2" class="text-center font-wei-bold">{{$parent.dispMoneyFormat(submissions[selectedIndex].rCostEstimation)}} <span class="btn-red">{{  'ریال'  }}</span> </td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -1048,6 +1048,7 @@
 
                 paymentDescription:'',
                 selectedSubmisson:[],
+                selectedIndex:'',
 
             }
         },
@@ -1071,6 +1072,11 @@
         beforeDestroy: function () {
             clearInterval(this.updateDataThreadNowPlaying);
             console.log('...................................... kill update data thread');
+        },
+        watch: {
+            submissions: function (newValue , oldValue) {
+                this.selectedSubmisson=this.submissions[this.selectedIndex];
+            }
         },
 
         methods: {
@@ -1197,7 +1203,6 @@
             openSubmissionsModal: function (st) {
                 this.submitBtnState=true;
                 this.requestInput={};
-                this.commodityItem={};
                 this.commodityList=[];
                 this.commodityRequest=[];
                 this.isRequireChangeState=false;
@@ -1208,7 +1213,6 @@
                 this.recipientUsers=[];
                 this.attachments=[];
                 this.fetchRecipientsGroup();
-
                 this.showBuyCommodityModal=true;
                 this.fetchCommodity();
                 this.sumOfCommodityPrice=0;
@@ -1251,62 +1255,63 @@
                         };
 
                         this.recipients.forEach(item => {
-                            if(this.recipientUsersTemp[item.id] != null){
-                                var recipientUsersInput={};
-                                recipientUsersInput.stepId=item.id;
-                                recipientUsersInput.userId=this.recipientUsersTemp[item.id];
+                            if (this.recipientUsersTemp[item.id] != null) {
+                                var recipientUsersInput = {};
+                                recipientUsersInput.stepId = item.id;
+                                recipientUsersInput.userId = this.recipientUsersTemp[item.id];
                                 this.recipientUsers.push(recipientUsersInput);
                                 console.log(JSON.stringify(this.recipientUsers))
                             }
-                            });
-                            if(this.requestTypeSend == 'BUY_SERVICES'){
-                                this.sumOfCommodityPrice=this.requestInput.serviceEstimated.split(',').join('');
+                        });
+                        if (this.requestTypeSend == 'BUY_SERVICES') {
+                            this.sumOfCommodityPrice = this.requestInput.serviceEstimated.split(',').join('');
 
-                            }
-                            if(this.requestTypeSend == 'FUND'){
-                                this.sumOfCommodityPrice=this.requestInput.fundEstimated.split(',').join('');
-
-
-                            }
-                            this.prepareFields();
-                            this.data.append('subject', this.requestInput.rSubject );
-                            this.data.append('rtId', this.requestTypeId );
-                            this.data.append('costEstimation', this.sumOfCommodityPrice);
-                            this.data.append('description', this.requestInput.fullDescription == undefined ? '' : this.requestInput.fullDescription );
-                            this.data.append('furtherDetails', this.requestInput.furtherDescription == undefined ? '' : this.requestInput.furtherDescription);
-                            if(this.requestTypeSend == 'BUY_COMMODITY'){
-                                this.commodityRequest.forEach ((items,index) => {
-                                    this.data.append('items['+index+'][subject]', items.commodityName );
-                                    this.data.append('items['+index+'][count]', items.commodityCount );
-                                    this.data.append('items['+index+'][costEstimation]', items.commodityPrice.split(',').join(''));
-                                    this.data.append('items['+index+'][description]', items.commodityDescription == undefined ? '' :  items.commodityDescription );
-                                });
-                            }
-                            else {
-                                this.data.append('items',null);
-                            }
-                            this.recipientUsers.forEach((user,index) => {
-                                this.data.append('verifiers['+index+'][rstId]', user.stepId );
-                                this.data.append('verifiers['+index+'][uId]', user.userId );
-                            });
-
-
-                            axios.post('/financial/request/register', this.data , config).then((response) => {
-                                this.submissions = response.data.data;
-                                this.makePagination(response.data);
-                                this.showBuyCommodityModal = false;
-                                this.$parent.displayNotif(response.status);
-                                console.log(response);
-                                this.resetData();
-                            }, (error) => {
-                                console.log(error);
-                                this.$parent.displayNotif(error.response.status);
-                                this.data = new FormData();
-                            });
+                        }
+                        if (this.requestTypeSend == 'FUND') {
+                            this.sumOfCommodityPrice = this.requestInput.fundEstimated.split(',').join('');
 
 
                         }
-                    });
+                        this.prepareFields();
+                        this.data.append('subject', this.requestInput.rSubject);
+                        this.data.append('rtId', this.requestTypeId);
+                        this.data.append('costEstimation', this.sumOfCommodityPrice);
+                        this.data.append('description', this.requestInput.fullDescription == undefined ? '' : this.requestInput.fullDescription);
+                        this.data.append('furtherDetails', this.requestInput.furtherDescription == undefined ? '' : this.requestInput.furtherDescription);
+                        if (this.requestTypeSend == 'BUY_COMMODITY') {
+                            this.commodityRequest.forEach((items, index) => {
+                                this.data.append('items[' + index + '][subject]', items.commodityName);
+                                this.data.append('items[' + index + '][count]', items.commodityCount);
+                                this.data.append('items[' + index + '][costEstimation]', items.commodityPrice.split(',').join(''));
+                                this.data.append('items[' + index + '][description]', items.commodityDescription == undefined ? '' : items.commodityDescription);
+                            });
+                        }
+                        else {
+                            this.data.append('items', null);
+                        }
+                        this.recipientUsers.forEach((user, index) => {
+                            this.data.append('verifiers[' + index + '][rstId]', user.stepId);
+                            this.data.append('verifiers[' + index + '][uId]', user.userId);
+                        });
+
+
+                        axios.post('/financial/request/register', this.data, config).then((response) => {
+                            this.submissions = response.data.data;
+                            this.makePagination(response.data);
+                            this.showBuyCommodityModal = false;
+                            this.$parent.displayNotif(response.status);
+                            console.log(response);
+                            this.resetData();
+                        }, (error) => {
+                            console.log(error);
+                            this.$parent.displayNotif(error.response.status);
+                            this.data = new FormData();
+                        });
+
+
+                    }
+                });
+
 
                 },
 
@@ -1325,13 +1330,14 @@
                 }
              },
 
-            openSubmissionDetail: function(requests,index){
+            openSubmissionDetail: function(index){
                 this.selectedSubmissionIndex=index;
-                this.getSubmissionDetail(requests,index);
+                this.getSubmissionDetail(index);
                 this.showSubmissionDeatilModal=true;
             },
 
-            getSubmissionDetail: function (submission,index) {
+            getSubmissionDetail: function (index) {
+                this.commodityRequest=[];
                 this.recipientUsers=[];
                 this.contracts = [];
                 this.verifiers=[];
@@ -1340,84 +1346,46 @@
                 this.refundFactor=[];
                 this.factors=[];
                 this.selectedSubmisson=[];
-                var requestHistory=[];
-                this.requestId=submission.id;
-                this.requestState = submission.request_state.rsState;
-                requestHistory.push(submission);
-                this.selectedSubmisson=submission;
-                console.log(JSON.stringify(this.selectedSubmisson));
-                requestHistory.forEach(users => {
-                    users.history.forEach(userHistory => {
-                        this.recipientUsers.push(userHistory);
-                    });
+                this.selectedIndex=index;
+                this.selectedSubmisson=this.submissions[this.selectedIndex];
+                this.requestId= this.selectedSubmisson.id;
+                this.requestState =  this.selectedSubmisson.request_state.rsState;
+                //this.selectedSubmisson=submission;
+
+                this.selectedSubmisson.history.forEach(userHistory => {
+                    this.recipientUsers.push(userHistory);
                 });
 
-                requestHistory.forEach(users => {
-                    users.verifiers.forEach(verify => {
-                        this.verifiers.push(verify);
-                    });
+                this.selectedSubmisson.verifiers.forEach(verify => {
+                    this.verifiers.push(verify);
                 });
 
-                requestHistory.forEach(attach => {
-                    attach.attachment.forEach(item => {
-                        this.attachments.push(item);
-                    });
+                this.selectedSubmisson.attachment.forEach(item => {
+                    this.attachments.push(item);
                 });
 
-                requestHistory.forEach(item => {
-                    item.contract.forEach(cont=> {
-                        this.contracts.push(cont);
-                    });
+                this.selectedSubmisson.contract.forEach(cont => {
+                    this.contracts.push(cont);
                 });
 
-                requestHistory.forEach(item => {
-                    item.pay_request.forEach(pay=> {
-                        this.payRequests.push(pay);
-                    });
+                this.selectedSubmisson.pay_request.forEach(pay => {
+                    this.payRequests.push(pay);
                 });
 
 
-                /*requestHistory.forEach(item => {
-                    item.refund_factor.forEach(reFac=> {
-                        Vue.set(reFac.factor,"refundFactor",true);
-                        Vue.set(reFac.factor,"factor_state","REFUNDFACTOR");
-                        item.factor.push(reFac.factor);
-                    });
-                });*/
-
-
-                if (submission.request_type.rtType == 'BUY_SERVICES'){
+                if (this.selectedSubmisson.request_type.rtType == 'BUY_SERVICES'){
                     this.requestTypeDetail='SERVICES';
-                    this.requestFill.rLetterNumber=submission.rLetterNumber;
-                    this.requestFill.rLetterDate=submission.rLetterDate;
-                    this.requestFill.rSubject=submission.rSubject;
-                    this.requestFill.rCostEstimation=submission.rCostEstimation;
-                    this.requestFill.rDescription=submission.rDescription;
-                    this.requestFill.rFurtherDetails=submission.rFurtherDetails;
                 }
-                else if (submission.request_type.rtType == 'BUY_COMMODITY'){
-                    var commodityTemp=[];
-                    commodityTemp.push(submission);
-                    this.commodityList=[];
+                else if (this.selectedSubmisson.request_type.rtType == 'BUY_COMMODITY'){
+                    this.commodityListEdit=[];
                     this.requestTypeDetail='COMMODITY';
-                    this.requestFill.rLetterNumber=submission.rLetterNumber;
-                    this.requestFill.rLetterDate=submission.rLetterDate;
-                    this.requestFill.rSubject=submission.rSubject;
-                    this.requestFill.rCostEstimation=submission.rCostEstimation;
-                    commodityTemp.forEach(items => {
-                        items.request_commodity.forEach(commodity => {
-                            this.commodityListEdit.push(commodity);
-                        });
+                    this.selectedSubmisson.request_commodity.forEach(commodity => {
+                        this.commodityListEdit.push(commodity);
                         console.log(JSON.stringify(this.commodityList));
                     });
                 }
-                else if (submission.request_type.rtType == 'FUND'){
+                else if (this.selectedSubmisson.request_type.rtType == 'FUND'){
                     this.requestTypeDetail='FUND';
-                    this.requestFill.rLetterNumber=submission.rLetterNumber;
-                    this.requestFill.rLetterDate=submission.rLetterDate;
-                    this.requestFill.rSubject=submission.rSubject;
-                    this.requestFill.rCostEstimation=submission.rCostEstimation;
-                    this.requestFill.rDescription=submission.rDescription;
                 }
             },
 
@@ -1564,61 +1532,65 @@
                     });
             },
 
-            openUpdateRequestModal:function(submission){
-                this.sumOfCommodityPrice=0;
-                this.commodityRequest=[];
-                this.requestFill={};
-                this.commodityItem=[];
-                this.commodityQuery='';
-                this.requestType=submission.request_type.rtType;
-                this.requestFill.rSubject=submission.rSubject;
-                this.requestFill.serviceEstimated=submission.rCostEstimation;
-                this.requestFill.fullDescription=submission.rDescription;
-                this.requestFill.furtherDescription=submission.rFurtherDetails;
-                this.sumOfCommodityPrice=this.requestFill.serviceEstimated;
-                submission.request_commodity.forEach(com =>{
-                    var commodityTemp={};
-                    commodityTemp.commodityName=com.commodity.cSubject;
-                    commodityTemp.commodityCount=com.rcCount;
-                    commodityTemp.commodityPrice=this.$root.dispMoneyFormat(com.rcCostEstimation);
-                    commodityTemp.commodityDescription=com.rcDescription;
-                    this.commodityRequest.push(commodityTemp);
-                });
-                console.log('-----------------------------------------------------1');
-                console.log(JSON.stringify(this.commodityRequest));
-                console.log('-----------------------------------------------------2');
-                this.fetchCommodity();
-                console.log(JSON.stringify(this.commodityList));
-                this.showEditRequestModal=true;
+            openUpdateRequestModal:function(){
+                if(!this.selectedSubmisson.rAllowUpdateInPosted){
+                    this.dialogMessage = 'با توجه به اینکه درخواست شما در مرحله بعد مشاهده شده است، امکان ویرایش درخواست در این مرحله امکانپذیر نیست!';
+                    this.showDialogModal = true;
+                }
+                else{
+                    this.sumOfCommodityPrice=0;
+                    this.commodityRequest=[];
+                    this.requestFill={};
+                    this.commodityItem={};
+                    this.commodityQuery='';
+                    this.requestType=this.selectedSubmisson.request_type.rtType;
+                    this.requestFill.rSubject=this.selectedSubmisson.rSubject;
+                    this.requestFill.serviceEstimated=this.selectedSubmisson.rCostEstimation;
+                    this.requestFill.fullDescription=this.selectedSubmisson.rDescription;
+                    this.requestFill.furtherDescription=this.selectedSubmisson.rFurtherDetails;
+                    this.sumOfCommodityPrice=this.requestFill.serviceEstimated;
+                    this.selectedSubmisson.request_commodity.forEach(com =>{
+                        var commodityTemp={};
+                        commodityTemp.commodityName=com.commodity.cSubject;
+                        commodityTemp.commodityCount=com.rcCount;
+                        commodityTemp.commodityPrice=this.$root.dispMoneyFormat(com.rcCostEstimation);
+                        commodityTemp.commodityDescription=com.rcDescription;
+                        this.commodityRequest.push(commodityTemp);
+                    });
+                    console.log('-----------------------------------------------------1');
+                    console.log(JSON.stringify(this.commodityRequest));
+                    console.log('-----------------------------------------------------2');
+                    this.fetchCommodity();
+                    console.log(JSON.stringify(this.commodityList));
+                    this.showEditRequestModal=true;
+                }
             },
 
             updateRequest: function(){
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        this.commodityRequest.forEach (items => {
-                            items.commodityPrice= items.commodityPrice.split(',').join('');
-
+                        this.commodityRequest.forEach(items => {
+                            items.commodityPrice = items.commodityPrice.split(',').join('');
                         });
-                        if(this.requestType == 'BUY_SERVICES'){
-                            this.sumOfCommodityPrice=this.requestFill.serviceEstimated.split(',').join('');
-
+                        if (this.requestType == 'BUY_SERVICES') {
+                            this.sumOfCommodityPrice = this.requestFill.serviceEstimated.split(',').join('');
                         }
-                        if(this.requestType == 'FUND'){
-                            this.sumOfCommodityPrice=this.requestFill.fundEstimated.split(',').join('');
-
+                        if (this.requestType == 'FUND') {
+                            this.sumOfCommodityPrice = this.requestFill.fundEstimated.split(',').join('');
                         }
                         console.log(JSON.stringify(this.commodityRequest));
                         axios.post('/financial/request/update', {
-                            id:this.requestId,
-                            subject:this.requestFill.rSubject,
+                            id: this.requestId,
+                            subject: this.requestFill.rSubject,
                             costEstimation: this.sumOfCommodityPrice,
-                            description:this.requestFill.fullDescription,
-                            furtherDescription:this.requestFill.furtherDescription,
-                            resultType:'POSTED',
-                            items:this.requestType == 'BUY_COMMODITY' ? this.commodityRequest : null,
+                            description: this.requestFill.fullDescription,
+                            furtherDetails: this.requestFill.furtherDescription,
+                            resultType: 'POSTED',
+                            items: this.requestType == 'BUY_COMMODITY' ? this.commodityRequest : null,
                         }).then((response) => {
-                           this.submissions=response.data.data;
-                            this.showEditRequestModal= false;
+                            this.submissions = response.data.data;
+                            this.getSubmissionDetail(this.selectedIndex);
+                            this.showEditRequestModal = false;
                             this.$root.displayNotif(response.status);
                             console.log(response);
                         }, (error) => {

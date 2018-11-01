@@ -1,5 +1,5 @@
 <template>
-<!--Body system-->
+    <!--Body system-->
     <div class="border-right-line inner-body-pad">
         <div class="grid-x padding-lr breadcrumbs-pos">
             <div class="large-12 medium-12 small-12">
@@ -22,7 +22,7 @@
             <!--receive_Requests_tab_view Start-->
             <div class="large-12 medium-12 small-12 padding-lr table-mrg-top">
                 <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="receive_Requests_tab_view">
-                        <li v-if="rr_REQUEST_Unreads > 0" class="tabs-title is-active"><a href="#rr_REQUEST" aria-selected="true">  درخواست  <span v-show="rr_REQUEST_Unreads > 0" class="notif-badge-purple">{{rr_REQUEST_Unreads}}</span></a></li>
+                    <li v-if="rr_REQUEST_Unreads > 0" class="tabs-title is-active"><a href="#rr_REQUEST" aria-selected="true">  درخواست  <span v-show="rr_REQUEST_Unreads > 0" class="notif-badge-purple">{{rr_REQUEST_Unreads}}</span></a></li>
                     <li v-if="rr_REQUEST_Unreads == 0" class="tabs-title is-active"><a href="#rr_REQUEST" aria-selected="true">  درخواست  <span v-show="rr_REQUEST_Reads > 0" class="notif-badge-gray">{{rr_REQUEST_Reads}}</span></a></li>
                     <li v-if="rr_FINANCIAL_Unreads > 0" class="tabs-title"><a href="#rr_FINANCIAL"> تامین اعتبار <span v-show="rr_FINANCIAL_Unreads > 0" class="notif-badge-purple">{{rr_FINANCIAL_Unreads}}</span></a></li>
                     <li v-if="rr_FINANCIAL_Unreads == 0"class="tabs-title"><a href="#rr_FINANCIAL"> تامین اعتبار <span v-show="rr_FINANCIAL_Reads > 0" class="notif-badge-gray">{{rr_FINANCIAL_Reads}}</span></a></li>
@@ -670,12 +670,12 @@
                                     <rCredits v-if="isFromRefund != true" v-on:closeModal="showRequestDetailModal=false"
                                               v-on:updateReceiveRequestData="updateReceiveRequestData"
                                               v-on:updateCommitmentAmount="updateCommitmentAmount"
-                                            v-bind:baseAmount="baseAmount"
-                                            v-bind:requestType="requestType"
-                                            v-bind:requestFill="requestFill"
-                                            v-bind:UserIsVerifier="UserIsVerifier"
-                                            v-bind:requestId="requestId"
-                                            v-bind:factorCount="factors.length">
+                                              v-bind:baseAmount="baseAmount"
+                                              v-bind:requestType="requestType"
+                                              v-bind:requestFill="requestFill"
+                                              v-bind:UserIsVerifier="UserIsVerifier"
+                                              v-bind:requestId="requestId"
+                                              v-bind:factorCount="factors.length">
                                     </rCredits>
                                     <div v-else class="text-center inner-vh-unsize" style="height: 60vh;display: table">
                                         <div style="display: table-cell; vertical-align: middle;">
@@ -692,14 +692,14 @@
                                 <!--Tab 4-->
                                 <div class="tabs-panel table-mrg-btm" :class="requestLevel == 'PURCHASE_AND_CONTRACT' ? 'is-active' : ''" id="contractTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <rContract v-if="requestType == 'BUY_SERVICES'"
-                                            v-on:closeModal="showRequestDetailModal=false"
-                                            v-on:updateReceiveRequestData="updateReceiveRequestData"
-                                            v-bind:requestId="requestId"
-                                            v-bind:contracts="contracts"
-                                            v-bind:requestSubject="requestSubject"
-                                            v-bind:rCreditIsAccepted="rCreditIsAccepted"
-                                            v-bind:rCostEstimation="requestFill.rCostEstimation"
-                                            v-bind:rCreditIsExist="rCreditIsExist">
+                                               v-on:closeModal="showRequestDetailModal=false"
+                                               v-on:updateReceiveRequestData="updateReceiveRequestData"
+                                               v-bind:requestId="requestId"
+                                               v-bind:contracts="contracts"
+                                               v-bind:requestSubject="requestSubject"
+                                               v-bind:rCreditIsAccepted="rCreditIsAccepted"
+                                               v-bind:rCostEstimation="requestFill.rCostEstimation"
+                                               v-bind:rCreditIsExist="rCreditIsExist">
                                     </rContract>
                                 </div>
                                 <!--Tab 4-->
@@ -734,7 +734,7 @@
                                             v-bind:drafts="drafts"
                                             v-bind:sumOfDraftAmount="rSumOfDraftAmount"
                                             v-bind:paymentRequestAmount="paymentRequestAmount"
-                                                >
+                                    >
                                     </r-pay-request>
                                 </div>
                                 <!--Tab 6-->
@@ -1022,11 +1022,11 @@
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <label>تاریخ
                                 <date-picker
-                                    :color="'#5c6bc0'"
-                                    v-model="registerDate"
-                                    input-class="form-control form-control-lg date-picker-bottom-margin"
-                                    id="my-custom-input"
-                                    placeholder="انتخاب تاریخ">
+                                        :color="'#5c6bc0'"
+                                        v-model="registerDate"
+                                        input-class="form-control form-control-lg date-picker-bottom-margin"
+                                        id="my-custom-input"
+                                        placeholder="انتخاب تاریخ">
                                 </date-picker>
                             </label>
                         </div>
@@ -1468,7 +1468,7 @@
                         console.log(response);
                     }, (error) => {
                         console.log(error);
-                });
+                    });
             },
 
             getGroupUsers: function () {
@@ -1645,7 +1645,7 @@
             },
 
             openSubmitRequestModal: function () {
-              this.showSubmitRequestModal=true;
+                this.showSubmitRequestModal=true;
             },
 
             closeRequestDetailModal: function () {
@@ -1653,7 +1653,7 @@
             },
 
             hideSubmitRequestModal: function () {
-              this.showSubmitRequestModal=false;
+                this.showSubmitRequestModal=false;
             },
 
             acceptRequest: function () {
