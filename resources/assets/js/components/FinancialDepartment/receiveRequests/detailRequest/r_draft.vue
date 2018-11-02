@@ -396,11 +396,11 @@
                                         <p class="btn-red text-left">{{$root.dispMoneyFormat(draftAmount)}} ریال</p>
                                     </div>
                                 </div>
-                                <div class="grid-x">
+                                <div class="grid-x" v-if="requestType == 'BUY_COMMODITY'">
                                     <div class="large-9 medium-9  small-12">
                                         <div class="grid-x">
                                             <div class="large-12 medium-2 small-12">
-                                                <p>مبلغ باقی مانده : </p>
+                                                <p>مبلغ باقیمانده : </p>
                                             </div>
                                         </div>
                                     </div>
@@ -412,11 +412,11 @@
                                     <div class="large-9 medium-9  small-12">
                                         <div class="grid-x">
                                             <div class="large-12 medium-2 small-12">
-                                                <p><span> {{baseAmount.payTo}} - {{baseAmount.for}} </span></p>
+                                                <p><span> {{baseAmount.payTo}} - {{baseAmount.for}} </span><span class="btn-red size-12" v-if="baseAmount.delivered"> - تحویل داده شده</span></p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div v-if="requestType == 'BUY_COMMODITY'" class="large-3 medium-3  small-12 text-left">
+                                    <div v-if="requestType == 'BUY_COMMODITY' && baseAmount.delivered == false" class="large-3 medium-3  small-12 text-left">
                                         <div class="grid-x">
                                             <div class="medium-11 btn-red text-left">
                                                 {{$root.dispMoneyFormat(baseAmount.amount)}} ریال
@@ -507,7 +507,7 @@
                                     <div class="large-4 medium-4  small-12">
                                         <div class="grid-x">
                                             <div class="large-12 medium-2 small-12">
-                                                <p>باقی مانده: </p>
+                                                <p>باقیمانده: </p>
                                             </div>
                                         </div>
                                     </div>
@@ -708,14 +708,16 @@
                   if (item.check.lenght == null)
                       this.checkSize=true;
               });
-              this.checkBaseDelivered = false;
+
+              var existUndelivered = draft.check.length > 0 ? false : true;
               draftHistory.forEach(item =>{
                   item.check.forEach(ch =>{
                       this.checks.push(ch);
-                      if (ch.cPdId == null && ch.cDelivered)
-                          this.checkBaseDelivered = true;
+                      if (ch.cPdId == null && !ch.cDelivered)
+                          existUndelivered = true;
                   });
               });
+              this.checkBaseDelivered = !existUndelivered;
               console.log(JSON.stringify(this.checks));
             },
 
@@ -988,6 +990,7 @@
                         Vue.set(obj,"payTo",check.cPayTo);
                         Vue.set(obj,"for",check.cFor);
                         Vue.set(obj,"amount",check.cAmount);
+                        Vue.set(obj,"delivered",check.cDelivered);
                         this.baseAmounts.push(obj);
                         this.remainingBaseAmount -= check.cAmount;
                     }
@@ -1110,8 +1113,16 @@
                 this.getAllBaseChecks();
                 if (this.remainingBaseAmount < 0)
                 {
+                    var temp = this.baseAmounts;
                     this.baseAmounts = [];
-                    this.remainingBaseAmount = Math.round(this.draftAmount - lastTemp);
+                    temp.forEach((item , index) =>{
+                        if (item.delivered == false)
+                        {
+                            this.remainingBaseAmount += item.amount;
+                        }else{
+                            this.baseAmounts.push(item);
+                        }
+                    });
                 }
 
                 if (this.baseAmounts.length == 0)
@@ -1129,10 +1140,16 @@
             },
 
             openAcceptGeneratecheckConfirmModal:function (){
-                if (this.checkEdited || this.checkSize)
-                    this.showAcceptGeneratecheckConfirmModal=true;
-                else{
-                    this.dialogMessage = 'تغییری در مبلغ چک ها ایجاد نشده است!';
+                if (this.remainingBaseAmount == 0)
+                {
+                    if (this.checkEdited || this.checkSize)
+                        this.showAcceptGeneratecheckConfirmModal=true;
+                    else{
+                        this.dialogMessage = 'تغییری در مبلغ چک ها ایجاد نشده است!';
+                        this.showDialogModal = true;
+                    }
+                }else{
+                    this.dialogMessage = 'صدور چک بطور کامل انجام نشده است، لطفا دقت کنید!';
                     this.showDialogModal = true;
                 }
             },
@@ -1221,6 +1238,7 @@
                 Vue.set(obj,"payTo",this.addNewCheckInput.payTo);
                 Vue.set(obj,"for",this.addNewCheckInput.for);
                 Vue.set(obj,"amount",parseInt(this.addNewCheckInput.baseAmount.split(',').join(''),10));
+                Vue.set(obj,"delivered" , false);
                 this.baseAmounts.push(obj);
                 this.remainingBaseAmount -= parseInt(this.addNewCheckInput.baseAmount.split(',').join(''),10);
                 this.showAddNewCheckModal = false;

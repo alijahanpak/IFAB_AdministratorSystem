@@ -38,18 +38,18 @@ class _Check extends Model
 
     public function costSpent()
     {
-        return $this->hasMany(CostSpent::class , 'csCfId' , 'id');
+        return $this->hasMany(CostSpent::class , 'csCId' , 'id');
     }
 
     public function capSpent()
     {
-        return $this->hasMany(CapSpent::class , 'csCafId' , 'id');
+        return $this->hasMany(CapSpent::class , 'csCId' , 'id');
     }
 
     public function getCDeliveredAttribute()
     {
-        $sumCost = $this->costSpent()->sum('csAmount');
-        $sumCost += $this->capSpent()->sum('csAmount');
+        $sumCost = (int)$this->costSpent()->get()->sum('csAmount');
+        $sumCost += (int)$this->capSpent()->get()->sum('csAmount');
         if ($sumCost == $this->attributes['cAmount'])
             return true;
         else
@@ -58,8 +58,8 @@ class _Check extends Model
 
     public function getCSpentAmountAttribute()
     {
-        $sumCost = $this->costSpent()->sum('csAmount');
-        $sumCost += $this->capSpent()->sum('csAmount');
+        $sumCost = (int)$this->costSpent()->get()->sum('csAmount');
+        $sumCost += (int)$this->capSpent()->get()->sum('csAmount');
         return $sumCost;
     }
 }

@@ -50,10 +50,15 @@ class CheckController extends Controller
             {
                 foreach ($request->get('baseCheckAmounts') as $item)
                 {
+                    $currentCheck = _Check::where('cDId' , $request->dId)
+                        ->where('cPayTo' , $item['payTo'])
+                        ->where('cFyId' , Auth::user()->seFiscalYear)
+                        ->first();
+                    $checkState = $currentCheck ? $currentCheck->cCsId : CheckState::where('csState' , 'WAITING_FOR_PRINT')->value('id');
                     $check = _Check::updateOrCreate(['cDId' => $request->dId , 'cPayTo' => $item['payTo'] , 'cFyId' => Auth::user()->seFiscalYear] , [
                         'cAmount' => $item['amount'],
                         'cFor' => $item['for'],
-                        'cCsId' => CheckState::where('csState' , 'WAITING_FOR_PRINT')->value('id')
+                        'cCsId' => $checkState
                     ]);
                     $insertedAId[$i++] = $check->id;
                 }
@@ -63,9 +68,14 @@ class CheckController extends Controller
             {
                 foreach ($request->get('decreases') as $item)
                 {
+                    $currentCheck = _Check::where('cDId' , $request->dId)
+                        ->where('cPdId' , $item['id'])
+                        ->where('cFyId' , Auth::user()->seFiscalYear)
+                        ->first();
+                    $checkState = $currentCheck ? $currentCheck->cCsId : CheckState::where('csState' , 'WAITING_FOR_PRINT')->value('id');
                     $check = _Check::updateOrCreate(['cDId' => $request->dId , 'cPdId' => $item['id'] , 'cFyId' => Auth::user()->seFiscalYear] , [
                         'cAmount' => $item['amount'],
-                        'cCsId' => CheckState::where('csState' , 'WAITING_FOR_PRINT')->value('id')
+                        'cCsId' => $checkState
                     ]);
                     $insertedAId[$i++] = $check->id;
                 }
@@ -164,6 +174,8 @@ class CheckController extends Controller
                             ->orWhere('dPayTo' , '=' , $searchValue);
                     });
             })
+            ->orWhere('cPayTo' , 'LIKE' , '%' . $searchValue . '%')
+            ->orWhere('cFor' , 'LIKE' , '%' . $searchValue . '%')
             ->with('draft')
             ->with('percentageDecrease')
             ->with('checkState')
