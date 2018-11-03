@@ -89,7 +89,6 @@
                 </div>
             </div>
         </div>
-
         <!-- Request Detail Modal -->
         <modal-large v-if="showRequestDetailModal" @close="showRequestDetailModal = false">
             <div  slot="body">
@@ -98,6 +97,7 @@
                         <div class="large-12 medium-12 small-12">
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="request_tab_view">
                                 <li class="tabs-title is-active"><a href="#requestDetailTab" aria-selected="true">جزییات</a></li>
+                                <li class="tabs-title"><a href="#draftTab">حواله </a></li>
                                 <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
                                 <li class="tabs-title"><a href="#requestAttachmentsTab">پیوست ها </a></li>
                             </ul>
@@ -209,6 +209,24 @@
                                 </div>
                                 <!--Tab 1-->
                                 <!--Tab 2-->
+                                <div class="tabs-panel table-mrg-btm" id="draftTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <rDraft  v-on:closeModal="showRequestDetailModal=false"
+                                             v-on:updateReceiveRequestData="updateReceiveRequestData"
+                                             v-bind:requestId="requestId"
+                                             v-bind:contracts="contracts"
+                                             v-bind:factors="factors"
+                                             v-bind:rAcceptedAmount="rAcceptedAmount"
+                                             v-bind:rCommitmentAmount="rCommitmentAmount"
+                                             v-bind:requestType="requestType"
+                                             v-bind:drafts="drafts"
+                                             v-bind:sumOfDraftAmount="rSumOfDraftAmount"
+                                             v-bind:lastRefDId="lastRefDId"
+                                             v-bind:resultType="'SEARCH'"
+                                             v-bind:searchValue="requestSearchValue">
+                                    </rDraft>
+                                </div>
+                                <!--Tab 2-->
+                                <!--Tab 3-->
                                 <div class="tabs-panel table-mrg-btm" id="requestHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 large-top-m">
@@ -261,8 +279,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--Tab 2-->
                                 <!--Tab 3-->
+                                <!--Tab 4-->
                                 <div class="tabs-panel table-mrg-btm" id="requestAttachmentsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x" style="margin-bottom: 30px;margin-top: 20px">
                                         <div class="medium-12">
@@ -305,7 +323,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--Tab 3-->
+                                <!--Tab 4-->
                             </div>
                         </div>
                     </div>
@@ -321,12 +339,14 @@
     import Suggestions from "v-suggestions/src/Suggestions";
     import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
     import VuePagination from '../../public_component/pagination.vue';
+    import rDraft from '../FinancialDepartment/receiveRequests/detailRequest/r_draft.vue';
     export default {
         components: {
             Suggestions,
             "vue-select": require("vue-select"),
             datePicker: VuePersianDatetimePicker,
             'vue-pagination' : VuePagination,
+            rDraft,
         },
 
         data () {
@@ -339,9 +359,18 @@
                 requestState: '',
                 verifiers:[],
                 UserIsVerifier:[],
+                factors:[],
+                contracts:[],
                 requestTypeDetail:'',
                 requestFill:{},
                 costTemp:'',
+                requestId:'',
+                lastRefDId: -1,
+                drafts:[],
+                requestType:'',
+                rAcceptedAmount:0,
+                rCommitmentAmount:0,
+                rSumOfDraftAmount: 0,
                 commodityList:[],
                 baseURL:window.hostname+'/',
                 updateDataThreadNowPlaying:null,
@@ -375,6 +404,18 @@
         },
 
         methods: {
+            updateReceiveRequestData: function(requests , rId){
+                this.allRequests = requests.data;
+                this.allRequests.forEach(rec => {
+                    if (rec.id == rId)
+                    {
+                        this.getRequestDetail(rec);
+                        return;
+                    }
+                });
+                this.makePagination(requests);
+            },
+
             makePagination: function(data){
                 this.result_pagination.current_page = data.current_page;
                 this.result_pagination.to = data.to;
@@ -432,6 +473,16 @@
                         this.attachments.push(item);
                     });
                 });
+
+                this.requestId = request.id;
+                this.contracts = request.contract;
+                this.factors = request.factor;
+                this.rCommitmentAmount=request.rCommitmentAmount;
+                this.rAcceptedAmount=request.rAcceptedAmount;
+                this.requestType= request.request_type.rtType;
+                this.drafts = request.draft;
+                this.rSumOfDraftAmount = request.rSumOfDraftAmount;
+                this.lastRefDId = request.rLastRef.rhDId;
 
                 if (request.rRtId == 1){
                     this.requestTypeDetail='SERVICES';

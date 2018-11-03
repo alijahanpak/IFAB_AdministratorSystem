@@ -1,6 +1,6 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class="grid-x">
-        <div v-show="requestTypeDetail == 'SERVICES'" class="large-12 medium-12 small-12">
+        <div v-show="requestTypeDetail == 'BUY_SERVICES'" class="large-12 medium-12 small-12">
             <table>
                 <tbody>
                 <tr>
@@ -36,7 +36,7 @@
             </table>
         </div>
 
-        <div v-show="requestTypeDetail == 'COMMODITY'" class="large-12 medium-12 small-12">
+        <div v-show="requestTypeDetail == 'BUY_COMMODITY'" class="large-12 medium-12 small-12">
             <table>
                 <tbody>
                 <tr>

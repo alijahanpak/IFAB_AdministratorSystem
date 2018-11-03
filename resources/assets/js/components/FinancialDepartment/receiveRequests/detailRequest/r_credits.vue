@@ -1822,7 +1822,7 @@ export default{
             axios.post('/financial/request/financing/supply_from_refund', {
                 id: this.requestId,
             }).then((response) => {
-                this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                this.$emit('updateReceiveRequestData' , response.data);
                 this.$emit('closeModal');
                 this.$root.displayNotif(response.status);
                 console.log(response);
@@ -1983,7 +1983,7 @@ export default{
                 this.lastCostReservedAmount += parseInt(item.cfAmount , 10);
             });
 
-            this.$emit('updateCommitmentAmount' , this._financingAmount , this.requestId);
+            this.$emit('updateCommitmentAmount' , this._financingAmount);
         },
 
         /////////////////////// cost financing //////////////////////////////
@@ -2737,7 +2737,7 @@ export default{
             axios.post('/financial/request/financing/accept', {
                 rId: this.requestId,
             }).then((response) => {
-                this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                this.$emit('updateReceiveRequestData' , response.data);
                 this.$emit('closeModal');
                 this.$root.displayNotif(response.status);
                 this.getFinancingAmount();

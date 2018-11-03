@@ -1,6 +1,6 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class="grid-x">
-        <div class="large-12 medium-12 small-12" v-show="$can('FINANCIAL_ADD_NEW_DRAFT') && requestType != 'BUY_SERVICES'">
+        <div class="large-12 medium-12 small-12" v-show="$can('FINANCIAL_ADD_NEW_DRAFT') && requestType != 'BUY_SERVICES' && resultType == '‌RECEIVED'">
             <div class="clearfix tool-bar">
                 <div class="button-group float-right report-mrg">
                     <a class="my-button toolbox-btn small" @click="openInsertDraftModal()">پیشنویس حواله</a>
@@ -216,13 +216,13 @@
                                 <div class="grid-x" v-if="!draftIsBlocked" style="margin-top: 0.5rem">
                                     <div style="margin-bottom:-20px;margin-top: 5px;" class="large-12 medium-12 small-12">
                                         <div class="stacked-for-small button-group float-right">
-                                            <button v-show="$can('FINANCIAL_REGISTER_AND_NUMBERING_DRAFT')" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
-                                            <button v-show="$can('FINANCIAL_ACCEPT_DRAFT') && youAreDraftVerifier" @click="checkAcceptDraftConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
-                                            <button v-show="$can('FINANCIAL_ACCEPT_MINUTE_DRAFT') && isMinute" @click="openAcceptMinuteConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید پیشنویس   </span></button>
+                                            <button v-show="$can('FINANCIAL_REGISTER_AND_NUMBERING_DRAFT') && resultType == 'RECEIVED'" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
+                                            <button v-show="$can('FINANCIAL_ACCEPT_DRAFT') && youAreDraftVerifier  && resultType == 'RECEIVED'" @click="checkAcceptDraftConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
+                                            <button v-show="$can('FINANCIAL_ACCEPT_MINUTE_DRAFT') && isMinute  && resultType == 'RECEIVED'" @click="openAcceptMinuteConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید پیشنویس   </span></button>
                                             <button v-show="$can('FINANCIAL_DETERMINE_DECREASES_AND_MAKE_CHECKS') && isAccepted" @click="openGenerateChecksModal()"  class="my-button my-success"><span class="btn-txt-mrg">   صدور چک   </span></button>
-                                            <button @click="openReferralModal(draftId)"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> ارجاع </span></button>
-                                            <button @click="openResponseRequestModal(draftId)" v-show="canResponse == true" class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> پاسخ </span></button>
-                                            <button v-show="$can('DRAFT_BLOCK')" @click="openBlockModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">مسدود</span></button>
+                                            <button v-show="resultType == 'RECEIVED'" @click="openReferralModal(draftId)"  class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> ارجاع </span></button>
+                                            <button @click="openResponseRequestModal(draftId)" v-show="canResponse == true && resultType == 'RECEIVED'" class="my-button toolbox-btn float-left btn-for-load"><span class="btn-txt-mrg"> پاسخ </span></button>
+                                            <button v-show="$can('DRAFT_BLOCK') && resultType == 'RECEIVED'" @click="openBlockModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">مسدود</span></button>
                                         </div>
                                     </div>
                                 </div>
@@ -570,7 +570,7 @@
     import Suggestions from "v-suggestions/src/Suggestions";
     import VueElementLoading from 'vue-element-loading';
     export default{
-        props:['drafts','requestId','rAcceptedAmount','rCommitmentAmount','contracts','factors','requestType' , 'sumOfDraftAmount' , 'lastRefDId'],
+        props:['drafts','requestId','rAcceptedAmount','rCommitmentAmount','contracts','factors','requestType' , 'sumOfDraftAmount' , 'lastRefDId' , 'resultType' , 'searchValue'],
         components: {
             Suggestions,
             VueElementLoading,
@@ -660,13 +660,16 @@
 
         methods : {
             checkOpenLastRef: function(){
-                this.drafts.forEach(draft => {
-                    if (draft.dLastRef.rhDId == this.lastRefDId)
-                    {
-                        this.openPdfModal(draft);
-                        return;
-                    }
-                });
+                if (this.resultType == 'RECEIVED')
+                {
+                    this.drafts.forEach(draft => {
+                        if (draft.dLastRef.rhDId == this.lastRefDId)
+                        {
+                            this.openPdfModal(draft);
+                            return;
+                        }
+                    });
+                }
             },
 
             fetchDocument: function(){
@@ -837,7 +840,7 @@
                     rId: this.requestId,
                     dId:this.draftId
                 }).then((response) => {
-                    this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                    this.$emit('updateReceiveRequestData' , response.data);
                     this.$emit('closeModal');
                     this.$root.displayNotif(response.status);
                     console.log(response);
@@ -853,7 +856,7 @@
                     fId: this.fIdForDelete,
                 }).then((response) => {
                     if (response.status == 200)
-                        this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                        this.$emit('updateReceiveRequestData' , response.data);
                     this.showDeleteConfirmModal = false;
                     this.$root.displayNotif(response.status);
                     console.log(response);
@@ -909,7 +912,7 @@
                                 amount: this.draftBaseAmount,
                                 verifierId: this.draftInput.verifierId
                             }).then((response) => {
-                                this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                                this.$emit('updateReceiveRequestData' , response.data);
                                 this.$emit('closeModal');
                                 this.showInsertDraftModal = false;
                                 this.$root.displayNotif(response.status);
@@ -940,7 +943,7 @@
                     letterDate: this.registerDate,
                     letterNumber: this.letterNumber
                 }).then((response) => {
-                    this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                    this.$emit('updateReceiveRequestData' , response.data);
                     this.$emit('closeModal');
                     this.showRegisterAndNumberingModal = false;
                     this.$root.displayNotif(response.status);
@@ -960,7 +963,7 @@
                     rId: this.requestId,
                     dId:this.draftId,
                 }).then((response) => {
-                    this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                    this.$emit('updateReceiveRequestData' , response.data);
                     this.$emit('closeModal');
                     this.showAcceptMinuteConfirmModal = false;
                     this.$root.displayNotif(response.status);
@@ -1172,11 +1175,18 @@
                     rId: this.requestId,
                     dId:this.draftId,
                     decreases:this.decreases,
-                    baseCheckAmounts:this.baseAmounts
+                    baseCheckAmounts:this.baseAmounts,
+                    resultType: this.resultType,
+                    searchValue: this.searchValue
                 }).then((response) => {
-                    this.$emit('updateReceiveRequestData' , response.data , this.requestId);
-                    this.$emit('closeModal');
+                    this.$emit('updateReceiveRequestData' , response.data);
+                    if (this.resultType == 'RECEIVED')
+                    {
+                        this.$emit('closeModal');
+                    }
+
                     this.showAcceptGeneratecheckConfirmModal = false;
+                    this.showGenerateChecksModal = false;
                     this.showPdfModal = false;
                     this.$root.displayNotif(response.status);
                     console.log(response);
@@ -1209,7 +1219,7 @@
                             description: this.blockInput.description
                         })
                             .then((response) => {
-                                this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                                this.$emit('updateReceiveRequestData' , response.data);
                                 this.draftIsBlocked = true;
                                 this.showBlockModal = false;
                                 this.$root.displayNotif(response.status);

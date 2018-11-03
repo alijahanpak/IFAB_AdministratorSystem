@@ -22,16 +22,16 @@
             <!--receive_Requests_tab_view Start-->
             <div class="large-12 medium-12 small-12 padding-lr table-mrg-top">
                 <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="receive_Requests_tab_view">
-                    <li v-if="rr_REQUEST_Unreads > 0" class="tabs-title is-active"><a href="#rr_REQUEST" aria-selected="true">  درخواست  <span v-show="rr_REQUEST_Unreads > 0" class="notif-badge-purple">{{rr_REQUEST_Unreads}}</span></a></li>
-                    <li v-if="rr_REQUEST_Unreads == 0" class="tabs-title is-active"><a href="#rr_REQUEST" aria-selected="true">  درخواست  <span v-show="rr_REQUEST_Reads > 0" class="notif-badge-gray">{{rr_REQUEST_Reads}}</span></a></li>
-                    <li v-if="rr_FINANCIAL_Unreads > 0" class="tabs-title"><a href="#rr_FINANCIAL"> تامین اعتبار <span v-show="rr_FINANCIAL_Unreads > 0" class="notif-badge-purple">{{rr_FINANCIAL_Unreads}}</span></a></li>
-                    <li v-if="rr_FINANCIAL_Unreads == 0"class="tabs-title"><a href="#rr_FINANCIAL"> تامین اعتبار <span v-show="rr_FINANCIAL_Reads > 0" class="notif-badge-gray">{{rr_FINANCIAL_Reads}}</span></a></li>
-                    <li v-if="rr_PURCHASE_AND_CONTRACT_Unreads > 0" class="tabs-title"><a href="#rr_PURCHASE_AND_CONTRACT"> خرید / قرارداد<span v-show="rr_PURCHASE_AND_CONTRACT_Unreads > 0" class="notif-badge-purple">{{rr_PURCHASE_AND_CONTRACT_Unreads}}</span></a></li>
-                    <li v-if="rr_PURCHASE_AND_CONTRACT_Unreads == 0" class="tabs-title"><a href="#rr_PURCHASE_AND_CONTRACT"> خرید / قرارداد<span v-show="rr_PURCHASE_AND_CONTRACT_Reads > 0" class="notif-badge-gray">{{rr_PURCHASE_AND_CONTRACT_Reads}}</span></a></li>
-                    <li v-if="rr_PAYMENT_Unreads > 0" class="tabs-title"><a href="#rr_PAYMENT"> درخواست پرداخت <span v-show="rr_PAYMENT_Unreads > 0" class="notif-badge-purple">{{rr_PAYMENT_Unreads}}</span></a></li>
-                    <li v-if="rr_PAYMENT_Unreads == 0" class="tabs-title"><a href="#rr_PAYMENT"> درخواست پرداخت <span v-show="rr_PAYMENT_Reads > 0" class="notif-badge-gray">{{rr_PAYMENT_Reads}}</span></a></li>
-                    <li v-if="rr_DRAFT_Unreads > 0" class="tabs-title"><a href="#rr_DRAFT"> حواله <span v-show="rr_DRAFT_Unreads > 0" class="notif-badge-purple">{{rr_DRAFT_Unreads}}</span></a></li>
-                    <li v-if="rr_DRAFT_Unreads == 0" class="tabs-title"><a href="#rr_DRAFT"> حواله <span v-show="rr_DRAFT_Reads > 0" class="notif-badge-gray">{{rr_DRAFT_Reads}}</span></a></li>
+                    <li v-if="receiveRequests.REQUEST.unreadCount > 0" class="tabs-title is-active"><a href="#rr_REQUEST" aria-selected="true">  درخواست  <span v-show="receiveRequests.REQUEST.unreadCount > 0" class="notif-badge-purple">{{receiveRequests.REQUEST.unreadCount}}</span></a></li>
+                    <li v-else class="tabs-title is-active"><a href="#rr_REQUEST" aria-selected="true">  درخواست  <span v-show="receiveRequests.REQUEST.readCount > 0" class="notif-badge-gray">{{receiveRequests.REQUEST.readCount}}</span></a></li>
+                    <li v-if="receiveRequests.FINANCIAL.unreadCount > 0" class="tabs-title"><a href="#rr_FINANCIAL"> تامین اعتبار <span v-show="receiveRequests.FINANCIAL.unreadCount > 0" class="notif-badge-purple">{{receiveRequests.FINANCIAL.unreadCount}}</span></a></li>
+                    <li v-else class="tabs-title"><a href="#rr_FINANCIAL"> تامین اعتبار <span v-show="receiveRequests.FINANCIAL.readCount > 0" class="notif-badge-gray">{{receiveRequests.FINANCIAL.readCount}}</span></a></li>
+                    <li v-if="receiveRequests.PURCHASE_AND_CONTRACT.unreadCount > 0" class="tabs-title"><a href="#rr_PURCHASE_AND_CONTRACT"> خرید / قرارداد<span v-show="receiveRequests.PURCHASE_AND_CONTRACT.unreadCount > 0" class="notif-badge-purple">{{receiveRequests.PURCHASE_AND_CONTRACT.unreadCount}}</span></a></li>
+                    <li v-else class="tabs-title"><a href="#rr_PURCHASE_AND_CONTRACT"> خرید / قرارداد<span v-show="receiveRequests.PURCHASE_AND_CONTRACT.readCount > 0" class="notif-badge-gray">{{receiveRequests.PURCHASE_AND_CONTRACT.readCount}}</span></a></li>
+                    <li v-if="receiveRequests.PAYMENT.unreadCount > 0" class="tabs-title"><a href="#rr_PAYMENT"> درخواست پرداخت <span v-show="receiveRequests.PAYMENT.unreadCount > 0" class="notif-badge-purple">{{receiveRequests.PAYMENT.unreadCount}}</span></a></li>
+                    <li v-else class="tabs-title"><a href="#rr_PAYMENT"> درخواست پرداخت <span v-show="receiveRequests.PAYMENT.readCount > 0" class="notif-badge-gray">{{receiveRequests.PAYMENT.readCount}}</span></a></li>
+                    <li v-if="receiveRequests.DRAFT.unreadCount > 0" class="tabs-title"><a href="#rr_DRAFT"> حواله <span v-show="receiveRequests.DRAFT.unreadCount > 0" class="notif-badge-purple">{{receiveRequests.DRAFT.unreadCount}}</span></a></li>
+                    <li v-else class="tabs-title"><a href="#rr_DRAFT"> حواله <span v-show="receiveRequests.DRAFT.readCount > 0" class="notif-badge-gray">{{receiveRequests.DRAFT.readCount}}</span></a></li>
                 </ul>
                 <div class="tabs-content" data-tabs-content="receive_Requests_tab_view">
                     <!--receiveRequests_REQUEST Tab-->
@@ -81,7 +81,7 @@
                                                 <col width="12px"/>
                                             </colgroup>
                                             <tbody class="tbl-head-style-cell">
-                                            <tr class="table-row" @click="getRequestDetail(receiveRequest)" v-for="receiveRequest in receiveRequests_REQUEST">
+                                            <tr class="table-row" @click="getRequestDetail('REQUEST' , index)" v-for="(receiveRequest , index) in receiveRequests.REQUEST.data">
                                                 <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
                                                 <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
                                                 <td>{{receiveRequest.rSubject}}</td>
@@ -196,7 +196,7 @@
                                                 <col width="12px"/>
                                             </colgroup>
                                             <tbody class="tbl-head-style-cell">
-                                            <tr class="table-row" @click="getRequestDetail(receiveFinancial)" v-for="receiveFinancial in receiveRequests_FINANCIAL">
+                                            <tr class="table-row" @click="getRequestDetail('FINANCIAL' , index)" v-for="(receiveFinancial , index) in receiveRequests.FINANCIAL.data">
                                                 <td v-show="receiveFinancial.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
                                                 <td v-show="receiveFinancial.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
                                                 <td>{{receiveFinancial.rSubject}}</td>
@@ -314,7 +314,7 @@
                                                 <col width="12px"/>
                                             </colgroup>
                                             <tbody class="tbl-head-style-cell">
-                                            <tr class="table-row" @click="getRequestDetail(receivePAndC)" v-for="receivePAndC in receiveRequests_PURCHASE_AND_CONTRACT">
+                                            <tr class="table-row" @click="getRequestDetail('PURCHASE_AND_CONTRACT' , index)" v-for="(receivePAndC , index) in receiveRequests.PURCHASE_AND_CONTRACT.data">
                                                 <td v-show="receivePAndC.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
                                                 <td v-show="receivePAndC.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
                                                 <td>{{receivePAndC.rSubject}}</td>
@@ -429,7 +429,7 @@
                                                 <col width="12px"/>
                                             </colgroup>
                                             <tbody class="tbl-head-style-cell">
-                                            <tr class="table-row" @click="getRequestDetail(receivePayment)" v-for="receivePayment in receiveRequests_PAYMENT">
+                                            <tr class="table-row" @click="getRequestDetail('PAYMENT' , index)" v-for="(receivePayment , index) in receiveRequests.PAYMENT.data">
                                                 <td v-show="receivePayment.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
                                                 <td v-show="receivePayment.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
                                                 <td>{{receivePayment.rSubject}}</td>
@@ -544,7 +544,7 @@
                                                 <col width="12px"/>
                                             </colgroup>
                                             <tbody class="tbl-head-style-cell">
-                                            <tr class="table-row" @click="getRequestDetail(receiveDraft)" v-for="receiveDraft in receiveRequests_DRAFT">
+                                            <tr class="table-row" @click="getRequestDetail('DRAFT' , index)" v-for="(receiveDraft , index) in receiveRequests.DRAFT.data">
                                                 <td v-show="receiveDraft.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
                                                 <td v-show="receiveDraft.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
                                                 <td>{{receiveDraft.rSubject}}</td>
@@ -623,22 +623,22 @@
                     <div class="grid-x">
                         <div class="large-12 medium-12 small-12 container-vh">
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="request_tab_view">
-                                <li class="tabs-title" :class="requestLevel == 'REQUEST' ? 'is-active' : ''"><a href="#requestDetailTab" aria-selected="true">جزییات</a></li>
+                                <li class="tabs-title" :class="selectedRequest.request_level.rlLevel == 'REQUEST' ? 'is-active' : ''"><a href="#requestDetailTab" aria-selected="true">جزییات</a></li>
                                 <li class="tabs-title"><a href="#requestVerifiersTab">تایید کنندگان </a></li>
-                                <li class="tabs-title" :class="requestLevel == 'FINANCIAL' ? 'is-active' : ''"><a href="#creditsTab">اعتبارات</a></li>
-                                <li class="tabs-title" :class="requestLevel == 'PURCHASE_AND_CONTRACT' ? 'is-active' : ''" v-if="requestType == 'BUY_COMMODITY'"><a href="#factorTab">اطلاعات فاکتور</a></li>
-                                <li class="tabs-title" :class="requestLevel == 'PURCHASE_AND_CONTRACT' ? 'is-active' : ''" v-if="requestType == 'BUY_SERVICES'"><a href="#contractTab">اطلاعات قرارداد</a></li>
-                                <li v-if="requestType == 'BUY_SERVICES'" class="tabs-title" :class="requestLevel == 'PAYMENT' ? 'is-active' : ''"><a href="#payRequestTab">درخواست پرداخت </a></li>
-                                <li class="tabs-title" :class="requestLevel == 'DRAFT' ? 'is-active' : ''"><a href="#draftTab">حواله </a></li>
+                                <li class="tabs-title" :class="selectedRequest.request_level.rlLevel == 'FINANCIAL' ? 'is-active' : ''"><a href="#creditsTab">اعتبارات</a></li>
+                                <li class="tabs-title" :class="selectedRequest.request_level.rlLevel == 'PURCHASE_AND_CONTRACT' ? 'is-active' : ''" v-if="selectedRequest.request_type.rtType == 'BUY_COMMODITY'"><a href="#factorTab">اطلاعات فاکتور</a></li>
+                                <li class="tabs-title" :class="selectedRequest.request_level.rlLevel == 'PURCHASE_AND_CONTRACT' ? 'is-active' : ''" v-if="selectedRequest.request_type.rtType == 'BUY_SERVICES'"><a href="#contractTab">اطلاعات قرارداد</a></li>
+                                <li v-if="selectedRequest.request_type.rtType == 'BUY_SERVICES'" class="tabs-title" :class="selectedRequest.request_level.rlLevel == 'PAYMENT' ? 'is-active' : ''"><a href="#payRequestTab">درخواست پرداخت </a></li>
+                                <li class="tabs-title" :class="selectedRequest.request_level.rlLevel == 'DRAFT' ? 'is-active' : ''"><a href="#draftTab">حواله </a></li>
                                 <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
                                 <li class="tabs-title"><a href="#requestAttachmentsTab">پیوست ها </a></li>
                             </ul>
                             <div class="tabs-content inner-vh" data-tabs-content="request_tab_view">
                                 <!--Tab 1-->
-                                <div class="tabs-panel table-mrg-btm" :class="requestLevel == 'REQUEST' ? 'is-active' : ''" id="requestDetailTab">
-                                    <rDetails v-bind:requestTypeDetail="requestTypeDetail"
-                                              v-bind:requestFill="requestFill"
-                                              v-bind:commodityList="commodityList"
+                                <div class="tabs-panel table-mrg-btm" :class="selectedRequest.request_level.rlLevel == 'REQUEST' ? 'is-active' : ''" id="requestDetailTab">
+                                    <rDetails v-bind:requestTypeDetail="selectedRequest.request_type.rtType"
+                                              v-bind:requestFill="selectedRequest"
+                                              v-bind:commodityList="selectedRequest.request_commodity"
                                               v-on:setRepoExistCountParent="setRepoExistCount"
                                     >
                                     </rDetails>
@@ -647,7 +647,7 @@
                                 <!--Tab 2-->
                                 <div style="height: 63vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="requestVerifiersTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
-                                        <div v-for="verifier in verifiers" class="large-12 medium-12 small-12 verifier-panel">
+                                        <div v-for="verifier in selectedRequest.verifiers" class="large-12 medium-12 small-12 verifier-panel">
                                             <div class="grid-x">
                                                 <div class="large-1 medium-1 small-12">
                                                     <img style="width: 60px;height: 60px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="verifier.user.avatarPath != null ? baseURL + verifier.user.avatarPath : $parent.baseAvatar">
@@ -666,16 +666,16 @@
                                 </div>
                                 <!--Tab 2-->
                                 <!--Tab 3-->
-                                <div class="tabs-panel table-mrg-btm" :class="requestLevel == 'FINANCIAL' ? 'is-active' : ''" id="creditsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                    <rCredits v-if="isFromRefund != true" v-on:closeModal="showRequestDetailModal=false"
+                                <div class="tabs-panel table-mrg-btm" :class="selectedRequest.request_level.rlLevel == 'FINANCIAL' ? 'is-active' : ''" id="creditsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <rCredits v-if="selectedRequest.isFromRefundCosts != true" v-on:closeModal="showRequestDetailModal=false"
                                               v-on:updateReceiveRequestData="updateReceiveRequestData"
                                               v-on:updateCommitmentAmount="updateCommitmentAmount"
                                               v-bind:baseAmount="baseAmount"
-                                              v-bind:requestType="requestType"
-                                              v-bind:requestFill="requestFill"
-                                              v-bind:UserIsVerifier="UserIsVerifier"
+                                              v-bind:requestType="selectedRequest.request_type.rtType"
+                                              v-bind:requestFill="selectedRequest"
+                                              v-bind:UserIsVerifier="selectedRequest.rRemainingVerifiers"
                                               v-bind:requestId="requestId"
-                                              v-bind:factorCount="factors.length">
+                                              v-bind:factorCount="selectedRequest.factor.length">
                                     </rCredits>
                                     <div v-else class="text-center inner-vh-unsize" style="height: 60vh;display: table">
                                         <div style="display: table-cell; vertical-align: middle;">
@@ -690,69 +690,71 @@
                                 </div>
                                 <!--Tab 3-->
                                 <!--Tab 4-->
-                                <div class="tabs-panel table-mrg-btm" :class="requestLevel == 'PURCHASE_AND_CONTRACT' ? 'is-active' : ''" id="contractTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                    <rContract v-if="requestType == 'BUY_SERVICES'"
+                                <div class="tabs-panel table-mrg-btm" :class="selectedRequest.request_level.rlLevel == 'PURCHASE_AND_CONTRACT' ? 'is-active' : ''" id="contractTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <rContract v-if="selectedRequest.request_type.rtType == 'BUY_SERVICES'"
                                                v-on:closeModal="showRequestDetailModal=false"
                                                v-on:updateReceiveRequestData="updateReceiveRequestData"
                                                v-bind:requestId="requestId"
-                                               v-bind:contracts="contracts"
-                                               v-bind:requestSubject="requestSubject"
-                                               v-bind:rCreditIsAccepted="rCreditIsAccepted"
-                                               v-bind:rCostEstimation="requestFill.rCostEstimation"
-                                               v-bind:rCreditIsExist="rCreditIsExist">
+                                               v-bind:contracts="selectedRequest.contract"
+                                               v-bind:requestSubject="selectedRequest.rSubject"
+                                               v-bind:rCreditIsAccepted="selectedRequest.rCreditIsAccepted"
+                                               v-bind:rCostEstimation="selectedRequest.rCostEstimation"
+                                               v-bind:rCreditIsExist="selectedRequest.rCreditIsExist">
                                     </rContract>
                                 </div>
                                 <!--Tab 4-->
                                 <!--Tab 5-->
-                                <div class="tabs-panel table-mrg-btm" :class="requestLevel == 'PURCHASE_AND_CONTRACT' ? 'is-active' : ''" id="factorTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                                    <rFactor v-if="requestType == 'BUY_COMMODITY'"
+                                <div class="tabs-panel table-mrg-btm" :class="selectedRequest.request_level.rlLevel == 'PURCHASE_AND_CONTRACT' ? 'is-active' : ''" id="factorTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                    <rFactor v-if="selectedRequest.request_type.rtType == 'BUY_COMMODITY'"
                                              v-on:closeModal="showRequestDetailModal=false"
                                              v-on:updateReceiveRequestData="updateReceiveRequestData"
                                              v-bind:requestId="requestId"
-                                             v-bind:factors="factors"
-                                             v-bind:rCreditIsAccepted="rCreditIsAccepted"
-                                             v-bind:rCreditIsExist="rCreditIsExist"
-                                             v-bind:isFromRefundCosts="isFromRefund">
+                                             v-bind:factors="selectedRequest.factor"
+                                             v-bind:rCreditIsAccepted="selectedRequest.rCreditIsAccepted"
+                                             v-bind:rCreditIsExist="selectedRequest.rCreditIsExist"
+                                             v-bind:isFromRefundCosts="selectedRequest.isFromRefundCosts">
                                     </rFactor>
                                 </div>
                                 <!--Tab 5-->
                                 <!--Tab 6-->
-                                <div v-if="requestType == 'BUY_SERVICES'" class="tabs-panel table-mrg-btm" :class="requestLevel == 'PAYMENT' ? 'is-active' : ''" id="payRequestTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div v-if="selectedRequest.request_type.rtType == 'BUY_SERVICES'" class="tabs-panel table-mrg-btm" :class="selectedRequest.request_level.rlLevel == 'PAYMENT' ? 'is-active' : ''" id="payRequestTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <r-pay-request
                                             v-on:closeModal="showRequestDetailModal=false"
                                             v-on:updateReceiveRequestData="updateReceiveRequestData"
                                             v-on:openReferralsModal="openReferralsModal"
                                             v-on:openResponseRequestModal="openResponseRequestModal"
                                             v-bind:requestId="requestId"
-                                            v-bind:payRequests="payRequests"
-                                            v-bind:lastRefPrId="lastRefPrId"
-                                            v-bind:contracts="contracts"
-                                            v-bind:factors="factors"
-                                            v-bind:rAcceptedAmount="rAcceptedAmount"
-                                            v-bind:rCommitmentAmount="rCommitmentAmount"
-                                            v-bind:requestType="requestType"
-                                            v-bind:drafts="drafts"
-                                            v-bind:sumOfDraftAmount="rSumOfDraftAmount"
+                                            v-bind:payRequests="selectedRequest.pay_request"
+                                            v-bind:lastRefPrId="selectedRequest.rLastRef.rhPrId"
+                                            v-bind:contracts="selectedRequest.contract"
+                                            v-bind:factors="selectedRequest.factor"
+                                            v-bind:rAcceptedAmount="selectedRequest.rAcceptedAmount"
+                                            v-bind:rCommitmentAmount="selectedRequest.rCommitmentAmount"
+                                            v-bind:requestType="selectedRequest.request_type.rtType"
+                                            v-bind:drafts="selectedRequest.draft"
+                                            v-bind:sumOfDraftAmount="selectedRequest.rSumOfDraftAmount"
                                             v-bind:paymentRequestAmount="paymentRequestAmount"
                                     >
                                     </r-pay-request>
                                 </div>
                                 <!--Tab 6-->
                                 <!--Tab 6-->
-                                <div class="tabs-panel table-mrg-btm" :class="requestLevel == 'DRAFT' ? 'is-active' : ''" id="draftTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div class="tabs-panel table-mrg-btm" :class="selectedRequest.request_level.rlLevel == 'DRAFT' ? 'is-active' : ''" id="draftTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <rDraft  v-on:closeModal="showRequestDetailModal=false"
                                              v-on:updateReceiveRequestData="updateReceiveRequestData"
                                              v-on:openReferralsModal="openReferralsModal"
                                              v-on:openResponseRequestModal="openResponseRequestModal"
                                              v-bind:requestId="requestId"
-                                             v-bind:contracts="contracts"
-                                             v-bind:factors="factors"
-                                             v-bind:rAcceptedAmount="rAcceptedAmount"
-                                             v-bind:rCommitmentAmount="rCommitmentAmount"
-                                             v-bind:requestType="requestType"
-                                             v-bind:drafts="drafts"
-                                             v-bind:sumOfDraftAmount="rSumOfDraftAmount"
-                                             v-bind:lastRefDId="lastRefDId">
+                                             v-bind:contracts="selectedRequest.contract"
+                                             v-bind:factors="selectedRequest.factor"
+                                             v-bind:rAcceptedAmount="selectedRequest.rAcceptedAmount"
+                                             v-bind:rCommitmentAmount="selectedRequest.rCommitmentAmount"
+                                             v-bind:requestType="selectedRequest.request_type.rtType"
+                                             v-bind:drafts="selectedRequest.draft"
+                                             v-bind:sumOfDraftAmount="selectedRequest.rSumOfDraftAmount"
+                                             v-bind:lastRefDId="selectedRequest.rLastRef.rhDId"
+                                             v-bind:resultType="'RECEIVED'"
+                                             v-bind:searchValue="''">
                                     </rDraft>
                                 </div>
                                 <!--Tab 6-->
@@ -760,7 +762,7 @@
                                 <div style="height: 63vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="requestHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 large-top-m">
-                                            <div style="margin-top:-50px;" v-for="recipientUser in recipientUsers" class="grid-x timeline">
+                                            <div style="margin-top:-50px;" v-for="recipientUser in selectedRequest.history" class="grid-x timeline">
                                                 <div class="large-12 medium-12 small-12 timeline-item">
                                                     <div class="grid-x">
                                                         <div class="large-3 medium-3 small-12">
@@ -822,7 +824,7 @@
                                         </div>
                                         <div class="medium-12">
                                             <div class="grid-x">
-                                                <div style="margin-top: 15px;margin-bottom: 15px;" v-for="(attachment, index) in attachments" class="large-3 medium-4 small-12 padding-lr">
+                                                <div style="margin-top: 15px;margin-bottom: 15px;" v-for="(attachment, index) in receiveRequests[selectedBuffer].data[selectedIndex].attachment" class="large-3 medium-4 small-12 padding-lr">
                                                     <div class="format-card">
                                                         <a  v-bind:href="attachment.aPath" target="_blank">
                                                             <div style="padding:15px;" class="text-center">
@@ -874,9 +876,9 @@
                         <div class="large-12 medium-12 small-12 medium-top-m" style="z-index: 4;">
                             <div style="margin-bottom:-10px;" class="stacked-for-small button-group">
                                 <button @click="openSubmitRequestModal()" v-if=" youAreVerifier != '' "  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
-                                <button v-show='$can("SECRETARIAT_REGISTER_AND_NUMBERING") && rLetterNumber == null && rLetterDate == null' style="width:130px;" @click="openRegisterAndNumberingModal()" class="my-button my-success"><span class="btn-txt-mrg">  ثبت دبیرخانه</span></button>
+                                <button v-show='$can("SECRETARIAT_REGISTER_AND_NUMBERING") && selectedRequest.rLetterNumber == null && selectedRequest.rLetterDate == null' style="width:130px;" @click="openRegisterAndNumberingModal()" class="my-button my-success"><span class="btn-txt-mrg">  ثبت دبیرخانه</span></button>
                                 <button @click="openReferralsModal()"  class="my-button toolbox-btn"><span class="btn-txt-mrg">  ارجاع</span></button>
-                                <button @click="openResponseRequestModal()" v-show="canResponse == true" class="my-button toolbox-btn"><span class="btn-txt-mrg">  پاسخ</span></button>
+                                <button @click="openResponseRequestModal()" v-show="selectedRequest.rLastRef.rhIsReferral == true" class="my-button toolbox-btn"><span class="btn-txt-mrg">  پاسخ</span></button>
                                 <button v-show="$can('REQUEST_CLOSED')" @click="openTerminateModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">خاتمه</span></button>
                                 <button v-show="$can('REQUEST_BLOCK')" @click="openBlockModal()" class="my-button toolbox-btn"><span class="btn-txt-mrg">مسدود</span></button>
                             </div>
@@ -935,7 +937,7 @@
             <div  slot="body">
                 <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div class="grid-x">
-                        <template v-if="UserIsVerifier.length <= 0">
+                        <template v-if="selectedRequest.rRemainingVerifiers.length <= 0">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <p class="black-color">آیا برای تایید درخواست اطمینان دارید؟ </p>
                             </div>
@@ -946,11 +948,11 @@
                                 <button @click="acceptRequest()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
                             </div>
                         </template>
-                        <template v-if="UserIsVerifier.length > 0">
+                        <template v-if="selectedRequest.rRemainingVerifiers.length > 0">
                             <div class="large-12 medium-12 small-12 padding-lr text-center">
                                 <p class="modal-text">تایید کنندگان زیر تاکنون درخواست مورد نظر را تایید نکرده اند. در حال حاضر شما امکان تایید درخواست را ندارید. </p>
                             </div>
-                            <div v-for="UserVerifier in UserIsVerifier" class="large-12 medium-12 small-12 verifier-panel">
+                            <div v-for="UserVerifier in selectedRequest.rRemainingVerifiers" class="large-12 medium-12 small-12 verifier-panel">
                                 <div class="grid-x">
                                     <div class="large-2 medium-2 small-12">
                                         <img style="width: 60px;height: 60px;margin-top: 10px;margin-bottom: 10px;" class="profile-image-cover-index profile-image-cover-pos" :src="UserVerifier.user.avatarPath != null ?baseURL + UserVerifier.user.avatarPath : $parent.baseAvatar">
@@ -995,8 +997,8 @@
                     <div class="grid-x">
                         <div class="large-12 medium-12 small-12 padding-lr response-panel">
                             <p class="modal-text response-header">پاسخ به :</p>
-                            <p class="gray-colors">{{referralDescription}}</p>
-                            <p style="margin-bottom:-10px;color:#9E9E9E;" class="direction-ltr small-font"><span class="black-color">ارجاع دهنده : </span> {{referralDestination}}</p>
+                            <p class="gray-colors">{{selectedRequest.rLastRef.rhDescription}}</p>
+                            <p style="margin-bottom:-10px;color:#9E9E9E;" class="direction-ltr small-font"><span class="black-color">ارجاع دهنده : </span> {{selectedRequest.rLastRef.source_user_info.name + ' - ' + selectedRequest.rLastRef.source_user_info.role.rSubject}}</p>
 
                         </div>
                         <div class="large-12 medium-12 small-12 small-top-m">
@@ -1125,14 +1127,12 @@
         },
         data () {
             return {
-                attachments:[],
+                selectedBuffer: '',
+                selectedIndex: -1,
+                selectedRequest:{},
                 attachmentIdForDelete: 0,
                 showLoaderProgress:false,
-                receiveRequests_REQUEST:[],
-                receiveRequests_FINANCIAL:[],
-                receiveRequests_PURCHASE_AND_CONTRACT:[],
-                receiveRequests_PAYMENT:[],
-                receiveRequests_DRAFT:[],
+                receiveRequests: {REQUEST:{data:[]},FINANCIAL:{data:[]},PURCHASE_AND_CONTRACT:{data:[]},PAYMENT:{data:[]},DRAFT:{data:[]}},
                 costTemp:'',
                 showRequestDetailModal:false,
                 showReferralsModal:false,
@@ -1145,56 +1145,30 @@
                 showTerminateModal: false,
                 dialogMessage: '',
                 receiveRequestSearchValue:'',
-                requestTypeDetail:'',
-                requestFill:{},
                 blockInput:{},
                 terminateInput: {},
-                commodityList:[],
-                recipientUsers:[],
-                UserIsVerifier:[],
                 remainingVerifiers:[],
-                verifiers:[],
                 groupUsers:[],
                 groupUsersByCId:[],
                 referralPermission:false,
                 referralInput:{},
-                isPaid: false,
-                lastVerifier:'',
                 youAreVerifier:'',
                 youAreVerifierCId:'',
                 responseDescription:'',
-                referralDestination:'',
-                canResponse:'',
                 baseURL:window.hostname+'/',
                 repoExistCount:[],
                 commodityCount:'',
                 registerDate: '',
                 requestId: '',
                 letterNumber: '',
-                requestType:'',
                 money: {
                     thousands: ',',
                     decimal:'.',
                     masked: true
                 },
-                requestLevel: '',
-
-                /*credits*/
-
                 baseAmount:0,
-
-                /*credits*/
-
-                contracts:[],
-
-                rCreditIsAccepted: true,
-                rCreditIsExist: false,
-
-                factors:[],
-
                 maxInputValue:0,
                 updateDataThreadNowPlaying: null,
-
                 received_pagination_REQUEST: {
                     total: 0,
                     to: 0,
@@ -1219,33 +1193,12 @@
                     current_page: 1,
                     last_page: ''
                 },
-                isFromRefund: false,
-
-                drafts:[],
-                payRequests: [],
                 draftIsExist: false,
                 rCostEstimation:0,
-                rAcceptedAmount:0,
 
-                rr_REQUEST_Unreads:0,
-                rr_FINANCIAL_Unreads:0,
-                rr_PURCHASE_AND_CONTRACT_Unreads:0,
-                rr_PAYMENT_Unreads:0,
-                rr_REQUEST_Reads:0,
-                rr_FINANCIAL_Reads:0,
-                rr_PURCHASE_AND_CONTRACT_Reads:0,
-                rr_PAYMENT_Reads:0,
-                rr_DRAFT_Unreads: 0,
-                rr_DRAFT_Reads: 0,
                 referralDId: null,
                 referralPrId: null,
-                rLetterNumber: null,
-                rLetterDate: null,
-                rSumOfDraftAmount: 0,
-                lastRefPrId: -1,
-                lastRefDId: -1,
                 paymentRequestAmount:0,
-                requestSubject:'',
             }
         },
 
@@ -1269,164 +1222,106 @@
             console.log('...................................... kill update data thread');
         },
 
+        watch:{
+            receiveRequests: function (newValue , oldValue) {
+                if (this.selectedIndex != -1)
+                {
+                    this.selectedRequest = newValue[this.selectedBuffer].data[this.selectedIndex];
+                    this.requestId = this.selectedRequest.id;
+                    this.getBaseAmount();
+                    this.getDraftIsExist();
+                    this.getIamVerifier();
+                }
+            }
+        },
+
         methods: {
             setRepoExistCount:function(cECount){
                 this.repoExistCount=cECount;
             },
 
-            updateReceiveRequestData: function(requests , rId){
+            updateReceiveRequestData: function(requests){
                 this.loadReceivedData(requests);
-                this.receiveRequests_REQUEST.forEach(rec => {
-                    if (rec.id == rId)
-                    {
-                        this.getRequestDetail(rec);
-                        return;
-                    }
-                });
-                this.receiveRequests_FINANCIAL.forEach(rec => {
-                    if (rec.id == rId)
-                    {
-                        this.getRequestDetail(rec);
-                        return;
-                    }
-                });
-                this.receiveRequests_PURCHASE_AND_CONTRACT.forEach(rec => {
-                    if (rec.id == rId)
-                    {
-                        this.getRequestDetail(rec);
-                        return;
-                    }
-                });
-                this.receiveRequests_PAYMENT.forEach(rec => {
-                    if (rec.id == rId)
-                    {
-                        this.getRequestDetail(rec);
-                        return;
-                    }
-                });
-                this.receiveRequests_DRAFT.forEach(rec => {
-                    if (rec.id == rId)
-                    {
-                        this.getRequestDetail(rec);
-                        return;
-                    }
-                });
                 this.makePagination(requests);
             },
 
             loadReceivedData: function(requests){
-                var REQUEST_UnreadsTemp=0;
-                var FINANCIAL_UnreadsTemp=0;
-                var PURCHASE_AND_CONTRACT_UnreadsTemp=0;
-                var PAYMENT_UnreadsTemp=0;
-                var REQUEST_ReadsTemp=0;
-                var FINANCIAL_ReadsTemp=0;
-                var PURCHASE_AND_CONTRACT_ReadsTemp=0;
-                var PAYMENT_ReadsTemp=0;
-                var DRAFT_ReadsTemp=0;
-                var DRAFT_UnreadsTemp=0;
+                var unreadCount = 0;
+                var readCount = 0;
 
-                this.receiveRequests_REQUEST = requests.REQUEST.data;
-                this.receiveRequests_REQUEST.forEach(item =>{
+                requests.REQUEST.data.forEach(item =>{
                     if(item.rLastRef.rhHasBeenSeen == 0){
-                        REQUEST_UnreadsTemp += 1;
+                        unreadCount += 1;
                     }
                     if(item.rLastRef.rhHasBeenSeen == 1){
-                        REQUEST_ReadsTemp += 1;
+                        readCount += 1;
                     }
                 });
-                this.rr_REQUEST_Unreads=REQUEST_UnreadsTemp;
-                this.rr_REQUEST_Reads=REQUEST_ReadsTemp;
 
-                this.receiveRequests_FINANCIAL = requests.FINANCIAL.data;
-                this.receiveRequests_FINANCIAL.forEach(item =>{
+                Vue.set(requests.REQUEST , 'unreadCount' , unreadCount);
+                Vue.set(requests.REQUEST , 'readCount' , readCount);
+                /////////////////////////////////////
+                unreadCount = 0;
+                readCount = 0;
+                requests.FINANCIAL.data.forEach(item =>{
                     if(item.rLastRef.rhHasBeenSeen == 0){
-                        FINANCIAL_UnreadsTemp += 1;
+                        unreadCount += 1;
                     }
                     if(item.rLastRef.rhHasBeenSeen == 1){
-                        FINANCIAL_ReadsTemp += 1;
+                        readCount += 1;
                     }
                 });
-                this.rr_FINANCIAL_Unreads=FINANCIAL_UnreadsTemp;
-                this.rr_FINANCIAL_Reads=FINANCIAL_ReadsTemp;
 
-                this.receiveRequests_PURCHASE_AND_CONTRACT = requests.PURCHASE_AND_CONTRACT.data;
-                this.receiveRequests_PURCHASE_AND_CONTRACT.forEach(item =>{
+                Vue.set(requests.FINANCIAL , 'unreadCount' , unreadCount);
+                Vue.set(requests.FINANCIAL , 'readCount' , readCount);
+                //////////////////////////////////////
+                unreadCount = 0;
+                readCount = 0;
+                requests.PURCHASE_AND_CONTRACT.data.forEach(item =>{
                     if(item.rLastRef.rhHasBeenSeen == 0){
-                        PURCHASE_AND_CONTRACT_UnreadsTemp += 1;
+                        unreadCount += 1;
                     }
                     if(item.rLastRef.rhHasBeenSeen == 1){
-                        PURCHASE_AND_CONTRACT_ReadsTemp += 1;
+                        readCount += 1;
                     }
                 });
-                this.rr_PURCHASE_AND_CONTRACT_Unreads=PURCHASE_AND_CONTRACT_UnreadsTemp;
-                this.rr_PURCHASE_AND_CONTRACT_Reads=PURCHASE_AND_CONTRACT_ReadsTemp;
 
-                this.receiveRequests_PAYMENT = requests.PAYMENT.data;
-                this.receiveRequests_PAYMENT.forEach(item =>{
+                Vue.set(requests.PURCHASE_AND_CONTRACT , 'unreadCount' , unreadCount);
+                Vue.set(requests.PURCHASE_AND_CONTRACT , 'readCount' , readCount);
+                //////////////////////////////////////
+                unreadCount = 0;
+                readCount = 0;
+                requests.PAYMENT.data.forEach(item =>{
                     if(item.rLastRef.rhHasBeenSeen == 0){
-                        PAYMENT_UnreadsTemp += 1;
+                        unreadCount += 1;
                     }
                     if(item.rLastRef.rhHasBeenSeen == 1){
-                        PAYMENT_ReadsTemp += 1;
+                        readCount += 1;
                     }
                 });
-                this.rr_PAYMENT_Unreads=PAYMENT_UnreadsTemp;
-                this.rr_PAYMENT_Reads=PAYMENT_ReadsTemp;
 
-                this.receiveRequests_DRAFT = requests.DRAFT.data;
-                this.receiveRequests_DRAFT.forEach(item =>{
+                Vue.set(requests.PAYMENT , 'unreadCount' , unreadCount);
+                Vue.set(requests.PAYMENT , 'readCount' , readCount);
+                //////////////////////////////////////
+                unreadCount = 0;
+                readCount = 0;
+                requests.DRAFT.data.forEach(item =>{
                     if(item.rLastRef.rhHasBeenSeen == 0){
-                        DRAFT_UnreadsTemp += 1;
+                        unreadCount += 1;
                     }
                     if(item.rLastRef.rhHasBeenSeen == 1){
-                        DRAFT_ReadsTemp += 1;
+                        readCount += 1;
                     }
                 });
-                this.rr_DRAFT_Unreads=DRAFT_UnreadsTemp;
-                this.rr_DRAFT_Reads=DRAFT_ReadsTemp;
+
+                Vue.set(requests.DRAFT , 'unreadCount' , unreadCount);
+                Vue.set(requests.DRAFT , 'readCount' , readCount);
+                this.receiveRequests = requests;
+                console.log(JSON.stringify(this.receiveRequests));
             },
 
-            updateCommitmentAmount: function(amount , rId){
-                this.receiveRequests_REQUEST.forEach(item => {
-                    if (item.id == rId)
-                    {
-                        item.rCommitmentAmount = amount;
-                        return;
-                    }
-                });
-
-                this.receiveRequests_FINANCIAL.forEach(item => {
-                    if (item.id == rId)
-                    {
-                        item.rCommitmentAmount = amount;
-                        return;
-                    }
-                });
-
-                this.receiveRequests_PURCHASE_AND_CONTRACT.forEach(item => {
-                    if (item.id == rId)
-                    {
-                        item.rCommitmentAmount = amount;
-                        return;
-                    }
-                });
-
-                this.receiveRequests_PAYMENT.forEach(item => {
-                    if (item.id == rId)
-                    {
-                        item.rCommitmentAmount = amount;
-                        return;
-                    }
-                });
-
-                this.receiveRequests_DRAFT.forEach(item => {
-                    if (item.id == rId)
-                    {
-                        item.rCommitmentAmount = amount;
-                        return;
-                    }
-                });
+            updateCommitmentAmount: function(amount){
+                this.selectedRequest.rCommitmentAmount = amount;
             },
 
             makePagination: function(data){
@@ -1491,11 +1386,37 @@
                     });
             },
 
+            getDraftIsExist: function(){
+                this.draftIsExist = false;
+                this.selectedRequest.draft.forEach(draft => {
+                    if (draft.draft_state.dsState != 'BLOCKED')
+                    {
+                        this.draftIsExist = true;
+                    }
+                });
+            },
 
-            getRequestDetail: function (request) {
-                if(request.rLastRef.rhHasBeenSeen==false) {
+            getBaseAmount: function(){
+                if (this.selectedRequest.rAcceptedAmount > 0)
+                    this.baseAmount= this.selectedRequest.rAcceptedAmount;
+                else
+                    this.baseAmount= this.selectedRequest.rCostEstimation;
+            },
+
+            getIamVerifier: function(){
+                if(this.selectedRequest.rYouAreVerifiers.length != 0){
+                    this.youAreVerifier=this.selectedRequest.rYouAreVerifiers[0].id;
+                    this.youAreVerifierCId=this.selectedRequest.rYouAreVerifiers[0].request_step.rstCId;
+                }
+            },
+
+            getRequestDetail: function (buffer , index) {
+                this.selectedBuffer = buffer;
+                this.selectedIndex = index;
+                this.selectedRequest = this.receiveRequests[this.selectedBuffer].data[this.selectedIndex];
+                if(this.selectedRequest.rLastRef.rhHasBeenSeen==false) {
                     axios.post('/financial/request/received/was_seen', {
-                        rhId: request.rLastRef.id
+                        rhId: this.selectedRequest.rLastRef.id
                     }).then((response) => {
                         this.loadReceivedData(response.data);
                         this.$parent._getUnReadReceivedRequest();
@@ -1505,107 +1426,11 @@
                         console.log(error);
                     });
                 }
+                this.requestId = this.selectedRequest.id;
+                this.getBaseAmount();
+                this.getDraftIsExist();
+                this.getIamVerifier();
                 this.showRequestDetailModal=true;
-                this.recipientUsers=[];
-                this.verifiers=[];
-                this.UserIsVerifier=[];
-                this.attachments=[];
-                this.contracts=[];
-                this.factors=[];
-                this.drafts=[];
-                this.payRequests =[];
-                //var requestHistory=[];
-                //requestHistory.push(request);
-                this.requestId=request.id;
-                this.requestSubject = request.rSubject;
-                this.requestType= request.request_type.rtType ;
-                this.rSumOfDraftAmount = request.rSumOfDraftAmount;
-                /*this.requestCostFinancing=[];
-                this.requestCapFinancing=[];
-                this.fetchRequestFinancing();*/
-
-                this.recipientUsers = request.history;
-                this.verifiers = request.verifiers;
-                this.contracts = request.contract;
-                this.factors = request.factor;
-                this.drafts = request.draft;
-                this.payRequests = request.pay_request;
-                this.UserIsVerifier = request.rRemainingVerifiers;
-                this.attachments = request.attachment;
-                this.isPaid = request.rIsPaid;
-                this.draftIsExist = false;
-                this.drafts.forEach(draft => {
-                    if (draft.draft_state.dsState != 'BLOCKED')
-                    {
-                        this.draftIsExist = true;
-                    }
-                });
-
-                this.rLetterNumber = request.rLetterNumber;
-                this.rLetterDate = request.rLetterDate;
-                this.requestLevel = request.request_level.rlLevel;
-                this.lastVerifier=request.rLastRef.id;
-                this.lastRefPrId = request.rLastRef.rhPrId;
-                this.lastRefDId = request.rLastRef.rhDId;
-                this.rCreditIsAccepted = request.rCreditIsAccepted;
-                this.rCreditIsExist = request.rCreditIsExist;
-
-                this.requestType = request.request_type.rtType;
-                this.isFromRefund = request.isFromRefundCosts;
-
-                /* Prop to Draft Component*/
-                this.rCommitmentAmount=request.rCommitmentAmount;
-                this.rAcceptedAmount=request.rAcceptedAmount;
-                /* Prop to Draft Component*/
-
-                if(request.rYouAreVerifiers.length != 0){
-                    this.youAreVerifier=request.rYouAreVerifiers[0].id;
-                    this.youAreVerifierCId=request.rYouAreVerifiers[0].request_step.rstCId;
-                }
-
-                this.referralDescription=request.rLastRef.rhDescription;
-                this.referralDestination=request.rLastRef.source_user_info.name +' - ' +request.rLastRef.source_user_info.role.rSubject;
-                this.canResponse=request.rLastRef.rhIsReferral;
-
-                if (request.rAcceptedAmount > 0)
-                    this.baseAmount= request.rAcceptedAmount;
-                else
-                    this.baseAmount= request.rCostEstimation;
-
-                if (request.request_type.rtType == 'BUY_SERVICES'){
-                    this.requestTypeDetail='SERVICES';
-                    this.requestFill.rLetterNumber=request.rLetterNumber;
-                    this.requestFill.rLetterDate=request.rLetterDate;
-                    this.requestFill.rSubject=request.rSubject;
-                    this.requestFill.rCostEstimation=request.rCostEstimation;
-                    this.requestFill.rDescription=request.rDescription;
-                    this.requestFill.rFurtherDetails=request.rFurtherDetails;
-                    this.requestFill.rAcceptedAmount=request.rAcceptedAmount;
-                }
-                else if (request.request_type.rtType == 'BUY_COMMODITY'){
-                    var commodityTemp=[];
-                    commodityTemp.push(request);
-                    this.commodityList=[];
-                    this.requestTypeDetail='COMMODITY';
-                    this.requestFill.rLetterNumber=request.rLetterNumber;
-                    this.requestFill.rLetterDate=request.rLetterDate;
-                    this.requestFill.rSubject=request.rSubject;
-                    this.requestFill.rCostEstimation=request.rCostEstimation;
-                    this.requestFill.rAcceptedAmount=request.rAcceptedAmount;
-                    commodityTemp.forEach(items => {
-                        items.request_commodity.forEach(commodity => {
-                            this.commodityList.push(commodity);
-                        });
-                    });
-                }
-                else if (request.request_type.rtType == 'FUND'){
-                    this.requestTypeDetail='FUND';
-                    this.requestFill.rLetterNumber=request.rLetterNumber;
-                    this.requestFill.rLetterDate=request.rLetterDate;
-                    this.requestFill.rSubject=request.rSubject;
-                    this.requestFill.rCostEstimation=request.rCostEstimation;
-                    this.requestFill.rDescription=request.rDescription;
-                }
             },
 
             openReferralsModal: function (dId = null , prId = null) {
@@ -1622,7 +1447,7 @@
                         axios.post('/financial/request/referral', {
                             acceptPermission: this.referralPermission == true ? 1 : 0,
                             destUId: this.referralInput.destUId,
-                            lastRefId: this.lastVerifier,
+                            lastRefId: this.selectedRequest.rLastRef.id,
                             description: this.referralInput.description,
                             verifierId:this.youAreVerifier,
                             dId:this.referralDId,
@@ -1660,7 +1485,7 @@
                 this.$validator.validateAll().then((result) => {
                     if (result) {
                         axios.post('/financial/request/accept', {
-                            lastRefId: this.lastVerifier,
+                            lastRefId: this.selectedRequest.rLastRef.id,
                             verifierId: this.youAreVerifier,
                             itemExistCount: this.repoExistCount
                         }).then((response) => {
@@ -1688,7 +1513,7 @@
 
             responseRequest: function () {
                 axios.post('/financial/request/response', {
-                    lastRefId: this.lastVerifier,
+                    lastRefId: this.selectedRequest.rLastRef.id,
                     description: this.responseDescription,
                     dId: this.referralDId,
                     prId: this.referralPrId
@@ -1707,7 +1532,7 @@
             },
 
             openRegisterAndNumberingModal: function (){
-                if (this.UserIsVerifier.length == 0)
+                if (this.selectedRequest.rRemainingVerifiers.length == 0)
                     this.showRegisterAndNumberingModal=true;
                 else {
                     this.dialogMessage = 'با توجه به اینکه درخواست تایید نهایی نشده است ثبت در دبیرخانه امکان پذیر نیست! شما می توانید آخرین وضعیت تایید درخواست را از بخش تاییدگنندگان مشاهده کنید.';
@@ -1770,7 +1595,7 @@
 
                     this.data.append('rId', this.requestId);
                     axios.post('/financial/request/attachment/new', this.data).then((response) => {
-                        this.updateReceiveRequestData(response.data , this.requestId);
+                        this.updateReceiveRequestData(response.data);
                         this.showLoaderProgress = false;
                         this.$parent.displayNotif(response.status);
                         console.log(response);
@@ -1796,7 +1621,7 @@
                     rId: this.requestId,
                     id: this.attachmentIdForDelete
                 }).then((response) => {
-                    this.updateReceiveRequestData(response.data , this.requestId);
+                    this.updateReceiveRequestData(response.data);
                     this.$parent.displayNotif(response.status);
                     console.log(response);
                 }, (error) => {
@@ -1838,7 +1663,7 @@
 
             openTerminateModal: function () {
                 this.terminateInput = {};
-                if (this.isPaid)
+                if (this.selectedRequest.rIsPaid)
                     this.showTerminateModal = true;
                 else
                 {

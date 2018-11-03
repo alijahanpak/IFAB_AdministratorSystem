@@ -42,7 +42,7 @@ class CheckController extends Controller
 
     public function generateChecks(Request $request)
     {
-        DB::transaction(function () use($request){
+        $result = DB::transaction(function () use($request){
             $insertedAId = array();
             $i = 0;
             //////////////////////// set base checks ////////////////////////////////
@@ -85,32 +85,39 @@ class CheckController extends Controller
                 ->where('cDId' , '=' , $request->dId)
                 ->delete();
 
-            $req = _Request::with('requestType')->find($request->rId);
-            if ($req->rRtId == RequestType::where('rtType' , '=' ,'BUY_SERVICES')->value('id'))
+            SystemLog::setFinancialSubSystemLog('صدور چک های حواله ' . Draft::find($request->dId)->dFor);
+            $rController = new RequestController();
+            if ($request->resultType == 'RECEIVED')
             {
-                if (!$req->rIsPayRequestClosed)
+                $req = _Request::with('requestType')->find($request->rId);
+                if ($req->rRtId == RequestType::where('rtType' , '=' ,'BUY_SERVICES')->value('id'))
                 {
-                    $req->rRsId = RequestState::where('rsState' , '=' , 'WAITING_FOR_PAY_REQUEST')->value('id');
-                    $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
-                    $req->save();
+                    if (!$req->rIsPayRequestClosed)
+                    {
+                        $req->rRsId = RequestState::where('rsState' , '=' , 'WAITING_FOR_PAY_REQUEST')->value('id');
+                        $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
+                        $req->save();
 
-                    // make history for this request
-                    $history = new RequestHistory();
-                    $history->rhSrcUId = Auth::user()->id;
-                    $history->rhDestUId = null; // for secretariat destination
-                    $history->rhRId = $req->id;
-                    $history->rhRsId = $req->rRsId;
-                    $history->save();
+                        // make history for this request
+                        $history = new RequestHistory();
+                        $history->rhSrcUId = Auth::user()->id;
+                        $history->rhDestUId = null; // for secretariat destination
+                        $history->rhRId = $req->id;
+                        $history->rhRsId = $req->rRsId;
+                        $history->save();
+                    }
                 }
+
+                return \response()->json(
+                    $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+                );
+            }else if ($request->resultType == 'SEARCH'){
+                return $rController->normalSearch($request);
             }
 
-            SystemLog::setFinancialSubSystemLog('صدور چک های حواله ' . Draft::find($request->dId)->dFor);
         });
 
-        $rController = new RequestController();
-        return \response()->json(
-            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
-        );
+        return $result;
     }
 
 /*    public function generateChecks(Request $request)

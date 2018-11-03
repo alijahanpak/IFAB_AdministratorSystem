@@ -407,7 +407,7 @@
                     axios.post('/financial/payment_request/was_seen', {
                         rhId: payRequest.prLastRef.id
                     }).then((response) => {
-                        this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                        this.$emit('updateReceiveRequestData' , response.data);
                         console.log(response);
                     }, (error) => {
                         console.log(error);
@@ -439,7 +439,7 @@
                     rId: this.requestId,
                     prvId:this.verifierId
                 }).then((response) => {
-                    this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                    this.$emit('updateReceiveRequestData' , response.data);
                     this.$emit('closeModal');
                     this.$root.displayNotif(response.status);
                     console.log(response);
@@ -481,7 +481,7 @@
                             description: this.blockInput.description
                         })
                             .then((response) => {
-                                this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                                this.$emit('updateReceiveRequestData' , response.data);
                                 if (this.payRequestId == this.lastRefPrId)
                                     this.$emit('closeModal');
                                 else{
@@ -514,7 +514,7 @@
                     letterDate: this.registerDate,
                     letterNumber: this.letterNumber
                 }).then((response) => {
-                    this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                    this.$emit('updateReceiveRequestData' , response.data);
                     this.$emit('closeModal');
                     this.showRegisterAndNumberingModal = false;
                     this.$root.displayNotif(response.status);
@@ -666,7 +666,7 @@
                                 amount: this.draftBaseAmount,
                                 verifierId: this.draftInput.verifierId
                             }).then((response) => {
-                                this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                                this.$emit('updateReceiveRequestData' , response.data);
                                 this.$emit('closeModal');
                                 this.showInsertDraftModal = false;
                                 this.$root.displayNotif(response.status);

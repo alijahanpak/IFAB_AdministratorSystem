@@ -286,7 +286,7 @@
                 axios.post('/financial/request/factor/accept', {
                     rId: this.requestId,
                 }).then((response) => {
-                    this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                    this.$emit('updateReceiveRequestData' , response.data);
                     this.$emit('closeModal');
                     this.$root.displayNotif(response.status);
                     console.log(response);
@@ -302,7 +302,7 @@
                     fId: this.fIdForDelete,
                 }).then((response) => {
                     if (response.status == 200)
-                        this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                        this.$emit('updateReceiveRequestData' , response.data);
                     this.showDeleteConfirmModal = false;
                     this.$root.displayNotif(response.status);
                     console.log(response);
@@ -358,7 +358,7 @@
                             amount: parseInt(this.factorInput.amount.split(',').join(''),10),
                             description: this.factorInput.description,
                         }).then((response) => {
-                            this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                            this.$emit('updateReceiveRequestData' , response.data);
                             this.showInsertFactorModal = false;
                             this.$root.displayNotif(response.status);
                             console.log(response);

@@ -378,6 +378,13 @@ class RequestController extends Controller
                     ->with('check.percentageDecrease');
             }])
             ->with('attachment')
+            ->with('contract.executor')
+            ->with('factor.seller')
+            ->with('factor.factorState')
+            ->with('draft.verifier.user.role')
+            ->with('draft.check.percentageDecrease')
+            ->with('draft.check.checkState')
+            ->with('draft.draftState')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
         return response()->json($result);

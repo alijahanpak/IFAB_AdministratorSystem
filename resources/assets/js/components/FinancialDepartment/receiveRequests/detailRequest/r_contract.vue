@@ -537,7 +537,7 @@
                 axios.post('/financial/request/contract/accept', {
                     rId: this.requestId,
                 }).then((response) => {
-                    this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                    this.$emit('updateReceiveRequestData' , response.data);
                     this.$emit('closeModal');
                     this.$root.displayNotif(response.status);
                     console.log(response);
@@ -553,7 +553,7 @@
                     cId: this.cIdForDelete,
                 }).then((response) => {
                     if (response.status == 200)
-                        this.$emit('updateReceiveRequestData' , response.data , this.requestId);
+                        this.$emit('updateReceiveRequestData' , response.data);
                     this.showDeleteConfirmModal = false;
                     this.$root.displayNotif(response.status);
                     console.log(response);
@@ -622,7 +622,7 @@
                             description: this.contractInput.description,
                             increaseItems: increaseTemp,
                         }).then((response) => {
-                            this.$emit('updateReceiveRequestData', response.data, this.requestId);
+                            this.$emit('updateReceiveRequestData', response.data);
                             this.showInsertContractModal = false;
                             this.$root.displayNotif(response.status);
                             console.log(response);
