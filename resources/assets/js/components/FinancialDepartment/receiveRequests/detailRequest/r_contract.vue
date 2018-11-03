@@ -19,7 +19,6 @@
                         <col width="110px"/>
                         <col width="300px"/>
                         <col width="150px"/>
-                        <col v-show="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" width="60px"/>
                         <col width="12px"/>
                     </colgroup>
                     <tbody class="tbl-head-style ">
@@ -30,7 +29,6 @@
                         <th class="tbl-head-style-cell">تاریخ نامه</th>
                         <th class="tbl-head-style-cell">شرح</th>
                         <th class="tbl-head-style-cell">وضعیت</th>
-                        <th v-show="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" class="tbl-head-style-cell">عملیات</th>
                         <th class="tbl-head-style-cell"></th>
                     </tr>
                     </tbody>
@@ -46,10 +44,9 @@
                             <col width="110px"/>
                             <col width="300px"/>
                             <col width="150px"/>
-                            <col v-show="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" width="60px"/>
                         </colgroup>
                         <tbody class="tbl-head-style-cell">
-                        <tr class="table-row" v-for="contract in contracts">
+                        <tr class="table-row" v-for="(contract,index) in contracts">
                             <td :data-toggle="'contract' + contract.id">{{contract.cSubject}}</td>
                             <td :data-toggle="'contract' + contract.id" class="text-center">{{$root.dispMoneyFormat(contract.cBaseAmount)}}
                                 <div class="clearfix tool-bar">
@@ -118,9 +115,23 @@
                             <td :data-toggle="'contract' + contract.id" class="text-center">{{contract.cLetterNumber}}</td>
                             <td :data-toggle="'contract' + contract.id" class="text-center">{{contract.cLetterDate}}</td>
                             <td :data-toggle="'contract' + contract.id" class="one-line">{{contract.cDescription}}</td>
-                            <td :data-toggle="'contract' + contract.id" class="text-center" v-show="contract.cIsAccepted == 1"><span class="success-label">تایید شده</span></td>
-                            <td :data-toggle="'contract' + contract.id" class="text-center" v-show="contract.cIsAccepted == 0"><span class="reserved-label">تایید نشده</span></td>
-                            <td v-show="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')" class="text-center"><a @click="openConfirmDeleteContract(contract.id)"><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
+                            <td>
+                                <div class="grid-x">
+                                    <div class="medium-11">
+                                        <div v-show="contract.cIsAccepted == 1"><span class="success-label">تایید شده</span></div>
+                                        <div v-show="contract.cIsAccepted == 0"><span class="reserved-label">تایید نشده</span></div>
+                                    </div>
+                                    <div class="medium-1 cell-vertical-center text-left">
+                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'contractMenu' + contract.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'contractMenu' + contract.id" data-dropdown data-auto-focus="true">
+                                            <ul class="my-menu small-font text-right">
+                                                <li v-show="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')"><a v-on:click.prevent="openUpdateContractModal(index)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                <li v-show="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')"><a @click="openConfirmDeleteContract(contract.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -295,6 +306,169 @@
             </div>
         </modal-small>
         <!--Insert Contract End-->
+
+        <!--Update Contract Start-->
+        <modal-small v-if="showUpdateContractModal" @close="showUpdateContractModal = false">
+            <div  slot="body">
+                <form v-on:submit.prevent="updateContract" >
+                    <div class="small-font">
+                        <div class="grid-x">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <label>عنوان
+                                    <input type="text" name="contractSubject" v-model="contractInput.subject = requestSubject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('contractSubject')}">
+                                </label>
+                                <p v-show="errors.has('contractSubject')" class="error-font">لطفا عنوان را برای قرارداد مورد نظر را وارد نمایید!</p>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="large-8 medium-8 small-12 padding-lr">
+                                <label>مجری
+                                    <suggestions style="margin-bottom: -18px;" name="executorTitle" v-validate :class="{'input': true, 'select-error': errors.has('executorTitle')}"
+                                                 v-model="contractInput.executor"
+                                                 :options="executorOptions"
+                                                 :onInputChange="onExecutorInputChange">
+                                        <div slot="item" slot-scope="props" class="single-item">
+                                            <strong>{{props.item}}</strong>
+                                        </div>
+                                    </suggestions>
+                                </label>
+                            </div>
+                            <div class="large-4 medium-4 small-12 padding-lr">
+                                <label>ضریب پیمان
+                                    <input type="text" dir="ltr" name="contractCoefficient" v-model="contractInput.coefficient" v-validate="'required|integer'" :class="{'input': true, 'error-border': errors.has('contractCoefficient')}">
+                                </label>
+                                <p v-show="errors.has('contractCoefficient')" class="error-font">مقدار نامعتبر است!</p>
+                            </div>
+                        </div>
+                        <div style="margin-top:15px;"  class="grid-x">
+                            <div class="large-6 medium-6 small-12 padding-lr">
+                                <label>مبلغ پایه<span class="btn-red">(ریال)</span>
+                                    <money dir="ltr" :class="checkInputAmount == true ? 'select-error' : ''" @keyup.native="calculateFinalContractAmount()" v-model="contractInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'"></money>
+                                </label>
+                                <p v-show="errors.has('contractAmount')" class="error-font">لطفا مبلغ را برای قرارداد مورد نظر را وارد نمایید!</p>
+                                <p style="margin-top: 8px;" v-show="checkInputAmount" class="btn-red">مبلغ قرارداد نمی تواند کمتر از صفر باشد! </p>
+                            </div>
+                            <div class="large-6 medium-6 small-12 padding-lr">
+                                <label>درصد افزایش و یا کاهش
+                                    <input dir="ltr" type="text" name="contractPercent" v-model="contractInput.percentIncAndDec = 25" readonly v-validate="'required|min_value:0|max_value:25'" :class="{'input': true, 'error-border': errors.has('contractPercent')}">
+                                </label>
+                                <p v-show="errors.has('contractPercent')" class="error-font">مقدار نا معتبر است!</p>
+                            </div>
+                        </div>
+                        <div v-show="displayWarning" class="grid-x"  style="margin-top: -10px; margin-bottom: 10px">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <span class="btn-red size-12">اخطار! </span>
+                                <span class="black-color size-12">کارشناس محترم، مبلغ نهایی قرارداد از مبلغ براورد بیشتر است.</span>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="large-6 medium-6 small-12 padding-lr">
+                                <label>شماره قرارداد
+                                    <input dir="ltr" type="text" name="letterNumber" v-model="contractInput.letterNumber" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('letterNumber')}">
+                                </label>
+                                <p v-show="errors.has('letterNumber')" class="error-font">لطفا شماره قرارداد مورد نظر را وارد نمایید!</p>
+                            </div>
+                            <div class="large-6 medium-6 small-12 padding-lr">
+                                <label>تاریخ قرارداد
+                                    <date-picker
+                                            :color="'#5c6bc0'"
+                                            v-model="contractInput.letterDate"
+                                            input-class="form-control form-control-lg date-picker-bottom-margin"
+                                            id="contract-letterDate-Update"
+                                            placeholder="انتخاب تاریخ">
+                                    </date-picker>
+                                </label>
+                                <p v-show="errors.has('letterDate')" class="error-font">لطفا تاریخ قرارداد مورد نظر را وارد نمایید!</p>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="large-6 medium-6 small-12 padding-lr">
+                                <label>تاریخ شروع
+                                    <date-picker
+                                            :color="'#5c6bc0'"
+                                            v-model="contractInput.startDate"
+                                            input-class="form-control form-control-lg date-picker-bottom-margin"
+                                            id="contract-startDate-Update"
+                                            placeholder="انتخاب تاریخ">
+                                    </date-picker>
+                                </label>
+                            </div>
+                            <div class="large-6 medium-6 small-12 padding-lr">
+                                <label>تاریخ پایان
+                                    <date-picker
+                                            :color="'#5c6bc0'"
+                                            v-model="contractInput.endDate"
+                                            input-class="form-control form-control-lg date-picker-bottom-margin"
+                                            id="contract-endDate-Update"
+                                            placeholder="انتخاب تاریخ">
+                                    </date-picker>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <div class="panel-separator padding-lr">
+                                    <div  v-for="(category , index) in percentageIncreaseCategory" class="grid-x">
+                                        <div class="large-8 medium-8  small-12">
+                                            <div class="grid-x">
+                                                <div class="large-12 medium-12  small-12">
+                                                    <label>{{ category.picSubject }}
+                                                        <select name="percentageIncrease" v-model="contractInput['percentage' + category.id]" v-on:change="calculateAmount(contractInput['percentage' + category.id] , index)">
+                                                            <option value=""></option>
+                                                            <option v-for="pi in category.percentage_increase" :value="pi.id">{{pi.piSubject}} - {{'(' + pi.piPercent + '%)'}}</option>
+                                                        </select>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="large-4 medium-4  small-12 text-left">
+                                            <p style="margin-top: 30px;" class="btn-red text-left">{{$root.dispMoneyFormat(category.amountInc)}} ریال</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="margin-top: -16px;border-top: 1px solid #E0E0E0;" class="panel-separator padding-lr">
+                                    <div class="grid-x">
+                                        <div class="large-9 medium-9 small-12">
+                                            <div class="grid-x">
+                                                <div class="large-12 medium-12  small-12">
+                                                    <p>مبلغ نهایی قرارداد : </p>
+                                                </div>
+                                            </div>
+                                            <div v-show="displayWarning" class="grid-x"  style="margin-top: -10px">
+                                                <div class="large-12 medium-12  small-12">
+                                                    <span class="btn-red size-12">اخطار! </span>
+                                                    <span class="black-color size-12">کارشناس محترم، مبلغ نهایی قرارداد از مبلغ براورد بیشتر است.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="large-3 medium-3  small-12 text-left">
+                                            <p class="btn-red text-left">{{$root.dispMoneyFormat(finalAmount)}} ریال</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top:16px;" class="grid-x">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <label>شرح کامل خدمات
+                                    <textarea style="min-height: 150px;" name="contractDescription" v-model="contractInput.description" v-validate="'required'"  :class="{'input': true, 'error-border': errors.has('contractDescription')}"></textarea>
+                                    <p v-show="errors.has('contractDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</p>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <div class="stacked-for-small button-group float-left">
+                                    <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </modal-small>
+        <!--Update Contract End-->
+
         <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
             {{dialogMessage}}
         </messageDialog>
@@ -343,6 +517,7 @@
                 showInsertContractModal:false,
                 showAcceptConfirmModal: false,
                 showDeleteConfirmModal: false,
+                showUpdateContractModal: false,
                 showDialogModal: false,
                 displayWarning: false,
                 cIdForDelete: 0,
@@ -368,6 +543,8 @@
                 finalAmount:0,
                 positionTemp:0,
                 checkInputAmount:false,
+                selectedContractIndex:'',
+                selectedContract:[],
 
             }
         },
@@ -378,7 +555,11 @@
                     this.displayWarning = true;
                 else
                     this.displayWarning = false;
-            }
+            },
+            percentageIncreaseCategory: function (newValue , oldValue) {
+                this.percentageIncreaseCategory=this.percentageIncreaseCategory;
+            },
+
         },
 
         created: function () {
@@ -632,6 +813,62 @@
                         });
                     }
                 });
+            },
+
+            openUpdateContractModal: function (index) {
+                this.contractInput={};
+                this.selectedContractIndex=index;
+                this.selectedContract=this.contracts[this.selectedContractIndex];
+                this.contractInput.subject=this.contracts[this.selectedContractIndex].cSubject;
+                this.contractInput.executor=this.contracts[this.selectedContractIndex].executor.eSubject;
+                this.contractInput.coefficient=this.contracts[this.selectedContractIndex].cCoefficient;
+                this.contractInput.amount=this.$root.dispMoneyFormat(this.contracts[this.selectedContractIndex].cBaseAmount);
+                this.contractInput.percentIncAndDec=this.contracts[this.selectedContractIndex].cPercentInAndDec;
+                this.contractInput.letterNumber=this.contracts[this.selectedContractIndex].cLetterNumber;
+                this.contractInput.letterDate=this.contracts[this.selectedContractIndex].cLetterDate;
+                this.contractInput.startDate=this.contracts[this.selectedContractIndex].cStartDate;
+                this.contractInput.endDate=this.contracts[this.selectedContractIndex].cEndDate;
+                this.contractInput.description=this.contracts[this.selectedContractIndex].cDescription;
+
+                this.finalAmount=0;
+                this.contractPercentageIncrease();
+                this.increaseItems=[];
+                this.increaseItemsValue=[];
+                this.getAllExecutors();
+
+                this.contracts[this.selectedContractIndex].increase_amount.forEach(item => {
+                    this.percentageIncreaseCategory.forEach((category,index) =>{
+                        category.percentage_increase.forEach(incItem =>{
+                            //alert(item.percentage_increase.id + '--' +incItem.id);
+                            if(item.percentage_increase.id == incItem.id){
+                                //alert(index);
+                                this.contractInput['percentage' + category.id]=item.percentage_increase.id;
+                                //alert( item.icaAmount);
+                                Vue.set(this.percentageIncreaseCategory[index], "amountInc", item.icaAmount);
+                                this.calculateAmount(this.contractInput['percentage' + category.id] ,index);
+                            }
+                        });
+                    });
+                });
+
+                this.showUpdateContractModal=true;
+            },
+
+            updateContract:function () {
+
+            },
+
+            getIncreaseIndex: function (catIndex) {
+                var selectedIndex=0;
+                this.contracts[this.selectedContractIndex].increase_amount.forEach(item => {
+                    this.percentageIncreaseCategory[catIndex].forEach(increase =>{
+                        increase.percentage_increase.forEach((incItem,index) =>{
+                            if(item.percentage_increase.id == incItem.id)
+                                selectedIndex=index;
+                        });
+                    });
+                });
+                return selectedIndex;
             },
         }
     }
