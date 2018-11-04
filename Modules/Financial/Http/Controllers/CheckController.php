@@ -120,41 +120,6 @@ class CheckController extends Controller
         return $result;
     }
 
-/*    public function generateChecks(Request $request)
-    {
-        DB::transaction(function () use($request){
-            $insertedAId = array();
-            $i = 0;
-            $check = _Check::updateOrCreate(['cDId' => $request->dId , 'cPdId' => null , 'cFyId' => Auth::user()->seFiscalYear] , [
-                'cAmount' => $request->baseCheckAmount
-            ]);
-            $insertedAId[$i++] = $check->id;
-
-            //////////////////////// set decrease checks ////////////////////////////////
-            if (is_array($request->get('decreases')))
-            {
-                foreach ($request->get('decreases') as $item)
-                {
-                    $check = _Check::updateOrCreate(['cDId' => $request->dId , 'cPdId' => $item['id'] , 'cFyId' => Auth::user()->seFiscalYear] , [
-                        'cAmount' => $item['amount']
-                    ]);
-                    $insertedAId[$i++] = $check->id;
-                }
-            }
-
-            _Check::whereNotIn('id' , $insertedAId)
-                ->where('cDId' , '=' , $request->dId)
-                ->delete();
-
-            SystemLog::setFinancialSubSystemLog('صدور چک های حواله ' . Draft::find($request->dId)->dFor);
-        });
-
-        $rController = new RequestController();
-        return \response()->json(
-            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
-        );
-    }*/
-
     public function fetchAllChecks(Request $request)
     {
         return response()->json(
@@ -298,75 +263,56 @@ class CheckController extends Controller
             $check->cDeliveryDate = $request->date;
             $check->save();
 
-            $remainingAmount = 0;
+            $checkRemainingAmount = 0;
             $req = _Request::find($check->draft->dRId);
-            if ($req->rRtId != RequestType::where('rtType' , 'FUND')->value('id'))
+            if ($req->rRtId != RequestType::where('rtType' , 'FUND')->value('id')) {
+                $costFinancing = CostFinancing::where('cfRId', $check->draft->dRId)->get()->sortBy('cfRemainingAmount');
+                $capFinancing = CapitalAssetsFinancing::where('cafRId', $check->draft->dRId)->get()->sortBy('cafRemainingAmount');
+
+                do {
+                    $lastModifyCheck = _Check::find($check->id);
+                    $checkRemainingAmount = $check->cAmount - $lastModifyCheck->cSpentAmount;
+                    foreach ($costFinancing as $cf) {
+                        $lastModifyCostFinancing = CostFinancing::where('id', $cf->id)->first();
+                        $calcAmount = $lastModifyCostFinancing->cfRemainingAmount <= $checkRemainingAmount ? $lastModifyCostFinancing->cfRemainingAmount : $checkRemainingAmount;
+
+                        if ($calcAmount > 0) {
+                            $costSpent = new CostSpent();
+                            $costSpent->csCfId = $cf->id;
+                            $costSpent->csCId = $check->id;
+                            $costSpent->csAmount = $calcAmount;
+                            $costSpent->save();
+
+                            $checkRemainingAmount -= $calcAmount;
+                        }
+                    }
+
+                    foreach ($capFinancing as $caf) {
+                        $lastModifyCapFinancing = CapitalAssetsFinancing::find($caf->id);
+                        $calcAmount = $lastModifyCapFinancing->cafRemainingAmount <= $checkRemainingAmount ? $lastModifyCapFinancing->cafRemainingAmount : $checkRemainingAmount;
+
+                        if ($calcAmount > 0) {
+                            $capSpent = new CapSpent();
+                            $capSpent->csCafId = $caf->id;
+                            $capSpent->csCId = $check->id;
+                            $capSpent->csAmount = $calcAmount;
+                            $capSpent->save();
+
+                            $checkRemainingAmount -= $calcAmount;
+                        }
+                    }
+                } while ($checkRemainingAmount > 0);
+            }
+            if ($checkRemainingAmount != 0)
             {
-                $costFinancing = CostFinancing::where('cfRId' , $check->draft->dRId)->get()->sortBy('cfRemainingAmount');
-                $capFinancing = CapitalAssetsFinancing::where('cafRId' , $check->draft->dRId)->get()->sortBy('cafRemainingAmount');
-                $financingCount = count($costFinancing) + count($capFinancing);
-
-                $pieceOfAmount = round($check->cAmount / $financingCount);
-                $remainingAmount = $check->cAmount - ($pieceOfAmount * $financingCount);
-
-                foreach ($costFinancing as $cf)
-                {
-                    if ($cf->cfRemainingAmount >= ($pieceOfAmount + $remainingAmount))
-                    {
-                        $tempAmount = $pieceOfAmount + $remainingAmount;
-                        $remainingAmount = 0;
-                    }else if ($cf->cfRemainingAmount >= $pieceOfAmount){
-                        $tempAmount = $pieceOfAmount;
-                    }else{
-                        $tempAmount = $cf->cfRemainingAmount;
-                        $remainingAmount += $pieceOfAmount - $cf->cfRemainingAmount;
-                    }
-                    if ($tempAmount > 0)
-                    {
-                        $costSpent = new CostSpent();
-                        $costSpent->csCfId = $cf->id;
-                        $costSpent->csCId = $check->id;
-                        $costSpent->csAmount = $tempAmount;
-                        $costSpent->save();
-                    }
-                }
-
-                foreach ($capFinancing as $caf)
-                {
-                    if ($caf->cafRemainingAmount >= ($pieceOfAmount + $remainingAmount))
-                    {
-                        $tempAmount = $pieceOfAmount + $remainingAmount;
-                        $remainingAmount = 0;
-                    }else if ($caf->cafRemainingAmount >= $pieceOfAmount){
-                        $tempAmount = $pieceOfAmount;
-                    }else{
-                        $tempAmount = $caf->cafRemainingAmount;
-                        $remainingAmount += $pieceOfAmount - $caf->cafRemainingAmount;
-                    }
-
-                    if ($tempAmount > 0)
-                    {
-                        $capSpent = new CapSpent();
-                        $capSpent->csCafId = $caf->id;
-                        $capSpent->csCId = $check->id;
-                        $capSpent->csAmount = $tempAmount;
-                        $capSpent->save();
-                    }
-                }
+                throw new \Exception(500);
             }
-
-            if ($remainingAmount != 0)
-                return 500;
             else{
-                SystemLog::setFinancialSubSystemLog('تحویل چک ' .  $check->draft->dFor);
-                return 200;
+                SystemLog::setFinancialSubSystemLog('تحویل چک شماره ' .  $check->cIdNumber);
+                return response()->json($this->getAllChecks($request->searchValue));
             }
-
         });
 
-        return response()->json(
-            $this->getAllChecks($request->searchValue),
-            $result
-        );
+        return $result;
     }
 }

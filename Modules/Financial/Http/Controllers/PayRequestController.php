@@ -57,7 +57,7 @@ class PayRequestController extends Controller
             //////////////////////// set verifiers ////////////////////////////////
             $userSig = Signature::where('sUId' , '=' , Auth::user()->id)->first();
             if ($userSig == null)
-                return 500;
+                throw new \Exception(500);
 
             $userCat = RoleCategory::where('rcRId' , '=' , Auth::user()->rId)->pluck('rcCId');
             $mySteps = PayRequestSteps::whereIn('prstCId' , $userCat)
@@ -93,15 +93,11 @@ class PayRequestController extends Controller
             $history->save();
 
             SystemLog::setFinancialSubSystemLog('ثبت درخواست پرداخت برای درخواست ' . $req->rSubject);
-            return 200;
+            $rController = new RequestController();
+            return \response()->json($rController->getAllPostedRequests(Auth::user()->id));
 
         });
-
-        $rController = new RequestController();
-        return \response()->json(
-            $rController->getAllPostedRequests(Auth::user()->id) ,
-            $result
-        );
+        return $result;
     }
     public function accept(Request $request)
     {
@@ -113,7 +109,7 @@ class PayRequestController extends Controller
         {
             if (count($payReq->prRemainingVerifiers) == 0)
             {
-                DB::transaction(function () use($request , $currentVerifier , $sig , $payReq){
+                $result = DB::transaction(function () use($request , $currentVerifier , $sig , $payReq){
 
                     PayRequestVerifier::where('prvPrId' , '=' , $currentVerifier->prvPrId)
                         ->where('prvUId' , '=' , $currentVerifier->prvUId)
@@ -155,12 +151,13 @@ class PayRequestController extends Controller
                     }
 
                     SystemLog::setFinancialSubSystemLog('تایید درخواست پرداخت توسط ' . Auth::user()->name);
+                    $rController = new RequestController();
+                    return \response()->json(
+                        $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+                    );
                 });
 
-                $rController = new RequestController();
-                return \response()->json(
-                    $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
-                );
+                return $result;
 
             }else{
                 return response()->json([] , 406); //Exist verifiers before you
@@ -172,7 +169,7 @@ class PayRequestController extends Controller
 
     public function numbering(Request $request)
     {
-        DB::transaction(function () use($request){
+        $result = DB::transaction(function () use($request){
             $payRequest = PayRequest::find($request->prId);
             $payRequest->prLetterNumber = $request->letterNumber;
             $payRequest->prLetterDate = $request->letterDate;
@@ -212,12 +209,14 @@ class PayRequestController extends Controller
             $finReqQueue->save();
 
             SystemLog::setFinancialSubSystemLog('ثبت درخواست پرداخت در دبیرخانه برای درخواست ' . $req->rSubject . ' در دبیرخانه');
+
+            $rController = new RequestController();
+            return \response()->json(
+                $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+            );
         });
 
-        $rController = new RequestController();
-        return \response()->json(
-            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
-        );
+        return $result;
     }
 
     public function wasSeen(Request $request)
@@ -234,7 +233,7 @@ class PayRequestController extends Controller
 
     public function block(Request $request)
     {
-        DB::transaction(function () use($request){
+        $result = DB::transaction(function () use($request){
             $payRequest = PayRequest::with('contract')->find($request->prId);
             $payRequest->prPrsId = PayRequestState::where('prsState' , '=' , 'BLOCKED')->value('id');
             $payRequest->save();
@@ -259,12 +258,13 @@ class PayRequestController extends Controller
             $history->save();
 
             SystemLog::setFinancialSubSystemLog('مسدود کردن درخواست پرداخت برای قرارداد ' . $payRequest->contract->cSubject);
+            $rController = new RequestController();
+            return \response()->json(
+                $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+            );
         });
 
-        $rController = new RequestController();
-        return \response()->json(
-            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
-        );
+        return $result;
     }
 
 }

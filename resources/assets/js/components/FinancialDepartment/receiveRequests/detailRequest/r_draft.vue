@@ -83,14 +83,14 @@
             <div  slot="body">
                 <form v-on:submit.prevent="addNewDraft" >
                     <div class="small-font">
-                        <div class="large-12 medium-12 small-12">
+                        <div class="large-12 medium-12 small-12 container-vh">
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="draft_tab_view">
                                 <li class="tabs-title is-active"><a href="#verTab" aria-selected="true">امضا کننده</a></li>
                                 <li class="tabs-title"><a href="#drafTab">حواله </a></li>
                             </ul>
-                            <div class="tabs-content" data-tabs-content="draft_tab_view">
+                            <div class="tabs-content inner-vh" data-tabs-content="draft_tab_view">
                                 <!--Tab 1-->
-                                <div class="tabs-panel is-active table-mrg-btm" id="verTab">
+                                <div class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="verTab">
                                     <div class="grid-x">
                                         <div class="large-8 medium-8 small-12">
                                             <label>امضا کننده
@@ -105,7 +105,7 @@
                                 </div>
                                 <!--Tab 1-->
                                 <!--Tab 2-->
-                                <div class="tabs-panel table-mrg-btm" id="drafTab">
+                                <div class="tabs-panel table-mrg-btm inner-vh-unsize" id="drafTab">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 padding-lr">
                                             <label>بابت
@@ -378,8 +378,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div style="display: table" class="large-4 medium-4 small-12 text-left">
-                                        <p style="display: table-cell; vertical-align: middle" class="btn-red text-left">{{$root.dispMoneyFormat(percentDecCategory.amountDec)}} ریال</p>
+                                    <div class="large-4 medium-4 small-12 text-left">
+                                        <p style="margin-top: 30px;" class="btn-red text-left">{{$root.dispMoneyFormat(percentDecCategory.amountDec)}} ریال</p>
                                     </div>
                                 </div>
                             </div>
@@ -1069,25 +1069,25 @@
                 if (pdId != '')
                 {
                     var selectedPercent = null;
-                    this.percentageDecreasesCategory.forEach(percentageDecrease =>{
-                        percentageDecrease.percentage_decrease.forEach(item =>{
-                            if (item.id == pdId)
-                                selectedPercent = item;
-                        });
+                    this.percentageDecreasesCategory[catIndex].percentage_decrease.forEach(item =>{
+                        if (item.id == pdId)
+                            selectedPercent = item;
+                        else {
+                            Vue.set(item, "amountDec", 0);
+                            Vue.set(item, "checked", false);
+                        }
                     });
                     if (selectedPercent != null)
                     {
                         this.checkEdited = true;
                         var tempAmount = Math.round((selectedPercent.pdPercent * parseInt(this.draftAmount,10)) / 100);
                         var amountDec = 0;
-                        this.percentageDecreasesCategory.forEach(category =>{
-                            category.percentage_decrease.forEach(item => {
-                                if (selectedPercent.id == item.id) {
-                                    Vue.set(item, "amountDec", tempAmount);
-                                    Vue.set(item, "checked", true);
-                                    amountDec = tempAmount;
-                                }
-                            });
+                        this.percentageDecreasesCategory[catIndex].percentage_decrease.forEach(item => {
+                            if (selectedPercent.id == item.id) {
+                                Vue.set(item, "amountDec", tempAmount);
+                                Vue.set(item, "checked", true);
+                                amountDec = tempAmount;
+                            }
                         });
                         Vue.set(this.percentageDecreasesCategory[catIndex], "amountDec", amountDec);
                         console.log(JSON.stringify(this.percentageDecreasesCategory));

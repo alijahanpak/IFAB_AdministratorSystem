@@ -13,6 +13,7 @@ use Modules\Admin\Entities\RoleCategory;
 use Modules\Admin\Entities\Signature;
 use Modules\Admin\Entities\SystemLog;
 use Modules\Admin\Entities\UserPermission;
+use Modules\Budget\Entities\CostAllocation;
 use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\AccountantRequestQueue;
 use Modules\Financial\Entities\Attachment;
@@ -194,7 +195,7 @@ class RequestController extends Controller
             //////////////////////// set verifiers ////////////////////////////////
             $userSig = Signature::where('sUId' , '=' , Auth::user()->id)->first();
             if ($userSig == null)
-                return 500;
+                throw new \Exception(500);
 
             $userCat = RoleCategory::where('rcRId' , '=' , Auth::user()->rId)->pluck('rcCId');
             $mySteps = RequestStep::where('rstRtId' , '=' , $request->rtId)
@@ -238,7 +239,7 @@ class RequestController extends Controller
 
     function addNewAttachments(Request $request)
     {
-        $resultCode = DB::transaction(function () use($request){
+        $result = DB::transaction(function () use($request){
             if ($request->exists('attachments'))
             {
                 foreach ($request->file('attachments') as $files)
@@ -252,32 +253,32 @@ class RequestController extends Controller
                         $attachment->aSize = $files->getClientSize();
                         $attachment->save();
                     }catch (Exception $e){
-                        return 500;
+                        throw new \Exception(500);
                     }
                 }
 
-                return 200;
+                return \response()->json($this->getAllReceivedRequests($this->getLastReceivedRequestIdList()));
             }
         });
 
-        return \response()->json(
-            $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
-        , $resultCode);
+        return $result;
     }
 
     function deleteAttachment(Request $request)
     {
         $storagePath = Config::get('filesystems.disks.local.root');
-        DB::transaction(function () use($request , $storagePath){
+        $result = DB::transaction(function () use($request , $storagePath){
             $attachment = Attachment::find($request->id);
             Attachment::where('id' , '=' , $request->id)
                 ->delete();
             @unlink($storagePath . '/' . $attachment->aPath);
+
+            return \response()->json(
+                $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+            );
         });
 
-        return \response()->json(
-            $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
-        );
+        return $result;
     }
 
     function fetchReceivedRequestsData(Request $request)
@@ -392,7 +393,7 @@ class RequestController extends Controller
 
     public function referral(Request $request)
     {
-        DB::transaction(function () use($request){
+        $result = DB::transaction(function () use($request){
             $rHis = RequestHistory::find($request->lastRefId);
             if ($request->acceptPermission == true)
             {
@@ -418,10 +419,13 @@ class RequestController extends Controller
             }else{
                 SystemLog::setFinancialSubSystemLog('ارجاع درخواست');
             }
+
+            return \response()->json(
+                $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+            );
         });
-        return \response()->json(
-            $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
-        );
+
+        return $result;
     }
 
     public function getLastReceivedRequestIdList()
@@ -538,7 +542,7 @@ class RequestController extends Controller
         {
             if (count($req->rRemainingVerifiers) == 0)
             {
-                DB::transaction(function () use($request , $req , $currentVerifier , $sig){
+                $result = DB::transaction(function () use($request , $req , $currentVerifier , $sig){
                     $requestClosed = false;
                     // determine exist item with warehouse keeper
                     if (is_array($request->get('itemExistCount')) && count($request->get('itemExistCount')) > 0)
@@ -613,11 +617,12 @@ class RequestController extends Controller
                         }
                     }
                     SystemLog::setFinancialSubSystemLog('تایید درخواست توسط ' . Auth::user()->name);
+                    return response()->json(
+                        $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+                    );
                 });
 
-                return response()->json(
-                    $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
-                );
+                return $result;
 
             }else{
                 return response()->json([] , 406); //Exist verifiers before you
@@ -629,29 +634,33 @@ class RequestController extends Controller
 
     public function response(Request $request)
     {
-        $rHis = RequestHistory::find($request->lastRefId);
-        // make history for this request
-        $history = new RequestHistory();
-        $history->rhSrcUId = Auth::user()->id;
-        $history->rhDestUId = $rHis->rhSrcUId;
-        $history->rhRId = $rHis->rhRId;
-        $history->rhRsId = $rHis->rhRsId;
-        $history->rhDId = $request->dId;
-        $history->rhPrId = $request->prId;
-        $history->rhIsReferral = true;
-        $history->rhDescription = PublicSetting::checkPersianCharacters($request->description);
-        $history->save();
+        $result = DB::transaction(function () use($request){
+            $rHis = RequestHistory::find($request->lastRefId);
+            // make history for this request
+            $history = new RequestHistory();
+            $history->rhSrcUId = Auth::user()->id;
+            $history->rhDestUId = $rHis->rhSrcUId;
+            $history->rhRId = $rHis->rhRId;
+            $history->rhRsId = $rHis->rhRsId;
+            $history->rhDId = $request->dId;
+            $history->rhPrId = $request->prId;
+            $history->rhIsReferral = true;
+            $history->rhDescription = PublicSetting::checkPersianCharacters($request->description);
+            $history->save();
 
-        SystemLog::setFinancialSubSystemLog('پاسخ به ارجاع درخواست');
+            SystemLog::setFinancialSubSystemLog('پاسخ به ارجاع درخواست');
 
-        return \response()->json(
-            $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
-        );
+            return \response()->json(
+                $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+            );
+        });
+        return $result;
+
     }
 
     public function numbering(Request $request)
     {
-        DB::transaction(function () use($request){
+        $result = DB::transaction(function () use($request){
             $req = _Request::find($request->rId);
             $req->rLetterNumber = $request->letterNumber;
             $req->rLetterDate = $request->letterDate;
@@ -674,11 +683,13 @@ class RequestController extends Controller
             $finReqQueue->save();
 
             SystemLog::setFinancialSubSystemLog('شماره گذاری درخواست ' . $req->rSubject . ' در دبیرخانه');
+
+            return \response()->json(
+                $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+            );
         });
 
-        return \response()->json(
-            $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
-        );
+        return $result;
     }
 
     public function wasSeen(Request $request)
@@ -694,7 +705,7 @@ class RequestController extends Controller
 
     public function block(Request $request)
     {
-        DB::transaction(function () use($request){
+        $result = DB::transaction(function () use($request){
             $req = _Request::find($request->rId);
             $req->rRsId = RequestState::where('rsState' , '=' , 'BLOCKED')->value('id');
             $req->save();
@@ -715,16 +726,17 @@ class RequestController extends Controller
             RequestHistoryLastPoint::where('rhlpRId' , '=' , $request->rId)->delete();
 
             SystemLog::setFinancialSubSystemLog('مسدود کردن درخواست با عنوان ' . $req->rSubject);
+            return \response()->json(
+                $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+            );
         });
 
-        return \response()->json(
-            $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
-        );
+        return $result;
     }
 
     public function terminate(Request $request)
     {
-        DB::transaction(function () use($request){
+        $result = DB::transaction(function () use($request){
             $req = _Request::find($request->rId);
             $req->rRsId = RequestState::where('rsState' , '=' , 'CLOSED')->value('id');
             $req->save();
@@ -740,10 +752,12 @@ class RequestController extends Controller
             $history->save();
 
             SystemLog::setFinancialSubSystemLog('خاتمه دادن به درخواست ' . $req->rSubject);
+
+            return \response()->json(
+                $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+            );
         });
 
-        return \response()->json(
-            $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
-        );
+        return $result;
     }
 }

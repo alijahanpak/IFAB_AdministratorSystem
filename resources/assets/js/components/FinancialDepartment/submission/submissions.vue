@@ -88,15 +88,15 @@
         <modal-large v-if="showBuyCommodityModal" @close="showBuyCommodityModal = false">
             <div  slot="body">
                 <form v-on:submit.prevent="createRequest" >
-                    <div class="small-font">
+                    <div class="small-font container-vh">
                         <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="commodity_tab_view">
                             <li class="tabs-title is-active"><a href="#reciverTab" aria-selected="true">دریافت کنندگان</a></li>
                             <li class="tabs-title"><a href="#commodityTab">فرم درخواست </a></li>
                             <li class="tabs-title"><a href="#attachmentTab">پیوست ها </a></li>
                         </ul>
-                        <div class="tabs-content" data-tabs-content="commodity_tab_view">
+                        <div class="tabs-content inner-vh" data-tabs-content="commodity_tab_view">
                             <!--Tab 1-->
-                            <div class="tabs-panel is-active table-mrg-btm" id="reciverTab">
+                            <div class="tabs-panel is-active  inner-vh-unsize" id="reciverTab">
                                 <div class="grid-x tbl_body_style">
                                     <div v-for="recipientsGroup in recipients"  class="large-12 medium-12 small-12">
                                         <div class="grid-x">
@@ -149,7 +149,7 @@
                             <!--Tab 1-->
 
                             <!--Tab 2-->
-                            <div class="tabs-panel table-mrg-btm" id="commodityTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                            <div class="tabs-panel table-mrg-btm inner-vh-unsize" id="commodityTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                 <div style="margin-top: 25px" class="grid-x">
                                     <div class="large-6 medium-6 small-12">
                                         <label>موضوع
@@ -275,7 +275,7 @@
                             <!--Tab 2-->
 
                             <!--Tab 3 - Attachment Tab-->
-                            <div class="tabs-panel table-mrg-btm" id="attachmentTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                            <div class="tabs-panel table-mrg-btm inner-vh-unsize" id="attachmentTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                 <div class="grid-x tbl_body_style">
                                     <div class="large-12 medium-12 small-12 padding-lr">
                                         <label class="my-button toolbox-btn"> انتخاب فایل
@@ -326,14 +326,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!--            <button class="my-button my-brand" v-on:click.prevent="submit">بارگذاری</button>-->
                                     </div>
                                 </div>
                             </div>
                             <!--Tab 3 - Attachment Tab-->
-                            <div class="large-12 medium-12 small-12 padding-lr" style="margin-top: 10px">
-                                <button type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
-                            </div>
+                        </div>
+                    </div>
+                    <div class="large-12 medium-12 small-12 padding-lr medium-top-m">
+                        <div style="margin-bottom:-10px;" class="stacked-for-small button-group">
+                            <button type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
                         </div>
                     </div>
                 </form>
@@ -350,12 +351,12 @@
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="request_tab_view">
                                 <li class="tabs-title is-active"><a href="#requestDetailTab" aria-selected="true">جزییات</a></li>
                                 <li class="tabs-title"><a href="#requestVerifiersTab">تایید کنندگان </a></li>
-                                <li class="tabs-title"><a href="#requestFactorTab">فاکتور </a></li>
+                                <li v-show="submissions[selectedIndex].rIsPaid" class="tabs-title"><a href="#requestFactorTab">فاکتور </a></li>
                                 <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
                                 <li v-if="requestTypeDetail == 'SERVICES'" class="tabs-title"><a href="#requestPaymentTab"> درخواست پرداخت </a></li>
                                 <li class="tabs-title"><a href="#requestAttachmentsTab">پیوست ها </a></li>
                             </ul>
-                            <div class="tabs-content inner-vh" data-tabs-content="request_tab_view">
+                            <div style="height: 63vh;" class="tabs-content inner-vh" data-tabs-content="request_tab_view">
                                 <!--Tab 1-->
                                 <div style="height: 58vh;" class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="requestDetailTab">
                                     <div class="grid-x">
@@ -489,7 +490,7 @@
                                 </div>
                                 <!--Tab 2-->
                                 <!--Tab 3 Factor-->
-                                <div class="tabs-panel table-mrg-btm" id="requestFactorTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div v-show="submissions[selectedIndex].rIsPaid" class="tabs-panel table-mrg-btm" id="requestFactorTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <sFactor
                                             v-on:updateSubmissionData="updateSubmissionData"
                                              v-on:closeModal="showRequestDetailModal=false"
