@@ -65,7 +65,7 @@
                                     <col width="200px"/>
                                 </colgroup>
                                 <tbody class="tbl-head-style-cell">
-                                <tr class="table-row" @click="getRequestDetail(allRequest)" v-for="allRequest in allRequests">
+                                <tr class="table-row" @click="getRequestDetail(index)" v-for="(allRequest , index) in allRequests">
                                     <td>{{allRequest.rSubject}}</td>
                                     <td class="text-center" v-if="allRequest.rRtId==1"> خدمات</td>
                                     <td class="text-center" v-else-if="allRequest.rRtId==2"> کالا</td>
@@ -105,51 +105,51 @@
                                 <!--Tab 1-->
                                 <div class="tabs-panel is-active table-mrg-btm" id="requestDetailTab">
                                     <div class="grid-x">
-                                        <div v-show="requestTypeDetail == 'SERVICES'" class="large-12 medium-12 small-12">
+                                        <div v-show="allRequests[selectedIndex].request_type.rtType == 'BUY_SERVICES'" class="large-12 medium-12 small-12">
                                             <table>
                                                 <tbody>
                                                 <tr>
                                                     <td width="150px">شماره : </td>
-                                                    <td>{{requestFill.rLetterNumber}}</td>
+                                                    <td>{{allRequests[selectedIndex].rLetterNumber}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">تاریخ : </td>
-                                                    <td>{{requestFill.rLetterDate}}</td>
+                                                    <td>{{allRequests[selectedIndex].rLetterDate}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">موضوع : </td>
-                                                    <td>{{requestFill.rSubject}}</td>
+                                                    <td>{{allRequests[selectedIndex].rSubject}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">مبلغ برآورد : </td>
-                                                    <td>{{$parent.dispMoneyFormat(requestFill.rCostEstimation)}} <span class="btn-red">  ریال  </span></td>
+                                                    <td>{{$parent.dispMoneyFormat(allRequests[selectedIndex].rCostEstimation)}} <span class="btn-red">  ریال  </span></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">شرح کامل خدمات : </td>
-                                                    <td class="text-justify">{{requestFill.rDescription}}</td>
+                                                    <td class="text-justify">{{allRequests[selectedIndex].rDescription}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">توضیحات تکمیلی : </td>
-                                                    <td class="text-justify">{{requestFill.rFurtherDetails}}</td>
+                                                    <td class="text-justify">{{allRequests[selectedIndex].rFurtherDetails}}</td>
                                                 </tr>
                                                 </tbody>
                                             </table>
                                         </div>
 
-                                        <div v-show="requestTypeDetail == 'COMMODITY'" class="large-12 medium-12 small-12">
+                                        <div v-show="allRequests[selectedIndex].request_type.rtType == 'BUY_COMMODITY'" class="large-12 medium-12 small-12">
                                             <table>
                                                 <tbody>
                                                 <tr>
                                                     <td width="150px">شماره : </td>
-                                                    <td>{{requestFill.rLetterNumber}}</td>
+                                                    <td>{{allRequests[selectedIndex].rLetterNumber}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">تاریخ : </td>
-                                                    <td>{{requestFill.rLetterDate}}</td>
+                                                    <td>{{allRequests[selectedIndex].rLetterDate}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">موضوع : </td>
-                                                    <td>{{requestFill.rSubject}}</td>
+                                                    <td>{{allRequests[selectedIndex].rSubject}}</td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -163,7 +163,7 @@
                                                 <th>توضیحات (موارد مصرف)</th>
                                                 </thead>
                                                 <tbody>
-                                                <tr v-for="(lists,index) in commodityList">
+                                                <tr v-for="(lists,index) in allRequests[selectedIndex].request_commodity">
                                                     <td>{{index+1}}</td>
                                                     <td>{{lists.commodity.cSubject}}</td>
                                                     <td>{{lists.rcCount - lists.rcExistCount}}</td>
@@ -172,34 +172,34 @@
                                                 </tr>
                                                 <tr>
                                                     <td colspan="3" class="text-center font-wei-bold"> مجموع برآورد</td>
-                                                    <td colspan="2" class="text-center font-wei-bold">{{$parent.dispMoneyFormat(requestFill.rCostEstimation)}} <span class="btn-red">  ریال  </span> </td>
+                                                    <td colspan="2" class="text-center font-wei-bold">{{$parent.dispMoneyFormat(allRequests[selectedIndex].rCostEstimation)}} <span class="btn-red">  ریال  </span> </td>
                                                 </tr>
                                                 </tbody>
                                             </table>
                                         </div>
 
-                                        <div v-show="requestTypeDetail == 'FUND'" class="large-12 medium-12 small-12">
+                                        <div v-show="allRequests[selectedIndex].request_type.rtType == 'FUND'" class="large-12 medium-12 small-12">
                                             <table>
                                                 <tbody>
                                                 <tr>
                                                     <td width="150px">شماره : </td>
-                                                    <td>{{requestFill.rLetterNumber}}</td>
+                                                    <td>{{allRequests[selectedIndex].rLetterNumber}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">تاریخ : </td>
-                                                    <td>{{requestFill.rLetterDate}}</td>
+                                                    <td>{{allRequests[selectedIndex].rLetterDate}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">موضوع : </td>
-                                                    <td>{{requestFill.rSubject}}</td>
+                                                    <td>{{allRequests[selectedIndex].rSubject}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">مبلغ برآورد : </td>
-                                                    <td>{{$parent.dispMoneyFormat(requestFill.rCostEstimation)}} <span class="btn-red">  ریال  </span></td>
+                                                    <td>{{$parent.dispMoneyFormat(allRequests[selectedIndex].rCostEstimation)}} <span class="btn-red">  ریال  </span></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">متن درخواست : </td>
-                                                    <td class="text-justify">{{requestFill.rDescription}}</td>
+                                                    <td class="text-justify">{{allRequests[selectedIndex].rDescription}}</td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -212,15 +212,15 @@
                                 <div class="tabs-panel table-mrg-btm" id="draftTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <rDraft  v-on:closeModal="showRequestDetailModal=false"
                                              v-on:updateReceiveRequestData="updateReceiveRequestData"
-                                             v-bind:requestId="requestId"
-                                             v-bind:contracts="contracts"
-                                             v-bind:factors="factors"
-                                             v-bind:rAcceptedAmount="rAcceptedAmount"
-                                             v-bind:rCommitmentAmount="rCommitmentAmount"
-                                             v-bind:requestType="requestType"
-                                             v-bind:drafts="drafts"
-                                             v-bind:sumOfDraftAmount="rSumOfDraftAmount"
-                                             v-bind:lastRefDId="lastRefDId"
+                                             v-bind:requestId="allRequests[selectedIndex].id"
+                                             v-bind:contracts="allRequests[selectedIndex].contract"
+                                             v-bind:factors="allRequests[selectedIndex].factor"
+                                             v-bind:rAcceptedAmount="allRequests[selectedIndex].rAcceptedAmount"
+                                             v-bind:rCommitmentAmount="allRequests[selectedIndex].rCommitmentAmount"
+                                             v-bind:requestType="allRequests[selectedIndex].request_type.rtType"
+                                             v-bind:drafts="allRequests[selectedIndex].draft"
+                                             v-bind:sumOfDraftAmount="allRequests[selectedIndex].rSumOfDraftAmount"
+                                             v-bind:lastRefDId="allRequests[selectedIndex].rLastRef.rhDId"
                                              v-bind:resultType="'SEARCH'"
                                              v-bind:searchValue="requestSearchValue">
                                     </rDraft>
@@ -230,7 +230,7 @@
                                 <div class="tabs-panel table-mrg-btm" id="requestHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 large-top-m">
-                                            <div style="margin-top:-50px;" v-for="recipientUser in recipientUsers" class="grid-x timeline">
+                                            <div style="margin-top:-50px;" v-for="recipientUser in allRequests[selectedIndex].history" class="grid-x timeline">
                                                 <div class="large-12 medium-12 small-12 timeline-item">
                                                     <div class="grid-x">
                                                         <div class="large-3 medium-3 small-12">
@@ -250,7 +250,7 @@
                                                                     <p class="small-top-m text-justify gray-colors">
                                                                         {{recipientUser.rhDescription}}
                                                                     </p>
-                                                                    <div v-if="recipientUser.destination_user_info != null && requestState != 'WAITING_FOR_PAY_REQUEST'">
+                                                                    <div v-if="recipientUser.destination_user_info != null && allRequests[selectedIndex].request_state.rsState != 'WAITING_FOR_PAY_REQUEST'">
                                                                         <p v-if="recipientUser.source_user_info.id != recipientUser.destination_user_info.id" style="margin-bottom: 0" class="small-top-m">گیرنده:</p>
                                                                         <div v-if="recipientUser.source_user_info.id != recipientUser.destination_user_info.id" class="grid-x">
                                                                             <div class="large-1 medium-2 small-12">
@@ -285,7 +285,7 @@
                                     <div class="grid-x" style="margin-bottom: 30px;margin-top: 20px">
                                         <div class="medium-12">
                                             <div class="grid-x">
-                                                <div style="margin-top: 15px;margin-bottom: 15px;" v-for="(attachment, index) in attachments" class="large-3 medium-4 small-12 padding-lr">
+                                                <div style="margin-top: 15px;margin-bottom: 15px;" v-for="(attachment, index) in allRequests[selectedIndex].attachment" class="large-3 medium-4 small-12 padding-lr">
                                                     <div class="format-card">
                                                         <a  v-bind:href="attachment.aPath" target="_blank">
                                                             <div style="padding:15px;" class="text-center">
@@ -351,27 +351,13 @@
 
         data () {
             return {
-                attachments: [],
+                selectedIndex: -1,
                 allRequests:[],
                 requestSearchValue:'',
                 showRequestDetailModal:false,
-                recipientUsers:[],
-                requestState: '',
                 verifiers:[],
-                UserIsVerifier:[],
-                factors:[],
-                contracts:[],
-                requestTypeDetail:'',
                 requestFill:{},
                 costTemp:'',
-                requestId:'',
-                lastRefDId: -1,
-                drafts:[],
-                requestType:'',
-                rAcceptedAmount:0,
-                rCommitmentAmount:0,
-                rSumOfDraftAmount: 0,
-                commodityList:[],
                 baseURL:window.hostname+'/',
                 updateDataThreadNowPlaying:null,
                 result_pagination: {
@@ -404,15 +390,8 @@
         },
 
         methods: {
-            updateReceiveRequestData: function(requests , rId){
+            updateReceiveRequestData: function(requests){
                 this.allRequests = requests.data;
-                this.allRequests.forEach(rec => {
-                    if (rec.id == rId)
-                    {
-                        this.getRequestDetail(rec);
-                        return;
-                    }
-                });
                 this.makePagination(requests);
             },
 
@@ -445,77 +424,9 @@
                     });
             },
 
-            getRequestDetail: function (request) {
+            getRequestDetail: function (index) {
+                this.selectedIndex = index;
                 this.showRequestDetailModal=true;
-                this.recipientUsers=[];
-                this.UserIsVerifier=[];
-                this.attachments=[];
-                this.requestState = request.request_state.rsState;
-                var requestHistory=[];
-
-                requestHistory.push(request);
-
-                requestHistory.forEach(users => {
-                    users.history.forEach(userHistory => {
-                        this.recipientUsers.push(userHistory);
-                    });
-                });
-
-
-                requestHistory.forEach(remainUsers => {
-                    remainUsers.rRemainingVerifiers.forEach(users => {
-                        this.UserIsVerifier.push(users);
-                    });
-                });
-
-                requestHistory.forEach(attach => {
-                    attach.attachment.forEach(item => {
-                        this.attachments.push(item);
-                    });
-                });
-
-                this.requestId = request.id;
-                this.contracts = request.contract;
-                this.factors = request.factor;
-                this.rCommitmentAmount=request.rCommitmentAmount;
-                this.rAcceptedAmount=request.rAcceptedAmount;
-                this.requestType= request.request_type.rtType;
-                this.drafts = request.draft;
-                this.rSumOfDraftAmount = request.rSumOfDraftAmount;
-                this.lastRefDId = request.rLastRef.rhDId;
-
-                if (request.rRtId == 1){
-                    this.requestTypeDetail='SERVICES';
-                    this.requestFill.rLetterNumber=request.rLetterNumber;
-                    this.requestFill.rLetterDate=request.rLetterDate;
-                    this.requestFill.rSubject=request.rSubject;
-                    this.requestFill.rCostEstimation=request.rCostEstimation;
-                    this.requestFill.rDescription=request.rDescription;
-                    this.requestFill.rFurtherDetails=request.rFurtherDetails;
-                }
-                else if (request.rRtId == 2){
-                    var commodityTemp=[];
-                    commodityTemp.push(request);
-                    this.commodityList=[];
-                    this.requestTypeDetail='COMMODITY';
-                    this.requestFill.rLetterNumber=request.rLetterNumber;
-                    this.requestFill.rLetterDate=request.rLetterDate;
-                    this.requestFill.rSubject=request.rSubject;
-                    this.requestFill.rCostEstimation=request.rCostEstimation;
-                    commodityTemp.forEach(items => {
-                        items.request_commodity.forEach(commodity => {
-                            this.commodityList.push(commodity);
-                        });
-                    });
-                }
-                else if (request.rRtId == 3){
-                    this.requestTypeDetail='FUND';
-                    this.requestFill.rLetterNumber=request.rLetterNumber;
-                    this.requestFill.rLetterDate=request.rLetterDate;
-                    this.requestFill.rSubject=request.rSubject;
-                    this.requestFill.rCostEstimation=request.rCostEstimation;
-                    this.requestFill.rDescription=request.rDescription;
-                }
             },
 
 
