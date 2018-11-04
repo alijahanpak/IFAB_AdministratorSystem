@@ -162,21 +162,20 @@ class ContractController extends Controller
 
     function delete(Request $request)
     {
-        $resultCode = DB::transaction(function () use($request){
+        $result = DB::transaction(function () use($request){
+            $rController = new RequestController();
             $contract = Contract::where('id' , '=' , $request->cId)->first();
             if ($contract->cIsAccepted == false)
             {
                 Contract::where('id' , '=' , $request->cId)->delete();
-                return 200;
+                return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList()));
             }else{
-                return 204; //cannot delete contract
+                return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList()) , 204);
             }
         });
 
-        $rController = new RequestController();
-        return \response()->json(
-            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
-        , $resultCode);
+        return $result;
+
     }
 
     function getPercentageIncrease()

@@ -212,7 +212,7 @@ class FactorController extends Controller
 
     function acceptAndCalculate(Request $request)
     {
-        DB::transaction(function () use($request){
+        $result = DB::transaction(function () use($request){
             $factor = Factor::find($request->fId);
             $factor->fFsId = FactorState::where('fsState' , 'ACCEPTED')->value('id');
             $factor->save();
@@ -282,16 +282,17 @@ class FactorController extends Controller
                 throw new \Exception(500);
             else{
                 SystemLog::setFinancialSubSystemLog('تایید فاکتور کارپردازی با عنوان ' .  $factor->fSubject . ' برای درخواست ' . _Request::find($request->rId)->rSubject);
+                $rController = new RefundController();
+                return \response()->json($rController->getAllRefundData());
             }
         });
 
-        $rController = new RefundController();
-        return \response()->json($rController->getAllRefundData());
+        return $result;
     }
 
     function reject(Request $request)
     {
-        DB::transaction(function () use($request) {
+        $result = DB::transaction(function () use($request) {
             $factor = Factor::find($request->fId);
             $factor->fFsId = FactorState::where('fsState', 'NOT_ACCEPTED')->value('id');
             $factor->save();
@@ -303,28 +304,26 @@ class FactorController extends Controller
                 $reqHis->rhHasBeenSeen = false;
                 $reqHis->save();
             }
-        });
 
-        $rController = new RefundController();
-        return \response()->json($rController->getAllRefundData());
+            $rController = new RefundController();
+            return \response()->json($rController->getAllRefundData());
+        });
+        return $result;
     }
 
     function delete(Request $request)
     {
-        $resultCode = DB::transaction(function () use($request){
+        $result = DB::transaction(function () use($request){
+            $rController = new RequestController();
             $factor = Factor::where('id' , '=' , $request->fId)->first();
             if ($factor->fFsId == FactorState::where('fsState' , 'TEMPORARY')->value('id'))
             {
                 $factor->delete();
-                return 200;
+                return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList()));
             }else{
-                return 204; //cannot delete contract
+                return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList()) , 204); //cannot delete contract
             }
         });
-
-        $rController = new RequestController();
-        return \response()->json(
-            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
-            , $resultCode);
+        return $result;
     }
 }

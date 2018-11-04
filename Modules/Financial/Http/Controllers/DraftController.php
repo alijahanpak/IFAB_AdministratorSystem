@@ -31,7 +31,7 @@ class DraftController extends Controller
 {
     function register(Request $request)
     {
-        $resultCode = DB::transaction(function () use($request){
+        $result = DB::transaction(function () use($request){
             $req = _Request::where('id' , '=' , $request->rId)->first();
             $draft = new Draft();
             $draft->dRId = $request->rId;
@@ -70,13 +70,12 @@ class DraftController extends Controller
 
             SystemLog::setFinancialSubSystemLog('ثبت حواله برای درخواست ' . $req->rSubject);
 
-            return 200;
+            $rController = new RequestController();
+            return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList()));
         });
 
-        $rController = new RequestController();
-        return \response()->json(
-            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
-        ,$resultCode);
+        return $result;
+
     }
 
     function acceptMinute(Request $request)
@@ -112,7 +111,7 @@ class DraftController extends Controller
 
     function accept(Request $request)
     {
-        $resultCode = DB::transaction(function () use($request){
+        $result = DB::transaction(function () use($request){
             $sig = Signature::where('sUId' , '=' , Auth::user()->id)->first();
 
             if (DraftVerifier::where('dvDId' , '=' , $request->dId)
@@ -144,15 +143,13 @@ class DraftController extends Controller
                 $srQueue->save();
 
                 SystemLog::setFinancialSubSystemLog('تایید حواله پرداخت برای درخواست ' . $req->rSubject);
-                return 200;
+                $rController = new RequestController();
+                return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList()));
             }else
-                return 500;
+                throw new \Exception(500);
         });
 
-        $rController = new RequestController();
-        return \response()->json(
-            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
-            ,$resultCode);
+        return $result;
     }
 
     public function numbering(Request $request)
