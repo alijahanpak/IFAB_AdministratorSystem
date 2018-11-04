@@ -13,20 +13,20 @@
             <div style="height: 57.6vh;" class="tbl-div-container inner-vh-unsize">
                 <table class="tbl-head">
                     <colgroup>
-                        <col width="300px"/>
+                        <col width="200px"/>
                         <col width="150px"/>
-                        <col width="300px"/>
                         <col width="150px"/>
-                        <col v-show="$can('SUPPLIER_DELETE_FACTOR')" width="60px"/>
+                        <col width="250px"/>
+                        <col width="150px"/>
                         <col width="12px"/>
                     </colgroup>
                     <tbody class="tbl-head-style ">
                     <tr class="tbl-head-style-cell">
                         <th class="tbl-head-style-cell">عنوان</th>
+                        <th class="tbl-head-style-cell">فروشنده</th>
                         <th class="tbl-head-style-cell">مبلغ</th>
                         <th class="tbl-head-style-cell">شرح</th>
                         <th class="tbl-head-style-cell">وضعیت</th>
-                        <th v-show="$can('SUPPLIER_DELETE_FACTOR')" class="tbl-head-style-cell">عملیات</th>
                         <th class="tbl-head-style-cell"></th>
                     </tr>
                     </tbody>
@@ -36,22 +36,37 @@
                 <div class="tbl_body_style inner-vh-2">
                     <table class="tbl-body-contain">
                         <colgroup>
-                            <col width="300px"/>
+                            <col width="200px"/>
                             <col width="150px"/>
-                            <col width="300px"/>
                             <col width="150px"/>
-                            <col v-show="$can('SUPPLIER_DELETE_FACTOR')" width="60px"/>
+                            <col width="250px"/>
+                            <col width="150px"/>
                         </colgroup>
                         <tbody class="tbl-head-style-cell">
                         <tr class="table-row" v-for="factor in factors">
                             <td>{{factor.fSubject}}</td>
+                            <td class="text-center">{{factor.seller.sSubject}}</td>
                             <td class="text-center">{{$root.dispMoneyFormat(factor.fAmount)}}</td>
                             <td class="text-center">{{factor.fDescription}}</td>
-                            <td class="text-center" v-show="factor.factor_state.fsState == 'TEMPORARY'"><span class="danger-label">{{ factor.factor_state.fsSubject }}</span></td>
-                            <td class="text-center" v-show="factor.factor_state.fsState == 'PENDING_REVIEW'"><span class="reserved-label">{{ factor.factor_state.fsSubject }}</span></td>
-                            <td class="text-center" v-show="factor.factor_state.fsState == 'NOT_ACCEPTED'"><span class="blocked-label">{{ factor.factor_state.fsSubject }}</span></td>
-                            <td class="text-center" v-show="factor.factor_state.fsState == 'ACCEPTED'"><span class="success-label">{{ factor.factor_state.fsSubject }}</span></td>
-                            <td v-show="$can('SUPPLIER_DELETE_FACTOR')" class="text-center"><a @click="openConfirmDeleteContract(factor.id)"><i class="far fa-trash-alt size-21 btn-red"></i></a></td>
+                            <td class="text-center">
+                                <div class="grid-x">
+                                    <div class="medium-11">
+                                        <span v-show="factor.factor_state.fsState == 'PENDING_REVIEW'" class="reserved-label">{{ factor.factor_state.fsSubject }}</span>
+                                        <span v-show="factor.factor_state.fsState == 'NOT_ACCEPTED'" class="blocked-label">{{ factor.factor_state.fsSubject }}</span>
+                                        <span v-show="factor.factor_state.fsState == 'ACCEPTED'" class="success-label">{{ factor.factor_state.fsSubject }}</span>
+                                        <span v-show="factor.factor_state.fsState == 'TEMPORARY'" class="danger-label">{{ factor.factor_state.fsSubject }}</span>
+                                    </div>
+                                    <div class="medium-1 cell-vertical-center text-left" v-show="$can('SUPPLIER_DELETE_FACTOR') && factor.factor_state.fsState == 'TEMPORARY'">
+                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'factorMenu' + factor.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                        <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'factorMenu' + factor.id" data-dropdown data-auto-focus="true">
+                                            <ul class="my-menu small-font text-right">
+                                                <li v-show="$can('SUPPLIER_DELETE_FACTOR')"><a v-on:click.prevent="openUpdateFactorModal(factor)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                <li v-show="$can('SUPPLIER_DELETE_FACTOR')"><a @click="openConfirmDeleteFactor(factor.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -68,7 +83,7 @@
         <!--Insert Factor Start-->
         <modal-small v-if="showInsertFactorModal" @close="showInsertFactorModal = false">
             <div  slot="body">
-                <form v-on:submit.prevent="createFactor" >
+                <form v-on:submit.prevent="addNewFactor" >
                     <div class="small-font">
                         <div v-if="isFromRefundCosts == true" class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
@@ -90,7 +105,7 @@
                             </div>
                         </div>
                         <div class="grid-x">
-                            <div class="large-12 medium-12 small-12 padding-lr">
+                            <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>فروشنده
                                     <suggestions style="margin-bottom: -18px;" name="sellerTitle" v-validate :class="{'input': true, 'select-error': errors.has('sellerTitle')}"
                                                  v-model="factorInput.seller"
@@ -102,13 +117,26 @@
                                     </suggestions>
                                 </label>
                             </div>
-                        </div>
-                        <div style="margin-top:15px;" class="grid-x">
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>مبلغ <span class="btn-red">(ریال)</span>
                                     <money v-model="factorInput.amount" name="factorAmount" v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('factorAmount')}"></money>
                                 </label>
                                 <p v-show="errors.has('factorAmount')" class="error-font">لطفا مبلغ را برای فاکتور مورد نظر را وارد نمایید!</p>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <div class="grid-x panel-separator">
+                                    <div class="medium-12 ">
+                                        <span class="btn-red">مبلغ برآورد:</span><span>{{ ' ' + $root.dispMoneyFormat(request.rCostEstimation) + 'ریال'}}</span>
+                                    </div>
+                                    <div class="medium-12">
+                                        <span class="btn-red">مجموع فاکتور های ثبت شده:</span><span>{{ ' ' + $root.dispMoneyFormat(factorInput.sumOfFactorAmount) + ' ریال'}}</span>
+                                    </div>
+                                    <div class="medium-12">
+                                        <span class="btn-red">باقیمانده:</span><span>{{ ' ' + $root.dispMoneyFormat((parseInt(request.rCostEstimation , 10) - factorInput.sumOfFactorAmount)) + ' ریال'}}</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div style="margin-top: 16px;" class="grid-x">
@@ -122,7 +150,7 @@
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <div class="stacked-for-small button-group float-left">
-                                    <button @click="addNewFactor" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
                                 </div>
                             </div>
                         </div>
@@ -131,6 +159,85 @@
             </div>
         </modal-small>
         <!--Insert Factor End-->
+        <!--update Factor Start-->
+        <modal-small v-if="showUpdateFactorModal" @close="showUpdateFactorModal = false">
+            <div  slot="body">
+                <form v-on:submit.prevent="updateFactor" >
+                    <div class="small-font">
+                        <div v-if="isFromRefundCosts == true" class="grid-x">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <label>تنخواه گردان
+                                    <select class="form-element-margin-btm" v-model="refundId" name="selectRefunds" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('selectRefunds')}">
+                                        <option value=""></option>
+                                        <option v-for="refund in refunds" :value="refund.id">{{refund.rSubject}} - {{$root.dispMoneyFormat(refund.rCostEstimation)}} ریال</option>
+                                    </select>
+                                    <span v-show="errors.has('selectRefunds')" class="error-font">لطفا تنخواه گردان مورد نظر را انتخاب کنید!</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <label>عنوان
+                                    <input type="text" name="factorSubject" v-model="factorInput.subject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('factorSubject')}">
+                                </label>
+                                <p v-show="errors.has('factorSubject')" class="error-font">لطفا عنوان را برای فاکتور مورد نظر را وارد نمایید!</p>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="large-6 medium-6 small-12 padding-lr">
+                                <label>فروشنده
+                                    <suggestions style="margin-bottom: -18px;" name="sellerTitle" v-validate :class="{'input': true, 'select-error': errors.has('sellerTitle')}"
+                                                 v-model="factorInput.seller"
+                                                 :options="sellerOptions"
+                                                 :onInputChange="onSellerInputChange">
+                                        <div slot="item" slot-scope="props" class="single-item">
+                                            <strong>{{props.item}}</strong>
+                                        </div>
+                                    </suggestions>
+                                </label>
+                            </div>
+                            <div class="large-6 medium-6 small-12 padding-lr">
+                                <label>مبلغ <span class="btn-red">(ریال)</span>
+                                    <money v-model="factorInput.amount" name="factorAmount" v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('factorAmount')}"></money>
+                                </label>
+                                <p v-show="errors.has('factorAmount')" class="error-font">لطفا مبلغ را برای فاکتور مورد نظر را وارد نمایید!</p>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <div class="grid-x panel-separator">
+                                    <div class="medium-12 ">
+                                        <span class="btn-red">مبلغ برآورد:</span><span>{{ ' ' + $root.dispMoneyFormat(request.rCostEstimation) + 'ریال'}}</span>
+                                    </div>
+                                    <div class="medium-12">
+                                        <span class="btn-red">مجموع فاکتور های ثبت شده (به استثنای فاکتور انتخاب شده):</span><span>{{ ' ' + $root.dispMoneyFormat(factorInput.sumOfFactorAmount) + ' ریال'}}</span>
+                                    </div>
+                                    <div class="medium-12">
+                                        <span class="btn-red">باقیمانده:</span><span>{{ ' ' + $root.dispMoneyFormat((parseInt(request.rCostEstimation , 10) - factorInput.sumOfFactorAmount)) + ' ریال'}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 16px;" class="grid-x">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <label>شرح
+                                    <textarea style="min-height: 150px;" name="factorDescription" v-model="factorInput.description" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('factorDescription')}"></textarea>
+                                    <p v-show="errors.has('factorDescription')" class="error-font">لطفا شرح کامل فاکتور را وارد کنید!</p>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="large-12 medium-12 small-12 padding-lr">
+                                <div class="stacked-for-small button-group float-left">
+                                    <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </modal-small>
+        <!--update Factor End-->
         <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
             {{dialogMessage}}
         </messageDialog>
@@ -170,7 +277,7 @@
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     export default{
-        props:['factors','requestId' , 'rCreditIsAccepted' , 'rCreditIsExist','isFromRefundCosts'],
+        props:['factors','requestId' , 'rCreditIsAccepted' , 'rCreditIsExist','isFromRefundCosts' , 'request'],
         components: {
             Suggestions,
         },
@@ -179,8 +286,9 @@
                 showInsertFactorModal:false,
                 showAcceptConfirmModal: false,
                 showDeleteConfirmModal: false,
+                showUpdateFactorModal: false,
                 showDialogModal: false,
-                fIdForDelete: 0,
+                selectedFactorId: 0,
                 dialogMessage: '',
                 factorInput:{},
                 refunds:[],
@@ -277,9 +385,30 @@
                 }
             },
 
-            openConfirmDeleteContract: function(cId){
-                this.fIdForDelete = cId;
+            openConfirmDeleteFactor: function(fId){
+                this.selectedFactorId = fId;
                 this.showDeleteConfirmModal = true;
+            },
+
+            getSumOfAllFactorAmount: function(){
+                var sum = 0;
+                this.request.factor.forEach(item => {
+                    sum += parseInt(item.fAmount , 10);
+                });
+                return sum;
+            },
+
+            openUpdateFactorModal: function(factor){
+                this.getRefund();
+                this.getAllSeller();
+                this.selectedFactorId = factor.id;
+                this.refundId= '';
+                this.factorInput.amount = factor.fAmount;
+                this.factorInput.seller = factor.seller.sSubject;
+                this.factorInput.subject = factor.fSubject;
+                this.factorInput.description = factor.fDescription;
+                this.factorInput.sumOfFactorAmount = this.getSumOfAllFactorAmount() - parseInt(this.factorInput.amount,10);
+                this.showUpdateFactorModal = true;
             },
 
             acceptFactor: function(){
@@ -299,7 +428,7 @@
             deleteFactor: function() {
                 axios.post('/financial/request/factor/delete', {
                     rId: this.requestId,
-                    fId: this.fIdForDelete,
+                    fId: this.selectedFactorId,
                 }).then((response) => {
                     if (response.status == 200)
                         this.$emit('updateReceiveRequestData' , response.data);
@@ -338,6 +467,7 @@
                             this.getRefund();
                             this.getAllSeller();
                             this.factorInput={};
+                            this.factorInput.sumOfFactorAmount = this.getSumOfAllFactorAmount();
                             this.showInsertFactorModal=true;
                         }
                     }else{
@@ -360,6 +490,30 @@
                         }).then((response) => {
                             this.$emit('updateReceiveRequestData' , response.data);
                             this.showInsertFactorModal = false;
+                            this.$root.displayNotif(response.status);
+                            console.log(response);
+                        }, (error) => {
+                            console.log(error);
+                            this.$root.displayNotif(error.response.status);
+                        });
+                    }
+                });
+            },
+
+            updateFactor: function () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/financial/request/factor/update', {
+                            id: this.selectedFactorId,
+                            refundId: this.refundId,
+                            subject: this.factorInput.subject,
+                            seller: this.factorInput.seller,
+                            amount: parseInt(this.factorInput.amount.split(',').join(''),10),
+                            description: this.factorInput.description,
+                            resultType: 'RECEIVED'
+                        }).then((response) => {
+                            this.$emit('updateReceiveRequestData' , response.data);
+                            this.showUpdateFactorModal = false;
                             this.$root.displayNotif(response.status);
                             console.log(response);
                         }, (error) => {

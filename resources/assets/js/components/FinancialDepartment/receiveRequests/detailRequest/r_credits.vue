@@ -2811,7 +2811,7 @@ export default{
             this.costEditFill.caAmount=this.costEditSelected.allocation.caAmount;
             this.costEditFill.caSumOfReserved=this.costEditSelected.allocation.caSumOfReserved;
             this.costEditFill.caSumOfCommitment=this.costEditSelected.allocation.caSumOfCommitment;
-            this.costEditFill.caRemaingAmount=this.costEditFill.caAmount - (this.costEditFill.caSumOfReserved +this.costEditFill.caSumOfCommitment );
+            this.costEditFill.caRemaingAmount=this.costEditFill.caAmount - (parseInt(this.costEditFill.caSumOfReserved , 10) + parseInt(this.costEditFill.caSumOfCommitment , 10));
             this.costEditFill.cfAmount=this.costEditSelected.cfAmount;
             this.costEditFill.cfSpent=this.costEditSelected.cfSpent;
             this.EditCostAmountFill= this.costEditFill.cfAmount;
@@ -2886,7 +2886,7 @@ export default{
             this.capEditFill.caaAmount=this.capEditSelected.allocation.caaAmount;
             this.capEditFill.caaSumOfReserved=this.capEditSelected.allocation.caaSumOfReserved;
             this.capEditFill.caaSumOfCommitment=this.capEditSelected.allocation.caaSumOfCommitment;
-            this.capEditFill.cafRemainingAmount=this.capEditFill.caaAmount - (this.capEditFill.caaSumOfReserved +this.capEditFill.caaSumOfCommitment );
+            this.capEditFill.cafRemainingAmount=this.capEditFill.caaAmount - (parseInt(this.capEditFill.caaSumOfReserved , 10) + parseInt(this.capEditFill.caaSumOfCommitment , 10));
             this.editCapAmountFill= this.capEditFill.cafAmount;
             this.showCapitalAssetsEditModal=true;
         },
