@@ -94,16 +94,16 @@
             <div  slot="body">
                 <div class="small-font">
                     <div class="grid-x">
-                        <div class="large-12 medium-12 small-12">
+                        <div class="large-12 medium-12 small-12 container-vh">
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="request_tab_view">
                                 <li class="tabs-title is-active"><a href="#requestDetailTab" aria-selected="true">جزییات</a></li>
                                 <li class="tabs-title"><a href="#draftTab">حواله </a></li>
                                 <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
                                 <li class="tabs-title"><a href="#requestAttachmentsTab">پیوست ها </a></li>
                             </ul>
-                            <div class="tabs-content" data-tabs-content="request_tab_view">
+                            <div class="tabs-content inner-vh" data-tabs-content="request_tab_view">
                                 <!--Tab 1-->
-                                <div class="tabs-panel is-active table-mrg-btm" id="requestDetailTab">
+                                <div style="height: 63vh;" class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="requestDetailTab">
                                     <div class="grid-x">
                                         <div v-show="allRequests[selectedIndex].request_type.rtType == 'BUY_SERVICES'" class="large-12 medium-12 small-12">
                                             <table>
@@ -209,7 +209,7 @@
                                 </div>
                                 <!--Tab 1-->
                                 <!--Tab 2-->
-                                <div class="tabs-panel table-mrg-btm" id="draftTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div class="tabs-panel table-mrg-btm inner-vh-unsize" id="draftTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <rDraft  v-on:closeModal="showRequestDetailModal=false"
                                              v-on:updateReceiveRequestData="updateReceiveRequestData"
                                              v-bind:requestId="allRequests[selectedIndex].id"
@@ -227,7 +227,7 @@
                                 </div>
                                 <!--Tab 2-->
                                 <!--Tab 3-->
-                                <div class="tabs-panel table-mrg-btm" id="requestHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div style="height: 63vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="requestHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 large-top-m">
                                             <div style="margin-top:-50px;" v-for="recipientUser in allRequests[selectedIndex].history" class="grid-x timeline">
@@ -281,7 +281,7 @@
                                 </div>
                                 <!--Tab 3-->
                                 <!--Tab 4-->
-                                <div class="tabs-panel table-mrg-btm" id="requestAttachmentsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div style="height: 63vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="requestAttachmentsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x" style="margin-bottom: 30px;margin-top: 20px">
                                         <div class="medium-12">
                                             <div class="grid-x">

@@ -636,9 +636,12 @@
                             <div class="tabs-content inner-vh" data-tabs-content="request_tab_view">
                                 <!--Tab 1-->
                                 <div class="tabs-panel table-mrg-btm" :class="selectedRequest.request_level.rlLevel == 'REQUEST' ? 'is-active' : ''" id="requestDetailTab">
-                                    <rDetails v-bind:requestTypeDetail="selectedRequest.request_type.rtType"
+                                    <rDetails v-on:updateReceiveRequestData="updateReceiveRequestData"
+                                              v-bind:requestTypeDetail="selectedRequest.request_type.rtType"
                                               v-bind:requestFill="selectedRequest"
-                                              v-bind:commodityList="selectedRequest.request_commodity"
+                                              v-bind:selectedBuffer="selectedBuffer"
+                                              v-bind:selectedIndex="selectedIndex"
+                                              v-bind:selectedRequest="selectedRequest"
                                               v-on:setRepoExistCountParent="setRepoExistCount"
                                     >
                                     </rDetails>

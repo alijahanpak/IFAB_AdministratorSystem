@@ -68,9 +68,9 @@ class FinanceController extends Controller
 
     public function reserveFinancing(Request $request)
     {
-        if (is_array($request->costFinancing))
-        {
-            DB::transaction(function () use($request){
+        $result = DB::transaction(function () use($request){
+            if (is_array($request->costFinancing))
+            {
                 $insertedAId = array();
                 $i = 0;
                 foreach ($request->costFinancing as $costFinanc)
@@ -107,12 +107,10 @@ class FinanceController extends Controller
                 CostFinancing::whereNotIn('cfCaId' , $insertedAId)
                     ->where('cfRId' , '=' , $request->rId)
                     ->delete();
-            });
-        }
+            }
 
-        if (is_array($request->capFinancing))
-        {
-            DB::transaction(function () use($request){
+            if (is_array($request->capFinancing))
+            {
                 $insertedAId = array();
                 $i = 0;
                 foreach ($request->capFinancing as $capFinanc)
@@ -149,17 +147,19 @@ class FinanceController extends Controller
                 CapitalAssetsFinancing::whereNotIn('cafCaaId' , $insertedAId)
                     ->where('cafRId' , '=' , $request->rId)
                     ->delete();
-            });
-        }
+            }
 
-        _Request::where('id' , '=' , $request->rId)
-            ->update(['rRlId' => RequestLevel::where('rlLevel' , '=' , 'FINANCIAL')->value('id')]);
-        return \response()->json($this->getAllFinancing($request->rId));
+            _Request::where('id' , '=' , $request->rId)
+                ->update(['rRlId' => RequestLevel::where('rlLevel' , '=' , 'FINANCIAL')->value('id')]);
+            return \response()->json($this->getAllFinancing($request->rId));
+        });
+
+        return $result;
     }
 
     public function deleteCostFinancing(Request $request)
     {
-        $resultCode = DB::transaction(function () use($request){
+        $result = DB::transaction(function () use($request){
 /*            $existFund = Contract::where('cRId' , '=' , $request->rId)
                 ->exists();
             $existFund = Factor::where('fRId' , '=' , $request->rId)
@@ -176,11 +176,11 @@ class FinanceController extends Controller
 
             CostFinancing::where('id' , '=' , $request->id)
                 ->delete();
-            return 200;
+            return \response()->json($this->getAllFinancing($request->rId));
 
         });
+        return $result;
 
-        return \response()->json($this->getAllFinancing($request->rId) , $resultCode);
     }
 
     public function updateCostFinancing(Request $request)
@@ -214,13 +214,13 @@ class FinanceController extends Controller
 
     public function deleteCapFinancing(Request $request)
     {
-        $resultCode = DB::transaction(function () use($request){
+        $result = DB::transaction(function () use($request){
             CapitalAssetsFinancing::where('id' , '=' , $request->id)
                 ->delete();
-            return 200;
+            return \response()->json($this->getAllFinancing($request->rId));
         });
 
-        return \response()->json($this->getAllFinancing($request->rId) , $resultCode);
+        return $result;
     }
 
     public function updateCapFinancing(Request $request)
@@ -254,7 +254,7 @@ class FinanceController extends Controller
 
     public function acceptFinancing(Request $request)
     {
-        DB::transaction(function () use($request){
+        $result = DB::transaction(function () use($request){
             CostFinancing::where('cfRId' , '=' , $request->rId)
                 ->update(['cfAccepted' => true]);
 
@@ -339,17 +339,19 @@ class FinanceController extends Controller
             $history->rhDescription = 'با سلام، تامین اعتبار، تایید شد. به نحو مقتضی اقدام شود.';
             $history->save();
 
+            $rController = new RequestController();
+            return \response()->json(
+                $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+            );
+
         });
 
-        $rController = new RequestController();
-        return \response()->json(
-            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
-        );
+        return $result;
     }
 
     function supplyFromRefund(Request $request)
     {
-        DB::transaction(function () use($request){
+        $result = DB::transaction(function () use($request){
             $req = _Request::find($request->id);
             $req->isFromRefundCosts = true;
             $req->rRsId = RequestState::where('rsState' , '=' , 'SUPPLIER_QUEUE')->value('id');
@@ -368,11 +370,12 @@ class FinanceController extends Controller
             $history->rhRsId = $req->rRsId;
             $history->rhDescription = 'با سلام، لطفا از محل تنخواه گردان تدارکات تامین گردد.';
             $history->save();
-        });
 
-        $rController = new RequestController();
-        return \response()->json(
-            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
-        );
+            $rController = new RequestController();
+            return \response()->json(
+                $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+            );
+        });
+        return $result;
     }
 }
