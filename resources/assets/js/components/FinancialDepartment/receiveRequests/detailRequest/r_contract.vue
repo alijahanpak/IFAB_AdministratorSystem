@@ -121,7 +121,7 @@
                                         <div v-show="contract.cIsAccepted == 1"><span class="success-label">تایید شده</span></div>
                                         <div v-show="contract.cIsAccepted == 0"><span class="reserved-label">تایید نشده</span></div>
                                     </div>
-                                    <div class="medium-1 cell-vertical-center text-left">
+                                    <div v-show="!contract.cIsAccepted" class="medium-1 cell-vertical-center text-left">
                                         <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'contractMenu' + contract.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'contractMenu' + contract.id" data-dropdown data-auto-focus="true">
                                             <ul class="my-menu small-font text-right">
@@ -161,7 +161,7 @@
                         <div class="grid-x">
                             <div class="large-8 medium-8 small-12 padding-lr">
                                 <label>مجری
-                                    <suggestions style="margin-bottom: -18px;" name="executorTitle" v-validate :class="{'input': true, 'select-error': errors.has('executorTitle')}"
+                                    <suggestions style="margin-bottom: -18px;height: 41px;" name="executorTitle" :class="executorAlert ? 'select-error' : ''"
                                                  v-model="contractInput.executor"
                                                  :options="executorOptions"
                                                  :onInputChange="onExecutorInputChange">
@@ -170,6 +170,7 @@
                                         </div>
                                     </suggestions>
                                 </label>
+                                <p style="margin-top:23px !important;" v-show="executorAlert" class="error-font">لطفا مجری قرارداد مورد نظر را وارد نمایید!</p>
                             </div>
                             <div class="large-4 medium-4 small-12 padding-lr">
                                 <label>ضریب پیمان
@@ -209,38 +210,40 @@
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>تاریخ قرارداد
                                     <date-picker
-                                            :color="'#5c6bc0'"
+                                            :color="letterDateAlert ? '#d9534f' : '#5c6bc0'"
                                             v-model="contractInput.letterDate"
                                             input-class="form-control form-control-lg date-picker-bottom-margin"
                                             id="contract-letterDate"
                                             placeholder="انتخاب تاریخ">
                                     </date-picker>
                                 </label>
-                                <p v-show="errors.has('letterDate')" class="error-font">لطفا تاریخ قرارداد مورد نظر را وارد نمایید!</p>
+                                <p style="margin-top:3px !important;" v-show="letterDateAlert" class="error-font">لطفا تاریخ قرارداد مورد نظر را وارد نمایید!</p>
                             </div>
                         </div>
                         <div class="grid-x">
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>تاریخ شروع
                                     <date-picker
-                                            :color="'#5c6bc0'"
+                                            :color="startDateAlert ? '#d9534f' : '#5c6bc0'"
                                             v-model="contractInput.startDate"
                                             input-class="form-control form-control-lg date-picker-bottom-margin"
                                             id="contract-startDate"
                                             placeholder="انتخاب تاریخ">
                                     </date-picker>
                                 </label>
+                                <p style="margin-top:3px !important;" v-show="startDateAlert" class="error-font">لطفا تاریخ شروع قرارداد مورد نظر را وارد نمایید!</p>
                             </div>
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>تاریخ پایان
                                     <date-picker
-                                            :color="'#5c6bc0'"
+                                            :color="endDateAlert ? '#d9534f' : '#5c6bc0'"
                                             v-model="contractInput.endDate"
                                             input-class="form-control form-control-lg date-picker-bottom-margin"
                                             id="contract-endDate"
                                             placeholder="انتخاب تاریخ">
                                     </date-picker>
                                 </label>
+                                <p style="margin-top:3px !important;" v-show="endDateAlert" class="error-font">لطفا تاریخ پایان قرارداد مورد نظر را وارد نمایید!</p>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -323,7 +326,7 @@
                         <div class="grid-x">
                             <div class="large-8 medium-8 small-12 padding-lr">
                                 <label>مجری
-                                    <suggestions style="margin-bottom: -18px;" name="executorTitle" v-validate :class="{'input': true, 'select-error': errors.has('executorTitle')}"
+                                    <suggestions style="margin-bottom: -18px;height: 41px;" name="executorTitle" :class="executorAlert ? 'select-error' : ''"
                                                  v-model="contractInput.executor"
                                                  :options="executorOptions"
                                                  :onInputChange="onExecutorInputChange">
@@ -332,6 +335,7 @@
                                         </div>
                                     </suggestions>
                                 </label>
+                                <p style="margin-top:23px !important;" v-show="executorAlert" class="error-font">لطفا مجری قرارداد مورد نظر را وارد نمایید!</p>
                             </div>
                             <div class="large-4 medium-4 small-12 padding-lr">
                                 <label>ضریب پیمان
@@ -545,7 +549,10 @@
                 checkInputAmount:false,
                 selectedContractIndex:'',
                 selectedContract:[],
-
+                letterDateAlert:false,
+                startDateAlert:false,
+                endDateAlert:false,
+                executorAlert:false,
             }
         },
 
@@ -556,9 +563,16 @@
                 else
                     this.displayWarning = false;
             },
-            percentageIncreaseCategory: function (newValue , oldValue) {
-                this.percentageIncreaseCategory=this.percentageIncreaseCategory;
-            },
+            contractInput: function (newQuestion, oldQuestion) {
+                if(this.contractInput.letterDate != null)
+                    this.letterDateAlert=false;
+                if(this.contractInput.startDate != null)
+                    this.startDateAlert=false;
+                if(this.contractInput.endDate != null)
+                    this.endDateAlert=false;
+                if(this.contractInput.executor != null)
+                    this.executorAlert=false;
+            }
 
         },
 
@@ -571,6 +585,8 @@
         },
 
         mounted: function () {
+            this.contractPercentageIncrease();
+            this.getAllExecutors();
 
         },
 
@@ -622,7 +638,7 @@
                                 Vue.set(item,"amountInc",0);
                             });
                         });
-                        console.log(JSON.stringify(this.percentageIncreaseCategory));
+                        //console.log(JSON.stringify(this.percentageIncreaseCategory));
                         console.log(response);
                     }, (error) => {
                         console.log(error);
@@ -638,28 +654,30 @@
                 if (piId != '')
                 {
                     var selectedPercent = null;
-                    this.percentageIncreaseCategory.forEach(category => {
-                        category.percentage_increase.forEach(item => {
-                            if (item.id == piId)
-                                selectedPercent = item;
-                        });
+                    this.percentageIncreaseCategory[catIndex].percentage_increase.forEach(item => {
+                        if (item.id == piId)
+                            selectedPercent = item;
+                        else{
+                            Vue.set(item, "amountInc", 0);
+                            Vue.set(item,"checked",false);
+                        }
                     });
                     if (selectedPercent != null)
                     {
                         var tempAmount = Math.round(selectedPercent.piPercent * parseInt(this.contractInput.amount.split(',').join(''),10)) / 100;
                         var amountInc = 0;
-                        this.percentageIncreaseCategory.forEach(category =>{
-                            category.percentage_increase.forEach(item => {
-                                if (selectedPercent.id == item.id) {
-                                    Vue.set(item, "amountInc", tempAmount);
-                                    Vue.set(item,"checked",true);
-                                    amountInc = tempAmount;
-                                }
-                            });
+                        this.percentageIncreaseCategory[catIndex].percentage_increase.forEach(item => {
+                            if (selectedPercent.id == item.id) {
+                                Vue.set(item, "amountInc", tempAmount);
+                                Vue.set(item,"checked",true);
+                                amountInc = tempAmount;
+                            }
                         });
                         Vue.set(this.percentageIncreaseCategory[catIndex], "amountInc", amountInc);
+                        console.log(JSON.stringify(this.percentageIncreaseCategory));
                     }
                 }else{
+                    alert(catIndex);
                     this.percentageIncreaseCategory[catIndex].percentage_increase.forEach(item => {
                         Vue.set(item,"amountInc",0);
                         Vue.set(item,"checked",false);
@@ -670,6 +688,7 @@
             },
 
             calculateFinalContractAmount: function(){
+
                 if(parseInt(this.contractInput.amount.split(',').join(''),10) < 0){
                     this.checkInputAmount=true;
                 }
@@ -677,10 +696,12 @@
                     this.checkInputAmount=false;
                     this.percentageIncreaseCategory.forEach((category , index) =>{
                         category.percentage_increase.forEach(item => {
-                            if (item.checked == true)
+                            if (item.checked == true){
                                 this.calculateChangeInputAmount(item.id, index);
+                            }
                         });
                     });
+                    this.finalAmount=0;
                     var lastTemp=0;
                     lastTemp = parseInt(this.contractInput.amount.split(',').join(''),10);
                     this.percentageIncreaseCategory.forEach(category =>{
@@ -760,6 +781,9 @@
                         this.showDialogModal = true;
                     }else{
                         //this.increaseTemp=[];
+                        this.letterDateAlert=false;
+                        this.startDateAlert=false;
+                        this.endDateAlert=false;
                         this.finalAmount=0;
                         this.contractPercentageIncrease();
                         this.contractInput={};
@@ -777,48 +801,60 @@
 
             addNewContract:function () {
                 this.$validator.validateAll().then((result) => {
-                    if (result) {
-                        var increaseTemp = [];
-                        this.percentageIncreaseCategory.forEach(category => {
-                            category.percentage_increase.forEach(item => {
-                                var temp={};
-                                if(item.checked){
-                                    temp.piId = item.id;
-                                    temp.amount = item.amountInc;
-                                    increaseTemp.push(temp);
-                                }
-                            });
-                        });
-                        axios.post('/financial/request/contract/insert', {
-                            rId: this.requestId,
-                            subject: this.contractInput.subject,
-                            executor: this.contractInput.executor,
-                            baseAmount: parseInt(this.contractInput.amount.split(',').join(''),10),
-                            percentIncAndDec: this.contractInput.percentIncAndDec,
-                            coefficient: this.contractInput.coefficient,
-                            letterNumber: this.contractInput.letterNumber,
-                            letterDate: this.contractInput.letterDate,
-                            startDate: this.contractInput.startDate,
-                            endDate: this.contractInput.endDate,
-                            description: this.contractInput.description,
-                            increaseItems: increaseTemp,
-                        }).then((response) => {
-                            this.$emit('updateReceiveRequestData', response.data);
-                            this.showInsertContractModal = false;
-                            this.$root.displayNotif(response.status);
-                            console.log(response);
-                        }, (error) => {
-                            console.log(error);
-                            this.$root.displayNotif(error.response.status);
-                        });
+                     if(this.contractInput.executor == null)
+                            this.executorAlert=true;
+                     if(this.contractInput.letterDate == null)
+                        this.letterDateAlert=true;
+                     if(this.contractInput.startDate == null)
+                        this.startDateAlert=true;
+                     if(this.contractInput.endDate == null)
+                        this.endDateAlert=true;
+                     if(!this.executorAlert && !this.letterDateAlert && !this.startDateAlert && !this.endDateAlert){
+                         if (result) {
+                             var increaseTemp = [];
+                             this.percentageIncreaseCategory.forEach(category => {
+                                 category.percentage_increase.forEach(item => {
+                                     var temp={};
+                                     if(item.checked){
+                                         temp.piId = item.id;
+                                         temp.amount = item.amountInc;
+                                         increaseTemp.push(temp);
+                                     }
+                                 });
+                             });
+                             axios.post('/financial/request/contract/insert', {
+                                 rId: this.requestId,
+                                 subject: this.contractInput.subject,
+                                 executor: this.contractInput.executor,
+                                 baseAmount: parseInt(this.contractInput.amount.split(',').join(''),10),
+                                 percentIncAndDec: this.contractInput.percentIncAndDec,
+                                 coefficient: this.contractInput.coefficient,
+                                 letterNumber: this.contractInput.letterNumber,
+                                 letterDate: this.contractInput.letterDate,
+                                 startDate: this.contractInput.startDate,
+                                 endDate: this.contractInput.endDate,
+                                 description: this.contractInput.description,
+                                 increaseItems: increaseTemp,
+                             }).then((response) => {
+                                 this.$emit('updateReceiveRequestData', response.data);
+                                 this.showInsertContractModal = false;
+                                 this.$root.displayNotif(response.status);
+                                 console.log(response);
+                             }, (error) => {
+                                 console.log(error);
+                                 this.$root.displayNotif(error.response.status);
+                             });
+                        }
                     }
                 });
             },
 
             openUpdateContractModal: function (index) {
+                this.executorAlert=false;
                 this.contractInput={};
                 this.selectedContractIndex=index;
                 this.selectedContract=this.contracts[this.selectedContractIndex];
+                this.contractInput.id=this.contracts[this.selectedContractIndex].id;
                 this.contractInput.subject=this.contracts[this.selectedContractIndex].cSubject;
                 this.contractInput.executor=this.contracts[this.selectedContractIndex].executor.eSubject;
                 this.contractInput.coefficient=this.contracts[this.selectedContractIndex].cCoefficient;
@@ -831,21 +867,19 @@
                 this.contractInput.description=this.contracts[this.selectedContractIndex].cDescription;
 
                 this.finalAmount=0;
-                this.contractPercentageIncrease();
                 this.increaseItems=[];
                 this.increaseItemsValue=[];
-                this.getAllExecutors();
 
                 this.contracts[this.selectedContractIndex].increase_amount.forEach(item => {
                     this.percentageIncreaseCategory.forEach((category,index) =>{
                         category.percentage_increase.forEach(incItem =>{
-                            //alert(item.percentage_increase.id + '--' +incItem.id);
                             if(item.percentage_increase.id == incItem.id){
-                                //alert(index);
                                 this.contractInput['percentage' + category.id]=item.percentage_increase.id;
-                                //alert( item.icaAmount);
-                                Vue.set(this.percentageIncreaseCategory[index], "amountInc", item.icaAmount);
                                 this.calculateAmount(this.contractInput['percentage' + category.id] ,index);
+                                //Vue.set(this.percentageIncreaseCategory[index], "amountInc", item.icaAmount);
+                                //this.calculateFinalContractAmount();
+                                console.log(JSON.stringify(this.percentageIncreaseCategory));
+
                             }
                         });
                     });
@@ -855,20 +889,48 @@
             },
 
             updateContract:function () {
-
-            },
-
-            getIncreaseIndex: function (catIndex) {
-                var selectedIndex=0;
-                this.contracts[this.selectedContractIndex].increase_amount.forEach(item => {
-                    this.percentageIncreaseCategory[catIndex].forEach(increase =>{
-                        increase.percentage_increase.forEach((incItem,index) =>{
-                            if(item.percentage_increase.id == incItem.id)
-                                selectedIndex=index;
-                        });
-                    });
+                this.$validator.validateAll().then((result) => {
+                    if (this.contractInput.executor == null)
+                        this.executorAlert = true;
+                    else {
+                        if (result) {
+                            var increaseTemp = [];
+                            this.percentageIncreaseCategory.forEach(category => {
+                                category.percentage_increase.forEach(item => {
+                                    var temp = {};
+                                    if (item.checked) {
+                                        temp.piId = item.id;
+                                        temp.amount = item.amountInc;
+                                        increaseTemp.push(temp);
+                                    }
+                                });
+                            });
+                            axios.post('/financial/request/contract/update', {
+                                id: this.contractInput.id,
+                                rId: this.requestId,
+                                subject: this.contractInput.subject,
+                                executor: this.contractInput.executor,
+                                baseAmount: parseInt(this.contractInput.amount.split(',').join(''), 10),
+                                percentIncAndDec: this.contractInput.percentIncAndDec,
+                                coefficient: this.contractInput.coefficient,
+                                letterNumber: this.contractInput.letterNumber,
+                                letterDate: this.contractInput.letterDate,
+                                startDate: this.contractInput.startDate,
+                                endDate: this.contractInput.endDate,
+                                description: this.contractInput.description,
+                                increaseItems: increaseTemp,
+                            }).then((response) => {
+                                this.$emit('updateReceiveRequestData', response.data);
+                                this.showUpdateContractModal = false;
+                                this.$root.displayNotif(response.status);
+                                console.log(response);
+                            }, (error) => {
+                                console.log(error);
+                                this.$root.displayNotif(error.response.status);
+                            });
+                        }
+                    }
                 });
-                return selectedIndex;
             },
         }
     }
