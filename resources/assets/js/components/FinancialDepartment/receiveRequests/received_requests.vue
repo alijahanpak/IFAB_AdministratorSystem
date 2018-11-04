@@ -715,7 +715,8 @@
                                              v-bind:factors="selectedRequest.factor"
                                              v-bind:rCreditIsAccepted="selectedRequest.rCreditIsAccepted"
                                              v-bind:rCreditIsExist="selectedRequest.rCreditIsExist"
-                                             v-bind:isFromRefundCosts="selectedRequest.isFromRefundCosts">
+                                             v-bind:isFromRefundCosts="selectedRequest.isFromRefundCosts"
+                                             v-bind:request="selectedRequest">
                                     </rFactor>
                                 </div>
                                 <!--Tab 5-->
