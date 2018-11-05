@@ -762,5 +762,17 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
         $permission->pSubject = 'تعریف قالب جدید چک';
         $permission->pPermission = 'CREATE_NEW_CHECK_TEMPLATE';
         $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 12;
+        $permission->pSubject = 'بروز رسانی فاکتور';
+        $permission->pPermission = 'SUPPLIER_UPDATE_FACTOR';
+        $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 13;
+        $permission->pSubject = 'بروزرسانی قرارداد';
+        $permission->pPermission = 'UNIT_OF_CONTRACT_UPDATE_CONTRACT';
+        $permission->save();
     }
 }

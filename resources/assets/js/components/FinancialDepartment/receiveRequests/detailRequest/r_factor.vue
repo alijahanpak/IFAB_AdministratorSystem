@@ -1,6 +1,6 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class="grid-x">
-        <div v-show="$can('SUPPLIER_DELETE_FACTOR')" class="large-12 medium-12 small-12">
+        <div v-show="$can('SUPPLIER_ADD_NEW_FACTOR')" class="large-12 medium-12 small-12">
             <div class="clearfix tool-bar">
                 <div class="button-group float-right report-mrg">
                     <a class="my-button toolbox-btn small" @click="openInsertFactorModal()">جدید</a>
@@ -56,11 +56,11 @@
                                         <span v-show="factor.factor_state.fsState == 'ACCEPTED'" class="success-label">{{ factor.factor_state.fsSubject }}</span>
                                         <span v-show="factor.factor_state.fsState == 'TEMPORARY'" class="danger-label">{{ factor.factor_state.fsSubject }}</span>
                                     </div>
-                                    <div class="medium-1 cell-vertical-center text-left" v-show="$can('SUPPLIER_DELETE_FACTOR') && factor.factor_state.fsState == 'TEMPORARY'">
-                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'factorMenu' + factor.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                    <div class="medium-1 cell-vertical-center text-left" v-show="($can('SUPPLIER_DELETE_FACTOR') || $can('SUPPLIER_UPDATE_FACTOR')) && factor.factor_state.fsState == 'TEMPORARY'">
+                                        <a class="dropdown small sm-btn-align" :data-toggle="'factorMenu' + factor.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'factorMenu' + factor.id" data-dropdown data-auto-focus="true">
                                             <ul class="my-menu small-font text-right">
-                                                <li v-show="$can('SUPPLIER_DELETE_FACTOR')"><a v-on:click.prevent="openUpdateFactorModal(factor)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                <li v-show="$can('SUPPLIER_UPDATE_FACTOR')"><a v-on:click.prevent="openUpdateFactorModal(factor)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                 <li v-show="$can('SUPPLIER_DELETE_FACTOR')"><a @click="openConfirmDeleteFactor(factor.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                             </ul>
                                         </div>
@@ -118,10 +118,11 @@
                                 </label>
                             </div>
                             <div class="large-6 medium-6 small-12 padding-lr">
-                                <label>مبلغ <span class="btn-red">(ریال)</span>
-                                    <money v-model="factorInput.amount" name="factorAmount" v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('factorAmount')}"></money>
+                                <label>مبلغ<span class="btn-red">(ریال)</span>
+                                    <money v-if="moneyState== 'none'" @keyup.native="calculateRemainingAmount(factorInput.amount)" v-model="factorInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('factorAmount')}"></money>
+                                    <money v-if="moneyState== 'block'" @keyup.native="calculateRemainingAmount(factorInput.amount)" v-model="factorInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm select-error"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('factorAmount')}"></money>
                                 </label>
-                                <p v-show="errors.has('factorAmount')" class="error-font">لطفا مبلغ را برای فاکتور مورد نظر را وارد نمایید!</p>
+                                <p style="margin-top: 10px;" v-show="moneyState== 'block'" class="btn-red">مبلغ فاکتور فراموش شده / نامعتبر است!</p>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -130,11 +131,14 @@
                                     <div class="medium-12 ">
                                         <span class="btn-red">مبلغ برآورد:</span><span>{{ ' ' + $root.dispMoneyFormat(request.rCostEstimation) + 'ریال'}}</span>
                                     </div>
+                                    <div class="medium-12 " v-show="request.isFromRefundCosts">
+                                        <span class="btn-red">مبلغ باقی مانده از تنخواه:</span><span>{{ ' ' + $root.dispMoneyFormat(getSelectedRefund(refundId).rAcceptedAmount - getSelectedRefund(refundId).rSumOfFactorAmount) + 'ریال'}}</span>
+                                    </div>
                                     <div class="medium-12">
                                         <span class="btn-red">مجموع فاکتور های ثبت شده:</span><span>{{ ' ' + $root.dispMoneyFormat(factorInput.sumOfFactorAmount) + ' ریال'}}</span>
                                     </div>
                                     <div class="medium-12">
-                                        <span class="btn-red">باقیمانده:</span><span>{{ ' ' + $root.dispMoneyFormat((parseInt(request.rCostEstimation , 10) - factorInput.sumOfFactorAmount)) + ' ریال'}}</span>
+                                        <span class="btn-red">باقیمانده (با در نظر گرفتن مبلغ این فاکتور):</span><span>{{ ' ' + $root.dispMoneyFormat(refundRemainingAmount) + ' ریال'}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -197,23 +201,24 @@
                                 </label>
                             </div>
                             <div class="large-6 medium-6 small-12 padding-lr">
-                                <label>مبلغ <span class="btn-red">(ریال)</span>
-                                    <money v-model="factorInput.amount" name="factorAmount" v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('factorAmount')}"></money>
+                                <label>مبلغ<span class="btn-red">(ریال)</span>
+                                    <money v-if="moneyState== 'none'" @keyup.native="calculateRemainingAmount(factorInput.amount , factorInput.baseAmount)" v-model="factorInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('factorAmount')}"></money>
+                                    <money v-if="moneyState== 'block'" @keyup.native="calculateRemainingAmount(factorInput.amount , factorInput.baseAmount)" v-model="factorInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm select-error"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('factorAmount')}"></money>
                                 </label>
-                                <p v-show="errors.has('factorAmount')" class="error-font">لطفا مبلغ را برای فاکتور مورد نظر را وارد نمایید!</p>
+                                <p style="margin-top: 10px;" v-show="moneyState== 'block'" class="btn-red">مبلغ فاکتور فراموش شده / نامعتبر است!</p>
                             </div>
                         </div>
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <div class="grid-x panel-separator">
                                     <div class="medium-12 ">
-                                        <span class="btn-red">مبلغ برآورد:</span><span>{{ ' ' + $root.dispMoneyFormat(request.rCostEstimation) + 'ریال'}}</span>
+                                        <span class="btn-red">مبلغ تنخواه:</span><span>{{ ' ' + $root.dispMoneyFormat(request.rCostEstimation) + 'ریال'}}</span>
                                     </div>
                                     <div class="medium-12">
                                         <span class="btn-red">مجموع فاکتور های ثبت شده (به استثنای فاکتور انتخاب شده):</span><span>{{ ' ' + $root.dispMoneyFormat(factorInput.sumOfFactorAmount) + ' ریال'}}</span>
                                     </div>
                                     <div class="medium-12">
-                                        <span class="btn-red">باقیمانده:</span><span>{{ ' ' + $root.dispMoneyFormat((parseInt(request.rCostEstimation , 10) - factorInput.sumOfFactorAmount)) + ' ریال'}}</span>
+                                        <span class="btn-red">باقیمانده:</span><span>{{ ' ' + $root.dispMoneyFormat(refundRemainingAmount) + ' ریال'}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -262,6 +267,7 @@
         <modal-tiny v-if="showDeleteConfirmModal" @close="showDeleteConfirmModal = false">
             <div slot="body">
                 <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <p style="font-size: 1rem">کاربر گرامی:</p>
                     <p class="large-offset-1 modal-text">آیا مایل هستید فاکتور را حذف کنید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
@@ -304,6 +310,8 @@
                 sellerList: [],
                 selectedSeller: null,
                 sellerOptions: {},
+                moneyState:'none',
+                refundRemainingAmount: 0,
                 //contract input text
             }
 
@@ -312,6 +320,7 @@
         created: function () {
             $(this.$el).foundation(); //WORKS!
         },
+
         updated: function () {
             $(this.$el).foundation(); //WORKS!
             this.myResizeModal();
@@ -369,6 +378,16 @@
                         console.log(error);
                     });
             },
+
+            getSelectedRefund: function(rfId){
+                var temp;
+                this.refunds.forEach(item => {
+                    if (item.id == rfId)
+                        temp = item;
+                });
+                return temp;
+            },
+
             checkAcceptFactor: function(){
                 var existNotAccepted = false;
                 this.factors.forEach(item => {
@@ -401,13 +420,15 @@
             openUpdateFactorModal: function(factor){
                 this.getRefund();
                 this.getAllSeller();
+                this.moneyState = 'none';
                 this.selectedFactorId = factor.id;
-                this.refundId= '';
+                this.refundId = factor.refund_factor.length > 0 ? factor.refund_factor[0].rfRId : '';
                 this.factorInput.amount = factor.fAmount;
                 this.factorInput.seller = factor.seller.sSubject;
                 this.factorInput.subject = factor.fSubject;
                 this.factorInput.description = factor.fDescription;
                 this.factorInput.sumOfFactorAmount = this.getSumOfAllFactorAmount() - parseInt(this.factorInput.amount,10);
+                this.calculateRemainingAmount(factor.fAmount , factor.fAmount);
                 this.showUpdateFactorModal = true;
             },
 
@@ -448,12 +469,25 @@
                 $('.dynamic-height-level-modal3').css('height', (x-580) + 'px');
             },
 
+            calculateRemainingAmount: function (inputValue = 0 , baseAmount = 0) {
+                inputValue += ''; //for cast to string
+                this.refundRemainingAmount = ((this.request.rCostEstimation - this.getSumOfAllFactorAmount()) - parseInt(inputValue.split(',').join(''),10)) + baseAmount;
+                if (parseInt(inputValue.split(',').join(''),10) <= 0)
+                    this.moneyState = 'block';
+                else
+                    this.moneyState = 'none';
+            },
+
             openInsertFactorModal:function () {
                 if (this.isFromRefundCosts == true)
                 {
                     this.getRefund();
                     this.getAllSeller();
+                    this.moneyState = 'none';
                     this.factorInput={};
+                    this.factorInput.sumOfFactorAmount = this.getSumOfAllFactorAmount();
+                    this.factorInput.amount = '0';
+                    this.calculateRemainingAmount(this.factorInput.amount);
                     this.refundId= '';
                     this.showInsertFactorModal=true;
                 }else{
@@ -466,8 +500,11 @@
                         }else{
                             this.getRefund();
                             this.getAllSeller();
+                            this.moneyState = 'none';
                             this.factorInput={};
                             this.factorInput.sumOfFactorAmount = this.getSumOfAllFactorAmount();
+                            this.factorInput.amount = '0';
+                            this.calculateRemainingAmount(this.factorInput.amount);
                             this.showInsertFactorModal=true;
                         }
                     }else{
@@ -480,22 +517,28 @@
             addNewFactor:function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        axios.post('/financial/request/factor/insert', {
-                            refundId: this.refundId,
-                            rId: this.requestId,
-                            subject: this.factorInput.subject,
-                            seller: this.factorInput.seller,
-                            amount: parseInt(this.factorInput.amount.split(',').join(''),10),
-                            description: this.factorInput.description,
-                        }).then((response) => {
-                            this.$emit('updateReceiveRequestData' , response.data);
-                            this.showInsertFactorModal = false;
-                            this.$root.displayNotif(response.status);
-                            console.log(response);
-                        }, (error) => {
-                            console.log(error);
-                            this.$root.displayNotif(error.response.status);
-                        });
+                        if ((parseInt(this.factorInput.amount.split(',').join(''),10) <= 0))
+                        {
+                            this.moneyState = 'block';
+                        }else {
+                            this.moneyState = 'none';
+                            axios.post('/financial/request/factor/insert', {
+                                refundId: this.refundId,
+                                rId: this.requestId,
+                                subject: this.factorInput.subject,
+                                seller: this.factorInput.seller,
+                                amount: parseInt(this.factorInput.amount.split(',').join(''), 10),
+                                description: this.factorInput.description,
+                            }).then((response) => {
+                                this.$emit('updateReceiveRequestData', response.data);
+                                this.showInsertFactorModal = false;
+                                this.$root.displayNotif(response.status);
+                                console.log(response);
+                            }, (error) => {
+                                console.log(error);
+                                this.$root.displayNotif(error.response.status);
+                            });
+                        }
                     }
                 });
             },
@@ -503,23 +546,29 @@
             updateFactor: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        axios.post('/financial/request/factor/update', {
-                            id: this.selectedFactorId,
-                            refundId: this.refundId,
-                            subject: this.factorInput.subject,
-                            seller: this.factorInput.seller,
-                            amount: parseInt(this.factorInput.amount.split(',').join(''),10),
-                            description: this.factorInput.description,
-                            resultType: 'RECEIVED'
-                        }).then((response) => {
-                            this.$emit('updateReceiveRequestData' , response.data);
-                            this.showUpdateFactorModal = false;
-                            this.$root.displayNotif(response.status);
-                            console.log(response);
-                        }, (error) => {
-                            console.log(error);
-                            this.$root.displayNotif(error.response.status);
-                        });
+                        if ((parseInt(this.factorInput.amount.split(',').join(''),10) <= 0))
+                        {
+                            this.moneyState = 'block';
+                        }else {
+                            this.moneyState = 'none';
+                            axios.post('/financial/request/factor/update', {
+                                id: this.selectedFactorId,
+                                refundId: this.refundId,
+                                subject: this.factorInput.subject,
+                                seller: this.factorInput.seller,
+                                amount: parseInt(this.factorInput.amount.split(',').join(''), 10),
+                                description: this.factorInput.description,
+                                resultType: 'RECEIVED'
+                            }).then((response) => {
+                                this.$emit('updateReceiveRequestData', response.data);
+                                this.showUpdateFactorModal = false;
+                                this.$root.displayNotif(response.status);
+                                console.log(response);
+                            }, (error) => {
+                                console.log(error);
+                                this.$root.displayNotif(error.response.status);
+                            });
+                        }
                     }
                 });
             },

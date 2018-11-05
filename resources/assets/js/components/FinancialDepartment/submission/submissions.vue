@@ -496,7 +496,7 @@
                                              v-on:closeModal="showRequestDetailModal=false"
                                              v-bind:requestId="requestId"
                                              v-bind:factors="factors"
-                                             v-bind:data="submissions[selectedSubmissionIndex]"
+                                             v-bind:request="submissions[selectedSubmissionIndex]"
                                              v-bind:refundFactor="refundFactor">
                                     </sFactor>
                                 </div>

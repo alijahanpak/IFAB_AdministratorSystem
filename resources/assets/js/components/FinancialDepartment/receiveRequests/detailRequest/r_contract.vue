@@ -493,6 +493,7 @@
         <modal-tiny v-if="showDeleteConfirmModal" @close="showDeleteConfirmModal = false">
             <div slot="body">
                 <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <p style="font-size: 1rem">کاربر گرامی:</p>
                     <p class="large-offset-1 modal-text">آیا مایل هستید قرارداد را حذف کنید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">

@@ -18,6 +18,7 @@ class _Request extends Model
         'rAcceptedAmount' ,
         'rCommitmentAmount' ,
         'rSumOfDraftAmount' ,
+        'rSumOfFactorAmount' ,
         'rIsPaid',
         'rIsPayRequestClosed',
         'rRelativeFactor' ,
@@ -193,6 +194,17 @@ class _Request extends Model
     {
         $sum = Draft::where('dRId' , '=' , $this->id)
             ->where('dDsId' , '<>' , DraftState::where('dsState' , '=' , 'BLOCKED')->value('id'))->sum('dAmount');
+        return $sum;
+    }
+
+    public function getRSumOfFactorAmountAttribute()
+    {
+        $sum = Factor::where('fRId' , '=' , $this->id)
+            ->where('fFsId' , '<>' , FactorState::where('fsState' , '=' , 'NOT_ACCEPTED')->value('id'))->sum('fAmount');
+
+        $factors = RefundFactor::where('rfRId' , $this->id)->pluck('rfFId');
+        $sum += Factor::whereIn('id' , $factors)
+            ->where('fFsId' , '<>' , FactorState::where('fsState' , '=' , 'NOT_ACCEPTED')->value('id'))->sum('fAmount');
         return $sum;
     }
 
