@@ -83,7 +83,7 @@
                                             <tbody class="tbl-head-style-cell">
                                             <tr class="table-row" @click="getRequestDetail('REQUEST' , index)" v-for="(receiveRequest , index) in receiveRequests.REQUEST.data">
                                                 <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
-                                                <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
+                                                <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 gray-colors"></i></td>
                                                 <td>{{receiveRequest.rSubject}}</td>
                                                 <td :data-toggle="'lastRef' + receiveRequest.id">{{receiveRequest.rLastRef.source_user_info.name}} - {{receiveRequest.rLastRef.source_user_info.role.rSubject}}
                                                     <div class="clearfix tool-bar" v-if="receiveRequest.rLastRef.rhDescription !== null">
@@ -198,7 +198,7 @@
                                             <tbody class="tbl-head-style-cell">
                                             <tr class="table-row" @click="getRequestDetail('FINANCIAL' , index)" v-for="(receiveFinancial , index) in receiveRequests.FINANCIAL.data">
                                                 <td v-show="receiveFinancial.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
-                                                <td v-show="receiveFinancial.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
+                                                <td v-show="receiveFinancial.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 gray-colors"></i></td>
                                                 <td>{{receiveFinancial.rSubject}}</td>
                                                 <td :data-toggle="'lastRef' + receiveFinancial.id">{{receiveFinancial.rLastRef.source_user_info.name}} - {{receiveFinancial.rLastRef.source_user_info.role.rSubject}}
                                                     <div class="clearfix tool-bar" v-if="receiveFinancial.rLastRef.rhDescription !== null || receiveFinancial.request_history_last_point.length > 0">
@@ -316,7 +316,7 @@
                                             <tbody class="tbl-head-style-cell">
                                             <tr class="table-row" @click="getRequestDetail('PURCHASE_AND_CONTRACT' , index)" v-for="(receivePAndC , index) in receiveRequests.PURCHASE_AND_CONTRACT.data">
                                                 <td v-show="receivePAndC.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
-                                                <td v-show="receivePAndC.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
+                                                <td v-show="receivePAndC.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 gray-colors"></i></td>
                                                 <td>{{receivePAndC.rSubject}}</td>
                                                 <td :data-toggle="'lastRef' + receivePAndC.id">{{receivePAndC.rLastRef.source_user_info.name}} - {{receivePAndC.rLastRef.source_user_info.role.rSubject}}
                                                     <div class="clearfix tool-bar" v-if="receivePAndC.rLastRef.rhDescription !== null">
@@ -431,7 +431,7 @@
                                             <tbody class="tbl-head-style-cell">
                                             <tr class="table-row" @click="getRequestDetail('PAYMENT' , index)" v-for="(receivePayment , index) in receiveRequests.PAYMENT.data">
                                                 <td v-show="receivePayment.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
-                                                <td v-show="receivePayment.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
+                                                <td v-show="receivePayment.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 gray-colors"></i></td>
                                                 <td>{{receivePayment.rSubject}}</td>
                                                 <td :data-toggle="'lastRef' + receivePayment.id">{{receivePayment.rLastRef.source_user_info.name}} - {{receivePayment.rLastRef.source_user_info.role.rSubject}}
                                                     <div class="clearfix tool-bar" v-if="receivePayment.rLastRef.rhDescription !== null">
@@ -546,7 +546,7 @@
                                             <tbody class="tbl-head-style-cell">
                                             <tr class="table-row" @click="getRequestDetail('DRAFT' , index)" v-for="(receiveDraft , index) in receiveRequests.DRAFT.data">
                                                 <td v-show="receiveDraft.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
-                                                <td v-show="receiveDraft.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 purple-color"></i></td>
+                                                <td v-show="receiveDraft.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 gray-colors"></i></td>
                                                 <td>{{receiveDraft.rSubject}}</td>
                                                 <td :data-toggle="'lastRef' + receiveDraft.id">{{receiveDraft.rLastRef.source_user_info.name}} - {{receiveDraft.rLastRef.source_user_info.role.rSubject}}
                                                     <div class="clearfix tool-bar" v-if="receiveDraft.rLastRef.rhDescription !== null">
@@ -631,14 +631,17 @@
                                 <li v-if="selectedRequest.request_type.rtType == 'BUY_SERVICES'" class="tabs-title" :class="selectedRequest.request_level.rlLevel == 'PAYMENT' ? 'is-active' : ''"><a href="#payRequestTab">درخواست پرداخت </a></li>
                                 <li class="tabs-title" :class="selectedRequest.request_level.rlLevel == 'DRAFT' ? 'is-active' : ''"><a href="#draftTab">حواله </a></li>
                                 <li class="tabs-title"><a href="#requestHistoryTab">تاریخچه </a></li>
-                                <li class="tabs-title"><a href="#requestAttachmentsTab">پیوست ها </a></li>
+                                <li class="tabs-title"><a href="#requestAttachmentsTab">پیوست ها <span v-show="selectedRequest.attachment.length > 0" class="notif-badge-success">{{selectedRequest.attachment.length}}</span> </a></li>
                             </ul>
                             <div class="tabs-content inner-vh" data-tabs-content="request_tab_view">
                                 <!--Tab 1-->
                                 <div class="tabs-panel table-mrg-btm" :class="selectedRequest.request_level.rlLevel == 'REQUEST' ? 'is-active' : ''" id="requestDetailTab">
-                                    <rDetails v-bind:requestTypeDetail="selectedRequest.request_type.rtType"
+                                    <rDetails v-on:updateReceiveRequestData="updateReceiveRequestData"
+                                              v-bind:requestTypeDetail="selectedRequest.request_type.rtType"
                                               v-bind:requestFill="selectedRequest"
-                                              v-bind:commodityList="selectedRequest.request_commodity"
+                                              v-bind:selectedBuffer="selectedBuffer"
+                                              v-bind:selectedIndex="selectedIndex"
+                                              v-bind:selectedRequest="selectedRequest"
                                               v-on:setRepoExistCountParent="setRepoExistCount"
                                     >
                                     </rDetails>
@@ -1025,13 +1028,14 @@
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <label>تاریخ
                                 <date-picker
-                                        :color="'#5c6bc0'"
+                                        :color="letterDateAlert ? '#d9534f' : '#5c6bc0'"
                                         v-model="registerDate"
                                         input-class="form-control form-control-lg date-picker-bottom-margin"
                                         id="my-custom-input"
                                         placeholder="انتخاب تاریخ">
                                 </date-picker>
                             </label>
+                            <p style="margin-top:3px !important;" v-show="letterDateAlert" class="error-font">لطفا تاریخ مورد نظر را وارد نمایید!</p>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <label> شماره
@@ -1200,6 +1204,7 @@
                 referralDId: null,
                 referralPrId: null,
                 paymentRequestAmount:0,
+                letterDateAlert:false,
             }
         },
 
@@ -1233,7 +1238,13 @@
                     this.getDraftIsExist();
                     this.getIamVerifier();
                 }
-            }
+            },
+
+            registerDate: function (newQuestion, oldQuestion) {
+                if(this.registerDate != null)
+                    this.letterDateAlert=false;
+            },
+
         },
 
         methods: {
@@ -1513,28 +1524,34 @@
 
 
             responseRequest: function () {
-                axios.post('/financial/request/response', {
-                    lastRefId: this.selectedRequest.rLastRef.id,
-                    description: this.responseDescription,
-                    dId: this.referralDId,
-                    prId: this.referralPrId
-                }).then((response) => {
-                    this.loadReceivedData(response.data);
-                    this.$parent._getUnReadReceivedRequest();
-                    this.makePagination(response.data);
-                    this.showResponseRequestModal = false;
-                    this.showRequestDetailModal = false;
-                    this.$parent.displayNotif(response.status);
-                    console.log(response);
-                }, (error) => {
-                    console.log(error);
-                    this.$parent.displayNotif(error.response.status);
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post('/financial/request/response', {
+                            lastRefId: this.selectedRequest.rLastRef.id,
+                            description: this.responseDescription,
+                            dId: this.referralDId,
+                            prId: this.referralPrId
+                        }).then((response) => {
+                            this.loadReceivedData(response.data);
+                            this.$parent._getUnReadReceivedRequest();
+                            this.makePagination(response.data);
+                            this.showResponseRequestModal = false;
+                            this.showRequestDetailModal = false;
+                            this.$parent.displayNotif(response.status);
+                            console.log(response);
+                        }, (error) => {
+                            console.log(error);
+                            this.$parent.displayNotif(error.response.status);
+                        });
+                    }
                 });
             },
 
             openRegisterAndNumberingModal: function (){
-                if (this.selectedRequest.rRemainingVerifiers.length == 0)
+                if (this.selectedRequest.rRemainingVerifiers.length == 0){
                     this.showRegisterAndNumberingModal=true;
+                    this.letterDateAlert=false;
+                }
                 else {
                     this.dialogMessage = 'با توجه به اینکه درخواست تایید نهایی نشده است ثبت در دبیرخانه امکان پذیر نیست! شما می توانید آخرین وضعیت تایید درخواست را از بخش تاییدگنندگان مشاهده کنید.';
                     this.showDialogModal = true;
@@ -1542,21 +1559,29 @@
             },
 
             registerAndNumbering:function () {
-                axios.post('/financial/request/secretariat/numbering/register', {
-                    rId: this.requestId,
-                    letterDate: this.registerDate,
-                    letterNumber: this.letterNumber
-                }).then((response) => {
-                    this.loadReceivedData(response.data);
-                    this.$parent._getUnReadReceivedRequest();
-                    this.makePagination(response.data);
-                    this.showRegisterAndNumberingModal = false;
-                    this.showRequestDetailModal = false;
-                    this.$parent.displayNotif(response.status);
-                    console.log(response);
-                }, (error) => {
-                    console.log(error);
-                    this.$parent.displayNotif(error.response.status);
+                this.$validator.validateAll().then((result) => {
+                    if (this.registerDate == '')
+                        this.letterDateAlert = true;
+                    if(!this.letterDateAlert){
+                        if (result) {
+                            axios.post('/financial/request/secretariat/numbering/register', {
+                                rId: this.requestId,
+                                letterDate: this.registerDate,
+                                letterNumber: this.letterNumber
+                            }).then((response) => {
+                                this.loadReceivedData(response.data);
+                                this.$parent._getUnReadReceivedRequest();
+                                this.makePagination(response.data);
+                                this.showRegisterAndNumberingModal = false;
+                                this.showRequestDetailModal = false;
+                                this.$parent.displayNotif(response.status);
+                                console.log(response);
+                            }, (error) => {
+                                console.log(error);
+                                this.$parent.displayNotif(error.response.status);
+                            });
+                        }
+                    }
                 });
             },
 

@@ -378,6 +378,9 @@ a:focus,button:focus {
 .btn-green a:hover{
     color: #939842;
 }
+.gray-color-notif{
+    color: #CFD8DC;
+}
 .btn-primary{
     color:#337ab7;
 }

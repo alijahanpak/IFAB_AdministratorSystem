@@ -92,7 +92,7 @@
                         <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="commodity_tab_view">
                             <li class="tabs-title is-active"><a href="#reciverTab" aria-selected="true">دریافت کنندگان</a></li>
                             <li class="tabs-title"><a href="#commodityTab">فرم درخواست </a></li>
-                            <li class="tabs-title"><a href="#attachmentTab">پیوست ها </a></li>
+                            <li class="tabs-title"><a href="#attachmentTab">پیوست ها <span v-show="attachments.length > 0" class="notif-badge-success">{{attachments.length}}</span></a></li>
                         </ul>
                         <div class="tabs-content inner-vh" data-tabs-content="commodity_tab_view">
                             <!--Tab 1-->
@@ -334,7 +334,7 @@
                     </div>
                     <div class="large-12 medium-12 small-12 padding-lr medium-top-m">
                         <div style="margin-bottom:-10px;" class="stacked-for-small button-group">
-                            <button type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                            <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت</span></button>
                         </div>
                     </div>
                 </form>
@@ -443,23 +443,23 @@
                                                 <tbody>
                                                 <tr>
                                                     <td width="150px">شماره : </td>
-                                                    <td>{{requestFill.rLetterNumber}}</td>
+                                                    <td>{{submissions[selectedIndex].rLetterNumber}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">تاریخ : </td>
-                                                    <td>{{requestFill.rLetterDate}}</td>
+                                                    <td>{{submissions[selectedIndex].rLetterDate}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">موضوع : </td>
-                                                    <td>{{requestFill.rSubject}}</td>
+                                                    <td>{{submissions[selectedIndex].rSubject}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">مبلغ برآوردی : </td>
-                                                    <td>{{$parent.dispMoneyFormat(requestFill.rCostEstimation)}} <span class="btn-red">  ریال  </span></td>
+                                                    <td>{{$parent.dispMoneyFormat(submissions[selectedIndex].rCostEstimation)}} <span class="btn-red">  ریال  </span></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="150px">متن درخواست : </td>
-                                                    <td class="text-justify">{{requestFill.rDescription}}</td>
+                                                    <td class="text-justify">{{submissions[selectedIndex].rDescription}}</td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -759,7 +759,7 @@
                             <div style="margin-top:16px;" class="grid-x">
                                 <div style="padding-left: 10px" class="large-6 medium-6 small-12">
                                     <label>شرح کامل خدمات
-                                        <textarea v-if="requestTypeSend == 'BUY_SERVICES'"  style="min-height: 170px;" name="fullDescription" v-model="requestFill.fullDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
+                                        <textarea v-if="requestType == 'BUY_SERVICES'"  style="min-height: 170px;" name="fullDescription" v-model="requestFill.fullDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
                                         <textarea v-else="" class="form-element-margin-btm"  style="min-height: 170px;" name="fullDescription" v-model="requestFill.fullDescription"   :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
                                         <p v-show="errors.has('fullDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</p>
                                     </label>
@@ -784,8 +784,8 @@
                                 </div>
                                 <div class="large-12 medium-12 small-12">
                                     <label>متن درخواست
-                                        <textarea v-if="requestTypeSend == 'FUND'"  style="min-height: 150px;" name="requestText" v-model="requestInput.fullDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
-                                        <textarea v-else="" class="form-element-margin-btm"  style="min-height: 150px;" name="requestText" v-model="requestInput.fullDescription" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
+                                        <textarea v-if="requestType == 'FUND'"  style="min-height: 150px;" name="requestText" v-model="requestFill.fullDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
+                                        <textarea v-else="" class="form-element-margin-btm"  style="min-height: 150px;" name="requestText" v-model="requestFill.fullDescription"></textarea>
                                         <p v-show="errors.has('fullDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</p>
                                     </label>
                                 </div>
@@ -1050,6 +1050,7 @@
                 paymentDescription:'',
                 selectedSubmisson:[],
                 selectedIndex:'',
+                btnState:true,
 
             }
         },
@@ -1546,6 +1547,7 @@
                     this.commodityQuery='';
                     this.requestType=this.selectedSubmisson.request_type.rtType;
                     this.requestFill.rSubject=this.selectedSubmisson.rSubject;
+                    this.requestFill.fundEstimated=this.selectedSubmisson.rCostEstimation;
                     this.requestFill.serviceEstimated=this.selectedSubmisson.rCostEstimation;
                     this.requestFill.fullDescription=this.selectedSubmisson.rDescription;
                     this.requestFill.furtherDescription=this.selectedSubmisson.rFurtherDetails;
