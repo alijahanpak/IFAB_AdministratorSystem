@@ -157,9 +157,9 @@
                                     <div class="grid-x input-top-margin">
                                         <div class="large-12 medium-12 small-12 padding-lr">
                                             <label>قالب چک
-                                                <select name="checkTemplate" v-validate data-vv-rules="required"  v-model="inputCheck.id" :class="{'input': true, 'select-error': errors.has('checkTemplate')}">
+                                                <select name="checkTemplate" @change="selectCheckTemplate(inputCheck.checkFormat)" v-validate data-vv-rules="required"  v-model="inputCheck.checkFormat" :class="{'input': true, 'select-error': errors.has('checkTemplate')}">
                                                     <option value=""></option>
-                                                    <option v-for="activeCheckFormat in allActiveCheckFormat" @click="selectCheckTemplate(activeCheckFormat)" :value="activeCheckFormat.id">{{activeCheckFormat.cfSubject}}</option>
+                                                    <option v-for="activeCheckFormat in allActiveCheckFormat" :value="activeCheckFormat">{{activeCheckFormat.cfSubject}}</option>
                                                 </select>
                                                 <p v-show="errors.has('checkTemplate')" class="error-font">لطفا قالب چک را انتخاب کنید!</p>
                                                 <p v-show="checkVerifierCountAlert" class="error-font">کاربر گرامی: با توجه به تعداد امضا کنندگان، شما نمی توانید قالب چک با دو امضا انتخاب کنید!</p>
@@ -569,26 +569,34 @@
             },
 
             selectCheckTemplate:function(check){
-                var checkTemp=[];
-                checkTemp=check;
-                this.checkVerifierCount=checkTemp.cfSecondSignatureWidth;
-                var checkedCount=0
-                this.allCheckVerifiers.forEach(item =>{
-                    if(item.checked ==  true){
-                        checkedCount +=1;
+                if (check != '')
+                {
+                    var checkTemp = [];
+                    checkTemp=check;
+                    this.checkVerifierCount=checkTemp.cfSecondSignatureWidth;
+                    var checkedCount=0;
+
+                    this.allCheckVerifiers.forEach(item =>{
+                        if(item.checked ==  true){
+                            checkedCount +=1;
+                        }
+                    });
+
+                    if(this.checkVerifierCount == 0 && checkedCount > 1) {
+                        this.checkVerifierCountAlert = true;
+                        this.previewBtn=false;
                     }
-                });
-                if(this.checkVerifierCount == 0 && checkedCount >1) {
-                    this.checkVerifierCountAlert = true;
-                    this.previewBtn=false;
+                    else{
+                        this.previewBtn=true;
+                        this.checkVerifierCountAlert = false;
+                    }
+                    this.fillCheck={};
+                    this.checkActiveFormatSelect=[];
+                    this.checkActiveFormatSelect=check;
+                }else{
+                    this.previewBtn = false;
                 }
-                else{
-                    this.previewBtn=true;
-                    this.checkVerifierCountAlert = false;
-                }
-                this.fillCheck={};
-                this.checkActiveFormatSelect=[];
-                this.checkActiveFormatSelect=check;
+
             },
 
             showCheckPreview:function(){
@@ -713,7 +721,7 @@
                         searchValue:"",
                     }).then((response) => {
                         if(response.status == 200){
-                            this.openReportFile(this.inputCheck.id,this.checkId);
+                            this.openReportFile(this.inputCheck.checkFormat.id,this.checkId);
                             this.allChecks = response.data.data;
                             this.makePagination(response.data);
                             this.showGetCheckPreviewModal=false;

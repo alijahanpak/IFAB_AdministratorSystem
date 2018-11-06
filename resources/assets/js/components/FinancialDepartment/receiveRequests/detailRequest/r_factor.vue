@@ -119,10 +119,10 @@
                             </div>
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>مبلغ<span class="btn-red">(ریال)</span>
-                                    <money v-if="moneyState== 'none'" @keyup.native="calculateRemainingAmount(factorInput.amount)" v-model="factorInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('factorAmount')}"></money>
-                                    <money v-if="moneyState== 'block'" @keyup.native="calculateRemainingAmount(factorInput.amount)" v-model="factorInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm select-error"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('factorAmount')}"></money>
+                                    <money v-if="!moneyState" @keyup.native="calculateRemainingAmount(factorInput.amount)" v-model="factorInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('factorAmount')}"></money>
+                                    <money v-else @keyup.native="calculateRemainingAmount(factorInput.amount)" v-model="factorInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm select-error"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('factorAmount')}"></money>
                                 </label>
-                                <p style="margin-top: 10px;" v-show="moneyState== 'block'" class="btn-red">مبلغ فاکتور فراموش شده / نامعتبر است!</p>
+                                <p style="margin-top: 10px;" v-show="moneyState" class="btn-red">مبلغ فاکتور فراموش شده / نامعتبر است!</p>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -131,7 +131,7 @@
                                     <div class="medium-12 ">
                                         <span class="btn-red">مبلغ برآورد:</span><span>{{ ' ' + $root.dispMoneyFormat(request.rCostEstimation) + 'ریال'}}</span>
                                     </div>
-                                    <div class="medium-12 " v-show="request.isFromRefundCosts">
+                                    <div class="medium-12 " v-if="request.isFromRefundCosts && refundId != ''">
                                         <span class="btn-red">مبلغ باقی مانده از تنخواه:</span><span>{{ ' ' + $root.dispMoneyFormat(getSelectedRefund(refundId).rAcceptedAmount - getSelectedRefund(refundId).rSumOfFactorAmount) + 'ریال'}}</span>
                                     </div>
                                     <div class="medium-12">
@@ -202,17 +202,20 @@
                             </div>
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>مبلغ<span class="btn-red">(ریال)</span>
-                                    <money v-if="moneyState== 'none'" @keyup.native="calculateRemainingAmount(factorInput.amount , factorInput.baseAmount)" v-model="factorInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('factorAmount')}"></money>
-                                    <money v-if="moneyState== 'block'" @keyup.native="calculateRemainingAmount(factorInput.amount , factorInput.baseAmount)" v-model="factorInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm select-error"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('factorAmount')}"></money>
+                                    <money v-if="!moneyState" @keyup.native="calculateRemainingAmount(factorInput.amount , factorInput.baseAmount)" v-model="factorInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('factorAmount')}"></money>
+                                    <money v-else @keyup.native="calculateRemainingAmount(factorInput.amount , factorInput.baseAmount)" v-model="factorInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm select-error"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('factorAmount')}"></money>
                                 </label>
-                                <p style="margin-top: 10px;" v-show="moneyState== 'block'" class="btn-red">مبلغ فاکتور فراموش شده / نامعتبر است!</p>
+                                <p style="margin-top: 10px;" v-show="moneyState" class="btn-red">مبلغ فاکتور فراموش شده / نامعتبر است!</p>
                             </div>
                         </div>
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <div class="grid-x panel-separator">
                                     <div class="medium-12 ">
-                                        <span class="btn-red">مبلغ تنخواه:</span><span>{{ ' ' + $root.dispMoneyFormat(request.rCostEstimation) + 'ریال'}}</span>
+                                        <span class="btn-red">مبلغ برآورد:</span><span>{{ ' ' + $root.dispMoneyFormat(request.rCostEstimation) + 'ریال'}}</span>
+                                    </div>
+                                    <div class="medium-12 " v-if="request.isFromRefundCosts && refundId != '' && refunds.length > 0">
+                                        <span class="btn-red">مبلغ باقی مانده از تنخواه:</span><span>{{ ' ' + $root.dispMoneyFormat(getSelectedRefund(refundId).rAcceptedAmount - getSelectedRefund(refundId).rSumOfFactorAmount) + 'ریال'}}</span>
                                     </div>
                                     <div class="medium-12">
                                         <span class="btn-red">مجموع فاکتور های ثبت شده (به استثنای فاکتور انتخاب شده):</span><span>{{ ' ' + $root.dispMoneyFormat(factorInput.sumOfFactorAmount) + ' ریال'}}</span>
@@ -310,7 +313,7 @@
                 sellerList: [],
                 selectedSeller: null,
                 sellerOptions: {},
-                moneyState:'none',
+                moneyState:false,
                 refundRemainingAmount: 0,
                 //contract input text
             }
@@ -420,10 +423,11 @@
             openUpdateFactorModal: function(factor){
                 this.getRefund();
                 this.getAllSeller();
-                this.moneyState = 'none';
+                this.moneyState = false;
                 this.selectedFactorId = factor.id;
                 this.refundId = factor.refund_factor.length > 0 ? factor.refund_factor[0].rfRId : '';
                 this.factorInput.amount = factor.fAmount;
+                this.factorInput.baseAmount = factor.fAmount;
                 this.factorInput.seller = factor.seller.sSubject;
                 this.factorInput.subject = factor.fSubject;
                 this.factorInput.description = factor.fDescription;
@@ -470,12 +474,21 @@
             },
 
             calculateRemainingAmount: function (inputValue = 0 , baseAmount = 0) {
-                inputValue += ''; //for cast to string
-                this.refundRemainingAmount = ((this.request.rCostEstimation - this.getSumOfAllFactorAmount()) - parseInt(inputValue.split(',').join(''),10)) + baseAmount;
-                if (parseInt(inputValue.split(',').join(''),10) <= 0)
-                    this.moneyState = 'block';
+                inputValue = parseInt((inputValue + '').split(',').join(''),10); //for cast to string
+                this.refundRemainingAmount = ((this.request.rCostEstimation - this.getSumOfAllFactorAmount()) - inputValue) + baseAmount;
+
+                if (inputValue <= 0)
+                    this.moneyState = true;
                 else
-                    this.moneyState = 'none';
+                {
+                    if (this.refunds.length > 0 && this.refundId != '' && inputValue > ((this.getSelectedRefund(this.refundId).rAcceptedAmount - this.getSelectedRefund(this.refundId).rSumOfFactorAmount) + baseAmount))
+                    {
+                        this.moneyState = true;
+                    }
+                    else
+                        this.moneyState = false;
+                }
+
             },
 
             openInsertFactorModal:function () {
@@ -483,7 +496,7 @@
                 {
                     this.getRefund();
                     this.getAllSeller();
-                    this.moneyState = 'none';
+                    this.moneyState = false;
                     this.factorInput={};
                     this.factorInput.sumOfFactorAmount = this.getSumOfAllFactorAmount();
                     this.factorInput.amount = '0';
@@ -500,7 +513,8 @@
                         }else{
                             this.getRefund();
                             this.getAllSeller();
-                            this.moneyState = 'none';
+                            this.moneyState = false;
+                            this.refundId= '';
                             this.factorInput={};
                             this.factorInput.sumOfFactorAmount = this.getSumOfAllFactorAmount();
                             this.factorInput.amount = '0';
@@ -515,59 +529,70 @@
             },
 
             addNewFactor:function () {
+                var inputValue = parseInt(this.factorInput.amount.split(',').join(''),10);
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        if ((parseInt(this.factorInput.amount.split(',').join(''),10) <= 0))
+                        if ((inputValue <= 0))
                         {
-                            this.moneyState = 'block';
+                            this.moneyState = true;
                         }else {
-                            this.moneyState = 'none';
-                            axios.post('/financial/request/factor/insert', {
-                                refundId: this.refundId,
-                                rId: this.requestId,
-                                subject: this.factorInput.subject,
-                                seller: this.factorInput.seller,
-                                amount: parseInt(this.factorInput.amount.split(',').join(''), 10),
-                                description: this.factorInput.description,
-                            }).then((response) => {
-                                this.$emit('updateReceiveRequestData', response.data);
-                                this.showInsertFactorModal = false;
-                                this.$root.displayNotif(response.status);
-                                console.log(response);
-                            }, (error) => {
-                                console.log(error);
-                                this.$root.displayNotif(error.response.status);
-                            });
+                            if (this.request.isFromRefundCosts && inputValue > (this.getSelectedRefund(this.refundId).rAcceptedAmount - this.getSelectedRefund(this.refundId).rSumOfFactorAmount))
+                            {
+                                this.moneyState = true;
+                            }else{
+                                this.moneyState = false;
+                                axios.post('/financial/request/factor/insert', {
+                                    refundId: this.refundId,
+                                    rId: this.requestId,
+                                    subject: this.factorInput.subject,
+                                    seller: this.factorInput.seller,
+                                    amount: inputValue,
+                                    description: this.factorInput.description,
+                                }).then((response) => {
+                                    this.$emit('updateReceiveRequestData', response.data);
+                                    this.showInsertFactorModal = false;
+                                    this.$root.displayNotif(response.status);
+                                    console.log(response);
+                                }, (error) => {
+                                    console.log(error);
+                                    this.$root.displayNotif(error.response.status);
+                                });
+                            }
                         }
                     }
                 });
             },
 
             updateFactor: function () {
+                var inputValue = parseInt(this.factorInput.amount.split(',').join(''),10);
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        if ((parseInt(this.factorInput.amount.split(',').join(''),10) <= 0))
+                        if ((inputValue <= 0))
                         {
-                            this.moneyState = 'block';
+                            this.moneyState = true;
                         }else {
-                            this.moneyState = 'none';
-                            axios.post('/financial/request/factor/update', {
-                                id: this.selectedFactorId,
-                                refundId: this.refundId,
-                                subject: this.factorInput.subject,
-                                seller: this.factorInput.seller,
-                                amount: parseInt(this.factorInput.amount.split(',').join(''), 10),
-                                description: this.factorInput.description,
-                                resultType: 'RECEIVED'
-                            }).then((response) => {
-                                this.$emit('updateReceiveRequestData', response.data);
-                                this.showUpdateFactorModal = false;
-                                this.$root.displayNotif(response.status);
-                                console.log(response);
-                            }, (error) => {
-                                console.log(error);
-                                this.$root.displayNotif(error.response.status);
-                            });
+                            if (this.request.isFromRefundCosts && inputValue > ((this.getSelectedRefund(this.refundId).rAcceptedAmount - this.getSelectedRefund(this.refundId).rSumOfFactorAmount) + this.factorInput.baseAmount)) {
+                                this.moneyState = true;
+                            } else {
+                                this.moneyState = false;
+                                axios.post('/financial/request/factor/update', {
+                                    id: this.selectedFactorId,
+                                    refundId: this.refundId,
+                                    subject: this.factorInput.subject,
+                                    seller: this.factorInput.seller,
+                                    amount: inputValue,
+                                    description: this.factorInput.description,
+                                    resultType: 'RECEIVED'
+                                }).then((response) => {
+                                    this.$emit('updateReceiveRequestData', response.data);
+                                    this.showUpdateFactorModal = false;
+                                    this.$root.displayNotif(response.status);
+                                    console.log(response);
+                                }, (error) => {
+                                    console.log(error);
+                                    this.$root.displayNotif(error.response.status);
+                                });
+                            }
                         }
                     }
                 });

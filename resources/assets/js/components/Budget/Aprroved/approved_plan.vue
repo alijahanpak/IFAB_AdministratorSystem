@@ -802,9 +802,9 @@
                         <div class="grid-x">
                             <div class="medium-12 cell padding-lr">
                                 <label>طرح
-                                    <select disabled="true" name="plan" v-model="projectAmendmentInput.capId">
+                                    <select disabled="true" @change="setCountyId(approvedAmendmentProjects.credit_distribution_title.county.id)" name="plan" v-model="projectAmendmentInput.capId">
                                         <option value=""></option>
-                                        <option :value="approvedAmendmentProjects.id" @click="setCountyId(approvedAmendmentProjects.credit_distribution_title.county.id)">{{ approvedAmendmentProjects.credit_distribution_title.cdtIdNumber + approvedAmendmentProjects.credit_distribution_title.cdtSubject }}</option>
+                                        <option :value="approvedAmendmentProjects.id">{{ approvedAmendmentProjects.credit_distribution_title.cdtIdNumber + approvedAmendmentProjects.credit_distribution_title.cdtSubject }}</option>
                                     </select>
                                 </label>
                             </div>
@@ -891,9 +891,9 @@
                         <div class="grid-x">
                             <div class="medium-12 cell padding-lr">
                                 <label>طرح
-                                    <select disabled="true" name="plan" v-model="projectAmendmentFill.capId">
+                                    <select disabled="true" name="plan" @change="setCountyId(approvedAmendmentProjects.credit_distribution_title.county.id)" v-model="projectAmendmentFill.capId">
                                         <option value=""></option>
-                                        <option :value="approvedAmendmentProjects.id" @click="setCountyId(approvedAmendmentProjects.credit_distribution_title.county.id)">{{ approvedAmendmentProjects.credit_distribution_title.cdtIdNumber + approvedAmendmentProjects.credit_distribution_title.cdtSubject }}</option>
+                                        <option :value="approvedAmendmentProjects.id">{{ approvedAmendmentProjects.credit_distribution_title.cdtIdNumber + approvedAmendmentProjects.credit_distribution_title.cdtSubject }}</option>
                                     </select>
                                 </label>
                             </div>

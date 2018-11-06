@@ -145,7 +145,7 @@
                                                                 <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
-                                                                        <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_EDIT')"><a v-on:click.prevent="openUpdateModal(plans.capital_assets_project[0] , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_EDIT')"><a v-on:click.prevent="openUpdateModal(plans , plans.capital_assets_project[0] , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                                         <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DELETE')"><a v-on:click.prevent="openDeleteModal(plans.capital_assets_project[0] , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                         <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_INSERT')"><a v-on:click.prevent="openApCreditSourceInsertModal(plans.capital_assets_project[0].id ,0)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
                                                                     </ul>
@@ -231,7 +231,7 @@
                                                                     <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id + project.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                     <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id + project.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
-                                                                            <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_EDIT')"><a v-on:click.prevent="openUpdateModal(project , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                            <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_EDIT')"><a v-on:click.prevent="openUpdateModal(plans , project , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                                             <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DELETE')"><a v-on:click.prevent="openDeleteModal(project , 0)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                             <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_INSERT')"><a v-on:click.prevent="openApCreditSourceInsertModal(project.id ,0)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
                                                                         </ul>
@@ -420,7 +420,7 @@
                                                             <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
-                                                                    <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_EDIT')"><a v-on:click.prevent="openUpdateModal(plans.capital_assets_project[0] , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                    <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_EDIT')"><a v-on:click.prevent="openUpdateModal(plans , plans.capital_assets_project[0] , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                                     <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DELETE')"><a v-on:click.prevent="openDeleteModal(plans.capital_assets_project[0] , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                     <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_INSERT')"><a v-on:click.prevent="openApCreditSourceInsertModal(plans.capital_assets_project[0].id ,1)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
                                                                 </ul>
@@ -506,7 +506,7 @@
                                                                 <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id + project.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id + project.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
-                                                                        <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_EDIT')"><a v-on:click.prevent="openUpdateModal(project , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
+                                                                        <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_EDIT')"><a v-on:click.prevent="openUpdateModal(plans , project , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
                                                                         <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DELETE')"><a v-on:click.prevent="openDeleteModal(project , 1)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
                                                                         <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_INSERT')"><a v-on:click.prevent="openApCreditSourceInsertModal(project.id ,1)"><i class="fa fa-money size-16"></i>  اعتبارات</a></li>
                                                                     </ul>
@@ -594,9 +594,9 @@
                             <div class="grid-x">
                                 <div class="medium-12 cell padding-lr">
                                     <label>طرح
-                                        <select class="form-element-margin-btm"  v-model="approvedProjectsInput.apPlan" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
+                                        <select class="form-element-margin-btm" @change="setCountyId(approvedProjectsInput.apPlan)"  v-model="approvedProjectsInput.apPlan" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
                                             <option value=""></option>
-                                            <option v-for="approvedPlan in approvedPlans" @click="setCountyId(approvedPlan.credit_distribution_title.county.id)" :value="approvedPlan.id">{{ approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject + (approvedPlan.credit_distribution_title.county == null ? '' : ' - ' + approvedPlan.credit_distribution_title.county.coName)}}</option>
+                                            <option v-for="approvedPlan in approvedPlans" :value="approvedPlan">{{ approvedPlan.cdtIdNumber + ' - ' + approvedPlan.cdtSubject + approvedPlan.coName == '' ? '' : ' - ' + approvedPlan.coName }}</option>
                                         </select>
                                         <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
                                     </label>
@@ -676,9 +676,9 @@
                         <div class="grid-x">
                             <div class="medium-12 cell padding-lr">
                                 <label>طرح
-                                    <select class="form-element-margin-btm"  v-model="approvedProjectsFill.apPlan" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
+                                    <select class="form-element-margin-btm" @change="setCountyIdInUpdate(approvedProjectsFill.apPlan)"  v-model="approvedProjectsFill.apPlan" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
                                         <option value=""></option>
-                                        <option v-for="approvedPlan in approvedPlans" :value="approvedPlan.id">{{ approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject }}</option>
+                                        <option v-for="approvedPlan in approvedPlans" :value="approvedPlan">{{ approvedPlan.cdtIdNumber + ' - ' + approvedPlan.cdtSubject + ' - ' + approvedPlan.coName }}</option>
                                     </select>
                                     <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
                                 </label>
@@ -1055,7 +1055,7 @@
                 showUpdateModal: false,
                 showDeleteModal: false,
                 showModalReport:false,
-                approvedProjectsFill: {},
+                approvedProjectsFill: {apPlan:{}},
 
                 apCreditSourceInput: {},
                 apCreditSourceFill: {},
@@ -1072,7 +1072,7 @@
                 apIdForDelete: '',
                 costTemp:'',
                 csIdForDelete: '',
-                approvedPlans: {},
+                approvedPlans: [],
                 counties: {},
                 countyState: false,
                 selectColumn:false,
@@ -1208,7 +1208,14 @@
             getAllApprovedPlan: function (pOrN) {
                 axios.get('/budget/approved_plan/capital_assets/getAllItems' , {params:{pOrN: pOrN}})
                     .then((response) => {
-                        this.approvedPlans = response.data;
+                        response.data.forEach(item => {
+                            var obj = {};
+                            Vue.set(obj , 'cdtIdNumber' , item.credit_distribution_title.cdtIdNumber);
+                            Vue.set(obj , 'cdtSubject' , item.credit_distribution_title.cdtSubject);
+                            Vue.set(obj , 'coName' , item.credit_distribution_title.county != null ? item.credit_distribution_title.county.coName : '');
+                            Vue.set(obj , 'countyId' , item.credit_distribution_title.county != null ? item.credit_distribution_title.county.id : '');
+                            this.approvedPlans.push(obj);
+                        });
                         console.log(response);
                     },(error) => {
                         console.log(error);
@@ -1302,7 +1309,7 @@
                 this.$validator.validateAll().then((result) => {
                     if (result) {
                         axios.post('/budget/approved_project/capital_assets/register' , {
-                            pId: this.approvedProjectsInput.apPlan,
+                            pId: this.approvedProjectsInput.apPlan.id,
                             subject: this.approvedProjectsInput.apProjectTitle,
                             code: this.approvedProjectsInput.apProjectCode,
                             startYear: this.approvedProjectsInput.apStartYear,
@@ -1438,10 +1445,17 @@
                 });
             },
 
-            setCountyId: function (coId) {
+            setCountyId: function (approvedPlan) {
                 if (this.provOrNat == 0)
                 {
-                    this.approvedProjectsInput.apCity = coId;
+                    this.approvedProjectsInput.apCity = approvedPlan.countyId;
+                }
+            },
+
+            setCountyIdInUpdate: function (approvedPlan) {
+                if (this.provOrNat == 0)
+                {
+                    this.approvedProjectsFill.apCity = approvedPlan.countyId;
                 }
             },
 
@@ -1454,12 +1468,17 @@
                 return sum;
             },
 
-            openUpdateModal: function (item , type) {
+            openUpdateModal: function (plan , item , type) {
                 this.getAllApprovedPlan(type);
                 this.getCounties();
                 this.provOrNat = type;
                 this.approvedProjectsFill.id = item.id;
-                this.approvedProjectsFill.apPlan = item.cpCapId;
+                var obj = {};
+                Vue.set(obj , 'cdtIdNumber' , plan.credit_distribution_title.cdtIdNumber);
+                Vue.set(obj , 'cdtSubject' , plan.credit_distribution_title.cdtSubject);
+                Vue.set(obj , 'coName' , plan.credit_distribution_title.county != null ? plan.credit_distribution_title.county.coName : '');
+                Vue.set(obj , 'countyId' , plan.credit_distribution_title.county != null ? plan.credit_distribution_title.county.id : '');
+                this.approvedProjectsFill.apPlan = obj;
                 this.approvedProjectsFill.apProjectTitle = item.cpSubject;
                 this.approvedProjectsFill.apProjectCode = item.cpCode;
                 this.approvedProjectsFill.apStartYear = item.cpStartYear;
@@ -1483,7 +1502,7 @@
                     if (result) {
                         axios.post('/budget/approved_project/capital_assets/update' , {
                             id: this.approvedProjectsFill.id,
-                            pId: this.approvedProjectsFill.apPlan,
+                            pId: this.approvedProjectsFill.apPlan.id,
                             subject: this.approvedProjectsFill.apProjectTitle,
                             code: this.approvedProjectsFill.apProjectCode,
                             startYear: this.approvedProjectsFill.apStartYear,
