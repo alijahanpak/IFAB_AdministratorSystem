@@ -142,7 +142,7 @@
                                                                 {{ plans.capital_assets_project[0].cpDescription }}
                                                             </div>
                                                             <div v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_EDIT') || $can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DELETE') || $can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_INSERT')" class="medium-1 cell-vertical-center text-left auto-margin">
-                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <a class="dropdown small sm-btn-align" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
                                                                         <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_EDIT')"><a v-on:click.prevent="openUpdateModal(plans , plans.capital_assets_project[0] , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -185,7 +185,7 @@
                                                                             {{ creditSource.ccsDescription }}
                                                                         </div>
                                                                         <div v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_EDIT') || $can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_DELETE')" class="medium-1 cell-vertical-center text-left auto-margin">
-                                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedProjectCs' + plans.id + creditSource.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                            <a class="dropdown small sm-btn-align" :data-toggle="'approvedProjectCs' + plans.id + creditSource.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                             <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedProjectCs' + plans.id + creditSource.id" data-dropdown data-auto-focus="true">
                                                                                 <ul class="my-menu small-font text-right">
                                                                                     <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_EDIT')"><a v-on:click.prevent="openApCsUpdateModal(creditSource , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -228,7 +228,7 @@
                                                                     {{ project.cpDescription }}
                                                                 </div>
                                                                 <div v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_EDIT') || $can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DELETE') || $can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_INSERT')" class="medium-1 cell-vertical-center text-left auto-margin">
-                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id + project.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                    <a class="dropdown small sm-btn-align" :data-toggle="'approvedPlans' + plans.id + project.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                     <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id + project.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
                                                                             <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_EDIT')"><a v-on:click.prevent="openUpdateModal(plans , project , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -271,7 +271,7 @@
                                                                                 {{ creditSource.ccsDescription }}
                                                                             </div>
                                                                             <div v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_EDIT') || $can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_DELETE')" class="medium-1 cell-vertical-center text-left auto-margin">
-                                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedProjectCs' + plans.id + creditSource.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                                <a class="dropdown small sm-btn-align" :data-toggle="'approvedProjectCs' + plans.id + creditSource.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                                 <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedProjectCs' + plans.id + creditSource.id" data-dropdown data-auto-focus="true">
                                                                                     <ul class="my-menu small-font text-right">
                                                                                         <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_EDIT')"><a v-on:click.prevent="openApCsUpdateModal(creditSource , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -417,7 +417,7 @@
                                                             {{ plans.capital_assets_project[0].cpDescription }}
                                                         </div>
                                                         <div v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_EDIT') || $can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DELETE') || $can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_INSERT')" class="medium-1 cell-vertical-center text-left auto-margin">
-                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <a class="dropdown small sm-btn-align" :data-toggle="'approvedPlans' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
                                                                     <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_EDIT')"><a v-on:click.prevent="openUpdateModal(plans , plans.capital_assets_project[0] , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -460,7 +460,7 @@
                                                                         {{ creditSource.ccsDescription }}
                                                                     </div>
                                                                     <div v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_EDIT') || $can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_DELETE')" class="medium-1 cell-vertical-center text-left auto-margin">
-                                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedProjectCs' + plans.id + creditSource.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                        <a class="dropdown small sm-btn-align" :data-toggle="'approvedProjectCs' + plans.id + creditSource.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                         <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedProjectCs' + plans.id + creditSource.id" data-dropdown data-auto-focus="true">
                                                                             <ul class="my-menu small-font text-right">
                                                                                 <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_EDIT')"><a v-on:click.prevent="openApCsUpdateModal(creditSource , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -503,7 +503,7 @@
                                                                 {{ project.cpDescription }}
                                                             </div>
                                                             <div v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_EDIT') || $can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_DELETE') || $can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_INSERT')" class="medium-1 cell-vertical-center text-left auto-margin">
-                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedPlans' + plans.id + project.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <a class="dropdown small sm-btn-align" :data-toggle="'approvedPlans' + plans.id + project.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedPlans' + plans.id + project.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
                                                                         <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_EDIT')"><a v-on:click.prevent="openUpdateModal(plans , project , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -546,7 +546,7 @@
                                                                             {{ creditSource.ccsDescription }}
                                                                         </div>
                                                                         <div v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_EDIT') || $can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_DELETE')" class="medium-1 cell-vertical-center text-left auto-margin">
-                                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'approvedProjectCs' + plans.id + creditSource.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                            <a class="dropdown small sm-btn-align" :data-toggle="'approvedProjectCs' + plans.id + creditSource.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                             <div class="dropdown-pane dropdown-pane-sm auto-margin" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'approvedProjectCs' + plans.id + creditSource.id" data-dropdown data-auto-focus="true">
                                                                                 <ul class="my-menu small-font text-right">
                                                                                     <li v-show="$can('BUDGET_CAPITAL_ASSETS_APPROVED_PROJECT_CREDIT_SOURCE_EDIT')"><a v-on:click.prevent="openApCsUpdateModal(creditSource , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
