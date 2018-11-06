@@ -187,7 +187,7 @@
                                                                         {{ creditSource.ccsDescription }}
                                                                     </div>
                                                                     <div v-show="$can('BUDGET_COST_APPROVED_PROG_CREDIT_SOURCE_EDIT') || $can('BUDGET_COST_APPROVED_PROG_CREDIT_SOURCE_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costAgreement_cs' + cAp.id + creditSource.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                        <a class="dropdown small sm-btn-align" :data-toggle="'costAgreement_cs' + cAp.id + creditSource.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'costAgreement_cs' + cAp.id + creditSource.id" data-dropdown data-auto-focus="true">
                                                                             <ul class="my-menu small-font text-right">
                                                                                 <li v-show="$can('BUDGET_COST_APPROVED_PROG_CREDIT_SOURCE_EDIT')"><a v-on:click.prevent="openCaCsUpdateModal(creditSource , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>

@@ -133,7 +133,7 @@
                                                             {{ $parent.calcDispAmount(progs.ca_credit_source_has_allocation[0].allocation[0].caAmount , false) }}
                                                         </div>
                                                         <div v-show="$can('BUDGET_COST_ALLOCATION_EDIT') || $can('BUDGET_COST_ALLOCATION_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'provCostAllocation' + progs.ca_credit_source_has_allocation[0].allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <a class="dropdown small sm-btn-align" :data-toggle="'provCostAllocation' + progs.ca_credit_source_has_allocation[0].allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCostAllocation' + progs.ca_credit_source_has_allocation[0].allocation[0].id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
                                                                     <li v-show="$can('BUDGET_COST_ALLOCATION_EDIT')"><a v-on:click.prevent="openUpdateModal(progs.ca_credit_source_has_allocation[0].allocation[0] , progs.id , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -161,7 +161,7 @@
                                                                 {{ $parent.calcDispAmount(credit_source.allocation[0].caAmount , false) }}
                                                             </div>
                                                             <div v-show="$can('BUDGET_COST_ALLOCATION_EDIT') || $can('BUDGET_COST_ALLOCATION_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'provCostAllocation' + credit_source.allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <a class="dropdown small sm-btn-align" :data-toggle="'provCostAllocation' + credit_source.allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCostAllocation' + credit_source.allocation[0].id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
                                                                         <li v-show="$can('BUDGET_COST_ALLOCATION_EDIT')"><a v-on:click.prevent="openUpdateModal(credit_source.allocation[0] , progs.id , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -186,7 +186,7 @@
                                                                     {{ $parent.calcDispAmount(alloc.caAmount , false) }}
                                                                 </div>
                                                                 <div v-show="$can('BUDGET_COST_ALLOCATION_EDIT') || $can('BUDGET_COST_ALLOCATION_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'provCostAllocation' + alloc.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                    <a class="dropdown small sm-btn-align" :data-toggle="'provCostAllocation' + alloc.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCostAllocation' + alloc.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
                                                                             <li v-show="$can('BUDGET_COST_ALLOCATION_EDIT')"><a v-on:click.prevent="openUpdateModal(alloc , progs.id , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -322,7 +322,7 @@
                                                             {{ $parent.calcDispAmount(progs.ca_credit_source_has_allocation[0].allocation[0].caAmount , false) }}
                                                         </div>
                                                         <div v-show="$can('BUDGET_COST_ALLOCATION_EDIT') || $can('BUDGET_COST_ALLOCATION_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'natCostAllocation' + progs.ca_credit_source_has_allocation[0].allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <a class="dropdown small sm-btn-align" :data-toggle="'natCostAllocation' + progs.ca_credit_source_has_allocation[0].allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'natCostAllocation' + progs.ca_credit_source_has_allocation[0].allocation[0].id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
                                                                     <li v-show="$can('BUDGET_COST_ALLOCATION_EDIT')"><a v-on:click.prevent="openUpdateModal(progs.ca_credit_source_has_allocation[0].allocation[0] , progs.id , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -349,7 +349,7 @@
                                                                 {{ $parent.calcDispAmount(credit_source.allocation[0].caAmount , false) }}
                                                             </div>
                                                             <div v-show="$can('BUDGET_COST_ALLOCATION_EDIT') || $can('BUDGET_COST_ALLOCATION_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'natCostAllocation' + credit_source.allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <a class="dropdown small sm-btn-align" :data-toggle="'natCostAllocation' + credit_source.allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'natCostAllocation' + credit_source.allocation[0].id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
                                                                         <li v-show="$can('BUDGET_COST_ALLOCATION_EDIT')"><a v-on:click.prevent="openUpdateModal(credit_source.allocation[0] , progs.id , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -373,7 +373,7 @@
                                                                     {{ $parent.calcDispAmount(alloc.caAmount , false) }}
                                                                 </div>
                                                                 <div v-show="$can('BUDGET_COST_ALLOCATION_EDIT') || $can('BUDGET_COST_ALLOCATION_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'natCostAllocation' + alloc.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                    <a class="dropdown small sm-btn-align" :data-toggle="'natCostAllocation' + alloc.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'natCostAllocation' + alloc.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
                                                                             <li v-show="$can('BUDGET_COST_ALLOCATION_EDIT')"><a v-on:click.prevent="openUpdateModal(alloc , progs.id , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -479,7 +479,7 @@
                                                         {{ found.caDescription }}
                                                     </div>
                                                     <div v-show="$can('BUDGET_COST_FOUND_EDIT') || $can('BUDGET_COST_FOUND_DELETE') || $can('BUDGET_COST_FOUND_CONVERT_TO_ALLOCATION')" class="medium-1 cell-vertical-center text-left">
-                                                        <a class="dropdown small sm-btn-align" :data-toggle="'costFound' + found.id"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <a class="dropdown small sm-btn-align" :data-toggle="'costFound' + found.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                         <div style="width: 170px" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'costFound' + found.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
                                                                 <li v-show="$can('BUDGET_COST_FOUND_EDIT')"><a v-on:click.prevent="openUpdateFoundModal(found)"><i class="fa fa-newspaper-o size-16"></i>  ویرایش</a></li>
@@ -956,8 +956,8 @@
                                     <div class="grid-x padding-lr">
                                         <div class="medium-2">
                                             <div class="switch tiny">
-                                                <input checked="true" class="switch-input" id="yes-no3" type="checkbox" v-model="reportOptions.withReportDate">
-                                                <label class="switch-paddle" for="yes-no3">
+                                                <input checked="true" class="switch-input" id="yes-no-3" type="checkbox" v-model="reportOptions.withReportDate">
+                                                <label class="switch-paddle" for="yes-no-3">
                                                     <span class="switch-active" aria-hidden="true">بلی</span>
                                                     <span class="switch-inactive" aria-hidden="true">خیر</span>
                                                 </label>
@@ -970,8 +970,8 @@
                                     <div class="grid-x padding-lr">
                                         <div class="medium-2">
                                             <div class="switch tiny">
-                                                <input checked="true" class="switch-input" id="yes-no4" type="checkbox" v-model="reportOptions.orientation">
-                                                <label class="switch-paddle" for="yes-no4">
+                                                <input checked="true" class="switch-input" id="yes-no-4" type="checkbox" v-model="reportOptions.orientation">
+                                                <label class="switch-paddle" for="yes-no-4">
                                                     <span class="switch-active" aria-hidden="true">افقی</span>
                                                     <span class="switch-inactive" aria-hidden="true">عمودی</span>
                                                 </label>
@@ -1007,8 +1007,8 @@
                                     <div style="margin-top: 10px;" class="grid-x padding-lr">
                                         <div class="medium-2">
                                             <div class="switch tiny">
-                                                <input checked="true" class="switch-input" id="yes-no-1" v-model="reportOptions.withReporterName" type="checkbox">
-                                                <label class="switch-paddle" for="yes-no-1">
+                                                <input checked="true" class="switch-input" id="yes-no1" v-model="reportOptions.withReporterName" type="checkbox">
+                                                <label class="switch-paddle" for="yes-no1">
                                                     <span class="switch-active" aria-hidden="true">بلی</span>
                                                     <span class="switch-inactive" aria-hidden="true">خیر</span>
                                                 </label>
@@ -1021,8 +1021,8 @@
                                     <div class="grid-x padding-lr">
                                         <div class="medium-2">
                                             <div class="switch tiny">
-                                                <input checked="true" class="switch-input" id="yes-no-2" type="checkbox" v-model="reportOptions.withFiscalYear">
-                                                <label class="switch-paddle" for="yes-no-2">
+                                                <input checked="true" class="switch-input" id="yes-no2" type="checkbox" v-model="reportOptions.withFiscalYear">
+                                                <label class="switch-paddle" for="yes-no2">
                                                     <span class="switch-active" aria-hidden="true">بلی</span>
                                                     <span class="switch-inactive" aria-hidden="true">خیر</span>
                                                 </label>

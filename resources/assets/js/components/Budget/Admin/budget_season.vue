@@ -59,7 +59,7 @@
                                                 {{ budgetSeason.bsDescription }}
                                             </div>
                                             <div v-show="$can('BUDGET_ADMIN_BUDGET_SEASON_EDIT') || $can('BUDGET_ADMIN_BUDGET_SEASON_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'budgetSeason' + budgetSeason.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                <a class="dropdown small sm-btn-align" :data-toggle="'budgetSeason' + budgetSeason.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'budgetSeason' + budgetSeason.id" data-dropdown data-auto-focus="true">
                                                     <ul class="my-menu small-font text-right">
                                                         <li v-show="$can('BUDGET_ADMIN_BUDGET_SEASON_EDIT')"><a @click="openUpdateModal(budgetSeason)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>

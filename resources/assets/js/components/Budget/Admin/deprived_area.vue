@@ -95,7 +95,7 @@
                                                         {{ da.daDescription }}
                                                     </div>
                                                     <div v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_EDIT') || $can('BUDGET_ADMIN_DEPRIVED_AREA_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown' + da.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <a class="dropdown small sm-btn-align" :data-toggle="'daActionDropdown' + da.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown' + da.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
                                                                 <li v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_EDIT')"><a @click="openUpdateModal(da)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
@@ -156,7 +156,7 @@
                                                         {{ da.daDescription }}
                                                     </div>
                                                     <div v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_EDIT') || $can('BUDGET_ADMIN_DEPRIVED_AREA_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown_county' + da.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <a class="dropdown small sm-btn-align" :data-toggle="'daActionDropdown_county' + da.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown_county' + da.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
                                                                 <li v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_EDIT')"><a @click="openUpdateModal(da)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
@@ -212,7 +212,7 @@
                                                         {{ da.daDescription }}
                                                     </div>
                                                     <div v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_EDIT') || $can('BUDGET_ADMIN_DEPRIVED_AREA_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown_region' + da.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <a class="dropdown small sm-btn-align" :data-toggle="'daActionDropdown_region' + da.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown_region' + da.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
                                                                 <li v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_EDIT')"><a @click="openUpdateModal(da)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
@@ -272,7 +272,7 @@
                                                         {{ da.daDescription }}
                                                     </div>
                                                     <div v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_EDIT') || $can('BUDGET_ADMIN_DEPRIVED_AREA_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown_ruralDistrict' + da.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <a class="dropdown small sm-btn-align" :data-toggle="'daActionDropdown_ruralDistrict' + da.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown_ruralDistrict' + da.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
                                                                 <li v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_EDIT')"><a @click="openUpdateModal(da)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>
@@ -336,7 +336,7 @@
                                                         {{ da.daDescription }}
                                                     </div>
                                                     <div v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_EDIT') || $can('BUDGET_ADMIN_DEPRIVED_AREA_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'daActionDropdown_village' + da.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <a class="dropdown small sm-btn-align" :data-toggle="'daActionDropdown_village' + da.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'daActionDropdown_village' + da.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
                                                                 <li v-show="$can('BUDGET_ADMIN_DEPRIVED_AREA_EDIT')"><a @click="openUpdateModal(da)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>

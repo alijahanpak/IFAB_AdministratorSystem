@@ -123,7 +123,7 @@
                                                                 {{ plans.credit_distribution_plan[0].cdpDescription }}
                                                             </div>
                                                             <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlan' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <a class="dropdown small sm-btn-align" :data-toggle="'cdPlan' + plans.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlan' + plans.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
                                                                         <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(plans.credit_distribution_plan[0] , plans.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -148,7 +148,7 @@
                                                                     {{ cdPlan.cdpDescription }}
                                                                 </div>
                                                                 <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlan' + plans.id + cdPlan.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                    <a class="dropdown small sm-btn-align" :data-toggle="'cdPlan' + plans.id + cdPlan.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlan' + plans.id + cdPlan.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
                                                                             <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(cdPlan , plans.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -256,7 +256,7 @@
                                                             {{ rows.credit_distribution_plan[0].cdpDescription }}
                                                         </div>
                                                         <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlanRows' + rows.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <a class="dropdown small sm-btn-align" :data-toggle="'cdPlanRows' + rows.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanRows' + rows.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
                                                                     <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(rows.credit_distribution_plan[0] , rows.credit_distribution_plan[0].credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -278,7 +278,7 @@
                                                                 {{ cdPlan.cdpDescription }}
                                                             </div>
                                                             <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlanRows' + rows.id + cdPlan.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <a class="dropdown small sm-btn-align" :data-toggle="'cdPlanRows' + rows.id + cdPlan.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanRows' + rows.id + cdPlan.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
                                                                         <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(cdPlan , cdPlan.credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -381,7 +381,7 @@
                                                             {{ bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].cdpDescription }}
                                                         </div>
                                                         <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlanBudget' + bs.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <a class="dropdown small sm-btn-align" :data-toggle="'cdPlanBudget' + bs.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanBudget' + bs.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
                                                                     <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0] , bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -404,7 +404,7 @@
                                                                 {{ cdTitle.credit_distribution_plan[0].cdpDescription }}
                                                             </div>
                                                             <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlanBudget' + bs.id + cdTitle.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <a class="dropdown small sm-btn-align" :data-toggle="'cdPlanBudget' + bs.id + cdTitle.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanBudget' + bs.id + cdTitle.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
                                                                         <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(cdTitle.credit_distribution_plan[0] , cdTitle.credit_distribution_plan[0].credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -426,7 +426,7 @@
                                                                     {{ cdPlan.cdpDescription }}
                                                                 </div>
                                                                 <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlanBudget' + bs.id + cdTitle.id + cdPlan.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                    <a class="dropdown small sm-btn-align" :data-toggle="'cdPlanBudget' + bs.id + cdTitle.id + cdPlan.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanBudget' + bs.id + cdTitle.id + cdPlan.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
                                                                             <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(cdPlan , cdTitle.credit_distribution_plan[0].credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -526,7 +526,7 @@
                                                             {{ county.credit_distribution_plan[0].cdpDescription }}
                                                         </div>
                                                         <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlanCounty' + county.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <a class="dropdown small sm-btn-align" :data-toggle="'cdPlanCounty' + county.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanCounty' + county.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
                                                                     <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(county.credit_distribution_plan[0] , county.credit_distribution_plan[0].credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -548,7 +548,7 @@
                                                                 {{ cdPlan.cdpDescription }}
                                                             </div>
                                                             <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'cdPlanCounty' + county.id + cdPlan.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <a class="dropdown small sm-btn-align" :data-toggle="'cdPlanCounty' + county.id + cdPlan.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanCounty' + county.id + cdPlan.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
                                                                         <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(cdPlan , cdPlan.credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>

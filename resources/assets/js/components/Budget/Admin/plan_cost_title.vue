@@ -114,7 +114,7 @@
                                                 {{ planOrCost.cdtDescription }}
                                             </div>
                                             <div v-show="$can('BUDGET_ADMIN_PLAN_RO_COST_TITLE_EDIT') || $can('BUDGET_ADMIN_PLAN_RO_COST_TITLE_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'planOrCostTitles' + planOrCost.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                <a class="dropdown small sm-btn-align" :data-toggle="'planOrCostTitles' + planOrCost.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'planOrCostTitles' + planOrCost.id" data-dropdown data-auto-focus="true">
                                                     <ul class="my-menu small-font text-right">
                                                         <li v-show="$can('BUDGET_ADMIN_PLAN_RO_COST_TITLE_EDIT')"><a v-on:click.prevent="openUpdateModal(planOrCost)"><i class="fi-pencil size-16"></i>  ویرایش</a></li>

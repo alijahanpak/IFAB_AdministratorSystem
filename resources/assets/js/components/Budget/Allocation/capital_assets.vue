@@ -130,7 +130,7 @@
                                                                 {{ $parent.calcDispAmount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount , false) }}
                                                             </div>
                                                             <div v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT') || $can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'provCapitalAssetsAllocation' + plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <a class="dropdown small sm-btn-align" :data-toggle="'provCapitalAssetsAllocation' + plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCapitalAssetsAllocation' + plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
                                                                         <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT')"><a v-on:click.prevent="openUpdateModal(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0] , plans.id , plans.capital_assets_project_has_credit_source[0].id , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -161,7 +161,7 @@
                                                                    {{ $parent.calcDispAmount(projects.credit_source_has_allocation[0].allocation[0].caaAmount , false) }}
                                                                </div>
                                                                <div v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT') || $can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                                   <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'provCapitalAssetsAllocation' + projects.credit_source_has_allocation[0].allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                   <a class="dropdown small sm-btn-align" :data-toggle="'provCapitalAssetsAllocation' + projects.credit_source_has_allocation[0].allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCapitalAssetsAllocation' + projects.credit_source_has_allocation[0].allocation[0].id" data-dropdown data-auto-focus="true">
                                                                        <ul class="my-menu small-font text-right">
                                                                            <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT')"><a v-on:click.prevent="openUpdateModal(projects.credit_source_has_allocation[0].allocation[0] , plans.id , projects.id , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -187,7 +187,7 @@
                                                                         {{ $parent.calcDispAmount(credit_source.allocation[0].caaAmount , false) }}
                                                                     </div>
                                                                     <div v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT') || $can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'provCapitalAssetsAllocation' + credit_source.allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                        <a class="dropdown small sm-btn-align" :data-toggle="'provCapitalAssetsAllocation' + credit_source.allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCapitalAssetsAllocation' + credit_source.allocation[0].id" data-dropdown data-auto-focus="true">
                                                                             <ul class="my-menu small-font text-right">
                                                                                 <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT')"><a v-on:click.prevent="openUpdateModal(credit_source.allocation[0] , plans.id , projects.id , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -212,7 +212,7 @@
                                                                             {{ $parent.calcDispAmount(alloc.caaAmount , false) }}
                                                                         </div>
                                                                         <div v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT') || $can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'provCapitalAssetsAllocation' + alloc.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                            <a class="dropdown small sm-btn-align" :data-toggle="'provCapitalAssetsAllocation' + alloc.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'provCapitalAssetsAllocation' + alloc.id" data-dropdown data-auto-focus="true">
                                                                                 <ul class="my-menu small-font text-right">
                                                                                     <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT')"><a v-on:click.prevent="openUpdateModal(alloc , plans.id , projects.id , 0)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -351,7 +351,7 @@
                                                             {{ $parent.calcDispAmount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount , false) }}
                                                         </div>
                                                         <div v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT') || $can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                            <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'natCapitalAssetsAllocation' + plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <a class="dropdown small sm-btn-align" :data-toggle="'natCapitalAssetsAllocation' + plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'natCapitalAssetsAllocation' + plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
                                                                     <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT')"><a v-on:click.prevent="openUpdateModal(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0] , plans.id , plans.capital_assets_project_has_credit_source[0].id , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -381,7 +381,7 @@
                                                                 {{ $parent.calcDispAmount(projects.credit_source_has_allocation[0].allocation[0].caaAmount , false) }}
                                                             </div>
                                                             <div v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT') || $can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'natCapitalAssetsAllocation' + projects.credit_source_has_allocation[0].allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <a class="dropdown small sm-btn-align" :data-toggle="'natCapitalAssetsAllocation' + projects.credit_source_has_allocation[0].allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'natCapitalAssetsAllocation' + projects.credit_source_has_allocation[0].allocation[0].id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
                                                                         <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT')"><a v-on:click.prevent="openUpdateModal(projects.credit_source_has_allocation[0].allocation[0] , plans.id , projects.id , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -406,7 +406,7 @@
                                                                     {{ $parent.calcDispAmount(credit_source.allocation[0].caaAmount , false) }}
                                                                 </div>
                                                                 <div v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT') || $can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                                    <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'natCapitalAssetsAllocation' + credit_source.allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                    <a class="dropdown small sm-btn-align" :data-toggle="'natCapitalAssetsAllocation' + credit_source.allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                     <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'natCapitalAssetsAllocation' + credit_source.allocation[0].id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font text-right">
                                                                             <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT')"><a v-on:click.prevent="openUpdateModal(credit_source.allocation[0] , plans.id , projects.id , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -430,7 +430,7 @@
                                                                         {{ $parent.calcDispAmount(alloc.caaAmount , false) }}
                                                                     </div>
                                                                     <div v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT') || $can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'natCapitalAssetsAllocation' + alloc.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                        <a class="dropdown small sm-btn-align" :data-toggle="'natCapitalAssetsAllocation' + alloc.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'natCapitalAssetsAllocation' + alloc.id" data-dropdown data-auto-focus="true">
                                                                             <ul class="my-menu small-font text-right">
                                                                                 <li v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT')"><a v-on:click.prevent="openUpdateModal(alloc , plans.id , projects.id , 1)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -537,7 +537,7 @@
                                                             {{ found.caaDescription }}
                                                         </div>
                                                         <div v-show="$can('BUDGET_CAPITAL_ASSETS_FOUND_EDIT') || $can('BUDGET_CAPITAL_ASSETS_FOUND_DELETE') || $can('BUDGET_CAPITAL_ASSETS_FOUND_CONVERT_TO_ALLOCATION')" class="medium-1 cell-vertical-center text-left">
-                                                            <a class="dropdown small sm-btn-align" :data-toggle="'capitalAssetsFound' + found.id"  type="button"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                            <a class="dropdown small sm-btn-align" :data-toggle="'capitalAssetsFound' + found.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                             <div style="width: 170px" class="dropdown-pane dropdown-pane-sm" data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'capitalAssetsFound' + found.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font text-right">
                                                                     <li v-show="$can('BUDGET_CAPITAL_ASSETS_FOUND_EDIT')"><a v-on:click.prevent="openFoundUpdateModal(found)"><i class="fa fa-newspaper-o size-16"></i>  ویرایش</a></li>
