@@ -19,6 +19,7 @@ import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
 import messageDialog from './public_component/message_dialog.vue';
 
 
+
 Vue.use(vSelectPage, {
     // server side data loader
     dataLoad: function(vue, data, params){
