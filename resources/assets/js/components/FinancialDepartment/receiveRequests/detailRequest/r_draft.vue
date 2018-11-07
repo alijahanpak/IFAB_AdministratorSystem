@@ -372,7 +372,7 @@
                                                 <label>{{ percentDecCategory.pdcSubject }}<span class="btn-red size-12" v-if="percentDecCategory.necessary"> - الزامی</span><span class="btn-red size-12" v-if="percentDecCategory.delivered"> - تحویل داده شده</span>
                                                     <select v-model="percentDecInput['percentage' + percentDecCategory.id]" :disabled="percentDecCategory.isNeed == true || requestType == 'FUND'" v-on:change="calculatePercentAmount(percentDecInput['percentage' + percentDecCategory.id], index)">
                                                         <option value=""></option>
-                                                        <option v-for="pd in percentDecCategory.percentage_decrease" :value="pd.id" selected="selected" >{{pd.pdSubject}} - {{'(' + pd.pdPercent + '%)'}}</option>
+                                                        <option v-for="pd in percentDecCategory.percentage_decrease" :value="pd.id">{{pd.pdSubject}} - {{'(' + pd.pdPercent + '%)'}}</option>
                                                     </select>
                                                 </label>
                                             </div>

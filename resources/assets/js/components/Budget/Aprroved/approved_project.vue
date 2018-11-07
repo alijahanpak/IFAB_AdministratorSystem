@@ -596,7 +596,7 @@
                                     <label>طرح
                                         <select class="form-element-margin-btm" @change="setCountyId(approvedProjectsInput.apPlan)"  v-model="approvedProjectsInput.apPlan" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
                                             <option value=""></option>
-                                            <option v-for="approvedPlan in approvedPlans" :value="approvedPlan">{{ approvedPlan.cdtIdNumber + ' - ' + approvedPlan.cdtSubject + approvedPlan.coName == '' ? '' : ' - ' + approvedPlan.coName }}</option>
+                                            <option v-for="approvedPlan in approvedPlans" :value="approvedPlan">{{ approvedPlan.cdtIdNumber + ' - ' + approvedPlan.cdtSubject + (approvedPlan.coName == '' ? '' : ' - ' + approvedPlan.coName) }}</option>
                                         </select>
                                         <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
                                     </label>
@@ -637,7 +637,7 @@
                                 </div>
                                 <div class="medium-4 cell padding-lr">
                                     <label> پیشرفت فیزیکی<span class="btn-red small-font"> (درصد) </span>
-                                        <input  type="number" min="0" max="100" value="0" name="physicalProgress" v-model="approvedProjectsInput.apPhysicalProgress" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
+                                        <input  type="number" min="0" max="100" value="0" name="physicalProgress" v-model="approvedProjectsInput.apPhysicalProgress" v-validate="'required|numeric|min_value:0|max_value:100'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
                                         <div style="margin-top: -16px;height:2px;" class="alert progress form-element-margin-btm">
                                             <div class="progress-meter" v-bind:style="{ 'width' : approvedProjectsInput.apPhysicalProgress + '%' }"></div>
                                         </div>
@@ -678,7 +678,7 @@
                                 <label>طرح
                                     <select class="form-element-margin-btm" @change="setCountyIdInUpdate(approvedProjectsFill.apPlan)"  v-model="approvedProjectsFill.apPlan" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
                                         <option value=""></option>
-                                        <option v-for="approvedPlan in approvedPlans" :value="approvedPlan">{{ approvedPlan.cdtIdNumber + ' - ' + approvedPlan.cdtSubject + ' - ' + approvedPlan.coName }}</option>
+                                        <option v-for="approvedPlan in approvedPlans" :value="approvedPlan">{{ approvedPlan.cdtIdNumber + ' - ' + approvedPlan.cdtSubject + (approvedPlan.coName == '' ? '' : ' - ' + approvedPlan.coName) }}</option>
                                     </select>
                                     <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
                                 </label>
@@ -719,7 +719,7 @@
                             </div>
                             <div class="medium-4 cell padding-lr">
                                 <label> پیشرفت فیزیکی<span class="btn-red small-font"> (درصد) </span>
-                                    <input  type="number" min="0" max="100" value="0"  name="physicalProgress" v-model="approvedProjectsFill.apPhysicalProgress" v-validate="'required|numeric'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
+                                    <input  type="number" min="0" max="100" value="0"  name="physicalProgress" v-model="approvedProjectsFill.apPhysicalProgress" v-validate="'required|numeric|min_value:0|max_value:100'" :class="{'input': true, 'error-border': errors.has('physicalProgress')}">
                                     <div style="margin-top: -16px;height:2px;" class="alert progress form-element-margin-btm">
                                         <div class="progress-meter" v-bind:style="{ 'width' : approvedProjectsFill.apPhysicalProgress + '%' }"></div>
                                     </div>
@@ -1206,17 +1206,19 @@
             },
 
             getAllApprovedPlan: function (pOrN) {
+                this.approvedPlans = [];
                 axios.get('/budget/approved_plan/capital_assets/getAllItems' , {params:{pOrN: pOrN}})
                     .then((response) => {
                         response.data.forEach(item => {
                             var obj = {};
+                            Vue.set(obj , 'id' , item.id);
                             Vue.set(obj , 'cdtIdNumber' , item.credit_distribution_title.cdtIdNumber);
                             Vue.set(obj , 'cdtSubject' , item.credit_distribution_title.cdtSubject);
                             Vue.set(obj , 'coName' , item.credit_distribution_title.county != null ? item.credit_distribution_title.county.coName : '');
                             Vue.set(obj , 'countyId' , item.credit_distribution_title.county != null ? item.credit_distribution_title.county.id : '');
                             this.approvedPlans.push(obj);
                         });
-                        console.log(response);
+                        console.log(JSON.stringify(this.approvedPlans));
                     },(error) => {
                         console.log(error);
                     });
@@ -1474,6 +1476,7 @@
                 this.provOrNat = type;
                 this.approvedProjectsFill.id = item.id;
                 var obj = {};
+                Vue.set(obj , 'id' , plan.id);
                 Vue.set(obj , 'cdtIdNumber' , plan.credit_distribution_title.cdtIdNumber);
                 Vue.set(obj , 'cdtSubject' , plan.credit_distribution_title.cdtSubject);
                 Vue.set(obj , 'coName' , plan.credit_distribution_title.county != null ? plan.credit_distribution_title.county.coName : '');
